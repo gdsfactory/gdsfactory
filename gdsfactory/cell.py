@@ -63,6 +63,7 @@ def cell_without_validator(func):
         prefix = kwargs.pop("prefix", func.__name__)
         autoname = kwargs.pop("autoname", True)
         cache = kwargs.pop("cache", True)
+        info = kwargs.pop("info", {})
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -133,6 +134,7 @@ def cell_without_validator(func):
             )
             component.settings.update(**kwargs)
             component.settings_changed = kwargs.copy()
+            component.info.update(**info)
 
             CACHE[name] = component
             return component

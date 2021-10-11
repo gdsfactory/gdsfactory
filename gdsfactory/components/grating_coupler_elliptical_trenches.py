@@ -22,13 +22,14 @@ def grating_coupler_elliptical_trenches(
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
     neff: float = 2.638,  # tooth effective index
+    ncladding: float = 1.443,  # cladding index
     layer: Tuple[int, int] = gf.LAYER.WG,
     layer_trench: Tuple[int, int] = gf.LAYER.SLAB150,
     p_start: int = 26,
     n_periods: int = 30,
-    straight: float = 0.2,
+    end_straight_length: float = 0.2,
 ) -> Component:
-    r""" Returns Grating coupler with defined trenches
+    r"""Returns Grating coupler with defined trenches
 
     Args:
         polarization: 'te' or 'tm'
@@ -39,39 +40,33 @@ def grating_coupler_elliptical_trenches(
         grating_line_width: of the 220 ridge
         wg_width: straight width
         neff: 2.638  # tooth effective index
-        layer: LAYER.WG
-        layer_trench: LAYER.SLAB150
-        p_start: 26  # first tooth
-        n_periods: 16  # number of periods
-        straight: 0.2
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-      from gdsfactory.components.grating_coupler.elliptical_trenches import grating_coupler_elliptical_trenches
-
-      c = grating_coupler_elliptical_trenches()
-      c.plot()
+        ncladding: cladding index
+        layer: for the grating teeth
+        layer_trench: for the trench
+        p_start:  first tooth
+        n_periods: number of periods
+        end_straight_length: at the end of
 
 
     .. code::
 
-                 \  \  \  \
-                  \  \  \  \
+                      fiber
+
+                   /  /  /  /
+                  /  /  /  /
                 _|-|_|-|_|-|___
-               |_______________  W0
+        WG  o1  ______________|
+
     """
 
     # Define some constants
-    nc = 1.443  # cladding index
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff ** 2 - nc ** 2 * sthc ** 2
+    d = neff ** 2 - ncladding ** 2 * sthc ** 2
     a1 = wavelength * neff / d
     b1 = wavelength / np.sqrt(d)
-    x1 = wavelength * nc * sthc / d
+    x1 = wavelength * ncladding * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)
@@ -109,8 +104,8 @@ def grating_coupler_elliptical_trenches(
         (x_output, -wg_width / 2),
         (x_output, wg_width / 2),
         (xmax, y),
-        (xmax + straight, y),
-        (xmax + straight, -y),
+        (xmax + end_straight_length, y),
+        (xmax + end_straight_length, -y),
         (xmax, -y),
     ]
     c.add_polygon(pts, layer)
@@ -122,7 +117,7 @@ def grating_coupler_elliptical_trenches(
     # )
     # c.add_polygon(pts, layer)
 
-    # Move straight I/O to (0, 0)
+    # Move end_straight_length I/O to (0, 0)
     # c.move((-x_output, 0))
 
     x = taper_length + period * n_periods / 2
@@ -163,7 +158,7 @@ grating_coupler_tm = gf.partial(
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
-    c = grating_coupler_te()
+    c = grating_coupler_te(end_straight_length=10)
     # c = grating_coupler_tm()
     print(c.ports.keys())
     c.show()
