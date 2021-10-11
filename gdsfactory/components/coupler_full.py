@@ -79,7 +79,7 @@ def coupler_full(
         direction=direction,
     )
 
-    return gf.read.picwriter(c)
+    return gf.read.from_picwriter(c)
 
 
 if __name__ == "__main__":

@@ -132,6 +132,16 @@ def read_sparameters_pandas(
     layer_stack: LayerStack = LAYER_STACK,
     dirpath: Path = gf.CONFIG["sparameters"],
 ) -> pd.DataFrame:
+    """Returns Sparameters in a pandas DataFrame.
+
+    `S11m` `m` stands for module `S11a` `a` stands for angle (in radians)
+
+    Args:
+        component: Component
+        layer_stack:
+        dirpath: path where to look for the Sparameters
+
+    """
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,

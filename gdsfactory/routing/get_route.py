@@ -17,7 +17,8 @@ To generate a straight route:
  This is a list of manhattan coordinates that the route would pass through
  if it used only sharp bends (right angles)
 
- 2. Replace the corners by bend references (with rotation and position computed from the manhattan backbone)
+ 2. Replace the corners by bend references
+ (with rotation and position computed from the manhattan backbone)
 
  3. Add tapers if needed and if space permits
 
@@ -37,7 +38,7 @@ from typing import Callable, Optional
 import numpy as np
 
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import metal3, strip
@@ -57,7 +58,7 @@ def get_route(
     input_port: Port,
     output_port: Port,
     bend: ComponentOrFactory = bend_euler,
-    straight: ComponentOrFactory = straight,
+    straight: ComponentOrFactory = straight_function,
     taper_factory: Optional[ComponentFactory] = None,
     start_straight: Number = 0.01,
     end_straight: Number = 0.01,
@@ -90,10 +91,10 @@ def get_route(
         c = gf.Component('sample_connect')
         mmi1 = c << gf.components.mmi1x2()
         mmi2 = c << gf.components.mmi1x2()
-        mmi2.move((100, 50))
-        route = gf.routing.get_route(mmi1.ports["E1"], mmi2.ports['o1'])
+        mmi2.move((40, 20))
+        route = gf.routing.get_route(mmi1.ports["o2"], mmi2.ports["o1"], radius=5)
         c.add(route.references)
-        c.show()
+        c.plot()
 
     """
     x = cross_section(**kwargs)
@@ -141,7 +142,7 @@ get_route_electrical = partial(
 def get_route_from_waypoints(
     waypoints: Coordinates,
     bend: Callable = bend_euler,
-    straight: Callable = straight,
+    straight: Callable = straight_function,
     taper_factory: Optional[Callable] = taper_function,
     route_filter=None,
     cross_section: CrossSectionFactory = strip,
