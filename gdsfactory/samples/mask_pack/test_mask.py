@@ -1,9 +1,7 @@
-"""
-This is a sample on how to define custom components.
-You can make a repo out of this file, having one custom component per file
-"""
+"""This is a sample on how to define custom components."""
 import shutil
 from pathlib import Path
+from typing import Tuple
 
 import numpy as np
 
@@ -13,7 +11,7 @@ from gdsfactory.add_grating_couplers import (
 )
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
-from gdsfactory.mask.merge_metadata import merge_metadata
+from gdsfactory.mask.write_labels import write_labels
 
 
 def add_te(component: Component, **kwargs) -> Component:
@@ -83,7 +81,11 @@ def spiral_tm(width=0.5, length=20e3):
     return cc
 
 
-def test_mask(precision: float = 1e-9) -> Path:
+def test_mask(
+    precision: float = 1e-9,
+    labels_prefix: str = "opt",
+    label_layer: Tuple[int, int] = (200, 0),
+) -> Path:
     workspace_folder = CONFIG["samples_path"] / "mask_pack"
     build_path = workspace_folder / "build"
     mask_path = build_path / "mask"
@@ -92,23 +94,26 @@ def test_mask(precision: float = 1e-9) -> Path:
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
-    markdown_path = gdspath.with_suffix(".md")
-    json_path = gdspath.with_suffix(".json")
-    test_metadata_path = gdspath.with_suffix(".tp.json")
+    # markdown_path = gdspath.with_suffix(".md")
+    # json_path = gdspath.with_suffix(".json")
+    # test_metadata_path = gdspath.with_suffix(".tp.json")
 
     components = [spiral_te(length=length) for length in np.array([2, 4, 6]) * 1e4]
     components += [coupler_te(length=length, gap=0.2) for length in [10, 20, 30, 40]]
     c = gf.pack(components)
     m = c[0]
     m.name = "sample_mask"
-    m.write_gds(gdspath)
+    m.write_gds_with_metadata(gdspath)
 
-    merge_metadata(gdspath=gdspath)
-
+    csvpath = write_labels(
+        gdspath=gdspath, prefix=labels_prefix, label_layer=label_layer
+    )
     assert gdspath.exists()
-    assert markdown_path.exists()
-    assert json_path.exists()
-    assert test_metadata_path.exists()
+    assert csvpath.exists()
+    # merge_metadata(gdspath=gdspath)
+    # assert markdown_path.exists()
+    # assert json_path.exists()
+    # assert test_metadata_path.exists()
     return gdspath
 
 
