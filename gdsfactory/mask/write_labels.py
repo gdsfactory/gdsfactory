@@ -12,6 +12,7 @@ from loguru import logger
 
 from gdsfactory import LAYER
 from gdsfactory.routing.add_fiber_single import add_fiber_single
+from gdsfactory.types import Optional, PathType
 
 
 def find_labels(
@@ -45,20 +46,19 @@ def find_labels(
 def write_labels(
     gdspath: Path,
     label_layer: Tuple[int, int] = LAYER.LABEL,
-    csv_filename: None = None,
+    filepath: Optional[PathType] = None,
     prefix: str = "opt_",
-) -> None:
+) -> Path:
     """Load  GDS mask and extracts the labels and coordinates from a GDS file"""
     labels = list(find_labels(gdspath, label_layer=label_layer, prefix=prefix))
+    gdspath = pathlib.Path(gdspath)
 
-    # Save the coordinates somewhere sensible
-    if csv_filename is None:
-        gdspath = pathlib.Path(gdspath)
-        csv_filename = gdspath.with_suffix(".csv")
-    with open(csv_filename, "w", newline="") as f:
+    filepath = filepath or gdspath.with_suffix(".csv")
+    with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    logger.info(f"Wrote {csv_filename}")
+    logger.info(f"Wrote labels in {filepath}")
+    return filepath
 
 
 def test_find_labels():
