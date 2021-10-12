@@ -30,7 +30,6 @@ def grating_coupler_elliptical2(
     wgt: ComponentFactory = strip,
     wg_width: float = 0.5,
     cladding_offset: float = 2.0,
-    **kwargs,
 ) -> Component:
     r"""Returns Grating coupler from Picwriter
 
@@ -54,8 +53,10 @@ def grating_coupler_elliptical2(
           OR an angle (float, in radians)
         polarization: te or tm
         wavelength: wavelength um
+        fiber_marker_width:
         wgt: waveguide_template object or function
         wg_width
+        cladding_offset:
 
 
     .. code::
@@ -77,7 +78,6 @@ def grating_coupler_elliptical2(
             wg_width=wg_width,
             layer=layer_core,
             layer_cladding=layer_cladding,
-            **kwargs,
         ),
         theta=np.deg2rad(taper_angle),
         length=length,

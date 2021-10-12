@@ -15,9 +15,9 @@ from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
 import gdspy
 import networkx as nx
 import numpy as np
-import omegaconf
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
+from omegaconf.dictconfig import DictConfig
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import CellArray, Device, DeviceReference, _parse_layer
 
@@ -1244,7 +1244,7 @@ class Component(Device):
 
         # with open(json_path, "w+") as fw:
         #     fw.write(json.dumps(self.get_json(), indent=2))
-        # metadata = omegaconf.OmegaConf.create(self.get_json())
+        # metadata = OmegaConf.create(self.get_json())
         # json_path.write_text( OmegaConf.to_container(metadata))
         return gdspath
 
@@ -1386,7 +1386,7 @@ def _clean_value(value: Any) -> Any:
         value = _clean_value(v)
     elif isinstance(value, dict):
         clean_dict(value)
-    elif isinstance(value, omegaconf.dictconfig.DictConfig):
+    elif isinstance(value, DictConfig):
         clean_dict(value)
     elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]

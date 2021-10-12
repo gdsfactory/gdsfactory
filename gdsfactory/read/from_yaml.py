@@ -1,8 +1,13 @@
 """Returns Component from YAML syntax.
 
+name: myComponent
 vars:
     length: 3
 
+info:
+    description: just a demo
+    polarization: TE
+    ...
 
 instances:
     mzi:
@@ -56,6 +61,7 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.cross_section import cross_section_factory
+from gdsfactory.functions import cache
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
 
@@ -70,6 +76,7 @@ valid_top_level_keys = [
     "ports",
     "routes",
     "vars",
+    "info",
 ]
 
 valid_anchor_point_keywords = [
@@ -375,6 +382,11 @@ sample_mmis = """
 name:
     mmis
 
+info:
+    polarization: te
+    wavelength: 1.55
+    description: just a demo on adding metadata
+
 instances:
     mmi_long:
       component: mmi1x2
@@ -405,6 +417,7 @@ ports:
 """
 
 
+@cache
 def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory: ComponentFactoryDict = factory,
@@ -429,11 +442,18 @@ def from_yaml(
     .. code::
 
         valid properties:
-        name: name of Component
+        name: Optional Component name
+        vars: Optional variables
+        info: Optional component info
+            description: just a demo
+            polarization: TE
+            ...
         instances:
             name:
-                component:
+                component: (ComponentFactory)
                 settings (Optional)
+                    length: 10
+                    ...
         placements:
             x: Optional[float, str]  str can be instanceName,portName
             y: Optional[float, str]
@@ -441,8 +461,8 @@ def from_yaml(
             mirror: Optional[bool, float] float is x mirror axis
             port: Optional[str] port anchor
         connections (Optional): between instances
-        ports (Optional): defines ports to expose
-        routes (Optional): defines bundles of routes
+        ports (Optional): ports to expose
+        routes (Optional): bundles of routes
             routeName:
             library: optical
             links:
@@ -502,6 +522,7 @@ def from_yaml(
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
+    c.info = conf.get("info", {})
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
@@ -738,15 +759,14 @@ def from_yaml(
 
 
 if __name__ == "__main__":
-    for k in factory.keys():
-        print(k)
-    # c = from_yaml(sample_mmis)
+    # for k in factory.keys():
+    #     print(k)
     # print(c.get_settings()["info"])
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
-
     # c = from_yaml(yaml_anchor)
-    # c.show()
+    c = from_yaml(sample_mmis)
+    c.show()
 
     # c = test_connections_regex()
     # c = from_yaml(sample_regex_connections)
@@ -764,7 +784,6 @@ if __name__ == "__main__":
     # c = from_yaml(sample_waypoints)
     # c = from_yaml(sample_2x2_connections)
     # c = from_yaml(sample_mmis)
-
     # c = from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()
