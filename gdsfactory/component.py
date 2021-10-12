@@ -619,7 +619,7 @@ class Component(Device):
         assert (
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
-        assert v.references or v.polygons, f"No references or  polygons in {v.name}"
+        # assert v.references or v.polygons, f"No references or  polygons in {v.name}"
         return v
 
     @property

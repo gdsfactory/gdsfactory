@@ -61,7 +61,6 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.cross_section import cross_section_factory
-from gdsfactory.functions import cache
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
 
@@ -417,7 +416,6 @@ ports:
 """
 
 
-@cache
 def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     component_factory: ComponentFactoryDict = factory,

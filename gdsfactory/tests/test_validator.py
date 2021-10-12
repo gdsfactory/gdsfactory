@@ -17,10 +17,10 @@ def test_validator_pass():
     component_with_straight(component=component)
 
 
-def test_validator_fail_empty():
-    component = gf.Component()
-    with pytest.raises(pydantic.ValidationError):
-        component_with_straight(component=component)
+# def test_validator_fail_empty():
+#     component = gf.Component()
+#     with pytest.raises(pydantic.ValidationError):
+#         component_with_straight(component=component)
 
 
 def test_validator_fail_name_too_long():
