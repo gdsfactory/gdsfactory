@@ -29,6 +29,11 @@ from contracts import contract
 
 
 ```
+## 3.4.0
+
+- gf.component_from_yaml has `cache` decorator, and accepts info settings
+
+
 ## 3.3.9
 
 - move `gf.component_from_yaml` to `gf.read.from_yaml`
