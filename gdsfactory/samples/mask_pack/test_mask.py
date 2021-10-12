@@ -13,15 +13,14 @@ from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.mask.write_labels import write_labels
 
-
-def add_te(component: Component, **kwargs) -> Component:
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_te,
-        **kwargs,
-    )
-    c.test = "passive_optical_te"
-    return c
+add_te = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_te,
+)
+add_tm = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_te,
+)
 
 
 def add_tm(component, **kwargs):

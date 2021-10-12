@@ -9,6 +9,7 @@
 
 Maybe:
 
+- gf.component_from_yaml has `cache` decorator
 - pads have a port with `pad` name on the center of the pad
 - replace LIBRARY with `get_factory_dict`
 - rename any thickness_nm to thickness or zmin_nm to zmin
@@ -31,7 +32,8 @@ from contracts import contract
 ```
 ## 3.4.0
 
-- gf.component_from_yaml has `cache` decorator, and accepts info settings
+- gf.component_from_yaml accepts info settings
+- make sure that zero length paths can be extruded without producing degenerate boundaries. They just have ports
 
 
 ## 3.3.9

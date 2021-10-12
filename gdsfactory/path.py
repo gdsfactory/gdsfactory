@@ -256,7 +256,7 @@ def extrude(
         points = np.concatenate([points1, points2[::-1, :]])
 
         layers = layer if hidden else [layer, layer]
-        if not hidden:
+        if not hidden and p.length() > 1e-3:
             c.add_polygon(points, layer=layer)
         # Add ports if they were specified
         if ports[0] is not None:
