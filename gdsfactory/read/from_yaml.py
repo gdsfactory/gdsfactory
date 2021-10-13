@@ -58,6 +58,7 @@ import omegaconf
 from omegaconf import OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
+from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.cross_section import cross_section_factory
@@ -432,7 +433,7 @@ def from_yaml(
         component_factory: dict of functions {factory_name: factory_function}
         routing_strategy: for links
         label_instance_function: to label each instance
-        kwargs: cache, pins ... to pass to all factories
+        kwargs: cache, prefix, autoname ... to pass to all factories
 
     Returns:
         Component
@@ -515,7 +516,11 @@ def from_yaml(
     instances = {}
     routes = {}
     name = conf.get("name", "Unnamed")
-    c = Component(name)
+    if name in CACHE:
+        return CACHE[name]
+    else:
+        c = Component(name)
+        CACHE[name] = c
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")
     ports_conf = conf.get("ports")

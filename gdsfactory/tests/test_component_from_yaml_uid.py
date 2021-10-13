@@ -23,15 +23,18 @@ ports:
 """
 
 
-# def test_components_ports() -> None:
-#     c1 = gf.read.from_yaml(mirror_port)
-#     assert c1.uid
+def test_components_ports() -> None:
+    c1 = gf.read.from_yaml(mirror_port)
+    c2 = gf.read.from_yaml(mirror_port)
+    # print(c1.uid)
+    # print(c2.uid)
+    assert c1.uid == c2.uid
 
 
 if __name__ == "__main__":
-    """FIXME"""
     c1 = gf.read.from_yaml(mirror_port)
     c2 = gf.read.from_yaml(mirror_port)
     print(c1.uid)
     print(c2.uid)
+    assert c1.uid == c2.uid
     c2.show()
