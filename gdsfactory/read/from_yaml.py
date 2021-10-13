@@ -428,7 +428,7 @@ def from_yaml(
 
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
-            (instances, placements, routes, ports, connections, names)
+          (instances, placements, routes, ports, connections, names)
         component_factory: dict of functions {factory_name: factory_function}
         routing_strategy: for links
         label_instance_function: to label each instance
@@ -468,6 +468,7 @@ def from_yaml(
 
 
     .. code::
+
         vars:
             lenght: 3
 

@@ -1289,12 +1289,9 @@ class Component(Device):
         Args:
             angle: in degrees
         """
-        component_new = Component(f"{self.name}_r{angle}")
-        ref = component_new.add_ref(self)
-        ref.rotate(angle)
-        component_new.add_ports(ref.ports)
-        component_new.copy_settings_from(self)
-        return component_new
+        from gdsfactory.rotate import rotate
+
+        return rotate(component=self, angle=angle)
 
 
 def test_get_layers() -> None:

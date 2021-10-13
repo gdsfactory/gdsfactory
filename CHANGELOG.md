@@ -35,6 +35,8 @@ from contracts import contract
 - gf.component_from_yaml accepts info settings
 - make sure that zero length paths can be extruded without producing degenerate boundaries. They just have ports
 - snap.assert_on_2nm_grid for mmi1x2 and mmi2x2 gaps
+- gf.Component.rotate() calls gf.rotate so that it uses the Component CACHE
+- add `tests/test_rotate.py` to ensure cache is working
 
 
 ## 3.3.9
