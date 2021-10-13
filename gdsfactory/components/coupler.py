@@ -3,7 +3,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
 from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_1nm_grid
+from gdsfactory.snap import assert_on_1nm_grid, assert_on_2nm_grid
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
@@ -47,7 +47,7 @@ def coupler(
 
     """
     assert_on_1nm_grid(length)
-    assert_on_1nm_grid(gap)
+    assert_on_2nm_grid(gap)
     c = Component()
 
     sbend = coupler_symmetric_factory(
@@ -85,5 +85,5 @@ if __name__ == "__main__":
     # cp2.ymin = 0
 
     layer = (2, 0)
-    c = coupler(gap=0.2, layer=layer)
+    c = coupler(gap=0.300, layer=layer)
     c.show(show_subports=True)

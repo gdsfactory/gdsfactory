@@ -51,6 +51,7 @@ def mmi2x2(
             length_taper
 
     """
+    gf.snap.assert_on_2nm_grid(gap_mmi)
     x = cross_section(**kwargs)
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]
@@ -108,6 +109,6 @@ def mmi2x2(
 
 
 if __name__ == "__main__":
-    c = mmi2x2(layer=(2, 0))
+    c = mmi2x2(layer=(2, 0), gap_mmi=0.251)
     c.show()
     c.pprint
