@@ -29,7 +29,7 @@ def splitter_tree(
         bend_s: Sbend library name or dict for termination
         bend_s_xsize:
         cross_section: cross_section
-        bend_length: dx for the sbend
+        bend_s_xsize: dx for the sbend
         kwargs: cross_section settings
 
     .. code::
@@ -160,9 +160,10 @@ if __name__ == "__main__":
         # layer=(2, 0),
     )
     c = splitter_tree(
-        coupler=mmi2x2,
-        noutputs=4,
-        bend_length=30,
+        coupler=gf.partial(mmi2x2, gap_mmi=0.833, width_mmi=10),
+        noutputs=2 ** 8,
+        spacing=(350, 110),
+        # bend_length=30,
         # bend_s=None,
     )
     c.show()
