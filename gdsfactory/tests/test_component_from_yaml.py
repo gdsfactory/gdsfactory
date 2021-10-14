@@ -478,7 +478,7 @@ def test_settings(
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
 
-    settings = c.get_settings()
+    settings = c.settings
     # routes = settings.get("info", {}).get("routes", {})
     # data_regression.check(routes)
     if check:

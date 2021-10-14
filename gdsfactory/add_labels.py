@@ -19,8 +19,8 @@ def get_input_label_text(
     prefix: str = "",
 ) -> str:
     """Get text string for an optical port based on grating coupler."""
-    polarization = gc.get_property("polarization")
-    wavelength = gc.get_property("wavelength")
+    polarization = gc.info.get("polarization")
+    wavelength = gc.info.get("wavelength")
     prefix = prefix or ""
 
     assert polarization in [
@@ -159,8 +159,8 @@ def add_labels(
 if __name__ == "__main__":
     c = gf.c.mzi_phase_shifter()
     # add_labels_ports(c, c.get_ports_list(port_type="electrical"), prefix="pad_")
-    # from gdsfactory.tests.test_get_labels import test_add_labels_electrical
-
+    # from gdsfactory.tests.test_labels import test_add_labels_electrical
     # c = test_add_labels_optical()
     # c = test_add_labels_electrical()
+    c = gf.routing.add_fiber_single(c)
     c.show()

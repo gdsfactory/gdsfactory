@@ -47,7 +47,7 @@ def test_gds(component: Component) -> None:
 
 def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
-    data_regression.check(component.get_settings())
+    data_regression.check(component.settings)
 
 
 def test_ports(component: Component, num_regression: NumericRegressionFixture) -> None:

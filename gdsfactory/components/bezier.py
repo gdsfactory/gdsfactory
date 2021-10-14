@@ -76,7 +76,6 @@ def bezier(
         name = f"bezier_w{int(width*1e3)}_{points_hash}_{layer[0]}_{layer[1]}"
 
     c = gf.Component(name=name)
-    c.ignore.add("control_points")
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
     polygon_points = extrude_path(
@@ -89,9 +88,6 @@ def bezier(
         grid=grid,
     )
     angles = angles_deg(path_points)
-
-    c.info["start_angle"] = gf.snap.snap_to_grid(angles[0])
-    c.info["end_angle"] = gf.snap.snap_to_grid(angles[-2])
 
     a0 = angles[0] + 180
     a1 = angles[-2]
@@ -108,12 +104,11 @@ def bezier(
     curv = curvature(path_points, t)
     length = gf.snap.snap_to_grid(path_length(path_points))
     min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
-    c.info["length"] = length
-    c.info["min_bend_radius"] = min_bend_radius
-    # c.info["curvature"] = curv
-    # c.info["t"] = t
-    c.length = length
-    c.min_bend_radius = min_bend_radius
+
+    c.info.start_angle = gf.snap.snap_to_grid(angles[0])
+    c.info.end_angle = gf.snap.snap_to_grid(angles[-2])
+    c.info.length = length
+    c.info.min_bend_radius = min_bend_radius
     return c
 
 
@@ -175,6 +170,5 @@ if __name__ == "__main__":
     c.pprint
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)
-    # print(c.ignore)
     # c.write_gds()
     c.show()

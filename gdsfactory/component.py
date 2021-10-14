@@ -3,14 +3,12 @@ import datetime
 import functools
 import hashlib
 import itertools
-import json
 import pathlib
 import tempfile
 import uuid
 import warnings
 from pathlib import Path
-from pprint import pprint
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, cast
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
 import gdspy
 import networkx as nx
@@ -21,7 +19,6 @@ from omegaconf.dictconfig import DictConfig
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import CellArray, Device, DeviceReference, _parse_layer
 
-from gdsfactory.config import __version__
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import (
     Port,
@@ -283,6 +280,10 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
+    def settings(self) -> DictConfig:
+        return self.parent.settings
+
+    @property
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
 
@@ -534,10 +535,6 @@ class ComponentReference(DeviceReference):
         """
         return select_ports(self.ports, **kwargs)
 
-    def get_settings(self, **kwargs) -> Dict[str, Any]:
-        """Returns settings from the Comonent."""
-        return self.parent.get_settings(**kwargs)
-
     @property
     def ports_layer(self) -> Dict[str, str]:
         """Returns a mapping from layer0_layer1_E0: portName"""
@@ -561,47 +558,28 @@ class ComponentReference(DeviceReference):
 
 
 class Component(Device):
-    """adds some functions to phidl.Device:
+    """customize phidl.Device
 
     - get/write JSON metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
     Args:
-        name:
-        polarization: 'te' or 'tm'
-        wavelength: (nm)
-        test_protocol: dict
-        data_analysis_protocol: dict
-        ignore: list of settings to ingnore
+        name: component_name
 
     """
 
     def __init__(self, name: str = "Unnamed", *args, **kwargs) -> None:
         # Allow name to be set like Component('arc') or Component(name = 'arc')
 
-        self.settings = kwargs
-        self.settings_changed = kwargs
         self.__ports__ = {}
-        self.info = {}
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
-        self.ignore = {
-            "path",
-            "netlist",
-            "properties",
-            "library",
-            "_initialized",
-            "component",
-        }
-        self.include = {"name", "function_name", "module"}
-        self.test_protocol = {}
-        self.data_analysis_protocol = {}
-
         if "with_uuid" in kwargs or name == "Unnamed":
             name += "_" + self.uid
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
+        self.info = DictConfig({})
         self.name = name
         self.name_long = None
 
@@ -825,11 +803,6 @@ class Component(Device):
     def __repr__(self) -> str:
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
-    def update_settings(self, **kwargs) -> None:
-        """update settings dict"""
-        for key, value in kwargs.items():
-            self.settings[key] = _clean_value(value)
-
     def get_property(self, property: str) -> Any:
         if property in self.settings:
             return self.settings[property]
@@ -839,7 +812,7 @@ class Component(Device):
     @property
     def pprint(self) -> None:
         """Prints component settings."""
-        pprint(self.get_settings())
+        print(OmegaConf.to_yaml(self.settings))
 
     @property
     def pprint_ports(self) -> None:
@@ -848,71 +821,30 @@ class Component(Device):
         for port in ports_list:
             print(port)
 
-    def get_settings(
-        self,
-        ignore: Optional[Iterable[str]] = None,
-        include: Optional[Iterable[str]] = None,
-        full_settings: bool = True,
-    ) -> Dict[str, Any]:
-        """Returns settings dictionary.
+    @property
+    def settings(self) -> DictConfig:
+        """Returns settings DictConfig.
 
-        Ignores items from self.ignore set.
-
-        Returns *args, **kwargs from the signature, as well as any attributes
-
-        attributes (such as Component.length) are exported into info: Dict[str, Any]
-
-        Args:
-            ignore: settings to ignore
-            include: settings to include
-            full_settings: export full settings or only changed settings
+        Dict:
+            info: includes
+                - derived properties
+                - external metadata (test_protocol, docs, ...)
+                - simulation_settings
+                - function_name
+                - name: for the component
+                - name_long: for the component
+            full: full list of settings
+            changed: changed settings
+            default: includes the default signature of the component
 
         """
-        settings = self.settings if full_settings else self.settings_changed
         d = {}
-        d["settings"] = {}  # function arguments
-        d["info"] = {}  # function arguments
-
-        ignore_keys = ignore or set()
-        include_keys = include or set()
-        ignore_keys = set(ignore_keys)
-        include_keys = set(include_keys)
-
-        include = set(include_keys).union(self.include) - ignore_keys
-        ignore = (
-            set(ignore_keys).union(self.ignore).union(set(dir(Component()))) - include
-        )
-
-        params = set(dir(self)) - ignore - ignore_keys - include
-
-        # Properties from self.info and self.someThing
-        for param in params:
-            d["info"][param] = _clean_value(getattr(self, param))
-
-        for key, value in self.info.items():
-            if key not in ignore:
-                d["info"][key] = _clean_value(value)
-
-        # TOP Level (name, module, function_name)
-        for setting in include:
-            if hasattr(self, setting) and setting not in ignore:
-                d[setting] = _clean_value(getattr(self, setting))
-
-        # Settings from the function call
-        for key, value in settings.items():
-            if key not in ignore:
-                d["settings"][key] = _clean_value(value)
-
-        # for param in params:
-        #     d['info'][param] = _clean_value(getattr(self, param))
-        # d["hash"] = hashlib.md5(json.dumps(output).encode()).hexdigest()
-        # d["hash_geometry"] = str(self.hash_geometry())
-
-        # if 'tech' in d['settings']:
-        #     d['tech']= getattr(self,'tech').dict()
-
-        d = {k: d[k] for k in sorted(d)}
-        return d
+        d["info"] = self.info
+        d["full"] = getattr(self, "_settings_full", {})
+        d["changed"] = getattr(self, "_settings_changed", {})
+        d["default"] = getattr(self, "_settings_default", {})
+        clean_dict(d)
+        return OmegaConf.create(d)
 
     def add_port(
         self,
@@ -983,25 +915,6 @@ class Component(Device):
         for port in self.ports.values():
             port.snap_to_grid(nm=nm)
 
-    def get_json(self, **kwargs) -> Dict[str, Any]:
-        """
-        Returns:
-            Dict with component metadata
-        """
-        jsondata = {
-            "json_version": 7,
-            "cells": recurse_structures(self),
-            "test_protocol": self.test_protocol,
-            "data_analysis_protocol": self.data_analysis_protocol,
-            "version": __version__,
-        }
-        jsondata.update(**kwargs)
-
-        if hasattr(self, "analysis"):
-            jsondata["analysis"] = self.analysis
-
-        return jsondata
-
     def remove_layers(
         self,
         layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
@@ -1070,7 +983,7 @@ class Component(Device):
         great for hiearchical components that need to propagate parent_name and settings.
         """
         self.info["parent_name"] = component.get_parent_name()
-        self.info["parent"] = component.get_settings()
+        self.info["parent"] = component.settings
 
     @property
     def size_info(self) -> SizeInfo:
@@ -1225,46 +1138,48 @@ class Component(Device):
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
-        """Write component in GDS, ports in CSV and metadata (component settings) in JSON"""
+        """Write component in GDS and metadata (component settings) in YAML"""
         gdspath = self.write_gds(*args, **kwargs)
-        ports_path = gdspath.with_suffix(".ports")
-        json_path = gdspath.with_suffix(".json")
-
-        # write component.ports to CSV
-        if len(self.ports) > 0:
-            with open(ports_path, "w") as fw:
-                for port in self.ports.values():
-                    layer, purpose = _parse_layer(port.layer)
-                    fw.write(
-                        f"{port.name}, {port.x:.3f}, {port.y:.3f}, {int(port.orientation)}, {port.width:.3f}, {layer}, {purpose}\n"
-                    )
-
-        # write component.json metadata dict to JSON
-        json_path.write_text(json.dumps(self.get_json(), indent=2))
-
-        # with open(json_path, "w+") as fw:
-        #     fw.write(json.dumps(self.get_json(), indent=2))
-        # metadata = OmegaConf.create(self.get_json())
-        # json_path.write_text( OmegaConf.to_container(metadata))
+        metadata = gdspath.with_suffix(".yml")
+        metadata.write_text(self.to_yaml)
         return gdspath
 
-    def to_dict(self) -> Dict[str, Any]:
+    @property
+    def to_dict(self) -> DictConfig:
         """Returns a dict representation of the compoment."""
-        d = {}
-        d["polygons"] = {}
-        d["ports"] = {}
+        d = DictConfig({})
+        ports = {port.name: port.settings for port in self.get_ports_list()}
+        clean_dict(ports)
+
+        d.ports = ports
+        d.settings = self.settings
+        d.cells = recurse_structures(self)
+        d.version = 1
+        return OmegaConf.create(d)
+
+    @property
+    def to_yaml(self) -> str:
+        return OmegaConf.to_yaml(self.to_dict)
+
+    @property
+    def to_dict_polygons(self) -> DictConfig:
+        """Returns a dict representation of the flattened compoment."""
+        d = DictConfig({})
+        polygons = {}
         layer_to_polygons = self.get_polygons(by_spec=True)
 
-        for layer, polygons in layer_to_polygons.items():
-            for polygon in polygons:
+        for layer, polygons_layer in layer_to_polygons.items():
+            for polygon in polygons_layer:
                 layer_name = f"{layer[0]}_{layer[1]}"
-                d["polygons"][layer_name] = [tuple(snap_to_grid(v)) for v in polygon]
+                polygons[layer_name] = [tuple(snap_to_grid(v)) for v in polygon]
 
-        for port in self.get_ports_list():
-            d["ports"][port.name] = port.settings
-
-        d["settings"] = self.get_settings()["settings"]
-        return d
+        ports = {port.name: port.settings for port in self.get_ports_list()}
+        clean_dict(ports)
+        clean_dict(polygons)
+        d.settings = self.settings
+        d.polygons = polygons
+        d.ports = ports
+        return OmegaConf.create(d)
 
     def auto_rename_ports(self, **kwargs) -> None:
         auto_rename_ports(self, **kwargs)
@@ -1318,22 +1233,22 @@ IGNORE_FUNCTION_NAMES = set()
 IGNORE_STRUCTURE_NAME_PREFIXES = set(["zz_conn"])
 
 
-def recurse_structures(structure: Component) -> Dict[str, Any]:
+def recurse_structures(structure: Component) -> DictConfig:
     """Recurse over structures"""
     if (
         hasattr(structure, "function_name")
         and structure.function_name in IGNORE_FUNCTION_NAMES
     ):
-        return {}
+        return DictConfig({})
 
     if hasattr(structure, "name") and any(
         [structure.name.startswith(i) for i in IGNORE_STRUCTURE_NAME_PREFIXES]
     ):
-        return {}
-    if not hasattr(structure, "get_json"):
-        return {}
+        return DictConfig({})
+    if not hasattr(structure, "get_dict"):
+        return DictConfig({})
 
-    output = {structure.name: structure.get_settings()}
+    output = {structure.name: structure.settings}
     for element in structure.references:
         if (
             isinstance(element, ComponentReference)
@@ -1373,6 +1288,8 @@ def _clean_value(value: Any) -> Any:
         return value
     if isinstance(value, (np.int64, np.int32)):
         value = int(value)
+    if isinstance(value, np.ndarray):
+        value = [float(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
     elif callable(value) and hasattr(value, "__name__"):
@@ -1460,7 +1377,8 @@ def hash_file(filepath):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight()
+    c = gf.components.straight(length=2)
     c2 = c.rotate()
     c2.show()
+    c2.write_gds_with_metadata("a.gds")
     print(c)

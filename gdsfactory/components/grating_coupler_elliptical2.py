@@ -92,8 +92,8 @@ def grating_coupler_elliptical2(
     )
 
     c = gf.read.from_picwriter(c)
-    c.polarization = polarization
-    c.wavelength = wavelength
+    c.info.polarization = polarization
+    c.info.wavelength = wavelength
 
     x = c.center[0] + taper_length / 2
     circle = gf.components.circle(

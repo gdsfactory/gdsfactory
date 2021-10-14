@@ -75,12 +75,10 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
-    from pprint import pprint
-
     c = bend_circular(width=2, layer=gf.LAYER.M1)
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
+    c.pprint
     c.show()
-    pprint(c.get_settings())
 
     # c = bend_circular180()
     # c.plotqt()

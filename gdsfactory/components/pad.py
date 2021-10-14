@@ -62,7 +62,7 @@ def pad_array(
     """
     c = Component()
     pad = pad() if callable(pad) else pad
-    size = pad.info["size"]
+    size = pad.settings["size"]
     c.info["size"] = size
 
     c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
@@ -91,7 +91,6 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
-    # print(c.settings['spacing'])
     # c = pad_array90()
     # c = pad_array270()
     # c.pprint_ports

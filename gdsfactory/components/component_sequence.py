@@ -208,6 +208,5 @@ if __name__ == "__main__":
     c = gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
-    s = c.get_settings(ignore=("symbol_to_component",))
-    # print(s["settings"])
     c.show()
+    c.pprint

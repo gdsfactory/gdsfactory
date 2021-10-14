@@ -6,9 +6,11 @@ from typing import Dict
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
+from gdsfactory.config import __version__
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
 
 CACHE: Dict[str, Component] = {}
+INFO_VERSION = 1
 
 
 class CellReturnTypeError(ValueError):
@@ -68,12 +70,15 @@ def cell_without_validator(func):
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(**kwargs)
-        args_as_kwargs_clean = [
+        args_as_kwargs_string_list = [
             f"{key}={clean_value(args_as_kwargs[key])}"
             for key in sorted(args_as_kwargs.keys())
         ]
-        arguments = "_".join(args_as_kwargs_clean)
-        name_long = name = clean_name(f"{prefix}_{arguments}") if arguments else prefix
+        arguments = "_".join(args_as_kwargs_string_list)
+        arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
+        name_long = name = (
+            clean_name(f"{prefix}_{arguments_hash}") if arguments else prefix
+        )
         decorator = kwargs.pop("decorator", None)
 
         if len(name) > MAX_NAME_LENGTH:
@@ -115,26 +120,25 @@ def cell_without_validator(func):
                     f"function `{func.__name__}` return type = `{type(component)}`",
                     "make sure that functions with @cell decorator return a Component",
                 )
-            component.module = func.__module__
-            component.function_name = func.__name__
-
             if autoname:
                 component.name = name_component
 
-            component.name_long = name_long
-
-            if not hasattr(component, "settings"):
-                component.settings = {}
-            component.settings.update(
-                **{
-                    p.name: p.default
-                    for p in sig.parameters.values()
-                    if not callable(p.default)
-                }
-            )
-            component.settings.update(**kwargs)
-            component.settings_changed = kwargs.copy()
+            component.info.module = func.__module__
+            component.info.function_name = func.__name__
+            component.info.gdsfactory = __version__
+            component.info.info_version = INFO_VERSION
+            component.info.name_long = name_long
+            component.info.name = component.name
             component.info.update(**info)
+
+            component._settings_default = {
+                p.name: p.default
+                for p in sig.parameters.values()
+                if not callable(p.default)
+            }
+            component._settings_full = component._settings_default.copy()
+            component._settings_full.update(**args_as_kwargs)
+            component._settings_changed = args_as_kwargs.copy()
 
             CACHE[name] = component
             return component

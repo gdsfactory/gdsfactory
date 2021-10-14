@@ -17,7 +17,7 @@ def test_netlist_with_routes() -> Component:
     n = c.get_netlist()
     connections = n["connections"]
 
-    # print(routes[0].get_settings())
+    # print(routes[0].settings)
     # print(c.get_netlist().connections)
     # print(c.get_netlist().instances)
     # print(len(c.get_netlist().connections))

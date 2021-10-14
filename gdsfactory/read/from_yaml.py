@@ -765,7 +765,7 @@ def from_yaml(
 if __name__ == "__main__":
     # for k in factory.keys():
     #     print(k)
-    # print(c.get_settings()["info"])
+    # print(c.settings["info"])
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
