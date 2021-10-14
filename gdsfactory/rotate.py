@@ -29,8 +29,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.mmi1x2()
-    cr = rotate(component=c)
+    cr = c.rotate()
     cr.show()
+
+    # cr = rotate(component=c)
+    # cr.show()
     # print(component_rotated)
 
     # component_rotated.pprint
