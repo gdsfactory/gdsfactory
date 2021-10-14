@@ -160,9 +160,7 @@ if __name__ == "__main__":
         # layer=(2, 0),
     )
     c = splitter_tree(
-        coupler=gf.partial(mmi2x2, gap_mmi=0.833, width_mmi=10),
-        noutputs=2 ** 8,
-        spacing=(350, 110),
+        noutputs=2 ** 2,
         # bend_length=30,
         # bend_s=None,
     )

@@ -1,6 +1,7 @@
 import gdsfactory as gf
 
 yaml = """
+name: test_netlist_labels
 connections:
   bend_left,o2: straight_left,o1
   bend_right,o2: straight_top,o2
@@ -60,8 +61,8 @@ def test_netlist_labels() -> None:
     c = gf.read.from_yaml(yaml)
     n = c.get_netlist()
     placements = n["placements"]
-    assert "bend_left" in placements, print(placements)
-    assert "bend_right" in placements
+    assert "bend_left" in placements, placements
+    assert "bend_right" in placements, placements
 
 
 if __name__ == "__main__":

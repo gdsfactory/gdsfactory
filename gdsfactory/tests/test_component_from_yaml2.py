@@ -2,8 +2,10 @@ import pytest
 from pytest_regressions.num_regression import NumericRegressionFixture
 
 import gdsfactory as gf
+from gdsfactory.difftest import difftest
 
 mirror_port = """
+name: mirror_port
 instances:
     mmi_long:
       component: mmi1x2
@@ -25,6 +27,7 @@ ports:
 
 
 mirror_x = """
+name: mirror_x
 instances:
     mmi_long:
       component: mmi1x2
@@ -44,6 +47,7 @@ ports:
 
 
 rotation = """
+name: rotation
 instances:
     mmi_long:
       component: mmi1x2
@@ -63,6 +67,7 @@ ports:
 """
 
 dxdy = """
+name: dxdy
 instances:
     mmi_long:
       component: mmi1x2
@@ -100,10 +105,12 @@ def test_components_ports(
 ) -> None:
     yaml = yaml_list[yaml_index]
     c = gf.read.from_yaml(yaml)
+    difftest(c)
     if c.ports:
         num_regression.check(c.get_ports_array())
 
 
 if __name__ == "__main__":
     c = gf.read.from_yaml(mirror_port)
+    c = gf.read.from_yaml(dxdy)
     c.show()
