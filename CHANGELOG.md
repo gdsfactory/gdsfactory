@@ -664,7 +664,7 @@ from pydantic import validate_arguments
 - sim settings outputs in YAML file
 - fix sparameters sorting of ports when in pp.sp.read_sparameters
 - pp.get_netlist() returns top level ports for a component
-- output parameters that change in component (c.polarization='te') in get_settings()['info']
+- output parameters that change in component (c.polarization='te') in settings['info']
 - fixed bug in get_settings to clean tuple settings export
 
 ## 2.2.2

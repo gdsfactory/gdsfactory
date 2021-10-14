@@ -160,7 +160,7 @@ def pack(
             component = component_list[n]
             d = packed.add_ref(component)
             if hasattr(component, "settings"):
-                packed.settings["components"][component.name] = component.get_settings()
+                packed.settings["components"][component.name] = component.settings
             d.center = (xcenter * precision, ycenter * precision)
         components_packed_list.append(packed)
 

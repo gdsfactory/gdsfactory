@@ -20,7 +20,7 @@ def test_load_component_ports(num_regression: NumericRegressionFixture) -> None:
 def test_load_component_settings(data_regression: DataRegressionFixture) -> None:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.read.from_gds(gdspath)
-    data_regression.check(c.get_settings())
+    data_regression.check(c.settings)
 
 
 if __name__ == "__main__":

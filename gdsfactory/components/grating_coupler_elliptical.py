@@ -230,7 +230,7 @@ def grating_coupler_elliptical(
 
     c = gf.Component()
     c.polarization = polarization
-    c.wavelength = int(wavelength * 1e3)
+    c.wavelength = wavelength
 
     # Make each grating line
     for p in range(p_start, p_start + n_periods + 1):

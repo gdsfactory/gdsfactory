@@ -46,12 +46,10 @@ def grating_coupler_tree(
         taper_factory=None,
         **kwargs,
     )
-    cc.ignore.add("route_filter")
-    cc.ignore.add("module")
     return cc
 
 
 if __name__ == "__main__":
     c = grating_coupler_tree(layer=(2, 0))
-    # print(c.get_settings())
+    # print(c.settings)
     c.show()

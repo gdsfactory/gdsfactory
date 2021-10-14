@@ -20,7 +20,7 @@ component = mzi_phase_shifter(splitter=mmi2x2)
 def test_settings(container_type: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     c = container_factory[container_type](component=component)
-    data_regression.check(c.get_settings())
+    data_regression.check(c.settings)
 
 
 @pytest.mark.parametrize("container_type", container_names)
@@ -44,7 +44,7 @@ def test_gds(container_type: str) -> None:
 # def test_add_gratings_and_loopback(data_regression: DataRegressionFixture) -> None:
 #     """This container requires all ports to face the same direction."""
 #     c = add_gratings_and_loopback(component=spiral_inner_io())
-#     data_regression.check(c.get_settings())
+#     data_regression.check(c.settings)
 
 
 if __name__ == "__main__":

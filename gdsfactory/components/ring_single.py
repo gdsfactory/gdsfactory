@@ -95,5 +95,5 @@ if __name__ == "__main__":
 
     # cc = gf.add_pins(c)
     # print(c.settings)
-    # print(c.get_settings())
+    # print(c.settings)
     # cc.show()

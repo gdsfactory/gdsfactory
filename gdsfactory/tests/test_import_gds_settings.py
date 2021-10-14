@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Union
 
 import pytest
 from jsondiff import diff
+from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_settings_label
@@ -47,22 +48,24 @@ def test_properties_components(component_type: str) -> Component:
     c1 = factory[component_type]()
     c1ref = cnew << c1
 
-    ignore = ("sequence", "symbol_to_component", "ports_map")
-    add_settings_label(cnew, reference=c1ref, ignore=ignore)
+    add_settings_label(cnew, reference=c1ref)
     gdspath = cnew.write_gds_with_metadata()
 
     c2 = import_gds(gdspath)
     add_settings_from_label(c2)
 
-    c1s = sort_dict(tuplify(c1.get_settings(ignore=ignore)))
-    c2s = sort_dict(tuplify(c2.get_settings(ignore=ignore)))
+    c1s = sort_dict(tuplify(OmegaConf.to_container(c1.settings.full)))
+    c2s = sort_dict(tuplify(OmegaConf.to_container(c2.settings.full)))
 
-    c1s.pop("info")
-    c2s.pop("info")
+    # c1s.pop("info")
+    # c2s.pop("info")
+    # c1s.pop("changed")
+    # c2s.pop("changed")
+
     d = diff(c1s, c2s)
     # print(c1s)
-    # print(c2s)
-    # print(d)
+    print(c2s)
+    print(d)
     assert len(d) == 0, f"imported settings are different from original {d}"
     return c2
 
