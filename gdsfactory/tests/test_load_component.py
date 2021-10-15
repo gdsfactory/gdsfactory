@@ -1,4 +1,4 @@
-from pprint import pprint
+# from pprint import pprint
 
 import jsondiff
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -22,11 +22,11 @@ def test_load_component_with_settings():
     """Ensures we can load it from GDS + YAML and get the same component settings"""
     c1 = gf.c.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
-
     c2 = gf.read.from_gds(gdspath)
 
     d1 = c1.to_dict
     d2 = c2.to_dict
+
     # d1.pop("ports")
     # d2.pop("ports")
     # c1.pprint
@@ -34,10 +34,9 @@ def test_load_component_with_settings():
 
     d = jsondiff.diff(d1, d2)
 
-    pprint(d1)
-    pprint(d2)
-    pprint(d)
-
+    # pprint(d1)
+    # pprint(d2)
+    # pprint(d)
     assert len(d) == 0, d
 
 
