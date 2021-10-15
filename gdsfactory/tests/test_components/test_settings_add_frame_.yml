@@ -1,10 +1,26 @@
-function_name: add_frame
-info: {}
-module: gdsfactory.components.align
-name: add_frame
+cells: {}
+ports: {}
 settings:
-  layer:
-  - 1
-  - 0
-  spacing: 10
-  width: 10
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    spacing: 10
+    width: 10
+  full:
+    layer:
+    - 1
+    - 0
+    spacing: 10
+    width: 10
+  info:
+    doc: "Returns component with a frame around it.\n\n    Args:\n        component:\
+      \ Component to frame\n        width: of the frame\n        spacing: of component\
+      \ to frame\n\n    "
+    function_name: add_frame
+    info_version: 1
+    module: gdsfactory.components.align
+    name: add_frame
+    name_long: add_frame
+version: 1

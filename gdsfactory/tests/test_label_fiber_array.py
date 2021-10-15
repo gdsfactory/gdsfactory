@@ -4,7 +4,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 LENGTH = 0.5
-CELL_NAME = "straight_length500n"
+# CELL_NAME = "straight_length500n"
+CELL_NAME = "straight_b8776d87"
 
 
 def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:

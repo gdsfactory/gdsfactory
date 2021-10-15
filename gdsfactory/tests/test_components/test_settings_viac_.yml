@@ -1,18 +1,58 @@
-function_name: via
-info:
-  enclosure: 1
-  spacing:
-  - 2
-  - 2
-module: gdsfactory.components.via
-name: via_layer40_0
+cells: {}
+ports: {}
 settings:
-  cladding_offset: 0
-  enclosure: 1
-  layer:
-  - 40
-  - 0
-  layers_cladding: null
-  spacing:
-  - 2
-  - 2
+  changed:
+    layer:
+    - 40
+    - 0
+  default:
+    cladding_offset: 0
+    enclosure: 1
+    layer:
+    - 40
+    - 0
+    layers_cladding: null
+    size:
+    - 0.7
+    - 0.7
+    spacing:
+    - 2
+    - 2
+  full:
+    cladding_offset: 0
+    enclosure: 1
+    layer:
+    - 40
+    - 0
+    layers_cladding: null
+    size:
+    - 0.7
+    - 0.7
+    spacing:
+    - 2
+    - 2
+  info:
+    doc: "Rectangular via. Defaults to a square via.\n\n    Args:\n        size: in\
+      \ x, y direction\n        spacing: pitch_x, pitch_y\n        enclosure: inclusion\
+      \ of via\n        layer: via layer\n        layers_cladding:\n        cladding_offset\n\
+      \n    .. code::\n\n        enclosure\n        _________________________________________\n\
+      \        |<--->                                  |\n        |              \
+      \        size[0]          |\n        |                      <----->        \
+      \  |\n        |      ______          ______           |\n        |     |   \
+      \   |        |      |          |\n        |     |      |        |      |  size[1]\
+      \ |\n        |     |______|        |______|          |\n        |      <------------->\
+      \                  |\n        |         spacing[0]                    |\n  \
+      \      |_______________________________________|\n\n    "
+    enclosure: 1
+    function_name: via
+    info_version: 1
+    module: gdsfactory.components.via
+    name: via_3db94f98
+    name_long: via_3db94f98
+    size:
+    - 0.7
+    - 0.7
+    spacing:
+    - 2
+    - 2
+version: 1

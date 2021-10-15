@@ -1,13 +1,41 @@
-function_name: fiber
-info: {}
-module: gdsfactory.components.fiber
-name: fiber
+cells: {}
+ports:
+  F0:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: F0
+    orientation: '0'
+    port_type: optical
+    width: 10
 settings:
-  cladding_diameter: 125
-  core_diameter: 10
-  layer_cladding:
-  - 111
-  - 0
-  layer_core:
-  - 1
-  - 0
+  changed: {}
+  default:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+  full:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+  info:
+    doc: Returns a fiber.
+    function_name: fiber
+    info_version: 1
+    module: gdsfactory.components.fiber
+    name: fiber
+    name_long: fiber
+version: 1

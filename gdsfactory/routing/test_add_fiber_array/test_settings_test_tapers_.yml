@@ -1,34 +1,119 @@
-function_name: add_fiber_array
-info:
-  parent:
-    function_name: add_tapers
-    info:
-      parent:
-        function_name: straight
-        info:
-          length: 20
-          width: 2
-        module: gdsfactory.components.straight
-        name: straight_length20_width2
-        settings:
-          length: 20
-          npoints: 2
-          width: 2
-          with_cladding_box: true
-      parent_name: straight_length20_width2
-    module: gdsfactory.add_tapers
-    name: add_tapers_componentstr_dd24138a
-    settings:
-      taper_port_name1: o1
-      taper_port_name2: o2
-  parent_name: straight_length20_width2
-module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_compone_fb6271d3
+cells: {}
+ports:
+  vertical_te_00:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -53.50000000000001
+    - -54.769
+    name: vertical_te_00
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_01:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 73.5
+    - -54.769
+    name: vertical_te_01
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
 settings:
-  component_name: null
-  gc_port_labels: null
-  gc_port_name: o1
-  layer_label:
-  - 66
-  - 0
-  optical_routing_type: 0
+  changed:
+    component: add_tapers_1e786c7d
+    optical_routing_type: 0
+  default:
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+  full:
+    component: add_tapers_1e786c7d
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+    optical_routing_type: 0
+  info:
+    doc: "Returns component with optical IO (tapers, south routes and grating_couplers).\n\
+      \n    Args:\n        component: to connect\n        grating_coupler: grating\
+      \ coupler instance, function or list of functions\n        bend: bend_circular\n\
+      \        gc_port_name: grating coupler input port name 'W0'\n        component_name:\
+      \ for the label\n        taper: taper function name or dict\n        get_input_labels_function:\
+      \ function to get input labels for grating couplers\n        get_input_label_text_loopback_function:\
+      \ function to get input label test\n        get_input_label_text_function\n\
+      \        straight: straight\n        fanout_length: None  # if None, automatic\
+      \ calculation of fanout length\n        max_y0_optical: None\n        with_loopback:\
+      \ True, adds loopback structures\n        straight_separation: 4.0\n       \
+      \ list_port_labels: None, adds TM labels to port indices in this list\n    \
+      \    connected_port_list_ids: None # only for type 0 optical routing\n     \
+      \   nb_optical_ports_lines: 1\n        force_manhattan: False\n        excluded_ports:\n\
+      \        grating_indices: None\n        routing_straight: None\n        routing_method:\
+      \ get_route\n        optical_routing_type: None: auto, 0: no extension, 1: standard,\
+      \ 2: check\n        gc_rotation: -90\n        layer_label: LAYER.LABEL\n   \
+      \     input_port_indexes: [0]\n\n    .. plot::\n        :include-source:\n\n\
+      \n        import gdsfactory as gf\n        gf.config.set_plot_options(show_subports=False)\n\
+      \n        c = gf.components.crossing()\n        cc = gf.routing.add_fiber_array(\n\
+      \            component=c,\n            optical_routing_type=2,\n           \
+      \ grating_coupler=gf.components.grating_coupler_elliptical_te,\n           \
+      \ with_loopback=False\n        )\n        cc.plot()\n\n    "
+    function_name: add_fiber_array
+    info_version: 1
+    module: gdsfactory.routing.add_fiber_array
+    name: add_fiber_array_7b2cbd06
+    name_long: add_fiber_array_7b2cbd06
+    parent:
+      changed:
+        component: straight_373b1ebb
+      default:
+        taper_port_name1: o1
+        taper_port_name2: o2
+      full:
+        component: straight_373b1ebb
+        taper_port_name1: o1
+        taper_port_name2: o2
+      info:
+        doc: "returns new component with taper in all optical ports.\n\n    Args:\n\
+          \        component:\n        taper: factory for taper\n        select_ports:\n\
+          \        taper_port_name1:\n        taper_port_name2:\n\n    "
+        function_name: add_tapers
+        info_version: 1
+        module: gdsfactory.add_tapers
+        name: add_tapers_1e786c7d
+        name_long: add_tapers_1e786c7d
+        parent:
+          changed:
+            length: 20
+            width: 2
+          default:
+            length: 10
+            npoints: 2
+            with_cladding_box: true
+          full:
+            length: 20
+            npoints: 2
+            width: 2
+            with_cladding_box: true
+          info:
+            doc: "Returns a Straight waveguide.\n\n    Args:\n        length: straight\
+              \ length\n        npoints: number of points\n        with_cladding_box:\
+              \ square in layers_cladding to remove DRC\n        cross_section:\n\
+              \        **kwargs: cross_section settings\n    "
+            function_name: straight
+            info_version: 1
+            length: 20
+            module: gdsfactory.components.straight
+            name: straight_373b1ebb
+            name_long: straight_373b1ebb
+            width: 2
+        parent_name: straight_373b1ebb
+    parent_name: straight_373b1ebb
+version: 1

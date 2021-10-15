@@ -26,22 +26,22 @@ def spiral_external_io(
     x_inner_length_cutback: float = 300.0,
     x_inner_offset: float = 0.0,
     y_straight_inner_top: float = 0.0,
-    dx: float = 3.0,
-    dy: float = 3.0,
+    xspacing: float = 3.0,
+    yspacing: float = 3.0,
     bend: ComponentFactory = bend_euler,
     length: Optional[float] = None,
     cross_section: CrossSectionFactory = gf.cross_section.strip,
     **kwargs
 ) -> Component:
-    """
+    """Returns a Spiral with input and output ports outside the spiral
 
     Args:
         N: number of loops
         x_inner_length_cutback:
         x_inner_offset:
         y_straight_inner_top:
-        dx: center to center x-spacing
-        dy: center to center y-spacing
+        xspacing: center to center x-spacing
+        yspacing: center to center y-spacing
         bend: function
         length: length in um, it is the approximates total length
         cross_section:
@@ -53,22 +53,19 @@ def spiral_external_io(
         x_inner_length_cutback = length / (4 * (N - 1))
 
     y_straight_inner_top += 5
-
     x_inner_length_cutback += x_inner_offset
     _bend180 = bend(angle=180, cross_section=cross_section, **kwargs)
     _bend90 = bend(angle=90, cross_section=cross_section, **kwargs)
 
-    bend_radius = _bend90.radius
-
+    bend_radius = _bend90.info.radius
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
     component = Component()
-
     inner_loop_spacing = 2 * bend_radius + 5.0
-    # Create manhattan path going from west grating to westest port of bend 180
 
-    x_inner_length = x_inner_length_cutback + 5.0 + dx
+    # Create manhattan path going from west grating to westest port of bend 180
+    x_inner_length = x_inner_length_cutback + 5.0 + xspacing
 
     y_inner_bend = y_straight_inner_top - bend_radius - 5.0
     x_inner_loop = x_inner_length - 5.0
@@ -79,12 +76,12 @@ def spiral_external_io(
     pts_w = [_pt]
 
     for i in range(N):
-        y1 = y_straight_inner_top + ry + (2 * i + 1) * dy
-        x2 = inner_loop_spacing + 2 * rx + x_inner_length + (2 * i + 1) * dx
-        y3 = -ry - (2 * i + 2) * dy
-        x4 = -(2 * i + 1) * dx
+        y1 = y_straight_inner_top + ry + (2 * i + 1) * yspacing
+        x2 = inner_loop_spacing + 2 * rx + x_inner_length + (2 * i + 1) * xspacing
+        y3 = -ry - (2 * i + 2) * yspacing
+        x4 = -(2 * i + 1) * xspacing
         if i == N - 1:
-            x4 = x4 - rx180 + dx
+            x4 = x4 - rx180 + xspacing
 
         _pt1 = np.array([_pt[0], y1])
         _pt2 = np.array([x2, _pt1[1]])
@@ -102,10 +99,10 @@ def spiral_external_io(
     pts_e = [_pt]
 
     for i in range(N):
-        y1 = y_straight_inner_top + ry + (2 * i) * dy
-        x2 = inner_loop_spacing + 2 * rx + x_inner_length + 2 * i * dx
-        y3 = -ry - (2 * i + 1) * dy
-        x4 = -2 * i * dx
+        y1 = y_straight_inner_top + ry + (2 * i) * yspacing
+        x2 = inner_loop_spacing + 2 * rx + x_inner_length + 2 * i * xspacing
+        y3 = -ry - (2 * i + 1) * yspacing
+        x4 = -2 * i * xspacing
 
         _pt1 = np.array([_pt[0], y1])
         _pt2 = np.array([x2, _pt1[1]])
@@ -131,12 +128,12 @@ def spiral_external_io(
     component.add_port("o1", port=route.ports[1])
 
     length = route.length
-    component.length = length
+    component.info.length = length
     return component
 
 
 if __name__ == "__main__":
     c = spiral_external_io(auto_widen=True, width_wide=2.0, length=10e3, N=15)
-    # print(c.length)
-    # print(c.length / 1e4, "cm")
+    # print(c.info.length)
+    # print(c.info.length / 1e4, "cm")
     c.show(show_ports=True)

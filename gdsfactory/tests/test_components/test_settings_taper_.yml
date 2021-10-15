@@ -1,13 +1,55 @@
-function_name: taper
-info:
-  length: 10
-  width1: 0.5
-  width2: 0.5
-module: gdsfactory.components.taper
-name: taper
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 0.0
+    name: o2
+    orientation: '0'
+    port_type: optical
+    width: 0.5
 settings:
-  length: 10
-  port: null
-  width1: 0.5
-  width2: null
-  with_cladding_box: true
+  changed: {}
+  default:
+    length: 10
+    port: null
+    width1: 0.5
+    width2: null
+    with_cladding_box: true
+  full:
+    length: 10
+    port: null
+    width1: 0.5
+    width2: null
+    with_cladding_box: true
+  info:
+    doc: "Linear taper.\n\n    Args:\n        length:\n        width1: width of the\
+      \ west port\n        width2: width of the east port\n        port: can taper\
+      \ from a port instead of defining width1\n        with_cladding_box: to avoid\
+      \ DRC acute angle errors in cladding\n        cross_section:\n        kwargs:\
+      \ cross_section settings\n\n    .. plot::\n      :include-source:\n\n      import\
+      \ gdsfactory as gf\n\n      c = gf.components.taper(width1=0.5, width2=5, length=3)\n\
+      \      c.plot()\n\n    "
+    function_name: taper
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.taper
+    name: taper
+    name_long: taper
+    width1: 0.5
+    width2: 0.5
+version: 1

@@ -591,10 +591,10 @@ def round_corners(
 
     total_length = 0  # Keep track of the total path length
 
-    if not hasattr(bend90, "length"):
-        raise ValueError(f"bend {bend90} needs to have bend.length defined")
+    if not hasattr(bend90.info, "length"):
+        raise ValueError(f"bend {bend90} needs to have bend.info.length defined")
 
-    bend_length = bend90.length
+    bend_length = bend90.info.length
 
     dp = p1 - p0_straight
     bend_orientation = None

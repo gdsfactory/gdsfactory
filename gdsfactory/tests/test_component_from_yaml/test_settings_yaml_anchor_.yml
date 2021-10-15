@@ -1,9 +1,8 @@
-info:
-  instances:
-    mmi_long: DeviceReference (parent Device "mmi1x2_length_mmi10_width_mmi4p5", ports
-      ['o1', 'o2', 'o3'], origin [25.    12.875], rotation 0, x_reflection False)
-    mmi_short: DeviceReference (parent Device "mmi1x2_length_mmi5_width_mmi4p5", ports
-      ['o1', 'o2', 'o3'], origin [-12.5     0.625], rotation 0, x_reflection False)
-  routes: {}
-name: yaml_anchor
-settings: {}
+cells: {}
+ports: {}
+settings:
+  changed: {}
+  default: {}
+  full: {}
+  info: {}
+version: 1

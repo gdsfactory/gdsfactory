@@ -1,8 +1,22 @@
-function_name: pixel
-info: {}
-module: gdsfactory.components.version_stamp
-name: pixel
+cells: {}
+ports: {}
 settings:
-  layer:
-  - 1
-  - 0
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    size: 1
+  full:
+    layer:
+    - 1
+    - 0
+    size: 1
+  info:
+    doc: null
+    function_name: pixel
+    info_version: 1
+    module: gdsfactory.components.version_stamp
+    name: pixel
+    name_long: pixel
+version: 1

@@ -1,31 +1,99 @@
-function_name: grating_coupler_elliptical_trenches
-info:
-  polarization: tm
-  wavelength: 1530
-module: gdsfactory.components.grating_coupler_elliptical_trenches
-name: grating_coupler_ellipti_2527533f
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.5
+    - 0.0
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  vertical_tm:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 32.68
+    - 0.0
+    name: vertical_tm
+    orientation: '0'
+    port_type: vertical_tm
+    width: 11
 settings:
-  end_straight_length: 0.2
-  fiber_angle: 15
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  grating_line_width: 0.6
-  layer:
-  - 1
-  - 0
-  layer_trench:
-  - 2
-  - 0
-  n_periods: 30
-  ncladding: 1.443
-  neff: 1.8
-  p_start: 26
-  period: 1.072
-  polarization: tm
-  taper_angle: 30
-  taper_length: 16.6
-  trenches_extra_angle: 9
-  wavelength: 1.53
-  wg_width: 0.5
+  changed:
+    grating_line_width: 0.6
+    neff: 1.8
+    polarization: tm
+  default:
+    end_straight_length: 0.2
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    grating_line_width: 0.343
+    layer:
+    - 1
+    - 0
+    layer_trench:
+    - 2
+    - 0
+    n_periods: 30
+    ncladding: 1.443
+    neff: 2.638
+    p_start: 26
+    polarization: te
+    taper_angle: 30
+    taper_length: 16.6
+    trenches_extra_angle: 9
+    wavelength: 1.53
+    wg_width: 0.5
+  full:
+    end_straight_length: 0.2
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    grating_line_width: 0.6
+    layer:
+    - 1
+    - 0
+    layer_trench:
+    - 2
+    - 0
+    n_periods: 30
+    ncladding: 1.443
+    neff: 1.8
+    p_start: 26
+    polarization: tm
+    taper_angle: 30
+    taper_length: 16.6
+    trenches_extra_angle: 9
+    wavelength: 1.53
+    wg_width: 0.5
+  info:
+    doc: "Returns Grating coupler with defined trenches\n\n    Args:\n        polarization:\
+      \ 'te' or 'tm'\n        taper_length: taper length from straight I/O\n     \
+      \   taper_angle: grating flare angle\n        wavelength: grating transmission\
+      \ central wavelength\n        fiber_angle: fibre polish angle in degrees\n \
+      \       grating_line_width: of the 220 ridge\n        wg_width: straight width\n\
+      \        neff: 2.638  # tooth effective index\n        ncladding: cladding index\n\
+      \        layer: for the grating teeth\n        layer_trench: for the trench\n\
+      \        p_start:  first tooth\n        n_periods: number of periods\n     \
+      \   end_straight_length: at the end of\n\n\n    .. code::\n\n              \
+      \        fiber\n\n                   /  /  /  /\n                  /  /  / \
+      \ /\n                _|-|_|-|_|-|___\n        WG  o1  ______________|\n\n  \
+      \  "
+    function_name: grating_coupler_elliptical_trenches
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
+    name: grating_coupler_ellipti_0c053add
+    name_long: grating_coupler_elliptical_trenches_7c64c36b
+    period: 1.072
+    polarization: tm
+    wavelength: 1.53
+version: 1

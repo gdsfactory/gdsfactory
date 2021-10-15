@@ -1,14 +1,98 @@
-function_name: nxn
-info: {}
-module: gdsfactory.components.nxn
-name: nxn
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 4.0
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 8.0
+    - 6.75
+    name: o2
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 8.0
+    - 4.917
+    name: o3
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 8.0
+    - 3.083
+    name: o4
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o5:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 8.0
+    - 1.25
+    name: o5
+    orientation: '0'
+    port_type: optical
+    width: 0.5
 settings:
-  east: 4
-  layer:
-  - 1
-  - 0
-  north: 0
-  south: 0
-  west: 1
-  wg_margin: 1
-  wg_width: 0.5
+  changed: {}
+  default:
+    east: 4
+    layer:
+    - 1
+    - 0
+    north: 0
+    south: 0
+    west: 1
+    wg_margin: 1
+    wg_width: 0.5
+    xsize: 8
+    ysize: 8
+  full:
+    east: 4
+    layer:
+    - 1
+    - 0
+    north: 0
+    south: 0
+    west: 1
+    wg_margin: 1
+    wg_width: 0.5
+    xsize: 8
+    ysize: 8
+  info:
+    doc: "returns a nxn component with nxn ports (west, east, north, south)\n\n  \
+      \  Args:\n        west: number of west ports\n        east: number of east ports\n\
+      \        north: number of north ports\n        south: number of south ports\n\
+      \        xsize: size in X\n        ysize: size in Y\n        wg_width: width\
+      \ of the straight ports\n        wg_margin: margin from straight to component\
+      \ edge\n        **kwargs: port_settings\n\n\n    .. code::\n\n            3\
+      \   4\n            |___|_\n        2 -|      |- 5\n           |      |\n   \
+      \     1 -|______|- 6\n            |   |\n            8   7\n\n    "
+    function_name: nxn
+    info_version: 1
+    module: gdsfactory.components.nxn
+    name: nxn
+    name_long: nxn
+version: 1

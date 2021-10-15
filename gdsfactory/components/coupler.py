@@ -70,8 +70,8 @@ def coupler(
     c.absorb(sl)
     c.absorb(sr)
     c.absorb(cs)
-    c.length = sbend.length
-    c.min_bend_radius = sbend.min_bend_radius
+    c.info.length = sbend.info.length
+    c.info.min_bend_radius = sbend.info.min_bend_radius
     c.auto_rename_ports()
     return c
 

@@ -1,10 +1,24 @@
-function_name: loss_deembedding_ch13_24
-info: {}
-module: gdsfactory.components.grating_coupler_loss
-name: loss_deembedding_ch13_24
+cells: {}
+ports: {}
 settings:
-  R: 10
-  input_port_indexes:
-  - 0
-  - 1
-  pitch: 127
+  changed: {}
+  default:
+    R: 10
+    input_port_indexes:
+    - 0
+    - 1
+    pitch: 127
+  full:
+    R: 10
+    input_port_indexes:
+    - 0
+    - 1
+    pitch: 127
+  info:
+    doc: null
+    function_name: loss_deembedding_ch13_24
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_loss
+    name: loss_deembedding_ch13_24
+    name_long: loss_deembedding_ch13_24
+version: 1

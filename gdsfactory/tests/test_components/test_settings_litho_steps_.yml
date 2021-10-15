@@ -1,16 +1,40 @@
-function_name: litho_steps
-info: {}
-module: gdsfactory.components.litho_steps
-name: litho_steps
+cells: {}
+ports: {}
 settings:
-  height: 100
-  layer:
-  - 1
-  - 0
-  line_spacing: 10
-  line_widths:
-  - 1
-  - 2
-  - 4
-  - 8
-  - 16
+  changed: {}
+  default:
+    height: 100
+    layer:
+    - 1
+    - 0
+    line_spacing: 10
+    line_widths:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+  full:
+    height: 100
+    layer:
+    - 1
+    - 0
+    line_spacing: 10
+    line_widths:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+  info:
+    doc: "Produces a positive + negative tone linewidth test, used for\n    lithography\
+      \ resolution test patterning\n    adapted from phidl\n\n    Args:\n        line_widths:\n\
+      \        line_spacing:\n        height:\n        layer:\n\n    .. plot::\n \
+      \     :include-source:\n\n      import gdsfactory as gf\n\n      c = gf.components.litho_steps()\n\
+      \      c.plot()\n\n    "
+    function_name: litho_steps
+    info_version: 1
+    module: gdsfactory.components.litho_steps
+    name: litho_steps
+    name_long: litho_steps
+version: 1

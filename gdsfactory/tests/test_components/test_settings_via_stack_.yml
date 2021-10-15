@@ -1,20 +1,109 @@
-function_name: via_stack
-info:
-  height: 11
-  layer:
-  - 49
-  - 0
-module: gdsfactory.components.via_stack
-name: via_stack
+cells: {}
+ports:
+  e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - -5.5
+    - 0.0
+    name: e1
+    orientation: '180'
+    port_type: electrical
+    width: 11
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0.0
+    - 5.5
+    name: e2
+    orientation: '90'
+    port_type: electrical
+    width: 11
+  e3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 5.5
+    - 0.0
+    name: e3
+    orientation: '0'
+    port_type: electrical
+    width: 11
+  e4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0.0
+    - -5.5
+    name: e4
+    orientation: '270'
+    port_type: electrical
+    width: 11
 settings:
-  layer_port: null
-  vias:
-  - enclosure: 2
-    function: via
+  changed: {}
+  default:
+    layer_port: null
+    layers:
+    - - 41
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+    size:
+    - 11
+    - 11
+    vias:
+    - enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
+    - function: via
+      layer:
+      - 43
+      - 0
+  full:
+    layer_port: null
+    layers:
+    - - 41
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+    size:
+    - 11
+    - 11
+    vias:
+    - enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
+    - function: via
+      layer:
+      - 43
+      - 0
+  info:
+    doc: "Rectangular via_stack\n\n    Args:\n        size: of the layers\n      \
+      \  layers: layers on which to draw rectangles\n        vias: vias to use to\
+      \ fill the rectangles\n        layer_port: if None asumes port is on the last\
+      \ layer\n    "
+    function_name: via_stack
+    info_version: 1
     layer:
-    - 44
+    - 49
     - 0
-  - function: via
-    layer:
-    - 43
-    - 0
+    module: gdsfactory.components.via_stack
+    name: via_stack
+    name_long: via_stack
+    size:
+    - 11
+    - 11
+version: 1

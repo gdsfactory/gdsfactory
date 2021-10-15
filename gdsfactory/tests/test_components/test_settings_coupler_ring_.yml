@@ -1,9 +1,74 @@
-function_name: coupler_ring
-info: {}
-module: gdsfactory.components.coupler_ring
-name: coupler_ring
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -9.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -9.0
+    - 5.7
+    name: o2
+    orientation: 90
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 5.0
+    - 5.7
+    name: o3
+    orientation: 90
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 5.0
+    - 0.0
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  bend: null
-  gap: 0.2
-  length_x: 4
-  radius: 5
+  changed: {}
+  default:
+    bend: null
+    gap: 0.2
+    length_x: 4
+    radius: 5
+  full:
+    bend: null
+    gap: 0.2
+    length_x: 4
+    radius: 5
+  info:
+    doc: "Coupler for ring.\n\n    Args:\n        gap: spacing between parallel coupled\
+      \ straight waveguides.\n        radius: of the bends.\n        length_x: length\
+      \ of the parallel coupled straight waveguides.\n        coupler90: straight\
+      \ coupled to a 90deg bend.\n        straight: library for straight waveguides.\n\
+      \        bend: library for bend\n        coupler_straight: two parallel coupled\
+      \ straight waveguides.\n        cross_section:\n        **kwargs: cross_section\
+      \ settings\n\n    .. code::\n\n           2             3\n           |    \
+      \         |\n            \\           /\n             \\         /\n       \
+      \    ---=========---\n         1    length_x    4\n\n\n    "
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring
+    name_long: coupler_ring
+version: 1

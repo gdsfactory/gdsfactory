@@ -1,12 +1,34 @@
-function_name: ellipse
-info: {}
-module: gdsfactory.components.ellipse
-name: ellipse
+cells: {}
+ports: {}
 settings:
-  angle_resolution: 2.5
-  layer:
-  - 1
-  - 0
-  radii:
-  - 10
-  - 5
+  changed: {}
+  default:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radii:
+    - 10
+    - 5
+  full:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radii:
+    - 10
+    - 5
+  info:
+    doc: "Generate an ellipse geometry.\n\n    Args:\n        radii: Semimajor and\
+      \ semiminor axis lengths of the ellipse.\n        angle_resolution: Resolution\
+      \ of the curve of the ring (# of degrees per point).\n        layer: Specific\
+      \ layer(s) to put polygon geometry on.\n\n    The orientation of the ellipse\
+      \ is determined by the order of the radii variables;\n    if the first element\
+      \ is larger, the ellipse will be horizontal and if the second\n    element is\
+      \ larger, the ellipse will be vertical.\n\n    "
+    function_name: ellipse
+    info_version: 1
+    module: gdsfactory.components.ellipse
+    name: ellipse
+    name_long: ellipse
+version: 1

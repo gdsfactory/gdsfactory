@@ -1,52 +1,81 @@
-function_name: grating_coupler_elliptical_gap_teeth
-info:
-  polarization: te
-  wavelength: 1.55
-module: gdsfactory.components.grating_coupler_elliptical2
-name: grating_coupler_ellipti_aa0fb93b
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 14.0
+    - 0.0
+    name: o2
+    orientation: '0'
+    port_type: optical
+    width: 11
 settings:
-  cladding_offset: 2
-  direction: EAST
-  dutycycle: 0.7
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  layer_cladding:
-  - 111
-  - 0
-  layer_core:
-  - 1
-  - 0
-  layer_ridge: null
-  length: 30
-  period: 1
-  polarization: te
-  port:
-  - 0
-  - 0
-  taper_angle: 30
-  taper_length: 10
-  teeth_list:
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  wavelength: 1.55
-  wg_width: 0.5
+  changed: {}
+  default:
+    teeth_list:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+  full:
+    teeth_list:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+  info:
+    doc: "Returns grating coupler,\n    teeth list is on a single list that starts\
+      \ with gap, teeth, gap ...\n    "
+    function_name: grating_coupler_elliptical_gap_teeth
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical2
+    name: grating_coupler_ellipti_aa0fb93b
+    name_long: grating_coupler_elliptical_gap_teeth
+    polarization: te
+    wavelength: 1.55
+version: 1

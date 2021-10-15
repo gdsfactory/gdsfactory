@@ -1,24 +1,53 @@
-function_name: pcm_optical
-info: {}
-module: gdsfactory.components.pcm_optical
-name: pcm_optical
+cells: {}
+ports: {}
 settings:
-  dense_lines_gap: 0.3
-  dense_lines_labels:
-  - DL
-  - DM
-  - DH
-  dense_lines_width: 0.3
-  dense_lines_width_difference: 0.02
-  layer:
-  - 1
-  - 0
-  layers_cladding: null
-  pixel_size: 1
-  widths:
-  - 0.4
-  - 0.45
-  - 0.5
-  - 0.6
-  - 0.8
-  - 1
+  changed: {}
+  default:
+    dense_lines_gap: 0.3
+    dense_lines_labels:
+    - DL
+    - DM
+    - DH
+    dense_lines_width: 0.3
+    dense_lines_width_difference: 0.02
+    layer:
+    - 1
+    - 0
+    layers_cladding: null
+    pixel_size: 1
+    widths:
+    - 0.4
+    - 0.45
+    - 0.5
+    - 0.6
+    - 0.8
+    - 1
+  full:
+    dense_lines_gap: 0.3
+    dense_lines_labels:
+    - DL
+    - DM
+    - DH
+    dense_lines_width: 0.3
+    dense_lines_width_difference: 0.02
+    layer:
+    - 1
+    - 0
+    layers_cladding: null
+    pixel_size: 1
+    widths:
+    - 0.4
+    - 0.45
+    - 0.5
+    - 0.6
+    - 0.8
+    - 1
+  info:
+    doc: "column with all optical PCMs\n\n    Args:\n        widths:  for straight\n\
+      \n    "
+    function_name: pcm_optical
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: pcm_optical
+    name_long: pcm_optical
+version: 1

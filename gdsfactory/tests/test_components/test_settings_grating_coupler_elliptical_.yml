@@ -1,29 +1,91 @@
-function_name: grating_coupler_elliptical
-info:
-  polarization: te
-  wavelength: 1554
-module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_elliptical
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.721
+    - 0.0
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  vertical_te:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 26.89
+    - 0.0
+    name: vertical_te
+    orientation: '0'
+    port_type: vertical_te
+    width: 11
 settings:
-  big_last_tooth: false
-  cladding_index: 1.443
-  fiber_angle: 15
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  grating_line_width: 0.343
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  n_periods: 30
-  neff: 2.638
-  p_start: 26
-  polarization: te
-  taper_angle: 30
-  taper_length: 16.6
-  wavelength: 1.554
-  wg_width: 0.5
+  changed: {}
+  default:
+    big_last_tooth: false
+    cladding_index: 1.443
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    grating_line_width: 0.343
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    n_periods: 30
+    neff: 2.638
+    p_start: 26
+    polarization: te
+    taper_angle: 30
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+  full:
+    big_last_tooth: false
+    cladding_index: 1.443
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    grating_line_width: 0.343
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    n_periods: 30
+    neff: 2.638
+    p_start: 26
+    polarization: te
+    taper_angle: 30
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+  info:
+    doc: "Grating coupler with parametrization based on Lumerical FDTD simulation.\n\
+      \n    Args:\n        polarization: te or tm\n        taper_length: taper length\
+      \ from input\n        taper_angle: grating flare angle\n        wavelength:\
+      \ grating transmission central wavelength (um)\n        fiber_angle: fibre polish\
+      \ angle in degrees\n        grating_line_width\n        wg_width: waveguide\
+      \ width\n        neff: tooth effective index\n        layer: LAYER.WG\n    \
+      \    p_start: period start first tooth\n        n_periods: number of periods\n\
+      \        big_last_tooth: adds a big_last_tooth\n        layer_slab\n       \
+      \ fiber_marker_width\n        fiber_marker_layer\n        cladding_index\n\n\
+      \n    .. code::\n\n                      fiber\n\n                   /  /  /\
+      \  /\n                  /  /  /  /\n                _|-|_|-|_|-|___\n      \
+      \  WG  o1  ______________|\n    "
+    function_name: grating_coupler_elliptical
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical
+    name: grating_coupler_elliptical
+    name_long: grating_coupler_elliptical
+version: 1

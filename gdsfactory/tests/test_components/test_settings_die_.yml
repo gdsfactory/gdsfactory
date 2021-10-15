@@ -1,18 +1,54 @@
-function_name: die
-info: {}
-module: gdsfactory.components.die
-name: die
+cells: {}
+ports: {}
 settings:
-  bbox_layer:
-  - 99
-  - 0
-  die_name: chip99
-  draw_corners: false
-  draw_dicing_lane: false
-  layer:
-  - 99
-  - 0
-  street_length: 1000
-  street_width: 100
-  text_location: SW
-  text_size: 100
+  changed: {}
+  default:
+    bbox_layer:
+    - 99
+    - 0
+    die_name: chip99
+    draw_corners: false
+    draw_dicing_lane: false
+    layer:
+    - 99
+    - 0
+    size:
+    - 10000
+    - 10000
+    street_length: 1000
+    street_width: 100
+    text_location: SW
+    text_size: 100
+  full:
+    bbox_layer:
+    - 99
+    - 0
+    die_name: chip99
+    draw_corners: false
+    draw_dicing_lane: false
+    layer:
+    - 99
+    - 0
+    size:
+    - 10000
+    - 10000
+    street_length: 1000
+    street_width: 100
+    text_location: SW
+    text_size: 100
+  info:
+    doc: "Creates a basic chip/die template, with 4 right angle corners marking\n\
+      \    the boundary of the chip/die and a label with the name of the die.\n\n\
+      \    adapted from phidl.geometry\n\n    Args:\n        size: x, y dimensions\
+      \ of the die.\n        street_width: Width of the corner marks for die-sawing.\n\
+      \        street_length: Length of the corner marks for die-sawing.\n       \
+      \ die_name: Label text.\n        text_size: Label text size.\n        text_location:\
+      \ {'NW', 'N', 'NE', 'SW', 'S', 'SE'} Label text compass location.\n        layer:\
+      \ Specific layer to put polygon geometry on.\n        bbox_layer: optional bbox\
+      \ layer\n        draw_corners:\n        draw_dicing_lane:\n\n    "
+    function_name: die
+    info_version: 1
+    module: gdsfactory.components.die
+    name: die
+    name_long: die
+version: 1

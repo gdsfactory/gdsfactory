@@ -1,26 +1,85 @@
-function_name: ring_single_dut
-info:
-  parent:
-    function_name: taper
-    info:
-      length: 10
-      width1: 0.5
-      width2: 3
-    module: gdsfactory.components.taper
-    name: taper_width23
-    settings:
-      length: 10
-      port: null
-      width1: 0.5
-      width2: 3
-      with_cladding_box: true
-  parent_name: taper_width23
-module: gdsfactory.components.ring_single_dut
-name: ring_single_dut
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -9.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 5.0
+    - 0.0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  gap: 0.2
-  length_x: 4
-  length_y: 0
-  radius: 5
-  wg_width: 0.5
-  with_component: true
+  changed: {}
+  default:
+    gap: 0.2
+    length_x: 4
+    length_y: 0
+    radius: 5
+    wg_width: 0.5
+    with_component: true
+  full:
+    gap: 0.2
+    length_x: 4
+    length_y: 0
+    radius: 5
+    wg_width: 0.5
+    with_component: true
+  info:
+    doc: "Single bus ring made of two couplers (ct: top, cb: bottom)\n    connected\
+      \ with two vertical straights (wyl: left, wyr: right)\n    (Device Under Test)\
+      \ in the middle to extract loss from quality factor\n\n\n    Args:\n       \
+      \ with_component: if False changes component for just a straight\n\n    .. code::\n\
+      \n          bl-wt-br\n          |      | length_y\n          wl     component\n\
+      \          |      |\n         --==cb==-- gap\n\n          length_x\n    "
+    function_name: ring_single_dut
+    info_version: 1
+    module: gdsfactory.components.ring_single_dut
+    name: ring_single_dut
+    name_long: ring_single_dut
+    parent:
+      changed:
+        width2: 3
+      default:
+        length: 10
+        port: null
+        width1: 0.5
+        width2: null
+        with_cladding_box: true
+      full:
+        length: 10
+        port: null
+        width1: 0.5
+        width2: 3
+        with_cladding_box: true
+      info:
+        doc: "Linear taper.\n\n    Args:\n        length:\n        width1: width of\
+          \ the west port\n        width2: width of the east port\n        port: can\
+          \ taper from a port instead of defining width1\n        with_cladding_box:\
+          \ to avoid DRC acute angle errors in cladding\n        cross_section:\n\
+          \        kwargs: cross_section settings\n\n    .. plot::\n      :include-source:\n\
+          \n      import gdsfactory as gf\n\n      c = gf.components.taper(width1=0.5,\
+          \ width2=5, length=3)\n      c.plot()\n\n    "
+        function_name: taper
+        info_version: 1
+        length: 10
+        module: gdsfactory.components.taper
+        name: taper_2e9853cc
+        name_long: taper_2e9853cc
+        width1: 0.5
+        width2: 3
+    parent_name: taper_2e9853cc
+version: 1

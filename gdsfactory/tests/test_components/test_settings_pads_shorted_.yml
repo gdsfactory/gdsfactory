@@ -1,11 +1,26 @@
-function_name: pads_shorted
-info: {}
-module: gdsfactory.components.pads_shorted
-name: pads_shorted
+cells: {}
+ports: {}
 settings:
-  layer:
-  - 41
-  - 0
-  n_pads: 8
-  pad_spacing: 150
-  width: 100
+  changed: {}
+  default:
+    layer:
+    - 41
+    - 0
+    n_pads: 8
+    pad_spacing: 150
+    width: 100
+  full:
+    layer:
+    - 41
+    - 0
+    n_pads: 8
+    pad_spacing: 150
+    width: 100
+  info:
+    doc: null
+    function_name: pads_shorted
+    info_version: 1
+    module: gdsfactory.components.pads_shorted
+    name: pads_shorted
+    name_long: pads_shorted
+version: 1

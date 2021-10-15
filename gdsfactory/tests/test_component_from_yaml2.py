@@ -1,5 +1,5 @@
 import pytest
-from pytest_regressions.num_regression import NumericRegressionFixture
+from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.difftest import difftest
@@ -100,14 +100,14 @@ yaml_list = [mirror_port, mirror_x, rotation, dxdy]
 
 
 @pytest.mark.parametrize("yaml_index", range(len(yaml_list)))
-def test_components_ports(
-    yaml_index: int, num_regression: NumericRegressionFixture
+def test_components(
+    yaml_index: int, data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
     yaml = yaml_list[yaml_index]
     c = gf.read.from_yaml(yaml)
     difftest(c)
-    if c.ports:
-        num_regression.check(c.get_ports_array())
+    if check:
+        data_regression.check(c.to_dict)
 
 
 if __name__ == "__main__":

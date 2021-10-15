@@ -1,29 +1,72 @@
-function_name: grating_coupler_elliptical_tm
-info:
-  polarization: tm
-  wavelength: 1554
-module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_elliptical_tm
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.978
+    - 0.0
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  vertical_tm:
+    layer:
+    - 204
+    - 0
+    midpoint:
+    - 25.312
+    - 0.0
+    name: vertical_tm
+    orientation: '0'
+    port_type: vertical_tm
+    width: 11
 settings:
-  big_last_tooth: false
-  cladding_index: 1.443
-  fiber_angle: 15
-  fiber_marker_layer:
-  - 204
-  - 0
-  fiber_marker_width: 11
-  grating_line_width: 0.707
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  n_periods: 16
-  neff: 1.8
-  p_start: 26
-  polarization: tm
-  taper_angle: 30
-  taper_length: 16.6
-  wavelength: 1.554
-  wg_width: 0.5
+  changed: {}
+  default:
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 204
+    - 0
+    grating_line_width: 0.707
+    layer:
+    - 1
+    - 0
+    n_periods: 16
+    neff: 1.8
+    taper_angle: 30
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+  full:
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 204
+    - 0
+    grating_line_width: 0.707
+    layer:
+    - 1
+    - 0
+    n_periods: 16
+    neff: 1.8
+    taper_angle: 30
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+  info:
+    doc: "Return elliptical grating coupler\n\n    Args:\n        taper_length: taper\
+      \ length from input\n        taper_angle: taper flare angle in degrees\n   \
+      \     wavelength: grating transmission central wavelength (um)\n        fiber_angle:\
+      \ fibre polish angle in degrees\n        grating_line_width\n        wg_width:\
+      \ waveguide width\n        neff: tooth effective index\n        layer: LAYER.WG\n\
+      \        p_start: period start first tooth\n        n_periods: number of periods\n\
+      \        big_last_tooth: adds a big_last_tooth\n        layer_slab\n       \
+      \ fiber_marker_width\n        fiber_marker_layer\n        cladding_index\n\n\
+      \    "
+    function_name: grating_coupler_elliptical_tm
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical
+    name: grating_coupler_elliptical_tm
+    name_long: grating_coupler_elliptical_tm
+version: 1

@@ -1,11 +1,28 @@
-function_name: ring
-info: {}
-module: gdsfactory.components.ring
-name: ring
+cells: {}
+ports: {}
 settings:
-  angle_resolution: 2.5
-  layer:
-  - 1
-  - 0
-  radius: 10
-  width: 0.5
+  changed: {}
+  default:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radius: 10
+    width: 0.5
+  full:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radius: 10
+    width: 0.5
+  info:
+    doc: "Returns a ring.\n\n    Args:\n        radius: ring radius\n        width:\
+      \ of the ring\n        angle_resolution: number of points per degree\n     \
+      \   layer: layer\n\n    "
+    function_name: ring
+    info_version: 1
+    module: gdsfactory.components.ring
+    name: ring
+    name_long: ring
+version: 1

@@ -526,7 +526,7 @@ def from_yaml(
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
-    c.info = conf.get("info", {})
+    c.info = conf.get("info", omegaconf.DictConfig({}))
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]

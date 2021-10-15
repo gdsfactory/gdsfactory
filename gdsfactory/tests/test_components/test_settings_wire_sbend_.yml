@@ -1,29 +1,41 @@
-function_name: wire_sbend
-info: {}
-module: gdsfactory.components.wire_sbend
-name: wire_sbend
+cells: {}
+ports:
+  e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    width: 10
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 30.0
+    - 20.0
+    name: e2
+    orientation: 0
+    port_type: electrical
+    width: 10
 settings:
-  dx: 20
-  dy: 10
-  port_name1: o1
-  port_name2: o2
-  ports_map: null
-  sequence: -B|b-
-  start_orientation: 0
-  symbol_to_component:
-    '-':
-    - straight_cross_sectionc_28f725b2
-    - e1
-    - e2
-    B:
-    - wire_corner
-    - e1
-    - e2
-    b:
-    - wire_corner
-    - e2
-    - e1
-    '|':
-    - straight_cross_sectionc_28f725b2
-    - e1
-    - e2
+  changed: {}
+  default:
+    dx: 20
+    dy: 10
+  full:
+    dx: 20
+    dy: 10
+  info:
+    doc: "Sbend corner with manhattan wires\n\n    Args:\n        dx: length\n   \
+      \     dy: height\n        **kwargs: cross_section settings\n    "
+    function_name: wire_sbend
+    info_version: 1
+    module: gdsfactory.components.wire_sbend
+    name: wire_sbend
+    name_long: wire_sbend
+version: 1

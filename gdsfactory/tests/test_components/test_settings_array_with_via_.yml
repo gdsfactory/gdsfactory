@@ -1,12 +1,67 @@
-function_name: array_with_via
-info: {}
-module: gdsfactory.components.array_with_via
-name: array_with_via
+cells: {}
+ports:
+  e0:
+    layer:
+    - 45
+    - 0
+    midpoint:
+    - -65.5
+    - 0.0
+    name: e0
+    orientation: 180
+    port_type: electrical
+    width: 10
+  e1:
+    layer:
+    - 45
+    - 0
+    midpoint:
+    - -65.5
+    - 10.0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    width: 10
+  e2:
+    layer:
+    - 45
+    - 0
+    midpoint:
+    - -65.5
+    - 20.0
+    name: e2
+    orientation: 180
+    port_type: electrical
+    width: 10
 settings:
-  columns: 3
-  port_offset: null
-  port_orientation: 180
-  spacing: 150
-  straight_length: 60
-  via_spacing: 10
-  via_stack_dy: 0
+  changed: {}
+  default:
+    columns: 3
+    port_offset: null
+    port_orientation: 180
+    spacing: 150
+    straight_length: 60
+    via_spacing: 10
+    via_stack_dy: 0
+  full:
+    columns: 3
+    port_offset: null
+    port_orientation: 180
+    spacing: 150
+    straight_length: 60
+    via_spacing: 10
+    via_stack_dy: 0
+  info:
+    doc: "Returns an array of components in X axis\n    with fanout waveguides facing\
+      \ west\n\n    Args:\n        component: to replicate in the array\n        columns:\
+      \ number of components\n        spacing: float\n        via_spacing: for fanout\n\
+      \        straight_length: lenght of the straight at the end\n        waveguide:\
+      \ waveguide definition\n        cross_section:\n        via_stack:\n       \
+      \ via_stack_ymin:\n        port_orientation: 180: facing west\n        port_offset:\
+      \ Optional port movement\n        **kwargs\n    "
+    function_name: array_with_via
+    info_version: 1
+    module: gdsfactory.components.array_with_via
+    name: array_with_via
+    name_long: array_with_via
+version: 1

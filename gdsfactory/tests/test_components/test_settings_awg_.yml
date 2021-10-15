@@ -1,20 +1,67 @@
-function_name: awg
-info:
-  delta_length: 14.333333333333334
-  lengths:
-  - 43.794
-  - 58.128
-  - 72.46
-  - 86.794
-  - 101.128
-  - 115.46
-  - 129.794
-  - 144.128
-  - 158.46
-  - 172.794
-module: gdsfactory.components.awg
-name: awg
+cells: {}
+ports:
+  E0:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 45.25
+    - 2.9085361479749637e-16
+    name: E0
+    orientation: '90'
+    port_type: optical
+    width: 0.5
+  E1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 50.0
+    - 0.0
+    name: E1
+    orientation: '90'
+    port_type: optical
+    width: 0.5
+  E2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 54.75
+    - -2.9085361479749637e-16
+    name: E2
+    orientation: '90'
+    port_type: optical
+    width: 0.5
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: '270'
+    port_type: optical
+    width: 0.5
 settings:
-  arms: 10
-  fpr_spacing: 50
-  outputs: 3
+  changed: {}
+  default:
+    arms: 10
+    fpr_spacing: 50
+    outputs: 3
+  full:
+    arms: 10
+    fpr_spacing: 50
+    outputs: 3
+  info:
+    doc: "Returns a basic Arrayed Waveguide grating.\n\n    Args:\n        arms: number\
+      \ of arms\n        outputs: number of outputs\n        free_propagation_region_input_function:\
+      \ for input\n        free_propagation_region_output_function: for output\n \
+      \       fpr_spacing: x separation between input/output FPR\n\n    "
+    function_name: awg
+    info_version: 1
+    module: gdsfactory.components.awg
+    name: awg
+    name_long: awg
+version: 1

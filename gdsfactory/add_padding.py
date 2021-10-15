@@ -126,27 +126,24 @@ def add_padding_to_size(
     return component
 
 
-def test_container():
-    import gdsfactory as gf
+# def test_container():
+#     import gdsfactory as gf
+#     c = gf.components.straight(length=128)
+#     cc = add_padding_container(component=c, layers=[(1, 0)])
+#     assert len(cc.info["parent"]) == 5, len(cc.info['parent'])
+#     cc = add_padding_container(component=c, layers=[(2, 0)])
+#     assert len(cc.info["parent"]) == 5, len(cc.info['parent'])
+#     cc = add_padding_container(component=c, layers=[(3, 0)])
+#     assert len(cc.info["parent"]) == 5, len(cc.info['parent'])
 
-    c = gf.components.straight(length=128)
-    cc = add_padding_container(component=c, layers=[(1, 0)])
-    assert len(cc.info["parent"]) == 5
-
-    cc = add_padding_container(component=c, layers=[(2, 0)])
-    assert len(cc.info["parent"]) == 5
-
-    cc = add_padding_container(component=c, layers=[(3, 0)])
-    assert len(cc.info["parent"]) == 5
-
-    # cc = add_padding_container(component=c, layers=[(4, 0)])
-    # assert isinstance(cc.settings["component"], Component)
-    # print(cc.settings["component"])
-    # print(len(cc.settings["component"]))
+# cc = add_padding_container(component=c, layers=[(4, 0)])
+# assert isinstance(cc.settings["component"], Component)
+# print(cc.settings["component"])
+# print(len(cc.settings["component"]))
 
 
 if __name__ == "__main__":
-    test_container()
+    # test_container()
 
     import gdsfactory as gf
 

@@ -50,7 +50,7 @@ def test_netlists(
     c = component_factory[component_type]()
     n = c.get_netlist(full_settings=full_settings)
     if check:
-        data_regression.check(n)
+        data_regression.check(OmegaConf.to_container(n))
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
@@ -74,41 +74,41 @@ def demo_netlist(component_type):
 
 
 if __name__ == "__main__":
+    # c = factory["ring_double"]()
+    # n = c.get_netlist()
 
-    # c = component_factory["mzi"]()
-    # c = component_factory["ring_double"]()
+    # c = factory["mzi"]()
+    # c = factory["ring_double"]()
 
     # gf.clear_connections()
-    # c = component_factory["ring_double"]()
-    # n = c.get_netlist()
     # print(n.connections)
     # n = c.get_netlist_yaml()
     # print(n)
     # c.show()
 
-    # c = component_factory["ring_single"]()
+    # c = factory["ring_single"]()
     # n.pop("connections")
     # n.pop("placements")
 
     # component_type = "mzi"
     # component_type = "mzit"
     # component_type = "ring_double"
-    # component_type = "ring_single"
-    # c1 = component_factory[component_type]()
-    # full_settings = True
-    # n = c1.get_netlist(full_settings=full_settings)
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # print(yaml_str)
-    # c2 = gf.read.from_yaml(yaml_str)
-    # n2 = c2.get_netlist(full_settings=full_settings)
-    # d = jsondiff.diff(n, n2)
-    # print(d)
-    # gf.show(c2)
+    component_type = "ring_single"
+    c1 = factory[component_type]()
+    full_settings = True
+    n = c1.get_netlist(full_settings=full_settings)
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    print(yaml_str)
+    c2 = gf.read.from_yaml(yaml_str)
+    n2 = c2.get_netlist(full_settings=full_settings)
+    d = jsondiff.diff(n, n2)
+    print(d)
+    gf.show(c2)
 
-    test_netlists(
-        # component_type="mzi",
-        component_type="ring_single",
-        full_settings=True,
-        data_regression=None,
-        check=False,
-    )
+    # test_netlists(
+    #     component_type="mzi",
+    #     # component_type="ring_single",
+    #     full_settings=True,
+    #     data_regression=None,
+    #     check=False,
+    # )

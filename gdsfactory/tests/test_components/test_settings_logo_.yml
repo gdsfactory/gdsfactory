@@ -1,6 +1,16 @@
-function_name: logo
-info: {}
-module: gdsfactory.components.logo
-name: logo
+cells: {}
+ports: {}
 settings:
-  text: GDSFACTORY
+  changed: {}
+  default:
+    text: GDSFACTORY
+  full:
+    text: GDSFACTORY
+  info:
+    doc: Returns GDSfactory logo.
+    function_name: logo
+    info_version: 1
+    module: gdsfactory.components.logo
+    name: logo
+    name_long: logo
+version: 1
