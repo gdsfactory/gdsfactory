@@ -30,7 +30,7 @@ ports:
     - -17.75
     - -0.625
     name: o1
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -41,7 +41,7 @@ ports:
     - -17.75
     - 0.625
     name: o2
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   o3:
