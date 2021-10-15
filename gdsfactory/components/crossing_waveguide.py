@@ -180,9 +180,8 @@ def crossing45(
         crossing: 90D crossing
         port_spacing: target I/O port spacing
         dx: target length
-        alpha: optimization parameter. Try with 0.1 to start with.
-            - If the structure has too tight bends, diminish it.
-            - If raise assertion angle errors, increase it
+        alpha: optimization parameter. diminish it for tight bends,
+          increase it if raises assertion angle errors
         npoints: number of points.
 
 
@@ -248,9 +247,9 @@ def crossing45(
         c.add(cmp_ref)
         c.absorb(cmp_ref)
 
-    c.info.bezier = bend.settings
+    c.info.bezier_length = bend.info.length
     c.info.crossing = crossing.settings
-    c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
+    c.info.min_bend_radius = b_br.info.min_bend_radius
 
     c.bezier = bend
     c.crossing = crossing
@@ -273,8 +272,8 @@ def compensation_path(
     with input and output ports having same y coordinates
 
     Args:
-        crossing45: the crossing45 component that we want to match in path length
-            This component needs to have .info["components"] with bends and crossing
+        crossing45: component that we want to match in path length
+            needs to have .info["components"] with bends and crossing
         direction: the direction in which the bend should go "top" / "bottom"
 
 
@@ -302,8 +301,8 @@ def compensation_path(
     """
     # Get total path length taken by the bends
     crossing45 = crossing45() if callable(crossing45) else crossing45
-    bezier_settings = crossing45.info.bezier
-    length = 2 * bezier_settings.info["length"]
+    bezier_length = crossing45.info.bezier_length
+    length = 2 * bezier_length
 
     # Find a bezier S-bend with half this length, but with a fixed length
     # governed by the crossing45 X-distance (west to east ports) and

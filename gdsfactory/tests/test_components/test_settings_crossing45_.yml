@@ -57,78 +57,7 @@ settings:
     npoints: 101
     port_spacing: 40
   info:
-    bezier:
-      changed:
-        control_points:
-        - - 2.8284271247461903
-          - 2.82842712474619
-        - - 17.25601143663063
-          - 17.366097021974554
-        - - 30.858325900667154
-          - 20.02718907724944
-        - - 40
-          - 20
-        end_angle: 0
-        npoints: 101
-        start_angle: 45
-      default:
-        control_points:
-        - - 0
-          - 0
-        - - 5
-          - 0
-        - - 5
-          - 2
-        - - 10
-          - 2
-        end_angle: null
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: null
-        npoints: 201
-        spike_length: 0
-        start_angle: null
-        width: 0.5
-        with_manhattan_facing_angles: true
-      full:
-        control_points:
-        - - 2.8284271247461903
-          - 2.82842712474619
-        - - 17.25601143663063
-          - 17.366097021974554
-        - - 30.858325900667154
-          - 20.02718907724944
-        - - 40
-          - 20
-        end_angle: 0
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: null
-        npoints: 101
-        spike_length: 0
-        start_angle: 45
-        width: 0.5
-        with_manhattan_facing_angles: true
-      info:
-        doc: "Bezier bend\n    We avoid autoname for control_points\n\n    Args:\n\
-          \        name: for the cell\n        width: straight width\n        control_points:\
-          \ list of points\n        npoints: number of points varying between 0 and\
-          \ 1\n        layer: layer\n        with_manhattan_facing_angles:\n     \
-          \   spike_length\n        start_angle\n        end_angle\n        grid\n\
-          \    "
-        end_angle: 0
-        function_name: bezier
-        info_version: 1
-        length: 42.085
-        min_bend_radius: 44.312
-        module: gdsfactory.components.bezier
-        name: bezier_c345f1cd
-        name_long: bezier_c345f1cd
-        start_angle: 45
+    bezier_length: 42.085
     crossing:
       changed: {}
       default: {}
@@ -142,13 +71,12 @@ settings:
         name_long: crossing
     doc: "Returns 45deg crossing with bends.\n\n    Args:\n        crossing: 90D crossing\n\
       \        port_spacing: target I/O port spacing\n        dx: target length\n\
-      \        alpha: optimization parameter. Try with 0.1 to start with.\n      \
-      \      - If the structure has too tight bends, diminish it.\n            - If\
-      \ raise assertion angle errors, increase it\n        npoints: number of points.\n\
-      \n\n    Implementation note: The 45 Degree crossing CANNOT be kept as an SRef\
-      \ since\n    we only allow for multiples of 90Deg rotations in SRef\n\n    ..\
-      \ code::\n\n        ----   ----\n            \\ /\n             X\n        \
-      \    / \\\n        ---    ----\n\n    "
+      \        alpha: optimization parameter. diminish it for tight bends,\n     \
+      \     increase it if raises assertion angle errors\n        npoints: number\
+      \ of points.\n\n\n    Implementation note: The 45 Degree crossing CANNOT be\
+      \ kept as an SRef since\n    we only allow for multiples of 90Deg rotations\
+      \ in SRef\n\n    .. code::\n\n        ----   ----\n            \\ /\n      \
+      \       X\n            / \\\n        ---    ----\n\n    "
     function_name: crossing45
     info_version: 1
     min_bend_radius: 44.312

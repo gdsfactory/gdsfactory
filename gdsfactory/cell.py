@@ -32,6 +32,25 @@ def print_cache():
         print(k)
 
 
+def clean_doc(name: str) -> str:
+    """Returns a clean docstring"""
+    # replace_map = {
+    #     " ": " ",
+    #     "  ": " ",
+    #     "   ": " ",
+    #     "    ": ",",
+    #     "     ": " ",
+    #     "\n": " ",
+    #     "\n\n": " ",
+    # }
+    # for k, v in list(replace_map.items()):
+    #     name = name.replace(k, v)
+
+    # name = ",".join(name.split('\n'))
+    # name = " ".join(name.split())
+    return name
+
+
 def cell_without_validator(func):
     """Cell Decorator.
 
@@ -127,14 +146,14 @@ def cell_without_validator(func):
             if autoname:
                 component.name = name_component
 
+            docstring = func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
+
             component.info.module = func.__module__
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
             component.info.name_long = name_long
             component.info.name = component.name
-            component.info.doc = (
-                func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
-            )
+            component.info.doc = docstring
             component.info.update(**info)
 
             component._settings_default = {
@@ -245,16 +264,18 @@ if __name__ == "__main__":
 
     # test_autoname_false()
     # test_autoname_true()
-    test_autoname()
+    # test_autoname()
     # test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    # import gdsfactory as gf
+    import gdsfactory as gf
+
+    c = gf.components.straight(length=3)
+    print(c.settings.info.doc)
 
     # c = gf.components.spiral_inner_io(length=1e3)
-    # c = gf.components.straight(length=3)
     # c = gf.components.straight(length=3)
     # print(c.name)
     # c.show()
