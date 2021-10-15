@@ -24,6 +24,7 @@ def add_electrical_pads_shortest(
         pad_port_spacing: between pad and port
         select_ports: function
         port_orientation
+        layer: for the routing
         **kwargs: pad_settings
 
     """
@@ -34,7 +35,7 @@ def add_electrical_pads_shortest(
     ports = list(ports.values())
 
     pad = pad(**kwargs) if callable(pad) else pad
-    pad_port_spacing += pad.settings.full["size"][0] / 2
+    pad_port_spacing += pad.info_child.full["size"][0] / 2
 
     for port in ports:
         p = c << pad
@@ -58,7 +59,7 @@ def add_electrical_pads_shortest(
     c.add_ports(ref.ports)
     for port in ports:
         c.ports.pop(port.name)
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

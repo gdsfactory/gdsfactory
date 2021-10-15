@@ -1,4 +1,17 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    dx: 20
+    dy: 10
+  full:
+    dx: 20
+    dy: 10
+  function_name: wire_sbend
+  info_version: 1
+  module: gdsfactory.components.wire_sbend
+  name: wire_sbend
+  name_long: wire_sbend
 ports:
   e1:
     layer:
@@ -22,20 +35,4 @@ ports:
     orientation: 0
     port_type: electrical
     width: 10
-settings:
-  changed: {}
-  default:
-    dx: 20
-    dy: 10
-  full:
-    dx: 20
-    dy: 10
-  info:
-    doc: "Sbend corner with manhattan wires\n\n    Args:\n        dx: length\n   \
-      \     dy: height\n        **kwargs: cross_section settings\n    "
-    function_name: wire_sbend
-    info_version: 1
-    module: gdsfactory.components.wire_sbend
-    name: wire_sbend
-    name_long: wire_sbend
 version: 1

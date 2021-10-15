@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     layer1:
@@ -40,16 +39,10 @@ settings:
     via_width: 5
     wire_pad_inclusion: 12
     wire_width: 10
-  info:
-    doc: "Via cutback to extract via resistance\n\n    adapted from phidl.geometry\n\
-      \n    Args:\n        num_vias: total requested vias needs to be even\n     \
-      \   wire_width: width of wire\n        via_width: width of via\n        via_spacing:\
-      \ via_spacing\n        pad_size: (width, height)\n        min_pad_spacing\n\
-      \        pad_layer\n        layer1: top wiring\n        layer2: bottom wiring\n\
-      \        via_layer\n        wire_pad_inclusion:\n\n    "
-    function_name: via_cutback
-    info_version: 1
-    module: gdsfactory.components.via_cutback
-    name: via_cutback
-    name_long: via_cutback
+  function_name: via_cutback
+  info_version: 1
+  module: gdsfactory.components.via_cutback
+  name: via_cutback
+  name_long: via_cutback
+ports: {}
 version: 1

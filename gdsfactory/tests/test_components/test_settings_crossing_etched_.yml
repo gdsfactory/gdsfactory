@@ -1,4 +1,35 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    L: 3.4
+    layer_slab:
+    - 2
+    - 0
+    layer_wg:
+    - 1
+    - 0
+    r1: 3
+    r2: 1.1
+    w: 1.2
+    width: 0.5
+  full:
+    L: 3.4
+    layer_slab:
+    - 2
+    - 0
+    layer_wg:
+    - 1
+    - 0
+    r1: 3
+    r2: 1.1
+    w: 1.2
+    width: 0.5
+  function_name: crossing_etched
+  info_version: 1
+  module: gdsfactory.components.crossing_waveguide
+  name: crossing_etched
+  name_long: crossing_etched
 ports:
   o1:
     layer:
@@ -44,40 +75,4 @@ ports:
     orientation: 270
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    L: 3.4
-    layer_slab:
-    - 2
-    - 0
-    layer_wg:
-    - 1
-    - 0
-    r1: 3
-    r2: 1.1
-    w: 1.2
-    width: 0.5
-  full:
-    L: 3.4
-    layer_slab:
-    - 2
-    - 0
-    layer_wg:
-    - 1
-    - 0
-    r1: 3
-    r2: 1.1
-    w: 1.2
-    width: 0.5
-  info:
-    doc: "\n    Waveguide crossing:\n    - The full crossing has to be on WG layer\
-      \ (to start with a 220nm slab)\n    - Then we etch the ellipses down to 150nm\
-      \ slabs and we keep linear taper at 220nm.\n    What we write is what we etch\
-      \ on this step\n    "
-    function_name: crossing_etched
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing_etched
-    name_long: crossing_etched
 version: 1

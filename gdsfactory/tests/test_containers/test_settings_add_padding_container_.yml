@@ -1,4 +1,56 @@
 cells: {}
+info:
+  changed:
+    component: mzi_ac6d448d
+  child:
+    changed:
+      length_x: 320
+      splitter: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter: mmi2x2
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_ac6d448d
+    name_long: mzi_ac6d448d
+  default:
+    layers:
+    - - 67
+      - 0
+  full:
+    component: mzi_ac6d448d
+    layers:
+    - - 67
+      - 0
+  function_name: add_padding_container
+  info_version: 1
+  module: gdsfactory.add_padding
+  name: add_padding_container_487eeed5
+  name_long: add_padding_container_487eeed5
 ports:
   e1:
     layer:
@@ -66,83 +118,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed:
-    component: mzi_ac6d448d
-  default:
-    layers:
-    - - 67
-      - 0
-  full:
-    component: mzi_ac6d448d
-    layers:
-    - - 67
-      - 0
-  info:
-    doc: "Adds padding layers to a component inside a container.\n\n    Returns the\
-      \ same ports as the component.\n\n    Args:\n        component\n        layers:\
-      \ list of layers\n        default: default padding\n        top: north padding\n\
-      \        bottom: south padding\n        right: east padding\n        left: west\
-      \ padding\n    "
-    function_name: add_padding_container
-    info_version: 1
-    module: gdsfactory.add_padding
-    name: add_padding_container_487eeed5
-    name_long: add_padding_container_487eeed5
-    parent:
-      changed:
-        length_x: 320
-        splitter: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter: mmi2x2
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      info:
-        doc: "Mzi.\n\n    Args:\n        delta_length: bottom arm vertical extra length\n\
-          \        length_y: vertical length for both and top arms\n        length_x:\
-          \ horizontal length\n        bend: 90 degrees bend library\n        straight:\
-          \ straight function\n        straight_y: straight for length_y and delta_length\n\
-          \        straight_x_top: top straight for length_x\n        straight_x_bot:\
-          \ bottom straight for length_x\n        splitter: splitter function\n  \
-          \      combiner: combiner function\n        with_splitter: if False removes\
-          \ splitter\n        kwargs: cross_section settings\n\n    .. code::\n\n\
-          \                   __Lx__\n                  |      |\n               \
-          \   Ly     Lyr (not a parameter)\n                  |      |\n        splitter==|\
-          \      |==combiner\n                  |      |\n                  Ly   \
-          \  Lyr (not a parameter)\n                  |      |\n                 \
-          \ | delta_length/2\n                  |      |\n                  |__Lx__|\n\
-          \n            ____________           __________\n            |         \
-          \ |          |\n            |          |       ___|\n        ____|     \
-          \     |____\n            | splitter   d1     d2  combiner\n        ____|\
-          \           ____\n            |          |       ____\n            |   \
-          \       |          |\n            |__________|          |__________\n  \
-          \  "
-        function_name: mzi
-        info_version: 1
-        module: gdsfactory.components.mzi
-        name: mzi_ac6d448d
-        name_long: mzi_ac6d448d
-    parent_name: mzi_ac6d448d
 version: 1

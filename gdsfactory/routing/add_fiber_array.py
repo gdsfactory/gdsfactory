@@ -143,7 +143,7 @@ def add_fiber_array(
                 port = ports[0]
                 component_new.add_port(f"{port.name}_{i}{j}", port=port)
 
-    component_new.copy_settings_from(component)
+    component_new.copy_child_info(component)
     return component_new
 
 

@@ -1,28 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0.0
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10.0
-    - 0.0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-settings:
+info:
   changed: {}
   default:
     cladding_offset: 3
@@ -54,20 +31,33 @@ settings:
     width1: 0.5
     width2: 0.5
     with_slab_port: false
-  info:
-    doc: "Linear taper from strip to rib\n\n    Args:\n        length:\n        width1:\n\
-      \        width2:\n        w_slab1\n        w_slab2\n        layer_wg:\n    \
-      \    layer_slab:\n        with_slab_port: adds a wide slab port\n        layers_cladding\n\
-      \        cladding_offset:\n\n    .. code::\n\n                      __________________________\n\
-      \                     /           |\n             _______/____________|______________\n\
-      \                   /             |\n       width1     |w_slab1       | w_slab2\
-      \  width2\n             ______\\_____________|______________\n             \
-      \       \\            |\n                     \\__________________________\n\
-      \n    "
-    function_name: taper_strip_to_ridge
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_strip_to_ridge
-    name_long: taper_strip_to_ridge
+  function_name: taper_strip_to_ridge
+  info_version: 1
+  length: 10.0
+  module: gdsfactory.components.taper
+  name: taper_strip_to_ridge
+  name_long: taper_strip_to_ridge
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 0.0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
 version: 1

@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     R: 10
@@ -14,11 +13,10 @@ settings:
     - 0
     - 2
     pitch: 127
-  info:
-    doc: null
-    function_name: loss_deembedding_ch12_34
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_loss
-    name: loss_deembedding_ch12_34
-    name_long: loss_deembedding_ch12_34
+  function_name: loss_deembedding_ch12_34
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_loss
+  name: loss_deembedding_ch12_34
+  name_long: loss_deembedding_ch12_34
+ports: {}
 version: 1

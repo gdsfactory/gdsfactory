@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     layer:
@@ -14,11 +13,10 @@ settings:
     - 0
     x: 10
     y: 20
-  info:
-    doc: "\n    Args:\n        x: base\n        y: height\n        layer:\n    "
-    function_name: triangle
-    info_version: 1
-    module: gdsfactory.components.align
-    name: triangle
-    name_long: triangle
+  function_name: triangle
+  info_version: 1
+  module: gdsfactory.components.align
+  name: triangle
+  name_long: triangle
+ports: {}
 version: 1

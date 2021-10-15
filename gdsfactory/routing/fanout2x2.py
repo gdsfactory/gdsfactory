@@ -70,7 +70,7 @@ def fanout2x2(
     for port_name in ref.ports.keys():
         if port_name not in optical_ports:
             c.add_port(port_name, port=ref.ports[port_name])
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

@@ -1,4 +1,30 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    length: 1000
+    min_bend_radius: 5
+    points: 1000
+    spacing: 3
+    wg_width: 0.5
+  full:
+    layer:
+    - 1
+    - 0
+    length: 1000
+    min_bend_radius: 5
+    points: 1000
+    spacing: 3
+    wg_width: 0.5
+  function_name: spiral_circular
+  info_version: 1
+  length: 1694.813
+  module: gdsfactory.components.spiral_circular
+  name: spiral_circular
+  name_long: spiral_circular
 ports:
   o1:
     layer:
@@ -22,34 +48,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    layer:
-    - 1
-    - 0
-    length: 1000
-    min_bend_radius: 5
-    points: 1000
-    spacing: 3
-    wg_width: 0.5
-  full:
-    layer:
-    - 1
-    - 0
-    length: 1000
-    min_bend_radius: 5
-    points: 1000
-    spacing: 3
-    wg_width: 0.5
-  info:
-    doc: "Returns a circular spiral.\n\n    FIXME, has some issues\n\n    Args:\n\
-      \        length: length in um\n        wg_width:\n        spacing: between straights\n\
-      \        min_bend_radius:\n        points:\n        layer:\n\n    "
-    function_name: spiral_circular
-    info_version: 1
-    length: 1694.813
-    module: gdsfactory.components.spiral_circular
-    name: spiral_circular
-    name_long: spiral_circular
 version: 1

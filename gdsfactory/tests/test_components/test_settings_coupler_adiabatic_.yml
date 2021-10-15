@@ -1,4 +1,35 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    direction: EAST
+    dw: 0.1
+    input_wg_sep: 3
+    length1: 20
+    length2: 50
+    length3: 30
+    output_wg_sep: 3
+    port:
+    - 0
+    - 0
+    wg_sep: 1
+  full:
+    direction: EAST
+    dw: 0.1
+    input_wg_sep: 3
+    length1: 20
+    length2: 50
+    length3: 30
+    output_wg_sep: 3
+    port:
+    - 0
+    - 0
+    wg_sep: 1
+  function_name: coupler_adiabatic
+  info_version: 1
+  module: gdsfactory.components.coupler_adiabatic
+  name: coupler_adiabatic
+  name_long: coupler_adiabatic
 ports:
   o1:
     layer:
@@ -44,61 +75,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    direction: EAST
-    dw: 0.1
-    input_wg_sep: 3
-    length1: 20
-    length2: 50
-    length3: 30
-    output_wg_sep: 3
-    port:
-    - 0
-    - 0
-    wg_sep: 1
-  full:
-    direction: EAST
-    dw: 0.1
-    input_wg_sep: 3
-    length1: 20
-    length2: 50
-    length3: 30
-    output_wg_sep: 3
-    port:
-    - 0
-    - 0
-    wg_sep: 1
-  info:
-    doc: "Returns 50/50 adiabatic coupler.\n    Design based on asymmetric adiabatic\
-      \ 3dB coupler designs, such as those\n\n    - https://doi.org/10.1364/CLEO.2010.CThAA2,\n\
-      \    - https://doi.org/10.1364/CLEO_SI.2017.SF1I.5\n    - https://doi.org/10.1364/CLEO_SI.2018.STh4B.4\n\
-      \n    Has input Bezier curves, with poles set to half of the x-length of the\
-      \ S-bend.\n\n    I is the first half of input S-bend where input widths taper\
-      \ by +dw and -dw\n    II is the second half of the S-bend straight with constant,\
-      \ unbalanced widths\n    III is the region where the two asymmetric straights\
-      \ gradually come together\n    IV  straights taper back to the original width\
-      \ at a fixed distance from one another\n    IV is the output S-bend straight.\n\
-      \n    Args:\n        length1: region that gradually brings the two assymetric\
-      \ straights together.\n            In this region the straight widths gradually\
-      \ change to be different by `dw`.\n        length2: coupling region, where asymmetric\
-      \ straights gradually become the same width.\n        length3: output region\
-      \ where the two straights separate.\n        wg_sep: Distance between center-to-center\
-      \ in the coupling region (Region 2).\n        input_wg_sep: Separation of the\
-      \ two straights at the input, center-to-center.\n        output_wg_sep: Separation\
-      \ of the two straights at the output, center-to-center.\n        dw: Change\
-      \ in straight width.\n            In Region 1, top arm tapers to width+dw/2.0,\
-      \ bottom taper to width-dw/2.0.\n        port: coordinate of the input port\
-      \ (top left).\n        direction: for component NORTH, WEST, SOUTH, EAST,or\
-      \ angle in radians\n        waveguide_template: object or function\n\n    Other\
-      \ Parameters:\n       wg_width: 0.5\n       wg_layer: gf.LAYER.WG[0]\n     \
-      \  wg_datatype: gf.LAYER.WG[1]\n       clad_layer: gf.LAYER.WGCLAD[0]\n    \
-      \   clad_datatype: gf.LAYER.WGCLAD[1]\n       bend_radius: 10\n       cladding_offset:\
-      \ 3\n\n    "
-    function_name: coupler_adiabatic
-    info_version: 1
-    module: gdsfactory.components.coupler_adiabatic
-    name: coupler_adiabatic
-    name_long: coupler_adiabatic
 version: 1

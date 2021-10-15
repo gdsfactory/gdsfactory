@@ -280,8 +280,8 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
-    def settings(self) -> DictConfig:
-        return self.parent.settings
+    def info_child(self) -> DictConfig:
+        return self.parent.info_child
 
     @property
     def size_info(self) -> SizeInfo:
@@ -510,12 +510,6 @@ class ComponentReference(DeviceReference):
         )
         return self
 
-    def get_property(self, property: str) -> Union[str, int]:
-        if hasattr(self, property):
-            return self.property
-
-        return self.ref_cell.get_property(property)
-
     def get_ports_list(self, **kwargs) -> List[Port]:
         """Returns a list of ports.
 
@@ -560,6 +554,8 @@ class ComponentReference(DeviceReference):
 class Component(Device):
     """customize phidl.Device
 
+    Allow name to be set like Component('arc') or Component(name = 'arc')
+
     - get/write JSON metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
@@ -567,10 +563,23 @@ class Component(Device):
     Args:
         name: component_name
 
+
+    Properties:
+        info: includes
+            full: full list of settings that create the function
+            changed: changed settings
+            default: includes the default signature of the component
+            - derived properties
+            - external metadata (test_protocol, docs, ...)
+            - simulation_settings
+            - function_name
+            - name: for the component
+            - name_long: for the component
+
+
     """
 
     def __init__(self, name: str = "Unnamed", *args, **kwargs) -> None:
-        # Allow name to be set like Component('arc') or Component(name = 'arc')
 
         self.__ports__ = {}
         self.aliases = {}
@@ -579,8 +588,8 @@ class Component(Device):
             name += "_" + self.uid
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
-        self.info = DictConfig({})
-        self.name = name
+        self.info = DictConfig(self.info)
+        self.name = name  # overwrie PHIDL's incremental naming convention
         self.name_long = None
 
     @classmethod
@@ -698,7 +707,7 @@ class Component(Device):
         ports: {portName: instace_name,portName}
 
         Args:
-            full_settings: exports all settings, when false only settings_changed
+            full_settings: exports all info, when false only settings_changed
         """
         from gdsfactory.get_netlist import get_netlist
 
@@ -803,16 +812,10 @@ class Component(Device):
     def __repr__(self) -> str:
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
-    def get_property(self, property: str) -> Any:
-        if property in self.settings:
-            return self.settings[property]
-        if hasattr(self, property):
-            return getattr(self, property)
-
     @property
     def pprint(self) -> None:
-        """Prints component settings."""
-        print(OmegaConf.to_yaml(self.settings))
+        """Prints component info."""
+        print(OmegaConf.to_yaml(self.info))
 
     @property
     def pprint_ports(self) -> None:
@@ -822,29 +825,14 @@ class Component(Device):
             print(port)
 
     @property
-    def settings(self) -> DictConfig:
-        """Returns settings DictConfig.
+    def info_child(self) -> DictConfig:
+        """Returns info from child if any, otherwise returns its info"""
+        info = self.info
 
-        Dict:
-            info: includes
-                - derived properties
-                - external metadata (test_protocol, docs, ...)
-                - simulation_settings
-                - function_name
-                - name: for the component
-                - name_long: for the component
-            full: full list of settings
-            changed: changed settings
-            default: includes the default signature of the component
+        while info.get("child"):
+            info = info.get("child")
 
-        """
-        d = {}
-        d["info"] = self.info
-        d["full"] = getattr(self, "_settings_full", {})
-        d["changed"] = getattr(self, "_settings_changed", {})
-        d["default"] = getattr(self, "_settings_default", {})
-        clean_dict(d)
-        return OmegaConf.create(d)
+        return info
 
     def add_port(
         self,
@@ -978,12 +966,11 @@ class Component(Device):
     def copy(self) -> Device:
         return copy(self)
 
-    def copy_settings_from(self, component) -> None:
-        """Copy settings from another component.
-        great for hiearchical components that need to propagate parent_name and settings.
+    def copy_child_info(self, component) -> None:
+        """Copy info from another component.
+        great for hiearchical components that propagate child cells info.
         """
-        self.info["parent_name"] = component.get_parent_name()
-        self.info["parent"] = component.settings
+        self.info.child = component.info
 
     @property
     def size_info(self) -> SizeInfo:
@@ -1152,7 +1139,7 @@ class Component(Device):
         clean_dict(ports)
 
         d.ports = ports
-        d.settings = self.settings
+        d.info = self.info
         d.cells = recurse_structures(self)
         d.version = 1
         return OmegaConf.create(d)
@@ -1180,7 +1167,7 @@ class Component(Device):
         ports = {port.name: port.settings for port in self.get_ports_list()}
         clean_dict(ports)
         clean_dict(polygons)
-        d.settings = self.settings
+        d.info = self.info
         d.polygons = polygons
         d.ports = ports
         return OmegaConf.create(d)
@@ -1252,7 +1239,7 @@ def recurse_structures(structure: Component) -> DictConfig:
     if not hasattr(structure, "get_dict"):
         return DictConfig({})
 
-    output = {structure.name: structure.settings}
+    output = {structure.name: structure.info}
     for element in structure.references:
         if (
             isinstance(element, ComponentReference)

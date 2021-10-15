@@ -1,4 +1,13 @@
 cells: {}
+info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: taper_w10_l200
+  info_version: 1
+  module: gdsfactory.components.taper_from_csv
+  name: taper_w10_l200
+  name_long: taper_w10_l200
 ports:
   o1:
     layer:
@@ -22,15 +31,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 10
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info:
-    doc: null
-    function_name: taper_w10_l200
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_w10_l200
-    name_long: taper_w10_l200
 version: 1

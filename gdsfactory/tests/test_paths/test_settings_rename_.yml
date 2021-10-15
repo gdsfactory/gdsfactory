@@ -1,4 +1,13 @@
 cells: {}
+info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: rename
+  info_version: 1
+  module: gdsfactory.tests.test_paths
+  name: rename
+  name_long: rename
 ports:
   in:
     layer:
@@ -22,15 +31,4 @@ ports:
     orientation: 90
     port_type: optical
     width: 1
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info:
-    doc: null
-    function_name: rename
-    info_version: 1
-    module: gdsfactory.tests.test_paths
-    name: rename
-    name_long: rename
 version: 1

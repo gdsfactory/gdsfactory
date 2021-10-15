@@ -21,7 +21,7 @@ def rotate(
     ref = component_new.add_ref(component)
     ref.rotate(angle)
     component_new.add_ports(ref.ports)
-    component_new.copy_settings_from(component)
+    component_new.copy_child_info(component)
     return component_new
 
 

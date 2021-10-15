@@ -1,4 +1,43 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    enclosure: 1
+    layer_offsets:
+    - 0
+    - 1
+    layer_port: null
+    layers:
+    - - 41
+      - 0
+    - - 45
+      - 0
+    size:
+    - 11
+    - 11
+    ysize: 0.5
+    yspacing: 2
+  full:
+    enclosure: 1
+    layer_offsets:
+    - 0
+    - 1
+    layer_port: null
+    layers:
+    - - 41
+      - 0
+    - - 45
+      - 0
+    size:
+    - 11
+    - 11
+    ysize: 0.5
+    yspacing: 2
+  function_name: via_stack_slot
+  info_version: 1
+  module: gdsfactory.components.via_stack_slot
+  name: via_stack_slot
+  name_long: via_stack_slot
 ports:
   e1:
     layer:
@@ -44,60 +83,4 @@ ports:
     orientation: 270
     port_type: electrical
     width: 13
-settings:
-  changed: {}
-  default:
-    enclosure: 1
-    layer_offsets:
-    - 0
-    - 1
-    layer_port: null
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    size:
-    - 11
-    - 11
-    ysize: 0.5
-    yspacing: 2
-  full:
-    enclosure: 1
-    layer_offsets:
-    - 0
-    - 1
-    layer_port: null
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    size:
-    - 11
-    - 11
-    ysize: 0.5
-    yspacing: 2
-  info:
-    doc: "Rectangular via_stack with slotted via in X direction\n\n    Args:\n   \
-      \     size: of the layers\n        layers: layers on which to draw rectangles\n\
-      \        layer_offsets: cladding_offset for each layer\n        layer_port:\
-      \ if None asumes port is on the last layer\n        via: via to use to fill\
-      \ the rectangles\n        enclosure: of the via by rectangle\n        ysize:\
-      \ via height in y\n        yspacing: via spacing pitch in y\n\n    .. code::\n\
-      \n        enclosure\n        _____________________________________\n       \
-      \ |<--->                              |\n        |      ______________________\
-      \       |\n        |     |                      |      |\n        |     |  \
-      \                    | ysize|\n        |     |______________________|      |\n\
-      \        |  |                                |\n        |  | yspacing      \
-      \                 |\n        |  |                                |\n       \
-      \ |  |   ______________________       |\n        |  |  |                   \
-      \   |      |\n        |  |  |                      | ysize|\n        |  |  |______________________|\
-      \      |\n        |                                   |\n        |___________________________________|\n\
-      \                        size[0]\n\n\n    "
-    function_name: via_stack_slot
-    info_version: 1
-    module: gdsfactory.components.via_stack_slot
-    name: via_stack_slot
-    name_long: via_stack_slot
 version: 1

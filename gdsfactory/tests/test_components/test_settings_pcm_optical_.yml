@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     dense_lines_gap: 0.3
@@ -42,12 +41,10 @@ settings:
     - 0.6
     - 0.8
     - 1
-  info:
-    doc: "column with all optical PCMs\n\n    Args:\n        widths:  for straight\n\
-      \n    "
-    function_name: pcm_optical
-    info_version: 1
-    module: gdsfactory.components.pcm_optical
-    name: pcm_optical
-    name_long: pcm_optical
+  function_name: pcm_optical
+  info_version: 1
+  module: gdsfactory.components.pcm_optical
+  name: pcm_optical
+  name_long: pcm_optical
+ports: {}
 version: 1

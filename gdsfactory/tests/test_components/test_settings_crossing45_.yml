@@ -1,4 +1,32 @@
 cells: {}
+info:
+  bezier_length: 42.085
+  changed: {}
+  crossing:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: crossing
+    info_version: 1
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing
+    name_long: crossing
+  default:
+    alpha: 0.08
+    dx: null
+    npoints: 101
+    port_spacing: 40
+  full:
+    alpha: 0.08
+    dx: null
+    npoints: 101
+    port_spacing: 40
+  function_name: crossing45
+  info_version: 1
+  min_bend_radius: 44.312
+  module: gdsfactory.components.crossing_waveguide
+  name: crossing45
+  name_long: crossing45
 ports:
   o1:
     layer:
@@ -44,43 +72,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    alpha: 0.08
-    dx: null
-    npoints: 101
-    port_spacing: 40
-  full:
-    alpha: 0.08
-    dx: null
-    npoints: 101
-    port_spacing: 40
-  info:
-    bezier_length: 42.085
-    crossing:
-      changed: {}
-      default: {}
-      full: {}
-      info:
-        doc: Waveguide crossing
-        function_name: crossing
-        info_version: 1
-        module: gdsfactory.components.crossing_waveguide
-        name: crossing
-        name_long: crossing
-    doc: "Returns 45deg crossing with bends.\n\n    Args:\n        crossing: 90D crossing\n\
-      \        port_spacing: target I/O port spacing\n        dx: target length\n\
-      \        alpha: optimization parameter. diminish it for tight bends,\n     \
-      \     increase it if raises assertion angle errors\n        npoints: number\
-      \ of points.\n\n\n    Implementation note: The 45 Degree crossing CANNOT be\
-      \ kept as an SRef since\n    we only allow for multiples of 90Deg rotations\
-      \ in SRef\n\n    .. code::\n\n        ----   ----\n            \\ /\n      \
-      \       X\n            / \\\n        ---    ----\n\n    "
-    function_name: crossing45
-    info_version: 1
-    min_bend_radius: 44.312
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing45
-    name_long: crossing45
 version: 1

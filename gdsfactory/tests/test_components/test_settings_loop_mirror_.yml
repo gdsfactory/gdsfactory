@@ -1,4 +1,13 @@
 cells: {}
+info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: loop_mirror
+  info_version: 1
+  module: gdsfactory.components.loop_mirror
+  name: loop_mirror
+  name_long: loop_mirror
 ports:
   o1:
     layer:
@@ -11,15 +20,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info:
-    doc: Returns Sagnac loop_mirror.
-    function_name: loop_mirror
-    info_version: 1
-    module: gdsfactory.components.loop_mirror
-    name: loop_mirror
-    name_long: loop_mirror
 version: 1

@@ -1,4 +1,56 @@
 cells: {}
+info:
+  changed:
+    component: mzi_ac6d448d
+  child:
+    changed:
+      length_x: 320
+      splitter: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter: mmi2x2
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_ac6d448d
+    name_long: mzi_ac6d448d
+  default:
+    port_name: null
+    port_type: optical
+    ports: null
+  full:
+    component: mzi_ac6d448d
+    port_name: null
+    port_type: optical
+    ports: null
+  function_name: add_termination
+  info_version: 1
+  module: gdsfactory.add_termination
+  name: add_termination_487eeed5
+  name_long: add_termination_487eeed5
 ports:
   e1:
     layer:
@@ -22,84 +74,4 @@ ports:
     orientation: 0
     port_type: electrical
     width: 11
-settings:
-  changed:
-    component: mzi_ac6d448d
-  default:
-    port_name: null
-    port_type: optical
-    ports: null
-  full:
-    component: mzi_ac6d448d
-    port_name: null
-    port_type: optical
-    ports: null
-  info:
-    doc: "Returns component with all or some ports terminated\n\n    Args:\n     \
-      \   component:\n        ports: optional list of ports to terminate (defaults\
-      \ to all)\n        terminator: factory for the terminator\n        port_name:\
-      \ for the terminator to connect to the component ports\n        port_type: of\
-      \ the ports that you want to terminate\n        **kwargs: for the ports you\
-      \ want to terminate (orientation, width)\n    "
-    function_name: add_termination
-    info_version: 1
-    module: gdsfactory.add_termination
-    name: add_termination_487eeed5
-    name_long: add_termination_487eeed5
-    parent:
-      changed:
-        length_x: 320
-        splitter: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter: mmi2x2
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      info:
-        doc: "Mzi.\n\n    Args:\n        delta_length: bottom arm vertical extra length\n\
-          \        length_y: vertical length for both and top arms\n        length_x:\
-          \ horizontal length\n        bend: 90 degrees bend library\n        straight:\
-          \ straight function\n        straight_y: straight for length_y and delta_length\n\
-          \        straight_x_top: top straight for length_x\n        straight_x_bot:\
-          \ bottom straight for length_x\n        splitter: splitter function\n  \
-          \      combiner: combiner function\n        with_splitter: if False removes\
-          \ splitter\n        kwargs: cross_section settings\n\n    .. code::\n\n\
-          \                   __Lx__\n                  |      |\n               \
-          \   Ly     Lyr (not a parameter)\n                  |      |\n        splitter==|\
-          \      |==combiner\n                  |      |\n                  Ly   \
-          \  Lyr (not a parameter)\n                  |      |\n                 \
-          \ | delta_length/2\n                  |      |\n                  |__Lx__|\n\
-          \n            ____________           __________\n            |         \
-          \ |          |\n            |          |       ___|\n        ____|     \
-          \     |____\n            | splitter   d1     d2  combiner\n        ____|\
-          \           ____\n            |          |       ____\n            |   \
-          \       |          |\n            |__________|          |__________\n  \
-          \  "
-        function_name: mzi
-        info_version: 1
-        module: gdsfactory.components.mzi
-        name: mzi_ac6d448d
-        name_long: mzi_ac6d448d
-    parent_name: mzi_ac6d448d
 version: 1

@@ -1,4 +1,22 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    angle: 90
+    npoints: 720
+    with_cladding_box: true
+  dy: 10.0
+  full:
+    angle: 90
+    npoints: 720
+    with_cladding_box: true
+  function_name: bend_circular
+  info_version: 1
+  length: 15.708
+  module: gdsfactory.components.bend_circular
+  name: bend_circular
+  name_long: bend_circular
+  radius_min: 10.0
 ports:
   o1:
     layer:
@@ -22,29 +40,4 @@ ports:
     orientation: 90
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    angle: 90
-    npoints: 720
-    with_cladding_box: true
-  full:
-    angle: 90
-    npoints: 720
-    with_cladding_box: true
-  info:
-    doc: "Returns a radial arc.\n\n    Args:\n        angle: angle of arc (degrees)\n\
-      \        npoints: number of points\n        with_cladding_box: square in layers_cladding\
-      \ to remove DRC\n        cross_section:\n        **kwargs: cross_section settings\n\
-      \n    .. plot::\n        :include-source:\n\n        import gdsfactory as gf\n\
-      \n        c = gf.components.bend_circular(radius=10, angle=90, npoints=720)\n\
-      \        c.plot()\n\n    "
-    dy: 10
-    function_name: bend_circular
-    info_version: 1
-    length: 15.708
-    module: gdsfactory.components.bend_circular
-    name: bend_circular
-    name_long: bend_circular
-    radius_min: 10
 version: 1

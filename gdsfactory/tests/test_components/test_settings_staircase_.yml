@@ -1,4 +1,20 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    length_h: 5
+    length_v: 5
+    rows: 4
+  full:
+    length_h: 5
+    length_v: 5
+    rows: 4
+  function_name: staircase
+  info_version: 1
+  module: gdsfactory.components.cutback_bend
+  n_bends: 8
+  name: staircase
+  name_long: staircase
 ports:
   o1:
     layer:
@@ -22,22 +38,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    length_h: 5
-    length_v: 5
-    rows: 4
-  full:
-    length_h: 5
-    length_v: 5
-    rows: 4
-  info:
-    doc: null
-    function_name: staircase
-    info_version: 1
-    module: gdsfactory.components.cutback_bend
-    n_bends: 8
-    name: staircase
-    name_long: staircase
 version: 1

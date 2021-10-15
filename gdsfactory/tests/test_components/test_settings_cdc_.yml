@@ -1,4 +1,51 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    angle: 0.5235987755982988
+    contradc_wgt: null
+    dc: 0.5
+    direction: EAST
+    dw_bot: null
+    dw_top: null
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    gap: 0.5
+    input_bot: false
+    length: 30
+    period: 0.22
+    port_midpoint:
+    - 0
+    - 0
+    width_bot: 0.75
+    width_top: 2
+  full:
+    angle: 0.5235987755982988
+    contradc_wgt: null
+    dc: 0.5
+    direction: EAST
+    dw_bot: null
+    dw_top: null
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    gap: 0.5
+    input_bot: false
+    length: 30
+    period: 0.22
+    port_midpoint:
+    - 0
+    - 0
+    width_bot: 0.75
+    width_top: 2
+  function_name: cdc
+  info_version: 1
+  module: gdsfactory.components.cdc
+  name: cdc
+  name_long: cdc
 ports:
   o1:
     layer:
@@ -44,73 +91,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    angle: 0.5235987755982988
-    contradc_wgt: null
-    dc: 0.5
-    direction: EAST
-    dw_bot: null
-    dw_top: null
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    gap: 0.5
-    input_bot: false
-    length: 30
-    period: 0.22
-    port_midpoint:
-    - 0
-    - 0
-    width_bot: 0.75
-    width_top: 2
-  full:
-    angle: 0.5235987755982988
-    contradc_wgt: null
-    dc: 0.5
-    direction: EAST
-    dw_bot: null
-    dw_top: null
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    gap: 0.5
-    input_bot: false
-    length: 30
-    period: 0.22
-    port_midpoint:
-    - 0
-    - 0
-    width_bot: 0.75
-    width_top: 2
-  info:
-    doc: "Grating-Assisted Contra-Directional Coupler\n\n    Args:\n       length\
-      \ : Length of the coupling region.\n       gap: Distance between the two straights.\n\
-      \       period: Period of the grating.\n       dc: Duty cycle of the grating.\
-      \ Must be between 0 and 1.\n       angle: in radians at which the straight bends\
-      \ towards the coupling region.\n       width_top: Width of the top straight\
-      \ in the coupling region.\n       width_bot: Width of the bottom straight in\
-      \ the coupling region.\n       dw_top: Amplitude of the width variation on the\
-      \ top.  Default=gap/2.0.\n       dw_bot: Amplitude of the width variation on\
-      \ the bottom.  Default=gap/2.0.\n       input_bot: True makes the default input\
-      \ the bottom straight (rather than top)\n       fins: If `True`, adds fins to\
-      \ the input/output straights.\n        In this case a different template for\
-      \ the component must be specified.\n        This feature is useful when performing\
-      \ electron-beam lithography\n        and using different beam currents\n   \
-      \     for fine features (helps to reduce stitching errors).\n       fin_size:\
-      \ Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm\n  \
-      \     contradc_wgt:\n       port_midpoint: Cartesian coordinate of the input\
-      \ port\n        (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).\n\
-      \       direction: Direction that the component will point *towards*,\n    \
-      \    can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,\n        OR an\
-      \ angle (float, in radians).\n       waveguide_template: Picwriter WaveguideTemplate\
-      \ function\n\n\n    "
-    function_name: cdc
-    info_version: 1
-    module: gdsfactory.components.cdc
-    name: cdc
-    name_long: cdc
 version: 1

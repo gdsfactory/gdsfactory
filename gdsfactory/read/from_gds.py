@@ -40,10 +40,7 @@ def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
             port_type=port.port_type,
         )
 
-    component.info = metadata.settings.info
-    component._settings_changed = metadata.settings.changed
-    component._settings_full = metadata.settings.full
-    component._settings_default = metadata.settings.default
+    component.info = metadata.info
     return component
 
 

@@ -46,7 +46,7 @@ def add_termination(
         else:
             c.add_port(port.name, port=port)
 
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

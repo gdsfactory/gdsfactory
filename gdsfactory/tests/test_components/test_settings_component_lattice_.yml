@@ -1,4 +1,21 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    components: null
+    grid_per_unit: 1000
+    lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
+    name: lattice
+  full:
+    components: null
+    grid_per_unit: 1000
+    lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
+    name: lattice
+  function_name: component_lattice
+  info_version: 1
+  module: gdsfactory.components.component_lattice
+  name: component_lattice
+  name_long: component_lattice
 ports:
   '0':
     layer:
@@ -88,35 +105,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    components: null
-    grid_per_unit: 1000
-    lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-    name: lattice
-  full:
-    components: null
-    grid_per_unit: 1000
-    lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-    name: lattice
-  info:
-    doc: "\n    Returns a lattice Component of N inputs and outputs with components\
-      \ at given locations\n    Columns must have components with the same x spacing\
-      \ between ports input/output ports\n    Lines must have components with the\
-      \ same y spacing between input and output ports\n\n    Lattice example:\n\n\
-      \    .. code::\n\n        X-X\n        XCX\n        XCX\n        X-X\n\n   \
-      \ .. plot::\n      :include-source:\n\n      import gdsfactory as gf\n     \
-      \ from gdsfactory.components.crossing_waveguide import crossing45\n      from\
-      \ gdsfactory.components.crossing_waveguide import compensation_path\n\n    \
-      \  components =  {\n            \"C\": gf.routing.fanout2x2(component=gf.components.coupler(),\
-      \ port_spacing=40.0),\n            \"X\": crossing45(port_spacing=40.0),\n \
-      \           \"-\": compensation_path(crossing45=crossing45(port_spacing=40.0)),\n\
-      \      }\n      c = gf.components.component_lattice(components=components)\n\
-      \      c.plot()\n\n    "
-    function_name: component_lattice
-    info_version: 1
-    module: gdsfactory.components.component_lattice
-    name: component_lattice
-    name_long: component_lattice
 version: 1

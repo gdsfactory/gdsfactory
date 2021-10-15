@@ -10,7 +10,7 @@ from typing import Dict
 import omegaconf
 from pydantic import validate_arguments
 
-from gdsfactory.component import Component
+from gdsfactory.component import Component, clean_dict
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
 
 CACHE: Dict[str, Component] = {}
@@ -146,24 +146,32 @@ def cell_without_validator(func):
             if autoname:
                 component.name = name_component
 
-            docstring = func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
+            # docstring = func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
+            # component.info.doc = docstring
 
             component.info.module = func.__module__
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
             component.info.name_long = name_long
             component.info.name = component.name
-            component.info.doc = docstring
             component.info.update(**info)
 
-            component._settings_default = {
+            default = {
                 p.name: p.default
                 for p in sig.parameters.values()
                 if not callable(p.default)
             }
-            component._settings_full = component._settings_default.copy()
-            component._settings_full.update(**args_as_kwargs)
-            component._settings_changed = args_as_kwargs.copy()
+            full = default.copy()
+            full.update(**args_as_kwargs)
+            changed = args_as_kwargs.copy()
+
+            clean_dict(full)
+            clean_dict(default)
+            clean_dict(changed)
+
+            component.info.changed = changed
+            component.info.default = default
+            component.info.full = full
 
             CACHE[name] = component
             return component
@@ -232,7 +240,7 @@ def test_autoname() -> None:
     component_int = dummy2(length=3)
     name_int = component_int.name
     assert name_int == "_dummy_2dcab9f2", name_int
-    assert component_int.info.doc == "Dummy cell"
+    # assert component_int.info.doc == "Dummy cell"
 
     name_float = _dummy(wg_width=0.5).name
     assert name_float == "_dummy_b78ec006", name_float

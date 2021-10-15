@@ -1,4 +1,27 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    length: 10
+    port_type: optical
+    width: 0.5
+  full:
+    layer:
+    - 1
+    - 0
+    length: 10
+    port_type: optical
+    width: 0.5
+  function_name: hline
+  info_version: 1
+  length: 10.0
+  module: gdsfactory.components.hline
+  name: hline
+  name_long: hline
+  width: 0.5
 ports:
   o1:
     layer:
@@ -21,30 +44,5 @@ ports:
     name: o2
     orientation: 0
     port_type: optical
-    width: 0.5
-settings:
-  changed: {}
-  default:
-    layer:
-    - 1
-    - 0
-    length: 10
-    port_type: optical
-    width: 0.5
-  full:
-    layer:
-    - 1
-    - 0
-    length: 10
-    port_type: optical
-    width: 0.5
-  info:
-    doc: Horizonal line straight, with ports on east and west sides
-    function_name: hline
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.hline
-    name: hline
-    name_long: hline
     width: 0.5
 version: 1

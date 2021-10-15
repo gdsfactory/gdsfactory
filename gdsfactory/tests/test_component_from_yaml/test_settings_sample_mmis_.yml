@@ -1,4 +1,8 @@
 cells: {}
+info:
+  description: just a demo on adding metadata
+  polarization: te
+  wavelength: 1.55
 ports:
   o1:
     layer:
@@ -33,12 +37,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info:
-    description: just a demo on adding metadata
-    polarization: te
-    wavelength: 1.55
 version: 1

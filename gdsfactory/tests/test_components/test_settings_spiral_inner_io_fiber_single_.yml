@@ -1,4 +1,25 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    cross_section_bend: null
+    grating_spacing: 200
+    x_straight_inner_left: 75
+    x_straight_inner_right: 40
+    y_straight_inner_bottom: 0
+    y_straight_inner_top: 10
+  full:
+    cross_section_bend: null
+    grating_spacing: 200
+    x_straight_inner_left: 75
+    x_straight_inner_right: 40
+    y_straight_inner_bottom: 0
+    y_straight_inner_top: 10
+  function_name: spiral_inner_io_fiber_single
+  info_version: 1
+  module: gdsfactory.components.spiral_inner_io
+  name: spiral_inner_io_fiber_single
+  name_long: spiral_inner_io_fiber_single
 ports:
   o1:
     layer:
@@ -22,27 +43,4 @@ ports:
     orientation: 90
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    cross_section_bend: null
-    grating_spacing: 200
-    x_straight_inner_left: 75
-    x_straight_inner_right: 40
-    y_straight_inner_bottom: 0
-    y_straight_inner_top: 10
-  full:
-    cross_section_bend: null
-    grating_spacing: 200
-    x_straight_inner_left: 75
-    x_straight_inner_right: 40
-    y_straight_inner_bottom: 0
-    y_straight_inner_top: 10
-  info:
-    doc: Spiral with 0 and 270 degree ports.
-    function_name: spiral_inner_io_fiber_single
-    info_version: 1
-    module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_fiber_single
-    name_long: spiral_inner_io_fiber_single
 version: 1

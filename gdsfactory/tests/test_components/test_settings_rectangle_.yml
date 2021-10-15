@@ -1,4 +1,29 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    centered: false
+    layer:
+    - 1
+    - 0
+    port_type: electrical
+    size:
+    - 4
+    - 2
+  full:
+    centered: false
+    layer:
+    - 1
+    - 0
+    port_type: electrical
+    size:
+    - 4
+    - 2
+  function_name: rectangle
+  info_version: 1
+  module: gdsfactory.components.rectangle
+  name: rectangle
+  name_long: rectangle
 ports:
   e1:
     layer:
@@ -44,34 +69,4 @@ ports:
     orientation: 270
     port_type: electrical
     width: 4
-settings:
-  changed: {}
-  default:
-    centered: false
-    layer:
-    - 1
-    - 0
-    port_type: electrical
-    size:
-    - 4
-    - 2
-  full:
-    centered: false
-    layer:
-    - 1
-    - 0
-    port_type: electrical
-    size:
-    - 4
-    - 2
-  info:
-    doc: "rectangle\n\n    Args:\n        size: (tuple) Width and height of rectangle.\n\
-      \        layer: Specific layer to put polygon geometry on.\n        centered:\
-      \ True sets center to (0, 0), False sets south-west to (0, 0)\n        port_type:\n\
-      \n    "
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle
-    name_long: rectangle
 version: 1

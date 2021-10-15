@@ -1,4 +1,24 @@
 cells: {}
+info:
+  changed:
+    bend90: bend_circular
+  default:
+    columns: 6
+    rows: 6
+    spacing: 5
+    straight_length: 5
+  full:
+    bend90: bend_circular
+    columns: 6
+    rows: 6
+    spacing: 5
+    straight_length: 5
+  function_name: cutback_bend90
+  info_version: 1
+  module: gdsfactory.components.cutback_bend
+  n_bends: 144
+  name: cutback_bend90_fd4656cd
+  name_long: cutback_bend90_fd4656cd
 ports:
   o1:
     layer:
@@ -22,26 +42,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed:
-    bend90: bend_circular
-  default:
-    columns: 6
-    rows: 6
-    spacing: 5
-    straight_length: 5
-  full:
-    bend90: bend_circular
-    columns: 6
-    rows: 6
-    spacing: 5
-    straight_length: 5
-  info:
-    doc: "\n\n    .. code::\n\n           _\n        |_| |\n\n    "
-    function_name: cutback_bend90
-    info_version: 1
-    module: gdsfactory.components.cutback_bend
-    n_bends: 144
-    name: cutback_bend90_fd4656cd
-    name_long: cutback_bend90_fd4656cd
 version: 1

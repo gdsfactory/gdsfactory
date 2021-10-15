@@ -1,4 +1,20 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    columns: 5
+    rows: 6
+    straight_length: 5
+  full:
+    columns: 5
+    rows: 6
+    straight_length: 5
+  function_name: cutback_bend
+  info_version: 1
+  module: gdsfactory.components.cutback_bend
+  n_bends: 68
+  name: cutback_bend
+  name_long: cutback_bend
 ports:
   o1:
     layer:
@@ -22,24 +38,4 @@ ports:
     orientation: 90
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    columns: 5
-    rows: 6
-    straight_length: 5
-  full:
-    columns: 5
-    rows: 6
-    straight_length: 5
-  info:
-    doc: "Deprecated! use cutback_bend90 instead!\n\n\n    .. code::\n\n        this\
-      \ is a column\n            _\n          _|\n        _|\n\n        _ this is\
-      \ a row\n\n    "
-    function_name: cutback_bend
-    info_version: 1
-    module: gdsfactory.components.cutback_bend
-    n_bends: 68
-    name: cutback_bend
-    name_long: cutback_bend
 version: 1

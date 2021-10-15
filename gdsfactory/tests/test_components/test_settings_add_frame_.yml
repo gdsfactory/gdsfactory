@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     layer:
@@ -14,13 +13,10 @@ settings:
     - 0
     spacing: 10
     width: 10
-  info:
-    doc: "Returns component with a frame around it.\n\n    Args:\n        component:\
-      \ Component to frame\n        width: of the frame\n        spacing: of component\
-      \ to frame\n\n    "
-    function_name: add_frame
-    info_version: 1
-    module: gdsfactory.components.align
-    name: add_frame
-    name_long: add_frame
+  function_name: add_frame
+  info_version: 1
+  module: gdsfactory.components.align
+  name: add_frame
+  name_long: add_frame
+ports: {}
 version: 1

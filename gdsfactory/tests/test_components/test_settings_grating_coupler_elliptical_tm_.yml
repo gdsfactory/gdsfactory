@@ -1,28 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10.978
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  vertical_tm:
-    layer:
-    - 204
-    - 0
-    midpoint:
-    - 25.312
-    - 0.0
-    name: vertical_tm
-    orientation: 0
-    port_type: vertical_tm
-    width: 11
-settings:
+info:
   changed: {}
   default:
     fiber_angle: 15
@@ -54,21 +31,34 @@ settings:
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
-  info:
-    doc: "Return elliptical grating coupler\n\n    Args:\n        taper_length: taper\
-      \ length from input\n        taper_angle: taper flare angle in degrees\n   \
-      \     wavelength: grating transmission central wavelength (um)\n        fiber_angle:\
-      \ fibre polish angle in degrees\n        grating_line_width\n        wg_width:\
-      \ waveguide width\n        neff: tooth effective index\n        layer: LAYER.WG\n\
-      \        p_start: period start first tooth\n        n_periods: number of periods\n\
-      \        big_last_tooth: adds a big_last_tooth\n        layer_slab\n       \
-      \ fiber_marker_width\n        fiber_marker_layer\n        cladding_index\n\n\
-      \    "
-    function_name: grating_coupler_elliptical_tm
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_elliptical_tm
-    name_long: grating_coupler_elliptical_tm
-    polarization: tm
-    wavelength: 1.554
+  function_name: grating_coupler_elliptical_tm
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_elliptical
+  name: grating_coupler_elliptical_tm
+  name_long: grating_coupler_elliptical_tm
+  polarization: tm
+  wavelength: 1.554
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.978
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  vertical_tm:
+    layer:
+    - 204
+    - 0
+    midpoint:
+    - 25.312
+    - 0.0
+    name: vertical_tm
+    orientation: 0
+    port_type: vertical_tm
+    width: 11
 version: 1

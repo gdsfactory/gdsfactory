@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     layer:
@@ -12,11 +11,10 @@ settings:
     - 1
     - 0
     size: 1
-  info:
-    doc: null
-    function_name: pixel
-    info_version: 1
-    module: gdsfactory.components.version_stamp
-    name: pixel
-    name_long: pixel
+  function_name: pixel
+  info_version: 1
+  module: gdsfactory.components.version_stamp
+  name: pixel
+  name_long: pixel
+ports: {}
 version: 1

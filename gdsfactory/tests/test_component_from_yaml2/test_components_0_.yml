@@ -1,4 +1,5 @@
 cells: {}
+info: {}
 ports:
   o1:
     layer:
@@ -33,9 +34,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info: {}
 version: 1

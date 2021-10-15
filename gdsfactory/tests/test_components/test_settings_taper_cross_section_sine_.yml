@@ -1,4 +1,21 @@
 cells: {}
+info:
+  changed:
+    linear: false
+    npoints: 101
+  default:
+    length: 10
+    linear: false
+    npoints: 100
+  full:
+    length: 10
+    linear: false
+    npoints: 101
+  function_name: taper_cross_section
+  info_version: 1
+  module: gdsfactory.components.taper_cross_section
+  name: taper_cross_section_11c0a1bc
+  name_long: taper_cross_section_11c0a1bc
 ports:
   o1:
     layer:
@@ -22,32 +39,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed:
-    linear: false
-    npoints: 101
-  default:
-    length: 10
-    linear: false
-    npoints: 100
-  full:
-    length: 10
-    linear: false
-    npoints: 101
-  info:
-    doc: "Returns taper transition between cross_section1 and cross_section2\n\n \
-      \   Args:\n        cross_section1: start cross_section factory\n        cross_section2:\
-      \ end cross_section factory\n        length: transition length\n        npoints:\
-      \ number of points\n        linear: shape of the transition, sine when False\n\
-      \        kwargs: cross_section settings for section2\n\n\n\n    .. code::\n\n\
-      \                           _____________________\n                        \
-      \  /\n                  _______/______________________\n                   \
-      \     /\n       cross_section1  |        cross_section2\n                  ______\\\
-      _______________________\n                         \\\n                     \
-      \     \\_____________________\n\n\n    "
-    function_name: taper_cross_section
-    info_version: 1
-    module: gdsfactory.components.taper_cross_section
-    name: taper_cross_section_11c0a1bc
-    name_long: taper_cross_section_11c0a1bc
 version: 1

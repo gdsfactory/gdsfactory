@@ -1,4 +1,13 @@
 cells: {}
+info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: crossing
+  info_version: 1
+  module: gdsfactory.components.crossing_waveguide
+  name: crossing
+  name_long: crossing
 ports:
   o1:
     layer:
@@ -44,15 +53,4 @@ ports:
     orientation: 270
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info:
-    doc: Waveguide crossing
-    function_name: crossing
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing
-    name_long: crossing
 version: 1

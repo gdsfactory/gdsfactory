@@ -1,4 +1,29 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+  full:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+  function_name: mzi_lattice
+  info_version: 1
+  module: gdsfactory.components.mzi_lattice
+  name: mzi_lattice
+  name_long: mzi_lattice
 ports:
   o1:
     layer:
@@ -44,37 +69,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    coupler_gaps:
-    - 0.2
-    - 0.3
-    coupler_lengths:
-    - 10
-    - 20
-    delta_lengths:
-    - 10
-  full:
-    coupler_gaps:
-    - 0.2
-    - 0.3
-    coupler_lengths:
-    - 10
-    - 20
-    delta_lengths:
-    - 10
-  info:
-    doc: "Mzi lattice filter.\n\n    .. code::\n\n               ______          \
-      \   ______\n              |      |           |      |\n              |     \
-      \ |           |      |\n         cp1==|      |===cp2=====|      |=== .... ===cp_last===\n\
-      \              |      |           |      |\n              |      |         \
-      \  |      |\n             DL1     |          DL2     |\n              |    \
-      \  |           |      |\n              |______|           |      |\n       \
-      \                          |______|\n\n    "
-    function_name: mzi_lattice
-    info_version: 1
-    module: gdsfactory.components.mzi_lattice
-    name: mzi_lattice
-    name_long: mzi_lattice
 version: 1

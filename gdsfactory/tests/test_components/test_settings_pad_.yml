@@ -1,4 +1,35 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    cladding_offsets: null
+    layer:
+    - 49
+    - 0
+    layers_cladding: null
+    size:
+    - 100
+    - 100
+  full:
+    cladding_offsets: null
+    layer:
+    - 49
+    - 0
+    layers_cladding: null
+    size:
+    - 100
+    - 100
+  function_name: pad
+  info_version: 1
+  layer:
+  - 49
+  - 0
+  module: gdsfactory.components.pad
+  name: pad
+  name_long: pad
+  size:
+  - 100.0
+  - 100.0
 ports:
   e1:
     layer:
@@ -44,39 +75,4 @@ ports:
     orientation: 270
     port_type: electrical
     width: 100
-settings:
-  changed: {}
-  default:
-    cladding_offsets: null
-    layer:
-    - 49
-    - 0
-    layers_cladding: null
-    size:
-    - 100
-    - 100
-  full:
-    cladding_offsets: null
-    layer:
-    - 49
-    - 0
-    layers_cladding: null
-    size:
-    - 100
-    - 100
-  info:
-    doc: "Rectangular pad with 4 ports (1, 2, 3, 4)\n\n    Args:\n        width: pad\
-      \ width\n        height: pad height\n        layer: pad layer\n        layers_cladding:\n\
-      \        cladding_offsets:\n    "
-    function_name: pad
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.pad
-    name: pad
-    name_long: pad
-    size:
-    - 100
-    - 100
 version: 1

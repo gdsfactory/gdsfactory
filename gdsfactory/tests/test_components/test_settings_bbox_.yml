@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     bbox:
@@ -28,15 +27,10 @@ settings:
     left: 0
     right: 0
     top: 0
-  info:
-    doc: "Returns bounding box rectangle from coordinates, to allow\n    creation\
-      \ of a rectangle bounding box directly from another shape.\n\n    Args:\n  \
-      \      bbox: Coordinates of the box [(x1, y1), (x2, y2)].\n        layer:\n\
-      \        top: north offset\n        bottom: south offset\n        left: west\
-      \ offset\n        right: east offset\n\n    "
-    function_name: bbox
-    info_version: 1
-    module: gdsfactory.components.bbox
-    name: bbox
-    name_long: bbox
+  function_name: bbox
+  info_version: 1
+  module: gdsfactory.components.bbox
+  name: bbox
+  name_long: bbox
+ports: {}
 version: 1

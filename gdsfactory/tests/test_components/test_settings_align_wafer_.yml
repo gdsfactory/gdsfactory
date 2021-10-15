@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     cross_length: 80
@@ -20,11 +19,10 @@ settings:
     spacing: 10
     square_corner: bottom_left
     width: 10
-  info:
-    doc: Returns cross inside a frame to align wafer.
-    function_name: align_wafer
-    info_version: 1
-    module: gdsfactory.components.align
-    name: align_wafer
-    name_long: align_wafer
+  function_name: align_wafer
+  info_version: 1
+  module: gdsfactory.components.align
+  name: align_wafer
+  name_long: align_wafer
+ports: {}
 version: 1

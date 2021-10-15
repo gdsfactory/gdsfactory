@@ -31,7 +31,7 @@ def get_input_label_text(
         isinstance(wavelength, (int, float)) and 0.5 < wavelength < 5.0
     ), f"{wavelength} is Not valid. Make sure it's in um"
 
-    component_name = component_name or port.parent.get_property("name")
+    component_name = component_name or port.parent.info_child.name
 
     text = f"opt_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
     if isinstance(gc_index, int):
@@ -76,7 +76,7 @@ def get_input_label(
     layer, texttype = pd._parse_layer(layer_label)
     return pd.Label(
         text=text,
-        position=gc.ports[gc_port_name].midpoint,
+        position=port.midpoint,
         anchor="o",
         layer=layer,
         texttype=texttype,

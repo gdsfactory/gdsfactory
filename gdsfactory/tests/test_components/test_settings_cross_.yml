@@ -1,4 +1,23 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    length: 10
+    width: 3
+  full:
+    layer:
+    - 1
+    - 0
+    length: 10
+    width: 3
+  function_name: cross
+  info_version: 1
+  module: gdsfactory.components.cross
+  name: cross
+  name_long: cross
 ports:
   o1:
     layer:
@@ -44,29 +63,4 @@ ports:
     orientation: 270
     port_type: optical
     width: 3
-settings:
-  changed: {}
-  default:
-    layer:
-    - 1
-    - 0
-    length: 10
-    width: 3
-  full:
-    layer:
-    - 1
-    - 0
-    length: 10
-    width: 3
-  info:
-    doc: "Generates a right-angle cross from two rectangles of specified length and\
-      \ width.\n\n    Args:\n        length: float Length of the cross from one end\
-      \ to the other\n        width: float Width of the arms of the cross\n      \
-      \  layer: int, array-like[2], or set Specific layer(s) to put polygon geometry\
-      \ on\n\n    "
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross
-    name_long: cross
 version: 1

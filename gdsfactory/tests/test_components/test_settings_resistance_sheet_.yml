@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     layer_offsets:
@@ -24,14 +23,10 @@ settings:
       - 0
     length: 5
     width: 10
-  info:
-    doc: "Sheet resistance.\n    Ensures connectivity is kept for pads and the first\
-      \ layer in layers\n\n    Args:\n        width:\n        length:\n        layers:\
-      \ for the middle part\n        layer_offsets:\n        pad: function to create\
-      \ a pad\n    "
-    function_name: resistance_sheet
-    info_version: 1
-    module: gdsfactory.components.resistance_sheet
-    name: resistance_sheet
-    name_long: resistance_sheet
+  function_name: resistance_sheet
+  info_version: 1
+  module: gdsfactory.components.resistance_sheet
+  name: resistance_sheet
+  name_long: resistance_sheet
+ports: {}
 version: 1

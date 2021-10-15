@@ -1,28 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 0.0
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 10.0
-    - 0.0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
-settings:
+info:
   changed:
     cross_section:
       function: cross_section
@@ -52,16 +29,34 @@ settings:
     length: 10
     npoints: 2
     with_cladding_box: true
-  info:
-    doc: "Returns a Straight waveguide.\n\n    Args:\n        length: straight length\n\
-      \        npoints: number of points\n        with_cladding_box: box in layers_cladding\
-      \ to avoid DRC sharp edges\n        cross_section:\n        **kwargs: cross_section\
-      \ settings\n    "
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_40e83c11
-    name_long: straight_40e83c11
+  function_name: straight
+  info_version: 1
+  length: 10.0
+  module: gdsfactory.components.straight
+  name: straight_40e83c11
+  name_long: straight_40e83c11
+  width: 1.0
+ports:
+  o1:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 1
+  o2:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - 10.0
+    - 0.0
+    name: o2
+    orientation: 0
+    port_type: optical
     width: 1
 version: 1
