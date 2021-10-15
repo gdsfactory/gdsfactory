@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import jsondiff
 from pytest_regressions.data_regression import DataRegressionFixture
 
@@ -25,12 +27,17 @@ def test_load_component_with_settings():
 
     d1 = c1.to_dict
     d2 = c2.to_dict
-    d1.pop("ports")
-    d2.pop("ports")
-    c1.pprint
-    c2.pprint
+    # d1.pop("ports")
+    # d2.pop("ports")
+    # c1.pprint
+    # c2.pprint
 
     d = jsondiff.diff(d1, d2)
+
+    pprint(d1)
+    pprint(d2)
+    pprint(d)
+
     assert len(d) == 0, d
 
 

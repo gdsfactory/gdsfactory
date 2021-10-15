@@ -8,7 +8,7 @@ ports:
     - -12.75
     - 0.0
     name: o1_0_0
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   o2_1_1:
@@ -19,7 +19,7 @@ ports:
     - 192.75
     - -12.5
     name: o2_1_1
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_2:
@@ -41,7 +41,7 @@ ports:
     - 192.75
     - 37.5
     name: o2_1_3
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_4:

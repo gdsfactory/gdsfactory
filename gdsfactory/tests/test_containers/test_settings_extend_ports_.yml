@@ -8,7 +8,7 @@ ports:
     - 16.75
     - 21.425
     name: e1
-    orientation: '180'
+    orientation: 180
     port_type: electrical
     width: 11
   e2:
@@ -19,7 +19,7 @@ ports:
     - 368.75
     - 21.425
     name: e2
-    orientation: '0'
+    orientation: 0
     port_type: electrical
     width: 11
   o1:
@@ -52,7 +52,7 @@ ports:
     - 403.25
     - 0.6250000000000018
     name: o3
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
   o4:
@@ -63,7 +63,7 @@ ports:
     - 403.25
     - -0.6249999999999982
     name: o4
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
 settings:

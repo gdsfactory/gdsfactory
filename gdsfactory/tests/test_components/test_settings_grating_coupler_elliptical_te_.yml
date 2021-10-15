@@ -8,7 +8,7 @@ ports:
     - 0.721
     - 0.0
     name: o1
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   vertical_te:
@@ -19,7 +19,7 @@ ports:
     - 24.832
     - 0.0
     name: vertical_te
-    orientation: '0'
+    orientation: 0
     port_type: vertical_te
     width: 11
 settings:

@@ -8,7 +8,7 @@ ports:
     - 0.0
     - -40.0
     name: '0'
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   '1':
@@ -30,7 +30,7 @@ ports:
     - 0.0
     - -120.0
     name: '2'
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   '3':
@@ -63,7 +63,7 @@ ports:
     - 280.0
     - 0.0
     name: '5'
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
   '6':
@@ -85,7 +85,7 @@ ports:
     - 280.0
     - -80.0
     name: '7'
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
 settings:

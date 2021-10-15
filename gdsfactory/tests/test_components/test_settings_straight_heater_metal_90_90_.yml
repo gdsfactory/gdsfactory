@@ -8,7 +8,7 @@ ports:
     - -10.5
     - 5.5
     name: e1
-    orientation: '90'
+    orientation: 90
     port_type: electrical
     width: 11
   e2:
@@ -19,7 +19,7 @@ ports:
     - 330.5
     - 5.5
     name: e2
-    orientation: '90'
+    orientation: 90
     port_type: electrical
     width: 11
   o1:

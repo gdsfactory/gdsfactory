@@ -8,7 +8,7 @@ ports:
     - -439.5
     - -59.111000000000004
     name: vertical_te_00
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_01:
@@ -19,7 +19,7 @@ ports:
     - -312.5
     - -59.111000000000004
     name: vertical_te_01
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_02:
@@ -30,7 +30,7 @@ ports:
     - -185.5
     - -59.111000000000004
     name: vertical_te_02
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_03:
@@ -41,7 +41,7 @@ ports:
     - -58.50000000000001
     - -59.111000000000004
     name: vertical_te_03
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_04:
@@ -52,7 +52,7 @@ ports:
     - 68.5
     - -59.111000000000004
     name: vertical_te_04
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_05:
@@ -63,7 +63,7 @@ ports:
     - 195.5
     - -59.111000000000004
     name: vertical_te_05
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_06:
@@ -74,7 +74,7 @@ ports:
     - 322.5
     - -59.111000000000004
     name: vertical_te_06
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_07:
@@ -85,7 +85,7 @@ ports:
     - 449.5
     - -59.111000000000004
     name: vertical_te_07
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
 settings:

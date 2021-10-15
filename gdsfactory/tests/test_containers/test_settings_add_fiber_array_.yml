@@ -8,7 +8,7 @@ ports:
     - 16.75
     - 21.425
     name: e1
-    orientation: '180'
+    orientation: 180
     port_type: electrical
     width: 11
   e2:
@@ -19,7 +19,7 @@ ports:
     - 368.75
     - 21.425
     name: e2
-    orientation: '0'
+    orientation: 0
     port_type: electrical
     width: 11
   vertical_te_00:
@@ -30,7 +30,7 @@ ports:
     - 2.3000000000000065
     - -106.36899999999999
     name: vertical_te_00
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_01:
@@ -41,7 +41,7 @@ ports:
     - 129.3
     - -106.36899999999999
     name: vertical_te_01
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_02:
@@ -52,7 +52,7 @@ ports:
     - 256.3
     - -106.36899999999999
     name: vertical_te_02
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
   vertical_te_03:
@@ -63,7 +63,7 @@ ports:
     - 383.3
     - -106.36899999999999
     name: vertical_te_03
-    orientation: '270'
+    orientation: 270
     port_type: vertical_te
     width: 11
 settings:
