@@ -1,12 +1,16 @@
+"""
+- INFO_VERSION: 1
+
+"""
 import functools
 import hashlib
 import inspect
 from typing import Dict
 
+import omegaconf
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.config import __version__
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
 
 CACHE: Dict[str, Component] = {}
@@ -65,7 +69,7 @@ def cell_without_validator(func):
         prefix = kwargs.pop("prefix", func.__name__)
         autoname = kwargs.pop("autoname", True)
         cache = kwargs.pop("cache", True)
-        info = kwargs.pop("info", {})
+        info = kwargs.pop("info", omegaconf.DictConfig({}))
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -125,10 +129,12 @@ def cell_without_validator(func):
 
             component.info.module = func.__module__
             component.info.function_name = func.__name__
-            component.info.gdsfactory = __version__
             component.info.info_version = INFO_VERSION
             component.info.name_long = name_long
             component.info.name = component.name
+            component.info.doc = (
+                func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
+            )
             component.info.update(**info)
 
             component._settings_default = {
@@ -165,7 +171,9 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
 
 
 def test_autoname_true() -> None:
-    assert wg(length=3).name == "wg_length3"
+    c = wg(length=3)
+    # assert c.name == "wg_length3", c.name
+    assert c.name == "wg_2dcab9f2", c.name
 
 
 def test_autoname_false() -> None:
@@ -180,6 +188,7 @@ def test_set_name() -> None:
 
 @cell
 def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
+    """Dummy cell"""
     c = Component()
     w = length
     h = wg_width
@@ -198,10 +207,16 @@ def test_autoname() -> None:
     assert name_base == "_dummy", name_base
 
     name_int = _dummy(length=3).name
-    assert name_int == "_dummy_length3", name_int
+    assert name_int == "_dummy_2dcab9f2", name_int
+
+    dummy2 = functools.partial(_dummy, length=3)
+    component_int = dummy2(length=3)
+    name_int = component_int.name
+    assert name_int == "_dummy_2dcab9f2", name_int
+    assert component_int.info.doc == "Dummy cell"
 
     name_float = _dummy(wg_width=0.5).name
-    assert name_float == "_dummy_wg_width500n", name_float
+    assert name_float == "_dummy_b78ec006", name_float
 
     name_length_first = _dummy(length=3, wg_width=0.5).name
     name_width_first = _dummy(wg_width=0.5, length=3).name
@@ -210,7 +225,7 @@ def test_autoname() -> None:
     ), f"{name_length_first} != {name_width_first}"
 
     name_args = _dummy(3).name
-    assert name_args == "_dummy_length3", name_args
+    assert name_int == "_dummy_2dcab9f2", name_int
 
     name_with_prefix = _dummy(prefix="hi").name
     assert name_with_prefix == "hi", name_with_prefix
@@ -221,12 +236,16 @@ def test_autoname() -> None:
 
 
 if __name__ == "__main__":
-    c = _dummy()
+    # dummy2 = functools.partial(_dummy, length=3)
+    # c = dummy2()
+
+    # c = _dummy()
     # test_raise_error_args()
     # c = gf.components.straight()
 
     # test_autoname_false()
-    # test_autoname()
+    # test_autoname_true()
+    test_autoname()
     # test_set_name()
 
     # c = wg(length=3)

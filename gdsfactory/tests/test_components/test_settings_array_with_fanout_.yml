@@ -1,14 +1,72 @@
-function_name: array_with_fanout
-info: {}
-module: gdsfactory.components.array_with_fanout
-name: array_with_fanout
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - -80.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - -70.0
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - -60.0
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
 settings:
-  bend_port_name1: null
-  bend_port_name2: null
-  columns: 3
-  component_port_name: e4
-  end_straight: 40
-  pitch: 150
-  radius: 5
-  start_straight: 5
-  waveguide_pitch: 10
+  changed: {}
+  default:
+    bend_port_name1: null
+    bend_port_name2: null
+    columns: 3
+    component_port_name: e4
+    end_straight: 40
+    pitch: 150
+    radius: 5
+    start_straight: 5
+    waveguide_pitch: 10
+  full:
+    bend_port_name1: null
+    bend_port_name2: null
+    columns: 3
+    component_port_name: e4
+    end_straight: 40
+    pitch: 150
+    radius: 5
+    start_straight: 5
+    waveguide_pitch: 10
+  info:
+    doc: "Returns an array of components in X axis\n    with fanout waveguides facing\
+      \ west\n\n    Args:\n        component: to replicate\n        columns: number\
+      \ of components\n        pitch: float\n        waveguide_pitch: for fanout\n\
+      \        start_straight: length of the start of the straight\n        end_straight:\
+      \ lenght of the straight at the end\n        radius: bend radius\n        component_port_name:\n\
+      \        bend:\n        bend_port_name1:\n        bend_port_name2:\n       \
+      \ cross_section: cross_section definition\n        **kwargs: cross_section settings\n\
+      \    "
+    function_name: array_with_fanout
+    info_version: 1
+    module: gdsfactory.components.array_with_fanout
+    name: array_with_fanout
+    name_long: array_with_fanout
+version: 1

@@ -1,10 +1,8 @@
-info:
-  instances:
-    mmi_bot: DeviceReference (parent Device "mmi1x2_length_mmi11_width_mmi5", ports
-      ['o1', 'o2', 'o3'], origin [ 97.5   -39.375], rotation 0, x_reflection False)
-    mmi_top: DeviceReference (parent Device "mmi1x2_length_mmi22_width_mmi6", ports
-      ['o1', 'o2', 'o3'], origin [21.  0.], rotation 0, x_reflection False)
-  routes:
-    mmi_top,o3:mmi_bot,o1: 72.024
-name: sample_docstring
-settings: {}
+cells: {}
+ports: {}
+settings:
+  changed: {}
+  default: {}
+  full: {}
+  info: {}
+version: 1

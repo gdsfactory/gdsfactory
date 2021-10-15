@@ -1,28 +1,139 @@
-function_name: grating_coupler_tree
-info:
-  parent:
-    function_name: straight_array
-    info: {}
-    module: gdsfactory.components.straight_array
-    name: straight_array_n4_spacing4
-    settings:
-      n: 4
-      spacing: 4
-  parent_name: straight_array_n4_spacing4
-module: gdsfactory.components.grating_coupler_tree
-name: grating_coupler_tree
+cells: {}
+ports:
+  vertical_te_00:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -439.5
+    - -59.111000000000004
+    name: vertical_te_00
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_01:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -312.5
+    - -59.111000000000004
+    name: vertical_te_01
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_02:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -185.5
+    - -59.111000000000004
+    name: vertical_te_02
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_03:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -58.50000000000001
+    - -59.111000000000004
+    name: vertical_te_03
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_04:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 68.5
+    - -59.111000000000004
+    name: vertical_te_04
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_05:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 195.5
+    - -59.111000000000004
+    name: vertical_te_05
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_06:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 322.5
+    - -59.111000000000004
+    name: vertical_te_06
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_07:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 449.5
+    - -59.111000000000004
+    name: vertical_te_07
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
 settings:
-  bend: bend_euler
-  component_name: straight_array_n4_spacing4
-  fanout_length: 0
-  gc_port_labels: null
-  gc_port_name: o1
-  grating_coupler: grating_coupler_elliptical_te
-  layer_label:
-  - 66
-  - 0
-  n: 4
-  optical_routing_type: 0
-  straight_spacing: 4
-  taper_factory: null
-  with_loopback: false
+  changed: {}
+  default:
+    fanout_length: 0
+    layer_label:
+    - 66
+    - 0
+    n: 4
+    straight_spacing: 4
+    with_loopback: false
+  full:
+    fanout_length: 0
+    layer_label:
+    - 66
+    - 0
+    n: 4
+    straight_spacing: 4
+    with_loopback: false
+  info:
+    doc: "Array of straights connected with grating couplers\n    useful to align\
+      \ the 4 corners of the chip\n\n    Args:\n        kwargs: cross_section settings\n\
+      \n    "
+    function_name: grating_coupler_tree
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_tree
+    name: grating_coupler_tree
+    name_long: grating_coupler_tree
+    parent:
+      changed:
+        n: 4
+        spacing: 4
+      default:
+        n: 4
+        spacing: 4
+      full:
+        n: 4
+        spacing: 4
+      info:
+        doc: "Array of straights connected with grating couplers.\n\n    useful to\
+          \ align the 4 corners of the chip\n\n    Args:\n        n: number of straights\n\
+          \        spacing: edge to edge straight spacing\n        straigth: straigth\
+          \ straight Component or library\n        **kwargs\n    "
+        function_name: straight_array
+        info_version: 1
+        module: gdsfactory.components.straight_array
+        name: straight_array_e79eb4c6
+        name_long: straight_array_e79eb4c6
+    parent_name: straight_array_e79eb4c6
+version: 1

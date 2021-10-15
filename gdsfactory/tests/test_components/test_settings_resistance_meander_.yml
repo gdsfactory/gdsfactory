@@ -1,19 +1,46 @@
-function_name: resistance_meander
-info: {}
-module: gdsfactory.components.resistance_meander
-name: resistance_meander
+cells: {}
+ports: {}
 settings:
-  gnd_layer:
-  - 49
-  - 0
-  num_squares: 1000
-  pad_layer:
-  - 49
-  - 0
-  pad_size:
-  - 50
-  - 50
-  res_layer:
-  - 49
-  - 0
-  width: 1
+  changed: {}
+  default:
+    gnd_layer:
+    - 49
+    - 0
+    num_squares: 1000
+    pad_layer:
+    - 49
+    - 0
+    pad_size:
+    - 50
+    - 50
+    res_layer:
+    - 49
+    - 0
+    width: 1
+  full:
+    gnd_layer:
+    - 49
+    - 0
+    num_squares: 1000
+    pad_layer:
+    - 49
+    - 0
+    pad_size:
+    - 50
+    - 50
+    res_layer:
+    - 49
+    - 0
+    width: 1
+  info:
+    doc: "meander to test resistance\n    from phidl.geometry\n\n    Args:\n     \
+      \   pad_size: Size of the two matched impedance pads (microns)\n        num_squares:\
+      \ Number of squares comprising the resonator wire\n        width: The width\
+      \ of the squares (microns)\n        res_layer:\n        pad_layer:\n       \
+      \ gnd_layer:\n\n    "
+    function_name: resistance_meander
+    info_version: 1
+    module: gdsfactory.components.resistance_meander
+    name: resistance_meander
+    name_long: resistance_meander
+version: 1

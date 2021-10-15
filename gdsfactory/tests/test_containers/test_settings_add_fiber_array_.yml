@@ -1,30 +1,171 @@
-function_name: add_fiber_array
-info:
-  parent:
-    function_name: mzi
-    info: {}
-    module: gdsfactory.components.mzi
-    name: mzi_length_x320_splitte_79951d94
-    settings:
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 320
-      length_y: 0.8
-      splitter: mmi2x2
-      straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y: null
-      with_splitter: true
-  parent_name: mzi_length_x320_splitte_79951d94
-module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_compone_6720071f
+cells: {}
+ports:
+  e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 16.75
+    - 21.425
+    name: e1
+    orientation: '180'
+    port_type: electrical
+    width: 11
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 368.75
+    - 21.425
+    name: e2
+    orientation: '0'
+    port_type: electrical
+    width: 11
+  vertical_te_00:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 2.3000000000000065
+    - -106.36899999999999
+    name: vertical_te_00
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_01:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 129.3
+    - -106.36899999999999
+    name: vertical_te_01
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_02:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 256.3
+    - -106.36899999999999
+    name: vertical_te_02
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
+  vertical_te_03:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 383.3
+    - -106.36899999999999
+    name: vertical_te_03
+    orientation: '270'
+    port_type: vertical_te
+    width: 11
 settings:
-  component_name: null
-  gc_port_labels: null
-  gc_port_name: o1
-  layer_label:
-  - 66
-  - 0
+  changed:
+    component: mzi_ac6d448d
+  default:
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+  full:
+    component: mzi_ac6d448d
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+  info:
+    doc: "Returns component with optical IO (tapers, south routes and grating_couplers).\n\
+      \n    Args:\n        component: to connect\n        grating_coupler: grating\
+      \ coupler instance, function or list of functions\n        bend: bend_circular\n\
+      \        gc_port_name: grating coupler input port name 'W0'\n        component_name:\
+      \ for the label\n        taper: taper function name or dict\n        get_input_labels_function:\
+      \ function to get input labels for grating couplers\n        get_input_label_text_loopback_function:\
+      \ function to get input label test\n        get_input_label_text_function\n\
+      \        straight: straight\n        fanout_length: None  # if None, automatic\
+      \ calculation of fanout length\n        max_y0_optical: None\n        with_loopback:\
+      \ True, adds loopback structures\n        straight_separation: 4.0\n       \
+      \ list_port_labels: None, adds TM labels to port indices in this list\n    \
+      \    connected_port_list_ids: None # only for type 0 optical routing\n     \
+      \   nb_optical_ports_lines: 1\n        force_manhattan: False\n        excluded_ports:\n\
+      \        grating_indices: None\n        routing_straight: None\n        routing_method:\
+      \ get_route\n        optical_routing_type: None: auto, 0: no extension, 1: standard,\
+      \ 2: check\n        gc_rotation: -90\n        layer_label: LAYER.LABEL\n   \
+      \     input_port_indexes: [0]\n\n    .. plot::\n        :include-source:\n\n\
+      \n        import gdsfactory as gf\n        gf.config.set_plot_options(show_subports=False)\n\
+      \n        c = gf.components.crossing()\n        cc = gf.routing.add_fiber_array(\n\
+      \            component=c,\n            optical_routing_type=2,\n           \
+      \ grating_coupler=gf.components.grating_coupler_elliptical_te,\n           \
+      \ with_loopback=False\n        )\n        cc.plot()\n\n    "
+    function_name: add_fiber_array
+    info_version: 1
+    module: gdsfactory.routing.add_fiber_array
+    name: add_fiber_array_487eeed5
+    name_long: add_fiber_array_487eeed5
+    parent:
+      changed:
+        length_x: 320
+        splitter: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter: mmi2x2
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      info:
+        doc: "Mzi.\n\n    Args:\n        delta_length: bottom arm vertical extra length\n\
+          \        length_y: vertical length for both and top arms\n        length_x:\
+          \ horizontal length\n        bend: 90 degrees bend library\n        straight:\
+          \ straight function\n        straight_y: straight for length_y and delta_length\n\
+          \        straight_x_top: top straight for length_x\n        straight_x_bot:\
+          \ bottom straight for length_x\n        splitter: splitter function\n  \
+          \      combiner: combiner function\n        with_splitter: if False removes\
+          \ splitter\n        kwargs: cross_section settings\n\n    .. code::\n\n\
+          \                   __Lx__\n                  |      |\n               \
+          \   Ly     Lyr (not a parameter)\n                  |      |\n        splitter==|\
+          \      |==combiner\n                  |      |\n                  Ly   \
+          \  Lyr (not a parameter)\n                  |      |\n                 \
+          \ | delta_length/2\n                  |      |\n                  |__Lx__|\n\
+          \n            ____________           __________\n            |         \
+          \ |          |\n            |          |       ___|\n        ____|     \
+          \     |____\n            | splitter   d1     d2  combiner\n        ____|\
+          \           ____\n            |          |       ____\n            |   \
+          \       |          |\n            |__________|          |__________\n  \
+          \  "
+        function_name: mzi
+        info_version: 1
+        module: gdsfactory.components.mzi
+        name: mzi_ac6d448d
+        name_long: mzi_ac6d448d
+    parent_name: mzi_ac6d448d
+version: 1

@@ -1145,8 +1145,8 @@ class Component(Device):
         return gdspath
 
     @property
-    def to_dict(self) -> DictConfig:
-        """Returns a dict representation of the compoment."""
+    def to_dict_config(self) -> DictConfig:
+        """Returns a DictConfig representation of the compoment."""
         d = DictConfig({})
         ports = {port.name: port.settings for port in self.get_ports_list()}
         clean_dict(ports)
@@ -1156,6 +1156,10 @@ class Component(Device):
         d.cells = recurse_structures(self)
         d.version = 1
         return OmegaConf.create(d)
+
+    @property
+    def to_dict(self) -> str:
+        return OmegaConf.to_container(self.to_dict_config)
 
     @property
     def to_yaml(self) -> str:
@@ -1380,5 +1384,5 @@ if __name__ == "__main__":
     c = gf.components.straight(length=2)
     c2 = c.rotate()
     c2.show()
-    c2.write_gds_with_metadata("a.gds")
-    print(c)
+    # c2.write_gds_with_metadata("a.gds")
+    # print(c)

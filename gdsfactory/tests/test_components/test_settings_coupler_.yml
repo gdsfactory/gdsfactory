@@ -1,11 +1,80 @@
-function_name: coupler
-info:
-  length: 10.314
-  min_bend_radius: 9.451
-module: gdsfactory.components.coupler
-name: coupler
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10.0
+    - -2.132
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10.0
+    - 2.868
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 30.0
+    - 2.868
+    name: o3
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 30.0
+    - -2.132
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  dx: 10
-  dy: 5
-  gap: 0.236
-  length: 20
+  changed: {}
+  default:
+    dx: 10
+    dy: 5
+    gap: 0.236
+    length: 20
+  full:
+    dx: 10
+    dy: 5
+    gap: 0.236
+    length: 20
+  info:
+    doc: "Symmetric coupler.\n\n    Args:\n        gap: between straights\n      \
+      \  length: of coupling region\n        coupler_symmetric_factory\n        coupler_straight\n\
+      \        dy: port to port vertical spacing\n        dx: length of bend in x\
+      \ direction\n        cross_section: factory\n        kwargs: cross_section settings\n\
+      \n    .. code::\n\n               dx                                 dx\n  \
+      \          |------|                           |------|\n         o2 ________\
+      \                           ______o3\n                    \\               \
+      \          /           |\n                     \\        length         /  \
+      \          |\n                      ======================= gap         | dy\n\
+      \                     /                       \\            |\n            ________/\
+      \                         \\_______    |\n         o1                      \
+      \                    o4\n\n              coupler_straight  coupler_symmetric_factory\n\
+      \n\n    "
+    function_name: coupler
+    info_version: 1
+    length: 10.314
+    min_bend_radius: 9.451
+    module: gdsfactory.components.coupler
+    name: coupler
+    name_long: coupler
+version: 1

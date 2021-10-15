@@ -1,13 +1,65 @@
-function_name: disk
-info: {}
-module: gdsfactory.components.disk
-name: disk
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 41.8
+    - 0.0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  direction: EAST
-  gap: 0.2
-  parity: 1
-  port:
-  - 0
-  - 0
-  radius: 10
-  wrap_angle_deg: 180
+  changed: {}
+  default:
+    direction: EAST
+    gap: 0.2
+    parity: 1
+    port:
+    - 0
+    - 0
+    radius: 10
+    wrap_angle_deg: 180
+  full:
+    direction: EAST
+    gap: 0.2
+    parity: 1
+    port:
+    - 0
+    - 0
+    radius: 10
+    wrap_angle_deg: 180
+  info:
+    doc: "Disk Resonator\n\n    Args:\n       radius: disk resonator radius\n    \
+      \   gap: Distance between the bus straight and resonator\n       wrap_angle\
+      \ : Angle in degrees between 0 and 180\n        determines how much the bus\
+      \ straight wraps along the resonator.\n        0 corresponds to a straight bus\
+      \ straight,\n        180 corresponds to a bus straight wrapped around half of\
+      \ the resonator.\n       parity (1 or -1): 1, resonator left from bus straight,\
+      \ -1 resonator to the right\n       port (tuple): Cartesian coordinate of the\
+      \ input port (x1, y1)\n       direction: Direction that the component will point\
+      \ *towards*, can be of type\n        'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,\
+      \ OR an angle (float, in radians)\n       waveguide_template (WaveguideTemplate):\
+      \ Picwriter WaveguideTemplate object\n\n\n    Other Parameters:\n       wg_width:\
+      \ 0.5\n       wg_layer: gf.LAYER.WG[0]\n       wg_datatype: gf.LAYER.WG[1]\n\
+      \       clad_layer: gf.LAYER.WGCLAD[0]\n       clad_datatype: gf.LAYER.WGCLAD[1]\n\
+      \       bend_radius: 10\n       cladding_offset: 3\n\n    "
+    function_name: disk
+    info_version: 1
+    module: gdsfactory.components.disk
+    name: disk
+    name_long: disk
+version: 1

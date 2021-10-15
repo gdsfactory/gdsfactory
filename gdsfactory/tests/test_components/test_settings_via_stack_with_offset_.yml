@@ -1,18 +1,64 @@
-function_name: via_stack_with_offset
-info: {}
-module: gdsfactory.components.via_stack_with_offset
-name: via_stack_with_offset
-settings:
-  offsets: null
-  port_orientation: 180
-  sizes:
-  - - 10
-    - 10
-  - - 10
-    - 10
-  vias:
-  - null
-  - function: via
+cells: {}
+ports:
+  e1:
     layer:
-    - 40
+    - 1
     - 0
+    midpoint:
+    - 0.0
+    - 10.0
+    name: e1
+    orientation: '180'
+    port_type: electrical
+    width: 10
+settings:
+  changed: {}
+  default:
+    layers:
+    - - 25
+      - 0
+    - - 41
+      - 0
+    offsets: null
+    port_orientation: 180
+    sizes:
+    - - 10
+      - 10
+    - - 10
+      - 10
+    vias:
+    - null
+    - function: via
+      layer:
+      - 40
+      - 0
+  full:
+    layers:
+    - - 25
+      - 0
+    - - 41
+      - 0
+    offsets: null
+    port_orientation: 180
+    sizes:
+    - - 10
+      - 10
+    - - 10
+      - 10
+    vias:
+    - null
+    - function: via
+      layer:
+      - 40
+      - 0
+  info:
+    doc: "Rectangular transition thru metal layers with offset between layers\n\n\
+      \    Args:\n        layers:\n        vias: factory for via or None for no via\n\
+      \        sizes:\n        offsets: for next layer\n        port_orientation:\
+      \ 180: W0, 0: E0, 90: N0, 270: S0\n    "
+    function_name: via_stack_with_offset
+    info_version: 1
+    module: gdsfactory.components.via_stack_with_offset
+    name: via_stack_with_offset
+    name_long: via_stack_with_offset
+version: 1

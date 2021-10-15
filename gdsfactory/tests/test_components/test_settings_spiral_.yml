@@ -1,22 +1,78 @@
-function_name: spiral
-info: {}
-module: gdsfactory.components.spiral
-name: spiral
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -500.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  cladding_offset: 3
-  direction: WEST
-  layer:
-  - 1
-  - 0
-  layer_cladding:
-  - 111
-  - 0
-  length: 10000
-  parity: 1
-  port:
-  - 0
-  - 0
-  port_spacing: 500
-  radius: 10
-  spacing: null
-  wg_width: 0.5
+  changed: {}
+  default:
+    cladding_offset: 3
+    direction: WEST
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+    length: 10000
+    parity: 1
+    port:
+    - 0
+    - 0
+    port_spacing: 500
+    radius: 10
+    spacing: null
+    wg_width: 0.5
+  full:
+    cladding_offset: 3
+    direction: WEST
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+    length: 10000
+    parity: 1
+    port:
+    - 0
+    - 0
+    port_spacing: 500
+    radius: 10
+    spacing: null
+    wg_width: 0.5
+  info:
+    doc: "Picwriter Spiral\n\n    Args:\n        port_spacing: distance between input/output\
+      \ ports\n        length: spiral length (um)\n        spacing: distance between\
+      \ parallel straights\n        parity: If 1 spiral on right side, if -1 spiral\
+      \ on left side (mirror flip)\n        port: Cartesian coordinate of the input\
+      \ port\n        direction: NORTH, WEST, SOUTH, EAST  or angle in radians\n \
+      \       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate\
+      \ function\n        layer: core layer\n        layer_cladding: cladding layer\n\
+      \        cladding_offset: distance from core to cladding\n        wg_width:\
+      \ 0.5\n        radius: 10\n        kwargs: cross_section settings\n\n    "
+    function_name: spiral
+    info_version: 1
+    module: gdsfactory.components.spiral
+    name: spiral
+    name_long: spiral
+version: 1

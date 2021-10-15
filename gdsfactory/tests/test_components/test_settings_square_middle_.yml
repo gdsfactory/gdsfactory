@@ -1,9 +1,0 @@
-function_name: square_middle
-info: {}
-module: gdsfactory.components.cd
-name: square_middle
-settings:
-  layer:
-  - 1
-  - 0
-  side: 0.5

@@ -1,5 +1,14 @@
-function_name: transition
-info: {}
-module: gdsfactory.tests.test_paths
-name: transition
-settings: {}
+cells: {}
+ports: {}
+settings:
+  changed: {}
+  default: {}
+  full: {}
+  info:
+    doc: null
+    function_name: transition
+    info_version: 1
+    module: gdsfactory.tests.test_paths
+    name: transition
+    name_long: transition
+version: 1

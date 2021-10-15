@@ -1,11 +1,51 @@
-function_name: ramp
-info: {}
-module: gdsfactory.components.ramp
-name: ramp
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 2.5
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 4.0
+    name: o2
+    orientation: '0'
+    port_type: optical
+    width: 8
 settings:
-  layer:
-  - 1
-  - 0
-  length: 10
-  width1: 5
-  width2: 8
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    length: 10
+    width1: 5
+    width2: 8
+  full:
+    layer:
+    - 1
+    - 0
+    length: 10
+    width1: 5
+    width2: 8
+  info:
+    doc: "Return a ramp component. Based on phidl.\n\n    Args:\n        length: Length\
+      \ of the ramp section.\n        width1: Width of the start of the ramp section.\n\
+      \        width2: Width of the end of the ramp section (defaults to width1).\n\
+      \        layer: Specific layer to put polygon geometry on.\n\n    "
+    function_name: ramp
+    info_version: 1
+    module: gdsfactory.components.ramp
+    name: ramp
+    name_long: ramp
+version: 1

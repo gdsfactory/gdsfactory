@@ -1,7 +1,64 @@
-function_name: coupler_straight
-info: {}
-module: gdsfactory.components.coupler_straight
-name: coupler_straight
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.77
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 0.77
+    name: o3
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 0.0
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  gap: 0.27
-  length: 10
+  changed: {}
+  default:
+    gap: 0.27
+    length: 10
+  full:
+    gap: 0.27
+    length: 10
+  info:
+    doc: "Coupler_straight with two parallel straights.\n\n    Args:\n        length:\
+      \ of straight\n        gap: between straights\n        straight: straight waveguide\
+      \ function\n        kwargs:  cross_section settings\n    "
+    function_name: coupler_straight
+    info_version: 1
+    module: gdsfactory.components.coupler_straight
+    name: coupler_straight
+    name_long: coupler_straight
+version: 1

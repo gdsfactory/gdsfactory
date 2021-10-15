@@ -1,32 +1,106 @@
-function_name: grating_coupler_elliptical2
-info:
-  polarization: te
-  wavelength: 1.55
-module: gdsfactory.components.grating_coupler_elliptical2
-name: grating_coupler_elliptical2
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 21.0
+    - 0.0
+    name: o2
+    orientation: '0'
+    port_type: optical
+    width: 11
 settings:
-  cladding_offset: 2
-  direction: EAST
-  dutycycle: 0.7
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  layer_cladding:
-  - 111
-  - 0
-  layer_core:
-  - 1
-  - 0
-  layer_ridge: null
-  length: 30
-  period: 1
-  polarization: te
-  port:
-  - 0
-  - 0
-  taper_angle: 30
-  taper_length: 10
-  teeth_list: null
-  wavelength: 1.55
-  wg_width: 0.5
+  changed: {}
+  default:
+    cladding_offset: 2
+    direction: EAST
+    dutycycle: 0.7
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+    layer_ridge: null
+    length: 30
+    period: 1
+    polarization: te
+    port:
+    - 0
+    - 0
+    taper_angle: 30
+    taper_length: 10
+    teeth_list: null
+    wavelength: 1.55
+    wg_width: 0.5
+  full:
+    cladding_offset: 2
+    direction: EAST
+    dutycycle: 0.7
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+    layer_ridge: null
+    length: 30
+    period: 1
+    polarization: te
+    port:
+    - 0
+    - 0
+    taper_angle: 30
+    taper_length: 10
+    teeth_list: null
+    wavelength: 1.55
+    wg_width: 0.5
+  info:
+    doc: "Returns Grating coupler from Picwriter\n\n    Args:\n        taper_angle:\
+      \ taper flare angle in degrees\n        taper_length: Length of the taper before\
+      \ the grating coupler.\n        length: total grating coupler length.\n    \
+      \    period: Grating period.\n        dutycycle: (period-gap)/period.\n    \
+      \    port: Cartesian coordinate of the input port\n        layer_ridge: for\
+      \ partial etched gratings\n        layer_core: Tuple specifying the layer/datatype\
+      \ of the ridge region.\n        layer_cladding: for the straight.\n        teeth_list:\
+      \ (gap, width) tuples to be used as the gap and teeth widths\n          for\
+      \ irregularly spaced gratings.\n          For example, [(0.6, 0.2), (0.7, 0.3),\
+      \ ...] would be a gap of 0.6,\n          then a tooth of width 0.2, then gap\
+      \ of 0.7 and tooth of 0.3, and so on.\n          Overrides *period*, *dutycycle*,\
+      \ and *length*.  Defaults to None.\n        direction: Direction that the component\
+      \ will point *towards*,\n          can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`,\
+      \ `'EAST'`,\n          OR an angle (float, in radians)\n        polarization:\
+      \ te or tm\n        wavelength: wavelength um\n        fiber_marker_width:\n\
+      \        wgt: waveguide_template object or function\n        wg_width\n    \
+      \    cladding_offset:\n\n\n    .. code::\n\n                      fiber\n\n\
+      \                   /  /  /  /\n                  /  /  /  /\n             \
+      \   _|-|_|-|_|-|___\n        WG  o1  ______________|\n\n    "
+    function_name: grating_coupler_elliptical2
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical2
+    name: grating_coupler_elliptical2
+    name_long: grating_coupler_elliptical2
+    polarization: te
+    wavelength: 1.55
+version: 1

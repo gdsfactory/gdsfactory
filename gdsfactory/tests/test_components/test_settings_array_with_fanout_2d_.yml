@@ -1,13 +1,98 @@
-function_name: array_with_fanout_2d
-info: {}
-module: gdsfactory.components.array_with_fanout
-name: array_with_fanout_2d
+cells: {}
+ports:
+  o1_1_1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - -80.0
+    name: o1_1_1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o1_2_1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - 70.0
+    name: o1_2_1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2_1_1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - -70.0
+    name: o2_1_1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2_2_1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - 80.0
+    name: o2_2_1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3_1_1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - -60.0
+    name: o3_1_1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3_2_1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -45.0
+    - 90.0
+    name: o3_2_1
+    orientation: 180
+    port_type: optical
+    width: 0.5
 settings:
-  columns: 3
-  pitch: 150
-  pitch_x: null
-  pitch_y: null
-  rows: 2
-  spacing:
-  - 0
-  - 150
+  changed: {}
+  default:
+    columns: 3
+    pitch: 150
+    pitch_x: null
+    pitch_y: null
+    rows: 2
+  full:
+    columns: 3
+    pitch: 150
+    pitch_x: null
+    pitch_y: null
+    rows: 2
+  info:
+    doc: "Returns 2D array with fanout waveguides facing west.\n\n    Args:\n    \
+      \    pitch: 2D pitch\n        pitch_x: defaults to pitch\n        pitch_y: defaults\
+      \ to pitch\n        columns:\n        rows:\n        kwargs:\n            component:\
+      \ to replicate\n            pitch: float\n            waveguide_pitch: for fanout\n\
+      \            start_straight: length of the start of the straight\n         \
+      \   end_straight: lenght of the straight at the end\n            radius: bend\
+      \ radius\n            cross_section: cross_section factory\n            component_port_name:\n\
+      \            bend_port_name1:\n            bend_port_name2:\n            **kwargs\n\
+      \    "
+    function_name: array_with_fanout_2d
+    info_version: 1
+    module: gdsfactory.components.array_with_fanout
+    name: array_with_fanout_2d
+    name_long: array_with_fanout_2d
+version: 1

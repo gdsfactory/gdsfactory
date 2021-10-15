@@ -1,13 +1,34 @@
-function_name: manhattan_text
-info: {}
-module: gdsfactory.components.manhattan_font
-name: manhattan_text
+cells: {}
+ports: {}
 settings:
-  justify: left
-  layer:
-  - 1
-  - 0
-  position:
-  - 0
-  - 0
-  text: abcd
+  changed: {}
+  default:
+    justify: left
+    layer:
+    - 1
+    - 0
+    position:
+    - 0
+    - 0
+    size: 10
+    text: abcd
+  full:
+    justify: left
+    layer:
+    - 1
+    - 0
+    position:
+    - 0
+    - 0
+    size: 10
+    text: abcd
+  info:
+    doc: "Pixel based font, guaranteed to be manhattan, without accute angles.\n\n\
+      \    Args:\n        text:\n        size: pixel size\n        position: coordinate\n\
+      \        justify\n        layer:\n\n    "
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text
+    name_long: manhattan_text
+version: 1

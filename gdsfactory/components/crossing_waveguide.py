@@ -248,8 +248,12 @@ def crossing45(
         c.add(cmp_ref)
         c.absorb(cmp_ref)
 
-    c.info["components"] = {"bezier_bend": bend, "crossing": crossing}
+    c.info.bezier = bend.settings
+    c.info.crossing = crossing.settings
     c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
+
+    c.bezier = bend
+    c.crossing = crossing
 
     c.add_port("o1", port=b_br.ports["o2"])
     c.add_port("o2", port=b_tr.ports["o2"])
@@ -298,8 +302,8 @@ def compensation_path(
     """
     # Get total path length taken by the bends
     crossing45 = crossing45() if callable(crossing45) else crossing45
-    X45_cmps = crossing45.info["components"]
-    length = 2 * X45_cmps["bezier_bend"].info["length"]
+    bezier_settings = crossing45.info.bezier
+    length = 2 * bezier_settings.info["length"]
 
     # Find a bezier S-bend with half this length, but with a fixed length
     # governed by the crossing45 X-distance (west to east ports) and
@@ -311,7 +315,7 @@ def compensation_path(
         return cmp.ports["o3"].x - cmp.ports["o1"].x
 
     x_span_crossing45 = get_x_span(crossing45)
-    x_span_crossing = get_x_span(X45_cmps["crossing"])
+    x_span_crossing = get_x_span(crossing45.crossing)
 
     # x span allowed for the bend
     x0 = (x_span_crossing45 - x_span_crossing) / 2
@@ -347,7 +351,7 @@ def compensation_path(
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     component = Component()
-    crossing0 = X45_cmps["crossing"].ref()
+    crossing0 = crossing45.crossing.ref()
     component.add(crossing0)
 
     sbend_left = sbend.ref(
@@ -364,7 +368,7 @@ def compensation_path(
     component.add_port("o2", port=sbend_right.ports["o1"])
 
     component.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    component.info["components"] = {"sbend": sbend}
+    component.info.sbend = sbend.settings
     return component
 
 

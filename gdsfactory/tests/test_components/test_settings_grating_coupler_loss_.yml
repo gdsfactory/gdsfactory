@@ -1,6 +1,17 @@
-function_name: grating_coupler_loss
-info: {}
-module: gdsfactory.components.grating_coupler_loss
-name: grating_coupler_loss
+cells: {}
+ports: {}
 settings:
-  pitch: 127
+  changed: {}
+  default:
+    pitch: 127
+  full:
+    pitch: 127
+  info:
+    doc: "\n\n    Args:\n        pitch: grating_coupler_pitch\n        grating_coupler_factory:\
+      \ function\n        **kwargs: cross_section settings\n\n    "
+    function_name: grating_coupler_loss
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_loss
+    name: grating_coupler_loss
+    name_long: grating_coupler_loss
+version: 1

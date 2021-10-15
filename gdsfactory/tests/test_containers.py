@@ -1,6 +1,5 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
-from pytest_regressions.num_regression import NumericRegressionFixture
 
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter
@@ -20,15 +19,7 @@ component = mzi_phase_shifter(splitter=mmi2x2)
 def test_settings(container_type: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     c = container_factory[container_type](component=component)
-    data_regression.check(c.settings)
-
-
-@pytest.mark.parametrize("container_type", container_names)
-def test_ports(container_type: str, num_regression: NumericRegressionFixture) -> None:
-    """Avoid regressions in port names and locations."""
-    c = container_factory[container_type](component=component)
-    if c.ports:
-        num_regression.check(c.get_ports_array())
+    data_regression.check(c.to_dict)
 
 
 @pytest.mark.parametrize("container_type", container_names)

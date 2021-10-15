@@ -1,16 +1,91 @@
-function_name: straight_heater_meander
-info: {}
-module: gdsfactory.components.straight_heater_meander
-name: straight_heater_meander
+cells: {}
+ports:
+  e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - -21.0
+    - 2.0
+    name: e1
+    orientation: '180'
+    port_type: electrical
+    width: 11
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 90.779
+    - 2.0
+    name: e2
+    orientation: '0'
+    port_type: electrical
+    width: 11
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -15.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 84.779
+    - 4.0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  extension_length: 15
-  heater_width: 2.5
-  layer_heater:
-  - 47
-  - 0
-  length: 300
-  port_orientation1: 180
-  port_orientation2: 0
-  radius: 5
-  spacing: 2
-  taper_length: 10
+  changed: {}
+  default:
+    extension_length: 15
+    heater_width: 2.5
+    layer_heater:
+    - 47
+    - 0
+    length: 300
+    port_orientation1: 180
+    port_orientation2: 0
+    radius: 5
+    spacing: 2
+    taper_length: 10
+  full:
+    extension_length: 15
+    heater_width: 2.5
+    layer_heater:
+    - 47
+    - 0
+    length: 300
+    port_orientation1: 180
+    port_orientation2: 0
+    radius: 5
+    spacing: 2
+    taper_length: 10
+  info:
+    doc: "Returns a meander based heater\n    based on SungWon Chung, Makoto Nakai,\
+      \ and Hossein Hashemi,\n    Low-power thermo-optic silicon modulator for large-scale\
+      \ photonic integrated systems\n    Opt. Express 27, 13430-13459 (2019)\n   \
+      \ https://www.osapublishing.org/oe/abstract.cfm?URI=oe-27-9-13430\n\n    FIXME:\
+      \ only works for 3 rows.\n\n    Args:\n        length: total length of the optical\
+      \ path\n        spacing: waveguide spacing (center to center)\n        cross_section:\
+      \ for waveguide\n        heater_width: for heater\n        extension_length:\
+      \ of input and output optical ports\n        layer_heater: for top heater, if\
+      \ None, it does not add a heater\n        radius: for the meander bends\n  \
+      \      via_stack: for the heater to contact metal\n        port_orientation1:\n\
+      \        port_orientation2:\n        taper_length: minimizes current concentrations\
+      \ from heater to contact\n    "
+    function_name: straight_heater_meander
+    info_version: 1
+    module: gdsfactory.components.straight_heater_meander
+    name: straight_heater_meander
+    name_long: straight_heater_meander
+version: 1

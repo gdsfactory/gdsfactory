@@ -1,7 +1,65 @@
-function_name: coupler90bend
-info: {}
-module: gdsfactory.components.coupler90bend
-name: coupler90bend
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.7
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 10.7
+    name: o3
+    orientation: 90
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.7
+    - 10.7
+    name: o4
+    orientation: 90
+    port_type: optical
+    width: 0.5
 settings:
-  gap: 0.2
-  radius: 10
+  changed: {}
+  default:
+    gap: 0.2
+    radius: 10
+  full:
+    gap: 0.2
+    radius: 10
+  info:
+    doc: "Returns 2 coupled bends.\n\n    Args:\n        radius: um\n        gap:\
+      \ um\n        bend: for bend\n        cross_section_inner:\n        cross_section_outer:\n\
+      \n\n    .. code::\n\n            r   3 4\n            |   | |\n            |\
+      \  / /\n            | / /\n        2____/ /\n        1_____/\n\n    "
+    function_name: coupler90bend
+    info_version: 1
+    module: gdsfactory.components.coupler90bend
+    name: coupler90bend
+    name_long: coupler90bend
+version: 1

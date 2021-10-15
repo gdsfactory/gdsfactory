@@ -1,15 +1,36 @@
-function_name: verniers
-info: {}
-module: gdsfactory.components.verniers
-name: verniers
+cells: {}
+ports: {}
 settings:
-  gap: 0.1
-  layer_label:
-  - 201
-  - 0
-  widths:
-  - 0.1
-  - 0.2
-  - 0.3
-  - 0.4
-  - 0.5
+  changed: {}
+  default:
+    gap: 0.1
+    layer_label:
+    - 201
+    - 0
+    widths:
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    xsize: 100
+  full:
+    gap: 0.1
+    layer_label:
+    - 201
+    - 0
+    widths:
+    - 0.1
+    - 0.2
+    - 0.3
+    - 0.4
+    - 0.5
+    xsize: 100
+  info:
+    doc: null
+    function_name: verniers
+    info_version: 1
+    module: gdsfactory.components.verniers
+    name: verniers
+    name_long: verniers
+version: 1

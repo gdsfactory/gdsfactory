@@ -1,18 +1,170 @@
-function_name: splitter_tree
-info: {}
-module: gdsfactory.components.splitter_tree
-name: splitter_tree_couplermz_686a6b67
+cells: {}
+ports:
+  e1_0_1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 16.75
+    - 21.425
+    name: e1_0_1
+    orientation: '180'
+    port_type: electrical
+    width: 11
+  e1_1_3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 516.75
+    - -28.575
+    name: e1_1_3
+    orientation: '180'
+    port_type: electrical
+    width: 11
+  e1_1_7:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 516.75
+    - 71.425
+    name: e1_1_7
+    orientation: '180'
+    port_type: electrical
+    width: 11
+  e2_0_2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 368.75
+    - 21.425
+    name: e2_0_2
+    orientation: '0'
+    port_type: electrical
+    width: 11
+  e2_1_4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 868.75
+    - -28.575
+    name: e2_1_4
+    orientation: '0'
+    port_type: electrical
+    width: 11
+  e2_1_8:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 868.75
+    - 71.425
+    name: e2_1_8
+    orientation: '0'
+    port_type: electrical
+    width: 11
+  o1_0_0:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - 0.0
+    name: o1_0_0
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o2_1_10:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 1398.25
+    - 25.0
+    name: o2_1_10
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o2_1_5:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 1398.25
+    - -25.0
+    name: o2_1_5
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o2_1_6:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 1398.25
+    - -75.0
+    name: o2_1_6
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o2_1_9:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 1398.25
+    - 75.0
+    name: o2_1_9
+    orientation: '0'
+    port_type: optical
+    width: 0.5
 settings:
-  bend_s_xsize: null
-  coupler:
-    combiner: mmi2x2
-    delta_length: 0
-    function: mzi
-    length_x: 320
-    straight_x_top:
-      function: straight_heater_metal_undercut
-      with_undercut: false
-  noutputs: 4
-  spacing:
-  - 500
-  - 100
+  changed:
+    coupler:
+      combiner: mmi2x2
+      delta_length: 0
+      function: mzi
+      length_x: 320
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    spacing:
+    - 500
+    - 100
+  default:
+    bend_s_xsize: null
+    noutputs: 4
+    spacing:
+    - 90
+    - 50
+  full:
+    bend_s_xsize: null
+    coupler:
+      combiner: mmi2x2
+      delta_length: 0
+      function: mzi
+      length_x: 320
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    noutputs: 4
+    spacing:
+    - 500
+    - 100
+  info:
+    doc: "Tree of power splitters.\n\n    Args:\n        coupler: coupler factory\n\
+      \        noutputs: number of outputs\n        spacing: x, y spacing between\
+      \ couplers\n        bend_s: Sbend library name or dict for termination\n   \
+      \     bend_s_xsize:\n        cross_section: cross_section\n        bend_s_xsize:\
+      \ dx for the sbend\n        kwargs: cross_section settings\n\n    .. code::\n\
+      \n             __|\n          __|  |__\n        _|  |__\n         |__      \
+      \  dy\n\n          dx\n\n    "
+    function_name: splitter_tree
+    info_version: 1
+    module: gdsfactory.components.splitter_tree
+    name: splitter_tree_e508e659
+    name_long: splitter_tree_e508e659
+version: 1

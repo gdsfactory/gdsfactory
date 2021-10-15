@@ -1,6 +1,5 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
-from pytest_regressions.num_regression import NumericRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -47,17 +46,11 @@ def test_gds(component: Component) -> None:
 
 def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
-    data_regression.check(component.settings)
-
-
-def test_ports(component: Component, num_regression: NumericRegressionFixture) -> None:
-    """Avoid regressions in port names and locations."""
-    if component.ports:
-        num_regression.check(component.get_ports_array())
+    data_regression.check(component.to_dict)
 
 
 if __name__ == "__main__":
     # c = test_type1()
-    c = test_type2()
-    # c = test_tapers()
+    # c = test_type2()
+    c = test_tapers()
     c.show()

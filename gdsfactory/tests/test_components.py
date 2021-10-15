@@ -2,7 +2,6 @@ import pathlib
 
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
-from pytest_regressions.num_regression import NumericRegressionFixture
 
 from gdsfactory.components import factory
 from gdsfactory.difftest import difftest
@@ -33,14 +32,7 @@ def test_gds(component_name: str) -> None:
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     component = factory[component_name]()
-    data_regression.check(component.settings)
-
-
-def test_ports(component_name: str, num_regression: NumericRegressionFixture) -> None:
-    """Avoid regressions in port names and locations."""
-    component = factory[component_name]()
-    if component.ports:
-        num_regression.check(component.get_ports_array())
+    data_regression.check(component.to_dict)
 
 
 def test_assert_ports_on_grid(component_name: str):

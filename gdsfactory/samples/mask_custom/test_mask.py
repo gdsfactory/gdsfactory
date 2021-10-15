@@ -14,24 +14,16 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.generate_does import generate_does
 from gdsfactory.mask.merge_metadata import merge_metadata
 
-
-def add_te(component, **kwargs) -> Component:
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_te,
-        **kwargs,
-    )
-    c.test = "passive_optical_te"
-    return c
+add_te = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_te,
+)
 
 
-def add_tm(component, **kwargs):
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_tm,
-        **kwargs,
-    )
-    return c
+add_tm = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_tm,
+)
 
 
 @gf.cell

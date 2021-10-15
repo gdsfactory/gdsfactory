@@ -1,11 +1,82 @@
-function_name: mmi2x2
-info: {}
-module: gdsfactory.components.mmi2x2
-name: mmi2x2
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - -0.625
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - 0.625
+    name: o2
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 12.75
+    - 0.625
+    name: o3
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 12.75
+    - -0.625
+    name: o4
+    orientation: '0'
+    port_type: optical
+    width: 0.5
 settings:
-  gap_mmi: 0.25
-  length_mmi: 5.5
-  length_taper: 10
-  width: 0.5
-  width_mmi: 2.5
-  width_taper: 1
+  changed: {}
+  default:
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10
+    width: 0.5
+    width_mmi: 2.5
+    width_taper: 1
+  full:
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10
+    width: 0.5
+    width_mmi: 2.5
+    width_taper: 1
+  info:
+    doc: "Mmi 2x2.\n\n    Args:\n        width: input and output straight width\n\
+      \        width_taper: interface between input straights and mmi region\n   \
+      \     length_taper: into the mmi region\n        length_mmi: in x direction\n\
+      \        width_mmi: in y direction\n        gap_mmi: (width_taper + gap between\
+      \ tapered wg)/2\n        taper: taper function\n        cross_section:\n   \
+      \     **kwargs: cross_section settings\n\n\n    .. code::\n\n              \
+      \     length_mmi\n                    <------>\n                    ________\n\
+      \                   |        |\n                __/          \\__\n        \
+      \    W1  __            __  E1\n                  \\          /_ _ _ _\n    \
+      \              |         | _ _ _ _| gap_mmi\n                __/          \\\
+      __\n            W0  __            __  E0\n                  \\          /\n\
+      \                   |________|\n\n                 <->\n            length_taper\n\
+      \n    "
+    function_name: mmi2x2
+    info_version: 1
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+    name_long: mmi2x2
+version: 1

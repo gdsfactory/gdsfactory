@@ -1,10 +1,26 @@
-function_name: circle
-info: {}
-module: gdsfactory.components.circle
-name: circle
+cells: {}
+ports: {}
 settings:
-  angle_resolution: 2.5
-  layer:
-  - 1
-  - 0
-  radius: 10
+  changed: {}
+  default:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radius: 10
+  full:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radius: 10
+  info:
+    doc: "Generate a circle geometry.\n\n    Args:\n        radius: of the circle.\n\
+      \        angle_resolution: number of degrees per point.\n        layer: layer.\n\
+      \n    "
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle
+    name_long: circle
+version: 1

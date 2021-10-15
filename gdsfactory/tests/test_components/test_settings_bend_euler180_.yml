@@ -1,15 +1,67 @@
-function_name: bend_euler
-info:
-  dy: 0
-  length: 42.818
-  radius: 10
-  radius_min: 9.086177089317244
-module: gdsfactory.components.bend_euler
-name: bend_euler_angle180
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 20.0
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
 settings:
-  angle: 180
-  direction: ccw
-  npoints: 720
-  p: 0.5
-  with_arc_floorplan: true
-  with_cladding_box: true
+  changed:
+    angle: 180
+  default:
+    angle: 90
+    direction: ccw
+    npoints: 720
+    p: 0.5
+    with_arc_floorplan: true
+    with_cladding_box: true
+  full:
+    angle: 180
+    direction: ccw
+    npoints: 720
+    p: 0.5
+    with_arc_floorplan: true
+    with_cladding_box: true
+  info:
+    doc: "Returns an euler bend that adiabatically transitions from straight to curved.\n\
+      \    By default, `radius` corresponds to the minimum radius of curvature of\
+      \ the bend.\n    However, if `with_arc_floorplan` is True, `radius` corresponds\
+      \ to the effective\n    radius of curvature (making the curve a drop-in replacement\
+      \ for an arc). If\n    p < 1.0, will create a \"partial euler\" curve as described\
+      \ in Vogelbacher et.\n    al. https://dx.doi.org/10.1364/oe.27.031394\n\n  \
+      \  default p = 0.5 based on this paper\n    https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937\n\
+      \n    Args:\n        angle: total angle of the curve\n        p: Proportion\
+      \ of the curve that is an Euler curve\n        with_arc_floorplan: If False:\
+      \ `radius` is the minimum radius of curvature\n          If True: The curve\
+      \ scales such that the endpoints match a bend_circular\n          with parameters\
+      \ `radius` and `angle`\n        npoints: Number of points used per 360 degrees\n\
+      \        direction: cw (clock-wise) or ccw (counter clock-wise)\n        with_cladding_box:\
+      \ to avoid DRC acute angle errors in cladding\n        cross_section:\n\n\n\
+      \    "
+    dy: 0
+    function_name: bend_euler
+    info_version: 1
+    length: 42.818
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_8d359e58
+    name_long: bend_euler_8d359e58
+    radius: 10
+    radius_min: 9.086177089317244
+version: 1

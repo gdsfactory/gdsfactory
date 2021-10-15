@@ -1,8 +1,88 @@
-function_name: grating_coupler_array
-info: {}
-module: gdsfactory.components.grating_coupler_array
-name: grating_coupler_array
+cells: {}
+ports:
+  o0:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -16.0
+    - 0.0
+    name: o0
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 111.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 238.0
+    - 0.0
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 365.0
+    - 0.0
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 492.0
+    - 0.0
+    name: o4
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o5:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 619.0
+    - 0.0
+    name: o5
+    orientation: 180
+    port_type: optical
+    width: 0.5
 settings:
-  n: 6
-  pitch: 127
-  port_name: o1
+  changed: {}
+  default:
+    n: 6
+    pitch: 127
+    port_name: o1
+  full:
+    n: 6
+    pitch: 127
+    port_name: o1
+  info:
+    doc: "Array of rectangular pads.\n\n    Args:\n        grating_coupler: ComponentOrFactory\n\
+      \        spacing: x spacing\n        n: number of pads\n        port_list: list\
+      \ of port orientations (N, S, W, E) per pad\n\n    "
+    function_name: grating_coupler_array
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_array
+    name: grating_coupler_array
+    name_long: grating_coupler_array
+version: 1

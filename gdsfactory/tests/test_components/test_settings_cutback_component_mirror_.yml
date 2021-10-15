@@ -1,56 +1,85 @@
-function_name: cutback_component_mirror
-info:
-  components: 88
-  parent:
-    function_name: taper
-    info:
-      length: 10
-      width1: 3
-      width2: 0.5
-    module: gdsfactory.components.taper
-    name: taper_width13_width2500n
-    settings:
-      length: 10
-      port: null
-      width1: 3
-      width2: 0.5
-      with_cladding_box: true
-  parent_name: loopback_taper_width13_width2500n_88
-module: gdsfactory.components.cutback_component
-name: cutback_component_mirror
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.0
+    - 0.0
+    name: o1
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -190.0
+    - 0.0
+    name: o2
+    orientation: '180'
+    port_type: optical
+    width: 0.5
 settings:
-  cols: 4
-  port1: o2
-  port2: o1
-  port_name1: o1
-  port_name2: o2
-  ports_map: null
-  radius: 10
-  rows: 5
-  sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABDABABABABCABABABABDABABABABCABABABAB
-  start_orientation: 0
-  symbol_to_component:
-    '-':
-    - straight_length20
-    - o1
-    - o2
-    A:
-    - taper_width13_width2500n
-    - o2
-    - o1
-    B:
-    - taper_width13_width2500n
-    - o1
-    - o2
-    C:
-    - bend_euler_angle180_radius10
-    - o2
-    - o1
-    D:
-    - bend_euler_angle180_radius10
-    - o1
-    - o2
-    _:
-    - straight_length20
-    - o2
-    - o1
+  changed: {}
+  default:
+    cols: 4
+    port1: o2
+    port2: o1
+    radius: 10
+    rows: 5
+  full:
+    cols: 4
+    port1: o2
+    port2: o1
+    radius: 10
+    rows: 5
+  info:
+    components: 88
+    doc: "Returns a daisy chain of components for measuring their loss.\n\n    Flips\
+      \ component. Useful when 'o2' is the port that you want to route to\n\n    Args:\n\
+      \        component: for cutback\n        cols\n        rows\n        radius:\
+      \ for bend\n        port1: name of first optical port\n        port2: name of\
+      \ second optical port\n        bend180: ubend\n        straight: waveguide function\
+      \ to connect both sides\n\n    "
+    function_name: cutback_component_mirror
+    info_version: 1
+    module: gdsfactory.components.cutback_component
+    name: cutback_component_mirror
+    name_long: cutback_component_mirror
+    parent:
+      changed:
+        width1: 3
+        width2: 0.5
+      default:
+        length: 10
+        port: null
+        width1: 0.5
+        width2: null
+        with_cladding_box: true
+      full:
+        length: 10
+        port: null
+        width1: 3
+        width2: 0.5
+        with_cladding_box: true
+      info:
+        doc: "Linear taper.\n\n    Args:\n        length:\n        width1: width of\
+          \ the west port\n        width2: width of the east port\n        port: can\
+          \ taper from a port instead of defining width1\n        with_cladding_box:\
+          \ to avoid DRC acute angle errors in cladding\n        cross_section:\n\
+          \        kwargs: cross_section settings\n\n    .. plot::\n      :include-source:\n\
+          \n      import gdsfactory as gf\n\n      c = gf.components.taper(width1=0.5,\
+          \ width2=5, length=3)\n      c.plot()\n\n    "
+        function_name: taper
+        info_version: 1
+        length: 10
+        module: gdsfactory.components.taper
+        name: taper_3d968a90
+        name_long: taper_3d968a90
+        width1: 3
+        width2: 0.5
+    parent_name: loopback_taper_3d968a90_88
+version: 1

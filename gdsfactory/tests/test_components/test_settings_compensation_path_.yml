@@ -1,9 +1,117 @@
-function_name: compensation_path
-info:
-  components:
-    sbend: bezier_control_points0__37266b3e
-  min_bend_radius: 18.226
-module: gdsfactory.components.crossing_waveguide
-name: compensation_path
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -40.0
+    - -18.869
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 40.0
+    - -18.868999999999996
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  direction: top
+  changed: {}
+  default:
+    direction: top
+  full:
+    direction: top
+  info:
+    doc: "Returns Component Path with same path length as the crossing\n\n    with\
+      \ input and output ports having same y coordinates\n\n    Args:\n        crossing45:\
+      \ the crossing45 component that we want to match in path length\n          \
+      \  This component needs to have .info[\"components\"] with bends and crossing\n\
+      \        direction: the direction in which the bend should go \"top\" / \"bottom\"\
+      \n\n\n    .. code::\n\n          ----       ----\n              \\     /\n \
+      \              \\   /\n                \\ /\n                 X\n          \
+      \      / \\\n               /   \\\n              /     \\\n          ---- \
+      \      ----\n\n    Compensation path:\n\n    .. code::\n\n             --+--\n\
+      \           _/     \\_\n        --/         \\--\n\n\n    "
+    function_name: compensation_path
+    info_version: 1
+    min_bend_radius: 18.226
+    module: gdsfactory.components.crossing_waveguide
+    name: compensation_path
+    name_long: compensation_path
+    sbend:
+      changed:
+        control_points:
+        - - 0
+          - 0
+        - - 18
+          - 0
+        - - 18
+          - 18.869
+        - - 36
+          - 18.869
+      default:
+        control_points:
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 201
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      full:
+        control_points:
+        - - 0
+          - 0
+        - - 18
+          - 0
+        - - 18
+          - 18.869
+        - - 36
+          - 18.869
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 201
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      info:
+        doc: "Bezier bend\n    We avoid autoname for control_points\n\n    Args:\n\
+          \        name: for the cell\n        width: straight width\n        control_points:\
+          \ list of points\n        npoints: number of points varying between 0 and\
+          \ 1\n        layer: layer\n        with_manhattan_facing_angles:\n     \
+          \   spike_length\n        start_angle\n        end_angle\n        grid\n\
+          \    "
+        end_angle: 0.301
+        function_name: bezier
+        info_version: 1
+        length: 42.087
+        min_bend_radius: 18.226
+        module: gdsfactory.components.bezier
+        name: bezier_87e8511e
+        name_long: bezier_87e8511e
+        start_angle: 0.301
+version: 1
