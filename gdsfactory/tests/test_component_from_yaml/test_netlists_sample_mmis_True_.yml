@@ -72,7 +72,7 @@ instances:
       length: 102.51
       npoints: 2
       with_cladding_box: true
-name: mmis
+name: Unnamed_a491ff8b
 placements:
   bend_euler_1da190e0_120p135_5p5:
     mirror: false

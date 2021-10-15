@@ -48,7 +48,9 @@ routes:
 """
 
 import functools
+import hashlib
 import io
+import json
 import pathlib
 import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
@@ -379,8 +381,6 @@ def make_connection(
 
 
 sample_mmis = """
-name:
-    mmis
 
 info:
     polarization: te
@@ -515,7 +515,10 @@ def from_yaml(
 
     instances = {}
     routes = {}
-    name = conf.get("name", "Unnamed")
+    name = conf.get(
+        "name",
+        f"Unnamed_{hashlib.md5(json.dumps(OmegaConf.to_container(conf)).encode()).hexdigest()[:8]}",
+    )
     if name in CACHE:
         return CACHE[name]
     else:

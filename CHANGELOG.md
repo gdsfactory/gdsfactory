@@ -40,6 +40,10 @@ from contracts import contract
 - add `tests/test_rotate.py` to ensure cache is working
 - add cache to component_from_yaml
 - add `tests/test_component_from_yaml_uid.py`
+- ensure consitent name in YAML by hashing the dict in case no name is provided
+- `component.settings` contains input settings (full, changed, default)
+- `component.info` contains derived settings (including module_name, parent settings, ...)
+- `component.to_dict` returns a dict with all information (info, settings, ports)
 
 ## 3.3.9
 
