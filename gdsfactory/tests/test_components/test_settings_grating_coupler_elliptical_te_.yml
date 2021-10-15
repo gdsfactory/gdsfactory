@@ -63,4 +63,6 @@ settings:
     module: gdsfactory.components.grating_coupler_elliptical
     name: grating_coupler_elliptical_te
     name_long: grating_coupler_elliptical_te
+    polarization: te
+    wavelength: 1.554
 version: 1

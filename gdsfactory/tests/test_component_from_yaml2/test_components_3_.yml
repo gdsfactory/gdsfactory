@@ -1,0 +1,19 @@
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 65.0
+    - -10.0
+    name: o1
+    orientation: '0'
+    port_type: optical
+    width: 0.5
+settings:
+  changed: {}
+  default: {}
+  full: {}
+  info: {}
+version: 1
