@@ -26,8 +26,6 @@ def test_load_component_with_settings():
 
     d1 = c1.to_dict
     d2 = c2.to_dict
-    d1.pop("ports")
-    d2.pop("ports")
     d = jsondiff.diff(d1, d2)
     assert len(d) == 0, d
 
@@ -35,11 +33,11 @@ def test_load_component_with_settings():
 if __name__ == "__main__":
     # test_load_component_gds()
     # test_load_component_settings()
-    test_load_component_with_settings()
+    # test_load_component_with_settings()
 
-    # c1 = gf.c.straight()
-    # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+    c1 = gf.c.straight()
+    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
-    # c2 = gf.read.from_gds(gdspath)
-    # d = jsondiff.diff(c1.to_dict, c2.to_dict)
-    # print(d)
+    c2 = gf.read.from_gds(gdspath)
+    d = jsondiff.diff(c1.to_dict, c2.to_dict)
+    print(d)
