@@ -1,4 +1,42 @@
 cells: {}
+info:
+  changed: {}
+  child:
+    changed:
+      n: 4
+      spacing: 4
+    default:
+      n: 4
+      spacing: 4
+    full:
+      n: 4
+      spacing: 4
+    function_name: straight_array
+    info_version: 1
+    module: gdsfactory.components.straight_array
+    name: straight_array_e79eb4c6
+    name_long: straight_array_e79eb4c6
+  default:
+    fanout_length: 0
+    layer_label:
+    - 66
+    - 0
+    n: 4
+    straight_spacing: 4
+    with_loopback: false
+  full:
+    fanout_length: 0
+    layer_label:
+    - 66
+    - 0
+    n: 4
+    straight_spacing: 4
+    with_loopback: false
+  function_name: grating_coupler_tree
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_tree
+  name: grating_coupler_tree
+  name_long: grating_coupler_tree
 ports:
   vertical_te_00:
     layer:
@@ -88,52 +126,4 @@ ports:
     orientation: 270
     port_type: vertical_te
     width: 11
-settings:
-  changed: {}
-  default:
-    fanout_length: 0
-    layer_label:
-    - 66
-    - 0
-    n: 4
-    straight_spacing: 4
-    with_loopback: false
-  full:
-    fanout_length: 0
-    layer_label:
-    - 66
-    - 0
-    n: 4
-    straight_spacing: 4
-    with_loopback: false
-  info:
-    doc: "Array of straights connected with grating couplers\n    useful to align\
-      \ the 4 corners of the chip\n\n    Args:\n        kwargs: cross_section settings\n\
-      \n    "
-    function_name: grating_coupler_tree
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_tree
-    name: grating_coupler_tree
-    name_long: grating_coupler_tree
-    parent:
-      changed:
-        n: 4
-        spacing: 4
-      default:
-        n: 4
-        spacing: 4
-      full:
-        n: 4
-        spacing: 4
-      info:
-        doc: "Array of straights connected with grating couplers.\n\n    useful to\
-          \ align the 4 corners of the chip\n\n    Args:\n        n: number of straights\n\
-          \        spacing: edge to edge straight spacing\n        straigth: straigth\
-          \ straight Component or library\n        **kwargs\n    "
-        function_name: straight_array
-        info_version: 1
-        module: gdsfactory.components.straight_array
-        name: straight_array_e79eb4c6
-        name_long: straight_array_e79eb4c6
-    parent_name: straight_array_e79eb4c6
 version: 1

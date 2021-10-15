@@ -1,4 +1,19 @@
 cells: {}
+info:
+  changed:
+    bend: bend_circular
+  default:
+    gap: 0.2
+    radius: 10
+  full:
+    bend: bend_circular
+    gap: 0.2
+    radius: 10
+  function_name: coupler90
+  info_version: 1
+  module: gdsfactory.components.coupler90
+  name: coupler90_a71eeef5
+  name_long: coupler90_a71eeef5
 ports:
   o1:
     layer:
@@ -44,25 +59,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed:
-    bend: bend_circular
-  default:
-    gap: 0.2
-    radius: 10
-  full:
-    bend: bend_circular
-    gap: 0.2
-    radius: 10
-  info:
-    doc: "straight coupled to a bend.\n\n    Args:\n        gap: um\n        radius:\
-      \ um\n        straight: for straight\n        bend: for bend\n        cross_section:\n\
-      \        kwargs: cross_section settings\n\n    .. code::\n\n             3\n\
-      \             |\n            /\n           /\n        2_/\n        1____4\n\n\
-      \    "
-    function_name: coupler90
-    info_version: 1
-    module: gdsfactory.components.coupler90
-    name: coupler90_a71eeef5
-    name_long: coupler90_a71eeef5
 version: 1

@@ -1,4 +1,50 @@
 cells: {}
+info:
+  changed: {}
+  child:
+    changed: {}
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
+    name_long: mmi1x2
+  default:
+    centered: false
+    extension_factory: null
+    length: 5
+    port1: null
+    port2: null
+    port_names: null
+    port_type: optical
+  full:
+    centered: false
+    extension_factory: null
+    length: 5
+    port1: null
+    port2: null
+    port_names: null
+    port_type: optical
+  function_name: extend_ports
+  info_version: 1
+  module: gdsfactory.components.extension
+  name: extend_ports
+  name_long: extend_ports
 ports:
   o1:
     layer:
@@ -33,74 +79,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    centered: false
-    extension_factory: null
-    length: 5
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  full:
-    centered: false
-    extension_factory: null
-    length: 5
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  info:
-    doc: "Returns a new component with some ports extended\n    it can accept an extension_factory\
-      \ or it defaults to the port\n    width and layer of each extended port\n\n\
-      \    Args:\n        component: component to extend ports\n        port_names:\
-      \ specify an list of ports names, if None it extends all ports\n        length:\
-      \ extension length\n        extension_factory: function to extend ports (defaults\
-      \ to a straight)\n        port1: input port name\n        port2: output port\
-      \ name\n        port_type: type of the ports to extend\n        **kwargs\n \
-      \   "
-    function_name: extend_ports
-    info_version: 1
-    module: gdsfactory.components.extension
-    name: extend_ports
-    name_long: extend_ports
-    parent:
-      changed: {}
-      default:
-        gap_mmi: 0.25
-        length_mmi: 5.5
-        length_taper: 10
-        width: 0.5
-        width_mmi: 2.5
-        width_taper: 1
-        with_cladding_box: true
-      full:
-        gap_mmi: 0.25
-        length_mmi: 5.5
-        length_taper: 10
-        width: 0.5
-        width_mmi: 2.5
-        width_taper: 1
-        with_cladding_box: true
-      info:
-        doc: "Mmi 1x2.\n\n    Args:\n        width: input and output straight width\n\
-          \        width_taper: interface between input straights and mmi region\n\
-          \        length_taper: into the mmi region\n        length_mmi: in x direction\n\
-          \        width_mmi: in y direction\n        gap_mmi:  gap between tapered\
-          \ wg\n        taper: taper function\n        with_cladding_box: to avoid\
-          \ DRC acute angle errors in cladding\n        cross_section:\n        **kwargs:\
-          \ cross_section settings\n\n\n    .. code::\n\n               length_mmi\n\
-          \                <------>\n                ________\n               |  \
-          \      |\n               |         \\__\n               |          __  E1\n\
-          \            __/          /_ _ _ _\n         W0 __          | _ _ _ _| gap_mmi\n\
-          \              \\          \\__\n               |          __  E0\n    \
-          \           |         /\n               |________|\n\n             <->\n\
-          \        length_taper\n\n    "
-        function_name: mmi1x2
-        info_version: 1
-        module: gdsfactory.components.mmi1x2
-        name: mmi1x2
-        name_long: mmi1x2
-    parent_name: mmi1x2
 version: 1

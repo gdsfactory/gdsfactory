@@ -1,4 +1,23 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    bend_s_xsize: null
+    noutputs: 4
+    spacing:
+    - 90
+    - 50
+  full:
+    bend_s_xsize: null
+    noutputs: 4
+    spacing:
+    - 90
+    - 50
+  function_name: splitter_tree
+  info_version: 1
+  module: gdsfactory.components.splitter_tree
+  name: splitter_tree
+  name_long: splitter_tree
 ports:
   o1_0_0:
     layer:
@@ -55,31 +74,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    bend_s_xsize: null
-    noutputs: 4
-    spacing:
-    - 90
-    - 50
-  full:
-    bend_s_xsize: null
-    noutputs: 4
-    spacing:
-    - 90
-    - 50
-  info:
-    doc: "Tree of power splitters.\n\n    Args:\n        coupler: coupler factory\n\
-      \        noutputs: number of outputs\n        spacing: x, y spacing between\
-      \ couplers\n        bend_s: Sbend library name or dict for termination\n   \
-      \     bend_s_xsize:\n        cross_section: cross_section\n        bend_s_xsize:\
-      \ dx for the sbend\n        kwargs: cross_section settings\n\n    .. code::\n\
-      \n             __|\n          __|  |__\n        _|  |__\n         |__      \
-      \  dy\n\n          dx\n\n    "
-    function_name: splitter_tree
-    info_version: 1
-    module: gdsfactory.components.splitter_tree
-    name: splitter_tree
-    name_long: splitter_tree
 version: 1

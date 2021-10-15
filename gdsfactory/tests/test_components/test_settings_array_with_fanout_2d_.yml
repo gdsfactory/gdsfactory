@@ -1,4 +1,23 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    columns: 3
+    pitch: 150
+    pitch_x: null
+    pitch_y: null
+    rows: 2
+  full:
+    columns: 3
+    pitch: 150
+    pitch_x: null
+    pitch_y: null
+    rows: 2
+  function_name: array_with_fanout_2d
+  info_version: 1
+  module: gdsfactory.components.array_with_fanout
+  name: array_with_fanout_2d
+  name_long: array_with_fanout_2d
 ports:
   o1_1_1:
     layer:
@@ -66,33 +85,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    columns: 3
-    pitch: 150
-    pitch_x: null
-    pitch_y: null
-    rows: 2
-  full:
-    columns: 3
-    pitch: 150
-    pitch_x: null
-    pitch_y: null
-    rows: 2
-  info:
-    doc: "Returns 2D array with fanout waveguides facing west.\n\n    Args:\n    \
-      \    pitch: 2D pitch\n        pitch_x: defaults to pitch\n        pitch_y: defaults\
-      \ to pitch\n        columns:\n        rows:\n        kwargs:\n            component:\
-      \ to replicate\n            pitch: float\n            waveguide_pitch: for fanout\n\
-      \            start_straight: length of the start of the straight\n         \
-      \   end_straight: lenght of the straight at the end\n            radius: bend\
-      \ radius\n            cross_section: cross_section factory\n            component_port_name:\n\
-      \            bend_port_name1:\n            bend_port_name2:\n            **kwargs\n\
-      \    "
-    function_name: array_with_fanout_2d
-    info_version: 1
-    module: gdsfactory.components.array_with_fanout
-    name: array_with_fanout_2d
-    name_long: array_with_fanout_2d
 version: 1

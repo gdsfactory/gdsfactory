@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     data: mask01
@@ -14,11 +13,10 @@ settings:
     - 1
     - 0
     psize: 1
-  info:
-    doc: Returns QRCode.
-    function_name: qrcode
-    info_version: 1
-    module: gdsfactory.components.version_stamp
-    name: qrcode
-    name_long: qrcode
+  function_name: qrcode
+  info_version: 1
+  module: gdsfactory.components.version_stamp
+  name: qrcode
+  name_long: qrcode
+ports: {}
 version: 1

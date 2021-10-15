@@ -1,4 +1,25 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    L0: 5
+    n: 2
+    taper_length: 10
+    total_length: 1600
+    wg_width: 0.5
+    wg_width_wide: 2
+  full:
+    L0: 5
+    n: 2
+    taper_length: 10
+    total_length: 1600
+    wg_width: 0.5
+    wg_width_wide: 2
+  function_name: delay_snake
+  info_version: 1
+  module: gdsfactory.components.delay_snake
+  name: delay_snake
+  name_long: delay_snake
 ports:
   o1:
     layer:
@@ -22,33 +43,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    L0: 5
-    n: 2
-    taper_length: 10
-    total_length: 1600
-    wg_width: 0.5
-    wg_width_wide: 2
-  full:
-    L0: 5
-    n: 2
-    taper_length: 10
-    total_length: 1600
-    wg_width: 0.5
-    wg_width_wide: 2
-  info:
-    doc: "Snake input facing west\n    Snake output facing east\n\n    Args:\n   \
-      \     wg_width\n        total_length:\n        L0: initial offset\n        n:\
-      \ number of loops\n        taper: taper library\n        bend\n        straight\n\
-      \n    .. code::\n\n       | L0 |    L2        |\n\n            ->-------------|\n\
-      \                           | pi * radius\n       |-------------------|\n  \
-      \     |\n       |------------------->\n\n       |        DL         |\n\n\n\
-      \    "
-    function_name: delay_snake
-    info_version: 1
-    module: gdsfactory.components.delay_snake
-    name: delay_snake
-    name_long: delay_snake
 version: 1

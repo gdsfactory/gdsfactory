@@ -660,18 +660,6 @@ def round_corners(
             bend_points.append(other_port.midpoint)
             previous_port_point = other_port.midpoint
 
-        # else:
-        #     print('no match', dx_points, dy_points, matching_ports)
-        # dx_bend = next_port.x - previous_port_point[0]
-        # dy_bend = next_port.y - previous_port_point[1]
-        # if dx_points * dx_bend < 0 or dy_points * dy_bend < 0:
-        #     radius = bend_ref.get_property("dy")
-        #     warnings.warn(
-        #         f"90deg bend with radius = {radius} does not fit into the route",
-        #         RouteWarning,
-        #     )
-        #     references+=[gf.c.rectangle(size=(2,2)).ref(position=points[i])]
-
         straight_sections += [
             (
                 p0_straight,

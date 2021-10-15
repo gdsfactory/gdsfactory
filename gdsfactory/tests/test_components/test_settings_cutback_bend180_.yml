@@ -1,4 +1,22 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    columns: 6
+    rows: 6
+    spacing: 3
+    straight_length: 5
+  full:
+    columns: 6
+    rows: 6
+    spacing: 3
+    straight_length: 5
+  function_name: cutback_bend180
+  info_version: 1
+  module: gdsfactory.components.cutback_bend
+  n_bends: 82
+  name: cutback_bend180
+  name_long: cutback_bend180
 ports:
   o1:
     layer:
@@ -22,25 +40,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    columns: 6
-    rows: 6
-    spacing: 3
-    straight_length: 5
-  full:
-    columns: 6
-    rows: 6
-    spacing: 3
-    straight_length: 5
-  info:
-    doc: "\n\n    .. code::\n\n          _\n        _| |_  this is a row\n\n     \
-      \   _ this is a column\n\n    "
-    function_name: cutback_bend180
-    info_version: 1
-    module: gdsfactory.components.cutback_bend
-    n_bends: 82
-    name: cutback_bend180
-    name_long: cutback_bend180
 version: 1

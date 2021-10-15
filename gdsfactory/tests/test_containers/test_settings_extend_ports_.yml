@@ -1,4 +1,64 @@
 cells: {}
+info:
+  changed:
+    component: mzi_ac6d448d
+  child:
+    changed:
+      length_x: 320
+      splitter: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter: mmi2x2
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_ac6d448d
+    name_long: mzi_ac6d448d
+  default:
+    centered: false
+    extension_factory: null
+    length: 5
+    port1: null
+    port2: null
+    port_names: null
+    port_type: optical
+  full:
+    centered: false
+    component: mzi_ac6d448d
+    extension_factory: null
+    length: 5
+    port1: null
+    port2: null
+    port_names: null
+    port_type: optical
+  function_name: extend_ports
+  info_version: 1
+  module: gdsfactory.components.extension
+  name: extend_ports_487eeed5
+  name_long: extend_ports_487eeed5
 ports:
   e1:
     layer:
@@ -66,94 +126,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed:
-    component: mzi_ac6d448d
-  default:
-    centered: false
-    extension_factory: null
-    length: 5
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  full:
-    centered: false
-    component: mzi_ac6d448d
-    extension_factory: null
-    length: 5
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  info:
-    doc: "Returns a new component with some ports extended\n    it can accept an extension_factory\
-      \ or it defaults to the port\n    width and layer of each extended port\n\n\
-      \    Args:\n        component: component to extend ports\n        port_names:\
-      \ specify an list of ports names, if None it extends all ports\n        length:\
-      \ extension length\n        extension_factory: function to extend ports (defaults\
-      \ to a straight)\n        port1: input port name\n        port2: output port\
-      \ name\n        port_type: type of the ports to extend\n        **kwargs\n \
-      \   "
-    function_name: extend_ports
-    info_version: 1
-    module: gdsfactory.components.extension
-    name: extend_ports_487eeed5
-    name_long: extend_ports_487eeed5
-    parent:
-      changed:
-        length_x: 320
-        splitter: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter: mmi2x2
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      info:
-        doc: "Mzi.\n\n    Args:\n        delta_length: bottom arm vertical extra length\n\
-          \        length_y: vertical length for both and top arms\n        length_x:\
-          \ horizontal length\n        bend: 90 degrees bend library\n        straight:\
-          \ straight function\n        straight_y: straight for length_y and delta_length\n\
-          \        straight_x_top: top straight for length_x\n        straight_x_bot:\
-          \ bottom straight for length_x\n        splitter: splitter function\n  \
-          \      combiner: combiner function\n        with_splitter: if False removes\
-          \ splitter\n        kwargs: cross_section settings\n\n    .. code::\n\n\
-          \                   __Lx__\n                  |      |\n               \
-          \   Ly     Lyr (not a parameter)\n                  |      |\n        splitter==|\
-          \      |==combiner\n                  |      |\n                  Ly   \
-          \  Lyr (not a parameter)\n                  |      |\n                 \
-          \ | delta_length/2\n                  |      |\n                  |__Lx__|\n\
-          \n            ____________           __________\n            |         \
-          \ |          |\n            |          |       ___|\n        ____|     \
-          \     |____\n            | splitter   d1     d2  combiner\n        ____|\
-          \           ____\n            |          |       ____\n            |   \
-          \       |          |\n            |__________|          |__________\n  \
-          \  "
-        function_name: mzi
-        info_version: 1
-        module: gdsfactory.components.mzi
-        name: mzi_ac6d448d
-        name_long: mzi_ac6d448d
-    parent_name: mzi_ac6d448d
 version: 1

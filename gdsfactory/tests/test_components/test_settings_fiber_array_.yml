@@ -1,4 +1,33 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+    n: 8
+    pitch: 127
+  full:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+    n: 8
+    pitch: 127
+  function_name: fiber_array
+  info_version: 1
+  module: gdsfactory.components.fiber_array
+  name: fiber_array
+  name_long: fiber_array
 ports:
   F0:
     layer:
@@ -88,37 +117,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 10
-settings:
-  changed: {}
-  default:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding:
-    - 111
-    - 0
-    layer_core:
-    - 1
-    - 0
-    n: 8
-    pitch: 127
-  full:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding:
-    - 111
-    - 0
-    layer_core:
-    - 1
-    - 0
-    n: 8
-    pitch: 127
-  info:
-    doc: "Returns a fiber array\n\n    .. code::\n\n        pitch\n         <->\n\
-      \        _________\n       |         | lid\n       | o o o o |\n       |   \
-      \      | base\n       |_________|\n          length\n\n    "
-    function_name: fiber_array
-    info_version: 1
-    module: gdsfactory.components.fiber_array
-    name: fiber_array
-    name_long: fiber_array
 version: 1

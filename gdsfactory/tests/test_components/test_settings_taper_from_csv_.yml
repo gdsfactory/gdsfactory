@@ -1,4 +1,29 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    cladding_offset: 3
+    filepath: taper_strip_0p5_3_36.csv
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+  full:
+    cladding_offset: 3
+    filepath: taper_strip_0p5_3_36.csv
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+  function_name: taper_from_csv
+  info_version: 1
+  module: gdsfactory.components.taper_from_csv
+  name: taper_from_csv
+  name_long: taper_from_csv
 ports:
   o1:
     layer:
@@ -22,32 +47,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 3
-settings:
-  changed: {}
-  default:
-    cladding_offset: 3
-    filepath: taper_strip_0p5_3_36.csv
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
-  full:
-    cladding_offset: 3
-    filepath: taper_strip_0p5_3_36.csv
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
-  info:
-    doc: "\n\n    Args:\n        filepath: for CSV file\n        layer\n        layer_cladding:\n\
-      \        cladding_offset\n        **kwargs: kwargs will be ignored\n\n    "
-    function_name: taper_from_csv
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_from_csv
-    name_long: taper_from_csv
 version: 1

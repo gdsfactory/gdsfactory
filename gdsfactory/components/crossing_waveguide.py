@@ -248,7 +248,7 @@ def crossing45(
         c.absorb(cmp_ref)
 
     c.info.bezier_length = bend.info.length
-    c.info.crossing = crossing.settings
+    c.info.crossing = crossing.info
     c.info.min_bend_radius = b_br.info.min_bend_radius
 
     c.bezier = bend
@@ -367,7 +367,7 @@ def compensation_path(
     component.add_port("o2", port=sbend_right.ports["o1"])
 
     component.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    component.info.sbend = sbend.settings
+    component.info.sbend = sbend.info
     return component
 
 

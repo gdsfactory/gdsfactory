@@ -1,4 +1,23 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    l1: 0.159
+    l2: 0.159
+    n: 10
+    w1: 0.475
+    w2: 0.525
+  full:
+    l1: 0.159
+    l2: 0.159
+    n: 10
+    w1: 0.475
+    w2: 0.525
+  function_name: dbr
+  info_version: 1
+  module: gdsfactory.components.dbr
+  name: dbr
+  name_long: dbr
 ports:
   o1:
     layer:
@@ -22,30 +41,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.524
-settings:
-  changed: {}
-  default:
-    l1: 0.159
-    l2: 0.159
-    n: 10
-    w1: 0.475
-    w2: 0.525
-  full:
-    l1: 0.159
-    l2: 0.159
-    n: 10
-    w1: 0.475
-    w2: 0.525
-  info:
-    doc: "Distributed Bragg Reflector\n\n    Args:\n        w1: thin width\n     \
-      \   l1: thin length\n        w2: thick width\n        l2: thick length\n   \
-      \     n: number of periods\n\n    .. code::\n\n           l1      l2\n     \
-      \   <-----><-------->\n                _________\n        _______|\n\n     \
-      \     w1       w2       ...  n times\n        _______\n               |_________\n\
-      \n\n    "
-    function_name: dbr
-    info_version: 1
-    module: gdsfactory.components.dbr
-    name: dbr
-    name_long: dbr
 version: 1

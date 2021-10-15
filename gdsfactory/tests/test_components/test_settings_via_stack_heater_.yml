@@ -1,50 +1,5 @@
 cells: {}
-ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -5.5
-    - 0.0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 11
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0.0
-    - 5.5
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 11
-  e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 5.5
-    - 0.0
-    name: e3
-    orientation: 0
-    port_type: electrical
-    width: 11
-  e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0.0
-    - -5.5
-    name: e4
-    orientation: 270
-    port_type: electrical
-    width: 11
-settings:
+info:
   changed:
     layers:
     - - 47
@@ -107,20 +62,60 @@ settings:
       layer:
       - 43
       - 0
-  info:
-    doc: "Rectangular via_stack\n\n    Args:\n        size: of the layers\n      \
-      \  layers: layers on which to draw rectangles\n        vias: vias to use to\
-      \ fill the rectangles\n        layer_port: if None asumes port is on the last\
-      \ layer\n    "
-    function_name: via_stack
-    info_version: 1
+  function_name: via_stack
+  info_version: 1
+  layer:
+  - 49
+  - 0
+  module: gdsfactory.components.via_stack
+  name: via_stack_46068602
+  name_long: via_stack_46068602
+  size:
+  - 11.0
+  - 11.0
+ports:
+  e1:
     layer:
     - 49
     - 0
-    module: gdsfactory.components.via_stack
-    name: via_stack_46068602
-    name_long: via_stack_46068602
-    size:
-    - 11
-    - 11
+    midpoint:
+    - -5.5
+    - 0.0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    width: 11
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0.0
+    - 5.5
+    name: e2
+    orientation: 90
+    port_type: electrical
+    width: 11
+  e3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 5.5
+    - 0.0
+    name: e3
+    orientation: 0
+    port_type: electrical
+    width: 11
+  e4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0.0
+    - -5.5
+    name: e4
+    orientation: 270
+    port_type: electrical
+    width: 11
 version: 1

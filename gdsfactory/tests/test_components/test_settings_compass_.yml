@@ -1,4 +1,27 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    layer:
+    - 1
+    - 0
+    port_type: electrical
+    size:
+    - 4
+    - 2
+  full:
+    layer:
+    - 1
+    - 0
+    port_type: electrical
+    size:
+    - 4
+    - 2
+  function_name: compass
+  info_version: 1
+  module: gdsfactory.components.compass
+  name: compass
+  name_long: compass
 ports:
   e1:
     layer:
@@ -44,31 +67,4 @@ ports:
     orientation: 270
     port_type: electrical
     width: 4
-settings:
-  changed: {}
-  default:
-    layer:
-    - 1
-    - 0
-    port_type: electrical
-    size:
-    - 4
-    - 2
-  full:
-    layer:
-    - 1
-    - 0
-    port_type: electrical
-    size:
-    - 4
-    - 2
-  info:
-    doc: "Rectangular contact pad with centered ports on rectangle edges\n    (north,\
-      \ south, east, and west)\n\n    Args:\n        size: rectangle size\n      \
-      \  layer: tuple (int, int)\n        port_type:\n    "
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass
-    name_long: compass
 version: 1

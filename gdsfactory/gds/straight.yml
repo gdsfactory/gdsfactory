@@ -21,27 +21,22 @@ ports:
     - 1
     - 0
     port_type: optical
-settings:
-  info:
-    length: 1.234
-    width: 0.5
-    module: gdsfactory.components.straight
-    function_name: straight
-    info_version: 1
-    name_long: straight_0a6c91fb
-    name: straight_0a6c91fb
-    doc: "Returns a Straight waveguide.\n\n    Args:\n        length: straight length\n\
-      \        npoints: number of points\n        with_cladding_box: box in layers_cladding\
-      \ to avoid DRC sharp edges\n        cross_section:\n        **kwargs: cross_section\
-      \ settings\n    "
-  full:
-    length: 1.234
-    npoints: 2
-    with_cladding_box: true
+info:
+  length: 1.234
+  width: 0.5
+  module: gdsfactory.components.straight
+  function_name: straight
+  info_version: 1
+  name_long: straight_0a6c91fb
+  name: straight_0a6c91fb
   changed:
     length: 1.234
   default:
     length: 10
+    npoints: 2
+    with_cladding_box: true
+  full:
+    length: 1.234
     npoints: 2
     with_cladding_box: true
 cells: {}

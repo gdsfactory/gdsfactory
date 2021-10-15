@@ -1,4 +1,19 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    dx: 10
+    dy: 5
+    gap: 0.234
+  full:
+    dx: 10
+    dy: 5
+    gap: 0.234
+  function_name: coupler_asymmetric
+  info_version: 1
+  module: gdsfactory.components.coupler_asymmetric
+  name: coupler_asymmetric
+  name_long: coupler_asymmetric
 ports:
   o1:
     layer:
@@ -33,27 +48,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    dx: 10
-    dy: 5
-    gap: 0.234
-  full:
-    dx: 10
-    dy: 5
-    gap: 0.234
-  info:
-    doc: "bend coupled to straight waveguide\n\n    Args:\n        bend:\n       \
-      \ straight: straight library\n        gap: um\n        dy: port to port vertical\
-      \ spacing\n        dx: bend length in x direction\n        cross_section:\n\
-      \        **kwargs: cross_section settings\n\n    .. code::\n\n             \
-      \           dx\n                     |-----|\n                      _____ o2\n\
-      \                     /         |\n               _____/          |\n      \
-      \   gap o1____________    |  dy\n                            o3\n\n    "
-    function_name: coupler_asymmetric
-    info_version: 1
-    module: gdsfactory.components.coupler_asymmetric
-    name: coupler_asymmetric
-    name_long: coupler_asymmetric
 version: 1

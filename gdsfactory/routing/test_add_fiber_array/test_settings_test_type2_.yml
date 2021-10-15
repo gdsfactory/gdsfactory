@@ -1,4 +1,50 @@
 cells: {}
+info:
+  changed:
+    component: coupler_12df0178
+    optical_routing_type: 2
+  child:
+    changed:
+      gap: 0.244
+      length: 5.67
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.244
+      length: 5.67
+    function_name: coupler
+    info_version: 1
+    length: 10.313
+    min_bend_radius: 9.465
+    module: gdsfactory.components.coupler
+    name: coupler_12df0178
+    name_long: coupler_12df0178
+  default:
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+  full:
+    component: coupler_12df0178
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+    optical_routing_type: 2
+  function_name: add_fiber_array
+  info_version: 1
+  module: gdsfactory.routing.add_fiber_array
+  name: add_fiber_array_f6e0ce81
+  name_long: add_fiber_array_f6e0ce81
 ports:
   vertical_te_00:
     layer:
@@ -44,89 +90,4 @@ ports:
     orientation: 270
     port_type: vertical_te
     width: 11
-settings:
-  changed:
-    component: coupler_12df0178
-    optical_routing_type: 2
-  default:
-    component_name: null
-    gc_port_labels: null
-    gc_port_name: o1
-    layer_label:
-    - 66
-    - 0
-  full:
-    component: coupler_12df0178
-    component_name: null
-    gc_port_labels: null
-    gc_port_name: o1
-    layer_label:
-    - 66
-    - 0
-    optical_routing_type: 2
-  info:
-    doc: "Returns component with optical IO (tapers, south routes and grating_couplers).\n\
-      \n    Args:\n        component: to connect\n        grating_coupler: grating\
-      \ coupler instance, function or list of functions\n        bend: bend_circular\n\
-      \        gc_port_name: grating coupler input port name 'W0'\n        component_name:\
-      \ for the label\n        taper: taper function name or dict\n        get_input_labels_function:\
-      \ function to get input labels for grating couplers\n        get_input_label_text_loopback_function:\
-      \ function to get input label test\n        get_input_label_text_function\n\
-      \        straight: straight\n        fanout_length: None  # if None, automatic\
-      \ calculation of fanout length\n        max_y0_optical: None\n        with_loopback:\
-      \ True, adds loopback structures\n        straight_separation: 4.0\n       \
-      \ list_port_labels: None, adds TM labels to port indices in this list\n    \
-      \    connected_port_list_ids: None # only for type 0 optical routing\n     \
-      \   nb_optical_ports_lines: 1\n        force_manhattan: False\n        excluded_ports:\n\
-      \        grating_indices: None\n        routing_straight: None\n        routing_method:\
-      \ get_route\n        optical_routing_type: None: auto, 0: no extension, 1: standard,\
-      \ 2: check\n        gc_rotation: -90\n        layer_label: LAYER.LABEL\n   \
-      \     input_port_indexes: [0]\n\n    .. plot::\n        :include-source:\n\n\
-      \n        import gdsfactory as gf\n        gf.config.set_plot_options(show_subports=False)\n\
-      \n        c = gf.components.crossing()\n        cc = gf.routing.add_fiber_array(\n\
-      \            component=c,\n            optical_routing_type=2,\n           \
-      \ grating_coupler=gf.components.grating_coupler_elliptical_te,\n           \
-      \ with_loopback=False\n        )\n        cc.plot()\n\n    "
-    function_name: add_fiber_array
-    info_version: 1
-    module: gdsfactory.routing.add_fiber_array
-    name: add_fiber_array_f6e0ce81
-    name_long: add_fiber_array_f6e0ce81
-    parent:
-      changed:
-        gap: 0.244
-        length: 5.67
-      default:
-        dx: 10
-        dy: 5
-        gap: 0.236
-        length: 20
-      full:
-        dx: 10
-        dy: 5
-        gap: 0.244
-        length: 5.67
-      info:
-        doc: "Symmetric coupler.\n\n    Args:\n        gap: between straights\n  \
-          \      length: of coupling region\n        coupler_symmetric_factory\n \
-          \       coupler_straight\n        dy: port to port vertical spacing\n  \
-          \      dx: length of bend in x direction\n        cross_section: factory\n\
-          \        kwargs: cross_section settings\n\n    .. code::\n\n           \
-          \    dx                                 dx\n            |------|       \
-          \                    |------|\n         o2 ________                    \
-          \       ______o3\n                    \\                         /     \
-          \      |\n                     \\        length         /            |\n\
-          \                      ======================= gap         | dy\n      \
-          \               /                       \\            |\n            ________/\
-          \                         \\_______    |\n         o1                  \
-          \                        o4\n\n              coupler_straight  coupler_symmetric_factory\n\
-          \n\n    "
-        function_name: coupler
-        info_version: 1
-        length: 10.313
-        min_bend_radius: 9.465
-        module: gdsfactory.components.coupler
-        name: coupler_12df0178
-        name_long: coupler_12df0178
-    parent_name: coupler_12df0178
 version: 1

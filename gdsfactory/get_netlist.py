@@ -97,7 +97,7 @@ def get_netlist(
             component, reference, layer_label=layer_label
         )
 
-        settings = c.settings.full if full_settings else c.settings.changed
+        settings = c.info.full if full_settings else c.info.changed
         instances[reference_name] = dict(
             # component=c.function_name,
             component=getattr(c.info, "function_name", c.name),

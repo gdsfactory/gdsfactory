@@ -62,7 +62,7 @@ def pad_array(
     """
     c = Component()
     pad = pad() if callable(pad) else pad
-    size = pad.settings.full.size
+    size = pad.info.full.size
     c.info.size = size
 
     c.add_array(pad, columns=columns, rows=rows, spacing=spacing)

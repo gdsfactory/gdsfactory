@@ -1,4 +1,27 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    layer:
+    - 49
+    - 0
+    size:
+    - 10
+    - 20
+    width: 1
+  full:
+    layer:
+    - 49
+    - 0
+    size:
+    - 10
+    - 20
+    width: 1
+  function_name: C
+  info_version: 1
+  module: gdsfactory.components.C
+  name: C
+  name_long: C
 ports:
   o1:
     layer:
@@ -22,31 +45,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 1
-settings:
-  changed: {}
-  default:
-    layer:
-    - 49
-    - 0
-    size:
-    - 10
-    - 20
-    width: 1
-  full:
-    layer:
-    - 49
-    - 0
-    size:
-    - 10
-    - 20
-    width: 1
-  info:
-    doc: "Generates a 'C' geometry with ports on both ends. Adapted from phidl\n\n\
-      \    Args:\n        width: of the line\n        size: length and height of the\
-      \ base\n        layer:\n\n    "
-    function_name: C
-    info_version: 1
-    module: gdsfactory.components.C
-    name: C
-    name_long: C
 version: 1

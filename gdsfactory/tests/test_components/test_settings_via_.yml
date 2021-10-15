@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     cladding_offset: 0
@@ -15,6 +14,7 @@ settings:
     spacing:
     - 2
     - 2
+  enclosure: 1.0
   full:
     cladding_offset: 0
     enclosure: 1
@@ -28,28 +28,16 @@ settings:
     spacing:
     - 2
     - 2
-  info:
-    doc: "Rectangular via. Defaults to a square via.\n\n    Args:\n        size: in\
-      \ x, y direction\n        spacing: pitch_x, pitch_y\n        enclosure: inclusion\
-      \ of via\n        layer: via layer\n        layers_cladding:\n        cladding_offset\n\
-      \n    .. code::\n\n        enclosure\n        _________________________________________\n\
-      \        |<--->                                  |\n        |              \
-      \        size[0]          |\n        |                      <----->        \
-      \  |\n        |      ______          ______           |\n        |     |   \
-      \   |        |      |          |\n        |     |      |        |      |  size[1]\
-      \ |\n        |     |______|        |______|          |\n        |      <------------->\
-      \                  |\n        |         spacing[0]                    |\n  \
-      \      |_______________________________________|\n\n    "
-    enclosure: 1
-    function_name: via
-    info_version: 1
-    module: gdsfactory.components.via
-    name: via
-    name_long: via
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2
-    - 2
+  function_name: via
+  info_version: 1
+  module: gdsfactory.components.via
+  name: via
+  name_long: via
+  size:
+  - 0.7
+  - 0.7
+  spacing:
+  - 2.0
+  - 2.0
+ports: {}
 version: 1

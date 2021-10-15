@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     angle_resolution: 2.5
@@ -16,13 +15,10 @@ settings:
     - 0
     radius: 10
     width: 0.5
-  info:
-    doc: "Returns a ring.\n\n    Args:\n        radius: ring radius\n        width:\
-      \ of the ring\n        angle_resolution: number of points per degree\n     \
-      \   layer: layer\n\n    "
-    function_name: ring
-    info_version: 1
-    module: gdsfactory.components.ring
-    name: ring
-    name_long: ring
+  function_name: ring
+  info_version: 1
+  module: gdsfactory.components.ring
+  name: ring
+  name_long: ring
+ports: {}
 version: 1

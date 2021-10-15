@@ -53,7 +53,7 @@ def add_electrical_pads_top_dc(
     for port in ports_component:
         c.ports.pop(port.name)
 
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

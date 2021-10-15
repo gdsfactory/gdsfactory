@@ -1,4 +1,23 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    length: 500
+    port_orientation_bot: 180
+    port_orientation_top: 0
+    via_stack_spacing: 2
+    via_stack_width: 10
+  full:
+    length: 500
+    port_orientation_bot: 180
+    port_orientation_top: 0
+    via_stack_spacing: 2
+    via_stack_width: 10
+  function_name: straight_pin_slot
+  info_version: 1
+  module: gdsfactory.components.straight_pin_slot
+  name: straight_pin_slot
+  name_long: straight_pin_slot
 ports:
   e1:
     layer:
@@ -44,31 +63,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    length: 500
-    port_orientation_bot: 180
-    port_orientation_top: 0
-    via_stack_spacing: 2
-    via_stack_width: 10
-  full:
-    length: 500
-    port_orientation_bot: 180
-    port_orientation_top: 0
-    via_stack_spacing: 2
-    via_stack_width: 10
-  info:
-    doc: "Returns PIN doped waveguide with contacts with slotted via\n\n    https://doi.org/10.1364/OE.26.029983\n\
-      \n    500um length from\n    https://ieeexplore.ieee.org/document/8268112\n\n\
-      \    Args:\n        length: of the waveguide\n        cross_section: for the\
-      \ waveguide\n        via_stack: for the contacts\n        via_stack_size:\n\
-      \        via_stack_spacing: spacing between contacts\n        port_orientation_top:\
-      \ for top contact\n        port_orientation_bot: for bottom contact\n      \
-      \  taper: optional taper\n        kwargs: cross_section settings\n\n    "
-    function_name: straight_pin_slot
-    info_version: 1
-    module: gdsfactory.components.straight_pin_slot
-    name: straight_pin_slot
-    name_long: straight_pin_slot
 version: 1

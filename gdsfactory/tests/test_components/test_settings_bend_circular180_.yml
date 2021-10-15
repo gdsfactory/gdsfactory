@@ -1,4 +1,18 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    angle: 180
+  dy: 0.0
+  full:
+    angle: 180
+  function_name: bend_circular180
+  info_version: 1
+  length: 31.416
+  module: gdsfactory.components.bend_circular
+  name: bend_circular180
+  name_long: bend_circular180
+  radius_min: 10.0
 ports:
   o1:
     layer:
@@ -22,23 +36,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    angle: 180
-  full:
-    angle: 180
-  info:
-    doc: "Returns a 180 degrees radial arc.\n\n    Args:\n        angle: angle of\
-      \ arc (degrees)\n        npoints: number of points\n        with_cladding_box:\
-      \ square in layers_cladding to remove DRC\n        waveguide: from tech.waveguide\n\
-      \        kwargs: cross_section_factory settings\n\n    "
-    dy: 0
-    function_name: bend_circular180
-    info_version: 1
-    length: 31.416
-    module: gdsfactory.components.bend_circular
-    name: bend_circular180
-    name_long: bend_circular180
-    radius_min: 10
 version: 1

@@ -93,7 +93,7 @@ def add_padding_container(
     for layer in layers:
         c.add_polygon(points, layer=layer)
     c.ports = cref.ports
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

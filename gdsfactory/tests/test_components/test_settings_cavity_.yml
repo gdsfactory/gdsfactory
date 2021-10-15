@@ -1,4 +1,36 @@
 cells: {}
+info:
+  changed: {}
+  child:
+    changed: {}
+    default:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    full:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    function_name: dbr
+    info_version: 1
+    module: gdsfactory.components.dbr
+    name: dbr
+    name_long: dbr
+  default:
+    gap: 0.2
+    length: 0.1
+  full:
+    gap: 0.2
+    length: 0.1
+  function_name: cavity
+  info_version: 1
+  module: gdsfactory.components.cavity
+  name: cavity
+  name_long: cavity
 ports:
   o1:
     layer:
@@ -22,56 +54,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    gap: 0.2
-    length: 0.1
-  full:
-    gap: 0.2
-    length: 0.1
-  info:
-    doc: "Returns  cavity from a coupler and a mirror.\n\n    connects the W0 port\
-      \ of the mirror to E1 and W1 coupler ports\n    creating a resonant cavity\n\
-      \n    Args:\n        component: mirror\n        coupler: coupler library\n \
-      \       length: coupler length\n        gap: coupler gap\n        kwargs: coupler_settings\n\
-      \n    .. code::\n\n      ml (mirror left)              mr (mirror right)\n \
-      \      |                               |\n       |o1 - o2__             __o3\
-      \ - o1|\n       |         \\           /         |\n                  \\   \
-      \      /\n                ---=========---\n         o1  o1    length      o4\
-      \    o2\n\n    .. plot::\n      :include-source:\n\n      import gdsfactory\
-      \ as gf\n\n      c = gf.components.cavity(component=gf.components.dbr())\n \
-      \     c.plot()\n    "
-    function_name: cavity
-    info_version: 1
-    module: gdsfactory.components.cavity
-    name: cavity
-    name_long: cavity
-    parent:
-      changed: {}
-      default:
-        l1: 0.159
-        l2: 0.159
-        n: 10
-        w1: 0.475
-        w2: 0.525
-      full:
-        l1: 0.159
-        l2: 0.159
-        n: 10
-        w1: 0.475
-        w2: 0.525
-      info:
-        doc: "Distributed Bragg Reflector\n\n    Args:\n        w1: thin width\n \
-          \       l1: thin length\n        w2: thick width\n        l2: thick length\n\
-          \        n: number of periods\n\n    .. code::\n\n           l1      l2\n\
-          \        <-----><-------->\n                _________\n        _______|\n\
-          \n          w1       w2       ...  n times\n        _______\n          \
-          \     |_________\n\n\n    "
-        function_name: dbr
-        info_version: 1
-        module: gdsfactory.components.dbr
-        name: dbr
-        name_long: dbr
-    parent_name: dbr
 version: 1

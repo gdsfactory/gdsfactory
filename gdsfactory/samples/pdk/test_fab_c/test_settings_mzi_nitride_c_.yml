@@ -1,28 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - -12.75
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 78.35
-    - 1.7763568394002505e-15
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
-settings:
+info:
   changed:
     bend:
       cross_section:
@@ -145,28 +122,32 @@ settings:
     straight_x_top: null
     straight_y: null
     with_splitter: true
-  info:
-    doc: "Mzi.\n\n    Args:\n        delta_length: bottom arm vertical extra length\n\
-      \        length_y: vertical length for both and top arms\n        length_x:\
-      \ horizontal length\n        bend: 90 degrees bend library\n        straight:\
-      \ straight function\n        straight_y: straight for length_y and delta_length\n\
-      \        straight_x_top: top straight for length_x\n        straight_x_bot:\
-      \ bottom straight for length_x\n        splitter: splitter function\n      \
-      \  combiner: combiner function\n        with_splitter: if False removes splitter\n\
-      \        kwargs: cross_section settings\n\n    .. code::\n\n               \
-      \    __Lx__\n                  |      |\n                  Ly     Lyr (not a\
-      \ parameter)\n                  |      |\n        splitter==|      |==combiner\n\
-      \                  |      |\n                  Ly     Lyr (not a parameter)\n\
-      \                  |      |\n                  | delta_length/2\n          \
-      \        |      |\n                  |__Lx__|\n\n            ____________  \
-      \         __________\n            |          |          |\n            |   \
-      \       |       ___|\n        ____|          |____\n            | splitter \
-      \  d1     d2  combiner\n        ____|           ____\n            |        \
-      \  |       ____\n            |          |          |\n            |__________|\
-      \          |__________\n    "
-    function_name: mzi
-    info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_3db7193a
-    name_long: mzi_3db7193a
+  function_name: mzi
+  info_version: 1
+  module: gdsfactory.components.mzi
+  name: mzi_3db7193a
+  name_long: mzi_3db7193a
+ports:
+  o1:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - -12.75
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 1
+  o2:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - 78.35
+    - 1.7763568394002505e-15
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 1
 version: 1

@@ -1,4 +1,13 @@
 cells: {}
+info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: bend_euler_s
+  info_version: 1
+  module: gdsfactory.components.bend_euler
+  name: bend_euler_s
+  name_long: bend_euler_s
 ports:
   o1:
     layer:
@@ -22,15 +31,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default: {}
-  full: {}
-  info:
-    doc: Sbend made of euler bends.
-    function_name: bend_euler_s
-    info_version: 1
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_s
-    name_long: bend_euler_s
 version: 1

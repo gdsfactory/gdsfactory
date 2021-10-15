@@ -1,4 +1,17 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    n: 4
+    spacing: 4
+  full:
+    n: 4
+    spacing: 4
+  function_name: straight_array
+  info_version: 1
+  module: gdsfactory.components.straight_array
+  name: straight_array
+  name_long: straight_array
 ports:
   o1:
     layer:
@@ -88,22 +101,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    n: 4
-    spacing: 4
-  full:
-    n: 4
-    spacing: 4
-  info:
-    doc: "Array of straights connected with grating couplers.\n\n    useful to align\
-      \ the 4 corners of the chip\n\n    Args:\n        n: number of straights\n \
-      \       spacing: edge to edge straight spacing\n        straigth: straigth straight\
-      \ Component or library\n        **kwargs\n    "
-    function_name: straight_array
-    info_version: 1
-    module: gdsfactory.components.straight_array
-    name: straight_array
-    name_long: straight_array
 version: 1

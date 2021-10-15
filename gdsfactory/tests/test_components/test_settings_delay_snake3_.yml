@@ -1,4 +1,19 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    length: 1600
+    length0: 0
+    n: 2
+  full:
+    length: 1600
+    length0: 0
+    n: 2
+  function_name: delay_snake3
+  info_version: 1
+  module: gdsfactory.components.delay_snake3
+  name: delay_snake3
+  name_long: delay_snake3
 ports:
   o1:
     layer:
@@ -22,27 +37,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    length: 1600
-    length0: 0
-    n: 2
-  full:
-    length: 1600
-    length0: 0
-    n: 2
-  info:
-    doc: "Snake input facing west\n    Snake output facing east\n\n    Args:\n   \
-      \     length:\n        length0: initial offset\n        n: number of loops\n\
-      \        bend180\n        cross_section: factory\n        **kwargs: cross_section\
-      \ settings\n\n    .. code::\n\n                 | length0   |\n\n          \
-      \       >---------\\\n                            \\bend180.info.length\n  \
-      \                          /\n       |-------------------/\n       |\n     \
-      \  |------------------->\n\n       |   delta_length    |\n\n\n    "
-    function_name: delay_snake3
-    info_version: 1
-    module: gdsfactory.components.delay_snake3
-    name: delay_snake3
-    name_long: delay_snake3
 version: 1

@@ -1,39 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - -12.75
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.9
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 12.75
-    - 0.625
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.9
-  o3:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 12.75
-    - -0.625
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.9
-settings:
+info:
   changed:
     cross_section:
       function: cross_section
@@ -72,23 +38,43 @@ settings:
     width_mmi: 2.5
     width_taper: 1
     with_cladding_box: true
-  info:
-    doc: "Mmi 1x2.\n\n    Args:\n        width: input and output straight width\n\
-      \        width_taper: interface between input straights and mmi region\n   \
-      \     length_taper: into the mmi region\n        length_mmi: in x direction\n\
-      \        width_mmi: in y direction\n        gap_mmi:  gap between tapered wg\n\
-      \        taper: taper function\n        with_cladding_box: to avoid DRC acute\
-      \ angle errors in cladding\n        cross_section:\n        **kwargs: cross_section\
-      \ settings\n\n\n    .. code::\n\n               length_mmi\n               \
-      \ <------>\n                ________\n               |        |\n          \
-      \     |         \\__\n               |          __  E1\n            __/    \
-      \      /_ _ _ _\n         W0 __          | _ _ _ _| gap_mmi\n              \\\
-      \          \\__\n               |          __  E0\n               |        \
-      \ /\n               |________|\n\n             <->\n        length_taper\n\n\
-      \    "
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_4e81d408
-    name_long: mmi1x2_4e81d408
+  function_name: mmi1x2
+  info_version: 1
+  module: gdsfactory.components.mmi1x2
+  name: mmi1x2_4e81d408
+  name_long: mmi1x2_4e81d408
+ports:
+  o1:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - -12.75
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.9
+  o2:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - 12.75
+    - 0.625
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.9
+  o3:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - 12.75
+    - -0.625
+    name: o3
+    orientation: 0
+    port_type: optical
+    width: 0.9
 version: 1

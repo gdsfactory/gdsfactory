@@ -1,4 +1,32 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    N: 6
+    cross_section_bend: null
+    grating_spacing: 127
+    length: null
+    waveguide_spacing: 3
+    x_straight_inner_left: 50
+    x_straight_inner_right: 150
+    y_straight_inner_bottom: 10
+    y_straight_inner_top: 50
+  full:
+    N: 6
+    cross_section_bend: null
+    grating_spacing: 127
+    length: null
+    waveguide_spacing: 3
+    x_straight_inner_left: 50
+    x_straight_inner_right: 150
+    y_straight_inner_bottom: 10
+    y_straight_inner_top: 50
+  function_name: spiral_inner_io
+  info_version: 1
+  length: 11584.394
+  module: gdsfactory.components.spiral_inner_io
+  name: spiral_inner_io
+  name_long: spiral_inner_io
 ports:
   o1:
     layer:
@@ -22,40 +50,4 @@ ports:
     orientation: 270
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    N: 6
-    cross_section_bend: null
-    grating_spacing: 127
-    length: null
-    waveguide_spacing: 3
-    x_straight_inner_left: 50
-    x_straight_inner_right: 150
-    y_straight_inner_bottom: 10
-    y_straight_inner_top: 50
-  full:
-    N: 6
-    cross_section_bend: null
-    grating_spacing: 127
-    length: null
-    waveguide_spacing: 3
-    x_straight_inner_left: 50
-    x_straight_inner_right: 150
-    y_straight_inner_bottom: 10
-    y_straight_inner_top: 50
-  info:
-    doc: "Spiral with ports inside the spiral loop.\n\n    Args:\n        N: number\
-      \ of loops\n        x_straight_inner_right:\n        x_straight_inner_left:\n\
-      \        y_straight_inner_top:\n        y_straight_inner_bottom:\n        grating_spacing:\n\
-      \        waveguide_spacing: center to center spacing\n        bend90_function\n\
-      \        bend180_function\n        straight: straight function\n        length:\
-      \ computes spiral length from simple interpolation\n        cross_section:\n\
-      \        **kwargs: cross_section settings\n\n    "
-    function_name: spiral_inner_io
-    info_version: 1
-    length: 11584.394
-    module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io
-    name_long: spiral_inner_io
 version: 1

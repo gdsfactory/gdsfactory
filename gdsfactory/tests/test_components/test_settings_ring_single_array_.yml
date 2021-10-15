@@ -1,4 +1,25 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    list_of_dicts:
+    - length_x: 10
+      radius: 5
+    - length_x: 20
+      radius: 10
+    spacing: 5
+  full:
+    list_of_dicts:
+    - length_x: 10
+      radius: 5
+    - length_x: 20
+      radius: 10
+    spacing: 5
+  function_name: ring_single_array
+  info_version: 1
+  module: gdsfactory.components.ring_single_array
+  name: ring_single_array
+  name_long: ring_single_array
 ports:
   o1:
     layer:
@@ -22,31 +43,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    list_of_dicts:
-    - length_x: 10
-      radius: 5
-    - length_x: 20
-      radius: 10
-    spacing: 5
-  full:
-    list_of_dicts:
-    - length_x: 10
-      radius: 5
-    - length_x: 20
-      radius: 10
-    spacing: 5
-  info:
-    doc: "Ring of single bus connected with straights.\n\n    .. code::\n\n      \
-      \     ______               ______\n          |      |             |      |\n\
-      \          |      |  length_y   |      |\n          |      |             | \
-      \     |\n         --======-- spacing ----==gap==--\n\n          length_x\n\n\
-      \    "
-    function_name: ring_single_array
-    info_version: 1
-    module: gdsfactory.components.ring_single_array
-    name: ring_single_array
-    name_long: ring_single_array
 version: 1

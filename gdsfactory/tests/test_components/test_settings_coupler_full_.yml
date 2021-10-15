@@ -1,4 +1,31 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    angle: 0.5235987755982988
+    direction: EAST
+    dw: 0.1
+    gap: 0.5
+    length: 40
+    parity: 1
+    port:
+    - 0
+    - 0
+  full:
+    angle: 0.5235987755982988
+    direction: EAST
+    dw: 0.1
+    gap: 0.5
+    length: 40
+    parity: 1
+    port:
+    - 0
+    - 0
+  function_name: coupler_full
+  info_version: 1
+  module: gdsfactory.components.coupler_full
+  name: coupler_full
+  name_long: coupler_full
 ports:
   o1:
     layer:
@@ -44,59 +71,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    angle: 0.5235987755982988
-    direction: EAST
-    dw: 0.1
-    gap: 0.5
-    length: 40
-    parity: 1
-    port:
-    - 0
-    - 0
-  full:
-    angle: 0.5235987755982988
-    direction: EAST
-    dw: 0.1
-    gap: 0.5
-    length: 40
-    parity: 1
-    port:
-    - 0
-    - 0
-  info:
-    doc: "Adiabatic Full Coupler.\n    Design based on asymmetric adiabatic full coupler\
-      \ designs, such as the one reported\n    in 'Integrated Optic Adiabatic Devices\
-      \ on Silicon' by Y. Shani, et al\n    (IEEE Journal of Quantum Electronics,\
-      \ Vol. 27, No. 3 March 1991).\n\n    Region I is the first half of the input\
-      \ S-bend straight where the\n    input straights widths taper by +dw and -dw,\n\
-      \    Region II is the second half of the S-bend straight with constant,\n  \
-      \  unbalanced widths,\n    Region III is the coupling region where the straights\
-      \ from unbalanced widths to\n    balanced widths to reverse polarity unbalanced\
-      \ widths,\n    Region IV is the fixed width straight that curves away from the\
-      \ coupling region,\n    Region V is the final curve where the straights taper\
-      \ back to the regular width\n    specified in the straight template.\n\n   \
-      \ Args:\n       length: Length of the coupling region.\n       gap: Distance\
-      \ between the two straights.\n       dw: Change in straight width. Top arm tapers\
-      \ to width - dw, bottom to width - dw.\n       angle: Angle in radians at which\
-      \ the straight bends towards the coupling region.\n       parity (integer -1\
-      \ or 1): If -1, mirror-flips the structure so that the input port\n        is\
-      \ actually the *bottom* port.\n       port: Cartesian coordinate of the input\
-      \ port (AT TOP if parity=1, AT BOTTOM if parity=-1).\n       direction: Direction\
-      \ that the component will point *towards*,\n        can be of type `'NORTH'`,\
-      \ `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).\n       waveguide_template:\
-      \ function that returns Picwriter WaveguideTemplate object\n\n    Other Parameters:\n\
-      \       wg_width: 0.5\n       wg_layer: gf.LAYER.WG[0]\n       wg_datatype:\
-      \ gf.LAYER.WG[1]\n       clad_layer: gf.LAYER.WGCLAD[0]\n       clad_datatype:\
-      \ gf.LAYER.WGCLAD[1]\n       bend_radius: 10\n       cladding_offset: 3\n\n\n\
-      \    .. plot::\n      :include-source:\n\n      import gdsfactory as gf\n\n\
-      \      c = gf.components.coupler_full(length=40, gap=0.2, dw=0.1)\n      c.plot()\n\
-      \n    "
-    function_name: coupler_full
-    info_version: 1
-    module: gdsfactory.components.coupler_full
-    name: coupler_full
-    name_long: coupler_full
 version: 1

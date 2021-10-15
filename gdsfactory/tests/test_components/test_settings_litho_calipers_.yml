@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     layer1:
@@ -30,17 +29,10 @@ settings:
     num_notches: 11
     offset_per_notch: 0.1
     row_spacing: 0
-  info:
-    doc: "Vernier caliper structure to test lithography alignment\n    Only the middle\
-      \ finger is aligned and the rest are offset.\n\n    adapted from phidl\n\n \
-      \   Args:\n        notch_size: [xwidth, yheight]\n        notch_spacing: 2\n\
-      \        num_notches: 11\n        offset_per_notch: 0.1\n        row_spacing:\
-      \ 0\n        layer1: 1\n        layer2:2\n\n    .. plot::\n      :include-source:\n\
-      \n      import gdsfactory as gf\n\n      c = gf.components.litho_calipers()\n\
-      \      c.plot()\n    "
-    function_name: litho_calipers
-    info_version: 1
-    module: gdsfactory.components.litho_calipers
-    name: litho_calipers
-    name_long: litho_calipers
+  function_name: litho_calipers
+  info_version: 1
+  module: gdsfactory.components.litho_calipers
+  name: litho_calipers
+  name_long: litho_calipers
+ports: {}
 version: 1

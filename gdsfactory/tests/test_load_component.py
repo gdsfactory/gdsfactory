@@ -49,7 +49,7 @@ def _write():
 
 
 if __name__ == "__main__":
-    # _write()
+    _write()
     # test_load_component_gds()
     # test_load_component_settings()
     test_load_component_with_settings()

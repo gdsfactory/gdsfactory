@@ -1,4 +1,23 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    bend: null
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    radius: 10
+  full:
+    bend: null
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    radius: 10
+  function_name: ring_double
+  info_version: 1
+  module: gdsfactory.components.ring_double
+  name: ring_double
+  name_long: ring_double
 ports:
   o1:
     layer:
@@ -44,33 +63,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    bend: null
-    gap: 0.2
-    length_x: 0.01
-    length_y: 0.01
-    radius: 10
-  full:
-    bend: null
-    gap: 0.2
-    length_x: 0.01
-    length_y: 0.01
-    radius: 10
-  info:
-    doc: "Double bus ring made of two couplers (ct: top, cb: bottom)\n    connected\
-      \ with two vertical straights (sl: left, sr: right)\n\n    Args:\n        gap:\
-      \ gap between for coupler\n        radius: for the bend and coupler\n      \
-      \  length_x: ring coupler length\n        length_y: vertical straight length\n\
-      \        coupler: ring coupler function\n        straight: straight function\n\
-      \        bend: bend function\n        **kwargs: cross_section settings\n\n \
-      \   .. code::\n\n         --==ct==--\n          |      |\n          sl     sr\
-      \ length_y\n          |      |\n         --==cb==-- gap\n\n          length_x\n\
-      \n    "
-    function_name: ring_double
-    info_version: 1
-    module: gdsfactory.components.ring_double
-    name: ring_double
-    name_long: ring_double
 version: 1

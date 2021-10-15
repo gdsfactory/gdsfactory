@@ -1,4 +1,29 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    angle: 90
+    heater_to_wg_distance: 1.2
+    heater_width: 0.5
+    layer_heater:
+    - 47
+    - 0
+    npoints: 720
+    radius: 10
+  full:
+    angle: 90
+    heater_to_wg_distance: 1.2
+    heater_width: 0.5
+    layer_heater:
+    - 47
+    - 0
+    npoints: 720
+    radius: 10
+  function_name: bend_circular_heater
+  info_version: 1
+  module: gdsfactory.components.bend_circular_heater
+  name: bend_circular_heater
+  name_long: bend_circular_heater
 ports:
   in:
     layer:
@@ -22,34 +47,4 @@ ports:
     orientation: 90
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    angle: 90
-    heater_to_wg_distance: 1.2
-    heater_width: 0.5
-    layer_heater:
-    - 47
-    - 0
-    npoints: 720
-    radius: 10
-  full:
-    angle: 90
-    heater_to_wg_distance: 1.2
-    heater_width: 0.5
-    layer_heater:
-    - 47
-    - 0
-    npoints: 720
-    radius: 10
-  info:
-    doc: "Creates an arc of arclength ``theta`` starting at angle ``start_angle``\n\
-      \n    Args:\n        radius\n        angle: angle of arc (degrees)\n       \
-      \ npoints: Number of points used per 360 degrees\n        heater_to_wg_distance:\n\
-      \        heater_width\n        layer_heater\n        cross_section:\n    "
-    function_name: bend_circular_heater
-    info_version: 1
-    module: gdsfactory.components.bend_circular_heater
-    name: bend_circular_heater
-    name_long: bend_circular_heater
 version: 1

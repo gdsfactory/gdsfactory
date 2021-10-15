@@ -1,28 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0.0
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 203
-    - 0
-    midpoint:
-    - 14.0
-    - 0.0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 11
-settings:
+info:
   changed: {}
   default:
     teeth_list:
@@ -68,14 +45,34 @@ settings:
     - 0.5
     - 0.5
     - 0.5
-  info:
-    doc: "Returns grating coupler,\n    teeth list is on a single list that starts\
-      \ with gap, teeth, gap ...\n    "
-    function_name: grating_coupler_elliptical_gap_teeth
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_elliptical2
-    name: grating_coupler_ellipti_aa0fb93b
-    name_long: grating_coupler_elliptical_gap_teeth
-    polarization: te
-    wavelength: 1.55
+  function_name: grating_coupler_elliptical_gap_teeth
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_elliptical2
+  name: grating_coupler_ellipti_aa0fb93b
+  name_long: grating_coupler_elliptical_gap_teeth
+  polarization: te
+  wavelength: 1.55
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 14.0
+    - 0.0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 11
 version: 1

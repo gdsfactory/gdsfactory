@@ -1,28 +1,5 @@
 cells: {}
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0.0
-    - 0.0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  vertical_te:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 157.125
-    - 0.0
-    name: vertical_te
-    orientation: 0
-    port_type: vertical_te
-    width: 1
-settings:
+info:
   changed: {}
   default:
     fill_factor: 0.5
@@ -48,19 +25,34 @@ settings:
     wavelength: 1.55
     width: 0.5
     width_grating: 11
-  info:
-    doc: "Grating coupler uniform (grating with rectangular shape not elliptical).\n\
-      \    Therefore it needs a longer taper.\n    Grating teeth are straight instead\
-      \ of elliptical.\n\n    Args:\n        num_teeth: 20\n        period: 0.75\n\
-      \        fill_factor: 0.5\n        width_grating: 11\n        length_taper:\
-      \ 150\n        width: 0.5\n        partial_etch: False\n\n    .. code::\n\n\
-      \                 \\  \\  \\  \\\n                  \\  \\  \\  \\\n       \
-      \         _|-|_|-|_|-|___\n               |_______________  W0\n\n    "
-    function_name: grating_coupler_uniform
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_uniform
-    name: grating_coupler_uniform
-    name_long: grating_coupler_uniform
-    polarization: te
-    wavelength: 1.55
+  function_name: grating_coupler_uniform
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_uniform
+  name: grating_coupler_uniform
+  name_long: grating_coupler_uniform
+  polarization: te
+  wavelength: 1.55
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  vertical_te:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 157.125
+    - 0.0
+    name: vertical_te
+    orientation: 0
+    port_type: vertical_te
+    width: 1
 version: 1

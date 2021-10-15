@@ -1,4 +1,37 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    Ls: 1
+    bend_radius: 10
+    coupler_gap1: 0.2
+    coupler_gap2: 0.3
+    coupler_length1: 5
+    coupler_length2: 10
+    delta_length: 10
+    dy: 2
+    taper_length: 5
+    w0: 0.5
+    w1: 0.45
+    w2: 0.55
+  full:
+    Ls: 1
+    bend_radius: 10
+    coupler_gap1: 0.2
+    coupler_gap2: 0.3
+    coupler_length1: 5
+    coupler_length2: 10
+    delta_length: 10
+    dy: 2
+    taper_length: 5
+    w0: 0.5
+    w1: 0.45
+    w2: 0.55
+  function_name: mzit
+  info_version: 1
+  module: gdsfactory.components.mzit
+  name: mzit
+  name_long: mzit
 ports:
   o1:
     layer:
@@ -44,63 +77,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    Ls: 1
-    bend_radius: 10
-    coupler_gap1: 0.2
-    coupler_gap2: 0.3
-    coupler_length1: 5
-    coupler_length2: 10
-    delta_length: 10
-    dy: 2
-    taper_length: 5
-    w0: 0.5
-    w1: 0.45
-    w2: 0.55
-  full:
-    Ls: 1
-    bend_radius: 10
-    coupler_gap1: 0.2
-    coupler_gap2: 0.3
-    coupler_length1: 5
-    coupler_length2: 10
-    delta_length: 10
-    dy: 2
-    taper_length: 5
-    w0: 0.5
-    w1: 0.45
-    w2: 0.55
-  info:
-    doc: "Mzi tolerant to fab variations\n    based on Yufei Xing thesis http://photonics.intec.ugent.be/publications/PhD.asp?ID=250\n\
-      \n    Args:\n        w1: narrow wg_width\n        w2: wide wg_width\n      \
-      \  dy: port to port vertical spacing\n        delta_length: length difference\
-      \ between arms\n        Ls: shared length for w1 and w2\n        coupler_length1:\
-      \ length of coupler1\n        coupler_length2: length of coupler2\n        coupler_gap1:\
-      \ coupler1\n        coupler_gap2: coupler2\n        bend_radius: 10.0\n    \
-      \    taper_factory: taper library\n        taper_length:\n        bend90: bend_circular\
-      \ or library\n        straight: library\n        coupler1: coupler1 or library,\
-      \ can be None\n        coupler2: coupler2 or library\n        kwargs: cross_section\
-      \ settings\n\n    .. code::\n\n                           cp1\n            4\
-      \   2 __                  __  3___w0_t2   _w2___\n                    \\   \
-      \             /                      \\\n                     \\    length1\
-      \   /                        |\n                      ============== gap1  \
-      \                  |\n                     /              \\               \
-      \         |\n                  __/                \\_____w0___t1   _w1     |\n\
-      \            3   1                        4               \\   |\n         \
-      \                                                |   |\n            2   2  \
-      \                                      |   |\n                  __         \
-      \         __w0____t1____w1___/   |\n                    \\                /\
-      \                       |\n                     \\    length2   /          \
-      \              |\n                      ============== gap2                \
-      \    |\n                     /               \\                       |\n  \
-      \                __/                 \\_                     |\n           \
-      \ 1   1                      \\ E0_w0__t2 __w1_____/\n                     \
-      \      cp2\n\n\n    "
-    function_name: mzit
-    info_version: 1
-    module: gdsfactory.components.mzit
-    name: mzit
-    name_long: mzit
 version: 1

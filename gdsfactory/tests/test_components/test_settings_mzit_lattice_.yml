@@ -1,4 +1,29 @@
 cells: {}
+info:
+  changed: {}
+  default:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+  full:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+  function_name: mzit_lattice
+  info_version: 1
+  module: gdsfactory.components.mzit_lattice
+  name: mzit_lattice
+  name_long: mzit_lattice
 ports:
   o1:
     layer:
@@ -44,46 +69,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-settings:
-  changed: {}
-  default:
-    coupler_gaps:
-    - 0.2
-    - 0.3
-    coupler_lengths:
-    - 10
-    - 20
-    delta_lengths:
-    - 10
-  full:
-    coupler_gaps:
-    - 0.2
-    - 0.3
-    coupler_lengths:
-    - 10
-    - 20
-    delta_lengths:
-    - 10
-  info:
-    doc: "Mzi fab tolerant lattice filter.\n\n    .. code::\n\n                  \
-      \         cp1\n           W3  W1 __                  __ E1___w0_t2   _w2___\n\
-      \                    \\                /                      \\\n         \
-      \            \\    length1   /                        |\n                  \
-      \    ============== gap1                    |\n                     /      \
-      \        \\                        |\n                  __/                \\\
-      _____w0___t1   _w1     |\n           W2  W0                       E0       \
-      \        \\   | .\n                            ...                         \
-      \ |   | .\n           W1  W1                                        |   | .\n\
-      \                  __                  __w0____t1____w1___/   |\n          \
-      \          \\                /                       |\n                   \
-      \  \\    lengthN   /                        |\n                      ==============\
-      \ gapN                    |\n                     /               \\       \
-      \                |\n                  __/                 \\_              \
-      \       |\n           W0  W0                      \\ E0_w0__t2 __w1_____/\n\
-      \                           cpN\n\n\n    "
-    function_name: mzit_lattice
-    info_version: 1
-    module: gdsfactory.components.mzit_lattice
-    name: mzit_lattice
-    name_long: mzit_lattice
 version: 1

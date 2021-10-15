@@ -1,4 +1,67 @@
 cells: {}
+info:
+  changed:
+    component:
+      cross_section:
+        function: cross_section
+        sections:
+        - slab
+      function: straight
+    extension_factory: taper_strip_to_ridge
+    port1: o2
+    port2: o1
+  child:
+    changed:
+      cross_section:
+        function: cross_section
+        sections:
+        - slab
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        sections:
+        - slab
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.straight
+    name: straight_3edba0b0
+    name_long: straight_3edba0b0
+    width: 0.5
+  default:
+    centered: false
+    extension_factory: null
+    length: 5
+    port1: null
+    port2: null
+    port_names: null
+    port_type: optical
+  full:
+    centered: false
+    component:
+      cross_section:
+        function: cross_section
+        sections:
+        - slab
+      function: straight
+    extension_factory: taper_strip_to_ridge
+    length: 5
+    port1: o2
+    port2: o1
+    port_names: null
+    port_type: optical
+  function_name: extend_ports
+  info_version: 1
+  module: gdsfactory.components.extension
+  name: extend_ports_013f1c0d
+  name_long: extend_ports_013f1c0d
 ports:
   o1:
     layer:
@@ -22,82 +85,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-settings:
-  changed:
-    component:
-      cross_section:
-        function: cross_section
-        sections:
-        - slab
-      function: straight
-    extension_factory: taper_strip_to_ridge
-    port1: o2
-    port2: o1
-  default:
-    centered: false
-    extension_factory: null
-    length: 5
-    port1: null
-    port2: null
-    port_names: null
-    port_type: optical
-  full:
-    centered: false
-    component:
-      cross_section:
-        function: cross_section
-        sections:
-        - slab
-      function: straight
-    extension_factory: taper_strip_to_ridge
-    length: 5
-    port1: o2
-    port2: o1
-    port_names: null
-    port_type: optical
-  info:
-    doc: "Returns a new component with some ports extended\n    it can accept an extension_factory\
-      \ or it defaults to the port\n    width and layer of each extended port\n\n\
-      \    Args:\n        component: component to extend ports\n        port_names:\
-      \ specify an list of ports names, if None it extends all ports\n        length:\
-      \ extension length\n        extension_factory: function to extend ports (defaults\
-      \ to a straight)\n        port1: input port name\n        port2: output port\
-      \ name\n        port_type: type of the ports to extend\n        **kwargs\n \
-      \   "
-    function_name: extend_ports
-    info_version: 1
-    module: gdsfactory.components.extension
-    name: extend_ports_013f1c0d
-    name_long: extend_ports_013f1c0d
-    parent:
-      changed:
-        cross_section:
-          function: cross_section
-          sections:
-          - slab
-      default:
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      full:
-        cross_section:
-          function: cross_section
-          sections:
-          - slab
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      info:
-        doc: "Returns a Straight waveguide.\n\n    Args:\n        length: straight\
-          \ length\n        npoints: number of points\n        with_cladding_box:\
-          \ box in layers_cladding to avoid DRC sharp edges\n        cross_section:\n\
-          \        **kwargs: cross_section settings\n    "
-        function_name: straight
-        info_version: 1
-        length: 10
-        module: gdsfactory.components.straight
-        name: straight_3edba0b0
-        name_long: straight_3edba0b0
-        width: 0.5
-    parent_name: straight_3edba0b0
 version: 1

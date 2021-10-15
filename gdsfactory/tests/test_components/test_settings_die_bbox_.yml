@@ -1,6 +1,5 @@
 cells: {}
-ports: {}
-settings:
+info:
   changed: {}
   default:
     die_name: null
@@ -22,18 +21,10 @@ settings:
     street_width: 100
     text_location: SW
     text_size: 100
-  info:
-    doc: "Creates a basic boundary box. Perfect for defining dicing lanes.\n    the\
-      \ boundary of the chip/die\n    it can also add a label with the name of the\
-      \ die.\n    similar to die and bbox\n\n    adapted from phidl.geometry\n\n \
-      \   Args:\n        component: to frame\n        street_width: Width of the boundary\
-      \ box\n        die_name: Label text.\n        text_size: Label text size.\n\
-      \        text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} Label text compass\
-      \ location.\n        layer: Specific layer(s) to put polygon geometry on.\n\
-      \        padding: adds padding\n\n    "
-    function_name: die_bbox
-    info_version: 1
-    module: gdsfactory.components.die_bbox
-    name: die_bbox
-    name_long: die_bbox
+  function_name: die_bbox
+  info_version: 1
+  module: gdsfactory.components.die_bbox
+  name: die_bbox
+  name_long: die_bbox
+ports: {}
 version: 1
