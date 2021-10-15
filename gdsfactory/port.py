@@ -122,7 +122,7 @@ class Port(PortPhidl):
             name=self.name,
             midpoint=self.midpoint,
             width=self.width,
-            orientation=self.orientation,
+            orientation=float(self.orientation),
             layer=self.layer,
             port_type=self.port_type,
         )

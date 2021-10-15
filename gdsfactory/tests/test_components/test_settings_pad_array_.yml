@@ -8,7 +8,7 @@ ports:
     - 0.0
     - 0.0
     name: e11
-    orientation: '270'
+    orientation: 270
     port_type: electrical
     width: 100
   e12:
@@ -19,7 +19,7 @@ ports:
     - 150.0
     - 0.0
     name: e12
-    orientation: '270'
+    orientation: 270
     port_type: electrical
     width: 100
   e13:
@@ -30,7 +30,7 @@ ports:
     - 300.0
     - 0.0
     name: e13
-    orientation: '270'
+    orientation: 270
     port_type: electrical
     width: 100
   e14:
@@ -41,7 +41,7 @@ ports:
     - 450.0
     - 0.0
     name: e14
-    orientation: '270'
+    orientation: 270
     port_type: electrical
     width: 100
   e15:
@@ -52,7 +52,7 @@ ports:
     - 600.0
     - 0.0
     name: e15
-    orientation: '270'
+    orientation: 270
     port_type: electrical
     width: 100
   e16:
@@ -63,7 +63,7 @@ ports:
     - 750.0
     - 0.0
     name: e16
-    orientation: '270'
+    orientation: 270
     port_type: electrical
     width: 100
 settings:

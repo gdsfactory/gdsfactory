@@ -30,7 +30,7 @@ ports:
     - 30.0
     - 2.868
     name: o3
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
   o4:

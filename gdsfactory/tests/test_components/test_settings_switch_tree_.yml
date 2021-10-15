@@ -8,7 +8,7 @@ ports:
     - 16.75
     - 21.425
     name: e1_0_1
-    orientation: '180'
+    orientation: 180
     port_type: electrical
     width: 11
   e1_1_3:
@@ -19,7 +19,7 @@ ports:
     - 516.75
     - -28.575
     name: e1_1_3
-    orientation: '180'
+    orientation: 180
     port_type: electrical
     width: 11
   e1_1_7:
@@ -30,7 +30,7 @@ ports:
     - 516.75
     - 71.425
     name: e1_1_7
-    orientation: '180'
+    orientation: 180
     port_type: electrical
     width: 11
   e2_0_2:
@@ -41,7 +41,7 @@ ports:
     - 368.75
     - 21.425
     name: e2_0_2
-    orientation: '0'
+    orientation: 0
     port_type: electrical
     width: 11
   e2_1_4:
@@ -52,7 +52,7 @@ ports:
     - 868.75
     - -28.575
     name: e2_1_4
-    orientation: '0'
+    orientation: 0
     port_type: electrical
     width: 11
   e2_1_8:
@@ -63,7 +63,7 @@ ports:
     - 868.75
     - 71.425
     name: e2_1_8
-    orientation: '0'
+    orientation: 0
     port_type: electrical
     width: 11
   o1_0_0:
@@ -74,7 +74,7 @@ ports:
     - -12.75
     - 0.0
     name: o1_0_0
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   o2_1_10:
@@ -96,7 +96,7 @@ ports:
     - 1398.25
     - -25.0
     name: o2_1_5
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_6:
@@ -118,7 +118,7 @@ ports:
     - 1398.25
     - 75.0
     name: o2_1_9
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 0.5
 settings:

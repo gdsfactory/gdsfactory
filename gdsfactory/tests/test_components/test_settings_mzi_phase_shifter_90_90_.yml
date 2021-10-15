@@ -8,7 +8,7 @@ ports:
     - 22.25
     - 26.925
     name: e1
-    orientation: '90'
+    orientation: 90
     port_type: electrical
     width: 11
   e2:
@@ -19,7 +19,7 @@ ports:
     - 363.25
     - 26.925
     name: e2
-    orientation: '90'
+    orientation: 90
     port_type: electrical
     width: 11
   o1:
@@ -30,7 +30,7 @@ ports:
     - -12.75
     - 0.0
     name: o1
-    orientation: '180'
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:

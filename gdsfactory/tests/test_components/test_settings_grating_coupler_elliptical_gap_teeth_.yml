@@ -19,7 +19,7 @@ ports:
     - 14.0
     - 0.0
     name: o2
-    orientation: '0'
+    orientation: 0
     port_type: optical
     width: 11
 settings:

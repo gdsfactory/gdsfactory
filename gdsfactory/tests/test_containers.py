@@ -30,8 +30,6 @@ def test_gds(container_type: str) -> None:
 
 
 # Special test cases for exotic components
-
-
 # def test_add_gratings_and_loopback(data_regression: DataRegressionFixture) -> None:
 #     """This container requires all ports to face the same direction."""
 #     c = add_gratings_and_loopback(component=spiral_inner_io())

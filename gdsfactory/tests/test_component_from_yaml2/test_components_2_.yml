@@ -8,7 +8,7 @@ ports:
     - 10.625
     - 45.0
     name: o1
-    orientation: '90'
+    orientation: 90
     port_type: optical
     width: 0.5
   o2:
@@ -19,7 +19,7 @@ ports:
     - 9.375
     - 45.0
     name: o2
-    orientation: '90'
+    orientation: 90
     port_type: optical
     width: 0.5
   o3:
@@ -30,7 +30,7 @@ ports:
     - 10.0
     - 20.0
     name: o3
-    orientation: '270'
+    orientation: 270
     port_type: optical
     width: 0.5
 settings:
