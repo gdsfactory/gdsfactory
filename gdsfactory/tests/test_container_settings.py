@@ -37,9 +37,11 @@ import gdsfactory as gf
 
 def test_args():
     c1 = gf.c.pad((150, 150))
-    assert c1.settings["size"][0] == 150
+    assert c1.settings.full.size[0] == 150
 
 
 if __name__ == "__main__":
-    c1 = gf.c.pad((150, 150))
-    c2 = gf.add_padding_container(c1)
+    test_args()
+    # c1 = gf.c.pad((150, 150))
+    # c2 = gf.add_padding_container(c1)
+    # assert c1.settings.size.full[0] == 150

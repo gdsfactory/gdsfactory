@@ -1,29 +1,129 @@
-function_name: add_electrical_pads_shortest
-info:
-  parent:
-    function_name: mzi
-    info: {}
-    module: gdsfactory.components.mzi
-    name: mzi_length_x320_splitte_79951d94
-    settings:
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 320
-      length_y: 0.8
-      splitter: mmi2x2
-      straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y: null
-      with_splitter: true
-  parent_name: mzi_length_x320_splitte_79951d94
-module: gdsfactory.routing.add_electrical_pads_shortest
-name: add_electrical_pads_sho_689a9bea
+cells: {}
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - -0.625
+    name: o1
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - 0.625
+    name: o2
+    orientation: '180'
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 398.25
+    - 0.6250000000000018
+    name: o3
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 398.25
+    - -0.6249999999999982
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
 settings:
-  layer:
-  - 31
-  - 0
-  pad_port_spacing: 50
-  port_orientation: 90
+  changed:
+    component: mzi_ac6d448d
+  default:
+    layer:
+    - 31
+    - 0
+    pad_port_spacing: 50
+    port_orientation: 90
+  full:
+    component: mzi_ac6d448d
+    layer:
+    - 31
+    - 0
+    pad_port_spacing: 50
+    port_orientation: 90
+  info:
+    doc: "Add pad to each closest electrical port.\n\n    Args:\n        component:\n\
+      \        pad: pad element or function\n        pad_port_spacing: between pad\
+      \ and port\n        select_ports: function\n        port_orientation\n     \
+      \   **kwargs: pad_settings\n\n    "
+    function_name: add_electrical_pads_shortest
+    info_version: 1
+    module: gdsfactory.routing.add_electrical_pads_shortest
+    name: add_electrical_pads_sho_bb4fd01b
+    name_long: add_electrical_pads_shortest_487eeed5
+    parent:
+      changed:
+        length_x: 320
+        splitter: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter: mmi2x2
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      info:
+        doc: "Mzi.\n\n    Args:\n        delta_length: bottom arm vertical extra length\n\
+          \        length_y: vertical length for both and top arms\n        length_x:\
+          \ horizontal length\n        bend: 90 degrees bend library\n        straight:\
+          \ straight function\n        straight_y: straight for length_y and delta_length\n\
+          \        straight_x_top: top straight for length_x\n        straight_x_bot:\
+          \ bottom straight for length_x\n        splitter: splitter function\n  \
+          \      combiner: combiner function\n        with_splitter: if False removes\
+          \ splitter\n        kwargs: cross_section settings\n\n    .. code::\n\n\
+          \                   __Lx__\n                  |      |\n               \
+          \   Ly     Lyr (not a parameter)\n                  |      |\n        splitter==|\
+          \      |==combiner\n                  |      |\n                  Ly   \
+          \  Lyr (not a parameter)\n                  |      |\n                 \
+          \ | delta_length/2\n                  |      |\n                  |__Lx__|\n\
+          \n            ____________           __________\n            |         \
+          \ |          |\n            |          |       ___|\n        ____|     \
+          \     |____\n            | splitter   d1     d2  combiner\n        ____|\
+          \           ____\n            |          |       ____\n            |   \
+          \       |          |\n            |__________|          |__________\n  \
+          \  "
+        function_name: mzi
+        info_version: 1
+        module: gdsfactory.components.mzi
+        name: mzi_ac6d448d
+        name_long: mzi_ac6d448d
+    parent_name: mzi_ac6d448d
+version: 1
