@@ -30,14 +30,21 @@ def test_load_component_with_settings():
     assert len(d) == 0, d
 
 
+def _write_gds():
+    c = gf.c.straight(length=1.234)
+    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+    c.write_gds_with_metadata(gdspath)
+
+
 if __name__ == "__main__":
     # test_load_component_gds()
     # test_load_component_settings()
     # test_load_component_with_settings()
+    _write_gds()
 
-    c1 = gf.c.straight()
-    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+    # c1 = gf.c.straight()
+    # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
-    c2 = gf.read.from_gds(gdspath)
-    d = jsondiff.diff(c1.to_dict, c2.to_dict)
-    print(d)
+    # c2 = gf.read.from_gds(gdspath)
+    # d = jsondiff.diff(c1.to_dict, c2.to_dict)
+    # print(d)

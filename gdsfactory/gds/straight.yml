@@ -13,7 +13,7 @@ ports:
   o2:
     name: o2
     midpoint:
-    - 10.0
+    - 1.234
     - 0.0
     width: 0.5
     orientation: 0
@@ -23,22 +23,23 @@ ports:
     port_type: optical
 settings:
   info:
-    length: 10
+    length: 1.234
     width: 0.5
     module: gdsfactory.components.straight
     function_name: straight
     info_version: 1
-    name_long: straight
-    name: straight
+    name_long: straight_0a6c91fb
+    name: straight_0a6c91fb
     doc: "Returns a Straight waveguide.\n\n    Args:\n        length: straight length\n\
       \        npoints: number of points\n        with_cladding_box: square in layers_cladding\
       \ to remove DRC\n        cross_section:\n        **kwargs: cross_section settings\n\
       \    "
   full:
-    length: 10
+    length: 1.234
     npoints: 2
     with_cladding_box: true
-  changed: {}
+  changed:
+    length: 1.234
   default:
     length: 10
     npoints: 2

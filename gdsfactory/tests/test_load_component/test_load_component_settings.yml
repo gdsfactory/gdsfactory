@@ -16,20 +16,21 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
+    - 1.234
     - 0.0
     name: o2
     orientation: '0'
     port_type: optical
     width: 0.5
 settings:
-  changed: {}
+  changed:
+    length: 1.234
   default:
     length: 10
     npoints: 2
     with_cladding_box: true
   full:
-    length: 10
+    length: 1.234
     npoints: 2
     with_cladding_box: true
   info:
@@ -39,9 +40,9 @@ settings:
       \    "
     function_name: straight
     info_version: 1
-    length: 10
+    length: 1.234
     module: gdsfactory.components.straight
-    name: straight
-    name_long: straight
+    name: straight_0a6c91fb
+    name_long: straight_0a6c91fb
     width: 0.5
 version: 1
