@@ -19,7 +19,7 @@ def straight(
     Args:
         length: straight length
         npoints: number of points
-        with_cladding_box: square in layers_cladding to remove DRC
+        with_cladding_box: box in layers_cladding to avoid DRC sharp edges
         cross_section:
         **kwargs: cross_section settings
     """

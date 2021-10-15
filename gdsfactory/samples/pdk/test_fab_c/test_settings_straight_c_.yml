@@ -54,9 +54,9 @@ settings:
     with_cladding_box: true
   info:
     doc: "Returns a Straight waveguide.\n\n    Args:\n        length: straight length\n\
-      \        npoints: number of points\n        with_cladding_box: square in layers_cladding\
-      \ to remove DRC\n        cross_section:\n        **kwargs: cross_section settings\n\
-      \    "
+      \        npoints: number of points\n        with_cladding_box: box in layers_cladding\
+      \ to avoid DRC sharp edges\n        cross_section:\n        **kwargs: cross_section\
+      \ settings\n    "
     function_name: straight
     info_version: 1
     length: 10
