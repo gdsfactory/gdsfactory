@@ -36,8 +36,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - -50.0
-    - 0.0
+    - -50
+    - 0
     name: e1
     orientation: 180
     port_type: electrical
@@ -47,8 +47,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - 50.0
+    - 0
+    - 50
     name: e2
     orientation: 90
     port_type: electrical
@@ -58,8 +58,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 50.0
-    - 0.0
+    - 50
+    - 0
     name: e3
     orientation: 0
     port_type: electrical
@@ -69,8 +69,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - -50.0
+    - 0
+    - -50
     name: e4
     orientation: 270
     port_type: electrical

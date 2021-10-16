@@ -110,7 +110,7 @@ ports:
     - 0
     midpoint:
     - -12.75
-    - 0.0
+    - 0
     name: o1_0_0
     orientation: 180
     port_type: optical
@@ -121,7 +121,7 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - 25.0
+    - 25
     name: o2_1_10
     orientation: 0
     port_type: optical
@@ -132,7 +132,7 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - -25.0
+    - -25
     name: o2_1_5
     orientation: 0
     port_type: optical
@@ -143,7 +143,7 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - -75.0
+    - -75
     name: o2_1_6
     orientation: 0
     port_type: optical
@@ -154,7 +154,7 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - 75.0
+    - 75
     name: o2_1_9
     orientation: 0
     port_type: optical

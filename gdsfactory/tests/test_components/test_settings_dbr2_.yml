@@ -44,8 +44,8 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
     orientation: 180
     port_type: optical
@@ -55,8 +55,8 @@ ports:
     - 1
     - 0
     midpoint:
-    - 50.0
-    - 0.0
+    - 50
+    - 0
     name: o2
     orientation: 0
     port_type: optical

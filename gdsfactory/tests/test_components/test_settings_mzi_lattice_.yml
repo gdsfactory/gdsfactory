@@ -30,7 +30,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - -2.15
     name: o1
     orientation: 180
@@ -41,7 +41,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - 2.85
     name: o2
     orientation: 180

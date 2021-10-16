@@ -31,7 +31,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -52.0
+    - -52
     - -40.5
     name: o1
     orientation: 180

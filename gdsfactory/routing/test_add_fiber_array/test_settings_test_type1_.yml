@@ -51,7 +51,7 @@ ports:
     - 203
     - 0
     midpoint:
-    - -188.0
+    - -188
     - -82.169
     name: vertical_te_00
     orientation: 270
@@ -73,7 +73,7 @@ ports:
     - 203
     - 0
     midpoint:
-    - 66.0
+    - 66
     - -82.169
     name: vertical_te_02
     orientation: 270
@@ -84,7 +84,7 @@ ports:
     - 203
     - 0
     midpoint:
-    - 193.0
+    - 193
     - -82.169
     name: vertical_te_03
     orientation: 270

@@ -10,7 +10,7 @@ ports:
     - 0
     midpoint:
     - -12.5
-    - 0.0
+    - 0
     name: o1
     orientation: 180
     port_type: optical
@@ -20,7 +20,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 85.0
+    - 85
     - 99.375
     name: o2
     orientation: 180
@@ -31,7 +31,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 85.0
+    - 85
     - 100.625
     name: o3
     orientation: 180
