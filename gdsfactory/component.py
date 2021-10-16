@@ -1280,7 +1280,7 @@ def _clean_value(value: Any) -> Any:
     if isinstance(value, (np.int64, np.int32)):
         value = int(value)
     if isinstance(value, np.ndarray):
-        value = [float(i) for i in value]
+        value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
     elif callable(value) and hasattr(value, "__name__"):

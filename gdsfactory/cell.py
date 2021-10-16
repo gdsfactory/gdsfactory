@@ -280,10 +280,15 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.components.straight(length=3)
-    print(c.settings.info.doc)
-
+    # c = gf.components.straight(length=3)
+    # print(c.settings.info.doc)
     # c = gf.components.spiral_inner_io(length=1e3)
     # c = gf.components.straight(length=3)
     # print(c.name)
     # c.show()
+
+    D = gf.Component()
+    arc = D << gf.components.bend_circular(radius=10, width=0.5, angle=90, layer=(1, 0))
+    arc.rotate(90)
+    # Draw a rectangle around the arc we created by using the arc's bounding box
+    rect = D << gf.components.bbox(bbox=arc.bbox, layer=(0, 0))
