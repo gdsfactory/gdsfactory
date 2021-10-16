@@ -29,8 +29,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: e11
     orientation: 270
     port_type: electrical
@@ -40,8 +40,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 150.0
-    - 0.0
+    - 150
+    - 0
     name: e12
     orientation: 270
     port_type: electrical
@@ -51,8 +51,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 300.0
-    - 0.0
+    - 300
+    - 0
     name: e13
     orientation: 270
     port_type: electrical
@@ -62,8 +62,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 450.0
-    - 0.0
+    - 450
+    - 0
     name: e14
     orientation: 270
     port_type: electrical
@@ -73,8 +73,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 600.0
-    - 0.0
+    - 600
+    - 0
     name: e15
     orientation: 270
     port_type: electrical
@@ -84,8 +84,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - 750.0
-    - 0.0
+    - 750
+    - 0
     name: e16
     orientation: 270
     port_type: electrical

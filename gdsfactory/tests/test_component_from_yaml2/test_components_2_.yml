@@ -7,7 +7,7 @@ ports:
     - 0
     midpoint:
     - 10.625
-    - 45.0
+    - 45
     name: o1
     orientation: 90
     port_type: optical
@@ -18,7 +18,7 @@ ports:
     - 0
     midpoint:
     - 9.375
-    - 45.0
+    - 45
     name: o2
     orientation: 90
     port_type: optical
@@ -28,8 +28,8 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 20.0
+    - 10
+    - 20
     name: o3
     orientation: 270
     port_type: optical

@@ -38,7 +38,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - -0.6
     name: o1
     orientation: 180
@@ -49,7 +49,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - 1.4
     name: o2
     orientation: 180
@@ -60,7 +60,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -11.0
+    - -11
     - 21.4
     name: o3
     orientation: 180
@@ -71,7 +71,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -11.0
+    - -11
     - 23.4
     name: o4
     orientation: 180

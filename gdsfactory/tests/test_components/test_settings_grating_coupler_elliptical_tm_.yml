@@ -45,7 +45,7 @@ ports:
     - 0
     midpoint:
     - 10.978
-    - 0.0
+    - 0
     name: o1
     orientation: 180
     port_type: optical
@@ -56,7 +56,7 @@ ports:
     - 0
     midpoint:
     - 25.312
-    - 0.0
+    - 0
     name: vertical_tm
     orientation: 0
     port_type: vertical_tm
