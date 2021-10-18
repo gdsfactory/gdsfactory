@@ -1,4 +1,27 @@
-cells: {}
+cells:
+  hline:
+    changed: {}
+    default:
+      layer:
+      - 1
+      - 0
+      length: 10
+      port_type: optical
+      width: 0.5
+    full:
+      layer:
+      - 1
+      - 0
+      length: 10
+      port_type: optical
+      width: 0.5
+    function_name: hline
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.hline
+    name: hline
+    name_long: hline
+    width: 0.5
 info:
   changed: {}
   default:

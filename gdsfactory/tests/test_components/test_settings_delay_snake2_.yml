@@ -1,4 +1,19 @@
-cells: {}
+cells:
+  delay_snake2:
+    changed: {}
+    default:
+      length: 1600
+      length0: 0
+      n: 2
+    full:
+      length: 1600
+      length0: 0
+      n: 2
+    function_name: delay_snake2
+    info_version: 1
+    module: gdsfactory.components.delay_snake2
+    name: delay_snake2
+    name_long: delay_snake2
 info:
   changed: {}
   default:

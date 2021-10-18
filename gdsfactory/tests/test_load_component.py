@@ -27,8 +27,8 @@ def test_load_component_with_settings():
     d1 = c1.to_dict
     d2 = c2.to_dict
 
-    # d1.pop("ports")
-    # d2.pop("ports")
+    # d1.pop('cells')
+    # d2.pop('cells')
     # c1.pprint
     # c2.pprint
 
@@ -49,7 +49,7 @@ def _write():
 
 
 if __name__ == "__main__":
-    _write()
+    # _write()
     # test_load_component_gds()
     # test_load_component_settings()
     test_load_component_with_settings()
@@ -58,5 +58,9 @@ if __name__ == "__main__":
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
     # c2 = gf.read.from_gds(gdspath)
-    # d = jsondiff.diff(c1.to_dict, c2.to_dict)
+    # d1 = c1.to_dict_config
+    # d2 = c2.to_dict_config
+    # dd1 = c1.to_dict
+    # dd2 = c2.to_dict
+    # d = jsondiff.diff(dd1, dd2)
     # print(d)

@@ -1,4 +1,89 @@
-cells: {}
+cells:
+  compass_85d33a91:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 1300
+      - 2600
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 1300
+      - 2600
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_85d33a91
+    name_long: compass_85d33a91
+  die_bbox:
+    changed: {}
+    default:
+      die_name: null
+      layer:
+      - 99
+      - 0
+      padding: 10
+      street_length: 1000
+      street_width: 100
+      text_location: SW
+      text_size: 100
+    full:
+      die_name: null
+      layer:
+      - 99
+      - 0
+      padding: 10
+      street_length: 1000
+      street_width: 100
+      text_location: SW
+      text_size: 100
+    function_name: die_bbox
+    info_version: 1
+    module: gdsfactory.components.die_bbox
+    name: die_bbox
+    name_long: die_bbox
+  rectangle_6df08d23:
+    changed:
+      size:
+      - 1300
+      - 2600
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 1300
+      - 2600
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_6df08d23
+    name_long: rectangle_6df08d23
 info:
   changed: {}
   default:

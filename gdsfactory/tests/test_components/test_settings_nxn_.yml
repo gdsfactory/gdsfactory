@@ -1,4 +1,96 @@
-cells: {}
+cells:
+  compass_f2a0af54:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 8
+      - 8
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 8
+      - 8
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_f2a0af54
+    name_long: compass_f2a0af54
+  nxn:
+    changed: {}
+    default:
+      east: 4
+      layer:
+      - 1
+      - 0
+      north: 0
+      south: 0
+      west: 1
+      wg_margin: 1
+      wg_width: 0.5
+      xsize: 8
+      ysize: 8
+    full:
+      east: 4
+      layer:
+      - 1
+      - 0
+      north: 0
+      south: 0
+      west: 1
+      wg_margin: 1
+      wg_width: 0.5
+      xsize: 8
+      ysize: 8
+    function_name: nxn
+    info_version: 1
+    module: gdsfactory.components.nxn
+    name: nxn
+    name_long: nxn
+  rectangle_48d69079:
+    changed:
+      layer:
+      - 1
+      - 0
+      size:
+      - 8
+      - 8
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 8
+      - 8
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_48d69079
+    name_long: rectangle_48d69079
 info:
   changed: {}
   default:

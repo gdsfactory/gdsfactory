@@ -1,4 +1,25 @@
-cells: {}
+cells:
+  delay_snake:
+    changed: {}
+    default:
+      L0: 5
+      n: 2
+      taper_length: 10
+      total_length: 1600
+      wg_width: 0.5
+      wg_width_wide: 2
+    full:
+      L0: 5
+      n: 2
+      taper_length: 10
+      total_length: 1600
+      wg_width: 0.5
+      wg_width_wide: 2
+    function_name: delay_snake
+    info_version: 1
+    module: gdsfactory.components.delay_snake
+    name: delay_snake
+    name_long: delay_snake
 info:
   changed: {}
   default:

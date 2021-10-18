@@ -1,4 +1,101 @@
-cells: {}
+cells:
+  compass_225d333d:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 13
+      - 13
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 13
+      - 13
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_225d333d
+    name_long: compass_225d333d
+  compass_ef690c07:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_ef690c07
+    name_long: compass_ef690c07
+  via_stack_slot:
+    changed: {}
+    default:
+      enclosure: 1
+      layer_offsets:
+      - 0
+      - 1
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      size:
+      - 11
+      - 11
+      ysize: 0.5
+      yspacing: 2
+    full:
+      enclosure: 1
+      layer_offsets:
+      - 0
+      - 1
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      size:
+      - 11
+      - 11
+      ysize: 0.5
+      yspacing: 2
+    function_name: via_stack_slot
+    info_version: 1
+    module: gdsfactory.components.via_stack_slot
+    name: via_stack_slot
+    name_long: via_stack_slot
 info:
   changed: {}
   default:

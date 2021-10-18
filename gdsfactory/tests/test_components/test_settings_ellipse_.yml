@@ -1,4 +1,27 @@
-cells: {}
+cells:
+  ellipse:
+    changed: {}
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radii:
+      - 10
+      - 5
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radii:
+      - 10
+      - 5
+    function_name: ellipse
+    info_version: 1
+    module: gdsfactory.components.ellipse
+    name: ellipse
+    name_long: ellipse
 info:
   changed: {}
   default:

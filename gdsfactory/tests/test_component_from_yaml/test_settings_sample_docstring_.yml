@@ -1,4 +1,55 @@
-cells: {}
+cells:
+  mmi1x2_28584457:
+    changed:
+      length_mmi: 22
+      width_mmi: 6
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 22
+      length_taper: 10
+      width: 0.5
+      width_mmi: 6
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_28584457
+    name_long: mmi1x2_28584457
+  mmi1x2_52b0d64a:
+    changed:
+      length_mmi: 11
+      width_mmi: 5
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 11
+      length_taper: 10
+      width: 0.5
+      width_mmi: 5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_52b0d64a
+    name_long: mmi1x2_52b0d64a
+  sample_docstring: {}
 info: {}
 ports: {}
 version: 1

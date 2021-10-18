@@ -1,4 +1,22 @@
-cells: {}
+cells:
+  cutback_bend90:
+    changed: {}
+    default:
+      columns: 6
+      rows: 6
+      spacing: 5
+      straight_length: 5
+    full:
+      columns: 6
+      rows: 6
+      spacing: 5
+      straight_length: 5
+    function_name: cutback_bend90
+    info_version: 1
+    module: gdsfactory.components.cutback_bend
+    n_bends: 144
+    name: cutback_bend90
+    name_long: cutback_bend90
 info:
   changed: {}
   default:

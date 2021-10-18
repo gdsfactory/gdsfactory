@@ -1,4 +1,27 @@
-cells: {}
+cells:
+  wire_corner:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: wire_corner
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.wire
+    name: wire_corner
+    name_long: wire_corner
+  wire_sbend:
+    changed: {}
+    default:
+      dx: 20
+      dy: 10
+    full:
+      dx: 20
+      dy: 10
+    function_name: wire_sbend
+    info_version: 1
+    module: gdsfactory.components.wire_sbend
+    name: wire_sbend
+    name_long: wire_sbend
 info:
   changed: {}
   default:

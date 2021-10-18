@@ -1,4 +1,22 @@
-cells: {}
+cells:
+  sample_mirror_simple: {}
+  straight:
+    changed: {}
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.straight
+    name: straight
+    name_long: straight
+    width: 0.5
 info: {}
 ports: {}
 version: 1

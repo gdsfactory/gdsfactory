@@ -1,4 +1,149 @@
-cells: {}
+cells:
+  compass_cdedda27:
+    changed:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_cdedda27
+    name_long: compass_cdedda27
+  compass_d1e03b9b:
+    changed:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 1050
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 1050
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_d1e03b9b
+    name_long: compass_d1e03b9b
+  pads_shorted:
+    changed: {}
+    default:
+      layer:
+      - 41
+      - 0
+      n_pads: 8
+      pad_spacing: 150
+      width: 100
+    full:
+      layer:
+      - 41
+      - 0
+      n_pads: 8
+      pad_spacing: 150
+      width: 100
+    function_name: pads_shorted
+    info_version: 1
+    module: gdsfactory.components.pads_shorted
+    name: pads_shorted
+    name_long: pads_shorted
+  rectangle_4df1cb8e:
+    changed:
+      centered: true
+      layer:
+      - 41
+      - 0
+      size:
+      - 100
+      - 100
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: true
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_4df1cb8e
+    name_long: rectangle_4df1cb8e
+  rectangle_b31951c1:
+    changed:
+      centered: true
+      layer:
+      - 41
+      - 0
+      size:
+      - 1050
+      - 10
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: true
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 1050
+      - 10
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_b31951c1
+    name_long: rectangle_b31951c1
 info:
   changed: {}
   default:

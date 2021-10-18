@@ -1,4 +1,27 @@
-cells: {}
+cells:
+  taper_2e9853cc:
+    changed:
+      width2: 3
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 3
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.taper
+    name: taper_2e9853cc
+    name_long: taper_2e9853cc
+    width1: 0.5
+    width2: 3.0
 info:
   changed:
     width2: 3

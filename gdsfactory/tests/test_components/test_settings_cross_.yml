@@ -1,4 +1,23 @@
-cells: {}
+cells:
+  cross:
+    changed: {}
+    default:
+      layer:
+      - 1
+      - 0
+      length: 10
+      width: 3
+    full:
+      layer:
+      - 1
+      - 0
+      length: 10
+      width: 3
+    function_name: cross
+    info_version: 1
+    module: gdsfactory.components.cross
+    name: cross
+    name_long: cross
 info:
   changed: {}
   default:

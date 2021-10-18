@@ -1,4 +1,35 @@
-cells: {}
+cells:
+  coupler_adiabatic:
+    changed: {}
+    default:
+      direction: EAST
+      dw: 0.1
+      input_wg_sep: 3
+      length1: 20
+      length2: 50
+      length3: 30
+      output_wg_sep: 3
+      port:
+      - 0
+      - 0
+      wg_sep: 1
+    full:
+      direction: EAST
+      dw: 0.1
+      input_wg_sep: 3
+      length1: 20
+      length2: 50
+      length3: 30
+      output_wg_sep: 3
+      port:
+      - 0
+      - 0
+      wg_sep: 1
+    function_name: coupler_adiabatic
+    info_version: 1
+    module: gdsfactory.components.coupler_adiabatic
+    name: coupler_adiabatic
+    name_long: coupler_adiabatic
 info:
   changed: {}
   default:

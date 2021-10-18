@@ -1,4 +1,13 @@
-cells: {}
+cells:
+  crossing_from_taper:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: crossing_from_taper
+    info_version: 1
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing_from_taper
+    name_long: crossing_from_taper
 info:
   changed: {}
   default: {}

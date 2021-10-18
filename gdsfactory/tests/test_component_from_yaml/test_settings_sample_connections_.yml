@@ -1,4 +1,5 @@
-cells: {}
+cells:
+  sample_connections: {}
 info: {}
 ports: {}
 version: 1

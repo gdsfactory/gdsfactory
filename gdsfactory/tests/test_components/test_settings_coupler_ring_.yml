@@ -1,4 +1,21 @@
-cells: {}
+cells:
+  coupler_ring:
+    changed: {}
+    default:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring
+    name_long: coupler_ring
 info:
   changed: {}
   default:

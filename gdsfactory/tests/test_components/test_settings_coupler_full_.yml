@@ -1,4 +1,31 @@
-cells: {}
+cells:
+  coupler_full:
+    changed: {}
+    default:
+      angle: 0.5235987755982988
+      direction: EAST
+      dw: 0.1
+      gap: 0.5
+      length: 40
+      parity: 1
+      port:
+      - 0
+      - 0
+    full:
+      angle: 0.5235987755982988
+      direction: EAST
+      dw: 0.1
+      gap: 0.5
+      length: 40
+      parity: 1
+      port:
+      - 0
+      - 0
+    function_name: coupler_full
+    info_version: 1
+    module: gdsfactory.components.coupler_full
+    name: coupler_full
+    name_long: coupler_full
 info:
   changed: {}
   default:

@@ -1,4 +1,21 @@
-cells: {}
+cells:
+  taper_cross_section_11c0a1bc:
+    changed:
+      linear: false
+      npoints: 101
+    default:
+      length: 10
+      linear: false
+      npoints: 100
+    full:
+      length: 10
+      linear: false
+      npoints: 101
+    function_name: taper_cross_section
+    info_version: 1
+    module: gdsfactory.components.taper_cross_section
+    name: taper_cross_section_11c0a1bc
+    name_long: taper_cross_section_11c0a1bc
 info:
   changed:
     linear: false

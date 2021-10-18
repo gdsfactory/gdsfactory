@@ -1,4 +1,35 @@
-cells: {}
+cells:
+  crossing_etched:
+    changed: {}
+    default:
+      L: 3.4
+      layer_slab:
+      - 2
+      - 0
+      layer_wg:
+      - 1
+      - 0
+      r1: 3
+      r2: 1.1
+      w: 1.2
+      width: 0.5
+    full:
+      L: 3.4
+      layer_slab:
+      - 2
+      - 0
+      layer_wg:
+      - 1
+      - 0
+      r1: 3
+      r2: 1.1
+      w: 1.2
+      width: 0.5
+    function_name: crossing_etched
+    info_version: 1
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing_etched
+    name_long: crossing_etched
 info:
   changed: {}
   default:
