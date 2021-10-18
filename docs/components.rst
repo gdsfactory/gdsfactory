@@ -118,7 +118,7 @@ array_with_via
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_via(columns=3, spacing=150.0, via_spacing=10.0, straight_length=60.0, component_port_name='e4', via_stack_dy=0, port_orientation=180)
+  c = gf.components.array_with_via(columns=3, spacing=150.0, via_spacing=10.0, straight_length=60.0, via_stack_dy=0, port_orientation=180)
   c.plot()
 
 
@@ -223,7 +223,7 @@ bend_euler
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler(angle=90, p=1, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c = gf.components.bend_euler(angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
   c.plot()
 
 
@@ -238,7 +238,7 @@ bend_euler180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler180(angle=180, p=1, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c = gf.components.bend_euler180(angle=180, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
   c.plot()
 
 
@@ -972,7 +972,22 @@ grating_coupler_elliptical2
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical2(wg_width=0.5, cladding_offset=2.0, theta=0.7853981633974483, length=30.0, taper_length=10.0, period=1.0, dutycycle=0.7, port=(0.0, 0.0), layer_core=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0))
+  c = gf.components.grating_coupler_elliptical2(taper_angle=30.0, taper_length=10.0, length=30.0, period=1.0, dutycycle=0.7, port=(0.0, 0.0), layer_core=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), wg_width=0.5, cladding_offset=2.0)
+  c.plot()
+
+
+
+grating_coupler_elliptical_gap_teeth
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_elliptical_gap_teeth
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_elliptical_gap_teeth()
   c.plot()
 
 
@@ -1017,7 +1032,7 @@ grating_coupler_elliptical_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_trenches(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
+  c = gf.components.grating_coupler_elliptical_trenches(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, ncladding=1.443, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, end_straight_length=0.2)
   c.plot()
 
 
@@ -1047,7 +1062,7 @@ grating_coupler_te
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_te(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=35, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
+  c = gf.components.grating_coupler_te(polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=35, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, ncladding=1.443, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, end_straight_length=0.2)
   c.plot()
 
 
@@ -1062,7 +1077,7 @@ grating_coupler_tm
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_tm(polarization='tm', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.6, wg_width=0.5, neff=1.8, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, straight=0.2)
+  c = gf.components.grating_coupler_tm(polarization='tm', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), taper_length=16.6, taper_angle=30.0, trenches_extra_angle=9.0, wavelength=1.53, fiber_angle=15.0, grating_line_width=0.6, wg_width=0.5, neff=1.8, ncladding=1.443, layer=(1, 0), layer_trench=(2, 0), p_start=26, n_periods=30, end_straight_length=0.2)
   c.plot()
 
 
@@ -1497,7 +1512,7 @@ rectangle
 
   import gdsfactory as gf
 
-  c = gf.components.rectangle(size=(4.0, 2.0), layer=(1, 0), centered=False)
+  c = gf.components.rectangle(size=(4.0, 2.0), layer=(1, 0), centered=False, port_type='electrical')
   c.plot()
 
 
@@ -1513,6 +1528,21 @@ resistance_meander
   import gdsfactory as gf
 
   c = gf.components.resistance_meander(pad_size=(50.0, 50.0), num_squares=1000, width=1.0, res_layer=(49, 0), pad_layer=(49, 0), gnd_layer=(49, 0))
+  c.plot()
+
+
+
+resistance_sheet
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.resistance_sheet
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.resistance_sheet(width=10, length=5.0, layers=((3, 0), (24, 0)), layer_offsets=(0, 0.2))
   c.plot()
 
 
@@ -1632,7 +1662,7 @@ spiral_external_io
 
   import gdsfactory as gf
 
-  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, dx=3.0, dy=3.0)
+  c = gf.components.spiral_external_io(N=6, x_inner_length_cutback=300.0, x_inner_offset=0.0, y_straight_inner_top=0.0, xspacing=3.0, yspacing=3.0)
   c.plot()
 
 
@@ -1797,7 +1827,7 @@ straight_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, with_undercut=False, port_orientation1=180, port_orientation2=0)
+  c = gf.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=180, port_orientation2=0, taper_length=5.0)
   c.plot()
 
 
@@ -1812,7 +1842,7 @@ straight_heater_metal_90_90
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, with_undercut=False, port_orientation1=90, port_orientation2=90)
+  c = gf.components.straight_heater_metal_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=90, port_orientation2=90, taper_length=5.0)
   c.plot()
 
 
@@ -1827,7 +1857,7 @@ straight_heater_metal_undercut
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_undercut(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, with_undercut=True, port_orientation1=180, port_orientation2=0)
+  c = gf.components.straight_heater_metal_undercut(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=True, port_orientation1=180, port_orientation2=0, taper_length=5.0)
   c.plot()
 
 
@@ -1842,7 +1872,7 @@ straight_heater_metal_undercut_90_90
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_undercut_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, with_undercut=False, port_orientation1=90, port_orientation2=90)
+  c = gf.components.straight_heater_metal_undercut_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=90, port_orientation2=90, taper_length=5.0)
   c.plot()
 
 
@@ -2187,7 +2217,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.3.2', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.3.9', text_size=10)
   c.plot()
 
 
