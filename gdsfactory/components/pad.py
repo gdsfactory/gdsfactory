@@ -28,7 +28,7 @@ def pad(
     rect = compass(size=size, layer=layer)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.info.size = size
+    c.info.size = (float(size[0]), float(size[1]))
     c.info.layer = layer
 
     if layers_cladding and cladding_offsets:
