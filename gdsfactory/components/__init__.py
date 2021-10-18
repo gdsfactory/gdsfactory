@@ -19,6 +19,9 @@ from gdsfactory.components.circle import circle
 from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
+from gdsfactory.components.contact import contact, contact_heater, contact_slab
+from gdsfactory.components.contact_slot import contact_slot
+from gdsfactory.components.contact_with_offset import contact_with_offset
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
 from gdsfactory.components.coupler90bend import coupler90bend
@@ -175,9 +178,6 @@ from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
 from gdsfactory.components.via_cutback import via_cutback
-from gdsfactory.components.via_stack import via_stack, via_stack_heater, via_stack_slab
-from gdsfactory.components.via_stack_slot import via_stack_slot
-from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
@@ -348,10 +348,10 @@ __all__ = [
     "via1",
     "via2",
     "via_cutback",
-    "via_stack",
-    "via_stack_heater",
-    "via_stack_slab",
-    "via_stack_with_offset",
+    "contact",
+    "contact_heater",
+    "contact_slab",
+    "contact_with_offset",
     "waveguide_template",
     "wire",
     "wire_corner",
@@ -514,11 +514,11 @@ factory = dict(
     via1=via1,
     via2=via2,
     via_cutback=via_cutback,
-    via_stack=via_stack,
-    via_stack_slot=via_stack_slot,
-    via_stack_heater=via_stack_heater,
-    via_stack_slab=via_stack_slab,
-    via_stack_with_offset=via_stack_with_offset,
+    contact=contact,
+    contact_slot=contact_slot,
+    contact_heater=contact_heater,
+    contact_slab=contact_slab,
+    contact_with_offset=contact_with_offset,
     wire_corner=wire_corner,
     wire_sbend=wire_sbend,
     wire_straight=wire_straight,

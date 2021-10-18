@@ -380,6 +380,237 @@ cells:
     module: gdsfactory.components.compass
     name: compass_f8ff546d
     name_long: compass_f8ff546d
+  contact_16d0347b:
+    changed:
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 10
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 10
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_16d0347b
+    name_long: contact_16d0347b
+    size:
+    - 10.0
+    - 10.0
+  contact_84c67b1a:
+    changed:
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 30
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 30
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_84c67b1a
+    name_long: contact_84c67b1a
+    size:
+    - 30.0
+    - 10.0
+  contact_87aeec60:
+    changed:
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 150
+      - 150
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 150
+      - 150
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_87aeec60
+    name_long: contact_87aeec60
+    size:
+    - 150.0
+    - 150.0
   via_cutback:
     changed: {}
     default:
@@ -425,237 +656,6 @@ cells:
     module: gdsfactory.components.via_cutback
     name: via_cutback
     name_long: via_cutback
-  via_stack_16d0347b:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 10
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 10
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: via_stack
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.via_stack
-    name: via_stack_16d0347b
-    name_long: via_stack_16d0347b
-    size:
-    - 10.0
-    - 10.0
-  via_stack_84c67b1a:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 30
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 30
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: via_stack
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.via_stack
-    name: via_stack_84c67b1a
-    name_long: via_stack_84c67b1a
-    size:
-    - 30.0
-    - 10.0
-  via_stack_87aeec60:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 150
-      - 150
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 150
-      - 150
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: via_stack
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.via_stack
-    name: via_stack_87aeec60
-    name_long: via_stack_87aeec60
-    size:
-    - 150.0
-    - 150.0
 info:
   changed: {}
   default:

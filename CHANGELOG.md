@@ -44,6 +44,7 @@ from contracts import contract
 - `component.settings` contains input settings (full, changed, default)
 - `component.info` contains derived settings (including module_name, parent settings, ...)
 - `component.to_dict` returns a dict with all information (info, settings, ports)
+- rename `via_stack` to `contact`
 
 ## 3.3.9
 
@@ -157,8 +158,8 @@ from contracts import contract
 
 ## 3.2.1
 
-- simplify via_stack_with_offset
-- via_stack_with_offset use array of references
+- simplify contact_with_offset
+- contact_with_offset use array of references
 - add `gf.components.taper_cross_section` to taper two cross_sections
 
 ## 3.2.0
@@ -177,13 +178,13 @@ from contracts import contract
 
 ## 3.1.8
 
-- via_stack uses array of references
+- contact uses array of references
 
 ## 3.1.7
 
 - transition ports have different cross_sections
 - get_bundle separation is now defined from center to center waveguide
-- via_stack has 4 ports, consistent with pads
+- contact has 4 ports, consistent with pads
 - pad takes size argument instead of (width, height), which is consistent with other rectangular structures
 - add filecache to store in files
 
@@ -287,7 +288,7 @@ from contracts import contract
 - @cell has `post_init` function. Perfect for adding pins
 - update `samples/pdk/fabc.py` with partial
 - Library can register partial functions
-- `via_stack_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
+- `contact_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
 - add `pp.components.die_box`
 
 ## 2.7.6
@@ -340,11 +341,11 @@ from contracts import contract
 
 ## 2.6.10
 
-- via_stack has port with port_type=dc
+- contact has port with port_type=dc
 
 ## 2.6.9
 
-- rename tlm to via_stack and tlm_with_offset to via_stack_with_offset
+- rename tlm to contact and tlm_with_offset to contact_with_offset
 
 ## 2.6.8
 

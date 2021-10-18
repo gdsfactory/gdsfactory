@@ -11,13 +11,13 @@ from gdsfactory.types import ComponentOrFactory, Layer
 
 
 @gf.cell
-def via_stack(
+def contact(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[Optional[ComponentOrFactory], ...]] = (via1, via2),
     layer_port: Optional[Layer] = None,
 ) -> Component:
-    """Rectangular via_stack
+    """Rectangular contact
 
     Args:
         size: of the layers
@@ -69,32 +69,32 @@ def via_stack(
     return c
 
 
-via_stack_metal = gf.partial(
-    via_stack,
+contact_metal = gf.partial(
+    contact,
     layers=(LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(via1, via2),
 )
 
-via_stack_slab = gf.partial(
-    via_stack,
+contact_slab = gf.partial(
+    contact,
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(viac, via1, via2),
 )
-via_stack_npp = gf.partial(
-    via_stack,
+contact_npp = gf.partial(
+    contact,
     layers=(LAYER.WG, LAYER.NPP, LAYER.M1),
     vias=(None, None, viac),
 )
-via_stack_slab_npp = gf.partial(
-    via_stack,
+contact_slab_npp = gf.partial(
+    contact,
     layers=(LAYER.SLAB90, LAYER.NPP, LAYER.M1),
     vias=(None, None, viac),
 )
-via_stack_heater = gf.partial(
-    via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via1, via2)
+contact_heater = gf.partial(
+    contact, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via1, via2)
 )
 
 
 if __name__ == "__main__":
-    c = via_stack()
+    c = contact()
     c.show()

@@ -3,7 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.via_stack import via_stack_heater
+from gdsfactory.components.contact import contact_heater
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -18,7 +18,7 @@ def straight_heater_metal_undercut(
     cross_section_heater: CrossSectionFactory = strip_heater_metal,
     cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    via_stack: Optional[ComponentFactory] = via_stack_heater,
+    contact: Optional[ComponentFactory] = contact_heater,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     taper_length: Optional[float] = 5.0,
@@ -35,7 +35,7 @@ def straight_heater_metal_undercut(
         cross_section_heater: for heated sections
         cross_section_heater_undercut: for heated sections with undercut
         with_undercut: isolation trenches for higher efficiency
-        via_stack: via stack
+        contact: via stack
         port_orientation1: left via stack port orientation
         port_orientation2: right via stack port orientation
         kwargs: cross_section common settings
@@ -82,9 +82,9 @@ def straight_heater_metal_undercut(
     c.add_ref(sequence)
     c.add_ports(sequence.ports)
 
-    if via_stack:
-        contactw = via_stack()
-        contacte = via_stack()
+    if contact:
+        contactw = contact()
+        contacte = contact()
         contact_west_midpoint = sequence.aliases["-1"].size_info.cw
         contact_east_midpoint = sequence.aliases["-2"].size_info.ce
         dx = contactw.get_ports_xsize() / 2 + taper_length or 0
