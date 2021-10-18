@@ -143,7 +143,7 @@ def cell_without_validator(func):
                     f"function `{func.__name__}` return type = `{type(component)}`",
                     "make sure that functions with @cell decorator return a Component",
                 )
-            if autoname:
+            if autoname and getattr(component, "_autoname", True):
                 component.name = name_component
 
             # docstring = func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__

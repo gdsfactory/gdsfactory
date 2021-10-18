@@ -1,18 +1,18 @@
-"""Read component GDS, JSON metadata and CSV ports."""
-from functools import lru_cache
+"""Read component GDS, YAML metadata and ports."""
 from pathlib import Path
 from typing import Union
 
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
 
 
-@lru_cache(maxsize=None)
+@cell
 def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
-    """Returns Component with ports (CSV) and metadata (JSON) info (if any).
+    """Returns Component with ports and metadata (YAML) info (if any).
 
     Args:
         gdspath: path of GDS file
@@ -21,7 +21,6 @@ def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
 
     """
-
     gdspath = Path(gdspath)
     metadata_filepath = gdspath.with_suffix(".yml")
     if not gdspath.exists():
