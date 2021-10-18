@@ -2,31 +2,31 @@ cells: {}
 info:
   changed: {}
   default:
+    contact_contact_size:
+    - 10
+    - 10
+    contact_contact_yspacing: 2
+    contact_metal_size:
+    - 10
+    - 10
     length: 320
     nsections: 3
     port_orientation_bot: 180
     port_orientation_top: 0
     taper_length: 10
-    via_stack_contact_size:
-    - 10
-    - 10
-    via_stack_contact_yspacing: 2
-    via_stack_metal_size:
-    - 10
-    - 10
   full:
+    contact_contact_size:
+    - 10
+    - 10
+    contact_contact_yspacing: 2
+    contact_metal_size:
+    - 10
+    - 10
     length: 320
     nsections: 3
     port_orientation_bot: 180
     port_orientation_top: 0
     taper_length: 10
-    via_stack_contact_size:
-    - 10
-    - 10
-    via_stack_contact_yspacing: 2
-    via_stack_metal_size:
-    - 10
-    - 10
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib

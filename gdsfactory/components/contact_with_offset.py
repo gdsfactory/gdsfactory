@@ -10,7 +10,7 @@ from gdsfactory.types import ComponentOrFactory, Layers
 
 
 @gf.cell
-def via_stack_with_offset(
+def contact_with_offset(
     layers: Layers = (LAYER.PPP, LAYER.M1),
     sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
     vias: Tuple[Optional[ComponentOrFactory], ...] = (None, viac),
@@ -84,7 +84,7 @@ def via_stack_with_offset(
 
 
 if __name__ == "__main__":
-    c = via_stack_with_offset(
+    c = contact_with_offset(
         layers=(LAYER.SLAB90, LAYER.M1),
         sizes=((20, 10), (20, 10)),
         vias=(viac(size=(18, 2), spacing=(5, 5)), None),

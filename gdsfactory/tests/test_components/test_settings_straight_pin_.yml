@@ -2,17 +2,17 @@ cells: {}
 info:
   changed: {}
   default:
+    contact_spacing: 2
+    contact_width: 10
     length: 500
     port_orientation_bot: 180
     port_orientation_top: 0
-    via_stack_spacing: 2
-    via_stack_width: 10
   full:
+    contact_spacing: 2
+    contact_width: 10
     length: 500
     port_orientation_bot: 180
     port_orientation_top: 0
-    via_stack_spacing: 2
-    via_stack_width: 10
   function_name: straight_pin
   info_version: 1
   module: gdsfactory.components.straight_pin

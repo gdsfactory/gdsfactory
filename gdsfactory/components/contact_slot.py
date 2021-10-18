@@ -11,7 +11,7 @@ from gdsfactory.types import ComponentOrFactory, Layer
 
 
 @gf.cell
-def via_stack_slot(
+def contact_slot(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2),
     layer_offsets: Tuple[float, ...] = (0, 1.0),
@@ -21,7 +21,7 @@ def via_stack_slot(
     ysize: float = 0.5,
     yspacing: float = 2.0,
 ) -> Component:
-    """Rectangular via_stack with slotted via in X direction
+    """Rectangular contact with slotted via in X direction
 
     Args:
         size: of the layers
@@ -78,9 +78,9 @@ def via_stack_slot(
     return c
 
 
-via_stack_slot_slab = gf.partial(via_stack_slot, layers=(LAYER.M1,), via=viac)
+contact_slot_slab = gf.partial(contact_slot, layers=(LAYER.M1,), via=viac)
 
 
 if __name__ == "__main__":
-    c = via_stack_slot(layer_offsets=(0.5, 1), enclosure=2)
+    c = contact_slot(layer_offsets=(0.5, 1), enclosure=2)
     c.show()

@@ -3,11 +3,11 @@ from functools import partial
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.via_stack import via_stack_slab_npp
+from gdsfactory.components.contact import contact_slab_npp
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Floats, Layers
 
-pad_via_stack_slab_npp = partial(via_stack_slab_npp, size=(100, 100))
+pad_contact_slab_npp = partial(contact_slab_npp, size=(100, 100))
 
 
 @cell
@@ -16,7 +16,7 @@ def resistance_sheet(
     length: float = 5.0,
     layers: Layers = (LAYER.SLAB90, LAYER.NPP),
     layer_offsets: Floats = (0, 0.2),
-    pad: ComponentFactory = pad_via_stack_slab_npp,
+    pad: ComponentFactory = pad_contact_slab_npp,
 ) -> Component:
     """Sheet resistance.
     Ensures connectivity is kept for pads and the first layer in layers
