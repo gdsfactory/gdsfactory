@@ -102,23 +102,8 @@ def add_frame(
     return c
 
 
-@cell
-def triangle(x: float = 10, y: float = 20, layer: Layer = (1, 0)) -> Component:
-    """
-    Args:
-        x: base
-        y: height
-        layer:
-    """
-    c = Component()
-    points = [[x, 0], [0, 0], [0, y]]
-    c.add_polygon(points, layer=layer)
-    return c
-
-
 if __name__ == "__main__":
     # c = gf.components.straight()
     # c = add_frame(component=c)
-    # c = align_wafer()
-    c = triangle()
+    c = align_wafer()
     c.show()
