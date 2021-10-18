@@ -1,4 +1,4 @@
-from gdsfactory.components.align import add_frame, align_wafer, triangle
+from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array import array
 from gdsfactory.components.array_with_fanout import (
     array_with_fanout,
@@ -174,6 +174,7 @@ from gdsfactory.components.taper_from_csv import (
     taper_w12_l200,
 )
 from gdsfactory.components.text import githash, text
+from gdsfactory.components.triangle import triangle
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac

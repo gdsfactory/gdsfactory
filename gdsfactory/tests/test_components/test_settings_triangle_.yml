@@ -6,16 +6,18 @@ cells:
       - 1
       - 0
       x: 10
+      xtop: 0
       y: 20
     full:
       layer:
       - 1
       - 0
       x: 10
+      xtop: 0
       y: 20
     function_name: triangle
     info_version: 1
-    module: gdsfactory.components.align
+    module: gdsfactory.components.triangle
     name: triangle
     name_long: triangle
 info:
@@ -25,16 +27,18 @@ info:
     - 1
     - 0
     x: 10
+    xtop: 0
     y: 20
   full:
     layer:
     - 1
     - 0
     x: 10
+    xtop: 0
     y: 20
   function_name: triangle
   info_version: 1
-  module: gdsfactory.components.align
+  module: gdsfactory.components.triangle
   name: triangle
   name_long: triangle
 ports: {}
