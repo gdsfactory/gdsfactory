@@ -68,7 +68,8 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == "straight_layer3_0_si90n", p.stem
+    cell_name = "straight_cf5c9898_si90n"
+    assert p.stem == cell_name, p.stem
 
 
 if __name__ == "__main__":

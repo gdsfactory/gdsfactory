@@ -1,11 +1,45 @@
-function_name: ring
-info: {}
-module: gdsfactory.components.ring
-name: ring
-settings:
-  angle_resolution: 2.5
-  layer:
-  - 1
-  - 0
-  radius: 10
-  width: 0.5
+cells:
+  ring:
+    changed: {}
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+      width: 0.5
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+      width: 0.5
+    function_name: ring
+    info_version: 1
+    module: gdsfactory.components.ring
+    name: ring
+    name_long: ring
+info:
+  changed: {}
+  default:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radius: 10
+    width: 0.5
+  full:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radius: 10
+    width: 0.5
+  function_name: ring
+  info_version: 1
+  module: gdsfactory.components.ring
+  name: ring
+  name_long: ring
+ports: {}
+version: 1

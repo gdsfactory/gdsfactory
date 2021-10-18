@@ -36,19 +36,19 @@ cross_section
 
 
 import gdsfactory as gf
+from gdsfactory.components.contact import contact_npp
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
-from gdsfactory.components.via_stack import via_stack_npp
 from gdsfactory.cross_section import strip_heater_doped
 
 straight_heater_doped_strip = gf.partial(
     straight_heater_doped_rib,
     cross_section_heater=strip_heater_doped,
-    via_stack_contact=via_stack_npp,
+    contact_contact=contact_npp,
 )
 
 
 if __name__ == "__main__":
     # c = straight_heater_doped_strip(length=100)
     # c = test_straight_heater_doped_strip_ports()
-    c = straight_heater_doped_strip(via_stack_contact=None)
+    c = straight_heater_doped_strip(contact_contact=None)
     c.show()

@@ -1,6 +1,45 @@
-function_name: wire_corner
+cells:
+  wire_corner:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: wire_corner
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.wire
+    name: wire_corner
+    name_long: wire_corner
 info:
-  length: 10
-module: gdsfactory.components.wire
-name: wire_corner
-settings: {}
+  changed: {}
+  default: {}
+  full: {}
+  function_name: wire_corner
+  info_version: 1
+  length: 10.0
+  module: gdsfactory.components.wire
+  name: wire_corner
+  name_long: wire_corner
+ports:
+  e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - -5
+    - 0
+    name: e1
+    orientation: 180
+    port_type: electrical
+    width: 10
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0
+    - 5
+    name: e2
+    orientation: 90
+    port_type: electrical
+    width: 10
+version: 1

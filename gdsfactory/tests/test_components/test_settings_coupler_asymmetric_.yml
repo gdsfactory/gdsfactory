@@ -1,8 +1,66 @@
-function_name: coupler_asymmetric
-info: {}
-module: gdsfactory.components.coupler_asymmetric
-name: coupler_asymmetric
-settings:
-  dx: 10
-  dy: 5
-  gap: 0.234
+cells:
+  coupler_asymmetric:
+    changed: {}
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.234
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.234
+    function_name: coupler_asymmetric
+    info_version: 1
+    module: gdsfactory.components.coupler_asymmetric
+    name: coupler_asymmetric
+    name_long: coupler_asymmetric
+info:
+  changed: {}
+  default:
+    dx: 10
+    dy: 5
+    gap: 0.234
+  full:
+    dx: 10
+    dy: 5
+    gap: 0.234
+  function_name: coupler_asymmetric
+  info_version: 1
+  module: gdsfactory.components.coupler_asymmetric
+  name: coupler_asymmetric
+  name_long: coupler_asymmetric
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 1.234
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10
+    - 0.367
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10
+    - -4.633
+    name: o3
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

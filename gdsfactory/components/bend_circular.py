@@ -39,9 +39,9 @@ def bend_circular(
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = extrude(p, x)
 
-    c.length = snap_to_grid(p.length())
-    c.dy = abs(p.points[0][0] - p.points[-1][0])
-    c.radius_min = radius
+    c.info.length = snap_to_grid(p.length())
+    c.info.dy = float(abs(p.points[0][0] - p.points[-1][0]))
+    c.info.radius_min = float(radius)
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
@@ -75,12 +75,10 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
 
 
 if __name__ == "__main__":
-    from pprint import pprint
-
     c = bend_circular(width=2, layer=gf.LAYER.M1)
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
+    c.pprint
     c.show()
-    pprint(c.get_settings())
 
     # c = bend_circular180()
     # c.plotqt()

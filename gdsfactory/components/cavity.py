@@ -59,7 +59,7 @@ def cavity(
     mr.connect("o1", destination=cr.ports["o3"])
     c.add_port("o1", port=cr.ports["o1"])
     c.add_port("o2", port=cr.ports["o4"])
-    c.copy_settings_from(mirror)
+    c.copy_child_info(mirror)
     return c
 
 

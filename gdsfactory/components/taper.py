@@ -87,8 +87,8 @@ def taper(
             c.add_polygon(points, layer=layer)
 
     c.info["length"] = length
-    c.info["width1"] = width1
-    c.info["width2"] = width2
+    c.info["width1"] = float(width1)
+    c.info["width2"] = float(width2)
     return c
 
 
@@ -201,8 +201,8 @@ def taper_strip_to_ridge_trenches(
 
 
 if __name__ == "__main__":
-    # c = taper(width2=1)
-    c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
+    c = taper(width2=1)
+    # c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     c.show()

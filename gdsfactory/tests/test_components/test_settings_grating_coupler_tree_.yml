@@ -1,28 +1,231 @@
-function_name: grating_coupler_tree
+cells:
+  circle_602e85fd:
+    changed:
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_602e85fd
+    name_long: circle_602e85fd
+  grating_coupler_elliptical_te:
+    changed: {}
+    default:
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      n_periods: 24
+      neff: 2.638
+      p_start: 26
+      taper_angle: 40
+      taper_length: 16.6
+      wavelength: 1.554
+      wg_width: 0.5
+    full:
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      n_periods: 24
+      neff: 2.638
+      p_start: 26
+      taper_angle: 40
+      taper_length: 16.6
+      wavelength: 1.554
+      wg_width: 0.5
+    function_name: grating_coupler_elliptical_te
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical
+    name: grating_coupler_elliptical_te
+    name_long: grating_coupler_elliptical_te
+    polarization: te
+    wavelength: 1.554
+  grating_coupler_tree:
+    changed: {}
+    child:
+      changed:
+        n: 4
+        spacing: 4
+      default:
+        n: 4
+        spacing: 4
+      full:
+        n: 4
+        spacing: 4
+      function_name: straight_array
+      info_version: 1
+      module: gdsfactory.components.straight_array
+      name: straight_array_e79eb4c6
+      name_long: straight_array_e79eb4c6
+    default:
+      fanout_length: 0
+      layer_label:
+      - 66
+      - 0
+      n: 4
+      straight_spacing: 4
+      with_loopback: false
+    full:
+      fanout_length: 0
+      layer_label:
+      - 66
+      - 0
+      n: 4
+      straight_spacing: 4
+      with_loopback: false
+    function_name: grating_coupler_tree
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_tree
+    name: grating_coupler_tree
+    name_long: grating_coupler_tree
 info:
-  parent:
-    function_name: straight_array
-    info: {}
-    module: gdsfactory.components.straight_array
-    name: straight_array_n4_spacing4
-    settings:
+  changed: {}
+  child:
+    changed:
       n: 4
       spacing: 4
-  parent_name: straight_array_n4_spacing4
-module: gdsfactory.components.grating_coupler_tree
-name: grating_coupler_tree
-settings:
-  bend: bend_euler
-  component_name: straight_array_n4_spacing4
-  fanout_length: 0
-  gc_port_labels: null
-  gc_port_name: o1
-  grating_coupler: grating_coupler_elliptical_te
-  layer_label:
-  - 66
-  - 0
-  n: 4
-  optical_routing_type: 0
-  straight_spacing: 4
-  taper_factory: null
-  with_loopback: false
+    default:
+      n: 4
+      spacing: 4
+    full:
+      n: 4
+      spacing: 4
+    function_name: straight_array
+    info_version: 1
+    module: gdsfactory.components.straight_array
+    name: straight_array_e79eb4c6
+    name_long: straight_array_e79eb4c6
+  default:
+    fanout_length: 0
+    layer_label:
+    - 66
+    - 0
+    n: 4
+    straight_spacing: 4
+    with_loopback: false
+  full:
+    fanout_length: 0
+    layer_label:
+    - 66
+    - 0
+    n: 4
+    straight_spacing: 4
+    with_loopback: false
+  function_name: grating_coupler_tree
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_tree
+  name: grating_coupler_tree
+  name_long: grating_coupler_tree
+ports:
+  vertical_te_00:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -439.5
+    - -59.111000000000004
+    name: vertical_te_00
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_01:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -312.5
+    - -59.111000000000004
+    name: vertical_te_01
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_02:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -185.5
+    - -59.111000000000004
+    name: vertical_te_02
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_03:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -58.50000000000001
+    - -59.111000000000004
+    name: vertical_te_03
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_04:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 68.5
+    - -59.111000000000004
+    name: vertical_te_04
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_05:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 195.5
+    - -59.111000000000004
+    name: vertical_te_05
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_06:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 322.5
+    - -59.111000000000004
+    name: vertical_te_06
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_07:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 449.5
+    - -59.111000000000004
+    name: vertical_te_07
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+version: 1

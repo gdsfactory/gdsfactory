@@ -85,8 +85,6 @@ fabc_nitride_cband = gf.partial(
 fabc_nitride_oband = gf.partial(
     strip, width=WIDTH_NITRIDE_OBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
 )
-fabc_nitride_cband.__name__ = "fab_nitridec"
-fabc_nitride_oband.__name__ = "fab_nitrideo"
 
 
 # LEAF COMPONENTS have pins

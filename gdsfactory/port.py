@@ -122,7 +122,7 @@ class Port(PortPhidl):
             name=self.name,
             midpoint=self.midpoint,
             width=self.width,
-            orientation=self.orientation,
+            orientation=float(self.orientation),
             layer=self.layer,
             port_type=self.port_type,
         )
@@ -191,7 +191,7 @@ class Port(PortPhidl):
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""
         half_width = self.width / 2
         half_width_correct = snap_to_grid(half_width, nm=nm)
-        component_name = self.parent.get_property("name")
+        component_name = self.parent.name
         if not np.isclose(half_width, half_width_correct):
             raise PortNotOnGridError(
                 f"{component_name}, port = {self.name}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",

@@ -1,6 +1,149 @@
-function_name: splitter_chain
-info: {}
-module: gdsfactory.components.splitter_chain
-name: splitter_chain
-settings:
-  n_devices: 3
+cells:
+  mmi1x2:
+    changed: {}
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
+    name_long: mmi1x2
+  splitter_chain:
+    changed: {}
+    child:
+      changed: {}
+      default:
+        gap_mmi: 0.25
+        length_mmi: 5.5
+        length_taper: 10
+        width: 0.5
+        width_mmi: 2.5
+        width_taper: 1
+        with_cladding_box: true
+      full:
+        gap_mmi: 0.25
+        length_mmi: 5.5
+        length_taper: 10
+        width: 0.5
+        width_mmi: 2.5
+        width_taper: 1
+        with_cladding_box: true
+      function_name: mmi1x2
+      info_version: 1
+      module: gdsfactory.components.mmi1x2
+      name: mmi1x2
+      name_long: mmi1x2
+    default:
+      n_devices: 3
+    full:
+      n_devices: 3
+    function_name: splitter_chain
+    info_version: 1
+    module: gdsfactory.components.splitter_chain
+    name: splitter_chain
+    name_long: splitter_chain
+info:
+  changed: {}
+  child:
+    changed: {}
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
+    name_long: mmi1x2
+  default:
+    n_devices: 3
+  full:
+    n_devices: 3
+  function_name: splitter_chain
+  info_version: 1
+  module: gdsfactory.components.splitter_chain
+  name: splitter_chain
+  name_long: splitter_chain
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 12.75
+    - -0.625
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 48.25
+    - 2
+    name: o3
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 83.75
+    - 4.625
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o5:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 83.75
+    - 5.875
+    name: o5
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

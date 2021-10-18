@@ -1,14 +1,20 @@
+"""
+- INFO_VERSION: 1
+
+"""
 import functools
 import hashlib
 import inspect
 from typing import Dict
 
+import omegaconf
 from pydantic import validate_arguments
 
-from gdsfactory.component import Component
+from gdsfactory.component import Component, clean_dict
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
 
 CACHE: Dict[str, Component] = {}
+INFO_VERSION = 1
 
 
 class CellReturnTypeError(ValueError):
@@ -24,6 +30,25 @@ def clear_cache() -> None:
 def print_cache():
     for k in CACHE:
         print(k)
+
+
+def clean_doc(name: str) -> str:
+    """Returns a clean docstring"""
+    # replace_map = {
+    #     " ": " ",
+    #     "  ": " ",
+    #     "   ": " ",
+    #     "    ": ",",
+    #     "     ": " ",
+    #     "\n": " ",
+    #     "\n\n": " ",
+    # }
+    # for k, v in list(replace_map.items()):
+    #     name = name.replace(k, v)
+
+    # name = ",".join(name.split('\n'))
+    # name = " ".join(name.split())
+    return name
 
 
 def cell_without_validator(func):
@@ -63,17 +88,20 @@ def cell_without_validator(func):
         prefix = kwargs.pop("prefix", func.__name__)
         autoname = kwargs.pop("autoname", True)
         cache = kwargs.pop("cache", True)
-        info = kwargs.pop("info", {})
+        info = kwargs.pop("info", omegaconf.DictConfig({}))
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(**kwargs)
-        args_as_kwargs_clean = [
+        args_as_kwargs_string_list = [
             f"{key}={clean_value(args_as_kwargs[key])}"
             for key in sorted(args_as_kwargs.keys())
         ]
-        arguments = "_".join(args_as_kwargs_clean)
-        name_long = name = clean_name(f"{prefix}_{arguments}") if arguments else prefix
+        arguments = "_".join(args_as_kwargs_string_list)
+        arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
+        name_long = name = (
+            clean_name(f"{prefix}_{arguments_hash}") if arguments else prefix
+        )
         decorator = kwargs.pop("decorator", None)
 
         if len(name) > MAX_NAME_LENGTH:
@@ -115,26 +143,35 @@ def cell_without_validator(func):
                     f"function `{func.__name__}` return type = `{type(component)}`",
                     "make sure that functions with @cell decorator return a Component",
                 )
-            component.module = func.__module__
-            component.function_name = func.__name__
-
-            if autoname:
+            if autoname and getattr(component, "_autoname", True):
                 component.name = name_component
 
-            component.name_long = name_long
+            # docstring = func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
+            # component.info.doc = docstring
 
-            if not hasattr(component, "settings"):
-                component.settings = {}
-            component.settings.update(
-                **{
-                    p.name: p.default
-                    for p in sig.parameters.values()
-                    if not callable(p.default)
-                }
-            )
-            component.settings.update(**kwargs)
-            component.settings_changed = kwargs.copy()
+            component.info.module = func.__module__
+            component.info.function_name = func.__name__
+            component.info.info_version = INFO_VERSION
+            component.info.name_long = name_long
+            component.info.name = component.name
             component.info.update(**info)
+
+            default = {
+                p.name: p.default
+                for p in sig.parameters.values()
+                if not callable(p.default)
+            }
+            full = default.copy()
+            full.update(**args_as_kwargs)
+            changed = args_as_kwargs.copy()
+
+            clean_dict(full)
+            clean_dict(default)
+            clean_dict(changed)
+
+            component.info.changed = changed
+            component.info.default = default
+            component.info.full = full
 
             CACHE[name] = component
             return component
@@ -161,7 +198,9 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
 
 
 def test_autoname_true() -> None:
-    assert wg(length=3).name == "wg_length3"
+    c = wg(length=3)
+    # assert c.name == "wg_length3", c.name
+    assert c.name == "wg_2dcab9f2", c.name
 
 
 def test_autoname_false() -> None:
@@ -176,6 +215,7 @@ def test_set_name() -> None:
 
 @cell
 def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
+    """Dummy cell"""
     c = Component()
     w = length
     h = wg_width
@@ -194,10 +234,16 @@ def test_autoname() -> None:
     assert name_base == "_dummy", name_base
 
     name_int = _dummy(length=3).name
-    assert name_int == "_dummy_length3", name_int
+    assert name_int == "_dummy_2dcab9f2", name_int
+
+    dummy2 = functools.partial(_dummy, length=3)
+    component_int = dummy2(length=3)
+    name_int = component_int.name
+    assert name_int == "_dummy_2dcab9f2", name_int
+    # assert component_int.info.doc == "Dummy cell"
 
     name_float = _dummy(wg_width=0.5).name
-    assert name_float == "_dummy_wg_width500n", name_float
+    assert name_float == "_dummy_b78ec006", name_float
 
     name_length_first = _dummy(length=3, wg_width=0.5).name
     name_width_first = _dummy(wg_width=0.5, length=3).name
@@ -206,7 +252,7 @@ def test_autoname() -> None:
     ), f"{name_length_first} != {name_width_first}"
 
     name_args = _dummy(3).name
-    assert name_args == "_dummy_length3", name_args
+    assert name_int == "_dummy_2dcab9f2", name_int
 
     name_with_prefix = _dummy(prefix="hi").name
     assert name_with_prefix == "hi", name_with_prefix
@@ -217,21 +263,39 @@ def test_autoname() -> None:
 
 
 if __name__ == "__main__":
-    c = _dummy()
+    # dummy2 = functools.partial(_dummy, length=3)
+    # c = dummy2()
+
+    # c = _dummy()
     # test_raise_error_args()
     # c = gf.components.straight()
 
     # test_autoname_false()
+    # test_autoname_true()
     # test_autoname()
     # test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    # import gdsfactory as gf
+    import gdsfactory as gf
 
+    info = dict(polarization="te")
+
+    c = gf.components.straight()
+    c = gf.components.straight(info=info)
+    # c = gf.components.straight(length=3, info=info)
+    print(c.info.polarization)
+
+    # print(c.settings.info.doc)
     # c = gf.components.spiral_inner_io(length=1e3)
-    # c = gf.components.straight(length=3)
     # c = gf.components.straight(length=3)
     # print(c.name)
     # c.show()
+
+    # D = gf.Component()
+    # arc = D << gf.components.bend_circular(
+    #     radius=10, width=0.5, angle=90, layer=(1, 0), info=dict(polarization="te")
+    # )
+    # arc.rotate(90)
+    # rect = D << gf.components.bbox(bbox=arc.bbox, layer=(0, 0))

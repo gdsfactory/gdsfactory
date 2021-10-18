@@ -47,7 +47,7 @@ def delay_snake2(
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
     bend180 = bend180(cross_section=cross_section, **kwargs)
-    delta_length = (length - length0 - n * (bend180.length)) / (n + 1)
+    delta_length = (length - length0 - n * (bend180.info.length)) / (n + 1)
     length1 = delta_length - length0
     assert (
         length1 > 0
@@ -79,7 +79,7 @@ def test_delay_snake2_length() -> Component:
     length = 200.0
     c = delay_snake2(n=2, length=length, layer=(2, 0))
     length_measured = (
-        c.aliases[")1"].parent.length * 2 + c.aliases["-1"].parent.length * 3
+        c.aliases[")1"].parent.info.length * 2 + c.aliases["-1"].parent.info.length * 3
     )
     assert np.isclose(
         length, length_measured

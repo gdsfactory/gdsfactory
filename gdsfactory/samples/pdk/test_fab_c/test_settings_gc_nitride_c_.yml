@@ -1,29 +1,144 @@
-function_name: grating_coupler_elliptical_te
+cells:
+  circle_602e85fd:
+    changed:
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_602e85fd
+    name_long: circle_602e85fd
+  grating_coupler_ellipti_a46abb0f:
+    changed:
+      decorator: add_pins
+      grating_line_width: 0.6
+      layer:
+      - 34
+      - 0
+      wg_width: 1
+    default:
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      n_periods: 24
+      neff: 2.638
+      p_start: 26
+      taper_angle: 40
+      taper_length: 16.6
+      wavelength: 1.554
+      wg_width: 0.5
+    full:
+      decorator: add_pins
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      grating_line_width: 0.6
+      layer:
+      - 34
+      - 0
+      n_periods: 24
+      neff: 2.638
+      p_start: 26
+      taper_angle: 40
+      taper_length: 16.6
+      wavelength: 1.554
+      wg_width: 1
+    function_name: grating_coupler_elliptical_te
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical
+    name: grating_coupler_ellipti_a46abb0f
+    name_long: grating_coupler_elliptical_te_bb10a9f3
+    polarization: te
+    wavelength: 1.554
 info:
+  changed:
+    decorator: add_pins
+    grating_line_width: 0.6
+    layer:
+    - 34
+    - 0
+    wg_width: 1
+  default:
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    grating_line_width: 0.343
+    layer:
+    - 1
+    - 0
+    n_periods: 24
+    neff: 2.638
+    p_start: 26
+    taper_angle: 40
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+  full:
+    decorator: add_pins
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    grating_line_width: 0.6
+    layer:
+    - 34
+    - 0
+    n_periods: 24
+    neff: 2.638
+    p_start: 26
+    taper_angle: 40
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 1
+  function_name: grating_coupler_elliptical_te
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_elliptical
+  name: grating_coupler_ellipti_a46abb0f
+  name_long: grating_coupler_elliptical_te_bb10a9f3
   polarization: te
-  wavelength: 1554
-module: gdsfactory.components.grating_coupler_elliptical
-name: grating_coupler_ellipti_d5518a52
-settings:
-  big_last_tooth: false
-  cladding_index: 1.443
-  fiber_angle: 15
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  grating_line_width: 0.6
-  layer:
-  - 34
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  n_periods: 24
-  neff: 2.638
-  p_start: 26
-  polarization: te
-  taper_angle: 40
-  taper_length: 16.6
   wavelength: 1.554
-  wg_width: 1
+ports:
+  o1:
+    layer:
+    - 34
+    - 0
+    midpoint:
+    - 0.85
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 1
+  vertical_te:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 24.832
+    - 0
+    name: vertical_te
+    orientation: 0
+    port_type: vertical_te
+    width: 11
+version: 1

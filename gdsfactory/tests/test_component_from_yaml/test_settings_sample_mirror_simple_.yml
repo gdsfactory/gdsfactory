@@ -1,9 +1,22 @@
-info:
-  instances:
-    b: DeviceReference (parent Device "bend_circular", ports ['o1', 'o2'], origin
-      [10.  0.], rotation 0.0, x_reflection True)
-    s: DeviceReference (parent Device "straight", ports ['o1', 'o2'], origin (0, 0),
-      rotation 0, x_reflection False)
-  routes: {}
-name: sample_mirror_simple
-settings: {}
+cells:
+  sample_mirror_simple: {}
+  straight:
+    changed: {}
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.straight
+    name: straight
+    name_long: straight
+    width: 0.5
+info: {}
+ports: {}
+version: 1

@@ -3,8 +3,8 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.contact import contact_slab
 from gdsfactory.components.taper import taper_strip_to_ridge
-from gdsfactory.components.via_stack import via_stack_slab
 from gdsfactory.cross_section import pin, pn
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -13,9 +13,9 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def straight_pin(
     length: float = 500.0,
     cross_section: CrossSectionFactory = pin,
-    via_stack: ComponentFactory = via_stack_slab,
-    via_stack_width: float = 10.0,
-    via_stack_spacing: float = 2,
+    contact: ComponentFactory = contact_slab,
+    contact_width: float = 10.0,
+    contact_spacing: float = 2,
     port_orientation_top: int = 0,
     port_orientation_bot: int = 180,
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
@@ -31,9 +31,9 @@ def straight_pin(
     Args:
         length: of the waveguide
         cross_section: for the waveguide
-        via_stack: for the contacts
-        via_stack_size:
-        via_stack_spacing: spacing between contacts
+        contact: for the contacts
+        contact_size:
+        contact_spacing: spacing between contacts
         port_orientation_top: for top contact
         port_orientation_bot: for bottom contact
         taper: optional taper
@@ -62,19 +62,19 @@ def straight_pin(
     else:
         c.add_ports(wg.get_ports_list())
 
-    via_stack_length = length
-    contact_top = c << via_stack(
-        size=(via_stack_length, via_stack_width),
+    contact_length = length
+    contact_top = c << contact(
+        size=(contact_length, contact_width),
     )
-    contact_bot = c << via_stack(
-        size=(via_stack_length, via_stack_width),
+    contact_bot = c << contact(
+        size=(contact_length, contact_width),
     )
 
     contact_bot.xmin = wg.xmin
     contact_top.xmin = wg.xmin
 
-    contact_top.ymin = +via_stack_spacing / 2
-    contact_bot.ymax = -via_stack_spacing / 2
+    contact_top.ymin = +contact_spacing / 2
+    contact_bot.ymax = -contact_spacing / 2
 
     c.add_port(
         "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]

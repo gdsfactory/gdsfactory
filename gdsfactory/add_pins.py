@@ -13,6 +13,7 @@ from typing import Callable, Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
+from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -329,19 +330,18 @@ def add_settings_label(
     component: Component,
     reference: ComponentReference,
     label_layer: Tuple[int, int] = LAYER.LABEL_SETTINGS,
-    ignore: Optional[Tuple[str, ...]] = None,
 ) -> None:
-    """Add settings in label, ignores component.ignore keys.
+    """Add settings in label
 
     Args:
         componnent
         reference
         label_layer:
-        ignore: fields to ignore
 
     """
-    settings = reference.get_settings(ignore=ignore)
-    settings_string = f"settings={json.dumps(settings, indent=2)}"
+    settings_dict = OmegaConf.to_container(reference.settings.full)
+    settings_string = f"settings={json.dumps(settings_dict)}"
+    print(settings_string)
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(

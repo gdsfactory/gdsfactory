@@ -9,6 +9,7 @@
 
 Maybe:
 
+- gf.component_from_yaml has `cache` decorator
 - pads have a port with `pad` name on the center of the pad
 - replace LIBRARY with `get_factory_dict`
 - rename any thickness_nm to thickness or zmin_nm to zmin
@@ -29,6 +30,22 @@ from contracts import contract
 
 
 ```
+
+## 3.4.0
+
+- gf.component_from_yaml accepts info settings
+- make sure that zero length paths can be extruded without producing degenerated boundaries. They just have ports instead of trying to extrude zero length paths.
+- snap.assert_on_2nm_grid for gap in mmi1x2, mmi2x2, coupler, coupler_ring
+- gf.Component.rotate() calls gf.rotate so that it uses the Component CACHE
+- add `tests/test_rotate.py` to ensure cache is working
+- add cache to component_from_yaml
+- add `tests/test_component_from_yaml_uid.py`
+- ensure consitent name in YAML by hashing the dict in case no name is provided
+- `component.settings` contains input settings (full, changed, default)
+- `component.info` contains derived settings (including module_name, parent settings, ...)
+- `component.to_dict` returns a dict with all information (info, settings, ports)
+- rename `via_stack` to `contact`
+
 ## 3.3.9
 
 - move `gf.component_from_yaml` to `gf.read.from_yaml`
@@ -41,7 +58,7 @@ from contracts import contract
 - add `plugins` examples in tutorials/plugins
 - Component.rotate() returns a new Component with a rotated reference of itself
 - increase simulation_time in lumerical `simulation_settings` from 1ps to 10ps, so max simulation region increased 10x
-- write_sparameters_lumerical returns session if run=False
+- write_sparameters_lumerical returns session if run=False. Nice to debug sims.
 - make consitent names in gf.read: `gf.read.from_phidl` `gf.read.from_picwriter` `gf.read.from_gds`
 
 ## 3.3.5
@@ -141,8 +158,8 @@ from contracts import contract
 
 ## 3.2.1
 
-- simplify via_stack_with_offset
-- via_stack_with_offset use array of references
+- simplify contact_with_offset
+- contact_with_offset use array of references
 - add `gf.components.taper_cross_section` to taper two cross_sections
 
 ## 3.2.0
@@ -161,13 +178,13 @@ from contracts import contract
 
 ## 3.1.8
 
-- via_stack uses array of references
+- contact uses array of references
 
 ## 3.1.7
 
 - transition ports have different cross_sections
 - get_bundle separation is now defined from center to center waveguide
-- via_stack has 4 ports, consistent with pads
+- contact has 4 ports, consistent with pads
 - pad takes size argument instead of (width, height), which is consistent with other rectangular structures
 - add filecache to store in files
 
@@ -271,7 +288,7 @@ from contracts import contract
 - @cell has `post_init` function. Perfect for adding pins
 - update `samples/pdk/fabc.py` with partial
 - Library can register partial functions
-- `via_stack_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
+- `contact_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
 - add `pp.components.die_box`
 
 ## 2.7.6
@@ -324,11 +341,11 @@ from contracts import contract
 
 ## 2.6.10
 
-- via_stack has port with port_type=dc
+- contact has port with port_type=dc
 
 ## 2.6.9
 
-- rename tlm to via_stack and tlm_with_offset to via_stack_with_offset
+- rename tlm to contact and tlm_with_offset to contact_with_offset
 
 ## 2.6.8
 
@@ -652,7 +669,7 @@ from pydantic import validate_arguments
 - sim settings outputs in YAML file
 - fix sparameters sorting of ports when in pp.sp.read_sparameters
 - pp.get_netlist() returns top level ports for a component
-- output parameters that change in component (c.polarization='te') in get_settings()['info']
+- output parameters that change in component (c.polarization='te') in settings['info']
 - fixed bug in get_settings to clean tuple settings export
 
 ## 2.2.2

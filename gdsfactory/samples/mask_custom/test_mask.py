@@ -1,5 +1,4 @@
-"""This is a sample on how to define custom components.
-"""
+"""This is a sample on how to define custom components."""
 import shutil
 from pathlib import Path
 
@@ -14,24 +13,16 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.generate_does import generate_does
 from gdsfactory.mask.merge_metadata import merge_metadata
 
-
-def add_te(component, **kwargs) -> Component:
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_te,
-        **kwargs,
-    )
-    c.test = "passive_optical_te"
-    return c
+add_te = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_te,
+)
 
 
-def add_tm(component, **kwargs):
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_tm,
-        **kwargs,
-    )
-    return c
+add_tm = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_tm,
+)
 
 
 @gf.cell
@@ -99,8 +90,8 @@ def test_mask(precision: float = 2e-9) -> Path:
     logger.add(sink=logpath)
 
     markdown_path = gdspath.with_suffix(".md")
-    json_path = gdspath.with_suffix(".json")
-    test_metadata_path = gdspath.with_suffix(".tp.json")
+    metadata_path = gdspath.with_suffix(".yml")
+    test_metadata_path = gdspath.with_suffix(".tp.yml")
 
     generate_does(
         str(does_yml),
@@ -117,7 +108,7 @@ def test_mask(precision: float = 2e-9) -> Path:
 
     assert gdspath.exists()
     assert markdown_path.exists()
-    assert json_path.exists()
+    assert metadata_path.exists()
     assert test_metadata_path.exists()
     report = open(markdown_path).read()
     assert report.count("#") == 2, f" only {report.count('#')} DOEs in {markdown_path}"

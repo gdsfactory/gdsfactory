@@ -1,13 +1,73 @@
-function_name: spiral_external_io
+cells:
+  spiral_external_io:
+    changed: {}
+    default:
+      N: 6
+      length: null
+      x_inner_length_cutback: 300
+      x_inner_offset: 0
+      xspacing: 3
+      y_straight_inner_top: 0
+      yspacing: 3
+    full:
+      N: 6
+      length: null
+      x_inner_length_cutback: 300
+      x_inner_offset: 0
+      xspacing: 3
+      y_straight_inner_top: 0
+      yspacing: 3
+    function_name: spiral_external_io
+    info_version: 1
+    length: 9003.302
+    module: gdsfactory.components.spiral_external_io
+    name: spiral_external_io
+    name_long: spiral_external_io
 info:
+  changed: {}
+  default:
+    N: 6
+    length: null
+    x_inner_length_cutback: 300
+    x_inner_offset: 0
+    xspacing: 3
+    y_straight_inner_top: 0
+    yspacing: 3
+  full:
+    N: 6
+    length: null
+    x_inner_length_cutback: 300
+    x_inner_offset: 0
+    xspacing: 3
+    y_straight_inner_top: 0
+    yspacing: 3
+  function_name: spiral_external_io
+  info_version: 1
   length: 9003.302
-module: gdsfactory.components.spiral_external_io
-name: spiral_external_io
-settings:
-  N: 6
-  dx: 3
-  dy: 3
-  length: null
-  x_inner_length_cutback: 300
-  x_inner_offset: 0
-  y_straight_inner_top: 0
+  module: gdsfactory.components.spiral_external_io
+  name: spiral_external_io
+  name_long: spiral_external_io
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 383
+    - -43
+    name: o1
+    orientation: 270
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 386
+    - -46
+    name: o2
+    orientation: 270
+    port_type: optical
+    width: 0.5
+version: 1

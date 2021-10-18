@@ -157,8 +157,8 @@ def spiral_inner_io(
     )
     component.add(route_east.references)
 
-    length = route_east.length + route_west.length + _bend180.length
-    component.length = snap_to_grid(length + 2 * y_straight_inner_top)
+    length = route_east.length + route_west.length + _bend180.info.length
+    component.info.length = snap_to_grid(length + 2 * y_straight_inner_top)
     return component
 
 
@@ -204,10 +204,13 @@ def get_straight_length(
     x0 = 50
     x1 = 400
     kwargs.update({"x_straight_inner_left": x0})
-    s0 = spiral_function(**kwargs)
+    spiral0 = spiral_function(**kwargs)
+
     kwargs.update({"x_straight_inner_left": x1})
-    s1 = spiral_function(**kwargs)
-    p = np.polyfit(np.array([x0, x1]), np.array([s0.length, s1.length]), deg=1)
+    spiral1 = spiral_function(**kwargs)
+    p = np.polyfit(
+        np.array([x0, x1]), np.array([spiral0.info.length, spiral1.info.length]), deg=1
+    )
     x_straight_inner_left = (length - p[1]) / p[0]
     # print(x_straight_inner_left)
     return x_straight_inner_left

@@ -1,34 +1,286 @@
-function_name: add_fiber_array
-info:
-  parent:
-    function_name: add_tapers
-    info:
-      parent:
-        function_name: straight
-        info:
+cells:
+  add_fiber_array_7b2cbd06:
+    changed:
+      component: add_tapers_1e786c7d
+      optical_routing_type: 0
+    child:
+      changed:
+        component: straight_373b1ebb
+      child:
+        changed:
           length: 20
           width: 2
-        module: gdsfactory.components.straight
-        name: straight_length20_width2
-        settings:
+        default:
+          length: 10
+          npoints: 2
+          with_cladding_box: true
+        full:
           length: 20
           npoints: 2
           width: 2
           with_cladding_box: true
-      parent_name: straight_length20_width2
-    module: gdsfactory.add_tapers
-    name: add_tapers_componentstr_dd24138a
-    settings:
+        function_name: straight
+        info_version: 1
+        length: 20.0
+        module: gdsfactory.components.straight
+        name: straight_373b1ebb
+        name_long: straight_373b1ebb
+        width: 2.0
+      default:
+        taper_port_name1: o1
+        taper_port_name2: o2
+      full:
+        component: straight_373b1ebb
+        taper_port_name1: o1
+        taper_port_name2: o2
+      function_name: add_tapers
+      info_version: 1
+      module: gdsfactory.add_tapers
+      name: add_tapers_1e786c7d
+      name_long: add_tapers_1e786c7d
+    default:
+      component_name: null
+      gc_port_labels: null
+      gc_port_name: o1
+      layer_label:
+      - 66
+      - 0
+    full:
+      component: add_tapers_1e786c7d
+      component_name: null
+      gc_port_labels: null
+      gc_port_name: o1
+      layer_label:
+      - 66
+      - 0
+      optical_routing_type: 0
+    function_name: add_fiber_array
+    info_version: 1
+    module: gdsfactory.routing.add_fiber_array
+    name: add_fiber_array_7b2cbd06
+    name_long: add_fiber_array_7b2cbd06
+  add_tapers_1e786c7d:
+    changed:
+      component: straight_373b1ebb
+    child:
+      changed:
+        length: 20
+        width: 2
+      default:
+        length: 10
+        npoints: 2
+        with_cladding_box: true
+      full:
+        length: 20
+        npoints: 2
+        width: 2
+        with_cladding_box: true
+      function_name: straight
+      info_version: 1
+      length: 20.0
+      module: gdsfactory.components.straight
+      name: straight_373b1ebb
+      name_long: straight_373b1ebb
+      width: 2.0
+    default:
       taper_port_name1: o1
       taper_port_name2: o2
-  parent_name: straight_length20_width2
-module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_compone_fb6271d3
-settings:
-  component_name: null
-  gc_port_labels: null
-  gc_port_name: o1
-  layer_label:
-  - 66
-  - 0
-  optical_routing_type: 0
+    full:
+      component: straight_373b1ebb
+      taper_port_name1: o1
+      taper_port_name2: o2
+    function_name: add_tapers
+    info_version: 1
+    module: gdsfactory.add_tapers
+    name: add_tapers_1e786c7d
+    name_long: add_tapers_1e786c7d
+  circle_602e85fd:
+    changed:
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_602e85fd
+    name_long: circle_602e85fd
+  grating_coupler_ellipti_b632d295:
+    changed:
+      polarization: te
+      taper_angle: 35
+    default:
+      end_straight_length: 0.2
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      layer_trench:
+      - 2
+      - 0
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
+      polarization: te
+      taper_angle: 30
+      taper_length: 16.6
+      trenches_extra_angle: 9
+      wavelength: 1.53
+      wg_width: 0.5
+    full:
+      end_straight_length: 0.2
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      layer_trench:
+      - 2
+      - 0
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
+      polarization: te
+      taper_angle: 35
+      taper_length: 16.6
+      trenches_extra_angle: 9
+      wavelength: 1.53
+      wg_width: 0.5
+    function_name: grating_coupler_elliptical_trenches
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
+    name: grating_coupler_ellipti_b632d295
+    name_long: grating_coupler_elliptical_trenches_7c9df26b
+    period: 0.6759999999999999
+    polarization: te
+    wavelength: 1.53
+  taper_bea08b71:
+    changed:
+      width2: 2
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 2
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.taper
+    name: taper_bea08b71
+    name_long: taper_bea08b71
+    width1: 0.5
+    width2: 2.0
+info:
+  changed:
+    component: add_tapers_1e786c7d
+    optical_routing_type: 0
+  child:
+    changed:
+      component: straight_373b1ebb
+    child:
+      changed:
+        length: 20
+        width: 2
+      default:
+        length: 10
+        npoints: 2
+        with_cladding_box: true
+      full:
+        length: 20
+        npoints: 2
+        width: 2
+        with_cladding_box: true
+      function_name: straight
+      info_version: 1
+      length: 20.0
+      module: gdsfactory.components.straight
+      name: straight_373b1ebb
+      name_long: straight_373b1ebb
+      width: 2.0
+    default:
+      taper_port_name1: o1
+      taper_port_name2: o2
+    full:
+      component: straight_373b1ebb
+      taper_port_name1: o1
+      taper_port_name2: o2
+    function_name: add_tapers
+    info_version: 1
+    module: gdsfactory.add_tapers
+    name: add_tapers_1e786c7d
+    name_long: add_tapers_1e786c7d
+  default:
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+  full:
+    component: add_tapers_1e786c7d
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+    optical_routing_type: 0
+  function_name: add_fiber_array
+  info_version: 1
+  module: gdsfactory.routing.add_fiber_array
+  name: add_fiber_array_7b2cbd06
+  name_long: add_fiber_array_7b2cbd06
+ports:
+  vertical_te_00:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -53.50000000000001
+    - -54.769
+    name: vertical_te_00
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_01:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 73.5
+    - -54.769
+    name: vertical_te_01
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+version: 1

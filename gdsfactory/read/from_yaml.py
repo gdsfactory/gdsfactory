@@ -1,8 +1,13 @@
 """Returns Component from YAML syntax.
 
+name: myComponent
 vars:
     length: 3
 
+info:
+    description: just a demo
+    polarization: TE
+    ...
 
 instances:
     mzi:
@@ -43,7 +48,9 @@ routes:
 """
 
 import functools
+import hashlib
 import io
+import json
 import pathlib
 import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
@@ -53,6 +60,7 @@ import omegaconf
 from omegaconf import OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
+from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.cross_section import cross_section_factory
@@ -70,6 +78,7 @@ valid_top_level_keys = [
     "ports",
     "routes",
     "vars",
+    "info",
 ]
 
 valid_anchor_point_keywords = [
@@ -372,8 +381,11 @@ def make_connection(
 
 
 sample_mmis = """
-name:
-    mmis
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: just a demo on adding metadata
 
 instances:
     mmi_long:
@@ -417,11 +429,11 @@ def from_yaml(
 
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
-            (instances, placements, routes, ports, connections, names)
+          (instances, placements, routes, ports, connections, names)
         component_factory: dict of functions {factory_name: factory_function}
         routing_strategy: for links
         label_instance_function: to label each instance
-        kwargs: cache, pins ... to pass to all factories
+        kwargs: cache, prefix, autoname ... to pass to all factories
 
     Returns:
         Component
@@ -429,11 +441,18 @@ def from_yaml(
     .. code::
 
         valid properties:
-        name: name of Component
+        name: Optional Component name
+        vars: Optional variables
+        info: Optional component info
+            description: just a demo
+            polarization: TE
+            ...
         instances:
             name:
-                component:
+                component: (ComponentFactory)
                 settings (Optional)
+                    length: 10
+                    ...
         placements:
             x: Optional[float, str]  str can be instanceName,portName
             y: Optional[float, str]
@@ -441,8 +460,8 @@ def from_yaml(
             mirror: Optional[bool, float] float is x mirror axis
             port: Optional[str] port anchor
         connections (Optional): between instances
-        ports (Optional): defines ports to expose
-        routes (Optional): defines bundles of routes
+        ports (Optional): ports to expose
+        routes (Optional): bundles of routes
             routeName:
             library: optical
             links:
@@ -450,6 +469,7 @@ def from_yaml(
 
 
     .. code::
+
         vars:
             lenght: 3
 
@@ -495,13 +515,21 @@ def from_yaml(
 
     instances = {}
     routes = {}
-    name = conf.get("name", "Unnamed")
-    c = Component(name)
+    name = conf.get(
+        "name",
+        f"Unnamed_{hashlib.md5(json.dumps(OmegaConf.to_container(conf)).encode()).hexdigest()[:8]}",
+    )
+    if name in CACHE:
+        return CACHE[name]
+    else:
+        c = Component(name)
+        CACHE[name] = c
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
+    c.info = conf.get("info", omegaconf.DictConfig({}))
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
@@ -738,15 +766,14 @@ def from_yaml(
 
 
 if __name__ == "__main__":
-    for k in factory.keys():
-        print(k)
-    # c = from_yaml(sample_mmis)
-    # print(c.get_settings()["info"])
+    # for k in factory.keys():
+    #     print(k)
+    # print(c.settings["info"])
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
-
     # c = from_yaml(yaml_anchor)
-    # c.show()
+    c = from_yaml(sample_mmis)
+    c.show()
 
     # c = test_connections_regex()
     # c = from_yaml(sample_regex_connections)
@@ -764,7 +791,6 @@ if __name__ == "__main__":
     # c = from_yaml(sample_waypoints)
     # c = from_yaml(sample_2x2_connections)
     # c = from_yaml(sample_mmis)
-
     # c = from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()

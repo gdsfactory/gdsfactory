@@ -1,10 +1,94 @@
+cells:
+  Unnamed_a491ff8b:
+    description: just a demo on adding metadata
+    polarization: te
+    wavelength: 1.55
+  mmi1x2_41793ed4:
+    changed:
+      length_mmi: 5
+      width_mmi: 4.5
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 4.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_41793ed4
+    name_long: mmi1x2_41793ed4
+  mmi1x2_5ad5950d:
+    changed:
+      length_mmi: 10
+      width_mmi: 4.5
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 10
+      length_taper: 10
+      width: 0.5
+      width_mmi: 4.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_5ad5950d
+    name_long: mmi1x2_5ad5950d
 info:
-  instances:
-    mmi_long: DeviceReference (parent Device "mmi1x2_length_mmi10_width_mmi4p5", ports
-      ['o1', 'o2', 'o3'], origin [100. 100.], rotation 180, x_reflection False)
-    mmi_short: DeviceReference (parent Device "mmi1x2_length_mmi5_width_mmi4p5", ports
-      ['o1', 'o2', 'o3'], origin (0, 0), rotation 0, x_reflection False)
-  routes:
-    mmi_short,o2:mmi_long,o1: 215.169
-name: mmis
-settings: {}
+  description: just a demo on adding metadata
+  polarization: te
+  wavelength: 1.55
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.5
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 85
+    - 99.375
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 85
+    - 100.625
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
+version: 1

@@ -53,6 +53,7 @@ def mmi1x2(
         length_taper
 
     """
+    gf.snap.assert_on_2nm_grid(gap_mmi)
     x = cross_section(**kwargs)
     cladding_offset = x.info["cladding_offset"]
     layers_cladding = x.info["layers_cladding"]

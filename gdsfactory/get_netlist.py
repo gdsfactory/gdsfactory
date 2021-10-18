@@ -1,4 +1,5 @@
-"""Extract netlist from component port connectivity..
+"""Extract netlist from component port connectivity.
+Assumes two ports are connected when they have same width, x, y
 
 .. code:: yaml
 
@@ -14,7 +15,9 @@
 
 """
 
-from typing import Dict, Tuple
+from typing import Tuple
+
+import omegaconf
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
@@ -63,9 +66,9 @@ def get_netlist(
     component: Component,
     full_settings: bool = False,
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
-) -> Dict[str, Dict]:
+) -> omegaconf.DictConfig:
     """From a component returns instances and placements dicts.
-    it assumes that ports with same x,y are connected.
+    it assumes that ports with same width, x, y are connected.
 
     Args:
         component: to Extract netlist
@@ -94,11 +97,11 @@ def get_netlist(
             component, reference, layer_label=layer_label
         )
 
-        settings = c.get_settings(full_settings=full_settings)
+        settings = c.info.full if full_settings else c.info.changed
         instances[reference_name] = dict(
             # component=c.function_name,
-            component=getattr(c, "function_name", c.name),
-            settings=settings["settings"],
+            component=getattr(c.info, "function_name", c.name),
+            settings=settings,
         )
         placements[reference_name] = dict(
             x=x,
@@ -157,12 +160,14 @@ def get_netlist(
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return dict(
-        connections=connections_sorted,
-        instances=instances_sorted,
-        placements=placements_sorted,
-        ports=top_ports,
-        name=component.name,
+    return omegaconf.DictConfig(
+        dict(
+            connections=connections_sorted,
+            instances=instances_sorted,
+            placements=placements_sorted,
+            ports=top_ports,
+            name=component.name,
+        )
     )
 
 

@@ -66,7 +66,7 @@ def bend_port(
     c.add_ports(ref.get_ports_list())
     c.ports.pop(port_name)
     c.add_port(port_name, port=s.ports[o1])
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

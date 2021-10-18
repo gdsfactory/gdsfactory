@@ -1,3 +1,4 @@
+name: mzi_settings_changed
 connections:
   bend_euler_17p875_5p5,o1: mmi1x2_0p0_0p0,o2
   bend_euler_17p875_5p5,o2: straight_L800n_22p75_11p025,o1
@@ -174,4 +175,3 @@ placements:
 ports:
   o1: mmi1x2_0p0_0p0,o1
   o2: mmi1x2_65p6_m0p0,o1
-name: mzi

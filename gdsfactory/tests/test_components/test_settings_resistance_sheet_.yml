@@ -1,10 +1,277 @@
-function_name: resistance_sheet
-info: {}
-module: gdsfactory.components.resistance_sheet
-name: resistance_sheet
-settings:
-  layer_offsets:
-  - 0
-  - 0.2
-  length: 5
-  width: 10
+cells:
+  compass_9e273c00:
+    changed:
+      layer:
+      - 24
+      - 0
+      size:
+      - 5.2
+      - 10.2
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 24
+      - 0
+      port_type: electrical
+      size:
+      - 5.2
+      - 10.2
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_9e273c00
+    name_long: compass_9e273c00
+  compass_c773bb32:
+    changed:
+      layer:
+      - 3
+      - 0
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 3
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_c773bb32
+    name_long: compass_c773bb32
+  compass_cd62bb4b:
+    changed:
+      layer:
+      - 3
+      - 0
+      size:
+      - 5
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 3
+      - 0
+      port_type: electrical
+      size:
+      - 5
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_cd62bb4b
+    name_long: compass_cd62bb4b
+  compass_d0a270cf:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_d0a270cf
+    name_long: compass_d0a270cf
+  compass_d2f4cb05:
+    changed:
+      layer:
+      - 24
+      - 0
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 24
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_d2f4cb05
+    name_long: compass_d2f4cb05
+  contact_4445752e:
+    changed:
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      size:
+      - 100
+      - 100
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      size:
+      - 100
+      - 100
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 41
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_4445752e
+    name_long: contact_4445752e
+    size:
+    - 100.0
+    - 100.0
+  resistance_sheet:
+    changed: {}
+    default:
+      layer_offsets:
+      - 0
+      - 0.2
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      length: 5
+      width: 10
+    full:
+      layer_offsets:
+      - 0
+      - 0.2
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      length: 5
+      width: 10
+    function_name: resistance_sheet
+    info_version: 1
+    module: gdsfactory.components.resistance_sheet
+    name: resistance_sheet
+    name_long: resistance_sheet
+info:
+  changed: {}
+  default:
+    layer_offsets:
+    - 0
+    - 0.2
+    layers:
+    - - 3
+      - 0
+    - - 24
+      - 0
+    length: 5
+    width: 10
+  full:
+    layer_offsets:
+    - 0
+    - 0.2
+    layers:
+    - - 3
+      - 0
+    - - 24
+      - 0
+    length: 5
+    width: 10
+  function_name: resistance_sheet
+  info_version: 1
+  module: gdsfactory.components.resistance_sheet
+  name: resistance_sheet
+  name_long: resistance_sheet
+ports: {}
+version: 1

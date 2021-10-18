@@ -169,4 +169,4 @@ if __name__ == "__main__":
     # c.pprint
     # n = c.get_netlist()
     # c.plot()
-    # print(c.get_settings())
+    # print(c.settings)

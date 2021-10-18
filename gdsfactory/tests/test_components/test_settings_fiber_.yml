@@ -1,13 +1,110 @@
-function_name: fiber
-info: {}
-module: gdsfactory.components.fiber
-name: fiber
-settings:
-  cladding_diameter: 125
-  core_diameter: 10
-  layer_cladding:
-  - 111
-  - 0
-  layer_core:
-  - 1
-  - 0
+cells:
+  circle_72737e6a:
+    changed:
+      layer:
+      - 1
+      - 0
+      radius: 5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_72737e6a
+    name_long: circle_72737e6a
+  circle_e248ff5e:
+    changed:
+      layer:
+      - 111
+      - 0
+      radius: 62.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 111
+      - 0
+      radius: 62.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_e248ff5e
+    name_long: circle_e248ff5e
+  fiber:
+    changed: {}
+    default:
+      cladding_diameter: 125
+      core_diameter: 10
+      layer_cladding:
+      - 111
+      - 0
+      layer_core:
+      - 1
+      - 0
+    full:
+      cladding_diameter: 125
+      core_diameter: 10
+      layer_cladding:
+      - 111
+      - 0
+      layer_core:
+      - 1
+      - 0
+    function_name: fiber
+    info_version: 1
+    module: gdsfactory.components.fiber
+    name: fiber
+    name_long: fiber
+info:
+  changed: {}
+  default:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+  full:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+  function_name: fiber
+  info_version: 1
+  module: gdsfactory.components.fiber
+  name: fiber
+  name_long: fiber
+ports:
+  F0:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: F0
+    orientation: 0
+    port_type: optical
+    width: 10
+version: 1

@@ -2,9 +2,9 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.contact import contact_metal as contact_metal_function
+from gdsfactory.components.contact import contact_slab_npp
 from gdsfactory.components.taper_cross_section import taper_cross_section
-from gdsfactory.components.via_stack import via_stack_metal as via_stack_metal_function
-from gdsfactory.components.via_stack import via_stack_slab_npp
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
@@ -16,11 +16,11 @@ def straight_heater_doped_rib(
     nsections: int = 3,
     cross_section: CrossSectionFactory = strip_rib_tip,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
-    via_stack_contact: Optional[ComponentFactory] = via_stack_slab_npp,
-    via_stack_metal: Optional[ComponentFactory] = via_stack_metal_function,
-    via_stack_metal_size: Tuple[float, float] = (10.0, 10.0),
-    via_stack_contact_size: Tuple[float, float] = (10.0, 10.0),
-    via_stack_contact_yspacing: float = 2.0,
+    contact_contact: Optional[ComponentFactory] = contact_slab_npp,
+    contact_metal: Optional[ComponentFactory] = contact_metal_function,
+    contact_metal_size: Tuple[float, float] = (10.0, 10.0),
+    contact_contact_size: Tuple[float, float] = (10.0, 10.0),
+    contact_contact_yspacing: float = 2.0,
     port_orientation_top: int = 0,
     port_orientation_bot: int = 180,
     taper: Optional[ComponentFactory] = taper_cross_section,
@@ -34,10 +34,10 @@ def straight_heater_doped_rib(
         length: of the waveguide
         nsections: between contacts
         cross_section_heater: for the heater
-        via_stack_contact: function to connect the heated strip
-        via_stack_metal: function to connect the metal area
-        via_stack_metal_size:
-        via_stack_contact_yspacing: spacing from waveguide to contact
+        contact_contact: function to connect the heated strip
+        contact_metal: function to connect the metal area
+        contact_metal_size:
+        contact_contact_yspacing: spacing from waveguide to contact
         port_orientation_top: for top contact
         port_orientation_bot: for bottom contact
         kwargs: cross_section settings
@@ -105,40 +105,38 @@ def straight_heater_doped_rib(
         c.add_port("o1", port=wg.ports["o1"])
         c.add_port("o2", port=wg.ports["o2"])
 
-    if via_stack_metal:
-        contact_section = via_stack_metal(size=via_stack_metal_size)
+    if contact_metal:
+        contact_section = contact_metal(size=contact_metal_size)
     contacts = []
-    length_contact = snap_to_grid(via_stack_contact_size[1])
+    length_contact = snap_to_grid(contact_contact_size[1])
     length_section = snap_to_grid((length - length_contact) / nsections)
-    x0 = via_stack_contact_size[0] / 2
+    x0 = contact_contact_size[0] / 2
     for i in range(0, nsections + 1):
         xi = x0 + length_section * i
 
-        if via_stack_metal and via_stack_contact:
+        if contact_metal and contact_contact:
             contact_center = c.add_ref(contact_section)
             contact_center.x = xi
             contact = c << contact_section
             contact.x = xi
-            contact.y = (
-                +via_stack_metal_size[1] if i % 2 == 0 else -via_stack_metal_size[1]
-            )
+            contact.y = +contact_metal_size[1] if i % 2 == 0 else -contact_metal_size[1]
             contacts.append(contact)
 
-        if via_stack_contact:
-            contact_bot = c << via_stack_contact(size=via_stack_contact_size)
-            contact_top = c << via_stack_contact(size=via_stack_contact_size)
+        if contact_contact:
+            contact_bot = c << contact_contact(size=contact_contact_size)
+            contact_top = c << contact_contact(size=contact_contact_size)
             contact_top.x = xi
             contact_bot.x = xi
-            contact_top.ymin = +via_stack_contact_yspacing
-            contact_bot.ymax = -via_stack_contact_yspacing
+            contact_top.ymin = +contact_contact_yspacing
+            contact_bot.ymax = -contact_contact_yspacing
 
-    if via_stack_metal and via_stack_contact:
-        via_stack_length = length + via_stack_metal_size[0]
-        contact_top = c << via_stack_metal(
-            size=(via_stack_length, via_stack_metal_size[0]),
+    if contact_metal and contact_contact:
+        contact_length = length + contact_metal_size[0]
+        contact_top = c << contact_metal(
+            size=(contact_length, contact_metal_size[0]),
         )
-        contact_bot = c << via_stack_metal(
-            size=(via_stack_length, via_stack_metal_size[0]),
+        contact_bot = c << contact_metal(
+            size=(contact_length, contact_metal_size[0]),
         )
 
         contact_bot.xmin = contacts[0].xmin
@@ -165,8 +163,6 @@ def test_straight_heater_doped_rib_ports() -> Component:
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(
-        length=80, via_stack_metal=None, via_stack_contact=None
-    )
+    c = straight_heater_doped_rib(length=80, contact_metal=None, contact_contact=None)
     # c = test_straight_heater_doped_rib_ports()
     c.show()

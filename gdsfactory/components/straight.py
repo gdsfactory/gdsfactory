@@ -19,7 +19,7 @@ def straight(
     Args:
         length: straight length
         npoints: number of points
-        with_cladding_box: square in layers_cladding to remove DRC
+        with_cladding_box: box in layers_cladding to avoid DRC sharp edges
         cross_section:
         **kwargs: cross_section settings
     """
@@ -27,8 +27,8 @@ def straight(
     x = cross_section(**kwargs)
 
     c = gf.path.extrude(p, x)
-    c.length = gf.snap.snap_to_grid(length)
-    c.width = x.info["width"]
+    c.info.length = gf.snap.snap_to_grid(length)
+    c.info.width = float(x.info["width"])
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
         cladding_offset = x.info["cladding_offset"]
@@ -47,7 +47,9 @@ if __name__ == "__main__":
     # c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2))
 
     # c = straight(cross_section=gf.partial(gf.cross_section.strip, width=2))
-    c = straight(cladding_offset=2.5)
+    # c = straight(cladding_offset=2.5)
     # c = straight(width=2.5)
+    c = straight(length=0)
+    c.assert_ports_on_grid()
     c.show()
     c.pprint

@@ -28,8 +28,8 @@ def pad(
     rect = compass(size=size, layer=layer)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
-    c.info["size"] = size
-    c.info["layer"] = layer
+    c.info.size = size
+    c.info.layer = layer
 
     if layers_cladding and cladding_offsets:
         for layer, cladding_offset in zip(layers_cladding, cladding_offsets):
@@ -62,8 +62,8 @@ def pad_array(
     """
     c = Component()
     pad = pad() if callable(pad) else pad
-    size = pad.info["size"]
-    c.info["size"] = size
+    size = pad.info.full.size
+    c.info.size = size
 
     c.add_array(pad, columns=columns, rows=rows, spacing=spacing)
     width = size[0] if orientation in [90, 270] else size[1]
@@ -91,7 +91,6 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
-    # print(c.settings['spacing'])
     # c = pad_array90()
     # c = pad_array270()
     # c.pprint_ports

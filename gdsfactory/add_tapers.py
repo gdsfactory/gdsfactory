@@ -60,7 +60,7 @@ def add_tapers(
         else:
             c.add_port(name=port_name, port=port)
     c.add_ref(component)
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

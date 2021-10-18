@@ -1,30 +1,55 @@
-function_name: delay_snake3
-info: {}
-module: gdsfactory.components.delay_snake3
-name: delay_snake3
-settings:
-  length: 1600
-  length0: 0
-  n: 2
-  port_name1: o1
-  port_name2: o2
-  ports_map: null
-  sequence: _)-(-
-  start_orientation: 0
-  symbol_to_component:
-    (:
-    - bend_euler_angle180_cro_4371c3d9
-    - o1
-    - o2
-    ):
-    - bend_euler_angle180_cro_4371c3d9
-    - o2
-    - o1
-    '-':
-    - straight_cross_sectionc_d1e3d5b0
-    - o1
-    - o2
-    _:
-    - straight_cross_sectionc_18146b99
-    - o1
-    - o2
+cells:
+  delay_snake3:
+    changed: {}
+    default:
+      length: 1600
+      length0: 0
+      n: 2
+    full:
+      length: 1600
+      length0: 0
+      n: 2
+    function_name: delay_snake3
+    info_version: 1
+    module: gdsfactory.components.delay_snake3
+    name: delay_snake3
+    name_long: delay_snake3
+info:
+  changed: {}
+  default:
+    length: 1600
+    length0: 0
+    n: 2
+  full:
+    length: 1600
+    length0: 0
+    n: 2
+  function_name: delay_snake3
+  info_version: 1
+  module: gdsfactory.components.delay_snake3
+  name: delay_snake3
+  name_long: delay_snake3
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - -40
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1
