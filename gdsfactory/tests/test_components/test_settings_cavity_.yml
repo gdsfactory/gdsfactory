@@ -1,19 +1,129 @@
-function_name: cavity
-info:
-  parent:
-    function_name: dbr
-    info: {}
-    module: gdsfactory.components.dbr
-    name: dbr
-    settings:
+cells:
+  cavity:
+    changed: {}
+    child:
+      changed: {}
+      default:
+        l1: 0.159
+        l2: 0.159
+        n: 10
+        w1: 0.475
+        w2: 0.525
+      full:
+        l1: 0.159
+        l2: 0.159
+        n: 10
+        w1: 0.475
+        w2: 0.525
+      function_name: dbr
+      info_version: 1
+      module: gdsfactory.components.dbr
+      name: dbr
+      name_long: dbr
+    default:
+      gap: 0.2
+      length: 0.1
+    full:
+      gap: 0.2
+      length: 0.1
+    function_name: cavity
+    info_version: 1
+    module: gdsfactory.components.cavity
+    name: cavity
+    name_long: cavity
+  coupler_3e9f9e6a:
+    changed:
+      gap: 0.2
+      length: 0.1
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.2
+      length: 0.1
+    function_name: coupler
+    info_version: 1
+    length: 10.319
+    min_bend_radius: 9.387
+    module: gdsfactory.components.coupler
+    name: coupler_3e9f9e6a
+    name_long: coupler_3e9f9e6a
+  dbr:
+    changed: {}
+    default:
       l1: 0.159
       l2: 0.159
       n: 10
       w1: 0.475
       w2: 0.525
-  parent_name: dbr
-module: gdsfactory.components.cavity
-name: cavity
-settings:
-  gap: 0.2
-  length: 0.1
+    full:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    function_name: dbr
+    info_version: 1
+    module: gdsfactory.components.dbr
+    name: dbr
+    name_long: dbr
+info:
+  changed: {}
+  child:
+    changed: {}
+    default:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    full:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    function_name: dbr
+    info_version: 1
+    module: gdsfactory.components.dbr
+    name: dbr
+    name_long: dbr
+  default:
+    gap: 0.2
+    length: 0.1
+  full:
+    gap: 0.2
+    length: 0.1
+  function_name: cavity
+  info_version: 1
+  module: gdsfactory.components.cavity
+  name: cavity
+  name_long: cavity
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10
+    - -2.15
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.1
+    - -2.1500000000000004
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

@@ -1,11 +1,43 @@
-function_name: bend_circular
+cells: {}
 info:
-  dy: 10
+  changed: {}
+  default:
+    angle: 90
+    npoints: 720
+    with_cladding_box: true
+  dy: 10.0
+  full:
+    angle: 90
+    npoints: 720
+    with_cladding_box: true
+  function_name: bend_circular
+  info_version: 1
   length: 15.708
-  radius_min: 10
-module: gdsfactory.components.bend_circular
-name: bend_circular
-settings:
-  angle: 90
-  npoints: 720
-  with_cladding_box: true
+  module: gdsfactory.components.bend_circular
+  name: bend_circular
+  name_long: bend_circular
+  radius_min: 10.0
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 6.123233995736766e-16
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10
+    - 10
+    name: o2
+    orientation: 90
+    port_type: optical
+    width: 0.5
+version: 1

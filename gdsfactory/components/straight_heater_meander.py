@@ -1,5 +1,5 @@
 import gdsfactory as gf
-from gdsfactory.components.via_stack import via_stack_heater
+from gdsfactory.components.contact import contact_heater
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Layer, Optional
 
@@ -13,7 +13,7 @@ def straight_heater_meander(
     extension_length: float = 15.0,
     layer_heater: Optional[Layer] = LAYER.HEATER,
     radius: float = 5.0,
-    via_stack: Optional[ComponentFactory] = via_stack_heater,
+    contact: Optional[ComponentFactory] = contact_heater,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     taper_length: Optional[float] = 10.0,
@@ -34,7 +34,7 @@ def straight_heater_meander(
         extension_length: of input and output optical ports
         layer_heater: for top heater, if None, it does not add a heater
         radius: for the meander bends
-        via_stack: for the heater to contact metal
+        contact: for the heater to contact metal
         port_orientation1:
         port_orientation2:
         taper_length: minimizes current concentrations from heater to contact
@@ -87,9 +87,9 @@ def straight_heater_meander(
         )
         heater.movey(spacing * (rows // 2))
 
-    if layer_heater and via_stack:
-        contactw = via_stack()
-        contacte = via_stack()
+    if layer_heater and contact:
+        contactw = contact()
+        contacte = contact()
         dx = contactw.get_ports_xsize() / 2 + taper_length or 0
         contact_west_midpoint = heater.size_info.cw - (dx, 0)
         contact_east_midpoint = heater.size_info.ce + (dx, 0)

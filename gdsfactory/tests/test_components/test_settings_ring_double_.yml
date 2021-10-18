@@ -1,10 +1,110 @@
-function_name: ring_double
-info: {}
-module: gdsfactory.components.ring_double
-name: ring_double
-settings:
-  bend: null
-  gap: 0.2
-  length_x: 0.01
-  length_y: 0.01
-  radius: 10
+cells:
+  coupler_ring_884bafc4:
+    changed:
+      bend: null
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 0.01
+      radius: 10
+    default:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: null
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 0.01
+      radius: 10
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_884bafc4
+    name_long: coupler_ring_884bafc4
+  ring_double:
+    changed: {}
+    default:
+      bend: null
+      gap: 0.2
+      length_x: 0.01
+      length_y: 0.01
+      radius: 10
+    full:
+      bend: null
+      gap: 0.2
+      length_x: 0.01
+      length_y: 0.01
+      radius: 10
+    function_name: ring_double
+    info_version: 1
+    module: gdsfactory.components.ring_double
+    name: ring_double
+    name_long: ring_double
+info:
+  changed: {}
+  default:
+    bend: null
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    radius: 10
+  full:
+    bend: null
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    radius: 10
+  function_name: ring_double
+  info_version: 1
+  module: gdsfactory.components.ring_double
+  name: ring_double
+  name_long: ring_double
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10.01
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10
+    - 0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10.009999999999998
+    - 21.409999999999997
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10.000000000000002
+    - 21.409999999999997
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

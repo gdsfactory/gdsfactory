@@ -1,25 +1,243 @@
-function_name: add_fiber_array
-info:
-  parent:
-    function_name: coupler
-    info:
+cells:
+  add_fiber_array_a9ce9267:
+    changed:
+      component: coupler_70441075
+      optical_routing_type: 1
+    child:
+      changed:
+        gap: 0.2
+        length: 5
+      default:
+        dx: 10
+        dy: 5
+        gap: 0.236
+        length: 20
+      full:
+        dx: 10
+        dy: 5
+        gap: 0.2
+        length: 5
+      function_name: coupler
+      info_version: 1
       length: 10.319
       min_bend_radius: 9.387
-    module: gdsfactory.components.coupler
-    name: coupler_gap200n_length5
-    settings:
+      module: gdsfactory.components.coupler
+      name: coupler_70441075
+      name_long: coupler_70441075
+    default:
+      component_name: null
+      gc_port_labels: null
+      gc_port_name: o1
+      layer_label:
+      - 66
+      - 0
+    full:
+      component: coupler_70441075
+      component_name: null
+      gc_port_labels: null
+      gc_port_name: o1
+      layer_label:
+      - 66
+      - 0
+      optical_routing_type: 1
+    function_name: add_fiber_array
+    info_version: 1
+    module: gdsfactory.routing.add_fiber_array
+    name: add_fiber_array_a9ce9267
+    name_long: add_fiber_array_a9ce9267
+  circle_602e85fd:
+    changed:
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_602e85fd
+    name_long: circle_602e85fd
+  coupler_70441075:
+    changed:
+      gap: 0.2
+      length: 5
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
       dx: 10
       dy: 5
       gap: 0.2
       length: 5
-  parent_name: coupler_gap200n_length5
-module: gdsfactory.routing.add_fiber_array
-name: add_fiber_array_compone_c61f11e7
-settings:
-  component_name: null
-  gc_port_labels: null
-  gc_port_name: o1
-  layer_label:
-  - 66
-  - 0
-  optical_routing_type: 1
+    function_name: coupler
+    info_version: 1
+    length: 10.319
+    min_bend_radius: 9.387
+    module: gdsfactory.components.coupler
+    name: coupler_70441075
+    name_long: coupler_70441075
+  grating_coupler_ellipti_b632d295:
+    changed:
+      polarization: te
+      taper_angle: 35
+    default:
+      end_straight_length: 0.2
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      layer_trench:
+      - 2
+      - 0
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
+      polarization: te
+      taper_angle: 30
+      taper_length: 16.6
+      trenches_extra_angle: 9
+      wavelength: 1.53
+      wg_width: 0.5
+    full:
+      end_straight_length: 0.2
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      layer_trench:
+      - 2
+      - 0
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
+      polarization: te
+      taper_angle: 35
+      taper_length: 16.6
+      trenches_extra_angle: 9
+      wavelength: 1.53
+      wg_width: 0.5
+    function_name: grating_coupler_elliptical_trenches
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
+    name: grating_coupler_ellipti_b632d295
+    name_long: grating_coupler_elliptical_trenches_7c9df26b
+    period: 0.6759999999999999
+    polarization: te
+    wavelength: 1.53
+info:
+  changed:
+    component: coupler_70441075
+    optical_routing_type: 1
+  child:
+    changed:
+      gap: 0.2
+      length: 5
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.2
+      length: 5
+    function_name: coupler
+    info_version: 1
+    length: 10.319
+    min_bend_radius: 9.387
+    module: gdsfactory.components.coupler
+    name: coupler_70441075
+    name_long: coupler_70441075
+  default:
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+  full:
+    component: coupler_70441075
+    component_name: null
+    gc_port_labels: null
+    gc_port_name: o1
+    layer_label:
+    - 66
+    - 0
+    optical_routing_type: 1
+  function_name: add_fiber_array
+  info_version: 1
+  module: gdsfactory.routing.add_fiber_array
+  name: add_fiber_array_a9ce9267
+  name_long: add_fiber_array_a9ce9267
+ports:
+  vertical_te_00:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -188
+    - -82.169
+    name: vertical_te_00
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_01:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - -61.00000000000001
+    - -82.169
+    name: vertical_te_01
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_02:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 66
+    - -82.169
+    name: vertical_te_02
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+  vertical_te_03:
+    layer:
+    - 203
+    - 0
+    midpoint:
+    - 193
+    - -82.169
+    name: vertical_te_03
+    orientation: 270
+    port_type: vertical_te
+    width: 11
+version: 1

@@ -72,12 +72,10 @@ def grating_coupler_elliptical_trenches(
     b1 = round(b1, 3)
     x1 = round(x1, 3)
 
-    period = a1 + x1
+    period = float(a1 + x1)
     trench_line_width = period - grating_line_width
 
     c = gf.Component()
-    c.polarization = polarization
-    c.wavelength = int(wavelength * 1e3)
 
     # Make each grating line
     for p in range(p_start, p_start + n_periods + 1):
@@ -139,7 +137,9 @@ def grating_coupler_elliptical_trenches(
     c.add_port(
         name="o1", midpoint=[x_output, 0], width=wg_width, orientation=180, layer=layer
     )
-    c.settings["period"] = period
+    c.info.period = period
+    c.info.polarization = polarization
+    c.info.wavelength = wavelength
     return c
 
 

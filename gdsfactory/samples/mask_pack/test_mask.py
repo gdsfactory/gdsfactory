@@ -1,9 +1,6 @@
-"""
-This is a sample on how to define custom components.
-You can make a repo out of this file, having one custom component per file
-"""
+"""This is a sample on how to define custom components."""
 import shutil
-from pathlib import Path
+from typing import Tuple
 
 import numpy as np
 
@@ -13,27 +10,21 @@ from gdsfactory.add_grating_couplers import (
 )
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
-from gdsfactory.mask.merge_metadata import merge_metadata
+from gdsfactory.mask.write_labels import write_labels
 
+layer_label = (200, 0)
 
-def add_te(component: Component, **kwargs) -> Component:
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_te,
-        **kwargs,
-    )
-    c.test = "passive_optical_te"
-    return c
-
-
-def add_tm(component, **kwargs):
-    c = gf.routing.add_fiber_array(
-        component=component,
-        grating_coupler=gf.components.grating_coupler_elliptical_tm,
-        bend_radius=20,
-        **kwargs,
-    )
-    return c
+add_te = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_te,
+    layer_label=layer_label,
+)
+add_tm = gf.partial(
+    gf.routing.add_fiber_array,
+    grating_coupler=gf.components.grating_coupler_elliptical_tm,
+    bend_radius=20,
+    layer_label=layer_label,
+)
 
 
 @gf.cell
@@ -56,11 +47,13 @@ def spiral_te(width: float = 0.5, length: int = 2) -> Component:
         lenght: cm
     """
     c = gf.c.spiral_inner_io(width=width, length=length)
-    c = gf.c.extend_ports(c)
+    ce = gf.c.extend_ports(c)
     cc = add_grating_couplers_with_loopback_fiber_array(
-        component=c,
+        component=ce,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
         bend=gf.components.bend_euler,
+        layer_label=layer_label,
+        component_name=c.name,
     )
     return cc
 
@@ -74,16 +67,23 @@ def spiral_tm(width=0.5, length=20e3):
         lenght: um
     """
     c = gf.c.spiral_inner_io(width=width, length=length, waveguide_spacing=10, N=5)
-    c = gf.c.extend_ports(c)
+    ce = gf.c.extend_ports(c)
     cc = add_grating_couplers_with_loopback_fiber_array(
-        component=c,
+        component=ce,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,
         bend=gf.components.bend_euler,
+        layer_label=layer_label,
+        component_name=c.name,
     )
     return cc
 
 
-def test_mask(precision: float = 1e-9) -> Path:
+def test_mask(
+    precision: float = 1e-9,
+    labels_prefix: str = "opt",
+    layer_label: Tuple[int, int] = layer_label,
+) -> Component:
+    """Returns mask."""
     workspace_folder = CONFIG["samples_path"] / "mask_pack"
     build_path = workspace_folder / "build"
     mask_path = build_path / "mask"
@@ -92,26 +92,25 @@ def test_mask(precision: float = 1e-9) -> Path:
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
-    markdown_path = gdspath.with_suffix(".md")
-    json_path = gdspath.with_suffix(".json")
-    test_metadata_path = gdspath.with_suffix(".tp.json")
+    # markdown_path = gdspath.with_suffix(".md")
+    # json_path = gdspath.with_suffix(".json")
+    # test_metadata_path = gdspath.with_suffix(".tp.json")
 
     components = [spiral_te(length=length) for length in np.array([2, 4, 6]) * 1e4]
     components += [coupler_te(length=length, gap=0.2) for length in [10, 20, 30, 40]]
     c = gf.pack(components)
     m = c[0]
     m.name = "sample_mask"
-    m.write_gds(gdspath)
+    m.write_gds_with_metadata(gdspath)
 
-    merge_metadata(gdspath=gdspath)
-
+    csvpath = write_labels(
+        gdspath=gdspath, prefix=labels_prefix, label_layer=layer_label
+    )
     assert gdspath.exists()
-    assert markdown_path.exists()
-    assert json_path.exists()
-    assert test_metadata_path.exists()
-    return gdspath
+    assert csvpath.exists()
+    return m
 
 
 if __name__ == "__main__":
-    c = test_mask()
-    gf.klive.show(c)
+    m = test_mask()
+    m.show()

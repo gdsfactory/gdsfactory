@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "3.3.9"
+__version__ = "3.4.0"
 import json
 import os
 import pathlib
@@ -96,8 +96,6 @@ else:
 # CONFIG["custom_components"] = TECH.custom_components
 CONFIG["gdslib"] = repo_path / "gdslib"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
-CONFIG["gds"] = CONFIG["gdslib"] / "gds"
-CONFIG["gdslib_test"] = dirpath_test
 
 CONFIG["build_directory"] = build_directory
 CONFIG["gds_directory"] = build_directory / "devices"
@@ -118,7 +116,6 @@ build_directory.mkdir(exist_ok=True)
 CONFIG["gds_directory"].mkdir(exist_ok=True)
 CONFIG["doe_directory"].mkdir(exist_ok=True)
 CONFIG["mask_directory"].mkdir(exist_ok=True)
-CONFIG["gdslib_test"].mkdir(exist_ok=True)
 
 
 def print_config(key: Optional[str] = None) -> None:

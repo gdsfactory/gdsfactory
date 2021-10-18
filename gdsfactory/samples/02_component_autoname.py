@@ -1,6 +1,6 @@
-"""One problem is that when we add references we have to make sure they have unique names.
+"""when you add references you have to make sure they have unique names.
 
-The photonics package `gf. has a cell decorator that names the objects that it produces depending on the parameters that we pass them
+the cell decorator gives unique names to components that depend on their parameters
 """
 
 
@@ -25,9 +25,6 @@ def straight_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
 def test_autoname() -> None:
     c = straight_cell()
     assert c.name == "straight_cell"
-
-    c = straight_cell(width=0.5)
-    assert c.name == "straight_cell_width500n"
 
 
 if __name__ == "__main__":

@@ -280,7 +280,6 @@ def add_ports_from_labels(
     return component
 
 
-# pytype: disable=bad-return-type
 @lru_cache(maxsize=None)
 def import_gds(
     gdspath: Union[str, Path],
@@ -404,6 +403,7 @@ def import_gds(
         setattr(component, key, value)
     if decorator:
         decorator(component)
+    component._autoname = False
     return component
 
 
@@ -464,11 +464,11 @@ def write_cells_from_component(
 
 
 def add_settings_from_label(component: Component) -> None:
-    """Adds settings from label."""
+    """Adds settings from label in JSON format in the GDS."""
     for label in component.labels:
         if label.text.startswith("settings="):
             d = json.loads(label.text[9:])
-            component.settings = d.pop("settings", {})
+            component._settings_full = d.pop("settings", {})
             for k, v in d.items():
                 setattr(component, k, v)
 
@@ -516,7 +516,7 @@ def _demo_import_gds_markers() -> None:
 if __name__ == "__main__":
     c = _demo_import_gds_markers()
 
-    gdspath = CONFIG["gds"] / "mzi2x2.gds"
+    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
     print(c)
     c.show()

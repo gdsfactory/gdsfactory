@@ -1,18 +1,183 @@
-function_name: grating_coupler_uniform
+cells:
+  compass_c2010375:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 0.375
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 0.375
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_c2010375
+    name_long: compass_c2010375
+  grating_coupler_uniform:
+    changed: {}
+    default:
+      fill_factor: 0.5
+      layer:
+      - 1
+      - 0
+      length_taper: 150
+      num_teeth: 20
+      period: 0.75
+      polarization: te
+      wavelength: 1.55
+      width: 0.5
+      width_grating: 11
+    full:
+      fill_factor: 0.5
+      layer:
+      - 1
+      - 0
+      length_taper: 150
+      num_teeth: 20
+      period: 0.75
+      polarization: te
+      wavelength: 1.55
+      width: 0.5
+      width_grating: 11
+    function_name: grating_coupler_uniform
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_uniform
+    name: grating_coupler_uniform
+    name_long: grating_coupler_uniform
+    polarization: te
+    wavelength: 1.55
+  rectangle_240048ff:
+    changed:
+      layer:
+      - 1
+      - 0
+      size:
+      - 0.375
+      - 11
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 0.375
+      - 11
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_240048ff
+    name_long: rectangle_240048ff
+  taper_211ef0b5:
+    changed:
+      layer:
+      - 1
+      - 0
+      length: 150
+      width1: 0.5
+      width2: 11
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      layer:
+      - 1
+      - 0
+      length: 150
+      port: null
+      width1: 0.5
+      width2: 11
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 150.0
+    module: gdsfactory.components.taper
+    name: taper_211ef0b5
+    name_long: taper_211ef0b5
+    width1: 0.5
+    width2: 11.0
 info:
+  changed: {}
+  default:
+    fill_factor: 0.5
+    layer:
+    - 1
+    - 0
+    length_taper: 150
+    num_teeth: 20
+    period: 0.75
+    polarization: te
+    wavelength: 1.55
+    width: 0.5
+    width_grating: 11
+  full:
+    fill_factor: 0.5
+    layer:
+    - 1
+    - 0
+    length_taper: 150
+    num_teeth: 20
+    period: 0.75
+    polarization: te
+    wavelength: 1.55
+    width: 0.5
+    width_grating: 11
+  function_name: grating_coupler_uniform
+  info_version: 1
+  module: gdsfactory.components.grating_coupler_uniform
+  name: grating_coupler_uniform
+  name_long: grating_coupler_uniform
   polarization: te
   wavelength: 1.55
-module: gdsfactory.components.grating_coupler_uniform
-name: grating_coupler_uniform
-settings:
-  fill_factor: 0.5
-  layer:
-  - 1
-  - 0
-  length_taper: 150
-  num_teeth: 20
-  period: 0.75
-  polarization: te
-  wavelength: 1.55
-  width: 0.5
-  width_grating: 11
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  vertical_te:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 157.125
+    - 0
+    name: vertical_te
+    orientation: 0
+    port_type: vertical_te
+    width: 1
+version: 1

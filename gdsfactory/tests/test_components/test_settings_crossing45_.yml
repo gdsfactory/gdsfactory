@@ -1,13 +1,103 @@
-function_name: crossing45
+cells:
+  crossing45:
+    bezier_length: 42.085
+    changed: {}
+    crossing:
+      changed: {}
+      default: {}
+      full: {}
+      function_name: crossing
+      info_version: 1
+      module: gdsfactory.components.crossing_waveguide
+      name: crossing
+      name_long: crossing
+    default:
+      alpha: 0.08
+      dx: null
+      npoints: 101
+      port_spacing: 40
+    full:
+      alpha: 0.08
+      dx: null
+      npoints: 101
+      port_spacing: 40
+    function_name: crossing45
+    info_version: 1
+    min_bend_radius: 44.312
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing45
+    name_long: crossing45
 info:
-  components:
-    bezier_bend: bezier_control_points2p_4c7b0089
-    crossing: crossing
+  bezier_length: 42.085
+  changed: {}
+  crossing:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: crossing
+    info_version: 1
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing
+    name_long: crossing
+  default:
+    alpha: 0.08
+    dx: null
+    npoints: 101
+    port_spacing: 40
+  full:
+    alpha: 0.08
+    dx: null
+    npoints: 101
+    port_spacing: 40
+  function_name: crossing45
+  info_version: 1
   min_bend_radius: 44.312
-module: gdsfactory.components.crossing_waveguide
-name: crossing45
-settings:
-  alpha: 0.08
-  dx: null
-  npoints: 101
-  port_spacing: 40
+  module: gdsfactory.components.crossing_waveguide
+  name: crossing45
+  name_long: crossing45
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -40
+    - -20
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -40
+    - 20
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 40
+    - 20
+    name: o3
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 40
+    - -20
+    name: o4
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

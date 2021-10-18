@@ -50,7 +50,7 @@ def splitter_chain(
         c.add_port(name=f"o{i+2}", port=cref.ports[e0_port_name])
 
     c.add_port(name=f"o{i+3}", port=cref.ports[e1_port_name])
-    c.settings["component"] = splitter_component.get_settings()
+    c.copy_child_info(splitter_component)
     return c
 
 

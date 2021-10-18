@@ -1,11 +1,155 @@
-function_name: ring_single_array
-info: {}
-module: gdsfactory.components.ring_single_array
-name: ring_single_array
-settings:
-  list_of_dicts:
-  - length_x: 10
-    radius: 5
-  - length_x: 20
-    radius: 10
-  spacing: 5
+cells:
+  coupler_ring_ca9f110c:
+    changed:
+      bend: bend_euler
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 10
+      radius: 5
+    default:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: bend_euler
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 10
+      radius: 5
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_ca9f110c
+    name_long: coupler_ring_ca9f110c
+  coupler_ring_e9939844:
+    changed:
+      bend: bend_euler
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 20
+      radius: 10
+    default:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: bend_euler
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 20
+      radius: 10
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_e9939844
+    name_long: coupler_ring_e9939844
+  ring_single_245fa0a7:
+    changed:
+      length_x: 20
+      radius: 10
+    default:
+      gap: 0.2
+      length_x: 4
+      length_y: 0.6
+      radius: 10
+    full:
+      gap: 0.2
+      length_x: 20
+      length_y: 0.6
+      radius: 10
+    function_name: ring_single
+    info_version: 1
+    module: gdsfactory.components.ring_single
+    name: ring_single_245fa0a7
+    name_long: ring_single_245fa0a7
+  ring_single_a371eccc:
+    changed:
+      length_x: 10
+      radius: 5
+    default:
+      gap: 0.2
+      length_x: 4
+      length_y: 0.6
+      radius: 10
+    full:
+      gap: 0.2
+      length_x: 10
+      length_y: 0.6
+      radius: 5
+    function_name: ring_single
+    info_version: 1
+    module: gdsfactory.components.ring_single
+    name: ring_single_a371eccc
+    name_long: ring_single_a371eccc
+  ring_single_array:
+    changed: {}
+    default:
+      list_of_dicts:
+      - length_x: 10
+        radius: 5
+      - length_x: 20
+        radius: 10
+      spacing: 5
+    full:
+      list_of_dicts:
+      - length_x: 10
+        radius: 5
+      - length_x: 20
+        radius: 10
+      spacing: 5
+    function_name: ring_single_array
+    info_version: 1
+    module: gdsfactory.components.ring_single_array
+    name: ring_single_array
+    name_long: ring_single_array
+info:
+  changed: {}
+  default:
+    list_of_dicts:
+    - length_x: 10
+      radius: 5
+    - length_x: 20
+      radius: 10
+    spacing: 5
+  full:
+    list_of_dicts:
+    - length_x: 10
+      radius: 5
+    - length_x: 20
+      radius: 10
+    spacing: 5
+  function_name: ring_single_array
+  info_version: 1
+  module: gdsfactory.components.ring_single_array
+  name: ring_single_array
+  name_long: ring_single_array
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -15
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 50
+    - 0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

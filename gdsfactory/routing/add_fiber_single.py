@@ -225,7 +225,7 @@ def add_fiber_single(
             layer=layer_label,
         )
 
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

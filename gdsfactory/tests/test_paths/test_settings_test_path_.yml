@@ -1,5 +1,21 @@
-function_name: test_path
-info: {}
-module: gdsfactory.tests.test_paths
-name: test_path
-settings: {}
+cells:
+  test_path:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: test_path
+    info_version: 1
+    module: gdsfactory.tests.test_paths
+    name: test_path
+    name_long: test_path
+info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: test_path
+  info_version: 1
+  module: gdsfactory.tests.test_paths
+  name: test_path
+  name_long: test_path
+ports: {}
+version: 1

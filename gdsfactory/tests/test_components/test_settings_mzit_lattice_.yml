@@ -1,13 +1,329 @@
-function_name: mzit_lattice
-info: {}
-module: gdsfactory.components.mzit_lattice
-name: mzit_lattice
-settings:
-  coupler_gaps:
-  - 0.2
-  - 0.3
-  coupler_lengths:
-  - 10
-  - 20
-  delta_lengths:
-  - 10
+cells:
+  coupler_c4c18dc8:
+    changed:
+      dy: 2
+      gap: 0.3
+      length: 20
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 2
+      gap: 0.3
+      length: 20
+    function_name: coupler
+    info_version: 1
+    length: 10.026
+    min_bend_radius: 30.486
+    module: gdsfactory.components.coupler
+    name: coupler_c4c18dc8
+    name_long: coupler_c4c18dc8
+  coupler_cf85be80:
+    changed:
+      dy: 2
+      gap: 0.2
+      length: 10
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 2
+      gap: 0.2
+      length: 10
+    function_name: coupler
+    info_version: 1
+    length: 10.03
+    min_bend_radius: 28.187
+    module: gdsfactory.components.coupler
+    name: coupler_cf85be80
+    name_long: coupler_cf85be80
+  mzit_f7e2e81d:
+    changed:
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
+      coupler_length1: 10
+      coupler_length2: 20
+      delta_length: 10
+    default:
+      Ls: 1
+      bend_radius: 10
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
+      coupler_length1: 5
+      coupler_length2: 10
+      delta_length: 10
+      dy: 2
+      taper_length: 5
+      w0: 0.5
+      w1: 0.45
+      w2: 0.55
+    full:
+      Ls: 1
+      bend_radius: 10
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
+      coupler_length1: 10
+      coupler_length2: 20
+      delta_length: 10
+      dy: 2
+      taper_length: 5
+      w0: 0.5
+      w1: 0.45
+      w2: 0.55
+    function_name: mzit
+    info_version: 1
+    module: gdsfactory.components.mzit
+    name: mzit_f7e2e81d
+    name_long: mzit_f7e2e81d
+  mzit_lattice:
+    changed: {}
+    default:
+      coupler_gaps:
+      - 0.2
+      - 0.3
+      coupler_lengths:
+      - 10
+      - 20
+      delta_lengths:
+      - 10
+    full:
+      coupler_gaps:
+      - 0.2
+      - 0.3
+      coupler_lengths:
+      - 10
+      - 20
+      delta_lengths:
+      - 10
+    function_name: mzit_lattice
+    info_version: 1
+    module: gdsfactory.components.mzit_lattice
+    name: mzit_lattice
+    name_long: mzit_lattice
+  taper_35742b85:
+    changed:
+      length: 5
+      width1: 0.5
+      width2: 0.45
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 5
+      port: null
+      width1: 0.5
+      width2: 0.45
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5.0
+    module: gdsfactory.components.taper
+    name: taper_35742b85
+    name_long: taper_35742b85
+    width1: 0.5
+    width2: 0.45
+  taper_497b9706:
+    changed:
+      length: 5
+      width1: 0.5
+      width2: 0.55
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 5
+      port: null
+      width1: 0.5
+      width2: 0.55
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5.0
+    module: gdsfactory.components.taper
+    name: taper_497b9706
+    name_long: taper_497b9706
+    width1: 0.5
+    width2: 0.55
+  taper_5ef18b11:
+    changed:
+      length: 5
+      width1: 0.45
+      width2: 0.55
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 5
+      port: null
+      width1: 0.45
+      width2: 0.55
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5.0
+    module: gdsfactory.components.taper
+    name: taper_5ef18b11
+    name_long: taper_5ef18b11
+    width1: 0.45
+    width2: 0.55
+  taper_85794c73:
+    changed:
+      length: 5
+      width1: 0.55
+      width2: 0.45
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 5
+      port: null
+      width1: 0.55
+      width2: 0.45
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5.0
+    module: gdsfactory.components.taper
+    name: taper_85794c73
+    name_long: taper_85794c73
+    width1: 0.55
+    width2: 0.45
+  taper_95acb109:
+    changed:
+      length: 5
+      width1: 0.55
+      width2: 0.5
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 5
+      port: null
+      width1: 0.55
+      width2: 0.5
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5.0
+    module: gdsfactory.components.taper
+    name: taper_95acb109
+    name_long: taper_95acb109
+    width1: 0.55
+    width2: 0.5
+  taper_feb4a44d:
+    changed:
+      length: 5
+      width1: 0.45
+      width2: 0.5
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 5
+      port: null
+      width1: 0.45
+      width2: 0.5
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5.0
+    module: gdsfactory.components.taper
+    name: taper_feb4a44d
+    name_long: taper_feb4a44d
+    width1: 0.45
+    width2: 0.5
+info:
+  changed: {}
+  default:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+  full:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+  function_name: mzit_lattice
+  info_version: 1
+  module: gdsfactory.components.mzit_lattice
+  name: mzit_lattice
+  name_long: mzit_lattice
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10
+    - -0.6
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -10
+    - 1.4
+    name: o2
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -6
+    - 21.4
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -6
+    - 23.4
+    name: o4
+    orientation: 180
+    port_type: optical
+    width: 0.5
+version: 1

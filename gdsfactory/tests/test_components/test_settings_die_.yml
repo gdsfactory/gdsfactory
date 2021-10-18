@@ -1,18 +1,87 @@
-function_name: die
-info: {}
-module: gdsfactory.components.die
-name: die
-settings:
-  bbox_layer:
-  - 99
-  - 0
-  die_name: chip99
-  draw_corners: false
-  draw_dicing_lane: false
-  layer:
-  - 99
-  - 0
-  street_length: 1000
-  street_width: 100
-  text_location: SW
-  text_size: 100
+cells:
+  chip99_0_0: {}
+  chip99_0_00: {}
+  die:
+    changed: {}
+    default:
+      bbox_layer:
+      - 99
+      - 0
+      die_name: chip99
+      draw_corners: false
+      draw_dicing_lane: false
+      layer:
+      - 99
+      - 0
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text_location: SW
+      text_size: 100
+    full:
+      bbox_layer:
+      - 99
+      - 0
+      die_name: chip99
+      draw_corners: false
+      draw_dicing_lane: false
+      layer:
+      - 99
+      - 0
+      size:
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
+      text_location: SW
+      text_size: 100
+    function_name: die
+    info_version: 1
+    module: gdsfactory.components.die
+    name: die
+    name_long: die
+info:
+  changed: {}
+  default:
+    bbox_layer:
+    - 99
+    - 0
+    die_name: chip99
+    draw_corners: false
+    draw_dicing_lane: false
+    layer:
+    - 99
+    - 0
+    size:
+    - 10000
+    - 10000
+    street_length: 1000
+    street_width: 100
+    text_location: SW
+    text_size: 100
+  full:
+    bbox_layer:
+    - 99
+    - 0
+    die_name: chip99
+    draw_corners: false
+    draw_dicing_lane: false
+    layer:
+    - 99
+    - 0
+    size:
+    - 10000
+    - 10000
+    street_length: 1000
+    street_width: 100
+    text_location: SW
+    text_size: 100
+  function_name: die
+  info_version: 1
+  module: gdsfactory.components.die
+  name: die
+  name_long: die
+ports: {}
+version: 1

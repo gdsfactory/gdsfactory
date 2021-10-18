@@ -1,26 +1,156 @@
-function_name: ring_single_dut
-info:
-  parent:
-    function_name: taper
-    info:
-      length: 10
+cells:
+  coupler_ring_6a2f750e:
+    changed:
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    default:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: null
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_6a2f750e
+    name_long: coupler_ring_6a2f750e
+  ring_single_dut:
+    changed: {}
+    child:
+      changed:
+        width2: 3
+      default:
+        length: 10
+        port: null
+        width1: 0.5
+        width2: null
+        with_cladding_box: true
+      full:
+        length: 10
+        port: null
+        width1: 0.5
+        width2: 3
+        with_cladding_box: true
+      function_name: taper
+      info_version: 1
+      length: 10.0
+      module: gdsfactory.components.taper
+      name: taper_2e9853cc
+      name_long: taper_2e9853cc
       width1: 0.5
+      width2: 3.0
+    default:
+      gap: 0.2
+      length_x: 4
+      length_y: 0
+      radius: 5
+      wg_width: 0.5
+      with_component: true
+    full:
+      gap: 0.2
+      length_x: 4
+      length_y: 0
+      radius: 5
+      wg_width: 0.5
+      with_component: true
+    function_name: ring_single_dut
+    info_version: 1
+    module: gdsfactory.components.ring_single_dut
+    name: ring_single_dut
+    name_long: ring_single_dut
+  taper_2e9853cc:
+    changed:
       width2: 3
-    module: gdsfactory.components.taper
-    name: taper_width23
-    settings:
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
       length: 10
       port: null
       width1: 0.5
       width2: 3
       with_cladding_box: true
-  parent_name: taper_width23
-module: gdsfactory.components.ring_single_dut
-name: ring_single_dut
-settings:
-  gap: 0.2
-  length_x: 4
-  length_y: 0
-  radius: 5
-  wg_width: 0.5
-  with_component: true
+    function_name: taper
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.taper
+    name: taper_2e9853cc
+    name_long: taper_2e9853cc
+    width1: 0.5
+    width2: 3.0
+info:
+  changed: {}
+  child:
+    changed:
+      width2: 3
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 3
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.taper
+    name: taper_2e9853cc
+    name_long: taper_2e9853cc
+    width1: 0.5
+    width2: 3.0
+  default:
+    gap: 0.2
+    length_x: 4
+    length_y: 0
+    radius: 5
+    wg_width: 0.5
+    with_component: true
+  full:
+    gap: 0.2
+    length_x: 4
+    length_y: 0
+    radius: 5
+    wg_width: 0.5
+    with_component: true
+  function_name: ring_single_dut
+  info_version: 1
+  module: gdsfactory.components.ring_single_dut
+  name: ring_single_dut
+  name_long: ring_single_dut
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -9
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 5
+    - 0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

@@ -1,6 +1,45 @@
-function_name: logo
-info: {}
-module: gdsfactory.components.logo
-name: logo
-settings:
-  text: GDSFACTORY
+cells:
+  A_0_0: {}
+  A_0_00: {}
+  C_0_0: {}
+  C_0_00: {}
+  D_0_0: {}
+  D_0_00: {}
+  F_0_0: {}
+  F_0_00: {}
+  G_0_0: {}
+  G_0_00: {}
+  O_0_0: {}
+  O_0_00: {}
+  R_0_0: {}
+  R_0_00: {}
+  S_0_0: {}
+  S_0_00: {}
+  T_0_0: {}
+  T_0_00: {}
+  Y_0_0: {}
+  Y_0_00: {}
+  logo:
+    changed: {}
+    default:
+      text: GDSFACTORY
+    full:
+      text: GDSFACTORY
+    function_name: logo
+    info_version: 1
+    module: gdsfactory.components.logo
+    name: logo
+    name_long: logo
+info:
+  changed: {}
+  default:
+    text: GDSFACTORY
+  full:
+    text: GDSFACTORY
+  function_name: logo
+  info_version: 1
+  module: gdsfactory.components.logo
+  name: logo
+  name_long: logo
+ports: {}
+version: 1

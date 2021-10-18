@@ -152,7 +152,7 @@ def pack(
     components_packed_list = []
     for rect_dict in packed_list:
         packed = Component()
-        packed.settings["components"] = {}
+        packed.info["components"] = {}
         for n, rect in rect_dict.items():
             x, y, w, h = rect
             xcenter = x + w / 2 + spacing / 2
@@ -160,7 +160,7 @@ def pack(
             component = component_list[n]
             d = packed.add_ref(component)
             if hasattr(component, "settings"):
-                packed.settings["components"][component.name] = component.get_settings()
+                packed.info["components"][component.name] = component.settings
             d.center = (xcenter * precision, ycenter * precision)
         components_packed_list.append(packed)
 
@@ -224,12 +224,9 @@ if __name__ == "__main__":
     # c.write_gds_with_metadata("mask.gds")
 
     p = pack(
-        [
-            gf.components.rectangle(size=tuple(np.random.rand(2) * n + 2))
-            for n in range(5)
-        ],
+        [gf.components.rectangle(size=(i, i)) for i in range(1, 10)],
         spacing=1.0,
-        max_size=(9, 9),
+        max_size=(20, 20),
     )
     c = p[0]
     c.show()

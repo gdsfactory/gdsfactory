@@ -1,9 +1,5 @@
-info:
-  instances:
-    wgn: DeviceReference (parent Device "straight_length500n", ports ['o1', 'o2'],
-      origin (0, 0), rotation 0, x_reflection False)
-    wgw: DeviceReference (parent Device "straight_length1", ports ['o1', 'o2'], origin
-      [0.5 0. ], rotation 0, x_reflection False)
-  routes: {}
-name: sample_connections
-settings: {}
+cells:
+  sample_connections: {}
+info: {}
+ports: {}
+version: 1

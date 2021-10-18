@@ -5,7 +5,6 @@ import numpy as np
 import pytest
 from omegaconf import OmegaConf
 from pytest_regressions.data_regression import DataRegressionFixture
-from pytest_regressions.num_regression import NumericRegressionFixture
 
 from gdsfactory.component import Component
 from gdsfactory.difftest import difftest
@@ -478,21 +477,9 @@ def test_settings(
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
 
-    settings = c.get_settings()
-    # routes = settings.get("info", {}).get("routes", {})
-    # data_regression.check(routes)
     if check:
-        data_regression.check(settings)
+        data_regression.check(c.to_dict)
     return c
-
-
-@pytest.mark.parametrize("yaml_key", yaml_strings.keys())
-def test_ports(yaml_key: str, num_regression: NumericRegressionFixture) -> None:
-    """Avoid regressions in port names and locations."""
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
-    if c.ports:
-        num_regression.check(c.get_ports_array())
 
 
 @pytest.mark.parametrize(
@@ -514,7 +501,7 @@ def test_netlists(
     c = from_yaml(yaml_string)
     n = c.get_netlist(full_settings=full_settings)
     if check:
-        data_regression.check(n)
+        data_regression.check(OmegaConf.to_container(n))
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
@@ -557,7 +544,7 @@ if __name__ == "__main__":
     # c = test_sample()
     # c = test_connections_2x2()
     # c = test_connections_different_factory()
-    c = test_connections_different_link_factory()
+    # c = test_connections_different_link_factory()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
     # c = test_settings("yaml_anchor", None, False)
@@ -567,7 +554,7 @@ if __name__ == "__main__":
     # c = from_yaml(sample_different_link_factory)
     # c = from_yaml(sample_mirror_simple)
     # c = from_yaml(sample_waypoints)
-    # c = test_netlists("sample_different_link_factory", True, None, check=False)
+    c = test_netlists("sample_different_link_factory", True, None, check=False)
 
     # c = from_yaml(sample_different_factory)
     # c = from_yaml(sample_different_link_factory)

@@ -69,7 +69,7 @@ def add_grating_couplers(
         gc_port_name=gc_port_name,
     )
     c.add(labels)
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 
@@ -178,7 +178,7 @@ def add_grating_couplers_with_loopback_fiber_single(
             layer=layer_label,
         )
 
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 
@@ -196,7 +196,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     straight: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
-    component_name: None = None,
+    component_name: Optional[str] = None,
     with_loopback: bool = True,
     nlabels_loopback: int = 2,
     get_input_labels_function: Callable = get_input_labels,
@@ -340,7 +340,7 @@ def add_grating_couplers_with_loopback_fiber_array(
                 f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
-    c.copy_settings_from(component)
+    c.copy_child_info(component)
     return c
 
 

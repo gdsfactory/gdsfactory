@@ -1,8 +1,59 @@
-function_name: taper_cross_section
-info: {}
-module: gdsfactory.components.taper_cross_section
-name: taper_cross_section_lin_fb44ec23
-settings:
-  length: 10
-  linear: true
-  npoints: 2
+cells:
+  taper_cross_section_f1747efd:
+    changed:
+      linear: true
+      npoints: 2
+    default:
+      length: 10
+      linear: false
+      npoints: 100
+    full:
+      length: 10
+      linear: true
+      npoints: 2
+    function_name: taper_cross_section
+    info_version: 1
+    module: gdsfactory.components.taper_cross_section
+    name: taper_cross_section_f1747efd
+    name_long: taper_cross_section_f1747efd
+info:
+  changed:
+    linear: true
+    npoints: 2
+  default:
+    length: 10
+    linear: false
+    npoints: 100
+  full:
+    length: 10
+    linear: true
+    npoints: 2
+  function_name: taper_cross_section
+  info_version: 1
+  module: gdsfactory.components.taper_cross_section
+  name: taper_cross_section_f1747efd
+  name_long: taper_cross_section_f1747efd
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10
+    - 0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

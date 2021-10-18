@@ -172,7 +172,7 @@ def spiral_circular(
     ps = gds.fast_boolean(ps, None, "or")
 
     c = gf.Component()
-    c.length = snap_to_grid(length)
+    c.info.length = snap_to_grid(length)
     c.add_polygon(ps, layer=layer)
 
     c.add_port(
@@ -196,6 +196,5 @@ if __name__ == "__main__":
     c = spiral_circular(length=1e3)
     print(c.ports)
     print(c.ports.keys())
-    print(c.get_ports_array())
     c.show()
     c.write_gds()

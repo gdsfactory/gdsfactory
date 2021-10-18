@@ -1,20 +1,101 @@
-function_name: taper_strip_to_ridge
+cells:
+  taper_strip_to_ridge:
+    changed: {}
+    default:
+      cladding_offset: 3
+      layer_slab:
+      - 3
+      - 0
+      layer_wg:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 10
+      w_slab1: 0.15
+      w_slab2: 6
+      width1: 0.5
+      width2: 0.5
+      with_slab_port: false
+    full:
+      cladding_offset: 3
+      layer_slab:
+      - 3
+      - 0
+      layer_wg:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 10
+      w_slab1: 0.15
+      w_slab2: 6
+      width1: 0.5
+      width2: 0.5
+      with_slab_port: false
+    function_name: taper_strip_to_ridge
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.taper
+    name: taper_strip_to_ridge
+    name_long: taper_strip_to_ridge
 info:
-  length: 10
-module: gdsfactory.components.taper
-name: taper_strip_to_ridge
-settings:
-  cladding_offset: 3
-  layer_slab:
-  - 3
-  - 0
-  layer_wg:
-  - 1
-  - 0
-  layers_cladding: null
-  length: 10
-  w_slab1: 0.15
-  w_slab2: 6
-  width1: 0.5
-  width2: 0.5
-  with_slab_port: false
+  changed: {}
+  default:
+    cladding_offset: 3
+    layer_slab:
+    - 3
+    - 0
+    layer_wg:
+    - 1
+    - 0
+    layers_cladding: null
+    length: 10
+    w_slab1: 0.15
+    w_slab2: 6
+    width1: 0.5
+    width2: 0.5
+    with_slab_port: false
+  full:
+    cladding_offset: 3
+    layer_slab:
+    - 3
+    - 0
+    layer_wg:
+    - 1
+    - 0
+    layers_cladding: null
+    length: 10
+    w_slab1: 0.15
+    w_slab2: 6
+    width1: 0.5
+    width2: 0.5
+    with_slab_port: false
+  function_name: taper_strip_to_ridge
+  info_version: 1
+  length: 10.0
+  module: gdsfactory.components.taper
+  name: taper_strip_to_ridge
+  name_long: taper_strip_to_ridge
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 10
+    - 0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

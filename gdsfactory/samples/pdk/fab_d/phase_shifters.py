@@ -16,6 +16,9 @@ class LayerMap:
 LAYER = LayerMap()
 
 
+xs_strip = gf.partial(gf.cross_section.strip, layer=LAYER.WG, width=1)
+
+
 xs_strip_heater_metal = gf.partial(
     gf.cross_section.strip_heater_metal, layer=LAYER.WG, width=1
 )
@@ -40,7 +43,9 @@ ps_heater_metal = gf.partial(
 )
 ps_heater_doped = gf.partial(
     gf.c.straight_heater_doped_strip,
+    cross_section=xs_strip,
     cross_section_heater=xs_strip_heater_doped,
+    info=dict(docstring="doping density = X", polarization="te", wavelength=1.55),
 )
 ps_pin = gf.partial(
     gf.c.straight_pin,
