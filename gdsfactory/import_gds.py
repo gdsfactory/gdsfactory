@@ -1,6 +1,6 @@
 import json
 import pathlib
-from functools import lru_cache, partial
+from functools import partial
 from pathlib import Path
 from typing import Callable, Optional, Tuple, Union, cast
 
@@ -8,6 +8,7 @@ import gdspy
 import numpy as np
 from phidl.device_layout import CellArray, DeviceReference
 
+from gdsfactory.cell import cell as cell_decorator
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.port import (
@@ -280,8 +281,7 @@ def add_ports_from_labels(
     return component
 
 
-# pytype: disable=bad-return-type
-@lru_cache(maxsize=None)
+@cell_decorator
 def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,
@@ -404,6 +404,7 @@ def import_gds(
         setattr(component, key, value)
     if decorator:
         decorator(component)
+    component._autoname = False
     return component
 
 
@@ -516,7 +517,7 @@ def _demo_import_gds_markers() -> None:
 if __name__ == "__main__":
     c = _demo_import_gds_markers()
 
-    gdspath = CONFIG["gds"] / "mzi2x2.gds"
+    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     c = import_gds(gdspath, snap_to_grid_nm=5)
     print(c)
     c.show()

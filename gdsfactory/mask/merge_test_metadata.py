@@ -44,12 +44,11 @@ doe02:
 ```
 """
 
-import json
 import pathlib
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import List
 
-import yaml
+from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.config import CONFIG
 
@@ -80,67 +79,46 @@ def get_cell_from_label(label: str) -> str:
     return cell_name
 
 
-def load_json(
-    filepath: Path,
-) -> Dict[str, Any]:
-    with open(filepath) as f:
-        data = json.load(f)
-    return data
-
-
-def load_yaml(filepath: Path):
-    with open(filepath) as f:
-        data = yaml.safe_load(f)
-    return data
-
-
 def merge_test_metadata(
     gdspath: Path = CONFIG["mask_gds"], labels_prefix: str = "opt"
-) -> Dict[str, Any]:
-    """from a gds mask combines test_protocols and labels positions for each DOE
-    Do a map cell: does
-    Usually each cell will have only one DOE. But in general it should be allowed for a cell to belong to multiple DOEs
+) -> DictConfig:
+    """Returns a test metadata dict config of labeled cells
 
     Args:
         gdspath
         labels_prefix
 
-    Returns:
-        saves json file with merged metadata
-
     """
     gdspath = pathlib.Path(gdspath)
-    mask_json_path = gdspath.with_suffix(".json")
+    mask_metadata_path = gdspath.with_suffix(".yml")
     csv_labels_path = gdspath.with_suffix(".csv")
-    output_tm_path = gdspath.with_suffix(".tp.json")
+    test_metadata_path = gdspath.with_suffix(".tp.yml")
 
-    assert mask_json_path.exists(), f"missing mask JSON metadata {mask_json_path}"
+    assert (
+        mask_metadata_path.exists()
+    ), f"missing mask YAML metadata {mask_metadata_path}"
     assert csv_labels_path.exists(), f"missing CSV labels {csv_labels_path}"
 
-    metadata = load_json(mask_json_path)
+    metadata = OmegaConf.load(mask_metadata_path)
     labels_list = parse_csv_data(csv_labels_path)
 
-    does = metadata.pop("does")
-    cells = metadata.pop("cells")
-
-    c = {}
+    test_metadata = DictConfig({})
 
     for label, x, y in labels_list:
         cell = get_cell_from_label(label)
-        c[cell] = c.get(cell, dict())
-        c[cell][label] = dict(x=x, y=y)
+        test_metadata[cell] = metadata.cells[cell]
+        test_metadata[cell].label = dict(x=x, y=y, text=label)
 
-    d = dict(cells_to_test=c, metadata=metadata, does=does, cells=cells)
-
-    with open(output_tm_path, "w") as json_out:
-        json.dump(d, json_out, indent=2)
-
-    return metadata
+    OmegaConf.save(test_metadata, f=test_metadata_path)
+    return test_metadata
 
 
 if __name__ == "__main__":
     from gdsfactory import CONFIG
 
-    gdspath = CONFIG["repo_path"] / "samples" / "mask" / "build" / "mask" / "mask.gds"
+    # gdspath = CONFIG["repo_path"] / "samples" / "mask" / "build" / "mask" / "mask.gds"
+    gdspath = (
+        CONFIG["samples_path"] / "mask_pack" / "build" / "mask" / "sample_mask.gds"
+    )
     d = merge_test_metadata(gdspath)
     print(d)

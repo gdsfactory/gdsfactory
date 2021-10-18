@@ -1140,8 +1140,8 @@ class Component(Device):
 
         d.ports = ports
         d.info = self.info
-        d.cells = recurse_structures(self)
         d.version = 1
+        d.cells = recurse_structures(self)
         return OmegaConf.create(d)
 
     @property
@@ -1221,7 +1221,7 @@ def _filter_polys(polygons, layers_excl):
 
 
 IGNORE_FUNCTION_NAMES = set()
-IGNORE_STRUCTURE_NAME_PREFIXES = set(["zz_conn"])
+IGNORE_STRUCTURE_NAME_PREFIXES = set(["straight_", "bend_"])
 
 
 def recurse_structures(structure: Component) -> DictConfig:
@@ -1235,8 +1235,6 @@ def recurse_structures(structure: Component) -> DictConfig:
     if hasattr(structure, "name") and any(
         [structure.name.startswith(i) for i in IGNORE_STRUCTURE_NAME_PREFIXES]
     ):
-        return DictConfig({})
-    if not hasattr(structure, "get_dict"):
         return DictConfig({})
 
     output = {structure.name: structure.info}

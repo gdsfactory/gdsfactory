@@ -65,6 +65,7 @@ def get_input_label(
         gc_port_name: name of grating coupler port
         layer_label: layer of the label
         component_name: for the label
+        get_input_label_text_function: function to get input label
     """
     text = get_input_label_text_function(
         port=port, gc=gc, gc_index=gc_index, component_name=component_name
@@ -76,7 +77,7 @@ def get_input_label(
     layer, texttype = pd._parse_layer(layer_label)
     return pd.Label(
         text=text,
-        position=port.midpoint,
+        position=gc.ports[gc_port_name].midpoint,
         anchor="o",
         layer=layer,
         texttype=texttype,

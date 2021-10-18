@@ -196,7 +196,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     straight: ComponentFactory = straight_function,
     layer_label: Tuple[int, int] = (200, 0),
     layer_label_loopback: Optional[Tuple[int, int]] = None,
-    component_name: None = None,
+    component_name: Optional[str] = None,
     with_loopback: bool = True,
     nlabels_loopback: int = 2,
     get_input_labels_function: Callable = get_input_labels,
