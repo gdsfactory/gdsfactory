@@ -1,4 +1,667 @@
-cells: {}
+cells:
+  cdsem_straight_all_af1777b0:
+    changed:
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      widths:
+      - 0.4
+      - 0.45
+      - 0.5
+      - 0.6
+      - 0.8
+      - 1
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 420
+      pixel_size: 1
+      spacing: 4.5
+      widths:
+      - 0.4
+      - 0.45
+      - 0.5
+      - 0.6
+      - 0.8
+      - 1
+    full:
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      length: 420
+      pixel_size: 1
+      spacing: 4.5
+      straight: straight
+      widths:
+      - 0.4
+      - 0.45
+      - 0.5
+      - 0.6
+      - 0.8
+      - 1
+    function_name: cdsem_straight_all
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_straight_all_af1777b0
+    name_long: cdsem_straight_all_af1777b0
+  cdsem_straight_density_352deb0b:
+    changed:
+      cross_section:
+        function: cross_section
+      label: DL
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      trench_width: 0.27999999999999997
+      width: 0.27999999999999997
+    default:
+      label: ''
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      margin: 2
+      pixel_size: 1
+      trench_width: 0.304
+      width: 0.372
+      x: 420
+      y: 50
+    full:
+      cross_section:
+        function: cross_section
+      label: DL
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      margin: 2
+      pixel_size: 1
+      straight: straight
+      trench_width: 0.27999999999999997
+      width: 0.27999999999999997
+      x: 420
+      y: 50
+    function_name: cdsem_straight_density
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_straight_density_352deb0b
+    name_long: cdsem_straight_density_352deb0b
+  cdsem_straight_density_445f4a1c:
+    changed:
+      cross_section:
+        function: cross_section
+      label: DM
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      trench_width: 0.3
+      width: 0.3
+    default:
+      label: ''
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      margin: 2
+      pixel_size: 1
+      trench_width: 0.304
+      width: 0.372
+      x: 420
+      y: 50
+    full:
+      cross_section:
+        function: cross_section
+      label: DM
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      margin: 2
+      pixel_size: 1
+      straight: straight
+      trench_width: 0.3
+      width: 0.3
+      x: 420
+      y: 50
+    function_name: cdsem_straight_density
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_straight_density_445f4a1c
+    name_long: cdsem_straight_density_445f4a1c
+  cdsem_straight_density_f3cd459a:
+    changed:
+      cross_section:
+        function: cross_section
+      label: DH
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      trench_width: 0.32
+      width: 0.32
+    default:
+      label: ''
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      margin: 2
+      pixel_size: 1
+      trench_width: 0.304
+      width: 0.372
+      x: 420
+      y: 50
+    full:
+      cross_section:
+        function: cross_section
+      label: DH
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      margin: 2
+      pixel_size: 1
+      straight: straight
+      trench_width: 0.32
+      width: 0.32
+      x: 420
+      y: 50
+    function_name: cdsem_straight_density
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_straight_density_f3cd459a
+    name_long: cdsem_straight_density_f3cd459a
+  cdsem_uturn_1d375524:
+    changed:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      width: 1
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      straight: straight
+      wg_length: 420
+      width: 1
+    function_name: cdsem_uturn
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_uturn_1d375524
+    name_long: cdsem_uturn_1d375524
+  cdsem_uturn_29c8e298:
+    changed:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      width: 0.6
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      straight: straight
+      wg_length: 420
+      width: 0.6
+    function_name: cdsem_uturn
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_uturn_29c8e298
+    name_long: cdsem_uturn_29c8e298
+  cdsem_uturn_4bfcdf27:
+    changed:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      width: 0.5
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      straight: straight
+      wg_length: 420
+      width: 0.5
+    function_name: cdsem_uturn
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_uturn_4bfcdf27
+    name_long: cdsem_uturn_4bfcdf27
+  cdsem_uturn_5109446d:
+    changed:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      width: 0.4
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      straight: straight
+      wg_length: 420
+      width: 0.4
+    function_name: cdsem_uturn
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_uturn_5109446d
+    name_long: cdsem_uturn_5109446d
+  cdsem_uturn_531743ce:
+    changed:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      width: 0.8
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      straight: straight
+      wg_length: 420
+      width: 0.8
+    function_name: cdsem_uturn
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_uturn_531743ce
+    name_long: cdsem_uturn_531743ce
+  cdsem_uturn_87db98ff:
+    changed:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      straight: straight
+      width: 0.45
+    default:
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90: bend_circular
+      cross_section:
+        function: cross_section
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      radius: 10
+      straight: straight
+      wg_length: 420
+      width: 0.45
+    function_name: cdsem_uturn
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: cdsem_uturn_87db98ff
+    name_long: cdsem_uturn_87db98ff
+  manhattan_text_1cba8f86:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '400'
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '400'
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text_1cba8f86
+    name_long: manhattan_text_1cba8f86
+  manhattan_text_49c18516:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '500'
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '500'
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text_49c18516
+    name_long: manhattan_text_49c18516
+  manhattan_text_669a9938:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '450'
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '450'
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text_669a9938
+    name_long: manhattan_text_669a9938
+  manhattan_text_91aef3a7:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '1000'
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '1000'
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text_91aef3a7
+    name_long: manhattan_text_91aef3a7
+  manhattan_text_9a125eb4:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '600'
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '600'
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text_9a125eb4
+    name_long: manhattan_text_9a125eb4
+  manhattan_text_df780215:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '800'
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '800'
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text_df780215
+    name_long: manhattan_text_df780215
+  pcm_optical:
+    changed: {}
+    default:
+      dense_lines_gap: 0.3
+      dense_lines_labels:
+      - DL
+      - DM
+      - DH
+      dense_lines_width: 0.3
+      dense_lines_width_difference: 0.02
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      widths:
+      - 0.4
+      - 0.45
+      - 0.5
+      - 0.6
+      - 0.8
+      - 1
+    full:
+      dense_lines_gap: 0.3
+      dense_lines_labels:
+      - DL
+      - DM
+      - DH
+      dense_lines_width: 0.3
+      dense_lines_width_difference: 0.02
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      pixel_size: 1
+      widths:
+      - 0.4
+      - 0.45
+      - 0.5
+      - 0.6
+      - 0.8
+      - 1
+    function_name: pcm_optical
+    info_version: 1
+    module: gdsfactory.components.pcm_optical
+    name: pcm_optical
+    name_long: pcm_optical
 info:
   changed: {}
   default:

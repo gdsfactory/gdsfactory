@@ -1,4 +1,58 @@
-cells: {}
+cells:
+  Unnamed_a491ff8b:
+    description: just a demo on adding metadata
+    polarization: te
+    wavelength: 1.55
+  mmi1x2_41793ed4:
+    changed:
+      length_mmi: 5
+      width_mmi: 4.5
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 4.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_41793ed4
+    name_long: mmi1x2_41793ed4
+  mmi1x2_5ad5950d:
+    changed:
+      length_mmi: 10
+      width_mmi: 4.5
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 10
+      length_taper: 10
+      width: 0.5
+      width_mmi: 4.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_5ad5950d
+    name_long: mmi1x2_5ad5950d
 info:
   description: just a demo on adding metadata
   polarization: te

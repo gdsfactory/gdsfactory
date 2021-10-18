@@ -1,4 +1,21 @@
-cells: {}
+cells:
+  taper_cross_section_f1747efd:
+    changed:
+      linear: true
+      npoints: 2
+    default:
+      length: 10
+      linear: false
+      npoints: 100
+    full:
+      length: 10
+      linear: true
+      npoints: 2
+    function_name: taper_cross_section
+    info_version: 1
+    module: gdsfactory.components.taper_cross_section
+    name: taper_cross_section_f1747efd
+    name_long: taper_cross_section_f1747efd
 info:
   changed:
     linear: true

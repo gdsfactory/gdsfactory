@@ -1,4 +1,401 @@
-cells: {}
+cells:
+  mmi1x2_6c65a522:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      decorator: add_pins
+      width: 1
+      width_mmi: 3
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      decorator: add_pins
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 1
+      width_mmi: 3
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_6c65a522
+    name_long: mmi1x2_6c65a522
+  mzi_3db7193a:
+    changed:
+      bend:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: bend_euler
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      decorator: add_pins
+      layer:
+      - 34
+      - 0
+      splitter:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: mmi1x2
+        width: 1
+        width_mmi: 3
+      straight:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+    default:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      bend:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: bend_euler
+      combiner: null
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      decorator: add_pins
+      delta_length: 10
+      layer:
+      - 34
+      - 0
+      length_x: 0.1
+      length_y: 0.8
+      splitter:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: mmi1x2
+        width: 1
+        width_mmi: 3
+      straight:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_3db7193a
+    name_long: mzi_3db7193a
+  mzi_arm_446a212d:
+    changed:
+      bend:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: bend_euler
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+      straight_y:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: bend_euler
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+      straight_y:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 0.1
+    length_xsize: 0.1
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_446a212d
+    name_long: mzi_arm_446a212d
+  mzi_arm_6edcc612:
+    changed:
+      bend:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: bend_euler
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      length_x: 0.1
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+      straight_y:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: bend_euler
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      length_x: 0.1
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+      straight_y:
+        cross_section:
+          function: cross_section
+          layer:
+          - 34
+          - 0
+          layers_cladding:
+          - - 36
+            - 0
+          width: 1
+        decorator: add_pins
+        function: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 0.1
+    length_xsize: 0.1
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_6edcc612
+    name_long: mzi_arm_6edcc612
 info:
   changed:
     bend:

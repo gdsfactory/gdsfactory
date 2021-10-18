@@ -1,4 +1,60 @@
-cells: {}
+cells:
+  cutback_component:
+    changed: {}
+    child:
+      changed: {}
+      default: {}
+      full: {}
+      function_name: taper_0p5_to_3_l36
+      info_version: 1
+      module: gdsfactory.components.taper_from_csv
+      name: taper_0p5_to_3_l36
+      name_long: taper_0p5_to_3_l36
+    components: 88
+    default:
+      cols: 4
+      port1: o1
+      port2: o2
+      radius: 5
+      rows: 5
+    full:
+      cols: 4
+      port1: o1
+      port2: o2
+      radius: 5
+      rows: 5
+    function_name: cutback_component
+    info_version: 1
+    module: gdsfactory.components.cutback_component
+    name: cutback_component
+    name_long: cutback_component
+    parent_name: loopback_taper_0p5_to_3_l36_88
+  straight:
+    changed: {}
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.straight
+    name: straight
+    name_long: straight
+    width: 0.5
+  taper_0p5_to_3_l36:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: taper_0p5_to_3_l36
+    info_version: 1
+    module: gdsfactory.components.taper_from_csv
+    name: taper_0p5_to_3_l36
+    name_long: taper_0p5_to_3_l36
 info:
   changed: {}
   child:

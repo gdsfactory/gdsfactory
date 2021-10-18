@@ -1,4 +1,23 @@
-cells: {}
+cells:
+  array:
+    changed: {}
+    default:
+      columns: 6
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    full:
+      columns: 6
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    function_name: array
+    info_version: 1
+    module: gdsfactory.components.array
+    name: array
+    name_long: array
 info:
   changed: {}
   default:

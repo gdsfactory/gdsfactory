@@ -1,4 +1,25 @@
-cells: {}
+cells:
+  ramp:
+    changed: {}
+    default:
+      layer:
+      - 1
+      - 0
+      length: 10
+      width1: 5
+      width2: 8
+    full:
+      layer:
+      - 1
+      - 0
+      length: 10
+      width1: 5
+      width2: 8
+    function_name: ramp
+    info_version: 1
+    module: gdsfactory.components.ramp
+    name: ramp
+    name_long: ramp
 info:
   changed: {}
   default:

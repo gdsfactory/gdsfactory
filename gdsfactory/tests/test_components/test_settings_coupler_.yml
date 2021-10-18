@@ -1,4 +1,23 @@
-cells: {}
+cells:
+  coupler:
+    changed: {}
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    function_name: coupler
+    info_version: 1
+    length: 10.314
+    min_bend_radius: 9.451
+    module: gdsfactory.components.coupler
+    name: coupler
+    name_long: coupler
 info:
   changed: {}
   default:

@@ -1,4 +1,103 @@
-cells: {}
+cells:
+  circle_602e85fd:
+    changed:
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_602e85fd
+    name_long: circle_602e85fd
+  grating_coupler_array:
+    changed: {}
+    default:
+      n: 6
+      pitch: 127
+      port_name: o1
+    full:
+      n: 6
+      pitch: 127
+      port_name: o1
+    function_name: grating_coupler_array
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_array
+    name: grating_coupler_array
+    name_long: grating_coupler_array
+  grating_coupler_elliptical2:
+    changed: {}
+    default:
+      cladding_offset: 2
+      direction: EAST
+      dutycycle: 0.7
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      layer_cladding:
+      - 111
+      - 0
+      layer_core:
+      - 1
+      - 0
+      layer_ridge: null
+      length: 30
+      period: 1
+      polarization: te
+      port:
+      - 0
+      - 0
+      taper_angle: 30
+      taper_length: 10
+      teeth_list: null
+      wavelength: 1.55
+      wg_width: 0.5
+    full:
+      cladding_offset: 2
+      direction: EAST
+      dutycycle: 0.7
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      layer_cladding:
+      - 111
+      - 0
+      layer_core:
+      - 1
+      - 0
+      layer_ridge: null
+      length: 30
+      period: 1
+      polarization: te
+      port:
+      - 0
+      - 0
+      taper_angle: 30
+      taper_length: 10
+      teeth_list: null
+      wavelength: 1.55
+      wg_width: 0.5
+    function_name: grating_coupler_elliptical2
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical2
+    name: grating_coupler_elliptical2
+    name_long: grating_coupler_elliptical2
+    polarization: te
+    wavelength: 1.55
 info:
   changed: {}
   default:

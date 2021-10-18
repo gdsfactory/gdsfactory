@@ -1,4 +1,55 @@
-cells: {}
+cells:
+  pad_array_b84950ef:
+    changed:
+      orientation: 90
+    default:
+      columns: 6
+      orientation: 270
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    full:
+      columns: 6
+      orientation: 90
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    function_name: pad_array
+    info_version: 1
+    module: gdsfactory.components.pad
+    name: pad_array_b84950ef
+    name_long: pad_array_b84950ef
+    size:
+    - 100
+    - 100
+  pad_array_fe55c938:
+    changed:
+      orientation: 270
+    default:
+      columns: 6
+      orientation: 270
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    full:
+      columns: 6
+      orientation: 270
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    function_name: pad_array
+    info_version: 1
+    module: gdsfactory.components.pad
+    name: pad_array_fe55c938
+    name_long: pad_array_fe55c938
+    size:
+    - 100
+    - 100
+  sample_waypoints: {}
 info: {}
 ports: {}
 version: 1

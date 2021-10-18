@@ -1,16 +1,16 @@
 """Read component GDS, YAML metadata and ports."""
+from functools import lru_cache
 from pathlib import Path
 from typing import Union
 
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
-from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
 
 
-@cell
+@lru_cache(maxsize=None)
 def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
     """Returns Component with ports and metadata (YAML) info (if any).
 

@@ -1,4 +1,17 @@
-cells: {}
+cells:
+  coupler90:
+    changed: {}
+    default:
+      gap: 0.2
+      radius: 10
+    full:
+      gap: 0.2
+      radius: 10
+    function_name: coupler90
+    info_version: 1
+    module: gdsfactory.components.coupler90
+    name: coupler90
+    name_long: coupler90
 info:
   changed: {}
   default:

@@ -2,8 +2,8 @@ ports:
   o1:
     name: o1
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     width: 0.5
     orientation: 180
     layer:
@@ -14,7 +14,7 @@ ports:
     name: o2
     midpoint:
     - 1.234
-    - 0.0
+    - 0
     width: 0.5
     orientation: 0
     layer:
@@ -39,5 +39,5 @@ info:
     length: 1.234
     npoints: 2
     with_cladding_box: true
-cells: {}
 version: 1
+cells: {}

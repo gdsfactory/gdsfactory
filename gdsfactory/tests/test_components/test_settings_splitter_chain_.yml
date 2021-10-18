@@ -1,4 +1,61 @@
-cells: {}
+cells:
+  mmi1x2:
+    changed: {}
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
+    name_long: mmi1x2
+  splitter_chain:
+    changed: {}
+    child:
+      changed: {}
+      default:
+        gap_mmi: 0.25
+        length_mmi: 5.5
+        length_taper: 10
+        width: 0.5
+        width_mmi: 2.5
+        width_taper: 1
+        with_cladding_box: true
+      full:
+        gap_mmi: 0.25
+        length_mmi: 5.5
+        length_taper: 10
+        width: 0.5
+        width_mmi: 2.5
+        width_taper: 1
+        with_cladding_box: true
+      function_name: mmi1x2
+      info_version: 1
+      module: gdsfactory.components.mmi1x2
+      name: mmi1x2
+      name_long: mmi1x2
+    default:
+      n_devices: 3
+    full:
+      n_devices: 3
+    function_name: splitter_chain
+    info_version: 1
+    module: gdsfactory.components.splitter_chain
+    name: splitter_chain
+    name_long: splitter_chain
 info:
   changed: {}
   child:

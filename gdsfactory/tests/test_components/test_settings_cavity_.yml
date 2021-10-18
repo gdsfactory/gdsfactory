@@ -1,4 +1,76 @@
-cells: {}
+cells:
+  cavity:
+    changed: {}
+    child:
+      changed: {}
+      default:
+        l1: 0.159
+        l2: 0.159
+        n: 10
+        w1: 0.475
+        w2: 0.525
+      full:
+        l1: 0.159
+        l2: 0.159
+        n: 10
+        w1: 0.475
+        w2: 0.525
+      function_name: dbr
+      info_version: 1
+      module: gdsfactory.components.dbr
+      name: dbr
+      name_long: dbr
+    default:
+      gap: 0.2
+      length: 0.1
+    full:
+      gap: 0.2
+      length: 0.1
+    function_name: cavity
+    info_version: 1
+    module: gdsfactory.components.cavity
+    name: cavity
+    name_long: cavity
+  coupler_3e9f9e6a:
+    changed:
+      gap: 0.2
+      length: 0.1
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.2
+      length: 0.1
+    function_name: coupler
+    info_version: 1
+    length: 10.319
+    min_bend_radius: 9.387
+    module: gdsfactory.components.coupler
+    name: coupler_3e9f9e6a
+    name_long: coupler_3e9f9e6a
+  dbr:
+    changed: {}
+    default:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    full:
+      l1: 0.159
+      l2: 0.159
+      n: 10
+      w1: 0.475
+      w2: 0.525
+    function_name: dbr
+    info_version: 1
+    module: gdsfactory.components.dbr
+    name: dbr
+    name_long: dbr
 info:
   changed: {}
   child:

@@ -1,4 +1,19 @@
-cells: {}
+cells:
+  coupler_asymmetric:
+    changed: {}
+    default:
+      dx: 10
+      dy: 5
+      gap: 0.234
+    full:
+      dx: 10
+      dy: 5
+      gap: 0.234
+    function_name: coupler_asymmetric
+    info_version: 1
+    module: gdsfactory.components.coupler_asymmetric
+    name: coupler_asymmetric
+    name_long: coupler_asymmetric
 info:
   changed: {}
   default:

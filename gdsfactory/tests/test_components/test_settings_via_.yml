@@ -1,4 +1,44 @@
-cells: {}
+cells:
+  via:
+    changed: {}
+    default:
+      cladding_offset: 0
+      enclosure: 1
+      layer:
+      - 40
+      - 0
+      layers_cladding: null
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+    enclosure: 1.0
+    full:
+      cladding_offset: 0
+      enclosure: 1
+      layer:
+      - 40
+      - 0
+      layers_cladding: null
+      size:
+      - 0.7
+      - 0.7
+      spacing:
+      - 2
+      - 2
+    function_name: via
+    info_version: 1
+    module: gdsfactory.components.via
+    name: via
+    name_long: via
+    size:
+    - 0.7
+    - 0.7
+    spacing:
+    - 2.0
+    - 2.0
 info:
   changed: {}
   default:

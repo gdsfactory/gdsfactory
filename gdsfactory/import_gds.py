@@ -1,6 +1,6 @@
 import json
 import pathlib
-from functools import partial
+from functools import lru_cache, partial
 from pathlib import Path
 from typing import Callable, Optional, Tuple, Union, cast
 
@@ -8,7 +8,6 @@ import gdspy
 import numpy as np
 from phidl.device_layout import CellArray, DeviceReference
 
-from gdsfactory.cell import cell as cell_decorator
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.port import (
@@ -281,7 +280,7 @@ def add_ports_from_labels(
     return component
 
 
-@cell_decorator
+@lru_cache(maxsize=None)
 def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,

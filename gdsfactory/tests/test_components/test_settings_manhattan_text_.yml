@@ -1,4 +1,31 @@
-cells: {}
+cells:
+  manhattan_text:
+    changed: {}
+    default:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    function_name: manhattan_text
+    info_version: 1
+    module: gdsfactory.components.manhattan_font
+    name: manhattan_text
+    name_long: manhattan_text
 info:
   changed: {}
   default:

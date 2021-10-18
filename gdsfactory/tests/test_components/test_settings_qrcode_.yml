@@ -1,4 +1,23 @@
-cells: {}
+cells:
+  qrcode:
+    changed: {}
+    default:
+      data: mask01
+      layer:
+      - 1
+      - 0
+      psize: 1
+    full:
+      data: mask01
+      layer:
+      - 1
+      - 0
+      psize: 1
+    function_name: qrcode
+    info_version: 1
+    module: gdsfactory.components.version_stamp
+    name: qrcode
+    name_long: qrcode
 info:
   changed: {}
   default:

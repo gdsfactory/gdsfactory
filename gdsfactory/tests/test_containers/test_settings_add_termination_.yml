@@ -1,4 +1,195 @@
-cells: {}
+cells:
+  add_termination_487eeed5:
+    changed:
+      component: mzi_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter: mmi2x2
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_ac6d448d
+      name_long: mzi_ac6d448d
+    default:
+      port_name: null
+      port_type: optical
+      ports: null
+    full:
+      component: mzi_ac6d448d
+      port_name: null
+      port_type: optical
+      ports: null
+    function_name: add_termination
+    info_version: 1
+    module: gdsfactory.add_termination
+    name: add_termination_487eeed5
+    name_long: add_termination_487eeed5
+  mmi2x2:
+    changed: {}
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    function_name: mmi2x2
+    info_version: 1
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+    name_long: mmi2x2
+  mzi_ac6d448d:
+    changed:
+      length_x: 320
+      splitter: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter: mmi2x2
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_ac6d448d
+    name_long: mzi_ac6d448d
+  mzi_arm_3aabaa29:
+    changed:
+      bend: bend_euler
+      length_x: 320
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_3aabaa29
+    name_long: mzi_arm_3aabaa29
+  mzi_arm_5644a682:
+    changed:
+      bend: bend_euler
+      length_x: 320
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_5644a682
+    name_long: mzi_arm_5644a682
+  taper_39079628:
+    changed:
+      width2: 0.1
+    default:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 0.1
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 10.0
+    module: gdsfactory.components.taper
+    name: taper_39079628
+    name_long: taper_39079628
+    width1: 0.5
+    width2: 0.1
 info:
   changed:
     component: mzi_ac6d448d

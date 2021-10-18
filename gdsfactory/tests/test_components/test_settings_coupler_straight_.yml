@@ -1,4 +1,17 @@
-cells: {}
+cells:
+  coupler_straight:
+    changed: {}
+    default:
+      gap: 0.27
+      length: 10
+    full:
+      gap: 0.27
+      length: 10
+    function_name: coupler_straight
+    info_version: 1
+    module: gdsfactory.components.coupler_straight
+    name: coupler_straight
+    name_long: coupler_straight
 info:
   changed: {}
   default:

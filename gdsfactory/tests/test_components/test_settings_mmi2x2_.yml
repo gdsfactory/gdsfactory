@@ -1,4 +1,25 @@
-cells: {}
+cells:
+  mmi2x2:
+    changed: {}
+    default:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    full:
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    function_name: mmi2x2
+    info_version: 1
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+    name_long: mmi2x2
 info:
   changed: {}
   default:

@@ -34,7 +34,7 @@ from contracts import contract
 ## 3.4.0
 
 - gf.component_from_yaml accepts info settings
-- make sure that zero length paths can be extruded without producing degenerate boundaries. They just have ports instead of trying to extrude zero length paths.
+- make sure that zero length paths can be extruded without producing degenerated boundaries. They just have ports instead of trying to extrude zero length paths.
 - snap.assert_on_2nm_grid for gap in mmi1x2, mmi2x2, coupler, coupler_ring
 - gf.Component.rotate() calls gf.rotate so that it uses the Component CACHE
 - add `tests/test_rotate.py` to ensure cache is working

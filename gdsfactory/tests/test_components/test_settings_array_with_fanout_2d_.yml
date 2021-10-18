@@ -1,4 +1,23 @@
-cells: {}
+cells:
+  array_with_fanout_2d:
+    changed: {}
+    default:
+      columns: 3
+      pitch: 150
+      pitch_x: null
+      pitch_y: null
+      rows: 2
+    full:
+      columns: 3
+      pitch: 150
+      pitch_x: null
+      pitch_y: null
+      rows: 2
+    function_name: array_with_fanout_2d
+    info_version: 1
+    module: gdsfactory.components.array_with_fanout
+    name: array_with_fanout_2d
+    name_long: array_with_fanout_2d
 info:
   changed: {}
   default:
