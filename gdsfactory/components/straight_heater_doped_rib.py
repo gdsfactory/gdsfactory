@@ -7,7 +7,7 @@ from gdsfactory.components.contact import contact_slab_npp
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer
 
 
 @gf.cell
@@ -162,7 +162,36 @@ def test_straight_heater_doped_rib_ports() -> Component:
     return c
 
 
+@gf.cell
+def straight_heater_doped_rib_south(
+    contact_metal_size: Tuple[float, float] = (10.0, 10.0),
+    layer_metal: Layer = (49, 0),
+    **kwargs,
+):
+    c = gf.Component()
+    s = c << straight_heater_doped_rib()
+    contact_metal_size = (10.0, 10.0)
+    lbend = c << gf.c.L(
+        width=contact_metal_size[0], size=(10, s.ysize), layer=layer_metal
+    )
+    lbend.connect("e2", s.ports["e1"])
+    c.add_ports(s.ports)
+    c.ports.pop("e1")
+    c.add_port("e1", port=lbend.ports["e1"])
+    c.auto_rename_ports()
+    return c
+
+
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(length=80, contact_metal=None, contact_contact=None)
+    # c = straight_heater_doped_rib(length=80, contact_metal=None, contact_contact=None)
+    # c = straight_heater_doped_rib(length=80)
     # c = test_straight_heater_doped_rib_ports()
+    # c = straight_heater_doped_rib_south()
+
+    # c = gf.Component()
+    # s = c << straight_heater_doped_rib()
+    # contact_metal_size = (10.0, 10.0)
+    # lbend = c << gf.c.L(width=contact_metal_size[0], size=(10, s.ysize))
+    # lbend.connect("o2", s.ports["e1"])
+    c = straight_heater_doped_rib_south()
     c.show()

@@ -287,6 +287,18 @@ class ComponentReference(DeviceReference):
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
 
+    @property
+    def pprint(self) -> None:
+        """Prints component info."""
+        print(OmegaConf.to_yaml(self.info))
+
+    @property
+    def pprint_ports(self) -> None:
+        """Prints component netlists."""
+        ports_list = self.get_ports_list()
+        for port in ports_list:
+            print(port)
+
     def _transform_port(
         self,
         point: ndarray,
