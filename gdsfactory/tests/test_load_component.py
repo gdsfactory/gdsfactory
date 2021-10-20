@@ -41,7 +41,10 @@ def test_load_component_with_settings():
 
 
 def test_mix_cells_from_gds_and_from_function():
-    """Ensures cells loaded from GDS share the same cache as @cell"""
+    """Ensures not duplicated cell names.
+    when cells loaded from GDS and have the same name as a function
+    with @cell decorator
+    """
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.Component("test_mix_cells_from_gds_and_from_function")
     c << gf.c.straight(length=1.234)

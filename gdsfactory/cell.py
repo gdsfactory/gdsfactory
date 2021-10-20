@@ -1,4 +1,5 @@
 """
+
 - INFO_VERSION: 1
 
 """
@@ -52,38 +53,40 @@ def clean_doc(name: str) -> str:
 
 
 def cell_without_validator(func):
-    """Cell Decorator.
-
-    Args:
-        name (str): Optional (ignored when autoname=True)
-        uid (bool): adds a unique id to the name
-        cache (bool): get component from the cache if it already exists
-
-    Implements a cache so that if a component has already been build
-    it will return the component from the cache.
-    This avoids 2 exact cells that are not references of the same cell
-    You can always over-ride this with `cache = False`.
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      @gf.cell
-      def rectangle(size=(4,2), layer=0)->gf.Component:
-          c = gf.Component()
-          w, h = size
-          points = [[w, h], [w, 0], [0, 0], [0, h]]
-          c.add_polygon(points, layer=layer)
-          return c
-
-      c = rectangle(layer=(1,0))
-      c.plot()
-
-    """
-
     @functools.wraps(func)
     def _cell(*args, **kwargs):
+        """Decorator for Component functions.
+        Use cell
+
+        kwargs:
+            name (str): Optional (ignored when autoname=True)
+            cache (bool): get component from the cache if it already exists.
+              Useful in jupyter notebook, so you don't have to clear the cache
+            info: updates component.info
+            decorator: function to run over the component
+
+        Implements a cache so that if a component has already been build
+        it will return the component from the cache.
+        This avoids 2 exact cells that are not references of the same cell
+        You can always over-ride this with `cache = False`.
+
+        .. plot::
+          :include-source:
+
+          import gdsfactory as gf
+
+          @gf.cell
+          def rectangle(size=(4,2), layer=0)->gf.Component:
+              c = gf.Component()
+              w, h = size
+              points = [[w, h], [w, 0], [0, 0], [0, h]]
+              c.add_polygon(points, layer=layer)
+              return c
+
+          c = rectangle(layer=(1,0))
+          c.plot()
+
+        """
         prefix = kwargs.pop("prefix", func.__name__)
         cache = kwargs.pop("cache", True)
         info = kwargs.pop("info", omegaconf.DictConfig({}))
@@ -122,14 +125,16 @@ def cell_without_validator(func):
                     )
 
         if cache and name in CACHE:
-            # print(f"CACHE {name} {func.__name__}({arguments})")
+            # print(f"CACHE LOAD {name} {func.__name__}({arguments})")
             return CACHE[name]
         else:
             # print(f"BUILD {name} {func.__name__}({arguments})")
             assert callable(
                 func
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
+
             component = func(*args, **kwargs)
+
             if decorator:
                 assert callable(
                     decorator
@@ -144,10 +149,10 @@ def cell_without_validator(func):
 
             if getattr(component, "_update_info", True):
                 component.name = name
+                component.info.name = name
                 component.info.module = func.__module__
                 component.info.function_name = func.__name__
                 component.info.info_version = INFO_VERSION
-                component.info.name = component.name
 
                 default = {
                     p.name: p.default
@@ -175,11 +180,13 @@ def cell_without_validator(func):
 
 
 def cell(func, *args, **kwargs):
+    """Validates type annotations with pydantic"""
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 
 
 @cell
 def wg(length: int = 3, width: float = 0.5) -> Component:
+    """Dummy component for testing."""
     from gdsfactory.component import Component
 
     c = Component("straight")
@@ -252,6 +259,9 @@ def test_names() -> None:
 
 
 if __name__ == "__main__":
+    c = wg(name="my_waveguide")
+    print(c.name)
+
     # dummy2 = functools.partial(_dummy, length=3)
     # c = dummy2()
 
@@ -262,7 +272,7 @@ if __name__ == "__main__":
     # test_autoname_false()
     # test_autoname_true()
     # test_autoname()
-    test_set_name()
+    # test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)

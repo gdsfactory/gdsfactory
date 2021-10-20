@@ -599,8 +599,9 @@ class Component(Device):
             name += "_" + self.uid
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
-        self.info = DictConfig(self.info)
         self.name = name  # overwrie PHIDL's incremental naming convention
+        self.info = DictConfig(self.info)
+        self.info.name = name
 
     @classmethod
     def __get_validators__(cls):
@@ -1192,7 +1193,7 @@ class Component(Device):
         Args:
             angle: in degrees
         """
-        from gdsfactory.rotate import rotate
+        from gdsfactory.functions import rotate
 
         return rotate(component=self, angle=angle)
 
@@ -1363,9 +1364,12 @@ def hash_file(filepath):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.straight(length=2)
-    # c2 = c.rotate()
-    c2 = gf.c.mzi()
-    c2.show(show_subports=True)
+    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
+    c2 = c.rotate()
+
+    # c2 = gf.c.mzi()
+    # c2.show(show_subports=True)
     # c2.write_gds_with_metadata("a.gds")
     # print(c)
+    # c = Component()
+    # print(c.info_child.name)
