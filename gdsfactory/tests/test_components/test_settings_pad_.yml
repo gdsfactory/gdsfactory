@@ -55,8 +55,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed: {}
   default:
@@ -85,8 +85,8 @@ info:
   module: gdsfactory.components.pad
   name: pad
   size:
-  - 100.0
-  - 100.0
+  - 100
+  - 100
 ports:
   e1:
     layer:

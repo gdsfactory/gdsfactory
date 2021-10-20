@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
@@ -17,7 +17,7 @@ def get_route_from_steps(
     port2: Port,
     steps: List[Dict[str, float]],
     bend: ComponentOrFactory = bend_euler,
-    straight: ComponentOrFactory = straight,
+    straight: ComponentOrFactory = straight_function,
     taper_factory: Optional[ComponentOrFactory] = taper_function,
     cross_section: CrossSectionFactory = strip,
     **kwargs

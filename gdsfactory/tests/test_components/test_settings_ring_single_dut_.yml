@@ -37,11 +37,11 @@ cells:
         with_cladding_box: true
       function_name: taper
       info_version: 1
-      length: 10.0
+      length: 10
       module: gdsfactory.components.taper
       name: taper_2e9853cc
       width1: 0.5
-      width2: 3.0
+      width2: 3
     default:
       gap: 0.2
       length_x: 4
@@ -77,11 +77,11 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_2e9853cc
     width1: 0.5
-    width2: 3.0
+    width2: 3
 info:
   changed: {}
   child:
@@ -101,11 +101,11 @@ info:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_2e9853cc
     width1: 0.5
-    width2: 3.0
+    width2: 3
   default:
     gap: 0.2
     length_x: 4

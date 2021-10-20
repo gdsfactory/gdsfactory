@@ -44,12 +44,12 @@ cells:
           with_cladding_box: true
         function_name: straight
         info_version: 1
-        length: 20.0
+        length: 20
         module: gdsfactory.components.straight
         name: straight_373b1ebb
         path: {}
         points_hash: d013dca7ec78642683a0c21517
-        width: 2.0
+        width: 2
       default:
         taper_port_name1: o1
         taper_port_name2: o2
@@ -122,12 +122,12 @@ cells:
         with_cladding_box: true
       function_name: straight
       info_version: 1
-      length: 20.0
+      length: 20
       module: gdsfactory.components.straight
       name: straight_373b1ebb
       path: {}
       points_hash: d013dca7ec78642683a0c21517
-      width: 2.0
+      width: 2
     default:
       taper_port_name1: o1
       taper_port_name2: o2
@@ -237,11 +237,11 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_bea08b71
     width1: 0.5
-    width2: 2.0
+    width2: 2
 info:
   changed:
     component: add_tapers_1e786c7d
@@ -287,12 +287,12 @@ info:
         with_cladding_box: true
       function_name: straight
       info_version: 1
-      length: 20.0
+      length: 20
       module: gdsfactory.components.straight
       name: straight_373b1ebb
       path: {}
       points_hash: d013dca7ec78642683a0c21517
-      width: 2.0
+      width: 2
     default:
       taper_port_name1: o1
       taper_port_name2: o2

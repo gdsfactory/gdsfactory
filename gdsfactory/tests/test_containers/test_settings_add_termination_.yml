@@ -130,8 +130,8 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
   mzi_arm_5644a682:
@@ -157,8 +157,8 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
   taper_39079628:
@@ -178,7 +178,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_39079628
     width1: 0.5

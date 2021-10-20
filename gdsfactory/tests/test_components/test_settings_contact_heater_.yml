@@ -154,8 +154,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_46068602
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
 info:
   changed:
     layers:
@@ -227,8 +227,8 @@ info:
   module: gdsfactory.components.contact
   name: contact_46068602
   size:
-  - 11.0
-  - 11.0
+  - 11
+  - 11
 ports:
   e1:
     layer:

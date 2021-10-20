@@ -81,8 +81,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed: {}
   default:

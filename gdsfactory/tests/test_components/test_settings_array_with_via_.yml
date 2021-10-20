@@ -187,8 +187,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
   pad:
     changed: {}
     default:
@@ -217,8 +217,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed: {}
   default:

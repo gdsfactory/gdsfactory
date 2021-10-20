@@ -14,7 +14,7 @@ cells:
       npoints: 2
     function_name: taper_cross_section
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper_cross_section
     name: taper_cross_section_f1747efd
     path: {}
@@ -34,7 +34,7 @@ info:
     npoints: 2
   function_name: taper_cross_section
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_f1747efd
   path: {}

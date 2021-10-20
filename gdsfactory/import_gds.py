@@ -326,7 +326,7 @@ def import_gds(
             f"you must specify `cellname` to select of one of them among {cellnames}"
         )
     if flatten:
-        component = Component()
+        component = Component(name=name or cellname or cellnames[0])
         polygons = topcell.get_polygons(by_spec=True)
 
         for layer_in_gds, polys in polygons.items():
@@ -523,10 +523,23 @@ def _demo_import_gds_markers() -> None:
     return c
 
 
+def test_import_gds_flat():
+    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True)
+    c.write_gds()
+
+
+def test_import_gds():
+    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False)
+    c.write_gds()
+
+
 if __name__ == "__main__":
     c = _demo_import_gds_markers()
 
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
-    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
+    # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
+    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True)
     print(c)
     c.show()

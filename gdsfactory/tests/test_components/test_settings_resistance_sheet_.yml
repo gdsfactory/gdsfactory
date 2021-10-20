@@ -207,8 +207,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_4445752e
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
   resistance_sheet:
     changed: {}
     default:
