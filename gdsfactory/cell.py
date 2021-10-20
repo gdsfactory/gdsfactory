@@ -1,6 +1,7 @@
 """
+INFO_VERSION
 
-- INFO_VERSION: 1
+1: original metadata format
 
 """
 import functools

@@ -37,6 +37,7 @@ from contracts import contract
 - remove `autoname` from `cell` decorator args
 - `Component.show()` shows a component copy instead of a container
 - remove `Component.get_parent_name()` and replace it with `Component.child_info.name`
+- gf.path.extrude adds cross_section.info and path.info to component info
 
 ## 3.4.0
 

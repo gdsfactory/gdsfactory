@@ -1,19 +1,27 @@
 cells:
   test_path:
     changed: {}
+    cross_section: {}
     default: {}
     full: {}
     function_name: test_path
     info_version: 1
+    length: 107.69901058617913
     module: gdsfactory.tests.test_paths
     name: test_path
+    path: {}
+    points_hash: b17e237c1bfa8bffc39120b861
 info:
   changed: {}
+  cross_section: {}
   default: {}
   full: {}
   function_name: test_path
   info_version: 1
+  length: 107.69901058617913
   module: gdsfactory.tests.test_paths
   name: test_path
+  path: {}
+  points_hash: b17e237c1bfa8bffc39120b861
 ports: {}
 version: 1

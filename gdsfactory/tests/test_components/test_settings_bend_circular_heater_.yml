@@ -1,6 +1,7 @@
 cells: {}
 info:
   changed: {}
+  cross_section: {}
   default:
     angle: 90
     heater_to_wg_distance: 1.2
@@ -21,8 +22,11 @@ info:
     radius: 10
   function_name: bend_circular_heater
   info_version: 1
+  length: 15.707912866629119
   module: gdsfactory.components.bend_circular_heater
   name: bend_circular_heater
+  path: {}
+  points_hash: d3a569a9faff5fe75d6a48e4d8
 ports:
   in:
     layer:
