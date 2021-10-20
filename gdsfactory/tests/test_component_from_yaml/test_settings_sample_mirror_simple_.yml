@@ -15,7 +15,6 @@ cells:
     length: 10.0
     module: gdsfactory.components.straight
     name: straight
-    name_long: straight
     width: 0.5
 info: {}
 ports: {}

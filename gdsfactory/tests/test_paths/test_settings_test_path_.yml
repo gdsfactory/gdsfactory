@@ -7,7 +7,6 @@ cells:
     info_version: 1
     module: gdsfactory.tests.test_paths
     name: test_path
-    name_long: test_path
 info:
   changed: {}
   default: {}
@@ -16,6 +15,5 @@ info:
   info_version: 1
   module: gdsfactory.tests.test_paths
   name: test_path
-  name_long: test_path
 ports: {}
 version: 1

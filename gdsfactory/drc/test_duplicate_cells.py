@@ -31,7 +31,6 @@ def test_duplicated_cells_error():
 
     with pytest.raises(ValueError):
         c3.write_gds("rectangles.gds")
-    c3.show()
 
 
 if __name__ == "__main__":

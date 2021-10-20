@@ -8,7 +8,6 @@ cells:
     length: 10.0
     module: gdsfactory.components.wire
     name: wire_corner
-    name_long: wire_corner
   wire_sbend:
     changed: {}
     default:
@@ -21,7 +20,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.wire_sbend
     name: wire_sbend
-    name_long: wire_sbend
 info:
   changed: {}
   default:
@@ -34,7 +32,6 @@ info:
   info_version: 1
   module: gdsfactory.components.wire_sbend
   name: wire_sbend
-  name_long: wire_sbend
 ports:
   e1:
     layer:

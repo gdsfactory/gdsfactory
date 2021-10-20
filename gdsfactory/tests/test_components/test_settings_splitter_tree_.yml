@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
   splitter_tree:
     changed: {}
     default:
@@ -40,7 +39,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.splitter_tree
     name: splitter_tree
-    name_long: splitter_tree
 info:
   changed: {}
   default:
@@ -59,7 +57,6 @@ info:
   info_version: 1
   module: gdsfactory.components.splitter_tree
   name: splitter_tree
-  name_long: splitter_tree
 ports:
   o1_0_0:
     layer:

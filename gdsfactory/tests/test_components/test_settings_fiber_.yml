@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_72737e6a
-    name_long: circle_72737e6a
   circle_e248ff5e:
     changed:
       layer:
@@ -44,7 +43,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_e248ff5e
-    name_long: circle_e248ff5e
   fiber:
     changed: {}
     default:
@@ -69,7 +67,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.fiber
     name: fiber
-    name_long: fiber
 info:
   changed: {}
   default:
@@ -94,7 +91,6 @@ info:
   info_version: 1
   module: gdsfactory.components.fiber
   name: fiber
-  name_long: fiber
 ports:
   F0:
     layer:

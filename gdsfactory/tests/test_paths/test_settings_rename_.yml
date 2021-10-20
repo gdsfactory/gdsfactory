@@ -7,7 +7,6 @@ cells:
     info_version: 1
     module: gdsfactory.tests.test_paths
     name: rename
-    name_long: rename
 info:
   changed: {}
   default: {}
@@ -16,7 +15,6 @@ info:
   info_version: 1
   module: gdsfactory.tests.test_paths
   name: rename
-  name_long: rename
 ports:
   in:
     layer:

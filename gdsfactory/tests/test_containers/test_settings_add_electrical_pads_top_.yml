@@ -36,7 +36,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mzi
       name: mzi_ac6d448d
-      name_long: mzi_ac6d448d
     default:
       layer:
       - 31
@@ -56,7 +55,6 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_electrical_pads_top
     name: add_electrical_pads_top_487eeed5
-    name_long: add_electrical_pads_top_487eeed5
   mmi2x2:
     changed: {}
     default:
@@ -77,7 +75,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -112,7 +109,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -144,7 +140,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -172,7 +167,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
   pad_array_838b16d5:
     changed:
       columns: 2
@@ -195,7 +189,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array_838b16d5
-    name_long: pad_array_838b16d5
     size:
     - 100
     - 100
@@ -236,7 +229,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     layer:
     - 31
@@ -256,7 +248,6 @@ info:
   info_version: 1
   module: gdsfactory.routing.add_electrical_pads_top
   name: add_electrical_pads_top_487eeed5
-  name_long: add_electrical_pads_top_487eeed5
 ports:
   o1:
     layer:

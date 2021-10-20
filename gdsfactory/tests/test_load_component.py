@@ -40,6 +40,15 @@ def test_load_component_with_settings():
     assert len(d) == 0, d
 
 
+def test_mix_cells_from_gds_and_from_function():
+    """Ensures cells loaded from GDS share the same cache as @cell"""
+    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+    c = gf.Component("test_mix_cells_from_gds_and_from_function")
+    c << gf.c.straight(length=1.234)
+    c << gf.read.from_gds(gdspath)
+    c.write_gds()
+
+
 def _write():
     c1 = gf.c.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
@@ -49,10 +58,12 @@ def _write():
 
 
 if __name__ == "__main__":
+    test_mix_cells_from_gds_and_from_function()
+
     # _write()
     # test_load_component_gds()
     # test_load_component_settings()
-    test_load_component_with_settings()
+    # test_load_component_with_settings()
 
     # c1 = gf.c.straight()
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"

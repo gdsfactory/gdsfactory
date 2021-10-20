@@ -17,7 +17,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.array
     name: array
-    name_long: array
 info:
   changed: {}
   default:
@@ -36,7 +35,6 @@ info:
   info_version: 1
   module: gdsfactory.components.array
   name: array
-  name_long: array
 ports:
   o1_1_1:
     layer:

@@ -22,7 +22,6 @@ cells:
     length: 9003.302
     module: gdsfactory.components.spiral_external_io
     name: spiral_external_io
-    name_long: spiral_external_io
 info:
   changed: {}
   default:
@@ -46,7 +45,6 @@ info:
   length: 9003.302
   module: gdsfactory.components.spiral_external_io
   name: spiral_external_io
-  name_long: spiral_external_io
 ports:
   o1:
     layer:

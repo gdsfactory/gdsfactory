@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-    name_long: circle_602e85fd
   grating_coupler_ellipti_0c053add:
     changed:
       grating_line_width: 0.6
@@ -79,7 +78,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
     name: grating_coupler_ellipti_0c053add
-    name_long: grating_coupler_elliptical_trenches_7c64c36b
     period: 1.072
     polarization: tm
     wavelength: 1.53
@@ -140,7 +138,6 @@ info:
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical_trenches
   name: grating_coupler_ellipti_0c053add
-  name_long: grating_coupler_elliptical_trenches_7c64c36b
   period: 1.072
   polarization: tm
   wavelength: 1.53

@@ -1,13 +1,14 @@
 import json
 import pathlib
-from functools import lru_cache, partial
+from functools import partial
 from pathlib import Path
-from typing import Callable, Optional, Tuple, Union, cast
+from typing import Optional, Tuple, Union, cast
 
 import gdspy
 import numpy as np
 from phidl.device_layout import CellArray, DeviceReference
 
+from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.port import (
@@ -31,9 +32,7 @@ def add_ports_from_markers_square(
     port_names: Optional[Tuple[str, ...]] = None,
     port_name_prefix: str = "o",
 ) -> Component:
-    """add ports from markers center in port_layer
-
-    squared
+    """add ports from square markers at the center of port in port_layer
 
     Args:
         component: to read polygons from and to write ports to
@@ -280,13 +279,12 @@ def add_ports_from_labels(
     return component
 
 
-@lru_cache(maxsize=None)
 def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,
     flatten: bool = False,
     snap_to_grid_nm: Optional[int] = None,
-    decorator: Optional[Callable] = None,
+    name: Optional[str] = None,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -298,6 +296,7 @@ def import_gds(
         cellname: cell of the name to import (None) imports top cell
         flatten: if True returns flattened (no hierarchy)
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
+        name: Optional name
         **kwargs
     """
     gdspath = Path(gdspath)
@@ -331,12 +330,12 @@ def import_gds(
     else:
         D_list = []
         c2dmap = {}
-        for cell in gdsii_lib.cells.values():
-            D = Component(name=cell.name)
-            D.polygons = cell.polygons
-            D.references = cell.references
-            D.name = cell.name
-            for label in cell.labels:
+        for c in gdsii_lib.cells.values():
+            D = Component(name=c.name)
+            D.polygons = c.polygons
+            D.references = c.references
+            D.name = c.name
+            for label in c.labels:
                 rotation = label.rotation
                 if rotation is None:
                     rotation = 0
@@ -348,7 +347,7 @@ def import_gds(
                     layer=(label.layer, label.texttype),
                 )
                 label_ref.anchor = label.anchor
-            c2dmap.update({cell: D})
+            c2dmap.update({c: D})
             D_list += [D]
 
         for D in D_list:
@@ -401,10 +400,13 @@ def import_gds(
         cast(Component, component)
     for key, value in kwargs.items():
         setattr(component, key, value)
-    if decorator:
-        decorator(component)
-    component._autoname = False
-    return component
+    component._update_info = False
+
+    def _import_gds():
+        return component
+
+    component.name = name or component.name
+    return cell_without_validator(_import_gds)(name=component.name)
 
 
 def write_top_cells(gdspath: Union[str, Path], **kwargs) -> None:
@@ -517,6 +519,6 @@ if __name__ == "__main__":
     c = _demo_import_gds_markers()
 
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
-    c = import_gds(gdspath, snap_to_grid_nm=5)
+    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
     print(c)
     c.show()

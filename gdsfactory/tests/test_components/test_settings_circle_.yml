@@ -17,7 +17,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle
-    name_long: circle
 info:
   changed: {}
   default:
@@ -36,6 +35,5 @@ info:
   info_version: 1
   module: gdsfactory.components.circle
   name: circle
-  name_long: circle
 ports: {}
 version: 1

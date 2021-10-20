@@ -10,7 +10,6 @@ cells:
     info_version: 1
     module: gdsfactory.tests.test_paths
     name: transition
-    name_long: transition
 info:
   changed: {}
   default: {}
@@ -19,6 +18,5 @@ info:
   info_version: 1
   module: gdsfactory.tests.test_paths
   name: transition
-  name_long: transition
 ports: {}
 version: 1

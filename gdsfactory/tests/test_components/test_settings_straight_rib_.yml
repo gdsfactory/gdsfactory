@@ -22,7 +22,6 @@ info:
   length: 10.0
   module: gdsfactory.components.straight
   name: straight_3edba0b0
-  name_long: straight_3edba0b0
   width: 0.5
 ports:
   o1:

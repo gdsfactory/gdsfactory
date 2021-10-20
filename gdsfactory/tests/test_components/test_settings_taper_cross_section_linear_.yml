@@ -15,7 +15,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.taper_cross_section
     name: taper_cross_section_f1747efd
-    name_long: taper_cross_section_f1747efd
 info:
   changed:
     linear: true
@@ -32,7 +31,6 @@ info:
   info_version: 1
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_f1747efd
-  name_long: taper_cross_section_f1747efd
 ports:
   o1:
     layer:

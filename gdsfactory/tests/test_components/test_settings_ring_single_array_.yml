@@ -23,7 +23,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_ca9f110c
-    name_long: coupler_ring_ca9f110c
   coupler_ring_e9939844:
     changed:
       bend: bend_euler
@@ -48,7 +47,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_e9939844
-    name_long: coupler_ring_e9939844
   ring_single_245fa0a7:
     changed:
       length_x: 20
@@ -67,7 +65,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single
     name: ring_single_245fa0a7
-    name_long: ring_single_245fa0a7
   ring_single_a371eccc:
     changed:
       length_x: 10
@@ -86,7 +83,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single
     name: ring_single_a371eccc
-    name_long: ring_single_a371eccc
   ring_single_array:
     changed: {}
     default:
@@ -107,7 +103,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single_array
     name: ring_single_array
-    name_long: ring_single_array
 info:
   changed: {}
   default:
@@ -128,7 +123,6 @@ info:
   info_version: 1
   module: gdsfactory.components.ring_single_array
   name: ring_single_array
-  name_long: ring_single_array
 ports:
   o1:
     layer:

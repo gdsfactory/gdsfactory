@@ -24,7 +24,6 @@ cells:
         length: 20.0
         module: gdsfactory.components.straight
         name: straight_373b1ebb
-        name_long: straight_373b1ebb
         width: 2.0
       default:
         taper_port_name1: o1
@@ -37,7 +36,6 @@ cells:
       info_version: 1
       module: gdsfactory.add_tapers
       name: add_tapers_1e786c7d
-      name_long: add_tapers_1e786c7d
     default:
       component_name: null
       gc_port_labels: null
@@ -58,7 +56,6 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_fiber_array
     name: add_fiber_array_7b2cbd06
-    name_long: add_fiber_array_7b2cbd06
   add_tapers_1e786c7d:
     changed:
       component: straight_373b1ebb
@@ -80,7 +77,6 @@ cells:
       length: 20.0
       module: gdsfactory.components.straight
       name: straight_373b1ebb
-      name_long: straight_373b1ebb
       width: 2.0
     default:
       taper_port_name1: o1
@@ -93,7 +89,6 @@ cells:
     info_version: 1
     module: gdsfactory.add_tapers
     name: add_tapers_1e786c7d
-    name_long: add_tapers_1e786c7d
   circle_602e85fd:
     changed:
       layer:
@@ -116,7 +111,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-    name_long: circle_602e85fd
   grating_coupler_ellipti_b632d295:
     changed:
       polarization: te
@@ -173,7 +167,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
     name: grating_coupler_ellipti_b632d295
-    name_long: grating_coupler_elliptical_trenches_7c9df26b
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
@@ -197,7 +190,6 @@ cells:
     length: 10.0
     module: gdsfactory.components.taper
     name: taper_bea08b71
-    name_long: taper_bea08b71
     width1: 0.5
     width2: 2.0
 info:
@@ -225,7 +217,6 @@ info:
       length: 20.0
       module: gdsfactory.components.straight
       name: straight_373b1ebb
-      name_long: straight_373b1ebb
       width: 2.0
     default:
       taper_port_name1: o1
@@ -238,7 +229,6 @@ info:
     info_version: 1
     module: gdsfactory.add_tapers
     name: add_tapers_1e786c7d
-    name_long: add_tapers_1e786c7d
   default:
     component_name: null
     gc_port_labels: null
@@ -259,7 +249,6 @@ info:
   info_version: 1
   module: gdsfactory.routing.add_fiber_array
   name: add_fiber_array_7b2cbd06
-  name_long: add_fiber_array_7b2cbd06
 ports:
   vertical_te_00:
     layer:

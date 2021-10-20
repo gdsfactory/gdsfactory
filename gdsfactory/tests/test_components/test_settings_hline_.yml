@@ -20,7 +20,6 @@ cells:
     length: 10.0
     module: gdsfactory.components.hline
     name: hline
-    name_long: hline
     width: 0.5
 info:
   changed: {}
@@ -43,7 +42,6 @@ info:
   length: 10.0
   module: gdsfactory.components.hline
   name: hline
-  name_long: hline
   width: 0.5
 ports:
   o1:

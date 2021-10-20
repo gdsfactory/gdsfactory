@@ -29,7 +29,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.logo
     name: logo
-    name_long: logo
 info:
   changed: {}
   default:
@@ -40,6 +39,5 @@ info:
   info_version: 1
   module: gdsfactory.components.logo
   name: logo
-  name_long: logo
 ports: {}
 version: 1

@@ -18,7 +18,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_6a2f750e
-    name_long: coupler_ring_6a2f750e
   mmi2x2:
     changed: {}
     default:
@@ -39,7 +38,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -74,7 +72,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -106,7 +103,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -134,7 +130,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
   ring_single_dut_487eeed5:
     changed:
       component: mzi_ac6d448d
@@ -172,7 +167,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mzi
       name: mzi_ac6d448d
-      name_long: mzi_ac6d448d
     default:
       gap: 0.2
       length_x: 4
@@ -192,7 +186,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single_dut
     name: ring_single_dut_487eeed5
-    name_long: ring_single_dut_487eeed5
 info:
   changed:
     component: mzi_ac6d448d
@@ -230,7 +223,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     gap: 0.2
     length_x: 4
@@ -250,7 +242,6 @@ info:
   info_version: 1
   module: gdsfactory.components.ring_single_dut
   name: ring_single_dut_487eeed5
-  name_long: ring_single_dut_487eeed5
 ports:
   o1:
     layer:

@@ -67,7 +67,7 @@ def cutback_component(
     n = len(s) - 2
     c.copy_child_info(component)
     c.info["components"] = n
-    c.info["parent_name"] = f"loopback_{component.get_parent_name()}_{n}"
+    c.info["parent_name"] = f"loopback_{component.info_child.name}_{n}"
     return c
 
 
@@ -135,7 +135,7 @@ def cutback_component_mirror(
     n = len(s) - 2
     c.copy_child_info(component)
     c.info["components"] = n
-    c.info["parent_name"] = f"loopback_{component.get_parent_name()}_{n}"
+    c.info["parent_name"] = f"loopback_{component.info_child.name}_{n}"
     return c
 
 

@@ -59,7 +59,6 @@ cells:
     min_bend_radius: 18.226
     module: gdsfactory.components.bezier
     name: bezier_87e8511e
-    name_long: bezier_87e8511e
     start_angle: 0.301
   bezier_d7e697a9:
     changed:
@@ -124,7 +123,6 @@ cells:
     min_bend_radius: 22.662
     module: gdsfactory.components.bezier
     name: bezier_d7e697a9
-    name_long: bezier_d7e697a9
     start_angle: 0.503
   compensation_path_b9f50572:
     changed:
@@ -139,7 +137,6 @@ cells:
     min_bend_radius: 18.226
     module: gdsfactory.components.crossing_waveguide
     name: compensation_path_b9f50572
-    name_long: compensation_path_b9f50572
     sbend:
       changed:
         control_points:
@@ -200,7 +197,6 @@ cells:
       min_bend_radius: 18.226
       module: gdsfactory.components.bezier
       name: bezier_87e8511e
-      name_long: bezier_87e8511e
       start_angle: 0.301
   component_lattice:
     changed: {}
@@ -218,7 +214,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.component_lattice
     name: component_lattice
-    name_long: component_lattice
   coupler:
     changed: {}
     default:
@@ -237,7 +232,6 @@ cells:
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
     name: coupler
-    name_long: coupler
   crossing:
     changed: {}
     default: {}
@@ -246,7 +240,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing
-    name_long: crossing
   crossing45_f9b93bcb:
     bezier_length: 42.085
     changed:
@@ -259,7 +252,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.crossing_waveguide
       name: crossing
-      name_long: crossing
     default:
       alpha: 0.08
       dx: null
@@ -275,7 +267,6 @@ cells:
     min_bend_radius: 44.312
     module: gdsfactory.components.crossing_waveguide
     name: crossing45_f9b93bcb
-    name_long: crossing45_f9b93bcb
   fanout2x2_345db3f5:
     changed:
       component: coupler
@@ -298,7 +289,6 @@ cells:
       min_bend_radius: 9.451
       module: gdsfactory.components.coupler
       name: coupler
-      name_long: coupler
     default:
       bend_length: null
       npoints: 101
@@ -312,7 +302,6 @@ cells:
     info_version: 1
     module: gdsfactory.routing.fanout2x2
     name: fanout2x2_345db3f5
-    name_long: fanout2x2_345db3f5
 info:
   changed: {}
   default:
@@ -329,7 +318,6 @@ info:
   info_version: 1
   module: gdsfactory.components.component_lattice
   name: component_lattice
-  name_long: component_lattice
 ports:
   '0':
     layer:

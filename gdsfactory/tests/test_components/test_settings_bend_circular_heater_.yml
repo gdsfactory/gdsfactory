@@ -23,7 +23,6 @@ info:
   info_version: 1
   module: gdsfactory.components.bend_circular_heater
   name: bend_circular_heater
-  name_long: bend_circular_heater
 ports:
   in:
     layer:

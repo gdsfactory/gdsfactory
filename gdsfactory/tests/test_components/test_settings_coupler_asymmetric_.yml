@@ -13,7 +13,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_asymmetric
     name: coupler_asymmetric
-    name_long: coupler_asymmetric
 info:
   changed: {}
   default:
@@ -28,7 +27,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler_asymmetric
   name: coupler_asymmetric
-  name_long: coupler_asymmetric
 ports:
   o1:
     layer:
