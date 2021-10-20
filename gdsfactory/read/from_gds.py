@@ -1,5 +1,4 @@
 """Read component GDS, YAML metadata and ports."""
-from functools import lru_cache
 from pathlib import Path
 from typing import Union
 
@@ -10,7 +9,6 @@ from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
 
 
-@lru_cache(maxsize=None)
 def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
     """Returns Component with ports and metadata (YAML) info (if any).
 
@@ -26,18 +24,18 @@ def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
     if not gdspath.exists():
         raise FileNotFoundError(f"No such file '{gdspath}'")
     component = import_gds(gdspath)
-
     metadata = OmegaConf.load(metadata_filepath)
 
     for port_name, port in metadata.ports.items():
-        component.add_port(
-            name=port_name,
-            midpoint=port.midpoint,
-            width=port.width,
-            orientation=port.orientation,
-            layer=port.layer,
-            port_type=port.port_type,
-        )
+        if port_name not in component.ports:
+            component.add_port(
+                name=port_name,
+                midpoint=port.midpoint,
+                width=port.width,
+                orientation=port.orientation,
+                layer=port.layer,
+                port_type=port.port_type,
+            )
 
     component.info = metadata.info
     return component

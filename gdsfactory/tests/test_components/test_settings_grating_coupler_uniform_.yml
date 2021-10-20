@@ -28,7 +28,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_c2010375
-    name_long: compass_c2010375
   grating_coupler_uniform:
     changed: {}
     default:
@@ -59,7 +58,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_uniform
     name: grating_coupler_uniform
-    name_long: grating_coupler_uniform
     polarization: te
     wavelength: 1.55
   rectangle_240048ff:
@@ -92,7 +90,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_240048ff
-    name_long: rectangle_240048ff
   taper_211ef0b5:
     changed:
       layer:
@@ -121,7 +118,6 @@ cells:
     length: 150.0
     module: gdsfactory.components.taper
     name: taper_211ef0b5
-    name_long: taper_211ef0b5
     width1: 0.5
     width2: 11.0
 info:
@@ -154,7 +150,6 @@ info:
   info_version: 1
   module: gdsfactory.components.grating_coupler_uniform
   name: grating_coupler_uniform
-  name_long: grating_coupler_uniform
   polarization: te
   wavelength: 1.55
 ports:

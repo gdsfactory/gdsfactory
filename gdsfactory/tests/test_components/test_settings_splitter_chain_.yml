@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
   splitter_chain:
     changed: {}
     child:
@@ -46,7 +45,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mmi1x2
       name: mmi1x2
-      name_long: mmi1x2
     default:
       n_devices: 3
     full:
@@ -55,7 +53,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.splitter_chain
     name: splitter_chain
-    name_long: splitter_chain
 info:
   changed: {}
   child:
@@ -80,7 +77,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
   default:
     n_devices: 3
   full:
@@ -89,7 +85,6 @@ info:
   info_version: 1
   module: gdsfactory.components.splitter_chain
   name: splitter_chain
-  name_long: splitter_chain
 ports:
   o1:
     layer:

@@ -41,7 +41,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.spiral
     name: spiral
-    name_long: spiral
 info:
   changed: {}
   default:
@@ -84,7 +83,6 @@ info:
   info_version: 1
   module: gdsfactory.components.spiral
   name: spiral
-  name_long: spiral
 ports:
   o1:
     layer:

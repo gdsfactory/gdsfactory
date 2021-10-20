@@ -29,7 +29,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_adiabatic
     name: coupler_adiabatic
-    name_long: coupler_adiabatic
 info:
   changed: {}
   default:
@@ -60,7 +59,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler_adiabatic
   name: coupler_adiabatic
-  name_long: coupler_adiabatic
 ports:
   o1:
     layer:

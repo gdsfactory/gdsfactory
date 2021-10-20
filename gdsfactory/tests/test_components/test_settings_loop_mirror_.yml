@@ -7,7 +7,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.loop_mirror
     name: loop_mirror
-    name_long: loop_mirror
 info:
   changed: {}
   default: {}
@@ -16,7 +15,6 @@ info:
   info_version: 1
   module: gdsfactory.components.loop_mirror
   name: loop_mirror
-  name_long: loop_mirror
 ports:
   o1:
     layer:

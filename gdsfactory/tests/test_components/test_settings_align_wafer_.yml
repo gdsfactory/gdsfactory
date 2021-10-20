@@ -23,7 +23,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.align
     name: align_wafer
-    name_long: align_wafer
   compass_127270ff:
     changed:
       layer:
@@ -53,7 +52,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_127270ff
-    name_long: compass_127270ff
   compass_57434a14:
     changed:
       layer:
@@ -83,7 +81,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_57434a14
-    name_long: compass_57434a14
   compass_7b7cb819:
     changed:
       layer:
@@ -113,7 +110,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_7b7cb819
-    name_long: compass_7b7cb819
   cross_62d15a86:
     changed:
       layer:
@@ -137,7 +133,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.cross
     name: cross_62d15a86
-    name_long: cross_62d15a86
   rectangle_4f8a0845:
     changed:
       centered: true
@@ -169,7 +164,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_4f8a0845
-    name_long: rectangle_4f8a0845
   rectangle_81eb1623:
     changed:
       centered: true
@@ -201,7 +195,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_81eb1623
-    name_long: rectangle_81eb1623
   rectangle_8347a242:
     changed:
       centered: true
@@ -233,7 +226,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_8347a242
-    name_long: rectangle_8347a242
 info:
   changed: {}
   default:
@@ -258,6 +250,5 @@ info:
   info_version: 1
   module: gdsfactory.components.align
   name: align_wafer
-  name_long: align_wafer
 ports: {}
 version: 1

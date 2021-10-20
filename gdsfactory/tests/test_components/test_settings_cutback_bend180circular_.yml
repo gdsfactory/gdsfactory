@@ -18,7 +18,6 @@ cells:
     module: gdsfactory.components.cutback_bend
     n_bends: 82
     name: cutback_bend180_4d4f1848
-    name_long: cutback_bend180_4d4f1848
 info:
   changed:
     bend180: bend_circular180
@@ -38,7 +37,6 @@ info:
   module: gdsfactory.components.cutback_bend
   n_bends: 82
   name: cutback_bend180_4d4f1848
-  name_long: cutback_bend180_4d4f1848
 ports:
   o1:
     layer:

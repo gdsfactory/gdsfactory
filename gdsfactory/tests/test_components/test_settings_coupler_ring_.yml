@@ -15,7 +15,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring
-    name_long: coupler_ring
 info:
   changed: {}
   default:
@@ -32,7 +31,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler_ring
   name: coupler_ring
-  name_long: coupler_ring
 ports:
   o1:
     layer:

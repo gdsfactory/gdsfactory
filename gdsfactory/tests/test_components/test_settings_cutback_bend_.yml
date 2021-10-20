@@ -14,7 +14,6 @@ cells:
     module: gdsfactory.components.cutback_bend
     n_bends: 68
     name: cutback_bend
-    name_long: cutback_bend
 info:
   changed: {}
   default:
@@ -30,7 +29,6 @@ info:
   module: gdsfactory.components.cutback_bend
   n_bends: 68
   name: cutback_bend
-  name_long: cutback_bend
 ports:
   o1:
     layer:

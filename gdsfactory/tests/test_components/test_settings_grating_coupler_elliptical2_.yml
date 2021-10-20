@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-    name_long: circle_602e85fd
   grating_coupler_elliptical2:
     changed: {}
     default:
@@ -80,7 +79,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical2
     name: grating_coupler_elliptical2
-    name_long: grating_coupler_elliptical2
     polarization: te
     wavelength: 1.55
 info:
@@ -141,7 +139,6 @@ info:
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical2
   name: grating_coupler_elliptical2
-  name_long: grating_coupler_elliptical2
   polarization: te
   wavelength: 1.55
 ports:

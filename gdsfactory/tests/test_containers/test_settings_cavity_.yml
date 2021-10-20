@@ -36,7 +36,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mzi
       name: mzi_ac6d448d
-      name_long: mzi_ac6d448d
     default:
       gap: 0.2
       length: 0.1
@@ -48,7 +47,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.cavity
     name: cavity_487eeed5
-    name_long: cavity_487eeed5
   coupler_3e9f9e6a:
     changed:
       gap: 0.2
@@ -69,7 +67,6 @@ cells:
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
     name: coupler_3e9f9e6a
-    name_long: coupler_3e9f9e6a
   mmi2x2:
     changed: {}
     default:
@@ -90,7 +87,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -125,7 +121,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -157,7 +152,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -185,7 +179,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
 info:
   changed:
     component: mzi_ac6d448d
@@ -223,7 +216,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     gap: 0.2
     length: 0.1
@@ -235,7 +227,6 @@ info:
   info_version: 1
   module: gdsfactory.components.cavity
   name: cavity_487eeed5
-  name_long: cavity_487eeed5
 ports:
   o1:
     layer:

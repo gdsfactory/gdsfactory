@@ -9,7 +9,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.taper_from_csv
       name: taper_0p5_to_3_l36
-      name_long: taper_0p5_to_3_l36
     components: 88
     default:
       cols: 4
@@ -27,7 +26,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_component
     name: cutback_component
-    name_long: cutback_component
     parent_name: loopback_taper_0p5_to_3_l36_88
   straight:
     changed: {}
@@ -44,7 +42,6 @@ cells:
     length: 10.0
     module: gdsfactory.components.straight
     name: straight
-    name_long: straight
     width: 0.5
   taper_0p5_to_3_l36:
     changed: {}
@@ -54,7 +51,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.taper_from_csv
     name: taper_0p5_to_3_l36
-    name_long: taper_0p5_to_3_l36
 info:
   changed: {}
   child:
@@ -65,7 +61,6 @@ info:
     info_version: 1
     module: gdsfactory.components.taper_from_csv
     name: taper_0p5_to_3_l36
-    name_long: taper_0p5_to_3_l36
   components: 88
   default:
     cols: 4
@@ -83,7 +78,6 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_component
   name: cutback_component
-  name_long: cutback_component
   parent_name: loopback_taper_0p5_to_3_l36_88
 ports:
   o1:

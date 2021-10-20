@@ -15,7 +15,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.version_stamp
     name: pixel
-    name_long: pixel
 info:
   changed: {}
   default:
@@ -32,6 +31,5 @@ info:
   info_version: 1
   module: gdsfactory.components.version_stamp
   name: pixel
-  name_long: pixel
 ports: {}
 version: 1

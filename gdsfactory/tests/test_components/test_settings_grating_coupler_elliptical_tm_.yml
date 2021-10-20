@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_b1a123ab
-    name_long: circle_b1a123ab
   grating_coupler_elliptical_tm:
     changed: {}
     default:
@@ -58,7 +57,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
     name: grating_coupler_elliptical_tm
-    name_long: grating_coupler_elliptical_tm
     polarization: tm
     wavelength: 1.554
 info:
@@ -97,7 +95,6 @@ info:
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical
   name: grating_coupler_elliptical_tm
-  name_long: grating_coupler_elliptical_tm
   polarization: tm
   wavelength: 1.554
 ports:

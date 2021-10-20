@@ -3,7 +3,7 @@ from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentOrFactory, Strs
 
 
 @cell
@@ -11,6 +11,7 @@ def extend_ports_list(
     ports: List[Port],
     extension_factory: ComponentOrFactory,
     extension_port_name: Optional[str] = None,
+    ignore_ports: Optional[Strs] = None,
 ) -> Component:
     """Returns a component with the extensions for a list of ports.
 
@@ -26,14 +27,15 @@ def extend_ports_list(
     )
 
     extension_port_name = extension_port_name or list(extension.ports.keys())[0]
+    ignore_ports = ignore_ports or []
 
     for i, port in enumerate(ports):
         extension_ref = c << extension
         extension_ref.connect(extension_port_name, port)
 
         for port_name, port in extension_ref.ports.items():
-            # if port_name not in extension_port_name:
-            c.add_port(f"{i}_{port_name}", port=port)
+            if port_name not in ignore_ports:
+                c.add_port(f"{i}_{port_name}", port=port)
 
     c.auto_rename_ports()
     return c

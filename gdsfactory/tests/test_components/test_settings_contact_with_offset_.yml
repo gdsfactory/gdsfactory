@@ -43,7 +43,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.contact_with_offset
     name: contact_with_offset
-    name_long: contact_with_offset
 info:
   changed: {}
   default:
@@ -88,7 +87,6 @@ info:
   info_version: 1
   module: gdsfactory.components.contact_with_offset
   name: contact_with_offset
-  name_long: contact_with_offset
 ports:
   e1:
     layer:

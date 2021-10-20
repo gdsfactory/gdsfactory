@@ -36,7 +36,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mzi
       name: mzi_ac6d448d
-      name_long: mzi_ac6d448d
     default:
       layers:
       - - 67
@@ -50,7 +49,6 @@ cells:
     info_version: 1
     module: gdsfactory.add_padding
     name: add_padding_container_487eeed5
-    name_long: add_padding_container_487eeed5
   mmi2x2:
     changed: {}
     default:
@@ -71,7 +69,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -106,7 +103,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -138,7 +134,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -166,7 +161,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
 info:
   changed:
     component: mzi_ac6d448d
@@ -204,7 +198,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     layers:
     - - 67
@@ -218,7 +211,6 @@ info:
   info_version: 1
   module: gdsfactory.add_padding
   name: add_padding_container_487eeed5
-  name_long: add_padding_container_487eeed5
 ports:
   e1:
     layer:

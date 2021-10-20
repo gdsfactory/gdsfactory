@@ -27,7 +27,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_164fc476
-    name_long: compass_164fc476
   compass_280a2d8b:
     changed:
       layer:
@@ -56,7 +55,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_280a2d8b
-    name_long: compass_280a2d8b
   compass_8e661824:
     changed:
       layer:
@@ -85,7 +83,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_8e661824
-    name_long: compass_8e661824
   contact_46068602:
     changed:
       layers:
@@ -156,7 +153,6 @@ cells:
     - 0
     module: gdsfactory.components.contact
     name: contact_46068602
-    name_long: contact_46068602
     size:
     - 11.0
     - 11.0
@@ -230,7 +226,6 @@ info:
   - 0
   module: gdsfactory.components.contact
   name: contact_46068602
-  name_long: contact_46068602
   size:
   - 11.0
   - 11.0

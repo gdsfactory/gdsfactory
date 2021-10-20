@@ -19,7 +19,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array
-    name_long: pad_array
     size:
     - 100
     - 100
@@ -43,7 +42,6 @@ info:
   info_version: 1
   module: gdsfactory.components.pad
   name: pad_array
-  name_long: pad_array
   size:
   - 100
   - 100

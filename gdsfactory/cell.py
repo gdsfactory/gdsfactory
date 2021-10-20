@@ -55,7 +55,6 @@ def cell_without_validator(func):
     """Cell Decorator.
 
     Args:
-        autoname (bool): renames Component by with Keyword arguments
         name (str): Optional (ignored when autoname=True)
         uid (bool): adds a unique id to the name
         cache (bool): get component from the cache if it already exists
@@ -86,9 +85,9 @@ def cell_without_validator(func):
     @functools.wraps(func)
     def _cell(*args, **kwargs):
         prefix = kwargs.pop("prefix", func.__name__)
-        autoname = kwargs.pop("autoname", True)
         cache = kwargs.pop("cache", True)
         info = kwargs.pop("info", omegaconf.DictConfig({}))
+        name = kwargs.pop("name", None)
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -99,16 +98,16 @@ def cell_without_validator(func):
         ]
         arguments = "_".join(args_as_kwargs_string_list)
         arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
-        name_long = name = (
+
+        name_signature = (
             clean_name(f"{prefix}_{arguments_hash}") if arguments else prefix
         )
+        name = name or name_signature
         decorator = kwargs.pop("decorator", None)
 
         if len(name) > MAX_NAME_LENGTH:
             name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
             name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
-
-        name_component = kwargs.pop("name", name)
 
         if (
             "args" not in sig.parameters
@@ -123,11 +122,10 @@ def cell_without_validator(func):
                     )
 
         if cache and name in CACHE:
-            # print(f"CACHE {func.__name__}({kwargs_repr})")
+            # print(f"CACHE {name} {func.__name__}({arguments})")
             return CACHE[name]
         else:
             # print(f"BUILD {name} {func.__name__}({arguments})")
-            # print(f"BUILD {name}, {name_long}")
             assert callable(
                 func
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
@@ -143,36 +141,32 @@ def cell_without_validator(func):
                     f"function `{func.__name__}` return type = `{type(component)}`",
                     "make sure that functions with @cell decorator return a Component",
                 )
-            if autoname and getattr(component, "_autoname", True):
-                component.name = name_component
 
-            # docstring = func.__doc__ if hasattr(func, "__doc__") else func.func.__doc__
-            # component.info.doc = docstring
+            if getattr(component, "_update_info", True):
+                component.name = name
+                component.info.module = func.__module__
+                component.info.function_name = func.__name__
+                component.info.info_version = INFO_VERSION
+                component.info.name = component.name
 
-            component.info.module = func.__module__
-            component.info.function_name = func.__name__
-            component.info.info_version = INFO_VERSION
-            component.info.name_long = name_long
-            component.info.name = component.name
+                default = {
+                    p.name: p.default
+                    for p in sig.parameters.values()
+                    if not callable(p.default)
+                }
+                full = default.copy()
+                full.update(**args_as_kwargs)
+                changed = args_as_kwargs.copy()
+
+                clean_dict(full)
+                clean_dict(default)
+                clean_dict(changed)
+
+                component.info.changed = changed
+                component.info.default = default
+                component.info.full = full
+
             component.info.update(**info)
-
-            default = {
-                p.name: p.default
-                for p in sig.parameters.values()
-                if not callable(p.default)
-            }
-            full = default.copy()
-            full.update(**args_as_kwargs)
-            changed = args_as_kwargs.copy()
-
-            clean_dict(full)
-            clean_dict(default)
-            clean_dict(changed)
-
-            component.info.changed = changed
-            component.info.default = default
-            component.info.full = full
-
             CACHE[name] = component
             return component
         return
@@ -197,15 +191,10 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
     return c
 
 
-def test_autoname_true() -> None:
+def test_autoname() -> None:
     c = wg(length=3)
     # assert c.name == "wg_length3", c.name
     assert c.name == "wg_2dcab9f2", c.name
-
-
-def test_autoname_false() -> None:
-    c = wg(length=3.32, autoname=False)
-    assert c.name == "straight", c.name
 
 
 def test_set_name() -> None:
@@ -229,7 +218,7 @@ def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
     return c
 
 
-def test_autoname() -> None:
+def test_names() -> None:
     name_base = _dummy().name
     assert name_base == "_dummy", name_base
 
@@ -273,19 +262,18 @@ if __name__ == "__main__":
     # test_autoname_false()
     # test_autoname_true()
     # test_autoname()
-    # test_set_name()
+    test_set_name()
 
     # c = wg(length=3)
     # c = wg(length=3, autoname=False)
 
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # info = dict(polarization="te")
 
-    info = dict(polarization="te")
-
-    c = gf.components.straight()
-    c = gf.components.straight(info=info)
+    # c = gf.components.straight()
+    # c = gf.components.straight(info=info)
     # c = gf.components.straight(length=3, info=info)
-    print(c.info.polarization)
+    # print(c.info.polarization)
 
     # print(c.settings.info.doc)
     # c = gf.components.spiral_inner_io(length=1e3)

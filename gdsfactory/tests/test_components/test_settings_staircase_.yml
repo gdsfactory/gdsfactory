@@ -14,7 +14,6 @@ cells:
     module: gdsfactory.components.cutback_bend
     n_bends: 8
     name: staircase
-    name_long: staircase
 info:
   changed: {}
   default:
@@ -30,7 +29,6 @@ info:
   module: gdsfactory.components.cutback_bend
   n_bends: 8
   name: staircase
-  name_long: staircase
 ports:
   o1:
     layer:

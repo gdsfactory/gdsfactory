@@ -11,7 +11,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_straight
     name: coupler_straight
-    name_long: coupler_straight
 info:
   changed: {}
   default:
@@ -24,7 +23,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler_straight
   name: coupler_straight
-  name_long: coupler_straight
 ports:
   o1:
     layer:

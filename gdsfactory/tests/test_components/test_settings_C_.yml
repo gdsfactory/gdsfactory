@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.C
     name: C
-    name_long: C
 info:
   changed: {}
   default:
@@ -44,7 +43,6 @@ info:
   info_version: 1
   module: gdsfactory.components.C
   name: C
-  name_long: C
 ports:
   o1:
     layer:

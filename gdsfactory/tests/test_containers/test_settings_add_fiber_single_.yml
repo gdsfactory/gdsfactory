@@ -36,7 +36,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mzi
       name: mzi_ac6d448d
-      name_long: mzi_ac6d448d
     default:
       component_name: null
       fiber_spacing: 50
@@ -62,7 +61,6 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_fiber_single
     name: add_fiber_single_487eeed5
-    name_long: add_fiber_single_487eeed5
   circle_602e85fd:
     changed:
       layer:
@@ -85,7 +83,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-    name_long: circle_602e85fd
   grating_coupler_ellipti_b632d295:
     changed:
       polarization: te
@@ -142,7 +139,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
     name: grating_coupler_ellipti_b632d295
-    name_long: grating_coupler_elliptical_trenches_7c9df26b
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
@@ -166,7 +162,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -201,7 +196,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -233,7 +227,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -261,7 +254,6 @@ cells:
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
 info:
   changed:
     component: mzi_ac6d448d
@@ -299,7 +291,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     component_name: null
     fiber_spacing: 50
@@ -325,7 +316,6 @@ info:
   info_version: 1
   module: gdsfactory.routing.add_fiber_single
   name: add_fiber_single_487eeed5
-  name_long: add_fiber_single_487eeed5
 ports:
   e1:
     layer:

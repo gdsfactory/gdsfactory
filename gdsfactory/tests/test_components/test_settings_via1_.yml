@@ -36,7 +36,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.via
     name: via_0b2d8623
-    name_long: via_0b2d8623
     size:
     - 0.7
     - 0.7
@@ -80,7 +79,6 @@ info:
   info_version: 1
   module: gdsfactory.components.via
   name: via_0b2d8623
-  name_long: via_0b2d8623
   size:
   - 0.7
   - 0.7

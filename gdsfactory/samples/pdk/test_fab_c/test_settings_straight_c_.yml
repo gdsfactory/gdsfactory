@@ -34,7 +34,6 @@ info:
   length: 10.0
   module: gdsfactory.components.straight
   name: straight_40e83c11
-  name_long: straight_40e83c11
   width: 1.0
 ports:
   o1:

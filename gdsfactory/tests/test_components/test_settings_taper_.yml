@@ -18,7 +18,6 @@ cells:
     length: 10.0
     module: gdsfactory.components.taper
     name: taper
-    name_long: taper
     width1: 0.5
     width2: 0.5
 info:
@@ -40,7 +39,6 @@ info:
   length: 10.0
   module: gdsfactory.components.taper
   name: taper
-  name_long: taper
   width1: 0.5
   width2: 0.5
 ports:

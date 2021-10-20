@@ -19,7 +19,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.delay_snake
     name: delay_snake
-    name_long: delay_snake
 info:
   changed: {}
   default:
@@ -40,7 +39,6 @@ info:
   info_version: 1
   module: gdsfactory.components.delay_snake
   name: delay_snake
-  name_long: delay_snake
 ports:
   o1:
     layer:

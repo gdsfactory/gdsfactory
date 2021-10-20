@@ -23,7 +23,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_6859e681
-    name_long: coupler_ring_6859e681
   ring_single:
     changed: {}
     default:
@@ -40,7 +39,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single
     name: ring_single
-    name_long: ring_single
 info:
   changed: {}
   default:
@@ -57,7 +55,6 @@ info:
   info_version: 1
   module: gdsfactory.components.ring_single
   name: ring_single
-  name_long: ring_single
 ports:
   o1:
     layer:

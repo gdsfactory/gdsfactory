@@ -586,7 +586,6 @@ class Component(Device):
             - simulation_settings
             - function_name
             - name: for the component
-            - name_long: for the component
 
 
     """
@@ -602,7 +601,6 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.info = DictConfig(self.info)
         self.name = name  # overwrie PHIDL's incremental naming convention
-        self.name_long = None
 
     @classmethod
     def __get_validators__(cls):
@@ -724,20 +722,6 @@ class Component(Device):
         from gdsfactory.get_netlist import get_netlist
 
         return get_netlist(component=self, full_settings=full_settings)
-
-    def get_name_long(self) -> str:
-        """returns the long name if it's been truncated to MAX_NAME_LENGTH"""
-        if self.name_long:
-            return self.name_long
-        else:
-            return self.name
-
-    def get_parent_name(self) -> str:
-        """Returns parent name if it has parent, else returns its own name.
-        Returns the original parent name for hierarchical components
-        and for non-hierarchical it just returns the component name
-        """
-        return self.info.get("parent_name", self.name)
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
@@ -1064,16 +1048,17 @@ class Component(Device):
             show_subports: add ports markers and labels to component references
             clear_cache: after showing component clears cache (useful for jupyter)
         """
-        from gdsfactory.add_pins import add_pins_container, add_pins_to_references
+        from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
         if show_subports:
-            component = add_pins_to_references(component=self)
-            component.name = self.name + "_show_subports"
+            component = self.copy()
+            for reference in component.references:
+                add_pins_triangle(component=component, reference=reference)
 
         elif show_ports:
-            component = add_pins_container(component=self)
-            component.name = self.name + "_show_ports"
+            component = self.copy()
+            add_pins_triangle(component=component)
         else:
             component = self
 
@@ -1378,8 +1363,9 @@ def hash_file(filepath):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2)
-    c2 = c.rotate()
-    c2.show()
+    # c = gf.components.straight(length=2)
+    # c2 = c.rotate()
+    c2 = gf.c.mzi()
+    c2.show(show_subports=True)
     # c2.write_gds_with_metadata("a.gds")
     # print(c)

@@ -13,7 +13,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.awg
     name: awg
-    name_long: awg
   free_propagation_region_734f1395:
     changed:
       inputs: 3
@@ -32,7 +31,6 @@ cells:
     length: 20.0
     module: gdsfactory.components.awg
     name: free_propagation_region_734f1395
-    name_long: free_propagation_region_output_b15dee5d
     width1: 10.0
     width2: 20.0
   free_propagation_region_ccb25c60:
@@ -49,7 +47,6 @@ cells:
     length: 20.0
     module: gdsfactory.components.awg
     name: free_propagation_region_ccb25c60
-    name_long: free_propagation_region_input_abf51f5d
     width1: 2.0
     width2: 20.0
 info:
@@ -66,7 +63,6 @@ info:
   info_version: 1
   module: gdsfactory.components.awg
   name: awg
-  name_long: awg
 ports:
   E0:
     layer:

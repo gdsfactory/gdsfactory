@@ -17,7 +17,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.array_with_fanout
     name: array_with_fanout_2d
-    name_long: array_with_fanout_2d
 info:
   changed: {}
   default:
@@ -36,7 +35,6 @@ info:
   info_version: 1
   module: gdsfactory.components.array_with_fanout
   name: array_with_fanout_2d
-  name_long: array_with_fanout_2d
 ports:
   o1_1_1:
     layer:

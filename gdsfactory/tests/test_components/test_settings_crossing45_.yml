@@ -10,7 +10,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.crossing_waveguide
       name: crossing
-      name_long: crossing
     default:
       alpha: 0.08
       dx: null
@@ -26,7 +25,6 @@ cells:
     min_bend_radius: 44.312
     module: gdsfactory.components.crossing_waveguide
     name: crossing45
-    name_long: crossing45
 info:
   bezier_length: 42.085
   changed: {}
@@ -38,7 +36,6 @@ info:
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing
-    name_long: crossing
   default:
     alpha: 0.08
     dx: null
@@ -54,7 +51,6 @@ info:
   min_bend_radius: 44.312
   module: gdsfactory.components.crossing_waveguide
   name: crossing45
-  name_long: crossing45
 ports:
   o1:
     layer:

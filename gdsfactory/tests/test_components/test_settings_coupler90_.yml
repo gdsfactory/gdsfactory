@@ -11,7 +11,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler90
     name: coupler90
-    name_long: coupler90
 info:
   changed: {}
   default:
@@ -24,7 +23,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler90
   name: coupler90
-  name_long: coupler90
 ports:
   o1:
     layer:
