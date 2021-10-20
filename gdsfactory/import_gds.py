@@ -1,8 +1,9 @@
 import json
 import pathlib
+import warnings
 from functools import partial
 from pathlib import Path
-from typing import Optional, Tuple, Union, cast
+from typing import Callable, Optional, Tuple, Union, cast
 
 import gdspy
 import numpy as np
@@ -32,7 +33,7 @@ def add_ports_from_markers_square(
     port_names: Optional[Tuple[str, ...]] = None,
     port_name_prefix: str = "o",
 ) -> Component:
-    """add ports from square markers at the center of port in port_layer
+    """add ports from square markers at the port center in port_layer
 
     Args:
         component: to read polygons from and to write ports to
@@ -79,14 +80,14 @@ def add_ports_from_markers_center(
     skip_square_ports: bool = True,
     xcenter: Optional[float] = None,
     ycenter: Optional[float] = None,
-    port_name_prefix: str = "",
+    port_name_prefix: str = "o",
     port_type: str = "optical",
 ) -> Component:
     """Add ports from rectangular pin markers.
 
     markers at port center, so half of the marker goes inside and half ouside the port.
 
-    guess port orientation from the component center
+    guess port orientation from the component center (xcenter)
 
     Args:
         component: to read polygons from and to write ports to
@@ -164,15 +165,17 @@ def add_ports_from_markers_center(
         dx = p.xmax - p.xmin
         x = p.x
         y = p.y
-        if min_pin_area_um2 and dx * dy <= min_pin_area_um2:
+        if min_pin_area_um2 and dx * dy < min_pin_area_um2:
+            warnings.warn(f"skipping port with min_pin_area_um2 {dx * dy}")
             continue
 
         if max_pin_area_um2 and dx * dy > max_pin_area_um2:
             continue
 
-        # skip square ports as they have no clear orientation
         if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
+            warnings.warn("skipping square port with no clear orientation")
             continue
+
         pxmax = p.xmax
         pxmin = p.xmin
         pymax = p.ymax
@@ -236,7 +239,8 @@ def add_ports_from_markers_center(
     ports = sort_ports_clockwise(ports)
 
     for port_name, port in ports.items():
-        component.add_port(name=port_name, port=port)
+        if port_name not in component.ports:
+            component.add_port(name=port_name, port=port)
     return component
 
 
@@ -285,6 +289,7 @@ def import_gds(
     flatten: bool = False,
     snap_to_grid_nm: Optional[int] = None,
     name: Optional[str] = None,
+    decorator: Optional[Callable] = None,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -297,7 +302,7 @@ def import_gds(
         flatten: if True returns flattened (no hierarchy)
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
         name: Optional name
-        **kwargs
+        **kwargs: component.info
     """
     gdspath = Path(gdspath)
     if not gdspath.exists():
@@ -398,15 +403,18 @@ def import_gds(
                 D.add_polygon(p)
         component = c2dmap[topcell]
         cast(Component, component)
-    for key, value in kwargs.items():
-        setattr(component, key, value)
-    component._update_info = False
 
-    def _import_gds():
-        return component
+    if decorator:
+        component_new = decorator(component)
+        component = component_new or component
+    if flatten:
+        component.flatten()
+
+    component.info.update(**kwargs)
 
     component.name = name or component.name
-    return cell_without_validator(_import_gds)(name=component.name)
+    component._update_info = False
+    return cell_without_validator(lambda: component)(name=component.name)
 
 
 def write_top_cells(gdspath: Union[str, Path], **kwargs) -> None:

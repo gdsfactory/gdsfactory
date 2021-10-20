@@ -564,7 +564,7 @@ def rename_ports_by_orientation(
     select_ports: Optional[Callable] = None,
     function=_rename_ports_facing_side,
     prefix: str = "o",
-) -> None:
+) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     .. code::
@@ -603,6 +603,7 @@ def rename_ports_by_orientation(
 
     function(direction_ports, prefix=prefix)
     component.ports = {p.name: p for p in component.ports.values()}
+    return component
 
 
 def auto_rename_ports(
@@ -629,6 +630,7 @@ def auto_rename_ports(
         function=function,
         **kwargs,
     )
+    return component
 
 
 auto_rename_ports_counter_clockwise = partial(
