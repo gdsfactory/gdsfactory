@@ -11,6 +11,31 @@ info:
         - 0
       width: 1
     decorator: add_pins
+  cross_section:
+    auto_widen: false
+    auto_widen_minimum_length: 200
+    cladding_offset: 3
+    end_straight_offset: 0.01
+    layer:
+    - 34
+    - 0
+    layers_cladding:
+    - - 36
+      - 0
+    min_length: 0.01
+    port_names:
+    - o1
+    - o2
+    port_types:
+    - optical
+    - optical
+    radius: 10
+    sections: []
+    snap_to_grid: null
+    start_straight: 0.01
+    taper_length: 10
+    width: 1
+    width_wide: null
   default:
     length: 10
     npoints: 2
@@ -34,6 +59,8 @@ info:
   length: 10.0
   module: gdsfactory.components.straight
   name: straight_40e83c11
+  path: {}
+  points_hash: 786a35ef8517ffde390360926b
   width: 1.0
 ports:
   o1:

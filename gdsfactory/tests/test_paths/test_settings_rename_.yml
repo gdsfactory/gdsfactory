@@ -1,20 +1,28 @@
 cells:
   rename:
     changed: {}
+    cross_section: {}
     default: {}
     full: {}
     function_name: rename
     info_version: 1
+    length: 15.707912866629119
     module: gdsfactory.tests.test_paths
     name: rename
+    path: {}
+    points_hash: e667fd317f9da3b24c8882abfd
 info:
   changed: {}
+  cross_section: {}
   default: {}
   full: {}
   function_name: rename
   info_version: 1
+  length: 15.707912866629119
   module: gdsfactory.tests.test_paths
   name: rename
+  path: {}
+  points_hash: e667fd317f9da3b24c8882abfd
 ports:
   in:
     layer:

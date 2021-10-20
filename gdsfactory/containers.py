@@ -9,6 +9,7 @@ from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.extension import extend_ports
 from gdsfactory.components.ring_single_dut import ring_single_dut
+from gdsfactory.functions import rotate
 from gdsfactory.routing.add_electrical_pads_shortest import add_electrical_pads_shortest
 from gdsfactory.routing.add_electrical_pads_top import add_electrical_pads_top
 from gdsfactory.routing.add_fiber_array import add_fiber_array
@@ -33,6 +34,7 @@ container_library.register(
         fanout2x2,
         ring_single_dut,
         bend_port,
+        rotate,
     ]
 )
 

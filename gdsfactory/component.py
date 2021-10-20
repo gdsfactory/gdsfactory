@@ -564,11 +564,11 @@ class ComponentReference(DeviceReference):
 
 
 class Component(Device):
-    """customize phidl.Device
+    """extends phidl.Device
 
     Allow name to be set like Component('arc') or Component(name = 'arc')
 
-    - get/write JSON metadata
+    - get/write YAML metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
@@ -601,7 +601,6 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
-        self.info.name = name
 
     @classmethod
     def __get_validators__(cls):
@@ -748,23 +747,6 @@ class Component(Device):
         """
         return list(select_ports(self.ports, **kwargs).values())
 
-    def get_ports_array(self) -> Dict[str, ndarray]:
-        """returns ports as a dict of np arrays"""
-        ports_array = {
-            port_name: np.array(
-                [
-                    port.x,
-                    port.y,
-                    int(port.orientation),
-                    port.width,
-                    port.layer[0],
-                    port.layer[1],
-                ]
-            )
-            for port_name, port in self.ports.items()
-        }
-        return ports_array
-
     def ref(
         self,
         position: Coordinate = (0, 0),
@@ -825,6 +807,7 @@ class Component(Device):
     def info_child(self) -> DictConfig:
         """Returns info from child if any, otherwise returns its info"""
         info = self.info
+        info.name = self.name
 
         while info.get("child"):
             info = info.get("child")
