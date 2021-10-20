@@ -1117,13 +1117,15 @@ class Component(Device):
         """Returns a DictConfig representation of the compoment."""
         d = DictConfig({})
         ports = {port.name: port.settings for port in self.get_ports_list()}
+        cells = recurse_structures(self)
         clean_dict(ports)
+        clean_dict(cells)
 
         d.ports = ports
         d.info = self.info
+        d.cells = cells
         d.version = 1
-        d.cells = recurse_structures(self)
-        return OmegaConf.create(d)
+        return d
 
     @property
     def to_dict(self) -> str:

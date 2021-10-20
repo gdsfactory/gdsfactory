@@ -15,7 +15,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper
     width1: 0.5
@@ -36,7 +36,7 @@ info:
     with_cladding_box: true
   function_name: taper
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.taper
   name: taper
   width1: 0.5

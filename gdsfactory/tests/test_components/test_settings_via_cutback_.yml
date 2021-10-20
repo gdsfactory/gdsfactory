@@ -441,8 +441,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_16d0347b
     size:
-    - 10.0
-    - 10.0
+    - 10
+    - 10
   contact_84c67b1a:
     changed:
       layers:
@@ -517,8 +517,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_84c67b1a
     size:
-    - 30.0
-    - 10.0
+    - 30
+    - 10
   contact_87aeec60:
     changed:
       layers:
@@ -593,8 +593,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_87aeec60
     size:
-    - 150.0
-    - 150.0
+    - 150
+    - 150
   via_cutback:
     changed: {}
     default:

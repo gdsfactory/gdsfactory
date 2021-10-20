@@ -18,7 +18,7 @@ cells:
       spacing:
       - 2
       - 2
-    enclosure: 2.0
+    enclosure: 2
     full:
       cladding_offset: 0
       enclosure: 2
@@ -40,8 +40,8 @@ cells:
     - 0.7
     - 0.7
     spacing:
-    - 2.0
-    - 2.0
+    - 2
+    - 2
 info:
   changed:
     enclosure: 2
@@ -61,7 +61,7 @@ info:
     spacing:
     - 2
     - 2
-  enclosure: 2.0
+  enclosure: 2
   full:
     cladding_offset: 0
     enclosure: 2
@@ -83,7 +83,7 @@ info:
   - 0.7
   - 0.7
   spacing:
-  - 2.0
-  - 2.0
+  - 2
+  - 2
 ports: {}
 version: 1

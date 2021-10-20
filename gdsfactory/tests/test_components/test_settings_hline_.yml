@@ -17,7 +17,7 @@ cells:
       width: 0.5
     function_name: hline
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.hline
     name: hline
     width: 0.5
@@ -39,7 +39,7 @@ info:
     width: 0.5
   function_name: hline
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.hline
   name: hline
   width: 0.5

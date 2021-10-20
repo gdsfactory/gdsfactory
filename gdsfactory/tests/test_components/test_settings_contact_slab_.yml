@@ -194,8 +194,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_339a6fb6
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
 info:
   changed:
     layers:
@@ -279,8 +279,8 @@ info:
   module: gdsfactory.components.contact
   name: contact_339a6fb6
   size:
-  - 11.0
-  - 11.0
+  - 11
+  - 11
 ports:
   e1:
     layer:

@@ -34,7 +34,7 @@ cells:
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.straight
     name: straight
     path: {}
@@ -75,7 +75,7 @@ info:
     with_cladding_box: true
   function_name: straight
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.straight
   name: straight
   path: {}

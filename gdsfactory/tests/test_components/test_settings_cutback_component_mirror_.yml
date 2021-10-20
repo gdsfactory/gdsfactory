@@ -19,10 +19,10 @@ cells:
         with_cladding_box: true
       function_name: taper
       info_version: 1
-      length: 10.0
+      length: 10
       module: gdsfactory.components.taper
       name: taper_3d968a90
-      width1: 3.0
+      width1: 3
       width2: 0.5
     components: 88
     default:
@@ -60,10 +60,10 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_3d968a90
-    width1: 3.0
+    width1: 3
     width2: 0.5
 info:
   changed: {}
@@ -85,10 +85,10 @@ info:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_3d968a90
-    width1: 3.0
+    width1: 3
     width2: 0.5
   components: 88
   default:

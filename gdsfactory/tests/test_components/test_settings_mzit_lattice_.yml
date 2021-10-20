@@ -121,7 +121,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.components.taper
     name: taper_35742b85
     width1: 0.5
@@ -145,7 +145,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.components.taper
     name: taper_497b9706
     width1: 0.5
@@ -169,7 +169,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.components.taper
     name: taper_5ef18b11
     width1: 0.45
@@ -193,7 +193,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.components.taper
     name: taper_85794c73
     width1: 0.55
@@ -217,7 +217,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.components.taper
     name: taper_95acb109
     width1: 0.55
@@ -241,7 +241,7 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.components.taper
     name: taper_feb4a44d
     width1: 0.45

@@ -28,11 +28,11 @@ cells:
       width2: 20
     function_name: free_propagation_region_output
     info_version: 1
-    length: 20.0
+    length: 20
     module: gdsfactory.components.awg
     name: free_propagation_region_734f1395
-    width1: 10.0
-    width2: 20.0
+    width1: 10
+    width2: 20
   free_propagation_region_ccb25c60:
     changed:
       inputs: 1
@@ -44,11 +44,11 @@ cells:
       outputs: 10
     function_name: free_propagation_region_input
     info_version: 1
-    length: 20.0
+    length: 20
     module: gdsfactory.components.awg
     name: free_propagation_region_ccb25c60
-    width1: 2.0
-    width2: 20.0
+    width1: 2
+    width2: 20
 info:
   changed: {}
   default:
