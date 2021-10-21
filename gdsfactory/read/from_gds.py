@@ -24,20 +24,22 @@ def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
     if not gdspath.exists():
         raise FileNotFoundError(f"No such file '{gdspath}'")
     component = import_gds(gdspath)
-    metadata = OmegaConf.load(metadata_filepath)
 
-    for port_name, port in metadata.ports.items():
-        if port_name not in component.ports:
-            component.add_port(
-                name=port_name,
-                midpoint=port.midpoint,
-                width=port.width,
-                orientation=port.orientation,
-                layer=port.layer,
-                port_type=port.port_type,
-            )
+    if metadata_filepath.exists():
+        metadata = OmegaConf.load(metadata_filepath)
 
-    component.info = metadata.info
+        for port_name, port in metadata.ports.items():
+            if port_name not in component.ports:
+                component.add_port(
+                    name=port_name,
+                    midpoint=port.midpoint,
+                    width=port.width,
+                    orientation=port.orientation,
+                    layer=port.layer,
+                    port_type=port.port_type,
+                )
+
+        component.info = metadata.info
     return component
 
 

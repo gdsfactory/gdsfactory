@@ -48,6 +48,7 @@ cells:
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_52b0d64a
   sample_docstring: {}
-info: {}
+info:
+  name: sample_docstring
 ports: {}
 version: 1

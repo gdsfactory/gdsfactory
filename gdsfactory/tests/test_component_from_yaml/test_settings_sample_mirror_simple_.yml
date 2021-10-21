@@ -41,6 +41,7 @@ cells:
     path: {}
     points_hash: a64455692a75ddb2f781cd47f8
     width: 0.5
-info: {}
+info:
+  name: sample_mirror_simple
 ports: {}
 version: 1
