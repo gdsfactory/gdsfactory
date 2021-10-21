@@ -62,7 +62,6 @@ def difftest(
     run_file = dirpath / "gds_run" / filename
     diff_file = dirpath / "gds_diff" / filename
 
-    component.flatten()
     component.write_gds(gdspath=run_file)
 
     if not ref_file.exists():
