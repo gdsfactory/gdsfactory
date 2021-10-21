@@ -1,7 +1,7 @@
 from recommonmark.transform import AutoStructify
 
 project = "gdsfactory"
-version = "3.4.1"
+version = "3.4.2"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
