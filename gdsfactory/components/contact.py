@@ -71,28 +71,28 @@ def contact(
     return c
 
 
-contact_metal = gf.partial(
+contact_m1_m3 = gf.partial(
     contact,
     layers=(LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(via1, via2),
 )
 
-contact_slab = gf.partial(
+contact_slab_m3 = gf.partial(
     contact,
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(viac, via1, via2),
 )
-contact_npp = gf.partial(
+contact_npp_m1 = gf.partial(
     contact,
     layers=(LAYER.WG, LAYER.NPP, LAYER.M1),
     vias=(None, None, viac),
 )
-contact_slab_npp = gf.partial(
+contact_slab_npp_m3 = gf.partial(
     contact,
     layers=(LAYER.SLAB90, LAYER.NPP, LAYER.M1),
     vias=(None, None, viac),
 )
-contact_heater = gf.partial(
+contact_heater_m3 = gf.partial(
     contact, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via1, via2)
 )
 

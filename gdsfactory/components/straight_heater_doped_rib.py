@@ -2,8 +2,8 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_metal as contact_metal_function
-from gdsfactory.components.contact import contact_slab_npp
+from gdsfactory.components.contact import contact_m1_m3 as contact_metal_function
+from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
@@ -16,7 +16,7 @@ def straight_heater_doped_rib(
     nsections: int = 3,
     cross_section: CrossSectionFactory = strip_rib_tip,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
-    contact_contact: Optional[ComponentFactory] = contact_slab_npp,
+    contact_contact: Optional[ComponentFactory] = contact_slab_npp_m3,
     contact_metal: Optional[ComponentFactory] = contact_metal_function,
     contact_metal_size: Tuple[float, float] = (10.0, 10.0),
     contact_contact_size: Tuple[float, float] = (10.0, 10.0),

@@ -3,7 +3,7 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_metal
+from gdsfactory.components.contact import contact_m1_m3
 from gdsfactory.components.contact_slot import contact_slot_slab
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.cross_section import pin, pn
@@ -14,7 +14,7 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionFactory = pin,
-    contact: ComponentFactory = contact_metal,
+    contact: ComponentFactory = contact_m1_m3,
     contact_slot: ComponentFactory = contact_slot_slab,
     contact_width: float = 10.0,
     contact_spacing: float = 2,
