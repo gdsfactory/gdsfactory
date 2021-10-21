@@ -43,7 +43,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_6c65a522
-    name_long: mmi1x2_6c65a522
   mzi_3db7193a:
     changed:
       bend:
@@ -171,7 +170,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_3db7193a
-    name_long: mzi_3db7193a
   mzi_arm_446a212d:
     changed:
       bend:
@@ -283,7 +281,6 @@ cells:
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_446a212d
-    name_long: mzi_arm_446a212d
   mzi_arm_6edcc612:
     changed:
       bend:
@@ -395,7 +392,6 @@ cells:
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_6edcc612
-    name_long: mzi_arm_6edcc612
 info:
   changed:
     bend:
@@ -523,7 +519,6 @@ info:
   info_version: 1
   module: gdsfactory.components.mzi
   name: mzi_3db7193a
-  name_long: mzi_3db7193a
 ports:
   o1:
     layer:

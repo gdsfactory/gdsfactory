@@ -36,7 +36,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     angle: 180
     extension_length: null
@@ -56,7 +55,6 @@ info:
   info_version: 1
   module: gdsfactory.components.bend_port
   name: bend_port_487eeed5
-  name_long: bend_port_487eeed5
 ports:
   e1:
     layer:

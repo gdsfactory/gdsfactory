@@ -28,8 +28,6 @@ info:
     - 10
     length: 320
     nsections: 3
-    port_orientation_bot: 180
-    port_orientation_top: 0
     taper_length: 10
   full:
     contact_contact:
@@ -58,37 +56,56 @@ info:
     cross_section_heater: strip_heater_doped
     length: 320
     nsections: 3
-    port_orientation_bot: 180
-    port_orientation_top: 0
     taper_length: 10
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib
   name: straight_heater_doped_r_d197a1c0
-  name_long: straight_heater_doped_rib_7942b66c
 ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 310
-    - 20
-    name: e1
-    orientation: 0
-    port_type: electrical
-    width: 10
-  e2:
+  bot_e1:
     layer:
     - 49
     - 0
     midpoint:
     - 0
     - -20
-    name: e2
+    name: bot_e1
     orientation: 180
     port_type: electrical
     width: 10
+  bot_e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 155
+    - -15
+    name: bot_e2
+    orientation: 90
+    port_type: electrical
+    width: 310
+  bot_e3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 310
+    - -20
+    name: bot_e3
+    orientation: 0
+    port_type: electrical
+    width: 10
+  bot_e4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 155
+    - -25
+    name: bot_e4
+    orientation: 270
+    port_type: electrical
+    width: 310
   o1:
     layer:
     - 1
@@ -111,4 +128,48 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
+  top_e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0
+    - 20
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    width: 10
+  top_e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 155
+    - 25
+    name: top_e2
+    orientation: 90
+    port_type: electrical
+    width: 310
+  top_e3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 310
+    - 20
+    name: top_e3
+    orientation: 0
+    port_type: electrical
+    width: 10
+  top_e4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 155
+    - 15
+    name: top_e4
+    orientation: 270
+    port_type: electrical
+    width: 310
 version: 1

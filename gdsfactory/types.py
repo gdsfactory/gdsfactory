@@ -46,6 +46,7 @@ class Routes:
 Float2 = Tuple[float, float]
 Float3 = Tuple[float, float, float]
 Floats = Tuple[float, ...]
+Strs = Tuple[str, ...]
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]

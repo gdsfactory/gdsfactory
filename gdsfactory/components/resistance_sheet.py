@@ -3,11 +3,11 @@ from functools import partial
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.contact import contact_slab_npp
+from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Floats, Layers
 
-pad_contact_slab_npp = partial(contact_slab_npp, size=(100, 100))
+pad_contact_slab_npp = partial(contact_slab_npp_m3, size=(100, 100))
 
 
 @cell

@@ -42,7 +42,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_4e81d408
-    name_long: mmi1x2_4e81d408
 info:
   changed:
     cross_section:
@@ -86,7 +85,6 @@ info:
   info_version: 1
   module: gdsfactory.components.mmi1x2
   name: mmi1x2_4e81d408
-  name_long: mmi1x2_4e81d408
 ports:
   o1:
     layer:

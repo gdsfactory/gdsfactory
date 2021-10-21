@@ -20,7 +20,6 @@ info:
   min_bend_radius: 9.959
   module: gdsfactory.components.bend_s
   name: bend_s
-  name_long: bend_s
   start_angle: 0.235
 ports:
   o1:

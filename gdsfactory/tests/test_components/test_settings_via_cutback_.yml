@@ -31,7 +31,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.via_cutback
     name: _via_iterable_488817b3
-    name_long: _via_iterable_488817b3
   compass_09373c73:
     changed:
       layer:
@@ -60,7 +59,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_09373c73
-    name_long: compass_09373c73
   compass_1976da67:
     changed:
       layer:
@@ -89,7 +87,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_1976da67
-    name_long: compass_1976da67
   compass_1be62a3c:
     changed:
       layer:
@@ -118,7 +115,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_1be62a3c
-    name_long: compass_1be62a3c
   compass_1ee85f0c:
     changed:
       layer:
@@ -147,7 +143,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_1ee85f0c
-    name_long: compass_1ee85f0c
   compass_5903820c:
     changed:
       layer:
@@ -176,7 +171,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_5903820c
-    name_long: compass_5903820c
   compass_ac0c3f29:
     changed:
       layer:
@@ -205,7 +199,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ac0c3f29
-    name_long: compass_ac0c3f29
   compass_b796e8b0:
     changed:
       layer:
@@ -234,7 +227,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_b796e8b0
-    name_long: compass_b796e8b0
   compass_c742e2c3:
     changed:
       layer:
@@ -263,7 +255,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_c742e2c3
-    name_long: compass_c742e2c3
   compass_e429d7e7:
     changed:
       layer:
@@ -292,7 +283,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_e429d7e7
-    name_long: compass_e429d7e7
   compass_e956677d:
     changed:
       layer:
@@ -321,7 +311,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_e956677d
-    name_long: compass_e956677d
   compass_eb6d9a94:
     changed:
       layer:
@@ -350,7 +339,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_eb6d9a94
-    name_long: compass_eb6d9a94
   compass_f8ff546d:
     changed:
       layer:
@@ -379,7 +367,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_f8ff546d
-    name_long: compass_f8ff546d
   contact_16d0347b:
     changed:
       layers:
@@ -453,10 +440,9 @@ cells:
     - 0
     module: gdsfactory.components.contact
     name: contact_16d0347b
-    name_long: contact_16d0347b
     size:
-    - 10.0
-    - 10.0
+    - 10
+    - 10
   contact_84c67b1a:
     changed:
       layers:
@@ -530,10 +516,9 @@ cells:
     - 0
     module: gdsfactory.components.contact
     name: contact_84c67b1a
-    name_long: contact_84c67b1a
     size:
-    - 30.0
-    - 10.0
+    - 30
+    - 10
   contact_87aeec60:
     changed:
       layers:
@@ -607,10 +592,9 @@ cells:
     - 0
     module: gdsfactory.components.contact
     name: contact_87aeec60
-    name_long: contact_87aeec60
     size:
-    - 150.0
-    - 150.0
+    - 150
+    - 150
   via_cutback:
     changed: {}
     default:
@@ -655,7 +639,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.via_cutback
     name: via_cutback
-    name_long: via_cutback
 info:
   changed: {}
   default:
@@ -700,6 +683,5 @@ info:
   info_version: 1
   module: gdsfactory.components.via_cutback
   name: via_cutback
-  name_long: via_cutback
 ports: {}
 version: 1

@@ -66,22 +66,12 @@ def gdsdiff(
     Returns:
         Component with both cells (xor, common and diffs)
     """
-    if isinstance(component1, pathlib.Path):
-        component1 = str(component1)
-    if isinstance(component2, pathlib.Path):
-        component2 = str(component2)
-    if isinstance(component1, str):
-        component1 = import_gds(component1, flatten=True)
-    if isinstance(component2, str):
-        component2 = import_gds(component2, flatten=True)
+    if isinstance(component1, (str, pathlib.Path)):
+        component1 = import_gds(str(component1), flatten=True, name="new")
+    if isinstance(component2, (str, pathlib.Path)):
+        component2 = import_gds(str(component2), flatten=True, name="old")
 
     top = Component(name=f"{name}_diffs")
-
-    if component1.name.startswith("Unnamed"):
-        component1.name = f"{name}_old"
-    if component2.name.startswith("Unnamed"):
-        component2.name = f"{name}_new"
-
     ref1 = top << component1
     ref2 = top << component2
 

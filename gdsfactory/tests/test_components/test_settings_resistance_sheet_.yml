@@ -27,7 +27,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_9e273c00
-    name_long: compass_9e273c00
   compass_c773bb32:
     changed:
       layer:
@@ -56,7 +55,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_c773bb32
-    name_long: compass_c773bb32
   compass_cd62bb4b:
     changed:
       layer:
@@ -85,7 +83,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_cd62bb4b
-    name_long: compass_cd62bb4b
   compass_d0a270cf:
     changed:
       layer:
@@ -114,7 +111,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_d0a270cf
-    name_long: compass_d0a270cf
   compass_d2f4cb05:
     changed:
       layer:
@@ -143,7 +139,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_d2f4cb05
-    name_long: compass_d2f4cb05
   contact_4445752e:
     changed:
       layers:
@@ -211,10 +206,9 @@ cells:
     - 0
     module: gdsfactory.components.contact
     name: contact_4445752e
-    name_long: contact_4445752e
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
   resistance_sheet:
     changed: {}
     default:
@@ -243,7 +237,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.resistance_sheet
     name: resistance_sheet
-    name_long: resistance_sheet
 info:
   changed: {}
   default:
@@ -272,6 +265,5 @@ info:
   info_version: 1
   module: gdsfactory.components.resistance_sheet
   name: resistance_sheet
-  name_long: resistance_sheet
 ports: {}
 version: 1

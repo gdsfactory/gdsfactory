@@ -36,14 +36,14 @@ cross_section
 
 
 import gdsfactory as gf
-from gdsfactory.components.contact import contact_npp
+from gdsfactory.components.contact import contact_npp_m1
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
 from gdsfactory.cross_section import strip_heater_doped
 
 straight_heater_doped_strip = gf.partial(
     straight_heater_doped_rib,
     cross_section_heater=strip_heater_doped,
-    contact_contact=contact_npp,
+    contact_contact=contact_npp_m1,
 )
 
 

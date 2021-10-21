@@ -1,5 +1,5 @@
 import gdsfactory as gf
-from gdsfactory.components.contact import contact_heater
+from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Layer, Optional
 
@@ -13,7 +13,7 @@ def straight_heater_meander(
     extension_length: float = 15.0,
     layer_heater: Optional[Layer] = LAYER.HEATER,
     radius: float = 5.0,
-    contact: Optional[ComponentFactory] = contact_heater,
+    contact: Optional[ComponentFactory] = contact_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     taper_length: Optional[float] = 10.0,

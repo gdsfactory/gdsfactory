@@ -31,7 +31,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.bbox
     name: bbox
-    name_long: bbox
 info:
   changed: {}
   default:
@@ -64,6 +63,5 @@ info:
   info_version: 1
   module: gdsfactory.components.bbox
   name: bbox
-  name_long: bbox
 ports: {}
 version: 1

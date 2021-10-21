@@ -7,6 +7,10 @@ get_route
 .. automodule:: gdsfactory.routing.get_route
    :members:
 
+
+get_route_from_steps
+---------------------------------------------------------------------------------------------------
+
 .. automodule:: gdsfactory.routing.get_route_from_steps
    :members:
 

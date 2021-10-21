@@ -1,5 +1,6 @@
 cells:
   sample_connections: {}
-info: {}
+info:
+  name: sample_connections
 ports: {}
 version: 1

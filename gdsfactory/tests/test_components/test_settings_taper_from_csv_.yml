@@ -23,7 +23,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.taper_from_csv
     name: taper_from_csv
-    name_long: taper_from_csv
 info:
   changed: {}
   default:
@@ -48,7 +47,6 @@ info:
   info_version: 1
   module: gdsfactory.components.taper_from_csv
   name: taper_from_csv
-  name_long: taper_from_csv
 ports:
   o1:
     layer:

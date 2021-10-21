@@ -1,7 +1,21 @@
 cells:
-  path_0edeaa4d6acefdcecc5db7e634: {}
-  path_90389ac5e2278be33ed7bd007e: {}
-  path_babfd6a775bd94e702cd927faf: {}
+  path_0edeaa4d6acefdcecc5db7e634:
+    cross_section: {}
+    length: 5
+    path: {}
+    points_hash: 0edeaa4d6acefdcecc5db7e634
+  path_90389ac5e2278be33ed7bd007e:
+    cross_section: {}
+    length: 5
+    path: {}
+    points_hash: 90389ac5e2278be33ed7bd007e
+  path_babfd6a775bd94e702cd927faf:
+    cross_section: {}
+    length: 29.45240029461876
+    path:
+      Reff: 36.99594705612938
+      Rmin: 25
+    points_hash: babfd6a775bd94e702cd927faf
   transition:
     changed: {}
     default: {}
@@ -10,7 +24,6 @@ cells:
     info_version: 1
     module: gdsfactory.tests.test_paths
     name: transition
-    name_long: transition
 info:
   changed: {}
   default: {}
@@ -19,6 +32,5 @@ info:
   info_version: 1
   module: gdsfactory.tests.test_paths
   name: transition
-  name_long: transition
 ports: {}
 version: 1

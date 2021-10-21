@@ -19,7 +19,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.triangle
     name: triangle
-    name_long: triangle
 info:
   changed: {}
   default:
@@ -40,6 +39,5 @@ info:
   info_version: 1
   module: gdsfactory.components.triangle
   name: triangle
-  name_long: triangle
 ports: {}
 version: 1

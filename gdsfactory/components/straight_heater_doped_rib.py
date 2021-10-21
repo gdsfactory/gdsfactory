@@ -2,12 +2,12 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_metal as contact_metal_function
-from gdsfactory.components.contact import contact_slab_npp
+from gdsfactory.components.contact import contact_m1_m3 as contact_metal_function
+from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer
 
 
 @gf.cell
@@ -16,13 +16,11 @@ def straight_heater_doped_rib(
     nsections: int = 3,
     cross_section: CrossSectionFactory = strip_rib_tip,
     cross_section_heater: CrossSectionFactory = rib_heater_doped,
-    contact_contact: Optional[ComponentFactory] = contact_slab_npp,
+    contact_contact: Optional[ComponentFactory] = contact_slab_npp_m3,
     contact_metal: Optional[ComponentFactory] = contact_metal_function,
     contact_metal_size: Tuple[float, float] = (10.0, 10.0),
     contact_contact_size: Tuple[float, float] = (10.0, 10.0),
     contact_contact_yspacing: float = 2.0,
-    port_orientation_top: int = 0,
-    port_orientation_bot: int = 180,
     taper: Optional[ComponentFactory] = taper_cross_section,
     taper_length: float = 10.0,
     **kwargs,
@@ -38,8 +36,6 @@ def straight_heater_doped_rib(
         contact_metal: function to connect the metal area
         contact_metal_size:
         contact_contact_yspacing: spacing from waveguide to contact
-        port_orientation_top: for top contact
-        port_orientation_bot: for bottom contact
         kwargs: cross_section settings
         taper: optional taper
         taper_length:
@@ -145,12 +141,8 @@ def straight_heater_doped_rib(
         contact_top.ymin = contacts[0].ymax
         contact_bot.ymax = contacts[1].ymin
 
-        c.add_port(
-            "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
-        )
-        c.add_port(
-            "e2", port=contact_bot.get_ports_list(orientation=port_orientation_bot)[0]
-        )
+        c.add_ports(contact_top.ports, prefix="top_")
+        c.add_ports(contact_bot.ports, prefix="bot_")
     return c
 
 
@@ -162,7 +154,34 @@ def test_straight_heater_doped_rib_ports() -> Component:
     return c
 
 
+@gf.cell
+def straight_heater_doped_rib_south(
+    contact_metal_size: Tuple[float, float] = (10.0, 10.0),
+    layer_metal: Layer = (49, 0),
+    **kwargs,
+):
+    c = gf.Component()
+    s = c << straight_heater_doped_rib()
+    contact_metal_size = (10.0, 10.0)
+    lbend = c << gf.c.L(
+        width=contact_metal_size[0], size=(10, s.ysize), layer=layer_metal
+    )
+    lbend.connect("e2", s.ports["top_e3"])
+    c.add_ports(s.ports)
+    c.ports.pop("top_e3")
+    c.add_port("e1", port=lbend.ports["e1"])
+    return c
+
+
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(length=80, contact_metal=None, contact_contact=None)
+    # c = straight_heater_doped_rib(length=80, contact_metal=None, contact_contact=None)
+    c = straight_heater_doped_rib(length=80)
     # c = test_straight_heater_doped_rib_ports()
+
+    # c = gf.Component()
+    # s = c << straight_heater_doped_rib()
+    # contact_metal_size = (10.0, 10.0)
+    # lbend = c << gf.c.L(width=contact_metal_size[0], size=(10, s.ysize))
+    # lbend.connect("o2", s.ports["e1"])
+    # c = straight_heater_doped_rib_south()
     c.show()

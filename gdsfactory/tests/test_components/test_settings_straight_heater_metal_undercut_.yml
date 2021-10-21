@@ -25,7 +25,6 @@ info:
   info_version: 1
   module: gdsfactory.components.straight_heater_metal
   name: straight_heater_metal_undercut
-  name_long: straight_heater_metal_undercut
 ports:
   e1:
     layer:

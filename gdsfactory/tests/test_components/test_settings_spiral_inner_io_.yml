@@ -26,7 +26,6 @@ cells:
     length: 11584.394
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io
-    name_long: spiral_inner_io
 info:
   changed: {}
   default:
@@ -54,7 +53,6 @@ info:
   length: 11584.394
   module: gdsfactory.components.spiral_inner_io
   name: spiral_inner_io
-  name_long: spiral_inner_io
 ports:
   o1:
     layer:

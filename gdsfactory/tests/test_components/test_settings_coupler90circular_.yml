@@ -13,7 +13,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler90
     name: coupler90_a71eeef5
-    name_long: coupler90_a71eeef5
 info:
   changed:
     bend: bend_circular
@@ -28,7 +27,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler90
   name: coupler90_a71eeef5
-  name_long: coupler90_a71eeef5
 ports:
   o1:
     layer:

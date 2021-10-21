@@ -36,7 +36,6 @@ cells:
     length: 9973.394
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_82cec748
-    name_long: spiral_inner_io_82cec748
   spiral_inner_io_fiber_single:
     changed: {}
     default:
@@ -57,7 +56,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_fiber_single
-    name_long: spiral_inner_io_fiber_single
 info:
   changed: {}
   default:
@@ -78,7 +76,6 @@ info:
   info_version: 1
   module: gdsfactory.components.spiral_inner_io
   name: spiral_inner_io_fiber_single
-  name_long: spiral_inner_io_fiber_single
 ports:
   o1:
     layer:

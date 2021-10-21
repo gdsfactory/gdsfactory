@@ -37,7 +37,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.dbr2
     name: dbr2
-    name_long: dbr2
 info:
   changed: {}
   default:
@@ -76,7 +75,6 @@ info:
   info_version: 1
   module: gdsfactory.components.dbr2
   name: dbr2
-  name_long: dbr2
 ports:
   o1:
     layer:

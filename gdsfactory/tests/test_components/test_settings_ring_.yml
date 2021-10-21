@@ -19,7 +19,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring
     name: ring
-    name_long: ring
 info:
   changed: {}
   default:
@@ -40,6 +39,5 @@ info:
   info_version: 1
   module: gdsfactory.components.ring
   name: ring
-  name_long: ring
 ports: {}
 version: 1

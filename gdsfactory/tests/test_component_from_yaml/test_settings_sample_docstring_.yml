@@ -23,7 +23,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_28584457
-    name_long: mmi1x2_28584457
   mmi1x2_52b0d64a:
     changed:
       length_mmi: 11
@@ -48,8 +47,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_52b0d64a
-    name_long: mmi1x2_52b0d64a
   sample_docstring: {}
-info: {}
+info:
+  name: sample_docstring
 ports: {}
 version: 1

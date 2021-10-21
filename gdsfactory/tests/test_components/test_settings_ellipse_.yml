@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ellipse
     name: ellipse
-    name_long: ellipse
 info:
   changed: {}
   default:
@@ -44,6 +43,5 @@ info:
   info_version: 1
   module: gdsfactory.components.ellipse
   name: ellipse
-  name_long: ellipse
 ports: {}
 version: 1

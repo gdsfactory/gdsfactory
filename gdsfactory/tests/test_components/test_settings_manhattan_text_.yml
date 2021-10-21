@@ -25,7 +25,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text
-    name_long: manhattan_text
 info:
   changed: {}
   default:
@@ -52,6 +51,5 @@ info:
   info_version: 1
   module: gdsfactory.components.manhattan_font
   name: manhattan_text
-  name_long: manhattan_text
 ports: {}
 version: 1

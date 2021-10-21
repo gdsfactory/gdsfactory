@@ -10,6 +10,7 @@ def L(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),
     layer: Tuple[int, int] = LAYER.M3,
+    port_type: str = "electrical",
 ) -> Component:
     """Generates an 'L' geometry with ports on both ends. Based on phidl.
 
@@ -24,8 +25,12 @@ def L(
     s1, s2 = size
     points = [(-w, -w), (s1, -w), (s1, w), (w, w), (w, s2), (-w, s2), (-w, -w)]
     D.add_polygon(points, layer=layer)
-    D.add_port(name="o1", midpoint=(0, s2), width=width, orientation=90)
-    D.add_port(name="o2", midpoint=(s1, 0), width=width, orientation=0)
+    D.add_port(
+        name="e1", midpoint=(0, s2), width=width, orientation=90, port_type=port_type
+    )
+    D.add_port(
+        name="e2", midpoint=(s1, 0), width=width, orientation=0, port_type=port_type
+    )
     return D
 
 

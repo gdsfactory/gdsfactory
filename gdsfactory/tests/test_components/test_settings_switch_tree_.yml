@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
   mmi2x2:
     changed: {}
     default:
@@ -42,7 +41,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_3a1627bd:
     changed:
       combiner: mmi2x2
@@ -77,7 +75,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_3a1627bd
-    name_long: mzi_3a1627bd
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -105,11 +102,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_dfcb483b:
     changed:
       bend: bend_euler
@@ -133,11 +129,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_dfcb483b
-    name_long: mzi_arm_dfcb483b
   splitter_tree_e508e659:
     changed:
       coupler:
@@ -175,7 +170,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.splitter_tree
     name: splitter_tree_e508e659
-    name_long: splitter_tree_e508e659
 info:
   changed:
     coupler:
@@ -213,7 +207,6 @@ info:
   info_version: 1
   module: gdsfactory.components.splitter_tree
   name: splitter_tree_e508e659
-  name_long: splitter_tree_e508e659
 ports:
   e1_0_1:
     layer:

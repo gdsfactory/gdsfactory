@@ -27,7 +27,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_a0b38c11
-    name_long: compass_a0b38c11
   pad:
     changed: {}
     default:
@@ -55,10 +54,9 @@ cells:
     - 0
     module: gdsfactory.components.pad
     name: pad
-    name_long: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed: {}
   default:
@@ -86,10 +84,9 @@ info:
   - 0
   module: gdsfactory.components.pad
   name: pad
-  name_long: pad
   size:
-  - 100.0
-  - 100.0
+  - 100
+  - 100
 ports:
   e1:
     layer:

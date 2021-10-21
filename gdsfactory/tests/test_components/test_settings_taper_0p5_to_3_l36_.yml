@@ -7,7 +7,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.taper_from_csv
     name: taper_0p5_to_3_l36
-    name_long: taper_0p5_to_3_l36
 info:
   changed: {}
   default: {}
@@ -16,7 +15,6 @@ info:
   info_version: 1
   module: gdsfactory.components.taper_from_csv
   name: taper_0p5_to_3_l36
-  name_long: taper_0p5_to_3_l36
 ports:
   o1:
     layer:

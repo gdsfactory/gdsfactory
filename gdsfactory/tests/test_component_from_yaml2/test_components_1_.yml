@@ -24,8 +24,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_41793ed4
-    name_long: mmi1x2_41793ed4
-info: {}
+info:
+  name: mirror_x
 ports:
   o1:
     layer:
