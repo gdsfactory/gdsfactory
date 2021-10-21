@@ -1116,6 +1116,7 @@ class Component(Device):
         d.info = self.info
         d.cells = cells
         d.version = 1
+        d.info.name = self.name
         return d
 
     @property

@@ -53,6 +53,7 @@ cells:
     name: mmi1x2_5ad5950d
 info:
   description: just a demo on adding metadata
+  name: Unnamed_a491ff8b
   polarization: te
   wavelength: 1.55
 ports:

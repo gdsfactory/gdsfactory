@@ -5,20 +5,23 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 
-# def test_load_component_gds() -> gf.Component:
-#     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
-#     c = gf.read.from_gds(gdspath)
-#     assert c.hash_geometry() == "4b8f6646dcf60b78b905ac0c1665a35f119be32a"
-#     return c
+
+def test_read_gds_hash() -> gf.Component:
+    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+    c = gf.read.from_gds(gdspath)
+    assert (
+        c.hash_geometry() == "8f0e7c4660c98d810082e85203013134614611bf"
+    ), c.hash_geometry()
+    return c
 
 
-def test_load_component_settings(data_regression: DataRegressionFixture) -> None:
+def test_read_gds_with_settings(data_regression: DataRegressionFixture) -> None:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.read.from_gds(gdspath)
     data_regression.check(c.to_dict)
 
 
-def test_load_component_with_settings():
+def test_read_gds_equivalent():
     """Ensures we can load it from GDS + YAML and get the same component settings"""
     c1 = gf.c.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
@@ -61,12 +64,13 @@ def _write():
 
 
 if __name__ == "__main__":
-    test_mix_cells_from_gds_and_from_function()
+    c = test_read_gds_hash()
+    # test_mix_cells_from_gds_and_from_function()
 
     # _write()
     # test_load_component_gds()
-    # test_load_component_settings()
-    # test_load_component_with_settings()
+    # test_read_gds_with_settings()
+    # test_read_gds_equivalent()
 
     # c1 = gf.c.straight()
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"

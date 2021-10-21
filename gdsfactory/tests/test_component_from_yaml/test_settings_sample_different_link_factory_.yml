@@ -58,6 +58,7 @@ cells:
     - 100
     - 100
   sample_path_length_matching: {}
-info: {}
+info:
+  name: sample_path_length_matching
 ports: {}
 version: 1

@@ -48,6 +48,7 @@ cells:
     - 100
     - 100
   sample_waypoints: {}
-info: {}
+info:
+  name: sample_waypoints
 ports: {}
 version: 1

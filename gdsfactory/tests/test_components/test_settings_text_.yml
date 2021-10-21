@@ -1,6 +1,7 @@
 cells:
   abcd_0_0: {}
   abcd_0_00: {}
-info: {}
+info:
+  name: abcd_0_0
 ports: {}
 version: 1
