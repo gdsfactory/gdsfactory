@@ -873,7 +873,7 @@ class Component(Device):
 
     def add_ports(self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""):
         ports = ports if isinstance(ports, list) else ports.values()
-        for port in ports:
+        for port in list(ports):
             name = f"{prefix}{port.name}" if prefix else port.name
             self.add_port(name=name, port=port)
 
