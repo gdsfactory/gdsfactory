@@ -3,7 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_heater
+from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
@@ -18,7 +18,7 @@ def straight_heater_metal_undercut(
     cross_section_heater: CrossSectionFactory = strip_heater_metal,
     cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    contact: Optional[ComponentFactory] = contact_heater,
+    contact: Optional[ComponentFactory] = contact_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     taper_length: Optional[float] = 5.0,
