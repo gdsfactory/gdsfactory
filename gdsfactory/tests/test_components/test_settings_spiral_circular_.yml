@@ -24,7 +24,6 @@ cells:
     length: 1694.813
     module: gdsfactory.components.spiral_circular
     name: spiral_circular
-    name_long: spiral_circular
 info:
   changed: {}
   default:
@@ -50,7 +49,6 @@ info:
   length: 1694.813
   module: gdsfactory.components.spiral_circular
   name: spiral_circular
-  name_long: spiral_circular
 ports:
   o1:
     layer:

@@ -17,7 +17,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.array_with_via
     name: array_with_via_2d
-    name_long: array_with_via_2d
 info:
   changed: {}
   default:
@@ -36,7 +35,6 @@ info:
   info_version: 1
   module: gdsfactory.components.array_with_via
   name: array_with_via_2d
-  name_long: array_with_via_2d
 ports:
   e0_1_1:
     layer:

@@ -164,10 +164,14 @@ def test_copy():
 
 
 if __name__ == "__main__":
+    c = transition()
+    # c = test_path()
+    # print(c.name)
+
     # test_copy()
     # c = test_layers2()
     # c = transition()
-    c = double_loop()
+    # c = double_loop()
     # c = rename()
     # c.pprint
     c.show()

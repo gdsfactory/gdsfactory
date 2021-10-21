@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-    name_long: circle_602e85fd
   grating_coupler_ellipti_b632d295:
     changed:
       polarization: te
@@ -78,7 +77,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
     name: grating_coupler_ellipti_b632d295
-    name_long: grating_coupler_elliptical_trenches_7c9df26b
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
@@ -92,7 +90,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
     name: grating_coupler_loss
-    name_long: grating_coupler_loss
   loss_deembedding_ch12_3_bda266e9:
     changed:
       grating_coupler_factory:
@@ -119,7 +116,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
     name: loss_deembedding_ch12_3_bda266e9
-    name_long: loss_deembedding_ch12_34_4d3bf9a8
   loss_deembedding_ch13_2_62cc1a7e:
     changed:
       grating_coupler_factory:
@@ -146,7 +142,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
     name: loss_deembedding_ch13_2_62cc1a7e
-    name_long: loss_deembedding_ch13_24_4d3bf9a8
   loss_deembedding_ch14_2_05bba0da:
     changed:
       grating_coupler_factory:
@@ -173,7 +168,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
     name: loss_deembedding_ch14_2_05bba0da
-    name_long: loss_deembedding_ch14_23_4d3bf9a8
 info:
   changed: {}
   default:
@@ -184,6 +178,5 @@ info:
   info_version: 1
   module: gdsfactory.components.grating_coupler_loss
   name: grating_coupler_loss
-  name_long: grating_coupler_loss
 ports: {}
 version: 1

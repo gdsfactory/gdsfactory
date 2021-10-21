@@ -2,6 +2,29 @@ cells:
   sample_mirror_simple: {}
   straight:
     changed: {}
+    cross_section:
+      auto_widen: false
+      auto_widen_minimum_length: 200
+      cladding_offset: 3
+      end_straight_offset: 0.01
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      min_length: 0.01
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      radius: 10
+      sections: []
+      snap_to_grid: null
+      start_straight: 0.01
+      taper_length: 10
+      width: 0.5
+      width_wide: null
     default:
       length: 10
       npoints: 2
@@ -12,11 +35,13 @@ cells:
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.straight
     name: straight
-    name_long: straight
+    path: {}
+    points_hash: a64455692a75ddb2f781cd47f8
     width: 0.5
-info: {}
+info:
+  name: sample_mirror_simple
 ports: {}
 version: 1

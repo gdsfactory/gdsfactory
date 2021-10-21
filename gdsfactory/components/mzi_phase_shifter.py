@@ -15,5 +15,13 @@ mzi_phase_shifter_90_90 = gf.partial(
 
 if __name__ == "__main__":
     c = mzi_phase_shifter_90_90()
+    c = mzi_phase_shifter(
+        straight_x_top=gf.c.straight_pin, straight_x_bot=gf.c.straight_pin
+    )
+    c = mzi_phase_shifter(
+        straight_x_top=gf.c.straight_heater_doped_rib,
+        straight_x_bot=gf.c.straight_heater_doped_rib,
+        delta_length=20,
+    )
     c.show()
     print(c.name)

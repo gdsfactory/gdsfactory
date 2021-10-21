@@ -45,7 +45,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.cdc
     name: cdc
-    name_long: cdc
 info:
   changed: {}
   default:
@@ -92,7 +91,6 @@ info:
   info_version: 1
   module: gdsfactory.components.cdc
   name: cdc
-  name_long: cdc
 ports:
   o1:
     layer:

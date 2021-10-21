@@ -21,7 +21,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
   mzi_614a18b2:
     changed:
       length_x: 320
@@ -54,7 +53,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_614a18b2
-    name_long: mzi_614a18b2
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -82,11 +80,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -110,11 +107,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
 info:
   changed:
     length_x: 320
@@ -147,7 +143,6 @@ info:
   info_version: 1
   module: gdsfactory.components.mzi
   name: mzi_614a18b2
-  name_long: mzi_614a18b2
 ports:
   e1:
     layer:

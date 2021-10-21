@@ -45,7 +45,7 @@ def add_grating_couplers(
 
     c = Component()
     c.component = component
-    component_name = component_name or component.get_parent_name()
+    component_name = component_name or component.info_child.name
     c.add_ref(component)
     grating_coupler = (
         grating_coupler() if callable(grating_coupler) else grating_coupler
@@ -111,7 +111,7 @@ def add_grating_couplers_with_loopback_fiber_single(
         grating_coupler() if callable(grating_coupler) else grating_coupler
     )
 
-    component_name = component_name or component.get_parent_name()
+    component_name = component_name or component.info_child.name
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
@@ -230,7 +230,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     gc = grating_coupler() if callable(grating_coupler) else grating_coupler
 
     direction = "S"
-    component_name = component_name or component.get_parent_name()
+    component_name = component_name or component.info_child.name
     c = Component()
     c.component = component
 

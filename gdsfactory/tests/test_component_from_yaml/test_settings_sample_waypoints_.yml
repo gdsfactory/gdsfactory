@@ -20,7 +20,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array_b84950ef
-    name_long: pad_array_b84950ef
     size:
     - 100
     - 100
@@ -45,11 +44,11 @@ cells:
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array_fe55c938
-    name_long: pad_array_fe55c938
     size:
     - 100
     - 100
   sample_waypoints: {}
-info: {}
+info:
+  name: sample_waypoints
 ports: {}
 version: 1

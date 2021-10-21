@@ -23,7 +23,6 @@ cells:
       min_bend_radius: 9.465
       module: gdsfactory.components.coupler
       name: coupler_12df0178
-      name_long: coupler_12df0178
     default:
       component_name: null
       gc_port_labels: null
@@ -44,7 +43,6 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_fiber_array
     name: add_fiber_array_e4bbe9b0
-    name_long: add_fiber_array_e4bbe9b0
   circle_602e85fd:
     changed:
       layer:
@@ -67,7 +65,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-    name_long: circle_602e85fd
   coupler_12df0178:
     changed:
       gap: 0.244
@@ -88,7 +85,6 @@ cells:
     min_bend_radius: 9.465
     module: gdsfactory.components.coupler
     name: coupler_12df0178
-    name_long: coupler_12df0178
   grating_coupler_ellipti_b632d295:
     changed:
       polarization: te
@@ -145,7 +141,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
     name: grating_coupler_ellipti_b632d295
-    name_long: grating_coupler_elliptical_trenches_7c9df26b
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
@@ -173,7 +168,6 @@ info:
     min_bend_radius: 9.465
     module: gdsfactory.components.coupler
     name: coupler_12df0178
-    name_long: coupler_12df0178
   default:
     component_name: null
     gc_port_labels: null
@@ -194,7 +188,6 @@ info:
   info_version: 1
   module: gdsfactory.routing.add_fiber_array
   name: add_fiber_array_e4bbe9b0
-  name_long: add_fiber_array_e4bbe9b0
 ports:
   vertical_te_00:
     layer:

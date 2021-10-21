@@ -7,7 +7,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing_from_taper
-    name_long: crossing_from_taper
 info:
   changed: {}
   default: {}
@@ -16,7 +15,6 @@ info:
   info_version: 1
   module: gdsfactory.components.crossing_waveguide
   name: crossing_from_taper
-  name_long: crossing_from_taper
 ports:
   o1:
     layer:

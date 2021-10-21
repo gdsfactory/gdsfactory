@@ -5,20 +5,18 @@ cells:
     full: {}
     function_name: wire_corner
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.wire
     name: wire_corner
-    name_long: wire_corner
 info:
   changed: {}
   default: {}
   full: {}
   function_name: wire_corner
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.wire
   name: wire_corner
-  name_long: wire_corner
 ports:
   e1:
     layer:

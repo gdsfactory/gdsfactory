@@ -3,7 +3,7 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_slab
+from gdsfactory.components.contact import contact_slab_m3
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.cross_section import pin, pn
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
@@ -13,11 +13,9 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def straight_pin(
     length: float = 500.0,
     cross_section: CrossSectionFactory = pin,
-    contact: ComponentFactory = contact_slab,
+    contact: ComponentFactory = contact_slab_m3,
     contact_width: float = 10.0,
     contact_spacing: float = 2,
-    port_orientation_top: int = 0,
-    port_orientation_bot: int = 180,
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
@@ -34,8 +32,6 @@ def straight_pin(
         contact: for the contacts
         contact_size:
         contact_spacing: spacing between contacts
-        port_orientation_top: for top contact
-        port_orientation_bot: for bottom contact
         taper: optional taper
         kwargs: cross_section settings
 
@@ -76,12 +72,8 @@ def straight_pin(
     contact_top.ymin = +contact_spacing / 2
     contact_bot.ymax = -contact_spacing / 2
 
-    c.add_port(
-        "e1", port=contact_top.get_ports_list(orientation=port_orientation_top)[0]
-    )
-    c.add_port(
-        "e2", port=contact_bot.get_ports_list(orientation=port_orientation_bot)[0]
-    )
+    c.add_ports(contact_bot.ports, prefix="bot_")
+    c.add_ports(contact_top.ports, prefix="top_")
     return c
 
 

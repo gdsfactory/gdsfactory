@@ -41,7 +41,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.die
     name: die
-    name_long: die
 info:
   changed: {}
   default:
@@ -82,6 +81,5 @@ info:
   info_version: 1
   module: gdsfactory.components.die
   name: die
-  name_long: die
 ports: {}
 version: 1

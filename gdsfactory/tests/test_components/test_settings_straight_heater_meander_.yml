@@ -29,7 +29,6 @@ info:
   info_version: 1
   module: gdsfactory.components.straight_heater_meander
   name: straight_heater_meander
-  name_long: straight_heater_meander
 ports:
   e1:
     layer:

@@ -11,7 +11,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler90bend
     name: coupler90bend
-    name_long: coupler90bend
 info:
   changed: {}
   default:
@@ -24,7 +23,6 @@ info:
   info_version: 1
   module: gdsfactory.components.coupler90bend
   name: coupler90bend
-  name_long: coupler90bend
 ports:
   o1:
     layer:

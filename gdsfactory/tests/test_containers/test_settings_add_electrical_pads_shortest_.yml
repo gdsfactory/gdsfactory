@@ -36,7 +36,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mzi
       name: mzi_ac6d448d
-      name_long: mzi_ac6d448d
     default:
       layer:
       - 31
@@ -54,7 +53,6 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_electrical_pads_shortest
     name: add_electrical_pads_sho_bb4fd01b
-    name_long: add_electrical_pads_shortest_487eeed5
   compass_a0b38c11:
     changed:
       layer:
@@ -83,7 +81,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_a0b38c11
-    name_long: compass_a0b38c11
   mmi2x2:
     changed: {}
     default:
@@ -104,7 +101,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-    name_long: mmi2x2
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -139,7 +135,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
@@ -167,11 +162,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
-    name_long: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
@@ -195,11 +189,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-    name_long: mzi_arm_5644a682
   pad:
     changed: {}
     default:
@@ -227,10 +220,9 @@ cells:
     - 0
     module: gdsfactory.components.pad
     name: pad
-    name_long: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed:
     component: mzi_ac6d448d
@@ -268,7 +260,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
-    name_long: mzi_ac6d448d
   default:
     layer:
     - 31
@@ -286,7 +277,6 @@ info:
   info_version: 1
   module: gdsfactory.routing.add_electrical_pads_shortest
   name: add_electrical_pads_sho_bb4fd01b
-  name_long: add_electrical_pads_shortest_487eeed5
 ports:
   o1:
     layer:

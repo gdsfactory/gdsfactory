@@ -29,7 +29,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.verniers
     name: verniers
-    name_long: verniers
 info:
   changed: {}
   default:
@@ -60,6 +59,5 @@ info:
   info_version: 1
   module: gdsfactory.components.verniers
   name: verniers
-  name_long: verniers
 ports: {}
 version: 1

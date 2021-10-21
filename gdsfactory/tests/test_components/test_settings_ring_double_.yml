@@ -23,7 +23,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_884bafc4
-    name_long: coupler_ring_884bafc4
   ring_double:
     changed: {}
     default:
@@ -42,7 +41,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_double
     name: ring_double
-    name_long: ring_double
 info:
   changed: {}
   default:
@@ -61,7 +59,6 @@ info:
   info_version: 1
   module: gdsfactory.components.ring_double
   name: ring_double
-  name_long: ring_double
 ports:
   o1:
     layer:

@@ -17,7 +17,7 @@ cells:
       spacing:
       - 2
       - 2
-    enclosure: 1.0
+    enclosure: 1
     full:
       cladding_offset: 0
       enclosure: 1
@@ -35,13 +35,12 @@ cells:
     info_version: 1
     module: gdsfactory.components.via
     name: via_3db94f98
-    name_long: via_3db94f98
     size:
     - 0.7
     - 0.7
     spacing:
-    - 2.0
-    - 2.0
+    - 2
+    - 2
 info:
   changed:
     layer:
@@ -60,7 +59,7 @@ info:
     spacing:
     - 2
     - 2
-  enclosure: 1.0
+  enclosure: 1
   full:
     cladding_offset: 0
     enclosure: 1
@@ -78,12 +77,11 @@ info:
   info_version: 1
   module: gdsfactory.components.via
   name: via_3db94f98
-  name_long: via_3db94f98
   size:
   - 0.7
   - 0.7
   spacing:
-  - 2.0
-  - 2.0
+  - 2
+  - 2
 ports: {}
 version: 1

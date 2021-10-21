@@ -19,7 +19,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.ramp
     name: ramp
-    name_long: ramp
 info:
   changed: {}
   default:
@@ -40,7 +39,6 @@ info:
   info_version: 1
   module: gdsfactory.components.ramp
   name: ramp
-  name_long: ramp
 ports:
   o1:
     layer:

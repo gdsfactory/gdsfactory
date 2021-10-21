@@ -30,7 +30,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_21e79cb0
-    name_long: compass_21e79cb0
   compass_5f6dbeb7:
     changed:
       layer:
@@ -60,7 +59,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_5f6dbeb7
-    name_long: compass_5f6dbeb7
   compass_a6b95cbc:
     changed:
       layer:
@@ -90,7 +88,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_a6b95cbc
-    name_long: compass_a6b95cbc
   compass_ac678056:
     changed:
       layer:
@@ -120,7 +117,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ac678056
-    name_long: compass_ac678056
   compass_e3cae1be:
     changed:
       layer:
@@ -150,7 +146,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_e3cae1be
-    name_long: compass_e3cae1be
   compass_e92cd6ce:
     changed:
       layer:
@@ -180,7 +175,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_e92cd6ce
-    name_long: compass_e92cd6ce
   litho_steps:
     changed: {}
     default:
@@ -211,7 +205,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.litho_steps
     name: litho_steps
-    name_long: litho_steps
   rectangle_2f00fe9d:
     changed:
       layer:
@@ -242,7 +235,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_2f00fe9d
-    name_long: rectangle_2f00fe9d
   rectangle_4f322ec0:
     changed:
       layer:
@@ -273,7 +265,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_4f322ec0
-    name_long: rectangle_4f322ec0
   rectangle_84f59762:
     changed:
       layer:
@@ -304,7 +295,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_84f59762
-    name_long: rectangle_84f59762
   rectangle_9aa64122:
     changed:
       layer:
@@ -335,7 +325,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_9aa64122
-    name_long: rectangle_9aa64122
   rectangle_b6ed30a7:
     changed:
       layer:
@@ -366,7 +355,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_b6ed30a7
-    name_long: rectangle_b6ed30a7
   rectangle_f8092a8c:
     changed:
       layer:
@@ -397,7 +385,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_f8092a8c
-    name_long: rectangle_f8092a8c
 info:
   changed: {}
   default:
@@ -428,6 +415,5 @@ info:
   info_version: 1
   module: gdsfactory.components.litho_steps
   name: litho_steps
-  name_long: litho_steps
 ports: {}
 version: 1

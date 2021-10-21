@@ -287,6 +287,18 @@ class ComponentReference(DeviceReference):
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
 
+    @property
+    def pprint(self) -> None:
+        """Prints component info."""
+        print(OmegaConf.to_yaml(self.info))
+
+    @property
+    def pprint_ports(self) -> None:
+        """Prints component netlists."""
+        ports_list = self.get_ports_list()
+        for port in ports_list:
+            print(port)
+
     def _transform_port(
         self,
         point: ndarray,
@@ -552,11 +564,11 @@ class ComponentReference(DeviceReference):
 
 
 class Component(Device):
-    """customize phidl.Device
+    """extends phidl.Device
 
     Allow name to be set like Component('arc') or Component(name = 'arc')
 
-    - get/write JSON metadata
+    - get/write YAML metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
@@ -574,7 +586,6 @@ class Component(Device):
             - simulation_settings
             - function_name
             - name: for the component
-            - name_long: for the component
 
 
     """
@@ -588,9 +599,8 @@ class Component(Device):
             name += "_" + self.uid
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
-        self.info = DictConfig(self.info)
         self.name = name  # overwrie PHIDL's incremental naming convention
-        self.name_long = None
+        self.info = DictConfig(self.info)
 
     @classmethod
     def __get_validators__(cls):
@@ -659,9 +669,7 @@ class Component(Device):
         netlist = self.get_netlist()
         connections = netlist["connections"]
         placements = netlist["placements"]
-
         G = nx.Graph()
-
         G.add_edges_from(
             [
                 (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
@@ -713,20 +721,6 @@ class Component(Device):
 
         return get_netlist(component=self, full_settings=full_settings)
 
-    def get_name_long(self) -> str:
-        """returns the long name if it's been truncated to MAX_NAME_LENGTH"""
-        if self.name_long:
-            return self.name_long
-        else:
-            return self.name
-
-    def get_parent_name(self) -> str:
-        """Returns parent name if it has parent, else returns its own name.
-        Returns the original parent name for hierarchical components
-        and for non-hierarchical it just returns the component name
-        """
-        return self.info.get("parent_name", self.name)
-
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
         for port in self.ports.values():
@@ -750,23 +744,6 @@ class Component(Device):
             orientation: angle in degrees for the port
         """
         return list(select_ports(self.ports, **kwargs).values())
-
-    def get_ports_array(self) -> Dict[str, ndarray]:
-        """returns ports as a dict of np arrays"""
-        ports_array = {
-            port_name: np.array(
-                [
-                    port.x,
-                    port.y,
-                    int(port.orientation),
-                    port.width,
-                    port.layer[0],
-                    port.layer[1],
-                ]
-            )
-            for port_name, port in self.ports.items()
-        }
-        return ports_array
 
     def ref(
         self,
@@ -828,6 +805,7 @@ class Component(Device):
     def info_child(self) -> DictConfig:
         """Returns info from child if any, otherwise returns its info"""
         info = self.info
+        info.name = self.name
 
         while info.get("child"):
             info = info.get("child")
@@ -895,7 +873,7 @@ class Component(Device):
 
     def add_ports(self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""):
         ports = ports if isinstance(ports, list) else ports.values()
-        for port in ports:
+        for port in list(ports):
             name = f"{prefix}{port.name}" if prefix else port.name
             self.add_port(name=name, port=port)
 
@@ -1052,16 +1030,17 @@ class Component(Device):
             show_subports: add ports markers and labels to component references
             clear_cache: after showing component clears cache (useful for jupyter)
         """
-        from gdsfactory.add_pins import add_pins_container, add_pins_to_references
+        from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
         if show_subports:
-            component = add_pins_to_references(component=self)
-            component.name = self.name + "_show_subports"
+            component = self.copy()
+            for reference in component.references:
+                add_pins_triangle(component=component, reference=reference)
 
         elif show_ports:
-            component = add_pins_container(component=self)
-            component.name = self.name + "_show_ports"
+            component = self.copy()
+            add_pins_triangle(component=component)
         else:
             component = self
 
@@ -1078,24 +1057,17 @@ class Component(Device):
         gdsdir: PathType = tmp,
         unit: float = 1e-6,
         precision: float = 1e-9,
-        auto_rename: bool = False,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
     ) -> Path:
         """Write component to GDS and returs gdspath
 
         Args:
-            component: gf.Component.
             gdspath: GDS file path to write to.
-            unit unit size for objects in library.
-            precision: for the dimensions of the objects in the library (m).
-            remove_previous_markers: clear previous ones to avoid duplicates.
-            auto_rename: If True, fixes any duplicate cell names.
-            timestamp: datetime object or boolean
-                Sets the GDSII timestamp. Default = 2019-10-25 07:36:32.827300
-                If None, defaults to Now.
+            gdsdir: directory for the GDS file. Defaults to /tmp/
+            unit: unit size for objects in library. 1um by default.
+            precision: for object dimensions in the library (m). 1nm by default.
+            timestamp: Defaults to 2019-10-25. If None uses current time.
 
-        Returns:
-            gdspath
         """
         gdsdir = pathlib.Path(gdsdir)
         gdspath = gdspath or gdsdir / (self.name + ".gds")
@@ -1136,16 +1108,19 @@ class Component(Device):
         """Returns a DictConfig representation of the compoment."""
         d = DictConfig({})
         ports = {port.name: port.settings for port in self.get_ports_list()}
+        cells = recurse_structures(self)
         clean_dict(ports)
+        clean_dict(cells)
 
         d.ports = ports
         d.info = self.info
+        d.cells = cells
         d.version = 1
-        d.cells = recurse_structures(self)
-        return OmegaConf.create(d)
+        d.info.name = self.name
+        return d
 
     @property
-    def to_dict(self) -> str:
+    def to_dict(self) -> Dict[str, Any]:
         return OmegaConf.to_container(self.to_dict_config)
 
     @property
@@ -1189,18 +1164,18 @@ class Component(Device):
             "Don't move Components. Create a reference and move the reference instead."
         )
 
-    def rotate(self, angle: int = 90):
+    def rotate(self, angle: int = 90) -> Device:
         """Returns a new component with a rotated reference to the original component
 
         Args:
             angle: in degrees
         """
-        from gdsfactory.rotate import rotate
+        from gdsfactory.functions import rotate
 
         return rotate(component=self, angle=angle)
 
 
-def test_get_layers() -> None:
+def test_get_layers() -> Device:
     import gdsfactory as gf
 
     c = gf.components.straight(
@@ -1366,8 +1341,12 @@ def hash_file(filepath):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2)
+    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
     c2 = c.rotate()
-    c2.show()
+
+    # c2 = gf.c.mzi()
+    # c2.show(show_subports=True)
     # c2.write_gds_with_metadata("a.gds")
     # print(c)
+    # c = Component()
+    # print(c.info_child.name)

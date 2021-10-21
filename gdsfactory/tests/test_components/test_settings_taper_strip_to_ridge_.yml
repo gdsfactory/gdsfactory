@@ -33,10 +33,9 @@ cells:
       with_slab_port: false
     function_name: taper_strip_to_ridge
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_strip_to_ridge
-    name_long: taper_strip_to_ridge
 info:
   changed: {}
   default:
@@ -71,10 +70,9 @@ info:
     with_slab_port: false
   function_name: taper_strip_to_ridge
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.taper
   name: taper_strip_to_ridge
-  name_long: taper_strip_to_ridge
 ports:
   o1:
     layer:

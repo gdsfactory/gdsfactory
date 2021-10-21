@@ -17,7 +17,6 @@ cells:
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
     name: coupler
-    name_long: coupler
 info:
   changed: {}
   default:
@@ -36,7 +35,6 @@ info:
   min_bend_radius: 9.451
   module: gdsfactory.components.coupler
   name: coupler
-  name_long: coupler
 ports:
   o1:
     layer:

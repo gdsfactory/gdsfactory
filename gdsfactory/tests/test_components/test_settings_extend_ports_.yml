@@ -23,7 +23,6 @@ cells:
       info_version: 1
       module: gdsfactory.components.mmi1x2
       name: mmi1x2
-      name_long: mmi1x2
     default:
       centered: false
       extension_factory: null
@@ -44,7 +43,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.extension
     name: extend_ports
-    name_long: extend_ports
   mmi1x2:
     changed: {}
     default:
@@ -67,7 +65,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
 info:
   changed: {}
   child:
@@ -92,7 +89,6 @@ info:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-    name_long: mmi1x2
   default:
     centered: false
     extension_factory: null
@@ -113,7 +109,6 @@ info:
   info_version: 1
   module: gdsfactory.components.extension
   name: extend_ports
-  name_long: extend_ports
 ports:
   o1:
     layer:

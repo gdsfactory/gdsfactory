@@ -1,0 +1,77 @@
+cells:
+  mzi_gds:
+    changed: {}
+    default:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi
+info:
+  changed: {}
+  default:
+    combiner: null
+    delta_length: 10
+    layer: null
+    length_x: 0.1
+    length_y: 0.8
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  full:
+    combiner: null
+    delta_length: 10
+    layer: null
+    length_x: 0.1
+    length_y: 0.8
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  function_name: mzi
+  info_version: 1
+  module: gdsfactory.components.mzi
+  name: mzi_gds
+ports:
+  o1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -12.75
+    - 0
+    name: o1
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 78.35
+    - 0
+    name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+version: 1

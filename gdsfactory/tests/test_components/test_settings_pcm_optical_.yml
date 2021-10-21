@@ -53,7 +53,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_straight_all_af1777b0
-    name_long: cdsem_straight_all_af1777b0
   cdsem_straight_density_352deb0b:
     changed:
       cross_section:
@@ -98,7 +97,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_straight_density_352deb0b
-    name_long: cdsem_straight_density_352deb0b
   cdsem_straight_density_445f4a1c:
     changed:
       cross_section:
@@ -143,7 +141,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_straight_density_445f4a1c
-    name_long: cdsem_straight_density_445f4a1c
   cdsem_straight_density_f3cd459a:
     changed:
       cross_section:
@@ -188,7 +185,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_straight_density_f3cd459a
-    name_long: cdsem_straight_density_f3cd459a
   cdsem_uturn_1d375524:
     changed:
       bend90: bend_circular
@@ -227,7 +223,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_1d375524
-    name_long: cdsem_uturn_1d375524
   cdsem_uturn_29c8e298:
     changed:
       bend90: bend_circular
@@ -266,7 +261,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_29c8e298
-    name_long: cdsem_uturn_29c8e298
   cdsem_uturn_4bfcdf27:
     changed:
       bend90: bend_circular
@@ -305,7 +299,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_4bfcdf27
-    name_long: cdsem_uturn_4bfcdf27
   cdsem_uturn_5109446d:
     changed:
       bend90: bend_circular
@@ -344,7 +337,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_5109446d
-    name_long: cdsem_uturn_5109446d
   cdsem_uturn_531743ce:
     changed:
       bend90: bend_circular
@@ -383,7 +375,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_531743ce
-    name_long: cdsem_uturn_531743ce
   cdsem_uturn_87db98ff:
     changed:
       bend90: bend_circular
@@ -422,7 +413,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_87db98ff
-    name_long: cdsem_uturn_87db98ff
   manhattan_text_1cba8f86:
     changed:
       layer:
@@ -454,7 +444,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_1cba8f86
-    name_long: manhattan_text_1cba8f86
   manhattan_text_49c18516:
     changed:
       layer:
@@ -486,7 +475,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_49c18516
-    name_long: manhattan_text_49c18516
   manhattan_text_669a9938:
     changed:
       layer:
@@ -518,7 +506,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_669a9938
-    name_long: manhattan_text_669a9938
   manhattan_text_91aef3a7:
     changed:
       layer:
@@ -550,7 +537,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_91aef3a7
-    name_long: manhattan_text_91aef3a7
   manhattan_text_9a125eb4:
     changed:
       layer:
@@ -582,7 +568,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_9a125eb4
-    name_long: manhattan_text_9a125eb4
   manhattan_text_df780215:
     changed:
       layer:
@@ -614,7 +599,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_df780215
-    name_long: manhattan_text_df780215
   pcm_optical:
     changed: {}
     default:
@@ -661,7 +645,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: pcm_optical
-    name_long: pcm_optical
 info:
   changed: {}
   default:
@@ -708,6 +691,5 @@ info:
   info_version: 1
   module: gdsfactory.components.pcm_optical
   name: pcm_optical
-  name_long: pcm_optical
 ports: {}
 version: 1

@@ -18,7 +18,7 @@ cells:
       spacing:
       - 2
       - 2
-    enclosure: 2.0
+    enclosure: 2
     full:
       cladding_offset: 0
       enclosure: 2
@@ -36,13 +36,12 @@ cells:
     info_version: 1
     module: gdsfactory.components.via
     name: via_0b2d8623
-    name_long: via_0b2d8623
     size:
     - 0.7
     - 0.7
     spacing:
-    - 2.0
-    - 2.0
+    - 2
+    - 2
 info:
   changed:
     enclosure: 2
@@ -62,7 +61,7 @@ info:
     spacing:
     - 2
     - 2
-  enclosure: 2.0
+  enclosure: 2
   full:
     cladding_offset: 0
     enclosure: 2
@@ -80,12 +79,11 @@ info:
   info_version: 1
   module: gdsfactory.components.via
   name: via_0b2d8623
-  name_long: via_0b2d8623
   size:
   - 0.7
   - 0.7
   spacing:
-  - 2.0
-  - 2.0
+  - 2
+  - 2
 ports: {}
 version: 1

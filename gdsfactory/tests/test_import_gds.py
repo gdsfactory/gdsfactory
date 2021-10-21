@@ -20,4 +20,5 @@ def test_import_gds_hierarchy() -> None:
 
 
 if __name__ == "__main__":
-    test_import_gds_hierarchy()
+    # test_import_gds_hierarchy()
+    test_import_gds_snap_to_grid()

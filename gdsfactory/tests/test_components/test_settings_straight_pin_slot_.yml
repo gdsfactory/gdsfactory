@@ -5,42 +5,59 @@ info:
     contact_spacing: 2
     contact_width: 10
     length: 500
-    port_orientation_bot: 180
-    port_orientation_top: 0
   full:
     contact_spacing: 2
     contact_width: 10
     length: 500
-    port_orientation_bot: 180
-    port_orientation_top: 0
   function_name: straight_pin_slot
   info_version: 1
   module: gdsfactory.components.straight_pin_slot
   name: straight_pin_slot
-  name_long: straight_pin_slot
 ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 480
-    - 6
-    name: e1
-    orientation: 0
-    port_type: electrical
-    width: 10
-  e2:
+  bot_e1:
     layer:
     - 49
     - 0
     midpoint:
     - 0
     - -6
-    name: e2
+    name: bot_e1
     orientation: 180
     port_type: electrical
     width: 10
+  bot_e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 240
+    - -1
+    name: bot_e2
+    orientation: 90
+    port_type: electrical
+    width: 480
+  bot_e3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 480
+    - -6
+    name: bot_e3
+    orientation: 0
+    port_type: electrical
+    width: 10
+  bot_e4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 240
+    - -11
+    name: bot_e4
+    orientation: 270
+    port_type: electrical
+    width: 480
   o1:
     layer:
     - 1
@@ -63,4 +80,48 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
+  top_e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0
+    - 6
+    name: top_e1
+    orientation: 180
+    port_type: electrical
+    width: 10
+  top_e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 240
+    - 11
+    name: top_e2
+    orientation: 90
+    port_type: electrical
+    width: 480
+  top_e3:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 480
+    - 6
+    name: top_e3
+    orientation: 0
+    port_type: electrical
+    width: 10
+  top_e4:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 240
+    - 1
+    name: top_e4
+    orientation: 270
+    port_type: electrical
+    width: 480
 version: 1

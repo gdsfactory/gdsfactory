@@ -19,7 +19,6 @@ cells:
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
     name: coupler_02a30dd4
-    name_long: coupler_02a30dd4
   coupler_676c6f34:
     changed:
       gap: 0.3
@@ -40,7 +39,6 @@ cells:
     min_bend_radius: 9.568
     module: gdsfactory.components.coupler
     name: coupler_676c6f34
-    name_long: coupler_676c6f34
   mzi_arm_74064cef:
     changed:
       bend: bend_euler
@@ -68,7 +66,6 @@ cells:
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_74064cef
-    name_long: mzi_arm_74064cef
   mzi_arm_f85ac2e9:
     changed:
       bend: bend_euler
@@ -96,7 +93,6 @@ cells:
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_f85ac2e9
-    name_long: mzi_arm_f85ac2e9
   mzi_c2e98c04:
     changed:
       combiner:
@@ -142,7 +138,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_c2e98c04
-    name_long: mzi_c2e98c04
   mzi_lattice:
     changed: {}
     default:
@@ -167,7 +162,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi_lattice
     name: mzi_lattice
-    name_long: mzi_lattice
 info:
   changed: {}
   default:
@@ -192,7 +186,6 @@ info:
   info_version: 1
   module: gdsfactory.components.mzi_lattice
   name: mzi_lattice
-  name_long: mzi_lattice
 ports:
   o1:
     layer:

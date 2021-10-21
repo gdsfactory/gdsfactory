@@ -28,7 +28,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_85d33a91
-    name_long: compass_85d33a91
   die_bbox:
     changed: {}
     default:
@@ -55,7 +54,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.die_bbox
     name: die_bbox
-    name_long: die_bbox
   rectangle_6df08d23:
     changed:
       size:
@@ -83,7 +81,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_6df08d23
-    name_long: rectangle_6df08d23
 info:
   changed: {}
   default:
@@ -110,6 +107,5 @@ info:
   info_version: 1
   module: gdsfactory.components.die_bbox
   name: die_bbox
-  name_long: die_bbox
 ports: {}
 version: 1

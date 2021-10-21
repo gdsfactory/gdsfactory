@@ -19,11 +19,10 @@ cells:
         with_cladding_box: true
       function_name: taper
       info_version: 1
-      length: 10.0
+      length: 10
       module: gdsfactory.components.taper
       name: taper_3d968a90
-      name_long: taper_3d968a90
-      width1: 3.0
+      width1: 3
       width2: 0.5
     components: 88
     default:
@@ -42,7 +41,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_component
     name: cutback_component_mirror
-    name_long: cutback_component_mirror
     parent_name: loopback_taper_3d968a90_88
   taper_3d968a90:
     changed:
@@ -62,11 +60,10 @@ cells:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_3d968a90
-    name_long: taper_3d968a90
-    width1: 3.0
+    width1: 3
     width2: 0.5
 info:
   changed: {}
@@ -88,11 +85,10 @@ info:
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_3d968a90
-    name_long: taper_3d968a90
-    width1: 3.0
+    width1: 3
     width2: 0.5
   components: 88
   default:
@@ -111,7 +107,6 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_component
   name: cutback_component_mirror
-  name_long: cutback_component_mirror
   parent_name: loopback_taper_3d968a90_88
 ports:
   o1:
