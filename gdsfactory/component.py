@@ -669,9 +669,7 @@ class Component(Device):
         netlist = self.get_netlist()
         connections = netlist["connections"]
         placements = netlist["placements"]
-
         G = nx.Graph()
-
         G.add_edges_from(
             [
                 (",".join(k.split(",")[:-1]), ",".join(v.split(",")[:-1]))
@@ -1059,24 +1057,17 @@ class Component(Device):
         gdsdir: PathType = tmp,
         unit: float = 1e-6,
         precision: float = 1e-9,
-        auto_rename: bool = False,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
     ) -> Path:
         """Write component to GDS and returs gdspath
 
         Args:
-            component: gf.Component.
             gdspath: GDS file path to write to.
-            unit unit size for objects in library.
-            precision: for the dimensions of the objects in the library (m).
-            remove_previous_markers: clear previous ones to avoid duplicates.
-            auto_rename: If True, fixes any duplicate cell names.
-            timestamp: datetime object or boolean
-                Sets the GDSII timestamp. Default = 2019-10-25 07:36:32.827300
-                If None, defaults to Now.
+            gdsdir: directory for the GDS file. Defaults to /tmp/
+            unit: unit size for objects in library. 1um by default.
+            precision: for object dimensions in the library (m). 1nm by default.
+            timestamp: Defaults to 2019-10-25. If None uses current time.
 
-        Returns:
-            gdspath
         """
         gdsdir = pathlib.Path(gdsdir)
         gdspath = gdspath or gdsdir / (self.name + ".gds")
@@ -1128,7 +1119,7 @@ class Component(Device):
         return d
 
     @property
-    def to_dict(self) -> str:
+    def to_dict(self) -> Dict[str, Any]:
         return OmegaConf.to_container(self.to_dict_config)
 
     @property
@@ -1172,7 +1163,7 @@ class Component(Device):
             "Don't move Components. Create a reference and move the reference instead."
         )
 
-    def rotate(self, angle: int = 90):
+    def rotate(self, angle: int = 90) -> Device:
         """Returns a new component with a rotated reference to the original component
 
         Args:
@@ -1183,7 +1174,7 @@ class Component(Device):
         return rotate(component=self, angle=angle)
 
 
-def test_get_layers() -> None:
+def test_get_layers() -> Device:
     import gdsfactory as gf
 
     c = gf.components.straight(
