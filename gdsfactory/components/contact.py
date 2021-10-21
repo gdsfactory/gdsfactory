@@ -17,7 +17,9 @@ def contact(
     vias: Optional[Tuple[Optional[ComponentOrFactory], ...]] = (via1, via2),
     layer_port: Optional[Layer] = None,
 ) -> Component:
-    """Rectangular contact
+    """Rectangular contact.
+    You can use contact to connect different metal layers.
+    You can use the naming convention contact_layerSource_layerDestination
 
     Args:
         size: of the layers
