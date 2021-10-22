@@ -5,7 +5,7 @@ import pytest
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.drc import check_exclusion
+from gdsfactory.geometry import check_exclusion
 
 
 def get_device(

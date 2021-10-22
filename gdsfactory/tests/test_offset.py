@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.difftest import difftest
-from gdsfactory.offset import offset
+from gdsfactory.geometry.offset import offset
 
 
 def test_offset() -> None:
