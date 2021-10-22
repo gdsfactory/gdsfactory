@@ -218,6 +218,15 @@ class ComponentReference(DeviceReference):
     def __str__(self) -> str:
         return self.__repr__()
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """pydantic assumes componentReference is always valid"""
+        return v
+
     def __getitem__(self, val):
         """This allows you to access an alias from the reference's parent, and receive
         a copy of the reference which is correctly rotated and translated"""
