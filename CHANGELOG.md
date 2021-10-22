@@ -38,6 +38,7 @@ from contracts import contract
 - add `Port._copy()` that is the same as `Port.copy` to keep backwards compatibility with phidl components
 - move some functions (boolean, compute_area, offset, check_width ... ) into `gdsfactory.geometry`
 - add `gdsfactory.geometry.boolean` for klayout based boolean operations
+- add pydantic validator for `ComponentReference`
 
 ## 3.4.2
 
