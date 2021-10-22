@@ -33,15 +33,11 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
-
-class MutabilityError(ValueError):
-    pass
-
-
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 PathType = Union[str, Path]
+Float2 = Tuple[float, float]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
@@ -201,7 +197,7 @@ class ComponentReference(DeviceReference):
         # since two DeviceReferences of the same parent Device can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
-            name: port.copy(new_uid=True) for name, port in component.ports.items()
+            name: port._copy(new_uid=True) for name, port in component.ports.items()
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
@@ -1159,10 +1155,15 @@ class Component(Device):
     def auto_rename_ports_orientation(self, **kwargs) -> None:
         auto_rename_ports_orientation(self, **kwargs)
 
-    def move(self, *args, **kwargs):
-        raise MutabilityError(
-            "Don't move Components. Create a reference and move the reference instead."
-        )
+    def move(
+        self,
+        origin: Float2 = (0, 0),
+        destination: Optional[Float2] = None,
+        axis: Optional[str] = None,
+    ) -> Device:
+        from gdsfactory.functions import move
+
+        return move(component=self, origin=origin, destination=destination, axis=axis)
 
     def rotate(self, angle: int = 90) -> Device:
         """Returns a new component with a rotated reference to the original component

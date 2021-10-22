@@ -52,6 +52,7 @@ from gdsfactory import add_termination
 from gdsfactory import add_grating_couplers
 from gdsfactory import functions
 from gdsfactory import export
+from gdsfactory import geometry
 
 
 from gdsfactory.tech import TECH
@@ -65,8 +66,6 @@ from gdsfactory.add_pins import add_pins, add_pins_to_references
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid
-from gdsfactory.offset import offset
-from gdsfactory.boolean import boolean
 
 
 c = components
@@ -89,7 +88,7 @@ __all__ = [
     "add_tapers",
     "add_termination",
     "asserts",
-    "boolean",
+    "geometry",
     "c",
     "call_if_func",
     "cell",
@@ -105,7 +104,6 @@ __all__ = [
     "import_gds",
     "klive",
     "layers",
-    "offset",
     "pack",
     "path",
     "partial",

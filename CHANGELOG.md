@@ -30,6 +30,15 @@ from contracts import contract
 
 
 ```
+
+## 3.4.3
+
+- enable `Component.move()` which returns a new Component that contains a moved reference of the original component
+- adapt some phidl.geometry boolean operations
+- add `Port._copy()` that is the same as `Port.copy` to keep backwards compatibility with phidl components
+- move some functions (boolean, compute_area, offset, check_width ... ) into `gdsfactory.geometry`
+- add `gdsfactory.geometry.boolean` for klayout based boolean operations
+
 ## 3.4.2
 
 - `import_gds` also shares the cell cache

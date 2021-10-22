@@ -1,7 +1,7 @@
 from typing import Tuple
 
 import gdsfactory as gf
-from gdsfactory.drc import check_width
+from gdsfactory.geometry import check_width
 
 
 def test_wmin_failing(layer: Tuple[int, int] = (1, 0)) -> None:
