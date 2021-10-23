@@ -2,7 +2,7 @@ import itertools as it
 
 import numpy as np
 
-from gdsfactory.geo_utils import polygon_grow
+from gdsfactory.geometry.functions import polygon_grow
 
 DEG2RAD = np.pi / 180
 RAD2DEG = 1.0 / DEG2RAD

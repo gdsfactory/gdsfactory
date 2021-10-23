@@ -2,7 +2,7 @@ import gdspy as gp
 from numpy import float64
 
 from gdsfactory.component import Component
-from gdsfactory.geo_utils import area
+from gdsfactory.geometry.functions import area
 from gdsfactory.types import Dict, Layer, Tuple
 
 
