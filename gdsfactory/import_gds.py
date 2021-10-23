@@ -290,6 +290,7 @@ def import_gds(
     snap_to_grid_nm: Optional[int] = None,
     name: Optional[str] = None,
     decorator: Optional[Callable] = None,
+    max_name_length: int = 32,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -302,6 +303,8 @@ def import_gds(
         flatten: if True returns flattened (no hierarchy)
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
         name: Optional name
+        decorator: function to apply over the imported gds
+        max_name_length: can truncate the name of the cell before importing it
         **kwargs: component.info
     """
     gdspath = Path(gdspath)
@@ -413,8 +416,9 @@ def import_gds(
     component.info.update(**kwargs)
 
     component.name = name or component.name
-    component._update_info = False
-    return cell_without_validator(lambda: component)(name=component.name)
+    return cell_without_validator(lambda: component)(
+        name=component.name, max_name_length=max_name_length
+    )
 
 
 def write_top_cells(gdspath: Union[str, Path], **kwargs) -> None:

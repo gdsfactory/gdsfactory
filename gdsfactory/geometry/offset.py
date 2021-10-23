@@ -28,6 +28,7 @@ def offset(
     layer: Layer = (1, 0),
 ) -> Component:
     """Returns an element containing all polygons with an offset
+    Shrinks or expands a polygon or set of polygons.
 
     adapted from phidl.geometry
 
@@ -89,17 +90,22 @@ def offset(
             tolerance=tolerance,
         )
 
-    D = gf.Component("offset")
-    polygons = D.add_polygon(p, layer=layer)
+    component = gf.Component("offset")
+    polygons = component.add_polygon(p, layer=layer)
     [
         polygon.fracture(max_points=max_points, precision=precision)
         for polygon in polygons
     ]
-    return D
+    return component
+
+
+def test_offset():
+    c = gf.components.ring()
+    co = offset(c, distance=0.5)
+    assert int(co.area()) == 94
 
 
 if __name__ == "__main__":
-    c = gf.components.rectangle(size=(1, 2))
     c = gf.components.ring()
     co = offset(c, distance=0.5)
     gf.show(co)

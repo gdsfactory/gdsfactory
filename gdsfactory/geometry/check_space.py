@@ -1,7 +1,5 @@
 from typing import Tuple
 
-import klayout.db as pya
-
 from gdsfactory.component import Component
 from gdsfactory.types import ComponentOrPath
 
@@ -17,7 +15,7 @@ def check_space(
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
-    """Reads layer from top cell and returns a the area that violates min space.
+    """Reads layer from top cell and returns the area that violates min space.
 
     If "whole_edges" is true, the resulting EdgePairs collection will receive the whole edges which contribute in the space check.
 
@@ -41,10 +39,11 @@ def check_space(
         other: The other region against which to check
         whole_edges: If true, deliver the whole edges
         metrics: Specify the metrics type 'Euclidian, square'
-        min_projection The lower threshold of the projected length of one edge onto another
-        max_projection The upper limit of the projected length of one edge onto another
+        min_projection: lower threshold of the projected length of one edge onto another
+        max_projection: upper limit of the projected length of one edge onto another
 
     """
+    import klayout.db as pya
 
     if isinstance(gdspath, Component):
         gdspath.flatten()
@@ -73,6 +72,8 @@ def check_space(
 
 
 if __name__ == "__main__":
+    import klayout.db as pya
+
     import gdsfactory as gf
 
     space = 0.12
@@ -85,6 +86,7 @@ if __name__ == "__main__":
     if isinstance(gdspath, Component):
         gdspath.flatten()
         gdspath = gdspath.write_gds()
+
     layout = pya.Layout()
     layout.read(str(gdspath))
     cell = layout.top_cell()

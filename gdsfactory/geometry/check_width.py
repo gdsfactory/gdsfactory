@@ -1,9 +1,6 @@
 from pathlib import Path
 from typing import Tuple, Union
 
-import klayout.db as pya
-from klayout.dbcore import EdgePairs
-
 from gdsfactory.component import Component
 
 
@@ -12,7 +9,7 @@ def check_width(
     layer: Tuple[int, int] = (1, 0),
     min_width: float = 0.150,
     dbu: float = 1e3,
-) -> Union[int, EdgePairs]:
+) -> int:
     """Reads layer from top cell and returns a number of edges violating min width
 
     Args:
@@ -21,6 +18,8 @@ def check_width(
         min_width: in um
         dbu: database units (1000 um/nm)
     """
+    import klayout.db as pya
+
     from gdsfactory.component import Component
 
     if isinstance(gdspath, Component):
@@ -36,6 +35,8 @@ def check_width(
 
 
 def demo():
+    import klayout.db as pya
+
     a = pya.Region()
     a.insert(pya.Box(0, 0, 100, 1000))
 
@@ -63,4 +64,5 @@ if __name__ == "__main__":
 
     w = 0.12
     c = gf.components.rectangle(size=(w, w), layer=LAYER.WG)
-    print(check_width(c))
+    r = check_width(c)
+    print(r)

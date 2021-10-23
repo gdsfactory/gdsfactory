@@ -1,18 +1,19 @@
-from typing import Optional, Tuple, Union
+from typing import Tuple, Union
 
 import phidl.geometry as pg
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentOrReference, Layer
+from gdsfactory.types import ComponentOrReference, Int2, Layer
 
 
+@gf.cell
 def boolean(
     A: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
     B: Union[ComponentOrReference, Tuple[ComponentOrReference, ...]],
     operation: str,
     precision: float = 1e-4,
-    num_divisions: Optional[int] = None,
+    num_divisions: Union[int, Int2] = (1, 1),
     max_points: int = 4000,
     layer: Layer = (1, 0),
 ) -> Component:
@@ -22,6 +23,10 @@ def boolean(
     ``operation`` should be one of {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
     Note that 'A+B' is equivalent to 'or', 'A-B' is equivalent to 'not', and
     'B-A' is equivalent to 'not' with the operands switched
+
+    gdsfactory wrapper for phidl.geometry.boolean
+
+    You can also use gdsfactory.drc.boolean that uses Klayout backend
 
     Args:
         A: Component(/Reference) or list of Component(/References)
@@ -43,7 +48,6 @@ def boolean(
     'A-B' is equivalent to 'not'.
     'B-A' is equivalent to 'not' with the operands switched.
     """
-    num_divisions = num_divisions or [1, 1]
     c = pg.boolean(
         A=A,
         B=B,

@@ -5,7 +5,7 @@ from numpy import ndarray
 
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
-from gdsfactory.geo_utils import path_length
+from gdsfactory.geometry.functions import path_length
 from gdsfactory.routing.manhattan import (
     _is_horizontal,
     _is_vertical,

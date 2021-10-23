@@ -57,13 +57,17 @@ def cell_without_validator(func):
     @functools.wraps(func)
     def _cell(*args, **kwargs):
         """Decorator for Component functions.
-        Use cell
+
+        similar to cell decorator, this one does not validate_arguments using
+        type annotations
 
         kwargs:
             name (str): Optional (ignored when autoname=True)
             cache (bool): get component from the cache if it already exists.
               Useful in jupyter notebook, so you don't have to clear the cache
-            info: updates component.info
+            info: updates component.info dict
+            prefix: name_prefix, defaults to function name
+            max_name_length: truncates name beyond some characters (32) with a hash
             decorator: function to run over the component
 
         Implements a cache so that if a component has already been build
@@ -88,10 +92,11 @@ def cell_without_validator(func):
           c.plot()
 
         """
-        prefix = kwargs.pop("prefix", func.__name__)
+        name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
         info = kwargs.pop("info", omegaconf.DictConfig({}))
-        name = kwargs.pop("name", None)
+        prefix = kwargs.pop("prefix", func.__name__)
+        max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
@@ -109,7 +114,7 @@ def cell_without_validator(func):
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
 
-        if len(name) > MAX_NAME_LENGTH:
+        if len(name) > max_name_length:
             name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
             name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
 
@@ -148,29 +153,28 @@ def cell_without_validator(func):
                     "make sure that functions with @cell decorator return a Component",
                 )
 
-            if getattr(component, "_update_info", True):
-                component.name = name
-                component.info.name = name
-                component.info.module = func.__module__
-                component.info.function_name = func.__name__
-                component.info.info_version = INFO_VERSION
+            component.name = name
+            component.info.name = name
+            component.info.module = func.__module__
+            component.info.function_name = func.__name__
+            component.info.info_version = INFO_VERSION
 
-                default = {
-                    p.name: p.default
-                    for p in sig.parameters.values()
-                    if not callable(p.default)
-                }
-                full = default.copy()
-                full.update(**args_as_kwargs)
-                changed = args_as_kwargs.copy()
+            default = {
+                p.name: p.default
+                for p in sig.parameters.values()
+                if not callable(p.default)
+            }
+            full = default.copy()
+            full.update(**args_as_kwargs)
+            changed = args_as_kwargs.copy()
 
-                clean_dict(full)
-                clean_dict(default)
-                clean_dict(changed)
+            clean_dict(full)
+            clean_dict(default)
+            clean_dict(changed)
 
-                component.info.changed = changed
-                component.info.default = default
-                component.info.full = full
+            component.info.changed = changed
+            component.info.default = default
+            component.info.full = full
 
             component.info.update(**info)
             CACHE[name] = component

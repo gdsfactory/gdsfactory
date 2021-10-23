@@ -1,8 +1,5 @@
 """Write Sparameters with Lumerical FDTD.
 
-Disclaimer: This function automates the Sparameters but is hard to make a
-function that will fit all your possible simulation settings.
-You can use this function as an inspiration to create your own.
 """
 
 import dataclasses
@@ -55,10 +52,9 @@ def write_sparameters_lumerical(
     If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
 
-    Lumerical units are in meters while gdsfactory units are in um
 
     Writes Sparameters both in .CSV and .DAT (interconnect format) as well as
-    simulation settings in YAML
+    simulation settings in .YAML
 
     In the CSV format you can see `S12m` where `m` stands for magnitude
     and `S12a` where `a` stands for angle in radians
@@ -72,6 +68,12 @@ def write_sparameters_lumerical(
     - Simulation Settings
     - dirpath
     - layerStack
+
+    converts gdsfactory units (um) to Lumerical units (m)
+
+    Disclaimer: This function tries to extract Sparameters automatically
+    is hard to make a function that will fit all your possible simulation settings.
+    You can use this function as an inspiration to create your own.
 
     Args:
         component: Component to simulate
@@ -87,15 +89,15 @@ def write_sparameters_lumerical(
             port_height: port height (um)
             port_extension: port extension (um)
             mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-            zmargin: for the FDTD region 1 (um)
-            ymargin: for the FDTD region 2 (um)
-            xmargin: for the FDTD region
+            zmargin: for the FDTD region (um)
+            ymargin: for the FDTD region (um)
+            xmargin: for the FDTD region (um)
             pml_margin: for all the FDTD region
             wavelength_start: 1.2 (um)
             wavelength_stop: 1.6 (um)
             wavelength_points: 500
-            simulation_time: determines the max structure size (3e8/2.4*10e-12*1e6) = 1.25mm
-            simulation_temperature: in kelvin 300
+            simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
+            simulation_temperature: in kelvin (default = 300)
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
