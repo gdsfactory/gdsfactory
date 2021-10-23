@@ -34,11 +34,14 @@ from contracts import contract
 ## 3.4.3
 
 - enable `Component.move()` which returns a new Component that contains a moved reference of the original component
-- adapt some phidl.geometry boolean operations
 - add `Port._copy()` that is the same as `Port.copy` to keep backwards compatibility with phidl components
+- adapt some phidl.geometry boolean operations into `gdsfactory.geometry`
 - move some functions (boolean, compute_area, offset, check_width ... ) into `gdsfactory.geometry`
 - add `gdsfactory.geometry.boolean` for klayout based boolean operations
 - add pydantic validator for `ComponentReference`
+- max_name_length is a cell decorator argument used when importing gds cells
+- add `geometry.boolean_klayout`
+
 
 ## 3.4.2
 
