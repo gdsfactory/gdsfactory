@@ -2,19 +2,19 @@
 
 import dataclasses
 import json
-from pathlib import Path
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Optional
 
 from omegaconf.dictconfig import DictConfig
 
 from gdsfactory.config import CONFIG, TECH, logger, write_config
+from gdsfactory.types import PathType, PathTypes
 
 
 def merge_json(
-    doe_directory: Path = CONFIG["doe_directory"],
-    gds_directory: Path = CONFIG["gds_directory"],
-    extra_directories: Optional[Iterable[Path]] = None,
-    jsonpath: Path = CONFIG["mask_directory"] / "metadata.json",
+    doe_directory: PathType = CONFIG["doe_directory"],
+    gds_directory: PathType = CONFIG["gds_directory"],
+    extra_directories: Optional[PathTypes] = None,
+    jsonpath: PathType = CONFIG["mask_directory"] / "metadata.json",
     json_version: int = 6,
     config: DictConfig = TECH,
 ) -> Dict[str, Any]:

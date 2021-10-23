@@ -1,5 +1,5 @@
 import gdsfactory as gf
-from gdsfactory.drc import check_space
+from gdsfactory.geometry import check_space
 
 
 def test_space_fail() -> None:

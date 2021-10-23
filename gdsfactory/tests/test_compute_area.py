@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 import gdsfactory as gf
-from gdsfactory.drc.density import compute_area
+from gdsfactory.geometry.compute_area import compute_area
 
 
 @pytest.mark.parametrize("x,y,layer", [(1, 8, (1, 0)), (9, 1, (2, 2))])

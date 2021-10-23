@@ -316,7 +316,7 @@ def arc(radius: Number = 10, angle: Number = 90, npoints: int = 720) -> Path:
 def euler(
     radius: Number = 10,
     angle: Number = 90,
-    p: float = 1,
+    p: float = 0.5,
     use_eff: bool = False,
     npoints: int = 720,
 ) -> Path:

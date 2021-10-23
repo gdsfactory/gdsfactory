@@ -160,6 +160,10 @@ class Port(PortPhidl):
         port.angle = (port.angle + 180) % 360
         return port
 
+    def _copy(self, new_uid: bool = True) -> PortPhidl:
+        """Keep this case for phidl compatibility"""
+        return self.copy(new_uid=new_uid)
+
     def copy(self, new_uid: bool = True) -> PortPhidl:
         new_port = Port(
             name=self.name,

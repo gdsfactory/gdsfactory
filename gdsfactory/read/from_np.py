@@ -4,8 +4,8 @@ from typing import Tuple
 import numpy as np
 from skimage import measure
 
-from gdsfactory.boolean import boolean
 from gdsfactory.component import Component
+from gdsfactory.geometry.boolean import boolean
 
 
 def compute_area_signed(pr) -> float:

@@ -1,5 +1,4 @@
-import copy
-
+from omegaconf import OmegaConf
 from phidl.device_layout import Device
 
 from gdsfactory.component import Component, ComponentReference, Port
@@ -10,7 +9,7 @@ def from_phidl(component: Device, **kwargs) -> Component:
     """Returns gf.Component from a phidl Device or function"""
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)
-    component.info = copy.deepcopy(device.info)
+    component.info = OmegaConf.create(device.info)
     for ref in device.references:
         new_ref = ComponentReference(
             component=ref.parent,

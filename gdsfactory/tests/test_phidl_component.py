@@ -12,7 +12,7 @@ def component_phidl(function_name: str, **kwargs) -> gf.Component:
 
 
 def test_import_component_phidl():
-    component_phidl(function_name="L")
+    component_phidl(function_name="snspd")
 
 
 if __name__ == "__main__":
