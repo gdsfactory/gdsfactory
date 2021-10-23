@@ -17,6 +17,7 @@ def sign_shape(pts: ndarray) -> float64:
 
 
 def area(pts: ndarray) -> float64:
+    """Returns the area."""
     pts2 = np.roll(pts, 1, axis=0)
     dx = pts2[:, 0] - pts[:, 0]
     y = pts2[:, 1] + pts[:, 1]
@@ -24,7 +25,7 @@ def area(pts: ndarray) -> float64:
 
 
 def manhattan_direction(p0, p1, tol=1e-5):
-    """"""
+    """Returns manhattan direction between 2 points."""
     dp = p1 - p0
     dx, dy = dp[0], dp[1]
     if abs(dx) < tol:
@@ -122,13 +123,10 @@ def radius_of_curvature(points, t):
 
 
 def path_length(points: ndarray) -> float64:
-    """
-    Args:
-        points: <np.array>
-            With shape (N, 2) representing N points with coordinates x, y
+    """Returns: The path length
 
-    Returns:
-        <float> The path length
+    Args:
+        points: With shape (N, 2) representing N points with coordinates x, y
     """
 
     dpts = points[1:, :] - points[:-1, :]
@@ -137,7 +135,7 @@ def path_length(points: ndarray) -> float64:
 
 
 def snap_angle(a: float64) -> int:
-    """
+    """Snap angle to manhattan direction (0, 90, 180, 270)
     a: angle in deg
     Return angle snapped along manhattan angle
     """
@@ -176,7 +174,7 @@ def extrude_path(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> ndarray:
-    """Deprecated. Use gf.path
+    """Deprecated. Use gf.path instead
     Extrude a path of width `width` along a curve defined by `points`
 
     Args:
