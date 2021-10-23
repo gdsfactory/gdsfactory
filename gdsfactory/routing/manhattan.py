@@ -14,7 +14,7 @@ from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper import taper as taper_factory
 from gdsfactory.cross_section import strip
-from gdsfactory.geo_utils import angles_deg
+from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER

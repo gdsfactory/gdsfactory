@@ -236,7 +236,7 @@ def extrude_path(
 
 
 def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
-    """
+    """Returns a grown polygon by an offset
     polygon has to be a closed shape
     """
     s = remove_identicals(polygon)

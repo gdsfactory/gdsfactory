@@ -1,3 +1,4 @@
+from gdsfactory.geometry import functions
 from gdsfactory.geometry.boolean import boolean
 from gdsfactory.geometry.boolean_klayout import boolean_klayout
 from gdsfactory.geometry.check_exclusion import check_exclusion
@@ -25,4 +26,5 @@ __all__ = (
     "outline",
     "union",
     "xor_diff",
+    "functions",
 )

@@ -5,7 +5,7 @@ from numpy import ndarray
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.geo_utils import DEG2RAD, extrude_path
+from gdsfactory.geometry.functions import DEG2RAD, extrude_path
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Layer
 

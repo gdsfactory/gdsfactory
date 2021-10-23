@@ -4,7 +4,7 @@ import numpy as np
 from numpy import float64, ndarray
 
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.geo_utils import remove_identicals
+from gdsfactory.geometry.functions import remove_identicals
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import (

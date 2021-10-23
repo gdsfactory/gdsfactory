@@ -7,7 +7,7 @@ from scipy.special import binom
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.geo_utils import (
+from gdsfactory.geometry.functions import (
     angles_deg,
     curvature,
     extrude_path,
