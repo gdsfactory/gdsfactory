@@ -1,21 +1,21 @@
 """Dummy fill to keep density constant."""
-from typing import Iterable, Optional, Tuple, Union
+from typing import Optional, Union
 
 from phidl.geometry import fill_rectangle as _fill_rectangle
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.read import from_phidl
-from gdsfactory.types import Float2, Floats, Layer, Layers
+from gdsfactory.types import Float2, Floats, Layers
 
 
 @cell
 def fill_rectangle(
     component: Component,
     fill_layers: Layers,
-    fill_size: Tuple[float, float] = (5.0, 5.0),
-    avoid_layers: Union[str, Iterable[Layer]] = "all",
-    include_layers: Optional[Iterable[Layer]] = None,
+    fill_size: Float2 = (5.0, 5.0),
+    avoid_layers: Optional[Layers] = None,
+    include_layers: Optional[Layers] = None,
     margin: float = 5.0,
     fill_densities: Union[float, Floats] = (0.5, 0.25, 0.7),
     fill_inverted: bool = False,
@@ -28,10 +28,8 @@ def fill_rectangle(
     Args:
         Component: Component to fill
         fill_size: Rectangular size of the fill element
-        avoid_layers: 'all' or list of layers
-            Layers to be avoided (not filled) in D
-        include_layers:
-            Layers to be included (filled) in D, supercedes avoid_layers
+        avoid_layers: Layers to be avoided (not filled) in D
+        include_layers: Layers to be filled, supercedes avoid_layers
         margin :
             Margin spacing around avoided areas -- fill will not come within
             `margin` of the geometry in D
@@ -47,7 +45,7 @@ def fill_rectangle(
     component_filled = _fill_rectangle(
         component,
         fill_size=fill_size,
-        avoid_layers=avoid_layers,
+        avoid_layers=avoid_layers or "all",
         include_layers=include_layers,
         margin=margin,
         fill_layers=fill_layers,

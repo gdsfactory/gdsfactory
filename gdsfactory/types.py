@@ -58,6 +58,7 @@ ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
+PathTypes = Tuple[PathType, ...]
 
 ComponentOrFactory = Union[ComponentFactory, Component]
 ComponentOrPath = Union[PathType, Component]
