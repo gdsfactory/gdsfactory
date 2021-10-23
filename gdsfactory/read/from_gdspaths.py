@@ -1,25 +1,27 @@
 import pathlib
-from typing import Iterable
+from typing import Tuple
 
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.import_gds import import_gds
 from gdsfactory.types import ComponentOrPath, PathType
 
 
-def from_gdspaths(cells: Iterable[ComponentOrPath]) -> Component:
+@cell
+def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:
     """Combine all GDS files or gf.components into a gf.component.
 
     Args:
         cells: List of gdspaths or Components
     """
-    c = Component()
+    component = Component()
 
-    for cell in cells:
-        if not isinstance(cell, Component):
-            cell = import_gds(cell)
-        c << cell
+    for c in cells:
+        if not isinstance(c, Component):
+            c = import_gds(c)
+        component << c
 
-    return c
+    return component
 
 
 def gdsdir(dirpath: PathType) -> Component:
