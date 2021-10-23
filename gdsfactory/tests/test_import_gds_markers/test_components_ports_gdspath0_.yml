@@ -1,6 +1,19 @@
 cells:
-  mzi_gds: {}
+  mzi_gds:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: <lambda>
+    info_version: 1
+    module: gdsfactory.import_gds
+    name: mzi_gds
 info:
+  changed: {}
+  default: {}
+  full: {}
+  function_name: <lambda>
+  info_version: 1
+  module: gdsfactory.import_gds
   name: mzi_gds
 ports: {}
 version: 1

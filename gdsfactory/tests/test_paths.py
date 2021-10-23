@@ -13,7 +13,9 @@ def test_path():
     P = gf.Path()
     P.append(gf.path.arc(radius=10, angle=90))  # Circular arc
     P.append(gf.path.straight(length=10))  # Straight section
-    P.append(gf.path.euler(radius=3, angle=-90))  # Euler bend (aka "racetrack" curve)
+    P.append(
+        gf.path.euler(radius=3, angle=-90, p=1)
+    )  # Euler bend (aka "racetrack" curve)
     P.append(gf.path.straight(length=40))
     P.append(gf.path.arc(radius=8, angle=-45))
     P.append(gf.path.straight(length=10))
