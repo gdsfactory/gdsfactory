@@ -9,6 +9,7 @@ from gdsfactory.types import ComponentOrPath
 valid_operations = ("xor", "not", "and", "or")
 
 
+@gf.cell
 def boolean_klayout(
     gdspath1: ComponentOrPath,
     gdspath2: ComponentOrPath,
@@ -48,7 +49,7 @@ def boolean_klayout(
     layout2.read(str(gdspath2))
     cell2 = layout2.top_cell()
 
-    cellname = f"Unnamed_{str(uuid.uuid4())[:8]}"
+    cellname = f"boolean_{str(uuid.uuid4())[:8]}"
     layout3 = pya.Layout()
     layout3_top = layout3.create_cell(cellname)
 
