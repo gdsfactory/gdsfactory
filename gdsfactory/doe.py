@@ -1,5 +1,4 @@
-""" A Design Of Experiment (DOE) changes one or several component parameters to create a model
-"""
+"""Design Of Experiment (DOE) to model one or several component parameters."""
 
 import itertools as it
 from io import StringIO
@@ -116,10 +115,10 @@ def get_settings_list(do_permutations: bool = True, **kwargs) -> List[Dict[str, 
             kwargs[key] = [value]
 
     if do_permutations:
-        keys, list_values = list(zip(*[x for x in list(kwargs.items())]))
+        keys, list_values = list(zip(*list(kwargs.items())))
         settings = [dict(list(zip(keys, perms))) for perms in it.product(*list_values)]
     else:
-        keys, list_values = list(zip(*[x for x in list(kwargs.items())]))
+        keys, list_values = list(zip(*list(kwargs.items())))
         settings = [dict(list(zip(keys, values))) for values in zip(*list_values)]
 
     return settings

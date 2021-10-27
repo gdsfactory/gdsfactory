@@ -30,6 +30,9 @@ from contracts import contract
 
 
 ```
+## 3.4.4
+
+- decorators that return new component also work in cell
 
 ## 3.4.3
 
