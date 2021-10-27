@@ -145,7 +145,8 @@ def cell_without_validator(func):
                 assert callable(
                     decorator
                 ), f"decorator = {type(decorator)} needs to be callable"
-                decorator(component)
+                component_new = decorator(component)
+                component = component_new or component
 
             if not isinstance(component, Component):
                 raise CellReturnTypeError(

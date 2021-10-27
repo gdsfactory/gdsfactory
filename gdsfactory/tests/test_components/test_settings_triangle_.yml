@@ -8,6 +8,7 @@ cells:
       x: 10
       xtop: 0
       y: 20
+      ybot: 0
     full:
       layer:
       - 1
@@ -15,6 +16,7 @@ cells:
       x: 10
       xtop: 0
       y: 20
+      ybot: 0
     function_name: triangle
     info_version: 1
     module: gdsfactory.components.triangle
@@ -28,6 +30,7 @@ info:
     x: 10
     xtop: 0
     y: 20
+    ybot: 0
   full:
     layer:
     - 1
@@ -35,6 +38,7 @@ info:
     x: 10
     xtop: 0
     y: 20
+    ybot: 0
   function_name: triangle
   info_version: 1
   module: gdsfactory.components.triangle
