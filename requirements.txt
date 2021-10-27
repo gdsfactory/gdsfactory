@@ -12,7 +12,7 @@ Pyqtree==1.0.0
 qrcode==7.3.1
 rectpack==0.2.1
 scipy
-Shapely==1.7.1
+Shapely==1.8.0
 networkx==2.6.3
 matplotlib==3.4.3
 pytest==6.2.5
@@ -24,6 +24,6 @@ scikit-image
 loguru
 ipympl
 toolz==0.11.1
-trimesh==3.9.32
+trimesh==3.9.34
 triangle
 pyglet
