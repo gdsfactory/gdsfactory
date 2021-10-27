@@ -1,0 +1,15 @@
+name: Build Notebook Container
+on: [push] # You may want to trigger this Action on other things than a push.
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: checkout files in repo
+      uses: actions/checkout@main
+
+    - name: update jupyter dependencies with repo2docker
+      uses: jupyterhub/repo2docker-action@master
+      with:
+        DOCKER_USERNAME: joamatab
+        DOCKER_PASSWORD: ${{ secrets.D_PASS }}
