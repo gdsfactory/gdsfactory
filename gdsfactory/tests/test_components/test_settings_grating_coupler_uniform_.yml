@@ -1,10 +1,10 @@
 cells:
-  compass_c2010375:
+  compass_fa26bb75:
     changed:
       layer:
       - 1
       - 0
-      port_type: electrical
+      port_type: null
       size:
       - 0.375
       - 11
@@ -20,14 +20,14 @@ cells:
       layer:
       - 1
       - 0
-      port_type: electrical
+      port_type: null
       size:
       - 0.375
       - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c2010375
+    name: compass_fa26bb75
   grating_coupler_uniform:
     changed: {}
     default:
@@ -60,11 +60,12 @@ cells:
     name: grating_coupler_uniform
     polarization: te
     wavelength: 1.55
-  rectangle_240048ff:
+  rectangle_fa26bb75:
     changed:
       layer:
       - 1
       - 0
+      port_type: null
       size:
       - 0.375
       - 11
@@ -82,14 +83,14 @@ cells:
       layer:
       - 1
       - 0
-      port_type: electrical
+      port_type: null
       size:
       - 0.375
       - 11
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_240048ff
+    name: rectangle_fa26bb75
   taper_211ef0b5:
     changed:
       layer:
