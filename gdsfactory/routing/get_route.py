@@ -168,7 +168,7 @@ def get_route_from_waypoints(
 
         import gdsfactory as gf
 
-        c = gf.Component('waypoints_sample')
+        c = gf.Component("waypoints_sample")
 
         w = gf.components.straight()
         left = c << w
@@ -178,13 +178,13 @@ def get_route_from_waypoints(
         obstacle = gf.components.rectangle(size=(100, 10))
         obstacle1 = c << obstacle
         obstacle2 = c << obstacle
-        obstacle1.ymin=40
-        obstacle2.xmin=25
+        obstacle1.ymin = 40
+        obstacle2.xmin = 25
 
 
-        p0x, p0y = left.ports['E0'].midpoint
-        p1x, p1y = right.ports['E0'].midpoint
-        o = 10 # vertical offset to overcome bottom obstacle
+        p0x, p0y = left.ports["o2"].midpoint
+        p1x, p1y = right.ports["o2"].midpoint
+        o = 10  # vertical offset to overcome bottom obstacle
         ytop = 20
 
 
@@ -199,7 +199,8 @@ def get_route_from_waypoints(
             ],
         )
         c.add(routes.references)
-        c.show()
+        c.plot()
+
     """
 
     x = cross_section(**kwargs)

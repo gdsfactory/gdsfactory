@@ -407,17 +407,17 @@ contact_heater_m3
 
 
 
-contact_slab
+contact_slab_m3
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.contact_slab
+.. autofunction:: gdsfactory.components.contact_slab_m3
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.contact_slab(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)))
+  c = gf.components.contact_slab_m3(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)))
   c.plot()
 
 

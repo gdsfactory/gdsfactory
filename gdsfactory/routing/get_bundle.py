@@ -193,14 +193,14 @@ def get_bundle_same_axis(
         ports2: second list of ports
         separation: minimum separation between two straights
         axis: specifies "X" or "Y"
-              X (resp. Y) -> indicates that the ports should be sorted and
-             compared using the X (resp. Y) axis
+            X (resp. Y) -> indicates that the ports should be sorted and
+            compared using the X (resp. Y) axis
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
         end_straight_offset: offset to add at the end of each straight
         sort_ports: sort the ports according to the axis.
         cross_section: cross_section
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates
@@ -221,8 +221,8 @@ def get_bundle_same_axis(
         2 X          X          X          X          X          X
 
 
-    start: at the top
-    end: at the bottom
+    ports1: at the top
+    ports2: at the bottom
 
     The general strategy is:
     Group tracks which would collide together and apply the following method

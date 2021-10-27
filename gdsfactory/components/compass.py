@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -10,7 +10,7 @@ from gdsfactory.types import Layer
 def compass(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: Layer = gf.LAYER.WG,
-    port_type: str = "electrical",
+    port_type: Optional[str] = "electrical",
 ) -> Component:
     """Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
@@ -31,39 +31,41 @@ def compass(
     ]
 
     c.add_polygon(points, layer=layer)
-    c.add_port(
-        name="e1",
-        midpoint=[-dx / 2, 0],
-        width=dy,
-        orientation=180,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.add_port(
-        name="e2",
-        midpoint=[0, dy / 2],
-        width=dx,
-        orientation=90,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.add_port(
-        name="e3",
-        midpoint=[dx / 2, 0],
-        width=dy,
-        orientation=0,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.add_port(
-        name="e4",
-        midpoint=[0, -dy / 2],
-        width=dx,
-        orientation=-90,
-        layer=layer,
-        port_type=port_type,
-    )
-    c.auto_rename_ports()
+
+    if port_type:
+        c.add_port(
+            name="e1",
+            midpoint=[-dx / 2, 0],
+            width=dy,
+            orientation=180,
+            layer=layer,
+            port_type=port_type,
+        )
+        c.add_port(
+            name="e2",
+            midpoint=[0, dy / 2],
+            width=dx,
+            orientation=90,
+            layer=layer,
+            port_type=port_type,
+        )
+        c.add_port(
+            name="e3",
+            midpoint=[dx / 2, 0],
+            width=dy,
+            orientation=0,
+            layer=layer,
+            port_type=port_type,
+        )
+        c.add_port(
+            name="e4",
+            midpoint=[0, -dy / 2],
+            width=dx,
+            orientation=-90,
+            layer=layer,
+            port_type=port_type,
+        )
+        c.auto_rename_ports()
     return c
 
 

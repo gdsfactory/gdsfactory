@@ -52,7 +52,9 @@ def grating_coupler_uniform(
 
     for i in range(num_teeth):
         xsize = gf.snap.snap_to_grid(period * fill_factor)
-        cgrating = c.add_ref(rectangle(size=[xsize, width_grating], layer=layer))
+        cgrating = c.add_ref(
+            rectangle(size=[xsize, width_grating], layer=layer, port_type=None)
+        )
         cgrating.x = gf.snap.snap_to_grid(x0 + i * period)
         cgrating.y = 0
 
