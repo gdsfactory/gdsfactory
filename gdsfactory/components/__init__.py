@@ -57,6 +57,7 @@ from gdsfactory.components.dbr2 import dbr2
 from gdsfactory.components.delay_snake import delay_snake
 from gdsfactory.components.delay_snake2 import delay_snake2, test_delay_snake2_length
 from gdsfactory.components.delay_snake3 import delay_snake3, test_delay_snake3_length
+from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import big_square, die_bbox
 from gdsfactory.components.disk import disk
@@ -410,6 +411,7 @@ factory = dict(
     cutback_bend90circular=cutback_bend90circular,
     cutback_component=cutback_component,
     cutback_component_mirror=cutback_component_mirror,
+    dicing_lane=dicing_lane,
     dbr=dbr,
     dbr2=dbr2,
     delay_snake=delay_snake,

@@ -872,6 +872,21 @@ delay_snake3
 
 
 
+dicing_lane
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.dicing_lane
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.dicing_lane(size=(50, 300), layer_dicing=(100, 0))
+  c.plot()
+
+
+
 die
 ----------------------------------------------------
 
@@ -2262,7 +2277,7 @@ triangle
 
   import gdsfactory as gf
 
-  c = gf.components.triangle(x=10, xtop=0, y=20, layer=(1, 0))
+  c = gf.components.triangle(x=10, xtop=0, y=20, ybot=0, layer=(1, 0))
   c.plot()
 
 
@@ -2292,7 +2307,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.1', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.3', text_size=10)
   c.plot()
 
 
