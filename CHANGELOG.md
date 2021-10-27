@@ -30,6 +30,10 @@ from contracts import contract
 
 
 ```
+## 3.4.5
+
+- enforce contact_startLayer_endLayer naming convention
+
 ## 3.4.4
 
 - decorators that return new component also work in cell
@@ -182,8 +186,8 @@ from contracts import contract
 
 ## 3.2.1
 
-- simplify contact_with_offset
-- contact_with_offset use array of references
+- simplify contact_with_offset_m1_m2
+- contact_with_offset_m1_m2 use array of references
 - add `gf.components.taper_cross_section` to taper two cross_sections
 
 ## 3.2.0
@@ -312,7 +316,7 @@ from contracts import contract
 - @cell has `post_init` function. Perfect for adding pins
 - update `samples/pdk/fabc.py` with partial
 - Library can register partial functions
-- `contact_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
+- `contact_with_offset_m1_m2` is now define with via functions instead of StrOrDict, skip it from tests
 - add `pp.components.die_box`
 
 ## 2.7.6
@@ -369,7 +373,7 @@ from contracts import contract
 
 ## 2.6.9
 
-- rename tlm to contact and tlm_with_offset to contact_with_offset
+- rename tlm to contact and tlm_with_offset to contact_with_offset_m1_m2
 
 ## 2.6.8
 
