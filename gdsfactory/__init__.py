@@ -53,6 +53,7 @@ from gdsfactory import add_grating_couplers
 from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
+from gdsfactory import mask
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -103,6 +104,7 @@ __all__ = [
     "import_gds",
     "klive",
     "layers",
+    "mask",
     "pack",
     "path",
     "partial",

@@ -54,6 +54,7 @@ from gdsfactory.config import CONFIG
 
 
 def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
+    """Returns CSV labels."""
     with open(csv_labels_path) as f:
         # Get all lines
         lines = [line.replace("\n", "") for line in f.readlines()]

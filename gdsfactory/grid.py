@@ -22,6 +22,7 @@ def grid(
     align_y: str = "y",
     edge_x: str = "x",
     edge_y: str = "ymax",
+    rotation: int = 0,
 ) -> Component:
     """Returns a component with a 1D or 2D grid of components
 
@@ -36,13 +37,14 @@ def grid(
         shape: x, y shape of the grid (see np.reshape).
           If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'}
-          edge to perform the x (column) alignment along
+          to perform the x (column) alignment along
         align_y: {'y', 'ymin', 'ymax'}
-          edge to perform the y (row) alignment along
+          to perform the y (row) alignment along
         edge_x: {'x', 'xmin', 'xmax'}
-          Which edge to perform the x (column) distribution (ignored if separation = True)
+          to perform the x (column) distribution (ignored if separation = True)
         edge_y: {'y', 'ymin', 'ymax'}
-          edge to perform the y (row) distribution along (ignored if separation = True)
+          to perform the y (row) distribution along (ignored if separation = True)
+        rotation: for each reference in degrees
 
     Returns:
         Component containing all the components in a grid.
@@ -89,6 +91,7 @@ def grid(
         if d is not None:
             d = d() if callable(d) else d
             ref_array[idx] = D << d
+            ref_array[idx].rotate(rotation)
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
         D.aliases[idx] = ref_array[idx]
