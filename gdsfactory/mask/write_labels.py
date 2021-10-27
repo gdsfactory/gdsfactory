@@ -7,7 +7,6 @@ import pathlib
 from pathlib import Path
 from typing import Iterator, Tuple
 
-import klayout.db as pya
 from loguru import logger
 
 from gdsfactory import LAYER
@@ -19,6 +18,8 @@ def find_labels(
     gdspath: Path, label_layer: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
     """finds labels and locations from a GDS file"""
+    import klayout.db as pya
+
     # Load the layout
     gdspath = str(gdspath)
     layout = pya.Layout()
