@@ -224,7 +224,7 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes componentReference is always valid"""
+        """pydantic assumes ComponentReference is always valid"""
         return v
 
     def __getitem__(self, val):

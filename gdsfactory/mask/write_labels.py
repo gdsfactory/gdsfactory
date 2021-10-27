@@ -58,7 +58,7 @@ def write_labels(
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    logger.info(f"Wrote labels in {filepath}")
+    logger.info(f"Wrote labels in {filepath.absolute()}")
     return filepath
 
 

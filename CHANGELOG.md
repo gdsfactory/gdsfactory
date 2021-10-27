@@ -33,6 +33,9 @@ from contracts import contract
 ## 3.4.5
 
 - enforce contact_startLayer_endLayer naming convention
+- gf.grid accepts rotation for reference
+- add pydantic validator class methods to Path and CrossSection
+- decorate `gf.path.extrude` with cell, to avoid duplicated cell names
 
 ## 3.4.4
 

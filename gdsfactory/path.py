@@ -12,9 +12,11 @@ from typing import Optional
 
 import numpy as np
 import phidl.path as path
-from phidl.device_layout import Path, _simplify
+from phidl.device_layout import Path as PathPhidl
+from phidl.device_layout import _simplify
 from phidl.path import smooth as smooth_phidl
 
+from gdsfactory.cell import cell
 from gdsfactory.component import Component, clean_dict
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
@@ -27,6 +29,17 @@ from gdsfactory.types import (
     Number,
     PathFactory,
 )
+
+
+class Path(PathPhidl):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """pydantic assumes Path is always valid"""
+        return v
 
 
 def _sinusoidal_transition(y1, y2):
@@ -127,6 +140,7 @@ def transition(
     return Xtrans
 
 
+@cell
 def extrude(
     p: Path,
     cross_section: Optional[CrossSectionOrFactory] = None,
