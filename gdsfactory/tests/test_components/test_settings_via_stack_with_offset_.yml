@@ -1,5 +1,5 @@
 cells:
-  contact_with_offset:
+  contact_with_offset_m1_m2:
     changed: {}
     default:
       layers:
@@ -39,11 +39,11 @@ cells:
         layer:
         - 40
         - 0
-    function_name: contact_with_offset
+    function_name: contact_with_offset_m1_m2
     info_version: 1
-    module: gdsfactory.components.contact_with_offset
-    name: contact_with_offset
-    name_long: contact_with_offset
+    module: gdsfactory.components.contact_with_offset_m1_m2
+    name: contact_with_offset_m1_m2
+    name_long: contact_with_offset_m1_m2
 info:
   changed: {}
   default:
@@ -84,11 +84,11 @@ info:
       layer:
       - 40
       - 0
-  function_name: contact_with_offset
+  function_name: contact_with_offset_m1_m2
   info_version: 1
-  module: gdsfactory.components.contact_with_offset
-  name: contact_with_offset
-  name_long: contact_with_offset
+  module: gdsfactory.components.contact_with_offset_m1_m2
+  name: contact_with_offset_m1_m2
+  name_long: contact_with_offset_m1_m2
 ports:
   e1:
     layer:

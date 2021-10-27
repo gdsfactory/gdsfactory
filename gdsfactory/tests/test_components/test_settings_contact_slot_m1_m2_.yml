@@ -27,7 +27,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_225d333d
-    name_long: compass_225d333d
   compass_ef690c07:
     changed:
       layer:
@@ -56,9 +55,19 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ef690c07
-    name_long: compass_ef690c07
-  contact_slot_m1_m2:
-    changed: {}
+  contact_slot_9a3dc57d:
+    changed:
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      via:
+        enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
     default:
       enclosure: 1
       layer_offsets:
@@ -89,15 +98,31 @@ cells:
       size:
       - 11
       - 11
+      via:
+        enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
       ysize: 0.5
       yspacing: 2
-    function_name: contact_slot_m1_m2
+    function_name: contact_slot
     info_version: 1
-    module: gdsfactory.components.contact_slot_m1_m2
-    name: contact_slot_m1_m2
-    name_long: contact_slot_m1_m2
+    module: gdsfactory.components.contact_slot
+    name: contact_slot_9a3dc57d
 info:
-  changed: {}
+  changed:
+    layers:
+    - - 41
+      - 0
+    - - 45
+      - 0
+    via:
+      enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
   default:
     enclosure: 1
     layer_offsets:
@@ -128,13 +153,18 @@ info:
     size:
     - 11
     - 11
+    via:
+      enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
     ysize: 0.5
     yspacing: 2
-  function_name: contact_slot_m1_m2
+  function_name: contact_slot
   info_version: 1
-  module: gdsfactory.components.contact_slot_m1_m2
-  name: contact_slot_m1_m2
-  name_long: contact_slot_m1_m2
+  module: gdsfactory.components.contact_slot
+  name: contact_slot_9a3dc57d
 ports:
   e1:
     layer:
