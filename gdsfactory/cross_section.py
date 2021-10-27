@@ -102,6 +102,15 @@ class CrossSection(CrossSectionPhidl):
         X.port_types = tuple(self.port_types)
         return X
 
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """pydantic assumes CrossSection is always valid"""
+        return v
+
 
 @pydantic.validate_arguments
 def cross_section(
