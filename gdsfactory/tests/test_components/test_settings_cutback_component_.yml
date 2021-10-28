@@ -66,7 +66,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight
     path: {}
-    points_hash: a64455692a75ddb2f781cd47f8
     width: 0.5
   taper_0p5_to_3_l36:
     changed: {}

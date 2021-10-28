@@ -6,7 +6,7 @@ from typing import Any
 
 import numpy as np
 from phidl import Device, Port
-from phidl.device_layout import Path
+from phidl.device_layout import Path as PathPhidl
 
 from gdsfactory.hash_points import hash_points
 from gdsfactory.snap import snap_to_grid
@@ -157,7 +157,7 @@ def clean_value(value: Any) -> str:
         value = clean_name(value.name)
     elif isinstance(value, Port):
         value = f"{value.name}_{value.width}_{value.x}_{value.y}"
-    elif isinstance(value, Path):
+    elif isinstance(value, PathPhidl):
         value = f"path_{hash_points(value.points)}"
     elif (
         isinstance(value, object)

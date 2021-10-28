@@ -44,7 +44,7 @@ class CrossSection(CrossSectionPhidl):
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
             ports: If not None, specifies the names for the ports at the ends of the
-                cross-sectional element
+              cross-sectional element
             name: Name of the cross-sectional element for later access
             port_types: port of the cross types
             hidden: if True does not draw polygons for CrossSection
@@ -777,7 +777,7 @@ if __name__ == "__main__":
     c = gf.path.extrude(P, X)
 
     # print(x1.to_dict())
-    print(x1.name)
+    # print(x1.name)
 
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
     # c = gf.add_pins(c)

@@ -63,7 +63,6 @@ info:
   module: gdsfactory.components.straight
   name: straight_d9d77473
   path: {}
-  points_hash: d2958cf9576b202edd4d7ca6b5
   width: 10.0
 ports:
   e1:
