@@ -748,18 +748,21 @@ def from_yaml(
     if ports_conf:
         assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
         for port_name, instance_comma_port in ports_conf.items():
-            instance_name, instance_port_name = instance_comma_port.split(",")
-            instance_name = instance_name.strip()
-            instance_port_name = instance_port_name.strip()
-            assert (
-                instance_name in instances
-            ), f"{instance_name} not in {list(instances.keys())}"
-            instance = instances[instance_name]
-            assert instance_port_name in instance.ports, (
-                f"{instance_port_name} not in {list(instance.ports.keys())} for"
-                f" {instance_name} "
-            )
-            c.add_port(port_name, port=instance.ports[instance_port_name])
+            if "," in instance_comma_port:
+                instance_name, instance_port_name = instance_comma_port.split(",")
+                instance_name = instance_name.strip()
+                instance_port_name = instance_port_name.strip()
+                assert (
+                    instance_name in instances
+                ), f"{instance_name} not in {list(instances.keys())}"
+                instance = instances[instance_name]
+                assert instance_port_name in instance.ports, (
+                    f"{instance_port_name} not in {list(instance.ports.keys())} for"
+                    f" {instance_name} "
+                )
+                c.add_port(port_name, port=instance.ports[instance_port_name])
+            else:
+                c.add_port(**instance_comma_port)
     c.routes = routes
     c.instances = instances
     return c

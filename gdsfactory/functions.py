@@ -62,6 +62,7 @@ def move(
     destination=None,
     axis: Optional[str] = None,
 ) -> Component:
+    """Returns a container that contains a reference to the original component."""
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
@@ -71,13 +72,32 @@ def move(
     return component_new
 
 
+def move_port_to_zero(component: Component, port_name: str = "o1"):
+    """Returns a container that contains a reference to the original component.
+    where the new component has port_name in (0, 0)
+    """
+    if port_name not in component.ports:
+        raise ValueError(
+            f"port_name = {port_name} not in {list(component.ports.keys())}"
+        )
+    return move(component, -component.ports[port_name].midpoint)
+
+
 def update_info(component: Component, **kwargs) -> Component:
     """Returns Component with updated info."""
     component.info.update(**kwargs)
     return component
 
 
-__all__ = ("cache", "add_port", "rotate", "update_info", "auto_rename_ports")
+__all__ = (
+    "cache",
+    "add_port",
+    "rotate",
+    "auto_rename_ports",
+    "move",
+    "move_port_to_zero",
+    "update_info",
+)
 
 
 if __name__ == "__main__":
@@ -95,6 +115,9 @@ if __name__ == "__main__":
 
     cm = c.mirror()
     cm.show()
+
+    cm2 = move_port_to_zero(cm)
+    cm2.show()
 
     # cr = rotate(component=c)
     # cr.show()
