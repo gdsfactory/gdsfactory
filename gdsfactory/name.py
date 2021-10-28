@@ -171,6 +171,8 @@ def clean_value(value: Any) -> str:
         value = value.func.__name__ + dict2name(**value.keywords)
     elif isinstance(value, str):
         value = value.strip()
+    elif hasattr(value, "get_name"):
+        value = value.get_name()
     return str(value)
 
 
