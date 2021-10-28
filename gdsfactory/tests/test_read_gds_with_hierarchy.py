@@ -18,7 +18,7 @@ def test_read_gds_hash2() -> gf.Component:
 
 def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None:
     c = gf.read.from_gds(gdspath)
-    data_regression.check(c.to_dict)
+    data_regression.check(c.to_dict())
 
 
 def test_read_gds_equivalent2():

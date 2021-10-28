@@ -107,7 +107,7 @@ def test_components(
     c = gf.read.from_yaml(yaml)
     difftest(c)
     if check:
-        data_regression.check(c.to_dict)
+        data_regression.check(c.to_dict())
 
 
 if __name__ == "__main__":

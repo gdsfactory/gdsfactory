@@ -98,8 +98,12 @@ def transition():
 
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
+
     wg1 = gf.path.extrude(P1, X1)
+    print("wg1", wg1)
+
     wg2 = gf.path.extrude(P2, X2)
+    print("wg2", wg2)
 
     P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
     wg_trans = gf.path.extrude(P4, Xtrans)
@@ -136,7 +140,7 @@ def test_gds(component: Component) -> None:
 
 def test_settings(component: Component, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
-    data_regression.check(component.to_dict)
+    data_regression.check(component.to_dict())
 
 
 def test_layers1():
@@ -175,5 +179,5 @@ if __name__ == "__main__":
     # c = transition()
     # c = double_loop()
     # c = rename()
-    # c.pprint
+    # c.pprint()
     c.show()

@@ -52,4 +52,4 @@ if __name__ == "__main__":
     c = straight(length=0)
     c.assert_ports_on_grid()
     c.show()
-    c.pprint
+    c.pprint()

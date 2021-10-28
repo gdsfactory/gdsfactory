@@ -292,12 +292,10 @@ class ComponentReference(DeviceReference):
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
 
-    @property
     def pprint(self) -> None:
         """Prints component info."""
         print(OmegaConf.to_yaml(self.info))
 
-    @property
     def pprint_ports(self) -> None:
         """Prints component netlists."""
         ports_list = self.get_ports_list()
@@ -1108,7 +1106,6 @@ class Component(Device):
         metadata.write_text(self.to_yaml)
         return gdspath
 
-    @property
     def to_dict_config(self) -> DictConfig:
         """Returns a DictConfig representation of the compoment."""
         d = DictConfig({})
@@ -1124,15 +1121,12 @@ class Component(Device):
         d.info.name = self.name
         return d
 
-    @property
     def to_dict(self) -> Dict[str, Any]:
-        return OmegaConf.to_container(self.to_dict_config)
+        return OmegaConf.to_container(self.to_dict_config())
 
-    @property
     def to_yaml(self) -> str:
-        return OmegaConf.to_yaml(self.to_dict)
+        return OmegaConf.to_yaml(self.to_dict())
 
-    @property
     def to_dict_polygons(self) -> DictConfig:
         """Returns a dict representation of the flattened compoment."""
         d = DictConfig({})

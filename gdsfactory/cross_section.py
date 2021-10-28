@@ -111,6 +111,19 @@ class CrossSection(CrossSectionPhidl):
         """pydantic assumes CrossSection is always valid"""
         return v
 
+    def to_dict(self):
+        d = {}
+        d["sections"] = [dict(section) for section in self.sections if section]
+        d["ports"] = self.ports
+        d["port_types"] = self.port_types
+        d["aliases"] = self.aliases
+        d["info"] = self.info
+        return d
+
+    @property
+    def name(self):
+        return "_".join([str(i) for i in self.to_dict()["sections"]])
+
 
 @pydantic.validate_arguments
 def cross_section(
@@ -763,9 +776,12 @@ if __name__ == "__main__":
 
     c = gf.path.extrude(P, X)
 
+    # print(x1.to_dict())
+    print(x1.name)
+
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
-    # c.pprint_ports
+    # c.pprint_ports()
     c.show()

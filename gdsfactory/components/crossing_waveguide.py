@@ -405,6 +405,6 @@ if __name__ == "__main__":
     # print(c.get_ports_array())
     # _demo()
     # c = crossing_from_taper()
-    # c.pprint
+    # c.pprint()
     # c = crossing_etched()
     c.show()

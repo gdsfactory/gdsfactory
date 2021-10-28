@@ -151,7 +151,7 @@ if __name__ == "__main__":
     cc = add_padding_container(component=c, layers=[(2, 0)])
     print(cc.info["parent"])
     # cc.show()
-    # cc.pprint
+    # cc.pprint()
 
     # c = gf.components.straight(length=5)
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])

@@ -79,5 +79,5 @@ if __name__ == "__main__":
     # c << coupler90(gap=0.3)
     c = coupler90(radius=3, layer=(2, 0))
     c.show()
-    c.pprint
+    c.pprint()
     # print(c.ports)

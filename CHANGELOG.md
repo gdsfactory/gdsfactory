@@ -36,6 +36,10 @@ from contracts import contract
 - gf.grid accepts rotation for reference
 - add pydantic validator class methods to Path and CrossSection
 - decorate `gf.path.extrude` with cell, to avoid duplicated cell names
+- CrossSection has a `to_dict()`
+- rename Component `to_dict` to `to_dict()`: is now a method instead of a property
+- rename Component `pprint` to `pprint()`: is now a method instead of a property
+- rename Component `pprint_ports` to `pprint_ports()`: is now a method instead of a property
 
 ## 3.4.4
 
