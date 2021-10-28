@@ -76,7 +76,7 @@ def coupler_symmetric(
 if __name__ == "__main__":
     c = coupler_symmetric(gap=0.2, width=0.9)
     c.show()
-    c.pprint
+    c.pprint()
 
     for dyi in [2, 3, 4, 5]:
         c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0, layer=(2, 0))

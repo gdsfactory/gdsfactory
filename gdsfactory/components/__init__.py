@@ -20,7 +20,7 @@ from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.contact import contact, contact_heater_m3, contact_slab_m3
-from gdsfactory.components.contact_slot import contact_slot
+from gdsfactory.components.contact_slot import contact_slot, contact_slot_m1_m2
 from gdsfactory.components.contact_with_offset import contact_with_offset
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
@@ -519,8 +519,9 @@ factory = dict(
     via_cutback=via_cutback,
     contact=contact,
     contact_slot=contact_slot,
-    contact_heater=contact_heater_m3,
-    contact_slab=contact_slab_m3,
+    contact_slot_m1_m2=contact_slot_m1_m2,
+    contact_heater_m3=contact_heater_m3,
+    contact_slab_m3=contact_slab_m3,
     contact_with_offset=contact_with_offset,
     wire_corner=wire_corner,
     wire_sbend=wire_sbend,

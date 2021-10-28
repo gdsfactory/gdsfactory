@@ -37,7 +37,9 @@ def bend_circular(
     radius = x.info["radius"]
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
-    c = extrude(p, x)
+    c = Component()
+    ref = c << extrude(p, x)
+    c.add_ports(ref.ports)
 
     c.info.length = snap_to_grid(p.length())
     c.info.dy = float(abs(p.points[0][0] - p.points[-1][0]))
@@ -56,6 +58,7 @@ def bend_circular(
         )
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
+    c.absorb(ref)
     return c
 
 
@@ -77,7 +80,7 @@ def bend_circular180(angle: int = 180, **kwargs) -> Component:
 if __name__ == "__main__":
     c = bend_circular(width=2, layer=gf.LAYER.M1)
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
-    c.pprint
+    c.pprint()
     c.show()
 
     # c = bend_circular180()

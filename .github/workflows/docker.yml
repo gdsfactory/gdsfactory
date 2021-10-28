@@ -3,7 +3,7 @@ name: dockerhub gdsfactory
 on:
   push:
     branches:
-      - 'master'
+      - 'docker'
 
 jobs:
   docker:

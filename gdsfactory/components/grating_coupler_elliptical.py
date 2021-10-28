@@ -322,5 +322,5 @@ if __name__ == "__main__":
     # print(c.polarization)
     # print(c.wavelength)
     # print(c.ports)
-    c.pprint
+    c.pprint()
     c.show()

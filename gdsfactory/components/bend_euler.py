@@ -44,10 +44,12 @@ def bend_euler(
     x = cross_section(**kwargs)
     radius = x.info["radius"]
 
+    c = Component()
     p = euler(
         radius=radius, angle=angle, p=p, use_eff=with_arc_floorplan, npoints=npoints
     )
-    c = extrude(p, x)
+    ref = c << extrude(p, x)
+    c.add_ports(ref.ports)
     c.info.length = snap_to_grid(p.length())
     c.info.dy = abs(float(p.points[0][0] - p.points[-1][0]))
     c.info.radius_min = float(p.info["Rmin"])
@@ -68,7 +70,9 @@ def bend_euler(
             c.add_polygon(points, layer=layer)
 
     if direction == "cw":
-        c.mirror(p1=[0, 0], p2=[1, 0])
+        ref.mirror(p1=[0, 0], p2=[1, 0])
+
+    c.absorb(ref)
     return c
 
 
@@ -117,4 +121,4 @@ if __name__ == "__main__":
     # import gdsfactory as gf
     # c = bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
-    # c.pprint
+    # c.pprint()

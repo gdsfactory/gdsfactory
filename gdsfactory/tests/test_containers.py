@@ -19,7 +19,7 @@ component = mzi_phase_shifter(splitter=mmi2x2)
 def test_settings(container_type: str, data_regression: DataRegressionFixture) -> None:
     """Avoid regressions when exporting settings."""
     c = container_factory[container_type](component=component)
-    data_regression.check(c.to_dict)
+    data_regression.check(c.to_dict())
 
 
 @pytest.mark.parametrize("container_type", container_names)

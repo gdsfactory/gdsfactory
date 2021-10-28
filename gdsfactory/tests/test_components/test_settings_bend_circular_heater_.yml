@@ -22,11 +22,10 @@ info:
     radius: 10
   function_name: bend_circular_heater
   info_version: 1
-  length: 15.707912866629119
+  length: 15.708
   module: gdsfactory.components.bend_circular_heater
   name: bend_circular_heater
   path: {}
-  points_hash: d3a569a9faff5fe75d6a48e4d8
 ports:
   in:
     layer:

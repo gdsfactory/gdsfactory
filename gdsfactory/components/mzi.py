@@ -166,7 +166,7 @@ if __name__ == "__main__":
         # with_splitter=False,
     )
     c.show(show_ports=True)
-    # c.pprint
+    # c.pprint()
     # n = c.get_netlist()
     # c.plot()
     # print(c.settings)

@@ -288,5 +288,5 @@ if __name__ == "__main__":
     # c= gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0)
     # c= crossing45(port_spacing=40.0)
     # c = compensation_path(crossing45=crossing45(port_spacing=40.0))
-    c.pprint
+    c.pprint()
     c.show()

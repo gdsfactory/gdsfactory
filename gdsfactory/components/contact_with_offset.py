@@ -17,7 +17,7 @@ def contact_with_offset(
     offsets: Optional[Tuple[float, ...]] = None,
     port_orientation: int = 180,
 ) -> Component:
-    """Rectangular transition thru metal layers with offset between layers
+    """Rectangular layer transition with offset between layers
 
     Args:
         layers:
@@ -83,8 +83,15 @@ def contact_with_offset(
     return c
 
 
+contact_with_offset_ppp_m1 = gf.partial(
+    contact_with_offset,
+    layers=(LAYER.PPP, LAYER.M1),
+    vias=(None, viac),
+)
+
+
 if __name__ == "__main__":
-    c = contact_with_offset(
+    c = contact_with_offset_ppp_m1(
         layers=(LAYER.SLAB90, LAYER.M1),
         sizes=((20, 10), (20, 10)),
         vias=(viac(size=(18, 2), spacing=(5, 5)), None),

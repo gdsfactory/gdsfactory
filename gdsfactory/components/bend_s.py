@@ -58,7 +58,7 @@ def bend_s(
 
 if __name__ == "__main__":
     c = bend_s(width=1)
-    c.pprint
+    c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])
     c.show()

@@ -14,7 +14,7 @@ def test_load_component_gds() -> gf.Component:
 def test_load_component_settings(data_regression: DataRegressionFixture) -> None:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.read.from_gds(gdspath)
-    data_regression.check(c.to_dict)
+    data_regression.check(c.to_dict())
 
 
 def test_load_component_with_settings():
@@ -46,5 +46,5 @@ if __name__ == "__main__":
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
     # c2 = gf.read.from_gds(gdspath)
-    # d = jsondiff.diff(c1.to_dict, c2.to_dict)
+    # d = jsondiff.diff(c1.to_dict, c2.to_dict())
     # print(d)
