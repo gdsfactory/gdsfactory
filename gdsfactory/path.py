@@ -19,7 +19,6 @@ from phidl.path import smooth as smooth_phidl
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, clean_dict
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.hash_points import hash_points
 from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     Coordinates,
@@ -44,12 +43,20 @@ class Path(PathPhidl):
 
 def _sinusoidal_transition(y1, y2):
     dx = y2 - y1
-    return lambda t: y1 + (1 - np.cos(np.pi * t)) / 2 * dx
+
+    def sine(t):
+        return y1 + (1 - np.cos(np.pi * t)) / 2 * dx
+
+    return sine
 
 
 def _linear_transition(y1, y2):
     dx = y2 - y1
-    return lambda t: y1 + t * dx
+
+    def linear(t):
+        return y1 + t * dx
+
+    return linear
 
 
 def transition(
@@ -306,16 +313,16 @@ def extrude(
             )
             new_port.endpoints = (points2[-1], points1[-1])
 
-    points = np.concatenate((p.points, np.array(xsection_points)))
-    points_hash = hash_points(points)[:26]
+    # points = np.concatenate((p.points, np.array(xsection_points)))
+    # points_hash = hash_points(points)[:26]
+    # c.name = f"path_{points_hash}"
+    # c.info.points_hash = points_hash
+
     clean_dict(p.info)
     clean_dict(cross_section.info)
-
-    c.name = f"path_{points_hash}"
-    c.info.cross_section = cross_section.info
     c.info.path = p.info
-    c.info.length = float(p.length())
-    c.info.points_hash = points_hash
+    c.info.cross_section = cross_section.info
+    c.info.length = float(np.round(p.length(), 3))
     return c
 
 

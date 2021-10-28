@@ -17,9 +17,12 @@ from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import CellArray, Device, DeviceReference, _parse_layer
+from phidl.device_layout import CellArray, Device, DeviceReference
+from phidl.device_layout import Path as PathPhidl
+from phidl.device_layout import _parse_layer
 
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.hash_points import hash_points
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -1103,7 +1106,7 @@ class Component(Device):
         """Write component in GDS and metadata (component settings) in YAML"""
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
-        metadata.write_text(self.to_yaml)
+        metadata.write_text(self.to_yaml())
         return gdspath
 
     def to_dict_config(self) -> DictConfig:
@@ -1270,6 +1273,8 @@ def _clean_value(value: Any) -> Any:
         clean_dict(value)
     elif isinstance(value, DictConfig):
         clean_dict(value)
+    elif isinstance(value, PathPhidl):
+        value = f"path_{hash_points(value.points)}"
     elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
     elif value is None:

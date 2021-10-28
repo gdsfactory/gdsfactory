@@ -106,8 +106,9 @@ def cell_without_validator(func):
             for key in sorted(args_as_kwargs.keys())
         ]
 
-        for key in sorted(args_as_kwargs.keys()):
-            print(f"{key}={clean_value(args_as_kwargs[key])}")
+        # for key in sorted(args_as_kwargs.keys()):
+        #     print(f"{key}={clean_value(args_as_kwargs[key])}")
+
         arguments = "_".join(args_as_kwargs_string_list)
         arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
 

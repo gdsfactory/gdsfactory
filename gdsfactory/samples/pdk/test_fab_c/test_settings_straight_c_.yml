@@ -60,7 +60,6 @@ info:
   module: gdsfactory.components.straight
   name: straight_40e83c11
   path: {}
-  points_hash: 786a35ef8517ffde390360926b
   width: 1.0
 ports:
   o1:

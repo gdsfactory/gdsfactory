@@ -48,7 +48,6 @@ cells:
         module: gdsfactory.components.straight
         name: straight_373b1ebb
         path: {}
-        points_hash: d013dca7ec78642683a0c21517
         width: 2
       default:
         taper_port_name1: o1
@@ -126,7 +125,6 @@ cells:
       module: gdsfactory.components.straight
       name: straight_373b1ebb
       path: {}
-      points_hash: d013dca7ec78642683a0c21517
       width: 2
     default:
       taper_port_name1: o1
@@ -291,7 +289,6 @@ info:
       module: gdsfactory.components.straight
       name: straight_373b1ebb
       path: {}
-      points_hash: d013dca7ec78642683a0c21517
       width: 2
     default:
       taper_port_name1: o1

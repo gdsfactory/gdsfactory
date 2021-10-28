@@ -39,7 +39,6 @@ info:
   module: gdsfactory.components.bend_circular
   name: bend_circular
   path: {}
-  points_hash: 692f95b36e491aaad6c20d977d
   radius_min: 10.0
 ports:
   o1:

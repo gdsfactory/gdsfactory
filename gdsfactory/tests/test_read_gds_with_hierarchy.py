@@ -26,8 +26,8 @@ def test_read_gds_equivalent2():
     c1 = gf.c.mzi()
     c2 = gf.read.from_gds(gdspath)
 
-    d1 = c1.to_dict
-    d2 = c2.to_dict
+    d1 = c1.to_dict()
+    d2 = c2.to_dict()
 
     d1["info"].pop("name")
     d2["info"].pop("name")
@@ -35,8 +35,8 @@ def test_read_gds_equivalent2():
     d2.pop("cells")
     d1.pop("ports")
     d2.pop("ports")
-    # c1.pprint
-    # c2.pprint
+    # c1.pprint()
+    # c2.pprint()
 
     d = jsondiff.diff(d1, d2)
 
@@ -75,10 +75,10 @@ if __name__ == "__main__":
 
     c1 = gf.c.mzi()
     c2 = gf.read.from_gds(gdspath)
-    d1 = c1.to_dict_config
-    d2 = c2.to_dict_config
-    dd1 = c1.to_dict
-    dd2 = c2.to_dict
+    d1 = c1.to_dict_config()
+    d2 = c2.to_dict_config()
+    dd1 = c1.to_dict()
+    dd2 = c2.to_dict()
     dd1["info"].pop("name")
     dd2["info"].pop("name")
     dd1.pop("cells")
