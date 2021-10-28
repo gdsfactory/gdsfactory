@@ -10,6 +10,9 @@ instances:
   wgw:
     component: straight
     settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
       length: 1
       npoints: 2
       with_cladding_box: true

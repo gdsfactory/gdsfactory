@@ -1,46 +1,7 @@
-cells:
-  straight:
-    changed: {}
-    cross_section:
-      auto_widen: false
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      end_straight_offset: 0.01
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      min_length: 0.01
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
-      radius: 10
-      sections: []
-      snap_to_grid: null
-      start_straight: 0.01
-      taper_length: 10
-      width: 0.5
-      width_wide: null
-    default:
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight
-    path: {}
-    width: 0.5
+cells: {}
 info:
-  changed: {}
+  changed:
+    length: 10
   cross_section:
     auto_widen: false
     auto_widen_minimum_length: 200
@@ -74,9 +35,9 @@ info:
     with_cladding_box: true
   function_name: straight
   info_version: 1
-  length: 10
+  length: 10.0
   module: gdsfactory.components.straight
-  name: straight
+  name: straight_5b6c3269
   path: {}
   width: 0.5
 ports:

@@ -67,9 +67,9 @@ def gdsdiff(
         Component with both cells (xor, common and diffs)
     """
     if isinstance(component1, (str, pathlib.Path)):
-        component1 = import_gds(str(component1), flatten=True, name="new")
+        component1 = import_gds(str(component1), flatten=True, name=f"{name}_new")
     if isinstance(component2, (str, pathlib.Path)):
-        component2 = import_gds(str(component2), flatten=True, name="old")
+        component2 = import_gds(str(component2), flatten=True, name=f"{name}_old")
 
     top = Component(name=f"{name}_diffs")
     ref1 = top << component1

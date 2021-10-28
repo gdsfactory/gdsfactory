@@ -8,6 +8,9 @@ instances:
   wgw:
     component: straight
     settings:
+      auto_widen: false
+      cross_section:
+        function: cross_section
       length: 1
 name: sample_connections
 placements:
