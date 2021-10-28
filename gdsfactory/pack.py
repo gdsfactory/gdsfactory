@@ -165,7 +165,8 @@ def pack(
         components_packed_list.append(packed)
 
     if len(components_packed_list) > 1:
-        warnings.warn(f"created {len(components_packed_list)-1} groups of components")
+        groups = len(components_packed_list)
+        warnings.warn(f"unable to pack in one component, creating {groups} components")
 
     return components_packed_list
 
@@ -220,7 +221,7 @@ if __name__ == "__main__":
     # c = test_pack_with_settings()
     # c = test_pack()
     # c.show()
-    # c.pprint
+    # c.pprint()
     # c.write_gds_with_metadata("mask.gds")
 
     p = pack(

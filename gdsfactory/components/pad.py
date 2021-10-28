@@ -93,7 +93,7 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # c = pad_array90()
     # c = pad_array270()
-    # c.pprint_ports
+    # c.pprint_ports()
     # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))
     c = pad_array(columns=2, rows=2, orientation=270)
     c.auto_rename_ports()

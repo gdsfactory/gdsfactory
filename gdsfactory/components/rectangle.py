@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -11,7 +11,7 @@ def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: Layer = (1, 0),
     centered: bool = False,
-    port_type: str = "electrical",
+    port_type: Optional[str] = "electrical",
 ) -> Component:
     """rectangle
 
@@ -26,7 +26,8 @@ def rectangle(
     ref = c << compass(size=size, layer=layer, port_type=port_type)
     if not centered:
         ref.move((size[0] / 2, size[1] / 2))
-    c.add_ports(ref.ports)
+    if port_type:
+        c.add_ports(ref.ports)
     return c
 
 

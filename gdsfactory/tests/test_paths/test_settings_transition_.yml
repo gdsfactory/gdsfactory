@@ -1,21 +1,78 @@
 cells:
-  path_0edeaa4d6acefdcecc5db7e634:
+  extrude_1ac1c90c:
+    changed:
+      cross_section: {}
+      p: path_d275aaf04a29c0536924c88e46512f29
     cross_section: {}
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: path_d275aaf04a29c0536924c88e46512f29
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
     length: 5
+    module: gdsfactory.path
+    name: extrude_1ac1c90c
     path: {}
-    points_hash: 0edeaa4d6acefdcecc5db7e634
-  path_90389ac5e2278be33ed7bd007e:
+  extrude_bdcc3302:
+    changed:
+      cross_section: {}
+      p: path_d275aaf04a29c0536924c88e46512f29
     cross_section: {}
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: path_d275aaf04a29c0536924c88e46512f29
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
     length: 5
+    module: gdsfactory.path
+    name: extrude_bdcc3302
     path: {}
-    points_hash: 90389ac5e2278be33ed7bd007e
-  path_babfd6a775bd94e702cd927faf:
+  extrude_c61f54b8:
+    changed:
+      cross_section: {}
+      p: path_9d4e7574f0f651972e1f0c1247df2061
     cross_section: {}
-    length: 29.45240029461876
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: path_9d4e7574f0f651972e1f0c1247df2061
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
+    length: 29.452
+    module: gdsfactory.path
+    name: extrude_c61f54b8
     path:
       Reff: 36.99594705612938
       Rmin: 25
-    points_hash: babfd6a775bd94e702cd927faf
   transition:
     changed: {}
     default: {}

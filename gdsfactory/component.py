@@ -17,9 +17,12 @@ from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import CellArray, Device, DeviceReference, _parse_layer
+from phidl.device_layout import CellArray, Device, DeviceReference
+from phidl.device_layout import Path as PathPhidl
+from phidl.device_layout import _parse_layer
 
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.hash_points import hash_points
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -224,7 +227,7 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes componentReference is always valid"""
+        """pydantic assumes ComponentReference is always valid"""
         return v
 
     def __getitem__(self, val):
@@ -292,12 +295,10 @@ class ComponentReference(DeviceReference):
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
 
-    @property
     def pprint(self) -> None:
         """Prints component info."""
         print(OmegaConf.to_yaml(self.info))
 
-    @property
     def pprint_ports(self) -> None:
         """Prints component netlists."""
         ports_list = self.get_ports_list()
@@ -794,12 +795,10 @@ class Component(Device):
     def __repr__(self) -> str:
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
-    @property
     def pprint(self) -> None:
         """Prints component info."""
         print(OmegaConf.to_yaml(self.info))
 
-    @property
     def pprint_ports(self) -> None:
         """Prints component netlists."""
         ports_list = self.get_ports_list()
@@ -1105,10 +1104,9 @@ class Component(Device):
         """Write component in GDS and metadata (component settings) in YAML"""
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
-        metadata.write_text(self.to_yaml)
+        metadata.write_text(self.to_yaml())
         return gdspath
 
-    @property
     def to_dict_config(self) -> DictConfig:
         """Returns a DictConfig representation of the compoment."""
         d = DictConfig({})
@@ -1124,15 +1122,12 @@ class Component(Device):
         d.info.name = self.name
         return d
 
-    @property
     def to_dict(self) -> Dict[str, Any]:
-        return OmegaConf.to_container(self.to_dict_config)
+        return OmegaConf.to_container(self.to_dict_config())
 
-    @property
     def to_yaml(self) -> str:
-        return OmegaConf.to_yaml(self.to_dict)
+        return OmegaConf.to_yaml(self.to_dict())
 
-    @property
     def to_dict_polygons(self) -> DictConfig:
         """Returns a dict representation of the flattened compoment."""
         d = DictConfig({})
@@ -1173,6 +1168,15 @@ class Component(Device):
         from gdsfactory.functions import move
 
         return move(component=self, origin=origin, destination=destination, axis=axis)
+
+    def mirror(
+        self,
+        p1: Float2 = (0, 1),
+        p2: Float2 = (0, 0),
+    ) -> Device:
+        from gdsfactory.functions import mirror
+
+        return mirror(component=self, p1=p1, p2=p2)
 
     def rotate(self, angle: int = 90) -> Device:
         """Returns a new component with a rotated reference to the original component
@@ -1276,12 +1280,16 @@ def _clean_value(value: Any) -> Any:
         clean_dict(value)
     elif isinstance(value, DictConfig):
         clean_dict(value)
+    elif isinstance(value, PathPhidl):
+        value = f"path_{hash_points(value.points)}"
     elif isinstance(value, (tuple, list, ListConfig)):
         value = [_clean_value(i) for i in value]
     elif value is None:
         value = None
     elif hasattr(value, "name"):
         value = value.name
+    elif hasattr(value, "get_name"):
+        value = value.get_name()
     else:
         value = str(value)
 

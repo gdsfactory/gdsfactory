@@ -18,7 +18,7 @@ def test_read_gds_hash() -> gf.Component:
 def test_read_gds_with_settings(data_regression: DataRegressionFixture) -> None:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.read.from_gds(gdspath)
-    data_regression.check(c.to_dict)
+    data_regression.check(c.to_dict())
 
 
 def test_read_gds_equivalent():
@@ -60,7 +60,7 @@ def _write():
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c1.write_gds_with_metadata(gdspath=gdspath)
     c1.show()
-    c1.pprint
+    c1.pprint()
 
 
 if __name__ == "__main__":

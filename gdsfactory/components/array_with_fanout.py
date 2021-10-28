@@ -32,10 +32,10 @@ def array_with_fanout(
     with fanout waveguides facing west
 
     Args:
-        component: to replicate
-        columns: number of components
-        pitch: float
-        waveguide_pitch: for fanout
+        component: to replicate.
+        columns: number of components.
+        pitch: for waveguides.
+        waveguide_pitch: for output waveguides.
         start_straight: length of the start of the straight
         end_straight: lenght of the straight at the end
         radius: bend radius
@@ -44,7 +44,7 @@ def array_with_fanout(
         bend_port_name1:
         bend_port_name2:
         cross_section: cross_section definition
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
     """
     c = Component()
     component = component() if callable(component) else component

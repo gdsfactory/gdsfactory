@@ -209,4 +209,4 @@ if __name__ == "__main__":
         sequence=sequence, symbol_to_component=symbol_to_component_map
     )
     c.show()
-    c.pprint
+    c.pprint()

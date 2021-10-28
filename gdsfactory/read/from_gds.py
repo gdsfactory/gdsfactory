@@ -47,7 +47,7 @@ if __name__ == "__main__":
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.read.from_gds(gdspath)
     c.show()
-    print(c.to_yaml)
+    print(c.to_yaml())
 
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     # c = gf.c.straight()

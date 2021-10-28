@@ -2,34 +2,33 @@
 
 ## TODO
 
-- enable routing with 180euler and Sbends
 - fix FIXMEs
-- example on how to customize visualization of a component
+- add example on how to customize visualization of a component
+- build docker container
 - remove kwargs from most components as a way to customize cross_sections to get more intuitive error messages
 
 Maybe:
 
-- gf.component_from_yaml has `cache` decorator
+- enable routing with 180euler and Sbends
+- electrical routing
 - pads have a port with `pad` name on the center of the pad
-- replace LIBRARY with `get_factory_dict`
-- rename any thickness_nm to thickness or zmin_nm to zmin
-- define Layer as a dataclass instead of Tuple[int, int]
-- move add_fiber_array settings into a dataclass
-- enable difftest for test_containers
 - xdoctest
 - mypy passing
-- enable add pins option in TECH that can add custom pins to components
-- how can we have labels with gdslayer, gdspurpose? Phidl issue?
-- write function that generates GDS Klayout library
 - pass force-regen flag from pytest
-- add contracts cell decorator
-
-```
-from contracts import contract
-@contract(length='Real,>=0', width='float,>=0')
 
 
-```
+## 3.4.5
+
+- decorate `gf.path.extrude` with cell, to avoid duplicated cell names
+- enforce contact_startLayer_endLayer naming convention
+- gf.grid accepts rotation for reference
+- add pydantic validator class methods to Path and CrossSection
+- CrossSection has a `to_dict()`
+- rename Component `to_dict` to `to_dict()`: is now a method instead of a property
+- rename Component `pprint` to `pprint()`: is now a method instead of a property
+- rename Component `pprint_ports` to `pprint_ports()`: is now a method instead of a property
+- Component.mirror() returns a container
+
 ## 3.4.4
 
 - decorators that return new component also work in cell
@@ -182,8 +181,8 @@ from contracts import contract
 
 ## 3.2.1
 
-- simplify contact_with_offset
-- contact_with_offset use array of references
+- simplify contact_with_offset_m1_m2
+- contact_with_offset_m1_m2 use array of references
 - add `gf.components.taper_cross_section` to taper two cross_sections
 
 ## 3.2.0
@@ -312,7 +311,7 @@ from contracts import contract
 - @cell has `post_init` function. Perfect for adding pins
 - update `samples/pdk/fabc.py` with partial
 - Library can register partial functions
-- `contact_with_offset` is now define with via functions instead of StrOrDict, skip it from tests
+- `contact_with_offset_m1_m2` is now define with via functions instead of StrOrDict, skip it from tests
 - add `pp.components.die_box`
 
 ## 2.7.6
@@ -369,7 +368,7 @@ from contracts import contract
 
 ## 2.6.9
 
-- rename tlm to contact and tlm_with_offset to contact_with_offset
+- rename tlm to contact and tlm_with_offset to contact_with_offset_m1_m2
 
 ## 2.6.8
 

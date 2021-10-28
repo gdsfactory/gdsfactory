@@ -392,32 +392,32 @@ contact
 
 
 
-contact_heater
+contact_heater_m3
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.contact_heater
+.. autofunction:: gdsfactory.components.contact_heater_m3
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.contact_heater(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)))
+  c = gf.components.contact_heater_m3(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)))
   c.plot()
 
 
 
-contact_slab
+contact_slab_m3
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.contact_slab
+.. autofunction:: gdsfactory.components.contact_slab_m3
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.contact_slab(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)))
+  c = gf.components.contact_slab_m3(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)))
   c.plot()
 
 
@@ -433,6 +433,21 @@ contact_slot
   import gdsfactory as gf
 
   c = gf.components.contact_slot(size=(11.0, 11.0), layers=((41, 0), (45, 0)), layer_offsets=(0, 1.0), enclosure=1.0, ysize=0.5, yspacing=2.0)
+  c.plot()
+
+
+
+contact_slot_m1_m2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.contact_slot_m1_m2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.contact_slot_m1_m2(size=(11.0, 11.0), layers=((41, 0), (45, 0)), layer_offsets=(0, 1.0), enclosure=1.0, ysize=0.5, yspacing=2.0)
   c.plot()
 
 
@@ -2307,7 +2322,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.3', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.4', text_size=10)
   c.plot()
 
 

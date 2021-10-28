@@ -16,30 +16,6 @@ cells:
           function: cross_section
           sections:
           - slab
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200
-        cladding_offset: 3
-        end_straight_offset: 0.01
-        layer:
-        - 1
-        - 0
-        layers_cladding: null
-        min_length: 0.01
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10
-        sections:
-        - slab
-        snap_to_grid: null
-        start_straight: 0.01
-        taper_length: 10
-        width: 0.5
-        width_wide: null
       default:
         length: 10
         npoints: 2
@@ -57,8 +33,6 @@ cells:
       length: 10
       module: gdsfactory.components.straight
       name: straight_3edba0b0
-      path: {}
-      points_hash: 75f569e940ab0a4da50e3d9459
       width: 0.5
     default:
       centered: false
@@ -103,30 +77,6 @@ info:
         function: cross_section
         sections:
         - slab
-    cross_section:
-      auto_widen: false
-      auto_widen_minimum_length: 200
-      cladding_offset: 3
-      end_straight_offset: 0.01
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      min_length: 0.01
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
-      radius: 10
-      sections:
-      - slab
-      snap_to_grid: null
-      start_straight: 0.01
-      taper_length: 10
-      width: 0.5
-      width_wide: null
     default:
       length: 10
       npoints: 2
@@ -144,8 +94,6 @@ info:
     length: 10
     module: gdsfactory.components.straight
     name: straight_3edba0b0
-    path: {}
-    points_hash: 75f569e940ab0a4da50e3d9459
     width: 0.5
   default:
     centered: false

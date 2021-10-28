@@ -12,13 +12,13 @@ from typing import Optional
 
 import numpy as np
 import phidl.path as path
-from phidl.device_layout import Path, _simplify
+from phidl.device_layout import Path as PathPhidl
+from phidl.device_layout import _simplify
 from phidl.path import smooth as smooth_phidl
 
+from gdsfactory.cell import cell
 from gdsfactory.component import Component, clean_dict
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.hash_points import hash_points
-from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     Coordinates,
     CrossSectionOrFactory,
@@ -29,18 +29,39 @@ from gdsfactory.types import (
 )
 
 
+class Path(PathPhidl):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """pydantic assumes Path is always valid"""
+        return v
+
+
 def _sinusoidal_transition(y1, y2):
     dx = y2 - y1
-    return lambda t: y1 + (1 - np.cos(np.pi * t)) / 2 * dx
+
+    def sine(t):
+        return y1 + (1 - np.cos(np.pi * t)) / 2 * dx
+
+    return sine
 
 
 def _linear_transition(y1, y2):
     dx = y2 - y1
-    return lambda t: y1 + t * dx
+
+    def linear(t):
+        return y1 + t * dx
+
+    return linear
 
 
 def transition(
-    cross_section1: CrossSection, cross_section2: CrossSection, width_type: str = "sine"
+    cross_section1: CrossSection,
+    cross_section2: CrossSection,
+    width_type: str = "sine",
 ) -> CrossSection:
     """Creates a CrossSection that smoothly transitions between two input
     CrossSections. Only cross-sectional elements that have the `name` (as in
@@ -113,6 +134,7 @@ def transition(
             else:
                 hidden = False
                 layer = X1[alias]["layer"]
+
             Xtrans.add(
                 width=width_fun,
                 offset=offset_fun,
@@ -124,9 +146,11 @@ def transition(
             )
 
     Xtrans.cross_sections = (X1, X2)
+    Xtrans.name = f"trans_{width_type}_{X1.get_name()}_{X2.get_name()}"
     return Xtrans
 
 
+@cell
 def extrude(
     p: Path,
     cross_section: Optional[CrossSectionOrFactory] = None,
@@ -258,6 +282,7 @@ def extrude(
         layers = layer if hidden else [layer, layer]
         if not hidden and p.length() > 1e-3:
             c.add_polygon(points, layer=layer)
+
         # Add ports if they were specified
         if ports[0] is not None:
             orientation = (p.start_angle + 180) % 360
@@ -288,16 +313,17 @@ def extrude(
             )
             new_port.endpoints = (points2[-1], points1[-1])
 
-    points = np.concatenate((p.points, np.array(xsection_points)))
-    points_hash = hash_points(points)[:26]
+    # points = np.concatenate((p.points, np.array(xsection_points)))
+    # points_hash = hash_points(points)[:26]
+    # name = f"path_{points_hash}"
+    # c.info.points_hash = points_hash
+
     clean_dict(p.info)
     clean_dict(cross_section.info)
-
-    c.name = f"path_{points_hash}"
-    c.info.cross_section = cross_section.info
     c.info.path = p.info
-    c.info.length = float(p.length())
-    c.info.points_hash = points_hash
+    c.info.cross_section = cross_section.info
+    c.info.length = float(np.round(p.length(), 3))
+
     return c
 
 
@@ -377,7 +403,7 @@ __all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"
 
 if __name__ == "__main__":
 
-    P = euler(radius=10, use_eff=True)
+    # P = euler(radius=10, use_eff=True)
     # P = euler()
     # P = Path()
     # P.append(straight(length=5))
@@ -385,17 +411,52 @@ if __name__ == "__main__":
     # P.append(path.spiral())
 
     # Create a blank CrossSection
-    X = CrossSection()
-    X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
+    # X = CrossSection()
+    # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
 
     # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["HW1", "HE1"])
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
 
     # Combine the Path and the CrossSection
 
-    c = extrude(P, X, simplify=5e-3)
+    # c = extrude(P, X, simplify=5e-3)
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
-    print(c.ports["in"].layer)
+    # print(c.ports["in"].layer)
+    # c.show()
+
+    import gdsfactory as gf
+
+    c = gf.Component()
+    X1 = gf.CrossSection()
+    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("in1", "out1"))
+    X1.add(width=2.2, offset=0, layer=3, name="etch")
+    X1.add(width=1.1, offset=3, layer=1, name="wg2")
+
+    # Create the second CrossSection that we want to transition to
+    X2 = gf.CrossSection()
+    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in2", "out2"))
+    X2.add(width=3.5, offset=0, layer=3, name="etch")
+    X2.add(width=3, offset=5, layer=1, name="wg2")
+
+    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+
+    P1 = gf.path.straight(length=5)
+    P2 = gf.path.straight(length=5)
+
+    wg1 = gf.path.extrude(P1, X1)
+    wg2 = gf.path.extrude(P2, X2)
+
+    P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
+    wg_trans = gf.path.extrude(P4, Xtrans)
+    wg1_ref = c << wg1
+    wg2_ref = c << wg2
+    wgt_ref = c << wg_trans
+    wgt_ref.connect("in2", wg1_ref.ports["out1"])
+    wg2_ref.connect("in2", wgt_ref.ports["out1"])
+
+    print(wg1)
+    print(wg2)
+    print(wg_trans)
     c.show()

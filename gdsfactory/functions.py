@@ -4,7 +4,7 @@ from functools import lru_cache
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import Optional
+from gdsfactory.types import Float2, Optional
 
 cache = lru_cache
 
@@ -33,6 +33,23 @@ def rotate(
     component_new.component = component
     ref = component_new.add_ref(component)
     ref.rotate(angle)
+    component_new.add_ports(ref.ports)
+    component_new.copy_child_info(component)
+    return component_new
+
+
+@cell
+def mirror(component: Component, p1: Float2 = (0, 1), p2: Float2 = (0, 0)) -> Component:
+    """Returns mirrored component inside a new component.
+
+    Args:
+        p1: first point to define mirror axis
+        p2: second point to define mirror axis
+    """
+    component_new = Component()
+    component_new.component = component
+    ref = component_new.add_ref(component)
+    ref.mirror(p1=p1, p2=p2)
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new
@@ -71,6 +88,12 @@ if __name__ == "__main__":
     cr.show()
 
     cm = move(c, destination=(20, 20))
+    cm.show()
+
+    cm = mirror(c)
+    cm.show()
+
+    cm = c.mirror()
     cm.show()
 
     # cr = rotate(component=c)

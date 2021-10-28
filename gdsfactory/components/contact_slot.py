@@ -78,9 +78,11 @@ def contact_slot(
     return c
 
 
-contact_slot_slab = gf.partial(contact_slot, layers=(LAYER.M1,), via=viac)
+contact_slot_m1_m2 = gf.partial(contact_slot, layers=(LAYER.M1, LAYER.M2), via=via1)
+
+contact_slot_slab_m1 = gf.partial(contact_slot, layers=(LAYER.M1,), via=viac)
 
 
 if __name__ == "__main__":
-    c = contact_slot(layer_offsets=(0.5, 1), enclosure=2)
+    c = contact_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2)
     c.show()

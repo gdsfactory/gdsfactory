@@ -32,5 +32,5 @@ if __name__ == "__main__":
 
     c = gf.c.nxn(west=1, north=2, east=3, south=4)
     p = c.port_by_orientation_cw(key="W0")
-    c.pprint_ports
+    c.pprint_ports()
     c.show()
