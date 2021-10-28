@@ -1,6 +1,9 @@
 cells: {}
 info:
-  changed: {}
+  changed:
+    cross_section:
+      function: cross_section
+    radius: 10
   cross_section:
     auto_widen: false
     auto_widen_minimum_length: 200
@@ -31,13 +34,16 @@ info:
   dy: 10.0
   full:
     angle: 90
+    cross_section:
+      function: cross_section
     npoints: 720
+    radius: 10
     with_cladding_box: true
   function_name: bend_circular
   info_version: 1
   length: 15.708
   module: gdsfactory.components.bend_circular
-  name: bend_circular
+  name: bend_circular_4725f0ef
   path: {}
   radius_min: 10.0
 ports:

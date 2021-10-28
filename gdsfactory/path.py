@@ -455,5 +455,7 @@ if __name__ == "__main__":
     wgt_ref.connect("in2", wg1_ref.ports["out1"])
     wg2_ref.connect("in2", wgt_ref.ports["out1"])
 
+    print(wg1)
+    print(wg2)
     print(wg_trans)
     c.show()
