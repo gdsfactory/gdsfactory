@@ -1,5 +1,10 @@
 name: Build Notebook Container
-on: [push] # You may want to trigger this Action on other things than a push.
+
+on:
+  push:
+    branches:
+      - 'docker'
+
 jobs:
   build:
     runs-on: ubuntu-latest

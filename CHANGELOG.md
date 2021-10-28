@@ -2,34 +2,21 @@
 
 ## TODO
 
-- enable routing with 180euler and Sbends
 - fix FIXMEs
-- example on how to customize visualization of a component
+- add example on how to customize visualization of a component
+- build docker container
 - remove kwargs from most components as a way to customize cross_sections to get more intuitive error messages
 
 Maybe:
 
-- gf.component_from_yaml has `cache` decorator
+- enable routing with 180euler and Sbends
+- electrical routing
 - pads have a port with `pad` name on the center of the pad
-- replace LIBRARY with `get_factory_dict`
-- rename any thickness_nm to thickness or zmin_nm to zmin
-- define Layer as a dataclass instead of Tuple[int, int]
-- move add_fiber_array settings into a dataclass
-- enable difftest for test_containers
 - xdoctest
 - mypy passing
-- enable add pins option in TECH that can add custom pins to components
-- how can we have labels with gdslayer, gdspurpose? Phidl issue?
-- write function that generates GDS Klayout library
 - pass force-regen flag from pytest
-- add contracts cell decorator
-
-```
-from contracts import contract
-@contract(length='Real,>=0', width='float,>=0')
 
 
-```
 ## 3.4.5
 
 - decorate `gf.path.extrude` with cell, to avoid duplicated cell names
