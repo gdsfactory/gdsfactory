@@ -24,6 +24,7 @@ class CrossSection(CrossSectionPhidl):
         self.port_types = (None, None)
         self.aliases = {}
         self.info = {}
+        self.name = None
 
     def add(
         self,
@@ -120,9 +121,12 @@ class CrossSection(CrossSectionPhidl):
         d["info"] = self.info
         return d
 
-    @property
-    def name(self):
-        return "_".join([str(i) for i in self.to_dict()["sections"]])
+    # @property
+    # def name(self):
+    #     return "_".join([str(i) for i in self.to_dict()["sections"]])
+
+    def get_name(self):
+        return self.name or "_".join([str(i) for i in self.to_dict()["sections"]])
 
 
 @pydantic.validate_arguments
