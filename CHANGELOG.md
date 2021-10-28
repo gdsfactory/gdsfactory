@@ -16,6 +16,13 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.4.6
+
+- add `gf.functions.move_port_to_zero`
+- `gf.routing.add_fiber_single` has new parameter `zero_port` that can move a port to (0, 0)
+- add fixme/routing
+- enable `gf.read.from_yaml` to read ports that are defined without referencing any reference
+
 
 ## 3.4.5
 

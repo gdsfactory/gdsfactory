@@ -4,38 +4,61 @@ cells:
       component: mzi_ac6d448d
     child:
       changed:
-        length_x: 320
-        splitter: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
+        component: mzi_ac6d448d
+        origin:
+        - 12.75
+        - 0.625
+      child:
+        changed:
+          length_x: 320
+          splitter: mmi2x2
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+        default:
+          combiner: null
+          delta_length: 10
+          layer: null
+          length_x: 0.1
+          length_y: 0.8
+          straight_x_bot: null
+          straight_x_top: null
+          straight_y: null
+          with_splitter: true
+        full:
+          combiner: null
+          delta_length: 10
+          layer: null
+          length_x: 320
+          length_y: 0.8
+          splitter: mmi2x2
+          straight_x_bot: null
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+          straight_y: null
+          with_splitter: true
+        function_name: mzi
+        info_version: 1
+        module: gdsfactory.components.mzi
+        name: mzi_ac6d448d
       default:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
+        axis: null
+        destination: null
+        origin:
+        - 0
+        - 0
       full:
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter: mmi2x2
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
+        axis: null
+        component: mzi_ac6d448d
+        destination: null
+        origin:
+        - 12.75
+        - 0.625
+      function_name: move
       info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
+      module: gdsfactory.functions
+      name: move_562473dc
     default:
       component_name: null
       fiber_spacing: 50
@@ -46,6 +69,7 @@ cells:
       min_input_to_output_spacing: 200
       optical_routing_type: 2
       with_loopback: true
+      zero_port: o1
     full:
       component: mzi_ac6d448d
       component_name: null
@@ -57,6 +81,7 @@ cells:
       min_input_to_output_spacing: 200
       optical_routing_type: 2
       with_loopback: true
+      zero_port: o1
     function_name: add_fiber_single
     info_version: 1
     module: gdsfactory.routing.add_fiber_single
@@ -162,6 +187,63 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
+  move_562473dc:
+    changed:
+      component: mzi_ac6d448d
+      origin:
+      - 12.75
+      - 0.625
+    child:
+      changed:
+        length_x: 320
+        splitter: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter: mmi2x2
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_ac6d448d
+    default:
+      axis: null
+      destination: null
+      origin:
+      - 0
+      - 0
+    full:
+      axis: null
+      component: mzi_ac6d448d
+      destination: null
+      origin:
+      - 12.75
+      - 0.625
+    function_name: move
+    info_version: 1
+    module: gdsfactory.functions
+    name: move_562473dc
   mzi_ac6d448d:
     changed:
       length_x: 320
@@ -259,38 +341,61 @@ info:
     component: mzi_ac6d448d
   child:
     changed:
-      length_x: 320
-      splitter: mmi2x2
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
+      component: mzi_ac6d448d
+      origin:
+      - 12.75
+      - 0.625
+    child:
+      changed:
+        length_x: 320
+        splitter: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter: mmi2x2
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_ac6d448d
     default:
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 0.1
-      length_y: 0.8
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
+      axis: null
+      destination: null
+      origin:
+      - 0
+      - 0
     full:
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 320
-      length_y: 0.8
-      splitter: mmi2x2
-      straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
+      axis: null
+      component: mzi_ac6d448d
+      destination: null
+      origin:
+      - 12.75
+      - 0.625
+    function_name: move
     info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    module: gdsfactory.functions
+    name: move_562473dc
   default:
     component_name: null
     fiber_spacing: 50
@@ -301,6 +406,7 @@ info:
     min_input_to_output_spacing: 200
     optical_routing_type: 2
     with_loopback: true
+    zero_port: o1
   full:
     component: mzi_ac6d448d
     component_name: null
@@ -312,6 +418,7 @@ info:
     min_input_to_output_spacing: 200
     optical_routing_type: 2
     with_loopback: true
+    zero_port: o1
   function_name: add_fiber_single
   info_version: 1
   module: gdsfactory.routing.add_fiber_single
@@ -322,8 +429,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - -21.425
-    - 16.75
+    - -22.049999999999997
+    - 29.5
     name: e1
     orientation: 270
     port_type: electrical
@@ -333,8 +440,8 @@ ports:
     - 49
     - 0
     midpoint:
-    - -21.42499999999998
-    - 368.75
+    - -22.049999999999976
+    - 381.5
     name: e2
     orientation: 90
     port_type: electrical
@@ -344,8 +451,8 @@ ports:
     - 203
     - 0
     midpoint:
-    - -25.000000000000004
-    - -76.46900000000001
+    - -25.600000000000005
+    - -63.769000000000005
     name: vertical_te_00
     orientation: 270
     port_type: vertical_te
@@ -355,8 +462,8 @@ ports:
     - 203
     - 0
     midpoint:
-    - 24.999999999999996
-    - -76.46900000000001
+    - 24.399999999999995
+    - -63.769000000000005
     name: vertical_te_01
     orientation: 270
     port_type: vertical_te
@@ -366,8 +473,8 @@ ports:
     - 203
     - 0
     midpoint:
-    - 25
-    - 461.969
+    - 24.4
+    - 474.769
     name: vertical_te_1
     orientation: 90
     port_type: vertical_te
@@ -377,8 +484,8 @@ ports:
     - 203
     - 0
     midpoint:
-    - -25
-    - 461.969
+    - -25.6
+    - 474.769
     name: vertical_te_2
     orientation: 90
     port_type: vertical_te
