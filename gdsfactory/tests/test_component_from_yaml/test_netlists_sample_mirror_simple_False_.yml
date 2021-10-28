@@ -6,10 +6,7 @@ instances:
     settings: {}
   s:
     component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 10
+    settings: {}
 name: sample_mirror_simple
 placements:
   b:

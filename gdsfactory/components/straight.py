@@ -26,7 +26,9 @@ def straight(
     p = gf.path.straight(length=length, npoints=npoints)
     x = cross_section(**kwargs)
 
-    c = gf.path.extrude(p, x)
+    c = Component()
+    ref = c << gf.path.extrude(p, x)
+    c.add_ports(ref.ports)
     c.info.length = gf.snap.snap_to_grid(length)
     c.info.width = float(x.info["width"])
     if with_cladding_box and x.info["layers_cladding"]:
@@ -40,6 +42,7 @@ def straight(
         )
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
+    c.absorb(ref)
     return c
 
 

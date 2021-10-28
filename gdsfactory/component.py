@@ -1281,6 +1281,8 @@ def _clean_value(value: Any) -> Any:
         value = None
     elif hasattr(value, "name"):
         value = value.name
+    elif hasattr(value, "get_name"):
+        value = value.get_name()
     else:
         value = str(value)
 
