@@ -19,7 +19,6 @@ from phidl.path import smooth as smooth_phidl
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, clean_dict
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.hash_points import hash_points
 from gdsfactory.types import (
     Coordinates,
     CrossSectionOrFactory,
@@ -151,7 +150,7 @@ def transition(
     return Xtrans
 
 
-# @cell
+@cell
 def extrude(
     p: Path,
     cross_section: Optional[CrossSectionOrFactory] = None,
@@ -314,9 +313,9 @@ def extrude(
             )
             new_port.endpoints = (points2[-1], points1[-1])
 
-    points = np.concatenate((p.points, np.array(xsection_points)))
-    points_hash = hash_points(points)[:26]
-    name = f"path_{points_hash}"
+    # points = np.concatenate((p.points, np.array(xsection_points)))
+    # points_hash = hash_points(points)[:26]
+    # name = f"path_{points_hash}"
     # c.info.points_hash = points_hash
 
     clean_dict(p.info)
@@ -325,7 +324,7 @@ def extrude(
     c.info.cross_section = cross_section.info
     c.info.length = float(np.round(p.length(), 3))
 
-    return cell(lambda: c)(name=name)
+    return c
 
 
 def arc(radius: Number = 10, angle: Number = 90, npoints: int = 720) -> Path:

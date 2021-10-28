@@ -795,12 +795,10 @@ class Component(Device):
     def __repr__(self) -> str:
         return f"{self.name}: uid {self.uid}, ports {list(self.ports.keys())}, aliases {list(self.aliases.keys())}, {len(self.polygons)} polygons, {len(self.references)} references"
 
-    @property
     def pprint(self) -> None:
         """Prints component info."""
         print(OmegaConf.to_yaml(self.info))
 
-    @property
     def pprint_ports(self) -> None:
         """Prints component netlists."""
         ports_list = self.get_ports_list()
@@ -1170,6 +1168,15 @@ class Component(Device):
         from gdsfactory.functions import move
 
         return move(component=self, origin=origin, destination=destination, axis=axis)
+
+    def mirror(
+        self,
+        p1: Float2 = (0, 1),
+        p2: Float2 = (0, 0),
+    ) -> Device:
+        from gdsfactory.functions import mirror
+
+        return mirror(component=self, p1=p1, p2=p2)
 
     def rotate(self, angle: int = 90) -> Device:
         """Returns a new component with a rotated reference to the original component
