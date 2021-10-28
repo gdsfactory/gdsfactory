@@ -1,10 +1,10 @@
 connections:
-  coupler_ring_884bafc4_m0p005_17p685,o2: straight_7f6851bd_10p0_10p705,o2
-  coupler_ring_884bafc4_m0p005_17p685,o3: straight_7f6851bd_m10p01_10p705,o2
-  coupler_ring_884bafc4_m0p005_3p725,o2: straight_7f6851bd_m10p01_10p705,o1
-  coupler_ring_884bafc4_m0p005_3p725,o3: straight_7f6851bd_10p0_10p705,o1
+  coupler_ring_884bafc4_m0p005_16p185,o2: straight_5743d35a_10p0_10p705,o2
+  coupler_ring_884bafc4_m0p005_16p185,o3: straight_5743d35a_m10p01_10p705,o2
+  coupler_ring_884bafc4_m0p005_5p225,o2: straight_5743d35a_m10p01_10p705,o1
+  coupler_ring_884bafc4_m0p005_5p225,o3: straight_5743d35a_10p0_10p705,o1
 instances:
-  coupler_ring_884bafc4_m0p005_17p685:
+  coupler_ring_884bafc4_m0p005_16p185:
     component: coupler_ring
     settings:
       bend: null
@@ -13,7 +13,7 @@ instances:
       gap: 0.2
       length_x: 0.01
       radius: 10
-  coupler_ring_884bafc4_m0p005_3p725:
+  coupler_ring_884bafc4_m0p005_5p225:
     component: coupler_ring
     settings:
       bend: null
@@ -22,50 +22,46 @@ instances:
       gap: 0.2
       length_x: 0.01
       radius: 10
-  straight_7f6851bd_10p0_10p705:
+  straight_5743d35a_10p0_10p705:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      end_straight_offset: 0
       length: 0.01
       npoints: 2
-      start_straight: 0.01
       with_cladding_box: true
-  straight_7f6851bd_m10p01_10p705:
+  straight_5743d35a_m10p01_10p705:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      end_straight_offset: 0
       length: 0.01
       npoints: 2
-      start_straight: 0.01
       with_cladding_box: true
 name: ring_double
 placements:
-  coupler_ring_884bafc4_m0p005_17p685:
+  coupler_ring_884bafc4_m0p005_16p185:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_884bafc4_m0p005_3p725:
+  coupler_ring_884bafc4_m0p005_5p225:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_7f6851bd_10p0_10p705:
+  straight_5743d35a_10p0_10p705:
     mirror: false
     rotation: 90
     x: 10.0
     y: 10.7
-  straight_7f6851bd_m10p01_10p705:
+  straight_5743d35a_m10p01_10p705:
     mirror: false
     rotation: 90
     x: -10.01
     y: 10.7
 ports:
-  o1: coupler_ring_884bafc4_m0p005_3p725,o1
-  o2: coupler_ring_884bafc4_m0p005_3p725,o4
-  o3: coupler_ring_884bafc4_m0p005_17p685,o4
-  o4: coupler_ring_884bafc4_m0p005_17p685,o1
+  o1: coupler_ring_884bafc4_m0p005_5p225,o1
+  o2: coupler_ring_884bafc4_m0p005_5p225,o4
+  o3: coupler_ring_884bafc4_m0p005_16p185,o4
+  o4: coupler_ring_884bafc4_m0p005_16p185,o1

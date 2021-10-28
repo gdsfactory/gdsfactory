@@ -27,6 +27,22 @@ cells:
     module: gdsfactory.components.cutback_component
     name: cutback_component
     parent_name: loopback_taper_0p5_to_3_l36_88
+  straight:
+    changed: {}
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.straight
+    name: straight
+    width: 0.5
   taper_0p5_to_3_l36:
     changed: {}
     default: {}

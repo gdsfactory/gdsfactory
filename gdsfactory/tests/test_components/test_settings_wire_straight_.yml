@@ -14,29 +14,6 @@ info:
       - electrical
       width: 10
     with_cladding_box: false
-  cross_section:
-    auto_widen: false
-    auto_widen_minimum_length: 200
-    cladding_offset: 3
-    end_straight_offset: 0.01
-    layer:
-    - 49
-    - 0
-    layers_cladding: null
-    min_length: 0.01
-    port_names:
-    - e1
-    - e2
-    port_types:
-    - electrical
-    - electrical
-    radius: 10
-    sections: []
-    snap_to_grid: null
-    start_straight: 0.01
-    taper_length: 10
-    width: 10
-    width_wide: null
   default:
     length: 10
     npoints: 2
@@ -62,7 +39,6 @@ info:
   length: 10.0
   module: gdsfactory.components.straight
   name: straight_d9d77473
-  path: {}
   width: 10.0
 ports:
   e1:

@@ -1,30 +1,6 @@
 cells: {}
 info:
-  changed:
-    width: 0.5
-  cross_section:
-    auto_widen: false
-    auto_widen_minimum_length: 200
-    cladding_offset: 3
-    end_straight_offset: 0.01
-    layer:
-    - 1
-    - 0
-    layers_cladding: null
-    min_length: 0.01
-    port_names:
-    - o1
-    - o2
-    port_types:
-    - optical
-    - optical
-    radius: 10
-    sections: []
-    snap_to_grid: null
-    start_straight: 0.01
-    taper_length: 10
-    width: 0.5
-    width_wide: null
+  changed: {}
   default:
     angle: 90
     direction: ccw
@@ -38,17 +14,13 @@ info:
     direction: ccw
     npoints: 720
     p: 0.5
-    width: 0.5
     with_arc_floorplan: true
     with_cladding_box: true
   function_name: bend_euler
   info_version: 1
   length: 16.637
   module: gdsfactory.components.bend_euler
-  name: bend_euler_a96febb9
-  path:
-    Reff: 10
-    Rmin: 7.060899918657693
+  name: bend_euler
   radius: 10.0
   radius_min: 7.060899918657693
 ports:
