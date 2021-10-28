@@ -5,9 +5,10 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import TECH, call_if_func
 from gdsfactory.cross_section import strip
+from gdsfactory.functions import move_port_to_zero
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
@@ -22,13 +23,14 @@ def add_fiber_single(
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
     bend: ComponentFactory = bend_circular,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
     with_loopback: bool = True,
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
+    zero_port: Optional[str] = "o1",
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     select_ports: Callable = select_ports_optical,
@@ -93,6 +95,9 @@ def add_fiber_single(
 
     """
     component = component() if callable(component) else component
+
+    component = move_port_to_zero(component, zero_port) if zero_port else component
+
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
     optical_port_names = [p.name for p in optical_ports]
@@ -258,6 +263,7 @@ if __name__ == "__main__":
         auto_widen=False,
         with_loopback=True,
         layer=(2, 0),
+        zero_port="o2",
     )
     cc.show()
 
