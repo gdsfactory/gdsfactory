@@ -111,4 +111,4 @@ def mmi2x2(
 if __name__ == "__main__":
     c = mmi2x2(layer=(2, 0), gap_mmi=0.251)
     c.show()
-    c.pprint
+    c.pprint()

@@ -18,7 +18,7 @@ def test_components_ports(
     c = import_gds(gdspath)
     add_ports_from_markers_center(c)
     auto_rename_ports(c)
-    data_regression.check(c.to_dict)
+    data_regression.check(c.to_dict())
 
 
 if __name__ == "__main__":

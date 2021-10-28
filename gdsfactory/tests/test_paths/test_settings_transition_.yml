@@ -1,8 +1,8 @@
 cells:
-  extrude_76f2ce5b:
+  extrude_36b45bf8:
     changed:
       cross_section: {}
-      p: <phidl.device_layout.Path object at 0x7fcef0dd8d30>
+      p: <phidl.device_layout.Path object at 0x7f60779e86d0>
     cross_section: {}
     default:
       cross_section: null
@@ -13,57 +13,7 @@ cells:
     full:
       cross_section: {}
       layer: null
-      p: <phidl.device_layout.Path object at 0x7fcef0dd8d30>
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 5
-    module: gdsfactory.path
-    name: extrude_76f2ce5b
-    path: {}
-    points_hash: 90389ac5e2278be33ed7bd007e
-  extrude_c43f0ce5:
-    changed:
-      cross_section: {}
-      p: <phidl.device_layout.Path object at 0x7fcef0dd8c40>
-    cross_section: {}
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: <phidl.device_layout.Path object at 0x7fcef0dd8c40>
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 5
-    module: gdsfactory.path
-    name: extrude_c43f0ce5
-    path: {}
-    points_hash: 0edeaa4d6acefdcecc5db7e634
-  extrude_db29e163:
-    changed:
-      cross_section: {}
-      p: <phidl.device_layout.Path object at 0x7fcef0d63130>
-    cross_section: {}
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: <phidl.device_layout.Path object at 0x7fcef0d63130>
+      p: <phidl.device_layout.Path object at 0x7f60779e86d0>
       simplify: null
       width: null
       widths: null
@@ -71,11 +21,61 @@ cells:
     info_version: 1
     length: 29.45240029461876
     module: gdsfactory.path
-    name: extrude_db29e163
+    name: extrude_36b45bf8
     path:
       Reff: 36.99594705612938
       Rmin: 25
     points_hash: babfd6a775bd94e702cd927faf
+  extrude_6ea8c919:
+    changed:
+      cross_section: {}
+      p: <phidl.device_layout.Path object at 0x7f60779e8790>
+    cross_section: {}
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: <phidl.device_layout.Path object at 0x7f60779e8790>
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
+    length: 5
+    module: gdsfactory.path
+    name: extrude_6ea8c919
+    path: {}
+    points_hash: 0edeaa4d6acefdcecc5db7e634
+  extrude_7c82f9cd:
+    changed:
+      cross_section: {}
+      p: <phidl.device_layout.Path object at 0x7f60776711c0>
+    cross_section: {}
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: <phidl.device_layout.Path object at 0x7f60776711c0>
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
+    length: 5
+    module: gdsfactory.path
+    name: extrude_7c82f9cd
+    path: {}
+    points_hash: 90389ac5e2278be33ed7bd007e
   transition:
     changed: {}
     default: {}

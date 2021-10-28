@@ -53,7 +53,9 @@ def _linear_transition(y1, y2):
 
 
 def transition(
-    cross_section1: CrossSection, cross_section2: CrossSection, width_type: str = "sine"
+    cross_section1: CrossSection,
+    cross_section2: CrossSection,
+    width_type: str = "sine",
 ) -> CrossSection:
     """Creates a CrossSection that smoothly transitions between two input
     CrossSections. Only cross-sectional elements that have the `name` (as in
@@ -126,6 +128,7 @@ def transition(
             else:
                 hidden = False
                 layer = X1[alias]["layer"]
+
             Xtrans.add(
                 width=width_fun,
                 offset=offset_fun,
@@ -272,6 +275,7 @@ def extrude(
         layers = layer if hidden else [layer, layer]
         if not hidden and p.length() > 1e-3:
             c.add_polygon(points, layer=layer)
+
         # Add ports if they were specified
         if ports[0] is not None:
             orientation = (p.start_angle + 180) % 360

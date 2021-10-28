@@ -478,7 +478,7 @@ def test_settings(
     c = from_yaml(yaml_string)
 
     if check:
-        data_regression.check(c.to_dict)
+        data_regression.check(c.to_dict())
     return c
 
 
