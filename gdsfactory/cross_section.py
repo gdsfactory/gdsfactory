@@ -254,6 +254,7 @@ def pin(
         layer_via:
         via_width:
         via_offsets:
+        kwargs: other cross_section settings
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -303,12 +304,30 @@ def pin(
             for offset in via_offsets
         ]
 
-    return cross_section(
+    x = cross_section(
         width=width,
         layer=layer,
         sections=sections,
         **kwargs,
     )
+    info = dict(
+        width=width,
+        layer=layer,
+        layer_slab=layer_slab,
+        layers_contact1=layers_contact1,
+        layers_contact2=layers_contact2,
+        cladding_offsets_contact1=cladding_offsets_contact1,
+        cladding_offsets_contact2=cladding_offsets_contact2,
+        contact_width=contact_width,
+        contact_gap=contact_gap,
+        slab_gap=slab_gap,
+        layer_via=layer_via,
+        via_width=via_width,
+        via_offsets=via_offsets,
+    )
+    x.info.update(**info)
+    x.info.update(**kwargs)
+    return x
 
 
 def pn(
@@ -405,7 +424,7 @@ def strip_heater_metal_undercut(
     layer_heater: Layer = LAYER.HEATER,
     layer_trench: Layer = LAYER.DEEPTRENCH,
     **kwargs,
-):
+) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both sides.
     dimensions from https://doi.org/10.1364/OE.18.020298
 
@@ -465,7 +484,7 @@ def strip_heater_metal(
     heater_width: float = 2.5,
     layer_heater: Layer = LAYER.HEATER,
     **kwargs,
-):
+) -> CrossSection:
     """Returns strip cross_section with top heater metal.
     dimensions from https://doi.org/10.1364/OE.18.020298
 
@@ -492,7 +511,7 @@ def heater_metal(
     width: float = 2.5,
     layer: Layer = LAYER.HEATER,
     **kwargs,
-):
+) -> CrossSection:
     """Returns metal heater cross_section.
     dimensions from https://doi.org/10.1364/OE.18.020298
 
@@ -517,7 +536,7 @@ def strip_heater_doped(
     layers_heater: Layers = (LAYER.WG, LAYER.NPP),
     cladding_offsets_heater: Tuple[float, ...] = (0, 0.1),
     **kwargs,
-):
+) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
 
     .. code::
@@ -575,7 +594,7 @@ def rib_heater_doped(
     layer_slab: Layer = LAYER.SLAB90,
     slab_gap: float = 0.2,
     **kwargs,
-):
+) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
 
@@ -630,7 +649,7 @@ def rib_heater_doped_contact(
     cladding_offsets_contact: Tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     **kwargs,
-):
+) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
     dimensions from https://doi.org/10.1364/OE.27.010456
 
@@ -726,6 +745,20 @@ metal3 = partial(
     port_names=port_names_electrical,
     port_types=port_types_electrical,
 )
+
+
+xs_strip = strip()
+xs_strip_auto_widen = strip_auto_widen()
+xs_rib = rib()
+xs_nitride = nitride()
+xs_metal1 = metal1()
+xs_metal2 = metal2()
+xs_metal3 = metal3()
+xs_pin = pin()
+xs_strip_heater_metal_undercut = strip_heater_metal_undercut()
+xs_strip_heater_metal = strip_heater_metal()
+xs_strip_heater_doped = strip_heater_doped()
+xs_rib_heater_doped = rib_heater_doped()
 
 
 cross_section_factory = dict(
