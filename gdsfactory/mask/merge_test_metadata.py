@@ -50,7 +50,7 @@ from typing import List
 
 from omegaconf import DictConfig, OmegaConf
 
-from gdsfactory.config import CONFIG
+from gdsfactory.config import CONFIG, logger
 
 
 def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
@@ -107,8 +107,12 @@ def merge_test_metadata(
 
     for label, x, y in labels_list:
         cell = get_cell_from_label(label)
-        test_metadata[cell] = metadata.cells[cell]
-        test_metadata[cell].label = dict(x=x, y=y, text=label)
+
+        if cell in test_metadata:
+            test_metadata[cell] = metadata.cells[cell]
+            test_metadata[cell].label = dict(x=x, y=y, text=label)
+        else:
+            logger.error(f"missing cell metadata for {cell}")
 
     OmegaConf.save(test_metadata, f=test_metadata_path)
     return test_metadata
