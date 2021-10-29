@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -27,11 +27,11 @@ cells:
       taper_angle: 35
     default:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -44,18 +44,18 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     full:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -70,7 +70,7 @@ cells:
       polarization: te
       taper_angle: 35
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     function_name: grating_coupler_elliptical_trenches
@@ -83,17 +83,17 @@ cells:
   loss_deembedding_ch13_24:
     changed: {}
     default:
-      R: 10
+      R: 10.0
       input_port_indexes:
       - 0
       - 1
-      pitch: 127
+      pitch: 127.0
     full:
-      R: 10
+      R: 10.0
       input_port_indexes:
       - 0
       - 1
-      pitch: 127
+      pitch: 127.0
     function_name: loss_deembedding_ch13_24
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
@@ -101,17 +101,17 @@ cells:
 info:
   changed: {}
   default:
-    R: 10
+    R: 10.0
     input_port_indexes:
     - 0
     - 1
-    pitch: 127
+    pitch: 127.0
   full:
-    R: 10
+    R: 10.0
     input_port_indexes:
     - 0
     - 1
-    pitch: 127
+    pitch: 127.0
   function_name: loss_deembedding_ch13_24
   info_version: 1
   module: gdsfactory.components.grating_coupler_loss

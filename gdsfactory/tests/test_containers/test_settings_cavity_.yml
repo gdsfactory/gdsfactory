@@ -1,17 +1,17 @@
 cells:
-  cavity_487eeed5:
+  cavity_3dca3254:
     changed:
-      component: mzi_ac6d448d
+      component: mzi_23817010
     child:
       changed:
-        length_x: 320
+        length_x: 320.0
         splitter: mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
       default:
         combiner: null
-        delta_length: 10
+        delta_length: 10.0
         layer: null
         length_x: 0.1
         length_y: 0.8
@@ -21,9 +21,9 @@ cells:
         with_splitter: true
       full:
         combiner: null
-        delta_length: 10
+        delta_length: 10.0
         layer: null
-        length_x: 320
+        length_x: 320.0
         length_y: 0.8
         splitter: mmi2x2
         straight_x_bot: null
@@ -35,30 +35,30 @@ cells:
       function_name: mzi
       info_version: 1
       module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
+      name: mzi_23817010
     default:
       gap: 0.2
       length: 0.1
     full:
-      component: mzi_ac6d448d
+      component: mzi_23817010
       gap: 0.2
       length: 0.1
     function_name: cavity
     info_version: 1
     module: gdsfactory.components.cavity
-    name: cavity_487eeed5
+    name: cavity_3dca3254
   coupler_3e9f9e6a:
     changed:
       gap: 0.2
       length: 0.1
     default:
-      dx: 10
-      dy: 5
+      dx: 10.0
+      dy: 5.0
       gap: 0.236
-      length: 20
+      length: 20.0
     full:
-      dx: 10
-      dy: 5
+      dx: 10.0
+      dy: 5.0
       gap: 0.2
       length: 0.1
     function_name: coupler
@@ -72,31 +72,31 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_ac6d448d:
+  mzi_23817010:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -106,9 +106,9 @@ cells:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -120,11 +120,38 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
-  mzi_arm_3aabaa29:
+    name: mzi_23817010
+  mzi_arm_38283d76:
     changed:
       bend: bend_euler
-      length_x: 320
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_38283d76
+  mzi_arm_f8b34917:
+    changed:
+      bend: bend_euler
+      length_x: 320.0
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -139,7 +166,7 @@ cells:
       straight_y: null
     full:
       bend: bend_euler
-      length_x: 320
+      length_x: 320.0
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -148,50 +175,23 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320
-    length_xsize: 320
+    length_x: 320.0
+    length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_3aabaa29
-  mzi_arm_5644a682:
-    changed:
-      bend: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_5644a682
+    name: mzi_arm_f8b34917
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_23817010
   child:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -201,9 +201,9 @@ info:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -215,28 +215,28 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    name: mzi_23817010
   default:
     gap: 0.2
     length: 0.1
   full:
-    component: mzi_ac6d448d
+    component: mzi_23817010
     gap: 0.2
     length: 0.1
   function_name: cavity
   info_version: 1
   module: gdsfactory.components.cavity
-  name: cavity_487eeed5
+  name: cavity_3dca3254
 ports:
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - -10
+    - -10.0
     - -2.15
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -247,7 +247,7 @@ ports:
     - 10.1
     - -2.1500000000000004
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

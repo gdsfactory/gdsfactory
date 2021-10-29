@@ -4,13 +4,13 @@ info:
     cross_section: pn
   default:
     contact_spacing: 2
-    contact_width: 10
-    length: 500
+    contact_width: 10.0
+    length: 500.0
   full:
     contact_spacing: 2
-    contact_width: 10
+    contact_width: 10.0
     cross_section: pn
-    length: 500
+    length: 500.0
   function_name: straight_pin
   info_version: 1
   module: gdsfactory.components.straight_pin
@@ -21,54 +21,54 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0
-    - -6
+    - 0.0
+    - -6.0
     name: bot_e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
-    width: 10
+    width: 10.0
   bot_e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 240
-    - -1
+    - 240.0
+    - -1.0
     name: bot_e2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
-    width: 480
+    width: 480.0
   bot_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 480
-    - -6
+    - 480.0
+    - -6.0
     name: bot_e3
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 10
+    width: 10.0
   bot_e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 240
-    - -11
+    - 240.0
+    - -11.0
     name: bot_e4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
-    width: 480
+    width: 480.0
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - -10
-    - 0
+    - -10.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -76,10 +76,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 490
-    - 0
+    - 490.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   top_e1:
@@ -87,43 +87,43 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0
-    - 6
+    - 0.0
+    - 6.0
     name: top_e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
-    width: 10
+    width: 10.0
   top_e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 240
-    - 11
+    - 240.0
+    - 11.0
     name: top_e2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
-    width: 480
+    width: 480.0
   top_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 480
-    - 6
+    - 480.0
+    - 6.0
     name: top_e3
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 10
+    width: 10.0
   top_e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 240
-    - 1
+    - 240.0
+    - 1.0
     name: top_e4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
-    width: 480
+    width: 480.0
 version: 1

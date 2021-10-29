@@ -7,22 +7,22 @@ cells:
       orientation: 270
       rows: 1
       spacing:
-      - 150
-      - 150
+      - 150.0
+      - 150.0
     full:
       columns: 6
       orientation: 90
       rows: 1
       spacing:
-      - 150
-      - 150
+      - 150.0
+      - 150.0
     function_name: pad_array
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array_b84950ef
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
   pad_array_fe55c938:
     changed:
       orientation: 270
@@ -31,22 +31,22 @@ cells:
       orientation: 270
       rows: 1
       spacing:
-      - 150
-      - 150
+      - 150.0
+      - 150.0
     full:
       columns: 6
       orientation: 270
       rows: 1
       spacing:
-      - 150
-      - 150
+      - 150.0
+      - 150.0
     function_name: pad_array
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array_fe55c938
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
   sample_waypoints: {}
 info:
   name: sample_waypoints

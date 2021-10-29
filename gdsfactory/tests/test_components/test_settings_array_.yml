@@ -5,14 +5,14 @@ cells:
       columns: 6
       rows: 1
       spacing:
-      - 150
-      - 150
+      - 150.0
+      - 150.0
     full:
       columns: 6
       rows: 1
       spacing:
-      - 150
-      - 150
+      - 150.0
+      - 150.0
     function_name: array
     info_version: 1
     module: gdsfactory.components.array
@@ -23,14 +23,14 @@ info:
     columns: 6
     rows: 1
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   full:
     columns: 6
     rows: 1
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   function_name: array
   info_version: 1
   module: gdsfactory.components.array
@@ -41,10 +41,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1_1_1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o1_1_2:
@@ -52,10 +52,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 150
-    - 0
+    - 150.0
+    - 0.0
     name: o1_1_2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o1_1_3:
@@ -63,10 +63,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 300
-    - 0
+    - 300.0
+    - 0.0
     name: o1_1_3
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o1_1_4:
@@ -74,10 +74,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 450
-    - 0
+    - 450.0
+    - 0.0
     name: o1_1_4
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o1_1_5:
@@ -85,10 +85,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 600
-    - 0
+    - 600.0
+    - 0.0
     name: o1_1_5
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o1_1_6:
@@ -96,10 +96,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 750
-    - 0
+    - 750.0
+    - 0.0
     name: o1_1_6
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2_1_1:
@@ -107,10 +107,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 0
+    - 10.0
+    - 0.0
     name: o2_1_1
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o2_1_2:
@@ -118,10 +118,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 160
-    - 0
+    - 160.0
+    - 0.0
     name: o2_1_2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o2_1_3:
@@ -129,10 +129,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 310
-    - 0
+    - 310.0
+    - 0.0
     name: o2_1_3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o2_1_4:
@@ -140,10 +140,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 460
-    - 0
+    - 460.0
+    - 0.0
     name: o2_1_4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o2_1_5:
@@ -151,10 +151,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 610
-    - 0
+    - 610.0
+    - 0.0
     name: o2_1_5
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o2_1_6:
@@ -162,10 +162,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 760
-    - 0
+    - 760.0
+    - 0.0
     name: o2_1_6
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

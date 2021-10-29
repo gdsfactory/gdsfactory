@@ -1,20 +1,20 @@
 connections:
-  bend_euler_93ab05a3_154p875_145p125,o1: straight_0e209496_150p0_70p0,o2
-  bend_euler_93ab05a3_154p875_145p125,o2: straight_b169702d_350p0_150p0,o1
-  bend_euler_93ab05a3_395p125_304p875,o1: straight_b169702d_200p0_300p0,o2
-  bend_euler_93ab05a3_395p125_304p875,o2: straight_61c245c0_400p0_350p0,o1
-  bend_euler_93ab05a3_395p125_395p125,o1: straight_61c245c0_400p0_350p0,o2
-  bend_euler_93ab05a3_395p125_395p125,o2: straight_1a997572_75p0_400p0,o1
-  bend_euler_93ab05a3_4p875_295p125,o1: straight_27026560_0p0_145p0,o2
-  bend_euler_93ab05a3_4p875_295p125,o2: straight_b169702d_200p0_300p0,o1
-  bend_euler_93ab05a3_545p125_154p875,o1: straight_b169702d_350p0_150p0,o2
-  bend_euler_93ab05a3_545p125_154p875,o2: straight_b169702d_550p0_350p0,o1
-  bend_euler_93ab05a3_545p125_545p125,o1: straight_b169702d_550p0_350p0,o2
-  bend_euler_93ab05a3_545p125_545p125,o2: straight_1a997572_225p0_550p0,o1
-  bend_euler_93ab05a3_m245p125_404p875,o1: straight_1a997572_75p0_400p0,o2
-  bend_euler_93ab05a3_m245p125_404p875,o2: straight_9dca303a_m250p0_705p0,o1
-  bend_euler_93ab05a3_m95p125_554p875,o1: straight_1a997572_225p0_550p0,o2
-  bend_euler_93ab05a3_m95p125_554p875,o2: straight_d04bc13d_m100p0_780p0,o1
+  bend_euler_93ab05a3_154p875_145p125,o1: straight_a6d1d0f0_150p0_70p0,o2
+  bend_euler_93ab05a3_154p875_145p125,o2: straight_0d2b841a_350p0_150p0,o1
+  bend_euler_93ab05a3_395p125_304p875,o1: straight_0d2b841a_200p0_300p0,o2
+  bend_euler_93ab05a3_395p125_304p875,o2: straight_85cc506b_400p0_350p0,o1
+  bend_euler_93ab05a3_395p125_395p125,o1: straight_85cc506b_400p0_350p0,o2
+  bend_euler_93ab05a3_395p125_395p125,o2: straight_5903eca7_75p0_400p0,o1
+  bend_euler_93ab05a3_4p875_295p125,o1: straight_d28d94fb_0p0_145p0,o2
+  bend_euler_93ab05a3_4p875_295p125,o2: straight_0d2b841a_200p0_300p0,o1
+  bend_euler_93ab05a3_545p125_154p875,o1: straight_0d2b841a_350p0_150p0,o2
+  bend_euler_93ab05a3_545p125_154p875,o2: straight_0d2b841a_550p0_350p0,o1
+  bend_euler_93ab05a3_545p125_545p125,o1: straight_0d2b841a_550p0_350p0,o2
+  bend_euler_93ab05a3_545p125_545p125,o2: straight_5903eca7_225p0_550p0,o1
+  bend_euler_93ab05a3_m245p125_404p875,o1: straight_5903eca7_75p0_400p0,o2
+  bend_euler_93ab05a3_m245p125_404p875,o2: straight_573a879d_m250p0_705p0,o1
+  bend_euler_93ab05a3_m95p125_554p875,o1: straight_5903eca7_225p0_550p0,o2
+  bend_euler_93ab05a3_m95p125_554p875,o2: straight_22c41b69_m100p0_780p0,o1
 instances:
   b:
     component: pad_array
@@ -68,76 +68,76 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-  straight_0e209496_150p0_70p0:
+  straight_0d2b841a_200p0_300p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 140
-  straight_1a997572_225p0_550p0:
+      length: 380.0
+  straight_0d2b841a_350p0_150p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 630
-  straight_1a997572_75p0_400p0:
+      length: 380.0
+  straight_0d2b841a_550p0_350p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 630
-  straight_27026560_0p0_145p0:
+      length: 380.0
+  straight_22c41b69_m100p0_780p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 290
-  straight_61c245c0_400p0_350p0:
+      length: 440.0
+  straight_573a879d_m250p0_705p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 80
-  straight_9dca303a_m250p0_705p0:
+      length: 590.0
+  straight_5903eca7_225p0_550p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 590
-  straight_b169702d_200p0_300p0:
+      length: 630.0
+  straight_5903eca7_75p0_400p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380
-  straight_b169702d_350p0_150p0:
+      length: 630.0
+  straight_85cc506b_400p0_350p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380
-  straight_b169702d_550p0_350p0:
+      length: 80.0
+  straight_a6d1d0f0_150p0_70p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380
-  straight_d04bc13d_m100p0_780p0:
+      length: 140.0
+  straight_d28d94fb_0p0_145p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 440
+      length: 290.0
   t:
     component: pad_array
     settings:
@@ -189,56 +189,56 @@ placements:
     rotation: 180
     x: -90.0
     y: 550.0
-  straight_0e209496_150p0_70p0:
-    mirror: false
-    rotation: 90
-    x: 150.0
-    y: 0.0
-  straight_1a997572_225p0_550p0:
-    mirror: false
-    rotation: 180
-    x: 540.0
-    y: 550.0
-  straight_1a997572_75p0_400p0:
-    mirror: false
-    rotation: 180
-    x: 390.0
-    y: 400.0
-  straight_27026560_0p0_145p0:
-    mirror: false
-    rotation: 90
-    x: 0.0
-    y: 0.0
-  straight_61c245c0_400p0_350p0:
-    mirror: false
-    rotation: 90
-    x: 400.0
-    y: 310.0
-  straight_9dca303a_m250p0_705p0:
-    mirror: false
-    rotation: 90
-    x: -250.0
-    y: 410.0
-  straight_b169702d_200p0_300p0:
+  straight_0d2b841a_200p0_300p0:
     mirror: false
     rotation: 0
     x: 10.0
     y: 300.0
-  straight_b169702d_350p0_150p0:
+  straight_0d2b841a_350p0_150p0:
     mirror: false
     rotation: 0
     x: 160.0
     y: 150.0
-  straight_b169702d_550p0_350p0:
+  straight_0d2b841a_550p0_350p0:
     mirror: false
     rotation: 90
     x: 550.0
     y: 160.0
-  straight_d04bc13d_m100p0_780p0:
+  straight_22c41b69_m100p0_780p0:
     mirror: false
     rotation: 90
     x: -100.0
     y: 560.0
+  straight_573a879d_m250p0_705p0:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 410.0
+  straight_5903eca7_225p0_550p0:
+    mirror: false
+    rotation: 180
+    x: 540.0
+    y: 550.0
+  straight_5903eca7_75p0_400p0:
+    mirror: false
+    rotation: 180
+    x: 390.0
+    y: 400.0
+  straight_85cc506b_400p0_350p0:
+    mirror: false
+    rotation: 90
+    x: 400.0
+    y: 310.0
+  straight_a6d1d0f0_150p0_70p0:
+    mirror: false
+    rotation: 90
+    x: 150.0
+    y: 0.0
+  straight_d28d94fb_0p0_145p0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 0.0
   t:
     mirror: false
     rotation: 0

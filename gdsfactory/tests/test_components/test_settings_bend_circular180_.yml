@@ -1,6 +1,29 @@
 cells: {}
 info:
   changed: {}
+  cross_section:
+    auto_widen: false
+    auto_widen_minimum_length: 200.0
+    cladding_offset: 3.0
+    end_straight_offset: 0.01
+    layer:
+    - 1
+    - 0
+    layers_cladding: null
+    min_length: 0.01
+    port_names:
+    - o1
+    - o2
+    port_types:
+    - optical
+    - optical
+    radius: 10.0
+    sections: []
+    snap_to_grid: null
+    start_straight: 0.01
+    taper_length: 10.0
+    width: 0.5
+    width_wide: null
   default:
     angle: 180
   dy: 0.0
@@ -11,6 +34,7 @@ info:
   length: 31.416
   module: gdsfactory.components.bend_circular
   name: bend_circular180
+  path: {}
   radius_min: 10.0
 ports:
   o1:
@@ -19,9 +43,9 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -30,9 +54,9 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 20
+    - 20.0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
 version: 1

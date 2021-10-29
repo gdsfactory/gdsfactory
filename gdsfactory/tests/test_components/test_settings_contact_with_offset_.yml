@@ -93,10 +93,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 10
+    - 0.0
+    - 10.0
     name: e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
-    width: 10
+    width: 10.0
 version: 1

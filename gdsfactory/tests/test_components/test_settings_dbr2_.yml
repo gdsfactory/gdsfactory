@@ -8,14 +8,14 @@ cells:
       - 0.2
       - 0.05
       fins: false
-      length: 10
+      length: 10.0
       period: 0.85
       port:
       - 0
       - 0
-      taper_length: 20
+      taper_length: 20.0
       w1: 0.4
-      w2: 1
+      w2: 1.0
       waveguide_template_dbr: null
     full:
       dc: 0.5
@@ -24,14 +24,14 @@ cells:
       - 0.2
       - 0.05
       fins: false
-      length: 10
+      length: 10.0
       period: 0.85
       port:
       - 0
       - 0
-      taper_length: 20
+      taper_length: 20.0
       w1: 0.4
-      w2: 1
+      w2: 1.0
       waveguide_template_dbr: null
     function_name: dbr2
     info_version: 1
@@ -46,14 +46,14 @@ info:
     - 0.2
     - 0.05
     fins: false
-    length: 10
+    length: 10.0
     period: 0.85
     port:
     - 0
     - 0
-    taper_length: 20
+    taper_length: 20.0
     w1: 0.4
-    w2: 1
+    w2: 1.0
     waveguide_template_dbr: null
   full:
     dc: 0.5
@@ -62,14 +62,14 @@ info:
     - 0.2
     - 0.05
     fins: false
-    length: 10
+    length: 10.0
     period: 0.85
     port:
     - 0
     - 0
-    taper_length: 20
+    taper_length: 20.0
     w1: 0.4
-    w2: 1
+    w2: 1.0
     waveguide_template_dbr: null
   function_name: dbr2
   info_version: 1
@@ -81,21 +81,21 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
-    width: 1
+    width: 1.0
   o2:
     layer:
     - 1
     - 0
     midpoint:
-    - 50
-    - 0
+    - 50.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 1
+    width: 1.0
 version: 1

@@ -3,10 +3,10 @@ info:
   changed: {}
   default:
     n: 4
-    spacing: 4
+    spacing: 4.0
   full:
     n: 4
-    spacing: 4
+    spacing: 4.0
   function_name: straight_array
   info_version: 1
   module: gdsfactory.components.straight_array
@@ -17,10 +17,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -28,10 +28,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
+    - 0.0
     - 4.5
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -39,10 +39,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 9
+    - 0.0
+    - 9.0
     name: o3
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o4:
@@ -50,10 +50,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
+    - 0.0
     - 13.5
     name: o4
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o5:
@@ -61,10 +61,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
+    - 10.0
     - 13.5
     name: o5
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o6:
@@ -72,10 +72,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 9
+    - 10.0
+    - 9.0
     name: o6
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o7:
@@ -83,10 +83,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
+    - 10.0
     - 4.5
     name: o7
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o8:
@@ -94,10 +94,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 0
+    - 10.0
+    - 0.0
     name: o8
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

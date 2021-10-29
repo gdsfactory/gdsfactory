@@ -5,14 +5,14 @@ cells:
       layer:
       - 1
       - 0
-      length: 10
-      width: 3
+      length: 10.0
+      width: 3.0
     full:
       layer:
       - 1
       - 0
-      length: 10
-      width: 3
+      length: 10.0
+      width: 3.0
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
@@ -23,14 +23,14 @@ info:
     layer:
     - 1
     - 0
-    length: 10
-    width: 3
+    length: 10.0
+    width: 3.0
   full:
     layer:
     - 1
     - 0
-    length: 10
-    width: 3
+    length: 10.0
+    width: 3.0
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross
@@ -41,43 +41,43 @@ ports:
     - 1
     - 0
     midpoint:
-    - -5
-    - 0
+    - -5.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
-    width: 3
+    width: 3.0
   o2:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 5
+    - 0.0
+    - 5.0
     name: o2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
-    width: 3
+    width: 3.0
   o3:
     layer:
     - 1
     - 0
     midpoint:
-    - 5
-    - 0
+    - 5.0
+    - 0.0
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 3
+    width: 3.0
   o4:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - -5
+    - 0.0
+    - -5.0
     name: o4
-    orientation: 270
+    orientation: 270.0
     port_type: optical
-    width: 3
+    width: 3.0
 version: 1

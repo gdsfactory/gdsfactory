@@ -10,7 +10,7 @@ instances:
   s:
     component: straight
     settings:
-      length: 10
+      length: 10.0
       npoints: 2
       with_cladding_box: true
 name: sample_mirror_simple

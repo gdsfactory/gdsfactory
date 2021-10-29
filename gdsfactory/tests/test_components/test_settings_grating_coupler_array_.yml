@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -25,11 +25,11 @@ cells:
     changed: {}
     default:
       n: 6
-      pitch: 127
+      pitch: 127.0
       port_name: o1
     full:
       n: 6
-      pitch: 127
+      pitch: 127.0
       port_name: o1
     function_name: grating_coupler_array
     info_version: 1
@@ -38,13 +38,13 @@ cells:
   grating_coupler_elliptical2:
     changed: {}
     default:
-      cladding_offset: 2
+      cladding_offset: 2.0
       direction: EAST
       dutycycle: 0.7
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       layer_cladding:
       - 111
       - 0
@@ -52,25 +52,25 @@ cells:
       - 1
       - 0
       layer_ridge: null
-      length: 30
-      period: 1
+      length: 30.0
+      period: 1.0
       polarization: te
       port:
-      - 0
-      - 0
-      taper_angle: 30
-      taper_length: 10
+      - 0.0
+      - 0.0
+      taper_angle: 30.0
+      taper_length: 10.0
       teeth_list: null
       wavelength: 1.55
       wg_width: 0.5
     full:
-      cladding_offset: 2
+      cladding_offset: 2.0
       direction: EAST
       dutycycle: 0.7
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       layer_cladding:
       - 111
       - 0
@@ -78,14 +78,14 @@ cells:
       - 1
       - 0
       layer_ridge: null
-      length: 30
-      period: 1
+      length: 30.0
+      period: 1.0
       polarization: te
       port:
-      - 0
-      - 0
-      taper_angle: 30
-      taper_length: 10
+      - 0.0
+      - 0.0
+      taper_angle: 30.0
+      taper_length: 10.0
       teeth_list: null
       wavelength: 1.55
       wg_width: 0.5
@@ -99,11 +99,11 @@ info:
   changed: {}
   default:
     n: 6
-    pitch: 127
+    pitch: 127.0
     port_name: o1
   full:
     n: 6
-    pitch: 127
+    pitch: 127.0
     port_name: o1
   function_name: grating_coupler_array
   info_version: 1
@@ -115,10 +115,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -16
-    - 0
+    - -16.0
+    - 0.0
     name: o0
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o1:
@@ -126,10 +126,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 111
-    - 0
+    - 111.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -137,10 +137,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 238
-    - 0
+    - 238.0
+    - 0.0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -148,10 +148,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 365
-    - 0
+    - 365.0
+    - 0.0
     name: o3
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o4:
@@ -159,10 +159,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 492
-    - 0
+    - 492.0
+    - 0.0
     name: o4
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o5:
@@ -170,10 +170,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 619
-    - 0
+    - 619.0
+    - 0.0
     name: o5
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
 version: 1

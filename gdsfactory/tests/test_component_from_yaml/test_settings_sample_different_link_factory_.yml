@@ -1,32 +1,32 @@
 cells:
-  compass_a0b38c11:
+  compass_4d115c34:
     changed:
       layer:
       - 49
       - 0
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a0b38c11
+    name: compass_4d115c34
   pad:
     changed: {}
     default:
@@ -36,8 +36,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     full:
       cladding_offsets: null
       layer:
@@ -45,8 +45,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     function_name: pad
     info_version: 1
     layer:
@@ -55,8 +55,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
   sample_path_length_matching: {}
 info:
   name: sample_path_length_matching

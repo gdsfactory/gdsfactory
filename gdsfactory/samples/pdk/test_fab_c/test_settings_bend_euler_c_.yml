@@ -9,8 +9,33 @@ info:
       layers_cladding:
       - - 36
         - 0
-      width: 1
+      width: 1.0
     decorator: add_pins
+  cross_section:
+    auto_widen: false
+    auto_widen_minimum_length: 200.0
+    cladding_offset: 3.0
+    end_straight_offset: 0.01
+    layer:
+    - 34
+    - 0
+    layers_cladding:
+    - - 36
+      - 0
+    min_length: 0.01
+    port_names:
+    - o1
+    - o2
+    port_types:
+    - optical
+    - optical
+    radius: 10.0
+    sections: []
+    snap_to_grid: null
+    start_straight: 0.01
+    taper_length: 10.0
+    width: 1.0
+    width_wide: null
   default:
     angle: 90
     direction: ccw
@@ -29,7 +54,7 @@ info:
       layers_cladding:
       - - 36
         - 0
-      width: 1
+      width: 1.0
     decorator: add_pins
     direction: ccw
     npoints: 720
@@ -40,30 +65,33 @@ info:
   info_version: 1
   length: 16.637
   module: gdsfactory.components.bend_euler
-  name: bend_euler_40e83c11
+  name: bend_euler_7760522e
+  path:
+    Reff: 10.0
+    Rmin: 7.060899918657693
   radius: 10.0
-  radius_min: 7.060899918657693
+  radius_min: 7.061
 ports:
   o1:
     layer:
     - 34
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
-    width: 1
+    width: 1.0
   o2:
     layer:
     - 34
     - 0
     midpoint:
-    - 10
-    - 10
+    - 10.0
+    - 10.0
     name: o2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
-    width: 1
+    width: 1.0
 version: 1

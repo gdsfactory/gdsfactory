@@ -33,20 +33,20 @@ instances:
     settings:
       gap_mmi: 0.25
       length_mmi: 11
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 5
-      width_taper: 1
+      width_taper: 1.0
       with_cladding_box: true
   mmi_top:
     component: mmi1x2
     settings:
       gap_mmi: 0.25
       length_mmi: 22
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 6
-      width_taper: 1
+      width_taper: 1.0
       with_cladding_box: true
   straight_466a3c74_51p995_m0p625:
     component: straight

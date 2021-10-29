@@ -1,17 +1,17 @@
 cells:
-  add_grating_couplers_wi_5a015576:
+  add_grating_couplers_wi_aa362cec:
     changed:
-      component: mzi_ac6d448d
+      component: mzi_23817010
     child:
       changed:
-        length_x: 320
+        length_x: 320.0
         splitter: mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
       default:
         combiner: null
-        delta_length: 10
+        delta_length: 10.0
         layer: null
         length_x: 0.1
         length_y: 0.8
@@ -21,9 +21,9 @@ cells:
         with_splitter: true
       full:
         combiner: null
-        delta_length: 10
+        delta_length: 10.0
         layer: null
-        length_x: 320
+        length_x: 320.0
         length_y: 0.8
         splitter: mmi2x2
         straight_x_bot: null
@@ -35,32 +35,32 @@ cells:
       function_name: mzi
       info_version: 1
       module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
+      name: mzi_23817010
     default:
       component_name: null
-      fiber_spacing: 50
+      fiber_spacing: 50.0
       gc_port_name: o1
       layer_label:
       - 200
       - 0
-      loopback_xspacing: 5
+      loopback_xspacing: 5.0
       rotation: 90
       with_loopback: true
     full:
-      component: mzi_ac6d448d
+      component: mzi_23817010
       component_name: null
-      fiber_spacing: 50
+      fiber_spacing: 50.0
       gc_port_name: o1
       layer_label:
       - 200
       - 0
-      loopback_xspacing: 5
+      loopback_xspacing: 5.0
       rotation: 90
       with_loopback: true
     function_name: add_grating_couplers_with_loopback_fiber_single
     info_version: 1
     module: gdsfactory.add_grating_couplers
-    name: add_grating_couplers_wi_5a015576
+    name: add_grating_couplers_wi_aa362cec
   circle_602e85fd:
     changed:
       layer:
@@ -72,7 +72,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -89,11 +89,11 @@ cells:
       taper_angle: 35
     default:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -106,18 +106,18 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     full:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -132,7 +132,7 @@ cells:
       polarization: te
       taper_angle: 35
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     function_name: grating_coupler_elliptical_trenches
@@ -147,31 +147,31 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_ac6d448d:
+  mzi_23817010:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -181,9 +181,9 @@ cells:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -195,11 +195,38 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
-  mzi_arm_3aabaa29:
+    name: mzi_23817010
+  mzi_arm_38283d76:
     changed:
       bend: bend_euler
-      length_x: 320
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_38283d76
+  mzi_arm_f8b34917:
+    changed:
+      bend: bend_euler
+      length_x: 320.0
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -214,7 +241,7 @@ cells:
       straight_y: null
     full:
       bend: bend_euler
-      length_x: 320
+      length_x: 320.0
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -223,50 +250,23 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320
-    length_xsize: 320
+    length_x: 320.0
+    length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_3aabaa29
-  mzi_arm_5644a682:
-    changed:
-      bend: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_5644a682
+    name: mzi_arm_f8b34917
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_23817010
   child:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -276,9 +276,9 @@ info:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -290,31 +290,31 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    name: mzi_23817010
   default:
     component_name: null
-    fiber_spacing: 50
+    fiber_spacing: 50.0
     gc_port_name: o1
     layer_label:
     - 200
     - 0
-    loopback_xspacing: 5
+    loopback_xspacing: 5.0
     rotation: 90
     with_loopback: true
   full:
-    component: mzi_ac6d448d
+    component: mzi_23817010
     component_name: null
-    fiber_spacing: 50
+    fiber_spacing: 50.0
     gc_port_name: o1
     layer_label:
     - 200
     - 0
-    loopback_xspacing: 5
+    loopback_xspacing: 5.0
     rotation: 90
     with_loopback: true
   function_name: add_grating_couplers_with_loopback_fiber_single
   info_version: 1
   module: gdsfactory.add_grating_couplers
-  name: add_grating_couplers_wi_5a015576
+  name: add_grating_couplers_wi_aa362cec
 ports: {}
 version: 1

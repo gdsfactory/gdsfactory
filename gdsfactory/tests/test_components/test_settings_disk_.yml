@@ -8,8 +8,8 @@ cells:
       port:
       - 0
       - 0
-      radius: 10
-      wrap_angle_deg: 180
+      radius: 10.0
+      wrap_angle_deg: 180.0
     full:
       direction: EAST
       gap: 0.2
@@ -17,8 +17,8 @@ cells:
       port:
       - 0
       - 0
-      radius: 10
-      wrap_angle_deg: 180
+      radius: 10.0
+      wrap_angle_deg: 180.0
     function_name: disk
     info_version: 1
     module: gdsfactory.components.disk
@@ -32,8 +32,8 @@ info:
     port:
     - 0
     - 0
-    radius: 10
-    wrap_angle_deg: 180
+    radius: 10.0
+    wrap_angle_deg: 180.0
   full:
     direction: EAST
     gap: 0.2
@@ -41,8 +41,8 @@ info:
     port:
     - 0
     - 0
-    radius: 10
-    wrap_angle_deg: 180
+    radius: 10.0
+    wrap_angle_deg: 180.0
   function_name: disk
   info_version: 1
   module: gdsfactory.components.disk
@@ -53,10 +53,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -65,9 +65,9 @@ ports:
     - 0
     midpoint:
     - 41.8
-    - 0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

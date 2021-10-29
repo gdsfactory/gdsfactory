@@ -1,33 +1,33 @@
 cells:
-  compass_f4e2fd7c:
+  compass_feeda363:
     changed:
       layer:
       - 100
       - 0
       port_type: electrical
       size:
-      - 50
-      - 300
+      - 50.0
+      - 300.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 100
       - 0
       port_type: electrical
       size:
-      - 50
-      - 300
+      - 50.0
+      - 300.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_f4e2fd7c
+    name: compass_feeda363
   dicing_lane:
     changed: {}
     default:
@@ -63,8 +63,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       centered: false
       layer:

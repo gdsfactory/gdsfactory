@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -131,10 +131,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -142,10 +142,10 @@ ports:
     - 203
     - 0
     midpoint:
-    - 14
-    - 0
+    - 14.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 11
+    width: 11.0
 version: 1

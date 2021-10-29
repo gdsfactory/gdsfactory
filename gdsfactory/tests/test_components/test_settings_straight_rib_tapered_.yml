@@ -16,8 +16,32 @@ cells:
           function: cross_section
           sections:
           - slab
+      cross_section:
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        cladding_offset: 3.0
+        end_straight_offset: 0.01
+        layer:
+        - 1
+        - 0
+        layers_cladding: null
+        min_length: 0.01
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections:
+        - slab
+        snap_to_grid: null
+        start_straight: 0.01
+        taper_length: 10.0
+        width: 0.5
+        width_wide: null
       default:
-        length: 10
+        length: 10.0
         npoints: 2
         with_cladding_box: true
       full:
@@ -25,19 +49,19 @@ cells:
           function: cross_section
           sections:
           - slab
-        length: 10
+        length: 10.0
         npoints: 2
         with_cladding_box: true
       function_name: straight
       info_version: 1
-      length: 10
+      length: 10.0
       module: gdsfactory.components.straight
       name: straight_3edba0b0
       width: 0.5
     default:
       centered: false
       extension_factory: null
-      length: 5
+      length: 5.0
       port1: null
       port2: null
       port_names: null
@@ -51,7 +75,7 @@ cells:
           - slab
         function: straight
       extension_factory: taper_strip_to_ridge
-      length: 5
+      length: 5.0
       port1: o2
       port2: o1
       port_names: null
@@ -77,8 +101,32 @@ info:
         function: cross_section
         sections:
         - slab
+    cross_section:
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      cladding_offset: 3.0
+      end_straight_offset: 0.01
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      min_length: 0.01
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      radius: 10.0
+      sections:
+      - slab
+      snap_to_grid: null
+      start_straight: 0.01
+      taper_length: 10.0
+      width: 0.5
+      width_wide: null
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_cladding_box: true
     full:
@@ -86,19 +134,19 @@ info:
         function: cross_section
         sections:
         - slab
-      length: 10
+      length: 10.0
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 10
+    length: 10.0
     module: gdsfactory.components.straight
     name: straight_3edba0b0
     width: 0.5
   default:
     centered: false
     extension_factory: null
-    length: 5
+    length: 5.0
     port1: null
     port2: null
     port_names: null
@@ -112,7 +160,7 @@ info:
         - slab
       function: straight
     extension_factory: taper_strip_to_ridge
-    length: 5
+    length: 5.0
     port1: o2
     port2: o1
     port_names: null
@@ -127,10 +175,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10
-    - 0
+    - -10.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -138,10 +186,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 20
-    - 0
+    - 20.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

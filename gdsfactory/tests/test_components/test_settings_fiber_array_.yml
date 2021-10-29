@@ -1,26 +1,26 @@
 cells:
-  circle_72737e6a:
+  circle_71a1a4d7:
     changed:
       layer:
       - 1
       - 0
-      radius: 5
+      radius: 5.0
     default:
       angle_resolution: 2.5
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
       - 1
       - 0
-      radius: 5
+      radius: 5.0
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_72737e6a
+    name: circle_71a1a4d7
   circle_e248ff5e:
     changed:
       layer:
@@ -32,7 +32,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -55,7 +55,7 @@ cells:
       - 1
       - 0
       n: 8
-      pitch: 127
+      pitch: 127.0
     full:
       cladding_diameter: 125
       core_diameter: 10
@@ -66,7 +66,7 @@ cells:
       - 1
       - 0
       n: 8
-      pitch: 127
+      pitch: 127.0
     function_name: fiber_array
     info_version: 1
     module: gdsfactory.components.fiber_array
@@ -83,7 +83,7 @@ info:
     - 1
     - 0
     n: 8
-    pitch: 127
+    pitch: 127.0
   full:
     cladding_diameter: 125
     core_diameter: 10
@@ -94,7 +94,7 @@ info:
     - 1
     - 0
     n: 8
-    pitch: 127
+    pitch: 127.0
   function_name: fiber_array
   info_version: 1
   module: gdsfactory.components.fiber_array
@@ -105,87 +105,87 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F0
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F1:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F1
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F2:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F3:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F4:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F5:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F5
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F6:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F6
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
   F7:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: F7
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 10
+    width: 10.0
 version: 1

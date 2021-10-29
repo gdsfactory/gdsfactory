@@ -4,23 +4,23 @@ cells:
     default:
       N: 6
       cross_section_bend: null
-      grating_spacing: 127
+      grating_spacing: 127.0
       length: null
-      waveguide_spacing: 3
-      x_straight_inner_left: 50
-      x_straight_inner_right: 150
-      y_straight_inner_bottom: 10
-      y_straight_inner_top: 50
+      waveguide_spacing: 3.0
+      x_straight_inner_left: 50.0
+      x_straight_inner_right: 150.0
+      y_straight_inner_bottom: 10.0
+      y_straight_inner_top: 50.0
     full:
       N: 6
       cross_section_bend: null
-      grating_spacing: 127
+      grating_spacing: 127.0
       length: null
-      waveguide_spacing: 3
-      x_straight_inner_left: 50
-      x_straight_inner_right: 150
-      y_straight_inner_bottom: 10
-      y_straight_inner_top: 50
+      waveguide_spacing: 3.0
+      x_straight_inner_left: 50.0
+      x_straight_inner_right: 150.0
+      y_straight_inner_bottom: 10.0
+      y_straight_inner_top: 50.0
     function_name: spiral_inner_io
     info_version: 1
     length: 11584.394
@@ -31,23 +31,23 @@ info:
   default:
     N: 6
     cross_section_bend: null
-    grating_spacing: 127
+    grating_spacing: 127.0
     length: null
-    waveguide_spacing: 3
-    x_straight_inner_left: 50
-    x_straight_inner_right: 150
-    y_straight_inner_bottom: 10
-    y_straight_inner_top: 50
+    waveguide_spacing: 3.0
+    x_straight_inner_left: 50.0
+    x_straight_inner_right: 150.0
+    y_straight_inner_bottom: 10.0
+    y_straight_inner_top: 50.0
   full:
     N: 6
     cross_section_bend: null
-    grating_spacing: 127
+    grating_spacing: 127.0
     length: null
-    waveguide_spacing: 3
-    x_straight_inner_left: 50
-    x_straight_inner_right: 150
-    y_straight_inner_bottom: 10
-    y_straight_inner_top: 50
+    waveguide_spacing: 3.0
+    x_straight_inner_left: 50.0
+    x_straight_inner_right: 150.0
+    y_straight_inner_bottom: 10.0
+    y_straight_inner_top: 50.0
   function_name: spiral_inner_io
   info_version: 1
   length: 11584.394
@@ -59,10 +59,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 50
+    - 0.0
+    - 50.0
     name: o1
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     width: 0.5
   o2:
@@ -70,10 +70,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 127
-    - 50
+    - 127.0
+    - 50.0
     name: o2
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     width: 0.5
 version: 1

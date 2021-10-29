@@ -2,7 +2,7 @@ cells:
   taper_from_csv:
     changed: {}
     default:
-      cladding_offset: 3
+      cladding_offset: 3.0
       filepath: taper_strip_0p5_3_36.csv
       layer:
       - 1
@@ -11,7 +11,7 @@ cells:
       - 111
       - 0
     full:
-      cladding_offset: 3
+      cladding_offset: 3.0
       filepath: taper_strip_0p5_3_36.csv
       layer:
       - 1
@@ -26,7 +26,7 @@ cells:
 info:
   changed: {}
   default:
-    cladding_offset: 3
+    cladding_offset: 3.0
     filepath: taper_strip_0p5_3_36.csv
     layer:
     - 1
@@ -35,7 +35,7 @@ info:
     - 111
     - 0
   full:
-    cladding_offset: 3
+    cladding_offset: 3.0
     filepath: taper_strip_0p5_3_36.csv
     layer:
     - 1
@@ -53,10 +53,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -65,9 +65,9 @@ ports:
     - 0
     midpoint:
     - 35.23
-    - 0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 3
+    width: 3.0
 version: 1

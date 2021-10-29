@@ -3,11 +3,11 @@ cells:
     changed: {}
     default:
       arms: 10
-      fpr_spacing: 50
+      fpr_spacing: 50.0
       outputs: 3
     full:
       arms: 10
-      fpr_spacing: 50
+      fpr_spacing: 50.0
       outputs: 3
     function_name: awg
     info_version: 1
@@ -19,20 +19,20 @@ cells:
       outputs: 10
     default:
       inputs: 10
-      width1: 10
-      width2: 20
+      width1: 10.0
+      width2: 20.0
     full:
       inputs: 3
       outputs: 10
-      width1: 10
-      width2: 20
+      width1: 10.0
+      width2: 20.0
     function_name: free_propagation_region_output
     info_version: 1
-    length: 20
+    length: 20.0
     module: gdsfactory.components.awg
     name: free_propagation_region_734f1395
-    width1: 10
-    width2: 20
+    width1: 10.0
+    width2: 20.0
   free_propagation_region_ccb25c60:
     changed:
       inputs: 1
@@ -44,20 +44,20 @@ cells:
       outputs: 10
     function_name: free_propagation_region_input
     info_version: 1
-    length: 20
+    length: 20.0
     module: gdsfactory.components.awg
     name: free_propagation_region_ccb25c60
-    width1: 2
-    width2: 20
+    width1: 2.0
+    width2: 20.0
 info:
   changed: {}
   default:
     arms: 10
-    fpr_spacing: 50
+    fpr_spacing: 50.0
     outputs: 3
   full:
     arms: 10
-    fpr_spacing: 50
+    fpr_spacing: 50.0
     outputs: 3
   function_name: awg
   info_version: 1
@@ -72,7 +72,7 @@ ports:
     - 45.25
     - 2.9085361479749637e-16
     name: E0
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
   E1:
@@ -80,10 +80,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 50
-    - 0
+    - 50.0
+    - 0.0
     name: E1
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
   E2:
@@ -94,7 +94,7 @@ ports:
     - 54.75
     - -2.9085361479749637e-16
     name: E2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
   o1:
@@ -102,10 +102,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     width: 0.5
 version: 1

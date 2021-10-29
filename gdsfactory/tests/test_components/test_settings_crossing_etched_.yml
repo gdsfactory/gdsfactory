@@ -9,7 +9,7 @@ cells:
       layer_wg:
       - 1
       - 0
-      r1: 3
+      r1: 3.0
       r2: 1.1
       w: 1.2
       width: 0.5
@@ -21,7 +21,7 @@ cells:
       layer_wg:
       - 1
       - 0
-      r1: 3
+      r1: 3.0
       r2: 1.1
       w: 1.2
       width: 0.5
@@ -39,7 +39,7 @@ info:
     layer_wg:
     - 1
     - 0
-    r1: 3
+    r1: 3.0
     r2: 1.1
     w: 1.2
     width: 0.5
@@ -51,7 +51,7 @@ info:
     layer_wg:
     - 1
     - 0
-    r1: 3
+    r1: 3.0
     r2: 1.1
     w: 1.2
     width: 0.5
@@ -65,10 +65,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -4
-    - 0
+    - -4.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -76,10 +76,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 4
+    - 0.0
+    - 4.0
     name: o2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
   o3:
@@ -87,10 +87,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 4
-    - 0
+    - 4.0
+    - 0.0
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -98,10 +98,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - -4
+    - 0.0
+    - -4.0
     name: o4
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     width: 0.5
 version: 1

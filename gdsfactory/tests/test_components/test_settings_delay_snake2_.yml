@@ -2,12 +2,12 @@ cells:
   delay_snake2:
     changed: {}
     default:
-      length: 1600
-      length0: 0
+      length: 1600.0
+      length0: 0.0
       n: 2
     full:
-      length: 1600
-      length0: 0
+      length: 1600.0
+      length0: 0.0
       n: 2
     function_name: delay_snake2
     info_version: 1
@@ -16,12 +16,12 @@ cells:
 info:
   changed: {}
   default:
-    length: 1600
-    length0: 0
+    length: 1600.0
+    length0: 0.0
     n: 2
   full:
-    length: 1600
-    length0: 0
+    length: 1600.0
+    length0: 0.0
     n: 2
   function_name: delay_snake2
   info_version: 1
@@ -33,10 +33,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -45,9 +45,9 @@ ports:
     - 0
     midpoint:
     - 504.788
-    - -40
+    - -40.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

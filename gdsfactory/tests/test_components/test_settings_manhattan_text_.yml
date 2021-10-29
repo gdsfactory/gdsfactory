@@ -7,9 +7,9 @@ cells:
       - 1
       - 0
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: abcd
     full:
       justify: left
@@ -17,9 +17,9 @@ cells:
       - 1
       - 0
       position:
-      - 0
-      - 0
-      size: 10
+      - 0.0
+      - 0.0
+      size: 10.0
       text: abcd
     function_name: manhattan_text
     info_version: 1
@@ -33,9 +33,9 @@ info:
     - 1
     - 0
     position:
-    - 0
-    - 0
-    size: 10
+    - 0.0
+    - 0.0
+    size: 10.0
     text: abcd
   full:
     justify: left
@@ -43,9 +43,9 @@ info:
     - 1
     - 0
     position:
-    - 0
-    - 0
-    size: 10
+    - 0.0
+    - 0.0
+    size: 10.0
     text: abcd
   function_name: manhattan_text
   info_version: 1

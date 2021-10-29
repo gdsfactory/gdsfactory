@@ -2,12 +2,12 @@ cells:
   staircase:
     changed: {}
     default:
-      length_h: 5
-      length_v: 5
+      length_h: 5.0
+      length_v: 5.0
       rows: 4
     full:
-      length_h: 5
-      length_v: 5
+      length_h: 5.0
+      length_v: 5.0
       rows: 4
     function_name: staircase
     info_version: 1
@@ -17,12 +17,12 @@ cells:
 info:
   changed: {}
   default:
-    length_h: 5
-    length_v: 5
+    length_h: 5.0
+    length_v: 5.0
     rows: 4
   full:
-    length_h: 5
-    length_v: 5
+    length_h: 5.0
+    length_v: 5.0
     rows: 4
   function_name: staircase
   info_version: 1
@@ -35,10 +35,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -46,10 +46,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 105
-    - 100
+    - 105.0
+    - 100.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

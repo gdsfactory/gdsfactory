@@ -1,62 +1,62 @@
 cells:
-  compass_205010ac:
-    changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_205010ac
-  compass_c14e0736:
+  compass_065d4c88:
     changed:
       layer:
       - 2
       - 0
       port_type: electrical
       size:
-      - 2
-      - 5
+      - 2.0
+      - 5.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 2
       - 0
       port_type: electrical
       size:
-      - 2
-      - 5
+      - 2.0
+      - 5.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c14e0736
+    name: compass_065d4c88
+  compass_6828b74f:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 2.0
+      - 5.0
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 2.0
+      - 5.0
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_6828b74f
   litho_calipers:
     changed: {}
     default:
@@ -67,12 +67,12 @@ cells:
       - 2
       - 0
       notch_size:
-      - 2
-      - 5
-      notch_spacing: 2
+      - 2.0
+      - 5.0
+      notch_spacing: 2.0
       num_notches: 11
       offset_per_notch: 0.1
-      row_spacing: 0
+      row_spacing: 0.0
     full:
       layer1:
       - 1
@@ -81,24 +81,24 @@ cells:
       - 2
       - 0
       notch_size:
-      - 2
-      - 5
-      notch_spacing: 2
+      - 2.0
+      - 5.0
+      notch_spacing: 2.0
       num_notches: 11
       offset_per_notch: 0.1
-      row_spacing: 0
+      row_spacing: 0.0
     function_name: litho_calipers
     info_version: 1
     module: gdsfactory.components.litho_calipers
     name: litho_calipers
-  rectangle_229ba6f2:
+  rectangle_7002b32e:
     changed:
       layer:
       - 2
       - 0
       size:
-      - 2
-      - 5
+      - 2.0
+      - 5.0
     default:
       centered: false
       layer:
@@ -106,8 +106,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       centered: false
       layer:
@@ -115,20 +115,20 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 2
-      - 5
+      - 2.0
+      - 5.0
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_229ba6f2
-  rectangle_92db19f8:
+    name: rectangle_7002b32e
+  rectangle_df3f4786:
     changed:
       layer:
       - 1
       - 0
       size:
-      - 2
-      - 5
+      - 2.0
+      - 5.0
     default:
       centered: false
       layer:
@@ -136,8 +136,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       centered: false
       layer:
@@ -145,12 +145,12 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 2
-      - 5
+      - 2.0
+      - 5.0
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_92db19f8
+    name: rectangle_df3f4786
 info:
   changed: {}
   default:
@@ -161,12 +161,12 @@ info:
     - 2
     - 0
     notch_size:
-    - 2
-    - 5
-    notch_spacing: 2
+    - 2.0
+    - 5.0
+    notch_spacing: 2.0
     num_notches: 11
     offset_per_notch: 0.1
-    row_spacing: 0
+    row_spacing: 0.0
   full:
     layer1:
     - 1
@@ -175,12 +175,12 @@ info:
     - 2
     - 0
     notch_size:
-    - 2
-    - 5
-    notch_spacing: 2
+    - 2.0
+    - 5.0
+    notch_spacing: 2.0
     num_notches: 11
     offset_per_notch: 0.1
-    row_spacing: 0
+    row_spacing: 0.0
   function_name: litho_calipers
   info_version: 1
   module: gdsfactory.components.litho_calipers
