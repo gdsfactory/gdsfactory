@@ -14,12 +14,12 @@ cells:
       alpha: 0.08
       dx: null
       npoints: 101
-      port_spacing: 40
+      port_spacing: 40.0
     full:
       alpha: 0.08
       dx: null
       npoints: 101
-      port_spacing: 40
+      port_spacing: 40.0
     function_name: crossing45
     info_version: 1
     min_bend_radius: 44.312
@@ -40,12 +40,12 @@ info:
     alpha: 0.08
     dx: null
     npoints: 101
-    port_spacing: 40
+    port_spacing: 40.0
   full:
     alpha: 0.08
     dx: null
     npoints: 101
-    port_spacing: 40
+    port_spacing: 40.0
   function_name: crossing45
   info_version: 1
   min_bend_radius: 44.312
@@ -57,10 +57,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -40
-    - -20
+    - -40.0
+    - -20.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -68,10 +68,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -40
-    - 20
+    - -40.0
+    - 20.0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -79,10 +79,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 40
-    - 20
+    - 40.0
+    - 20.0
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -90,10 +90,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 40
-    - -20
+    - 40.0
+    - -20.0
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

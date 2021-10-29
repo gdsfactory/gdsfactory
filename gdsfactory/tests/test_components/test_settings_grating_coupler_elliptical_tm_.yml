@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -24,7 +24,7 @@ cells:
   grating_coupler_elliptical_tm:
     changed: {}
     default:
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 204
       - 0
@@ -34,12 +34,12 @@ cells:
       - 0
       n_periods: 16
       neff: 1.8
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
     full:
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 204
       - 0
@@ -49,7 +49,7 @@ cells:
       - 0
       n_periods: 16
       neff: 1.8
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
@@ -62,7 +62,7 @@ cells:
 info:
   changed: {}
   default:
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer:
     - 204
     - 0
@@ -72,12 +72,12 @@ info:
     - 0
     n_periods: 16
     neff: 1.8
-    taper_angle: 30
+    taper_angle: 30.0
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
   full:
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer:
     - 204
     - 0
@@ -87,7 +87,7 @@ info:
     - 0
     n_periods: 16
     neff: 1.8
-    taper_angle: 30
+    taper_angle: 30.0
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
@@ -104,9 +104,9 @@ ports:
     - 0
     midpoint:
     - 10.978
-    - 0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   vertical_tm:
@@ -115,9 +115,9 @@ ports:
     - 0
     midpoint:
     - 25.312
-    - 0
+    - 0.0
     name: vertical_tm
-    orientation: 0
+    orientation: 0.0
     port_type: vertical_tm
-    width: 11
+    width: 11.0
 version: 1

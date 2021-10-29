@@ -14,12 +14,12 @@ cells:
       - 99
       - 0
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text_location: SW
-      text_size: 100
+      text_size: 100.0
     full:
       bbox_layer:
       - 99
@@ -31,12 +31,12 @@ cells:
       - 99
       - 0
       size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
+      - 10000.0
+      - 10000.0
+      street_length: 1000.0
+      street_width: 100.0
       text_location: SW
-      text_size: 100
+      text_size: 100.0
     function_name: die
     info_version: 1
     module: gdsfactory.components.die
@@ -54,12 +54,12 @@ info:
     - 99
     - 0
     size:
-    - 10000
-    - 10000
-    street_length: 1000
-    street_width: 100
+    - 10000.0
+    - 10000.0
+    street_length: 1000.0
+    street_width: 100.0
     text_location: SW
-    text_size: 100
+    text_size: 100.0
   full:
     bbox_layer:
     - 99
@@ -71,12 +71,12 @@ info:
     - 99
     - 0
     size:
-    - 10000
-    - 10000
-    street_length: 1000
-    street_width: 100
+    - 10000.0
+    - 10000.0
+    street_length: 1000.0
+    street_width: 100.0
     text_location: SW
-    text_size: 100
+    text_size: 100.0
   function_name: die
   info_version: 1
   module: gdsfactory.components.die

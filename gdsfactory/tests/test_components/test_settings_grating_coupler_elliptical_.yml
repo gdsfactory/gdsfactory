@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -26,11 +26,11 @@ cells:
     default:
       big_last_tooth: false
       cladding_index: 1.443
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -42,18 +42,18 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
     full:
       big_last_tooth: false
       cladding_index: 1.443
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -65,7 +65,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
@@ -80,11 +80,11 @@ info:
   default:
     big_last_tooth: false
     cladding_index: 1.443
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer:
     - 203
     - 0
-    fiber_marker_width: 11
+    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer:
     - 1
@@ -96,18 +96,18 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
-    taper_angle: 30
+    taper_angle: 30.0
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
   full:
     big_last_tooth: false
     cladding_index: 1.443
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer:
     - 203
     - 0
-    fiber_marker_width: 11
+    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer:
     - 1
@@ -119,7 +119,7 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
-    taper_angle: 30
+    taper_angle: 30.0
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
@@ -136,9 +136,9 @@ ports:
     - 0
     midpoint:
     - 0.721
-    - 0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   vertical_te:
@@ -147,9 +147,9 @@ ports:
     - 0
     midpoint:
     - 26.89
-    - 0
+    - 0.0
     name: vertical_te
-    orientation: 0
+    orientation: 0.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
 version: 1

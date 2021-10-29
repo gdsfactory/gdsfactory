@@ -10,8 +10,31 @@ cells:
         changed:
           length: 20
           width: 2
+        cross_section:
+          auto_widen: false
+          auto_widen_minimum_length: 200.0
+          cladding_offset: 3.0
+          end_straight_offset: 0.01
+          layer:
+          - 1
+          - 0
+          layers_cladding: null
+          min_length: 0.01
+          port_names:
+          - o1
+          - o2
+          port_types:
+          - optical
+          - optical
+          radius: 10.0
+          sections: []
+          snap_to_grid: null
+          start_straight: 0.01
+          taper_length: 10.0
+          width: 2.0
+          width_wide: null
         default:
-          length: 10
+          length: 10.0
           npoints: 2
           with_cladding_box: true
         full:
@@ -21,10 +44,10 @@ cells:
           with_cladding_box: true
         function_name: straight
         info_version: 1
-        length: 20
+        length: 20.0
         module: gdsfactory.components.straight
         name: straight_373b1ebb
-        width: 2
+        width: 2.0
       default:
         taper_port_name1: o1
         taper_port_name2: o2
@@ -63,8 +86,31 @@ cells:
       changed:
         length: 20
         width: 2
+      cross_section:
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        cladding_offset: 3.0
+        end_straight_offset: 0.01
+        layer:
+        - 1
+        - 0
+        layers_cladding: null
+        min_length: 0.01
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: []
+        snap_to_grid: null
+        start_straight: 0.01
+        taper_length: 10.0
+        width: 2.0
+        width_wide: null
       default:
-        length: 10
+        length: 10.0
         npoints: 2
         with_cladding_box: true
       full:
@@ -74,10 +120,10 @@ cells:
         with_cladding_box: true
       function_name: straight
       info_version: 1
-      length: 20
+      length: 20.0
       module: gdsfactory.components.straight
       name: straight_373b1ebb
-      width: 2
+      width: 2.0
     default:
       taper_port_name1: o1
       taper_port_name2: o2
@@ -100,7 +146,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -117,11 +163,11 @@ cells:
       taper_angle: 35
     default:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -134,18 +180,18 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     full:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -160,7 +206,7 @@ cells:
       polarization: te
       taper_angle: 35
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     function_name: grating_coupler_elliptical_trenches
@@ -170,28 +216,28 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  taper_bea08b71:
+  taper_a12566bf:
     changed:
-      width2: 2
+      width2: 2.0
     default:
-      length: 10
+      length: 10.0
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
-      length: 10
+      length: 10.0
       port: null
       width1: 0.5
-      width2: 2
+      width2: 2.0
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10
+    length: 10.0
     module: gdsfactory.components.taper
-    name: taper_bea08b71
+    name: taper_a12566bf
     width1: 0.5
-    width2: 2
+    width2: 2.0
 info:
   changed:
     component: add_tapers_1e786c7d
@@ -203,8 +249,31 @@ info:
       changed:
         length: 20
         width: 2
+      cross_section:
+        auto_widen: false
+        auto_widen_minimum_length: 200.0
+        cladding_offset: 3.0
+        end_straight_offset: 0.01
+        layer:
+        - 1
+        - 0
+        layers_cladding: null
+        min_length: 0.01
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        radius: 10.0
+        sections: []
+        snap_to_grid: null
+        start_straight: 0.01
+        taper_length: 10.0
+        width: 2.0
+        width_wide: null
       default:
-        length: 10
+        length: 10.0
         npoints: 2
         with_cladding_box: true
       full:
@@ -214,10 +283,10 @@ info:
         with_cladding_box: true
       function_name: straight
       info_version: 1
-      length: 20
+      length: 20.0
       module: gdsfactory.components.straight
       name: straight_373b1ebb
-      width: 2
+      width: 2.0
     default:
       taper_port_name1: o1
       taper_port_name2: o2
@@ -258,9 +327,9 @@ ports:
     - -53.50000000000001
     - -54.769
     name: vertical_te_00
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_01:
     layer:
     - 203
@@ -269,7 +338,7 @@ ports:
     - 73.5
     - -54.769
     name: vertical_te_01
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
 version: 1

@@ -4,27 +4,27 @@ cells:
     default:
       direction: EAST
       dw: 0.1
-      input_wg_sep: 3
-      length1: 20
-      length2: 50
-      length3: 30
-      output_wg_sep: 3
+      input_wg_sep: 3.0
+      length1: 20.0
+      length2: 50.0
+      length3: 30.0
+      output_wg_sep: 3.0
       port:
       - 0
       - 0
-      wg_sep: 1
+      wg_sep: 1.0
     full:
       direction: EAST
       dw: 0.1
-      input_wg_sep: 3
-      length1: 20
-      length2: 50
-      length3: 30
-      output_wg_sep: 3
+      input_wg_sep: 3.0
+      length1: 20.0
+      length2: 50.0
+      length3: 30.0
+      output_wg_sep: 3.0
       port:
       - 0
       - 0
-      wg_sep: 1
+      wg_sep: 1.0
     function_name: coupler_adiabatic
     info_version: 1
     module: gdsfactory.components.coupler_adiabatic
@@ -34,27 +34,27 @@ info:
   default:
     direction: EAST
     dw: 0.1
-    input_wg_sep: 3
-    length1: 20
-    length2: 50
-    length3: 30
-    output_wg_sep: 3
+    input_wg_sep: 3.0
+    length1: 20.0
+    length2: 50.0
+    length3: 30.0
+    output_wg_sep: 3.0
     port:
     - 0
     - 0
-    wg_sep: 1
+    wg_sep: 1.0
   full:
     direction: EAST
     dw: 0.1
-    input_wg_sep: 3
-    length1: 20
-    length2: 50
-    length3: 30
-    output_wg_sep: 3
+    input_wg_sep: 3.0
+    length1: 20.0
+    length2: 50.0
+    length3: 30.0
+    output_wg_sep: 3.0
     port:
     - 0
     - 0
-    wg_sep: 1
+    wg_sep: 1.0
   function_name: coupler_adiabatic
   info_version: 1
   module: gdsfactory.components.coupler_adiabatic
@@ -65,10 +65,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - -3
+    - 0.0
+    - -3.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -76,10 +76,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -87,10 +87,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 100
-    - 0
+    - 100.0
+    - 0.0
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -98,10 +98,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 100
-    - -3
+    - 100.0
+    - -3.0
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

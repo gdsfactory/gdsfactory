@@ -1,33 +1,33 @@
 cells:
-  compass_85d33a91:
+  compass_ab62f0c6:
     changed:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 1300
-      - 2600
+      - 1300.0
+      - 2600.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 1300
-      - 2600
+      - 1300.0
+      - 2600.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_85d33a91
+    name: compass_ab62f0c6
   die_bbox:
     changed: {}
     default:
@@ -35,21 +35,21 @@ cells:
       layer:
       - 99
       - 0
-      padding: 10
-      street_length: 1000
-      street_width: 100
+      padding: 10.0
+      street_length: 1000.0
+      street_width: 100.0
       text_location: SW
-      text_size: 100
+      text_size: 100.0
     full:
       die_name: null
       layer:
       - 99
       - 0
-      padding: 10
-      street_length: 1000
-      street_width: 100
+      padding: 10.0
+      street_length: 1000.0
+      street_width: 100.0
       text_location: SW
-      text_size: 100
+      text_size: 100.0
     function_name: die_bbox
     info_version: 1
     module: gdsfactory.components.die_bbox
@@ -66,8 +66,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       centered: false
       layer:
@@ -88,21 +88,21 @@ info:
     layer:
     - 99
     - 0
-    padding: 10
-    street_length: 1000
-    street_width: 100
+    padding: 10.0
+    street_length: 1000.0
+    street_width: 100.0
     text_location: SW
-    text_size: 100
+    text_size: 100.0
   full:
     die_name: null
     layer:
     - 99
     - 0
-    padding: 10
-    street_length: 1000
-    street_width: 100
+    padding: 10.0
+    street_length: 1000.0
+    street_width: 100.0
     text_location: SW
-    text_size: 100
+    text_size: 100.0
   function_name: die_bbox
   info_version: 1
   module: gdsfactory.components.die_bbox

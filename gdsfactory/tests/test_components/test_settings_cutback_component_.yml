@@ -14,13 +14,13 @@ cells:
       cols: 4
       port1: o1
       port2: o2
-      radius: 5
+      radius: 5.0
       rows: 5
     full:
       cols: 4
       port1: o1
       port2: o2
-      radius: 5
+      radius: 5.0
       rows: 5
     function_name: cutback_component
     info_version: 1
@@ -29,17 +29,40 @@ cells:
     parent_name: loopback_taper_0p5_to_3_l36_88
   straight:
     changed: {}
+    cross_section:
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      cladding_offset: 3.0
+      end_straight_offset: 0.01
+      layer:
+      - 1
+      - 0
+      layers_cladding: null
+      min_length: 0.01
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      radius: 10.0
+      sections: []
+      snap_to_grid: null
+      start_straight: 0.01
+      taper_length: 10.0
+      width: 0.5
+      width_wide: null
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_cladding_box: true
     full:
-      length: 10
+      length: 10.0
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 10
+    length: 10.0
     module: gdsfactory.components.straight
     name: straight
     width: 0.5
@@ -66,13 +89,13 @@ info:
     cols: 4
     port1: o1
     port2: o2
-    radius: 5
+    radius: 5.0
     rows: 5
   full:
     cols: 4
     port1: o1
     port2: o2
-    radius: 5
+    radius: 5.0
     rows: 5
   function_name: cutback_component
   info_version: 1
@@ -85,10 +108,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -97,9 +120,9 @@ ports:
     - 0
     midpoint:
     - 583.6799999999997
-    - 0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -27,11 +27,11 @@ cells:
       taper_angle: 35
     default:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -44,18 +44,18 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30
+      taper_angle: 30.0
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     full:
       end_straight_length: 0.2
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
@@ -70,7 +70,7 @@ cells:
       polarization: te
       taper_angle: 35
       taper_length: 16.6
-      trenches_extra_angle: 9
+      trenches_extra_angle: 9.0
       wavelength: 1.53
       wg_width: 0.5
     function_name: grating_coupler_elliptical_trenches
@@ -86,11 +86,11 @@ info:
     taper_angle: 35
   default:
     end_straight_length: 0.2
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer:
     - 203
     - 0
-    fiber_marker_width: 11
+    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer:
     - 1
@@ -103,18 +103,18 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
-    taper_angle: 30
+    taper_angle: 30.0
     taper_length: 16.6
-    trenches_extra_angle: 9
+    trenches_extra_angle: 9.0
     wavelength: 1.53
     wg_width: 0.5
   full:
     end_straight_length: 0.2
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer:
     - 203
     - 0
-    fiber_marker_width: 11
+    fiber_marker_width: 11.0
     grating_line_width: 0.343
     layer:
     - 1
@@ -129,7 +129,7 @@ info:
     polarization: te
     taper_angle: 35
     taper_length: 16.6
-    trenches_extra_angle: 9
+    trenches_extra_angle: 9.0
     wavelength: 1.53
     wg_width: 0.5
   function_name: grating_coupler_elliptical_trenches
@@ -146,9 +146,9 @@ ports:
     - 0
     midpoint:
     - 0.471
-    - 0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   vertical_te:
@@ -157,9 +157,9 @@ ports:
     - 0
     midpoint:
     - 26.74
-    - 0
+    - 0.0
     name: vertical_te
-    orientation: 0
+    orientation: 0.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
 version: 1

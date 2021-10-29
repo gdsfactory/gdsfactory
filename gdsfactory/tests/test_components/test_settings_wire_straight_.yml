@@ -12,10 +12,33 @@ info:
       port_types:
       - electrical
       - electrical
-      width: 10
+      width: 10.0
     with_cladding_box: false
+  cross_section:
+    auto_widen: false
+    auto_widen_minimum_length: 200.0
+    cladding_offset: 3.0
+    end_straight_offset: 0.01
+    layer:
+    - 49
+    - 0
+    layers_cladding: null
+    min_length: 0.01
+    port_names:
+    - e1
+    - e2
+    port_types:
+    - electrical
+    - electrical
+    radius: 10.0
+    sections: []
+    snap_to_grid: null
+    start_straight: 0.01
+    taper_length: 10.0
+    width: 10.0
+    width_wide: null
   default:
-    length: 10
+    length: 10.0
     npoints: 2
     with_cladding_box: true
   full:
@@ -30,15 +53,15 @@ info:
       port_types:
       - electrical
       - electrical
-      width: 10
-    length: 10
+      width: 10.0
+    length: 10.0
     npoints: 2
     with_cladding_box: false
   function_name: straight
   info_version: 1
   length: 10.0
   module: gdsfactory.components.straight
-  name: straight_d9d77473
+  name: straight_3ca4468e
   width: 10.0
 ports:
   e1:
@@ -46,21 +69,21 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
-    width: 10
+    width: 10.0
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 10
-    - 0
+    - 10.0
+    - 0.0
     name: e2
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 10
+    width: 10.0
 version: 1

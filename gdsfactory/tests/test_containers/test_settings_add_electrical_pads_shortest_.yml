@@ -1,17 +1,17 @@
 cells:
-  add_electrical_pads_sho_bb4fd01b:
+  add_electrical_pads_sho_45d5a85f:
     changed:
-      component: mzi_ac6d448d
+      component: mzi_23817010
     child:
       changed:
-        length_x: 320
+        length_x: 320.0
         splitter: mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
       default:
         combiner: null
-        delta_length: 10
+        delta_length: 10.0
         layer: null
         length_x: 0.1
         length_y: 0.8
@@ -21,9 +21,9 @@ cells:
         with_splitter: true
       full:
         combiner: null
-        delta_length: 10
+        delta_length: 10.0
         layer: null
-        length_x: 320
+        length_x: 320.0
         length_y: 0.8
         splitter: mmi2x2
         straight_x_bot: null
@@ -35,82 +35,82 @@ cells:
       function_name: mzi
       info_version: 1
       module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
+      name: mzi_23817010
     default:
       layer:
       - 31
       - 0
-      pad_port_spacing: 50
+      pad_port_spacing: 50.0
       port_orientation: 90
     full:
-      component: mzi_ac6d448d
+      component: mzi_23817010
       layer:
       - 31
       - 0
-      pad_port_spacing: 50
+      pad_port_spacing: 50.0
       port_orientation: 90
     function_name: add_electrical_pads_shortest
     info_version: 1
     module: gdsfactory.routing.add_electrical_pads_shortest
-    name: add_electrical_pads_sho_bb4fd01b
-  compass_a0b38c11:
+    name: add_electrical_pads_sho_45d5a85f
+  compass_4d115c34:
     changed:
       layer:
       - 49
       - 0
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a0b38c11
+    name: compass_4d115c34
   mmi2x2:
     changed: {}
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10
+      length_taper: 10.0
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1
+      width_taper: 1.0
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_ac6d448d:
+  mzi_23817010:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -120,9 +120,9 @@ cells:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -134,11 +134,38 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
-  mzi_arm_3aabaa29:
+    name: mzi_23817010
+  mzi_arm_38283d76:
     changed:
       bend: bend_euler
-      length_x: 320
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_38283d76
+  mzi_arm_f8b34917:
+    changed:
+      bend: bend_euler
+      length_x: 320.0
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -153,7 +180,7 @@ cells:
       straight_y: null
     full:
       bend: bend_euler
-      length_x: 320
+      length_x: 320.0
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -162,37 +189,10 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320
-    length_xsize: 320
+    length_x: 320.0
+    length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_3aabaa29
-  mzi_arm_5644a682:
-    changed:
-      bend: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_5644a682
+    name: mzi_arm_f8b34917
   pad:
     changed: {}
     default:
@@ -202,8 +202,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     full:
       cladding_offsets: null
       layer:
@@ -211,8 +211,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     function_name: pad
     info_version: 1
     layer:
@@ -221,21 +221,21 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_23817010
   child:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -245,9 +245,9 @@ info:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -259,24 +259,24 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    name: mzi_23817010
   default:
     layer:
     - 31
     - 0
-    pad_port_spacing: 50
+    pad_port_spacing: 50.0
     port_orientation: 90
   full:
-    component: mzi_ac6d448d
+    component: mzi_23817010
     layer:
     - 31
     - 0
-    pad_port_spacing: 50
+    pad_port_spacing: 50.0
     port_orientation: 90
   function_name: add_electrical_pads_shortest
   info_version: 1
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: add_electrical_pads_sho_bb4fd01b
+  name: add_electrical_pads_sho_45d5a85f
 ports:
   o1:
     layer:
@@ -286,7 +286,7 @@ ports:
     - -12.75
     - -0.625
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -297,7 +297,7 @@ ports:
     - -12.75
     - 0.625
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -308,7 +308,7 @@ ports:
     - 398.25
     - 0.6250000000000018
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -319,7 +319,7 @@ ports:
     - 398.25
     - -0.6249999999999982
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

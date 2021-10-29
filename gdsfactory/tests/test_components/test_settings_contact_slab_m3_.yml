@@ -1,116 +1,116 @@
 cells:
-  compass_280a2d8b:
+  compass_2dfe0143:
     changed:
       layer:
       - 45
       - 0
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_280a2d8b
-  compass_8e661824:
+    name: compass_2dfe0143
+  compass_2e8a2663:
     changed:
       layer:
       - 49
       - 0
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_8e661824
-  compass_e24a4316:
+    name: compass_2e8a2663
+  compass_6c8caf20:
     changed:
       layer:
       - 3
       - 0
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 3
       - 0
       port_type: electrical
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_e24a4316
-  compass_ef690c07:
+    name: compass_6c8caf20
+  compass_b4336a8a:
     changed:
       layer:
       - 41
       - 0
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 41
       - 0
       port_type: electrical
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ef690c07
+    name: compass_b4336a8a
   contact_339a6fb6:
     changed:
       layers:
@@ -146,8 +146,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       vias:
       - enclosure: 2
         function: via
@@ -170,8 +170,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11
-      - 11
+      - 11.0
+      - 11.0
       vias:
       - function: via
         layer:
@@ -194,8 +194,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_339a6fb6
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
 info:
   changed:
     layers:
@@ -231,8 +231,8 @@ info:
     - - 49
       - 0
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
     vias:
     - enclosure: 2
       function: via
@@ -255,8 +255,8 @@ info:
     - - 49
       - 0
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
     vias:
     - function: via
       layer:
@@ -279,8 +279,8 @@ info:
   module: gdsfactory.components.contact
   name: contact_339a6fb6
   size:
-  - 11
-  - 11
+  - 11.0
+  - 11.0
 ports:
   e1:
     layer:
@@ -288,42 +288,42 @@ ports:
     - 0
     midpoint:
     - -5.5
-    - 0
+    - 0.0
     name: e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
-    width: 11
+    width: 11.0
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 0
+    - 0.0
     - 5.5
     name: e2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
-    width: 11
+    width: 11.0
   e3:
     layer:
     - 49
     - 0
     midpoint:
     - 5.5
-    - 0
+    - 0.0
     name: e3
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 11
+    width: 11.0
   e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 0
+    - 0.0
     - -5.5
     name: e4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
-    width: 11
+    width: 11.0
 version: 1

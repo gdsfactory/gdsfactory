@@ -136,8 +136,8 @@ def clean_value(value: Any) -> str:
     elif isinstance(value, (float, np.float64)):
         if 1 > value > 1e-3:
             value = f"{int(value*1e3)}n"
-        elif float(int(value)) == value:
-            value = str(int(value))
+        # elif float(int(value)) == value:
+        #     value = str(int(value))
         elif 1e-6 < value < 1e-3:
             value = f"{snap_to_grid(value*1e6)}u"
         elif 1e-9 < value < 1e-6:
@@ -196,7 +196,7 @@ def get_name(name: str) -> str:
 def test_clean_value() -> None:
     assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
-    assert clean_value(5.0) == "5"
+    assert clean_value(5.0) == "5p0"
     assert clean_value(11.001) == "11p001"
 
 
@@ -206,6 +206,7 @@ def test_clean_name() -> None:
 
 if __name__ == "__main__":
     # test_cell()
+    test_clean_value()
     import gdsfactory as gf
 
     # print(clean_value(gf.components.straight))

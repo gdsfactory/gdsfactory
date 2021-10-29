@@ -1,32 +1,32 @@
 cells:
-  compass_a0b38c11:
+  compass_4d115c34:
     changed:
       layer:
       - 49
       - 0
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a0b38c11
+    name: compass_4d115c34
   pad:
     changed: {}
     default:
@@ -36,8 +36,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     full:
       cladding_offsets: null
       layer:
@@ -45,8 +45,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100
-      - 100
+      - 100.0
+      - 100.0
     function_name: pad
     info_version: 1
     layer:
@@ -55,8 +55,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
 info:
   changed: {}
   default:
@@ -66,8 +66,8 @@ info:
     - 0
     layers_cladding: null
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
   full:
     cladding_offsets: null
     layer:
@@ -75,8 +75,8 @@ info:
     - 0
     layers_cladding: null
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
   function_name: pad
   info_version: 1
   layer:
@@ -85,51 +85,51 @@ info:
   module: gdsfactory.components.pad
   name: pad
   size:
-  - 100
-  - 100
+  - 100.0
+  - 100.0
 ports:
   e1:
     layer:
     - 49
     - 0
     midpoint:
-    - -50
-    - 0
+    - -50.0
+    - 0.0
     name: e1
-    orientation: 180
+    orientation: 180.0
     port_type: electrical
-    width: 100
+    width: 100.0
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 0
-    - 50
+    - 0.0
+    - 50.0
     name: e2
-    orientation: 90
+    orientation: 90.0
     port_type: electrical
-    width: 100
+    width: 100.0
   e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 50
-    - 0
+    - 50.0
+    - 0.0
     name: e3
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 100
+    width: 100.0
   e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 0
-    - -50
+    - 0.0
+    - -50.0
     name: e4
-    orientation: 270
+    orientation: 270.0
     port_type: electrical
-    width: 100
+    width: 100.0
 version: 1

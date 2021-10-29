@@ -10,12 +10,12 @@ cells:
       - 49
       - 0
       pad_size:
-      - 50
-      - 50
+      - 50.0
+      - 50.0
       res_layer:
       - 49
       - 0
-      width: 1
+      width: 1.0
     full:
       gnd_layer:
       - 49
@@ -25,12 +25,12 @@ cells:
       - 49
       - 0
       pad_size:
-      - 50
-      - 50
+      - 50.0
+      - 50.0
       res_layer:
       - 49
       - 0
-      width: 1
+      width: 1.0
     function_name: resistance_meander
     info_version: 1
     module: gdsfactory.components.resistance_meander
@@ -46,12 +46,12 @@ info:
     - 49
     - 0
     pad_size:
-    - 50
-    - 50
+    - 50.0
+    - 50.0
     res_layer:
     - 49
     - 0
-    width: 1
+    width: 1.0
   full:
     gnd_layer:
     - 49
@@ -61,12 +61,12 @@ info:
     - 49
     - 0
     pad_size:
-    - 50
-    - 50
+    - 50.0
+    - 50.0
     res_layer:
     - 49
     - 0
-    width: 1
+    width: 1.0
   function_name: resistance_meander
   info_version: 1
   module: gdsfactory.components.resistance_meander

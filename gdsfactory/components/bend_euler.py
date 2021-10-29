@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
-from gdsfactory.component import Component
+from gdsfactory.component import Component, clean_dict
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
@@ -52,7 +52,7 @@ def bend_euler(
     c.add_ports(ref.ports)
     c.info.length = snap_to_grid(p.length())
     c.info.dy = abs(float(p.points[0][0] - p.points[-1][0]))
-    c.info.radius_min = float(p.info["Rmin"])
+    c.info.radius_min = float(snap_to_grid(p.info["Rmin"]))
     c.info.radius = radius
 
     if with_cladding_box and x.info["layers_cladding"]:
@@ -72,7 +72,11 @@ def bend_euler(
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
 
+    clean_dict(p.info)
+
     c.absorb(ref)
+    c.info.path = p.info
+    c.info.cross_section = x.info
     return c
 
 
@@ -115,7 +119,9 @@ if __name__ == "__main__":
     c = bend_euler180()
     c = bend_euler(direction="cw")
     c = bend_euler(angle=270)
+    c.pprint()
     c.show()
+    p = euler()
 
     # _compare_bend_euler180()
     # import gdsfactory as gf

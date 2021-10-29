@@ -18,6 +18,8 @@ Layers = Tuple[Layer, ...]
 
 
 class CrossSection(CrossSectionPhidl):
+    """Add port_types to phidl cross_section"""
+
     def __init__(self):
         self.sections = []
         self.ports = (None, None)

@@ -12,8 +12,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       layer:
       - 1
@@ -37,7 +37,7 @@ ports:
     - -0.5
     - 0.225
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.45
   o2:
@@ -45,10 +45,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 13
+    - 13.0
     - 3.675
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.45
   o3:
@@ -56,10 +56,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 13
+    - 13.0
     - -3.225
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.45
 version: 1

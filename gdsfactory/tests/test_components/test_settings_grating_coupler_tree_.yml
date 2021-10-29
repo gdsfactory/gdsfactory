@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10
+      radius: 10.0
     full:
       angle_resolution: 2.5
       layer:
@@ -24,7 +24,7 @@ cells:
   grating_coupler_elliptical_te:
     changed: {}
     default:
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
@@ -35,12 +35,12 @@ cells:
       n_periods: 24
       neff: 2.638
       p_start: 26
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
     full:
-      fiber_angle: 15
+      fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
@@ -51,7 +51,7 @@ cells:
       n_periods: 24
       neff: 2.638
       p_start: 26
-      taper_angle: 40
+      taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
@@ -66,32 +66,32 @@ cells:
     child:
       changed:
         n: 4
-        spacing: 4
+        spacing: 4.0
       default:
         n: 4
-        spacing: 4
+        spacing: 4.0
       full:
         n: 4
-        spacing: 4
+        spacing: 4.0
       function_name: straight_array
       info_version: 1
       module: gdsfactory.components.straight_array
-      name: straight_array_e79eb4c6
+      name: straight_array_36e5af9c
     default:
-      fanout_length: 0
+      fanout_length: 0.0
       layer_label:
       - 66
       - 0
       n: 4
-      straight_spacing: 4
+      straight_spacing: 4.0
       with_loopback: false
     full:
-      fanout_length: 0
+      fanout_length: 0.0
       layer_label:
       - 66
       - 0
       n: 4
-      straight_spacing: 4
+      straight_spacing: 4.0
       with_loopback: false
     function_name: grating_coupler_tree
     info_version: 1
@@ -102,32 +102,32 @@ info:
   child:
     changed:
       n: 4
-      spacing: 4
+      spacing: 4.0
     default:
       n: 4
-      spacing: 4
+      spacing: 4.0
     full:
       n: 4
-      spacing: 4
+      spacing: 4.0
     function_name: straight_array
     info_version: 1
     module: gdsfactory.components.straight_array
-    name: straight_array_e79eb4c6
+    name: straight_array_36e5af9c
   default:
-    fanout_length: 0
+    fanout_length: 0.0
     layer_label:
     - 66
     - 0
     n: 4
-    straight_spacing: 4
+    straight_spacing: 4.0
     with_loopback: false
   full:
-    fanout_length: 0
+    fanout_length: 0.0
     layer_label:
     - 66
     - 0
     n: 4
-    straight_spacing: 4
+    straight_spacing: 4.0
     with_loopback: false
   function_name: grating_coupler_tree
   info_version: 1
@@ -142,9 +142,9 @@ ports:
     - -439.5
     - -59.111000000000004
     name: vertical_te_00
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_01:
     layer:
     - 203
@@ -153,9 +153,9 @@ ports:
     - -312.5
     - -59.111000000000004
     name: vertical_te_01
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_02:
     layer:
     - 203
@@ -164,9 +164,9 @@ ports:
     - -185.5
     - -59.111000000000004
     name: vertical_te_02
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_03:
     layer:
     - 203
@@ -175,9 +175,9 @@ ports:
     - -58.50000000000001
     - -59.111000000000004
     name: vertical_te_03
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_04:
     layer:
     - 203
@@ -186,9 +186,9 @@ ports:
     - 68.5
     - -59.111000000000004
     name: vertical_te_04
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_05:
     layer:
     - 203
@@ -197,9 +197,9 @@ ports:
     - 195.5
     - -59.111000000000004
     name: vertical_te_05
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_06:
     layer:
     - 203
@@ -208,9 +208,9 @@ ports:
     - 322.5
     - -59.111000000000004
     name: vertical_te_06
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
   vertical_te_07:
     layer:
     - 203
@@ -219,7 +219,7 @@ ports:
     - 449.5
     - -59.111000000000004
     name: vertical_te_07
-    orientation: 270
+    orientation: 270.0
     port_type: vertical_te
-    width: 11
+    width: 11.0
 version: 1

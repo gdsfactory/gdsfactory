@@ -2,7 +2,7 @@ cells:
   spiral:
     changed: {}
     default:
-      cladding_offset: 3
+      cladding_offset: 3.0
       direction: WEST
       layer:
       - 1
@@ -10,17 +10,17 @@ cells:
       layer_cladding:
       - 111
       - 0
-      length: 10000
+      length: 10000.0
       parity: 1
       port:
       - 0
       - 0
-      port_spacing: 500
-      radius: 10
+      port_spacing: 500.0
+      radius: 10.0
       spacing: null
       wg_width: 0.5
     full:
-      cladding_offset: 3
+      cladding_offset: 3.0
       direction: WEST
       layer:
       - 1
@@ -28,13 +28,13 @@ cells:
       layer_cladding:
       - 111
       - 0
-      length: 10000
+      length: 10000.0
       parity: 1
       port:
       - 0
       - 0
-      port_spacing: 500
-      radius: 10
+      port_spacing: 500.0
+      radius: 10.0
       spacing: null
       wg_width: 0.5
     function_name: spiral
@@ -44,7 +44,7 @@ cells:
 info:
   changed: {}
   default:
-    cladding_offset: 3
+    cladding_offset: 3.0
     direction: WEST
     layer:
     - 1
@@ -52,17 +52,17 @@ info:
     layer_cladding:
     - 111
     - 0
-    length: 10000
+    length: 10000.0
     parity: 1
     port:
     - 0
     - 0
-    port_spacing: 500
-    radius: 10
+    port_spacing: 500.0
+    radius: 10.0
     spacing: null
     wg_width: 0.5
   full:
-    cladding_offset: 3
+    cladding_offset: 3.0
     direction: WEST
     layer:
     - 1
@@ -70,13 +70,13 @@ info:
     layer_cladding:
     - 111
     - 0
-    length: 10000
+    length: 10000.0
     parity: 1
     port:
     - 0
     - 0
-    port_spacing: 500
-    radius: 10
+    port_spacing: 500.0
+    radius: 10.0
     spacing: null
     wg_width: 0.5
   function_name: spiral
@@ -89,10 +89,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -500
-    - 0
+    - -500.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -100,10 +100,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

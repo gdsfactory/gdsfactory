@@ -27,7 +27,8 @@ def straight(
     x = cross_section(**kwargs)
 
     c = Component()
-    ref = c << gf.path.extrude(p, x)
+    path = gf.path.extrude(p, x)
+    ref = c << path
     c.add_ports(ref.ports)
     c.info.length = gf.snap.snap_to_grid(length)
     c.info.width = float(x.info["width"])
@@ -43,6 +44,7 @@ def straight(
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
     c.absorb(ref)
+    c.info.cross_section = path.info.cross_section
     return c
 
 

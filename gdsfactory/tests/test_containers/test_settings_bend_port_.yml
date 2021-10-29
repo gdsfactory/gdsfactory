@@ -1,17 +1,17 @@
 cells: {}
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_23817010
   child:
     changed:
-      length_x: 320
+      length_x: 320.0
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -21,9 +21,9 @@ info:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10
+      delta_length: 10.0
       layer: null
-      length_x: 320
+      length_x: 320.0
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -35,7 +35,7 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    name: mzi_23817010
   default:
     angle: 180
     extension_length: null
@@ -45,7 +45,7 @@ info:
     port_name2_bend: null
   full:
     angle: 180
-    component: mzi_ac6d448d
+    component: mzi_23817010
     extension_length: null
     port_name: e1
     port_name1_bend: null
@@ -54,7 +54,7 @@ info:
   function_name: bend_port
   info_version: 1
   module: gdsfactory.components.bend_port
-  name: bend_port_487eeed5
+  name: bend_port_3dca3254
 ports:
   e1:
     layer:
@@ -64,9 +64,9 @@ ports:
     - 368.75
     - 1.4250000000000007
     name: e1
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 10
+    width: 10.0
   e2:
     layer:
     - 49
@@ -75,9 +75,9 @@ ports:
     - 368.75
     - 21.425
     name: e2
-    orientation: 0
+    orientation: 0.0
     port_type: electrical
-    width: 11
+    width: 11.0
   o1:
     layer:
     - 1
@@ -86,7 +86,7 @@ ports:
     - -12.75
     - -0.625
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -97,7 +97,7 @@ ports:
     - -12.75
     - 0.625
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -108,7 +108,7 @@ ports:
     - 398.25
     - 0.6250000000000018
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -119,7 +119,7 @@ ports:
     - 398.25
     - -0.6249999999999982
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

@@ -6,7 +6,7 @@ cells:
       direction: EAST
       dw: 0.1
       gap: 0.5
-      length: 40
+      length: 40.0
       parity: 1
       port:
       - 0
@@ -16,7 +16,7 @@ cells:
       direction: EAST
       dw: 0.1
       gap: 0.5
-      length: 40
+      length: 40.0
       parity: 1
       port:
       - 0
@@ -32,7 +32,7 @@ info:
     direction: EAST
     dw: 0.1
     gap: 0.5
-    length: 40
+    length: 40.0
     parity: 1
     port:
     - 0
@@ -42,7 +42,7 @@ info:
     direction: EAST
     dw: 0.1
     gap: 0.5
-    length: 40
+    length: 40.0
     parity: 1
     port:
     - 0
@@ -57,10 +57,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
+    - 0.0
     - -6.359
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -68,10 +68,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -79,10 +79,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 60
-    - 0
+    - 60.0
+    - 0.0
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -90,10 +90,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 60
+    - 60.0
     - -6.359
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

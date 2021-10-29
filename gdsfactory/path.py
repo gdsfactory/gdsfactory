@@ -24,7 +24,6 @@ from gdsfactory.types import (
     CrossSectionOrFactory,
     Float2,
     Layer,
-    Number,
     PathFactory,
 )
 
@@ -320,6 +319,7 @@ def extrude(
 
     clean_dict(p.info)
     clean_dict(cross_section.info)
+
     c.info.path = p.info
     c.info.cross_section = cross_section.info
     c.info.length = float(np.round(p.length(), 3))
@@ -327,7 +327,7 @@ def extrude(
     return c
 
 
-def arc(radius: Number = 10, angle: Number = 90, npoints: int = 720) -> Path:
+def arc(radius: float = 10.0, angle: int = 90, npoints: int = 720) -> Path:
     """Returns a radial arc.
 
     Args:
@@ -340,8 +340,8 @@ def arc(radius: Number = 10, angle: Number = 90, npoints: int = 720) -> Path:
 
 
 def euler(
-    radius: Number = 10,
-    angle: Number = 90,
+    radius: float = 10,
+    angle: int = 90,
     p: float = 0.5,
     use_eff: bool = False,
     npoints: int = 720,
@@ -366,7 +366,7 @@ def euler(
     return path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
 
 
-def straight(length: Number = 10, npoints: int = 2) -> Path:
+def straight(length: float = 10.0, npoints: int = 2) -> Path:
     """Returns a straight path
 
     For transitions you should increase have at least 100 points

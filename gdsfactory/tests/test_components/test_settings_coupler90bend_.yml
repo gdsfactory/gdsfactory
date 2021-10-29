@@ -3,10 +3,10 @@ cells:
     changed: {}
     default:
       gap: 0.2
-      radius: 10
+      radius: 10.0
     full:
       gap: 0.2
-      radius: 10
+      radius: 10.0
     function_name: coupler90bend
     info_version: 1
     module: gdsfactory.components.coupler90bend
@@ -15,10 +15,10 @@ info:
   changed: {}
   default:
     gap: 0.2
-    radius: 10
+    radius: 10.0
   full:
     gap: 0.2
-    radius: 10
+    radius: 10.0
   function_name: coupler90bend
   info_version: 1
   module: gdsfactory.components.coupler90bend
@@ -29,10 +29,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -40,10 +40,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
+    - 0.0
     - 0.7
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -51,10 +51,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
+    - 10.0
     - 10.7
     name: o3
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
   o4:
@@ -65,7 +65,7 @@ ports:
     - 10.7
     - 10.7
     name: o4
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
 version: 1

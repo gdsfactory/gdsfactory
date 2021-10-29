@@ -19,7 +19,7 @@ cells:
       widths: null
     function_name: extrude
     info_version: 1
-    length: 5
+    length: 5.0
     module: gdsfactory.path
     name: extrude_1ac1c90c
     path: {}
@@ -43,7 +43,7 @@ cells:
       widths: null
     function_name: extrude
     info_version: 1
-    length: 5
+    length: 5.0
     module: gdsfactory.path
     name: extrude_bdcc3302
     path: {}
@@ -72,7 +72,7 @@ cells:
     name: extrude_c61f54b8
     path:
       Reff: 36.99594705612938
-      Rmin: 25
+      Rmin: 25.0
   transition:
     changed: {}
     default: {}

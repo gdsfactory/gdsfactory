@@ -33,9 +33,9 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 0
+    - 0.0
     name: in
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   out:
@@ -43,10 +43,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 10
+    - 10.0
+    - 10.0
     name: out
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
 version: 1

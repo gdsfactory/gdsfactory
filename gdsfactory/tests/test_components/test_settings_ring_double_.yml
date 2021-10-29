@@ -1,28 +1,28 @@
 cells:
-  coupler_ring_884bafc4:
+  coupler_ring_29d68926:
     changed:
       bend: null
       cross_section:
         function: cross_section
       gap: 0.2
       length_x: 0.01
-      radius: 10
+      radius: 10.0
     default:
       bend: null
       gap: 0.2
-      length_x: 4
-      radius: 5
+      length_x: 4.0
+      radius: 5.0
     full:
       bend: null
       cross_section:
         function: cross_section
       gap: 0.2
       length_x: 0.01
-      radius: 10
+      radius: 10.0
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_884bafc4
+    name: coupler_ring_29d68926
   ring_double:
     changed: {}
     default:
@@ -30,13 +30,13 @@ cells:
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
-      radius: 10
+      radius: 10.0
     full:
       bend: null
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
-      radius: 10
+      radius: 10.0
     function_name: ring_double
     info_version: 1
     module: gdsfactory.components.ring_double
@@ -48,13 +48,13 @@ info:
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
-    radius: 10
+    radius: 10.0
   full:
     bend: null
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
-    radius: 10
+    radius: 10.0
   function_name: ring_double
   info_version: 1
   module: gdsfactory.components.ring_double
@@ -66,9 +66,9 @@ ports:
     - 0
     midpoint:
     - -10.01
-    - 0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -76,10 +76,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 0
+    - 10.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o3:
@@ -90,7 +90,7 @@ ports:
     - -10.009999999999998
     - 21.409999999999997
     name: o3
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o4:
@@ -101,7 +101,7 @@ ports:
     - 10.000000000000002
     - 21.409999999999997
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

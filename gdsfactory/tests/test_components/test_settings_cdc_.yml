@@ -14,13 +14,13 @@ cells:
       fins: false
       gap: 0.5
       input_bot: false
-      length: 30
+      length: 30.0
       period: 0.22
       port_midpoint:
       - 0
       - 0
       width_bot: 0.75
-      width_top: 2
+      width_top: 2.0
     full:
       angle: 0.5235987755982988
       contradc_wgt: null
@@ -34,13 +34,13 @@ cells:
       fins: false
       gap: 0.5
       input_bot: false
-      length: 30
+      length: 30.0
       period: 0.22
       port_midpoint:
       - 0
       - 0
       width_bot: 0.75
-      width_top: 2
+      width_top: 2.0
     function_name: cdc
     info_version: 1
     module: gdsfactory.components.cdc
@@ -60,13 +60,13 @@ info:
     fins: false
     gap: 0.5
     input_bot: false
-    length: 30
+    length: 30.0
     period: 0.22
     port_midpoint:
     - 0
     - 0
     width_bot: 0.75
-    width_top: 2
+    width_top: 2.0
   full:
     angle: 0.5235987755982988
     contradc_wgt: null
@@ -80,13 +80,13 @@ info:
     fins: false
     gap: 0.5
     input_bot: false
-    length: 30
+    length: 30.0
     period: 0.22
     port_midpoint:
     - 0
     - 0
     width_bot: 0.75
-    width_top: 2
+    width_top: 2.0
   function_name: cdc
   info_version: 1
   module: gdsfactory.components.cdc
@@ -97,10 +97,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
+    - 0.0
     - -7.234
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -108,10 +108,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -119,10 +119,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 50
-    - 0
+    - 50.0
+    - 0.0
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -130,10 +130,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 50
+    - 50.0
     - -7.234
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

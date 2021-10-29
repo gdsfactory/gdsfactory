@@ -4,11 +4,11 @@ cells:
     default:
       columns: 5
       rows: 6
-      straight_length: 5
+      straight_length: 5.0
     full:
       columns: 5
       rows: 6
-      straight_length: 5
+      straight_length: 5.0
     function_name: cutback_bend
     info_version: 1
     module: gdsfactory.components.cutback_bend
@@ -19,11 +19,11 @@ info:
   default:
     columns: 5
     rows: 6
-    straight_length: 5
+    straight_length: 5.0
   full:
     columns: 5
     rows: 6
-    straight_length: 5
+    straight_length: 5.0
   function_name: cutback_bend
   info_version: 1
   module: gdsfactory.components.cutback_bend
@@ -35,10 +35,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 270
+    orientation: 270.0
     port_type: optical
     width: 0.5
   o2:
@@ -46,10 +46,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -250
-    - 150
+    - -250.0
+    - 150.0
     name: o2
-    orientation: 90
+    orientation: 90.0
     port_type: optical
     width: 0.5
 version: 1

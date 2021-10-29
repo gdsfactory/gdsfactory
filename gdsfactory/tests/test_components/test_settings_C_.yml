@@ -6,17 +6,17 @@ cells:
       - 49
       - 0
       size:
-      - 10
-      - 20
-      width: 1
+      - 10.0
+      - 20.0
+      width: 1.0
     full:
       layer:
       - 49
       - 0
       size:
-      - 10
-      - 20
-      width: 1
+      - 10.0
+      - 20.0
+      width: 1.0
     function_name: C
     info_version: 1
     module: gdsfactory.components.C
@@ -28,17 +28,17 @@ info:
     - 49
     - 0
     size:
-    - 10
-    - 20
-    width: 1
+    - 10.0
+    - 20.0
+    width: 1.0
   full:
     layer:
     - 49
     - 0
     size:
-    - 10
-    - 20
-    width: 1
+    - 10.0
+    - 20.0
+    width: 1.0
   function_name: C
   info_version: 1
   module: gdsfactory.components.C
@@ -49,21 +49,21 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     name: o1
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 1
+    width: 1.0
   o2:
     layer:
     - 1
     - 0
     midpoint:
-    - 10
-    - 0
+    - 10.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 1
+    width: 1.0
 version: 1

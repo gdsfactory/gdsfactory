@@ -1,44 +1,89 @@
 cells:
-  coupler_02a30dd4:
-    changed:
-      gap: 0.2
-      length: 10
-    default:
-      dx: 10
-      dy: 5
-      gap: 0.236
-      length: 20
-    full:
-      dx: 10
-      dy: 5
-      gap: 0.2
-      length: 10
-    function_name: coupler
-    info_version: 1
-    length: 10.319
-    min_bend_radius: 9.387
-    module: gdsfactory.components.coupler
-    name: coupler_02a30dd4
-  coupler_676c6f34:
+  coupler_598ee053:
     changed:
       gap: 0.3
-      length: 20
+      length: 20.0
     default:
-      dx: 10
-      dy: 5
+      dx: 10.0
+      dy: 5.0
       gap: 0.236
-      length: 20
+      length: 20.0
     full:
-      dx: 10
-      dy: 5
+      dx: 10.0
+      dy: 5.0
       gap: 0.3
-      length: 20
+      length: 20.0
     function_name: coupler
     info_version: 1
     length: 10.305
     min_bend_radius: 9.568
     module: gdsfactory.components.coupler
-    name: coupler_676c6f34
+    name: coupler_598ee053
+  coupler_fb61c1c2:
+    changed:
+      gap: 0.2
+      length: 10.0
+    default:
+      dx: 10.0
+      dy: 5.0
+      gap: 0.236
+      length: 20.0
+    full:
+      dx: 10.0
+      dy: 5.0
+      gap: 0.2
+      length: 10.0
+    function_name: coupler
+    info_version: 1
+    length: 10.319
+    min_bend_radius: 9.387
+    module: gdsfactory.components.coupler
+    name: coupler_fb61c1c2
+  mzi_56564812:
+    changed:
+      combiner:
+        function: coupler
+        gap: 0.3
+        length: 20.0
+      delta_length: 10.0
+      splitter:
+        function: coupler
+        gap: 0.2
+        length: 10.0
+      straight: straight
+      with_splitter: true
+    default:
+      combiner: null
+      delta_length: 10.0
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      combiner:
+        function: coupler
+        gap: 0.3
+        length: 20.0
+      delta_length: 10.0
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      splitter:
+        function: coupler
+        gap: 0.2
+        length: 10.0
+      straight: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_56564812
   mzi_arm_74064cef:
     changed:
       bend: bend_euler
@@ -93,51 +138,6 @@ cells:
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_f85ac2e9
-  mzi_c2e98c04:
-    changed:
-      combiner:
-        function: coupler
-        gap: 0.3
-        length: 20
-      delta_length: 10
-      splitter:
-        function: coupler
-        gap: 0.2
-        length: 10
-      straight: straight
-      with_splitter: true
-    default:
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 0.1
-      length_y: 0.8
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    full:
-      combiner:
-        function: coupler
-        gap: 0.3
-        length: 20
-      delta_length: 10
-      layer: null
-      length_x: 0.1
-      length_y: 0.8
-      splitter:
-        function: coupler
-        gap: 0.2
-        length: 10
-      straight: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_c2e98c04
   mzi_lattice:
     changed: {}
     default:
@@ -145,19 +145,19 @@ cells:
       - 0.2
       - 0.3
       coupler_lengths:
-      - 10
-      - 20
+      - 10.0
+      - 20.0
       delta_lengths:
-      - 10
+      - 10.0
     full:
       coupler_gaps:
       - 0.2
       - 0.3
       coupler_lengths:
-      - 10
-      - 20
+      - 10.0
+      - 20.0
       delta_lengths:
-      - 10
+      - 10.0
     function_name: mzi_lattice
     info_version: 1
     module: gdsfactory.components.mzi_lattice
@@ -169,19 +169,19 @@ info:
     - 0.2
     - 0.3
     coupler_lengths:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     delta_lengths:
-    - 10
+    - 10.0
   full:
     coupler_gaps:
     - 0.2
     - 0.3
     coupler_lengths:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     delta_lengths:
-    - 10
+    - 10.0
   function_name: mzi_lattice
   info_version: 1
   module: gdsfactory.components.mzi_lattice
@@ -192,10 +192,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10
+    - -10.0
     - -2.15
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -203,10 +203,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10
+    - -10.0
     - 2.85
     name: o2
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o3:
@@ -217,7 +217,7 @@ ports:
     - 100.1
     - 2.850000000000001
     name: o3
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
   o4:
@@ -228,7 +228,7 @@ ports:
     - 100.1
     - -2.149999999999999
     name: o4
-    orientation: 0
+    orientation: 0.0
     port_type: optical
     width: 0.5
 version: 1

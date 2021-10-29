@@ -3,56 +3,56 @@ cells:
     changed:
       width2: 3
     default:
-      length: 10
+      length: 10.0
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
-      length: 10
+      length: 10.0
       port: null
       width1: 0.5
       width2: 3
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10
+    length: 10.0
     module: gdsfactory.components.taper
     name: taper_2e9853cc
     width1: 0.5
-    width2: 3
+    width2: 3.0
 info:
   changed:
     width2: 3
   default:
-    length: 10
+    length: 10.0
     port: null
     width1: 0.5
     width2: null
     with_cladding_box: true
   full:
-    length: 10
+    length: 10.0
     port: null
     width1: 0.5
     width2: 3
     with_cladding_box: true
   function_name: taper
   info_version: 1
-  length: 10
+  length: 10.0
   module: gdsfactory.components.taper
   name: taper_2e9853cc
   width1: 0.5
-  width2: 3
+  width2: 3.0
 ports:
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
-    - 0
+    - 0.0
+    - 0.0
     name: o1
-    orientation: 180
+    orientation: 180.0
     port_type: optical
     width: 0.5
   o2:
@@ -60,10 +60,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10
-    - 0
+    - 10.0
+    - 0.0
     name: o2
-    orientation: 0
+    orientation: 0.0
     port_type: optical
-    width: 3
+    width: 3.0
 version: 1

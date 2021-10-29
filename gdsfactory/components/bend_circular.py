@@ -38,7 +38,8 @@ def bend_circular(
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = Component()
-    ref = c << extrude(p, x)
+    path = extrude(p, x)
+    ref = c << path
     c.add_ports(ref.ports)
 
     c.info.length = snap_to_grid(p.length())
@@ -58,7 +59,10 @@ def bend_circular(
         )
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
+
     c.absorb(ref)
+    c.info.path = p.info
+    c.info.cross_section = x.info
     return c
 
 
