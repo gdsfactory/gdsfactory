@@ -44,7 +44,6 @@ def straight(
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
     c.absorb(ref)
-    c.info.cross_section = path.info.cross_section
     return c
 
 

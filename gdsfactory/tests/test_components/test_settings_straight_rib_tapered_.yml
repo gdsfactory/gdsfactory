@@ -16,30 +16,6 @@ cells:
           function: cross_section
           sections:
           - slab
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        cladding_offset: 3.0
-        end_straight_offset: 0.01
-        layer:
-        - 1
-        - 0
-        layers_cladding: null
-        min_length: 0.01
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections:
-        - slab
-        snap_to_grid: null
-        start_straight: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       default:
         length: 10.0
         npoints: 2
@@ -101,30 +77,6 @@ info:
         function: cross_section
         sections:
         - slab
-    cross_section:
-      auto_widen: false
-      auto_widen_minimum_length: 200.0
-      cladding_offset: 3.0
-      end_straight_offset: 0.01
-      layer:
-      - 1
-      - 0
-      layers_cladding: null
-      min_length: 0.01
-      port_names:
-      - o1
-      - o2
-      port_types:
-      - optical
-      - optical
-      radius: 10.0
-      sections:
-      - slab
-      snap_to_grid: null
-      start_straight: 0.01
-      taper_length: 10.0
-      width: 0.5
-      width_wide: null
     default:
       length: 10.0
       npoints: 2

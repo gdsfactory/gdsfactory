@@ -175,7 +175,7 @@ def spiral_inner_io_fiber_single(
 ):
     """Spiral with 0 and 270 degree ports."""
     c = Component()
-    ref = c << spiral_inner_io(
+    spiral = spiral_inner_io(
         cross_section=cross_section,
         cross_section_bend=cross_section_bend,
         x_straight_inner_right=x_straight_inner_right,
@@ -185,10 +185,12 @@ def spiral_inner_io_fiber_single(
         grating_spacing=grating_spacing,
         **kwargs
     )
+    ref = c << spiral
     ref.rotate(90)
     bend = bend_euler(cross_section=cross_section_bend or cross_section)
     btop = c << bend
     bbot = c << bend
+    c.copy_child_info(spiral)
 
     bbot.connect("o2", ref.ports["o1"])
     btop.connect("o1", ref.ports["o2"])
