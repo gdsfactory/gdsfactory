@@ -747,18 +747,18 @@ metal3 = partial(
 )
 
 
-xs_strip = strip()
-xs_strip_auto_widen = strip_auto_widen()
-xs_rib = rib()
-xs_nitride = nitride()
-xs_metal1 = metal1()
-xs_metal2 = metal2()
-xs_metal3 = metal3()
-xs_pin = pin()
-xs_strip_heater_metal_undercut = strip_heater_metal_undercut()
-xs_strip_heater_metal = strip_heater_metal()
-xs_strip_heater_doped = strip_heater_doped()
-xs_rib_heater_doped = rib_heater_doped()
+# xs_strip = strip()
+# xs_strip_auto_widen = strip_auto_widen()
+# xs_rib = rib()
+# xs_nitride = nitride()
+# xs_metal1 = metal1()
+# xs_metal2 = metal2()
+# xs_metal3 = metal3()
+# xs_pin = pin()
+# xs_strip_heater_metal_undercut = strip_heater_metal_undercut()
+# xs_strip_heater_metal = strip_heater_metal()
+# xs_strip_heater_doped = strip_heater_doped()
+# xs_rib_heater_doped = rib_heater_doped()
 
 
 cross_section_factory = dict(
