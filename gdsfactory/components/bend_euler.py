@@ -75,8 +75,6 @@ def bend_euler(
     clean_dict(p.info)
 
     c.absorb(ref)
-    c.info.path = p.info
-    c.info.cross_section = x.info
     return c
 
 
