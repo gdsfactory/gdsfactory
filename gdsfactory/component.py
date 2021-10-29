@@ -1259,7 +1259,7 @@ def clean_key(key):
 def _clean_value(value: Any) -> Any:
     """Returns a clean value that is JSON serializable"""
     if isinstance(value, CrossSection):
-        value = value.info
+        value = value.to_dict()
     # if isinstance(value, float) and float(int(value)) == value:
     #     value = int(value)
     if type(value) in [int, float, str, bool]:
