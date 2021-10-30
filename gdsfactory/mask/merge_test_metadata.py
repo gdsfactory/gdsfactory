@@ -100,16 +100,17 @@ def merge_test_metadata(
     ), f"missing mask YAML metadata {mask_metadata_path}"
     assert csv_labels_path.exists(), f"missing CSV labels {csv_labels_path}"
 
-    metadata = OmegaConf.load(mask_metadata_path)
     labels_list = parse_csv_data(csv_labels_path)
+    metadata = OmegaConf.load(mask_metadata_path)
+    cells_metadata = metadata["cells"]
 
     test_metadata = DictConfig({})
 
     for label, x, y in labels_list:
         cell = get_cell_from_label(label)
 
-        if cell in test_metadata:
-            test_metadata[cell] = metadata.cells[cell]
+        if cell in cells_metadata:
+            test_metadata[cell] = cells_metadata[cell]
             test_metadata[cell].label = dict(x=x, y=y, text=label)
         else:
             logger.error(f"missing cell metadata for {cell}")

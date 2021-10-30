@@ -116,11 +116,12 @@ class CrossSection(CrossSectionPhidl):
 
     def to_dict(self):
         d = {}
-        d["sections"] = [dict(section) for section in self.sections if section]
-        d["ports"] = self.ports
-        d["port_types"] = self.port_types
-        d["aliases"] = self.aliases
-        d["info"] = self.info
+        x = self.copy()
+        d["sections"] = [dict(section) for section in x.sections if section]
+        d["ports"] = x.ports
+        d["port_types"] = x.port_types
+        d["aliases"] = x.aliases
+        d["info"] = x.info
         return d
 
     # @property
