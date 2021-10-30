@@ -102,7 +102,7 @@ def merge_test_metadata(
 
     labels_list = parse_csv_data(csv_labels_path)
     metadata = OmegaConf.load(mask_metadata_path)
-    cells_metadata = metadata["cells"]
+    cells_metadata = metadata.get("cells", {})
 
     test_metadata = DictConfig({})
 

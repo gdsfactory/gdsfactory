@@ -1,7 +1,6 @@
 cells:
   test_path:
     changed: {}
-    cross_section: {}
     default: {}
     full: {}
     function_name: test_path
@@ -9,10 +8,8 @@ cells:
     length: 107.699
     module: gdsfactory.tests.test_paths
     name: test_path
-    path: {}
 info:
   changed: {}
-  cross_section: {}
   default: {}
   full: {}
   function_name: test_path
@@ -20,6 +17,5 @@ info:
   length: 107.699
   module: gdsfactory.tests.test_paths
   name: test_path
-  path: {}
 ports: {}
 version: 1

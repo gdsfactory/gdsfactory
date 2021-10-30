@@ -3,7 +3,6 @@ cells:
     changed:
       linear: true
       npoints: 2
-    cross_section: {}
     default:
       length: 10
       linear: false
@@ -17,12 +16,10 @@ cells:
     length: 10.0
     module: gdsfactory.components.taper_cross_section
     name: taper_cross_section_f1747efd
-    path: {}
 info:
   changed:
     linear: true
     npoints: 2
-  cross_section: {}
   default:
     length: 10
     linear: false
@@ -36,7 +33,6 @@ info:
   length: 10.0
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_f1747efd
-  path: {}
 ports:
   o1:
     layer:

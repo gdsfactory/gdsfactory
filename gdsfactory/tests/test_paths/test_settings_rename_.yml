@@ -1,7 +1,6 @@
 cells:
   rename:
     changed: {}
-    cross_section: {}
     default: {}
     full: {}
     function_name: rename
@@ -9,10 +8,8 @@ cells:
     length: 15.708
     module: gdsfactory.tests.test_paths
     name: rename
-    path: {}
 info:
   changed: {}
-  cross_section: {}
   default: {}
   full: {}
   function_name: rename
@@ -20,7 +17,6 @@ info:
   length: 15.708
   module: gdsfactory.tests.test_paths
   name: rename
-  path: {}
 ports:
   in:
     layer:
