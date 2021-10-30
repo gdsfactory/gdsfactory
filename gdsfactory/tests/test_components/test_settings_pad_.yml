@@ -132,4 +132,15 @@ ports:
     orientation: 270.0
     port_type: electrical
     width: 100.0
+  pad:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - 0.0
+    - 0.0
+    name: pad
+    orientation: 0.0
+    port_type: vertical_dc
+    width: 1.0
 version: 1
