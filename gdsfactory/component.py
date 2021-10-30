@@ -833,7 +833,18 @@ class Component(Device):
         """Can be called to copy an existing port like add_port(port = existing_port) or
         to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
         Can also be called to copy an existing port
-        with a new name add_port(port = existing_port, name = new_name)"""
+        with a new name add_port(port = existing_port, name = new_name)
+
+        Args:
+            name:
+            midpoint:
+            orientation: in deg
+            port: optional port
+            layer:
+            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm
+            cross_section:
+
+        """
 
         if port:
             if not isinstance(port, Port):

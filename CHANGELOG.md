@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.4.8
+
+- pad has vertical_dc port
+
 ## 3.4.6
 
 - add `gf.functions.move_port_to_zero`

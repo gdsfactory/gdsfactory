@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Floats, Layers
+from gdsfactory.types import ComponentFactory, Floats, Layers, Optional
 
 pad_contact_slab_npp = partial(contact_slab_npp_m3, size=(100, 100))
 
@@ -17,6 +17,7 @@ def resistance_sheet(
     layers: Layers = (LAYER.SLAB90, LAYER.NPP),
     layer_offsets: Floats = (0, 0.2),
     pad: ComponentFactory = pad_contact_slab_npp,
+    ohms_per_square: Optional[float] = None,
 ) -> Component:
     """Sheet resistance.
     Ensures connectivity is kept for pads and the first layer in layers
@@ -27,6 +28,7 @@ def resistance_sheet(
         layers: for the middle part
         layer_offsets:
         pad: function to create a pad
+        ohms_per_square: sheet resistance
     """
     c = Component()
 
@@ -42,6 +44,12 @@ def resistance_sheet(
 
     pad1.connect("e3", r0.ports["e1"])
     pad2.connect("e1", r0.ports["e3"])
+
+    if ohms_per_square:
+        c.info.resistance = ohms_per_square * width * length
+
+    c.add_port("pad1", port_type="vertical_dc", midpoint=pad1.center)
+    c.add_port("pad2", port_type="vertical_dc", midpoint=pad2.center)
     return c
 
 

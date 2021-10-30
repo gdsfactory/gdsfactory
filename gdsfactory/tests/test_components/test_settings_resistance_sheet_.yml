@@ -221,6 +221,7 @@ cells:
       - - 24
         - 0
       length: 5.0
+      ohms_per_square: null
       width: 10
     full:
       layer_offsets:
@@ -232,6 +233,7 @@ cells:
       - - 24
         - 0
       length: 5.0
+      ohms_per_square: null
       width: 10
     function_name: resistance_sheet
     info_version: 1
@@ -249,6 +251,7 @@ info:
     - - 24
       - 0
     length: 5.0
+    ohms_per_square: null
     width: 10
   full:
     layer_offsets:
@@ -260,10 +263,33 @@ info:
     - - 24
       - 0
     length: 5.0
+    ohms_per_square: null
     width: 10
   function_name: resistance_sheet
   info_version: 1
   module: gdsfactory.components.resistance_sheet
   name: resistance_sheet
-ports: {}
+ports:
+  pad1:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - -52.5
+    - 0.0
+    name: pad1
+    orientation: 45.0
+    port_type: vertical_dc
+    width: 1.0
+  pad2:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 52.5
+    - 0.0
+    name: pad2
+    orientation: 45.0
+    port_type: vertical_dc
+    width: 1.0
 version: 1
