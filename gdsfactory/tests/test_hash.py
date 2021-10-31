@@ -15,7 +15,7 @@ def test_hash_geometry() -> None:
     assert h1 != h2
 
 
-def _test_hash_array_file():
+def test_hash_array_file():
     """Test hash of a component with an array of references."""
     gf.clear_cache()
     c = gf.Component("array")
@@ -23,22 +23,20 @@ def _test_hash_array_file():
     c.add_array(wg)
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    print(h)
-    assert h == "bec2ab8f157b429bd6ff210bedde6fe3"
+    assert h == "71d476075cf081b4099c1eea1c8984a1", h
 
 
-def _test_hash_file():
+def test_hash_file():
     """Test hash of the saved GDS file."""
     gf.clear_cache()
     c = gf.components.straight()
     c.add_label("hi")
     gdspath = c.write_gds()
     h = hash_file(gdspath)
-    print(h)
-    assert h == "71655c3f7ab57e7a48b55683e8c1bfc4"
+    assert h == "f2228aed8141f447e601ce93a6219415", h
 
 
 if __name__ == "__main__":
     # test_hash_geometry()
-    _test_hash_file()
-    _test_hash_array_file()
+    test_hash_file()
+    test_hash_array_file()
