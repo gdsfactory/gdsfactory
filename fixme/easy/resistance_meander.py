@@ -1,5 +1,5 @@
-from typing import Tuple
 from functools import partial
+from typing import Tuple
 
 import numpy as np
 
@@ -23,6 +23,8 @@ def resistance_meander(
 ) -> Component:
     """meander to test resistance
     from phidl.geometry
+
+    FIXME, add pad_pitch
 
     Args:
         pad_size: Size of the two matched impedance pads (microns)
