@@ -67,6 +67,10 @@ from gdsfactory.components.extension import extend_port, extend_ports
 from gdsfactory.components.fiber import fiber
 from gdsfactory.components.fiber_array import fiber_array
 from gdsfactory.components.grating_coupler_array import grating_coupler_array
+from gdsfactory.components.grating_coupler_circular import (
+    grating_coupler_circular,
+    grating_coupler_circular_arbitrary,
+)
 from gdsfactory.components.grating_coupler_elliptical import (
     ellipse_arc,
     grating_coupler_elliptical,
@@ -75,9 +79,11 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_taper_points,
     grating_tooth_points,
 )
-from gdsfactory.components.grating_coupler_elliptical2 import (
-    grating_coupler_elliptical2,
-    grating_coupler_elliptical_gap_teeth,
+from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
+    grating_coupler_elliptical_arbitrary,
+)
+from gdsfactory.components.grating_coupler_elliptical_lumerical import (
+    grating_coupler_elliptical_lumerical,
 )
 from gdsfactory.components.grating_coupler_elliptical_trenches import (
     grating_coupler_elliptical_trenches,
@@ -257,7 +263,9 @@ __all__ = [
     "githash",
     "grating_coupler_array",
     "grating_coupler_elliptical",
-    "grating_coupler_elliptical2",
+    "grating_coupler_elliptical_arbitrary",
+    "grating_coupler_elliptical_lumerical",
+    "grating_coupler_circular",
     "grating_coupler_elliptical_te",
     "grating_coupler_elliptical_tm",
     "grating_coupler_elliptical_trenches",
@@ -428,10 +436,12 @@ factory = dict(
     fiber_array=fiber_array,
     grating_coupler_array=grating_coupler_array,
     grating_coupler_elliptical=grating_coupler_elliptical,
-    grating_coupler_elliptical2=grating_coupler_elliptical2,
-    grating_coupler_elliptical_gap_teeth=grating_coupler_elliptical_gap_teeth,
+    grating_coupler_circular=grating_coupler_circular,
+    grating_coupler_circular_arbitrary=grating_coupler_circular_arbitrary,
     grating_coupler_elliptical_te=grating_coupler_elliptical_te,
     grating_coupler_elliptical_tm=grating_coupler_elliptical_tm,
+    grating_coupler_elliptical_arbitrary=grating_coupler_elliptical_arbitrary,
+    grating_coupler_elliptical_lumerical=grating_coupler_elliptical_lumerical,
     grating_coupler_elliptical_trenches=grating_coupler_elliptical_trenches,
     grating_coupler_loss=grating_coupler_loss,
     grating_coupler_te=grating_coupler_te,

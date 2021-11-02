@@ -16,6 +16,15 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.4.9
+
+- add pad_pitch to `resistance_sheet`
+- enable multimode waveguide in straight_heater_meander
+- add `grating_coupler_elliptical_arbitrary`
+- add `grating_coupler_elliptical_lumerical` using lumerical parametrization
+- rename `grating_coupler_elliptical2` to `grating_coupler_circular`. rename `layer_core` to `layer`, `layer_ridge` to `layer_slab` for a more consistent parametrization of other grating couplers.
+- add Component.add_padding
+
 ## 3.4.8
 
 - pad has vertical_dc port

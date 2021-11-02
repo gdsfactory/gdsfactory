@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -18,8 +18,7 @@ def ellipse_arc(
     theta_max: float,
     angle_step: float = 0.5,
 ) -> ndarray:
-    """
-    Returns an elliptical arc.
+    """Returns an elliptical arc.
 
     b = a *sqrt(1-e**2)
 
@@ -82,58 +81,8 @@ def grating_taper_points(
 
 
 @gf.cell
-def grating_coupler_elliptical_tm(
-    taper_length: float = 16.6,
-    taper_angle: float = 30.0,
-    wavelength: float = 1.554,
-    fiber_angle: float = 15.0,
-    grating_line_width: float = 0.707,
-    wg_width: float = 0.5,
-    neff: float = 1.8,  # tooth effective index
-    layer: Tuple[int, int] = LAYER.WG,
-    n_periods: int = 16,
-    fiber_marker_layer: Layer = gf.LAYER.TM,
-    **kwargs,
-) -> Component:
-    """Return elliptical grating coupler
-
-    Args:
-        taper_length: taper length from input
-        taper_angle: taper flare angle in degrees
-        wavelength: grating transmission central wavelength (um)
-        fiber_angle: fibre polish angle in degrees
-        grating_line_width
-        wg_width: waveguide width
-        neff: tooth effective index
-        layer: LAYER.WG
-        p_start: period start first tooth
-        n_periods: number of periods
-        big_last_tooth: adds a big_last_tooth
-        layer_slab
-        fiber_marker_width
-        fiber_marker_layer
-        cladding_index
-
-    """
-    return grating_coupler_elliptical(
-        polarization="tm",
-        taper_length=taper_length,
-        taper_angle=taper_angle,
-        wavelength=wavelength,
-        fiber_angle=fiber_angle,
-        grating_line_width=grating_line_width,
-        wg_width=wg_width,
-        neff=neff,
-        layer=layer,
-        n_periods=n_periods,
-        big_last_tooth=False,
-        fiber_marker_layer=fiber_marker_layer,
-        **kwargs,
-    )
-
-
-@gf.cell
-def grating_coupler_elliptical_te(
+def grating_coupler_elliptical(
+    polarization: str = "te",
     taper_length: float = 16.6,
     taper_angle: float = 40.0,
     wavelength: float = 1.554,
@@ -141,47 +90,15 @@ def grating_coupler_elliptical_te(
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
     neff: float = 2.638,  # tooth effective index
-    layer: Tuple[int, int] = LAYER.WG,
-    p_start: int = 26,
-    n_periods: int = 24,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
-    **kwargs,
-) -> Component:
-    return grating_coupler_elliptical(
-        polarization="te",
-        taper_length=taper_length,
-        taper_angle=taper_angle,
-        wavelength=wavelength,
-        fiber_angle=fiber_angle,
-        grating_line_width=grating_line_width,
-        wg_width=wg_width,
-        neff=neff,
-        layer=layer,
-        p_start=p_start,
-        n_periods=n_periods,
-        fiber_marker_layer=fiber_marker_layer,
-        **kwargs,
-    )
-
-
-@gf.cell
-def grating_coupler_elliptical(
-    polarization: str = "te",
-    taper_length: float = 16.6,
-    taper_angle: float = 30.0,
-    wavelength: float = 1.554,
-    fiber_angle: float = 15.0,
-    grating_line_width: float = 0.343,
-    wg_width: float = 0.5,
-    neff: float = 2.638,  # tooth effective index
+    nclad: float = 1.443,
     layer: Tuple[int, int] = LAYER.WG,
     p_start: int = 26,
     n_periods: int = 30,
     big_last_tooth: bool = False,
-    layer_slab: Tuple[int, int] = LAYER.SLAB150,
+    layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Layer = gf.LAYER.TE,
-    cladding_index: float = 1.443,
+    spiked: bool = True,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
@@ -190,18 +107,19 @@ def grating_coupler_elliptical(
         taper_length: taper length from input
         taper_angle: grating flare angle
         wavelength: grating transmission central wavelength (um)
-        fiber_angle: fibre polish angle in degrees
+        fiber_angle: fibre angle in degrees determines ellipticity
         grating_line_width
         wg_width: waveguide width
         neff: tooth effective index
         layer: LAYER.WG
-        p_start: period start first tooth
+        p_start: period start first grating teeth
         n_periods: number of periods
         big_last_tooth: adds a big_last_tooth
         layer_slab
         fiber_marker_width
         fiber_marker_layer
-        cladding_index
+        nclad
+        spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
 
 
     .. code::
@@ -215,12 +133,11 @@ def grating_coupler_elliptical(
     """
 
     # Compute some ellipse parameters
-    nc = cladding_index
     sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff ** 2 - nc ** 2 * sthc ** 2
+    d = neff ** 2 - nclad ** 2 * sthc ** 2
     a1 = wavelength * neff / d
     b1 = wavelength / np.sqrt(d)
-    x1 = wavelength * nc * sthc / d
+    x1 = wavelength * nclad * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)
@@ -235,7 +152,7 @@ def grating_coupler_elliptical(
     # Make each grating line
     for p in range(p_start, p_start + n_periods + 1):
         pts = grating_tooth_points(
-            p * a1, p * b1, p * x1, grating_line_width, taper_angle
+            p * a1, p * b1, p * x1, grating_line_width, taper_angle, spiked=spiked
         )
         c.add_polygon(pts, layer)
 
@@ -254,13 +171,13 @@ def grating_coupler_elliptical(
 
     # Superimpose a tooth without spikes at end of taper to match the period.
     pts = grating_tooth_points(
-        a_taper, b_taper, x_taper, grating_line_width, taper_angle, spiked=False
+        a_taper, b_taper, x_taper, grating_line_width, taper_angle, spiked=spiked
     )
     c.add_polygon(pts, layer)
 
     # Add last "large tooth" after the standard grating teeth
     w = 1.0
-    L = (
+    total_length = (
         period * (p_start + n_periods)
         + grating_line_width / 2
         + period
@@ -269,7 +186,7 @@ def grating_coupler_elliptical(
     )
 
     if big_last_tooth:
-        a = L / (1 + x1 / a1)
+        a = total_length / (1 + x1 / a1)
         b = b1 / a1 * a
         x = x1 / a1 * a
 
@@ -284,7 +201,7 @@ def grating_coupler_elliptical(
     else:
         polarization_marker_layer = gf.LAYER.TM
 
-    x = taper_length + period * n_periods / 2
+    x = np.round(taper_length + period * n_periods / 2, 3)
     circle = gf.components.circle(
         radius=fiber_marker_width / 2, layer=polarization_marker_layer
     )
@@ -307,7 +224,7 @@ def grating_coupler_elliptical(
     )
 
     # Add shallow etch
-    _rl = L + grating_line_width + 2.0
+    _rl = total_length + grating_line_width + 2.0
     _rhw = _rl * np.tan(fiber_angle * DEG2RAD) + 2.0
 
     if layer_slab:
@@ -316,9 +233,23 @@ def grating_coupler_elliptical(
     return c
 
 
+grating_coupler_elliptical_tm = gf.partial(
+    grating_coupler_elliptical,
+    grating_line_width=0.707,
+    fiber_marker_layer=gf.LAYER.TM,
+    polarization="tm",
+    neff=1.8,
+    n_periods=16,
+)
+
+
+grating_coupler_elliptical_te = grating_coupler_elliptical
+
+
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_tm()
+    # c = grating_coupler_elliptical_tm()
     # c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
+    c = grating_coupler_elliptical()
     # print(c.polarization)
     # print(c.wavelength)
     # print(c.ports)
