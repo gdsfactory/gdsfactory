@@ -21,116 +21,188 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_elliptical:
+  grating_coupler_ellipti_4a0b5da2:
     changed: {}
     default:
-      big_last_tooth: false
       fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
       fiber_marker_width: 11.0
-      grating_line_width: 0.343
+      gaps:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
       layer:
       - 1
       - 0
       layer_slab:
       - 2
       - 0
-      n_periods: 30
       nclad: 1.443
       neff: 2.638
-      p_start: 26
       polarization: te
       spiked: true
-      taper_angle: 40.0
+      taper_angle: 60.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
+      widths:
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
     full:
-      big_last_tooth: false
       fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
       fiber_marker_width: 11.0
-      grating_line_width: 0.343
+      gaps:
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
+      - 0.1
       layer:
       - 1
       - 0
       layer_slab:
       - 2
       - 0
-      n_periods: 30
       nclad: 1.443
       neff: 2.638
-      p_start: 26
       polarization: te
       spiked: true
-      taper_angle: 40.0
+      taper_angle: 60.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
-    function_name: grating_coupler_elliptical
+      widths:
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+    function_name: grating_coupler_elliptical_arbitrary
     info_version: 1
-    module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_elliptical
+    module: gdsfactory.components.grating_coupler_elliptical_arbitrary
+    name: grating_coupler_ellipti_4a0b5da2
     polarization: te
     wavelength: 1.554
 info:
   changed: {}
   default:
-    big_last_tooth: false
     fiber_angle: 15.0
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11.0
-    grating_line_width: 0.343
+    gaps:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
     layer:
     - 1
     - 0
     layer_slab:
     - 2
     - 0
-    n_periods: 30
     nclad: 1.443
     neff: 2.638
-    p_start: 26
     polarization: te
     spiked: true
-    taper_angle: 40.0
+    taper_angle: 60.0
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
   full:
-    big_last_tooth: false
     fiber_angle: 15.0
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11.0
-    grating_line_width: 0.343
+    gaps:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
     layer:
     - 1
     - 0
     layer_slab:
     - 2
     - 0
-    n_periods: 30
     nclad: 1.443
     neff: 2.638
-    p_start: 26
     polarization: te
     spiked: true
-    taper_angle: 40.0
+    taper_angle: 60.0
     taper_length: 16.6
     wavelength: 1.554
     wg_width: 0.5
-  function_name: grating_coupler_elliptical
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+  function_name: grating_coupler_elliptical_arbitrary
   info_version: 1
-  module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_elliptical
+  module: gdsfactory.components.grating_coupler_elliptical_arbitrary
+  name: grating_coupler_ellipti_4a0b5da2
   polarization: te
   wavelength: 1.554
 ports:
@@ -139,7 +211,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.721
+    - 0.25
     - 0.0
     name: o1
     orientation: 180.0
@@ -150,7 +222,7 @@ ports:
     - 203
     - 0
     midpoint:
-    - 26.89
+    - 19.6
     - 0.0
     name: vertical_te
     orientation: 0.0

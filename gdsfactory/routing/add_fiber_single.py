@@ -243,7 +243,7 @@ if __name__ == "__main__":
     # c = gf.components.mzi()
     # c = gf.components.straight(length=500)
     # gc = gf.components.grating_coupler_elliptical_te
-    # gc = gf.components.grating_coupler_elliptical2
+    # gc = gf.components.grating_coupler_circular
     # gc = gf.components.grating_coupler_te
     # gc = gf.components.grating_coupler_uniform
 

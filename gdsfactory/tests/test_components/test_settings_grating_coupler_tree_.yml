@@ -21,44 +21,60 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_elliptical_te:
+  grating_coupler_elliptical:
     changed: {}
     default:
+      big_last_tooth: false
       fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
       - 0
-      n_periods: 24
+      layer_slab:
+      - 2
+      - 0
+      n_periods: 30
+      nclad: 1.443
       neff: 2.638
       p_start: 26
+      polarization: te
+      spiked: true
       taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
     full:
+      big_last_tooth: false
       fiber_angle: 15.0
       fiber_marker_layer:
       - 203
       - 0
+      fiber_marker_width: 11.0
       grating_line_width: 0.343
       layer:
       - 1
       - 0
-      n_periods: 24
+      layer_slab:
+      - 2
+      - 0
+      n_periods: 30
+      nclad: 1.443
       neff: 2.638
       p_start: 26
+      polarization: te
+      spiked: true
       taper_angle: 40.0
       taper_length: 16.6
       wavelength: 1.554
       wg_width: 0.5
-    function_name: grating_coupler_elliptical_te
+    function_name: grating_coupler_elliptical
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_elliptical_te
+    name: grating_coupler_elliptical
     polarization: te
     wavelength: 1.554
   grating_coupler_tree:
@@ -140,7 +156,7 @@ ports:
     - 0
     midpoint:
     - -439.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_00
     orientation: 270.0
     port_type: vertical_te
@@ -151,7 +167,7 @@ ports:
     - 0
     midpoint:
     - -312.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_01
     orientation: 270.0
     port_type: vertical_te
@@ -162,7 +178,7 @@ ports:
     - 0
     midpoint:
     - -185.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_02
     orientation: 270.0
     port_type: vertical_te
@@ -173,7 +189,7 @@ ports:
     - 0
     midpoint:
     - -58.50000000000001
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_03
     orientation: 270.0
     port_type: vertical_te
@@ -184,7 +200,7 @@ ports:
     - 0
     midpoint:
     - 68.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_04
     orientation: 270.0
     port_type: vertical_te
@@ -195,7 +211,7 @@ ports:
     - 0
     midpoint:
     - 195.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_05
     orientation: 270.0
     port_type: vertical_te
@@ -206,7 +222,7 @@ ports:
     - 0
     midpoint:
     - 322.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_06
     orientation: 270.0
     port_type: vertical_te
@@ -217,7 +233,7 @@ ports:
     - 0
     midpoint:
     - 449.5
-    - -59.111000000000004
+    - -61.169000000000004
     name: vertical_te_07
     orientation: 270.0
     port_type: vertical_te

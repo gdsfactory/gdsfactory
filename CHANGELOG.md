@@ -20,6 +20,8 @@ Maybe:
 
 - add pad_pitch to `resistance_sheet`
 - enable multimode waveguide in straight_heater_meander
+- add `grating_coupler_elliptical_arbitrary`
+- add `grating_coupler_elliptical_lumerical` using lumerical parametrization
 
 ## 3.4.8
 

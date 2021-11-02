@@ -11,15 +11,15 @@ from gdsfactory.types import ComponentFactory, Coordinate, Coordinates, Floats, 
 
 
 @cell
-def grating_coupler_elliptical2(
+def grating_coupler_circular(
     taper_angle: float = 30.0,
     taper_length: float = 10.0,
     length: float = 30.0,
     period: float = 1.0,
     dutycycle: float = 0.7,
     port: Coordinate = (0.0, 0.0),
-    layer_ridge: Optional[Layer] = None,
     layer_core: Layer = gf.LAYER.WG,
+    layer_ridge: Optional[Layer] = None,
     layer_cladding: Layer = gf.LAYER.WGCLAD,
     teeth_list: Optional[Coordinates] = None,
     direction: str = "EAST",
@@ -40,8 +40,8 @@ def grating_coupler_elliptical2(
         period: Grating period.
         dutycycle: (period-gap)/period.
         port: Cartesian coordinate of the input port
-        layer_ridge: for partial etched gratings
         layer_core: Tuple specifying the layer/datatype of the ridge region.
+        layer_ridge: for partial etched gratings
         layer_cladding: for the straight.
         teeth_list: (gap, width) tuples to be used as the gap and teeth widths
           for irregularly spaced gratings.
@@ -95,7 +95,7 @@ def grating_coupler_elliptical2(
     c.info.polarization = polarization
     c.info.wavelength = wavelength
 
-    x = c.center[0] + taper_length / 2
+    x = np.round(c.center[0] + taper_length / 2, 3)
     circle = gf.components.circle(
         radius=fiber_marker_width / 2, layer=fiber_marker_layer
     )
@@ -114,22 +114,24 @@ def grating_coupler_elliptical2(
     return c
 
 
-_gap_teeth = [0.1] * 10 + [0.5] * 10
+_gap_width = [0.1] * 10 + [0.5] * 10
 
 
 @cell
-def grating_coupler_elliptical_gap_teeth(teeth_list: Floats = _gap_teeth, **kwargs):
+def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs):
     """Returns grating coupler,
-    teeth list is on a single list that starts with gap, teeth, gap ...
+    teeth list is on a single list that starts with gap, width, gap ...
+
+    Args:
+        teeth_list: list of gaps and widths
+        kwargs: for grating_coupler_circular
     """
     teeth_list = zip(teeth_list[::2], teeth_list[1::2])
-    return grating_coupler_elliptical2(teeth_list=list(teeth_list), **kwargs)
+    return grating_coupler_circular(teeth_list=list(teeth_list), **kwargs)
 
 
 if __name__ == "__main__":
-
-    # c = grating_coupler_elliptical2(length=31, taper_length=30)
-    c = grating_coupler_elliptical_gap_teeth(taper_length=30)
+    c = grating_coupler_circular_arbitrary(taper_length=30)
     print(len(c.name))
     print(c.ports)
     c.show()

@@ -8,7 +8,7 @@ from gdsfactory.component import Component
 
 
 def test_add_labels_optical() -> Component:
-    c = gf.components.straight()
+    c = gf.components.straight(length=1.467)
     gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
         port=c.ports["o1"], gc=gc, gc_index=0, layer_label=gf.LAYER.LABEL

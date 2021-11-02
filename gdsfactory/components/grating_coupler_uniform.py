@@ -1,5 +1,7 @@
 from typing import Tuple
 
+import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
@@ -58,9 +60,9 @@ def grating_coupler_uniform(
         cgrating.x = gf.snap.snap_to_grid(x0 + i * period)
         cgrating.y = 0
 
-    xport = (x0 + cgrating.x) / 2
+    xport = np.round((x0 + cgrating.x) / 2, 3)
 
-    port_type = f"vertical_{polarization}"
+    port_type = f"vertical_{polarization.lower()}"
     c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
     c.info.polarization = polarization
     c.info.wavelength = wavelength
