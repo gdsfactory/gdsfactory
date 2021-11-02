@@ -9,6 +9,7 @@ pytest-cov
 nbval
 flake8
 mypy
+myst-parser
 pre-commit
 tox
 flake8-rst-docstrings
