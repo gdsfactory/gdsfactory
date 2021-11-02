@@ -18,8 +18,8 @@ def grating_coupler_circular(
     period: float = 1.0,
     dutycycle: float = 0.7,
     port: Coordinate = (0.0, 0.0),
-    layer_core: Layer = gf.LAYER.WG,
-    layer_ridge: Optional[Layer] = None,
+    layer: Layer = gf.LAYER.WG,
+    layer_slab: Optional[Layer] = None,
     layer_cladding: Layer = gf.LAYER.WGCLAD,
     teeth_list: Optional[Coordinates] = None,
     direction: str = "EAST",
@@ -40,9 +40,9 @@ def grating_coupler_circular(
         period: Grating period.
         dutycycle: (period-gap)/period.
         port: Cartesian coordinate of the input port
-        layer_core: Tuple specifying the layer/datatype of the ridge region.
-        layer_ridge: for partial etched gratings
-        layer_cladding: for the straight.
+        layer: Tuple specifying the layer/datatype of the waveguide.
+        layer_slab: slab layer for partial etched gratings
+        layer_cladding: for the cladding (using cladding_offset)
         teeth_list: (gap, width) tuples to be used as the gap and teeth widths
           for irregularly spaced gratings.
           For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,
@@ -69,14 +69,13 @@ def grating_coupler_circular(
         WG  o1  ______________|
 
     """
-    ridge = True if layer_ridge else False
 
     c = pc.GratingCoupler(
         gf.call_if_func(
             wgt,
             cladding_offset=cladding_offset,
             wg_width=wg_width,
-            layer=layer_core,
+            layer=layer,
             layer_cladding=layer_cladding,
         ),
         theta=np.deg2rad(taper_angle),
@@ -84,8 +83,8 @@ def grating_coupler_circular(
         taper_length=taper_length,
         period=period,
         dutycycle=1 - dutycycle,
-        ridge=ridge,
-        ridge_layers=layer_ridge,
+        ridge=True if layer_slab else False,
+        ridge_layers=layer_slab,
         teeth_list=teeth_list,
         port=port,
         direction=direction,
@@ -131,7 +130,8 @@ def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs
 
 
 if __name__ == "__main__":
-    c = grating_coupler_circular_arbitrary(taper_length=30)
+    # c = grating_coupler_circular_arbitrary(taper_length=30, layers_slab=((2,0), (3,0)))
+    c = grating_coupler_circular_arbitrary(taper_length=30, layer_slab=(2, 3))
     print(len(c.name))
     print(c.ports)
     c.show()
