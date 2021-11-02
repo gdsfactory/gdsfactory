@@ -1,12 +1,12 @@
 cells:
-  compass_1e4170e4:
+  compass_76ebfe66:
     changed:
       layer:
       - 1
       - 0
       port_type: null
       size:
-      - 0.375
+      - 0.5
       - 11.0
     default:
       layer:
@@ -22,52 +22,95 @@ cells:
       - 0
       port_type: null
       size:
-      - 0.375
+      - 0.5
       - 11.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_1e4170e4
-  grating_coupler_rectangular:
+    name: compass_76ebfe66
+  grating_coupler_rectang_0b571e8d:
     changed: {}
     default:
-      fill_factor: 0.5
+      gaps:
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
       layer:
       - 1
       - 0
+      layer_grating: null
       length_taper: 150.0
-      num_teeth: 20
-      period: 0.75
       polarization: te
       wavelength: 1.55
-      width: 0.5
+      wg_width: 0.5
       width_grating: 11.0
+      width_teeth: null
+      widths:
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
     full:
-      fill_factor: 0.5
+      gaps:
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
+      - 0.2
       layer:
       - 1
       - 0
+      layer_grating: null
       length_taper: 150.0
-      num_teeth: 20
-      period: 0.75
       polarization: te
       wavelength: 1.55
-      width: 0.5
+      wg_width: 0.5
       width_grating: 11.0
-    function_name: grating_coupler_rectangular
+      width_teeth: null
+      widths:
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+      - 0.5
+    function_name: grating_coupler_rectangular_arbitrary
     info_version: 1
-    module: gdsfactory.components.grating_coupler_rectangular
-    name: grating_coupler_rectangular
+    module: gdsfactory.components.grating_coupler_rectangular_arbitrary
+    name: grating_coupler_rectang_0b571e8d
     polarization: te
     wavelength: 1.55
-  rectangle_1e4170e4:
+  rectangle_bbaaa725:
     changed:
+      centered: true
       layer:
       - 1
       - 0
       port_type: null
       size:
-      - 0.375
+      - 0.5
       - 11.0
     default:
       centered: false
@@ -79,18 +122,18 @@ cells:
       - 4.0
       - 2.0
     full:
-      centered: false
+      centered: true
       layer:
       - 1
       - 0
       port_type: null
       size:
-      - 0.375
+      - 0.5
       - 11.0
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_1e4170e4
+    name: rectangle_bbaaa725
   taper_3a98f2ae:
     changed:
       layer:
@@ -124,33 +167,75 @@ cells:
 info:
   changed: {}
   default:
-    fill_factor: 0.5
+    gaps:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
     layer:
     - 1
     - 0
+    layer_grating: null
     length_taper: 150.0
-    num_teeth: 20
-    period: 0.75
     polarization: te
     wavelength: 1.55
-    width: 0.5
+    wg_width: 0.5
     width_grating: 11.0
+    width_teeth: null
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
   full:
-    fill_factor: 0.5
+    gaps:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
     layer:
     - 1
     - 0
+    layer_grating: null
     length_taper: 150.0
-    num_teeth: 20
-    period: 0.75
     polarization: te
     wavelength: 1.55
-    width: 0.5
+    wg_width: 0.5
     width_grating: 11.0
-  function_name: grating_coupler_rectangular
+    width_teeth: null
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+  function_name: grating_coupler_rectangular_arbitrary
   info_version: 1
-  module: gdsfactory.components.grating_coupler_rectangular
-  name: grating_coupler_rectangular
+  module: gdsfactory.components.grating_coupler_rectangular_arbitrary
+  name: grating_coupler_rectang_0b571e8d
   polarization: te
   wavelength: 1.55
 ports:
@@ -170,7 +255,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 157.125
+    - 153.5
     - 0.0
     name: vertical_te
     orientation: 0.0

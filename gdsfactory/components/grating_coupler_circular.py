@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentFactory, Coordinate, Coordinates, Floats, Layer
+from gdsfactory.types import Coordinate, Coordinates, Floats, Layer
 
 
 @cell
@@ -16,7 +16,7 @@ def grating_coupler_circular(
     taper_length: float = 10.0,
     length: float = 30.0,
     period: float = 1.0,
-    dutycycle: float = 0.7,
+    fill_factor: float = 0.7,
     port: Coordinate = (0.0, 0.0),
     layer: Layer = gf.LAYER.WG,
     layer_slab: Optional[Layer] = None,
@@ -27,7 +27,6 @@ def grating_coupler_circular(
     wavelength: float = 1.55,
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Layer = gf.LAYER.TE,
-    wgt: ComponentFactory = strip,
     wg_width: float = 0.5,
     cladding_offset: float = 2.0,
 ) -> Component:
@@ -38,7 +37,7 @@ def grating_coupler_circular(
         taper_length: Length of the taper before the grating coupler.
         length: total grating coupler length.
         period: Grating period.
-        dutycycle: (period-gap)/period.
+        fill_factor: (period-gap)/period.
         port: Cartesian coordinate of the input port
         layer: Tuple specifying the layer/datatype of the waveguide.
         layer_slab: slab layer for partial etched gratings
@@ -54,7 +53,6 @@ def grating_coupler_circular(
         polarization: te or tm
         wavelength: wavelength um
         fiber_marker_width:
-        wgt: waveguide_template object or function
         wg_width
         cladding_offset:
 
@@ -72,7 +70,7 @@ def grating_coupler_circular(
 
     c = pc.GratingCoupler(
         gf.call_if_func(
-            wgt,
+            strip,
             cladding_offset=cladding_offset,
             wg_width=wg_width,
             layer=layer,
@@ -82,7 +80,7 @@ def grating_coupler_circular(
         length=length,
         taper_length=taper_length,
         period=period,
-        dutycycle=1 - dutycycle,
+        dutycycle=fill_factor,
         ridge=True if layer_slab else False,
         ridge_layers=layer_slab,
         teeth_list=teeth_list,
@@ -131,7 +129,8 @@ def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs
 
 if __name__ == "__main__":
     # c = grating_coupler_circular_arbitrary(taper_length=30, layers_slab=((2,0), (3,0)))
-    c = grating_coupler_circular_arbitrary(taper_length=30, layer_slab=(2, 3))
+    # c = grating_coupler_circular_arbitrary(taper_length=30, layer_slab=(2, 3))
+    c = grating_coupler_circular()
     print(len(c.name))
     print(c.ports)
     c.show()

@@ -1,37 +1,47 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.taper import taper
+from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.types import ComponentFactory, Floats, Layer
+
+_gaps = [0.2] * 10
+_widths = [0.5] * 10
 
 
 @gf.cell
-def grating_coupler_uniform(
-    num_teeth: int = 20,
-    period: float = 0.75,
-    fill_factor: float = 0.5,
+def grating_coupler_rectangular_arbitrary(
+    gaps: Floats = _gaps,
+    widths: Floats = _widths,
+    wg_width: float = 0.5,
     width_grating: float = 11.0,
     length_taper: float = 150.0,
-    width: float = 0.5,
     layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
     wavelength: float = 1.55,
+    taper: ComponentFactory = taper_function,
+    layer_grating: Optional[Layer] = None,
+    width_teeth: Optional[float] = None,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
     Grating teeth are straight instead of elliptical.
 
     Args:
-        num_teeth: 20
-        period: 0.75
-        fill_factor: 0.5
-        width_grating: 11
-        length_taper: 150
-        width: 0.5
-        partial_etch: False
+        gaps: list of gaps
+        widths: list of widths
+        wg_width:
+        width_grating:
+        length_taper:
+        layer: for grating
+        polarization:
+        wavelength:
+        taper: function
+        layer_grating:
+        width_teeth: defautls to width_grating
 
     .. code::
 
@@ -45,22 +55,29 @@ def grating_coupler_uniform(
     taper_ref = c << taper(
         length=length_taper,
         width2=width_grating,
-        width1=width,
+        width1=wg_width,
         layer=layer,
     )
 
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    x0 = taper_ref.xmax
+    xi = taper_ref.xmax
 
-    for i in range(num_teeth):
-        xsize = gf.snap.snap_to_grid(period * fill_factor)
+    for width, gap in zip(widths, gaps):
+        xi += gap + width / 2
+
         cgrating = c.add_ref(
-            rectangle(size=[xsize, width_grating], layer=layer, port_type=None)
+            rectangle(
+                size=[width, width_teeth or width_grating],
+                layer=layer,
+                port_type=None,
+                centered=True,
+            )
         )
-        cgrating.x = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.x = gf.snap.snap_to_grid(xi)
         cgrating.y = 0
+        xi += width / 2
 
-    xport = np.round((x0 + cgrating.x) / 2, 3)
+    xport = np.round((xi + length_taper) / 2, 3)
 
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
@@ -71,7 +88,6 @@ def grating_coupler_uniform(
 
 
 if __name__ == "__main__":
-    # c = grating_coupler_uniform(name='gcu', partial_etch=True)
-    c = grating_coupler_uniform()
+    c = grating_coupler_rectangular_arbitrary()
     print(c.ports)
     c.show()
