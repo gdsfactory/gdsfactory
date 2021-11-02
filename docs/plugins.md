@@ -34,16 +34,16 @@ And for 2021v212
 [ -d "/opt/lumerical/v212" ] && export PATH=$PATH:/opt/lumerical/v212/api/python/bin && export PYTHONPATH=/opt/lumerical/v212/api/python
 ```
 
-```eval_rst
+```{eval-rst}
 .. autofunction:: gdsfactory.simulation.write_sparameters_lumerical.write_sparameters_lumerical
 ```
 
-```eval_rst
+```{eval-rst}
 
 .. autofunction:: gdsfactory.simulation.read.read_sparameters_lumerical
 ```
 
-```eval_rst
+```{eval-rst}
 .. autofunction:: gdsfactory.simulation.read.read_sparameters_pandas
 ```
 

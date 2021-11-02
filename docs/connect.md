@@ -11,7 +11,7 @@ You can connect:
 ![component levels](images/lib_example.png)
 
 
-```eval_rst
+```{eval-rst}
 
 .. plot::
     :include-source:
@@ -125,7 +125,7 @@ This can be done using a netlist based approach where these 3 parts are defined:
 
 The code below illustrates how a simple MZI can be formed using this method.
 
-```eval_rst
+```{eval-rst}
 
 .. plot::
     :include-source:
@@ -172,7 +172,7 @@ Exporting connectivity map from a GDS is the first step towards verification.
 - Generating the netlist
 
 
-```eval_rst
+```{eval-rst}
 .. plot::
     :include-source:
 
@@ -181,7 +181,7 @@ Exporting connectivity map from a GDS is the first step towards verification.
     c.plot()
 ```
 
-```eval_rst
+```{eval-rst}
 .. plot::
     :include-source:
 
@@ -207,7 +207,7 @@ The actual chain of components is supplied by a string or a list
 
 - **Cutback phase**
 
-```eval_rst
+```{eval-rst}
 
 .. plot::
     :include-source:

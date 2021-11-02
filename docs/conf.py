@@ -1,11 +1,8 @@
-from recommonmark.transform import AutoStructify
-
 project = "gdsfactory"
-version = "3.4.9"
+release = "3.4.9"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
-master_doc = "index"
 html_theme = "sphinx_rtd_theme"
 
 source_suffix = {
@@ -15,7 +12,6 @@ source_suffix = {
 }
 
 html_static_path = ["_static"]
-htmlhelp_basename = project
 
 extensions = [
     "nbsphinx",
@@ -27,14 +23,13 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
     "sphinx_markdown_tables",
     "sphinx.ext.doctest",
-    "recommonmark",
     "sphinx_autodoc_typehints",
     "sphinx_click",
+    "myst_parser",
 ]
 
 autodoc_member_order = "bysource"
 
-# Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 exclude_patterns = [
     "_build",
@@ -46,12 +41,3 @@ exclude_patterns = [
 ]
 
 napoleon_use_param = True
-
-
-def setup(app):
-    app.add_config_value(
-        "recommonmark_config",
-        {"auto_toc_tree_section": "Contents", "enable_eval_rst": True},
-        True,
-    )
-    app.add_transform(AutoStructify)

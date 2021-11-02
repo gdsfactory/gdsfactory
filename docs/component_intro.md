@@ -32,7 +32,7 @@ The first thing to learn about is how to create a new component.
 We do that by creating a function which returns a Component instance.
 Here is a step by step example below generating a waveguide crossing
 
-```eval_rst
+```{eval-rst}
 
 .. plot::
     :include-source:
@@ -108,7 +108,7 @@ Here is a step by step example below generating a waveguide crossing
 
 What are the common data types?
 
-```eval_rst
+```{eval-rst}
 .. automodule:: gdsfactory.types
 ```
 
@@ -172,7 +172,7 @@ You can define ports to:
 - connect components between each other using routing sub-routines
 - find ports by a particular layer or port name prefix
 
-```eval_rst
+```{eval-rst}
 .. plot::
     :include-source:
 
@@ -188,7 +188,7 @@ You can define ports to:
 
 ```
 
-```eval_rst
+```{eval-rst}
 .. plot::
     :include-source:
 
