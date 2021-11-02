@@ -1,4 +1,6 @@
-"""Trying to replicated a duplicated cell error coming from extrugind a path."""
+"""Trying to replicate a duplicated cell error coming from extruding a path.
+
+"""
 
 import gdsfactory as gf
 

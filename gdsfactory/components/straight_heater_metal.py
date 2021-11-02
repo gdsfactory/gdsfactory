@@ -21,7 +21,8 @@ def straight_heater_metal_undercut(
     contact: Optional[ComponentFactory] = contact_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
-    taper_length: Optional[float] = 5.0,
+    heater_taper_length: Optional[float] = 5.0,
+    ohms_per_square: Optional[float] = None,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -38,6 +39,7 @@ def straight_heater_metal_undercut(
         contact: via stack
         port_orientation1: left via stack port orientation
         port_orientation2: right via stack port orientation
+        heater_taper_length: minimizes current concentrations from heater to contact
         kwargs: cross_section common settings
     """
     period = length_undercut + length_undercut_spacing
@@ -87,7 +89,7 @@ def straight_heater_metal_undercut(
         contacte = contact()
         contact_west_midpoint = sequence.aliases["-1"].size_info.cw
         contact_east_midpoint = sequence.aliases["-2"].size_info.ce
-        dx = contactw.get_ports_xsize() / 2 + taper_length or 0
+        dx = contactw.get_ports_xsize() / 2 + heater_taper_length or 0
 
         contact_west = c << contactw
         contact_east = c << contacte
@@ -99,18 +101,22 @@ def straight_heater_metal_undercut(
         c.add_port(
             "e2", port=contact_east.get_ports_list(orientation=port_orientation2)[0]
         )
-        if taper_length:
+        if heater_taper_length:
             x = cross_section_heater()
             taper = gf.c.taper(
                 width1=contactw.ports["e1"].width,
                 width2=heater_width,
-                length=taper_length,
+                length=heater_taper_length,
                 layer=x.info["layer_heater"],
             )
             taper1 = c << taper
             taper2 = c << taper
             taper1.connect("o1", contact_west.ports["e3"])
             taper2.connect("o1", contact_east.ports["e1"])
+
+    c.info.resistance = (
+        ohms_per_square * heater_width * length if ohms_per_square else None
+    )
     return c
 
 

@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
 from gdsfactory.types import ComponentFactory
@@ -17,7 +17,7 @@ def cutback_component(
     port1: str = "o1",
     port2: str = "o2",
     bend180: ComponentFactory = bend_euler180,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
@@ -74,7 +74,7 @@ def cutback_component(
 # straight_wide = gf.partial(straight, width=3, length=20)
 # bend180_wide = gf.partial(bend_euler180, width=3)
 component_flipped = gf.partial(taper, width2=0.5, width1=3)
-straight_long = gf.partial(straight, length=20)
+straight_long = gf.partial(straight_function, length=20)
 
 
 @gf.cell
