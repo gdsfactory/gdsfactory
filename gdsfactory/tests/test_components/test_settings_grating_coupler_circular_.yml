@@ -31,13 +31,13 @@ cells:
       - 203
       - 0
       fiber_marker_width: 11.0
+      layer:
+      - 1
+      - 0
       layer_cladding:
       - 111
       - 0
-      layer_core:
-      - 1
-      - 0
-      layer_ridge: null
+      layer_slab: null
       length: 30.0
       period: 1.0
       polarization: te
@@ -57,13 +57,13 @@ cells:
       - 203
       - 0
       fiber_marker_width: 11.0
+      layer:
+      - 1
+      - 0
       layer_cladding:
       - 111
       - 0
-      layer_core:
-      - 1
-      - 0
-      layer_ridge: null
+      layer_slab: null
       length: 30.0
       period: 1.0
       polarization: te
@@ -91,13 +91,13 @@ info:
     - 203
     - 0
     fiber_marker_width: 11.0
+    layer:
+    - 1
+    - 0
     layer_cladding:
     - 111
     - 0
-    layer_core:
-    - 1
-    - 0
-    layer_ridge: null
+    layer_slab: null
     length: 30.0
     period: 1.0
     polarization: te
@@ -117,13 +117,13 @@ info:
     - 203
     - 0
     fiber_marker_width: 11.0
+    layer:
+    - 1
+    - 0
     layer_cladding:
     - 111
     - 0
-    layer_core:
-    - 1
-    - 0
-    layer_ridge: null
+    layer_slab: null
     length: 30.0
     period: 1.0
     polarization: te
