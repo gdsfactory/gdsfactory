@@ -41,3 +41,9 @@ exclude_patterns = [
 ]
 
 napoleon_use_param = True
+
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".txt": "markdown",
+    ".md": "markdown",
+}

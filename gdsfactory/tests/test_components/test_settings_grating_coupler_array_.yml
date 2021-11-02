@@ -27,10 +27,12 @@ cells:
       n: 6
       pitch: 127.0
       port_name: o1
+      rotation: 0
     full:
       n: 6
       pitch: 127.0
       port_name: o1
+      rotation: 0
     function_name: grating_coupler_array
     info_version: 1
     module: gdsfactory.components.grating_coupler_array
@@ -101,10 +103,12 @@ info:
     n: 6
     pitch: 127.0
     port_name: o1
+    rotation: 0
   full:
     n: 6
     pitch: 127.0
     port_name: o1
+    rotation: 0
   function_name: grating_coupler_array
   info_version: 1
   module: gdsfactory.components.grating_coupler_array

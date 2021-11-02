@@ -10,6 +10,7 @@ def grating_coupler_array(
     pitch: float = 127.0,
     n: int = 6,
     port_name: str = "o1",
+    rotation: int = 0,
 ) -> Component:
     """Array of rectangular pads.
 
@@ -17,7 +18,8 @@ def grating_coupler_array(
         grating_coupler: ComponentOrFactory
         spacing: x spacing
         n: number of pads
-        port_list: list of port orientations (N, S, W, E) per pad
+        port_name: port name
+        rotation: rotation angle for each reference
 
     """
     c = Component()
@@ -27,6 +29,7 @@ def grating_coupler_array(
 
     for i in range(n):
         gc = c << grating_coupler
+        gc.rotate(rotation)
         gc.x = i * pitch
         port_name_new = f"o{i}"
         c.add_port(port=gc.ports[port_name], name=port_name_new)
