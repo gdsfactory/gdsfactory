@@ -1,31 +1,33 @@
-from typing import Tuple, Optional
+from typing import Optional, Tuple
 
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.grating_coupler_elliptical import (
+    grating_taper_points,
+    grating_tooth_points,
+)
 from gdsfactory.geometry.functions import DEG2RAD
 from gdsfactory.tech import LAYER
-from gdsfactory.types import Layer, Floats
-from gdsfactory.components.grating_coupler_elliptical import (
-    grating_tooth_points,
-    grating_taper_points,
-)
+from gdsfactory.types import Floats, Layer
+
+_gaps = [0.1] * 10
+_widths = [0.5] * 10
 
 
 @gf.cell
 def grating_coupler_elliptical_arbitrary(
+    gaps: Floats = _gaps,
+    widths: Floats = _widths,
     wg_width: float = 0.5,
     taper_length: float = 16.6,
     taper_angle: float = 60.0,
+    layer: Tuple[int, int] = LAYER.WG,
     wavelength: float = 1.554,
     fiber_angle: float = 15.0,
-    grating_line_widths: Floats = [0.343] * 26,
-    grating_line_gaps: Floats = [0.343] * 26,
     neff: float = 2.638,  # tooth effective index
     nclad: float = 1.443,
-    layer: Tuple[int, int] = LAYER.WG,
-    big_last_tooth: bool = False,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
@@ -35,24 +37,23 @@ def grating_coupler_elliptical_arbitrary(
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     The ellipticity is derived from Lumerical knowdledge base
+    it depends on fiber_angle (degrees), neff, and nclad
 
     Args:
-        polarization: te or tm
+        gaps:
+        widths:
+        wg_width: waveguide width
         taper_length: taper length from input
         taper_angle: grating flare angle
-        wavelength: grating transmission central wavelength (um)
-        fiber_angle: fibre polish angle in degrees
-        grating_line_width
-        wg_width: waveguide width
-        neff: tooth effective index
         layer: LAYER.WG
-        p_start: period start first grating teeth
-        n_periods: number of periods
-        big_last_tooth: adds a big_last_tooth
-        layer_slab
+        wavelength: grating transmission central wavelength (um)
+        fiber_angle: fibre angle in degrees determines ellipticity
+        neff: tooth effective index
+        nclad: cladding effective index
+        layer_slab: Optional slab
+        polarization: te or tm
         fiber_marker_width
         fiber_marker_layer
-        nclad
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
 
 
@@ -76,6 +77,7 @@ def grating_coupler_elliptical_arbitrary(
     a1 = round(a1, 3)
     b1 = round(b1, 3)
     x1 = round(x1, 3)
+    period = a1 + x1
 
     # https://en.wikipedia.org/wiki/Ellipse
     c = (a1 ** 2 - b1 ** 2) ** 0.5
@@ -88,23 +90,22 @@ def grating_coupler_elliptical_arbitrary(
     c.info.wavelength = wavelength
 
     xi = taper_length
-    for grating_line_width, grating_line_gap in zip(
-        grating_line_widths, grating_line_gaps
-    ):
-        p = xi / a1
+    for gap, width in zip(gaps, widths):
+        xi += gap + width / 2
+        p = xi / period
         pts = grating_tooth_points(
-            p * a1, p * b1, p * x1, grating_line_width, taper_angle, spiked=spiked
+            p * a1, p * b1, p * x1, width, taper_angle, spiked=spiked
         )
         c.add_polygon(pts, layer)
-        xi += grating_line_gap + grating_line_width
+        xi += width / 2
 
     # Make the taper
-    p = taper_length / a1
+    p = taper_length / period
     a_taper = p * a1
     b_taper = p * b1
     x_taper = p * x1
 
-    x_output = a_taper + x_taper - taper_length + grating_line_width / 2
+    x_output = a_taper + x_taper - taper_length + widths[0] / 2
     pts = grating_taper_points(
         a_taper, b_taper, x_output, x_taper, taper_angle, wg_width=wg_width
     )
@@ -139,9 +140,7 @@ def grating_coupler_elliptical_arbitrary(
     )
 
     if layer_slab:
-        _rl = xi + grating_line_width + 2.0
-        _rhw = _rl * np.tan(fiber_angle * DEG2RAD) + 2.0
-        c.add_polygon([(0, _rhw), (_rl, _rhw), (_rl, -_rhw), (0, -_rhw)], layer_slab)
+        c.add_padding(layers=(layer_slab), default=0.0)
     return c
 
 

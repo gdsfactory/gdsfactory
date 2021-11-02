@@ -1052,6 +1052,36 @@ grating_coupler_array
 
 
 
+grating_coupler_circular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_circular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_circular(taper_angle=30.0, taper_length=10.0, length=30.0, period=1.0, dutycycle=0.7, port=(0.0, 0.0), layer_core=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), wg_width=0.5, cladding_offset=2.0)
+  c.plot()
+
+
+
+grating_coupler_circular_arbitrary
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_circular_arbitrary
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_circular_arbitrary()
+  c.plot()
+
+
+
 grating_coupler_elliptical
 ----------------------------------------------------
 
@@ -1062,37 +1092,37 @@ grating_coupler_elliptical
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical(polarization='te', taper_length=16.6, taper_angle=30.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), fiber_marker_width=11.0, fiber_marker_layer=(203, 0), cladding_index=1.443)
+  c = gf.components.grating_coupler_elliptical(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, nclad=1.443, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
   c.plot()
 
 
 
-grating_coupler_elliptical2
+grating_coupler_elliptical_arbitrary
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.grating_coupler_elliptical2
+.. autofunction:: gdsfactory.components.grating_coupler_elliptical_arbitrary
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical2(taper_angle=30.0, taper_length=10.0, length=30.0, period=1.0, dutycycle=0.7, port=(0.0, 0.0), layer_core=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), wg_width=0.5, cladding_offset=2.0)
+  c = gf.components.grating_coupler_elliptical_arbitrary(wg_width=0.5, taper_length=16.6, taper_angle=60.0, layer=(1, 0), wavelength=1.554, fiber_angle=15.0, neff=2.638, nclad=1.443, layer_slab=(2, 0), polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
   c.plot()
 
 
 
-grating_coupler_elliptical_gap_teeth
+grating_coupler_elliptical_lumerical
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.grating_coupler_elliptical_gap_teeth
+.. autofunction:: gdsfactory.components.grating_coupler_elliptical_lumerical
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_gap_teeth()
+  c = gf.components.grating_coupler_elliptical_lumerical(parameters=(-2.4298362615732447, 0.1, 0.48007023217536954, 0.1, 0.607397685752365, 0.1, 0.4498844003086115, 0.1, 0.4274116312627637, 0.1, 0.4757904248387285, 0.1, 0.5026649898504233, 0.10002922416240886, 0.5100366774007897, 0.1, 0.494399635363353, 0.1079599958465788, 0.47400592737426483, 0.14972685326277918, 0.43272750134545823, 0.1839530796530385, 0.3872023336708212, 0.2360175325711591, 0.36032212454768675, 0.24261846353500535, 0.35770350120764394, 0.2606637836858316, 0.3526104381544335, 0.24668202254540886, 0.3717488388788273, 0.22920754299702897, 0.37769616507688464, 0.2246528336925301, 0.3765437598650894, 0.22041773376471022, 0.38047596041838994, 0.21923601658169187, 0.3798873698864591, 0.21700438236445285, 0.38291698672245644, 0.21827768053295463, 0.3641322152037017, 0.23729077006065105, 0.3676834419346081, 0.24865079519725933, 0.34415050295044936, 0.2733570818755685, 0.3306230780901629, 0.27350446437732157), layer=(1, 0), taper_angle=55, taper_length=12.6, fiber_angle=8)
   c.plot()
 
 
@@ -1107,7 +1137,7 @@ grating_coupler_elliptical_te
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_te(taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, layer=(1, 0), p_start=26, n_periods=24, fiber_marker_layer=(203, 0))
+  c = gf.components.grating_coupler_elliptical_te(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, nclad=1.443, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
   c.plot()
 
 
@@ -1122,7 +1152,7 @@ grating_coupler_elliptical_tm
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_tm(taper_length=16.6, taper_angle=30.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.707, wg_width=0.5, neff=1.8, layer=(1, 0), n_periods=16, fiber_marker_layer=(204, 0))
+  c = gf.components.grating_coupler_elliptical_tm(polarization='tm', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.707, wg_width=0.5, neff=1.8, nclad=1.443, layer=(1, 0), p_start=26, n_periods=16, big_last_tooth=False, layer_slab=(2, 0), fiber_marker_width=11.0, fiber_marker_layer=(204, 0), spiked=True)
   c.plot()
 
 
@@ -1647,7 +1677,7 @@ resistance_sheet
 
   import gdsfactory as gf
 
-  c = gf.components.resistance_sheet(width=10, length=5.0, layers=((3, 0), (24, 0)), layer_offsets=(0, 0.2))
+  c = gf.components.resistance_sheet(width=10, layers=((3, 0), (24, 0)), layer_offsets=(0, 0.2), pad_pitch=100.0)
   c.plot()
 
 
@@ -1917,7 +1947,7 @@ straight_heater_meander
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_meander(length=300.0, spacing=2.0, heater_width=2.5, extension_length=15.0, layer_heater=(47, 0), radius=5.0, port_orientation1=180, port_orientation2=0, taper_length=10.0)
+  c = gf.components.straight_heater_meander(length=300.0, spacing=2.0, heater_width=2.5, extension_length=15.0, layer_heater=(47, 0), radius=5.0, port_orientation1=180, port_orientation2=0, heater_taper_length=10.0, straight_width=0.9, taper_length=10)
   c.plot()
 
 
@@ -1932,7 +1962,7 @@ straight_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=180, port_orientation2=0, taper_length=5.0)
+  c = gf.components.straight_heater_metal(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=180, port_orientation2=0, heater_taper_length=5.0)
   c.plot()
 
 
@@ -1947,7 +1977,7 @@ straight_heater_metal_90_90
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=90, port_orientation2=90, taper_length=5.0)
+  c = gf.components.straight_heater_metal_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=90, port_orientation2=90, heater_taper_length=5.0)
   c.plot()
 
 
@@ -1962,7 +1992,7 @@ straight_heater_metal_undercut
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_undercut(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=True, port_orientation1=180, port_orientation2=0, taper_length=5.0)
+  c = gf.components.straight_heater_metal_undercut(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=True, port_orientation1=180, port_orientation2=0, heater_taper_length=5.0)
   c.plot()
 
 
@@ -1977,7 +2007,7 @@ straight_heater_metal_undercut_90_90
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_metal_undercut_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=90, port_orientation2=90, taper_length=5.0)
+  c = gf.components.straight_heater_metal_undercut_90_90(length=320.0, length_undercut_spacing=6.0, length_undercut=30.0, length_straight_input=15.0, heater_width=2.5, with_undercut=False, port_orientation1=90, port_orientation2=90, heater_taper_length=5.0)
   c.plot()
 
 
@@ -2322,7 +2352,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.4', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.8', text_size=10)
   c.plot()
 
 

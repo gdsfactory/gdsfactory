@@ -53,31 +53,8 @@ def get_grating_period(
     return wavelength / (neff - sin(DEG2RAD * fiber_angle) * n_clad)
 
 
-def compare_grating_couplers():
-    import gdsfactory as gf
-    from gdsfactory.components.grating_coupler_elliptical import (
-        grating_coupler_elliptical,
-    )
-    from gdsfactory.components.grating_coupler_elliptical2 import (
-        grating_coupler_elliptical2,
-    )
-
-    c = gf.Component()
-    c << grating_coupler_elliptical2(
-        period=0.68,
-        dutycycle=0.5,
-        taper_length=16.0 + 1.32,
-        layer_core=(3, 0),
-        taper_angle=25,
-    )
-    c << grating_coupler_elliptical()
-    return c
-
-
 if __name__ == "__main__":
-    # pc = get_grating_period_curved()
-    # p = get_grating_period()
-    # print(pc)
-    # print(p)
-    c = compare_grating_couplers()
-    c.show()
+    pc = get_grating_period_curved()
+    p = get_grating_period()
+    print(pc)
+    print(p)
