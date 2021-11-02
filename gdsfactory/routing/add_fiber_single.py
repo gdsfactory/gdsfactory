@@ -245,7 +245,7 @@ if __name__ == "__main__":
     # gc = gf.components.grating_coupler_elliptical_te
     # gc = gf.components.grating_coupler_circular
     # gc = gf.components.grating_coupler_te
-    # gc = gf.components.grating_coupler_uniform
+    # gc = gf.components.grating_coupler_rectangular
 
     @gf.cell
     def component_with_offset(**kwargs):

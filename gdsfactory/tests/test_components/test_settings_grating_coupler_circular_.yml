@@ -26,11 +26,11 @@ cells:
     default:
       cladding_offset: 2.0
       direction: EAST
-      dutycycle: 0.7
       fiber_marker_layer:
       - 203
       - 0
       fiber_marker_width: 11.0
+      fill_factor: 0.7
       layer:
       - 1
       - 0
@@ -52,11 +52,11 @@ cells:
     full:
       cladding_offset: 2.0
       direction: EAST
-      dutycycle: 0.7
       fiber_marker_layer:
       - 203
       - 0
       fiber_marker_width: 11.0
+      fill_factor: 0.7
       layer:
       - 1
       - 0
@@ -86,11 +86,11 @@ info:
   default:
     cladding_offset: 2.0
     direction: EAST
-    dutycycle: 0.7
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11.0
+    fill_factor: 0.7
     layer:
     - 1
     - 0
@@ -112,11 +112,11 @@ info:
   full:
     cladding_offset: 2.0
     direction: EAST
-    dutycycle: 0.7
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11.0
+    fill_factor: 0.7
     layer:
     - 1
     - 0

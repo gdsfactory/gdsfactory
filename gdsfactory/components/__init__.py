@@ -97,8 +97,13 @@ from gdsfactory.components.grating_coupler_loss import (
     loss_deembedding_ch13_24,
     loss_deembedding_ch14_23,
 )
+from gdsfactory.components.grating_coupler_rectangular import (
+    grating_coupler_rectangular,
+)
+from gdsfactory.components.grating_coupler_rectangular_arbitrary import (
+    grating_coupler_rectangular_arbitrary,
+)
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
-from gdsfactory.components.grating_coupler_uniform import grating_coupler_uniform
 from gdsfactory.components.hline import hline
 from gdsfactory.components.L import L
 from gdsfactory.components.litho_calipers import litho_calipers
@@ -274,7 +279,8 @@ __all__ = [
     "grating_coupler_te",
     "grating_coupler_tm",
     "grating_coupler_tree",
-    "grating_coupler_uniform",
+    "grating_coupler_rectangular",
+    "grating_coupler_rectangular_arbitrary",
     "grating_taper_points",
     "grating_tooth_points",
     "hline",
@@ -447,7 +453,8 @@ factory = dict(
     grating_coupler_te=grating_coupler_te,
     grating_coupler_tm=grating_coupler_tm,
     grating_coupler_tree=grating_coupler_tree,
-    grating_coupler_uniform=grating_coupler_uniform,
+    grating_coupler_rectangular=grating_coupler_rectangular,
+    grating_coupler_rectangular_arbitrary=grating_coupler_rectangular_arbitrary,
     hline=hline,
     litho_calipers=litho_calipers,
     litho_steps=litho_steps,

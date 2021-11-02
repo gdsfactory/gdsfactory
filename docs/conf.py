@@ -14,18 +14,19 @@ source_suffix = {
 html_static_path = ["_static"]
 
 extensions = [
+    "matplotlib.sphinxext.plot_directive",
+    "myst_parser",
     "nbsphinx",
+    "recommonmark",
     "sphinx.ext.autodoc",
+    "sphinx.ext.doctest",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
-    "matplotlib.sphinxext.plot_directive",
-    "sphinx_markdown_tables",
-    "sphinx.ext.doctest",
     "sphinx_autodoc_typehints",
     "sphinx_click",
-    "myst_parser",
+    "sphinx_markdown_tables",
 ]
 
 autodoc_member_order = "bysource"
