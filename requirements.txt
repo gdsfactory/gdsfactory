@@ -3,7 +3,7 @@ click
 gdspy==1.6.9
 omegaconf==2.1.1
 jsondiff
-klayout==0.27.1
+klayout==0.27.4
 numpy
 pandas
 phidl==1.6.0
@@ -24,6 +24,6 @@ scikit-image
 loguru
 ipympl
 toolz==0.11.1
-trimesh==3.9.34
+trimesh==3.9.35
 triangle
 pyglet
