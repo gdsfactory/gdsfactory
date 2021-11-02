@@ -93,6 +93,9 @@ cells:
     info_version: 1
     module: gdsfactory.components.contact_slot
     name: contact_slot
+    size:
+    - 11.0
+    - 11.0
 info:
   changed: {}
   default:
@@ -131,6 +134,9 @@ info:
   info_version: 1
   module: gdsfactory.components.contact_slot
   name: contact_slot
+  size:
+  - 11.0
+  - 11.0
 ports:
   e1:
     layer:

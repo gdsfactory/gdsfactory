@@ -25,7 +25,6 @@ cells:
     changed: {}
     default:
       big_last_tooth: false
-      cladding_index: 1.443
       fiber_angle: 15.0
       fiber_marker_layer:
       - 203
@@ -39,6 +38,7 @@ cells:
       - 2
       - 0
       n_periods: 30
+      nclad: 1.443
       neff: 2.638
       p_start: 26
       polarization: te
@@ -48,7 +48,6 @@ cells:
       wg_width: 0.5
     full:
       big_last_tooth: false
-      cladding_index: 1.443
       fiber_angle: 15.0
       fiber_marker_layer:
       - 203
@@ -62,6 +61,7 @@ cells:
       - 2
       - 0
       n_periods: 30
+      nclad: 1.443
       neff: 2.638
       p_start: 26
       polarization: te
@@ -79,7 +79,6 @@ info:
   changed: {}
   default:
     big_last_tooth: false
-    cladding_index: 1.443
     fiber_angle: 15.0
     fiber_marker_layer:
     - 203
@@ -93,6 +92,7 @@ info:
     - 2
     - 0
     n_periods: 30
+    nclad: 1.443
     neff: 2.638
     p_start: 26
     polarization: te
@@ -102,7 +102,6 @@ info:
     wg_width: 0.5
   full:
     big_last_tooth: false
-    cladding_index: 1.443
     fiber_angle: 15.0
     fiber_marker_layer:
     - 203
@@ -116,6 +115,7 @@ info:
     - 2
     - 0
     n_periods: 30
+    nclad: 1.443
     neff: 2.638
     p_start: 26
     polarization: te

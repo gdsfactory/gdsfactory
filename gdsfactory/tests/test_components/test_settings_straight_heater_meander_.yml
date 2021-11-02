@@ -3,6 +3,7 @@ info:
   changed: {}
   default:
     extension_length: 15.0
+    heater_taper_length: 10.0
     heater_width: 2.5
     layer_heater:
     - 47
@@ -12,9 +13,11 @@ info:
     port_orientation2: 0
     radius: 5.0
     spacing: 2.0
-    taper_length: 10.0
+    straight_width: 0.9
+    taper_length: 10
   full:
     extension_length: 15.0
+    heater_taper_length: 10.0
     heater_width: 2.5
     layer_heater:
     - 47
@@ -24,7 +27,8 @@ info:
     port_orientation2: 0
     radius: 5.0
     spacing: 2.0
-    taper_length: 10.0
+    straight_width: 0.9
+    taper_length: 10
   function_name: straight_heater_meander
   info_version: 1
   module: gdsfactory.components.straight_heater_meander
@@ -57,7 +61,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - -15.0
+    - -25.0
     - 0.0
     name: o1
     orientation: 180.0
@@ -68,7 +72,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 84.779
+    - 94.779
     - 4.0
     name: o2
     orientation: 0.0

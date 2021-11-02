@@ -59,6 +59,7 @@ def contact_slot(
     layer_port = layer_port or layers[-1]
 
     c = Component()
+    c.info.size = (float(size[0]), float(size[1]))
 
     for layer, offset in zip(layers, list(layer_offsets) + [0] * len(layers)):
         ref = c << compass(

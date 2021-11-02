@@ -110,6 +110,9 @@ cells:
     info_version: 1
     module: gdsfactory.components.contact_slot
     name: contact_slot_9a3dc57d
+    size:
+    - 11.0
+    - 11.0
 info:
   changed:
     layers:
@@ -165,6 +168,9 @@ info:
   info_version: 1
   module: gdsfactory.components.contact_slot
   name: contact_slot_9a3dc57d
+  size:
+  - 11.0
+  - 11.0
 ports:
   e1:
     layer:

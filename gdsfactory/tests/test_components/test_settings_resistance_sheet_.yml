@@ -1,40 +1,12 @@
 cells:
-  compass_058771fc:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 100.0
-      - 100.0
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4.0
-      - 2.0
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 100.0
-      - 100.0
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_058771fc
-  compass_19fd7b15:
+  compass_080eb76e:
     changed:
       layer:
       - 24
       - 0
       size:
-      - 100.0
-      - 100.0
+      - 80.0
+      - 80.0
     default:
       layer:
       - 1
@@ -49,48 +21,20 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 100.0
-      - 100.0
+      - 80.0
+      - 80.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_19fd7b15
-  compass_9e273c00:
-    changed:
-      layer:
-      - 24
-      - 0
-      size:
-      - 5.2
-      - 10.2
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4.0
-      - 2.0
-    full:
-      layer:
-      - 24
-      - 0
-      port_type: electrical
-      size:
-      - 5.2
-      - 10.2
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_9e273c00
-  compass_a97801ff:
+    name: compass_080eb76e
+  compass_2a6afaeb:
     changed:
       layer:
       - 3
       - 0
       size:
-      - 100.0
-      - 100.0
+      - 80.0
+      - 80.0
     default:
       layer:
       - 1
@@ -105,19 +49,19 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 100.0
-      - 100.0
+      - 80.0
+      - 80.0
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a97801ff
-  compass_c0de71ec:
+    name: compass_2a6afaeb
+  compass_2bf9b46f:
     changed:
       layer:
       - 3
       - 0
       size:
-      - 5.0
+      - 20.0
       - 10
     default:
       layer:
@@ -133,13 +77,69 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 5.0
+      - 20.0
       - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c0de71ec
-  contact_4445752e:
+    name: compass_2bf9b46f
+  compass_8fe6d222:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 80.0
+      - 80.0
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 80.0
+      - 80.0
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_8fe6d222
+  compass_ef81f079:
+    changed:
+      layer:
+      - 24
+      - 0
+      size:
+      - 20.2
+      - 10.2
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      layer:
+      - 24
+      - 0
+      port_type: electrical
+      size:
+      - 20.2
+      - 10.2
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_ef81f079
+  contact_3a2b60f1:
     changed:
       layers:
       - - 3
@@ -149,8 +149,8 @@ cells:
       - - 41
         - 0
       size:
-      - 100
-      - 100
+      - 80
+      - 80
       vias:
       - null
       - null
@@ -190,8 +190,8 @@ cells:
       - - 41
         - 0
       size:
-      - 100
-      - 100
+      - 80
+      - 80
       vias:
       - null
       - null
@@ -205,10 +205,10 @@ cells:
     - 41
     - 0
     module: gdsfactory.components.contact
-    name: contact_4445752e
+    name: contact_3a2b60f1
     size:
-    - 100.0
-    - 100.0
+    - 80.0
+    - 80.0
   resistance_sheet:
     changed: {}
     default:
@@ -220,8 +220,8 @@ cells:
         - 0
       - - 24
         - 0
-      length: 5.0
       ohms_per_square: null
+      pad_pitch: 100.0
       width: 10
     full:
       layer_offsets:
@@ -232,13 +232,14 @@ cells:
         - 0
       - - 24
         - 0
-      length: 5.0
       ohms_per_square: null
+      pad_pitch: 100.0
       width: 10
     function_name: resistance_sheet
     info_version: 1
     module: gdsfactory.components.resistance_sheet
     name: resistance_sheet
+    resistance: null
 info:
   changed: {}
   default:
@@ -250,8 +251,8 @@ info:
       - 0
     - - 24
       - 0
-    length: 5.0
     ohms_per_square: null
+    pad_pitch: 100.0
     width: 10
   full:
     layer_offsets:
@@ -262,20 +263,21 @@ info:
       - 0
     - - 24
       - 0
-    length: 5.0
     ohms_per_square: null
+    pad_pitch: 100.0
     width: 10
   function_name: resistance_sheet
   info_version: 1
   module: gdsfactory.components.resistance_sheet
   name: resistance_sheet
+  resistance: null
 ports:
   pad1:
     layer:
     - 1
     - 0
     midpoint:
-    - -52.5
+    - -50.0
     - 0.0
     name: pad1
     orientation: 45.0
@@ -286,7 +288,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 52.5
+    - 50.0
     - 0.0
     name: pad2
     orientation: 45.0

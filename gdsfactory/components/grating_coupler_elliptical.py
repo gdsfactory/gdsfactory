@@ -18,8 +18,7 @@ def ellipse_arc(
     theta_max: float,
     angle_step: float = 0.5,
 ) -> ndarray:
-    """
-    Returns an elliptical arc.
+    """Returns an elliptical arc.
 
     b = a *sqrt(1-e**2)
 
@@ -112,7 +111,7 @@ def grating_coupler_elliptical_tm(
         layer_slab
         fiber_marker_width
         fiber_marker_layer
-        cladding_index
+        nclad
 
     """
     return grating_coupler_elliptical(
@@ -174,6 +173,7 @@ def grating_coupler_elliptical(
     grating_line_width: float = 0.343,
     wg_width: float = 0.5,
     neff: float = 2.638,  # tooth effective index
+    nclad: float = 1.443,
     layer: Tuple[int, int] = LAYER.WG,
     p_start: int = 26,
     n_periods: int = 30,
@@ -181,7 +181,6 @@ def grating_coupler_elliptical(
     layer_slab: Tuple[int, int] = LAYER.SLAB150,
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Layer = gf.LAYER.TE,
-    cladding_index: float = 1.443,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
@@ -195,13 +194,13 @@ def grating_coupler_elliptical(
         wg_width: waveguide width
         neff: tooth effective index
         layer: LAYER.WG
-        p_start: period start first tooth
+        p_start: period start first grating teeth
         n_periods: number of periods
         big_last_tooth: adds a big_last_tooth
         layer_slab
         fiber_marker_width
         fiber_marker_layer
-        cladding_index
+        nclad
 
 
     .. code::
@@ -215,12 +214,11 @@ def grating_coupler_elliptical(
     """
 
     # Compute some ellipse parameters
-    nc = cladding_index
     sthc = np.sin(fiber_angle * DEG2RAD)
-    d = neff ** 2 - nc ** 2 * sthc ** 2
+    d = neff ** 2 - nclad ** 2 * sthc ** 2
     a1 = wavelength * neff / d
     b1 = wavelength / np.sqrt(d)
-    x1 = wavelength * nc * sthc / d
+    x1 = wavelength * nclad * sthc / d
 
     a1 = round(a1, 3)
     b1 = round(b1, 3)
