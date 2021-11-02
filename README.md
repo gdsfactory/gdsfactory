@@ -32,22 +32,23 @@ It also can output YAML components settings (that you can use for measurement an
 
 ## Documentation
 
+![](https://i.imgur.com/4xQJ2yk.png)
+
+
 What nice things come from phidl?
 
 - functional programming that follow UNIX philosophy
 - nice API to create and modify Components
 - Easy definition of paths, cross-sections and extrude them into Components
 - Easy definition of ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
-    - gdsfactory expands phidl ports with layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
-    - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
-
+  - gdsfactory expands phidl ports with layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
+  - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
 
 What nice things come from klayout?
 
 - GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
 - layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
 - fast boolean xor to avoid geometric regressions on Components geometry
-
 
 What functionality does gdsfactory provides you on top phidl/gdspy/klayout?
 
@@ -64,8 +65,8 @@ What functionality does gdsfactory provides you on top phidl/gdspy/klayout?
   - `get_route(auto_widen=True)`: for routes that expand to wider waveguides to reduce loss and phase errors
   - `get_route(impossible route)`: for impossible routes it raises a warning and returns a FlexPath on an error layer
 - testing framework to avoid unwanted regressions
-    - checks geometric GDS changes by making a boolean difference between GDS cells
-    - checks metadata changes, including port location and component settings
+  - checks geometric GDS changes by making a boolean difference between GDS cells
+  - checks metadata changes, including port location and component settings
 - large library of photonics and electrical components that you can easily customize to your technology
 - read components from GDS, numpy, YAML
 - export components to GDS, YAML or 3D (trimesh, STL ...)
