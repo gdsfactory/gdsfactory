@@ -26,7 +26,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_component
     name: cutback_component
-    parent_name: loopback_taper_0p5_to_3_l36_88
   straight:
     changed: {}
     default:
@@ -78,7 +77,6 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_component
   name: cutback_component
-  parent_name: loopback_taper_0p5_to_3_l36_88
 ports:
   o1:
     layer:

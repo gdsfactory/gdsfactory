@@ -1199,6 +1199,23 @@ class Component(Device):
 
         return rotate(component=self, angle=angle)
 
+    def add_padding(self, **kwargs) -> Device:
+        """Returns component with padding
+
+        Args:
+            component
+            layers: list of layers
+            suffix for name
+            default: default padding
+            top: north padding
+            bottom: south padding
+            right: east padding
+            left: west padding
+        """
+        from gdsfactory.add_padding import add_padding
+
+        return add_padding(component=self, **kwargs)
+
 
 def test_get_layers() -> Device:
     import gdsfactory as gf

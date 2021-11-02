@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_ellipti_aa0fb93b:
+  grating_coupler_circula_bc2655da:
     changed: {}
     default:
       teeth_list:
@@ -67,10 +67,10 @@ cells:
       - 0.5
       - 0.5
       - 0.5
-    function_name: grating_coupler_circular_lumerical
+    function_name: grating_coupler_circular_arbitrary
     info_version: 1
     module: gdsfactory.components.grating_coupler_circular
-    name: grating_coupler_ellipti_aa0fb93b
+    name: grating_coupler_circula_bc2655da
     polarization: te
     wavelength: 1.55
 info:
@@ -119,10 +119,10 @@ info:
     - 0.5
     - 0.5
     - 0.5
-  function_name: grating_coupler_circular_lumerical
+  function_name: grating_coupler_circular_arbitrary
   info_version: 1
   module: gdsfactory.components.grating_coupler_circular
-  name: grating_coupler_ellipti_aa0fb93b
+  name: grating_coupler_circula_bc2655da
   polarization: te
   wavelength: 1.55
 ports:

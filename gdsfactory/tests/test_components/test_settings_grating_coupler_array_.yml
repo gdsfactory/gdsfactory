@@ -35,7 +35,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_array
     name: grating_coupler_array
-  grating_coupler_elliptical2:
+  grating_coupler_circular:
     changed: {}
     default:
       cladding_offset: 2.0
@@ -45,13 +45,13 @@ cells:
       - 203
       - 0
       fiber_marker_width: 11.0
+      layer:
+      - 1
+      - 0
       layer_cladding:
       - 111
       - 0
-      layer_core:
-      - 1
-      - 0
-      layer_ridge: null
+      layer_slab: null
       length: 30.0
       period: 1.0
       polarization: te
@@ -71,13 +71,13 @@ cells:
       - 203
       - 0
       fiber_marker_width: 11.0
+      layer:
+      - 1
+      - 0
       layer_cladding:
       - 111
       - 0
-      layer_core:
-      - 1
-      - 0
-      layer_ridge: null
+      layer_slab: null
       length: 30.0
       period: 1.0
       polarization: te
@@ -89,10 +89,10 @@ cells:
       teeth_list: null
       wavelength: 1.55
       wg_width: 0.5
-    function_name: grating_coupler_elliptical2
+    function_name: grating_coupler_circular
     info_version: 1
-    module: gdsfactory.components.grating_coupler_elliptical2
-    name: grating_coupler_elliptical2
+    module: gdsfactory.components.grating_coupler_circular
+    name: grating_coupler_circular
     polarization: te
     wavelength: 1.55
 info:

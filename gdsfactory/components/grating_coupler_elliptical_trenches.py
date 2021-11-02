@@ -118,7 +118,7 @@ def grating_coupler_elliptical_trenches(
     # Move end_straight_length I/O to (0, 0)
     # c.move((-x_output, 0))
 
-    x = taper_length + period * n_periods / 2
+    x = np.round(taper_length + period * n_periods / 2, 3)
     circle = gf.components.circle(
         radius=fiber_marker_width / 2, layer=fiber_marker_layer
     )

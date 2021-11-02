@@ -16,7 +16,9 @@ def straight_heater_meander(
     contact: Optional[ComponentFactory] = contact_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
-    taper_length: Optional[float] = 10.0,
+    heater_taper_length: Optional[float] = 10.0,
+    straight_width: float = 0.9,
+    taper_length: float = 10,
 ):
     """Returns a meander based heater
     based on SungWon Chung, Makoto Nakai, and Hossein Hashemi,
@@ -37,7 +39,9 @@ def straight_heater_meander(
         contact: for the heater to contact metal
         port_orientation1:
         port_orientation2:
-        taper_length: minimizes current concentrations from heater to contact
+        heater_taper_length: minimizes current concentrations from heater to contact
+        straight_width: width of the straight section
+        taper_length: from the cross_section
     """
     rows = 3
     c = gf.Component()
@@ -45,10 +49,23 @@ def straight_heater_meander(
     p2 = gf.Port(midpoint=(0, spacing), orientation=0)
     route = gf.routing.get_route(p1, p2, radius=radius)
 
+    cross_section1 = gf.partial(cross_section, width=straight_width)
+    cross_section2 = cross_section
+
     straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
-    straight = gf.c.straight(length=straight_length, cross_section=cross_section)
+    straight = gf.c.straight(length=straight_length, cross_section=cross_section1)
+
+    taper = gf.partial(
+        gf.c.taper_cross_section_linear,
+        cross_section1=cross_section1,
+        cross_section2=cross_section2,
+        length=taper_length,
+    )
+
+    straight_with_tapers = gf.c.extend_ports(straight, extension_factory=taper)
+
     straight_array = c << gf.c.array(
-        straight, spacing=(0, spacing), columns=1, rows=rows
+        straight_with_tapers, spacing=(0, spacing), columns=1, rows=rows
     )
 
     for row in range(1, rows, 2):
@@ -90,7 +107,7 @@ def straight_heater_meander(
     if layer_heater and contact:
         contactw = contact()
         contacte = contact()
-        dx = contactw.get_ports_xsize() / 2 + taper_length or 0
+        dx = contactw.get_ports_xsize() / 2 + heater_taper_length or 0
         contact_west_midpoint = heater.size_info.cw - (dx, 0)
         contact_east_midpoint = heater.size_info.ce + (dx, 0)
 
@@ -105,12 +122,12 @@ def straight_heater_meander(
             "e2", port=contact_east.get_ports_list(orientation=port_orientation2)[0]
         )
 
-        if taper_length:
+        if heater_taper_length:
             taper = gf.c.taper(
                 cross_section=heater_cross_section,
                 width1=contactw.ports["e1"].width,
                 width2=heater_width,
-                length=taper_length,
+                length=heater_taper_length,
             )
             taper1 = c << taper
             taper2 = c << taper
@@ -145,5 +162,11 @@ if __name__ == "__main__":
     # c.add_port("o1", port=straight_array.ports["o1_1_1"])
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
-    c = straight_heater_meander(taper_length=10, length=600)
+    c = straight_heater_meander(
+        straight_width=0.9,
+        taper_length=20
+        # taper_length=10,
+        # length=600,
+        # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
+    )
     c.show()
