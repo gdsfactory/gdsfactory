@@ -53,7 +53,9 @@ def straight_heater_meander(
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
-    straight = gf.c.straight(length=straight_length, cross_section=cross_section1)
+    straight = gf.c.straight(
+        length=straight_length - 2 * taper_length, cross_section=cross_section1
+    )
 
     taper = gf.partial(
         gf.c.taper_cross_section_linear,
@@ -84,6 +86,7 @@ def straight_heater_meander(
             cross_section=cross_section,
         )
         c.add(route.references)
+        print(route.length)
 
     straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
     straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
@@ -163,8 +166,8 @@ if __name__ == "__main__":
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
     c = straight_heater_meander(
-        straight_width=0.9,
-        taper_length=20
+        straight_width=0.5,
+        taper_length=10
         # taper_length=10,
         # length=600,
         # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
