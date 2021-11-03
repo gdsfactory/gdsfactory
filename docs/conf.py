@@ -17,7 +17,6 @@ extensions = [
     "matplotlib.sphinxext.plot_directive",
     "myst_parser",
     "nbsphinx",
-    "recommonmark",
     "sphinx.ext.autodoc",
     "sphinx.ext.doctest",
     "sphinx.ext.mathjax",
@@ -47,4 +46,12 @@ source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
     ".md": "markdown",
+}
+
+language = "en"
+myst_html_meta = {
+    "description lang=en": "metadata description",
+    "description lang=fr": "description des métadonnées",
+    "keywords": "Sphinx, MyST",
+    "property=og:locale": "en_US",
 }
