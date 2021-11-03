@@ -1,6 +1,7 @@
 sphinx==4.2.0
 docutils
 sphinx-rtd-theme
+furo
 recommonmark
 sphinx-markdown-tables
 sphinx-autodoc-typehints

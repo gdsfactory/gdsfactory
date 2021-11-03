@@ -2,9 +2,9 @@ Now that you have installed gdsfactory lets create your first component.
 
 You'll need to keep 3 windows open:
 
-- A text editor or IDE (Visual Studio Code, Pycharm, Spyder, neovim, Atom, Jupyterlab ...)
-- A python / Ipython terminal / jupyter notebook (interactive python to run).
-- Klayout to Visualize the GDS files.
+1. A text editor or IDE (Visual Studio Code, Pycharm, Spyder, neovim, Atom, Jupyterlab ...)
+2. A python / Ipython terminal / jupyter notebook (interactive python to run).
+3. Klayout to Visualize the GDS files.
 
 `Component.show()` will stream the GDS to klayout so klayout needs to be open.
 Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.

@@ -3,7 +3,8 @@ release = "3.4.10"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
-html_theme = "sphinx_rtd_theme"
+html_theme = "furo"
+# html_theme = "sphinx_rtd_theme"
 
 source_suffix = {
     ".rst": "restructuredtext",
