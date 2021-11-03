@@ -154,3 +154,4 @@ After installing you should be able to `import gdsfactory as gf` from a python s
 - [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
 - [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
 - [picwriter](https://github.com/DerekK88/PICwriter)
+- [docs leverage MyST](https://myst-parser.readthedocs.io/en/latest/syntax/optional.html)
