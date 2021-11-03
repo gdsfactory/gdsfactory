@@ -1159,6 +1159,26 @@ class Component(Device):
         return OmegaConf.create(d)
 
     def auto_rename_ports(self, **kwargs) -> None:
+        """Renames ports by orientation NSEW (north, south, east, west).
+
+        Args:
+            function: to rename ports
+            select_ports_optical:
+            select_ports_electrical:
+            prefix_optical:
+            prefix_electrical:
+
+        .. code::
+
+                 3   4
+                 |___|_
+             2 -|      |- 5
+                |      |
+             1 -|______|- 6
+                 |   |
+                 8   7
+
+        """
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
@@ -1168,6 +1188,26 @@ class Component(Device):
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
+        """Renames ports by orientation NSEW (north, south, east, west).
+
+        Args:
+            function: to rename ports
+            select_ports_optical:
+            select_ports_electrical:
+            prefix_optical:
+            prefix_electrical:
+
+        .. code::
+
+                 N0  N1
+                 |___|_
+            W1 -|      |- E1
+                |      |
+            W0 -|______|- E0
+                 |   |
+                S0   S1
+
+        """
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(

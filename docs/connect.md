@@ -101,8 +101,8 @@ You can connect:
         return c
 
 
-    c = ring_single()
-    c.plot()
+    ring = ring_single()
+    ring.plot()
 ```
 
 
@@ -177,8 +177,8 @@ Exporting connectivity map from a GDS is the first step towards verification.
     :include-source:
 
     import gdsfactory as gf
-    c = gf.components.mzi()
-    c.plot()
+    mzi = gf.components.mzi()
+    mzi.plot()
 ```
 
 ```{eval-rst}
@@ -186,8 +186,8 @@ Exporting connectivity map from a GDS is the first step towards verification.
     :include-source:
 
     import gdsfactory as gf
-    c = gf.components.mzi()
-    c.plot_netlist()
+    mzi_netlist = gf.components.mzi()
+    mzi_netlist.plot_netlist()
 ```
 
 
@@ -199,8 +199,8 @@ This is a convenience function for cascading components such as cutbacks
 The idea is to associate one symbol per type of section.
 A section is uniquely defined by the component, its selected input and its selected output.
 
-The mapping between symbols and components is supplied by a dictionnary.
-The actual chain of components is supplied by a string or a list
+The mapping between symbols and components is supplied by a dictionary.
+The actual chain of components is supplied by a ASCII string where each character represents one component.
 
 
 
@@ -213,47 +213,42 @@ The actual chain of components is supplied by a string or a list
     :include-source:
 
     import gdsfactory as gf
-    from gdsfactory.components import bend_circular
-    from gdsfactory.components.straight import straight
-    from gdsfactory.components.taper import taper_strip_to_ridge as _taper
-    from gdsfactory.tech import LAYER
-    from gdsfactory.components.component_sequence import component_sequence
 
 
-
-    def phase_mod_arm(straight_length=100.0, radius=10.0, n=2):
+    def cutback_phase(straight_length=100.0, radius=10.0, n=2):
 
         # Define sub components
-        bend180 = bend_circular(radius=radius, angle=180)
-        pm_wg = gf.c.straight_pin(length=straight_length)
-        wg_short = straight(length=1.0)
-        wg_short2 = straight(length=2.0)
+        bend180 = gf.components.bend_circular(radius=radius, angle=180)
+        pm_wg = gf.components.straight_pin(length=straight_length)
+        wg_short = gf.components.straight(length=1.0)
+        wg_short2 = gf.components.straight(length=2.0)
         wg_heater = gf.c.straight_heater_metal(length=10.0)
-        taper=_taper()
 
         # Define a map between symbols and (component, input port, output port)
         symbol_to_component = {
-            "S": (wg_short, 'o1', 'o2'),
-            "P": (pm_wg, 'o1', 'o2'),
-            "A": (bend180, 'o1', 'o2'),
-            "B": (bend180, 'o2', 'o1'),
-            "H": (wg_heater, 'o1', 'o2'),
-            "-": (wg_short2, 'o1', 'o2'),
+            "S": (wg_short, "o1", "o2"),
+            "P": (pm_wg, "o1", "o2"),
+            "A": (bend180, "o1", "o2"),
+            "B": (bend180, "o2", "o1"),
+            "H": (wg_heater, "o1", "o2"),
+            "-": (wg_short2, "o1", "o2"),
         }
 
         # Generate a sequence
         # This is simply a chain of characters. Each of them represents a component
         # with a given input and and a given output
 
-        repeated_sequence="SPSASPSB"
+        repeated_sequence = "SPSASPSB"
         heater_seq = "-H-H-H-H-"
         sequence = repeated_sequence * n + "SP" + heater_seq
-        component = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
+        component = gf.components.component_sequence(
+            sequence=sequence, symbol_to_component=symbol_to_component
+        )
 
         return component
 
-    c = phase_mod_arm()
-    c.plot()
 
+    cutback = cutback_phase()
+    cutback.plot()
 
 ```
