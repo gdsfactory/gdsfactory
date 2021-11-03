@@ -571,6 +571,13 @@ def rename_ports_by_orientation(
 ) -> Device:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
+    Args:
+        component:
+        layers_excluded:
+        select_ports:
+        function: to rename ports
+        prefix: to add on each port name
+
     .. code::
 
              N0  N1
@@ -619,7 +626,16 @@ def auto_rename_ports(
     prefix_electrical: str = "e",
     **kwargs,
 ):
-    """Adds prefix for optical and electical"""
+    """Adds prefix for optical and electical.
+
+    Args:
+        component:
+        function: to rename ports
+        select_ports_optical:
+        select_ports_electrical:
+        prefix_optical:
+        prefix_electrical:
+    """
     rename_ports_by_orientation(
         component=component,
         select_ports=select_ports_optical,
