@@ -13,7 +13,7 @@ instances:
     mzi:
         component: mzi_phase_shifter
         settings:
-            delta_length: ${defaults.length}
+            delta_length: ${vars.length}
             length_x: 50
 
     pads:
@@ -471,7 +471,7 @@ def from_yaml(
     .. code::
 
         vars:
-            lenght: 3
+            length_mmi: 5
 
         instances:
             mmi_bot:
@@ -483,7 +483,7 @@ def from_yaml(
               component: mmi1x2
               settings:
                 width_mmi: 4.5
-                length_mmi: 5
+                length_mmi: ${vars.length_mmi}
 
         placements:
             mmi_top:
