@@ -65,20 +65,21 @@ def add_fiber_single(
         gc_rotation: -90
         component_name: name of component
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
     .. code::
 
-              fiber
-             ______
-            /| | |
-           / | | |
-        W0|  | | |
-           \ | | |
-          | \|_|_|_
+        asumes grating coupler has o1 input port facing west at xmin = 0
+             ___________
+            /| | | | | |
+           / | | | | | |
+        o1|  | | | | | |
+           \ | | | | | |
+          | \|_|_|_|_|_|
 
           |
          xmin = 0
+
 
     .. plot::
         :include-source:

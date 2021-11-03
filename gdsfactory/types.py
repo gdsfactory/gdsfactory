@@ -2,7 +2,7 @@
 
 Functions are easy to understand because they have clear inputs and outputs.
 Most gdsfactory functions take some inputs and return a Component object.
-Some of these inputs are other functions.
+Some of these inputs parameters are also functions.
 
 - Component: Object with.
     - name
@@ -10,7 +10,7 @@ Some of these inputs are other functions.
     - polygons in different layers
     - ports dictionary
 - ComponentFactory: function that returns a Component.
-- Route: Dictionary with 3 keys.
+- Route: dataclass with 3 attributes.
     - references: list of references (straights, bends and tapers)
     - ports: dict(input=PortIn, output=PortOut)
     - length: float (how long is this route)
