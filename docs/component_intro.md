@@ -1,6 +1,5 @@
-Now that you have installed gdsfactory lets create your first component.
 
-You'll need to keep 3 windows open:
+you'll need to keep 3 windows open:
 
 1. A text editor or IDE (Visual Studio Code, Pycharm, Spyder, neovim, Atom, Jupyterlab ...)
 2. A python / Ipython terminal / jupyter notebook (interactive python to run).
@@ -9,108 +8,10 @@ You'll need to keep 3 windows open:
 `Component.show()` will stream the GDS to klayout so klayout needs to be open.
 Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
 
-![windows](https://i.imgur.com/DyVL6IE.png)
 
-# Component
+![windows](https://i.imgur.com/YcwGI0M.png)
 
-A Component contains:
-
-- a list of elements
-  - add_polygon
-    - boundary: defines the area inside a shape's points (requires shape and layer)
-    - path: defines a line with a certain width combining a shape’s points (requires shape, layer and a line_width)
-  - add_ref (single reference)
-  - add_array (array of references)
-- a dictionary of ports
-  - add_port(): adds a port to the dictionary
-- convenient methods:
-  - write_gds(): saves to GDS
-
-![gds](images/gds.png)
-
-The first thing to learn about is how to create a new component.
-We do that by creating a function which returns a Component instance.
-Here is a step by step example below generating a waveguide crossing
-
-```{eval-rst}
-
-.. plot::
-    :include-source:
-
-    import gdsfactory as gf
-
-
-    @gf.cell
-    def crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4):
-        c = gf.Component()
-
-        # We need an ellipse, this is an existing primitive
-        c << gf.components.ellipse(radii=(r1, r2), layer=gf.LAYER.SLAB150)
-
-        a = L + w / 2
-        h = wg_width / 2
-
-        # Generate a polygon from scratch
-        taper_pts = [
-            (-a, h),
-            (-w / 2, w / 2),
-            (w / 2, w / 2),
-            (a, h),
-            (a, -h),
-            (w / 2, -w / 2),
-            (-w / 2, -w / 2),
-            (-a, -h),
-        ]
-
-        # Add the polygon to the component on a specific layer
-        c.add_polygon(taper_pts, layer=gf.LAYER.WG)
-
-        # Add ports (more on that later)
-        c.add_port(
-            name='o1', midpoint=(-a, 0), orientation=180, width=wg_width, layer=gf.LAYER.WG
-        )
-        c.add_port(
-            name='o2', midpoint=(a, 0), orientation=0, width=wg_width, layer=gf.LAYER.WG
-        )
-        return c
-
-
-    @gf.cell  # This decorator will generate a unique name for the component
-    def crossing():
-        c = gf.Component()
-        arm = crossing_arm()
-
-        # Create two arm references. One has a 90Deg rotation
-        arm_h = arm.ref(position=(0, 0))
-        arm_v = arm.ref(position=(0, 0), rotation=90)
-
-        # Add each arm to the component
-        # Also add the ports
-        port_id = 0
-        for ref in [arm_h, arm_v]:
-            c.add(ref)
-            for p in c.ports.values():
-                # Here we don't care too much about the name we give to the ports
-                # since they can be renamed. We just want the names to be unique
-                c.add_port(name="{}".format(port_id), port=p)
-                port_id += 1
-
-        c.auto_rename_ports()
-        return c
-
-
-    c = crossing()
-    c.plot()
-
-```
-
-## Types
-
-What are the common data types?
-
-```{eval-rst}
-.. automodule:: gdsfactory.types
-```
+# Workflow
 
 ## Layers
 
@@ -164,71 +65,69 @@ LAYER = Layer()
 
 ```
 
-## Port
+## Types
 
-You can define ports to:
-
-- facilitate positioning of components with respect to one another
-- connect components between each other using routing sub-routines
-- find ports by a particular layer or port name prefix
+What are the common data types?
 
 ```{eval-rst}
-.. plot::
-    :include-source:
-
-    import gdsfactory as gf
-
-    y = 0.5
-    x = 2
-    layer = (1, 0) # a GDS layer is a tuple of 2 integers
-    c = gf.Component()
-    c.add_polygon([(0, 0), (x, 0), (x, y), (0, y)], layer=layer)
-    c.add_port(name='o1', midpoint=(0, y/2), width=y, orientation=180, layer=layer)
-    c.plot()
-
+.. automodule:: gdsfactory.types
 ```
 
-```{eval-rst}
-.. plot::
-    :include-source:
 
-    import gdsfactory as gf
+## Tests
 
-    coupler = gf.components.coupler()
-    c = gf.Component()
+As you write your own component factories you want to make sure you do not break them later on.
+The best way of doing that is writing tests to avoid unwanted regressions.
 
-    # Instantiate a reference to `_cpl`, positioning 'o1' port at coords (0, 0)
-    coupler1 = coupler.ref(port_id='o1', position=(0, 0))
+Here is an example on how to group your functions in a dict.
 
-    # Instantiate another reference to `_cpl`, positioning 'o1' port at
-    # the position of the 'E0' port from cpl1
-    coupler2 = coupler.ref(port_id='o1', position=coupler1.ports['o4'].position)
+Make sure you create a test like this an name it with `test_` prefix so Pytest can find it.
 
-    c.add(coupler1)
-    c.add(coupler2)
+```python
+import pathlib
 
-    # add the ports of the child cells into the parent cell
-    c.add_port(port=coupler1.ports['o1'])
-    c.add_port(port=coupler1.ports['o2'])
-    c.add_port(port=coupler2.ports['o4'])
-    c.add_port(port=coupler2.ports['o3'])
-    c.plot()
+import pytest
+from pytest_regressions.data_regression import DataRegressionFixture
 
+import gdsfactory as gf
+from gdsfactory.difftest import difftest
+
+dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")
+
+
+mmi_long = gf.partial(gf.components.mmi, length_mmi=40)
+mmi_short = gf.partial(gf.components.mmi, length_mmi=20)
+
+factory = dict(
+    mmi_short=mmi_short,
+    mmi_long=mmi_long,
+)
+
+
+component_names = list(factory.keys())
+
+
+@pytest.fixture(params=component_names, scope="function")
+def component_name(request) -> str:
+    return request.param
+
+
+def test_gds(component_name: str) -> None:
+    """Avoid regressions in GDS names, shapes and layers.
+    Runs XOR and computes the area."""
+    component = factory[component_name]()
+    test_name = f"fabc_{component_name}"
+    difftest(component, test_name=test_name, dirpath=dirpath)
+
+
+def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
+    """Avoid regressions in component settings and ports."""
+    component = factory[component_name]()
+    data_regression.check(component.to_dict())
+
+
+def test_assert_ports_on_grid(component_name: str):
+    """Ensures all ports are on grid to avoid 1nm gaps"""
+    component = factory[component_name]()
+    component.assert_ports_on_grid()
 ```
-
-`Component.ref()` also accepts:
-
-- `h_mirror` (True / False),
-- `v_mirror` (True / False)
-- `rotation` (0 / 90 / 180 / 270)
-
-They implement the transformation with respect to the port position given by port_id.
-If no port_id is given, transformation is done with respect to (0,0)
-
-Ports can have flexible labelling and by default, the user chooses how to label the ports
-in the component with the constraint of giving name unique names within this component.
-
-A function `auto_rename_ports` is provided to automatically label ports clockwise (starting from bottom, left corner):
-
-- optical ports start from bottom left corner and have a `o` prefix ('o1', 'o2' ...)
-- electrical ports start from bottom left corner and have a `e` prefix ('e1', 'e2' ...)

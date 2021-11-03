@@ -80,7 +80,7 @@ def get_route(
         end_straight: Number: length of end straight
         min_straight: Number: min length of straight
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
 
     .. plot::
@@ -161,7 +161,7 @@ def get_route_from_waypoints(
         taper_factory: function that returns tapers
         route_filter: FIXME, keep it here. Find a way to remove it.
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
     .. plot::
         :include-source:

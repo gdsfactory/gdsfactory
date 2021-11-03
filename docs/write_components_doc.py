@@ -30,6 +30,10 @@ skip_settings = {"vias"}
 with open(filepath, "w+") as f:
     f.write(
         """
+
+Here is a list of generic component factories that you can customize for your fab or use it as an inspiration to build your own.
+
+
 Components
 =============================
 """

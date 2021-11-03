@@ -61,7 +61,6 @@ def add_fiber_array(
     .. plot::
         :include-source:
 
-
         import gdsfactory as gf
         gf.config.set_plot_options(show_subports=False)
 
