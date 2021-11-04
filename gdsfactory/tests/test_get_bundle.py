@@ -197,8 +197,8 @@ def test_get_bundle_u_indirect(
         ports1,
         ports2,
         bend=gf.components.bend_circular,
-        end_straight_length=20,
-        start_straight_length=15,
+        end_straight_length=15,
+        start_straight_length=5,
     )
     lengths = {}
     for i, route in enumerate(routes):
