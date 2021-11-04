@@ -4,7 +4,6 @@ import shutil
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.config import logger
 from gdsfactory.generate_does import generate_does
-from gdsfactory.mask.merge_metadata import merge_metadata
 from gdsfactory.samples.autoplacer.spiral import spiral
 
 workspace_folder = pathlib.Path(__file__).parent
@@ -40,15 +39,7 @@ def test_autoplacer():
     top_level = place_from_yaml(config_yml, doe_root_path)
     top_level.write(str(gdspath))
 
-    merge_metadata(gdspath=gdspath)
-
     assert gdspath.exists()
-    assert markdown_path.exists()
-    assert json_path.exists()
-    assert test_metadata_path.exists()
-
-    report = open(markdown_path).read()
-    assert report.count("#") >= 1, f" only {report.count('#')} DOEs in {markdown_path}"
     return gdspath
 
 
