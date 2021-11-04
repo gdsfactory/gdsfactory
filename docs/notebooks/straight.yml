@@ -37,7 +37,7 @@ info:
     sections: []
     min_length: 0.01
     start_straight: 0.01
-    end_straight_offset: 0.01
+    end_straight_length: 0.01
     snap_to_grid: null
     port_types:
     - optical
