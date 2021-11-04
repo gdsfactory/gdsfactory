@@ -143,7 +143,7 @@ def get_netlist(
     for xy, names_set in port_locations.items():
         if len(names_set) > 2:
             raise ValueError(
-                f"more than 2 connections at {xy[0], xy[1]} with width {xy[2]} {list(names_set)}"
+                f"more than 2 connections at {xy} {list(names_set)}, width = {xy[2]}"
             )
         if len(names_set) == 2:
             names_list = list(names_set)

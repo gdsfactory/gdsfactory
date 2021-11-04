@@ -5,7 +5,7 @@ from gdsfactory.routing.get_bundle import get_bundle
 
 def test_get_bundle_u_indirect(angle=0):
     """
-    FIXME: start_straight_length ignored in this case
+    FIXME: start_straight_length is getting ignored in this case
 
     """
     dy = -200
@@ -33,8 +33,8 @@ def test_get_bundle_u_indirect(angle=0):
         ports1,
         ports2,
         bend=gf.components.bend_circular,
-        end_straight_length=15,
-        start_straight_length=5,
+        end_straight_length=5,
+        start_straight_length=1,
     )
 
     for route in routes:

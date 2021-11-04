@@ -34,7 +34,7 @@ def coupler_ring(
         bend: library for bend
         coupler_straight: two parallel coupled straight waveguides.
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
     .. code::
 

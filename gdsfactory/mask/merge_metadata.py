@@ -11,7 +11,7 @@ from gdsfactory.mask.write_labels import write_labels
 def merge_metadata(
     gdspath: Path,
     labels_prefix: str = "opt",
-    label_layer: Tuple[int, int] = gf.LAYER.LABEL,
+    label_layer: Tuple[int, int] = gf.LAYER.TEXT,
     **kwargs
 ) -> None:
     """Merges all JSON metadata into a big JSON.
