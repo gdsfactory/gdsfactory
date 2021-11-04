@@ -71,6 +71,12 @@ def gdsdiff(
     if isinstance(component2, (str, pathlib.Path)):
         component2 = import_gds(str(component2), flatten=True, name=f"{name}_new")
 
+    component1 = component1.copy()
+    component2 = component2.copy()
+
+    component1.name = f"{name}_old"
+    component2.name = f"{name}_new"
+
     top = Component(name=f"{name}_diffs")
     ref1 = top << component1
     ref2 = top << component2
