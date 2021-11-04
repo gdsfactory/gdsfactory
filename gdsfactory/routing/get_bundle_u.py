@@ -34,8 +34,6 @@ def get_bundle_udirect(
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    start_straight_offset: float = 0.0,
-    end_straight_offset: float = 0.0,
     bend: ComponentFactory = bend_euler,
     **routing_params
 ) -> List[Route]:
@@ -94,9 +92,7 @@ def get_bundle_udirect(
         ports2,
         separation=separation,
         start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        start_straight_offset=start_straight_offset,
-        end_straight_offset=end_straight_offset,
+        end_straight_offset=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         bend=bend,
         **routing_params
@@ -239,8 +235,6 @@ def get_bundle_uindirect(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    end_straight_offset: float = 0.0,
-    start_straight_offset: float = 0.0,
     **routing_params
 ) -> List[Route]:
     r"""
@@ -311,8 +305,6 @@ def get_bundle_uindirect(
         separation=separation,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
-        start_straight_offset=start_straight_offset,
-        end_straight_offset=end_straight_offset,
         routing_func=generate_manhattan_waypoints,
         extension_length=extension_length,
         **routing_params
@@ -329,8 +321,6 @@ def _get_bundle_uindirect_waypoints(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    end_straight_offset: float = 0.0,
-    start_straight_offset: float = 0.0,
     **routing_func_params
 ):
 
@@ -510,8 +500,6 @@ def _get_bundle_uindirect_waypoints(
         **routing_param,
         "start_straight_length": start_straight_length,
         "end_straight_length": end_straight_length,
-        "start_straight_offset": start_straight_offset,
-        "end_straight_offset": end_straight_offset,
     }
 
     ports2.sort(key=lambda p: p.y)
