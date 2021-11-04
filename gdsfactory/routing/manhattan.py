@@ -11,8 +11,8 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s
-from gdsfactory.components.straight import straight
-from gdsfactory.components.taper import taper as taper_factory
+from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import angles_deg
 from gdsfactory.port import Port, select_ports_list
@@ -229,9 +229,9 @@ def _generate_route_manhattan_points(
     output_port: Port,
     bs1: float,
     bs2: float,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    min_straight: float = 0.01,
+    start_straight_length: float = 0.01,
+    end_straight_length: float = 0.01,
+    min_straight_length: float = 0.01,
 ) -> ndarray:
     """Return list of ports for the route.
 
@@ -240,9 +240,9 @@ def _generate_route_manhattan_points(
         output_port:
         bs1: bend size
         bs2: bend size
-        start_straight:
-        end_straight:
-        min_straight:
+        start_straight_length:
+        end_straight_length:
+        min_straight_length:
     """
 
     threshold = TOLERANCE
@@ -261,7 +261,7 @@ def _generate_route_manhattan_points(
     _p_output = _pts_io[1, :]
 
     a = int(input_port.orientation + bend_orientation) % 360
-    s = start_straight
+    s = start_straight_length
     count = 0
     points = [p]
 
@@ -284,19 +284,21 @@ def _generate_route_manhattan_points(
                 points += [_p_output]
                 break
             elif (
-                p[0] + (bs1 + bs2 + end_straight + s) < threshold
-                and abs(p[1]) - (bs1 + bs2 + min_straight) > -threshold
+                p[0] + (bs1 + bs2 + end_straight_length + s) < threshold
+                and abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold
             ):
                 # sufficient space for S-bend
-                p = (-end_straight - bs2, p[1])
+                p = (-end_straight_length - bs2, p[1])
                 a = -sigp * 90
             elif (
-                p[0] + (2 * bs1 + 2 * bs2 + end_straight + s + min_straight) < threshold
+                p[0]
+                + (2 * bs1 + 2 * bs2 + end_straight_length + s + min_straight_length)
+                < threshold
             ):
                 # sufficient distance to move aside
                 p = (p[0] + s + bs1, p[1])
                 a = -sigp * 90
-            elif abs(p[1]) - (2 * bs1 + 2 * bs2 + 2 * min_straight) > -threshold:
+            elif abs(p[1]) - (2 * bs1 + 2 * bs2 + 2 * min_straight_length) > -threshold:
                 p = (p[0] + s + bs1, p[1])
                 a = -sigp * 90
             else:
@@ -305,14 +307,17 @@ def _generate_route_manhattan_points(
 
         elif a == 180:
             # opposite directions
-            if abs(p[1]) - (bs1 + bs2 + min_straight) > -threshold:
+            if abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold:
                 # far enough: U-turn
-                p = (min(p[0] - s, -end_straight) - bs2, p[1])
+                p = (min(p[0] - s, -end_straight_length) - bs2, p[1])
                 a = -sigp * 90
             else:
                 # more complex turn
                 p = (
-                    min(p[0] - s - bs1, -end_straight - min_straight - 2 * bs1 - bs2),
+                    min(
+                        p[0] - s - bs1,
+                        -end_straight_length - min_straight_length - 2 * bs1 - bs2,
+                    ),
                     p[1],
                 )
                 a = -sigp * 90
@@ -322,40 +327,46 @@ def _generate_route_manhattan_points(
                 siga = 1
 
             if ((-p[1] * siga) - (s + bs2) > -threshold) and (
-                -p[0] - (end_straight + bs2)
+                -p[0] - (end_straight_length + bs2)
             ) > -threshold:
                 # simple case: one right angle to the end
                 p = (p[0], 0)
                 a = 0
             elif (p[1] * siga) <= threshold and p[0] + (
-                end_straight + bs1
+                end_straight_length + bs1
             ) > -threshold:
                 # go to the west, and then turn upward
                 # this will sometimes result in too sharp bends, but there is no
                 # avoiding this!
 
                 _y = min(
-                    max(min(min_straight, 0.5 * abs(p[1])), abs(p[1]) - s - bs1),
-                    bs1 + bs2 + min_straight,
+                    max(min(min_straight_length, 0.5 * abs(p[1])), abs(p[1]) - s - bs1),
+                    bs1 + bs2 + min_straight_length,
                 )
 
                 p = (p[0], sigp * _y)
                 if count == 1:  # take care of the start_straight case
-                    p = (p[0], -sigp * max(start_straight, _y))
+                    p = (p[0], -sigp * max(start_straight_length, _y))
 
                 a = 180
-            elif -p[0] - (end_straight + 2 * bs1 + bs2 + min_straight) > -threshold:
+            elif (
+                -p[0] - (end_straight_length + 2 * bs1 + bs2 + min_straight_length)
+                > -threshold
+            ):
                 # go sufficiently up, and then east
-                p = (p[0], siga * max(p[1] * siga + s + bs1, bs1 + bs2 + min_straight))
+                p = (
+                    p[0],
+                    siga * max(p[1] * siga + s + bs1, bs1 + bs2 + min_straight_length),
+                )
                 a = 0
 
-            elif -p[0] - (end_straight + bs2) > -threshold:
+            elif -p[0] - (end_straight_length + bs2) > -threshold:
                 # make vertical S-bend to get sufficient room for movement
                 points += [(p[0], p[1] + siga * (bs2 + s))]
                 p = (
                     min(
-                        p[0] - bs1 + bs2 + min_straight,
-                        -2 * bs1 - bs2 - end_straight - min_straight,
+                        p[0] - bs1 + bs2 + min_straight_length,
+                        -2 * bs1 - bs2 - end_straight_length - min_straight_length,
                     ),
                     p[1] + siga * (bs2 + s),
                 )
@@ -365,7 +376,7 @@ def _generate_route_manhattan_points(
                 p = (p[0], p[1] + sigp * (s + bs1))
                 a = 180
         points += [p]
-        s = min_straight + bs1
+        s = min_straight_length + bs1
 
     points = np.stack([np.array(_p) for _p in points], axis=0)
     points = reverse_transform(points, *transform_params)
@@ -524,7 +535,7 @@ def get_route_error(
 
 def round_corners(
     points: Coordinates,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     bend_s_factory: Optional[ComponentFactory] = bend_s,
     taper: Optional[ComponentFactory] = None,
@@ -565,7 +576,7 @@ def round_corners(
     references = []
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     # bsx = bsy = _get_bend_size(bend90)
-    taper = taper or taper_factory(
+    taper = taper or taper_function(
         cross_section=cross_section,
         width1=width,
         width2=width_wide,
@@ -792,10 +803,10 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    straight: ComponentFactory = straight,
-    start_straight: Optional[float] = None,
-    end_straight: Optional[float] = None,
-    min_straight: Optional[float] = None,
+    straight: ComponentFactory = straight_function,
+    start_straight_length: Optional[float] = None,
+    end_straight_length: Optional[float] = None,
+    min_straight_length: Optional[float] = None,
     bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
@@ -804,13 +815,19 @@ def generate_manhattan_waypoints(
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     x = cross_section(**kwargs)
-    start_straight = start_straight or x.info.get("min_length")
-    end_straight = end_straight or x.info.get("min_length")
-    min_straight = min_straight or x.info.get("min_length")
+    start_straight_length = start_straight_length or x.info.get("min_length")
+    end_straight_length = end_straight_length or x.info.get("min_length")
+    min_straight_length = min_straight_length or x.info.get("min_length")
 
     bsx = bsy = _get_bend_size(bend90)
     points = _generate_route_manhattan_points(
-        input_port, output_port, bsx, bsy, start_straight, end_straight, min_straight
+        input_port,
+        output_port,
+        bsx,
+        bsy,
+        start_straight_length,
+        end_straight_length,
+        min_straight_length,
     )
     return points
 
@@ -825,11 +842,11 @@ def _get_bend_size(bend90: Component):
 def route_manhattan(
     input_port: Port,
     output_port: Port,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     taper: Optional[ComponentOrFactory] = None,
-    start_straight: Optional[float] = None,
-    end_straight: Optional[float] = None,
-    min_straight: Optional[float] = None,
+    start_straight_length: Optional[float] = None,
+    end_straight_length: Optional[float] = None,
+    min_straight_length: Optional[float] = None,
     bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
     with_point_markers: bool = False,
@@ -840,16 +857,16 @@ def route_manhattan(
     """
     x = cross_section(**kwargs)
 
-    start_straight = start_straight or x.info.get("min_length")
-    end_straight = end_straight or x.info.get("min_length")
-    min_straight = min_straight or x.info.get("min_length")
+    start_straight_length = start_straight_length or x.info.get("min_length")
+    end_straight_length = end_straight_length or x.info.get("min_length")
+    min_straight_length = min_straight_length or x.info.get("min_length")
 
     points = generate_manhattan_waypoints(
         input_port,
         output_port,
-        start_straight=start_straight,
-        end_straight=end_straight,
-        min_straight=min_straight,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        min_straight_length=min_straight_length,
         bend=bend,
         cross_section=cross_section,
         **kwargs,
@@ -897,7 +914,7 @@ def test_manhattan() -> Component:
         route = route_manhattan(
             input_port=input_port,
             output_port=output_port,
-            straight=straight,
+            straight=straight_function,
             radius=5.0,
             auto_widen=True,
             width_wide=2,

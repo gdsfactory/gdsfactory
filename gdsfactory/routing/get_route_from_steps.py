@@ -49,7 +49,7 @@ def get_route_from_steps(
         right = c << w
         right.move((100, 80))
 
-        obstacle = gf.components.rectangle(size=(100, 10))
+        obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
         obstacle1 = c << obstacle
         obstacle2 = c << obstacle
         obstacle1.ymin = 40

@@ -46,7 +46,7 @@ def find_labels(
 
 def write_labels(
     gdspath: Path,
-    label_layer: Tuple[int, int] = LAYER.LABEL,
+    label_layer: Tuple[int, int] = LAYER.TEXT,
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
@@ -58,7 +58,7 @@ def write_labels(
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    logger.info(f"Wrote labels in {filepath.absolute()}")
+    logger.info(f"Wrote {len(labels)} labels in {filepath.absolute()}")
     return filepath
 
 

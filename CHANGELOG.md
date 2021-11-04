@@ -16,6 +16,11 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.0
+
+- rename `end_straight` to `end_straight_length`
+- rename `start_straight` to `start_straight_length`
+
 ## 3.4.9
 
 - add pad_pitch to `resistance_sheet`

@@ -9,6 +9,7 @@ get_bundle calls different function depending on the port orientation.
  - get_bundle_uindirect: ports with indirect U-turns
 
 """
+from functools import partial
 from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
@@ -17,7 +18,8 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
@@ -37,11 +39,11 @@ def get_bundle(
     ports2: List[Port],
     separation: float = 5.0,
     extension_length: float = 0.0,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    end_straight_offset: float = 0.0,
-    start_straight: Optional[float] = None,
+    end_straight_length: float = 0.0,
+    start_straight_length: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> List[Route]:
@@ -55,8 +57,8 @@ def get_bundle(
         extension_length: adds straight extension
         bend:
         sort_ports:
-        end_straight_offset:
-        start_straight:
+        end_straight_length:
+        start_straight_length:
         cross_section:
         **kwargs: cross_section settings
 
@@ -88,7 +90,7 @@ def get_bundle(
     ports2 = cast(List[Port], ports2)
 
     x = cross_section(**kwargs)
-    start_straight = start_straight or x.info.get("min_length")
+    start_straight_length = start_straight_length or x.info.get("min_length")
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
@@ -103,8 +105,8 @@ def get_bundle(
         "ports1": ports1,
         "ports2": ports2,
         "separation": separation,
-        "start_straight": start_straight,
-        "end_straight_offset": end_straight_offset,
+        "start_straight_length": start_straight_length,
+        "end_straight_length": end_straight_length,
         "bend": bend,
         "straight": straight,
         "cross_section": cross_section,
@@ -179,8 +181,8 @@ def get_bundle_same_axis(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 5.0,
-    end_straight_offset: float = 0.0,
-    start_straight: float = 0.0,
+    end_straight_length: float = 0.0,
+    start_straight_length: float = 0.0,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
@@ -197,7 +199,7 @@ def get_bundle_same_axis(
             compared using the X (resp. Y) axis
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
-        end_straight_offset: offset to add at the end of each straight
+        end_straight_length: offset to add at the end of each straight
         sort_ports: sort the ports according to the axis.
         cross_section: cross_section
         kwargs: cross_section settings
@@ -251,8 +253,8 @@ def get_bundle_same_axis(
         separation=separation,
         bend=bend,
         cross_section=cross_section,
-        end_straight_offset=end_straight_offset,
-        start_straight=start_straight,
+        end_straight_length=end_straight_length,
+        start_straight_length=start_straight_length,
         **kwargs,
     )
     return [
@@ -270,9 +272,9 @@ def _get_bundle_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 30,
-    end_straight_offset: float = 0.0,
+    end_straight_length: float = 0.0,
     tol: float = 0.00001,
-    start_straight: float = 0.0,
+    start_straight_length: float = 0.0,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> List[ndarray]:
@@ -282,9 +284,9 @@ def _get_bundle_waypoints(
         ports1: list of starting ports
         ports2: list of end ports
         separation: route spacing
-        end_straight_offset: adds a straigth
+        end_straight_length: adds a straigth
         tol: tolerance
-        start_straight: length of straight
+        start_straight_length: length of straight
         cross_section: cross_section
         kwargs: cross_section settings
     """
@@ -310,8 +312,8 @@ def _get_bundle_waypoints(
             generate_manhattan_waypoints(
                 ports1[0],
                 ports2[0],
-                start_straight=start_straight,
-                end_straight=end_straight_offset,
+                start_straight_length=start_straight_length,
+                end_straight_length=end_straight_length,
                 cross_section=cross_section,
                 **kwargs,
             )
@@ -342,9 +344,9 @@ def _get_bundle_waypoints(
     s = sign(y0 - y1)
     curr_end_straight = 0
 
-    end_straight_offset = end_straight_offset or 15.0
+    end_straight_length = end_straight_length or 15.0
 
-    Le = end_straight_offset
+    Le = end_straight_length
 
     # First pass - loop on all the ports to find the tentative end_straights
     for i in range(len(ports1)):
@@ -405,8 +407,8 @@ def _get_bundle_waypoints(
                 generate_manhattan_waypoints(
                     ports1[i],
                     ports2[i],
-                    start_straight=start_straight,
-                    end_straight=end_straights[i],
+                    start_straight_length=start_straight_length,
+                    end_straight_length=end_straights[i],
                     cross_section=cross_section,
                     **kwargs,
                 )
@@ -417,8 +419,8 @@ def _get_bundle_waypoints(
                 generate_manhattan_waypoints(
                     ports1[i],
                     ports2[i],
-                    start_straight=start_straight,
-                    end_straight=end_straights[i],
+                    start_straight_length=start_straight_length,
+                    end_straight_length=end_straights[i],
                     cross_section=cross_section,
                     **kwargs,
                 )
@@ -496,8 +498,8 @@ def get_bundle_same_axis_no_grouping(
     ports2: List[Port],
     sep: float = 5.0,
     route_filter: Callable = get_route,
-    start_straight: Optional[float] = None,
-    end_straight: Optional[float] = None,
+    start_straight_length: Optional[float] = None,
+    end_straight_length: Optional[float] = None,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
@@ -541,8 +543,8 @@ def get_bundle_same_axis_no_grouping(
         route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector
             or any other connector function with the same input
         radius: bend radius. If unspecified, uses the default radius
-        start_straight: offset on the starting length before the first bend
-        end_straight: offset on the ending length after the last bend
+        start_straight_length: offset on the starting length before the first bend
+        end_straight_length: offset on the ending length after the last bend
         sort_ports: True -> sort the ports according to the axis. False -> no sort applied
 
     Returns:
@@ -589,14 +591,14 @@ def get_bundle_same_axis_no_grouping(
             max_j = j
     j = 0
 
-    if start_straight is None:
-        start_straight = 0.2
+    if start_straight_length is None:
+        start_straight_length = 0.2
 
-    if end_straight is None:
-        end_straight = 0.2
+    if end_straight_length is None:
+        end_straight_length = 0.2
 
-    start_straight += max_j * sep
-    end_straight += -min_j * sep
+    start_straight_length += max_j * sep
+    end_straight_length += -min_j * sep
 
     # Do case with wire direct if the ys are close to each other
     for i, _ in enumerate(ports1):
@@ -608,15 +610,15 @@ def get_bundle_same_axis_no_grouping(
             x1 = ports1[i].position[0]
             x2 = ports2[i].position[0]
 
-        s_straight = start_straight - j * sep
-        e_straight = j * sep + end_straight
+        s_straight = start_straight_length - j * sep
+        e_straight = j * sep + end_straight_length
 
         elems += [
             route_filter(
                 ports1[i],
                 ports2[i],
-                start_straight=s_straight,
-                end_straight=e_straight,
+                start_straight_length=s_straight,
+                end_straight_length=e_straight,
                 cross_section=cross_section,
                 **kwargs,
             )
@@ -627,6 +629,11 @@ def get_bundle_same_axis_no_grouping(
         else:
             j -= 1
     return elems
+
+
+get_bundle_electrical = partial(
+    get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
 
 
 @gf.cell

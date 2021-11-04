@@ -115,6 +115,7 @@ def route_ports_to_x(
     y0_top: Optional[float] = None,
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
+    start_straight_length: float = 0.01,
     **routing_func_args,
 ) -> Tuple[List[Route], List[Port]]:
     """
@@ -214,7 +215,9 @@ def route_ports_to_x(
     routes = []
     ports = []
 
-    def add_port(p, y, l_elements, l_ports, start_straight=0.01):
+    def add_port(
+        p, y, l_elements, l_ports, start_straight_length=start_straight_length
+    ):
         new_port = p.copy()
         new_port.angle = angle
         new_port.position = (x + extension_length, y)
@@ -222,7 +225,7 @@ def route_ports_to_x(
             routing_func(
                 p,
                 new_port,
-                start_straight=start_straight,
+                start_straight_length=start_straight_length,
                 radius=radius,
                 **routing_func_args,
             )
@@ -242,50 +245,48 @@ def route_ports_to_x(
         add_port(p, y_optical_top, routes, ports)
         y_optical_top += separation
 
-    start_straight = 0.01
-    start_straight0 = 0
+    start_straight_length_section = start_straight_length
     max_x = max(xs)
     min_x = min(xs)
 
     for p in backward_ports_thru_north:
         # Extend ports if necessary
         if angle == 0 and p.x < max_x:
-            start_straight0 = max_x - p.x
+            start_straight_length_section = max_x - p.x
         elif angle == 180 and p.x > min_x:
-            start_straight0 = p.x - min_x
+            start_straight_length_section = p.x - min_x
         else:
-            start_straight0 = 0
+            start_straight_length_section = 0
 
         add_port(
             p,
             y_optical_top,
             routes,
             ports,
-            start_straight=start_straight + start_straight0,
+            start_straight_length=start_straight_length + start_straight_length_section,
         )
         y_optical_top += separation
-        start_straight += separation
+        start_straight_length += separation
 
-    start_straight = 0.01
-    start_straight0 = 0
+    start_straight_length_section = start_straight_length
     for p in backward_ports_thru_south:
         # Extend ports if necessary
         if angle == 0 and p.x < max_x:
-            start_straight0 = max_x - p.x
+            start_straight_length_section = max_x - p.x
         elif angle == 180 and p.x > min_x:
-            start_straight0 = p.x - min_x
+            start_straight_length_section = p.x - min_x
         else:
-            start_straight0 = 0
+            start_straight_length_section = 0
 
         add_port(
             p,
             y_optical_bot,
             routes,
             ports,
-            start_straight=start_straight + start_straight0,
+            start_straight_length=start_straight_length + start_straight_length_section,
         )
         y_optical_bot -= separation
-        start_straight += separation
+        start_straight_length += separation
 
     return routes, ports
 
@@ -302,6 +303,7 @@ def route_ports_to_y(
     extend_right: float = 0.0,
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
+    start_straight_length: float = 0.01,
     **routing_func_args: Dict[Any, Any],
 ) -> Tuple[List[Route], List[Port]]:
     """
@@ -404,7 +406,9 @@ def route_ports_to_y(
     routes = []
     ports = []
 
-    def add_port(p, x, l_elements, l_ports, start_straight=0.01):
+    def add_port(
+        p, x, l_elements, l_ports, start_straight_length=start_straight_length
+    ):
         new_port = p.copy()
         new_port.angle = angle
         new_port.position = (x, y + extension_length)
@@ -418,7 +422,7 @@ def route_ports_to_y(
                 routing_func(
                     p,
                     new_port,
-                    start_straight=start_straight,
+                    start_straight_length=start_straight_length,
                     radius=radius,
                     **routing_func_args,
                 )
@@ -446,17 +450,29 @@ def route_ports_to_y(
         add_port(p, x_optical_right, routes, ports)
         x_optical_right += separation
 
-    start_straight = 0.01
+    start_straight_length_section = start_straight_length
     for p in backward_ports_thru_east:
-        add_port(p, x_optical_right, routes, ports, start_straight=start_straight)
+        add_port(
+            p,
+            x_optical_right,
+            routes,
+            ports,
+            start_straight_length=start_straight_length_section,
+        )
         x_optical_right += separation
-        start_straight += separation
+        start_straight_length_section += separation
 
-    start_straight = 0.01
+    start_straight_length_section = start_straight_length
     for p in backward_ports_thru_west:
-        add_port(p, x_optical_left, routes, ports, start_straight=start_straight)
+        add_port(
+            p,
+            x_optical_left,
+            routes,
+            ports,
+            start_straight_length=start_straight_length_section,
+        )
         x_optical_left -= separation
-        start_straight += separation
+        start_straight_length_section += separation
 
     return routes, ports
 

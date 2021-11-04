@@ -18,8 +18,8 @@ if __name__ == "__main__":
     routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(orientation=0),
         c2.get_ports_list(orientation=180),
-        end_straight_offset=0,
-        start_straight=0,
+        end_straight_length=0,
+        start_straight_length=0,
         separation=50,
         # modify_segment_i=-3,
         radius=10

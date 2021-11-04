@@ -92,7 +92,7 @@ array_with_fanout
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_fanout(columns=3, pitch=150.0, waveguide_pitch=10.0, start_straight=5.0, end_straight=40.0, radius=5.0, component_port_name='e4')
+  c = gf.components.array_with_fanout(columns=3, pitch=150.0, waveguide_pitch=10.0, start_straight_length=5.0, end_straight_length=40.0, radius=5.0, component_port_name='e4')
   c.plot()
 
 
@@ -2371,7 +2371,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.10', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.11', text_size=10)
   c.plot()
 
 

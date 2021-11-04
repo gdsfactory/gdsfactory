@@ -58,8 +58,8 @@ def gdsdiff(
     """Compare two Components.
 
     Args:
-        component1: Component or path to gds file
-        component2: Component or path to gds file
+        component1: Component or path to gds file (reference)
+        component2: Component or path to gds file (run)
         name: name of the top cell
         xor: makes boolean operation
 
@@ -67,9 +67,15 @@ def gdsdiff(
         Component with both cells (xor, common and diffs)
     """
     if isinstance(component1, (str, pathlib.Path)):
-        component1 = import_gds(str(component1), flatten=True, name=f"{name}_new")
+        component1 = import_gds(str(component1), flatten=True, name=f"{name}_old")
     if isinstance(component2, (str, pathlib.Path)):
-        component2 = import_gds(str(component2), flatten=True, name=f"{name}_old")
+        component2 = import_gds(str(component2), flatten=True, name=f"{name}_new")
+
+    component1 = component1.copy()
+    component2 = component2.copy()
+
+    component1.name = f"{name}_old"
+    component2.name = f"{name}_new"
 
     top = Component(name=f"{name}_diffs")
     ref1 = top << component1

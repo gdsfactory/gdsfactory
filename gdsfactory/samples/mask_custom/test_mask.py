@@ -11,7 +11,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.generate_does import generate_does
-from gdsfactory.mask.merge_metadata import merge_metadata
 
 add_te = gf.partial(
     gf.routing.add_fiber_array,
@@ -89,10 +88,6 @@ def test_mask(precision: float = 2e-9) -> Path:
     logpath = gdspath.with_suffix(".log")
     logger.add(sink=logpath)
 
-    markdown_path = gdspath.with_suffix(".md")
-    metadata_path = gdspath.with_suffix(".yml")
-    test_metadata_path = gdspath.with_suffix(".tp.yml")
-
     generate_does(
         str(does_yml),
         component_factory=component_factory,
@@ -104,14 +99,7 @@ def test_mask(precision: float = 2e-9) -> Path:
     top_level = place_from_yaml(does_yml, precision=precision, root_does=doe_root_path)
     top_level.write(str(gdspath))
 
-    merge_metadata(gdspath=gdspath)
-
     assert gdspath.exists()
-    assert markdown_path.exists()
-    assert metadata_path.exists()
-    assert test_metadata_path.exists()
-    report = open(markdown_path).read()
-    assert report.count("#") == 2, f" only {report.count('#')} DOEs in {markdown_path}"
     return gdspath
 
 
@@ -126,5 +114,5 @@ if __name__ == "__main__":
     # for length in lengths:
     #     c = coupler_te(gap=0.3, length=length)
 
-    gdspath = test_mask()
-    gf.show(gdspath)
+    gds = test_mask()
+    gf.show(gds)
