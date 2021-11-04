@@ -21,14 +21,14 @@ def get_bundle_path_length_match(
     ports1: List[Port],
     ports2: List[Port],
     separation: float = 30.0,
-    end_straight_offset: Optional[float] = None,
+    end_straight_length: Optional[float] = None,
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
     bend: ComponentFactory = bend_euler,
     straight: Callable = straight,
     taper_factory: Optional[Callable] = taper_function,
-    start_straight: float = 0.0,
+    start_straight_length: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
@@ -40,7 +40,7 @@ def get_bundle_path_length_match(
         ports1: list of ports
         ports2: list of ports
         separation: between the loops
-        end_straight_offset: if None tries to determine it
+        end_straight_length: if None tries to determine it
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
@@ -49,7 +49,7 @@ def get_bundle_path_length_match(
         bend: for bends
         straight: for straights
         taper_factory:
-        start_straight:
+        start_straight_length:
         route_filter: get_route_from_waypoints
         sort_ports: sorts ports before routing
         cross_section: factory
@@ -95,22 +95,22 @@ def get_bundle_path_length_match(
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    if end_straight_offset is None:
+    if end_straight_length is None:
         if modify_segment_i == -2:
-            end_straight_offset = (
+            end_straight_length = (
                 compute_ports_max_displacement(ports1, ports2) / (2 * nb_loops)
                 + separation
                 + extra_length
             )
         else:
-            end_straight_offset = 0
+            end_straight_length = 0
 
     list_of_waypoints = _get_bundle_waypoints(
         ports1=ports1,
         ports2=ports2,
         separation=separation,
-        end_straight_offset=end_straight_offset,
-        start_straight=start_straight,
+        end_straight_length=end_straight_length,
+        start_straight_length=start_straight_length,
         cross_section=cross_section,
         **kwargs,
     )
@@ -150,8 +150,8 @@ if __name__ == "__main__":
     routes = gf.routing.get_bundle_path_length_match(
         c1.get_ports_list(orientation=0),
         c2.get_ports_list(orientation=180),
-        end_straight_offset=0,
-        start_straight=0,
+        end_straight_length=0,
+        start_straight_length=0,
         separation=50,
         layer=(2, 0),
     )

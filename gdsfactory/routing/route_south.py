@@ -157,7 +157,7 @@ def route_south(
         x -= sep
 
         i += 1
-    start_straight = 0.5
+    start_straight_length = 0.5
 
     # First-half of north ports
     # This ensures that north ports are routed above the top west one
@@ -170,7 +170,7 @@ def route_south(
             route = get_route(
                 input_port=p,
                 output_port=tmp_port,
-                start_straight=start_straight + y_max - p.y,
+                start_straight_length=start_straight_length + y_max - p.y,
                 **conn_params,
             )
             references.extend(route.references)
@@ -178,7 +178,7 @@ def route_south(
 
             ports_to_route.append(tmp_port)
             x -= sep
-            start_straight += sep
+            start_straight_length += sep
 
     # Set starting ``x`` on the east side
     if optical_routing_type == 1:
@@ -197,7 +197,7 @@ def route_south(
     # In case we have to connect these ports to a line of gratings,
     # Ensure that the port is aligned with the grating port or
     # has enough space for manhattan routing (at least two bend radius)
-    start_straight = 0.5
+    start_straight_length = 0.5
     for p in east_ports:
         if io_gratings_lines:
             i_grating = get_index_port_closest_to_x(x, io_gratings_lines[-1])
@@ -209,7 +209,9 @@ def route_south(
                     x = x_gr + delta_gr_min
 
         tmp_port = gen_port_from_port(x, y0, p)
-        route = get_route(p, tmp_port, start_straight=start_straight, **conn_params)
+        route = get_route(
+            p, tmp_port, start_straight_length=start_straight_length, **conn_params
+        )
 
         references.extend(route.references)
         lengths.append(route.length)
@@ -219,7 +221,7 @@ def route_south(
         i += 1
 
     # Route the remaining north ports
-    start_straight = 0.5
+    start_straight_length = 0.5
     if len(north_finish) > 0:
         y_max = max([p.y for p in east_ports + north_finish])
         for p in north_finish:
@@ -228,13 +230,13 @@ def route_south(
             route = get_route(
                 input_port=p,
                 output_port=tmp_port,
-                start_straight=start_straight + y_max - p.y,
+                start_straight_length=start_straight_length + y_max - p.y,
                 **conn_params,
             )
             references.extend(route.references)
             lengths.append(route.length)
             x += sep
-            start_straight += sep
+            start_straight_length += sep
 
     # Add south ports
     ports = [flip(p) for p in ports_to_route] + south_ports
