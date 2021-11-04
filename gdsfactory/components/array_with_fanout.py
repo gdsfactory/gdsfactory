@@ -18,8 +18,8 @@ def array_with_fanout(
     columns: int = 3,
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
-    start_straight: float = 5.0,
-    end_straight: float = 40.0,
+    start_straight_length: float = 5.0,
+    end_straight_length: float = 40.0,
     radius: float = 5.0,
     component_port_name: str = "e4",
     bend: ComponentFactory = bend_euler,
@@ -36,8 +36,8 @@ def array_with_fanout(
         columns: number of components.
         pitch: for waveguides.
         waveguide_pitch: for output waveguides.
-        start_straight: length of the start of the straight
-        end_straight: lenght of the straight at the end
+        start_straight_length: length of the start of the straight
+        end_straight_length: lenght of the straight at the end
         radius: bend radius
         component_port_name:
         bend:
@@ -60,8 +60,8 @@ def array_with_fanout(
         ref = component.ref()
         ref.x = col * pitch
         c.add(ref)
-        ylength = col * waveguide_pitch + start_straight
-        xlength = col * pitch + end_straight
+        ylength = col * waveguide_pitch + start_straight_length
+        xlength = col * pitch + end_straight_length
         straight_ref = c << straight(
             length=ylength, cross_section=cross_section, **kwargs
         )
@@ -101,8 +101,8 @@ def array_with_fanout_2d(
             component: to replicate
             pitch: float
             waveguide_pitch: for fanout
-            start_straight: length of the start of the straight
-            end_straight: lenght of the straight at the end
+            start_straight_length: length of the start of the straight
+            end_straight_length: length of the straight at the end
             radius: bend radius
             cross_section: cross_section factory
             component_port_name:

@@ -64,7 +64,7 @@ def loss_deembedding_ch13_24(
         get_route(
             gc_ports[0],
             gc_ports[2],
-            start_straight=40.0,
+            start_straight_length=40.0,
             taper_factory=None,
             cross_section=cross_section,
             **kwargs
@@ -112,12 +112,20 @@ def loss_deembedding_ch12_34(
 
     c.add(
         get_route(
-            gc_ports[0], gc_ports[1], start_straight=40.0, taper_factory=None, **kwargs
+            gc_ports[0],
+            gc_ports[1],
+            start_straight_length=40.0,
+            taper_factory=None,
+            **kwargs
         ).references
     )
     c.add(
         get_route(
-            gc_ports[2], gc_ports[3], start_straight=40.0, taper_factory=None, **kwargs
+            gc_ports[2],
+            gc_ports[3],
+            start_straight_length=40.0,
+            taper_factory=None,
+            **kwargs
         ).references
     )
     for i, index in enumerate(input_port_indexes):
@@ -148,12 +156,20 @@ def loss_deembedding_ch14_23(
 
     c.add(
         get_route(
-            gc_ports[0], gc_ports[3], start_straight=40.0, taper_factory=None, **kwargs
+            gc_ports[0],
+            gc_ports[3],
+            start_straight_length=40.0,
+            taper_factory=None,
+            **kwargs
         ).references
     )
     c.add(
         get_route(
-            gc_ports[1], gc_ports[2], start_straight=30.0, taper_factory=None, **kwargs
+            gc_ports[1],
+            gc_ports[2],
+            start_straight_length=30.0,
+            taper_factory=None,
+            **kwargs
         ).references
     )
     for i, index in enumerate(input_port_indexes):

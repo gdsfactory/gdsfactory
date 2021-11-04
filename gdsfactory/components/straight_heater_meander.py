@@ -86,7 +86,6 @@ def straight_heater_meander(
             cross_section=cross_section,
         )
         c.add(route.references)
-        print(route.length)
 
     straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
     straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)

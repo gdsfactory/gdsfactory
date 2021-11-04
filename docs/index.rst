@@ -8,7 +8,6 @@ Gdsfactory
    README
    notebooks
    component_intro
-   connect
    routing
    yaml
    components

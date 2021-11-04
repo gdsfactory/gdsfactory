@@ -40,8 +40,8 @@ class CrossSectionModel(BaseModel):
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
     min_length: float = 10e-3
-    start_straight: float = 10e-3
-    end_straight_offset: float = 10e-3
+    start_straight_length: float = 10e-3
+    end_straight_length: float = 10e-3
     snap_to_grid: Optional[float] = None
 
 

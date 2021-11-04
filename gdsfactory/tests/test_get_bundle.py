@@ -16,12 +16,12 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
 
     top_ports = [Port(f"top_{i}", (xs_top[i], 0), 0.5, 270) for i in range(N)]
 
-    bottom_ports = [
-        Port(f"bottom_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)
-    ]
+    bot_ports = [Port(f"bot_{i}", (xs_bottom[i], -400), 0.5, 90) for i in range(N)]
 
     c = gf.Component("test_get_bundle")
-    routes = get_bundle(top_ports, bottom_ports)
+    routes = get_bundle(
+        top_ports, bot_ports, start_straight_length=5, end_straight_length=10
+    )
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -143,16 +143,16 @@ def test_get_bundle_udirect(
 
     if axis == "X":
         ports1 = [Port(f"top_{i}", (0, xs1[i]), 0.5, angle) for i in range(N)]
-
-        ports2 = [Port(f"bottom_{i}", (dy, xs2[i]), 0.5, angle) for i in range(N)]
+        ports2 = [Port(f"bot_{i}", (dy, xs2[i]), 0.5, angle) for i in range(N)]
 
     else:
         ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, angle) for i in range(N)]
-
-        ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
+        ports2 = [Port(f"bot_{i}", (xs2[i], dy), 0.5, angle) for i in range(N)]
 
     c = gf.Component(name="test_get_bundle_udirect")
-    routes = get_bundle(ports1, ports2, bend=gf.components.bend_circular)
+    routes = get_bundle(
+        ports1, ports2, bend=gf.components.bend_circular, end_straight_length=30
+    )
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -184,16 +184,22 @@ def test_get_bundle_u_indirect(
     if axis == "X":
         ports1 = [Port("top_{}".format(i), (0, xs1[i]), 0.5, a1) for i in range(N)]
 
-        ports2 = [Port("bottom_{}".format(i), (dy, xs2[i]), 0.5, a2) for i in range(N)]
+        ports2 = [Port("bot_{}".format(i), (dy, xs2[i]), 0.5, a2) for i in range(N)]
 
     else:
         ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
 
-        ports2 = [Port("bottom_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
+        ports2 = [Port("bot_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
 
-    routes = get_bundle(ports1, ports2, bend=gf.components.bend_circular)
+    routes = get_bundle(
+        ports1,
+        ports2,
+        bend=gf.components.bend_circular,
+        end_straight_length=15,
+        start_straight_length=5,
+    )
     lengths = {}
     for i, route in enumerate(routes):
         c.add(route.references)
@@ -244,8 +250,8 @@ if __name__ == "__main__":
     # c = test_get_bundle(None, check=False)
     # c = test_connect_corner(None, config="A", check=False)
     # c = test_connect_corner(None, config="C", check=False) # FIXME
-    c = test_get_bundle_udirect(None, check=False)
-    # c = test_get_bundle_u_indirect(None, check=False)
+    # c = test_get_bundle_udirect(None, check=False)
+    c = test_get_bundle_u_indirect(None, check=False, angle=90)
     # c = test_get_bundle_u_indirect(None, angle=0, check=False)
     # c = test_facing_ports(None, check=False)
     c.show()

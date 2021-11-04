@@ -32,10 +32,8 @@ def get_bundle_udirect(
     ports2: List[Port],
     route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
-    start_straight_offset: float = 0.0,
-    end_straight_offset: float = 0.0,
+    start_straight_length: float = 0.01,
+    end_straight_length: float = 0.01,
     bend: ComponentFactory = bend_euler,
     **routing_params
 ) -> List[Route]:
@@ -47,8 +45,8 @@ def get_bundle_udirect(
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
         separation: between straights
-        start_straight:
-        end_straight
+        start_straight_length:
+        end_straight_length
         start_straight_offset
         end_straight_offset
 
@@ -93,10 +91,8 @@ def get_bundle_udirect(
         ports1,
         ports2,
         separation=separation,
-        start_straight=start_straight,
-        end_straight=end_straight,
-        start_straight_offset=start_straight_offset,
-        end_straight_offset=end_straight_offset,
+        start_straight_length=start_straight_length,
+        end_straight_offset=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         bend=bend,
         **routing_params
@@ -110,8 +106,8 @@ def _get_bundle_udirect_waypoints(
     ports2: List[Port],
     routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
-    start_straight: float = 0.01,
-    end_straight: float = 0.01,
+    start_straight_length: float = 0.01,
+    end_straight_length: float = 0.01,
     end_straight_offset: float = 0.0,
     start_straight_offset: float = 0.0,
     bend: ComponentFactory = bend_euler,
@@ -174,7 +170,7 @@ def _get_bundle_udirect_waypoints(
             dx = xs_start[0] - xs_end[0]
         elif angle_start == 180:
             dx = xs_end[0] - xs_start[0]
-        end_straight = max(end_straight, dx)
+        end_straight_length = max(end_straight_length, dx)
 
     if axis == "Y":
         group1.sort(key=lambda p: -p.x)
@@ -191,21 +187,21 @@ def _get_bundle_udirect_waypoints(
             dy = ys_start[0] - ys_end[0]
         elif angle_start == 270:
             dy = ys_end[0] - ys_start[0]
-        end_straight = max(end_straight, dy)
+        end_straight_length = max(end_straight_length, dy)
 
     # add offsets
-    start_straight += start_straight_offset
-    end_straight += end_straight_offset
+    start_straight_length += start_straight_offset
+    end_straight_length += end_straight_offset
 
     connections = []
-    straight_len_end = end_straight
-    straight_len_start = start_straight
+    straight_len_end = end_straight_length
+    straight_len_start = start_straight_length
     for p_start, p_end in zip(group1, end_group1):
         _c = routing_func(
             p_start,
             p_end,
-            start_straight=straight_len_start,
-            end_straight=straight_len_end,
+            start_straight_length=straight_len_start,
+            end_straight_length=straight_len_end,
             bend=bend,
             **routing_func_params
         )
@@ -213,14 +209,14 @@ def _get_bundle_udirect_waypoints(
         straight_len_end += separation
         straight_len_start += separation
 
-    straight_len_end = end_straight
-    straight_len_start = start_straight
+    straight_len_end = end_straight_length
+    straight_len_start = start_straight_length
     for p_start, p_end in zip(group2, end_group2):
         _c = routing_func(
             p_start,
             p_end,
-            start_straight=straight_len_start,
-            end_straight=straight_len_end,
+            start_straight_length=straight_len_start,
+            end_straight_length=straight_len_end,
             bend=bend,
             **routing_func_params
         )
@@ -235,12 +231,10 @@ def get_bundle_uindirect(
     ports1,
     ports2,
     route_filter=get_route_from_waypoints,
-    separation=5.0,
-    extension_length=0.0,
-    start_straight=0.01,
-    end_straight=0.01,
-    end_straight_offset=0.0,
-    start_straight_offset=0.0,
+    separation: float = 5.0,
+    extension_length: float = 0.0,
+    start_straight_length: float = 0.01,
+    end_straight_length: float = 0.01,
     **routing_params
 ) -> List[Route]:
     r"""
@@ -250,10 +244,13 @@ def get_bundle_uindirect(
         ports2: list of end ports
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
+        separation: center to center waveguide spacing
+        extension_length:
+        start_straight_length: extends
+        end_straight_length:
+
     Returns:
-        `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`,
-        returns a list of elements which can be added to a component
+        list of routes, where each route has references, ports and length
 
 
     Used for routing multiple ports back to a bundled input in a component
@@ -303,10 +300,8 @@ def get_bundle_uindirect(
         ports1,
         ports2,
         separation=separation,
-        start_straight=start_straight,
-        end_straight=end_straight,
-        start_straight_offset=start_straight_offset,
-        end_straight_offset=end_straight_offset,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         extension_length=extension_length,
         **routing_params
@@ -319,12 +314,10 @@ def _get_bundle_uindirect_waypoints(
     ports1,
     ports2,
     routing_func=generate_manhattan_waypoints,
-    separation=5.0,
-    extension_length=0.0,
-    start_straight=0.01,
-    end_straight=0.01,
-    end_straight_offset=0.0,
-    start_straight_offset=0.0,
+    separation: float = 5.0,
+    extension_length: float = 0.0,
+    start_straight_length: float = 0.01,
+    end_straight_length: float = 0.01,
     **routing_func_params
 ):
 
@@ -471,7 +464,7 @@ def _get_bundle_uindirect_waypoints(
                     break
 
     # First part
-    print(group1_route_directives)
+    # print(group1_route_directives)
     conn1, tmp_ports1 = route_ports_to_side(
         group1,
         group1_route_directives[0],
@@ -498,14 +491,11 @@ def _get_bundle_uindirect_waypoints(
     )
 
     add_connections(conn1 + conn2)
-    # conn2)
 
     bundle_params = {
         **routing_param,
-        "start_straight": start_straight,
-        "end_straight": end_straight,
-        "start_straight_offset": start_straight_offset,
-        "end_straight_offset": end_straight_offset,
+        "start_straight_length": start_straight_length,
+        "end_straight_length": end_straight_length,
     }
 
     ports2.sort(key=lambda p: p.y)

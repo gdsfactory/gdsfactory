@@ -147,8 +147,8 @@ def cross_section(
     port_names: Tuple[str, str] = ("o1", "o2"),
     port_types: Tuple[str, str] = ("optical", "optical"),
     min_length: float = 10e-3,
-    start_straight: float = 10e-3,
-    end_straight_offset: float = 10e-3,
+    start_straight_length: float = 10e-3,
+    end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
 ) -> CrossSection:
     """Returns CrossSection.
@@ -166,8 +166,8 @@ def cross_section(
         sections: Sections(width, offset, layer, ports)
         port_names: for input and output (1, 2),
         min_length: 10e-3 for routing
-        start_straight: for routing
-        end_straight_offset: for routing
+        start_straight_length: for routing
+        end_straight_length: for routing
         snap_to_grid: can snap points to grid when extruding the path
     """
 
@@ -214,8 +214,8 @@ def cross_section(
         layers_cladding=layers_cladding,
         sections=sections,
         min_length=min_length,
-        start_straight=start_straight,
-        end_straight_offset=end_straight_offset,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
         snap_to_grid=snap_to_grid,
         port_types=port_types,
         port_names=port_names,
