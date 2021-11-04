@@ -49,7 +49,6 @@ from gdsfactory.types import (
     ComponentOrFactory,
     Coordinates,
     CrossSectionFactory,
-    Number,
     Route,
 )
 
@@ -60,9 +59,9 @@ def get_route(
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentOrFactory = straight_function,
     taper_factory: Optional[ComponentFactory] = None,
-    start_straight: Number = 0.01,
-    end_straight: Number = 0.01,
-    min_straight: Number = 0.01,
+    start_straight_length: float = 0.01,
+    end_straight_length: float = 0.01,
+    min_straight_length: float = 0.01,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Route:
@@ -76,9 +75,9 @@ def get_route(
         bend: function that return bends
         straight: function that returns straights
         taper_factory:
-        start_straight: length of starting straight
-        end_straight: Number: length of end straight
-        min_straight: Number: min length of straight
+        start_straight_length: length of starting straight
+        end_straight_length: length of end straight
+        min_straight_length: min length of straight for any intermediate segment
         cross_section:
         kwargs: cross_section settings
 
@@ -120,9 +119,9 @@ def get_route(
         output_port=output_port,
         straight=straight,
         taper=taper_factory,
-        start_straight=start_straight,
-        end_straight=end_straight,
-        min_straight=min_straight,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        min_straight_length=min_straight_length,
         bend=bend90,
         cross_section=cross_section,
         **kwargs,
@@ -132,8 +131,8 @@ def get_route(
 get_route_electrical = partial(
     get_route,
     bend=wire_corner,
-    start_straight=10,
-    end_straight=10,
+    start_straight_length=10,
+    end_straight_length=10,
     cross_section=metal3,
     taper_factory=None,
 )
@@ -144,7 +143,6 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper_factory: Optional[Callable] = taper_function,
-    route_filter=None,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Route:
@@ -152,14 +150,14 @@ def get_route_from_waypoints(
     bends instead of corners and optionally tapers in straight sections.
     Tapering to wider straights reduces the optical loss.
     `get_route_from_waypoints` is a manual version of `get_route`
-    Not that `get_route_from_steps` is a  more concise and convenient version of `get_route_from_waypoints` also available in gf.routing
+    `get_route_from_steps` is a  more concise and convenient version of
+    `get_route_from_waypoints` also available in gf.routing
 
     Args:
         waypoints: Coordinates that define the route
         bend: function that returns bends
         straight: function that returns straight waveguides
         taper_factory: function that returns tapers
-        route_filter: FIXME, keep it here. Find a way to remove it.
         cross_section:
         kwargs: cross_section settings
 
@@ -209,6 +207,7 @@ def get_route_from_waypoints(
     width2 = x.info.get("width_wide") if auto_widen else width1
     taper_length = x.info.get("taper_length")
     waypoints = np.array(waypoints)
+    kwargs.pop("route_filter", "")
 
     if auto_widen:
         taper = (

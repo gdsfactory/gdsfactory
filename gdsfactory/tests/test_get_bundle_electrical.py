@@ -30,7 +30,7 @@ def test_get_bundle_electrical(
     routes = gf.routing.get_bundle(
         [c1.ports["e4"]],
         [c2.ports["e3"]],
-        start_straight=20.0,
+        start_straight_length=20.0,
         bend=gf.components.wire_corner,
         width=10,
     )
