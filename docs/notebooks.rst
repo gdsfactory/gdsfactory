@@ -17,6 +17,8 @@ Tutorials
    notebooks/04_components.ipynb
    notebooks/05_components_hierarchy.ipynb
    notebooks/04_routing.ipynb
+   notebooks/041_routing_electical.ipynb
    notebooks/05_group.ipynb
+   notebooks/06_component_circuit_mask.ipynb
    notebooks/07_yaml_component.ipynb
    notebooks/09_plugins.ipynb

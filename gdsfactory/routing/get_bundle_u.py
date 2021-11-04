@@ -491,7 +491,6 @@ def _get_bundle_uindirect_waypoints(
     )
 
     add_connections(conn1 + conn2)
-    # conn2)
 
     bundle_params = {
         **routing_param,

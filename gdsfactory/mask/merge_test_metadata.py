@@ -95,10 +95,11 @@ def merge_test_metadata(
     csv_labels_path = gdspath.with_suffix(".csv")
     test_metadata_path = gdspath.with_suffix(".tp.yml")
 
-    assert (
-        mask_metadata_path.exists()
-    ), f"missing mask YAML metadata {mask_metadata_path}"
-    assert csv_labels_path.exists(), f"missing CSV labels {csv_labels_path}"
+    if not mask_metadata_path.exists():
+        raise FileNotFoundError(f"missing mask YAML metadata {mask_metadata_path}")
+
+    if not csv_labels_path.exists():
+        raise FileNotFoundError(f"missing CSV labels {csv_labels_path}")
 
     labels_list = parse_csv_data(csv_labels_path)
     metadata = OmegaConf.load(mask_metadata_path)
