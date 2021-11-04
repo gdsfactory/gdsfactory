@@ -9,6 +9,7 @@ get_bundle calls different function depending on the port orientation.
  - get_bundle_uindirect: ports with indirect U-turns
 
 """
+from functools import partial
 from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
@@ -17,7 +18,8 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
@@ -37,7 +39,7 @@ def get_bundle(
     ports2: List[Port],
     separation: float = 5.0,
     extension_length: float = 0.0,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
     end_straight_offset: float = 0.0,
@@ -627,6 +629,11 @@ def get_bundle_same_axis_no_grouping(
         else:
             j -= 1
     return elems
+
+
+get_bundle_electrical = partial(
+    get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
 
 
 @gf.cell
