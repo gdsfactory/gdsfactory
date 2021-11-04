@@ -248,12 +248,9 @@ def get_bundle_uindirect(
         extension_length:
         start_straight_length: extends
         end_straight_length:
-        end_straight_offset:
-        start_straight_offset:
+
     Returns:
-        `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`,
-        returns a list of elements which can be added to a component
+        list of routes, where each route has references, ports and length
 
 
     Used for routing multiple ports back to a bundled input in a component
