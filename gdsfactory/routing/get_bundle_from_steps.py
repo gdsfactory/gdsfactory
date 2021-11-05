@@ -164,7 +164,7 @@ if __name__ == "__main__":
     routes = get_bundle_from_steps(
         p1,
         p2,
-        steps=[{"x": 150}],
+        steps=[{"x": 300}, {"x": 301}],
     )
 
     # routes = get_bundle_from_waypoints(

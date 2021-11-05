@@ -25,7 +25,7 @@ def test_route_error_bundle():
         routes = gf.routing.get_bundle_from_steps(
             p1,
             p2,
-            steps=[{"x": 100}],
+            steps=[{"x": 300}, {"x": 301}],
         )
 
     for route in routes:
