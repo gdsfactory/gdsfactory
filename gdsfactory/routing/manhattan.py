@@ -154,7 +154,7 @@ def get_straight_distance(p0: ndarray, p1: ndarray) -> float:
     if _is_horizontal(p0, p1):
         return np.abs(p0[0] - p1[0])
 
-    raise ValueError(f"Waveguide points {p0} {p1} are not manhattan")
+    raise RouteError(f"Waveguide points {p0} {p1} are not manhattan")
 
 
 def transform(
@@ -671,21 +671,40 @@ def round_corners(
             bend_points.append(other_port.midpoint)
             previous_port_point = other_port.midpoint
 
-        straight_sections += [
-            (
-                p0_straight,
-                bend_orientation,
-                get_straight_distance(p0_straight, bend_origin),
+        try:
+            straight_sections += [
+                (
+                    p0_straight,
+                    bend_orientation,
+                    get_straight_distance(p0_straight, bend_origin),
+                )
+            ]
+        except RouteError:
+            on_route_error(
+                points=(p0_straight, bend_origin),
+                cross_section=x,
+                references=references,
             )
-        ]
 
         p0_straight = bend_ref.ports[pname_north].midpoint
         bend_orientation = bend_ref.ports[pname_north].orientation
 
     bend_points.append(points[-1])
-    straight_sections += [
-        (p0_straight, bend_orientation, get_straight_distance(p0_straight, points[-1]))
-    ]
+
+    try:
+        straight_sections += [
+            (
+                p0_straight,
+                bend_orientation,
+                get_straight_distance(p0_straight, points[-1]),
+            )
+        ]
+    except RouteError:
+        on_route_error(
+            points=((p0_straight, points[-1])),
+            cross_section=x,
+            references=references,
+        )
 
     # with_point_markers=True
     # print()
@@ -980,5 +999,21 @@ if __name__ == "__main__":
     # c = _demo_manhattan_fail()
     # c = gf.c.straight()
     # c = gf.routing.add_fiber_array(c)
-    c = gf.c.delay_snake()
+    # c = gf.c.delay_snake()
+    # c.show()
+
+    c = gf.Component("pads_route_from_steps")
+    pt = c << gf.c.pad_array(orientation=270, columns=3)
+    pb = c << gf.c.pad_array(orientation=90, columns=3)
+    pt.move((100, 200))
+    route = gf.routing.get_route_from_steps(
+        pt.ports["e11"],
+        pb.ports["e11"],
+        steps=[
+            {"y": 100},
+        ],
+        cross_section=gf.cross_section.metal3,
+        bend=gf.components.wire_corner,
+    )
+    c.add(route.references)
     c.show()
