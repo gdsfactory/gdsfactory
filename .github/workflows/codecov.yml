@@ -1,11 +1,13 @@
-name: Example workflow for Codecov
-on: [push]
+name: Code test coverage
+on:
+  pull_request:
+  push:
 jobs:
   run:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
     env:
       OS: ${{ matrix.os }}
       PYTHON: '3.7'
@@ -19,7 +21,8 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
-        make install
+        pip install -r requirements.txt --upgrade
+        pip install -r requirements_dev.txt --upgrade
         pytest --cov=./ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1.2.1
