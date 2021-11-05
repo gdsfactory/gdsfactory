@@ -204,7 +204,7 @@ def write_sparameters_lumerical(
 
     sim_settings = dict(
         simulation_settings=sim_settings,
-        component=component.settings,
+        component=component.to_dict(),
         version=__version__,
     )
 
