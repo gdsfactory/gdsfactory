@@ -15,7 +15,7 @@ from gdsfactory.types import ComponentOrFactory, CrossSectionFactory, Route
 def get_route_from_steps(
     port1: Port,
     port2: Port,
-    steps: List[Dict[str, float]],
+    steps: Optional[List[Dict[str, float]]] = None,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentOrFactory = straight_function,
     taper_factory: Optional[ComponentOrFactory] = taper_function,
@@ -76,6 +76,7 @@ def get_route_from_steps(
     x2, y2 = port2.midpoint
 
     waypoints = [(x, y)]
+    steps = steps or []
 
     for d in steps:
         x = d["x"] if "x" in d else x
@@ -179,12 +180,12 @@ if __name__ == "__main__":
     route = get_route_from_steps(
         port1=p2,
         port2=p1,
-        steps=[
-            {"x": 20, "y": 0},
-            {"x": 20, "y": 20},
-            {"x": 120, "y": 20},
-            {"x": 120, "y": 80},
-        ],
+        # steps=[
+        #     {"x": 20, "y": 0},
+        #     {"x": 20, "y": 20},
+        #     {"x": 120, "y": 20},
+        #     {"x": 120, "y": 80},
+        # ],
     )
     c.add(route.references)
     c.show()

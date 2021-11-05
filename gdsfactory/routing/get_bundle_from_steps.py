@@ -90,12 +90,10 @@ def get_bundle_from_steps(
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    x, y = ports1[0].midpoint
-    x2, y2 = ports2[0].midpoint
-
-    waypoints = [(x, y)]
+    waypoints = []
     steps = steps or []
 
+    x, y = ports1[0].midpoint
     for d in steps:
         x = d["x"] if "x" in d else x
         x += d.get("dx", 0)
@@ -103,7 +101,14 @@ def get_bundle_from_steps(
         y += d.get("dy", 0)
         waypoints += [(x, y)]
 
-    waypoints += [(x2, y2)]
+    port2 = ports2[0]
+    x2, y2 = port2.midpoint
+    orientation = int(port2.orientation)
+
+    if orientation in [0, 180]:
+        waypoints += [(x, y2)]
+    elif orientation in [90, 270]:
+        waypoints += [(x2, y)]
 
     x = cross_section(**kwargs)
     auto_widen = x.info.get("auto_widen", False)
@@ -159,11 +164,23 @@ if __name__ == "__main__":
     routes = get_bundle_from_steps(
         p1,
         p2,
-        steps=[{"x": 100}],
+        steps=[{"x": 150}],
     )
 
-    # routes = gf.routing.get_bundle(p1, p2)
+    # routes = get_bundle_from_waypoints(
+    #     p1,
+    #     p2,
+    #     # waypoints=[(150,0), (150, 100)],
+    #     waypoints=[(150, 0)],
+    # )
 
     for route in routes:
         c.add(route.references)
+
+    # route = gf.routing.get_route_from_steps(
+    #     p1[-1],
+    #     p2[0],
+    #     steps=[{"x": 100}, {"y": 100}],
+    # )
+    # c.add(route.references)
     c.show()
