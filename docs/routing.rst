@@ -77,6 +77,11 @@ configurations of the banks of ports, it decides which sub-routine to call:
 .. autofunction:: gdsfactory.routing.get_bundle_u.get_bundle_udirect
 .. autofunction:: gdsfactory.routing.get_bundle_u.get_bundle_uindirect
 
+get_bundle_from_steps
+---------------------------------------------------------------------------------------------------
+
+.. autofunction:: gdsfactory.routing.get_bundle_from_steps.get_bundle_from_steps
+
 
 route_ports_to_side
 ---------------------------------------------------------------------------------------------------

@@ -37,13 +37,10 @@ def route_ports_to_side(
     """Routes ports to a given side
 
     Args:
-        ports: list or dict of ports to be route to a side
-          can also be a Component or a ComponentReference
-        side should be 'north', 'south', 'east' or 'west'
-        x: only for east/west side routing: the x position where to route ports
-          If None, will use the most east/west value
-        y: only for south/north side routing: the y position where to route ports
-          If None, will use the most south/northest value
+        ports: list/dict/Component/ComponentReference to route to a side.
+        side: 'north', 'south', 'east' or 'west'.
+        x: position to route ports for east/west. None, uses most east/west value
+        y: position to route ports for south/north. None, uses most north/south value
         routing_func: the routing function. By default uses `get_route`
         kwargs:
           radius

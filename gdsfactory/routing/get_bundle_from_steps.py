@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
@@ -23,22 +24,23 @@ def get_bundle_from_steps(
     cross_section: CrossSectionFactory = strip,
     sort_ports: bool = True,
     **kwargs
-) -> Route:
-    """Returns a route formed by the given waypoints steps
+) -> List[Route]:
+    """Returns a list of routes formed by the given waypoints steps
     bends instead of corners and optionally tapers in straight sections.
-    Tapering to wider straights reduces the optical loss.
-    `get_route_from_steps` is a manual version of `get_route`
-    and a more concise and convenient version of `get_route_from_waypoints`
+    Tapering to wider straights reduces the optical loss and phase errors.
+    `get_bundle_from_steps` is a manual version of `get_bundle`
+    and a more convenient version of `get_bundle_from_waypoints`
 
     Args:
-        port1: start port
-        port2: end port
+        port1: start ports (list or dict)
+        port2: end ports (list or dict)
         steps: changes that define the route [{'dx': 5}, {'dy': 10}]
         bend: function that returns bends
         straight: function that returns straight waveguides
         taper_factory: function that returns tapers
-        cross_section
-        **kwargs: cross_section settings
+        cross_section: for routes
+        sort_ports: if True sort ports
+        kwargs: cross_section settings
 
     .. plot::
         :include-source:
@@ -46,30 +48,27 @@ def get_bundle_from_steps(
         import gdsfactory as gf
 
         c = gf.Component("get_route_from_steps_sample")
-        w = gf.components.straight()
+        w = gf.components.array(
+            gf.partial(gf.c.straight, layer=(2, 0)),
+            rows=3,
+            columns=1,
+            spacing=(0, 50),
+        )
+
         left = c << w
         right = c << w
-        right.move((100, 80))
+        right.move((200, 100))
+        p1 = left.get_ports_list(orientation=0)
+        p2 = right.get_ports_list(orientation=180)
 
-        obstacle = gf.components.rectangle(size=(100, 10), port_type=None)
-        obstacle1 = c << obstacle
-        obstacle2 = c << obstacle
-        obstacle1.ymin = 40
-        obstacle2.xmin = 25
-
-        p1 = left.ports['o2']
-        p2 = right.ports['o2']
-        route = gf.routing.get_bundle_from_steps(
-            port1=p1,
-            port2=p2,
-            steps=[
-                {"x": 20},
-                {"y": 20},
-                {"x": 120},
-                {"y": 80},
-            ],
+        routes = get_bundle_from_steps(
+            p1,
+            p2,
+            steps=[{"x": 150}],
         )
-        c.add(route.references)
+
+        for route in routes:
+            c.add(route.references)
         c.plot()
         c.show()
 
@@ -144,6 +143,11 @@ def get_bundle_from_steps(
     )
 
 
+get_bundle_from_steps_electrical = gf.partial(
+    get_bundle_from_steps, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
+
+
 if __name__ == "__main__":
     # c = test_route_from_steps()
     c = gf.Component("get_route_from_steps_sample")
@@ -161,10 +165,10 @@ if __name__ == "__main__":
     p1 = left.get_ports_list(orientation=0)
     p2 = right.get_ports_list(orientation=180)
 
-    routes = get_bundle_from_steps(
+    routes = get_bundle_from_steps_electrical(
         p1,
         p2,
-        steps=[{"x": 300}, {"x": 301}],
+        steps=[{"x": 150}],
     )
 
     # routes = get_bundle_from_waypoints(
