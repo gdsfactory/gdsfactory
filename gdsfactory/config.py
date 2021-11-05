@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "3.5.1"
+__version__ = "3.5.2"
 import json
 import os
 import pathlib
