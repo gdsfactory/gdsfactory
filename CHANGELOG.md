@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.1
+
+- add `gf.routing.get_bundle_from_steps`
+
 ## 3.5.0
 
 - rename `end_straight` to `end_straight_length`
