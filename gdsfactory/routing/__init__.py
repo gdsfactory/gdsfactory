@@ -8,6 +8,7 @@ from gdsfactory.routing.add_fiber_array import add_fiber_array
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.routing.fanout2x2 import fanout2x2
 from gdsfactory.routing.get_bundle import get_bundle, get_bundle_electrical
+from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.get_bundle_path_length_match import get_bundle_path_length_match
 from gdsfactory.routing.get_bundle_sbend import get_bundle_sbend
@@ -31,6 +32,7 @@ __all__ = [
     "add_fiber_array",
     "add_fiber_single",
     "get_bundle",
+    "get_bundle_from_steps",
     "get_bundle_electrical",
     "get_bundle_path_length_match",
     "get_bundle_from_waypoints",

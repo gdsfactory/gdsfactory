@@ -4,11 +4,16 @@ import numpy as np
 from numpy import float64, ndarray
 
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.routing.manhattan import remove_flat_angles, round_corners
+from gdsfactory.routing.manhattan import (
+    RouteError,
+    get_route_error,
+    remove_flat_angles,
+    round_corners,
+)
 from gdsfactory.routing.utils import get_list_ports_angle
 from gdsfactory.types import Coordinate, Coordinates, CrossSectionFactory, Number, Route
 
@@ -69,12 +74,13 @@ def get_bundle_from_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     waypoints: Coordinates,
-    straight: Callable = straight,
-    taper_factory: Callable = taper_function,
+    straight: Callable = straight_function,
+    taper: Callable = taper_function,
     bend: Callable = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionFactory = strip,
     separation: Optional[float] = None,
+    on_route_error: Callable = get_route_error,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes that connect bundle of ports with bundle of routes
@@ -85,7 +91,7 @@ def get_bundle_from_waypoints(
         ports2: list of ports
         waypoints: list of points defining a route
         straight: function that returns straights
-        taper_factory: function that returns tapers
+        taper: function that returns tapers
         bend: function that returns bends
         sort_ports: sorts ports
         cross_section: cross_section
@@ -144,20 +150,23 @@ def get_bundle_from_waypoints(
         ports1.sort(key=start_port_sort)
         ports2.sort(key=end_port_sort)
 
-    routes = _generate_manhattan_bundle_waypoints(
-        ports1=ports1,
-        ports2=ports2,
-        waypoints=list(waypoints),
-        separation=separation,
-        **kwargs,
-    )
+    try:
+        routes = _generate_manhattan_bundle_waypoints(
+            ports1=ports1,
+            ports2=ports2,
+            waypoints=list(waypoints),
+            separation=separation,
+            **kwargs,
+        )
+    except RouteError:
+        return [on_route_error(waypoints)]
 
     x = cross_section(**kwargs)
     bends90 = [bend(cross_section=cross_section, **kwargs) for p in ports1]
 
-    if taper_factory and x.info.get("auto_widen", True):
-        if callable(taper_factory):
-            taper = taper_factory(
+    if taper and x.info.get("auto_widen", True):
+        if callable(taper):
+            taper = taper(
                 length=x.info.get("taper_length", 0.0),
                 width1=ports1[0].width,
                 width2=x.info.get("width_wide"),
@@ -165,7 +174,7 @@ def get_bundle_from_waypoints(
             )
         else:
             # In this case the taper is a fixed cell
-            taper = taper_factory
+            taper = taper
     else:
         taper = None
     connections = [
@@ -247,7 +256,7 @@ def _generate_manhattan_bundle_waypoints(
         elif _is_vertical(s):
             dp = (sv * sign_seg * a, 0)
         else:
-            raise ValueError(f"Segment should be manhattan, got {s}")
+            raise RouteError(f"Segment should be manhattan, got {s}")
 
         displaced_seg = [np.array(p) + dp for p in s]
         return displaced_seg

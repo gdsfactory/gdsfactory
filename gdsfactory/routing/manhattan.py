@@ -491,14 +491,13 @@ def remove_flat_angles(points: ndarray) -> ndarray:
 
 def get_route_error(
     points,
-    cross_section: CrossSection,
+    cross_section: Optional[CrossSection] = None,
     layer_path: Layer = LAYER.ERROR_PATH,
     layer_label: Layer = LAYER.TEXT,
     layer_marker: Layer = LAYER.ERROR_MARKER,
     references: Optional[List[ComponentReference]] = None,
 ) -> Route:
-    x = cross_section
-    width = x.info["width"]
+    width = cross_section.info["width"] if cross_section else 10
     warnings.warn(
         f"Route error for points {points}",
         RouteWarning,
@@ -507,7 +506,7 @@ def get_route_error(
     c = Component(f"route_{uuid.uuid4()}"[:16])
     path = gdspy.FlexPath(
         points,
-        width=x.info["width"],
+        width=width,
         gdsii_path=True,
         layer=layer_path[0],
         datatype=layer_path[1],
