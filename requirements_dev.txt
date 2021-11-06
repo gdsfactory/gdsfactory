@@ -19,3 +19,7 @@ nbsphinx
 ipykernel
 pur
 xdoctest
+tidy3d
+trimesh==3.9.35
+triangle
+pyglet

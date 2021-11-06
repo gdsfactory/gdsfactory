@@ -3,12 +3,16 @@ from typing import Optional, Tuple
 
 import matplotlib.colors
 import shapely
-from trimesh.creation import extrude_polygon
 
 from gdsfactory.component import Component
 from gdsfactory.layers import LayerSet
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import Layer
+
+try:
+    from trimesh.creation import extrude_polygon
+except ImportError:
+    print("pip install trimesh")
 
 
 def to_stl(
