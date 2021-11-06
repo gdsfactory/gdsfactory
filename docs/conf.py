@@ -39,6 +39,7 @@ exclude_patterns = [
     "**.ipynb_checkpoints",
     "build",
     "extra/**",
+    "plugins/**",
 ]
 
 napoleon_use_param = True
