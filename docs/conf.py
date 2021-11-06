@@ -38,8 +38,9 @@ exclude_patterns = [
     ".DS_Store",
     "**.ipynb_checkpoints",
     "build",
-    "extra/**",
-    "plugins/**",
+    "extra",
+    "plugins",
+    "tidy3d",
 ]
 
 napoleon_use_param = True

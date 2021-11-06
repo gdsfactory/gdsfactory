@@ -19,6 +19,7 @@ jobs:
         python-version: 3.7
     - name: Generate coverage report
       run: |
+        make install
         pip install pytest
         pip install pytest-cov
         pip install -r requirements.txt --upgrade
