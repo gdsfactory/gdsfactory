@@ -1,3 +1,0 @@
--e .
-gdsfactory
-tidy3d==21.3.1.4

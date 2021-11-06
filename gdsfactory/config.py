@@ -52,6 +52,13 @@ logger.info(__version__)
 logger.add(sink=logpath)
 
 
+class Paths:
+    module = module_path
+    repo = repo_path
+    sparameters = repo_path / "sparameters"
+    results_tidy3d = home / ".tidy3d"
+
+
 def read_config(
     yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
 ) -> omegaconf.DictConfig:
@@ -65,6 +72,7 @@ def read_config(
 
 
 CONF = read_config()
+PATH = Paths()
 
 
 CONFIG = dict(

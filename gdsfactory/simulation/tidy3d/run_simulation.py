@@ -1,16 +1,20 @@
-"""
+"""Tidy3D """
 
-"""
-
-import pathlib
+import concurrent.futures
 import hashlib
 import json
-import concurrent.futures
-from typing import Optional, Awaitable
-import tidy3d as td
-from tidy3d import web
+import pathlib
+from typing import Awaitable, Optional
 
-from gtidy3d.config import logger, PATH
+from gdsfactory.config import PATH, logger
+
+try:
+    import tidy3d as td
+    from tidy3d import web
+except ImportError:
+    print("You need to install tidy3d")
+    print("pip install tidy3d")
+
 
 _executor = concurrent.futures.ThreadPoolExecutor()
 
@@ -77,7 +81,7 @@ def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
 
 
     .. code::
-        import gtidy3d as gm
+        import gdsfactory.simulation.tidy3d as gm
 
         component = gf.components.straight(length=3)
         sim = gm.get_simulation(component=component)
@@ -86,11 +90,11 @@ def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
     """
     td.logging_level("error")
     sim_hash = get_sim_hash(sim)
-    sim_path = PATH.results / f"{sim_hash}.hdf5"
+    sim_path = PATH.results_tidy3d / f"{sim_hash}.hdf5"
     logger.info(f"running simulation {sim_hash}")
 
     hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_last_projects()}
-    target = PATH.results / f"{sim_hash}.hdf5"
+    target = PATH.results_tidy3d / f"{sim_hash}.hdf5"
 
     # Try from local storage
     if sim_path.exists():
@@ -111,7 +115,7 @@ def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    import gtidy3d as gm
+    import gdsfactory.simulation.tidy3d as gm
 
     # for length in range(12, 13):
     #     component = gf.components.straight(length=length)
@@ -119,5 +123,5 @@ if __name__ == "__main__":
     #     s = run_simulation(sim, wait_to_complete=False)
 
     component = gf.components.straight(length=3)
-    sim = gm.get_simulation(component=component)
-    sim = run_simulation(sim).result()
+    s = gm.get_simulation(component=component)
+    r = run_simulation(s).result()
