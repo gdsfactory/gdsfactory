@@ -9,9 +9,11 @@ install: gdslib
 
 update:
 	pur
-	# pur -r requirements_dev.txt
 
-update2:
+update_dev:
+	pur -r requirements_dev.txt
+
+update_pre:
 	pre-commit autoupdate --bleeding-edge
 
 gds:
