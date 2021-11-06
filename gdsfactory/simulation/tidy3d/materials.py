@@ -1,5 +1,9 @@
-import tidy3d as td
-import tidy3d.material_library as mat
+try:
+    import tidy3d as td
+    import tidy3d.material_library as mat
+except ImportError:
+    print("You need to install tidy3d")
+    print("pip install tidy3d")
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 
@@ -10,9 +14,7 @@ def get_index(
 ) -> float:
     """Returns refractive index from material database.
 
-    Args:
-        wavelength: wavelength (um)
-        name: material name
+    Args: wavelength: wavelength (um) name: material name
 
     """
     if name not in MATERIALS:

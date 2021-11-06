@@ -1,6 +1,12 @@
 import numpy as np
-import tidy3d as td
-from gtidy3d.get_sparameters import get_sparameters
+
+from gdsfactory.simulation.tidy3d.get_sparameters import get_sparameters
+
+try:
+    import tidy3d as td
+except ImportError:
+    print("You need to install tidy3d")
+    print("pip install tidy3d")
 
 
 def get_coupling(sim: td.Simulation) -> np.ndarray:
@@ -22,7 +28,7 @@ def get_coupling(sim: td.Simulation) -> np.ndarray:
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    import gtidy3d as gm
+    import gdsfactory.simulation.tidy3d as gm
 
     c = gf.components.coupler(gap=0.1, length=6.0)
     sim = gm.get_simulation(c)

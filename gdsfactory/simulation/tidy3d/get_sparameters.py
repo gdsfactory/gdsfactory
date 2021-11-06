@@ -1,7 +1,12 @@
 import numpy as np
-import tidy3d as td
 
-from gtidy3d.run_simulation import run_simulation
+from gdsfactory.simulation.tidy3d.run_simulation import run_simulation
+
+try:
+    import tidy3d as td
+except ImportError:
+    print("You need to install tidy3d")
+    print("pip install tidy3d")
 
 
 def get_sparameters(sim: td.Simulation) -> np.ndarray:
@@ -52,7 +57,7 @@ def get_sparameters(sim: td.Simulation) -> np.ndarray:
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    import gtidy3d as gm
+    import gdsfactory.simulation.tidy3d as gm
 
     c = gf.components.straight(length=2)
     sim = gm.get_simulation(c)

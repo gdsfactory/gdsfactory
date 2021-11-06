@@ -2,17 +2,22 @@
 import warnings
 from typing import Optional
 
-import pydantic
 import matplotlib.pyplot as plt
 import numpy as np
+import pydantic
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.tech import LayerStack, LAYER_STACK
+from gdsfactory.simulation.tidy3d.materials import get_material
+from gdsfactory.tech import LAYER_STACK, LayerStack
 
-import tidy3d as td
-from gtidy3d.materials import get_material
+try:
+    import tidy3d as td
+except ImportError:
+    print("You need to install tidy3d")
+    print("pip install tidy3d")
 
 
 MATERIAL_NAME_TO_TIDY3D = {
@@ -65,7 +70,7 @@ def get_simulation(
 
         import matplotlib.pyplot as plt
         import gdsfactory as gf
-        import gtidy as gm
+        import gdsfactory.simulation.tidy3d as gm
 
         c = gf.components.bend_circular()
         sim = gm.get_simulation(c)
