@@ -130,8 +130,7 @@ def get_simulation(
         cell_thickness,
     ]
 
-    layer_to_polygons = component_extended_ref.get_polygons(by_spec=True)
-    for layer, polygons in layer_to_polygons.items():
+    for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
