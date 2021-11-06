@@ -1,6 +1,6 @@
 # Contributing
 
-gdsfactory is an open source project that welcomes contributions from any of its users.
+gdsfactory is an open source project that welcomes contributions from any users.
 
 How can you contribute?
 
@@ -42,7 +42,7 @@ gdsfactory function names and default parameters may change in the future. You s
 
 ## gdsdiff
 
-You can use the command line `pf diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in klayout.
+You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gds` and `gds2.gds` files and show them in klayout.
 
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `pf diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
