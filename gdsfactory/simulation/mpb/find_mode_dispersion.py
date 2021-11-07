@@ -9,7 +9,7 @@ from gdsfactory.simulation.mpb.find_modes import find_modes
 from gdsfactory.simulation.mpb.types import Mode
 
 
-def find_modes_dispersion(
+def find_mode_dispersion(
     wavelength: float = 1.55,
     wavelength_step: float = 0.01,
     core: str = "Si",
@@ -68,13 +68,13 @@ def find_modes_dispersion(
 
 
 def test_ng():
-    m = find_modes_dispersion(wg_width=0.45, wg_thickness=0.22)
+    m = find_mode_dispersion(wg_width=0.45, wg_thickness=0.22)
     ng = 4.277160926428621
     assert np.isclose(m.ng, ng)
 
 
 if __name__ == "__main__":
-    m = find_modes_dispersion(wg_width=0.45, wg_thickness=0.22)
+    m = find_mode_dispersion(wg_width=0.45, wg_thickness=0.22)
     print(m.ng)
     # test_ng()
     # print(get_index(name="Si"))

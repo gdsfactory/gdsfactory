@@ -1,12 +1,12 @@
 import numpy as np
 
-from gdsfactory.simulation.mpb.find_modes_dispersion import find_modes_dispersion
+from gdsfactory.simulation.mpb.find_mode_dispersion import find_mode_dispersion
 from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
 
 
 def test_find_modes_dispersion():
     ms = get_mode_solver_rib(wg_width=0.45)
-    modes = find_modes_dispersion(mode_solver=ms)
+    modes = find_mode_dispersion(mode_solver=ms)
     m1 = modes
     neff1 = 2.3426
     ng1 = 4.144756
