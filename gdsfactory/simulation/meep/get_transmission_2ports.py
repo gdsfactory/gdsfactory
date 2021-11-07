@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-from meep.geom import Medium
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.simulation.meep.add_monitors import add_monitors
+from gdsfactory.simulation.meep.materials import get_material
 
 mp.verbosity(0)
 
@@ -26,8 +26,8 @@ def get_transmission_2ports(
     t_core: float = 0.22,
     t_clad_top: float = 1.0,
     dpml: int = 1,
-    clad_material: Medium = mp.Medium(epsilon=2.25),
-    core_material: Medium = mp.Medium(epsilon=12),
+    clad_material: str = "SiO2",
+    core_material: str = "Si",
     is_3d: bool = False,
     run: bool = True,
     wavelength_min: float = 1.5,
@@ -83,6 +83,9 @@ def get_transmission_2ports(
         cm.show()
 
     """
+    clad_material = get_material(name=clad_material)
+    core_material = get_material(name=core_material)
+
     assert isinstance(
         component, Component
     ), f"component needs to be a Component, got Type {type(component)}"

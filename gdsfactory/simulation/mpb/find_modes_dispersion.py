@@ -5,7 +5,7 @@ from functools import partial
 import numpy as np
 
 from gdsfactory.simulation.meep.materials import get_index
-from gdsfactory.simulation.mpb.find_neff import find_neff
+from gdsfactory.simulation.mpb.find_modes import find_modes
 from gdsfactory.simulation.mpb.types import Mode
 
 
@@ -17,10 +17,9 @@ def find_modes_dispersion(
     mode_number: int = 1,
     **kwargs,
 ) -> Mode:
-    """Returns mode effective index and group index.
+    """Returns Mode with correct dispersion (ng)
 
-    Computes dispersion with finite difference.
-
+    group index comes from a finite difference approximation at 3 wavelengths
 
     Args:
         wavelength_step: in um
@@ -52,9 +51,9 @@ def find_modes_dispersion(
     ncore = partial(get_index, name=core)
     nclad = partial(get_index, name=clad)
 
-    m0 = find_neff(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
-    mc = find_neff(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
-    m1 = find_neff(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
+    m0 = find_modes(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
+    mc = find_modes(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
+    m1 = find_modes(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
 
     n0 = m0[mode_number].neff
     nc = mc[mode_number].neff
