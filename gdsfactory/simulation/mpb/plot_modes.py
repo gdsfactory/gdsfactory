@@ -1,5 +1,4 @@
-"""Plot modes.
-"""
+"""Plot modes profiles."""
 
 import pathlib
 from pathlib import PosixPath
@@ -7,49 +6,74 @@ from typing import Optional, Union
 
 import matplotlib.pyplot as plt
 import meep as mp
-from meep import mpb
 import numpy as np
+from meep import mpb
 
-mp.verbosity(0)
+from gdsfactory.simulation.mpb.disable_print import disable_print, enable_print
+from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.mpb.types import ModeSolverOrFactory
+
+mpb.verbosity(0)
 mp.verbosity.mpb = 0
 
 
 def plot_modes(
-    mode_solver: mpb.ModeSolver,
+    mode_solver: ModeSolverOrFactory = get_mode_solver_rib,
     sy: float = 2.0,
     sz: float = 2.0,
-    mode_number: int = 1,
     logscale: bool = False,
     plotH: bool = False,
     dirpath: Optional[Union[PosixPath, str]] = None,
+    parity=mp.NO_PARITY,
     polarization: str = "TE",
     cmap_fields: str = "viridis",
     cmap_geom: str = "viridis",
+    mode_number: int = 1,
+    wavelength: float = 1.55,
+    tol: float = 1e-6,
+    **kwargs,
 ):
     """Plot mode fields.
 
     Args:
-        sy: Size of the simulation region in the y-direction (um) (default=4.0)
-        sz: Size of the simulation region in the z-direction (um) (default=4.0)
-        mode_number: Which mode to plot (only plots one mode at a time).  Must be a number equal to or less than num_mode (default=1)
+        mode_solver: function to get a mode solver or mode_solver
+        sy: Size of the simulation region in the y-direction (um)
+        sz: Size of the simulation region in the z-direction (um)
+        mode_number: to plot. Must be equal to or less than nmodes
         plotH: plot magnetic field.
-        dirpath: to save fields waveguide cross-sections fields (top-down and side-view) if savefig=True
-        cmap_geom: colormap for geometry
+        dirpath: to save fields
         cmap_fields: colormap for fields (hot_r, coolwarm, viridis)
+        cmap_geom: colormap for geometry
     """
+    mode_solver = mode_solver(**kwargs) if callable(mode_solver) else mode_solver
+    nmodes = mode_solver.nmodes
 
-    origin = "upper"
+    omega = 1 / wavelength
+    disable_print()
+    mode_solver.find_k(
+        parity,
+        omega,
+        mode_number,
+        mode_number + nmodes,
+        mp.Vector3(1),
+        tol,
+        omega * 2.02,
+        omega * 0.01,
+        omega * 10,
+        mpb.output_poynting_x,
+        mpb.display_yparities,
+        mpb.display_group_velocities,
+    )
+    enable_print()
 
-    # plot electric field
-    eps = mode_solver.get_epsilon()
-    mode_solver.get_dfield(mode_number)
     E = mode_solver.get_efield(mode_number)
+    H = mode_solver.get_hfield(mode_number)
+    eps = mode_solver.get_epsilon()
     Eabs = np.sqrt(
         np.multiply(E[:, :, 0, 2], E[:, :, 0, 2])
         + np.multiply(E[:, :, 0, 1], E[:, :, 0, 1])
         + np.multiply(E[:, :, 0, 0], E[:, :, 0, 0])
     )
-    H = mode_solver.get_hfield(mode_number)
     Habs = np.sqrt(
         np.multiply(H[:, :, 0, 2], H[:, :, 0, 2])
         + np.multiply(H[:, :, 0, 1], H[:, :, 0, 1])
@@ -59,10 +83,10 @@ def plot_modes(
     plt_extent = [-sy / 2.0, +sy / 2.0, -sz / 2.0, +sz / 2.0]
 
     plt.figure(figsize=(14, 8))
-
     plt.subplot(2, 3, 1)
     ex = abs(E[:, :, 0, 2])
     ex = 10 * np.log10(ex) if logscale else ex
+    origin = "upper"
     plt.imshow(
         ex.T,
         cmap=cmap_fields,
@@ -221,7 +245,5 @@ def plot_modes(
 
 
 if __name__ == "__main__":
-    from gmeep.find_modes import find_modes
-
-    r = find_modes()
-    plot_modes(mode_solver=r["mode_solver"])
+    plot_modes()
+    plt.show()

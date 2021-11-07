@@ -1,5 +1,6 @@
-from typing import List, Optional, Dict, Union, Callable
 import dataclasses
+from typing import Callable, Dict, List, Optional, Union
+
 from meep import mpb
 
 

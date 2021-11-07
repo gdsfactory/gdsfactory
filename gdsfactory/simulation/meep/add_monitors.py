@@ -2,11 +2,12 @@ import pathlib
 from typing import List, Optional, Tuple
 
 import numpy as np
+
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
 from gdsfactory.port import Port
+from gdsfactory.tech import LAYER
 
 
 def _add_pin_square(

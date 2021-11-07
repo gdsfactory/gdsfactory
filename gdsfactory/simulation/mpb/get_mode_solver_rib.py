@@ -3,9 +3,9 @@
 """
 import pathlib
 import tempfile
-import pydantic
 
 import meep as mp
+import pydantic
 from meep import mpb
 
 mpb.Verbosity(0)

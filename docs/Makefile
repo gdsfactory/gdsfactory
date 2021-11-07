@@ -24,4 +24,7 @@ clean:
 docs:
 	python write_components_doc.py
 
+remove-plugins:
+	rm -rf notebooks/plugins
+
 .PHONY: help Makefile upload

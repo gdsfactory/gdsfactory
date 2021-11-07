@@ -1,7 +1,0 @@
--e .
-gdsfactory
-h5py
-numpy
-matplotlib
-pytest
-pytest-regressions

@@ -1,23 +1,20 @@
-"""
-Returns simulation from component
+"""Returns simulation from component
 
 FIXME, zmin_um does not work
-
 """
-from typing import Any, Dict, Optional
 import warnings
-import pydantic
-import matplotlib.pyplot as plt
-import numpy as np
+from typing import Any, Dict, Optional
 
+import matplotlib.pyplot as plt
 import meep as mp
+import numpy as np
+import pydantic
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
-from gdsfactory.tech import LayerStack, LAYER_STACK
-
-from gmeep.materials import get_material
+from gdsfactory.simulation.meep.materials import get_material
+from gdsfactory.tech import LAYER_STACK, LayerStack
 
 mp.verbosity(0)
 
@@ -64,7 +61,7 @@ def get_simulation(
 
     Args:
         component: gf.Component
-        extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
+        extend_ports_function: to extend ports beyond the PML
         layer_to_thickness: Dict of layer number (int, int) to thickness (um)
         res: resolution (pixels/um) For example: (10: 100nm step size)
         t_clad_top: thickness for cladding above core
@@ -83,12 +80,12 @@ def get_simulation(
     Returns:
         sim: simulation object
 
-    Make sure you visualize the simulation region with gf.before you simulate a component
+    Make sure you review the simulation before you simulate a component
 
     .. code::
 
         import gdsfactory as gf
-        import gmeep as gm
+        import gdsfactory.simulation.meep as gm
 
         c = gf.components.bend_circular()
         margin = 2
@@ -101,21 +98,26 @@ def get_simulation(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
+    component_ref = component.ref()
+    component_ref.x = 0
+    component_ref.y = 0
+
     wavelengths = np.linspace(wl_min, wl_max, wl_steps)
-    if port_source_name not in component.ports:
+    if port_source_name not in component_ref.ports:
         warnings.warn(
             f"port_source_name={port_source_name} not in {component.ports.keys()}"
         )
-        port_source = component.get_ports_list()[0]
+        port_source = component_ref.get_ports_list()[0]
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
 
-    if port_field_monitor_name not in component.ports:
+    if port_field_monitor_name not in component_ref.ports:
+        port_names = list(component_ref.ports.keys())
         warnings.warn(
-            f"port_field_monitor_name={port_field_monitor_name} not in {component.ports.keys()}"
+            f"port_field_monitor_name={port_field_monitor_name} not in {port_names}"
         )
         port_field_monitor = (
-            component.get_ports_list()[0]
+            component_ref.get_ports_list()[0]
             if len(component.ports) < 2
             else component.get_ports_list()[1]
         )
@@ -135,11 +137,6 @@ def get_simulation(
         if extend_ports_length
         else component
     )
-
-    component = component.ref()
-    component.x = 0
-    component.y = 0
-
     gf.show(component_extended)
 
     component_extended.flatten()
@@ -151,7 +148,7 @@ def get_simulation(
 
     layers_thickness = [
         layer_to_thickness[layer]
-        for layer in component.get_layers()
+        for layer in component.layers
         if layer in layer_to_thickness
     ]
 
@@ -191,7 +188,7 @@ def get_simulation(
     frequency_width = dfcen * fcen
 
     # Add source
-    port = component.ports[port_source_name]
+    port = component_ref.ports[port_source_name]
     angle = port.orientation
     width = port.width + 2 * port_margin
     size_x = width * abs(np.sin(angle * np.pi / 180))
@@ -202,7 +199,7 @@ def get_simulation(
     size = [size_x, size_y, size_z]
     center = port.center.tolist() + [0]  # (x, y, z=0)
 
-    field_monitor_port = component.ports[port_field_monitor_name]
+    field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
     sources = [
@@ -228,8 +225,8 @@ def get_simulation(
 
     # Add port monitors dict
     monitors = {}
-    for port_name in component.ports.keys():
-        port = component.ports[port_name]
+    for port_name in component_ref.ports.keys():
+        port = component_ref.ports[port_name]
         angle = port.orientation
         width = port.width + 2 * port_margin
         size_x = width * abs(np.sin(angle * np.pi / 180))
