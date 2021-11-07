@@ -82,6 +82,10 @@ def find_neff(
     neff = np.array(k) * wavelength
     ng = 1 / np.array(vg)
 
+    E = mode_solver.get_efield(mode_number)
+    H = mode_solver.get_hfield(mode_number)
+    eps = mode_solver.get_epsilon()
+
     modes = {
         i: Mode(
             mode_number=i,
@@ -89,6 +93,9 @@ def find_neff(
             solver=mode_solver,
             wavelength=wavelength,
             ng=ng,
+            E=E,
+            H=H,
+            eps=eps,
         )
         for index, i in enumerate(range(mode_number, mode_number + nmodes))
     }
