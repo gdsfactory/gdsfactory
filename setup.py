@@ -28,7 +28,7 @@ setup(
         gf=gdsfactory.gf:gf
     """,
     extras_require={
-        "all": list(set(get_install_requires() + get_install_requires_dev())),
+        "full": list(set(get_install_requires() + get_install_requires_dev())),
         "basic": get_install_requires(),
     },
 )

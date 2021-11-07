@@ -6,8 +6,9 @@ try:
     MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 
 except ImportError:
-    print("You need to install tidy3d")
-    print("pip install tidy3d")
+    from print_import_error import print_import_error
+
+    print_import_error()
     Medium = "str"
 
 

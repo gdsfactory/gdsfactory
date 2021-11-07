@@ -12,8 +12,9 @@ try:
     import tidy3d as td
     from tidy3d import web
 except ImportError:
-    print("You need to install tidy3d")
-    print("pip install tidy3d")
+    from print_import_error import print_import_error
+
+    print_import_error()
 
 
 _executor = concurrent.futures.ThreadPoolExecutor()

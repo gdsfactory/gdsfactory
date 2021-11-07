@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 import gdsfactory as gf
 from meep.geom import Medium
-from numpy import ndarray
 from gdsfactory.component import Component
 
 from gmeep.add_monitors import add_monitors
@@ -31,7 +30,9 @@ def get_transmission_2ports(
     core_material: Medium = mp.Medium(epsilon=12),
     is_3d: bool = False,
     run: bool = True,
-    wavelengths: ndarray = np.linspace(1.5, 1.6, 50),
+    wavelength_min: float = 1.5,
+    wavelength_max: float = 1.6,
+    wavelength_points: int = 50,
     field_monitor_point: Tuple[int, int, int] = (0, 0, 0),
     dfcen: float = 0.2,
 ) -> Dict[str, Any]:
@@ -93,6 +94,7 @@ def get_transmission_2ports(
     gdspath = component.write_gds()
     gdspath = str(gdspath)
 
+    wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
     freqs = 1 / wavelengths
     fcen = np.mean(freqs)
     frequency_width = dfcen * fcen
