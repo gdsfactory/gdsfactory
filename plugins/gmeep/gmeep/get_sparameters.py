@@ -2,10 +2,10 @@
 """
 
 import pathlib
-import pydantic
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
+import pydantic
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
