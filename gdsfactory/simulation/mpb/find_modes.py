@@ -24,7 +24,7 @@ from gdsfactory.simulation.mpb.types import Mode, ModeSolverOrFactory
 mpb.Verbosity(0)
 
 
-def find_neff(
+def find_modes(
     mode_solver: ModeSolverOrFactory = get_mode_solver_rib,
     tol: float = 1e-6,
     wavelength: float = 1.55,
@@ -82,10 +82,6 @@ def find_neff(
     neff = np.array(k) * wavelength
     ng = 1 / np.array(vg)
 
-    E = mode_solver.get_efield(mode_number)
-    H = mode_solver.get_hfield(mode_number)
-    eps = mode_solver.get_epsilon()
-
     modes = {
         i: Mode(
             mode_number=i,
@@ -93,9 +89,9 @@ def find_neff(
             solver=mode_solver,
             wavelength=wavelength,
             ng=ng,
-            E=E,
-            H=H,
-            eps=eps,
+            E=mode_solver.get_efield(i),
+            H=mode_solver.get_hfield(i),
+            eps=mode_solver.get_epsilon(),
         )
         for index, i in enumerate(range(mode_number, mode_number + nmodes))
     }
@@ -104,7 +100,7 @@ def find_neff(
 
 if __name__ == "__main__":
     ms = get_mode_solver_rib(wg_width=0.5)
-    m = find_neff(mode_solver=ms)
+    m = find_modes(mode_solver=ms)
 
     # tol: float = 1e-6
     # wavelength: float = 1.55

@@ -1,12 +1,12 @@
 import numpy as np
 
-from gdsfactory.simulation.mpb.find_neff import find_neff
+from gdsfactory.simulation.mpb.find_modes import find_modes
 from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
 
 
 def test_find_modes():
     ms = get_mode_solver_rib(wg_width=0.45)
-    modes = find_neff(mode_solver=ms)
+    modes = find_modes(mode_solver=ms)
     m1 = modes[1]
     m2 = modes[2]
     neff1 = 2.342628111145838

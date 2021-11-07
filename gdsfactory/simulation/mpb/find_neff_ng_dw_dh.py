@@ -13,8 +13,8 @@ import pandas as pd
 from scipy.interpolate import interp2d
 
 from gdsfactory.config import PATH
+from gdsfactory.simulation.mpb.find_modes import find_modes
 from gdsfactory.simulation.mpb.find_modes_dispersion import find_modes_dispersion
-from gdsfactory.simulation.mpb.find_neff import find_neff
 
 PATH.modes = pathlib.Path.cwd() / "data"
 
@@ -52,7 +52,7 @@ def find_neff_ng_dw_dh(
                     wg_width=w0 + dwi, wg_thickness=h0 + dhi, wavelength=wavelength
                 )
             else:
-                r = find_neff(
+                r = find_modes(
                     wg_width=w0 + dwi, wg_thickness=h0 + dhi, wavelength=wavelength
                 )
 
@@ -79,7 +79,7 @@ def plot_neff_ng_dw_dh(
         ng0 = r["ng"]
     else:
         filepath = pathlib.Path(PATH.modes / "mpb_dw_dh.csv")
-        r = find_neff(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
+        r = find_modes(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
         neff0 = r["neff"]
         ng0 = r["ng"]
 

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 
-from gdsfactory.simulation.mpb.find_neff import find_neff
+from gdsfactory.simulation.mpb.find_modes import find_modes
 from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
 from gdsfactory.simulation.mpb.types import WidthSweep
 
@@ -28,7 +28,7 @@ def find_neff_vs_width(
 
     for wg_width in width:
         mode_solver = partial(mode_solver, wg_width=wg_width, nmodes=nmodes, **kwargs)
-        modes = find_neff(mode_solver, wavelength=wavelength, parity=parity)
+        modes = find_modes(mode_solver, wavelength=wavelength, parity=parity)
         for mode_number in range(1, nmodes + 1):
             mode = modes[mode_number]
             neff[mode_number].append(mode.neff)
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     for wg_width in width:
         mode_solver = partial(mode_solver, wg_width=wg_width, nmodes=nmodes)
-        modes = find_neff(mode_solver, wavelength=wavelength, parity=parity)
+        modes = find_modes(mode_solver, wavelength=wavelength, parity=parity)
         for mode_number in range(1, nmodes + 1):
             mode = modes[mode_number]
             neff[mode_number].append(mode.neff)
