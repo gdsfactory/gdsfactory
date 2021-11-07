@@ -69,6 +69,7 @@ def plot_modes(
     E = mode_solver.get_efield(mode_number)
     H = mode_solver.get_hfield(mode_number)
     eps = mode_solver.get_epsilon()
+    mode_solver.get_dfield(mode_number)
     Eabs = np.sqrt(
         np.multiply(E[:, :, 0, 2], E[:, :, 0, 2])
         + np.multiply(E[:, :, 0, 1], E[:, :, 0, 1])
