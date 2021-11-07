@@ -134,7 +134,7 @@ git pull
 After installing you should be able to `import gdsfactory as gf` from a python script.
 
 - gdsfactory
-  - components: define components
+  - components: define a basic library of generic components that you can customize
   - gdsdiff: hash geometry and show differences by displaying boolean operations in klayout
   - klayout: klayout generic tech layers and klive macro
   - klive: stream GDS directly to klayout
@@ -143,6 +143,26 @@ After installing you should be able to `import gdsfactory as gf` from a python s
   - samples: python tutorial
   - tests:
 - docs/notebooks: jupyter-notebooks based tutorial
+
+
+## Plugins
+
+We try to keep gdsfactory core with minimum depedencies.
+So when you install `pip install gdsfactory` you do not install any of the plugins by default.
+If you want to install gdsfactory together with all the plugins you can run
+
+```
+pip install gdsfactory[all]
+```
+
+### Trimesh
+
+For (3D rendering and STL export)
+
+### tidy3d
+
+For FDTD simulations on the web. It will require you to create an account on [simulation.cloud](simulation.cloud)
+
 
 ## Links
 

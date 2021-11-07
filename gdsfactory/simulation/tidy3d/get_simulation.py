@@ -16,8 +16,9 @@ from gdsfactory.tech import LAYER_STACK, LayerStack
 try:
     import tidy3d as td
 except ImportError:
-    print("You need to install tidy3d")
-    print("pip install tidy3d")
+    from print_import_error import print_import_error
+
+    print_import_error()
 
 
 MATERIAL_NAME_TO_TIDY3D = {
