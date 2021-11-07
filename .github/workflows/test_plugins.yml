@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
   schedule:
-      - cron: '0 2 * * *' # run at 2 AM UTC
+    - cron: "0 2 * * *" # run at 2 AM UTC
 
 jobs:
   build:
@@ -16,18 +16,20 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: conda-incubator/setup-miniconda@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        git clone https://github.com/gdsfactory/gdslib.git
-        pip install tox tox-gh-actions
-        make install
-        make meep
-    - name: Test
-      run: pytest gdsfactory/plugins
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          git clone https://github.com/gdsfactory/gdslib.git
+          pip install tox tox-gh-actions
+          make install
+          make meep
+      - name: Test
+        run: |
+          pytest gdsfactory/simulation/meep
+          pytest gdsfactory/simulation/mpb
