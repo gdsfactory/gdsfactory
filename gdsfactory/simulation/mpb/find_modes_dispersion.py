@@ -1,13 +1,12 @@
 """Sweep neff over wavelength and returns group index."""
-from typing import Tuple
 
 from functools import partial
+
 import numpy as np
 
-import gmeep as gm
-from gmeep.config import disable_print, enable_print
-from gmeep.materials import get_index
-from gmeep.types import Mode
+from gdsfactory.simulation.meep.materials import get_index
+from gdsfactory.simulation.mpb.find_neff import find_neff
+from gdsfactory.simulation.mpb.types import Mode
 
 
 def find_modes_dispersion(
@@ -17,7 +16,7 @@ def find_modes_dispersion(
     clad: str = "SiO2",
     mode_number: int = 1,
     **kwargs,
-) -> Tuple[float, float]:
+) -> Mode:
     """Returns mode effective index and group index.
 
     Computes dispersion with finite difference.
@@ -53,11 +52,9 @@ def find_modes_dispersion(
     ncore = partial(get_index, name=core)
     nclad = partial(get_index, name=clad)
 
-    disable_print()
-    m0 = gm.find_neff(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
-    mc = gm.find_neff(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
-    m1 = gm.find_neff(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
-    enable_print()
+    m0 = find_neff(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
+    mc = find_neff(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
+    m1 = find_neff(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
 
     n0 = m0[mode_number].neff
     nc = mc[mode_number].neff
@@ -73,12 +70,14 @@ def find_modes_dispersion(
 
 def test_ng():
     m = find_modes_dispersion(wg_width=0.45, wg_thickness=0.22)
-    # print(r["ng"])
-    assert np.isclose(m.ng, 4.243284836138521)
+    ng = 4.277160926428621
+    assert np.isclose(m.ng, ng)
 
 
 if __name__ == "__main__":
-    test_ng()
+    m = find_modes_dispersion(wg_width=0.45, wg_thickness=0.22)
+    print(m.ng)
+    # test_ng()
     # print(get_index(name="Si"))
     # ngs = []
     # for wavelength_step in [0.001, 0.01]:

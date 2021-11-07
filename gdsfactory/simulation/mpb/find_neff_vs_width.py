@@ -1,11 +1,12 @@
 from functools import partial
+
 import matplotlib.pyplot as plt
+import meep as mp
 import numpy as np
 
-import meep as mp
-from gmeep.get_mode_solver_rib import get_mode_solver_rib
-from gmeep.find_neff import find_neff
-from gmeep.types import WidthSweep
+from gdsfactory.simulation.mpb.find_neff import find_neff
+from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.mpb.types import WidthSweep
 
 
 def find_neff_vs_width(

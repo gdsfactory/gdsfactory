@@ -1,14 +1,14 @@
-from typing import Any, Dict, Tuple, Optional
+from typing import Any, Dict, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import gdsfactory as gf
 from meep.geom import Medium
-from gdsfactory.component import Component
 
-from gmeep.add_monitors import add_monitors
+import gdsfactory as gf
+from gdsfactory.component import Component
+from gdsfactory.simulation.meep.add_monitors import add_monitors
 
 mp.verbosity(0)
 
@@ -75,7 +75,7 @@ def get_transmission_2ports(
     .. code::
 
         import gdsfactory as gf
-        import gmeep as gm
+        import gdsfactory.simulation.meep as gm
 
         component = gf.components.bend_circular()
         margin = 2

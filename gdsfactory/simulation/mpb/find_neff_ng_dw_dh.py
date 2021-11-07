@@ -12,8 +12,11 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import interp2d
 
-import gmeep as gm
-from gmeep.config import PATH
+from gdsfactory.config import PATH
+from gdsfactory.simulation.mpb.find_modes_dispersion import find_modes_dispersion
+from gdsfactory.simulation.mpb.find_neff import find_neff
+
+PATH.modes = pathlib.Path.cwd() / "data"
 
 w0 = 0.465
 h0 = 0.215
@@ -45,11 +48,11 @@ def find_neff_ng_dw_dh(
     for dwi in dw:
         for dhi in dh:
             if with_dispersion:
-                r = gm.find_modes_dispersion(
+                r = find_modes_dispersion(
                     wg_width=w0 + dwi, wg_thickness=h0 + dhi, wavelength=wavelength
                 )
             else:
-                r = gm.find_modes(
+                r = find_neff(
                     wg_width=w0 + dwi, wg_thickness=h0 + dhi, wavelength=wavelength
                 )
 
@@ -71,14 +74,12 @@ def plot_neff_ng_dw_dh(
 
     if with_dispersion:
         filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
-        r = gm.find_modes_dispersion(
-            wg_width=w0, wg_thickness=h0, wavelength=wavelength
-        )
+        r = find_modes_dispersion(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
         neff0 = r["neff"]
         ng0 = r["ng"]
     else:
         filepath = pathlib.Path(PATH.modes / "mpb_dw_dh.csv")
-        r = gm.find_modes(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
+        r = find_neff(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
         neff0 = r["neff"]
         ng0 = r["ng"]
 

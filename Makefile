@@ -1,11 +1,13 @@
 help:
 	@echo 'make install:          Install package, hook, notebooks and gdslib'
-	@echo 'make gds:        Build a sample GDS straight waveguide'
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
 install: gdslib
 	bash install.sh
+
+meep:
+	conda install -c conda-forge pymeep
 
 update:
 	pur

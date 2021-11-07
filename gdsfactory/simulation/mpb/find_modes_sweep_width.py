@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import gmeep as ms
+from gdsfactory.simulation.mpb.find_neff import find_neff
 
 
 def find_modes_sweep_width(wg_widths, **kwargs):
@@ -29,7 +29,7 @@ def find_modes_sweep_width(wg_widths, **kwargs):
         neff
         ng
     """
-    n = [ms.find_modes(wg_width=wg_width, **kwargs) for wg_width in wg_widths]
+    n = [find_neff(wg_width=wg_width, **kwargs) for wg_width in wg_widths]
     neffs = [ni["neff"] for ni in n]
     ngs = [ni["ng"] for ni in n]
     return neffs, ngs

@@ -1,32 +1,30 @@
-"""Compute and write Sparameters using Meep
-"""
+"""Compute and write Sparameters using Meep."""
 
 import pathlib
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
-import pydantic
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
-import gdsfactory as gf
-from gdsfactory.types import PathType
-from gdsfactory.component import Component
-from gdsfactory.sp.get_sparameters_path import get_sparameters_path
+import pydantic
 
-from gmeep.config import PATH
-from gmeep.get_simulation import (
-    get_simulation,
-    LAYER_TO_THICKNESS,
+import gdsfactory as gf
+from gdsfactory.component import Component
+from gdsfactory.config import CONFIG
+from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.meep.get_simulation import (
     LAYER_TO_MATERIAL,
+    LAYER_TO_THICKNESS,
+    get_simulation,
 )
 
 
 @pydantic.validate_arguments
 def get_sparameters1x1(
     component: Component,
-    dirpath: PathType = PATH.sparameters,
+    dirpath: Path = CONFIG["sparameters"],
     layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
     filepath: Optional[Path] = None,

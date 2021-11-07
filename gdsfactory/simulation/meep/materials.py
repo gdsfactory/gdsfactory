@@ -1,6 +1,7 @@
 from functools import partial
-import meep.materials as mat
+
 import meep as mp
+import meep.materials as mat
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 
@@ -36,16 +37,16 @@ def get_material(
         wavelength: wavelength (um)
 
     """
-    if name not in MATERIALS:
-        raise ValueError(f"{name} not in {MATERIALS}")
 
     # FIXME: need to remove this. If I remove this, then I get no fields.
     if name == "SiO2":
         return mp.Medium(epsilon=2.25)
-    elif name == "Si":
+    elif name.lower() == "si":
         return mp.Medium(epsilon=12)
+    elif name.lower() == "sin":
+        return mp.Medium(epsilon=4)
     else:
-        raise ValueError(f"not implemetned material, name = {name}")
+        raise ValueError(f"material, name = {name} not in {MATERIALS}")
 
     return getattr(mat, name)
 

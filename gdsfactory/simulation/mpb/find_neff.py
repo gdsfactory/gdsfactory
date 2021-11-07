@@ -12,14 +12,14 @@ output as um/lambda, e.g. 1.5um would correspond to the frequency
 
 """
 from typing import Dict
-import numpy as np
 
 import meep as mp
+import numpy as np
 from meep import mpb
 
-from gmeep.config import disable_print, enable_print
-from gmeep.types import Mode, ModeSolverOrFactory
-from gmeep.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.mpb.disable_print import disable_print, enable_print
+from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.mpb.types import Mode, ModeSolverOrFactory
 
 mpb.Verbosity(0)
 
@@ -80,7 +80,7 @@ def find_neff(
     vg = mode_solver.compute_group_velocities()
     vg = vg[0]
     neff = np.array(k) * wavelength
-    # ng = 1 / np.array(vg)
+    ng = 1 / np.array(vg)
 
     modes = {
         i: Mode(
@@ -88,6 +88,7 @@ def find_neff(
             neff=neff[index],
             solver=mode_solver,
             wavelength=wavelength,
+            ng=ng,
         )
         for index, i in enumerate(range(mode_number, mode_number + nmodes))
     }
@@ -108,7 +109,6 @@ if __name__ == "__main__":
     # omega = 1 / wavelength
 
     # # Output the x component of the Poynting vector for mode_number bands at omega
-    # disable_print()
     # k = mode_solver.find_k(
     #     parity,
     #     omega,
