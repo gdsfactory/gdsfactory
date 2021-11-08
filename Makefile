@@ -11,8 +11,6 @@ meep:
 
 update:
 	pur
-
-update_dev:
 	pur -r requirements_dev.txt
 
 update_pre:
