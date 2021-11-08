@@ -22,7 +22,8 @@ jobs:
         run: |
           conda env create --file environment.yml
       - name: Test
-      - with:
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
           activate-environment: gdsfactory
       - run: |
           conda info
