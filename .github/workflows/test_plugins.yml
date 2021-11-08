@@ -19,11 +19,9 @@ jobs:
           python-version: 3.9
           miniconda-version: latest
           activate-environment: gdsfactory
+          environment-file: environment.yml
       - name: Install dependencies
         run: |
-          conda init bash
-          conda env create --file environment.yml
-          conda activate gdsfactory
           conda info
           conda list
           pytest gdsfactory/simulation/meep
