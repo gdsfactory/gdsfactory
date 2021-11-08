@@ -31,5 +31,6 @@ jobs:
             - shell: bash -l {0}
               run: |
                   mamba install pymeep
-                  mamba install .
-                  pytest
+                  mamba install gdsfactory
+                  pytest gdsfactory/simulation/meep
+                  pytest gdsfactory/simulation/mpb
