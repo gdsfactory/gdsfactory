@@ -1,50 +1,51 @@
+---
 image: python3
 
 before_script:
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - pyenv shell 3.7.2
-  - virtualenv venv
-  - source venv/bin/activate
-  - pip install -r requirements.txt --upgrade
-  - python setup.py develop
-  - pip list
-  - python -V # Print out python version for debugging
-  - which python # Print out which python for debugging
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - pyenv shell 3.7.2
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt --upgrade
+    - python setup.py develop
+    - pip list
+    - python -V # Print out python version for debugging
+    - which python # Print out which python for debugging
 
 
 stages:
-  - linter
-  - test
-  - release
+    - linter
+    - test
+    - release
 
 linter:
-  stage: linter
-  script:
-    - pip install pyflakes
-    - pyflakes gdsfactory
+    stage: linter
+    script:
+        - pip install pyflakes
+        - pyflakes gdsfactory
 
 test:
-  stage: test
-  script:
-    - pytest
+    stage: test
+    script:
+        - pytest
 
 docs:
-  stage: test
-  script:
-    - pip install sphinx sphinx_rtd_theme recommonmark sphinx-markdown-tables
-    - cd docs
-    - make clean html upload
-  only:
-    - master
+    stage: test
+    script:
+        - pip install sphinx sphinx_rtd_theme recommonmark sphinx-markdown-tables
+        - cd docs
+        - make clean html upload
+    only:
+        - master
 
 release:
-  stage: release
-  script:
-    - make clean build release
-  only:
-    - master
+    stage: release
+    script:
+        - make clean build release
+    only:
+        - master
