@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: test plugins
     runs-on: ubuntu-latest
 
     steps:
@@ -17,16 +18,11 @@ jobs:
         with:
           python-version: 3.9
           miniconda-version: latest
-          auto-activate-base: true
       - name: Install dependencies
         run: |
-          conda env create --file environment.yml
-      - name: Test
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: gdsfactory
-      - run: |
-          conda info
-          conda list
-          pytest gdsfactory/simulation/meep
-          pytest gdsfactory/simulation/mpb
+          $CONDA/bin/conda env create --file environment.yml
+          $CONDA/bin/conda activate gdsfactory
+          $CONDA/bin/conda info
+          $CONDA/bin/conda list
+          $CONDA/bin/pytest gdsfactory/simulation/meep
+          $CONDA/bin/pytest gdsfactory/simulation/mpb

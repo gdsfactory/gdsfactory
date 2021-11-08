@@ -10,7 +10,7 @@ on:
 
 jobs:
     test:
-        name: test plugins
+        name: test plugins with mamba
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -30,8 +30,7 @@ jobs:
                   printenv | sort
             - shell: bash -l {0}
               run: |
-                  # mamba install -f environment.yml
+                  mamba env update --name gdsfactory --file environment.yml
                   mamba install pymeep
-                  mamba install gdsfactory
                   pytest gdsfactory/simulation/meep
                   pytest gdsfactory/simulation/mpb
