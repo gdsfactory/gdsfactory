@@ -1,16 +1,17 @@
+---
 name: gdsfactory
 channels:
-  - conda-forge
+    - conda-forge
 dependencies:
-  - python
-  - nbgitpuller
-  - ffmpeg
-  - numpy
-  - scipy
-  - pymeep
-  - pip
-  - pip:
-    - nlopt
-    - matplotlib
-    - autograd
-    - jax
+    - python
+    - nbgitpuller
+    - ffmpeg
+    - numpy
+    - scipy
+    - pymeep
+    - pip
+    - pip:
+          - nlopt
+          - matplotlib
+          - autograd
+          - jax
