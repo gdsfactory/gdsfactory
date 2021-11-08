@@ -27,18 +27,18 @@ info:
     layer:
     - 3
     - 0
-    width_wide: null
+    width_wide:
     auto_widen: false
     auto_widen_minimum_length: 200
     taper_length: 10
     radius: 10
     cladding_offset: 3
-    layers_cladding: null
+    layers_cladding:
     sections: []
     min_length: 0.01
     start_straight: 0.01
     end_straight_length: 0.01
-    snap_to_grid: null
+    snap_to_grid:
     port_types:
     - optical
     - optical
