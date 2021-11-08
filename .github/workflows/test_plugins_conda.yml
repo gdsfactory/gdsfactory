@@ -2,7 +2,11 @@
 # https://github.com/actions/starter-workflows/blob/main/ci/python-package-conda.yml
 name: Test pluings using Conda
 
-on: [push]
+on:
+  pull_request:
+  push:
+  schedule:
+      - cron: '0 2 * * *' # run at 2 AM UTC
 
 jobs:
   build-linux:
