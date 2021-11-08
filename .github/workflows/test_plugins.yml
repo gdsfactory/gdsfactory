@@ -29,5 +29,5 @@ jobs:
         run: |
           conda info
           conda list
-          pytest gdsfactory/simulation/meep
-          pytest gdsfactory/simulation/mpb
+          $CONDA/bin/pytest gdsfactory/simulation/meep
+          $CONDA/bin/pytest gdsfactory/simulation/mpb

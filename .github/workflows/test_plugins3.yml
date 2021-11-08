@@ -1,6 +1,6 @@
 # https://github.com/conda-incubator/setup-miniconda
 # https://github.com/actions/starter-workflows/blob/main/ci/python-package-conda.yml
-name: Python Package using Conda
+name: Test pluings using Conda
 
 on: [push]
 
@@ -26,4 +26,5 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest
-        pytest
+        pytest gdsfactory/simulation/meep
+        pytest gdsfactory/simulation/mpb
