@@ -32,5 +32,4 @@ jobs:
           make meep
       - name: Test
         run: |
-          pytest gdsfactory/simulation/meep
-          pytest gdsfactory/simulation/mpb
+          tox -e plugins
