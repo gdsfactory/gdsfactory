@@ -9,27 +9,24 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      max-parallel: 12
-      matrix:
-        python-version: [3.9]
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.9
           miniconda-version: "latest"
           auto-activate-base: true
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           git clone https://github.com/gdsfactory/gdslib.git
-          pip install tox tox-gh-actions
           make install
-          make meep
+          conda install -c conda-forge pymeep
       - name: Test
         run: |
-          tox -e plugins
+          conda info
+          conda list
+          pytest gdsfactory/simulation/meep
+          pytest gdsfactory/simulation/mpb

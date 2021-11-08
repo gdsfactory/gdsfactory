@@ -10,7 +10,6 @@ dependencies:
   - pymeep
   - pip
   - pip:
-    - gdsfactory
     - nlopt
     - matplotlib
     - autograd
