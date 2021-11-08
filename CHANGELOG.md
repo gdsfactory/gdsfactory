@@ -18,7 +18,7 @@ Maybe:
 
 ## 3.5.3
 
-- make trimesh, and tidy3d optional dependencies that you can install with `pip install gdsfactory[all]`
+- make trimesh, and tidy3d optional dependencies that you can install with `pip install gdsfactory[full]`
 
 ## 3.5.1
 

@@ -152,7 +152,7 @@ So when you run `pip install gdsfactory` you do not install any plugins by defau
 If you want to install gdsfactory together with all the plugins you can run
 
 ```
-pip install gdsfactory[all]
+pip install gdsfactory[full]
 ```
 
 ## Trimesh
