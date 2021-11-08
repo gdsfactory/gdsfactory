@@ -31,7 +31,7 @@ jobs:
             - shell: bash -l {0}
               run: |
                   # mamba install -f environment.yml
-                  mamba install c conda-forge pymeep
+                  mamba install pymeep
                   mamba install gdsfactory
                   pytest gdsfactory/simulation/meep
                   pytest gdsfactory/simulation/mpb
