@@ -30,7 +30,6 @@ jobs:
                   printenv | sort
             - shell: bash -l {0}
               run: |
-                  mamba install pymeep
-                  mamba install gdsfactory
+                  mamba install -f environment.yml
                   pytest gdsfactory/simulation/meep
                   pytest gdsfactory/simulation/mpb

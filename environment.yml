@@ -11,6 +11,8 @@ dependencies:
     - pymeep
     - pip
     - pip:
+          - -r requirements.txt
+          - -r requirements_dev.txt
           - nlopt
           - matplotlib
           - autograd
