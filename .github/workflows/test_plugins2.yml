@@ -31,6 +31,5 @@ jobs:
             - shell: bash -l {0}
               run: |
                   mamba env update --name gdsfactory --file environment.yml
-                  mamba install pymeep
                   pytest gdsfactory/simulation/meep
                   pytest gdsfactory/simulation/mpb
