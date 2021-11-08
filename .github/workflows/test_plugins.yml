@@ -22,7 +22,7 @@ jobs:
             - name: Install dependencies
               run: |
                   conda env create --file environment.yml
-                  python install
+                  conda activate gdsfactory
             - name: Test
               run: |
                   conda info
