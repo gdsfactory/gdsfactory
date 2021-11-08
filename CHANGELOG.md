@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.3
+
+- make trimesh, and tidy3d optional dependencies that you can install with `pip install gdsfactory[all]`
+
 ## 3.5.1
 
 - add `gf.routing.get_bundle_from_steps`

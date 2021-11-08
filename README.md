@@ -148,21 +148,25 @@ After installing you should be able to `import gdsfactory as gf` from a python s
 ## Plugins
 
 We try to keep gdsfactory core with minimum depedencies.
-So when you install `pip install gdsfactory` you do not install any of the plugins by default.
+So when you run `pip install gdsfactory` you do not install any plugins by default.
 If you want to install gdsfactory together with all the plugins you can run
 
 ```
 pip install gdsfactory[all]
 ```
 
-### Trimesh
+## Trimesh
 
 For (3D rendering and STL export)
+
+
+### meep / mpb
+
+Open source FDTD / mode simulator. Requires you to run  `conda install -c conda-forge pymeep`
 
 ### tidy3d
 
 For FDTD simulations on the web. It will require you to create an account on [simulation.cloud](simulation.cloud)
-
 
 ## Links
 
