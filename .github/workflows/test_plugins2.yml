@@ -21,6 +21,10 @@ jobs:
                   channels: conda-forge,defaults
                   channel-priority: true
                   activate-environment: anaconda-client-env
+            - name: Add conda to system path
+              run: |
+                # $CONDA is an environment variable pointing to the root of the miniconda directory
+                echo $CONDA/bin >> $GITHUB_PATH
             - shell: bash -l {0}
               run: |
                   conda info
@@ -31,5 +35,5 @@ jobs:
             - shell: bash -l {0}
               run: |
                   mamba env update --name gdsfactory --file environment.yml
-                  pytest gdsfactory/simulation/meep
-                  pytest gdsfactory/simulation/mpb
+                  $CONDA/bin/pytest gdsfactory/simulation/meep
+                  $CONDA/bin/pytest gdsfactory/simulation/mpb
