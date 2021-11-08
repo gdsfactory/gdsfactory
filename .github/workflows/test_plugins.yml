@@ -1,4 +1,5 @@
 # https://github.com/conda-incubator/setup-miniconda
+# https://github.com/actions/starter-workflows/blob/main/ci/python-package-conda.yml
 name: Test plugins
 
 on:
@@ -20,6 +21,10 @@ jobs:
           miniconda-version: latest
           activate-environment: gdsfactory
           environment-file: environment.yml
+      - name: Add conda to system path
+        run: |
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
           conda info
