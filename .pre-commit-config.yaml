@@ -1,51 +1,60 @@
----
 repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: 7eb0512c687ed3502fea11bae9b5ad0f657eb8ef
-      hooks:
-          - id: end-of-file-fixer
-          - id: check-yaml
-          - id: trailing-whitespace
-    - repo: https://github.com/hakancelik96/unimport
-      rev: 2875c033c00877b6797f3a05761c7c7fe9aae46c
-      hooks:
-          - id: unimport
-            args: [--remove, --include-star-import]
-    - repo: https://github.com/pycqa/isort
-      rev: 995e016b9d888fea02bedeb5be8ea7f01b694b58
-      hooks:
-          - id: isort
-            files: gdsfactory/.*
-            args: [--profile, black, --filter-files]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 56b4a7e506901ff86f8de5c2551bc41f8eacf717
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/hakancelik96/unimport
+    rev: 0.9.2
+    hooks:
+      - id: unimport
+        args: [--remove, --include-star-import]
+  - repo: https://github.com/pycqa/isort
+    rev: dbd18429cf566e9554842c9322515237bd8efb49
+    hooks:
+      - id: isort
+        files: gdsfactory/.*
+        args: [--profile, black, --filter-files]
 
-    - repo: https://github.com/psf/black
-      rev: 37861b4ce264f16754f4459d19522a05844daf9f
-      hooks:
-          - id: black
-    - repo: https://github.com/asottile/blacken-docs
-      rev: 142b2a1728520b478c7b8ce3b32f7826a2608fee
-      hooks:
-          - id: blacken-docs
-            additional_dependencies: [black==21.9b0]
-    - repo: https://gitlab.com/pycqa/flake8
-      rev: 637a6a2084feaca229beb530ca12f12047f8ddce
-      hooks:
-          - id: flake8
-    - repo: https://github.com/kynan/nbstripout
-      rev: 3843f5f7c586fa6f0df81423f35d52e6af8e3039
-      hooks:
-          - id: nbstripout
-            files: .ipynb
-    # - repo: https://github.com/adrienverge/yamllint.git
-    #   rev: v1.21.0 # or higher tag
-    #   hooks:
-    #       - id: yamllint
-    #         args: [--format, parsable, --strict]
+  - repo: https://github.com/psf/black
+    rev: f80f49767cacafaeb20016d483b8315474504e6a
+    hooks:
+      - id: black
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 8016cd8fbf7b2b1b187692ca51ff905cfb3b001f
+    hooks:
+      - id: blacken-docs
+        additional_dependencies: [black==21.9b0]
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 21d3c70d676007470908d39b73f0521d39b3b997
+    hooks:
+      - id: flake8
+  - repo: https://github.com/kynan/nbstripout
+    rev: 3843f5f7c586fa6f0df81423f35d52e6af8e3039
+    hooks:
+      - id: nbstripout
+        files: .ipynb
+  # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
+  #   hooks:
+  #     - id: pretty-format-java
+  #       args: [--autofix]
+  #     - id: pretty-format-kotlin
+  #       args: [--autofix]
+  #     - id: pretty-format-yaml
+  #       args: [--autofix, --indent, "2"]
 
-    - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-      rev: 0.0.11 # or specific tag
-      hooks:
-          - id: yamlfmt
+  # - repo: https://github.com/adrienverge/yamllint.git
+  #   rev: v1.21.0 # or higher tag
+  #   hooks:
+  #       - id: yamllint
+  #         args: [--format, parsable, --strict]
+
+  # - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+  #   rev: 0.1.0 # or specific tag
+  #   hooks:
+  #       - id: yamlfmt
 
   # - repo: https://github.com/pre-commit/mirrors-mypy
   #   rev: "214c33306afe17f1cc7d2d55e4da705b6ebe0627"

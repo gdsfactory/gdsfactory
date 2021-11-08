@@ -66,32 +66,32 @@ instances:
 placements:
   bend_euler_4725f0ef_5p125_16p425:
     x: 10.0
-    'y': 11.3
+    y: 11.3
     rotation: 90
     mirror: false
   bend_euler_4725f0ef_m9p125_16p425:
     x: -4.0
-    'y': 21.3
+    y: 21.3
     rotation: 180
     mirror: false
   coupler_ring_6859e681_m2p0_5p225:
     x: 0.0
-    'y': 0.0
+    y: 0.0
     rotation: 0
     mirror: false
   straight_178d4157_m2p0_21p3:
     x: 0.0
-    'y': 21.3
+    y: 21.3
     rotation: 180
     mirror: false
   straight_417ceb80_10p0_11p0:
     x: 10.0
-    'y': 11.3
+    y: 11.3
     rotation: 270
     mirror: false
   straight_417ceb80_m14p0_11p0:
     x: -14.0
-    'y': 10.7
+    y: 10.7
     rotation: 90
     mirror: false
 ports:

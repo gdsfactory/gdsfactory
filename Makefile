@@ -13,7 +13,7 @@ update:
 	pur
 	pur -r requirements_dev.txt
 
-update_pre:
+update-pre:
 	pre-commit autoupdate --bleeding-edge
 
 gds:
