@@ -60,7 +60,7 @@ def cdc(
     """
 
     c = pc.ContraDirectionalCoupler(
-        gf.call_if_func(strip, **kwargs),
+        gf.call_if_func(waveguide_template, **kwargs),
         length=length,
         gap=gap,
         period=period,

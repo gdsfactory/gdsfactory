@@ -25,6 +25,6 @@ docs:
 	python write_components_doc.py
 
 remove-plugins:
-	rm -rf notebooks/plugins
+	rm -rf notebooks/plugins/tidy3d
 
 .PHONY: help Makefile upload

@@ -27,7 +27,7 @@ def contact_with_offset(
         port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
     """
     c = Component()
-    x0 = x1 = y0 = y1 = 0
+    y0 = y1 = 0
 
     offsets = offsets or [0] * len(layers)
 

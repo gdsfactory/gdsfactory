@@ -596,7 +596,7 @@ class Component(Device):
 
     """
 
-    def __init__(self, name: str = "Unnamed", *args, **kwargs) -> None:
+    def __init__(self, name: str = "Unnamed", **kwargs) -> None:
 
         self.__ports__ = {}
         self.aliases = {}

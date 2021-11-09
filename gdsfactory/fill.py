@@ -26,7 +26,7 @@ def fill_rectangle(
     Dummy fill keeps density constant during fabrication
 
     Args:
-        Component: Component to fill
+        component: Component to fill
         fill_size: Rectangular size of the fill element
         avoid_layers: Layers to be avoided (not filled) in D
         include_layers: Layers to be filled, supercedes avoid_layers

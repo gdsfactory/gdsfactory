@@ -177,7 +177,7 @@ def crossing45(
     r"""Returns 45deg crossing with bends.
 
     Args:
-        crossing: 90D crossing
+        crossing: crossing function
         port_spacing: target I/O port spacing
         dx: target length
         alpha: optimization parameter. diminish it for tight bends,

@@ -501,7 +501,7 @@ def demo():
     c = gf.components.straight(length=500)
     c = gf.components.mmi2x2()
 
-    elements, gc, = route_fiber_array(
+    elements, gc, _ = route_fiber_array(
         component=c,
         grating_coupler=[gcte, gctm, gcte, gctm],
         with_loopback=True,

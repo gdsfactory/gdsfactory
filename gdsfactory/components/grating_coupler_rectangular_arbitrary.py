@@ -8,8 +8,8 @@ from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentFactory, Floats, Layer
 
-_gaps = [0.2] * 10
-_widths = [0.5] * 10
+_gaps = (0.2,) * 10
+_widths = (0.5,) * 10
 
 
 @gf.cell

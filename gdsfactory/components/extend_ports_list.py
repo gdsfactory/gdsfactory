@@ -19,6 +19,7 @@ def extend_ports_list(
         ports: list of ports
         extension_factory: function for extension
         extension_port_name: to connect extension
+        ignore_ports: list of port names to ignore
 
     """
     c = Component()

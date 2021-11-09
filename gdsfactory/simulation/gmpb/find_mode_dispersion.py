@@ -22,23 +22,24 @@ def find_mode_dispersion(
     group index comes from a finite difference approximation at 3 wavelengths
 
     Args:
+        wavelength: center wavelength
         wavelength_step: in um
-        mode_solver: you can pass an gmpb.ModeSolver
+        core: core material name
+        clad: clad material name
         mode_number: to compute
-        wg_thickness: wg height (um)
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        sx: supercell width (um)
-        sy: supercell height (um)
-        res: (pixels/um)
-        wavelength: wavelength
-        num_bands: mode order
-        plot: if True plots mode
-        logscale: plots in logscale
-        plotH: plot magnetic field
-        dirpath: path to save the modes
-        polarization: prefix when saving the modes
-        paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM. Reduces spurious modes.
+        kwargs:
+            wg_thickness: wg height (um)
+            sx: supercell width (um)
+            sy: supercell height (um)
+            res: (pixels/um)
+            wavelength: wavelength
+            num_bands: mode order
+            plot: if True plots mode
+            logscale: plots in logscale
+            plotH: plot magnetic field
+            dirpath: path to save the modes
+            polarization: prefix when saving the modes
+            paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM. Reduces spurious modes.
 
     Returns:
         neff

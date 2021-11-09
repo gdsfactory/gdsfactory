@@ -51,9 +51,9 @@ def compute_area(component: Component, layer: Layer) -> float64:
     c.flatten()
     polys_by_spec = c.get_polygons(by_spec=True)
     _area = 0
-    for (layer, polys) in polys_by_spec.items():
+    for layer_polygons, polys in polys_by_spec.items():
         # print(layer)
-        if layer == layer:
+        if layer_polygons == layer:
             joined_polys = gp.boolean(polys, None, operation="or")
             # print(joined_polys)
             try:

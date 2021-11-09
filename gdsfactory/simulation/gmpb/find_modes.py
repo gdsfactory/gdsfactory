@@ -35,10 +35,10 @@ def find_modes(
     """Computes effective index and group index for a mode.
 
     Args:
-        get_mode_solver: function that returns mpb.ModeSolver
+        mode_solver: function that returns mpb.ModeSolver
+        tol: tolerance when finding modes
         wavelength: wavelength
         mode_number: mode order of the first mode
-        nmodes: number of modes
         paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM. Reduces spurious modes.
         kwargs: for the mode solver
 

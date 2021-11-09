@@ -27,8 +27,10 @@ def delay_snake(
 
     Args:
         wg_width
+        wg_width_wide: for the wide
         total_length:
         L0: initial offset
+        taper_length: length of the taper
         n: number of loops
         taper: taper library
         bend
