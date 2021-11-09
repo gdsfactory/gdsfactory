@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from gdsfactory.simulation.mpb.find_modes import find_modes
+from gdsfactory.simulation.gmpb.find_modes import find_modes
 
 
 def find_modes_sweep_width(wg_widths, **kwargs):

@@ -4,9 +4,9 @@ from functools import partial
 
 import numpy as np
 
-from gdsfactory.simulation.meep.materials import get_index
-from gdsfactory.simulation.mpb.find_modes import find_modes
-from gdsfactory.simulation.mpb.types import Mode
+from gdsfactory.simulation.gmeep.get_material import get_index
+from gdsfactory.simulation.gmpb.find_modes import find_modes
+from gdsfactory.simulation.gmpb.types import Mode
 
 
 def find_mode_dispersion(
@@ -23,7 +23,7 @@ def find_mode_dispersion(
 
     Args:
         wavelength_step: in um
-        mode_solver: you can pass an mpb.ModeSolver
+        mode_solver: you can pass an gmpb.ModeSolver
         mode_number: to compute
         wg_thickness: wg height (um)
         ncore: core material refractive index

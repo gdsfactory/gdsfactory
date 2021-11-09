@@ -7,8 +7,8 @@ import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.simulation.meep.add_monitors import add_monitors
-from gdsfactory.simulation.meep.materials import get_material
+from gdsfactory.simulation.gmeep.add_monitors import add_monitors
+from gdsfactory.simulation.gmeep.get_material import get_material
 
 mp.verbosity(0)
 

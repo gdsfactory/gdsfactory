@@ -13,7 +13,7 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
-from gdsfactory.simulation.meep.materials import get_material
+from gdsfactory.simulation.gmeep.get_material import get_material
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 mp.verbosity(0)
