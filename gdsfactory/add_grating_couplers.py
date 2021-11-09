@@ -98,7 +98,7 @@ def add_grating_couplers_with_loopback_fiber_single(
         grating_coupler:
         layer_label:
         gc_port_name:
-        get_input_label_text_loopback
+        get_input_label_text_loopback_function:
         with_loopback: adds a reference loopback
         rotation: 90 for North South devices, 0 for East-West
 

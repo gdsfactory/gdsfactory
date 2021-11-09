@@ -194,7 +194,7 @@ ModeSolverOrFactory = Union[mpb.ModeSolver, ModeSolverFactory]
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.mpb as gm
+    import gdsfactory.simulation.gmpb as gm
 
     m = gm.find_modes()
     m[1].plot_e_all()

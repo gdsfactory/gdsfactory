@@ -9,21 +9,22 @@ def find_modes_sweep_width(wg_widths, **kwargs):
 
     Args:
         wg_widths: list of widths (um)
-        mode_solver: you can pass an mpb.ModeSolver
-        mode_number: to compute
-        wg_thickness: wg height (um)
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        sx: supercell width (um)
-        sy: supercell height (um)
-        res: (pixels/um)
-        wavelength: wavelength
-        num_bands: mode order
-        plot: if True plots mode
-        logscale: plots in logscale
-        plotH: plot magnetic field
-        dirpath: path to save the modes
-        prefix: prefix when saving the modes
+        kwargs:
+            mode_solver: you can pass an mpb.ModeSolver
+            mode_number: to compute
+            wg_thickness: wg height (um)
+            ncore: core material refractive index
+            nclad: clad material refractive index
+            sx: supercell width (um)
+            sy: supercell height (um)
+            res: (pixels/um)
+            wavelength: wavelength
+            num_bands: mode order
+            plot: if True plots mode
+            logscale: plots in logscale
+            plotH: plot magnetic field
+            dirpath: path to save the modes
+            prefix: prefix when saving the modes
 
     Returns:
         neff

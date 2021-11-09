@@ -33,9 +33,13 @@ def add_fiber_array(
     Args:
         component: to connect
         grating_coupler: grating coupler instance, function or list of functions
+        straight: factory
         bend: bend_circular
         gc_port_name: grating coupler input port name 'W0'
+        gc_port_labels: grating coupler list of labels
         component_name: for the label
+        select_ports: function to select ports
+        cross_section: cross_section function
         taper: taper function name or dict
         get_input_labels_function: function to get input labels for grating couplers
         get_input_label_text_loopback_function: function to get input label test
@@ -123,9 +127,9 @@ def add_fiber_array(
 
     component_new.add_ref(component)
 
-    for pname, p in component.ports.items():
-        if p.name not in optical_ports_names:
-            component_new.add_port(pname, port=p)
+    for port in component.ports.values():
+        if port.name not in optical_ports_names:
+            component_new.add_port(port.name, port=port)
 
     ports = sort_ports_x(ports)
 
@@ -167,8 +171,8 @@ if __name__ == "__main__":
     gctm = gf.components.grating_coupler_tm
 
     # from pprint import pprint
-    layer_label = gf.LAYER.TEXT
-    layer_label = (66, 5)
+    # layer_label = gf.LAYER.TEXT
+    # layer_label = (66, 5)
 
     # cc = demo_tapers()
     # cc = test_type1()

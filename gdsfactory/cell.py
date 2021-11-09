@@ -184,7 +184,6 @@ def cell_without_validator(func):
             component.info.update(**info)
             CACHE[name] = component
             return component
-        return
 
     return _cell
 
@@ -256,9 +255,6 @@ def test_names() -> None:
     assert (
         name_length_first == name_width_first
     ), f"{name_length_first} != {name_width_first}"
-
-    name_args = _dummy(3).name
-    assert name_int == "_dummy_2dcab9f2", name_int
 
     name_with_prefix = _dummy(prefix="hi").name
     assert name_with_prefix == "hi", name_with_prefix

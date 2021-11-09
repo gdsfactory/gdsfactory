@@ -42,12 +42,12 @@ def bend_circular_heater(
 
     offset = heater_to_wg_distance + width / 2
     x.add(
-        width=width,
+        width=heater_width,
         offset=+offset,
         layer=layer_heater,
     )
     x.add(
-        width=width,
+        width=heater_width,
         offset=-offset,
         layer=layer_heater,
     )
@@ -60,6 +60,6 @@ def bend_circular_heater(
 
 
 if __name__ == "__main__":
-    c = bend_circular_heater()
+    c = bend_circular_heater(heater_width=1)
     print(c.ports)
     c.show()

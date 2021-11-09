@@ -58,6 +58,7 @@ def dbr(
         w2: thick width
         l2: thick length
         n: number of periods
+        straight: function
 
     .. code::
 

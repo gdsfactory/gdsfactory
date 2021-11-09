@@ -49,6 +49,7 @@ def add_fiber_single(
         bend: bend_circular
         straight: straight
         route_filter:
+        min_input_to_output_spacing: spacing from input to output fiber
         max_y0_optical: None
         with_loopback: True, adds loopback structures
         straight_separation: 4.0
@@ -60,12 +61,15 @@ def add_fiber_single(
         grating_indices: None
         routing_method: get_route
         gc_port_name: W0
+        zero_port: name of the port to move to (0, 0) for the routing to work correctly
         get_input_labels_function: function to get input labels for grating couplers
         optical_routing_type: None: autoselection, 0: no extension
         gc_rotation: -90
         component_name: name of component
         cross_section:
         kwargs: cross_section settings
+        get_input_label_text_function: function to get input label for grating couplers
+        get_input_label_text_loopback_function: function to get the input label test for loopbacks
 
     .. code::
 
@@ -186,11 +190,9 @@ def add_fiber_single(
                 c.add_port(f"{port.name}_{i}", port=port)
 
     if isinstance(grating_coupler, list):
-        grating_couplers = [call_if_func(g) for g in grating_coupler]
         grating_coupler = grating_couplers[0]
     else:
         grating_coupler = call_if_func(grating_coupler)
-        grating_couplers = [grating_coupler]
 
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge

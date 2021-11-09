@@ -20,7 +20,7 @@ def fanout_component(
 
     Args:
         component: to package
-        ports: list of ports
+        port_names: list of port names
         pitch: target port spacing for new component
         dx: how far the fanout in x direction
         kwargs: for get_route_sbend

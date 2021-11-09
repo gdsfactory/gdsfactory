@@ -111,7 +111,7 @@ def grating_coupler_circular(
     return c
 
 
-_gap_width = [0.1] * 10 + [0.5] * 10
+_gap_width = tuple([0.1] * 10 + [0.5] * 10)
 
 
 @cell

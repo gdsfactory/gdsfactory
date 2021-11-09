@@ -1,11 +1,14 @@
 import pathlib
+from typing import Union
 
 from gdsfactory import klive
 from gdsfactory.cell import clear_cache as clear_cache_function
 from gdsfactory.component import Component
 
 
-def show(component: Component, clear_cache: bool = True, **kwargs) -> None:
+def show(
+    component: Union[Component, str, pathlib.Path], clear_cache: bool = True, **kwargs
+) -> None:
     """Shows Component in klayout
 
     Args:

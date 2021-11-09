@@ -12,8 +12,8 @@ from gdsfactory.geometry.functions import DEG2RAD
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Floats, Layer
 
-_gaps = [0.1] * 10
-_widths = [0.5] * 10
+_gaps = (0.1,) * 10
+_widths = (0.5,) * 10
 
 
 @gf.cell

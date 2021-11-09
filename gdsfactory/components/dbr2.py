@@ -45,13 +45,14 @@ def dbr2(
        can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
        waveguide_template:  WaveguideTemplate object
        waveguide_template_dbr: Picwriter WaveguideTemplate object
-       wg_width: 0.5
-       wg_layer: gf.LAYER.WG[0]
-       wg_datatype: gf.LAYER.WG[1]
-       clad_layer: gf.LAYER.WGCLAD[0]
-       clad_datatype: gf.LAYER.WGCLAD[1]
-       bend_radius: 10
-       cladding_offset: 3
+       kwargs:
+        wg_width: 0.5
+        wg_layer: gf.LAYER.WG[0]
+        wg_datatype: gf.LAYER.WG[1]
+        clad_layer: gf.LAYER.WGCLAD[0]
+        clad_datatype: gf.LAYER.WGCLAD[1]
+        bend_radius: 10
+        cladding_offset: 3
 
     .. code::
 

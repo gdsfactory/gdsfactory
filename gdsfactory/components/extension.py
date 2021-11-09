@@ -104,6 +104,7 @@ def extend_ports(
         port1: input port name
         port2: output port name
         port_type: type of the ports to extend
+        centered: if True centers rectangle at (0, 0)
         **kwargs
     """
     c = gf.Component()

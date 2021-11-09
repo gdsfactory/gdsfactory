@@ -25,15 +25,14 @@ def disk(
     Args:
        radius: disk resonator radius
        gap: Distance between the bus straight and resonator
-       wrap_angle : Angle in degrees between 0 and 180
+       wrap_angle_deg: Angle in degrees between 0 and 180
         determines how much the bus straight wraps along the resonator.
         0 corresponds to a straight bus straight,
         180 corresponds to a bus straight wrapped around half of the resonator.
        parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right
        port (tuple): Cartesian coordinate of the input port (x1, y1)
-       direction: Direction that the component will point *towards*, can be of type
-        'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate object
+       direction: of component 'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'
+       waveguide_template: Picwriter WaveguideTemplate object
 
 
     Other Parameters:
@@ -48,7 +47,7 @@ def disk(
     """
 
     c = pc.Disk(
-        gf.call_if_func(strip, **kwargs),
+        gf.call_if_func(waveguide_template, **kwargs),
         radius=radius,
         coupling_gap=gap,
         wrap_angle=wrap_angle_deg * np.pi / 180,

@@ -15,7 +15,6 @@ def free_propagation_region(
     wg_width: float = 0.5,
     inputs: int = 1,
     outputs: int = 10,
-    wg_margin: float = 1.0,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:

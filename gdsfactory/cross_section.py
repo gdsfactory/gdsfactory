@@ -165,6 +165,7 @@ def cross_section(
         layers_cladding:
         sections: Sections(width, offset, layer, ports)
         port_names: for input and output (1, 2),
+        port_types: for input and output (electrical, optical, vertical_te ...)
         min_length: 10e-3 for routing
         start_straight_length: for routing
         end_straight_length: for routing
