@@ -1,15 +1,7 @@
-try:
-    import tidy3d as td
-    import tidy3d.material_library as mat
-    from tidy3d import Medium
+import tidy3d as td
+import tidy3d.material_library as mat
 
-    MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
-
-except ImportError:
-    from print_import_error import print_import_error
-
-    print_import_error()
-    Medium = "str"
+MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
 
 
 def get_index(
@@ -33,7 +25,7 @@ def get_index(
 def get_material(
     wavelength: float = 1.55,
     name: str = "cSi",
-) -> Medium:
+) -> td.Medium:
     """Returns Medium from materials database
 
     Args:

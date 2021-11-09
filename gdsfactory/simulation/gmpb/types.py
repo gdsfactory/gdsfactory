@@ -1,9 +1,9 @@
+import dataclasses
 from typing import Callable, Dict, List, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
 from meep import mpb
-from pydantic import dataclasses
 
 
 @dataclasses.dataclass

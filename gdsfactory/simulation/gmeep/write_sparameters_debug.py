@@ -3,10 +3,7 @@ import numpy as np
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.simulation.meep.get_simulation import get_simulation
-
-# import matplotlib.pyplot as plt
-
+from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 
 if __name__ == "__main__":
     c = gf.components.straight(length=2)

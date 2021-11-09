@@ -6,16 +6,10 @@ import json
 import pathlib
 from typing import Awaitable, Optional
 
+import tidy3d as td
+from tidy3d import web
+
 from gdsfactory.config import PATH, logger
-
-try:
-    import tidy3d as td
-    from tidy3d import web
-except ImportError:
-    from print_import_error import print_import_error
-
-    print_import_error()
-
 
 _executor = concurrent.futures.ThreadPoolExecutor()
 

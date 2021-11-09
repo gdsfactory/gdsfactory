@@ -5,6 +5,7 @@ from typing import Optional
 import matplotlib.pyplot as plt
 import numpy as np
 import pydantic
+import tidy3d as td
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -12,14 +13,6 @@ from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_material
 from gdsfactory.tech import LAYER_STACK, LayerStack
-
-try:
-    import tidy3d as td
-except ImportError:
-    from print_import_error import print_import_error
-
-    print_import_error()
-
 
 MATERIAL_NAME_TO_TIDY3D = {
     "si": "cSi",
