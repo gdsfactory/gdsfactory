@@ -17,9 +17,9 @@ import meep as mp
 import numpy as np
 from meep import mpb
 
-from gdsfactory.simulation.mpb.disable_print import disable_print, enable_print
-from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.mpb.types import Mode, ModeSolverOrFactory
+from gdsfactory.simulation.gmpb.disable_print import disable_print, enable_print
+from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.gmpb.types import Mode, ModeSolverOrFactory
 
 mpb.Verbosity(0)
 
@@ -86,7 +86,6 @@ def find_modes(
         i: Mode(
             mode_number=i,
             neff=neff[index],
-            solver=mode_solver,
             wavelength=wavelength,
             ng=ng,
             E=mode_solver.get_efield(i),

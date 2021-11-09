@@ -14,7 +14,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
-from gdsfactory.simulation.meep.get_simulation import (
+from gdsfactory.simulation.gmeep.get_simulation import (
     LAYER_TO_MATERIAL,
     LAYER_TO_THICKNESS,
     get_simulation,

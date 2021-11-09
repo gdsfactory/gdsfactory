@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 
-from gdsfactory.simulation.mpb.find_modes import find_modes
-from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.mpb.types import WidthSweep
+from gdsfactory.simulation.gmpb.find_modes import find_modes
+from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.gmpb.types import WidthSweep
 
 
 def find_neff_vs_width(

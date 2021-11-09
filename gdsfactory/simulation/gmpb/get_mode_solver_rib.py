@@ -94,8 +94,31 @@ def get_mode_solver_rib(
         filename_prefix=str(filename_prefix),
     )
     mode_solver.nmodes = nmodes
+    mode_solver.info = dict(
+        wg_width=wg_width,
+        wg_thickness=wg_thickness,
+        slab_thickness=slab_thickness,
+        ncore=ncore,
+        nclad=nclad,
+        sy=sy,
+        sz=sz,
+        res=res,
+        nmodes=nmodes,
+    )
     return mode_solver
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     m = get_mode_solver_rib()
+    m.init_params(p=0.5, reset_fields=False)
+    eps = m.get_epsilon()
+    cmap = "viridis"
+    origin = "upper"
+    plt.imshow(
+        eps ** 0.5,
+        cmap=cmap,
+        origin=origin,
+        aspect="auto",
+    )

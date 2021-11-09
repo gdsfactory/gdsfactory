@@ -1,7 +1,7 @@
 import numpy as np
 
-from gdsfactory.simulation.mpb.find_mode_dispersion import find_mode_dispersion
-from gdsfactory.simulation.mpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.gmpb.find_mode_dispersion import find_mode_dispersion
+from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
 
 
 def test_find_modes_dispersion():

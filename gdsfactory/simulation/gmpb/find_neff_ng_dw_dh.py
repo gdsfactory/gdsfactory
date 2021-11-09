@@ -13,8 +13,8 @@ import pandas as pd
 from scipy.interpolate import interp2d
 
 from gdsfactory.config import PATH
-from gdsfactory.simulation.mpb.find_mode_dispersion import find_mode_dispersion
-from gdsfactory.simulation.mpb.find_modes import find_modes
+from gdsfactory.simulation.gmpb.find_mode_dispersion import find_mode_dispersion
+from gdsfactory.simulation.gmpb.find_modes import find_modes
 
 PATH.modes = pathlib.Path.cwd() / "data"
 

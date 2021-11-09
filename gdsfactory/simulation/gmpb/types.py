@@ -1,14 +1,13 @@
-import dataclasses
 from typing import Callable, Dict, List, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
 from meep import mpb
+from pydantic import dataclasses
 
 
 @dataclasses.dataclass
 class Mode:
-    solver: mpb.ModeSolver
     mode_number: int
     wavelength: float
     neff: float
@@ -18,6 +17,9 @@ class Mode:
     E: Optional[np.ndarray] = None
     H: Optional[np.ndarray] = None
     eps: Optional[np.ndarray] = None
+
+    def __repr__(self):
+        return f"{self.mode_number}"
 
     def plot_eps(
         self,
@@ -61,7 +63,7 @@ class Mode:
             origin=origin,
             aspect="auto",
         )
-        plt.title("Waveguide mode $|E_x|$")
+        plt.title("Waveguide mode $|E|$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -158,6 +160,20 @@ class Mode:
         self.plot_eps(show=False)
 
         plt.show()
+
+
+@dataclasses.dataclass
+class Waveguide:
+    wg_width: float
+    wg_thickness: float
+    slab_thickness: float
+    ncore: float
+    nclad: float
+    sy: float
+    sz: float
+    res: int
+    nmodes: int
+    modes: List[Mode]
 
 
 @dataclasses.dataclass

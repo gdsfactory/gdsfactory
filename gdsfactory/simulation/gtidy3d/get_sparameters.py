@@ -1,6 +1,6 @@
 import numpy as np
 
-from gdsfactory.simulation.tidy3d.run_simulation import run_simulation
+from gdsfactory.simulation.gtidy3d.run_simulation import run_simulation
 
 try:
     import tidy3d as td

@@ -10,7 +10,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.tidy3d.materials import get_material
+from gdsfactory.simulation.gtidy3d.materials import get_material
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 try:
