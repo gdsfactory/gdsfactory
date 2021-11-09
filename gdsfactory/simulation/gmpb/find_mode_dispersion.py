@@ -62,9 +62,7 @@ def find_mode_dispersion(
     # ng = ncenter - wavelength *dn/ step
     ng = nc - wavelength * (n1 - n0) / (2 * wavelength_step)
     neff = (n0 + nc + n1) / 3
-    return Mode(
-        mode_number=mode_number, ng=ng, neff=neff, solver=mc, wavelength=wavelength
-    )
+    return Mode(mode_number=mode_number, ng=ng, neff=neff, wavelength=wavelength)
 
 
 def test_ng():

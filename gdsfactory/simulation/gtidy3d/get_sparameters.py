@@ -1,13 +1,7 @@
 import numpy as np
+import tidy3d as td
 
 from gdsfactory.simulation.gtidy3d.run_simulation import run_simulation
-
-try:
-    import tidy3d as td
-except ImportError:
-    from print_import_error import print_import_error
-
-    print_import_error()
 
 
 def get_sparameters(sim: td.Simulation) -> np.ndarray:
