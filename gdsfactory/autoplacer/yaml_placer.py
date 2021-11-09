@@ -148,7 +148,7 @@ def placer_grid_cell_refs(
 def pack_row(
     cells: List[Cell],
     row_ids: Optional[List[int]] = None,
-    nb_cols: None = None,
+    nb_cols: Optional[int] = None,
     x0: Union[float, int] = 0,
     y0: Union[float, int] = 0,
     align_x: str = "W",
@@ -157,17 +157,17 @@ def pack_row(
     margin_x: Optional[Union[float, int]] = None,
     margin_y: Optional[Union[float, int]] = None,
     um_to_grid: int = UM_TO_GRID,
-    period_x: None = None,
-    period_y: None = None,
+    period_x: Optional[float] = None,
+    period_y: Optional[float] = None,
     rotation: int = 0,
 ) -> List[CellInstArray]:
     """Pack row.
     Args:
-        cells: a list of cells  (size n)
+        cells: a list of cells (size n)
         row_ids: a list of row ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
-
+        nb_cols: number of columns
         period_x, period_y: not used by default,
             if set, use this period instead of computing the component spacing
             from the margin and the component dimension
@@ -267,7 +267,7 @@ def pack_row(
 def pack_col(
     cells: List[Cell],
     col_ids: None = None,
-    nb_rows: None = None,
+    nb_rows: Optional[int] = None,
     x0: float = 0,
     y0: float = 0,
     align_x: str = "W",
@@ -276,8 +276,8 @@ def pack_col(
     margin_x: Optional[int] = None,
     margin_y: Optional[int] = None,
     um_to_grid: int = UM_TO_GRID,
-    period_x: None = None,
-    period_y: None = None,
+    period_x: Optional[float] = None,
+    period_y: Optional[float] = None,
 ) -> List[CellInstArray]:
     """
 

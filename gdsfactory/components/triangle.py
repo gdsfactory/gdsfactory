@@ -16,6 +16,7 @@ def triangle(
         x: base xsize
         xtop: top xsize
         y: ysize
+        ybot: bottom ysize
         layer:
 
     .. code::

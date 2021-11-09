@@ -41,8 +41,8 @@ def litho_calipers(
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches
-    R1 = pc.rectangle(size=(notch_size), layer=layer1)
-    R2 = pc.rectangle(size=(notch_size), layer=layer2)
+    R1 = pc.rectangle(size=notch_size, layer=layer1)
+    R2 = pc.rectangle(size=notch_size, layer=layer2)
     for i in range(num_notches_total):
         if i == centre_notch:
             D.add_ref(R1).movex(i * (notch_size[0] + notch_spacing)).movey(

@@ -700,7 +700,7 @@ def round_corners(
         ]
     except RouteError:
         on_route_error(
-            points=((p0_straight, points[-1])),
+            points=(p0_straight, points[-1]),
             cross_section=x,
             references=references,
         )

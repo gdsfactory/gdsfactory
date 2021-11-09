@@ -152,8 +152,8 @@ def find_min_curv_bezier_control_points(
 
     initial_guess = []
     for i in range(nb_pts):
-        x = (i + 1) * (x0 + xn) / (nb_pts)
-        y = (i + 1) * (y0 + yn) / (nb_pts)
+        x = (i + 1) * (x0 + xn) / nb_pts
+        y = (i + 1) * (y0 + yn) / nb_pts
         initial_guess += [x, y]
 
     # initial_guess = [(x0 + xn) / 2, y0, (x0 + xn) / 2, yn]

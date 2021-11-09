@@ -140,7 +140,7 @@ def grating_coupler_elliptical_arbitrary(
     )
 
     if layer_slab:
-        c.add_padding(layers=(layer_slab), default=0.0)
+        c.add_padding(layers=(layer_slab,), default=0.0)
     return c
 
 

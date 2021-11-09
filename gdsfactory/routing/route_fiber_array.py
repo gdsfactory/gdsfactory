@@ -260,7 +260,7 @@ def route_fiber_array(
 
     nb_ports_per_line = N // nb_optical_ports_lines
     grating_coupler_si = grating_coupler.size_info
-    y_gr_gap = (K / (nb_optical_ports_lines) + 1) * sep
+    y_gr_gap = (K / nb_optical_ports_lines + 1) * sep
     gr_coupler_y_sep = grating_coupler_si.height + y_gr_gap + dy
 
     offset = (nb_ports_per_line - 1) * fiber_spacing / 2 - x_grating_offset
