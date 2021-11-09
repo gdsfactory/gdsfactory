@@ -209,7 +209,7 @@ def write_sparameters_lumerical(
     )
 
     logger.info(
-        f"Simulation size = {(x_span)*1e6:.3f}, {(y_span)*1e6:.3f}, {z_span*1e6:.3f} um"
+        f"Simulation size = {x_span*1e6:.3f}, {y_span*1e6:.3f}, {z_span*1e6:.3f} um"
     )
 
     # from pprint import pprint

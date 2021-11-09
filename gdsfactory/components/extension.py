@@ -33,7 +33,7 @@ def line(
     p1 = move_polar_rad_copy(p_start, angle - a, w / 2)
     p2 = move_polar_rad_copy(p_end, angle - a, w / 2)
     p3 = move_polar_rad_copy(p_end, angle + a, w / 2)
-    return (p0, p1, p2, p3)
+    return p0, p1, p2, p3
 
 
 def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray:

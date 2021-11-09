@@ -291,7 +291,7 @@ def _generate_manhattan_bundle_waypoints(
                     s1_dir, s2_dir, s1, s2
                 )
             )
-        return (sv[0][0], sh[0][1])
+        return sv[0][0], sh[0][1]
 
     routes = []
     _make_segment = _displace_segment_copy_group1

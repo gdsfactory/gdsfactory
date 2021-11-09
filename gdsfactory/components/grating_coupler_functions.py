@@ -35,7 +35,7 @@ def get_grating_period_curved(
     sqrt_n2_reduced = sqrt(n2_reduced)
     h_period = wavelength * (n_slab + n_clad * cos_fib_angle) / n2_reduced
     v_period = wavelength / sqrt_n2_reduced
-    return (h_period, v_period)
+    return h_period, v_period
 
 
 def get_grating_period(

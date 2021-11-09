@@ -38,7 +38,7 @@ def spiral_te(width: float = 0.5, length: float = 20e3) -> Component:
 
     Args:
         width: um
-        lenght: um
+        length: um
     """
     c = spiral_inner_io(width=width, length=length)
     c = gf.c.extend_ports(c)

@@ -87,7 +87,7 @@ def _pack_single_bin(
         if k not in packed_rect_dict:
             unpacked_rect_dict[k] = v
 
-    return (packed_rect_dict, unpacked_rect_dict)
+    return packed_rect_dict, unpacked_rect_dict
 
 
 def pack(

@@ -78,7 +78,7 @@ def _read_sparameters_file(
 
     # port_names.reverse()
     # print(len(F), S.shape, len(port_names))
-    return (tuple(port_names), np.array(F), S)
+    return tuple(port_names), np.array(F), S
 
 
 def read_sparameters_lumerical(

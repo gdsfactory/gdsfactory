@@ -21,7 +21,7 @@ class Coord2:
 
     @property
     def xy(self) -> Tuple[float64, float64]:
-        return (self.x, self.y)
+        return self.x, self.y
 
     def __add__(self, c2):
         return Coord2(self[0] + c2[0], self[1] + c2[1])

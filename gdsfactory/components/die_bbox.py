@@ -102,7 +102,7 @@ def die_bbox(
 
 
 if __name__ == "__main__":
-    mask = gf.components.array_2d(rows=10, cols=10)
+    mask = gf.components.array(rows=10, columns=10)
     c = die_bbox(component=mask)
     # c = die_bbox()
     c.show()

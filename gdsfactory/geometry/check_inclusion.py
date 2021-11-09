@@ -25,7 +25,6 @@ def check_inclusion(
         min_inclusion: in um
         dbu: database units (1000 um/nm)
         ignore_angle_deg: The angle above which no check is performed
-        other: The other region against which to check
         whole_edges: If true, deliver the whole edges
         metrics: Specify the metrics type
         min_projection: lower threshold of the projected length of one edge onto another

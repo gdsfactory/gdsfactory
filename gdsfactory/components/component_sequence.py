@@ -48,8 +48,8 @@ def _parse_component_name(name: str) -> Tuple[str, bool]:
     then we need to flip along the axis given by the input port angle
     """
     if len(name) != 1 and name[0] == "!":
-        return (name[1:], True)
-    return (name, False)
+        return name[1:], True
+    return name, False
 
 
 def _flip_ref(c_ref, port_name):

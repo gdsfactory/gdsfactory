@@ -47,7 +47,7 @@ def delay_snake2(
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
     bend180 = bend180(cross_section=cross_section, **kwargs)
-    delta_length = (length - length0 - n * (bend180.info.length)) / (n + 1)
+    delta_length = (length - length0 - n * bend180.info.length) / (n + 1)
     length1 = delta_length - length0
     assert (
         length1 > 0

@@ -235,7 +235,7 @@ def extrude(
             # Compute lengths
             dx = np.diff(p.points[:, 0])
             dy = np.diff(p.points[:, 1])
-            lengths = np.cumsum(np.sqrt((dx) ** 2 + (dy) ** 2))
+            lengths = np.cumsum(np.sqrt(dx ** 2 + dy ** 2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         else:
