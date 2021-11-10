@@ -136,6 +136,7 @@ from gdsfactory.components.ring_double import ring_double
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
+from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.spiral import spiral
 from gdsfactory.components.spiral_circular import spiral_circular
 from gdsfactory.components.spiral_external_io import spiral_external_io
@@ -543,6 +544,7 @@ factory = dict(
     wire_corner=wire_corner,
     wire_sbend=wire_sbend,
     wire_straight=wire_straight,
+    seal_ring=seal_ring,
 )
 
 _factory_passives = dict(

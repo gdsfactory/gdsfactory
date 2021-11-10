@@ -26,7 +26,7 @@ def grating_coupler_circular(
     polarization: str = "te",
     wavelength: float = 1.55,
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     wg_width: float = 0.5,
     cladding_offset: float = 2.0,
 ) -> Component:
@@ -92,12 +92,13 @@ def grating_coupler_circular(
     c.info.polarization = polarization
     c.info.wavelength = wavelength
 
-    x = np.round(c.center[0] + taper_length / 2, 3)
-    circle = gf.components.circle(
-        radius=fiber_marker_width / 2, layer=fiber_marker_layer
-    )
-    circle_ref = c.add_ref(circle)
-    circle_ref.movex(x)
+    if fiber_marker_layer:
+        x = np.round(c.center[0] + taper_length / 2, 3)
+        circle = gf.components.circle(
+            radius=fiber_marker_width / 2, layer=fiber_marker_layer
+        )
+        circle_ref = c.add_ref(circle)
+        circle_ref.movex(x)
 
     c.add_port(
         name=f"vertical_{polarization.lower()}",
