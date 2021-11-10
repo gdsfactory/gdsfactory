@@ -30,6 +30,33 @@ cells:
     name: compass_ab62f0c6
   die_bbox:
     changed: {}
+    child:
+      changed:
+        size:
+        - 1300
+        - 2600
+      default:
+        centered: false
+        layer:
+        - 1
+        - 0
+        port_type: electrical
+        size:
+        - 4.0
+        - 2.0
+      full:
+        centered: false
+        layer:
+        - 1
+        - 0
+        port_type: electrical
+        size:
+        - 1300
+        - 2600
+      function_name: rectangle
+      info_version: 1
+      module: gdsfactory.components.rectangle
+      name: rectangle_6df08d23
     default:
       die_name: null
       layer:
@@ -83,6 +110,33 @@ cells:
     name: rectangle_6df08d23
 info:
   changed: {}
+  child:
+    changed:
+      size:
+      - 1300
+      - 2600
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 1300
+      - 2600
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_6df08d23
   default:
     die_name: null
     layer:

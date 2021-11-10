@@ -193,8 +193,8 @@ def grating_coupler_elliptical(
         pts = grating_tooth_points(a, b, x, w, taper_angle, spiked=False)
         c.add_polygon(pts, layer)
 
+    x = np.round(taper_length + period * n_periods / 2, 3)
     if fiber_marker_layer:
-        x = np.round(taper_length + period * n_periods / 2, 3)
         circle = gf.components.circle(
             radius=fiber_marker_width / 2, layer=fiber_marker_layer
         )

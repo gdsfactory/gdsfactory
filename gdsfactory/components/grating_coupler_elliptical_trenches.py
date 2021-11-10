@@ -6,14 +6,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.types import Layer
+from gdsfactory.types import Layer, Optional
 
 
 @gf.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
@@ -108,22 +108,13 @@ def grating_coupler_elliptical_trenches(
     ]
     c.add_polygon(pts, layer)
 
-    # a_taper = (p_start + n_periods + 1)*a1
-    # b_taper = (p_start + n_periods + 1)*b1
-    # pts = grating_taper_points(
-    #     a_taper, b_taper, x_output, x_taper, taper_angle, wg_width=wg_width
-    # )
-    # c.add_polygon(pts, layer)
-
-    # Move end_straight_length I/O to (0, 0)
-    # c.move((-x_output, 0))
-
     x = np.round(taper_length + period * n_periods / 2, 3)
-    circle = gf.components.circle(
-        radius=fiber_marker_width / 2, layer=fiber_marker_layer
-    )
-    circle_ref = c.add_ref(circle)
-    circle_ref.movex(x)
+    if fiber_marker_layer:
+        circle = gf.components.circle(
+            radius=fiber_marker_width / 2, layer=fiber_marker_layer
+        )
+        circle_ref = c.add_ref(circle)
+        circle_ref.movex(x)
     name = f"vertical_{polarization.lower()}"
     c.add_port(
         name=name,
@@ -158,7 +149,7 @@ grating_coupler_tm = gf.partial(
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
-    c = grating_coupler_te(end_straight_length=10)
+    c = grating_coupler_te(end_straight_length=10, fiber_marker_layer=None)
     # c = grating_coupler_tm()
     print(c.ports.keys())
     c.show()
