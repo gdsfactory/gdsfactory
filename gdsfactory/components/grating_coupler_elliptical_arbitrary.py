@@ -31,7 +31,7 @@ def grating_coupler_elliptical_arbitrary(
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     spiked: bool = True,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -118,11 +118,12 @@ def grating_coupler_elliptical_arbitrary(
 
     x = (taper_length + xi) / 2
 
-    circle = gf.components.circle(
-        radius=fiber_marker_width / 2, layer=polarization_marker_layer
-    )
-    circle_ref = c.add_ref(circle)
-    circle_ref.movex(x)
+    if fiber_marker_layer:
+        circle = gf.components.circle(
+            radius=fiber_marker_width / 2, layer=polarization_marker_layer
+        )
+        circle_ref = c.add_ref(circle)
+        circle_ref.movex(x)
 
     name = f"vertical_{polarization.lower()}"
     c.add_port(
