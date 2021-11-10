@@ -97,7 +97,7 @@ def grating_coupler_elliptical(
     big_last_tooth: bool = False,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     spiked: bool = True,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -116,8 +116,8 @@ def grating_coupler_elliptical(
         n_periods: number of periods
         big_last_tooth: adds a big_last_tooth
         layer_slab
-        fiber_marker_width
-        fiber_marker_layer
+        fiber_marker_layer: Optional circular marker
+        fiber_marker_width: width
         nclad
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
 
@@ -193,22 +193,16 @@ def grating_coupler_elliptical(
         pts = grating_tooth_points(a, b, x, w, taper_angle, spiked=False)
         c.add_polygon(pts, layer)
 
-    # Move waveguide I/O to (0, 0)
-    # c.move((-x_output, 0))
-
-    if polarization.lower() == "te":
-        polarization_marker_layer = gf.LAYER.TE
-    else:
-        polarization_marker_layer = gf.LAYER.TM
-
-    x = np.round(taper_length + period * n_periods / 2, 3)
-    circle = gf.components.circle(
-        radius=fiber_marker_width / 2, layer=polarization_marker_layer
-    )
-    circle_ref = c.add_ref(circle)
-    circle_ref.movex(x)
+    if fiber_marker_layer:
+        x = np.round(taper_length + period * n_periods / 2, 3)
+        circle = gf.components.circle(
+            radius=fiber_marker_width / 2, layer=fiber_marker_layer
+        )
+        circle_ref = c.add_ref(circle)
+        circle_ref.movex(x)
 
     name = f"vertical_{polarization.lower()}"
+
     c.add_port(
         name=name,
         midpoint=[x, 0],
@@ -218,17 +212,24 @@ def grating_coupler_elliptical(
         port_type=name,
     )
 
-    # Add port
     c.add_port(
         name="o1", midpoint=[x_output, 0], width=wg_width, orientation=180, layer=layer
     )
 
     # Add shallow etch
-    _rl = total_length + grating_line_width + 2.0
-    _rhw = _rl * np.tan(fiber_angle * DEG2RAD) + 2.0
+    slab_length = total_length + grating_line_width + 2.0
+    slab_width = slab_length * np.tan(fiber_angle * DEG2RAD) + 2.0
 
     if layer_slab:
-        c.add_polygon([(0, _rhw), (_rl, _rhw), (_rl, -_rhw), (0, -_rhw)], layer_slab)
+        c.add_polygon(
+            [
+                (0, slab_width),
+                (slab_length, slab_width),
+                (slab_length, -slab_width),
+                (0, -slab_width),
+            ],
+            layer_slab,
+        )
 
     return c
 
