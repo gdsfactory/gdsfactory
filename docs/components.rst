@@ -1081,7 +1081,7 @@ grating_coupler_circular_arbitrary
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_circular_arbitrary()
+  c = gf.components.grating_coupler_circular_arbitrary(teeth_list=(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
   c.plot()
 
 
@@ -1111,7 +1111,7 @@ grating_coupler_elliptical_arbitrary
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_arbitrary(wg_width=0.5, taper_length=16.6, taper_angle=60.0, layer=(1, 0), wavelength=1.554, fiber_angle=15.0, neff=2.638, nclad=1.443, layer_slab=(2, 0), polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
+  c = gf.components.grating_coupler_elliptical_arbitrary(gaps=(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, taper_length=16.6, taper_angle=60.0, layer=(1, 0), wavelength=1.554, fiber_angle=15.0, neff=2.638, nclad=1.443, layer_slab=(2, 0), polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
   c.plot()
 
 
@@ -1216,7 +1216,7 @@ grating_coupler_rectangular_arbitrary
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_rectangular_arbitrary(wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55)
+  c = gf.components.grating_coupler_rectangular_arbitrary(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55)
   c.plot()
 
 
@@ -1772,6 +1772,21 @@ ring_single_dut
   import gdsfactory as gf
 
   c = gf.components.ring_single_dut(wg_width=0.5, gap=0.2, length_x=4, radius=5, length_y=0, with_component=True)
+  c.plot()
+
+
+
+seal_ring
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.seal_ring
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.seal_ring(width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
   c.plot()
 
 
@@ -2371,7 +2386,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.4.11', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.5.4', text_size=10)
   c.plot()
 
 
