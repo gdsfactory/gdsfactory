@@ -18,7 +18,7 @@ def die_bbox(
     die_name: Optional[str] = None,
     text_size: float = 100.0,
     text_location: str = "SW",
-    layer: Layer = gf.LAYER.FLOORPLAN,
+    layer: Layer = (31, 0),
     padding: float = 10.0,
 ) -> gf.Component:
     """Creates a basic boundary box. Perfect for defining dicing lanes.
@@ -105,5 +105,5 @@ def die_bbox(
 
 if __name__ == "__main__":
     mask = gf.components.array(rows=10, columns=10)
-    c = die_bbox(component=mask)
+    c = die_bbox(component=mask, die_name="chip99")
     c.show()

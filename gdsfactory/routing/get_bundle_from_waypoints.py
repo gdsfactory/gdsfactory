@@ -219,7 +219,7 @@ def _generate_manhattan_bundle_waypoints(
         separation: center to center, defaults to ports1 separation
     """
     waypoints = remove_flat_angles(waypoints)
-    way_segments = [(p0, p1) for p0, p1 in zip(waypoints, waypoints[1:])]
+    way_segments = list(zip(waypoints, waypoints[1:]))
     offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
 
     start_angle = ports1[0].orientation
@@ -227,9 +227,8 @@ def _generate_manhattan_bundle_waypoints(
         offsets_start = [-_d for _d in offsets_start]
     end_angle = ports2[0].orientation
 
-    # if separation is defined, the offsets should increment from the reference port in the same direction
-    # as the original offsets
-    # also, if there is only one route, we should skip this step as it is irrelevant
+    # if separation is defined, the offsets should increment from the reference port
+    # in the same direction as the original offsets
     if separation and len(ports1) > 1:
         # the default case when we start with the reference port
         offsets_mid = [
@@ -244,6 +243,8 @@ def _generate_manhattan_bundle_waypoints(
             offsets_mid.reverse()
         else:
             raise ValueError("Expected offset = 0 at either start or end of route.")
+
+    # if there is only one route, we should skip this step as it is irrelevant
     else:
         # separation defaults to ports1 separation
         offsets_mid = offsets_start
