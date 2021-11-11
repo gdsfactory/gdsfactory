@@ -60,7 +60,7 @@ cells:
     default:
       die_name: null
       layer:
-      - 99
+      - 49
       - 0
       padding: 10.0
       street_length: 1000.0
@@ -70,7 +70,7 @@ cells:
     full:
       die_name: null
       layer:
-      - 99
+      - 49
       - 0
       padding: 10.0
       street_length: 1000.0
@@ -140,7 +140,7 @@ info:
   default:
     die_name: null
     layer:
-    - 99
+    - 49
     - 0
     padding: 10.0
     street_length: 1000.0
@@ -150,7 +150,7 @@ info:
   full:
     die_name: null
     layer:
-    - 99
+    - 49
     - 0
     padding: 10.0
     street_length: 1000.0

@@ -18,7 +18,7 @@ def die_bbox(
     die_name: Optional[str] = None,
     text_size: float = 100.0,
     text_location: str = "SW",
-    layer: Layer = (31, 0),
+    layer: Layer = (49, 0),
     padding: float = 10.0,
 ) -> gf.Component:
     """Creates a basic boundary box. Perfect for defining dicing lanes.
