@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.5
+
+- expose spacing parameter in `gf.routing.get_bundle_from_steps`
+
 ## 3.5.3
 
 - make trimesh, and tidy3d optional dependencies that you can install with `pip install gdsfactory[full]`
