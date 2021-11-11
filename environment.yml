@@ -4,6 +4,7 @@ channels:
     - conda-forge
 dependencies:
     - python
+    - gdspy
     - nbgitpuller
     - ffmpeg
     - numpy
