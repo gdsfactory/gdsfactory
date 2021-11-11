@@ -95,7 +95,7 @@ def get_bundle_from_waypoints(
         bend: function that returns bends
         sort_ports: sorts ports
         cross_section: cross_section
-        separation: waveguide separation (center to center)
+        separation: center to center, defaults to ports1 separation
         **kwargs: cross_section settings
 
     """
@@ -216,7 +216,7 @@ def _generate_manhattan_bundle_waypoints(
         ports2: list of ports must face the same direction
         waypoints: from one point within the ports1 bank
             to another point within the ports2 bank
-        separation: waveguide separation (center to center)
+        separation: center to center, defaults to ports1 separation
     """
     waypoints = remove_flat_angles(waypoints)
     way_segments = [(p0, p1) for p0, p1 in zip(waypoints, waypoints[1:])]
@@ -245,8 +245,7 @@ def _generate_manhattan_bundle_waypoints(
         else:
             raise ValueError("Expected offset = 0 at either start or end of route.")
     else:
-        # if separation is not defined, we will use the separation between start ports as the separation between
-        # routes throughout the full bundle
+        # separation defaults to ports1 separation
         offsets_mid = offsets_start
 
     def _displace_segment_copy(s, a, sh=1, sv=1):

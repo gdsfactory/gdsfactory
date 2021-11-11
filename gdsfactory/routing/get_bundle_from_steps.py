@@ -23,6 +23,7 @@ def get_bundle_from_steps(
     taper_factory: Optional[ComponentOrFactory] = taper_function,
     cross_section: CrossSectionFactory = strip,
     sort_ports: bool = True,
+    separation: Optional[float] = None,
     **kwargs
 ) -> List[Route]:
     """Returns a list of routes formed by the given waypoints steps
@@ -40,6 +41,7 @@ def get_bundle_from_steps(
         taper_factory: function that returns tapers
         cross_section: for routes
         sort_ports: if True sort ports
+        separation: center to center, defaults to ports1 separation
         kwargs: cross_section settings
 
     .. plot::
@@ -139,6 +141,7 @@ def get_bundle_from_steps(
         straight=straight,
         taper=taper,
         cross_section=cross_section,
+        separation=separation,
         **kwargs,
     )
 
@@ -148,8 +151,7 @@ get_bundle_from_steps_electrical = gf.partial(
 )
 
 
-if __name__ == "__main__":
-    # c = test_route_from_steps()
+def _demo():
     c = gf.Component("get_route_from_steps_sample")
 
     w = gf.components.array(
@@ -171,20 +173,21 @@ if __name__ == "__main__":
         steps=[{"x": 150}],
     )
 
-    # routes = get_bundle_from_waypoints(
-    #     p1,
-    #     p2,
-    #     # waypoints=[(150,0), (150, 100)],
-    #     waypoints=[(150, 0)],
-    # )
-
     for route in routes:
         c.add(route.references)
 
-    # route = gf.routing.get_route_from_steps(
-    #     p1[-1],
-    #     p2[0],
-    #     steps=[{"x": 100}, {"y": 100}],
-    # )
-    # c.add(route.references)
     c.show()
+
+
+if __name__ == "__main__":
+    c = gf.Component("get_bundle_from_steps_electrical")
+    pt = c << gf.c.pad_array(orientation=270, columns=3)
+    pb = c << gf.c.pad_array(orientation=90, columns=3)
+    pt.move((100, 500))
+
+    routes = gf.routing.get_bundle_from_steps_electrical(
+        pt.ports, pb.ports, end_straight_length=60
+    )
+
+    for route in routes:
+        c.add(route.references)
