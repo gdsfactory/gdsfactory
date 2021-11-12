@@ -1,6 +1,4 @@
 cells:
-  16p0_0_0: {}
-  16p0_0_00: {}
   compass_431da97d:
     changed:
       layer:
@@ -385,6 +383,38 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_be27f3d0
+  text_4266d9c6:
+    changed:
+      justify: center
+      layer:
+      - 1
+      - 0
+      size: 50.0
+      text: '16.0'
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10.0
+      text: abcd
+    full:
+      justify: center
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 50.0
+      text: '16.0'
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_4266d9c6
 info:
   changed: {}
   default:

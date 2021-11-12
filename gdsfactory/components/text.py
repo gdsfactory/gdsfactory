@@ -6,6 +6,7 @@ from phidl.geometry import _glyph, _indent, _width
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.manhattan_font import manhattan_text
+from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Coordinate, Layer
 
@@ -31,10 +32,10 @@ def text(
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
-    t = gf.Component()
+    t = gf.Component(f"{clean_name(text)}_{int(position[0])}_{int(position[1])}")
 
     for i, line in enumerate(text.split("\n")):
-        label = gf.Component(name=t.name + "{}".format(i))
+        label = gf.Component(f"{t.name}_{i}")
         for c in line:
             ascii_val = ord(c)
             if c == " ":
@@ -47,7 +48,8 @@ def text(
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
                 ValueError(f"[PHIDL] text(): No character with ascii value {ascii_val}")
-        t.add_ref(label)
+        ref = t.add_ref(label)
+        t.absorb(ref)
         yoffset -= 1500 * scaling
         xoffset = position[0]
     justify = justify.lower()
@@ -107,5 +109,5 @@ if __name__ == "__main__":
         justify="right",
         position=(120.5, 3),
     )
-    c = githash(text=["a", "b"], size=10)
+    # c = githash(text=["a", "b"], size=10)
     c.show()
