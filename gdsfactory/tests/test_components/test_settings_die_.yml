@@ -1,6 +1,4 @@
 cells:
-  chip99_0_0: {}
-  chip99_0_00: {}
   die:
     changed: {}
     default:
@@ -41,6 +39,37 @@ cells:
     info_version: 1
     module: gdsfactory.components.die
     name: die
+  text_7b534b18:
+    changed:
+      layer:
+      - 99
+      - 0
+      size: 100.0
+      text: chip99
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10.0
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 99
+      - 0
+      position:
+      - 0
+      - 0
+      size: 100.0
+      text: chip99
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_7b534b18
 info:
   changed: {}
   default:
