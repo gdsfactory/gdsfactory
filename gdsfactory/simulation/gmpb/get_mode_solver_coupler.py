@@ -1,8 +1,10 @@
-"""FIXME! add sidewall angles"""
+"""FIXME! add sidewall angles."""
 import pathlib
 import tempfile
+from typing import Tuple
 
 import meep as mp
+import numpy as np
 import pydantic
 from meep import mpb
 
@@ -11,15 +13,18 @@ mpb.Verbosity(0)
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "meep"
 tmp.mkdir(exist_ok=True)
 
+Floats = Tuple[float, ...]
+
 
 @pydantic.validate_arguments
-def get_mode_solver_rib(
-    wg_width: float = 0.45,
+def get_mode_solver_coupler(
+    wg_widths: Floats = (0.5, 0.5),
+    gaps: Floats = (0.2,),
     wg_thickness: float = 0.22,
-    slab_thickness: float = 0.0,
+    slab_thickness: int = 0.0,
     ncore: float = 3.47,
     nclad: float = 1.44,
-    sy: float = 2.0,
+    ymargin: float = 2.0,
     sz: float = 2.0,
     res: int = 32,
     nmodes: int = 4,
@@ -33,28 +38,32 @@ def get_mode_solver_rib(
         ncore: core material refractive index
         nclad: clad material refractive index
         sy: simulation region width (um)
-        sz: simulation region height (um)
+        sz: simulation region thickness (um)
         res: resolution (pixels/um)
         nmodes: number of modes
 
     ::
 
-          __________________________
+          _____________________________________________________
           |
           |
-          |         width
-          |     <---------->
-          |      ___________   _ _ _
-          |     |           |       |
-        sz|_____|           |_______|
-          |                         | wg_thickness
-          |slab_thickness           |
-          |_________________________|
+          |         widths[0]                 widths[1]
+          |     <---------->     gaps[0]    <---------->
+          |      ___________ <------------->  ___________     _
+          |     |           |               |           |     |
+        sz|_____|           |_______________|           |_____|
+          |                                                   | wg_thickness
+          |slab_thickness                                     |
+          |___________________________________________________|
           |
-          |
-          |__________________________
-          <------------------------>
-                        sy
+          |<--->                                         <--->
+          |ymargin                                       ymargin
+          |____________________________________________________
+          <--------------------------------------------------->
+                                   sy
+
+
+
     """
     material_core = mp.Medium(index=ncore)
     material_clad = mp.Medium(index=nclad)
@@ -62,31 +71,36 @@ def get_mode_solver_rib(
     # Define the computational cell.  We'll make x the propagation direction.
     # the other cell sizes should be big enough so that the boundaries are
     # far away from the mode field.
+
+    sy = np.sum(wg_widths) + np.sum(gaps) + 2 * ymargin
     geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
-    # define the 2d blocks for the strip and substrate
+    # define the 2D blocks for the strip and substrate
     geometry = [
         mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, mp.inf),
             material=material_clad,
         ),
-        # uncomment this for not oxide cladded waveguides
-        # mp.Block(
-        #     size=mp.Vector3(mp.inf, mp.inf, 0.5 * (sz - wg_thickness)),
-        #     center=mp.Vector3(z=0.25 * (sz + wg_thickness)),
-        #     material=material_clad,
-        # ),
         mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
             material=material_core,
-            center=mp.Vector3(z=slab_thickness / 2),
-        ),
-        mp.Block(
-            size=mp.Vector3(mp.inf, wg_width, wg_thickness),
-            material=material_core,
-            center=mp.Vector3(z=wg_thickness / 2),
+            center=mp.Vector3(z=-0.5 * slab_thickness),
         ),
     ]
+
+    y = -sy / 2 + ymargin
+
+    gaps = list(gaps) + [0]
+    for i, wg_width in enumerate(wg_widths):
+        geometry.append(
+            mp.Block(
+                size=mp.Vector3(mp.inf, wg_width, wg_thickness),
+                material=material_core,
+                center=mp.Vector3(y=y + wg_width / 2, z=0),
+            )
+        )
+
+        y += gaps[i] + wg_width
 
     # The k (i.e. beta, i.e. propagation constant) points to look at, in
     # units of 2*pi/um.  We'll look at num_k points from k_min to k_max.
@@ -100,7 +114,11 @@ def get_mode_solver_rib(
     # is the corresponding column in the output if you grep for "freqs:".)
     # use this prefix for output files
 
-    filename_prefix = tmp / f"rib_{wg_width}_{wg_thickness}_{slab_thickness}"
+    wg_widths_str = "_".join([str(i) for i in wg_widths])
+    gaps_str = "_".join([str(i) for i in gaps])
+    filename_prefix = (
+        tmp / f"coupler_{wg_widths_str}_{gaps_str}_{wg_thickness}_{slab_thickness}"
+    )
 
     mode_solver = mpb.ModeSolver(
         geometry_lattice=geometry_lattice,
@@ -112,7 +130,8 @@ def get_mode_solver_rib(
     )
     mode_solver.nmodes = nmodes
     mode_solver.info = dict(
-        wg_width=wg_width,
+        wg_widths=wg_widths,
+        gaps=gaps,
         wg_thickness=wg_thickness,
         slab_thickness=slab_thickness,
         ncore=ncore,
@@ -128,7 +147,7 @@ def get_mode_solver_rib(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_rib()
+    m = get_mode_solver_coupler()
     # m.init_params(p=0.5, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"

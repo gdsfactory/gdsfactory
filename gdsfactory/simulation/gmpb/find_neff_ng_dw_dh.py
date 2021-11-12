@@ -14,7 +14,6 @@ from scipy.interpolate import interp2d
 
 from gdsfactory.config import PATH
 from gdsfactory.simulation.gmpb.find_mode_dispersion import find_mode_dispersion
-from gdsfactory.simulation.gmpb.find_modes import find_modes
 
 PATH.modes = pathlib.Path.cwd() / "data"
 
@@ -34,7 +33,7 @@ def find_neff_ng_dw_dh(
     h0: float = h0,
     wavelength: float = 1.55,
     steps: int = 11,
-    with_dispersion: bool = True,
+    mode_number: int = 1,
 ) -> pd.DataFrame:
     """Computes group and effective index for different widths and heights."""
     dw = np.linspace(-dwmax, dwmax, steps)
@@ -47,17 +46,14 @@ def find_neff_ng_dw_dh(
 
     for dwi in dw:
         for dhi in dh:
-            if with_dispersion:
-                r = find_mode_dispersion(
-                    wg_width=w0 + dwi, wg_thickness=h0 + dhi, wavelength=wavelength
-                )
-            else:
-                r = find_modes(
-                    wg_width=w0 + dwi, wg_thickness=h0 + dhi, wavelength=wavelength
-                )
-
-            neffs.append(r["neff"])
-            ngs.append(r["ng"])
+            m = find_mode_dispersion(
+                wg_width=w0 + dwi,
+                wg_thickness=h0 + dhi,
+                wavelength=wavelength,
+                mode_number=mode_number,
+            )
+            neffs.append(m.neff)
+            ngs.append(m.ng)
             dws.append(dwi)
             dhs.append(dhi)
 
@@ -69,24 +65,30 @@ def plot_neff_ng_dw_dh(
     w0: float = w0,
     h0: float = h0,
     wavelength: float = 1.55,
-    with_dispersion: bool = True,
+    mode_number: int = 1,
+    **kwargs
 ) -> None:
+    """
 
-    if with_dispersion:
-        filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
-        r = find_mode_dispersion(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
-        neff0 = r["neff"]
-        ng0 = r["ng"]
-    else:
-        filepath = pathlib.Path(PATH.modes / "mpb_dw_dh.csv")
-        r = find_modes(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
-        neff0 = r["neff"]
-        ng0 = r["ng"]
+    Args:
+        w0: center width
+        h0: center height
+        wavelength:
+        mode_number: 1 is the fundamental first order mode
+
+    """
+
+    filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
+    m = find_mode_dispersion(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
+    neff0 = m.neff
+    ng0 = m.ng
 
     if filepath.exists():
         df = pd.read_csv(filepath)
     else:
-        df = find_neff_ng_dw_dh(wavelength=wavelength)
+        df = find_neff_ng_dw_dh(wavelength=wavelength, **kwargs)
+        dirpath = filepath.parent
+        dirpath.mkdir(exist_ok=True, parents=True)
         df.to_csv(filepath)
 
     dws = df.dw.values

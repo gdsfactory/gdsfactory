@@ -1,6 +1,5 @@
 from functools import partial
 
-import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 
@@ -34,15 +33,6 @@ def find_neff_vs_width(
             neff[mode_number].append(mode.neff)
 
     return WidthSweep(width=list(width), neff=neff)
-
-
-def plot_neff_vs_width(ws: WidthSweep):
-    for mode_number, neff in ws.neff.items():
-        plt.plot(ws.width, neff, label=str(mode_number))
-
-    plt.legend()
-    plt.xlabel("width (um)")
-    plt.ylabel("neff")
 
 
 if __name__ == "__main__":

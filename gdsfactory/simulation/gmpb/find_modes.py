@@ -90,7 +90,7 @@ def find_modes(
             ng=ng,
             E=mode_solver.get_efield(i),
             H=mode_solver.get_hfield(i),
-            eps=mode_solver.get_epsilon(),
+            eps=mode_solver.get_epsilon().T,
         )
         for index, i in enumerate(range(mode_number, mode_number + nmodes))
     }
