@@ -68,16 +68,16 @@ class PathArcModel(BaseModel):
     npoints: int = 720
 
 
-class Tech(BaseModel):
+class TechModel(BaseModel):
     cross_sections: Dict[str, CrossSectionModel]
     layers: Dict[str, Layer]
 
 
-class ComponentTwoPorts(BaseModel):
+class ComponentTwoPortsModel(BaseModel):
     cross_section: CrossSectionModel
     path: PathModel
 
 
 if __name__ == "__main__":
     x = CrossSectionModel()
-    t = Tech.schema_json()
+    t = TechModel.schema_json()
