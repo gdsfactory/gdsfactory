@@ -9,8 +9,11 @@ def test_find_modes():
     modes = find_modes(mode_solver=ms)
     m1 = modes[1]
     m2 = modes[2]
-    neff1 = 2.342628111145838
-    neff2 = 1.7286034634949181
+    # print(m1.neff)
+    # print(m2.neff)
+
+    neff1 = 2.329468837266023
+    neff2 = 1.7128271512313074
 
     assert np.isclose(m1.neff, neff1), (m1.neff, neff1)
     assert np.isclose(m2.neff, neff2), (m2.neff, neff2)
@@ -22,6 +25,8 @@ if __name__ == "__main__":
     # modes = find_neff(mode_solver=ms)
     # m1 = modes[1]
     # m2 = modes[2]
+    # print(m1.neff)
+    # print(m2.neff)
     # neff1 = 2.342628111145838
     # neff2 = 1.7286034634949181
 

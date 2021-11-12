@@ -80,3 +80,4 @@ class ComponentTwoPorts(BaseModel):
 
 if __name__ == "__main__":
     x = CrossSectionModel()
+    t = Tech.schema_json()

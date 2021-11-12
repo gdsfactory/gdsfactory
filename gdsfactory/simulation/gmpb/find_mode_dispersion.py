@@ -2,8 +2,6 @@
 
 from functools import partial
 
-import numpy as np
-
 from gdsfactory.simulation.gmeep.get_material import get_index
 from gdsfactory.simulation.gmpb.find_modes import find_modes
 from gdsfactory.simulation.gmpb.types import Mode
@@ -39,11 +37,8 @@ def find_mode_dispersion(
             plotH: plot magnetic field
             dirpath: path to save the modes
             polarization: prefix when saving the modes
-            paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM. Reduces spurious modes.
+            paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
 
-    Returns:
-        neff
-        ng
     """
     w0 = wavelength - wavelength_step
     wc = wavelength
@@ -64,12 +59,6 @@ def find_mode_dispersion(
     ng = nc - wavelength * (n1 - n0) / (2 * wavelength_step)
     neff = (n0 + nc + n1) / 3
     return Mode(mode_number=mode_number, ng=ng, neff=neff, wavelength=wavelength)
-
-
-def test_ng():
-    m = find_mode_dispersion(wg_width=0.45, wg_thickness=0.22)
-    ng = 4.277160926428621
-    assert np.isclose(m.ng, ng)
 
 
 if __name__ == "__main__":

@@ -38,6 +38,7 @@ mzi.yml
 *.out
 *.png
 mpb-sim/
+data/
 
 # Installer logs
 pip-log.txt
