@@ -1,0 +1,15 @@
+name: fab_e
+
+layers:
+  wg: [1, 0]
+  wg_clad: [1, 2]
+  pin: [100, 0]
+  heater: [11, 0]
+
+cross_sections:
+  xs_strip:
+    width: 0.4
+    layer: wg
+
+libraries:
+  component_factories
