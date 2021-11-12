@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.6
+
+- add `cell` to gf.components.text
+
 ## 3.5.5
 
 - expose spacing parameter in `gf.routing.get_bundle_from_steps`

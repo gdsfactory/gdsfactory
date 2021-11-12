@@ -40,6 +40,7 @@ exclude_patterns = [
     "build",
     "extra",
     "notebooks/plugins/tidy3d/01_tidy3d.ipynb",
+    "notebooks/plugins/*",
 ]
 
 napoleon_use_param = True
