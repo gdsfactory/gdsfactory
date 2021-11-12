@@ -6,11 +6,11 @@ from phidl.geometry import _glyph, _indent, _width
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.manhattan_font import manhattan_text
-from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Coordinate, Layer
 
 
+@gf.cell
 def text(
     text: str = "abcd",
     size: float = 10.0,
@@ -20,21 +20,19 @@ def text(
 ) -> Component:
     """Text shapes.
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.text(text="abcd", size=5, position=(0, 0), justify="left", layer=1)
-      c.plot()
+    Args:
+        text:
+        size:
+        position:
+        justify: left, right, center
+        layer:
 
     """
     scaling = size / 1000
     xoffset = position[0]
     yoffset = position[1]
-    t = gf.Component(
-        name=clean_name(text) + "_{}_{}".format(int(position[0]), int(position[1]))
-    )
+    t = gf.Component()
+
     for i, line in enumerate(text.split("\n")):
         label = gf.Component(name=t.name + "{}".format(i))
         for c in line:
@@ -48,10 +46,7 @@ def text(
                     label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
-                ValueError(
-                    "[PHIDL] text(): No glyph for character with ascii value %s"
-                    % ascii_val
-                )
+                ValueError(f"[PHIDL] text(): No character with ascii value {ascii_val}")
         t.add_ref(label)
         yoffset -= 1500 * scaling
         xoffset = position[0]
@@ -59,10 +54,12 @@ def text(
     for label in t.references:
         if justify == "left":
             pass
-        if justify == "right":
+        elif justify == "right":
             label.xmax = position[0]
-        if justify == "center":
+        elif justify == "center":
             label.move(origin=label.center, destination=position, axis="x")
+        else:
+            raise ValueError(f"justify = {justify} not in ('center', 'right', 'left')")
     return t
 
 
@@ -75,11 +72,20 @@ def githash(
 ) -> Component:
     """Returns the repo git hash
     allows a list of text, that will print on separate lines
+
+    Args:
+        text:
+        size:
+        hash_length:
+        layer:
+
     """
     try:
-        git_hash = "gf_{}".format(gf.CONFIG["repo"][:hash_length])
+
+        git_hash = gf.CONFIG["repo"][:hash_length]
+        git_hash = f"gf_{git_hash}"
     except Exception:
-        git_hash = "gf_{}".format(gf.__version__)
+        git_hash = f"gf_{gf.__version__}"
 
     c = gf.Component()
     t = manhattan_text(text=git_hash, size=size, layer=layer)
