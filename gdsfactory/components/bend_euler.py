@@ -4,7 +4,7 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionOrFactory
 
 
 @gf.cell
@@ -15,7 +15,7 @@ def bend_euler(
     npoints: int = 720,
     direction: str = "ccw",
     with_cladding_box: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -41,7 +41,7 @@ def bend_euler(
 
 
     """
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     radius = x.info["radius"]
 
     c = Component()

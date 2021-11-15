@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.8
+
+- gf.components.extend_ports uses port.cross_section to extend the port
+
 ## 3.5.6
 
 - add `cell` to gf.components.text

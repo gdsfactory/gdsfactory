@@ -4,7 +4,7 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionOrFactory
 
 
 @gf.cell
@@ -12,7 +12,7 @@ def bend_circular(
     angle: int = 90,
     npoints: int = 720,
     with_cladding_box: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs
 ) -> Component:
     """Returns a radial arc.
@@ -22,18 +22,11 @@ def bend_circular(
         npoints: number of points
         with_cladding_box: square in layers_cladding to remove DRC
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
-    .. plot::
-        :include-source:
-
-        import gdsfactory as gf
-
-        c = gf.components.bend_circular(radius=10, angle=90, npoints=720)
-        c.plot()
 
     """
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     radius = x.info["radius"]
 
     p = arc(radius=radius, angle=angle, npoints=npoints)
@@ -64,19 +57,7 @@ def bend_circular(
     return c
 
 
-@gf.cell
-def bend_circular180(angle: int = 180, **kwargs) -> Component:
-    """Returns a 180 degrees radial arc.
-
-    Args:
-        angle: angle of arc (degrees)
-        npoints: number of points
-        with_cladding_box: square in layers_cladding to remove DRC
-        waveguide: from tech.waveguide
-        kwargs: cross_section_factory settings
-
-    """
-    return bend_circular(angle=angle, **kwargs)
+bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
