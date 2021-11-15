@@ -129,7 +129,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     m = get_mode_solver_rib()
-    # m.init_params(p=0.5, reset_fields=False)
+    m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"
     origin = "upper"
@@ -139,3 +139,4 @@ if __name__ == "__main__":
         origin=origin,
         aspect="auto",
     )
+    plt.show()

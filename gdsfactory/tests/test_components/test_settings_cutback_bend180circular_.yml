@@ -1,14 +1,18 @@
 cells:
-  cutback_bend180_4d4f1848:
+  cutback_bend180_f50204c2:
     changed:
-      bend180: bend_circular180
+      bend180:
+        angle: 180
+        function: bend_circular
     default:
       columns: 6
       rows: 6
       spacing: 3
       straight_length: 5.0
     full:
-      bend180: bend_circular180
+      bend180:
+        angle: 180
+        function: bend_circular
       columns: 6
       rows: 6
       spacing: 3
@@ -17,17 +21,21 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_bend
     n_bends: 82
-    name: cutback_bend180_4d4f1848
+    name: cutback_bend180_f50204c2
 info:
   changed:
-    bend180: bend_circular180
+    bend180:
+      angle: 180
+      function: bend_circular
   default:
     columns: 6
     rows: 6
     spacing: 3
     straight_length: 5.0
   full:
-    bend180: bend_circular180
+    bend180:
+      angle: 180
+      function: bend_circular
     columns: 6
     rows: 6
     spacing: 3
@@ -36,7 +44,7 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_bend
   n_bends: 82
-  name: cutback_bend180_4d4f1848
+  name: cutback_bend180_f50204c2
 ports:
   o1:
     layer:

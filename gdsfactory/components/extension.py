@@ -8,8 +8,14 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
+from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Coordinate, Layer
+from gdsfactory.types import (
+    ComponentOrFactory,
+    Coordinate,
+    CrossSectionOrFactory,
+    Layer,
+)
 
 DEG2RAD = np.pi / 180
 
@@ -90,6 +96,7 @@ def extend_ports(
     port2: Optional[str] = None,
     port_type: str = "optical",
     centered: bool = False,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended
@@ -130,21 +137,27 @@ def extend_ports(
     for port in ports_all:
         port_name = port.name
         port = cref.ports[port_name]
+        cross_section = port.cross_section or cross_section
 
         if port_name in port_names:
 
             def extension_factory_default(
-                length=length, width=port.width, port_type=port.port_type
+                length=length,
+                width=port.width,
+                cross_section=cross_section,
             ):
-                return gf.components.hline(
-                    length=length, width=width, layer=port.layer, port_type=port_type
+                return gf.components.straight(
+                    length=length,
+                    width=width,
+                    layer=port.layer,
+                    cross_section=cross_section,
                 )
 
             if extension_factory:
                 extension_component = extension_factory()
             else:
                 extension_component = extension_factory_default(
-                    length=length, width=port.width, port_type=port.port_type
+                    length=length, width=port.width, cross_section=cross_section
                 )
             port_labels = list(extension_component.ports.keys())
             port1 = port1 or port_labels[0]
@@ -187,15 +200,15 @@ __all__ = ["extend_ports", "extend_port"]
 if __name__ == "__main__":
     # c = extend_ports()
     # c = test_extend_ports_selection()
-    # c = test_extend_ports()
-    # c.show()
+    c = test_extend_ports()
+    c.show()
 
     # c = gf.c.bend_circular()
     # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
     # ce.show()
 
-    wg_pin = gf.components.straight_pin(length=40)
-    wg_pin.show()
+    # wg_pin = gf.components.straight_pin(length=40)
+    # wg_pin.show()
 
     # c = pc.straight(layer=(3, 0))
     # print(ce)
