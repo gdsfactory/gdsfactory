@@ -177,7 +177,7 @@ def extend_ports(
 def test_extend_ports() -> Component:
     import gdsfactory.components as pc
 
-    c = pc.cross(width=2)
+    c = pc.cross(width=2, port_type="optical")
     ce = extend_ports(component=c)
     assert len(c.ports) == len(ce.ports)
     p = len(ce.polygons)

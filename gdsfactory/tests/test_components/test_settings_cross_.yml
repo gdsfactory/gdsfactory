@@ -1,4 +1,33 @@
 cells:
+  compass_61f9fdf6:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 3.0
+      - 10.0
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 3.0
+      - 10.0
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_61f9fdf6
   cross:
     changed: {}
     default:
@@ -6,17 +35,49 @@ cells:
       - 1
       - 0
       length: 10.0
+      port_type: null
       width: 3.0
     full:
       layer:
       - 1
       - 0
       length: 10.0
+      port_type: null
       width: 3.0
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
     name: cross
+  rectangle_0273adbb:
+    changed:
+      layer:
+      - 1
+      - 0
+      size:
+      - 3.0
+      - 10.0
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 3.0
+      - 10.0
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_0273adbb
 info:
   changed: {}
   default:
@@ -24,60 +85,18 @@ info:
     - 1
     - 0
     length: 10.0
+    port_type: null
     width: 3.0
   full:
     layer:
     - 1
     - 0
     length: 10.0
+    port_type: null
     width: 3.0
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross
   name: cross
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -5.0
-    - 0.0
-    name: o1
-    orientation: 180.0
-    port_type: optical
-    width: 3.0
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0.0
-    - 5.0
-    name: o2
-    orientation: 90.0
-    port_type: optical
-    width: 3.0
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 5.0
-    - 0.0
-    name: o3
-    orientation: 0.0
-    port_type: optical
-    width: 3.0
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0.0
-    - -5.0
-    name: o4
-    orientation: 270.0
-    port_type: optical
-    width: 3.0
+ports: {}
 version: 1
