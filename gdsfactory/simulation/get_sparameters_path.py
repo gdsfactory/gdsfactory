@@ -21,9 +21,10 @@ def get_sparameters_path(
 
     Args:
         component:
-        dirpath
-        layer_to_material: GDSlayer to material alias
-        layer_to_thickness: GDSlayer to thickness (nm)
+        layer_to_material: GDSlayer tuple to material alias
+        layer_to_thickness: GDSlayer tuple to thickness (nm)
+        dirpath:
+        kwargs: simulation settings
     """
     dirpath = pathlib.Path(dirpath)
     dirpath = (

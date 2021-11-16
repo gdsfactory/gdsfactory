@@ -15,13 +15,13 @@ def manhattan_text(
     justify: str = "left",
     layer: Tuple[int, int] = (1, 0),
 ) -> Component:
-    """Pixel based font, guaranteed to be manhattan, without accute angles.
+    """Pixel based font, guaranteed to be manhattan, without acute angles.
 
     Args:
         text:
         size: pixel size
         position: coordinate
-        justify
+        justify: left, right or center
         layer:
 
     """

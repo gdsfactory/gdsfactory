@@ -66,6 +66,7 @@ def splitter_tree(
             size=(bend_s_xsize, bend_s_ysize),
             **kwargs,
         )
+        c.info.bend_s = bend_s.info
     cols = int(np.log2(noutputs))
     i = 0
 

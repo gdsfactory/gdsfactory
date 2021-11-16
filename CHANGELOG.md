@@ -16,6 +16,12 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.9
+
+- gf.simulation.get_sparameters_path takes kwargs with simulation_settings
+- cross have port_type argument
+- splitter_tree exposes bend_s info
+
 ## 3.5.8
 
 - gf.components.extend_ports uses port.cross_section to extend the port
