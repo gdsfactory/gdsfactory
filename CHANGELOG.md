@@ -21,6 +21,10 @@ Maybe:
 - gf.simulation.get_sparameters_path takes kwargs with simulation_settings
 - cross have port_type argument
 - splitter_tree exposes bend_s info
+- change simulation_settings default values
+    - port_margin = 0.5 -> 1.5
+    - port_extension = 2.0 -> 5.0
+- route with auto_taper was missing a mirror
 
 ## 3.5.8
 
