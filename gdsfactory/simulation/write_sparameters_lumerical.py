@@ -342,6 +342,10 @@ def write_sparameters_lumerical(
         s.setnamed(p, "y", port.y * 1e-6)
         s.setnamed(p, "z", z * 1e-6)
         s.setnamed(p, "z span", zspan * 1e-6)
+        s.setnamed(
+            p, "multifrequency mode calculation", ss.multifrequency_mode_calculation
+        )
+        s.setnamed(p, "frequency points", ss.multifrequency_mode_calculation_points)
 
         deg = int(port.orientation)
         # if port.orientation not in [0, 90, 180, 270]:
