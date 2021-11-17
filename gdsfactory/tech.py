@@ -271,6 +271,8 @@ class SimulationSettings:
     wavelength_points: int = 500
     simulation_time: float = 10e-12
     simulation_temperature: float = 300
+    multifrequency_mode_calculation: bool = True
+    multifrequency_mode_calculation_points: int = 15
 
     mode_index: int = 0
     n_modes: int = 2
