@@ -259,8 +259,8 @@ class Section:
 @pydantic.dataclasses.dataclass
 class SimulationSettings:
     background_material: str = "sio2"
-    port_margin: float = 0.5
-    port_extension: float = 2.0
+    port_margin: float = 1.5
+    port_extension: float = 5.0
     mesh_accuracy: int = 2
     zmargin: float = 1.0
     ymargin: float = 2.0

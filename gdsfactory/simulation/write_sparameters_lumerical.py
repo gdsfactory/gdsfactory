@@ -47,7 +47,7 @@ def write_sparameters_lumerical(
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     **settings,
 ) -> pd.DataFrame:
-    """Returns and writes component Sparameters using Lumerical FDTD.
+    r"""Returns and writes component Sparameters using Lumerical FDTD.
 
     If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
@@ -83,7 +83,7 @@ def write_sparameters_lumerical(
         dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        **settings: overwrite any simulation settings
+        settings: overwrite any simulation settings
             background_material: for the background
             port_margin: on both sides of the port width (um)
             port_height: port height (um)
@@ -92,12 +92,49 @@ def write_sparameters_lumerical(
             zmargin: for the FDTD region (um)
             ymargin: for the FDTD region (um)
             xmargin: for the FDTD region (um)
-            pml_margin: for all the FDTD region
+            pml_margin: gap for all the FDTD region
             wavelength_start: 1.2 (um)
             wavelength_stop: 1.6 (um)
             wavelength_points: 500
             simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
             simulation_temperature: in kelvin (default = 300)
+
+
+    .. code::
+
+         top view
+              ________________________________
+             |                               |
+             | xmargin                       | port_extension
+             |<------>          port_margin ||<-->
+          ___|___________          _________||___
+             |           \        /          |
+             |            \      /           |
+             |             ======            |
+             |            /      \           |
+          ___|___________/        \__________|___
+             |   |                           |
+             |   |ymargin                    |
+             |   |                           |
+             |___|___________________________|
+
+        side view
+              ________________________________
+             |                               |
+             |                               |
+             |                               |
+             |ymargin                        |
+             |<---> _____         _____      |
+             |     |     |       |     |     |
+             |     |     |       |     |     |
+             |     |_____|       |_____|     |
+             |       |                       |
+             |       |                       |
+             |       |zmargin                |
+             |       |                       |
+             |_______|_______________________|
+
+
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
@@ -436,7 +473,8 @@ def _sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
-    component = gf.components.straight(length=2.5)
+    # component = gf.components.straight(length=2.5)
+    component = gf.components.mmi1x2()
     r = write_sparameters_lumerical(
         component=component, mesh_accuracy=1, wavelength_points=200, run=False
     )

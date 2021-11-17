@@ -563,7 +563,7 @@ def round_corners(
         cross_section:
         on_route_error: function to run when route fails
         with_point_markers: add route points markers (easy for debugging)
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
     """
     x = cross_section(**kwargs)
 
@@ -720,16 +720,7 @@ def round_corners(
         bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
         bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
         if bsx * sx == -1 or bsy * sy == -1:
-            # print("error", bsx * sx, bsy * sy)
-            # references += [gf.c.rectangle(size=(2, 2)).ref(position=point)]
             return on_route_error(points=points, cross_section=x, references=references)
-
-    # for i, point in enumerate(bend_points[:-1]):
-    #     bsx = bend_points[i + 1][0] - point[0]
-    #     bsy = bend_points[i + 1][1] - point[1]
-    #     if abs(bsx) > 0.001 and abs(bsy) > 0.001:
-    #         print(i, point, bsx, bsy)
-    #         # return on_route_error(points=points, cross_section=x, references=references)
 
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
@@ -794,19 +785,24 @@ def round_corners(
             pname_west, pname_east = [
                 p.name for p in _get_straight_ports(taper, layer=x.info["layer"])
             ]
-            taper_ref = taper.ref(
-                position=taper_origin, port_id=pname_east, rotation=angle + 180
-            )
 
+            taper_ref = taper.ref(
+                position=taper_origin,
+                port_id=pname_east,
+                rotation=angle + 180,
+                v_mirror=True,
+            )
+            # references += [
+            #     gf.Label(
+            #         text=f"a{angle}",
+            #         position=taper_ref.center,
+            #         layer=2,
+            #         texttype=0,
+            #     )
+            # ]
             references.append(taper_ref)
             wg_refs += [taper_ref]
             port_index_out = 0
-
-    # route = Component()
-    # route.add(references)
-    # netlist = route.get_netlist()
-    # if len(netlist["connections"]) != len(references) - 1:
-    #     return on_route_error(points=points, cross_section=x, references=references)
 
     if with_point_markers:
         route = get_route_error(points, cross_section=x)
