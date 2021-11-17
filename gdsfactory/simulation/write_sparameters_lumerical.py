@@ -1,6 +1,4 @@
-"""Write Sparameters with Lumerical FDTD.
-
-"""
+"""Write Sparameters with Lumerical FDTD."""
 
 import dataclasses
 import time
@@ -25,7 +23,7 @@ from gdsfactory.types import ComponentOrFactory
 run_false_warning = """
 You have passed run=False to debug the simulation
 
-run=False returns the simulation session for you to debug and make sure it's correct
+run=False returns the simulation session for you to debug and make sure it is correct
 
 To compute the Sparameters you need to pass run=True
 """
@@ -47,7 +45,7 @@ def write_sparameters_lumerical(
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     **settings,
 ) -> pd.DataFrame:
-    """Returns and writes component Sparameters using Lumerical FDTD.
+    r"""Returns and writes component Sparameters using Lumerical FDTD.
 
     If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
@@ -83,7 +81,7 @@ def write_sparameters_lumerical(
         dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        **settings: overwrite any simulation settings
+        settings: overwrite any simulation settings
             background_material: for the background
             port_margin: on both sides of the port width (um)
             port_height: port height (um)
@@ -92,12 +90,50 @@ def write_sparameters_lumerical(
             zmargin: for the FDTD region (um)
             ymargin: for the FDTD region (um)
             xmargin: for the FDTD region (um)
-            pml_margin: for all the FDTD region
             wavelength_start: 1.2 (um)
             wavelength_stop: 1.6 (um)
             wavelength_points: 500
             simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
             simulation_temperature: in kelvin (default = 300)
+            frequency_dependendent_profile: computes mode profiles for different wavelengths
+            field_profile_samples: number of wavelengths to compute field profile
+
+
+    .. code::
+
+         top view
+              ________________________________
+             |                               |
+             | xmargin                       | port_extension
+             |<------>          port_margin ||<-->
+          ___|___________          _________||___
+             |           \        /          |
+             |            \      /           |
+             |             ======            |
+             |            /      \           |
+          ___|___________/        \__________|___
+             |   |                           |
+             |   |ymargin                    |
+             |   |                           |
+             |___|___________________________|
+
+        side view
+              ________________________________
+             |                               |
+             |                               |
+             |                               |
+             |ymargin                        |
+             |<---> _____         _____      |
+             |     |     |       |     |     |
+             |     |     |       |     |     |
+             |     |_____|       |_____|     |
+             |       |                       |
+             |       |                       |
+             |       |zmargin                |
+             |       |                       |
+             |_______|_______________________|
+
+
 
     Return:
         Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
@@ -119,7 +155,7 @@ def write_sparameters_lumerical(
     for setting in settings.keys():
         if setting not in sim_settings:
             raise ValueError(
-                f"`{setting}` is not a valid setting ({list(sim_settings.keys()) + simulation_settings})"
+                f"Invalid setting `{setting}` not in ({list(sim_settings.keys())})"
             )
 
     sim_settings.update(**settings)
@@ -161,19 +197,10 @@ def write_sparameters_lumerical(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_csv}")
-    x_min = (component.xmin - ss.xmargin - ss.pml_margin) * 1e-6
-    x_max = (component.xmax + ss.xmargin + ss.pml_margin) * 1e-6
-    y_min = (component.ymin - ss.ymargin - ss.pml_margin) * 1e-6
-    y_max = (component.ymax + ss.ymargin + ss.pml_margin) * 1e-6
-
-    port_orientations = [p.orientation for p in ports]
-
-    # bend
-    if 90 in port_orientations:
-        y_max -= ss.ymargin * 1e-6
-
-    if 270 in port_orientations:
-        y_min += ss.ymargin * 1e-6
+    x_min = (component.xmin - ss.xmargin) * 1e-6
+    x_max = (component.xmax + ss.xmargin) * 1e-6
+    y_min = (component.ymin - ss.ymargin) * 1e-6
+    y_max = (component.ymax + ss.ymargin) * 1e-6
 
     layers_thickness = [
         layer_to_thickness[layer]
@@ -305,6 +332,8 @@ def write_sparameters_lumerical(
         s.setnamed(p, "y", port.y * 1e-6)
         s.setnamed(p, "z", z * 1e-6)
         s.setnamed(p, "z span", zspan * 1e-6)
+        s.setnamed(p, "frequency dependent profile", ss.frequency_dependendent_profile)
+        s.setnamed(p, "number of field profile samples", ss.field_profile_samples)
 
         deg = int(port.orientation)
         # if port.orientation not in [0, 90, 180, 270]:
@@ -436,7 +465,8 @@ def _sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
-    component = gf.components.straight(length=2.5)
+    # component = gf.components.straight(length=2.5)
+    component = gf.components.mmi1x2()
     r = write_sparameters_lumerical(
         component=component, mesh_accuracy=1, wavelength_points=200, run=False
     )

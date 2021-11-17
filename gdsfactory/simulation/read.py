@@ -131,6 +131,7 @@ def read_sparameters_pandas(
     component: Component,
     layer_stack: LayerStack = LAYER_STACK,
     dirpath: Path = gf.CONFIG["sparameters"],
+    **kwargs,
 ) -> pd.DataFrame:
     """Returns Sparameters in a pandas DataFrame.
 
@@ -140,6 +141,7 @@ def read_sparameters_pandas(
         component: Component
         layer_stack:
         dirpath: path where to look for the Sparameters
+        kwargs: simulation settings
 
     """
     filepath = get_sparameters_path(
@@ -147,6 +149,7 @@ def read_sparameters_pandas(
         dirpath=dirpath,
         layer_to_material=layer_stack.get_layer_to_material(),
         layer_to_thickness=layer_stack.get_layer_to_thickness(),
+        **kwargs,
     )
     df = pd.read_csv(filepath.with_suffix(".csv"))
     df.index = df["wavelength_nm"]
