@@ -134,6 +134,35 @@ cells:
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_f8b34917
   splitter_tree_776bbad8:
+    bend_s:
+      changed:
+        cross_section:
+          function: cross_section
+        size:
+        - 500.0
+        - 24.375
+      default:
+        nb_points: 99
+        size:
+        - 10.0
+        - 2.0
+        with_cladding_box: true
+      end_angle: 0.057
+      full:
+        cross_section:
+          function: cross_section
+        nb_points: 99
+        size:
+        - 500.0
+        - 24.375
+        with_cladding_box: true
+      function_name: bend_s
+      info_version: 1
+      length: 500.845
+      min_bend_radius: 1870.03
+      module: gdsfactory.components.bend_s
+      name: bend_s_7e3fe90a
+      start_angle: 0.057
     changed:
       coupler:
         combiner: mmi2x2
@@ -171,6 +200,35 @@ cells:
     module: gdsfactory.components.splitter_tree
     name: splitter_tree_776bbad8
 info:
+  bend_s:
+    changed:
+      cross_section:
+        function: cross_section
+      size:
+      - 500.0
+      - 24.375
+    default:
+      nb_points: 99
+      size:
+      - 10.0
+      - 2.0
+      with_cladding_box: true
+    end_angle: 0.057
+    full:
+      cross_section:
+        function: cross_section
+      nb_points: 99
+      size:
+      - 500.0
+      - 24.375
+      with_cladding_box: true
+    function_name: bend_s
+    info_version: 1
+    length: 500.845
+    min_bend_radius: 1870.03
+    module: gdsfactory.components.bend_s
+    name: bend_s_7e3fe90a
+    start_angle: 0.057
   changed:
     coupler:
       combiner: mmi2x2

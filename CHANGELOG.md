@@ -16,6 +16,19 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.9
+
+- gf.simulation.get_sparameters_path takes kwargs with simulation_settings
+- cross have port_type argument
+- splitter_tree exposes bend_s info
+- change simulation_settings default values
+    - port_margin = 0.5 -> 1.5
+    - port_extension = 2.0 -> 5.0
+    - xmargin = 0.5 -> 3.0
+    - ymargin = 2.0 -> 3.0
+    - remove pml_width as it was redundant with xmargin and ymargin
+- route with auto_taper was missing a mirror
+
 ## 3.5.8
 
 - gf.components.extend_ports uses port.cross_section to extend the port

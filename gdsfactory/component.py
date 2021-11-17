@@ -759,7 +759,15 @@ class Component(Device):
         h_mirror: bool = False,
         v_mirror: bool = False,
     ) -> ComponentReference:
-        """Returns Component reference."""
+        """Returns Component reference.
+
+        Args:
+            position:
+            port_id: name of the port
+            rotation:
+            h_mirror: horizontal mirror using y axis (x, 1) (1, 0)
+            v_mirror: vertical mirror using x axis (1, y) (0, y)
+        """
         _ref = ComponentReference(self)
 
         if port_id and port_id not in self.ports:
