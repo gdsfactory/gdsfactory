@@ -342,7 +342,7 @@ def write_sparameters_lumerical(
         s.setnamed(p, "z", z * 1e-6)
         s.setnamed(p, "z span", zspan * 1e-6)
         s.setnamed(
-            p, "frequency_dependendent_profile", ss.frequency_dependendent_profile
+            p, "frequency dependendent profile", ss.frequency_dependendent_profile
         )
         s.setnamed(p, "number of field profile samples", ss.field_profile_samples)
 
