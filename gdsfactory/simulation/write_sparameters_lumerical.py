@@ -92,7 +92,6 @@ def write_sparameters_lumerical(
             zmargin: for the FDTD region (um)
             ymargin: for the FDTD region (um)
             xmargin: for the FDTD region (um)
-            pml_margin: gap for all the FDTD region
             wavelength_start: 1.2 (um)
             wavelength_stop: 1.6 (um)
             wavelength_points: 500
@@ -156,7 +155,7 @@ def write_sparameters_lumerical(
     for setting in settings.keys():
         if setting not in sim_settings:
             raise ValueError(
-                f"`{setting}` is not a valid setting ({list(sim_settings.keys()) + simulation_settings})"
+                f"Invalid setting `{setting}` not in ({list(sim_settings.keys())})"
             )
 
     sim_settings.update(**settings)
@@ -198,10 +197,10 @@ def write_sparameters_lumerical(
         print(run_false_warning)
 
     logger.info(f"Writing Sparameters to {filepath_csv}")
-    x_min = (component.xmin - ss.xmargin - ss.pml_margin) * 1e-6
-    x_max = (component.xmax + ss.xmargin + ss.pml_margin) * 1e-6
-    y_min = (component.ymin - ss.ymargin - ss.pml_margin) * 1e-6
-    y_max = (component.ymax + ss.ymargin + ss.pml_margin) * 1e-6
+    x_min = (component.xmin - ss.xmargin) * 1e-6
+    x_max = (component.xmax + ss.xmargin) * 1e-6
+    y_min = (component.ymin - ss.ymargin) * 1e-6
+    y_max = (component.ymax + ss.ymargin) * 1e-6
 
     port_orientations = [p.orientation for p in ports]
 
