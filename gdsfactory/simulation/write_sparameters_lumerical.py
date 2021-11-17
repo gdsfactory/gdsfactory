@@ -342,9 +342,9 @@ def write_sparameters_lumerical(
         s.setnamed(p, "z", z * 1e-6)
         s.setnamed(p, "z span", zspan * 1e-6)
         s.setnamed(
-            p, "multifrequency mode calculation", ss.multifrequency_mode_calculation
+            p, "frequency_dependendent_profile", ss.frequency_dependendent_profile
         )
-        s.setnamed(p, "frequency points", ss.multifrequency_mode_calculation_points)
+        s.setnamed(p, "number of field profile samples", ss.field_profile_samples)
 
         deg = int(port.orientation)
         # if port.orientation not in [0, 90, 180, 270]:
