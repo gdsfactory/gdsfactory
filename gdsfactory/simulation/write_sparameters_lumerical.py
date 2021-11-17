@@ -1,6 +1,4 @@
-"""Write Sparameters with Lumerical FDTD.
-
-"""
+"""Write Sparameters with Lumerical FDTD."""
 
 import dataclasses
 import time
@@ -25,7 +23,7 @@ from gdsfactory.types import ComponentOrFactory
 run_false_warning = """
 You have passed run=False to debug the simulation
 
-run=False returns the simulation session for you to debug and make sure it's correct
+run=False returns the simulation session for you to debug and make sure it is correct
 
 To compute the Sparameters you need to pass run=True
 """
@@ -97,6 +95,8 @@ def write_sparameters_lumerical(
             wavelength_points: 500
             simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
             simulation_temperature: in kelvin (default = 300)
+            frequency_dependendent_profile: computes mode profiles for different wavelengths
+            field_profile_samples: number of wavelengths to compute field profile
 
 
     .. code::
@@ -201,15 +201,6 @@ def write_sparameters_lumerical(
     x_max = (component.xmax + ss.xmargin) * 1e-6
     y_min = (component.ymin - ss.ymargin) * 1e-6
     y_max = (component.ymax + ss.ymargin) * 1e-6
-
-    port_orientations = [p.orientation for p in ports]
-
-    # bend
-    if 90 in port_orientations:
-        y_max -= ss.ymargin * 1e-6
-
-    if 270 in port_orientations:
-        y_min += ss.ymargin * 1e-6
 
     layers_thickness = [
         layer_to_thickness[layer]
