@@ -30,10 +30,8 @@ def get_instance_name(
     reference: ComponentReference,
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
 ) -> str:
-    """Takes component names from instance XY location or label in layer_label
-    Loop over references and find the reference under and associate reference with instance label
-    map instance names to references
-    Check if it has a instance name label and return the instance name from the label
+    """Returns the instance name from the label.
+    If no label returns to instanceName_x_y
 
     Args:
         component: with labels
@@ -67,7 +65,7 @@ def get_netlist(
     full_settings: bool = False,
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
 ) -> omegaconf.DictConfig:
-    """From a component returns instances and placements dicts.
+    """From a component returns instances, connections and placements dict.
     it assumes that ports with same width, x, y are connected.
 
     Args:
@@ -133,17 +131,17 @@ def get_netlist(
             src = f"{reference_name},{port.name}"
             name2port[src] = port
 
-    # build connectivity port_locations = Dict[Tuple(x,y), set of portNames]
+    # build connectivity port_locations = Dict[Tuple(x,y,width), set of portNames]
     for name, port in name2port.items():
-        xy = snap_to_grid((port.x, port.y, port.width))
-        if xy not in port_locations:
-            port_locations[xy] = set()
-        port_locations[xy].add(name)
+        xyw = snap_to_grid((port.x, port.y, port.width))
+        if xyw not in port_locations:
+            port_locations[xyw] = set()
+        port_locations[xyw].add(name)
 
-    for xy, names_set in port_locations.items():
+    for xyw, names_set in port_locations.items():
         if len(names_set) > 2:
             raise ValueError(
-                f"more than 2 connections at {xy} {list(names_set)}, width = {xy[2]}"
+                f"more than 2 connections at {xyw} {list(names_set)}, width = {xyw[2]}"
             )
         if len(names_set) == 2:
             names_list = list(names_set)
