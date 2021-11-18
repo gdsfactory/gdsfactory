@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.10
+
+- enable having more than 2 ports per cross_section
+
 ## 3.5.9
 
 - better docstrings
