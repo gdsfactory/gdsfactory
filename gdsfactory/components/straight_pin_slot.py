@@ -15,8 +15,10 @@ def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionFactory = pin,
     contact: ComponentFactory = contact_m1_m3,
-    contact_slab: ComponentFactory = contact_slot_slab_m1,
     contact_width: float = 10.0,
+    contact_slab: ComponentFactory = contact_slot_slab_m1,
+    contact_slab_width: Optional[float] = None,
+    contact_slab_spacing: Optional[float] = None,
     contact_spacing: float = 2,
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
@@ -32,7 +34,9 @@ def straight_pin_slot(
         length: of the waveguide
         cross_section: for the waveguide
         contact: for the contacts
-        contact_size:
+        contact_width:
+        contact_slab:
+        contact_slab_width: defaults to contact_width
         contact_spacing: spacing between contacts
         taper: optional taper
         kwargs: cross_section settings
@@ -48,6 +52,9 @@ def straight_pin_slot(
         length=length,
         **kwargs,
     )
+
+    contact_slab_width = contact_slab_width or contact_width
+    contact_slab_spacing = contact_slab_spacing or contact_spacing
 
     if taper:
         t1 = c << taper
@@ -75,16 +82,16 @@ def straight_pin_slot(
     contact_bot.ymax = -contact_spacing / 2
 
     slot_top = c << contact_slab(
-        size=(contact_length, contact_width),
+        size=(contact_length, contact_slab_width),
     )
     slot_bot = c << contact_slab(
-        size=(contact_length, contact_width),
+        size=(contact_length, contact_slab_width),
     )
 
     slot_bot.xmin = wg.xmin
     slot_top.xmin = wg.xmin
-    slot_top.ymin = +contact_spacing / 2
-    slot_bot.ymax = -contact_spacing / 2
+    slot_top.ymin = +contact_slab_spacing / 2
+    slot_bot.ymax = -contact_slab_spacing / 2
 
     c.add_ports(contact_bot.ports, prefix="bot_")
     c.add_ports(contact_top.ports, prefix="top_")
@@ -94,5 +101,5 @@ def straight_pin_slot(
 straight_pn_slot = gf.partial(straight_pin_slot, cross_section=pn)
 
 if __name__ == "__main__":
-    c = straight_pin_slot()
+    c = straight_pin_slot(contact_width=4, contact_slab_width=8)
     c.show()

@@ -2,10 +2,14 @@ cells: {}
 info:
   changed: {}
   default:
+    contact_slab_spacing: null
+    contact_slab_width: null
     contact_spacing: 2
     contact_width: 10.0
     length: 500.0
   full:
+    contact_slab_spacing: null
+    contact_slab_width: null
     contact_spacing: 2
     contact_width: 10.0
     length: 500.0
