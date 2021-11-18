@@ -484,8 +484,7 @@ if __name__ == "__main__":
 
     P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
     wg_trans = gf.path.extrude(P4, Xtrans)
-
-    # wg_trans.show()
+    wg_trans.show()
 
     # import gdsfactory as gf
     # # Create our first CrossSection
