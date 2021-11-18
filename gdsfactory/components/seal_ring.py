@@ -35,6 +35,8 @@ def seal_ring(
     component = component() if callable(component) else component
     size = component.size
     sx, sy = size
+    sx = gf.snap.snap_to_grid(sx, nm=2)
+    sy = gf.snap.snap_to_grid(sy, nm=2)
 
     # north south
     size_north_south = (sx + 2 * padding + 2 * width, width)

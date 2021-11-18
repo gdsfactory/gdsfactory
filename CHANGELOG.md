@@ -18,6 +18,10 @@ Maybe:
 
 ## 3.5.9
 
+- better docstrings
+
+## 3.5.9
+
 - gf.simulation.get_sparameters_path takes kwargs with simulation_settings
 - cross have port_type argument
 - splitter_tree exposes bend_s info
