@@ -153,8 +153,9 @@ def component_sequence(
     for s in sequence[1:]:
         s, do_flip = _parse_component_name(s)
 
-        _component, input_port, next_port = symbol_to_component[s]
-        ref = component.add_ref(_component, alias=_next_id(s))
+        component_i, input_port, next_port = symbol_to_component[s]
+        component_i = component_i() if callable(component_i) else component_i
+        ref = component.add_ref(component_i, alias=_next_id(s))
 
         if do_flip:
             ref = _flip_ref(ref, input_port)

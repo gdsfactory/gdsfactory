@@ -22,8 +22,8 @@ class CrossSection(CrossSectionPhidl):
 
     def __init__(self):
         self.sections = []
-        self.ports = (None, None)
-        self.port_types = (None, None)
+        self.ports = set()
+        self.port_types = set()
         self.aliases = {}
         self.info = {}
         self.name = None
@@ -46,33 +46,24 @@ class CrossSection(CrossSectionPhidl):
             width: Width of the segment
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
-            ports: If not None, specifies the names for the ports at the ends of the
-              cross-sectional element
+            ports: port names at the ends of the cross-section
             name: Name of the cross-sectional element for later access
-            port_types: port of the cross types
+            port_types: electrical, optical ...
             hidden: if True does not draw polygons for CrossSection
         """
         if isinstance(width, (float, int)) and (width <= 0):
             raise ValueError("CrossSection.add(): widths must be >0")
         if len(ports) != 2:
             raise ValueError("CrossSection.add(): must receive 2 port names")
-        for i, p in enumerate(ports):
+        for p in ports:
             if p is not None and p in self.ports:
                 raise ValueError(
                     f"CrossSection.add(): a port named {p} already "
                     "exists in this CrossSection, please rename port"
                 )
-            if p is not None:
-                if self.ports[i] is None:
-                    new_ports = list(self.ports)
-                    new_ports[i] = p
-                    self.ports = tuple(new_ports)
 
-                    new_ports_types = list(self.port_types)
-                    new_ports_types[i] = port_types[i]
-                    self.port_types = tuple(new_ports_types)
-                else:
-                    raise ValueError(f"Multiple ports defined in index {i}")
+        [self.ports.add(port) for port in ports if port is not None]
+        [self.port_types.add(port_type) for port_type in port_types]
 
         if name in self.aliases:
             raise ValueError(
@@ -791,9 +782,6 @@ if __name__ == "__main__":
     # P.append(gf.path.spiral())
 
     # Create a blank CrossSection
-    # X = CrossSection()
-    # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["HW1", "HE1"])
-    # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
 
     # X = pin(width=0.5, width_i=0.5)
@@ -813,6 +801,11 @@ if __name__ == "__main__":
     x1 = strip_rib_tip()
     x2 = rib_heater_doped_contact()
     X = gf.path.transition(x1, x2)
+    P = gf.path.straight(npoints=100, length=10)
+
+    X = CrossSection()
+    X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["e1", "e2"])
+    X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
     P = gf.path.straight(npoints=100, length=10)
 
     c = gf.path.extrude(P, X)

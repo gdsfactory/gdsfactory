@@ -16,6 +16,15 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.10
+
+- enable having more than 2 ports per cross_section
+
+## 3.5.9
+
+- better docstrings
+- component_sequence also accepts component factories
+
 ## 3.5.9
 
 - gf.simulation.get_sparameters_path takes kwargs with simulation_settings
