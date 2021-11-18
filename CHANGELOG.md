@@ -19,6 +19,7 @@ Maybe:
 ## 3.5.9
 
 - better docstrings
+- component_sequence also accepts component factories
 
 ## 3.5.9
 
