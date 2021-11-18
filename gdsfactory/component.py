@@ -1254,7 +1254,7 @@ class Component(Device):
             component
             layers: list of layers
             suffix for name
-            default: default padding
+            default: default padding (50um)
             top: north padding
             bottom: south padding
             right: east padding
