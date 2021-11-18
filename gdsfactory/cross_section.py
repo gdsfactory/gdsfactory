@@ -46,10 +46,9 @@ class CrossSection(CrossSectionPhidl):
             width: Width of the segment
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
-            ports: If not None, specifies the names for the ports at the ends of the
-              cross-sectional element
+            ports: port names at the ends of the cross-section
             name: Name of the cross-sectional element for later access
-            port_types: port of the cross types
+            port_types: electrical, optical ...
             hidden: if True does not draw polygons for CrossSection
         """
         if isinstance(width, (float, int)) and (width <= 0):
@@ -62,7 +61,9 @@ class CrossSection(CrossSectionPhidl):
                     f"CrossSection.add(): a port named {p} already "
                     "exists in this CrossSection, please rename port"
                 )
-        [self.ports.add(p) for p in ports if p is not None]
+
+        [self.ports.add(port) for port in ports if port is not None]
+        [self.port_types.add(port_type) for port_type in port_types]
 
         if name in self.aliases:
             raise ValueError(
