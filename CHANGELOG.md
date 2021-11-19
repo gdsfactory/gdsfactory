@@ -16,6 +16,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.5.12
+
+- add tolerance to netlist extraction. Snap to any nm grid for detecting connectivity (defaults to 1nm).
+
 ## 3.5.10
 
 - enable having more than 2 ports per cross_section
