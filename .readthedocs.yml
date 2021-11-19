@@ -31,5 +31,5 @@ sphinx:
 #   environment: environment.yml
 python:
    install:
-   - requirements: docs/requirements.txt
-   - requirements: docs/requirements_dev.txt
+   - requirements: requirements.txt
+   - requirements: requirements_dev.txt
