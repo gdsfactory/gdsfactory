@@ -66,21 +66,21 @@ def get_netlist(
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
     tolerance: int = 1,
 ) -> omegaconf.DictConfig:
-    """From a component returns instances, connections and placements dict.
-        it assumes that ports with same width, x, y are connected.
-    ) -> Dict[str, Dict]:
-        Args:
-            component: to Extract netlist
-            full_settings: True returns all settings, false only the ones that have changed
-            layer_label: label to read instanceNames from (if any)
-            tolerance: tolerance in nm to consider two ports the same
+    """From a component returns instances, connections and placements dict. It
+    assumes that ports with same width, x, y are connected.
 
-        Returns:
-            connections: Dict of Instance1Name,portName: Instace2Name,portName
-            instances: Dict of instances and settings
-            placements: Dict of instances and placements (x, y, rotation)
-            port: Dict portName: CompoentName,port
-            name: name of component
+     Args:
+         component: to Extract netlist
+         full_settings: True returns all settings, false only the ones that have changed
+         layer_label: label to read instanceNames from (if any)
+         tolerance: tolerance in nm to consider two ports the same
+
+     Returns:
+         connections: Dict of Instance1Name,portName: Instace2Name,portName
+         instances: Dict of instances and settings
+         placements: Dict of instances and placements (x, y, rotation)
+         port: Dict portName: CompoentName,port
+         name: name of component
 
     """
     placements = {}
