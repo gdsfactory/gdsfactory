@@ -64,21 +64,23 @@ def get_netlist(
     component: Component,
     full_settings: bool = False,
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
+    tolerance: int = 1,
 ) -> omegaconf.DictConfig:
-    """From a component returns instances, connections and placements dict.
-    it assumes that ports with same width, x, y are connected.
+    """From a component returns instances, connections and placements dict. It
+    assumes that ports with same width, x, y are connected.
 
-    Args:
-        component: to Extract netlist
-        full_settings: True returns all settings, false only the ones that have changed
-        layer_label: label to read instanceNames from (if any)
+     Args:
+         component: to Extract netlist
+         full_settings: True returns all settings, false only the ones that have changed
+         layer_label: label to read instanceNames from (if any)
+         tolerance: tolerance in nm to consider two ports the same
 
-    Returns:
-        connections: Dict of Instance1Name,portName: Instace2Name,portName
-        instances: Dict of instances and settings
-        placements: Dict of instances and placements (x, y, rotation)
-        port: Dict portName: CompoentName,port
-        name: name of component
+     Returns:
+         connections: Dict of Instance1Name,portName: Instace2Name,portName
+         instances: Dict of instances and settings
+         placements: Dict of instances and placements (x, y, rotation)
+         port: Dict portName: CompoentName,port
+         name: name of component
 
     """
     placements = {}
@@ -133,15 +135,19 @@ def get_netlist(
 
     # build connectivity port_locations = Dict[Tuple(x,y,width), set of portNames]
     for name, port in name2port.items():
-        xyw = snap_to_grid((port.x, port.y, port.width))
+        xyw = tuple(
+            round(1000 * v)
+            for v in snap_to_grid((port.x, port.y, port.width), nm=tolerance)
+        )
         if xyw not in port_locations:
             port_locations[xyw] = set()
         port_locations[xyw].add(name)
 
     for xyw, names_set in port_locations.items():
         if len(names_set) > 2:
+            x, y, w = (v / 1000 for v in xyw)
             raise ValueError(
-                f"more than 2 connections at {xyw} {list(names_set)}, width = {xyw[2]}"
+                f"more than 2 connections at {x, y} {list(names_set)}, width  = {w} "
             )
         if len(names_set) == 2:
             names_list = list(names_set)
