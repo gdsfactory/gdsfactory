@@ -62,9 +62,11 @@ def grating_coupler_rectangular_arbitrary(
     c.add_port(port=taper_ref.ports["o1"], name="o1")
     xi = taper_ref.xmax
 
+    widths = gf.snap.snap_to_grid(widths)
+    gaps = gf.snap.snap_to_grid(gaps)
+
     for width, gap in zip(widths, gaps):
         xi += gap + width / 2
-
         cgrating = c.add_ref(
             rectangle(
                 size=[width, width_teeth or width_grating],

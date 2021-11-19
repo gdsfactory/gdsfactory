@@ -89,6 +89,9 @@ def grating_coupler_elliptical_arbitrary(
     c.info.polarization = polarization
     c.info.wavelength = wavelength
 
+    gaps = gf.snap.snap_to_grid(gaps)
+    widths = gf.snap.snap_to_grid(widths)
+
     xi = taper_length
     for gap, width in zip(gaps, widths):
         xi += gap + width / 2
