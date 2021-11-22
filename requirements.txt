@@ -23,6 +23,5 @@ scikit-image
 scipy
 Shapely==1.8.0
 toolz==0.11.2
-
 trimesh==3.9.35
 xmltodict==0.12.0
