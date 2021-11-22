@@ -5,6 +5,7 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: requirements-txt-fixer
   - repo: https://github.com/hakancelik96/unimport
     rev: 0.9.2
     hooks:

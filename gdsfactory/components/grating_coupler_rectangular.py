@@ -5,7 +5,8 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.taper import taper
+from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
@@ -19,29 +20,51 @@ def grating_coupler_rectangular(
     layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
     wavelength: float = 1.55,
+    taper: ComponentFactory = taper_function,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
-    Grating teeth are straight instead of elliptical.
+    Grating teeth are straight.
+    For a focusing grating take a look at grating_coupler_elliptical.
+
 
     Args:
-        n_periods: 20
-        period: 0.75
-        fill_factor: 0.5
+        n_periods: number of grating teeth
+        period: grating pitch
+        fill_factor: ratio of grating width vs gap
         width_grating: 11
         length_taper: 150
-        wg_width: 0.5
+        wg_width: input waveguide width
+        layer: for grating teeth
+        polarization: 'te' or 'tm'
+        wavelength: in um
+        taper: function
 
     .. code::
 
-                 \  \  \  \
-                  \  \  \  \
+        side view
+                      fiber
+                   /  /  /  /
+                  /  /  /  /
                 _|-|_|-|_|-|___
-               |_______________  W0
+        WG  o1  ______________|
 
+
+        top view     _________
+                    /| | | | |
+                   / | | | | |
+                  /taper_angle
+                 /_ _| | | | |
+        wg_width |   | | | | |
+                 \   | | | | |
+                  \  | | | | |
+                   \ | | | | |
+                    \|_|_|_|_|
+                 <-->
+                taper_length
     """
     c = Component()
-    taper_ref = c << taper(
+    taper_ref = c << taper_function(
         length=length_taper,
         width2=width_grating,
         width1=wg_width,

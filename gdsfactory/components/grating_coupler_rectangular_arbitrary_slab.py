@@ -5,7 +5,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.taper import taper_strip_to_slab150
 from gdsfactory.types import ComponentFactory, Floats, Layer
 
 _gaps = (0.2,) * 10
@@ -13,7 +13,7 @@ _widths = (0.5,) * 10
 
 
 @gf.cell
-def grating_coupler_rectangular_arbitrary(
+def grating_coupler_rectangular_arbitrary_slab(
     gaps: Floats = _gaps,
     widths: Floats = _widths,
     wg_width: float = 0.5,
@@ -22,8 +22,9 @@ def grating_coupler_rectangular_arbitrary(
     layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: ComponentFactory = taper_function,
-    layer_grating: Optional[Layer] = None,
+    taper: ComponentFactory = taper_strip_to_slab150,
+    layer_slab: Optional[Layer] = gf.LAYER.SLAB150,
+    slab_offset: float = 2,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
@@ -39,7 +40,8 @@ def grating_coupler_rectangular_arbitrary(
         polarization: 'te' or 'tm'
         wavelength: in um
         taper: function
-        layer_grating:
+        layer_slab:
+        slab_offset
 
     .. code::
 
@@ -66,15 +68,18 @@ def grating_coupler_rectangular_arbitrary(
 
     """
     c = Component()
-    taper_ref = c << taper(
+
+    taper = taper(
         length=length_taper,
         width2=width_grating,
         width1=wg_width,
-        layer=layer,
+        w_slab2=width_grating + 4,
     )
 
+    taper_ref = c << taper
+
     c.add_port(port=taper_ref.ports["o1"], name="o1")
-    xi = taper_ref.xmax
+    x0 = xi = taper_ref.xmax
 
     widths = gf.snap.snap_to_grid(widths)
     gaps = gf.snap.snap_to_grid(gaps)
@@ -93,6 +98,18 @@ def grating_coupler_rectangular_arbitrary(
         cgrating.y = 0
         xi += width / 2
 
+    if layer_slab:
+        slab = c << rectangle(
+            size=(
+                gf.snap.snap_to_grid(xi - x0) + slab_offset,
+                width_grating + 2 * slab_offset,
+            ),
+            layer=layer_slab,
+            port_type=None,
+            centered=True,
+        )
+        slab.xmin = x0
+
     xport = np.round((xi + length_taper) / 2, 3)
 
     port_type = f"vertical_{polarization.lower()}"
@@ -104,6 +121,6 @@ def grating_coupler_rectangular_arbitrary(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary()
+    c = grating_coupler_rectangular_arbitrary_slab()
     print(c.ports)
     c.show()

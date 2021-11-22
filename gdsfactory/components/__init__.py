@@ -103,6 +103,9 @@ from gdsfactory.components.grating_coupler_rectangular import (
 from gdsfactory.components.grating_coupler_rectangular_arbitrary import (
     grating_coupler_rectangular_arbitrary,
 )
+from gdsfactory.components.grating_coupler_rectangular_arbitrary_slab import (
+    grating_coupler_rectangular_arbitrary_slab,
+)
 from gdsfactory.components.grating_coupler_tree import grating_coupler_tree
 from gdsfactory.components.hline import hline
 from gdsfactory.components.L import L
@@ -456,6 +459,7 @@ factory = dict(
     grating_coupler_tree=grating_coupler_tree,
     grating_coupler_rectangular=grating_coupler_rectangular,
     grating_coupler_rectangular_arbitrary=grating_coupler_rectangular_arbitrary,
+    grating_coupler_rectangular_arbitrary_slab=grating_coupler_rectangular_arbitrary_slab,
     hline=hline,
     litho_calipers=litho_calipers,
     litho_steps=litho_steps,

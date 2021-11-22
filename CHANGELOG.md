@@ -2,6 +2,7 @@
 
 ## TODO
 
+- write better pydantic validation error messages
 - fix FIXMEs
 - add example on how to customize visualization of a component
 - build docker container
