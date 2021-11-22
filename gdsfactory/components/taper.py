@@ -86,7 +86,7 @@ def taper(
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
 
-    c.info["length"] = length
+    c.info["length"] = float(length)
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
     return c
@@ -141,7 +141,7 @@ def taper_strip_to_ridge(
         c.add(taper_ref)
         c.absorb(taper_ref)
 
-    c.info["length"] = length
+    c.info["length"] = float(length)
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     if with_slab_port:
         c.add_port(name="o2", port=taper_slab.ports["o2"])
@@ -163,18 +163,30 @@ def taper_strip_to_ridge(
 
 @gf.cell
 def taper_strip_to_ridge_trenches(
-    length=10.0,
-    width=0.5,
-    slab_offset=3.0,
-    trench_width=2.0,
-    trench_layer=gf.LAYER.SLAB90,
-    layer_wg=gf.LAYER.WG,
-    trench_offset_after_wg=0.1,
+    length: float = 10.0,
+    width: float = 0.5,
+    slab_offset: float = 3.0,
+    trench_width: float = 2.0,
+    trench_layer: Layer = gf.LAYER.SLAB90,
+    layer_wg: Layer = gf.LAYER.WG,
+    trench_offset: float = 0.1,
 ):
+    """Defines taper using trenches to define the etch.
+
+    Args:
+        length:
+        width:
+        slab_offset:
+        trench_width:
+        trench_layer:
+        layer_wg:
+        trench_offset: after waveguide
+
+    """
 
     c = gf.Component()
-    y0 = width / 2 + trench_width - trench_offset_after_wg
-    yL = width / 2 + trench_width - trench_offset_after_wg + slab_offset
+    y0 = width / 2 + trench_width - trench_offset
+    yL = width / 2 + trench_width - trench_offset + slab_offset
 
     # straight
     x = [0, length, length, 0]
@@ -200,9 +212,12 @@ def taper_strip_to_ridge_trenches(
     return c
 
 
+taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab=gf.LAYER.SLAB150)
+
+
 if __name__ == "__main__":
-    c = taper(width2=1)
+    # c = taper(width2=1)
     # c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
     # print(c.get_optical_ports())
-    # c = taper_strip_to_ridge_trenches()
+    c = taper_strip_to_ridge_trenches()
     c.show()

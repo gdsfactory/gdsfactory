@@ -39,7 +39,7 @@ def grating_coupler_circular(
         period: Grating period.
         fill_factor: (period-gap)/period.
         port: Cartesian coordinate of the input port
-        layer: Tuple specifying the layer/datatype of the waveguide.
+        layer: waveguide layer
         layer_slab: slab layer for partial etched gratings
         layer_cladding: for the cladding (using cladding_offset)
         teeth_list: (gap, width) tuples to be used as the gap and teeth widths
@@ -53,19 +53,32 @@ def grating_coupler_circular(
         polarization: te or tm
         wavelength: wavelength um
         fiber_marker_width:
-        wg_width
+        wg_width: for input waveguide
         cladding_offset:
 
 
     .. code::
 
+        side view
                       fiber
-
                    /  /  /  /
                   /  /  /  /
                 _|-|_|-|_|-|___
         WG  o1  ______________|
 
+                      /
+        top view     / |
+                    /| |
+                   / | |
+                  /taper_angle
+                 /_ _| |
+        wg_width |   | |
+                 \   | |
+                  \  | |
+                   \ | |
+                    \| |
+                 <-->
+                taper_length
     """
 
     c = pc.GratingCoupler(

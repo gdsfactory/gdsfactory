@@ -112,7 +112,7 @@ def extend_ports(
         port2: output port name
         port_type: type of the ports to extend
         centered: if True centers rectangle at (0, 0)
-        **kwargs
+        kwargs: for selecting the ports
     """
     c = gf.Component()
     component = component() if callable(component) else component
