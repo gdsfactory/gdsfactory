@@ -10,7 +10,7 @@ cells:
       trench_layer:
       - 3
       - 0
-      trench_offset_after_wg: 0.1
+      trench_offset: 0.1
       trench_width: 2.0
       width: 0.5
     full:
@@ -22,7 +22,7 @@ cells:
       trench_layer:
       - 3
       - 0
-      trench_offset_after_wg: 0.1
+      trench_offset: 0.1
       trench_width: 2.0
       width: 0.5
     function_name: taper_strip_to_ridge_trenches
@@ -40,7 +40,7 @@ info:
     trench_layer:
     - 3
     - 0
-    trench_offset_after_wg: 0.1
+    trench_offset: 0.1
     trench_width: 2.0
     width: 0.5
   full:
@@ -52,7 +52,7 @@ info:
     trench_layer:
     - 3
     - 0
-    trench_offset_after_wg: 0.1
+    trench_offset: 0.1
     trench_width: 2.0
     width: 0.5
   function_name: taper_strip_to_ridge_trenches

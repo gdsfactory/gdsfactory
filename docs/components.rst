@@ -197,7 +197,7 @@ bend_circular180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular180(angle=180)
+  c = gf.components.bend_circular180(angle=180, npoints=720, with_cladding_box=True)
   c.plot()
 
 
@@ -931,7 +931,7 @@ die_bbox
 
   import gdsfactory as gf
 
-  c = gf.components.die_bbox(street_width=100.0, street_length=1000.0, text_size=100.0, text_location='SW', layer=(99, 0), padding=10.0)
+  c = gf.components.die_bbox(street_width=100.0, street_length=1000.0, text_size=100.0, text_location='SW', layer=(49, 0), padding=10.0)
   c.plot()
 
 
@@ -1217,6 +1217,21 @@ grating_coupler_rectangular_arbitrary
   import gdsfactory as gf
 
   c = gf.components.grating_coupler_rectangular_arbitrary(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55)
+  c.plot()
+
+
+
+grating_coupler_rectangular_arbitrary_slab
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_rectangular_arbitrary_slab(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), slab_offset=2)
   c.plot()
 
 
@@ -2251,7 +2266,7 @@ taper_strip_to_ridge_trenches
 
   import gdsfactory as gf
 
-  c = gf.components.taper_strip_to_ridge_trenches(length=10.0, width=0.5, slab_offset=3.0, trench_width=2.0, trench_layer=(3, 0), layer_wg=(1, 0), trench_offset_after_wg=0.1)
+  c = gf.components.taper_strip_to_ridge_trenches(length=10.0, width=0.5, slab_offset=3.0, trench_width=2.0, trench_layer=(3, 0), layer_wg=(1, 0), trench_offset=0.1)
   c.plot()
 
 
@@ -2386,7 +2401,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.5.4', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.5.12', text_size=10)
   c.plot()
 
 
