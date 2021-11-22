@@ -6,7 +6,6 @@ import warnings
 from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
-import rectpack
 
 from gdsfactory.component import Component
 from gdsfactory.types import Coordinate, Number
@@ -37,6 +36,7 @@ def _pack_single_bin(
         packed rectangles dict {id:(x,y,w,h)}
         dict of remaining unpacked rectangles
     """
+    import rectpack
 
     # Compute total area and use it for an initial estimate of the bin size
     total_area = 0
