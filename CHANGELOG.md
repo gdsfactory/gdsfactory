@@ -20,6 +20,7 @@ Maybe:
 ## 3.5.14
 
 - snap_to_grid_nm waypoints in round_corners to avoid 1nm gaps in some routes
+- add `gf.components.text_rectangular`
 
 ## 3.5.12
 
