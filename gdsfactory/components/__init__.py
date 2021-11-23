@@ -190,6 +190,7 @@ from gdsfactory.components.taper_from_csv import (
     taper_w12_l200,
 )
 from gdsfactory.components.text import githash, text
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangle import triangle
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
@@ -531,6 +532,7 @@ factory = dict(
     taper_w11_l200=taper_w11_l200,
     taper_w12_l200=taper_w12_l200,
     text=text,
+    text_rectangular=text_rectangular,
     triangle=triangle,
     verniers=verniers,
     version_stamp=version_stamp,

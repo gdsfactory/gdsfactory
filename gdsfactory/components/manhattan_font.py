@@ -35,7 +35,7 @@ def manhattan_text(
             if character == " ":
                 xoffset += pixel_size * 6
             elif character.upper() not in CHARAC_MAP:
-                print(f"skipping character {character} not part of dictionary")
+                print(f"skipping character {character} not in font")
             else:
                 pixels = CHARAC_MAP[character.upper()]
                 ref = component.add_ref(
@@ -51,10 +51,12 @@ def manhattan_text(
     for ref in component.references:
         if justify == "left":
             pass
-        if justify == "right":
+        elif justify == "right":
             ref.xmax = position[0]
-        if justify == "center":
+        elif justify == "center":
             ref.move(origin=ref.center, destination=position, axis="x")
+        else:
+            raise ValueError(f"justify = {justify} not valid (left, center, right)")
 
     return component
 
