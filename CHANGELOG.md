@@ -19,7 +19,7 @@ Maybe:
 
 ## 3.5.14
 
-- snap_to_grid_nm waypoints in round_corners
+- snap_to_grid_nm waypoints in round_corners to avoid 1nm gaps in some routes
 
 ## 3.5.12
 
@@ -27,7 +27,7 @@ Maybe:
 
 ## 3.5.10
 
-- enable having more than 2 ports per cross_section
+- enable having more than 2 ports per cross_section. Include test for that.
 
 ## 3.5.9
 
@@ -53,7 +53,7 @@ Maybe:
 
 ## 3.5.6
 
-- add `cell` to gf.components.text
+- add `cell` decorator to gf.components.text
 
 ## 3.5.5
 
