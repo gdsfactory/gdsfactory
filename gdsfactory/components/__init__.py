@@ -132,6 +132,7 @@ from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle
+from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -488,6 +489,7 @@ factory = dict(
     qrcode=qrcode,
     ramp=ramp,
     rectangle=rectangle,
+    rectangle_with_slits=rectangle_with_slits,
     resistance_meander=resistance_meander,
     resistance_sheet=resistance_sheet,
     ring=ring,
