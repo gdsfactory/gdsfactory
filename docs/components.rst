@@ -1686,6 +1686,21 @@ rectangle
 
 
 
+rectangle_with_slits
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.rectangle_with_slits
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.rectangle_with_slits(size=(100.0, 200.0), layer=(1, 0), centered=False, slit_size=(1.0, 1.0), slit_spacing=(20, 20), slit_enclosure=10)
+  c.plot()
+
+
+
 resistance_meander
 ----------------------------------------------------
 
@@ -2361,6 +2376,21 @@ text
 
 
 
+text_rectangular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.text_rectangular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.text_rectangular(text='abcd', size=10.0, position=(0, 0), justify='left', layers=((1, 0),))
+  c.plot()
+
+
+
 triangle
 ----------------------------------------------------
 
@@ -2401,7 +2431,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.5.12', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.5.14', text_size=10)
   c.plot()
 
 

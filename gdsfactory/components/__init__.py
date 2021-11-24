@@ -132,6 +132,7 @@ from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle
+from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
 from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
@@ -190,6 +191,7 @@ from gdsfactory.components.taper_from_csv import (
     taper_w12_l200,
 )
 from gdsfactory.components.text import githash, text
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangle import triangle
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
@@ -487,6 +489,7 @@ factory = dict(
     qrcode=qrcode,
     ramp=ramp,
     rectangle=rectangle,
+    rectangle_with_slits=rectangle_with_slits,
     resistance_meander=resistance_meander,
     resistance_sheet=resistance_sheet,
     ring=ring,
@@ -531,6 +534,7 @@ factory = dict(
     taper_w11_l200=taper_w11_l200,
     taper_w12_l200=taper_w12_l200,
     text=text,
+    text_rectangular=text_rectangular,
     triangle=triangle,
     verniers=verniers,
     version_stamp=version_stamp,

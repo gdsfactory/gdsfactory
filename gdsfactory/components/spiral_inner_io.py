@@ -7,7 +7,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
@@ -30,7 +30,7 @@ def spiral_inner_io(
     waveguide_spacing: float = 3.0,
     bend90_function: ComponentFactory = bend_euler,
     bend180_function: ComponentFactory = bend_euler180,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     length: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
     cross_section_bend: Optional[CrossSectionFactory] = None,
