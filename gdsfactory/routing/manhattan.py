@@ -544,6 +544,7 @@ def round_corners(
     cross_section: CrossSectionFactory = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
+    snap_to_grid_nm: Optional[int] = 1,
     **kwargs,
 ) -> Route:
     """Returns Route:
@@ -563,9 +564,13 @@ def round_corners(
         cross_section:
         on_route_error: function to run when route fails
         with_point_markers: add route points markers (easy for debugging)
+        snap_to_grid_nm: nm to snap to grid
         kwargs: cross_section settings
     """
     x = cross_section(**kwargs)
+    points = (
+        gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
+    )
 
     auto_widen = x.info.get("auto_widen", False)
     auto_widen_minimum_length = x.info.get("auto_widen_minimum_length", 200.0)

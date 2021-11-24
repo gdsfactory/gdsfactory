@@ -17,13 +17,19 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.0
+
+- snap_to_grid_nm waypoints in round_corners to avoid 1nm gaps in some routes
+- add `gf.components.text_rectangular`
+- add `gf.components.rectangle_with_slits`
+
 ## 3.5.12
 
 - add tolerance to netlist extraction. Snap to any nm grid for detecting connectivity (defaults to 1nm).
 
 ## 3.5.10
 
-- enable having more than 2 ports per cross_section
+- enable having more than 2 ports per cross_section. Include test for that.
 
 ## 3.5.9
 
@@ -49,7 +55,7 @@ Maybe:
 
 ## 3.5.6
 
-- add `cell` to gf.components.text
+- add `cell` decorator to gf.components.text
 
 ## 3.5.5
 

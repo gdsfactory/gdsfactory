@@ -73,7 +73,7 @@ def grating_coupler_rectangular_arbitrary_slab(
         length=length_taper,
         width2=width_grating,
         width1=wg_width,
-        w_slab2=width_grating + 4,
+        w_slab2=width_grating + 2 * slab_offset,
     )
 
     taper_ref = c << taper
@@ -121,6 +121,6 @@ def grating_coupler_rectangular_arbitrary_slab(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary_slab()
+    c = grating_coupler_rectangular_arbitrary_slab(slab_offset=0.4)
     print(c.ports)
     c.show()
