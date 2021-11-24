@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.3
+
+- args in partial functions was being ignore when creating the name. Only kwargs and func.__name__ were being considered
+
 ## 3.6.2
 
 - update rectpack==0.2.2 dependency
