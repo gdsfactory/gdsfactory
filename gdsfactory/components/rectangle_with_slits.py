@@ -67,7 +67,7 @@ def rectangle_with_slits(
     slits.xmin = slit_enclosure
     slits.ymin = slit_enclosure
 
-    r_with_slits = c << gf.geometry.boolean(r, slits, operation="not")
+    r_with_slits = c << gf.geometry.boolean(r, slits, operation="not", layer=layer)
     c.absorb(r_with_slits)
     return c
 
