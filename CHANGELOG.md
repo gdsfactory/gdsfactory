@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.2
+
+- update rectpack==0.2.2 dependency
+
 ## 3.6.1
 
 - spiral_external_io_fiber_single has a cross_section_ports setting
