@@ -36,7 +36,8 @@ def spiral_inner_io(
     cross_section_bend: Optional[CrossSectionFactory] = None,
     **kwargs
 ) -> Component:
-    """Spiral with ports inside the spiral loop.
+    """Returns Spiral with ports inside the spiral loop.
+    You can add grating couplers inside to save space.
 
     Args:
         N: number of loops
@@ -44,14 +45,15 @@ def spiral_inner_io(
         x_straight_inner_left:
         y_straight_inner_top:
         y_straight_inner_bottom:
-        grating_spacing:
+        grating_spacing: defaults to 127 for fiber array
         waveguide_spacing: center to center spacing
         bend90_function
         bend180_function
         straight: straight function
         length: computes spiral length from simple interpolation
         cross_section:
-        **kwargs: cross_section settings
+        cross_section_bend: for the bends
+        kwargs: cross_section settings
 
     """
     dx = dy = waveguide_spacing
@@ -166,6 +168,7 @@ def spiral_inner_io(
 def spiral_inner_io_fiber_single(
     cross_section: CrossSectionFactory = strip,
     cross_section_bend: Optional[CrossSectionFactory] = None,
+    cross_section_ports: Optional[CrossSectionFactory] = None,
     x_straight_inner_right: float = 40.0,
     x_straight_inner_left: float = 75.0,
     y_straight_inner_top: float = 10.0,
@@ -173,7 +176,27 @@ def spiral_inner_io_fiber_single(
     grating_spacing: float = 200.0,
     **kwargs
 ):
-    """Spiral with 0 and 270 degree ports."""
+    """Returns Spiral with 90 and 270 degree ports.
+    You can add single fiber north and south grating couplers
+    inside the spiral to save space
+
+    Args:
+        cross_section: for the straight sections in the spiral
+        cross_section_bend: for the bends in the spiral
+        cross_section_ports: for input/output ports
+        x_straight_inner_right:
+        x_straight_inner_left:
+        y_straight_inner_top:
+        y_straight_inner_bottom:
+        grating_spacing:
+        N: number of loops
+        waveguide_spacing: center to center spacing
+        bend90_function
+        bend180_function
+        straight: straight function
+        length: computes spiral length from simple interpolation
+        kwargs: cross_section settings
+    """
     c = Component()
     spiral = spiral_inner_io(
         cross_section=cross_section,
@@ -187,7 +210,9 @@ def spiral_inner_io_fiber_single(
     )
     ref = c << spiral
     ref.rotate(90)
-    bend = bend_euler(cross_section=cross_section_bend or cross_section)
+
+    cross_section_ports = cross_section_ports or cross_section_bend or cross_section
+    bend = bend_euler(cross_section=cross_section_ports)
     btop = c << bend
     bbot = c << bend
     c.copy_child_info(spiral)
