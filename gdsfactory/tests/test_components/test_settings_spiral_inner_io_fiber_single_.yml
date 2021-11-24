@@ -77,6 +77,7 @@ cells:
       name: spiral_inner_io_5d149cf5
     default:
       cross_section_bend: null
+      cross_section_ports: null
       grating_spacing: 200.0
       x_straight_inner_left: 75.0
       x_straight_inner_right: 40.0
@@ -84,6 +85,7 @@ cells:
       y_straight_inner_top: 10.0
     full:
       cross_section_bend: null
+      cross_section_ports: null
       grating_spacing: 200.0
       x_straight_inner_left: 75.0
       x_straight_inner_right: 40.0
@@ -134,6 +136,7 @@ info:
     name: spiral_inner_io_5d149cf5
   default:
     cross_section_bend: null
+    cross_section_ports: null
     grating_spacing: 200.0
     x_straight_inner_left: 75.0
     x_straight_inner_right: 40.0
@@ -141,6 +144,7 @@ info:
     y_straight_inner_top: 10.0
   full:
     cross_section_bend: null
+    cross_section_ports: null
     grating_spacing: 200.0
     x_straight_inner_left: 75.0
     x_straight_inner_right: 40.0

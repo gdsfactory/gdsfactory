@@ -1,4 +1,4 @@
-# gdsfactory 3.6.0
+# gdsfactory 3.6.1
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -49,7 +49,7 @@ What nice things come from klayout?
 - layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
 - fast boolean xor to avoid geometric regressions on Components geometry
 
-What functionality does gdsfactory provides you on top phidl/gdspy/klayout?
+What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
 
 - `@cell decorator` for decorating functions that create components
   - autonames Components with a unique name that depends on the input parameters
@@ -70,7 +70,7 @@ What functionality does gdsfactory provides you on top phidl/gdspy/klayout?
 - read components from GDS, numpy, YAML
 - export components to GDS, YAML or 3D (trimesh, STL ...)
 - export netlist in YAML format
-- plugins to compute Sparameters using for example Ansys Lumerical FDTD
+- plugins to compute Sparameters using for example Lumerical, meep or tidy3d
 
 How can you learn more?
 

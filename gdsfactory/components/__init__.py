@@ -9,7 +9,12 @@ from gdsfactory.components.awg import awg
 from gdsfactory.components.bbox import Coordinate, bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
-from gdsfactory.components.bend_euler import bend_euler, bend_euler180, bend_euler_s
+from gdsfactory.components.bend_euler import (
+    bend_euler,
+    bend_euler180,
+    bend_euler_s,
+    bend_straight_bend,
+)
 from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.C import C
@@ -399,6 +404,7 @@ factory = dict(
     bend_euler=bend_euler,
     bend_euler180=bend_euler180,
     bend_euler_s=bend_euler_s,
+    bend_straight_bend=bend_straight_bend,
     bend_port=bend_port,
     bend_s=bend_s,
     cavity=cavity,
