@@ -221,6 +221,16 @@ class ComponentReference(DeviceReference):
     def __str__(self) -> str:
         return self.__repr__()
 
+    @property
+    def bbox(self):
+        """Returns the bounding box of the DeviceReference.
+        it snaps to 3 decimals in um (0.001um = 1nm precission)
+        """
+        bbox = self.get_bounding_box()
+        if bbox is None:
+            bbox = ((0, 0), (0, 0))
+        return np.round(bbox, 3)
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate
@@ -378,7 +388,8 @@ class ComponentReference(DeviceReference):
             o = origin.midpoint
         else:
             raise ValueError(
-                f"{self.parent.name}.move(origin={origin}) not array-like, a port, or port name {list(self.ports.keys())}"
+                f"move(origin={origin}) needs a Coordinate, a port, "
+                + f"or a port name {list(self.ports.keys())}"
             )
 
         if hasattr(destination, "midpoint"):
@@ -392,7 +403,8 @@ class ComponentReference(DeviceReference):
             d = destination.midpoint
         else:
             raise ValueError(
-                f"{self.parent.name}.move(destination={destination}) not array-like, a port, or port name {list(self.ports.keys())}"
+                f"{self.parent.name}.move(destination={destination}) Move needs "
+                + f"a coordinate, a port, or a port name {list(self.ports.keys())}"
             )
 
         # Lock one axis if necessary
@@ -624,6 +636,16 @@ class Component(Device):
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         # assert v.references or v.polygons, f"No references or  polygons in {v.name}"
         return v
+
+    @property
+    def bbox(self):
+        """Returns the bounding box of the DeviceReference.
+        it snaps to 3 decimals in um (0.001um = 1nm precission)
+        """
+        bbox = self.get_bounding_box()
+        if bbox is None:
+            bbox = ((0, 0), (0, 0))
+        return np.round(bbox, 3)
 
     @property
     def ports_layer(self) -> Dict[str, str]:
@@ -1433,11 +1455,45 @@ def hash_file(filepath):
     return md5.hexdigest()
 
 
-if __name__ == "__main__":
+def test_bbox_reference():
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
-    c2 = c.rotate()
+    c = gf.Component("component_with_offgrid_polygons")
+    c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c2 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c2.xmin = c1.xmax
+
+    assert c2.xsize == 2e-3
+    return c2
+
+
+def test_bbox_component():
+    import gdsfactory as gf
+
+    c = gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    assert c.xsize == 2e-3
+
+
+if __name__ == "__main__":
+    test_bbox_reference()
+    test_bbox_component()
+
+    # import gdsfactory as gf
+    # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
+    # c2 = c.rotate()
+
+    # c = gf.Component("component_with_offgrid_polygons")
+    # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    # c2 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    # c2.xmin = c1.xmax
+    # c.show()
+
+    # c = gf.Component("component_with_offgrid_polygons")
+    # c1 = c << gf.c.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
+    # c2 = c << gf.c.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
+    # print(c1.xmax)
+    # c2.xmin = c1.xmax
+    # c.show()
 
     # c2 = gf.c.mzi()
     # c2.show(show_subports=True)
