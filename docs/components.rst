@@ -292,6 +292,21 @@ bend_s
 
 
 
+bend_straight_bend
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.bend_straight_bend
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.bend_straight_bend(straight_length=10.0, angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c.plot()
+
+
+
 cavity
 ----------------------------------------------------
 
@@ -2431,7 +2446,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.5.14', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.6.1', text_size=10)
   c.plot()
 
 
