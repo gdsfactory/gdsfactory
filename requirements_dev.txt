@@ -14,7 +14,6 @@ pydocstyle
 pyglet
 pytest-cov
 recommonmark
-rectpack==0.2.1
 sphinx==4.3.0
 sphinx-autodoc-typehints
 sphinx-click
