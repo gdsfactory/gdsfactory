@@ -2,6 +2,7 @@
 """
 import functools
 import hashlib
+import inspect
 from typing import Any
 
 import numpy as np
@@ -168,7 +169,10 @@ def clean_value(value: Any) -> str:
     elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
     elif callable(value) and isinstance(value, functools.partial):
-        value = value.func.__name__ + dict2name(**value.keywords)
+        sig = inspect.signature(value.func)
+        args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
+        args_as_kwargs.update(**value.keywords)
+        value = value.func.__name__ + dict2name(**args_as_kwargs)
     elif isinstance(value, str):
         value = value.strip()
     elif hasattr(value, "get_name"):
