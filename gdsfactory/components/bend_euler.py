@@ -1,6 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
@@ -38,7 +39,7 @@ def bend_euler(
         direction: cw (clock-wise) or ccw (counter clock-wise)
         with_cladding_box: to avoid DRC acute angle errors in cladding
         cross_section:
-
+        kwargs: cross_section settings
 
     """
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
@@ -93,6 +94,57 @@ def bend_euler_s(**kwargs) -> Component:
     return c
 
 
+@gf.cell
+def bend_straight_bend(
+    straight_length: float = 10.0,
+    angle: int = 90,
+    p: float = 0.5,
+    with_arc_floorplan: bool = True,
+    npoints: int = 720,
+    direction: str = "ccw",
+    with_cladding_box: bool = True,
+    cross_section: CrossSectionOrFactory = strip,
+    **kwargs
+) -> Component:
+    """Sbend made of 2 euler bends and straight section in between.
+
+    Args:
+        straight_length:
+        angle: total angle of the curve
+        p: Proportion of the curve that is an Euler curve
+        with_arc_floorplan: If False: `radius` is the minimum radius of curvature
+          If True: The curve scales such that the endpoints match a bend_circular
+          with parameters `radius` and `angle`
+        npoints: Number of points used per 360 degrees
+        direction: cw (clock-wise) or ccw (counter clock-wise)
+        with_cladding_box: to avoid DRC acute angle errors in cladding
+        cross_section:
+        kwargs: cross_section settings
+
+
+    """
+    c = Component()
+    b = bend_euler(
+        angle=angle,
+        p=p,
+        with_arc_floorplan=with_arc_floorplan,
+        npoints=npoints,
+        direction=direction,
+        with_cladding_box=with_cladding_box,
+        cross_section=cross_section,
+        **kwargs
+    )
+    b1 = c.add_ref(b)
+    b2 = c.add_ref(b)
+    s = c << straight(length=straight_length, cross_section=cross_section, **kwargs)
+    s.connect("o1", b1.ports["o2"])
+    b2.mirror()
+    b2.connect("o1", s.ports["o2"])
+    c.add_port("o1", port=b1.ports["o1"])
+    c.add_port("o2", port=b2.ports["o2"])
+    return c
+
+
 def _compare_bend_euler180():
     """Compare 180 bend euler with 2 90deg euler bends."""
     import gdsfactory as gf
@@ -111,14 +163,15 @@ def _compare_bend_euler180():
 
 
 if __name__ == "__main__":
-    c = bend_euler_s()
-    c = bend_euler180()
-    c = bend_euler(direction="cw")
-    c = bend_euler(angle=270)
-    c.pprint()
-    c.show()
-    p = euler()
+    # c = bend_euler_s()
+    # c = bend_euler180()
+    # c = bend_euler(direction="cw")
+    # c = bend_euler(angle=270)
+    # c.pprint()
+    # p = euler()
+    c = bend_straight_bend()
 
+    c.show()
     # _compare_bend_euler180()
     # import gdsfactory as gf
     # c = bend_euler(radius=10)
