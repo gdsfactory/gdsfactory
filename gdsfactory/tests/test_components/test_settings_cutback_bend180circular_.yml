@@ -62,7 +62,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 142.49904276147618
+    - 142.5
     - 0.0
     name: o2
     orientation: 0.0

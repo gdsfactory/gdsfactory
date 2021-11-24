@@ -1,6 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.components.contact import contact
 from gdsfactory.components.rectangle import rectangle
+from gdsfactory.snap import snap_to_grid
 
 big_square = gf.partial(rectangle, size=(1300, 2600))
 
@@ -44,23 +45,23 @@ def seal_ring(
 
     if with_north:
         north = c << seal(size=size_north_south)
-        north.ymin = component.ymax + padding
-        north.x = component.x
+        north.ymin = snap_to_grid(component.ymax + padding)
+        north.x = snap_to_grid(component.x)
 
     if with_south:
         south = c << seal(size=size_north_south)
-        south.ymax = component.ymin - padding
-        south.x = component.x
+        south.ymax = snap_to_grid(component.ymin - padding)
+        south.x = snap_to_grid(component.x)
 
     if with_east:
         east = c << seal(size=size_east_west)
-        east.xmin = component.xmax + padding
-        east.y = component.y
+        east.xmin = snap_to_grid(component.xmax + padding)
+        east.y = snap_to_grid(component.y)
 
     if with_west:
         west = c << seal(size=size_east_west)
-        west.xmax = component.xmin - padding
-        west.y = component.y
+        west.xmax = snap_to_grid(component.xmin - padding)
+        west.y = snap_to_grid(component.y)
 
     return c
 
