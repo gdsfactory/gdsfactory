@@ -19,7 +19,7 @@ def straight_heater_doped_rib(
     contact_contact: Optional[ComponentFactory] = contact_slab_npp_m3,
     contact_metal: Optional[ComponentFactory] = contact_metal_function,
     contact_metal_size: Tuple[float, float] = (10.0, 10.0),
-    contact_contact_size: Tuple[float, float] = (10.0, 10.0),
+    contact_size: Tuple[float, float] = (10.0, 10.0),
     contact_contact_yspacing: float = 2.0,
     taper: Optional[ComponentFactory] = taper_cross_section,
     taper_length: float = 10.0,
@@ -31,14 +31,16 @@ def straight_heater_doped_rib(
     Args:
         length: of the waveguide
         nsections: between contacts
+        cross_section: for the input/output ports
         cross_section_heater: for the heater
         contact_contact: function to connect the heated strip
         contact_metal: function to connect the metal area
         contact_metal_size:
+        contact_size:
         contact_contact_yspacing: spacing from waveguide to contact
-        kwargs: cross_section settings
         taper: optional taper
         taper_length:
+        kwargs: cross_section settings
 
     .. code::
 
@@ -104,9 +106,9 @@ def straight_heater_doped_rib(
     if contact_metal:
         contact_section = contact_metal(size=contact_metal_size)
     contacts = []
-    length_contact = snap_to_grid(contact_contact_size[1])
+    length_contact = snap_to_grid(contact_size[1])
     length_section = snap_to_grid((length - length_contact) / nsections)
-    x0 = contact_contact_size[0] / 2
+    x0 = contact_size[0] / 2
     for i in range(0, nsections + 1):
         xi = x0 + length_section * i
 
@@ -119,8 +121,8 @@ def straight_heater_doped_rib(
             contacts.append(contact)
 
         if contact_contact:
-            contact_bot = c << contact_contact(size=contact_contact_size)
-            contact_top = c << contact_contact(size=contact_contact_size)
+            contact_bot = c << contact_contact(size=contact_size)
+            contact_top = c << contact_contact(size=contact_size)
             contact_top.x = xi
             contact_bot.x = xi
             contact_top.ymin = +contact_contact_yspacing

@@ -37,16 +37,16 @@ def array_with_via(
     Args:
         component: to replicate in the array
         columns: number of components
-        spacing: float
+        spacing: for the array
         via_spacing: for fanout
         straight_length: lenght of the straight at the end
         waveguide: waveguide definition
         cross_section:
         contact:
-        contact_ymin:
+        contact_dy: contact offset
         port_orientation: 180: facing west
         port_offset: Optional port movement
-        **kwargs
+        kwargs: cross_section settings
     """
 
     c = Component()

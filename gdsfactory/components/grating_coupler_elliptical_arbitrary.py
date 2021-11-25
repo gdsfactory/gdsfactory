@@ -113,17 +113,11 @@ def grating_coupler_elliptical_arbitrary(
         a_taper, b_taper, x_output, x_taper, taper_angle, wg_width=wg_width
     )
     c.add_polygon(pts, layer)
-
-    if polarization.lower() == "te":
-        polarization_marker_layer = gf.LAYER.TE
-    else:
-        polarization_marker_layer = gf.LAYER.TM
-
     x = (taper_length + xi) / 2
 
     if fiber_marker_layer:
         circle = gf.components.circle(
-            radius=fiber_marker_width / 2, layer=polarization_marker_layer
+            radius=fiber_marker_width / 2, layer=fiber_marker_layer
         )
         circle_ref = c.add_ref(circle)
         circle_ref.movex(x)
