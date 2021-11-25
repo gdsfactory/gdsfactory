@@ -18,7 +18,6 @@ def splitter_tree(
     bend_s: Optional[ComponentFactory] = bend_s_function,
     bend_s_xsize: Optional[float] = None,
     cross_section: CrossSectionFactory = strip,
-    **kwargs,
 ) -> gf.Component:
     """Tree of power splitters.
 
@@ -26,11 +25,9 @@ def splitter_tree(
         coupler: coupler factory
         noutputs: number of outputs
         spacing: x, y spacing between couplers
-        bend_s: Sbend library name or dict for termination
-        bend_s_xsize:
+        bend_s: Sbend function for termination
+        bend_s_xsize: xsize for the sbend
         cross_section: cross_section
-        bend_s_xsize: dx for the sbend
-        kwargs: cross_section settings
 
     .. code::
 
@@ -46,7 +43,7 @@ def splitter_tree(
 
     dx, dy = spacing
 
-    coupler = coupler(**kwargs)
+    coupler = coupler()
     coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
     coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
 
@@ -64,7 +61,6 @@ def splitter_tree(
         bend_s = bend_s(
             cross_section=cross_section,
             size=(bend_s_xsize, bend_s_ysize),
-            **kwargs,
         )
         c.info.bend_s = bend_s.info
     cols = int(np.log2(noutputs))
@@ -94,7 +90,6 @@ def splitter_tree(
                         c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],
                         coupler_ref.ports["o1"],
                         cross_section=cross_section,
-                        **kwargs,
                     ).references
                 )
             if cols > col > 0:

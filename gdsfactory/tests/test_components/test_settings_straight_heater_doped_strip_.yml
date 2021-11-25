@@ -19,11 +19,11 @@ info:
         - 0
     cross_section_heater: strip_heater_doped
   default:
-    contact_contact_size:
-    - 10.0
-    - 10.0
     contact_contact_yspacing: 2.0
     contact_metal_size:
+    - 10.0
+    - 10.0
+    contact_size:
     - 10.0
     - 10.0
     length: 320.0
@@ -46,11 +46,11 @@ info:
         layer:
         - 40
         - 0
-    contact_contact_size:
-    - 10.0
-    - 10.0
     contact_contact_yspacing: 2.0
     contact_metal_size:
+    - 10.0
+    - 10.0
+    contact_size:
     - 10.0
     - 10.0
     cross_section_heater: strip_heater_doped

@@ -28,7 +28,7 @@ def taper_from_csv(
         layer
         layer_cladding:
         cladding_offset
-        **kwargs: kwargs will be ignored
+        kwargs: kwargs will be ignored
 
     """
     taper_data = pd.read_csv(filepath)

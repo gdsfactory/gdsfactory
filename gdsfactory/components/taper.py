@@ -30,14 +30,6 @@ def taper(
         cross_section:
         kwargs: cross_section settings
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.taper(width1=0.5, width2=5, length=3)
-      c.plot()
-
     """
     x = cross_section(**kwargs)
 
