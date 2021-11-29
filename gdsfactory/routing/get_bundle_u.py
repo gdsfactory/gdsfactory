@@ -51,7 +51,7 @@ def get_bundle_udirect(
         end_straight_offset
 
     Returns:
-        `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
+        [route_filter(r) for r in routes] where routes is a list of lists of coordinates
         e.g with default `get_route_from_waypoints`,
         returns list of elements which can be added to a component
 
@@ -356,20 +356,15 @@ def _get_bundle_uindirect_waypoints(
     xs_end = [p.x for p in ports2]
     ys_end = [p.y for p in ports2]
 
-    """
     # Compute the bundle axis
-    """
-
     if ports1[0].angle in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
 
-    """
-     Split start ports in two groups:
-        - the ones on the south/west of end ports (depending on bundle axis)
-        - the ones on the north/east of end ports (depending on bundle axis)
-    """
+    # Split start ports in two groups:
+    #    - the ones on the south/west of end ports (depending on bundle axis)
+    #    - the ones on the north/east of end ports (depending on bundle axis)
 
     if axis == "X":
         y_cut = 0.5 * (min(ys_end) + max(ys_end))
