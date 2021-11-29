@@ -3,10 +3,12 @@
 # Flattening a Component
 
 Sometimes you want to remove cell structure from a Component while keeping all
-of the shapes/polygons intact and in place.  The c.flatten() keeps all the
+of the shapes/polygons intact and in place.
+
+The Component.flatten() method keeps all the
 polygons in c, but removes all the underlying references it's attached to.
 Also, if you specify the `single_layer` argument it will move all of the
-polyons to that single layer.
+polygons to that single layer.
 
 """
 import gdsfactory as gf

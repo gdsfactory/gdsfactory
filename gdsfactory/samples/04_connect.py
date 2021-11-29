@@ -2,10 +2,12 @@
 
 # Connecting devices with connect()
 
-The connect command allows us to connect DeviceReference ports together like
-Lego blocks.  There is an optional parameter called ``overlap`` which is
-useful if you have shapes you want to intersect with some overlap (or with a
-negative number, separate the ports).
+The connect command allows you to connect DeviceReference ports together like
+Lego blocks.
+
+There is an optional parameter called ``overlap`` which is
+useful if you have shapes you want to intersect with some overlap,
+or with a negative number if you want to separate the ports.
 
 """
 

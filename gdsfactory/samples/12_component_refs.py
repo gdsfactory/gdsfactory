@@ -3,7 +3,7 @@ lets create a crossing component with two references to other components (crossi
 
 - add references to a component (one of the arm references rotated)
 - add ports from the child references into the parent cell
-- use a decorator to rename ports according to their location
+- use Component.auto_rename_ports() to rename ports according to their location
 
 """
 
@@ -43,7 +43,6 @@ def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_lengt
     return c
 
 
-@gf.port.deco_rename_ports  # This decorator will auto-rename the ports
 @gf.cell  # This decorator will generate a good name for the component
 def test_crossing() -> Component:
     c = gf.Component()
@@ -64,6 +63,7 @@ def test_crossing() -> Component:
             c.add_port(name="{}".format(port_id), port=p)
             port_id += 1
 
+    c.auto_rename_ports()
     return c
 
 

@@ -17,10 +17,14 @@ from gdsfactory.component import Component
 
 @gf.cell
 def test_component_with_port(
-    length: int = 5, wg_width: float = 0.5, layer: Tuple[int, int] = gf.LAYER.WG
+    length: float = 5.0, wg_width: float = 0.5, layer: Tuple[int, int] = gf.LAYER.WG
 ) -> Component:
-    """
-    component with one port on the west side
+    """Returns a component with one port on the west side
+
+    Args:
+        length:
+        wg_width: waveguide width
+        layer: layer
     """
 
     y = wg_width
