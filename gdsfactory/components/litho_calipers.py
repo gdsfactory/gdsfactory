@@ -27,15 +27,8 @@ def litho_calipers(
         offset_per_notch: 0.1
         row_spacing: 0
         layer1: 1
-        layer2:2
+        layer2: 2
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.litho_calipers()
-      c.plot()
     """
 
     D = gf.Component()

@@ -41,14 +41,14 @@ def coupler_full(
        gap: Distance between the two straights.
        dw: Change in straight width. Top arm tapers to width - dw, bottom to width - dw.
        angle: Angle in radians at which the straight bends towards the coupling region.
-       parity (integer -1 or 1): If -1, mirror-flips the structure so that the input port
+       parity (integer -1 or 1): If -1, mirror-flips the structure so that input port
         is actually the *bottom* port.
-       port: Cartesian coordinate of the input port (AT TOP if parity=1, AT BOTTOM if parity=-1).
-       direction: Direction that the component will point *towards*,
+       port: Cartesian coordinate for input port (AT TOP if parity=1, AT BOTTOM if parity=-1).
+       direction: Direction that the component points *towards*,
         can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).
        waveguide_template: function that returns Picwriter WaveguideTemplate object
 
-    Other Parameters:
+    Keyword Args:
        wg_width: 0.5
        wg_layer: gf.LAYER.WG[0]
        wg_datatype: gf.LAYER.WG[1]
@@ -56,15 +56,6 @@ def coupler_full(
        clad_datatype: gf.LAYER.WGCLAD[1]
        bend_radius: 10
        cladding_offset: 3
-
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.coupler_full(length=40, gap=0.2, dw=0.1)
-      c.plot()
 
     """
 
