@@ -36,13 +36,6 @@ def cavity(
                 ---=========---
          o1  o1    length      o4    o2
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.cavity(component=gf.components.dbr())
-      c.plot()
     """
     mirror = component() if callable(component) else component
     coupler = (
