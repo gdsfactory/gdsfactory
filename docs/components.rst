@@ -846,17 +846,17 @@ dbr
 
 
 
-dbr2
+dbr_tapered
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.dbr2
+.. autofunction:: gdsfactory.components.dbr_tapered
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.dbr2(length=10.0, period=0.85, dc=0.5, w1=0.4, w2=1.0, taper_length=20.0, fins=False, fin_size=(0.2, 0.05), port=(0, 0), direction='EAST')
+  c = gf.components.dbr_tapered(length=10.0, period=0.85, dc=0.5, w1=0.4, w2=1.0, taper_length=20.0, fins=False, fin_size=(0.2, 0.05), port=(0, 0), direction='EAST')
   c.plot()
 
 
@@ -1621,7 +1621,7 @@ pads_shorted
 
   import gdsfactory as gf
 
-  c = gf.components.pads_shorted(width=100, n_pads=8, pad_spacing=150, layer=(41, 0))
+  c = gf.components.pads_shorted(columns=8, pad_spacing=150.0, layer_metal=(49, 0), metal_width=10)
   c.plot()
 
 
@@ -1921,7 +1921,7 @@ splitter_chain
 
   import gdsfactory as gf
 
-  c = gf.components.splitter_chain(n_devices=3)
+  c = gf.components.splitter_chain(columns=3)
   c.plot()
 
 
@@ -2446,7 +2446,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.6.3', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.6.4', text_size=10)
   c.plot()
 
 

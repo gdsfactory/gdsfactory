@@ -9,7 +9,7 @@ from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
-def dbr2(
+def dbr_tapered(
     length: float = 10.0,
     period: float = 0.85,
     dc: float = 0.5,
@@ -32,9 +32,9 @@ def dbr2(
        length: Length of the DBR region.
        period: Period of the repeated unit.
        dc: Duty cycle of the repeated unit (must be a float between 0 and 1.0).
-       w1: Width of the thin section of the straight.  w1 = 0 corresponds to disconnected periodic blocks.
-       w2: Width of the wide section of the straight
-       taper_length: length of the taper between the input/output straight and the DBR region.
+       w1: thin section width. w1 = 0 corresponds to disconnected periodic blocks.
+       w2: wide section width
+       taper_length: between the input/output straight and the DBR region.
        fins: If `True`, adds fins to the input/output straights.
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        waveguide_template_dbr: If `fins` is True, a WaveguideTemplate must be specified.
@@ -87,6 +87,6 @@ def dbr2(
 
 if __name__ == "__main__":
 
-    # c = dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
-    c = dbr2()
+    # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
+    c = dbr_tapered()
     c.show()
