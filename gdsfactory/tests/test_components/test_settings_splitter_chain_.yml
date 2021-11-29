@@ -46,9 +46,9 @@ cells:
       module: gdsfactory.components.mmi1x2
       name: mmi1x2
     default:
-      n_devices: 3
+      columns: 3
     full:
-      n_devices: 3
+      columns: 3
     function_name: splitter_chain
     info_version: 1
     module: gdsfactory.components.splitter_chain
@@ -78,9 +78,9 @@ info:
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
   default:
-    n_devices: 3
+    columns: 3
   full:
-    n_devices: 3
+    columns: 3
   function_name: splitter_chain
   info_version: 1
   module: gdsfactory.components.splitter_chain
