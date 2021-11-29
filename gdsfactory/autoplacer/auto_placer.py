@@ -19,13 +19,15 @@ class AutoPlacer(pya.Layout):
         max_width: 1e8 (nm)
         max_height: 1e8 (nm)
 
-    `AutoPlacer` is the class which knows how to automatically pack and position cells. You feed it cells that are loaded and padded using `library`.
+    automatically packs and position cells. You feed it cells that are loaded and padded using `library`.
 
     Instantiate an AutoPlacer with a `name`, `max_width` and `max_height` properties. If this Autoplacer is the main top-level cell of the mask, `max_width` and `max_height` should be the desired width and height of the mask.
 
-    You can then pack cells into the AutoPlacer using the `AutoPlacer.pack_auto`, `AutoPlacer.pack_manual`, and `AutoPlacer.pack_many` methods.
+    You can then pack cells into the AutoPlacer using:
 
-    - `AutoPlacer.pack_auto(cell, origin, direction)` automatically finds a location for the component. You can provide an `origin` argument, which can take any value from `autoplacer.SOUTH_WEST`, `autoplacer.SOUTH_EAST`, `autoplacer.NORTH_WEST`, `autoplacer.NORTH_EAST`. The autoplacer will search for a place to put the cell starting from that cardinal point. It can search in either `VERTICAL` or `HORIZONTAL` direction.
+    - `AutoPlacer.pack_auto(cell, origin, direction)` automatically finds a location for the component.
+        You can provide an `origin` argument, which can take any value from `autoplacer.SOUTH_WEST`, `autoplacer.SOUTH_EAST`, `autoplacer.NORTH_WEST`, `autoplacer.NORTH_EAST`.
+        The autoplacer will search for a place to put the cell starting from that cardinal point. It can search in either `VERTICAL` or `HORIZONTAL` direction.
     - `AutoPlacer.pack_manual(cell, x, y, origin)` allows you to manually place a component at an absolute location.
     - `AutoPlacer.pack_many` behaves like `AutoPlacer.pack_auto` but accepts a list of devices.
 
@@ -273,10 +275,6 @@ class AutoPlacer(pya.Layout):
 
         super(AutoPlacer, self).write(*args, **kwargs)
 
-    """
-    Below here we have high-level utility functions
-    """
-
     def pack_groups(
         self,
         cells,
@@ -316,7 +314,7 @@ class AutoPlacer(pya.Layout):
         padding: int = ap.PADDING,
     ) -> None:
         """
-        Pack onto a grid, assuming that all cells are the same size
+        Pack into a grid, assuming that all cells are the same size
         """
         if not cells:
             return
