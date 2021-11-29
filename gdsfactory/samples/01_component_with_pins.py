@@ -1,10 +1,9 @@
-"""You can pass any component that has ports to a function that will add pins in a pin layer.
-
-"""
+"""You add pins in a pin layer to clearly see the component ports."""
 
 import gdsfactory as gf
 
 
+@gf.cell
 def straight_sample(length=5, width=1):
     """Returns straight with ports."""
     wg = gf.Component("straight_sample")

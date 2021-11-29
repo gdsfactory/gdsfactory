@@ -1,6 +1,5 @@
-"""This example shows how to add_grating couplers
-
-for single fiber INPUT single fiber OUTPU (no fiber array).
+"""You can also connect a component with single fiber INPUT and
+OUTPUTS (no fiber array).
 """
 
 import gdsfactory as gf

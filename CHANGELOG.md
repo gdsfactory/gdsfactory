@@ -26,6 +26,7 @@ Keyword Args:
 - pads_shorted accepts pad as parameter
 - rename `n_devices` to columns in splitter_chain
 - rename `dbr2` to `dbr_tapered`
+- fix gdsfactory/samples
 
 ## 3.6.3
 

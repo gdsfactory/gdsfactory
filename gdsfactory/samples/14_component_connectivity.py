@@ -36,7 +36,7 @@ def ring_single(
         straight: straight function
         bend: 90 degrees bend function
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
 
     .. code::
@@ -93,11 +93,14 @@ def ring_single(
     wt.connect(port="o2", destination=bl.ports["o1"])
     br.connect(port="o2", destination=wt.ports["o1"])
     wr.connect(port="o1", destination=br.ports["o1"])
-    wr.connect(port="o2", destination=cb.ports["N1"])  # just for netlist
 
     c.add_port("o2", port=cb.ports["o2"])
     c.add_port("o1", port=cb.ports["o1"])
     return c
+
+
+def test_ring_single():
+    assert ring_single()
 
 
 if __name__ == "__main__":
