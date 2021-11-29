@@ -58,7 +58,7 @@ from gdsfactory.components.cutback_component import (
     cutback_component_mirror,
 )
 from gdsfactory.components.dbr import dbr
-from gdsfactory.components.dbr2 import dbr2
+from gdsfactory.components.dbr_tapered import dbr_tapered
 from gdsfactory.components.delay_snake import delay_snake
 from gdsfactory.components.delay_snake2 import delay_snake2, test_delay_snake2_length
 from gdsfactory.components.delay_snake3 import delay_snake3, test_delay_snake3_length
@@ -261,7 +261,7 @@ __all__ = [
     "cutback_component",
     "cutback_component_mirror",
     "dbr",
-    "dbr2",
+    "dbr_tapered",
     "delay_snake",
     "delay_snake2",
     "delay_snake3",
@@ -439,7 +439,7 @@ factory = dict(
     cutback_component_mirror=cutback_component_mirror,
     dicing_lane=dicing_lane,
     dbr=dbr,
-    dbr2=dbr2,
+    dbr_tapered=dbr_tapered,
     delay_snake=delay_snake,
     delay_snake2=delay_snake2,
     delay_snake3=delay_snake3,

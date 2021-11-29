@@ -1,5 +1,5 @@
 cells:
-  dbr2:
+  dbr_tapered:
     changed: {}
     default:
       dc: 0.5
@@ -33,10 +33,10 @@ cells:
       w1: 0.4
       w2: 1.0
       waveguide_template_dbr: null
-    function_name: dbr2
+    function_name: dbr_tapered
     info_version: 1
-    module: gdsfactory.components.dbr2
-    name: dbr2
+    module: gdsfactory.components.dbr_tapered
+    name: dbr_tapered
 info:
   changed: {}
   default:
@@ -71,10 +71,10 @@ info:
     w1: 0.4
     w2: 1.0
     waveguide_template_dbr: null
-  function_name: dbr2
+  function_name: dbr_tapered
   info_version: 1
-  module: gdsfactory.components.dbr2
-  name: dbr2
+  module: gdsfactory.components.dbr_tapered
+  name: dbr_tapered
 ports:
   o1:
     layer:
