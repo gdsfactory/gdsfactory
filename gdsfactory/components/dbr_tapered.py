@@ -9,7 +9,7 @@ from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
-def dbr2(
+def dbr_tapered(
     length: float = 10.0,
     period: float = 0.85,
     dc: float = 0.5,
@@ -32,20 +32,18 @@ def dbr2(
        length: Length of the DBR region.
        period: Period of the repeated unit.
        dc: Duty cycle of the repeated unit (must be a float between 0 and 1.0).
-       w1: Width of the thin section of the straight.  w1 = 0 corresponds to disconnected periodic blocks.
-       w2: Width of the wide section of the straight
-       taper_length: Length of the taper between the input/output straight and the DBR region.
-       fins (boolean): If `True`, adds fins to the input/output straights.
-        In this case a different template for the component must be specified.
-       fin_size ((x,y) Tuple): Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
-       waveguide_template_dbr: If `fins` above is True, a WaveguideTemplate (dbr_wgt) must be specified.
-        This defines the layertype / datatype of the DBR (which will be separate from the input/output straights)
-       port (tuple): Cartesian coordinate of the input port.  Defaults to (0,0).
-       direction (string): Direction that the component will point *towards*,
-       can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide_template:  WaveguideTemplate object
-       waveguide_template_dbr: Picwriter WaveguideTemplate object
-       kwargs:
+       w1: thin section width. w1 = 0 corresponds to disconnected periodic blocks.
+       w2: wide section width
+       taper_length: between the input/output straight and the DBR region.
+       fins: If `True`, adds fins to the input/output straights.
+       fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
+       waveguide_template_dbr: If `fins` is True, a WaveguideTemplate must be specified.
+       port: Cartesian coordinate of the input port.  Defaults to (0,0).
+       direction: Direction that the component points *towards*,
+        `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
+       waveguide_template: WaveguideTemplate object
+
+    Keyword Args:
         wg_width: 0.5
         wg_layer: gf.LAYER.WG[0]
         wg_datatype: gf.LAYER.WG[1]
@@ -65,15 +63,6 @@ def dbr2(
         _______
                |_________
 
-
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4)
-      c.plot()
 
     """
 
@@ -98,6 +87,6 @@ def dbr2(
 
 if __name__ == "__main__":
 
-    # c = dbr2(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
-    c = dbr2()
+    # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
+    c = dbr_tapered()
     c.show()

@@ -28,8 +28,11 @@ def test_autoname() -> None:
 
 
 if __name__ == "__main__":
-    c = straight_cell()
-    print(c)
+    c1 = straight_cell()
+    print(c1)
 
-    c = straight_cell(width=0.5)
-    print(c)
+    c2 = straight_cell(width=0.5)
+    print(c2)
+
+    c3 = straight_cell(0.5)
+    assert c2.name == c3.name

@@ -15,10 +15,26 @@ from gdsfactory.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+Floats = Tuple[float, ...]
 
 
 class CrossSection(CrossSectionPhidl):
-    """Add port_types to phidl cross_section"""
+    """Add port_types to phidl cross_section
+
+    .. code::
+
+
+          0   offset
+          |<-------------->|
+          |              _____
+          |             |     |
+          |             |layer|
+          |             |_____|
+          |              <---->
+                         width
+
+
+    """
 
     def __init__(self):
         self.sections = []
@@ -215,6 +231,7 @@ def cross_section(
     return x
 
 
+@pydantic.validate_arguments
 def pin(
     width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
@@ -323,29 +340,47 @@ def pin(
     return x
 
 
+@pydantic.validate_arguments
 def pn(
     width: float = 0.5,
     layer: Tuple[int, int] = LAYER.WG,
     layer_slab: Tuple[int, int] = LAYER.SLAB90,
-    width_i: float = 0.0,
-    width_p: float = 1.0,
-    width_n: float = 1.0,
-    width_pp: float = 1.0,
-    width_np: float = 1.0,
-    width_ppp: float = 1.0,
-    width_npp: float = 1.0,
+    gap_low_doping: float = 0.0,
+    gap_medium_doping: Optional[float] = 0.5,
+    gap_high_doping: Optional[float] = 1.0,
+    width_doping: float = 8.0,
+    width_slab: float = 7.0,
     layer_p: Tuple[int, int] = LAYER.P,
-    layer_n: Tuple[int, int] = LAYER.N,
     layer_pp: Tuple[int, int] = LAYER.PP,
-    layer_np: Tuple[int, int] = LAYER.NP,
     layer_ppp: Tuple[int, int] = LAYER.PPP,
+    layer_n: Tuple[int, int] = LAYER.N,
+    layer_np: Tuple[int, int] = LAYER.NP,
     layer_npp: Tuple[int, int] = LAYER.NPP,
-    cladding_offset: float = 0,
+    cladding_offsets: Floats = (0,),
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
-    **kwargs,
 ) -> CrossSection:
     """rib PN doped cross_section.
+
+    Args:
+        width: width of the ridge
+        layer: ridge llayer
+        layer_slab: slab layer
+        gap_low_doping: from waveguide center to low doping
+        gap_medium_doping: from waveguide center to medium doping. None removes medium doping
+        gap_high_doping: from waveguide center to high doping. None removes high doping
+        width_doping:
+        width_slab:
+        layer_p:
+        layer_pp:
+        layer_ppp:
+        layer_n:
+        layer_np:
+        layer_npp:
+        cladding_offsets:
+        layers_cladding: Iterable of layers
+        port_names:
+
 
     .. code::
 
@@ -354,56 +389,65 @@ def pn(
                             ____________________
                            |     |       |     |
         ___________________|     |       |     |__________________________|
-                                 |       |                                |
-            P++     P+     P     |   I   |     N        N+         N++    |
-        _________________________|_______|________________________________|
-                                                                          |
-                                 |width_i| width_n | width_np | width_npp |
-                                    0    oi        on        onp         onpp
+                    P            |       |              N                 |
+                 width_p         |       |           width_n              |
+        <----------------------->|       |<------------------------------>|
+                                     |<->|
+                                     gap_low_doping
+                                     |         |        N+                |
+                                     |         |     width_np             |
+                                     |         |<------------------------>|
+                                     |<------->|
+                                           gap_medium_doping
 
     """
     x = CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=port_names)
-
-    oi = width_i / 2
-    on = oi + width_n
-    onp = oi + width_n + width_np
-    onpp = oi + width_n + width_np + width_npp
-
-    op = -oi - width_p
-    opp = op - width_pp
-    oppp = opp - width_ppp
-
-    offset_n = (oi + on) / 2
-    offset_np = (on + onp) / 2
-    offset_npp = (onp + onpp) / 2
-
-    offset_p = (-oi + op) / 2
-    offset_pp = (op + opp) / 2
-    offset_ppp = (opp + oppp) / 2
-
-    width_slab = abs(onpp) + abs(oppp)
     x.add(width=width_slab, offset=0, layer=layer_slab)
 
-    x.add(width=width_n, offset=offset_n, layer=layer_n)
-    x.add(width=width_np, offset=offset_np, layer=layer_np)
-    x.add(width=width_npp, offset=offset_npp, layer=layer_npp)
+    offset_low_doping = width_doping / 2 + gap_low_doping
+    width_low_doping = width_doping - gap_low_doping
+    x.add(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
+    x.add(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
 
-    x.add(width=width_p, offset=offset_p, layer=layer_p)
-    x.add(width=width_pp, offset=offset_pp, layer=layer_pp)
-    x.add(width=width_ppp, offset=offset_ppp, layer=layer_ppp)
+    if gap_medium_doping is not None:
+        width_medium_doping = width_doping - gap_medium_doping
+        offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
 
-    for layer_cladding in layers_cladding or []:
+        x.add(
+            width=width_medium_doping,
+            offset=+offset_medium_doping,
+            layer=layer_np,
+        )
+        x.add(
+            width=width_medium_doping,
+            offset=-offset_medium_doping,
+            layer=layer_pp,
+        )
+
+    if gap_high_doping is not None:
+        width_high_doping = width_doping - gap_high_doping
+        offset_high_doping = width_high_doping / 2 + gap_high_doping
+        x.add(width=width_high_doping, offset=+offset_high_doping, layer=layer_npp)
+        x.add(width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp)
+
+    layers_cladding = layers_cladding or []
+
+    for cladding_offset, layer_cladding in zip(cladding_offsets, layers_cladding):
         x.add(width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding)
 
     s = dict(
         width=width,
         layer=layer,
-        cladding_offset=cladding_offset,
+        cladding_offsets=cladding_offsets,
         layers_cladding=layers_cladding,
+        gap_low_doping=gap_low_doping,
+        gap_medium_doping=gap_medium_doping,
+        gap_high_doping=gap_high_doping,
+        width_doping=width_doping,
+        width_slab=width_slab,
     )
     x.info = s
-    x.info.update(**kwargs)
     return x
 
 
@@ -808,7 +852,7 @@ if __name__ == "__main__":
     X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
     P = gf.path.straight(npoints=100, length=10)
 
-    c = gf.path.extrude(P, X)
+    c = gf.path.extrude(P, pn)
 
     # print(x1.to_dict())
     # print(x1.name)

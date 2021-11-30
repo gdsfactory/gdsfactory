@@ -7,7 +7,7 @@ from gdsfactory.components.taper import taper_strip_to_ridge
 
 @gf.cell
 def test_cutback_phase(
-    straight_length: float = 100.0, bend_radius: float = 10.0, n: int = 2
+    straight_length: float = 100.0, bend_radius: float = 12.0, n: int = 2
 ) -> Component:
     """Modulator sections connected by bends"""
     # Define sub components

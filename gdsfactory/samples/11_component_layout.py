@@ -1,13 +1,12 @@
 """ Lets create a new component.
 
-We create a function which returns a gf.Component instance.
+We create a function which returns a gf.Component.
 
 Lets build straight crossing out of a vertical and horizonal arm
 
-
-- Create a component instance that we will return from a component_factory function. We will use a cell decorator to define the name
-- Define a polygon
-- Create ports
+- Create a component using component_factory function. You should the cell decorator to define the name automatically and uniquely.
+- Define the polygons in the component
+- Add ports to the component so you can connect it with other components
 """
 
 from phidl import quickplot as plot

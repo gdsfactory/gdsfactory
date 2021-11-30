@@ -8,28 +8,32 @@ from gdsfactory.types import ComponentFactory
 @gf.cell
 def splitter_chain(
     splitter: ComponentFactory = mmi1x2,
-    n_devices: int = 3,
+    columns: int = 3,
     bend: ComponentFactory = bend_s,
-    **kwargs,
 ) -> Component:
     """Chain of splitters
 
+    Args:
+        splitter: splitter to chain
+        columns: number of splitters to chain
+        bend: bend to connect splitters
+
     .. code::
 
-                __5
-             __|
-          __|  |__4
-      1 _|  |__3
-         |__2
+                 __o5
+              __|
+           __|  |__o4
+      o1 _|  |__o3
+          |__o2
 
 
-          __E1
-      1 _|
-         |__E0
+           __o2
+      o1 _|
+          |__o3
 
     """
     c = gf.Component()
-    splitter_component = gf.call_if_func(splitter, **kwargs)
+    splitter_component = gf.call_if_func(splitter)
     cref = c.add_ref(splitter_component)
 
     splitter_ports_east = cref.get_ports_list(port_type="optical", orientation=0)
@@ -40,7 +44,7 @@ def splitter_chain(
     c.add_port(name="o1", port=cref.ports["o1"])
     c.add_port(name="o2", port=cref.ports[e0_port_name])
 
-    for i in range(1, n_devices):
+    for i in range(1, columns):
         bref = c.add_ref(bend)
         bref.connect(port="o1", destination=cref.ports[e1_port_name])
 
@@ -55,7 +59,7 @@ def splitter_chain(
 
 
 if __name__ == "__main__":
-    # component = splitter_chain(splitter=gf.components.mmi1x2, n_devices=4)
+    # component = splitter_chain(splitter=gf.components.mmi1x2, columns=4)
     component = splitter_chain()
     component.show()
     component.pprint

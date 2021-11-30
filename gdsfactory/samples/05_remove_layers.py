@@ -1,4 +1,4 @@
-"""You can remove a list of layers."""
+"""You can remove a list of layers from a component."""
 
 
 import gdsfactory as gf

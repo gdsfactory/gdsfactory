@@ -236,15 +236,14 @@ def route_fiber_array(
 
     if max_y0_optical is not None:
         y0_optical = round(min(max_y0_optical, y0_optical), 1)
-    """
-     - First connect half of the north ports going from middle of list
-    down to first elements
-     - then connect west ports (top to bottom)
-     - then connect south ports (left to right)
-     - then east ports (bottom to top)
-     - then second half of the north ports (right to left)
 
-    """
+    # - First connect half of the north ports going from middle of list
+    # down to first elements
+    # - then connect west ports (top to bottom)
+    # - then connect south ports (left to right)
+    # - then east ports (bottom to top)
+    # - then second half of the north ports (right to left)
+
     ports = []
     north_ports = direction_ports["N"]
     north_start = north_ports[0 : len(north_ports) // 2]
