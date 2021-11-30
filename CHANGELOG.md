@@ -19,7 +19,7 @@ Maybe:
 
 ## 3.6.6
 
-- more sensitive generic grating coupler defaults
+- add slab arguments (slab_layer, slab_xmin) to grating couplers
 - remove align to bottom left in gdsdiff
 - gdsdiff after asking question, re-rises GeometryDifferencesError
 
