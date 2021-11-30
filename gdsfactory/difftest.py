@@ -100,7 +100,7 @@ def difftest(
             if val.upper().startswith("Y"):
                 print(f"rm {ref_file}")
                 ref_file.unlink()
-            raise GeometryDifference(f"error in {test_name}")
+            raise
         except OSError as exc:
             raise GeometryDifference(
                 "\n"
