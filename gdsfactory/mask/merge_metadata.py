@@ -25,7 +25,7 @@ def merge_metadata(
     jsonpath = gdspath.with_suffix(".json")
 
     build_directory = gdspath.parent.parent
-    doe_directory = build_directory / "doe"
+    doe_directory = build_directory / "sweep"
 
     write_labels(gdspath=gdspath, prefix=labels_prefix, label_layer=label_layer)
 

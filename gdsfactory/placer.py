@@ -42,7 +42,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.config import CONFIG
-from gdsfactory.doe import get_settings_list, load_does
+from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
 from gdsfactory.types import ComponentFactoryDict
 
 
@@ -300,10 +300,10 @@ def load_placer_with_does(filepath, defaults=None):
             settings = {}
         doe["list_settings"] += get_settings_list(do_permutation, **settings)
 
-        # check that the doe is valid (only one type of component)
+        # check that the sweep is valid (only one type of component)
         assert (
             component_type == doe["component_type"]
-        ), "There can be only one component type per doe. Got {} while expecting {}".format(
+        ), "There can be only one component type per sweep. Got {} while expecting {}".format(
             component_type, doe["component_type"]
         )
 
@@ -399,7 +399,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
     """
     input_does = OmegaConf.load(str(filepath))
     mask_settings = input_does["mask"]
-    does = load_does(filepath)
+    does = read_sweep(filepath)
 
     placed_doe = None
     placed_does = {}
@@ -415,9 +415,9 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
         list_settings = doe["settings"]
         component_type = doe["component"]
 
-        # description = doe["description"] if "description" in doe else ''
-        # test = doe["test"] if "test" in doe else {}
-        # analysis = doe["analysis"] if "analysis" in doe else {}
+        # description = sweep["description"] if "description" in sweep else ''
+        # test = sweep["test"] if "test" in sweep else {}
+        # analysis = sweep["analysis"] if "analysis" in sweep else {}
 
         # Get DOE policy concerning the cache
         cache_enabled = (

@@ -5,12 +5,12 @@ from typing import Callable, Dict, List, Optional, Union
 from gdsfactory.component import Component
 from gdsfactory.components import factory
 from gdsfactory.config import CONFIG
-from gdsfactory.doe import get_settings_list
 from gdsfactory.name import get_component_name
+from gdsfactory.sweep.read_sweep import get_settings_list
 from gdsfactory.types import ComponentFactoryDict
 
 
-def write_doe_metadata(
+def write_sweep_metadata(
     doe_name: str,
     cell_names: List[str],
     list_settings: Union[List[Dict[str, Union[float, int]]], List[Dict[str, int]]],
@@ -35,7 +35,7 @@ def write_doe_metadata(
     json_path = report_path.with_suffix(".json")
 
     d = dict(
-        type="doe",
+        type="sweep",
         name=doe_name,
         cells={cell_name: {"name": cell_name} for cell_name in cell_names},
         settings=list_settings,
@@ -107,7 +107,7 @@ def write_doe_metadata(
             w()
 
 
-def write_doe(
+def write_sweep(
     component_type: str,
     doe_name: str,
     do_permutations: bool = True,
@@ -180,7 +180,7 @@ def write_doe(
         doe_gds_paths += [gdspath]
         component.write_gds_with_metadata(gdspath)
 
-    write_doe_metadata(
+    write_sweep_metadata(
         doe_name=doe_name,
         cell_names=cell_names,
         list_settings=list_settings,
@@ -232,8 +232,8 @@ def get_markdown_table(do_permutations=True, **kwargs) -> List[str]:
     return t
 
 
-def test_write_doe() -> Path:
-    paths = write_doe(
+def test_write_sweep() -> Path:
+    paths = write_sweep(
         component_type="mmi1x2",
         doe_name="width_length",
         width_mmi=[5, 10],
@@ -241,7 +241,7 @@ def test_write_doe() -> Path:
         do_permutations=False,
     )
     assert len(paths) == 2
-    paths = write_doe(
+    paths = write_sweep(
         component_type="mmi1x2",
         doe_name="width_length2",
         width_mmi=[5, 10],
@@ -256,7 +256,7 @@ def test_write_doe() -> Path:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    path0 = test_write_doe()
+    path0 = test_write_sweep()
     gf.show(path0)
 
     # print(get_markdown_table(width_mmi=[5, 6]))
