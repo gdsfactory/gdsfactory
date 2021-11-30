@@ -29,7 +29,9 @@ cells:
       layer:
       - 1
       - 0
-      layer_slab: null
+      layer_slab:
+      - 2
+      - 0
       parameters:
       - -2.4298362615732447
       - 0.1
@@ -89,7 +91,9 @@ cells:
       layer:
       - 1
       - 0
-      layer_slab: null
+      layer_slab:
+      - 2
+      - 0
       parameters:
       - -2.4298362615732447
       - 0.1
@@ -158,7 +162,9 @@ info:
     layer:
     - 1
     - 0
-    layer_slab: null
+    layer_slab:
+    - 2
+    - 0
     parameters:
     - -2.4298362615732447
     - 0.1
@@ -218,7 +224,9 @@ info:
     layer:
     - 1
     - 0
-    layer_slab: null
+    layer_slab:
+    - 2
+    - 0
     parameters:
     - -2.4298362615732447
     - 0.1

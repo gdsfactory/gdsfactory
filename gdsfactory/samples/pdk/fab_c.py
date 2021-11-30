@@ -116,11 +116,12 @@ straight_o = gf.partial(
 )
 
 gc_nitride_c = gf.partial(
-    gf.components.grating_coupler_elliptical_te,
+    gf.components.grating_coupler_elliptical,
     grating_line_width=0.6,
     wg_width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
     decorator=add_pins,
+    layer_slab=None,
 )
 
 # HIERARCHICAL COMPONENTS made of leaf components
