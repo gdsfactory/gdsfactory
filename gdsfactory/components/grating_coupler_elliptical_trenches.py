@@ -29,7 +29,10 @@ def grating_coupler_elliptical_trenches(
     n_periods: int = 30,
     end_straight_length: float = 0.2,
 ) -> Component:
-    r"""Returns Grating coupler with defined trenches
+    r"""Returns Grating coupler with defined trenches.
+
+    Some foundries define the grating coupler by a shallow etch step (trenches)
+    Others define the slab that they keep (see grating_coupler_elliptical)
 
     Args:
         polarization: 'te' or 'tm'
@@ -149,7 +152,7 @@ grating_coupler_tm = gf.partial(
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
-    c = grating_coupler_te(end_straight_length=10, fiber_marker_layer=None)
-    # c = grating_coupler_tm()
+    # c = grating_coupler_te(end_straight_length=10, fiber_marker_layer=None)
+    c = grating_coupler_tm()
     print(c.ports.keys())
     c.show()

@@ -24,7 +24,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     wavelength: float = 1.55,
     taper: ComponentFactory = taper_strip_to_slab150,
     layer_slab: Optional[Layer] = gf.LAYER.SLAB150,
-    slab_offset: float = 2,
+    slab_offset: float = 2.0,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
@@ -47,10 +47,13 @@ def grating_coupler_rectangular_arbitrary_slab(
 
         side view
                       fiber
+
                    /  /  /  /
                   /  /  /  /
-                _|-|_|-|_|-|___
-        WG  o1  ______________|
+
+                _|-|_|-|_|-|___ layer
+                   layer_slab |
+            o1  ______________|
 
 
         top view     _________
@@ -121,6 +124,6 @@ def grating_coupler_rectangular_arbitrary_slab(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_rectangular_arbitrary_slab(slab_offset=0.4)
+    c = grating_coupler_rectangular_arbitrary_slab(slab_offset=2.0)
     print(c.ports)
     c.show()
