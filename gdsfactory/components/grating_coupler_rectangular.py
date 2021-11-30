@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 
@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory
 
 
@@ -21,6 +22,9 @@ def grating_coupler_rectangular(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentFactory = taper_function,
+    layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
+    slab_xmin: float = -1.0,
+    slab_offset: float = 1.0,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
@@ -39,15 +43,21 @@ def grating_coupler_rectangular(
         polarization: 'te' or 'tm'
         wavelength: in um
         taper: function
+        layer_slab: layer that protects the slab under the grating
+        slab_xmin: where 0 is at the start of the taper
+        slab_offset: from edge of grating to edge of the slab
 
     .. code::
 
         side view
                       fiber
+
                    /  /  /  /
                   /  /  /  /
-                _|-|_|-|_|-|___
-        WG  o1  ______________|
+
+                _|-|_|-|_|-|___ layer
+                   layer_slab |
+            o1  ______________|
 
 
         top view     _________
@@ -89,6 +99,21 @@ def grating_coupler_rectangular(
     c.info.polarization = polarization
     c.info.wavelength = wavelength
     gf.asserts.grating_coupler(c)
+
+    if layer_slab:
+        slab_xmin += length_taper
+        slab_xsize = cgrating.xmax + slab_offset
+        slab_ysize = c.ysize + 2 * slab_offset
+        yslab = slab_ysize / 2
+        c.add_polygon(
+            [
+                (slab_xmin, yslab),
+                (slab_xsize, yslab),
+                (slab_xsize, -yslab),
+                (slab_xmin, -yslab),
+            ],
+            layer_slab,
+        )
     return c
 
 
