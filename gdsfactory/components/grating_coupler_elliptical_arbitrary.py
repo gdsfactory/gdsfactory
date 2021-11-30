@@ -29,6 +29,7 @@ def grating_coupler_elliptical_arbitrary(
     neff: float = 2.638,  # tooth effective index
     nclad: float = 1.443,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
+    slab_xmin: float = -3.0,
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
@@ -51,6 +52,7 @@ def grating_coupler_elliptical_arbitrary(
         neff: tooth effective index
         nclad: cladding effective index
         layer_slab: Optional slab
+        slab_xmin: where 0 is at the start of the taper
         polarization: te or tm
         fiber_marker_width
         fiber_marker_layer
@@ -63,8 +65,11 @@ def grating_coupler_elliptical_arbitrary(
 
                    /  /  /  /
                   /  /  /  /
-                _|-|_|-|_|-|___
-        WG  o1  ______________|
+
+                _|-|_|-|_|-|___ layer
+                   layer_slab |
+            o1  ______________|
+
     """
 
     # Compute some ellipse parameters
@@ -114,14 +119,6 @@ def grating_coupler_elliptical_arbitrary(
     )
     c.add_polygon(pts, layer)
     x = (taper_length + xi) / 2
-
-    if fiber_marker_layer:
-        circle = gf.components.circle(
-            radius=fiber_marker_width / 2, layer=fiber_marker_layer
-        )
-        circle_ref = c.add_ref(circle)
-        circle_ref.movex(x)
-
     name = f"vertical_{polarization.lower()}"
     c.add_port(
         name=name,
@@ -138,7 +135,26 @@ def grating_coupler_elliptical_arbitrary(
     )
 
     if layer_slab:
-        c.add_padding(layers=(layer_slab,), default=0.0)
+        slab_xmin += taper_length
+        slab_xsize = xi + 2.0
+        slab_ysize = c.ysize + 2.0
+        yslab = slab_ysize / 2
+        c.add_polygon(
+            [
+                (slab_xmin, yslab),
+                (slab_xsize, yslab),
+                (slab_xsize, -yslab),
+                (slab_xmin, -yslab),
+            ],
+            layer_slab,
+        )
+
+    if fiber_marker_layer:
+        circle = gf.components.circle(
+            radius=fiber_marker_width / 2, layer=fiber_marker_layer
+        )
+        circle_ref = c.add_ref(circle)
+        circle_ref.movex(x)
     return c
 
 

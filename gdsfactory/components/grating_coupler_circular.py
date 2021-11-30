@@ -144,7 +144,7 @@ def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs
 if __name__ == "__main__":
     # c = grating_coupler_circular_arbitrary(taper_length=30, layers_slab=((2,0), (3,0)))
     # c = grating_coupler_circular_arbitrary(taper_length=30, layer_slab=(2, 3))
-    c = grating_coupler_circular()
+    c = grating_coupler_circular(layer_slab=(3, 0))
     print(len(c.name))
     print(c.ports)
     c.show()
