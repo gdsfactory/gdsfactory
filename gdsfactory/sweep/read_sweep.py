@@ -11,7 +11,7 @@ from omegaconf import OmegaConf
 
 from gdsfactory.config import CONFIG
 
-sample = """
+_sample_yaml_code = """
 does:
     cutback_taper_te_400:
       component: cutback_taper_te
@@ -74,7 +74,7 @@ def read_sweep(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
         else:
             raise ValueError(
                 f"DOE {doe_name} is not a dictionary",
-                f"\n\t got: {doe}\n\t sample: {sample}",
+                f"\n\t got: {doe}\n\t sample: {_sample_yaml_code}",
             )
 
         does[doe_name] = doe
