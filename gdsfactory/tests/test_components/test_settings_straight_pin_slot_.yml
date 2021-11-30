@@ -2,15 +2,19 @@ cells: {}
 info:
   changed: {}
   default:
-    contact_slab_spacing: null
+    contact_slab_bot: null
+    contact_slab_spacing: 2.0
+    contact_slab_top: null
     contact_slab_width: null
-    contact_spacing: 2
+    contact_spacing: 3.0
     contact_width: 10.0
     length: 500.0
   full:
-    contact_slab_spacing: null
+    contact_slab_bot: null
+    contact_slab_spacing: 2.0
+    contact_slab_top: null
     contact_slab_width: null
-    contact_spacing: 2
+    contact_spacing: 3.0
     contact_width: 10.0
     length: 500.0
   function_name: straight_pin_slot
@@ -24,7 +28,7 @@ ports:
     - 0
     midpoint:
     - 0.0
-    - -6.0
+    - -6.5
     name: bot_e1
     orientation: 180.0
     port_type: electrical
@@ -35,7 +39,7 @@ ports:
     - 0
     midpoint:
     - 240.0
-    - -1.0
+    - -1.5
     name: bot_e2
     orientation: 90.0
     port_type: electrical
@@ -46,7 +50,7 @@ ports:
     - 0
     midpoint:
     - 480.0
-    - -6.0
+    - -6.5
     name: bot_e3
     orientation: 0.0
     port_type: electrical
@@ -57,7 +61,7 @@ ports:
     - 0
     midpoint:
     - 240.0
-    - -11.0
+    - -11.5
     name: bot_e4
     orientation: 270.0
     port_type: electrical
@@ -90,7 +94,7 @@ ports:
     - 0
     midpoint:
     - 0.0
-    - 6.0
+    - 6.5
     name: top_e1
     orientation: 180.0
     port_type: electrical
@@ -101,7 +105,7 @@ ports:
     - 0
     midpoint:
     - 240.0
-    - 11.0
+    - 11.5
     name: top_e2
     orientation: 90.0
     port_type: electrical
@@ -112,7 +116,7 @@ ports:
     - 0
     midpoint:
     - 480.0
-    - 6.0
+    - 6.5
     name: top_e3
     orientation: 0.0
     port_type: electrical
@@ -123,7 +127,7 @@ ports:
     - 0
     midpoint:
     - 240.0
-    - 1.0
+    - 1.5
     name: top_e4
     orientation: 270.0
     port_type: electrical
