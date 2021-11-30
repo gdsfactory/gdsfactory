@@ -80,7 +80,7 @@ class Library(object):
         """Load json metadata"""
         with open(filename) as f:
             metadata = json.load(f)
-            if metadata.get("type") == "doe":
+            if metadata.get("type") == "sweep":
                 doe_name = metadata.get("name")
                 for cell_name in metadata.get("cells"):
                     if cell_name in self.cells:

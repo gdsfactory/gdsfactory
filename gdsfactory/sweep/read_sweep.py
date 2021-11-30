@@ -1,4 +1,6 @@
-"""Design Of Experiment (DOE) to model one or several component parameters."""
+"""A Design Of Experiment (DOE) or sweep
+changes one or several parameters.
+"""
 
 import itertools as it
 from io import StringIO
@@ -21,14 +23,14 @@ does:
 """
 
 
-def load_does(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
+def read_sweep(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
     """Return dictionary with the information loaded from does.yml
 
     Args:
         filepath: yaml file describing does
 
     Returns:
-        a dictionnary of DOEs with:
+        a dictionary of DOEs with:
         {
             doe_name1: [(component_factory_name, parameters), ...]
             doe_name2: [(component_factory_name, parameters), ...]
@@ -85,16 +87,16 @@ def get_settings_list(do_permutations: bool = True, **kwargs) -> List[Dict[str, 
 
     Args:
         do_permutations: if False, will only zip the values passed for each parameter
-        and will not use any combination with default arguments
-        **kwargs: Keyword arguments with a list or tuple of desired values to sweep
+            True creates all combinations
+        kwargs: Keyword arguments with a list or tuple of desired values to sweep
 
     Usage:
 
         import gdsfactory as gf
 
-        gf.doe.get_settings_list(length=[30, 40])  # adds different lengths
-        gf.doe.get_settings_list(length=[30, 40], width=[4, 8])
-        gf.doe.get_settings_list(length=[30, 40], width=[4, 8])
+        gf.sweep.read_sweep.get_settings_list(length=[30, 40])  # adds different lengths
+        gf.sweep.read_sweep.get_settings_list(length=[30, 40], width=[4, 8])
+        gf.sweep.read_sweep.get_settings_list(length=[30, 40], width=[4, 8])
         # if do_permutations=True, does all combinations (L30W4, L30W8, L40W4, L40W8)
         # if do_permutations=False, zips arguments (L30W4, L40W8)
 
@@ -124,15 +126,15 @@ def get_settings_list(do_permutations: bool = True, **kwargs) -> List[Dict[str, 
     return settings
 
 
-def test_load_does() -> Dict[str, Any]:
+def test_read_sweep() -> Dict[str, Any]:
     filepath = CONFIG["samples_path"] / "mask" / "does.yml"
-    does = load_does(filepath)
+    does = read_sweep(filepath)
     assert len(does) == 4
     return does
 
 
 if __name__ == "__main__":
-    test_load_does()
+    test_read_sweep()
     # from pprint import pprint
 
     # does_path = CONFIG["samples_path"] / "mask" / "does.yml"

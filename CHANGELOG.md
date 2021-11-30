@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.7
+
+- rename doe, write_does and load_does to `sweep` module `read_sweep`, `write_sweep` ...
+
 ## 3.6.6
 
 - add slab arguments (slab_layer, slab_xmin) to grating couplers

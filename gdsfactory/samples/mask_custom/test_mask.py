@@ -10,7 +10,7 @@ from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.component import Component
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.config import CONFIG, logger
-from gdsfactory.generate_does import generate_does
+from gdsfactory.sweep.write_sweeps import write_sweeps
 
 add_te = gf.partial(
     gf.routing.add_fiber_array,
@@ -77,7 +77,7 @@ def test_mask(precision: float = 2e-9) -> Path:
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     build_path = workspace_folder / "build"
     doe_root_path = build_path / "cache_doe"
-    doe_metadata_path = build_path / "doe"
+    doe_metadata_path = build_path / "sweep"
     mask_path = build_path / "mask"
     does_yml = workspace_folder / "does.yml"
 
@@ -88,7 +88,7 @@ def test_mask(precision: float = 2e-9) -> Path:
     logpath = gdspath.with_suffix(".log")
     logger.add(sink=logpath)
 
-    generate_does(
+    write_sweeps(
         str(does_yml),
         component_factory=component_factory,
         precision=precision,

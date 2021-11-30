@@ -74,6 +74,7 @@ CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 
 __all__ = (
     "ComponentFactory",
+    "ComponentFactoryDict",
     "ComponentOrFactory",
     "ComponentOrPath",
     "ComponentOrReference",

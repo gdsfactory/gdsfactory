@@ -1,5 +1,4 @@
-""" Command line interface for gdsfactory
-"""
+""" Command line interface for gdsfactory."""
 import os
 import pathlib
 import shlex
@@ -20,11 +19,11 @@ from gdsfactory.mask.merge_json import merge_json
 from gdsfactory.mask.merge_markdown import merge_markdown
 from gdsfactory.mask.merge_test_metadata import merge_test_metadata
 from gdsfactory.mask.write_labels import write_labels
-from gdsfactory.tech import LAYER
-from gdsfactory.types import PathType
 
 # from gdsfactory.write_doe_from_yaml import write_doe_from_yaml
-from gdsfactory.write_doe_from_yaml import import_custom_doe_factories
+from gdsfactory.sweep.write_sweep_from_yaml import import_custom_doe_factories
+from gdsfactory.tech import LAYER
+from gdsfactory.types import PathType
 
 VERSION = "3.6.6"
 log_directory = CONFIG.get("log_directory")
@@ -140,7 +139,7 @@ def build_devices(regex) -> None:
 @click.command(name="build_does")
 @click.argument("yamlpath")
 def build_does(yamlpath: str) -> None:
-    """Build does defined in doe.yml"""
+    """Build does defined in sweep.yml"""
     print("this is deprecated")
     import_custom_doe_factories()
     # write_doe_from_yaml()

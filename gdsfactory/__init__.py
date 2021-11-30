@@ -31,7 +31,7 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
-from gdsfactory.write_doe import write_doe
+from gdsfactory.sweep.write_sweep import write_sweep
 from gdsfactory.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
 
@@ -117,7 +117,7 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "write_doe",
+    "write_sweep",
     "Label",
 ]
 __version__ = "3.6.6"
