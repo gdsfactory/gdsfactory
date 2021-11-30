@@ -17,9 +17,11 @@ def straight_pin_slot(
     contact: ComponentFactory = contact_m1_m3,
     contact_width: float = 10.0,
     contact_slab: ComponentFactory = contact_slot_slab_m1,
+    contact_slab_top: Optional[ComponentFactory] = None,
+    contact_slab_bot: Optional[ComponentFactory] = None,
     contact_slab_width: Optional[float] = None,
-    contact_slab_spacing: Optional[float] = None,
-    contact_spacing: float = 2,
+    contact_spacing: float = 3.0,
+    contact_slab_spacing: float = 2.0,
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
@@ -33,9 +35,11 @@ def straight_pin_slot(
     Args:
         length: of the waveguide
         cross_section: for the waveguide
-        contact: for the contacts
+        contact: for contacting the metal
         contact_width:
-        contact_slab:
+        contact_slab: function for the component contacting the slab
+        contact_slab_top: Optional, defaults to contact_slab
+        contact_slab_bot: Optional, defaults to contact_slab
         contact_slab_width: defaults to contact_width
         contact_spacing: spacing between contacts
         taper: optional taper
@@ -75,21 +79,23 @@ def straight_pin_slot(
         size=(contact_length, contact_width),
     )
 
-    contact_bot.xmin = wg.xmin
-    contact_top.xmin = wg.xmin
+    contact_bot.x = wg.x
+    contact_top.x = wg.x
 
     contact_top.ymin = +contact_spacing / 2
     contact_bot.ymax = -contact_spacing / 2
 
-    slot_top = c << contact_slab(
+    contact_slab_top = contact_slab_top or contact_slab
+    contact_slab_bot = contact_slab_bot or contact_slab
+    slot_top = c << contact_slab_top(
         size=(contact_length, contact_slab_width),
     )
-    slot_bot = c << contact_slab(
+    slot_bot = c << contact_slab_bot(
         size=(contact_length, contact_slab_width),
     )
 
-    slot_bot.xmin = wg.xmin
-    slot_top.xmin = wg.xmin
+    slot_bot.x = wg.x
+    slot_top.x = wg.x
     slot_top.ymin = +contact_slab_spacing / 2
     slot_bot.ymax = -contact_slab_spacing / 2
 
