@@ -3,12 +3,13 @@ adapted from phidl.geometry.
 """
 
 import warnings
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
+import rectpack
 
 from gdsfactory.component import Component
-from gdsfactory.types import Coordinate, Number
+from gdsfactory.types import Float2, Number
 
 
 def _pack_single_bin(
@@ -36,7 +37,6 @@ def _pack_single_bin(
         packed rectangles dict {id:(x,y,w,h)}
         dict of remaining unpacked rectangles
     """
-    import rectpack
 
     # Compute total area and use it for an initial estimate of the bin size
     total_area = 0
@@ -93,8 +93,8 @@ def _pack_single_bin(
 def pack(
     component_list: List[Component],
     spacing: float = 10.0,
-    aspect_ratio: Tuple[Number, Number] = (1, 1),
-    max_size: Union[Coordinate, Tuple[None, None]] = (None, None),
+    aspect_ratio: Float2 = (1.0, 1.0),
+    max_size: Optional[Float2] = None,
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
@@ -104,7 +104,7 @@ def pack(
     Adapted from phidl.geometry
 
     Args:
-        component_list: Must be a list or tuple of Components
+        component_list: list or tuple
         spacing: Minimum distance between adjacent shapes
         aspect_ratio: (width, height) ratio of the rectangular bin
         max_size: Limits the size into which the shapes will be packed
@@ -112,6 +112,7 @@ def pack(
         density: Values closer to 1 pack tighter but require more computation
         precision: Desired precision for rounding vertex coordinates.
     """
+    max_size = max_size or (None, None)
 
     if density < 1.01:
         raise ValueError(
