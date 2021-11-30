@@ -1996,7 +1996,7 @@ straight_heater_doped_rib
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), contact_contact_yspacing=2.0, taper_length=10.0)
+  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), contact_yspacing=2.0)
   c.plot()
 
 
@@ -2011,7 +2011,7 @@ straight_heater_doped_strip
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), contact_contact_yspacing=2.0, taper_length=10.0)
+  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), contact_yspacing=2.0)
   c.plot()
 
 
@@ -2116,7 +2116,7 @@ straight_pin_slot
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pin_slot(length=500.0, contact_width=10.0, contact_spacing=2)
+  c = gf.components.straight_pin_slot(length=500.0, contact_width=10.0, contact_spacing=3.0, contact_slab_spacing=2.0)
   c.plot()
 
 
