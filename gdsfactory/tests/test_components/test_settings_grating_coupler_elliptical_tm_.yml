@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_b1a123ab
-  grating_coupler_ellipti_f86d7c61:
+  grating_coupler_ellipti_6c2ddb68:
     changed:
       fiber_marker_layer:
       - 204
@@ -30,6 +30,8 @@ cells:
       n_periods: 16
       neff: 1.8
       polarization: tm
+      slab_xmin: -2
+      taper_length: 30
     default:
       big_last_tooth: false
       fiber_angle: 15.0
@@ -49,6 +51,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
       taper_length: 16.6
@@ -73,15 +76,16 @@ cells:
       neff: 1.8
       p_start: 26
       polarization: tm
+      slab_xmin: -2
       spiked: true
       taper_angle: 40.0
-      taper_length: 16.6
+      taper_length: 30
       wavelength: 1.554
       wg_width: 0.5
     function_name: grating_coupler_elliptical
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_ellipti_f86d7c61
+    name: grating_coupler_ellipti_6c2ddb68
     polarization: tm
     wavelength: 1.554
 info:
@@ -93,6 +97,8 @@ info:
     n_periods: 16
     neff: 1.8
     polarization: tm
+    slab_xmin: -2
+    taper_length: 30
   default:
     big_last_tooth: false
     fiber_angle: 15.0
@@ -112,6 +118,7 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
+    slab_xmin: -1.0
     spiked: true
     taper_angle: 40.0
     taper_length: 16.6
@@ -136,15 +143,16 @@ info:
     neff: 1.8
     p_start: 26
     polarization: tm
+    slab_xmin: -2
     spiked: true
     taper_angle: 40.0
-    taper_length: 16.6
+    taper_length: 30
     wavelength: 1.554
     wg_width: 0.5
   function_name: grating_coupler_elliptical
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_f86d7c61
+  name: grating_coupler_ellipti_6c2ddb68
   polarization: tm
   wavelength: 1.554
 ports:
@@ -153,7 +161,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.978
+    - -2.421
     - 0.0
     name: o1
     orientation: 180.0
@@ -164,7 +172,7 @@ ports:
     - 204
     - 0
     midpoint:
-    - 25.312
+    - 27.578
     - 0.0
     name: vertical_tm
     orientation: 0.0

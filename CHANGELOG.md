@@ -17,6 +17,12 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.6
+
+- add slab arguments (slab_layer, slab_xmin) to grating couplers
+- remove align to bottom left in gdsdiff
+- gdsdiff after asking question, re-rises GeometryDifferencesError
+
 ## 3.6.5
 
 - fix gdsfactory/samples

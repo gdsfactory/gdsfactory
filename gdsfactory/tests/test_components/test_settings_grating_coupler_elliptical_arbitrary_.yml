@@ -49,6 +49,7 @@ cells:
       nclad: 1.443
       neff: 2.638
       polarization: te
+      slab_xmin: -3.0
       spiked: true
       taper_angle: 60.0
       taper_length: 16.6
@@ -91,6 +92,7 @@ cells:
       nclad: 1.443
       neff: 2.638
       polarization: te
+      slab_xmin: -3.0
       spiked: true
       taper_angle: 60.0
       taper_length: 16.6
@@ -141,6 +143,7 @@ info:
     nclad: 1.443
     neff: 2.638
     polarization: te
+    slab_xmin: -3.0
     spiked: true
     taper_angle: 60.0
     taper_length: 16.6
@@ -183,6 +186,7 @@ info:
     nclad: 1.443
     neff: 2.638
     polarization: te
+    slab_xmin: -3.0
     spiked: true
     taper_angle: 60.0
     taper_length: 16.6
