@@ -1,9 +1,3 @@
-"""
-FIXME:
-
-    this function works, see, straight_heater_doped_strip func
-"""
-
 from typing import Optional, Tuple
 
 import gdsfactory as gf
@@ -156,6 +150,6 @@ straight_heater_doped_strip = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = straight_heater_doped_rib(length=80)
-    c = straight_heater_doped_strip(length=80)
+    # c = straight_heater_doped_rib() # works
+    c = straight_heater_doped_strip()  # FIXME: does not work
     c.show()
