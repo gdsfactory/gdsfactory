@@ -21,13 +21,14 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_ellipti_725c2342:
+  grating_coupler_ellipti_beccd913:
     changed:
       decorator: add_pins
       grating_line_width: 0.6
       layer:
       - 34
       - 0
+      layer_slab: null
       wg_width: 1.0
     default:
       big_last_tooth: false
@@ -48,6 +49,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
       taper_length: 16.6
@@ -65,14 +67,13 @@ cells:
       layer:
       - 34
       - 0
-      layer_slab:
-      - 2
-      - 0
+      layer_slab: null
       n_periods: 30
       nclad: 1.443
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
       taper_length: 16.6
@@ -81,7 +82,7 @@ cells:
     function_name: grating_coupler_elliptical
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_ellipti_725c2342
+    name: grating_coupler_ellipti_beccd913
     polarization: te
     wavelength: 1.554
 info:
@@ -91,6 +92,7 @@ info:
     layer:
     - 34
     - 0
+    layer_slab: null
     wg_width: 1.0
   default:
     big_last_tooth: false
@@ -111,6 +113,7 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
+    slab_xmin: -1.0
     spiked: true
     taper_angle: 40.0
     taper_length: 16.6
@@ -128,14 +131,13 @@ info:
     layer:
     - 34
     - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: null
     n_periods: 30
     nclad: 1.443
     neff: 2.638
     p_start: 26
     polarization: te
+    slab_xmin: -1.0
     spiked: true
     taper_angle: 40.0
     taper_length: 16.6
@@ -144,7 +146,7 @@ info:
   function_name: grating_coupler_elliptical
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_725c2342
+  name: grating_coupler_ellipti_beccd913
   polarization: te
   wavelength: 1.554
 ports:
@@ -164,7 +166,7 @@ ports:
     - 203
     - 0
     midpoint:
-    - 26.89
+    - 17.45
     - 0.0
     name: vertical_te
     orientation: 0.0

@@ -46,8 +46,13 @@ cells:
       - 1
       - 0
       layer_grating: null
+      layer_slab:
+      - 2
+      - 0
       length_taper: 150.0
       polarization: te
+      slab_offset: 1.0
+      slab_xmin: -1.0
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11.0
@@ -78,8 +83,13 @@ cells:
       - 1
       - 0
       layer_grating: null
+      layer_slab:
+      - 2
+      - 0
       length_taper: 150.0
       polarization: te
+      slab_offset: 1.0
+      slab_xmin: -1.0
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11.0
@@ -180,8 +190,13 @@ info:
     - 1
     - 0
     layer_grating: null
+    layer_slab:
+    - 2
+    - 0
     length_taper: 150.0
     polarization: te
+    slab_offset: 1.0
+    slab_xmin: -1.0
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11.0
@@ -212,8 +227,13 @@ info:
     - 1
     - 0
     layer_grating: null
+    layer_slab:
+    - 2
+    - 0
     length_taper: 150.0
     polarization: te
+    slab_offset: 1.0
+    slab_xmin: -1.0
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11.0

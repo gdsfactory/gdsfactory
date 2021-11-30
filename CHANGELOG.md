@@ -17,6 +17,12 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.6
+
+- more sensitive generic grating coupler defaults
+- remove align to bottom left in gdsdiff
+- gdsdiff after asking question, re-rises GeometryDifferencesError
+
 ## 3.6.5
 
 - fix gdsfactory/samples

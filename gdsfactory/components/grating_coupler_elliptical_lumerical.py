@@ -7,6 +7,7 @@ from gdsfactory.components.grating_coupler_elliptical_arbitrary import (
     grating_coupler_elliptical_arbitrary,
 )
 from gdsfactory.config import CONFIG
+from gdsfactory.tech import LAYER
 from gdsfactory.types import Floats, Layer
 
 parameters = (
@@ -67,7 +68,7 @@ parameters = (
 def grating_coupler_elliptical_lumerical(
     parameters: Floats = parameters,
     layer: Layer = (1, 0),
-    layer_slab: Optional[Layer] = None,
+    layer_slab: Optional[Layer] = LAYER.SLAB150,
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
@@ -165,5 +166,6 @@ def _compare() -> Component:
 
 
 if __name__ == "__main__":
-    c = _compare()
+    # c = _compare()
+    c = grating_coupler_elliptical_lumerical_etch70()
     c.show()

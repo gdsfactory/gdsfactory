@@ -81,11 +81,6 @@ def gdsdiff(
     ref1 = top << component1
     ref2 = top << component2
 
-    ref1.xmin = 0
-    ref1.ymin = 0
-    ref2.xmin = 0
-    ref2.ymin = 0
-
     if xor:
         diff = xor_polygons(ref1, ref2, hash_geometry=False)
         diff.name = f"{name}_xor"

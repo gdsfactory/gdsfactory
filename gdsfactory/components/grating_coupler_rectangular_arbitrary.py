@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Floats, Layer
 
 _gaps = (0.2,) * 10
@@ -24,6 +25,9 @@ def grating_coupler_rectangular_arbitrary(
     wavelength: float = 1.55,
     taper: ComponentFactory = taper_function,
     layer_grating: Optional[Layer] = None,
+    layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
+    slab_xmin: float = -1.0,
+    slab_offset: float = 1.0,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
@@ -40,15 +44,21 @@ def grating_coupler_rectangular_arbitrary(
         wavelength: in um
         taper: function
         layer_grating:
+        layer_slab: layer that protects the slab under the grating
+        slab_xmin: where 0 is at the start of the taper
+        slab_offset: from edge of grating to edge of the slab
 
     .. code::
 
-        side view
                       fiber
+
                    /  /  /  /
                   /  /  /  /
-                _|-|_|-|_|-|___
-        WG  o1  ______________|
+
+                _|-|_|-|_|-|___ layer
+                   layer_slab |
+            o1  ______________|
+
 
 
         top view     _________
@@ -93,8 +103,21 @@ def grating_coupler_rectangular_arbitrary(
         cgrating.y = 0
         xi += width / 2
 
+    if layer_slab:
+        slab_xmin += length_taper
+        slab_xsize = xi + slab_offset
+        slab_ysize = c.ysize + 2 * slab_offset
+        yslab = slab_ysize / 2
+        c.add_polygon(
+            [
+                (slab_xmin, yslab),
+                (slab_xsize, yslab),
+                (slab_xsize, -yslab),
+                (slab_xmin, -yslab),
+            ],
+            layer_slab,
+        )
     xport = np.round((xi + length_taper) / 2, 3)
-
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
     c.info.polarization = polarization
