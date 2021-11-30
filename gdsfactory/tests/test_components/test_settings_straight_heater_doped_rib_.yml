@@ -2,27 +2,25 @@ cells: {}
 info:
   changed: {}
   default:
-    contact_contact_yspacing: 2.0
     contact_metal_size:
     - 10.0
     - 10.0
     contact_size:
     - 10.0
     - 10.0
+    contact_yspacing: 2.0
     length: 320.0
     nsections: 3
-    taper_length: 10.0
   full:
-    contact_contact_yspacing: 2.0
     contact_metal_size:
     - 10.0
     - 10.0
     contact_size:
     - 10.0
     - 10.0
+    contact_yspacing: 2.0
     length: 320.0
     nsections: 3
-    taper_length: 10.0
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib

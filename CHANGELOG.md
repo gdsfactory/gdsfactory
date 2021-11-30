@@ -17,6 +17,15 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.6.5
+
+- fix gdsfactory/samples
+- better docstrings documents `keyword Args` as well as `Args`
+- refactor:
+    - pads_shorted accepts pad as parameter
+    - rename `n_devices` to columns in splitter_chain
+    - rename `dbr2` to `dbr_tapered`
+    - simpler pn cross_section definition
 
 ## 3.6.3
 

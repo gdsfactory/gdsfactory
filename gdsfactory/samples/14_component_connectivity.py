@@ -12,7 +12,7 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
 @gf.cell
-def ring_single(
+def ring_single_sample(
     gap: float = 0.2,
     radius: float = 10.0,
     length_x: float = 4.0,
@@ -36,7 +36,7 @@ def ring_single(
         straight: straight function
         bend: 90 degrees bend function
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
 
     .. code::
@@ -93,14 +93,17 @@ def ring_single(
     wt.connect(port="o2", destination=bl.ports["o1"])
     br.connect(port="o2", destination=wt.ports["o1"])
     wr.connect(port="o1", destination=br.ports["o1"])
-    wr.connect(port="o2", destination=cb.ports["N1"])  # just for netlist
 
     c.add_port("o2", port=cb.ports["o2"])
     c.add_port("o1", port=cb.ports["o1"])
     return c
 
 
+def test_ring_single_sample():
+    assert ring_single_sample()
+
+
 if __name__ == "__main__":
-    c = ring_single(width=2, gap=1, layer=(2, 0))
+    c = ring_single_sample(width=2, gap=1, layer=(2, 0))
     print(c.ports)
     c.show()

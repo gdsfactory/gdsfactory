@@ -580,6 +580,10 @@ class ComponentReference(DeviceReference):
         key2 = m[key]
         return self.ports[key2]
 
+    def snap_ports_to_grid(self, nm: int = 1) -> None:
+        for port in self.ports.values():
+            port.snap_to_grid(nm=nm)
+
 
 class Component(Device):
     """extends phidl.Device

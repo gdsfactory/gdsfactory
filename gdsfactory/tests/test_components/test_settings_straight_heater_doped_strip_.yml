@@ -1,7 +1,7 @@
 cells: {}
 info:
   changed:
-    contact_contact:
+    contact:
       function: contact
       layers:
       - - 1
@@ -18,19 +18,19 @@ info:
         - 40
         - 0
     cross_section_heater: strip_heater_doped
+    taper: null
   default:
-    contact_contact_yspacing: 2.0
     contact_metal_size:
     - 10.0
     - 10.0
     contact_size:
     - 10.0
     - 10.0
+    contact_yspacing: 2.0
     length: 320.0
     nsections: 3
-    taper_length: 10.0
   full:
-    contact_contact:
+    contact:
       function: contact
       layers:
       - - 1
@@ -46,21 +46,21 @@ info:
         layer:
         - 40
         - 0
-    contact_contact_yspacing: 2.0
     contact_metal_size:
     - 10.0
     - 10.0
     contact_size:
     - 10.0
     - 10.0
+    contact_yspacing: 2.0
     cross_section_heater: strip_heater_doped
     length: 320.0
     nsections: 3
-    taper_length: 10.0
+    taper: null
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_d197a1c0
+  name: straight_heater_doped_r_7650a421
 ports:
   bot_e1:
     layer:
@@ -78,18 +78,18 @@ ports:
     - 49
     - 0
     midpoint:
-    - 155.0
+    - 165.0
     - -15.0
     name: bot_e2
     orientation: 90.0
     port_type: electrical
-    width: 310.0
+    width: 330.0
   bot_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 310.0
+    - 330.0
     - -20.0
     name: bot_e3
     orientation: 0.0
@@ -100,18 +100,18 @@ ports:
     - 49
     - 0
     midpoint:
-    - 155.0
+    - 165.0
     - -25.0
     name: bot_e4
     orientation: 270.0
     port_type: electrical
-    width: 310.0
+    width: 330.0
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - 0.0
     - 0.0
     name: o1
     orientation: 180.0
@@ -122,7 +122,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 310.0
+    - 320.0
     - 0.0
     name: o2
     orientation: 0.0
@@ -144,18 +144,18 @@ ports:
     - 49
     - 0
     midpoint:
-    - 155.0
+    - 165.0
     - 25.0
     name: top_e2
     orientation: 90.0
     port_type: electrical
-    width: 310.0
+    width: 330.0
   top_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 310.0
+    - 330.0
     - 20.0
     name: top_e3
     orientation: 0.0
@@ -166,10 +166,10 @@ ports:
     - 49
     - 0
     midpoint:
-    - 155.0
+    - 165.0
     - 15.0
     name: top_e4
     orientation: 270.0
     port_type: electrical
-    width: 310.0
+    width: 330.0
 version: 1

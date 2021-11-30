@@ -1,6 +1,4 @@
-"""
-
-"""
+"""You can define a function to add pins """
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pins_triangle
 from gdsfactory.component import Component

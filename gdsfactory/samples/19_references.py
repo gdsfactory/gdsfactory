@@ -11,8 +11,8 @@ instances:
 
 placements:
     mmi2:
-        port: 'E0'
-        x: mmi1,E0
+        port: o2
+        x: mmi1,o2
         dy: -0.625
         mirror: True
 

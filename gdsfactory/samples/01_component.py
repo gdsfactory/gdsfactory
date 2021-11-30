@@ -1,15 +1,16 @@
 """Based on phidl tutorial.
 
 We'll start by assuming we have a function straight() which already exists
-and makes us a simple straight rectangle.  Many functions like this
-exist in the gf.components library and are ready-for-use.  We write this
-one out fully just so it's explicitly clear what's happening
+and makes us a simple straight rectangle. Many functions like this
+exist in the gdsfactory.components library and are ready-for-use.
+We write this one out fully just so it's explicitly clear what's happening
 
 """
 
 import gdsfactory as gf
 
 
+@gf.cell
 def straight_sample(length=5, width=1):
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
@@ -40,7 +41,7 @@ if __name__ == "__main__":
 
     # Now we've made two straights Component WG1 and WG2, and we have a blank
     # Component c. We can add references from the devices WG1 and WG2 to our blank
-    # Component byz using the add_ref() function.
+    # Component by using the add_ref() function.
     # After adding WG1, we see that the add_ref() function returns a handle to our
     # reference, which we will label with lowercase letters wg1 and wg2.  This
     # handle will be useful later when we want to move wg1 and wg2 around in c.

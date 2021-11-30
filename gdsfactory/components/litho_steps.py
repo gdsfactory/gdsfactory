@@ -22,14 +22,6 @@ def litho_steps(
         height:
         layer:
 
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      c = gf.components.litho_steps()
-      c.plot()
-
     """
     D = gf.Component()
 

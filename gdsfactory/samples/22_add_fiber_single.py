@@ -1,6 +1,5 @@
-"""This example shows how to add_grating couplers
-
-for single fiber INPUT single fiber OUTPU (no fiber array).
+"""You can also connect a component with single fiber INPUT and
+OUTPUTS (no fiber array).
 """
 
 import gdsfactory as gf
@@ -10,7 +9,7 @@ from gdsfactory.samples.big_device import big_device
 
 def test_fiber_single() -> Component:
     w = h = 18 * 50
-    c = big_device(port_pitch=50.0, h=h, w=w)
+    c = big_device(spacing=50.0, size=(w, h))
     return gf.routing.add_fiber_single(component=c, zero_port="W1")
 
 

@@ -1,5 +1,4 @@
-"""Connecting a component with I/O.
-"""
+"""You can a component with a fiber array."""
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -7,7 +6,7 @@ from gdsfactory.samples.big_device import big_device
 
 
 def test_big_device() -> Component:
-    component = big_device(N=10)
+    component = big_device(nports=10)
     radius = 5.0
     c = gf.routing.add_fiber_array(
         component=component, radius=radius, fanout_length=50.0
