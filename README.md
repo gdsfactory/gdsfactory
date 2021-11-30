@@ -155,14 +155,14 @@ If you want to install gdsfactory together with all the plugins you can run
 pip install gdsfactory[full]
 ```
 
-## Trimesh
+### Trimesh
 
 For (3D rendering and STL export)
 
 
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run  `conda install -c conda-forge pymeep`
+Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep`
 
 ### tidy3d
 
