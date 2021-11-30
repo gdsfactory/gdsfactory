@@ -104,7 +104,7 @@ def write_sweep(
 def read_sweep(
     filepath: PathType, defaults: Optional[Dict[str, bool]] = None
 ) -> Tuple[Any, Any]:
-    """Load_does from file."""
+    """Load does from file."""
     does = {}
     defaults = defaults or {"do_permutation": True, "settings": {}}
     data = OmegaConf.load(filepath)
@@ -130,7 +130,7 @@ def write_sweeps(
     precision: float = 1e-9,
     cache: bool = False,
 ) -> None:
-    """Generates a DOEs of components specified in a yaml file
+    """Generates a sweep/DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     similar to write_doe
     """
