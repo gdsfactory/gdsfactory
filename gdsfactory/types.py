@@ -17,30 +17,71 @@ Some of these inputs parameters are also functions.
 - RouteFactory: function that returns a Route.
 
 """
-import dataclasses
 import pathlib
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
 from phidl.device_layout import Path
+from pydantic import BaseModel
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port
 
+anchors = Literal[
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
 
-@dataclasses.dataclass
-class Route:
+
+class Route(BaseModel):
     references: List[ComponentReference]
     ports: Tuple[Port, Port]
     length: float
 
 
-@dataclasses.dataclass
-class Routes:
+class Routes(BaseModel):
     references: List[ComponentReference]
     lengths: List[float]
     ports: Optional[List[Port]] = None
     bend_radius: Optional[float] = None
+
+
+class ComponentModel(BaseModel):
+    component: str
+    settings: Optional[Dict[str, Any]]
+
+
+class PlacementModel(BaseModel):
+    x: Union[str, float] = 0
+    y: Union[str, float] = 0
+    dx: float = 0
+    dy: float = 0
+    port: Optional[Union[str, anchors]] = None
+    rotation: int = 0
+    mirror: bool = False
+
+
+class RouteModel(BaseModel):
+    links: Dict[str, str]
+    settings: Optional[Dict[str, Any]] = None
+    routing_strategy: Optional[str] = None
+
+
+class CircuitModel(BaseModel):
+    instances: Dict[str, ComponentModel]
+    name: Optional[str] = None
+    placements: Optional[Dict[str, PlacementModel]] = None
+    connections: Optional[List[Dict[str, str]]] = None
+    routes: Optional[Dict[str, RouteModel]] = None
+    info: Optional[Dict[str, Any]] = None
 
 
 Float2 = Tuple[float, float]
@@ -99,3 +140,19 @@ __all__ = (
     "Routes",
     "Strs",
 )
+
+if __name__ == "__main__":
+    import json
+    import pathlib
+
+    from omegaconf import OmegaConf
+
+    m = CircuitModel
+    s = m.schema_json()
+    d = OmegaConf.create(s)
+
+    f1 = pathlib.Path(__file__).parent / "schema.yaml"
+    f1.write_text(OmegaConf.to_yaml(d))
+
+    f2 = pathlib.Path(__file__).parent / "schema.json"
+    f2.write_text(json.dumps(OmegaConf.to_container(d)))
