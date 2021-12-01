@@ -10,7 +10,7 @@ def add_text(
     text: ComponentFactory = text_rectangular,
     prefix: str = "",
     offset: Float2 = (0, 0),
-) -> None:
+) -> List[Component]:
     """Add text labels to a list of components.
 
     Args:
@@ -23,6 +23,7 @@ def add_text(
     for i, component in enumerate(components):
         label = component << text(f"{prefix}{i}")
         label.move((offset))
+    return components
 
 
 if __name__ == "__main__":
