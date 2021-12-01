@@ -57,17 +57,15 @@ class Label(LabelPhidl):
         return v
 
 
-ComponentReferenceOrLabel = Union[ComponentReference, Label]
-
-
 class Route(BaseModel):
-    references: List[ComponentReferenceOrLabel]
+    references: List[ComponentReference]
+    labels: Optional[List[Label]] = None
     ports: Tuple[Port, Port]
     length: float
 
 
 class Routes(BaseModel):
-    references: List[ComponentReferenceOrLabel]
+    references: List[ComponentReference]
     lengths: List[float]
     ports: Optional[List[Port]] = None
     bend_radius: Optional[float] = None
