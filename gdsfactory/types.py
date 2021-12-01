@@ -68,7 +68,7 @@ class Routes(BaseModel):
     references: List[ComponentReference]
     lengths: List[float]
     ports: Optional[List[Port]] = None
-    bend_radius: Optional[float] = None
+    bend_radius: Optional[List[float]] = None
 
 
 class ComponentModel(BaseModel):
