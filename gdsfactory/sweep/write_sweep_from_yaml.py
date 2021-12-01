@@ -1,4 +1,4 @@
-""" write DOE from YAML file """
+"""Read Sweep parameters from YAML file and writes gdsfiles"""
 
 import importlib
 import io
@@ -7,8 +7,8 @@ from pathlib import Path
 from typing import List, Union
 
 from gdsfactory.config import CONFIG
-from gdsfactory.doe import load_does
-from gdsfactory.write_doe import write_doe
+from gdsfactory.sweep.read_sweep import read_sweep
+from gdsfactory.sweep.write_sweep import write_sweep
 
 
 def import_custom_doe_factories():
@@ -24,8 +24,8 @@ def import_custom_doe_factories():
             pass
 
 
-def write_doe_from_yaml(yaml: Union[str, Path]) -> List[List[Path]]:
-    """Loads DOE settings from yaml and writes GDS into build_directory
+def write_sweep_from_yaml(yaml: Union[str, Path]) -> List[List[Path]]:
+    """Read DOE settings from yaml and writes GDS files build_directory
 
     Args:
         filepath: YAML string or filepath describing DOEs
@@ -41,18 +41,18 @@ def write_doe_from_yaml(yaml: Union[str, Path]) -> List[List[Path]]:
     - markdown report, with DOE settings
     """
     yaml = io.StringIO(yaml) if isinstance(yaml, str) and "\n" in yaml else yaml
-    does = load_does(yaml)
+    does = read_sweep(yaml)
 
     gdspaths = []
     for doe_name, doe in does.items():
         # print(doe_name)
-        # print(doe.get("settings"))
-        # print(doe.get("do_permutations"))
-        # print(doe)
-        # print(list(doe.keys()))
-        # print(type(doe.get('settings')))
-        # assert type(doe.get('settings'))
-        d = write_doe(
+        # print(sweep.get("settings"))
+        # print(sweep.get("do_permutations"))
+        # print(sweep)
+        # print(list(sweep.keys()))
+        # print(type(sweep.get('settings')))
+        # assert type(sweep.get('settings'))
+        d = write_sweep(
             component_type=doe.get("component"),
             doe_name=doe_name,
             do_permutations=doe.get("do_permutations", True),
@@ -68,7 +68,7 @@ def write_doe_from_yaml(yaml: Union[str, Path]) -> List[List[Path]]:
 
 def test_write_doe_from_yaml() -> None:
     does_path = CONFIG["samples_path"] / "mask" / "does.yml"
-    gdspaths = write_doe_from_yaml(does_path)
+    gdspaths = write_sweep_from_yaml(does_path)
     # print(len(gdspaths))
     assert len(gdspaths) == 4  # 2 does
     assert len(gdspaths[0]) == 2  # 2 GDS in the first DOE
@@ -93,7 +93,7 @@ mmi_width_length:
 
 
 def test_write_doe_from_yaml_string() -> None:
-    gdspaths = write_doe_from_yaml(sample_yaml)
+    gdspaths = write_sweep_from_yaml(sample_yaml)
     # print(len(gdspaths))
     assert len(gdspaths) == 2  # 2 does
     assert len(gdspaths[0]) == 2  # 2 GDS in the first DOE

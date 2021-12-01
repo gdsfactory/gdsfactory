@@ -3,15 +3,15 @@ import shutil
 
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.config import logger
-from gdsfactory.generate_does import generate_does
 from gdsfactory.samples.autoplacer.spiral import spiral
+from gdsfactory.sweep.write_sweeps import write_sweeps
 
 workspace_folder = pathlib.Path(__file__).parent
 build_path = workspace_folder / "build"
 config_yml = workspace_folder / "config.yml"
 doe_root_path = build_path / "cache_doe"
 mask_path = build_path / "mask"
-doe_metadata_path = build_path / "doe"
+doe_metadata_path = build_path / "sweep"
 
 gdspath = mask_path / "sample_mask.gds"
 markdown_path = gdspath.with_suffix(".md")
@@ -30,7 +30,7 @@ def test_autoplacer():
 
     logger.add(sink=logpath)
     logger.info("writring does to", doe_root_path)
-    generate_does(
+    write_sweeps(
         str(config_yml),
         component_factory=name2factory,
         doe_root_path=doe_root_path,

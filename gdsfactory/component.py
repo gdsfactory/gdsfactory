@@ -237,7 +237,10 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes ComponentReference is always valid"""
+        """check with pydantic ComponentReference valid type"""
+        assert isinstance(
+            v, ComponentReference
+        ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
     def __getitem__(self, val):
@@ -634,7 +637,10 @@ class Component(Device):
         - name characters < MAX_NAME_LENGTH
         - is not empty (has references or polygons)
         """
-        assert isinstance(v, Component)
+        MAX_NAME_LENGTH = 100
+        assert isinstance(
+            v, Component
+        ), f"TypeError, Got {type(v)}, expecting Component"
         assert (
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
@@ -772,8 +778,12 @@ class Component(Device):
 
         Args:
             layer: port GDS layer
-            prefix: for example "E" for east, "W" for west ...
-            orientation: angle in degrees for the port
+            prefix: with in port name
+            orientation: in degrees
+            width:
+            layers_excluded: List of layers to exclude
+            port_type: optical, electrical, ...
+            clockwise: if True, sort ports clockwise, False: counter-clockwise
         """
         return list(select_ports(self.ports, **kwargs).values())
 

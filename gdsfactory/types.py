@@ -17,30 +17,88 @@ Some of these inputs parameters are also functions.
 - RouteFactory: function that returns a Route.
 
 """
-import dataclasses
+import json
 import pathlib
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+from omegaconf import OmegaConf
+from phidl.device_layout import Label as LabelPhidl
 from phidl.device_layout import Path
+from pydantic import BaseModel
+from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port
 
+anchors = Literal[
+    "ce",
+    "cw",
+    "nc",
+    "ne",
+    "nw",
+    "sc",
+    "se",
+    "sw",
+    "center",
+    "cc",
+]
 
-@dataclasses.dataclass
-class Route:
+
+class Label(LabelPhidl):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """check with pydantic Label valid type"""
+        assert isinstance(v, LabelPhidl), f"TypeError, Got {type(v)}, expecting Label"
+        return v
+
+
+class Route(BaseModel):
     references: List[ComponentReference]
+    labels: Optional[List[Label]] = None
     ports: Tuple[Port, Port]
     length: float
 
 
-@dataclasses.dataclass
-class Routes:
+class Routes(BaseModel):
     references: List[ComponentReference]
     lengths: List[float]
     ports: Optional[List[Port]] = None
-    bend_radius: Optional[float] = None
+    bend_radius: Optional[List[float]] = None
+
+
+class ComponentModel(BaseModel):
+    component: str
+    settings: Optional[Dict[str, Any]]
+
+
+class PlacementModel(BaseModel):
+    x: Union[str, float] = 0
+    y: Union[str, float] = 0
+    dx: float = 0
+    dy: float = 0
+    port: Optional[Union[str, anchors]] = None
+    rotation: int = 0
+    mirror: bool = False
+
+
+class RouteModel(BaseModel):
+    links: Dict[str, str]
+    settings: Optional[Dict[str, Any]] = None
+    routing_strategy: Optional[str] = None
+
+
+class CircuitModel(BaseModel):
+    instances: Dict[str, ComponentModel]
+    name: Optional[str] = None
+    placements: Optional[Dict[str, PlacementModel]] = None
+    connections: Optional[List[Dict[str, str]]] = None
+    routes: Optional[Dict[str, RouteModel]] = None
+    info: Optional[Dict[str, Any]] = None
 
 
 Float2 = Tuple[float, float]
@@ -72,8 +130,25 @@ CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 
 
+class ComponentSweep(BaseModel):
+    settings: Optional[List[Dict[str, Any]]]
+    factory: ComponentFactory
+    decorator: Optional[ComponentFactory] = None
+
+    @property
+    def components(self) -> List[Component]:
+        if self.decorator:
+            return [
+                self.decorator(self.factory(**settings)) for settings in self.settings
+            ]
+        else:
+            return [self.factory(**settings) for settings in self.settings]
+
+
 __all__ = (
+    "ComponentSweep",
     "ComponentFactory",
+    "ComponentFactoryDict",
     "ComponentOrFactory",
     "ComponentOrPath",
     "ComponentOrReference",
@@ -98,3 +173,23 @@ __all__ = (
     "Routes",
     "Strs",
 )
+
+
+def write_schema(model: BaseModel = CircuitModel):
+    s = model.schema_json()
+    d = OmegaConf.create(s)
+
+    f1 = pathlib.Path(__file__).parent / "schema.yaml"
+    f1.write_text(OmegaConf.to_yaml(d))
+
+    f2 = pathlib.Path(__file__).parent / "schema.json"
+    f2.write_text(json.dumps(OmegaConf.to_container(d)))
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    sw = ComponentSweep(
+        factory=gf.c.straight, settings=[{"length": length} for length in [1, 10]]
+    )
+    c = sw.components

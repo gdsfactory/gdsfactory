@@ -2,7 +2,6 @@
 from typing import Callable, List, Optional, Tuple
 
 import numpy as np
-from phidl.device_layout import Label
 
 from gdsfactory.add_labels import get_input_label_text_loopback
 from gdsfactory.cell import cell
@@ -18,7 +17,7 @@ from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Label
 
 
 @cell

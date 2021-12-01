@@ -1,4 +1,4 @@
-# gdsfactory 3.6.6
+# gdsfactory 3.6.7
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -155,14 +155,14 @@ If you want to install gdsfactory together with all the plugins you can run
 pip install gdsfactory[full]
 ```
 
-## Trimesh
+### Trimesh
 
 For (3D rendering and STL export)
 
 
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run  `conda install -c conda-forge pymeep`
+Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep`
 
 ### tidy3d
 

@@ -8,15 +8,15 @@ from omegaconf import OmegaConf
 
 from gdsfactory import components
 from gdsfactory.config import CONFIG, logger
-from gdsfactory.doe import get_settings_list
 from gdsfactory.placer import (
     build_components,
     doe_exists,
     load_doe_component_names,
     save_doe,
 )
+from gdsfactory.sweep.read_sweep import get_settings_list
+from gdsfactory.sweep.write_sweep import write_sweep_metadata
 from gdsfactory.types import PathType
-from gdsfactory.write_doe import write_doe_metadata
 
 factory = {
     i: getattr(components, i)
@@ -71,7 +71,7 @@ def save_doe_use_template(doe, doe_root_path=None) -> None:
         fw.write(f"TEMPLATE: {doe_template}")
 
 
-def write_doe(
+def write_sweep(
     doe,
     component_factory=factory,
     doe_root_path: Optional[PathType] = None,
@@ -92,7 +92,7 @@ def write_doe(
     component_names = [c.name for c in components]
     save_doe(doe_name, components, doe_root_path=doe_root_path, precision=precision)
 
-    write_doe_metadata(
+    write_sweep_metadata(
         doe_name=doe["name"],
         cell_names=component_names,
         list_settings=doe["list_settings"],
@@ -101,10 +101,10 @@ def write_doe(
     )
 
 
-def load_does(
+def read_sweep(
     filepath: PathType, defaults: Optional[Dict[str, bool]] = None
 ) -> Tuple[Any, Any]:
-    """Load_does from file."""
+    """Load does from file."""
     does = {}
     defaults = defaults or {"do_permutation": True, "settings": {}}
     data = OmegaConf.load(filepath)
@@ -120,7 +120,7 @@ def load_does(
     return does, mask
 
 
-def generate_does(
+def write_sweeps(
     filepath: PathType,
     component_factory: Dict[str, Callable] = factory,
     doe_root_path: PathType = CONFIG["cache_doe_directory"],
@@ -130,7 +130,7 @@ def generate_does(
     precision: float = 1e-9,
     cache: bool = False,
 ) -> None:
-    """Generates a DOEs of components specified in a yaml file
+    """Generates a sweep/DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     similar to write_doe
     """
@@ -140,7 +140,7 @@ def generate_does(
     doe_root_path.mkdir(parents=True, exist_ok=True)
     doe_metadata_path.mkdir(parents=True, exist_ok=True)
 
-    dicts, mask_settings = load_does(filepath)
+    dicts, mask_settings = read_sweep(filepath)
     does, templates_by_type = separate_does_from_templates(dicts)
 
     dict_templates = (
@@ -212,7 +212,7 @@ def generate_does(
                     if overwrite:
                         component_names = load_doe_component_names(doe_name)
 
-                        write_doe_metadata(
+                        write_sweep_metadata(
                             doe_name=doe["name"],
                             cell_names=component_names,
                             list_settings=doe["list_settings"],
@@ -222,7 +222,7 @@ def generate_does(
             if not _doe_exists:
                 start_times[doe_name] = time.time()
                 p = Process(
-                    target=write_doe,
+                    target=write_sweep,
                     args=(doe, component_factory),
                     kwargs={
                         "doe_root_path": doe_root_path,
@@ -268,5 +268,5 @@ def generate_does(
 
 
 if __name__ == "__main__":
-    filepath = CONFIG["samples_path"] / "mask" / "does.yml"
-    generate_does(filepath, precision=2e-9)
+    filepath_sample = CONFIG["samples_path"] / "mask" / "does.yml"
+    write_sweeps(filepath_sample, precision=2e-9)
