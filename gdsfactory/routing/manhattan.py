@@ -520,7 +520,7 @@ def get_route_error(
         size=(width * 2, width * 2), centered=True, layer=layer_marker
     )
     point_markers = [point_marker.ref(position=point) for point in points] + [ref]
-    point_markers += [
+    labels = [
         gf.Label(
             text=str(i), position=point, layer=layer_label[0], texttype=layer_label[1]
         )
@@ -529,7 +529,7 @@ def get_route_error(
 
     references = references or []
     references += point_markers
-    return Route(references=references, ports=[port1, port2], length=-1)
+    return Route(references=references, ports=[port1, port2], length=-1, labels=labels)
 
 
 def round_corners(

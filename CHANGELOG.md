@@ -29,6 +29,7 @@ Maybe:
 - add type checking error messages for Component and ComponentReference
 - add type checking pydantic validator for Label
 - replace `phidl.device_layout.Label` with `gf.Label`
+- Route has an Optional list of Label, in case route fails, or in case you want to add connectivity labels
 
 
 ## 3.6.6
