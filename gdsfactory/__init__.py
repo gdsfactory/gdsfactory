@@ -20,7 +20,7 @@ isort:skip_file
 
 from functools import partial
 from phidl import quickplot as plot
-from phidl.device_layout import Group, Path, Label
+from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
@@ -34,6 +34,7 @@ from gdsfactory.show import show
 from gdsfactory.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.add_text import add_text
+from gdsfactory.types import Label
 
 from gdsfactory import cross_section
 from gdsfactory import asserts

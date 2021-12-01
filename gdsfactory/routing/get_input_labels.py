@@ -1,11 +1,9 @@
 from typing import List
 
-from phidl.device_layout import Label
-
 from gdsfactory.add_labels import get_input_label, get_input_label_text
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
-from gdsfactory.types import Layer
+from gdsfactory.types import Label, Layer
 
 
 def get_input_labels(

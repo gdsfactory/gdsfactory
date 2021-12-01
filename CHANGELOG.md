@@ -25,6 +25,11 @@ Maybe:
 - add `gf.add_text` for adding text labels to a list of Components
 - add `gf.types.ComponentSweep`
 - increase MAX_NAME_LENGTH to 100 characters when validating a component
+- add typing_extensions to requirements to keep 3.7 compatibility. Changed `from typing import Literal` (requires python>=3.8) to `from typing_extensions import Literal`
+- add type checking error messages for Component and ComponentReference
+- add type checking pydantic validator for Label
+- replace `phidl.device_layout.Label` with `gf.Label`
+
 
 ## 3.6.6
 
