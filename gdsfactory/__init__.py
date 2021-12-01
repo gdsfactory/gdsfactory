@@ -31,9 +31,9 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
-from gdsfactory.sweep.write_sweep import write_sweep
 from gdsfactory.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.add_text import add_text
 
 from gdsfactory import cross_section
 from gdsfactory import asserts
@@ -54,6 +54,7 @@ from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import mask
+from gdsfactory import sweep
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -87,6 +88,7 @@ __all__ = [
     "add_pins_to_references",
     "add_tapers",
     "add_termination",
+    "add_text",
     "asserts",
     "geometry",
     "c",
@@ -117,7 +119,7 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "write_sweep",
+    "sweep",
     "Label",
 ]
 __version__ = "3.6.6"

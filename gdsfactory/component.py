@@ -772,8 +772,12 @@ class Component(Device):
 
         Args:
             layer: port GDS layer
-            prefix: for example "E" for east, "W" for west ...
-            orientation: angle in degrees for the port
+            prefix: with in port name
+            orientation: in degrees
+            width:
+            layers_excluded: List of layers to exclude
+            port_type: optical, electrical, ...
+            clockwise: if True, sort ports clockwise, False: counter-clockwise
         """
         return list(select_ports(self.ports, **kwargs).values())
 
