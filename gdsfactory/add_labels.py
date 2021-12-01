@@ -129,14 +129,22 @@ def add_labels(
     gc: Optional[Component] = None,
     **kwargs,
 ) -> Component:
-    """Returns component with labels a particular type of ports
+    """Returns component with labels on some ports
 
     Args:
         component: to add labels to
         get_label_function: function to get label
         layer_label: layer_label
         gc: Optional grating coupler
-        **port_settings to select
+
+    keyword Args:
+        layer: port GDS layer
+        prefix: with in port name
+        orientation: in degrees
+        width:
+        layers_excluded: List of layers to exclude
+        port_type: optical, electrical, ...
+        clockwise: if True, sort ports clockwise, False: counter-clockwise
 
     Returns:
         original component with labels

@@ -17,9 +17,11 @@ Some of these inputs parameters are also functions.
 - RouteFactory: function that returns a Route.
 
 """
+import json
 import pathlib
 from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
+from omegaconf import OmegaConf
 from phidl.device_layout import Path
 from pydantic import BaseModel
 
@@ -113,7 +115,23 @@ CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 
 
+class ComponentSweep(BaseModel):
+    settings: Optional[List[Dict[str, Any]]]
+    factory: ComponentFactory
+    decorator: Optional[ComponentFactory] = None
+
+    @property
+    def components(self) -> List[Component]:
+        if self.decorator:
+            return [
+                self.decorator(self.factory(**settings)) for settings in self.settings
+            ]
+        else:
+            return [self.factory(**settings) for settings in self.settings]
+
+
 __all__ = (
+    "ComponentSweep",
     "ComponentFactory",
     "ComponentFactoryDict",
     "ComponentOrFactory",
@@ -141,14 +159,9 @@ __all__ = (
     "Strs",
 )
 
-if __name__ == "__main__":
-    import json
-    import pathlib
 
-    from omegaconf import OmegaConf
-
-    m = CircuitModel
-    s = m.schema_json()
+def write_schema(model: BaseModel = CircuitModel):
+    s = model.schema_json()
     d = OmegaConf.create(s)
 
     f1 = pathlib.Path(__file__).parent / "schema.yaml"
@@ -156,3 +169,12 @@ if __name__ == "__main__":
 
     f2 = pathlib.Path(__file__).parent / "schema.json"
     f2.write_text(json.dumps(OmegaConf.to_container(d)))
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    sw = ComponentSweep(
+        factory=gf.c.straight, settings=[{"length": length} for length in [1, 10]]
+    )
+    c = sw.components

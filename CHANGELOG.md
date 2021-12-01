@@ -22,6 +22,8 @@ Maybe:
 - rename doe, write_does and load_does to `sweep` module `read_sweep`, `write_sweep` ...
 - Route and Routes are pydantic.BaseModel instead of dataclasses
 - composed functions get a unique name. You can compose functions with `toolz.compose`
+- add `gf.add_text` for adding text labels to a list of Component
+- add `gf.types.ComponentSweep`
 
 ## 3.6.6
 
