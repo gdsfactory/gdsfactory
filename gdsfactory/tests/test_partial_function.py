@@ -11,12 +11,13 @@ def test_partial_function_with_kwargs():
     c400 = mzi400()
     c600 = mzi600()
 
-    assert c600.name != c400.name, print(c400.name, c600.name)
-    assert c600.name != c400.name, print(c400.name, c600.name)
+    assert c600.name != c400.name, f"{c600.name} must be different from {c400.name}"
 
     cmmi400 = mmi400()
     cmmi400_args = mmi400_args()
-    assert cmmi400_args.name == cmmi400.name, print(cmmi400.name, cmmi400_args.name)
+    assert (
+        cmmi400_args.name == cmmi400.name
+    ), f"{cmmi400_args.name} must be equal to {cmmi400.name}"
 
 
 def test_partial_function_without_kwargs():
@@ -28,7 +29,7 @@ def test_partial_function_without_kwargs():
     c2 = r2()
     c3 = r3()
 
-    assert c1.name == c2.name == c3.name
+    assert c1.name == c2.name == c3.name, f"{c1.name} == {c2.name} == {c3.name}"
 
 
 if __name__ == "__main__":
