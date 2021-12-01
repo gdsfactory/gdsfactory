@@ -3,12 +3,11 @@
 from typing import Callable, Optional, Union
 
 import phidl.device_layout as pd
-from phidl.device_layout import Label
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
-from gdsfactory.types import Layer
+from gdsfactory.types import Label, Layer
 
 
 def get_input_label_text(
@@ -75,7 +74,7 @@ def get_input_label(
         gc_port_name = list(gc.ports.values())[0].name
 
     layer, texttype = pd._parse_layer(layer_label)
-    return pd.Label(
+    return Label(
         text=text,
         position=gc.ports[gc_port_name].midpoint,
         anchor="o",
@@ -112,7 +111,7 @@ def get_input_label_electrical(
 
     text = f"elec_{gc_index}_({name})_{port.name}"
     layer, texttype = pd._parse_layer(layer_label)
-    label = pd.Label(
+    label = Label(
         text=text,
         position=port.midpoint,
         anchor="o",

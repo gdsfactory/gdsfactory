@@ -22,6 +22,7 @@ import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
+from phidl.device_layout import Label as LabelPhidl
 from phidl.device_layout import Path
 from pydantic import BaseModel
 from typing_extensions import Literal
@@ -44,14 +45,29 @@ anchors = Literal[
 ]
 
 
+class Label(LabelPhidl):
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
+    def validate(cls, v):
+        """check with pydantic Label valid type"""
+        assert isinstance(v, LabelPhidl), f"TypeError, Got {type(v)}, expecting Label"
+        return v
+
+
+ComponentReferenceOrLabel = Union[ComponentReference, Label]
+
+
 class Route(BaseModel):
-    references: List[ComponentReference]
+    references: List[ComponentReferenceOrLabel]
     ports: Tuple[Port, Port]
     length: float
 
 
 class Routes(BaseModel):
-    references: List[ComponentReference]
+    references: List[ComponentReferenceOrLabel]
     lengths: List[float]
     ports: Optional[List[Port]] = None
     bend_radius: Optional[float] = None

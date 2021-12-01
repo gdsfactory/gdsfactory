@@ -237,7 +237,10 @@ class ComponentReference(DeviceReference):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes ComponentReference is always valid"""
+        """check with pydantic ComponentReference valid type"""
+        assert isinstance(
+            v, ComponentReference
+        ), f"TypeError, Got {type(v)}, expecting ComponentReference"
         return v
 
     def __getitem__(self, val):
@@ -635,7 +638,9 @@ class Component(Device):
         - is not empty (has references or polygons)
         """
         MAX_NAME_LENGTH = 100
-        assert isinstance(v, Component)
+        assert isinstance(
+            v, Component
+        ), f"TypeError, Got {type(v)}, expecting Component"
         assert (
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
