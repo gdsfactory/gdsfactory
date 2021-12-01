@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "3.6.6"
+__version__ = "3.6.7"
 import json
 import os
 import pathlib
@@ -109,7 +109,7 @@ CONFIG["build_directory"] = build_directory
 CONFIG["gds_directory"] = build_directory / "devices"
 CONFIG["cache_directory"] = CONF.get("cache", build_directory / "cache")
 CONFIG["cache_doe_directory"] = build_directory / "cache_doe"
-CONFIG["doe_directory"] = build_directory / "doe"
+CONFIG["doe_directory"] = build_directory / "sweep"
 CONFIG["mask_directory"] = build_directory / "mask"
 CONFIG["mask_gds"] = build_directory / "mask" / (mask_name + ".gds")
 CONFIG["mask_config_directory"] = mask_config_directory

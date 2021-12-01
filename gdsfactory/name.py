@@ -6,6 +6,7 @@ import inspect
 from typing import Any
 
 import numpy as np
+import toolz
 from phidl import Device, Port
 from phidl.device_layout import Path as PathPhidl
 
@@ -166,17 +167,20 @@ def clean_value(value: Any) -> str:
         and isinstance(value.name, str)
     ):
         value = clean_name(value.name)
-    elif callable(value) and hasattr(value, "__name__"):
-        value = value.__name__
     elif callable(value) and isinstance(value, functools.partial):
         sig = inspect.signature(value.func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
         args_as_kwargs.update(**value.keywords)
         value = value.func.__name__ + dict2name(**args_as_kwargs)
+    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
+        value = "_".join(clean_value(v) for v in value.funcs)
+    elif callable(value) and hasattr(value, "__name__"):
+        value = value.__name__
     elif isinstance(value, str):
         value = value.strip()
     elif hasattr(value, "get_name"):
         value = value.get_name()
+
     return str(value)
 
 

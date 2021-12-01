@@ -10,8 +10,8 @@ from multiprocessing import Pool
 from subprocess import PIPE, Popen, check_call
 
 from gdsfactory.config import CONFIG, logger
-from gdsfactory.doe import load_does
 from gdsfactory.read.from_yaml import factory as component_factory
+from gdsfactory.sweep.read_sweep import read_sweep
 
 
 def run_python(filename):
@@ -126,12 +126,12 @@ def build_cache_push():
 
 
 def _build_doe(doe_name, config, component_factory=component_factory):
-    from gdsfactory.write_doe import write_doe
+    from gdsfactory.sweep.write_sweep import write_sweep
 
     doe = config["does"][doe_name]
     component_type = doe.get("component")
     component_function = component_factory[component_type]
-    write_doe(
+    write_sweep(
         component_type=component_function,
         doe_name=doe_name,
         do_permutations=doe.get("do_permutations", True),
@@ -158,7 +158,7 @@ def build_does(filepath, component_factory=component_factory):
     - markdown report, with DOE settings
     """
 
-    does = load_does(filepath)
+    does = read_sweep(filepath)
     doe_names = does.keys()
 
     doe_params = zip(

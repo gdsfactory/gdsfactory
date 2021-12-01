@@ -4,8 +4,8 @@ import shutil
 import gdsfactory as gf
 from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.config import logger
-from gdsfactory.generate_does import generate_does
 from gdsfactory.mask.merge_metadata import merge_metadata
+from gdsfactory.sweep.write_sweeps import write_sweeps
 
 
 def get_mask():
@@ -29,7 +29,7 @@ def get_mask():
 
     shutil.rmtree(build_path, ignore_errors=True)
     logger.add(sink=logpath)
-    generate_does(
+    write_sweeps(
         str(does_path),
         doe_root_path=doe_root_path,
     )

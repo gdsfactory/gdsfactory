@@ -734,7 +734,7 @@ def place_from_yaml(
             placed_doe = doe_cell
             doe_instance = pya.CellInstArray(doe_cell.cell_index(), transform_identity)
         else:
-            # If only single cell and we want to skip the doe cell
+            # If only single cell and we want to skip the sweep cell
             doe_instance = placed_components[0]
             placed_does[doe_name] = doe_instance
             placed_doe = doe_instance

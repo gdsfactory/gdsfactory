@@ -20,7 +20,7 @@ isort:skip_file
 
 from functools import partial
 from phidl import quickplot as plot
-from phidl.device_layout import Group, Path, Label
+from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
@@ -31,9 +31,10 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
-from gdsfactory.write_doe import write_doe
 from gdsfactory.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.add_text import add_text
+from gdsfactory.types import Label
 
 from gdsfactory import cross_section
 from gdsfactory import asserts
@@ -54,6 +55,7 @@ from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import mask
+from gdsfactory import sweep
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -87,6 +89,7 @@ __all__ = [
     "add_pins_to_references",
     "add_tapers",
     "add_termination",
+    "add_text",
     "asserts",
     "geometry",
     "c",
@@ -117,10 +120,10 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "write_doe",
+    "sweep",
     "Label",
 ]
-__version__ = "3.6.6"
+__version__ = "3.6.7"
 
 
 if __name__ == "__main__":
