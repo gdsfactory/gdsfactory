@@ -19,11 +19,12 @@ Some of these inputs parameters are also functions.
 """
 import json
 import pathlib
-from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
 from phidl.device_layout import Path
 from pydantic import BaseModel
+from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
