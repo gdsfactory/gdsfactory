@@ -97,6 +97,7 @@ def grating_coupler_elliptical(
     big_last_tooth: bool = False,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     slab_xmin: float = -1.0,
+    slab_offset: float = 2.0,
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     spiked: bool = True,
@@ -233,8 +234,8 @@ def grating_coupler_elliptical(
 
     if layer_slab:
         slab_xmin += x_output + taper_length
-        slab_length = total_length + grating_line_width + 2.0
-        slab_width = slab_length * np.tan(fiber_angle * DEG2RAD) + 2.0
+        slab_length = total_length + slab_offset
+        slab_width = (c.ysize + 2 * slab_offset) / 2
         c.add_polygon(
             [
                 (slab_xmin, slab_width),
