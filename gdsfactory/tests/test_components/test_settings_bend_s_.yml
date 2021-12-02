@@ -4,15 +4,15 @@ info:
   default:
     nb_points: 99
     size:
-    - 10.0
-    - 2.0
+    - 10
+    - 2
     with_cladding_box: true
   end_angle: 0.235
   full:
     nb_points: 99
     size:
-    - 10.0
-    - 2.0
+    - 10
+    - 2
     with_cladding_box: true
   function_name: bend_s
   info_version: 1
@@ -27,10 +27,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -38,10 +38,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 2.0
+    - 10
+    - 2
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

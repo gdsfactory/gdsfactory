@@ -20,94 +20,94 @@ instances:
   bend_euler_7f403255_33p138_18p538:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.55
   bend_euler_7f403255_33p138_4p262:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.55
   bend_euler_d48fbab9_30p112_16p512:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.45
   bend_euler_d48fbab9_30p112_6p288:
     component: bend_euler
     settings:
-      radius: 10.0
+      radius: 10
       width: 0.45
   coupler_8eaa93fc_5p0_0p4:
     component: coupler
     settings:
-      dy: 2.0
+      dy: 2
       gap: 0.3
-      length: 10.0
+      length: 10
   coupler_cb43455d_1p5_22p4:
     component: coupler
     settings:
-      dy: 2.0
+      dy: 2
       gap: 0.2
-      length: 5.0
+      length: 5
   straight_0832c2df_19p5_21p4:
     component: straight
     settings:
-      length: 1.0
+      length: 1
       width: 0.55
   straight_325d35db_38p0_11p4:
     component: straight
     settings:
-      length: 4.0
+      length: 4
       width: 0.55
   straight_dab38390_19p5_23p4:
     component: straight
     settings:
-      length: 1.0
+      length: 1
       width: 0.45
   straight_e8243227_26p5_23p4:
     component: straight
     settings:
-      length: 3.0
+      length: 3
       width: 0.55
   straight_e8243227_26p5_m0p6:
     component: straight
     settings:
-      length: 3.0
+      length: 3
       width: 0.55
   taper_35742b85_22p5_1p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.5
       width2: 0.45
   taper_497b9706_22p5_m0p6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.5
       width2: 0.55
   taper_5ef18b11_22p5_21p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.45
       width2: 0.55
   taper_85794c73_22p5_23p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.55
       width2: 0.45
   taper_95acb109_16p5_21p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.55
       width2: 0.5
   taper_feb4a44d_16p5_23p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       width1: 0.45
       width2: 0.5
 name: mzit

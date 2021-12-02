@@ -5,7 +5,7 @@ cells:
     full: {}
     function_name: wire_corner
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.wire
     name: wire_corner
 info:
@@ -14,7 +14,7 @@ info:
   full: {}
   function_name: wire_corner
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.wire
   name: wire_corner
 ports:
@@ -23,21 +23,21 @@ ports:
     - 49
     - 0
     midpoint:
-    - -5.0
-    - 0.0
+    - -5
+    - 0
     name: e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 10.0
+    width: 10
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - 5.0
+    - 0
+    - 5
     name: e2
-    orientation: 90.0
+    orientation: 90
     port_type: electrical
-    width: 10.0
+    width: 10
 version: 1

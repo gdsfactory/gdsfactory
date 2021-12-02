@@ -6,17 +6,17 @@ cells:
     child:
       changed:
         gap: 0.2
-        length: 5.0
+        length: 5
       default:
-        dx: 10.0
-        dy: 5.0
+        dx: 10
+        dy: 5
         gap: 0.236
-        length: 20.0
+        length: 20
       full:
-        dx: 10.0
-        dy: 5.0
+        dx: 10
+        dy: 5
         gap: 0.2
-        length: 5.0
+        length: 5
       function_name: coupler
       info_version: 1
       length: 10.319
@@ -54,7 +54,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10.0
+      radius: 10
     full:
       angle_resolution: 2.5
       layer:
@@ -68,17 +68,17 @@ cells:
   coupler_70441075:
     changed:
       gap: 0.2
-      length: 5.0
+      length: 5
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.2
-      length: 5.0
+      length: 5
     function_name: coupler
     info_version: 1
     length: 10.319
@@ -91,11 +91,11 @@ cells:
       taper_angle: 35
     default:
       end_straight_length: 0.2
-      fiber_angle: 15.0
+      fiber_angle: 15
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11.0
+      fiber_marker_width: 11
       grating_line_width: 0.343
       layer:
       - 1
@@ -108,18 +108,18 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
-      taper_angle: 30.0
+      taper_angle: 30
       taper_length: 16.6
-      trenches_extra_angle: 9.0
+      trenches_extra_angle: 9
       wavelength: 1.53
       wg_width: 0.5
     full:
       end_straight_length: 0.2
-      fiber_angle: 15.0
+      fiber_angle: 15
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11.0
+      fiber_marker_width: 11
       grating_line_width: 0.343
       layer:
       - 1
@@ -134,7 +134,7 @@ cells:
       polarization: te
       taper_angle: 35
       taper_length: 16.6
-      trenches_extra_angle: 9.0
+      trenches_extra_angle: 9
       wavelength: 1.53
       wg_width: 0.5
     function_name: grating_coupler_elliptical_trenches
@@ -151,17 +151,17 @@ info:
   child:
     changed:
       gap: 0.2
-      length: 5.0
+      length: 5
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.2
-      length: 5.0
+      length: 5
     function_name: coupler
     info_version: 1
     length: 10.319
@@ -194,12 +194,12 @@ ports:
     - 203
     - 0
     midpoint:
-    - -188.0
+    - -188
     - -82.169
     name: vertical_te_00
-    orientation: 270.0
+    orientation: 270
     port_type: vertical_te
-    width: 11.0
+    width: 11
   vertical_te_01:
     layer:
     - 203
@@ -208,29 +208,29 @@ ports:
     - -61.00000000000001
     - -82.169
     name: vertical_te_01
-    orientation: 270.0
+    orientation: 270
     port_type: vertical_te
-    width: 11.0
+    width: 11
   vertical_te_02:
     layer:
     - 203
     - 0
     midpoint:
-    - 66.0
+    - 66
     - -82.169
     name: vertical_te_02
-    orientation: 270.0
+    orientation: 270
     port_type: vertical_te
-    width: 11.0
+    width: 11
   vertical_te_03:
     layer:
     - 203
     - 0
     midpoint:
-    - 193.0
+    - 193
     - -82.169
     name: vertical_te_03
-    orientation: 270.0
+    orientation: 270
     port_type: vertical_te
-    width: 11.0
+    width: 11
 version: 1

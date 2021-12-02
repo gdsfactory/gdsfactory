@@ -6,24 +6,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 50.0
+      - 4
+      - 50
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 50.0
+      - 4
+      - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -35,24 +35,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 16.0
-      - 50.0
+      - 16
+      - 50
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 16.0
-      - 50.0
+      - 16
+      - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -64,24 +64,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 2.0
-      - 50.0
+      - 2
+      - 50
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 2.0
-      - 50.0
+      - 2
+      - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -93,24 +93,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 50.0
+      - 10
+      - 50
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 50.0
+      - 10
+      - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -122,24 +122,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 1.0
-      - 50.0
+      - 1
+      - 50
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 1.0
-      - 50.0
+      - 1
+      - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -151,24 +151,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 8.0
-      - 50.0
+      - 8
+      - 50
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 8.0
-      - 50.0
+      - 8
+      - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -176,29 +176,29 @@ cells:
   litho_steps:
     changed: {}
     default:
-      height: 100.0
+      height: 100
       layer:
       - 1
       - 0
-      line_spacing: 10.0
+      line_spacing: 10
       line_widths:
-      - 1.0
-      - 2.0
-      - 4.0
-      - 8.0
-      - 16.0
+      - 1
+      - 2
+      - 4
+      - 8
+      - 16
     full:
-      height: 100.0
+      height: 100
       layer:
       - 1
       - 0
-      line_spacing: 10.0
+      line_spacing: 10
       line_widths:
-      - 1.0
-      - 2.0
-      - 4.0
-      - 8.0
-      - 16.0
+      - 1
+      - 2
+      - 4
+      - 8
+      - 16
     function_name: litho_steps
     info_version: 1
     module: gdsfactory.components.litho_steps
@@ -209,8 +209,8 @@ cells:
       - 1
       - 0
       size:
-      - 10.0
-      - 50.0
+      - 10
+      - 50
     default:
       centered: false
       layer:
@@ -218,8 +218,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -227,8 +227,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 50.0
+      - 10
+      - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -239,8 +239,8 @@ cells:
       - 1
       - 0
       size:
-      - 4.0
-      - 50.0
+      - 4
+      - 50
     default:
       centered: false
       layer:
@@ -248,8 +248,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -257,8 +257,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 50.0
+      - 4
+      - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -269,8 +269,8 @@ cells:
       - 1
       - 0
       size:
-      - 16.0
-      - 50.0
+      - 16
+      - 50
     default:
       centered: false
       layer:
@@ -278,8 +278,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -287,8 +287,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 16.0
-      - 50.0
+      - 16
+      - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -299,8 +299,8 @@ cells:
       - 1
       - 0
       size:
-      - 8.0
-      - 50.0
+      - 8
+      - 50
     default:
       centered: false
       layer:
@@ -308,8 +308,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -317,8 +317,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 8.0
-      - 50.0
+      - 8
+      - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -329,8 +329,8 @@ cells:
       - 1
       - 0
       size:
-      - 1.0
-      - 50.0
+      - 1
+      - 50
     default:
       centered: false
       layer:
@@ -338,8 +338,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -347,8 +347,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 1.0
-      - 50.0
+      - 1
+      - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -359,8 +359,8 @@ cells:
       - 1
       - 0
       size:
-      - 2.0
-      - 50.0
+      - 2
+      - 50
     default:
       centered: false
       layer:
@@ -368,8 +368,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -377,8 +377,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 2.0
-      - 50.0
+      - 2
+      - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -389,7 +389,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 50.0
+      size: 50
       text: '16.0'
     default:
       justify: left
@@ -399,7 +399,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     full:
       justify: center
@@ -409,7 +409,7 @@ cells:
       position:
       - 0
       - 0
-      size: 50.0
+      size: 50
       text: '16.0'
     function_name: text
     info_version: 1
@@ -418,29 +418,29 @@ cells:
 info:
   changed: {}
   default:
-    height: 100.0
+    height: 100
     layer:
     - 1
     - 0
-    line_spacing: 10.0
+    line_spacing: 10
     line_widths:
-    - 1.0
-    - 2.0
-    - 4.0
-    - 8.0
-    - 16.0
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
   full:
-    height: 100.0
+    height: 100
     layer:
     - 1
     - 0
-    line_spacing: 10.0
+    line_spacing: 10
     line_widths:
-    - 1.0
-    - 2.0
-    - 4.0
-    - 8.0
-    - 16.0
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
   function_name: litho_steps
   info_version: 1
   module: gdsfactory.components.litho_steps

@@ -5,24 +5,24 @@ cells:
       - 49
       - 0
       size:
-      - 10.0
-      - 2620.0
+      - 10
+      - 2620
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 2620.0
+      - 10
+      - 2620
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -33,24 +33,24 @@ cells:
       - 45
       - 0
       size:
-      - 10.0
-      - 2620.0
+      - 10
+      - 2620
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 2620.0
+      - 10
+      - 2620
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -61,24 +61,24 @@ cells:
       - 41
       - 0
       size:
-      - 1340.0
-      - 10.0
+      - 1340
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 41
       - 0
       port_type: electrical
       size:
-      - 1340.0
-      - 10.0
+      - 1340
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -89,24 +89,24 @@ cells:
       - 49
       - 0
       size:
-      - 1340.0
-      - 10.0
+      - 1340
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 1340.0
-      - 10.0
+      - 1340
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -117,24 +117,24 @@ cells:
       - 41
       - 0
       size:
-      - 10.0
-      - 2620.0
+      - 10
+      - 2620
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 41
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 2620.0
+      - 10
+      - 2620
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -145,24 +145,24 @@ cells:
       - 45
       - 0
       size:
-      - 1340.0
-      - 10.0
+      - 1340
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 1340.0
-      - 10.0
+      - 1340
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -170,7 +170,7 @@ cells:
   contact_1decffff:
     changed:
       size:
-      - 1340.0
+      - 1340
       - 10
     default:
       layer_port: null
@@ -182,8 +182,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - enclosure: 2
         function: via
@@ -204,7 +204,7 @@ cells:
       - - 49
         - 0
       size:
-      - 1340.0
+      - 1340
       - 10
       vias:
       - enclosure: 2
@@ -224,13 +224,13 @@ cells:
     module: gdsfactory.components.contact
     name: contact_1decffff
     size:
-    - 1340.0
-    - 10.0
+    - 1340
+    - 10
   contact_2be49dce:
     changed:
       size:
       - 10
-      - 2620.0
+      - 2620
     default:
       layer_port: null
       layers:
@@ -241,8 +241,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - enclosure: 2
         function: via
@@ -264,7 +264,7 @@ cells:
         - 0
       size:
       - 10
-      - 2620.0
+      - 2620
       vias:
       - enclosure: 2
         function: via
@@ -283,19 +283,19 @@ cells:
     module: gdsfactory.components.contact
     name: contact_2be49dce
     size:
-    - 10.0
-    - 2620.0
+    - 10
+    - 2620
   seal_ring:
     changed: {}
     default:
-      padding: 10.0
+      padding: 10
       width: 10
       with_east: true
       with_north: true
       with_south: true
       with_west: true
     full:
-      padding: 10.0
+      padding: 10
       width: 10
       with_east: true
       with_north: true
@@ -308,14 +308,14 @@ cells:
 info:
   changed: {}
   default:
-    padding: 10.0
+    padding: 10
     width: 10
     with_east: true
     with_north: true
     with_south: true
     with_west: true
   full:
-    padding: 10.0
+    padding: 10
     width: 10
     with_east: true
     with_north: true

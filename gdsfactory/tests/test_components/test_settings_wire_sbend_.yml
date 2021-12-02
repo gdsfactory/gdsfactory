@@ -5,17 +5,17 @@ cells:
     full: {}
     function_name: wire_corner
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.wire
     name: wire_corner
   wire_sbend:
     changed: {}
     default:
-      dx: 20.0
-      dy: 10.0
+      dx: 20
+      dy: 10
     full:
-      dx: 20.0
-      dy: 10.0
+      dx: 20
+      dy: 10
     function_name: wire_sbend
     info_version: 1
     module: gdsfactory.components.wire_sbend
@@ -23,11 +23,11 @@ cells:
 info:
   changed: {}
   default:
-    dx: 20.0
-    dy: 10.0
+    dx: 20
+    dy: 10
   full:
-    dx: 20.0
-    dy: 10.0
+    dx: 20
+    dy: 10
   function_name: wire_sbend
   info_version: 1
   module: gdsfactory.components.wire_sbend
@@ -38,21 +38,21 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 10.0
+    width: 10
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 30.0
-    - 20.0
+    - 30
+    - 20
     name: e2
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 10.0
+    width: 10
 version: 1

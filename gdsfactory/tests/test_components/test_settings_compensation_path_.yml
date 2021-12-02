@@ -4,22 +4,22 @@ cells:
       control_points:
       - - 0
         - 0
-      - - 18.0
+      - - 18
         - 0
-      - - 18.0
+      - - 18
         - 18.869
-      - - 36.0
+      - - 36
         - 18.869
     default:
       control_points:
-      - - 0.0
-        - 0.0
-      - - 5.0
-        - 0.0
-      - - 5.0
-        - 2.0
-      - - 10.0
-        - 2.0
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
       end_angle: null
       grid: 0.001
       layer:
@@ -27,7 +27,7 @@ cells:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -36,11 +36,11 @@ cells:
       control_points:
       - - 0
         - 0
-      - - 18.0
+      - - 18
         - 0
-      - - 18.0
+      - - 18
         - 18.869
-      - - 36.0
+      - - 36
         - 18.869
       end_angle: null
       grid: 0.001
@@ -49,7 +49,7 @@ cells:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -76,22 +76,22 @@ cells:
         control_points:
         - - 0
           - 0
-        - - 18.0
+        - - 18
           - 0
-        - - 18.0
+        - - 18
           - 18.869
-        - - 36.0
+        - - 36
           - 18.869
       default:
         control_points:
-        - - 0.0
-          - 0.0
-        - - 5.0
-          - 0.0
-        - - 5.0
-          - 2.0
-        - - 10.0
-          - 2.0
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
         end_angle: null
         grid: 0.001
         layer:
@@ -99,7 +99,7 @@ cells:
         - 0
         name: null
         npoints: 201
-        spike_length: 0.0
+        spike_length: 0
         start_angle: null
         width: 0.5
         with_manhattan_facing_angles: true
@@ -108,11 +108,11 @@ cells:
         control_points:
         - - 0
           - 0
-        - - 18.0
+        - - 18
           - 0
-        - - 18.0
+        - - 18
           - 18.869
-        - - 36.0
+        - - 36
           - 18.869
         end_angle: null
         grid: 0.001
@@ -121,7 +121,7 @@ cells:
         - 0
         name: null
         npoints: 201
-        spike_length: 0.0
+        spike_length: 0
         start_angle: null
         width: 0.5
         with_manhattan_facing_angles: true
@@ -156,22 +156,22 @@ info:
       control_points:
       - - 0
         - 0
-      - - 18.0
+      - - 18
         - 0
-      - - 18.0
+      - - 18
         - 18.869
-      - - 36.0
+      - - 36
         - 18.869
     default:
       control_points:
-      - - 0.0
-        - 0.0
-      - - 5.0
-        - 0.0
-      - - 5.0
-        - 2.0
-      - - 10.0
-        - 2.0
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
       end_angle: null
       grid: 0.001
       layer:
@@ -179,7 +179,7 @@ info:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -188,11 +188,11 @@ info:
       control_points:
       - - 0
         - 0
-      - - 18.0
+      - - 18
         - 0
-      - - 18.0
+      - - 18
         - 18.869
-      - - 36.0
+      - - 36
         - 18.869
       end_angle: null
       grid: 0.001
@@ -201,7 +201,7 @@ info:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -218,10 +218,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -40.0
+    - -40
     - -18.869
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -229,10 +229,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 40.0
+    - 40
     - -18.868999999999996
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

@@ -6,22 +6,22 @@ cells:
       orientation: 270
       rows: 1
       spacing:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     full:
       columns: 6
       orientation: 270
       rows: 1
       spacing:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     function_name: pad_array
     info_version: 1
     module: gdsfactory.components.pad
     name: pad_array
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed: {}
   default:
@@ -29,87 +29,87 @@ info:
     orientation: 270
     rows: 1
     spacing:
-    - 150.0
-    - 150.0
+    - 150
+    - 150
   full:
     columns: 6
     orientation: 270
     rows: 1
     spacing:
-    - 150.0
-    - 150.0
+    - 150
+    - 150
   function_name: pad_array
   info_version: 1
   module: gdsfactory.components.pad
   name: pad_array
   size:
-  - 100.0
-  - 100.0
+  - 100
+  - 100
 ports:
   e11:
     layer:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: e11
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 100.0
+    width: 100
   e12:
     layer:
     - 49
     - 0
     midpoint:
-    - 150.0
-    - 0.0
+    - 150
+    - 0
     name: e12
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 100.0
+    width: 100
   e13:
     layer:
     - 49
     - 0
     midpoint:
-    - 300.0
-    - 0.0
+    - 300
+    - 0
     name: e13
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 100.0
+    width: 100
   e14:
     layer:
     - 49
     - 0
     midpoint:
-    - 450.0
-    - 0.0
+    - 450
+    - 0
     name: e14
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 100.0
+    width: 100
   e15:
     layer:
     - 49
     - 0
     midpoint:
-    - 600.0
-    - 0.0
+    - 600
+    - 0
     name: e15
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 100.0
+    width: 100
   e16:
     layer:
     - 49
     - 0
     midpoint:
-    - 750.0
-    - 0.0
+    - 750
+    - 0
     name: e16
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 100.0
+    width: 100
 version: 1

@@ -7,7 +7,7 @@ cells:
       - 0
     default:
       cladding_offset: 0
-      enclosure: 1.0
+      enclosure: 1
       layer:
       - 40
       - 0
@@ -16,9 +16,9 @@ cells:
       - 0.7
       - 0.7
       spacing:
-      - 2.0
-      - 2.0
-    enclosure: 2.0
+      - 2
+      - 2
+    enclosure: 2
     full:
       cladding_offset: 0
       enclosure: 2
@@ -30,8 +30,8 @@ cells:
       - 0.7
       - 0.7
       spacing:
-      - 2.0
-      - 2.0
+      - 2
+      - 2
     function_name: via
     info_version: 1
     module: gdsfactory.components.via
@@ -40,8 +40,8 @@ cells:
     - 0.7
     - 0.7
     spacing:
-    - 2.0
-    - 2.0
+    - 2
+    - 2
 info:
   changed:
     enclosure: 2
@@ -50,7 +50,7 @@ info:
     - 0
   default:
     cladding_offset: 0
-    enclosure: 1.0
+    enclosure: 1
     layer:
     - 40
     - 0
@@ -59,9 +59,9 @@ info:
     - 0.7
     - 0.7
     spacing:
-    - 2.0
-    - 2.0
-  enclosure: 2.0
+    - 2
+    - 2
+  enclosure: 2
   full:
     cladding_offset: 0
     enclosure: 2
@@ -73,8 +73,8 @@ info:
     - 0.7
     - 0.7
     spacing:
-    - 2.0
-    - 2.0
+    - 2
+    - 2
   function_name: via
   info_version: 1
   module: gdsfactory.components.via
@@ -83,7 +83,7 @@ info:
   - 0.7
   - 0.7
   spacing:
-  - 2.0
-  - 2.0
+  - 2
+  - 2
 ports: {}
 version: 1

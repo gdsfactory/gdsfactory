@@ -4,14 +4,14 @@ cells:
       component: mzi_ac6d448d
     child:
       changed:
-        length_x: 320.0
+        length_x: 320
         splitter: mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
       default:
         combiner: null
-        delta_length: 10.0
+        delta_length: 10
         layer: null
         length_x: 0.1
         length_y: 0.8
@@ -21,9 +21,9 @@ cells:
         with_splitter: true
       full:
         combiner: null
-        delta_length: 10.0
+        delta_length: 10
         layer: null
-        length_x: 320.0
+        length_x: 320
         length_y: 0.8
         splitter: mmi2x2
         straight_x_bot: null
@@ -52,13 +52,13 @@ cells:
       gap: 0.2
       length: 0.1
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.2
       length: 0.1
     function_name: coupler
@@ -72,31 +72,31 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
   mzi_ac6d448d:
     changed:
-      length_x: 320.0
+      length_x: 320
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -106,9 +106,9 @@ cells:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
-      length_x: 320.0
+      length_x: 320
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -124,7 +124,7 @@ cells:
   mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
-      length_x: 320.0
+      length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -139,7 +139,7 @@ cells:
       straight_y: null
     full:
       bend: bend_euler
-      length_x: 320.0
+      length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -148,14 +148,14 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend: bend_euler
-      length_x: 320.0
+      length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
       straight_x: straight
@@ -168,15 +168,15 @@ cells:
       straight_y: null
     full:
       bend: bend_euler
-      length_x: 320.0
+      length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
       straight_x: straight
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
 info:
@@ -184,14 +184,14 @@ info:
     component: mzi_ac6d448d
   child:
     changed:
-      length_x: 320.0
+      length_x: 320
       splitter: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -201,9 +201,9 @@ info:
       with_splitter: true
     full:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
-      length_x: 320.0
+      length_x: 320
       length_y: 0.8
       splitter: mmi2x2
       straight_x_bot: null
@@ -233,10 +233,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - -2.15
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -247,7 +247,7 @@ ports:
     - 10.1
     - -2.1500000000000004
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

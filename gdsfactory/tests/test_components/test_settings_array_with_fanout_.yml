@@ -6,21 +6,21 @@ cells:
       bend_port_name2: null
       columns: 3
       component_port_name: e4
-      end_straight_length: 40.0
-      pitch: 150.0
-      radius: 5.0
-      start_straight_length: 5.0
-      waveguide_pitch: 10.0
+      end_straight_length: 40
+      pitch: 150
+      radius: 5
+      start_straight_length: 5
+      waveguide_pitch: 10
     full:
       bend_port_name1: null
       bend_port_name2: null
       columns: 3
       component_port_name: e4
-      end_straight_length: 40.0
-      pitch: 150.0
-      radius: 5.0
-      start_straight_length: 5.0
-      waveguide_pitch: 10.0
+      end_straight_length: 40
+      pitch: 150
+      radius: 5
+      start_straight_length: 5
+      waveguide_pitch: 10
     function_name: array_with_fanout
     info_version: 1
     module: gdsfactory.components.array_with_fanout
@@ -31,24 +31,24 @@ cells:
       - 49
       - 0
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -62,8 +62,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     full:
       cladding_offsets: null
       layer:
@@ -71,8 +71,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     function_name: pad
     info_version: 1
     layer:
@@ -81,8 +81,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
 info:
   changed: {}
   default:
@@ -90,21 +90,21 @@ info:
     bend_port_name2: null
     columns: 3
     component_port_name: e4
-    end_straight_length: 40.0
-    pitch: 150.0
-    radius: 5.0
-    start_straight_length: 5.0
-    waveguide_pitch: 10.0
+    end_straight_length: 40
+    pitch: 150
+    radius: 5
+    start_straight_length: 5
+    waveguide_pitch: 10
   full:
     bend_port_name1: null
     bend_port_name2: null
     columns: 3
     component_port_name: e4
-    end_straight_length: 40.0
-    pitch: 150.0
-    radius: 5.0
-    start_straight_length: 5.0
-    waveguide_pitch: 10.0
+    end_straight_length: 40
+    pitch: 150
+    radius: 5
+    start_straight_length: 5
+    waveguide_pitch: 10
   function_name: array_with_fanout
   info_version: 1
   module: gdsfactory.components.array_with_fanout
@@ -115,10 +115,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -45.0
-    - -80.0
+    - -45
+    - -80
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -126,10 +126,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -45.0
-    - -70.0
+    - -45
+    - -70
     name: o2
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o3:
@@ -137,10 +137,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -45.0
-    - -60.0
+    - -45
+    - -60
     name: o3
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
 version: 1

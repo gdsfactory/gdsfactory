@@ -5,24 +5,24 @@ cells:
       - 45
       - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -33,24 +33,24 @@ cells:
       - 49
       - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -61,24 +61,24 @@ cells:
       - 3
       - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 3
       - 0
       port_type: electrical
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -89,24 +89,24 @@ cells:
       - 41
       - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 41
       - 0
       port_type: electrical
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -146,8 +146,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - enclosure: 2
         function: via
@@ -170,8 +170,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - function: via
         layer:
@@ -194,8 +194,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_339a6fb6
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
 info:
   changed:
     layers:
@@ -231,8 +231,8 @@ info:
     - - 49
       - 0
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
     vias:
     - enclosure: 2
       function: via
@@ -255,8 +255,8 @@ info:
     - - 49
       - 0
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
     vias:
     - function: via
       layer:
@@ -279,8 +279,8 @@ info:
   module: gdsfactory.components.contact
   name: contact_339a6fb6
   size:
-  - 11.0
-  - 11.0
+  - 11
+  - 11
 ports:
   e1:
     layer:
@@ -288,42 +288,42 @@ ports:
     - 0
     midpoint:
     - -5.5
-    - 0.0
+    - 0
     name: e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 11.0
+    width: 11
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 0.0
+    - 0
     - 5.5
     name: e2
-    orientation: 90.0
+    orientation: 90
     port_type: electrical
-    width: 11.0
+    width: 11
   e3:
     layer:
     - 49
     - 0
     midpoint:
     - 5.5
-    - 0.0
+    - 0
     name: e3
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 11.0
+    width: 11
   e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 0.0
+    - 0
     - -5.5
     name: e4
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 11.0
+    width: 11
 version: 1

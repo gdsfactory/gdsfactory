@@ -6,24 +6,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 1300.0
-      - 2600.0
+      - 1300
+      - 2600
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 1300.0
-      - 2600.0
+      - 1300
+      - 2600
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -42,8 +42,8 @@ cells:
         - 0
         port_type: electrical
         size:
-        - 4.0
-        - 2.0
+        - 4
+        - 2
       full:
         centered: false
         layer:
@@ -62,21 +62,21 @@ cells:
       layer:
       - 49
       - 0
-      padding: 10.0
-      street_length: 1000.0
-      street_width: 100.0
+      padding: 10
+      street_length: 1000
+      street_width: 100
       text_location: SW
-      text_size: 100.0
+      text_size: 100
     full:
       die_name: null
       layer:
       - 49
       - 0
-      padding: 10.0
-      street_length: 1000.0
-      street_width: 100.0
+      padding: 10
+      street_length: 1000
+      street_width: 100
       text_location: SW
-      text_size: 100.0
+      text_size: 100
     function_name: die_bbox
     info_version: 1
     module: gdsfactory.components.die_bbox
@@ -93,8 +93,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -122,8 +122,8 @@ info:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -142,21 +142,21 @@ info:
     layer:
     - 49
     - 0
-    padding: 10.0
-    street_length: 1000.0
-    street_width: 100.0
+    padding: 10
+    street_length: 1000
+    street_width: 100
     text_location: SW
-    text_size: 100.0
+    text_size: 100
   full:
     die_name: null
     layer:
     - 49
     - 0
-    padding: 10.0
-    street_length: 1000.0
-    street_width: 100.0
+    padding: 10
+    street_length: 1000
+    street_width: 100
     text_location: SW
-    text_size: 100.0
+    text_size: 100
   function_name: die_bbox
   info_version: 1
   module: gdsfactory.components.die_bbox

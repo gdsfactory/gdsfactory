@@ -4,22 +4,22 @@ cells:
       control_points:
       - - 0
         - 0
-      - - 18.0
+      - - 18
         - 0
-      - - 18.0
+      - - 18
         - 18.869
-      - - 36.0
+      - - 36
         - 18.869
     default:
       control_points:
-      - - 0.0
-        - 0.0
-      - - 5.0
-        - 0.0
-      - - 5.0
-        - 2.0
-      - - 10.0
-        - 2.0
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
       end_angle: null
       grid: 0.001
       layer:
@@ -27,7 +27,7 @@ cells:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -36,11 +36,11 @@ cells:
       control_points:
       - - 0
         - 0
-      - - 18.0
+      - - 18
         - 0
-      - - 18.0
+      - - 18
         - 18.869
-      - - 36.0
+      - - 36
         - 18.869
       end_angle: null
       grid: 0.001
@@ -49,7 +49,7 @@ cells:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -65,25 +65,25 @@ cells:
       control_points:
       - - 0
         - 0
-      - - 20.0
+      - - 20
         - 0
-      - - 20.0
+      - - 20
         - 17.5
-      - - 40.0
+      - - 40
         - 17.5
       end_angle: 0
       npoints: 101
       start_angle: 0
     default:
       control_points:
-      - - 0.0
-        - 0.0
-      - - 5.0
-        - 0.0
-      - - 5.0
-        - 2.0
-      - - 10.0
-        - 2.0
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
       end_angle: null
       grid: 0.001
       layer:
@@ -91,7 +91,7 @@ cells:
       - 0
       name: null
       npoints: 201
-      spike_length: 0.0
+      spike_length: 0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -100,11 +100,11 @@ cells:
       control_points:
       - - 0
         - 0
-      - - 20.0
+      - - 20
         - 0
-      - - 20.0
+      - - 20
         - 17.5
-      - - 40.0
+      - - 40
         - 17.5
       end_angle: 0
       grid: 0.001
@@ -113,7 +113,7 @@ cells:
       - 0
       name: null
       npoints: 101
-      spike_length: 0.0
+      spike_length: 0
       start_angle: 0
       width: 0.5
       with_manhattan_facing_angles: true
@@ -142,22 +142,22 @@ cells:
         control_points:
         - - 0
           - 0
-        - - 18.0
+        - - 18
           - 0
-        - - 18.0
+        - - 18
           - 18.869
-        - - 36.0
+        - - 36
           - 18.869
       default:
         control_points:
-        - - 0.0
-          - 0.0
-        - - 5.0
-          - 0.0
-        - - 5.0
-          - 2.0
-        - - 10.0
-          - 2.0
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
         end_angle: null
         grid: 0.001
         layer:
@@ -165,7 +165,7 @@ cells:
         - 0
         name: null
         npoints: 201
-        spike_length: 0.0
+        spike_length: 0
         start_angle: null
         width: 0.5
         with_manhattan_facing_angles: true
@@ -174,11 +174,11 @@ cells:
         control_points:
         - - 0
           - 0
-        - - 18.0
+        - - 18
           - 0
-        - - 18.0
+        - - 18
           - 18.869
-        - - 36.0
+        - - 36
           - 18.869
         end_angle: null
         grid: 0.001
@@ -187,7 +187,7 @@ cells:
         - 0
         name: null
         npoints: 201
-        spike_length: 0.0
+        spike_length: 0
         start_angle: null
         width: 0.5
         with_manhattan_facing_angles: true
@@ -217,15 +217,15 @@ cells:
   coupler:
     changed: {}
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     function_name: coupler
     info_version: 1
     length: 10.314
@@ -243,7 +243,7 @@ cells:
   crossing45_f9b93bcb:
     bezier_length: 42.085
     changed:
-      port_spacing: 40.0
+      port_spacing: 40
     crossing:
       changed: {}
       default: {}
@@ -256,12 +256,12 @@ cells:
       alpha: 0.08
       dx: null
       npoints: 101
-      port_spacing: 40.0
+      port_spacing: 40
     full:
       alpha: 0.08
       dx: null
       npoints: 101
-      port_spacing: 40.0
+      port_spacing: 40
     function_name: crossing45
     info_version: 1
     min_bend_radius: 44.312
@@ -270,19 +270,19 @@ cells:
   fanout2x2_345db3f5:
     changed:
       component: coupler
-      port_spacing: 40.0
+      port_spacing: 40
     child:
       changed: {}
       default:
-        dx: 10.0
-        dy: 5.0
+        dx: 10
+        dy: 5
         gap: 0.236
-        length: 20.0
+        length: 20
       full:
-        dx: 10.0
-        dy: 5.0
+        dx: 10
+        dy: 5
         gap: 0.236
-        length: 20.0
+        length: 20
       function_name: coupler
       info_version: 1
       length: 10.314
@@ -292,12 +292,12 @@ cells:
     default:
       bend_length: null
       npoints: 101
-      port_spacing: 20.0
+      port_spacing: 20
     full:
       bend_length: null
       component: coupler
       npoints: 101
-      port_spacing: 40.0
+      port_spacing: 40
     function_name: fanout2x2
     info_version: 1
     module: gdsfactory.routing.fanout2x2
@@ -324,10 +324,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - -40.0
+    - 0
+    - -40
     name: '0'
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   '1':
@@ -335,10 +335,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: '1'
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   '2':
@@ -346,10 +346,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - -120.0
+    - 0
+    - -120
     name: '2'
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   '3':
@@ -357,10 +357,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - -80.0
+    - 0
+    - -80
     name: '3'
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   '4':
@@ -368,10 +368,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 280.0
-    - -40.0
+    - 280
+    - -40
     name: '4'
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   '5':
@@ -379,10 +379,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 280.0
-    - 0.0
+    - 280
+    - 0
     name: '5'
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   '6':
@@ -390,10 +390,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 280.0
-    - -120.0
+    - 280
+    - -120
     name: '6'
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   '7':
@@ -401,10 +401,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 280.0
-    - -80.0
+    - 280
+    - -80
     name: '7'
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

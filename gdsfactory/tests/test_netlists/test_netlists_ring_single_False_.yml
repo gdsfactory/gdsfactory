@@ -25,14 +25,14 @@ instances:
       cross_section:
         function: cross_section
       gap: 0.2
-      length_x: 4.0
-      radius: 10.0
+      length_x: 4
+      radius: 10
   straight_178d4157_m2p0_21p3:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 4.0
+      length: 4
   straight_417ceb80_10p0_11p0:
     component: straight
     settings:

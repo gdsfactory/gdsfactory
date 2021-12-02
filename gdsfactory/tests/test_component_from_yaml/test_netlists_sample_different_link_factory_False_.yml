@@ -103,70 +103,70 @@ instances:
     settings:
       cross_section:
         function: cross_section
-      length: 200.0
+      length: 200
       radius: 10
   straight_7b1e3316_560p0_400p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 580.0
+      length: 580
       radius: 10
   straight_95cf111d_230p0_380p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 340.0
+      length: 340
       radius: 10
   straight_95cf111d_260p0_180p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 340.0
+      length: 340
       radius: 10
   straight_99672b3b_365p0_560p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 250
       radius: 10
   straight_99672b3b_365p0_580p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 250
       radius: 10
   straight_99672b3b_395p0_360p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 250
       radius: 10
   straight_99672b3b_395p0_380p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 250
       radius: 10
   straight_ab370e58_135p0_200p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 170.0
+      length: 170
       radius: 10
   straight_b28806b6_545p0_600p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 610.0
+      length: 610
       radius: 10
   tl:
     component: pad

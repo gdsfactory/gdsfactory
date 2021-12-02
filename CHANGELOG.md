@@ -21,13 +21,18 @@ Maybe:
 
 - fix clean_name
     - generators and iterables are properly hashed now
+    - toolz.compose functions cache both the functions and first function
     - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
+- set Component._cached = True when added into cache, and raises MutabilityError when adding any element to it.
+- Component.flatten() returns a copy of the component, that includes the flattened component. Name is also different by adding `_flat` suffix
 - add bias to grating_coupler_lumerical
+- try to cast floats to int when exporting info
 
 ## 3.6.8
 
 - `add_fiber_single` allows to have multiple gratings
 - converted add_fiber_single, component_sequence and add_fiber_array from `cell_without_validator` to `cell`
+- Component pydantic validator accepts cell names below 100 characters (before it was forcing 32)
 
 ## 3.6.7
 

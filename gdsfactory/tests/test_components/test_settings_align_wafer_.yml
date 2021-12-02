@@ -2,23 +2,23 @@ cells:
   align_wafer:
     changed: {}
     default:
-      cross_length: 80.0
+      cross_length: 80
       layer:
       - 1
       - 0
       layer_cladding: null
-      spacing: 10.0
+      spacing: 10
       square_corner: bottom_left
-      width: 10.0
+      width: 10
     full:
-      cross_length: 80.0
+      cross_length: 80
       layer:
       - 1
       - 0
       layer_cladding: null
-      spacing: 10.0
+      spacing: 10
       square_corner: bottom_left
-      width: 10.0
+      width: 10
     function_name: align_wafer
     info_version: 1
     module: gdsfactory.components.align
@@ -30,24 +30,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 25.0
-      - 25.0
+      - 25
+      - 25
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 25.0
-      - 25.0
+      - 25
+      - 25
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -59,24 +59,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 110.0
+      - 10
+      - 110
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 110.0
+      - 10
+      - 110
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -88,24 +88,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 120.0
-      - 10.0
+      - 120
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 120.0
-      - 10.0
+      - 120
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -117,24 +117,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 80.0
+      - 10
+      - 80
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 80.0
+      - 10
+      - 80
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -144,22 +144,22 @@ cells:
       layer:
       - 1
       - 0
-      length: 80.0
-      width: 10.0
+      length: 80
+      width: 10
     default:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: null
-      width: 3.0
+      width: 3
     full:
       layer:
       - 1
       - 0
-      length: 80.0
+      length: 80
       port_type: null
-      width: 10.0
+      width: 10
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
@@ -171,8 +171,8 @@ cells:
       - 1
       - 0
       size:
-      - 25.0
-      - 25.0
+      - 25
+      - 25
     default:
       centered: false
       layer:
@@ -180,8 +180,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: true
       layer:
@@ -189,8 +189,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 25.0
-      - 25.0
+      - 25
+      - 25
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -201,8 +201,8 @@ cells:
       - 1
       - 0
       size:
-      - 10.0
-      - 80.0
+      - 10
+      - 80
     default:
       centered: false
       layer:
@@ -210,8 +210,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -219,8 +219,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 80.0
+      - 10
+      - 80
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -232,8 +232,8 @@ cells:
       - 1
       - 0
       size:
-      - 120.0
-      - 10.0
+      - 120
+      - 10
     default:
       centered: false
       layer:
@@ -241,8 +241,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: true
       layer:
@@ -250,8 +250,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 120.0
-      - 10.0
+      - 120
+      - 10
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -263,8 +263,8 @@ cells:
       - 1
       - 0
       size:
-      - 10.0
-      - 110.0
+      - 10
+      - 110
     default:
       centered: false
       layer:
@@ -272,8 +272,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: true
       layer:
@@ -281,8 +281,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 110.0
+      - 10
+      - 110
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -290,23 +290,23 @@ cells:
 info:
   changed: {}
   default:
-    cross_length: 80.0
+    cross_length: 80
     layer:
     - 1
     - 0
     layer_cladding: null
-    spacing: 10.0
+    spacing: 10
     square_corner: bottom_left
-    width: 10.0
+    width: 10
   full:
-    cross_length: 80.0
+    cross_length: 80
     layer:
     - 1
     - 0
     layer_cladding: null
-    spacing: 10.0
+    spacing: 10
     square_corner: bottom_left
-    width: 10.0
+    width: 10
   function_name: align_wafer
   info_version: 1
   module: gdsfactory.components.align

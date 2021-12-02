@@ -24,7 +24,7 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10.0
+      radius: 10
       width: 0.55
       with_arc_floorplan: true
       with_cladding_box: true
@@ -35,7 +35,7 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10.0
+      radius: 10
       width: 0.55
       with_arc_floorplan: true
       with_cladding_box: true
@@ -46,7 +46,7 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10.0
+      radius: 10
       width: 0.45
       with_arc_floorplan: true
       with_cladding_box: true
@@ -57,63 +57,63 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10.0
+      radius: 10
       width: 0.45
       with_arc_floorplan: true
       with_cladding_box: true
   coupler_8eaa93fc_5p0_0p4:
     component: coupler
     settings:
-      dx: 10.0
-      dy: 2.0
+      dx: 10
+      dy: 2
       gap: 0.3
-      length: 10.0
+      length: 10
   coupler_cb43455d_1p5_22p4:
     component: coupler
     settings:
-      dx: 10.0
-      dy: 2.0
+      dx: 10
+      dy: 2
       gap: 0.2
-      length: 5.0
+      length: 5
   straight_0832c2df_19p5_21p4:
     component: straight
     settings:
-      length: 1.0
+      length: 1
       npoints: 2
       width: 0.55
       with_cladding_box: true
   straight_325d35db_38p0_11p4:
     component: straight
     settings:
-      length: 4.0
+      length: 4
       npoints: 2
       width: 0.55
       with_cladding_box: true
   straight_dab38390_19p5_23p4:
     component: straight
     settings:
-      length: 1.0
+      length: 1
       npoints: 2
       width: 0.45
       with_cladding_box: true
   straight_e8243227_26p5_23p4:
     component: straight
     settings:
-      length: 3.0
+      length: 3
       npoints: 2
       width: 0.55
       with_cladding_box: true
   straight_e8243227_26p5_m0p6:
     component: straight
     settings:
-      length: 3.0
+      length: 3
       npoints: 2
       width: 0.55
       with_cladding_box: true
   taper_35742b85_22p5_1p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       port: null
       width1: 0.5
       width2: 0.45
@@ -121,7 +121,7 @@ instances:
   taper_497b9706_22p5_m0p6:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       port: null
       width1: 0.5
       width2: 0.55
@@ -129,7 +129,7 @@ instances:
   taper_5ef18b11_22p5_21p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       port: null
       width1: 0.45
       width2: 0.55
@@ -137,7 +137,7 @@ instances:
   taper_85794c73_22p5_23p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       port: null
       width1: 0.55
       width2: 0.45
@@ -145,7 +145,7 @@ instances:
   taper_95acb109_16p5_21p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       port: null
       width1: 0.55
       width2: 0.5
@@ -153,7 +153,7 @@ instances:
   taper_feb4a44d_16p5_23p4:
     component: taper
     settings:
-      length: 5.0
+      length: 5
       port: null
       width1: 0.45
       width2: 0.5

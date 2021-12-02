@@ -6,24 +6,24 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -34,16 +34,16 @@ cells:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: null
-      width: 3.0
+      width: 3
     full:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: null
-      width: 3.0
+      width: 3
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
@@ -54,8 +54,8 @@ cells:
       - 1
       - 0
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     default:
       centered: false
       layer:
@@ -63,8 +63,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -72,8 +72,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -84,16 +84,16 @@ info:
     layer:
     - 1
     - 0
-    length: 10.0
+    length: 10
     port_type: null
-    width: 3.0
+    width: 3
   full:
     layer:
     - 1
     - 0
-    length: 10.0
+    length: 10
     port_type: null
-    width: 3.0
+    width: 3
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross

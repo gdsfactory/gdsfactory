@@ -8,7 +8,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     default:
       justify: left
@@ -16,9 +16,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -28,7 +28,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     function_name: manhattan_text
     info_version: 1
@@ -44,7 +44,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -54,7 +54,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     function_name: text_rectangular
     info_version: 1
@@ -70,7 +70,7 @@ info:
     position:
     - 0
     - 0
-    size: 10.0
+    size: 10
     text: abcd
   full:
     justify: left
@@ -80,7 +80,7 @@ info:
     position:
     - 0
     - 0
-    size: 10.0
+    size: 10
     text: abcd
   function_name: text_rectangular
   info_version: 1

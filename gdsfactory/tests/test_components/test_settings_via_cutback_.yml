@@ -10,9 +10,9 @@ cells:
       via_layer:
       - 40
       - 0
-      via_spacing: 40.0
-      via_width: 5.0
-      wire_width: 10.0
+      via_spacing: 40
+      via_width: 5
+      wire_width: 10
     default: {}
     full:
       layer1:
@@ -24,9 +24,9 @@ cells:
       via_layer:
       - 40
       - 0
-      via_spacing: 40.0
-      via_width: 5.0
-      wire_width: 10.0
+      via_spacing: 40
+      via_width: 5
+      wire_width: 10
     function_name: _via_iterable
     info_version: 1
     module: gdsfactory.components.via_cutback
@@ -37,24 +37,24 @@ cells:
       - 45
       - 0
       size:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -65,24 +65,24 @@ cells:
       - 47
       - 0
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 47
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -93,24 +93,24 @@ cells:
       - 47
       - 0
       size:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 47
       - 0
       port_type: electrical
       size:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -121,24 +121,24 @@ cells:
       - 47
       - 0
       size:
-      - 40.0
-      - 10.0
+      - 40
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 47
       - 0
       port_type: electrical
       size:
-      - 40.0
-      - 10.0
+      - 40
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -149,24 +149,24 @@ cells:
       - 49
       - 0
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -177,24 +177,24 @@ cells:
       - 41
       - 0
       size:
-      - 40.0
-      - 10.0
+      - 40
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 41
       - 0
       port_type: electrical
       size:
-      - 40.0
-      - 10.0
+      - 40
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -205,24 +205,24 @@ cells:
       - 45
       - 0
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -233,24 +233,24 @@ cells:
       - 47
       - 0
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 47
       - 0
       port_type: electrical
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -261,24 +261,24 @@ cells:
       - 45
       - 0
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -289,24 +289,24 @@ cells:
       - 49
       - 0
       size:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -317,24 +317,24 @@ cells:
       - 49
       - 0
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -345,24 +345,24 @@ cells:
       - 40
       - 0
       size:
-      - 5.0
-      - 5.0
+      - 5
+      - 5
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 40
       - 0
       port_type: electrical
       size:
-      - 5.0
-      - 5.0
+      - 5
+      - 5
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -377,8 +377,8 @@ cells:
       - - 49
         - 0
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
       vias:
       - enclosure: 2
         function: via
@@ -399,8 +399,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - enclosure: 2
         function: via
@@ -421,8 +421,8 @@ cells:
       - - 49
         - 0
       size:
-      - 10.0
-      - 10.0
+      - 10
+      - 10
       vias:
       - enclosure: 2
         function: via
@@ -441,8 +441,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_16d0347b
     size:
-    - 10.0
-    - 10.0
+    - 10
+    - 10
   contact_84c67b1a:
     changed:
       layers:
@@ -453,8 +453,8 @@ cells:
       - - 49
         - 0
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
       vias:
       - enclosure: 2
         function: via
@@ -475,8 +475,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - enclosure: 2
         function: via
@@ -497,8 +497,8 @@ cells:
       - - 49
         - 0
       size:
-      - 30.0
-      - 10.0
+      - 30
+      - 10
       vias:
       - enclosure: 2
         function: via
@@ -517,8 +517,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_84c67b1a
     size:
-    - 30.0
-    - 10.0
+    - 30
+    - 10
   contact_87aeec60:
     changed:
       layers:
@@ -551,8 +551,8 @@ cells:
       - - 49
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       vias:
       - enclosure: 2
         function: via
@@ -593,8 +593,8 @@ cells:
     module: gdsfactory.components.contact
     name: contact_87aeec60
     size:
-    - 150.0
-    - 150.0
+    - 150
+    - 150
   via_cutback:
     changed: {}
     default:
@@ -604,18 +604,18 @@ cells:
       layer2:
       - 41
       - 0
-      min_pad_spacing: 0.0
-      num_vias: 100.0
+      min_pad_spacing: 0
+      num_vias: 100
       pad_size:
       - 150
       - 150
       via_layer:
       - 40
       - 0
-      via_spacing: 40.0
-      via_width: 5.0
-      wire_pad_inclusion: 12.0
-      wire_width: 10.0
+      via_spacing: 40
+      via_width: 5
+      wire_pad_inclusion: 12
+      wire_width: 10
     full:
       layer1:
       - 47
@@ -623,18 +623,18 @@ cells:
       layer2:
       - 41
       - 0
-      min_pad_spacing: 0.0
-      num_vias: 100.0
+      min_pad_spacing: 0
+      num_vias: 100
       pad_size:
       - 150
       - 150
       via_layer:
       - 40
       - 0
-      via_spacing: 40.0
-      via_width: 5.0
-      wire_pad_inclusion: 12.0
-      wire_width: 10.0
+      via_spacing: 40
+      via_width: 5
+      wire_pad_inclusion: 12
+      wire_width: 10
     function_name: via_cutback
     info_version: 1
     module: gdsfactory.components.via_cutback
@@ -648,18 +648,18 @@ info:
     layer2:
     - 41
     - 0
-    min_pad_spacing: 0.0
-    num_vias: 100.0
+    min_pad_spacing: 0
+    num_vias: 100
     pad_size:
     - 150
     - 150
     via_layer:
     - 40
     - 0
-    via_spacing: 40.0
-    via_width: 5.0
-    wire_pad_inclusion: 12.0
-    wire_width: 10.0
+    via_spacing: 40
+    via_width: 5
+    wire_pad_inclusion: 12
+    wire_width: 10
   full:
     layer1:
     - 47
@@ -667,18 +667,18 @@ info:
     layer2:
     - 41
     - 0
-    min_pad_spacing: 0.0
-    num_vias: 100.0
+    min_pad_spacing: 0
+    num_vias: 100
     pad_size:
     - 150
     - 150
     via_layer:
     - 40
     - 0
-    via_spacing: 40.0
-    via_width: 5.0
-    wire_pad_inclusion: 12.0
-    wire_width: 10.0
+    via_spacing: 40
+    via_width: 5
+    wire_pad_inclusion: 12
+    wire_width: 10
   function_name: via_cutback
   info_version: 1
   module: gdsfactory.components.via_cutback

@@ -9,17 +9,17 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
-      width: 1.0
+      width: 1
       width_mmi: 3
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       cross_section:
@@ -30,14 +30,14 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
-      width: 1.0
+      length_taper: 10
+      width: 1
       width_mmi: 3
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -54,7 +54,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: bend_euler
       cross_section:
@@ -65,7 +65,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       layer:
       - 34
@@ -79,10 +79,10 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: mmi1x2
-        width: 1.0
+        width: 1
         width_mmi: 3
       straight:
         cross_section:
@@ -93,12 +93,12 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
     default:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -116,7 +116,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: bend_euler
       combiner: null
@@ -128,9 +128,9 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
-      delta_length: 10.0
+      delta_length: 10
       layer:
       - 34
       - 0
@@ -145,10 +145,10 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: mmi1x2
-        width: 1.0
+        width: 1
         width_mmi: 3
       straight:
         cross_section:
@@ -159,7 +159,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
       straight_x_bot: null
@@ -181,7 +181,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: bend_euler
       cross_section:
@@ -192,7 +192,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
@@ -205,7 +205,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
       straight_y:
@@ -217,7 +217,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
     default:
@@ -236,7 +236,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: bend_euler
       cross_section:
@@ -247,7 +247,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
@@ -260,7 +260,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
       straight_y:
@@ -272,7 +272,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
     function_name: mzi_arm
@@ -292,7 +292,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: bend_euler
       cross_section:
@@ -303,7 +303,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
@@ -316,7 +316,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
       straight_y:
@@ -328,7 +328,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
     default:
@@ -347,7 +347,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: bend_euler
       cross_section:
@@ -358,7 +358,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
@@ -371,7 +371,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
       straight_y:
@@ -383,7 +383,7 @@ cells:
           layers_cladding:
           - - 36
             - 0
-          width: 1.0
+          width: 1
         decorator: add_pins
         function: straight
     function_name: mzi_arm
@@ -403,7 +403,7 @@ info:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       function: bend_euler
     cross_section:
@@ -414,7 +414,7 @@ info:
       layers_cladding:
       - - 36
         - 0
-      width: 1.0
+      width: 1
     decorator: add_pins
     layer:
     - 34
@@ -428,10 +428,10 @@ info:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       function: mmi1x2
-      width: 1.0
+      width: 1
       width_mmi: 3
     straight:
       cross_section:
@@ -442,12 +442,12 @@ info:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       function: straight
   default:
     combiner: null
-    delta_length: 10.0
+    delta_length: 10
     layer: null
     length_x: 0.1
     length_y: 0.8
@@ -465,7 +465,7 @@ info:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       function: bend_euler
     combiner: null
@@ -477,9 +477,9 @@ info:
       layers_cladding:
       - - 36
         - 0
-      width: 1.0
+      width: 1
     decorator: add_pins
-    delta_length: 10.0
+    delta_length: 10
     layer:
     - 34
     - 0
@@ -494,10 +494,10 @@ info:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       function: mmi1x2
-      width: 1.0
+      width: 1
       width_mmi: 3
     straight:
       cross_section:
@@ -508,7 +508,7 @@ info:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       function: straight
     straight_x_bot: null
@@ -526,11 +526,11 @@ ports:
     - 0
     midpoint:
     - -12.75
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
-    width: 1.0
+    width: 1
   o2:
     layer:
     - 34
@@ -539,7 +539,7 @@ ports:
     - 78.35
     - 1.7763568394002505e-15
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
-    width: 1.0
+    width: 1
 version: 1

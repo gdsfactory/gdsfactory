@@ -8,7 +8,7 @@ cells:
       columns: 6
       rows: 6
       spacing: 3
-      straight_length: 5.0
+      straight_length: 5
     full:
       bend180:
         angle: 180
@@ -16,7 +16,7 @@ cells:
       columns: 6
       rows: 6
       spacing: 3
-      straight_length: 5.0
+      straight_length: 5
     function_name: cutback_bend180
     info_version: 1
     module: gdsfactory.components.cutback_bend
@@ -31,7 +31,7 @@ info:
     columns: 6
     rows: 6
     spacing: 3
-    straight_length: 5.0
+    straight_length: 5
   full:
     bend180:
       angle: 180
@@ -39,7 +39,7 @@ info:
     columns: 6
     rows: 6
     spacing: 3
-    straight_length: 5.0
+    straight_length: 5
   function_name: cutback_bend180
   info_version: 1
   module: gdsfactory.components.cutback_bend
@@ -52,9 +52,9 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -63,9 +63,9 @@ ports:
     - 0
     midpoint:
     - 142.5
-    - 0.0
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1
