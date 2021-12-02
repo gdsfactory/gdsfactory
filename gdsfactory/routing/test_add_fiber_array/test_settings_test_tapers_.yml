@@ -170,7 +170,7 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  taper_a12566bf:
+  taper_bea08b71:
     changed:
       width2: 2.0
     default:
@@ -189,7 +189,7 @@ cells:
     info_version: 1
     length: 10.0
     module: gdsfactory.components.taper
-    name: taper_a12566bf
+    name: taper_bea08b71
     width1: 0.5
     width2: 2.0
 info:

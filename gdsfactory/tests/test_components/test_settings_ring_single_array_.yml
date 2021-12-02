@@ -1,5 +1,5 @@
 cells:
-  coupler_ring_178d2d8d:
+  coupler_ring_ca9f110c:
     changed:
       bend: bend_euler
       cross_section:
@@ -22,8 +22,8 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_178d2d8d
-  coupler_ring_d2f83683:
+    name: coupler_ring_ca9f110c
+  coupler_ring_e9939844:
     changed:
       bend: bend_euler
       cross_section:
@@ -46,8 +46,8 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_d2f83683
-  ring_single_4a512ec3:
+    name: coupler_ring_e9939844
+  ring_single_245fa0a7:
     changed:
       length_x: 20.0
       radius: 10.0
@@ -64,8 +64,8 @@ cells:
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
-    name: ring_single_4a512ec3
-  ring_single_5615f311:
+    name: ring_single_245fa0a7
+  ring_single_a371eccc:
     changed:
       length_x: 10.0
       radius: 5.0
@@ -82,7 +82,7 @@ cells:
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
-    name: ring_single_5615f311
+    name: ring_single_a371eccc
   ring_single_array:
     changed: {}
     default:

@@ -1,5 +1,5 @@
 cells:
-  compass_0cbf5bbe:
+  compass_164fc476:
     changed:
       layer:
       - 47
@@ -26,8 +26,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_0cbf5bbe
-  compass_2dfe0143:
+    name: compass_164fc476
+  compass_280a2d8b:
     changed:
       layer:
       - 45
@@ -54,8 +54,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_2dfe0143
-  compass_2e8a2663:
+    name: compass_280a2d8b
+  compass_8e661824:
     changed:
       layer:
       - 49
@@ -82,7 +82,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_2e8a2663
+    name: compass_8e661824
   contact_46068602:
     changed:
       layers:

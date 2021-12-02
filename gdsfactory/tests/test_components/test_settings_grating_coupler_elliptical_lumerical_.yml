@@ -24,6 +24,7 @@ cells:
   grating_coupler_ellipti_9d85a0c6:
     changed: {}
     default:
+      bias_gap: 0
       fiber_angle: 5
       info: null
       layer:
@@ -86,6 +87,7 @@ cells:
       taper_angle: 55
       taper_length: 12.6
     full:
+      bias_gap: 0
       fiber_angle: 5
       info: null
       layer:
@@ -157,6 +159,7 @@ cells:
 info:
   changed: {}
   default:
+    bias_gap: 0
     fiber_angle: 5
     info: null
     layer:
@@ -219,6 +222,7 @@ info:
     taper_angle: 55
     taper_length: 12.6
   full:
+    bias_gap: 0
     fiber_angle: 5
     info: null
     layer:

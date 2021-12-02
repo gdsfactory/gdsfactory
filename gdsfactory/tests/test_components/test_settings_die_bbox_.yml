@@ -1,5 +1,5 @@
 cells:
-  compass_ab62f0c6:
+  compass_85d33a91:
     changed:
       layer:
       - 1
@@ -27,7 +27,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ab62f0c6
+    name: compass_85d33a91
   die_bbox:
     changed: {}
     child:

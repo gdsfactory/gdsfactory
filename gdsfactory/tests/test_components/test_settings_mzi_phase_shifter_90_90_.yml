@@ -21,69 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-  mzi_arm_38283d76:
-    changed:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_38283d76
-  mzi_arm_a9f8ab38:
-    changed:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x:
-        function: straight_heater_metal_undercut
-        port_orientation1: 90
-        port_orientation2: 90
-        with_undercut: false
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x:
-        function: straight_heater_metal_undercut
-        port_orientation1: 90
-        port_orientation2: 90
-        with_undercut: false
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_a9f8ab38
-  mzi_e5da6127:
+  mzi_466b9b06:
     changed:
       length_x: 320.0
       straight_x_top:
@@ -118,7 +56,69 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_e5da6127
+    name: mzi_466b9b06
+  mzi_arm_5644a682:
+    changed:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_5644a682
+  mzi_arm_907a9428:
+    changed:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x:
+        function: straight_heater_metal_undercut
+        port_orientation1: 90
+        port_orientation2: 90
+        with_undercut: false
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x:
+        function: straight_heater_metal_undercut
+        port_orientation1: 90
+        port_orientation2: 90
+        with_undercut: false
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_907a9428
 info:
   changed:
     length_x: 320.0
@@ -154,7 +154,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi_e5da6127
+  name: mzi_466b9b06
 ports:
   e1:
     layer:

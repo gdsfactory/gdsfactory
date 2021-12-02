@@ -51,6 +51,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_offset: 2.0
       slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
@@ -76,6 +77,7 @@ cells:
       neff: 1.8
       p_start: 26
       polarization: tm
+      slab_offset: 2.0
       slab_xmin: -2
       spiked: true
       taper_angle: 40.0
@@ -118,6 +120,7 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
+    slab_offset: 2.0
     slab_xmin: -1.0
     spiked: true
     taper_angle: 40.0
@@ -143,6 +146,7 @@ info:
     neff: 1.8
     p_start: 26
     polarization: tm
+    slab_offset: 2.0
     slab_xmin: -2
     spiked: true
     taper_angle: 40.0

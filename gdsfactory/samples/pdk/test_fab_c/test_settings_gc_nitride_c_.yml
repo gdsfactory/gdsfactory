@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_ellipti_beccd913:
+  grating_coupler_ellipti_4d17128b:
     changed:
       decorator: add_pins
       grating_line_width: 0.6
@@ -49,6 +49,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_offset: 2.0
       slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
@@ -73,6 +74,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_offset: 2.0
       slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
@@ -82,7 +84,7 @@ cells:
     function_name: grating_coupler_elliptical
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_ellipti_beccd913
+    name: grating_coupler_ellipti_4d17128b
     polarization: te
     wavelength: 1.554
 info:
@@ -113,6 +115,7 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
+    slab_offset: 2.0
     slab_xmin: -1.0
     spiked: true
     taper_angle: 40.0
@@ -137,6 +140,7 @@ info:
     neff: 2.638
     p_start: 26
     polarization: te
+    slab_offset: 2.0
     slab_xmin: -1.0
     spiked: true
     taper_angle: 40.0
@@ -146,7 +150,7 @@ info:
   function_name: grating_coupler_elliptical
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_beccd913
+  name: grating_coupler_ellipti_4d17128b
   polarization: te
   wavelength: 1.554
 ports:

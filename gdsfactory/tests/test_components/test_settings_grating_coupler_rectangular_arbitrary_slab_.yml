@@ -1,5 +1,5 @@
 cells:
-  compass_0d7f6b07:
+  compass_14a57bc5:
     changed:
       layer:
       - 2
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_0d7f6b07
-  compass_76ebfe66:
+    name: compass_14a57bc5
+  compass_ae46bf3c:
     changed:
       layer:
       - 1
@@ -56,7 +56,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_76ebfe66
+    name: compass_ae46bf3c
   grating_coupler_rectang_c148e9a3:
     changed: {}
     default:
@@ -135,39 +135,7 @@ cells:
     name: grating_coupler_rectang_c148e9a3
     polarization: te
     wavelength: 1.55
-  rectangle_aed0566a:
-    changed:
-      centered: true
-      layer:
-      - 2
-      - 0
-      port_type: null
-      size:
-      - 9.0
-      - 15.0
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4.0
-      - 2.0
-    full:
-      centered: true
-      layer:
-      - 2
-      - 0
-      port_type: null
-      size:
-      - 9.0
-      - 15.0
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_aed0566a
-  rectangle_bbaaa725:
+  rectangle_14fb5f60:
     changed:
       centered: true
       layer:
@@ -198,8 +166,40 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_bbaaa725
-  taper_strip_to_ridge_87d45e3f:
+    name: rectangle_14fb5f60
+  rectangle_a3e44e0a:
+    changed:
+      centered: true
+      layer:
+      - 2
+      - 0
+      port_type: null
+      size:
+      - 9.0
+      - 15.0
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4.0
+      - 2.0
+    full:
+      centered: true
+      layer:
+      - 2
+      - 0
+      port_type: null
+      size:
+      - 9.0
+      - 15.0
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_a3e44e0a
+  taper_strip_to_ridge_2502810c:
     changed:
       layer_slab:
       - 2
@@ -242,7 +242,7 @@ cells:
     info_version: 1
     length: 150.0
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_87d45e3f
+    name: taper_strip_to_ridge_2502810c
 info:
   changed: {}
   default:

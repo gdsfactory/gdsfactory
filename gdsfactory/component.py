@@ -152,8 +152,13 @@ def _rotate_points(
         0.0,
     ),
 ) -> ndarray:
-    """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
-    input as either single points [1,2] or array-like[N][2], and will return in kind
+    """Rotates points around a center point
+    accepts single points [1,2] or array-like[N][2], and will return in kind
+
+    Args:
+        points: rotate points around center point
+        angle:
+        center:
     """
     # First check for common, easy values of angle
     p_arr = np.asarray(points)
@@ -679,7 +684,7 @@ class Component(Device):
         return self.ports[key2]
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Returns a the xdistance from east to west ports
+        """Returns xdistance from east to west ports
 
         Args:
             kwargs: orientation, port_type, layer
@@ -689,7 +694,7 @@ class Component(Device):
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Returns a the ydistance from east to west ports"""
+        """Returns ydistance from east to west ports"""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
@@ -1005,7 +1010,7 @@ class Component(Device):
 
     def copy_child_info(self, component) -> None:
         """Copy info from another component.
-        great for hiearchical components that propagate child cells info.
+        so hierarchical components propagate child cells info.
         """
         self.info.child = component.info
 
@@ -1118,7 +1123,7 @@ class Component(Device):
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
     ) -> Path:
-        """Write component to GDS and returs gdspath
+        """Write component to GDS and returns gdspath
 
         Args:
             gdspath: GDS file path to write to.
@@ -1184,7 +1189,7 @@ class Component(Device):
         return OmegaConf.to_yaml(self.to_dict())
 
     def to_dict_polygons(self) -> DictConfig:
-        """Returns a dict representation of the flattened compoment."""
+        """Returns a dict representation of the flattened component."""
         d = DictConfig({})
         polygons = {}
         layer_to_polygons = self.get_polygons(by_spec=True)

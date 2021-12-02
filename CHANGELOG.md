@@ -17,6 +17,13 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.0
+
+- fix clean_name
+    - generators and iterables are properly hashed now
+    - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
+- add bias to grating_coupler_lumerical
+
 ## 3.6.8
 
 - `add_fiber_single` allows to have multiple gratings

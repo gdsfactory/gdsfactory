@@ -40,7 +40,7 @@ info:
   info_version: 1
   length: 16.637
   module: gdsfactory.components.bend_euler
-  name: bend_euler_7760522e
+  name: bend_euler_40e83c11
   radius: 10.0
   radius_min: 7.061
 ports:

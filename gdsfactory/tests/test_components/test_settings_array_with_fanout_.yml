@@ -25,7 +25,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.array_with_fanout
     name: array_with_fanout
-  compass_4d115c34:
+  compass_a0b38c11:
     changed:
       layer:
       - 49
@@ -52,7 +52,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_4d115c34
+    name: compass_a0b38c11
   pad:
     changed: {}
     default:

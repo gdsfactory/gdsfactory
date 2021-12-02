@@ -17,10 +17,18 @@ def get_input_label_text(
     component_name: Optional[str] = None,
     prefix: str = "",
 ) -> str:
-    """Get text string for an optical port based on grating coupler."""
-    polarization = gc.info.get("polarization")
-    wavelength = gc.info.get("wavelength")
-    prefix = prefix or ""
+    """Get text string for an optical port based on grating coupler.
+
+    Args:
+        port:
+        gc: grating coupler
+        gc_index: grating_coupler index, which grating_coupler we are labelling
+        component_name:
+        prefix:
+
+    """
+    polarization = gc.info_child.get("polarization")
+    wavelength = gc.info_child.get("wavelength")
 
     assert polarization in [
         "te",
