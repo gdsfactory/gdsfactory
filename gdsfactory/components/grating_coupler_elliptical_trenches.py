@@ -146,6 +146,7 @@ grating_coupler_tm = gf.partial(
     polarization="tm",
     neff=1.8,
     grating_line_width=0.6,
+    fiber_marker_layer=gf.LAYER.TM,
 )
 
 
