@@ -23,8 +23,11 @@ def straight_pin(
 
     https://doi.org/10.1364/OE.26.029983
 
-    500um length from
+    500um length for PI phase shift
     https://ieeexplore.ieee.org/document/8268112
+
+    to go beyond 2PI, you will need at least 1mm
+    https://ieeexplore.ieee.org/document/8853396/
 
     Args:
         length: of the waveguide
