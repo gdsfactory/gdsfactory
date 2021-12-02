@@ -1,5 +1,5 @@
 cells:
-  coupler_ring_4bd95143:
+  coupler_ring_6859e681:
     changed:
       bend: bend_euler
       cross_section:
@@ -22,7 +22,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_4bd95143
+    name: coupler_ring_6859e681
   ring_single:
     changed: {}
     default:

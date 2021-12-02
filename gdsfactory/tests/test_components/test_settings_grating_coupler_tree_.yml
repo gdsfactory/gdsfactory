@@ -42,6 +42,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_offset: 2.0
       slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
@@ -67,6 +68,7 @@ cells:
       neff: 2.638
       p_start: 26
       polarization: te
+      slab_offset: 2.0
       slab_xmin: -1.0
       spiked: true
       taper_angle: 40.0
@@ -94,7 +96,7 @@ cells:
       function_name: straight_array
       info_version: 1
       module: gdsfactory.components.straight_array
-      name: straight_array_36e5af9c
+      name: straight_array_e79eb4c6
     default:
       fanout_length: 0.0
       layer_label:
@@ -130,7 +132,7 @@ info:
     function_name: straight_array
     info_version: 1
     module: gdsfactory.components.straight_array
-    name: straight_array_36e5af9c
+    name: straight_array_e79eb4c6
   default:
     fanout_length: 0.0
     layer_label:

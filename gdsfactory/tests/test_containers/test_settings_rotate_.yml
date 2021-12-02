@@ -19,7 +19,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_23817010:
+  mzi_ac6d448d:
     changed:
       length_x: 320.0
       splitter: mmi2x2
@@ -52,35 +52,8 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_23817010
-  mzi_arm_38283d76:
-    changed:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_38283d76
-  mzi_arm_f8b34917:
+    name: mzi_ac6d448d
+  mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
       length_x: 320.0
@@ -110,10 +83,37 @@ cells:
     length_x: 320.0
     length_xsize: 320.0
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_f8b34917
-  rotate_3dca3254:
+    name: mzi_arm_3aabaa29
+  mzi_arm_5644a682:
     changed:
-      component: mzi_23817010
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320.0
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320.0
+    length_xsize: 320.0
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_5644a682
+  rotate_487eeed5:
+    changed:
+      component: mzi_ac6d448d
     child:
       changed:
         length_x: 320.0
@@ -147,19 +147,19 @@ cells:
       function_name: mzi
       info_version: 1
       module: gdsfactory.components.mzi
-      name: mzi_23817010
+      name: mzi_ac6d448d
     default:
       angle: 90
     full:
       angle: 90
-      component: mzi_23817010
+      component: mzi_ac6d448d
     function_name: rotate
     info_version: 1
     module: gdsfactory.functions
-    name: rotate_3dca3254
+    name: rotate_487eeed5
 info:
   changed:
-    component: mzi_23817010
+    component: mzi_ac6d448d
   child:
     changed:
       length_x: 320.0
@@ -193,16 +193,16 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_23817010
+    name: mzi_ac6d448d
   default:
     angle: 90
   full:
     angle: 90
-    component: mzi_23817010
+    component: mzi_ac6d448d
   function_name: rotate
   info_version: 1
   module: gdsfactory.functions
-  name: rotate_3dca3254
+  name: rotate_487eeed5
 ports:
   e1:
     layer:

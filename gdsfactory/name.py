@@ -3,7 +3,7 @@
 import functools
 import hashlib
 import inspect
-from typing import Any
+from typing import Any, Iterable
 
 import numpy as np
 import toolz
@@ -138,8 +138,8 @@ def clean_value(value: Any) -> str:
     elif isinstance(value, (float, np.float64)):
         if 1 > value > 1e-3:
             value = f"{int(value*1e3)}n"
-        # elif float(int(value)) == value:
-        #     value = str(int(value))
+        elif int(value) == value:
+            value = str(int(value))
         elif 1e-6 < value < 1e-3:
             value = f"{snap_to_grid(value*1e6)}u"
         elif 1e-9 < value < 1e-6:
@@ -148,15 +148,13 @@ def clean_value(value: Any) -> str:
             value = f"{snap_to_grid(value*1e12)}p"
         else:
             value = str(snap_to_grid(value)).replace(".", "p")
-    elif isinstance(value, list):
-        value = "_".join(clean_value(v) for v in value)
-    elif isinstance(value, tuple):
-        value = "_".join(clean_value(v) for v in value)
+    elif isinstance(value, Device):
+        value = clean_name(value.name)
+    elif isinstance(value, str):
+        value = value.strip()
     elif isinstance(value, dict):
         value = dict2name(**value)
         # value = [f"{k}={v!r}" for k, v in value.items()]
-    elif isinstance(value, Device):
-        value = clean_name(value.name)
     elif isinstance(value, Port):
         value = f"{value.name}_{value.width}_{value.x}_{value.y}"
     elif isinstance(value, PathPhidl):
@@ -176,10 +174,10 @@ def clean_value(value: Any) -> str:
         value = "_".join(clean_value(v) for v in value.funcs)
     elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
-    elif isinstance(value, str):
-        value = value.strip()
     elif hasattr(value, "get_name"):
         value = value.get_name()
+    elif isinstance(value, Iterable):
+        value = "_".join(clean_value(v) for v in value)
 
     return str(value)
 
@@ -204,7 +202,7 @@ def get_name(name: str) -> str:
 def test_clean_value() -> None:
     assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
-    assert clean_value(5.0) == "5p0"
+    assert clean_value(5.0) == "5"
     assert clean_value(11.001) == "11p001"
 
 

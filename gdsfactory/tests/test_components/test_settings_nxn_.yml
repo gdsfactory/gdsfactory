@@ -1,5 +1,5 @@
 cells:
-  compass_fe3035d6:
+  compass_f2a0af54:
     changed:
       layer:
       - 1
@@ -27,7 +27,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_fe3035d6
+    name: compass_f2a0af54
   nxn:
     changed: {}
     default:
@@ -58,7 +58,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.nxn
     name: nxn
-  rectangle_5d4dce0b:
+  rectangle_48d69079:
     changed:
       layer:
       - 1
@@ -87,7 +87,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_5d4dce0b
+    name: rectangle_48d69079
 info:
   changed: {}
   default:

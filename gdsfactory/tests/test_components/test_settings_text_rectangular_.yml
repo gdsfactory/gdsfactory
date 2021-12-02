@@ -1,5 +1,5 @@
 cells:
-  manhattan_text_1d329291:
+  manhattan_text_3f068da3:
     changed:
       justify: left
       layer:
@@ -33,7 +33,7 @@ cells:
     function_name: manhattan_text
     info_version: 1
     module: gdsfactory.components.manhattan_font
-    name: manhattan_text_1d329291
+    name: manhattan_text_3f068da3
   text_rectangular:
     changed: {}
     default:

@@ -1,7 +1,7 @@
 cells: {}
 info:
   changed:
-    component: mzi_23817010
+    component: mzi_ac6d448d
   child:
     changed:
       length_x: 320.0
@@ -35,7 +35,7 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_23817010
+    name: mzi_ac6d448d
   default:
     angle: 180
     extension_length: null
@@ -45,7 +45,7 @@ info:
     port_name2_bend: null
   full:
     angle: 180
-    component: mzi_23817010
+    component: mzi_ac6d448d
     extension_length: null
     port_name: e1
     port_name1_bend: null
@@ -54,7 +54,7 @@ info:
   function_name: bend_port
   info_version: 1
   module: gdsfactory.components.bend_port
-  name: bend_port_3dca3254
+  name: bend_port_487eeed5
 ports:
   e1:
     layer:

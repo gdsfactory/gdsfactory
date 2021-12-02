@@ -1,5 +1,5 @@
 cells:
-  compass_a7226b2c:
+  compass_896ae020:
     changed:
       layer:
       - 1
@@ -27,7 +27,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a7226b2c
+    name: compass_896ae020
   rectangle:
     changed: {}
     default:

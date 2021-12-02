@@ -1,5 +1,5 @@
 cells:
-  bezier_604d62da:
+  bezier_87e8511e:
     changed:
       control_points:
       - - 0
@@ -58,7 +58,7 @@ cells:
     length: 42.087
     min_bend_radius: 18.226
     module: gdsfactory.components.bezier
-    name: bezier_604d62da
+    name: bezier_87e8511e
     start_angle: 0.301
   compensation_path:
     changed: {}
@@ -130,7 +130,7 @@ cells:
       length: 42.087
       min_bend_radius: 18.226
       module: gdsfactory.components.bezier
-      name: bezier_604d62da
+      name: bezier_87e8511e
       start_angle: 0.301
   crossing:
     changed: {}
@@ -210,7 +210,7 @@ info:
     length: 42.087
     min_bend_radius: 18.226
     module: gdsfactory.components.bezier
-    name: bezier_604d62da
+    name: bezier_87e8511e
     start_angle: 0.301
 ports:
   o1:

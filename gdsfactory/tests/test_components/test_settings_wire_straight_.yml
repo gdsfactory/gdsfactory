@@ -38,7 +38,7 @@ info:
   info_version: 1
   length: 10.0
   module: gdsfactory.components.straight
-  name: straight_3ca4468e
+  name: straight_d9d77473
   width: 10.0
 ports:
   e1:

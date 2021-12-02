@@ -1,5 +1,5 @@
 cells:
-  spiral_inner_io_5d149cf5:
+  spiral_inner_io_82cec748:
     changed:
       cross_section:
         function: cross_section
@@ -35,7 +35,7 @@ cells:
     info_version: 1
     length: 9973.394
     module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_5d149cf5
+    name: spiral_inner_io_82cec748
   spiral_inner_io_fiber_single:
     changed: {}
     child:
@@ -74,7 +74,7 @@ cells:
       info_version: 1
       length: 9973.394
       module: gdsfactory.components.spiral_inner_io
-      name: spiral_inner_io_5d149cf5
+      name: spiral_inner_io_82cec748
     default:
       cross_section_bend: null
       cross_section_ports: null
@@ -133,7 +133,7 @@ info:
     info_version: 1
     length: 9973.394
     module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_5d149cf5
+    name: spiral_inner_io_82cec748
   default:
     cross_section_bend: null
     cross_section_ports: null

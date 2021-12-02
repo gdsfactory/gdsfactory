@@ -1,5 +1,5 @@
 cells:
-  compass_306064d6:
+  compass_225d333d:
     changed:
       layer:
       - 45
@@ -26,8 +26,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_306064d6
-  compass_b4336a8a:
+    name: compass_225d333d
+  compass_ef690c07:
     changed:
       layer:
       - 41
@@ -54,7 +54,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_b4336a8a
+    name: compass_ef690c07
   contact_slot:
     changed: {}
     default:
