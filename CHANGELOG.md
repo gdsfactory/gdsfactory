@@ -20,7 +20,7 @@ Maybe:
 ## 3.6.8
 
 - `add_fiber_single` allows to have multiple gratings
-- converted add_fiber_single from `cell_without_validator` to `cell`
+- converted add_fiber_single, component_sequence and add_fiber_array from `cell_without_validator` to `cell`
 
 ## 3.6.7
 
