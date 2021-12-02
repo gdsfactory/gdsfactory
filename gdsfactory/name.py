@@ -146,7 +146,7 @@ def clean_value(value: Any) -> str:
             value = f"{snap_to_grid(value*1e9)}n"
         elif 1e-12 < value < 1e-9:
             value = f"{snap_to_grid(value*1e12)}p"
-        else:
+        else:  # Any unit < 1pm will disappear
             value = str(snap_to_grid(value)).replace(".", "p")
     elif isinstance(value, Device):
         value = clean_name(value.name)
@@ -171,7 +171,9 @@ def clean_value(value: Any) -> str:
         args_as_kwargs.update(**value.keywords)
         value = value.func.__name__ + dict2name(**args_as_kwargs)
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
-        value = "_".join(clean_value(v) for v in value.funcs)
+        value = "_".join(
+            [clean_value(v) for v in value.funcs] + [clean_value(value.first)]
+        )
     elif callable(value) and hasattr(value, "__name__"):
         value = value.__name__
     elif hasattr(value, "get_name"):

@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10.0
+      radius: 10
     full:
       angle_resolution: 2.5
       layer:
@@ -24,12 +24,12 @@ cells:
   grating_coupler_circular:
     changed: {}
     default:
-      cladding_offset: 2.0
+      cladding_offset: 2
       direction: EAST
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11.0
+      fiber_marker_width: 11
       fill_factor: 0.7
       layer:
       - 1
@@ -38,24 +38,24 @@ cells:
       - 111
       - 0
       layer_slab: null
-      length: 30.0
-      period: 1.0
+      length: 30
+      period: 1
       polarization: te
       port:
-      - 0.0
-      - 0.0
-      taper_angle: 30.0
-      taper_length: 10.0
+      - 0
+      - 0
+      taper_angle: 30
+      taper_length: 10
       teeth_list: null
       wavelength: 1.55
       wg_width: 0.5
     full:
-      cladding_offset: 2.0
+      cladding_offset: 2
       direction: EAST
       fiber_marker_layer:
       - 203
       - 0
-      fiber_marker_width: 11.0
+      fiber_marker_width: 11
       fill_factor: 0.7
       layer:
       - 1
@@ -64,14 +64,14 @@ cells:
       - 111
       - 0
       layer_slab: null
-      length: 30.0
-      period: 1.0
+      length: 30
+      period: 1
       polarization: te
       port:
-      - 0.0
-      - 0.0
-      taper_angle: 30.0
-      taper_length: 10.0
+      - 0
+      - 0
+      taper_angle: 30
+      taper_length: 10
       teeth_list: null
       wavelength: 1.55
       wg_width: 0.5
@@ -84,12 +84,12 @@ cells:
 info:
   changed: {}
   default:
-    cladding_offset: 2.0
+    cladding_offset: 2
     direction: EAST
     fiber_marker_layer:
     - 203
     - 0
-    fiber_marker_width: 11.0
+    fiber_marker_width: 11
     fill_factor: 0.7
     layer:
     - 1
@@ -98,24 +98,24 @@ info:
     - 111
     - 0
     layer_slab: null
-    length: 30.0
-    period: 1.0
+    length: 30
+    period: 1
     polarization: te
     port:
-    - 0.0
-    - 0.0
-    taper_angle: 30.0
-    taper_length: 10.0
+    - 0
+    - 0
+    taper_angle: 30
+    taper_length: 10
     teeth_list: null
     wavelength: 1.55
     wg_width: 0.5
   full:
-    cladding_offset: 2.0
+    cladding_offset: 2
     direction: EAST
     fiber_marker_layer:
     - 203
     - 0
-    fiber_marker_width: 11.0
+    fiber_marker_width: 11
     fill_factor: 0.7
     layer:
     - 1
@@ -124,14 +124,14 @@ info:
     - 111
     - 0
     layer_slab: null
-    length: 30.0
-    period: 1.0
+    length: 30
+    period: 1
     polarization: te
     port:
-    - 0.0
-    - 0.0
-    taper_angle: 30.0
-    taper_length: 10.0
+    - 0
+    - 0
+    taper_angle: 30
+    taper_length: 10
     teeth_list: null
     wavelength: 1.55
     wg_width: 0.5
@@ -147,10 +147,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -158,10 +158,10 @@ ports:
     - 203
     - 0
     midpoint:
-    - 21.0
-    - 0.0
+    - 21
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
-    width: 11.0
+    width: 11
 version: 1

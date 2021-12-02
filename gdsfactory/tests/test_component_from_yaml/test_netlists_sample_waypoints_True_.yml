@@ -23,8 +23,8 @@ instances:
       orientation: 90
       rows: 1
       spacing:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
   bend_euler_93ab05a3_154p875_145p125:
     component: bend_euler
     settings:
@@ -127,7 +127,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 140.0
+      length: 140
       npoints: 2
       with_cladding_box: true
   straight_1a997572_225p0_550p0:
@@ -136,7 +136,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 630.0
+      length: 630
       npoints: 2
       with_cladding_box: true
   straight_1a997572_75p0_400p0:
@@ -145,7 +145,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 630.0
+      length: 630
       npoints: 2
       with_cladding_box: true
   straight_27026560_0p0_145p0:
@@ -154,7 +154,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 290.0
+      length: 290
       npoints: 2
       with_cladding_box: true
   straight_61c245c0_400p0_350p0:
@@ -163,7 +163,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 80.0
+      length: 80
       npoints: 2
       with_cladding_box: true
   straight_9dca303a_m250p0_705p0:
@@ -172,7 +172,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 590.0
+      length: 590
       npoints: 2
       with_cladding_box: true
   straight_b169702d_200p0_300p0:
@@ -181,7 +181,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380.0
+      length: 380
       npoints: 2
       with_cladding_box: true
   straight_b169702d_350p0_150p0:
@@ -190,7 +190,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380.0
+      length: 380
       npoints: 2
       with_cladding_box: true
   straight_b169702d_550p0_350p0:
@@ -199,7 +199,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380.0
+      length: 380
       npoints: 2
       with_cladding_box: true
   straight_d04bc13d_m100p0_780p0:
@@ -208,7 +208,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 440.0
+      length: 440
       npoints: 2
       with_cladding_box: true
   t:
@@ -218,8 +218,8 @@ instances:
       orientation: 270
       rows: 1
       spacing:
-      - 150.0
-      - 150.0
+      - 150
+      - 150
 name: sample_waypoints
 placements:
   b:

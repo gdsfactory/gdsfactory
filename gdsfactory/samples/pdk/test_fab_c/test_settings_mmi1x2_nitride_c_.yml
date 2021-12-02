@@ -9,17 +9,17 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
-      width: 1.0
+      width: 1
       width_mmi: 3
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       cross_section:
@@ -30,14 +30,14 @@ cells:
         layers_cladding:
         - - 36
           - 0
-        width: 1.0
+        width: 1
       decorator: add_pins
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
-      width: 1.0
+      length_taper: 10
+      width: 1
       width_mmi: 3
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -53,17 +53,17 @@ info:
       layers_cladding:
       - - 36
         - 0
-      width: 1.0
+      width: 1
     decorator: add_pins
-    width: 1.0
+    width: 1
     width_mmi: 3
   default:
     gap_mmi: 0.25
     length_mmi: 5.5
-    length_taper: 10.0
+    length_taper: 10
     width: 0.5
     width_mmi: 2.5
-    width_taper: 1.0
+    width_taper: 1
     with_cladding_box: true
   full:
     cross_section:
@@ -74,14 +74,14 @@ info:
       layers_cladding:
       - - 36
         - 0
-      width: 1.0
+      width: 1
     decorator: add_pins
     gap_mmi: 0.25
     length_mmi: 5.5
-    length_taper: 10.0
-    width: 1.0
+    length_taper: 10
+    width: 1
     width_mmi: 3
-    width_taper: 1.0
+    width_taper: 1
     with_cladding_box: true
   function_name: mmi1x2
   info_version: 1
@@ -94,11 +94,11 @@ ports:
     - 0
     midpoint:
     - -12.75
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
-    width: 1.0
+    width: 1
   o2:
     layer:
     - 34
@@ -107,9 +107,9 @@ ports:
     - 12.75
     - 0.625
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
-    width: 1.0
+    width: 1
   o3:
     layer:
     - 34
@@ -118,7 +118,7 @@ ports:
     - 12.75
     - -0.625
     name: o3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
-    width: 1.0
+    width: 1
 version: 1

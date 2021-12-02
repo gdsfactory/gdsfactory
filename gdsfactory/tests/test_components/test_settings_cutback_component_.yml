@@ -14,13 +14,13 @@ cells:
       cols: 4
       port1: o1
       port2: o2
-      radius: 5.0
+      radius: 5
       rows: 5
     full:
       cols: 4
       port1: o1
       port2: o2
-      radius: 5.0
+      radius: 5
       rows: 5
     function_name: cutback_component
     info_version: 1
@@ -29,16 +29,16 @@ cells:
   straight:
     changed: {}
     default:
-      length: 10.0
+      length: 10
       npoints: 2
       with_cladding_box: true
     full:
-      length: 10.0
+      length: 10
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.straight
     name: straight
     width: 0.5
@@ -65,13 +65,13 @@ info:
     cols: 4
     port1: o1
     port2: o2
-    radius: 5.0
+    radius: 5
     rows: 5
   full:
     cols: 4
     port1: o1
     port2: o2
-    radius: 5.0
+    radius: 5
     rows: 5
   function_name: cutback_component
   info_version: 1
@@ -83,10 +83,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -95,9 +95,9 @@ ports:
     - 0
     midpoint:
     - 583.6799999999997
-    - 0.0
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

@@ -15,10 +15,10 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       cross_section:
@@ -33,10 +33,10 @@ cells:
       decorator: add_pins
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.9
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -96,7 +96,7 @@ cells:
         function: straight
     default:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -128,7 +128,7 @@ cells:
           - 0
         width: 0.9
       decorator: add_pins
-      delta_length: 10.0
+      delta_length: 10
       layer:
       - 34
       - 0
@@ -443,7 +443,7 @@ info:
       function: straight
   default:
     combiner: null
-    delta_length: 10.0
+    delta_length: 10
     layer: null
     length_x: 0.1
     length_y: 0.8
@@ -475,7 +475,7 @@ info:
         - 0
       width: 0.9
     decorator: add_pins
-    delta_length: 10.0
+    delta_length: 10
     layer:
     - 34
     - 0
@@ -521,9 +521,9 @@ ports:
     - 0
     midpoint:
     - -12.75
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.9
   o2:
@@ -534,7 +534,7 @@ ports:
     - 78.35
     - 1.7763568394002505e-15
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.9
 version: 1

@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 if __name__ == "__main__":
-    c1 = gf.c.straight(length=5)
+    c1 = gf.c.straight(length=5.0 + 1e-20)  # any unit below pm disappears
     c2 = gf.c.straight(length=5.0)
 
     print(c1.name)

@@ -5,24 +5,24 @@ cells:
       - 49
       - 0
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 49
       - 0
       port_type: electrical
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -36,8 +36,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     full:
       cladding_offsets: null
       layer:
@@ -45,8 +45,8 @@ cells:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
     function_name: pad
     info_version: 1
     layer:
@@ -55,8 +55,8 @@ cells:
     module: gdsfactory.components.pad
     name: pad
     size:
-    - 100.0
-    - 100.0
+    - 100
+    - 100
   sample_path_length_matching: {}
 info:
   name: sample_path_length_matching

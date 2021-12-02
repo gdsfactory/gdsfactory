@@ -24,8 +24,8 @@ def test_flatten_device() -> Component:
     c.add_ref(gf.components.rectangle(size=(10, 3), layer=gf.LAYER.SLAB150))
 
     assert len(c.references) == 3
-    c.flatten()
-    assert len(c.references) == 0
+    c2 = c.flatten()
+    assert len(c2.references) == 0
     return c
 
 

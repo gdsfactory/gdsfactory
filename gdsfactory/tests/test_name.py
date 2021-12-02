@@ -50,6 +50,12 @@ def test_name_int_float():
     assert c1.name == c2.name, f"{c1.name} does not match {c2.name}"
 
 
+def test_float_point_errors():
+    c1 = gf.c.straight(length=5.0 + 1e-20)  # any unit below pm disappears
+    c2 = gf.c.straight(length=5.0)
+    assert c1.name == c2.name, f"{c1.name} does not match {c2.name}"
+
+
 if __name__ == "__main__":
     test_name_partial_functions()
     test_name_int_float()

@@ -35,8 +35,7 @@ def test_compose2():
     c500 = mzi500()
     c900 = mzi900()
 
-    # assert c900.name != c500.name, f"{c500.name} must be different from {c900.name}"
-    print(f"{c500.name} must be different from {c900.name}")
+    assert c900.name != c500.name, f"{c500.name} must be different from {c900.name}"
 
 
 if __name__ == "__main__":

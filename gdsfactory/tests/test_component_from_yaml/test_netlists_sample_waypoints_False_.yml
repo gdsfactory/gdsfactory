@@ -74,70 +74,70 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 140.0
+      length: 140
   straight_1a997572_225p0_550p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 630.0
+      length: 630
   straight_1a997572_75p0_400p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 630.0
+      length: 630
   straight_27026560_0p0_145p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 290.0
+      length: 290
   straight_61c245c0_400p0_350p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 80.0
+      length: 80
   straight_9dca303a_m250p0_705p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 590.0
+      length: 590
   straight_b169702d_200p0_300p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380.0
+      length: 380
   straight_b169702d_350p0_150p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380.0
+      length: 380
   straight_b169702d_550p0_350p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 380.0
+      length: 380
   straight_d04bc13d_m100p0_780p0:
     component: straight
     settings:
       auto_widen: false
       cross_section:
         function: cross_section
-      length: 440.0
+      length: 440
   t:
     component: pad_array
     settings:

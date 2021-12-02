@@ -182,6 +182,7 @@ def cell_without_validator(func):
             component.info.full = full
 
             component.info.update(**info)
+            component._cached = True
             CACHE[name] = component
             return component
 

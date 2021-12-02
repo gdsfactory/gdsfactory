@@ -36,6 +36,11 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
+
+class MutabilityError(ValueError):
+    pass
+
+
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
@@ -631,6 +636,7 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
+        self._cached = False
 
     @classmethod
     def __get_validators__(cls):
@@ -1021,6 +1027,45 @@ class Component(Device):
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
 
+    def add(self, element):
+        """
+        Add a new element or list of elements to this Component
+
+        Args:
+            element : `PolygonSet`, `CellReference`, `CellArray` or iterable
+            The element or iterable of elements to be inserted in this
+            cell.
+
+        """
+        if self._cached:
+            raise MutabilityError(
+                f"Error Adding element to cached Component {self.name!r}. "
+                "You need to make a copy of this cached Component or create a new one."
+            )
+        super().add(element)
+
+    def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
+        """Returns a flattened copy of the component
+        Flattens the hierarchy of the Component such that there are no longer
+        any references to other Components. All polygons and labels from
+        underlying references are copied and placed in the top-level Component.
+        If single_layer is specified, all polygons are moved to that layer.
+
+        Args:
+            single_layer: move all polygons are moved to the specified
+        """
+
+        component_flat = self.copy()
+        component_flat.polygons = []
+        component_flat.references = []
+
+        poly_dict = self.get_polygons(by_spec=True)
+        for layer, polys in poly_dict.items():
+            component_flat.add_polygon(polys, layer=single_layer or layer)
+
+        component_flat.name = f"{self.name}_flat"
+        return component_flat
+
     def add_ref(self, D: Device, alias: Optional[str] = None) -> "ComponentReference":
         """Takes a Component and adds it as a ComponentReference to the current
         Device."""
@@ -1378,13 +1423,13 @@ def _clean_value(value: Any) -> Any:
     if isinstance(value, CrossSection):
         value = value.info
         # value = clean_dict(value.to_dict())
-    # if isinstance(value, float) and float(int(value)) == value:
-    #     value = int(value)
-    if type(value) in [int, float, str, bool]:
-        return value
-    if isinstance(value, (np.int64, np.int32)):
+    if isinstance(value, float) and int(value) == value:
         value = int(value)
-    if isinstance(value, np.ndarray):
+    elif type(value) in [int, float, str, bool]:
+        value = value
+    elif isinstance(value, (np.int64, np.int32)):
+        value = int(value)
+    elif isinstance(value, np.ndarray):
         value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)

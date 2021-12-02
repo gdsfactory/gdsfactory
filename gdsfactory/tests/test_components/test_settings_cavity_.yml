@@ -34,13 +34,13 @@ cells:
       gap: 0.2
       length: 0.1
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.2
       length: 0.1
     function_name: coupler
@@ -103,10 +103,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - -2.15
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -117,7 +117,7 @@ ports:
     - 10.1
     - -2.1500000000000004
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

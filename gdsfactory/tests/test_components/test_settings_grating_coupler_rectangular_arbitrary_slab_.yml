@@ -6,24 +6,24 @@ cells:
       - 0
       port_type: null
       size:
-      - 9.0
-      - 15.0
+      - 9
+      - 15
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 2
       - 0
       port_type: null
       size:
-      - 9.0
-      - 15.0
+      - 9
+      - 15
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -36,15 +36,15 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
@@ -52,7 +52,7 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
@@ -77,12 +77,12 @@ cells:
       layer_slab:
       - 2
       - 0
-      length_taper: 150.0
+      length_taper: 150
       polarization: te
-      slab_offset: 2.0
+      slab_offset: 2
       wavelength: 1.55
       wg_width: 0.5
-      width_grating: 11.0
+      width_grating: 11
       widths:
       - 0.5
       - 0.5
@@ -112,12 +112,12 @@ cells:
       layer_slab:
       - 2
       - 0
-      length_taper: 150.0
+      length_taper: 150
       polarization: te
-      slab_offset: 2.0
+      slab_offset: 2
       wavelength: 1.55
       wg_width: 0.5
-      width_grating: 11.0
+      width_grating: 11
       widths:
       - 0.5
       - 0.5
@@ -144,7 +144,7 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     default:
       centered: false
       layer:
@@ -152,8 +152,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: true
       layer:
@@ -162,7 +162,7 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -175,8 +175,8 @@ cells:
       - 0
       port_type: null
       size:
-      - 9.0
-      - 15.0
+      - 9
+      - 15
     default:
       centered: false
       layer:
@@ -184,8 +184,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: true
       layer:
@@ -193,8 +193,8 @@ cells:
       - 0
       port_type: null
       size:
-      - 9.0
-      - 15.0
+      - 9
+      - 15
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
@@ -204,12 +204,12 @@ cells:
       layer_slab:
       - 2
       - 0
-      length: 150.0
-      w_slab2: 15.0
+      length: 150
+      w_slab2: 15
       width1: 0.5
-      width2: 11.0
+      width2: 11
     default:
-      cladding_offset: 3.0
+      cladding_offset: 3
       layer_slab:
       - 3
       - 0
@@ -217,14 +217,14 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      length: 10.0
+      length: 10
       w_slab1: 0.15
-      w_slab2: 6.0
+      w_slab2: 6
       width1: 0.5
       width2: 0.5
       with_slab_port: false
     full:
-      cladding_offset: 3.0
+      cladding_offset: 3
       layer_slab:
       - 2
       - 0
@@ -232,15 +232,15 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      length: 150.0
+      length: 150
       w_slab1: 0.15
-      w_slab2: 15.0
+      w_slab2: 15
       width1: 0.5
-      width2: 11.0
+      width2: 11
       with_slab_port: false
     function_name: taper_strip_to_ridge
     info_version: 1
-    length: 150.0
+    length: 150
     module: gdsfactory.components.taper
     name: taper_strip_to_ridge_2502810c
 info:
@@ -263,12 +263,12 @@ info:
     layer_slab:
     - 2
     - 0
-    length_taper: 150.0
+    length_taper: 150
     polarization: te
-    slab_offset: 2.0
+    slab_offset: 2
     wavelength: 1.55
     wg_width: 0.5
-    width_grating: 11.0
+    width_grating: 11
     widths:
     - 0.5
     - 0.5
@@ -298,12 +298,12 @@ info:
     layer_slab:
     - 2
     - 0
-    length_taper: 150.0
+    length_taper: 150
     polarization: te
-    slab_offset: 2.0
+    slab_offset: 2
     wavelength: 1.55
     wg_width: 0.5
-    width_grating: 11.0
+    width_grating: 11
     widths:
     - 0.5
     - 0.5
@@ -327,10 +327,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   vertical_te:
@@ -339,9 +339,9 @@ ports:
     - 0
     midpoint:
     - 153.5
-    - 0.0
+    - 0
     name: vertical_te
-    orientation: 0.0
+    orientation: 0
     port_type: vertical_te
-    width: 1.0
+    width: 1
 version: 1

@@ -7,7 +7,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       widths:
       - 0.4
@@ -15,14 +15,14 @@ cells:
       - 0.5
       - 0.6
       - 0.8
-      - 1.0
+      - 1
     default:
       layer:
       - 1
       - 0
       layers_cladding: null
-      length: 420.0
-      pixel_size: 1.0
+      length: 420
+      pixel_size: 1
       spacing: 4.5
       widths:
       - 0.4
@@ -30,7 +30,7 @@ cells:
       - 0.5
       - 0.6
       - 0.8
-      - 1.0
+      - 1
     full:
       cross_section:
         function: cross_section
@@ -38,8 +38,8 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      length: 420.0
-      pixel_size: 1.0
+      length: 420
+      pixel_size: 1
       spacing: 4.5
       straight: straight
       widths:
@@ -48,7 +48,7 @@ cells:
       - 0.5
       - 0.6
       - 0.8
-      - 1.0
+      - 1
     function_name: cdsem_straight_all
     info_version: 1
     module: gdsfactory.components.pcm_optical
@@ -62,7 +62,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       trench_width: 0.27999999999999997
       width: 0.27999999999999997
@@ -72,12 +72,12 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      margin: 2.0
-      pixel_size: 1.0
+      margin: 2
+      pixel_size: 1
       trench_width: 0.304
       width: 0.372
-      x: 420.0
-      y: 50.0
+      x: 420
+      y: 50
     full:
       cross_section:
         function: cross_section
@@ -86,13 +86,13 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      margin: 2.0
-      pixel_size: 1.0
+      margin: 2
+      pixel_size: 1
       straight: straight
       trench_width: 0.27999999999999997
       width: 0.27999999999999997
-      x: 420.0
-      y: 50.0
+      x: 420
+      y: 50
     function_name: cdsem_straight_density
     info_version: 1
     module: gdsfactory.components.pcm_optical
@@ -106,7 +106,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       trench_width: 0.3
       width: 0.3
@@ -116,12 +116,12 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      margin: 2.0
-      pixel_size: 1.0
+      margin: 2
+      pixel_size: 1
       trench_width: 0.304
       width: 0.372
-      x: 420.0
-      y: 50.0
+      x: 420
+      y: 50
     full:
       cross_section:
         function: cross_section
@@ -130,13 +130,13 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      margin: 2.0
-      pixel_size: 1.0
+      margin: 2
+      pixel_size: 1
       straight: straight
       trench_width: 0.3
       width: 0.3
-      x: 420.0
-      y: 50.0
+      x: 420
+      y: 50
     function_name: cdsem_straight_density
     info_version: 1
     module: gdsfactory.components.pcm_optical
@@ -150,7 +150,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       trench_width: 0.32
       width: 0.32
@@ -160,12 +160,12 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      margin: 2.0
-      pixel_size: 1.0
+      margin: 2
+      pixel_size: 1
       trench_width: 0.304
       width: 0.372
-      x: 420.0
-      y: 50.0
+      x: 420
+      y: 50
     full:
       cross_section:
         function: cross_section
@@ -174,13 +174,13 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      margin: 2.0
-      pixel_size: 1.0
+      margin: 2
+      pixel_size: 1
       straight: straight
       trench_width: 0.32
       width: 0.32
-      x: 420.0
-      y: 50.0
+      x: 420
+      y: 50
     function_name: cdsem_straight_density
     info_version: 1
     module: gdsfactory.components.pcm_optical
@@ -194,17 +194,17 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
-      width: 1.0
+      width: 1
     default:
       layer:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
-      wg_length: 420.0
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
       width: 0.5
     full:
       bend90: bend_circular
@@ -214,11 +214,11 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
+      pixel_size: 1
+      radius: 10
       straight: straight
-      wg_length: 420.0
-      width: 1.0
+      wg_length: 420
+      width: 1
     function_name: cdsem_uturn
     info_version: 1
     module: gdsfactory.components.pcm_optical
@@ -232,7 +232,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       width: 0.6
     default:
@@ -240,9 +240,9 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
-      wg_length: 420.0
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
       width: 0.5
     full:
       bend90: bend_circular
@@ -252,10 +252,10 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
+      pixel_size: 1
+      radius: 10
       straight: straight
-      wg_length: 420.0
+      wg_length: 420
       width: 0.6
     function_name: cdsem_uturn
     info_version: 1
@@ -270,7 +270,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       width: 0.5
     default:
@@ -278,9 +278,9 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
-      wg_length: 420.0
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
       width: 0.5
     full:
       bend90: bend_circular
@@ -290,10 +290,10 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
+      pixel_size: 1
+      radius: 10
       straight: straight
-      wg_length: 420.0
+      wg_length: 420
       width: 0.5
     function_name: cdsem_uturn
     info_version: 1
@@ -308,7 +308,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       width: 0.4
     default:
@@ -316,9 +316,9 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
-      wg_length: 420.0
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
       width: 0.5
     full:
       bend90: bend_circular
@@ -328,10 +328,10 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
+      pixel_size: 1
+      radius: 10
       straight: straight
-      wg_length: 420.0
+      wg_length: 420
       width: 0.4
     function_name: cdsem_uturn
     info_version: 1
@@ -346,7 +346,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       width: 0.8
     default:
@@ -354,9 +354,9 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
-      wg_length: 420.0
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
       width: 0.5
     full:
       bend90: bend_circular
@@ -366,10 +366,10 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
+      pixel_size: 1
+      radius: 10
       straight: straight
-      wg_length: 420.0
+      wg_length: 420
       width: 0.8
     function_name: cdsem_uturn
     info_version: 1
@@ -384,7 +384,7 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       straight: straight
       width: 0.45
     default:
@@ -392,9 +392,9 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
-      wg_length: 420.0
+      pixel_size: 1
+      radius: 10
+      wg_length: 420
       width: 0.5
     full:
       bend90: bend_circular
@@ -404,10 +404,10 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
-      radius: 10.0
+      pixel_size: 1
+      radius: 10
       straight: straight
-      wg_length: 420.0
+      wg_length: 420
       width: 0.45
     function_name: cdsem_uturn
     info_version: 1
@@ -418,7 +418,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 1.0
+      size: 1
       text: '400'
     default:
       justify: left
@@ -426,9 +426,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -436,9 +436,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 1.0
+      - 0
+      - 0
+      size: 1
       text: '400'
     function_name: manhattan_text
     info_version: 1
@@ -449,7 +449,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 1.0
+      size: 1
       text: '500'
     default:
       justify: left
@@ -457,9 +457,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -467,9 +467,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 1.0
+      - 0
+      - 0
+      size: 1
       text: '500'
     function_name: manhattan_text
     info_version: 1
@@ -480,7 +480,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 1.0
+      size: 1
       text: '450'
     default:
       justify: left
@@ -488,9 +488,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -498,9 +498,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 1.0
+      - 0
+      - 0
+      size: 1
       text: '450'
     function_name: manhattan_text
     info_version: 1
@@ -511,7 +511,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 1.0
+      size: 1
       text: '1000'
     default:
       justify: left
@@ -519,9 +519,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -529,9 +529,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 1.0
+      - 0
+      - 0
+      size: 1
       text: '1000'
     function_name: manhattan_text
     info_version: 1
@@ -542,7 +542,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 1.0
+      size: 1
       text: '600'
     default:
       justify: left
@@ -550,9 +550,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -560,9 +560,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 1.0
+      - 0
+      - 0
+      size: 1
       text: '600'
     function_name: manhattan_text
     info_version: 1
@@ -573,7 +573,7 @@ cells:
       layer:
       - 1
       - 0
-      size: 1.0
+      size: 1
       text: '800'
     default:
       justify: left
@@ -581,9 +581,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 10.0
+      - 0
+      - 0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -591,9 +591,9 @@ cells:
       - 1
       - 0
       position:
-      - 0.0
-      - 0.0
-      size: 1.0
+      - 0
+      - 0
+      size: 1
       text: '800'
     function_name: manhattan_text
     info_version: 1
@@ -613,14 +613,14 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       widths:
       - 0.4
       - 0.45
       - 0.5
       - 0.6
       - 0.8
-      - 1.0
+      - 1
     full:
       dense_lines_gap: 0.3
       dense_lines_labels:
@@ -633,14 +633,14 @@ cells:
       - 1
       - 0
       layers_cladding: null
-      pixel_size: 1.0
+      pixel_size: 1
       widths:
       - 0.4
       - 0.45
       - 0.5
       - 0.6
       - 0.8
-      - 1.0
+      - 1
     function_name: pcm_optical
     info_version: 1
     module: gdsfactory.components.pcm_optical
@@ -659,14 +659,14 @@ info:
     - 1
     - 0
     layers_cladding: null
-    pixel_size: 1.0
+    pixel_size: 1
     widths:
     - 0.4
     - 0.45
     - 0.5
     - 0.6
     - 0.8
-    - 1.0
+    - 1
   full:
     dense_lines_gap: 0.3
     dense_lines_labels:
@@ -679,14 +679,14 @@ info:
     - 1
     - 0
     layers_cladding: null
-    pixel_size: 1.0
+    pixel_size: 1
     widths:
     - 0.4
     - 0.45
     - 0.5
     - 0.6
     - 0.8
-    - 1.0
+    - 1
   function_name: pcm_optical
   info_version: 1
   module: gdsfactory.components.pcm_optical

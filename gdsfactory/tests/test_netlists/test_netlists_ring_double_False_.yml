@@ -12,7 +12,7 @@ instances:
         function: cross_section
       gap: 0.2
       length_x: 0.01
-      radius: 10.0
+      radius: 10
   coupler_ring_884bafc4_m0p005_5p225:
     component: coupler_ring
     settings:
@@ -21,7 +21,7 @@ instances:
         function: cross_section
       gap: 0.2
       length_x: 0.01
-      radius: 10.0
+      radius: 10
   straight_5743d35a_10p0_10p705:
     component: straight
     settings:

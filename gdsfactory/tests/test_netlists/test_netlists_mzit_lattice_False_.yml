@@ -5,9 +5,9 @@ instances:
     settings:
       coupler_gap1: 0.2
       coupler_gap2: 0.3
-      coupler_length1: 10.0
-      coupler_length2: 20.0
-      delta_length: 10.0
+      coupler_length1: 10
+      coupler_length2: 20
+      delta_length: 10
 name: mzit_lattice
 placements:
   mzit_f7e2e81d_19p138_11p4:

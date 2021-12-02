@@ -2,12 +2,12 @@ cells:
   coupler_symmetric:
     changed: {}
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.234
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.234
     function_name: coupler_symmetric
     info_version: 1
@@ -18,12 +18,12 @@ cells:
 info:
   changed: {}
   default:
-    dx: 10.0
-    dy: 5.0
+    dx: 10
+    dy: 5
     gap: 0.234
   full:
-    dx: 10.0
-    dy: 5.0
+    dx: 10
+    dy: 5
     gap: 0.234
   function_name: coupler_symmetric
   info_version: 1
@@ -37,10 +37,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
+    - 0
     - -0.3669999999999999
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -48,10 +48,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
+    - 0
     - 0.367
     name: o2
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o3:
@@ -59,10 +59,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
+    - 10
     - 2.5
     name: o3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o4:
@@ -70,10 +70,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
+    - 10
     - -2.5
     name: o4
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

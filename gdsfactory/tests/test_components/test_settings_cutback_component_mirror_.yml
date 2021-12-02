@@ -6,23 +6,23 @@ cells:
         width1: 3
         width2: 0.5
       default:
-        length: 10.0
+        length: 10
         port: null
         width1: 0.5
         width2: null
         with_cladding_box: true
       full:
-        length: 10.0
+        length: 10
         port: null
         width1: 3
         width2: 0.5
         with_cladding_box: true
       function_name: taper
       info_version: 1
-      length: 10.0
+      length: 10
       module: gdsfactory.components.taper
       name: taper_3d968a90
-      width1: 3.0
+      width1: 3
       width2: 0.5
     components: 88
     default:
@@ -47,23 +47,23 @@ cells:
       width1: 3
       width2: 0.5
     default:
-      length: 10.0
+      length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
-      length: 10.0
+      length: 10
       port: null
       width1: 3
       width2: 0.5
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_3d968a90
-    width1: 3.0
+    width1: 3
     width2: 0.5
 info:
   changed: {}
@@ -72,23 +72,23 @@ info:
       width1: 3
       width2: 0.5
     default:
-      length: 10.0
+      length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
-      length: 10.0
+      length: 10
       port: null
       width1: 3
       width2: 0.5
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper
     name: taper_3d968a90
-    width1: 3.0
+    width1: 3
     width2: 0.5
   components: 88
   default:
@@ -114,10 +114,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 0.0
+    - 10
+    - 0
     name: o1
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2:
@@ -125,10 +125,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -190.0
-    - 0.0
+    - -190
+    - 0
     name: o2
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
 version: 1

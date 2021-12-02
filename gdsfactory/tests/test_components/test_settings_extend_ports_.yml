@@ -6,18 +6,18 @@ cells:
       default:
         gap_mmi: 0.25
         length_mmi: 5.5
-        length_taper: 10.0
+        length_taper: 10
         width: 0.5
         width_mmi: 2.5
-        width_taper: 1.0
+        width_taper: 1
         with_cladding_box: true
       full:
         gap_mmi: 0.25
         length_mmi: 5.5
-        length_taper: 10.0
+        length_taper: 10
         width: 0.5
         width_mmi: 2.5
-        width_taper: 1.0
+        width_taper: 1
         with_cladding_box: true
       function_name: mmi1x2
       info_version: 1
@@ -26,7 +26,7 @@ cells:
     default:
       centered: false
       extension_factory: null
-      length: 5.0
+      length: 5
       port1: null
       port2: null
       port_names: null
@@ -34,7 +34,7 @@ cells:
     full:
       centered: false
       extension_factory: null
-      length: 5.0
+      length: 5
       port1: null
       port2: null
       port_names: null
@@ -48,18 +48,18 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -72,18 +72,18 @@ info:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -92,7 +92,7 @@ info:
   default:
     centered: false
     extension_factory: null
-    length: 5.0
+    length: 5
     port1: null
     port2: null
     port_names: null
@@ -100,7 +100,7 @@ info:
   full:
     centered: false
     extension_factory: null
-    length: 5.0
+    length: 5
     port1: null
     port2: null
     port_names: null
@@ -116,9 +116,9 @@ ports:
     - 0
     midpoint:
     - -17.75
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -129,7 +129,7 @@ ports:
     - 17.75
     - 0.625
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o3:
@@ -140,7 +140,7 @@ ports:
     - 17.75
     - -0.625
     name: o3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1
