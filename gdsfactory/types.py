@@ -119,6 +119,7 @@ PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 
 ComponentOrFactory = Union[ComponentFactory, Component]
+ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
 ComponentOrPath = Union[PathType, Component]
 ComponentOrReference = Union[Component, ComponentReference]
 NameToFunctionDict = Dict[str, ComponentFactory]
