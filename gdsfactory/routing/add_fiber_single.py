@@ -1,7 +1,7 @@
-from typing import Callable, Optional, Tuple
+from typing import Callable, List, Optional, Tuple, Union
 
 from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
@@ -16,10 +16,12 @@ from gdsfactory.routing.route_fiber_single import route_fiber_single
 from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
-@cell_without_validator
+@cell
 def add_fiber_single(
     component: ComponentOrFactory,
-    grating_coupler: ComponentFactory = grating_coupler_te,
+    grating_coupler: Union[
+        ComponentOrFactory, List[ComponentOrFactory]
+    ] = grating_coupler_te,
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
     bend: ComponentFactory = bend_circular,
@@ -67,9 +69,9 @@ def add_fiber_single(
         gc_rotation: -90
         component_name: name of component
         cross_section:
+        get_input_label_text_function: for the grating couplers input label
+        get_input_label_text_loopback_function: for the loopacks input label
         kwargs: cross_section settings
-        get_input_label_text_function: function to get input label for grating couplers
-        get_input_label_text_loopback_function: function to get the input label test for loopbacks
 
     .. code::
 
@@ -100,7 +102,6 @@ def add_fiber_single(
 
     """
     component = component() if callable(component) else component
-
     component = move_port_to_zero(component, zero_port) if zero_port else component
 
     optical_ports = select_ports(component.ports)
@@ -113,9 +114,13 @@ def add_fiber_single(
     component = component() if callable(component) else component
     component_name = component_name or component.info_child.name
 
-    gc = grating_coupler = (
-        grating_coupler() if callable(grating_coupler) else grating_coupler
+    gc = (
+        grating_coupler[0]
+        if isinstance(grating_coupler, (list, tuple))
+        else grating_coupler
     )
+    gc = gc() if callable(gc) else gc
+
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name} not in {list(gc.ports.keys())}")
 
@@ -189,11 +194,10 @@ def add_fiber_single(
                 port = ports[0]
                 c.add_port(f"{port.name}_{i}", port=port)
 
-    if isinstance(grating_coupler, list):
-        grating_coupler = grating_couplers[0]
-    else:
-        grating_coupler = call_if_func(grating_coupler)
+    if isinstance(grating_coupler, (list, tuple)):
+        grating_coupler = grating_coupler[0]
 
+    grating_coupler = call_if_func(grating_coupler)
     if with_loopback:
         length = c.ysize - 2 * gc_port_to_edge
         wg = c << straight(length=length, cross_section=cross_section, **kwargs)
@@ -267,6 +271,7 @@ if __name__ == "__main__":
         with_loopback=True,
         layer=(2, 0),
         zero_port="o2",
+        grating_coupler=[gf.c.grating_coupler_te, gf.c.grating_coupler_tm],
     )
     cc.show()
 
