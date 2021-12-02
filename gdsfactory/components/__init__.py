@@ -6,7 +6,7 @@ from gdsfactory.components.array_with_fanout import (
 )
 from gdsfactory.components.array_with_via import array_with_via, array_with_via_2d
 from gdsfactory.components.awg import awg
-from gdsfactory.components.bbox import Coordinate, bbox
+from gdsfactory.components.bbox import bbox
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_circular_heater import bend_circular_heater
 from gdsfactory.components.bend_euler import (
@@ -414,7 +414,6 @@ _factory_passives = dict(
 __all__ = [
     "factory",
     "C",
-    "Coordinate",
     "L",
     "add_frame",
     "align",

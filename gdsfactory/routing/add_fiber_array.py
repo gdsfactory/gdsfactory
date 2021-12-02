@@ -4,20 +4,24 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import (
+    ComponentFactory,
+    ComponentOrFactoryOrList,
+    CrossSectionFactory,
+)
 
 
-@gf.cell_without_validator
+@gf.cell
 def add_fiber_array(
     component: Component,
-    grating_coupler: Component = grating_coupler_te,
-    straight: ComponentFactory = straight,
+    grating_coupler: ComponentOrFactoryOrList = grating_coupler_te,
+    straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,

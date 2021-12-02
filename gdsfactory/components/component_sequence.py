@@ -61,7 +61,7 @@ def _flip_ref(c_ref, port_name):
     return c_ref
 
 
-@gf.cell_without_validator
+@gf.cell
 def component_sequence(
     sequence: str,
     symbol_to_component: Dict[str, Tuple[Component, str, str]],

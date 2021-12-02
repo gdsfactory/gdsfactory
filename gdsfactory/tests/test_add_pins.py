@@ -11,7 +11,7 @@ from gdsfactory.samples.pdk.fab_c import (
 
 
 @pytest.mark.parametrize("optical_routing_type", [0, 1])
-def test_add_pins_with_routes(optical_routing_type) -> None:
+def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
     """
     Add grating couplers to a straight
     ensure that all the routes have pins
@@ -23,7 +23,7 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
     )
     cc = gf.routing.add_fiber_single(
         component=c,
-        grating_coupler=gc,
+        grating_coupler=[gc, gf.c.grating_coupler_tm],
         cross_section=fabc_nitride_cband,
         straight=straight_c,
         bend=bend_euler_c,
@@ -31,8 +31,8 @@ def test_add_pins_with_routes(optical_routing_type) -> None:
     )
     pins_component = cc.extract(layers=(LAYER.PIN,))
     pins_component.name = "test_add_pins_with_routes_component"
-    cc.show()
     assert len(pins_component.polygons) == 8, len(pins_component.polygons)
+    return cc
 
 
 def test_add_pins() -> None:
@@ -45,7 +45,9 @@ def test_add_pins() -> None:
 
 if __name__ == "__main__":
     # test_add_pins()
-    test_add_pins_with_routes(0)
+    c = test_add_pins_with_routes(0)
+    c.show()
+
     # test_add_pins_with_routes(1)
 
     # c = straight_c()
