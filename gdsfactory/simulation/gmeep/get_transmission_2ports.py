@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
+import pydantic
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -13,6 +14,7 @@ from gdsfactory.simulation.gmeep.get_material import get_material
 mp.verbosity(0)
 
 
+@pydantic.validate_arguments
 def get_transmission_2ports(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
@@ -47,7 +49,7 @@ def get_transmission_2ports(
 
     Args:
         component: gf.Component
-        extend_ports_function: function to extend the ports for a component to ensure it goes beyond the PML
+        extend_ports_function: function to extend ports beyond the PML
         layer_core: GDS layer for the Component material
         layer_source: for the source monitor
         layer_monitor1: monitor layer for port 1
@@ -63,14 +65,14 @@ def get_transmission_2ports(
         is_3d: if True runs in 3D
         run: if True runs simulation, False only build simulation
         wavelengths: iterable of wavelengths to simulate
-        field_monitor_point: monitors the field and stops simulation after field decays by 1e-9
+        field_monitor_point: monitors field and stops simulation after field decays by 1e-9
         dfcen: delta frequency
 
     Returns:
         Dict:
             sim: simulation object
 
-    Make sure you visualize the simulation region with gf.before you simulate a component
+    Make sure you visualize the simulation with before you run
 
     .. code::
 
