@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.2
+
+- add_fiber_array and add_fiber_single can also get a component that has no child_info
+
 ## 3.7.1
 
 - keep python3.7 compatibility for `gf.functions.cache` decorator by using `cache = lru_cache(maxsize=None)` instead of `cache = lru_cache`

@@ -1,123 +1,166 @@
 cells:
-  cutback_component_mirror:
-    changed: {}
+  component_sequence_d377cad6:
+    changed:
+      sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
+      symbol_to_component:
+        '-':
+        - straight
+        - o1
+        - o2
+        A:
+        - taper_0p5_to_3_l36
+        - o1
+        - o2
+        B:
+        - taper_0p5_to_3_l36
+        - o2
+        - o1
+        C:
+        - bend_euler_3cfca9b9
+        - o2
+        - o1
+        D:
+        - bend_euler_3cfca9b9
+        - o1
+        - o2
+        _:
+        - straight
+        - o2
+        - o1
+    default:
+      port_name1: o1
+      port_name2: o2
+      ports_map: null
+      start_orientation: 0
+    full:
+      port_name1: o1
+      port_name2: o2
+      ports_map: null
+      sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
+      start_orientation: 0
+      symbol_to_component:
+        '-':
+        - straight
+        - o1
+        - o2
+        A:
+        - taper_0p5_to_3_l36
+        - o1
+        - o2
+        B:
+        - taper_0p5_to_3_l36
+        - o2
+        - o1
+        C:
+        - bend_euler_3cfca9b9
+        - o2
+        - o1
+        D:
+        - bend_euler_3cfca9b9
+        - o1
+        - o2
+        _:
+        - straight
+        - o2
+        - o1
+    function_name: component_sequence
+    info_version: 1
+    module: gdsfactory.components.component_sequence
+    name: component_sequence_d377cad6
+  cutback_component_91884563:
+    changed:
+      mirror: true
     child:
-      changed:
-        width1: 3
-        width2: 0.5
-      default:
-        length: 10
-        port: null
-        width1: 0.5
-        width2: null
-        with_cladding_box: true
-      full:
-        length: 10
-        port: null
-        width1: 3
-        width2: 0.5
-        with_cladding_box: true
-      function_name: taper
+      changed: {}
+      default: {}
+      full: {}
+      function_name: taper_0p5_to_3_l36
       info_version: 1
-      length: 10
-      module: gdsfactory.components.taper
-      name: taper_3d968a90
-      width1: 3
-      width2: 0.5
+      module: gdsfactory.components.taper_from_csv
+      name: taper_0p5_to_3_l36
     components: 88
     default:
       cols: 4
-      port1: o2
-      port2: o1
-      radius: 10
+      mirror: false
+      port1: o1
+      port2: o2
+      radius: 5
       rows: 5
     full:
       cols: 4
-      port1: o2
-      port2: o1
-      radius: 10
+      mirror: true
+      port1: o1
+      port2: o2
+      radius: 5
       rows: 5
-    function_name: cutback_component_mirror
+    function_name: cutback_component
     info_version: 1
     module: gdsfactory.components.cutback_component
-    name: cutback_component_mirror
-    parent_name: loopback_taper_3d968a90_88
-  taper_3d968a90:
-    changed:
-      width1: 3
-      width2: 0.5
+    name: cutback_component_91884563
+  straight:
+    changed: {}
     default:
       length: 10
-      port: null
-      width1: 0.5
-      width2: null
+      npoints: 2
       with_cladding_box: true
     full:
       length: 10
-      port: null
-      width1: 3
-      width2: 0.5
+      npoints: 2
       with_cladding_box: true
-    function_name: taper
+    function_name: straight
     info_version: 1
     length: 10
-    module: gdsfactory.components.taper
-    name: taper_3d968a90
-    width1: 3
-    width2: 0.5
+    module: gdsfactory.components.straight
+    name: straight
+    width: 0.5
+  taper_0p5_to_3_l36:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: taper_0p5_to_3_l36
+    info_version: 1
+    module: gdsfactory.components.taper_from_csv
+    name: taper_0p5_to_3_l36
 info:
-  changed: {}
+  changed:
+    mirror: true
   child:
-    changed:
-      width1: 3
-      width2: 0.5
-    default:
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      length: 10
-      port: null
-      width1: 3
-      width2: 0.5
-      with_cladding_box: true
-    function_name: taper
+    changed: {}
+    default: {}
+    full: {}
+    function_name: taper_0p5_to_3_l36
     info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_3d968a90
-    width1: 3
-    width2: 0.5
+    module: gdsfactory.components.taper_from_csv
+    name: taper_0p5_to_3_l36
   components: 88
   default:
     cols: 4
-    port1: o2
-    port2: o1
-    radius: 10
+    mirror: false
+    port1: o1
+    port2: o2
+    radius: 5
     rows: 5
   full:
     cols: 4
-    port1: o2
-    port2: o1
-    radius: 10
+    mirror: true
+    port1: o1
+    port2: o2
+    radius: 5
     rows: 5
-  function_name: cutback_component_mirror
+  function_name: cutback_component
   info_version: 1
   module: gdsfactory.components.cutback_component
-  name: cutback_component_mirror
-  parent_name: loopback_taper_3d968a90_88
+  name: cutback_component_91884563
 ports:
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - 10
+    - 0
     - 0
     name: o1
-    orientation: 0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -125,10 +168,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -190
-    - 0
+    - 583.6799999999997
+    - -80
     name: o2
-    orientation: 180
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1
