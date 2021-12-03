@@ -33,12 +33,18 @@ def bend_s(
     width = x.info["width"]
     layer = x.info["layer"]
 
-    c = bezier(
+    c = Component()
+
+    bend = bezier(
         width=width,
         control_points=[(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)],
         npoints=nb_points,
         layer=layer,
     )
+
+    bend_ref = c << bend
+    c.add_ports(bend_ref.ports)
+    c.copy_child_info(bend)
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
@@ -57,7 +63,7 @@ def bend_s(
 
 
 if __name__ == "__main__":
-    c = bend_s(width=1)
+    c = bend_s(width=1, layers_cladding=[(2, 0)])
     c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])

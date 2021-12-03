@@ -1,5 +1,5 @@
 cells:
-  add_padding_container_487eeed5:
+  add_padding_487eeed5:
     changed:
       component: mzi_ac6d448d
     child:
@@ -45,10 +45,10 @@ cells:
       layers:
       - - 67
         - 0
-    function_name: add_padding_container
+    function_name: add_padding
     info_version: 1
     module: gdsfactory.add_padding
-    name: add_padding_container_487eeed5
+    name: add_padding_487eeed5
   mmi2x2:
     changed: {}
     default:
@@ -207,10 +207,10 @@ info:
     layers:
     - - 67
       - 0
-  function_name: add_padding_container
+  function_name: add_padding
   info_version: 1
   module: gdsfactory.add_padding
-  name: add_padding_container_487eeed5
+  name: add_padding_487eeed5
 ports:
   e1:
     layer:
