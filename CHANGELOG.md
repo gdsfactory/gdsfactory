@@ -17,6 +17,11 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.1
+
+- small patch to keep python3.7 functionality when using `gf.functions.cache` decorator
+- add_fiber_array accepts ComponentOrFactory
+
 ## 3.7.0
 
 - fix clean_name
@@ -24,7 +29,7 @@ Maybe:
     - toolz.compose functions hash both the functions and first function
     - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
 - set Component._cached = True when adding Component into cache, and raises MutabilityError when adding any element to it.
-- Component.flatten() returns a copy of the component, that includes the flattened component. New name adds `_flat` suffix to oringinal name
+- Component.flatten() returns a copy of the component, that includes the flattened component. New name adds `_flat` suffix to original name
 - add bias to grating_coupler_lumerical
 - try to cast float to int when exporting info
 - remove `ComponentSweep` as it was trivial to define as a list comprehension

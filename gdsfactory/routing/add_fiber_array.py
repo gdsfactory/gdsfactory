@@ -12,6 +12,7 @@ from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.types import (
     ComponentFactory,
+    ComponentOrFactory,
     ComponentOrFactoryOrList,
     CrossSectionFactory,
 )
@@ -19,7 +20,7 @@ from gdsfactory.types import (
 
 @gf.cell
 def add_fiber_array(
-    component: Component,
+    component: ComponentOrFactory,
     grating_coupler: ComponentOrFactoryOrList = grating_coupler_te,
     straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
