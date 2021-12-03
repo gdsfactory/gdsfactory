@@ -11,9 +11,6 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    concurrency:
-      group: ${{ github.head_ref }}
-      cancel-in-progress: true
     strategy:
       max-parallel: 12
       matrix:
