@@ -6,7 +6,7 @@ info:
       sections:
       - slab
   default:
-    length: 10.0
+    length: 10
     npoints: 2
     with_cladding_box: true
   full:
@@ -14,7 +14,7 @@ info:
       function: cross_section
       sections:
       - slab
-    length: 10.0
+    length: 10
     npoints: 2
     with_cladding_box: true
   function_name: straight
@@ -29,10 +29,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -40,10 +40,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 0.0
+    - 10
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

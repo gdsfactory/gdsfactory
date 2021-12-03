@@ -2,15 +2,15 @@ cells:
   coupler:
     changed: {}
     default:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     full:
-      dx: 10.0
-      dy: 5.0
+      dx: 10
+      dy: 5
       gap: 0.236
-      length: 20.0
+      length: 20
     function_name: coupler
     info_version: 1
     length: 10.314
@@ -20,15 +20,15 @@ cells:
 info:
   changed: {}
   default:
-    dx: 10.0
-    dy: 5.0
+    dx: 10
+    dy: 5
     gap: 0.236
-    length: 20.0
+    length: 20
   full:
-    dx: 10.0
-    dy: 5.0
+    dx: 10
+    dy: 5
     gap: 0.236
-    length: 20.0
+    length: 20
   function_name: coupler
   info_version: 1
   length: 10.314
@@ -41,10 +41,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - -2.132
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -52,10 +52,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -10.0
+    - -10
     - 2.868
     name: o2
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o3:
@@ -63,10 +63,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 30.0
+    - 30
     - 2.868
     name: o3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o4:
@@ -74,10 +74,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 30.0
+    - 30
     - -2.132
     name: o4
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

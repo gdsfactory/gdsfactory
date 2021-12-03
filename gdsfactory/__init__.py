@@ -33,7 +33,6 @@ from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.add_text import add_text
 from gdsfactory.types import Label
 
 from gdsfactory import cross_section
@@ -61,8 +60,8 @@ from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
-    get_padding_points,
     add_padding_container,
+    get_padding_points,
 )
 from gdsfactory.add_pins import add_pins, add_pins_to_references
 from gdsfactory.fill import fill_rectangle
@@ -89,7 +88,6 @@ __all__ = [
     "add_pins_to_references",
     "add_tapers",
     "add_termination",
-    "add_text",
     "asserts",
     "geometry",
     "c",
@@ -123,7 +121,7 @@ __all__ = [
     "sweep",
     "Label",
 ]
-__version__ = "3.6.8"
+__version__ = "3.7.0"
 
 
 if __name__ == "__main__":

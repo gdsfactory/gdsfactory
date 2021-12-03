@@ -24,9 +24,9 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -35,9 +35,9 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 20.0
+    - 20
     name: o2
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
 version: 1

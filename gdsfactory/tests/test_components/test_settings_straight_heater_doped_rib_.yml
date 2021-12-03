@@ -3,23 +3,23 @@ info:
   changed: {}
   default:
     contact_metal_size:
-    - 10.0
-    - 10.0
+    - 10
+    - 10
     contact_size:
-    - 10.0
-    - 10.0
-    contact_yspacing: 2.0
-    length: 320.0
+    - 10
+    - 10
+    contact_yspacing: 2
+    length: 320
     nsections: 3
   full:
     contact_metal_size:
-    - 10.0
-    - 10.0
+    - 10
+    - 10
     contact_size:
-    - 10.0
-    - 10.0
-    contact_yspacing: 2.0
-    length: 320.0
+    - 10
+    - 10
+    contact_yspacing: 2
+    length: 320
     nsections: 3
   function_name: straight_heater_doped_rib
   info_version: 1
@@ -31,54 +31,54 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - -20.0
+    - 0
+    - -20
     name: bot_e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 10.0
+    width: 10
   bot_e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 155.0
-    - -15.0
+    - 155
+    - -15
     name: bot_e2
-    orientation: 90.0
+    orientation: 90
     port_type: electrical
-    width: 310.0
+    width: 310
   bot_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 310.0
-    - -20.0
+    - 310
+    - -20
     name: bot_e3
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 10.0
+    width: 10
   bot_e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 155.0
-    - -25.0
+    - 155
+    - -25
     name: bot_e4
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 310.0
+    width: 310
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - -10.0
-    - 0.0
+    - -10
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -86,10 +86,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 310.0
-    - 0.0
+    - 310
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   top_e1:
@@ -97,43 +97,43 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0.0
-    - 20.0
+    - 0
+    - 20
     name: top_e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 10.0
+    width: 10
   top_e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 155.0
-    - 25.0
+    - 155
+    - 25
     name: top_e2
-    orientation: 90.0
+    orientation: 90
     port_type: electrical
-    width: 310.0
+    width: 310
   top_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 310.0
-    - 20.0
+    - 310
+    - 20
     name: top_e3
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 10.0
+    width: 10
   top_e4:
     layer:
     - 49
     - 0
     midpoint:
-    - 155.0
-    - 15.0
+    - 155
+    - 15
     name: top_e4
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 310.0
+    width: 310
 version: 1

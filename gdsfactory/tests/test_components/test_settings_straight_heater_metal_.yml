@@ -3,23 +3,23 @@ info:
   changed:
     with_undercut: false
   default:
-    heater_taper_length: 5.0
+    heater_taper_length: 5
     heater_width: 2.5
-    length: 320.0
-    length_straight_input: 15.0
-    length_undercut: 30.0
-    length_undercut_spacing: 6.0
+    length: 320
+    length_straight_input: 15
+    length_undercut: 30
+    length_undercut_spacing: 6
     ohms_per_square: null
     port_orientation1: 180
     port_orientation2: 0
     with_undercut: true
   full:
-    heater_taper_length: 5.0
+    heater_taper_length: 5
     heater_width: 2.5
-    length: 320.0
-    length_straight_input: 15.0
-    length_undercut: 30.0
-    length_undercut_spacing: 6.0
+    length: 320
+    length_straight_input: 15
+    length_undercut: 30
+    length_undercut_spacing: 6
     ohms_per_square: null
     port_orientation1: 180
     port_orientation2: 0
@@ -35,32 +35,32 @@ ports:
     - 49
     - 0
     midpoint:
-    - -16.0
-    - 0.0
+    - -16
+    - 0
     name: e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 11.0
+    width: 11
   e2:
     layer:
     - 49
     - 0
     midpoint:
-    - 336.0
-    - 0.0
+    - 336
+    - 0
     name: e2
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 11.0
+    width: 11
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -68,10 +68,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 320.0
-    - 0.0
+    - 320
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

@@ -1,24 +1,24 @@
 connections:
-  bend_euler_4725f0ef_225p125_204p875,o1: straight_49dcb874_135p0_200p0,o2
-  bend_euler_4725f0ef_225p125_204p875,o2: straight_6b92fc91_230p0_380p0,o1
-  bend_euler_4725f0ef_234p875_555p125,o1: straight_6b92fc91_230p0_380p0,o2
-  bend_euler_4725f0ef_234p875_555p125,o2: straight_f053f647_365p0_560p0,o1
-  bend_euler_4725f0ef_234p875_584p875,o1: straight_f053f647_365p0_580p0,o2
+  bend_euler_4725f0ef_225p125_204p875,o1: straight_ab370e58_135p0_200p0,o2
+  bend_euler_4725f0ef_225p125_204p875,o2: straight_95cf111d_230p0_380p0,o1
+  bend_euler_4725f0ef_234p875_555p125,o1: straight_95cf111d_230p0_380p0,o2
+  bend_euler_4725f0ef_234p875_555p125,o2: straight_99672b3b_365p0_560p0,o1
+  bend_euler_4725f0ef_234p875_584p875,o1: straight_99672b3b_365p0_580p0,o2
   bend_euler_4725f0ef_234p875_584p875,o2: bend_euler_4725f0ef_234p875_595p125,o1
-  bend_euler_4725f0ef_234p875_595p125,o2: straight_d19624c7_545p0_600p0,o1
-  bend_euler_4725f0ef_255p125_4p875,o1: straight_b57f8fcc_150p0_0p0,o2
-  bend_euler_4725f0ef_255p125_4p875,o2: straight_6b92fc91_260p0_180p0,o1
-  bend_euler_4725f0ef_264p875_355p125,o1: straight_6b92fc91_260p0_180p0,o2
-  bend_euler_4725f0ef_264p875_355p125,o2: straight_f053f647_395p0_360p0,o1
-  bend_euler_4725f0ef_264p875_384p875,o1: straight_f053f647_395p0_380p0,o2
+  bend_euler_4725f0ef_234p875_595p125,o2: straight_b28806b6_545p0_600p0,o1
+  bend_euler_4725f0ef_255p125_4p875,o1: straight_3bc3129a_150p0_0p0,o2
+  bend_euler_4725f0ef_255p125_4p875,o2: straight_95cf111d_260p0_180p0,o1
+  bend_euler_4725f0ef_264p875_355p125,o1: straight_95cf111d_260p0_180p0,o2
+  bend_euler_4725f0ef_264p875_355p125,o2: straight_99672b3b_395p0_360p0,o1
+  bend_euler_4725f0ef_264p875_384p875,o1: straight_99672b3b_395p0_380p0,o2
   bend_euler_4725f0ef_264p875_384p875,o2: bend_euler_4725f0ef_264p875_395p125,o1
-  bend_euler_4725f0ef_264p875_395p125,o2: straight_85b8c6d6_560p0_400p0,o1
-  bend_euler_4725f0ef_495p125_564p875,o1: straight_f053f647_365p0_560p0,o2
+  bend_euler_4725f0ef_264p875_395p125,o2: straight_7b1e3316_560p0_400p0,o1
+  bend_euler_4725f0ef_495p125_564p875,o1: straight_99672b3b_365p0_560p0,o2
   bend_euler_4725f0ef_495p125_564p875,o2: bend_euler_4725f0ef_495p125_575p125,o1
-  bend_euler_4725f0ef_495p125_575p125,o2: straight_f053f647_365p0_580p0,o1
-  bend_euler_4725f0ef_525p125_364p875,o1: straight_f053f647_395p0_360p0,o2
+  bend_euler_4725f0ef_495p125_575p125,o2: straight_99672b3b_365p0_580p0,o1
+  bend_euler_4725f0ef_525p125_364p875,o1: straight_99672b3b_395p0_360p0,o2
   bend_euler_4725f0ef_525p125_364p875,o2: bend_euler_4725f0ef_525p125_375p125,o1
-  bend_euler_4725f0ef_525p125_375p125,o2: straight_f053f647_395p0_380p0,o1
+  bend_euler_4725f0ef_525p125_375p125,o2: straight_99672b3b_395p0_380p0,o1
 instances:
   bend_euler_4725f0ef_225p125_204p875:
     component: bend_euler
@@ -173,8 +173,8 @@ instances:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
   br:
     component: pad
     settings:
@@ -184,95 +184,95 @@ instances:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
-  straight_49dcb874_135p0_200p0:
+      - 100
+      - 100
+  straight_3bc3129a_150p0_0p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 170.0
+      length: 200
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_6b92fc91_230p0_380p0:
+  straight_7b1e3316_560p0_400p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 340.0
+      length: 580
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_6b92fc91_260p0_180p0:
+  straight_95cf111d_230p0_380p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 340.0
+      length: 340
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_85b8c6d6_560p0_400p0:
+  straight_95cf111d_260p0_180p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 580.0
+      length: 340
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_b57f8fcc_150p0_0p0:
+  straight_99672b3b_365p0_560p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 200.0
+      length: 250
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_d19624c7_545p0_600p0:
+  straight_99672b3b_365p0_580p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 610.0
+      length: 250
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_f053f647_365p0_560p0:
+  straight_99672b3b_395p0_360p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 250
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_f053f647_365p0_580p0:
+  straight_99672b3b_395p0_380p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 250
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_f053f647_395p0_360p0:
+  straight_ab370e58_135p0_200p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 170
       npoints: 2
       radius: 10
       with_cladding_box: true
-  straight_f053f647_395p0_380p0:
+  straight_b28806b6_545p0_600p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
-      length: 250.0
+      length: 610
       npoints: 2
       radius: 10
       with_cladding_box: true
@@ -285,8 +285,8 @@ instances:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
   tr:
     component: pad
     settings:
@@ -296,8 +296,8 @@ instances:
       - 0
       layers_cladding: null
       size:
-      - 100.0
-      - 100.0
+      - 100
+      - 100
 name: sample_path_length_matching
 placements:
   bend_euler_4725f0ef_225p125_204p875:
@@ -370,56 +370,56 @@ placements:
     rotation: 0
     x: 900.0
     y: 400.0
-  straight_49dcb874_135p0_200p0:
-    mirror: false
-    rotation: 0
-    x: 50.0
-    y: 200.0
-  straight_6b92fc91_230p0_380p0:
-    mirror: false
-    rotation: 90
-    x: 230.0
-    y: 210.0
-  straight_6b92fc91_260p0_180p0:
-    mirror: false
-    rotation: 90
-    x: 260.0
-    y: 10.0
-  straight_85b8c6d6_560p0_400p0:
-    mirror: false
-    rotation: 0
-    x: 270.0
-    y: 400.0
-  straight_b57f8fcc_150p0_0p0:
+  straight_3bc3129a_150p0_0p0:
     mirror: false
     rotation: 0
     x: 50.0
     y: 0.0
-  straight_d19624c7_545p0_600p0:
+  straight_7b1e3316_560p0_400p0:
     mirror: false
     rotation: 0
-    x: 240.0
-    y: 600.0
-  straight_f053f647_365p0_560p0:
+    x: 270.0
+    y: 400.0
+  straight_95cf111d_230p0_380p0:
+    mirror: false
+    rotation: 90
+    x: 230.0
+    y: 210.0
+  straight_95cf111d_260p0_180p0:
+    mirror: false
+    rotation: 90
+    x: 260.0
+    y: 10.0
+  straight_99672b3b_365p0_560p0:
     mirror: false
     rotation: 0
     x: 240.0
     y: 560.0
-  straight_f053f647_365p0_580p0:
+  straight_99672b3b_365p0_580p0:
     mirror: false
     rotation: 180
     x: 490.0
     y: 580.0
-  straight_f053f647_395p0_360p0:
+  straight_99672b3b_395p0_360p0:
     mirror: false
     rotation: 0
     x: 270.0
     y: 360.0
-  straight_f053f647_395p0_380p0:
+  straight_99672b3b_395p0_380p0:
     mirror: false
     rotation: 180
     x: 520.0
     y: 380.0
+  straight_ab370e58_135p0_200p0:
+    mirror: false
+    rotation: 0
+    x: 50.0
+    y: 200.0
+  straight_b28806b6_545p0_600p0:
+    mirror: false
+    rotation: 0
+    x: 240.0
+    y: 600.0
   tl:
     mirror: false
     rotation: 0

@@ -5,19 +5,19 @@ cells:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: optical
       width: 0.5
     full:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: optical
       width: 0.5
     function_name: hline
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.hline
     name: hline
     width: 0.5
@@ -27,19 +27,19 @@ info:
     layer:
     - 1
     - 0
-    length: 10.0
+    length: 10
     port_type: optical
     width: 0.5
   full:
     layer:
     - 1
     - 0
-    length: 10.0
+    length: 10
     port_type: optical
     width: 0.5
   function_name: hline
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.hline
   name: hline
   width: 0.5
@@ -49,10 +49,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -60,10 +60,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 0.0
+    - 10
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

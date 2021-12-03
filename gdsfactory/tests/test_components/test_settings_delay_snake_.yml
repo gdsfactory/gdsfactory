@@ -2,19 +2,19 @@ cells:
   delay_snake:
     changed: {}
     default:
-      L0: 5.0
+      L0: 5
       n: 2
-      taper_length: 10.0
-      total_length: 1600.0
+      taper_length: 10
+      total_length: 1600
       wg_width: 0.5
-      wg_width_wide: 2.0
+      wg_width_wide: 2
     full:
-      L0: 5.0
+      L0: 5
       n: 2
-      taper_length: 10.0
-      total_length: 1600.0
+      taper_length: 10
+      total_length: 1600
       wg_width: 0.5
-      wg_width_wide: 2.0
+      wg_width_wide: 2
     function_name: delay_snake
     info_version: 1
     module: gdsfactory.components.delay_snake
@@ -22,19 +22,19 @@ cells:
 info:
   changed: {}
   default:
-    L0: 5.0
+    L0: 5
     n: 2
-    taper_length: 10.0
-    total_length: 1600.0
+    taper_length: 10
+    total_length: 1600
     wg_width: 0.5
-    wg_width_wide: 2.0
+    wg_width_wide: 2
   full:
-    L0: 5.0
+    L0: 5
     n: 2
-    taper_length: 10.0
-    total_length: 1600.0
+    taper_length: 10
+    total_length: 1600
     wg_width: 0.5
-    wg_width_wide: 2.0
+    wg_width_wide: 2
   function_name: delay_snake
   info_version: 1
   module: gdsfactory.components.delay_snake
@@ -45,10 +45,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -59,7 +59,7 @@ ports:
     - 303.394
     - -80.4
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

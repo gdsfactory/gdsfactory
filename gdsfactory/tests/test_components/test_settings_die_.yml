@@ -12,12 +12,12 @@ cells:
       - 99
       - 0
       size:
-      - 10000.0
-      - 10000.0
-      street_length: 1000.0
-      street_width: 100.0
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
       text_location: SW
-      text_size: 100.0
+      text_size: 100
     full:
       bbox_layer:
       - 99
@@ -29,22 +29,22 @@ cells:
       - 99
       - 0
       size:
-      - 10000.0
-      - 10000.0
-      street_length: 1000.0
-      street_width: 100.0
+      - 10000
+      - 10000
+      street_length: 1000
+      street_width: 100
       text_location: SW
-      text_size: 100.0
+      text_size: 100
     function_name: die
     info_version: 1
     module: gdsfactory.components.die
     name: die
-  text_7b534b18:
+  text_cc38bd78:
     changed:
       layer:
       - 99
       - 0
-      size: 100.0
+      size: 100
       text: chip99
     default:
       justify: left
@@ -54,7 +54,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -64,12 +64,12 @@ cells:
       position:
       - 0
       - 0
-      size: 100.0
+      size: 100
       text: chip99
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_7b534b18
+    name: text_cc38bd78
 info:
   changed: {}
   default:
@@ -83,12 +83,12 @@ info:
     - 99
     - 0
     size:
-    - 10000.0
-    - 10000.0
-    street_length: 1000.0
-    street_width: 100.0
+    - 10000
+    - 10000
+    street_length: 1000
+    street_width: 100
     text_location: SW
-    text_size: 100.0
+    text_size: 100
   full:
     bbox_layer:
     - 99
@@ -100,12 +100,12 @@ info:
     - 99
     - 0
     size:
-    - 10000.0
-    - 10000.0
-    street_length: 1000.0
-    street_width: 100.0
+    - 10000
+    - 10000
+    street_length: 1000
+    street_width: 100
     text_location: SW
-    text_size: 100.0
+    text_size: 100
   function_name: die
   info_version: 1
   module: gdsfactory.components.die

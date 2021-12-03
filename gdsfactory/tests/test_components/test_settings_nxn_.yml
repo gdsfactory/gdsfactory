@@ -1,33 +1,33 @@
 cells:
-  compass_fe3035d6:
+  compass_f2a0af54:
     changed:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 8.0
-      - 8.0
+      - 8
+      - 8
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 8.0
-      - 8.0
+      - 8
+      - 8
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_fe3035d6
+    name: compass_f2a0af54
   nxn:
     changed: {}
     default:
@@ -38,10 +38,10 @@ cells:
       north: 0
       south: 0
       west: 1
-      wg_margin: 1.0
+      wg_margin: 1
       wg_width: 0.5
-      xsize: 8.0
-      ysize: 8.0
+      xsize: 8
+      ysize: 8
     full:
       east: 4
       layer:
@@ -50,22 +50,22 @@ cells:
       north: 0
       south: 0
       west: 1
-      wg_margin: 1.0
+      wg_margin: 1
       wg_width: 0.5
-      xsize: 8.0
-      ysize: 8.0
+      xsize: 8
+      ysize: 8
     function_name: nxn
     info_version: 1
     module: gdsfactory.components.nxn
     name: nxn
-  rectangle_5d4dce0b:
+  rectangle_48d69079:
     changed:
       layer:
       - 1
       - 0
       size:
-      - 8.0
-      - 8.0
+      - 8
+      - 8
     default:
       centered: false
       layer:
@@ -73,8 +73,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -82,12 +82,12 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 8.0
-      - 8.0
+      - 8
+      - 8
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_5d4dce0b
+    name: rectangle_48d69079
 info:
   changed: {}
   default:
@@ -98,10 +98,10 @@ info:
     north: 0
     south: 0
     west: 1
-    wg_margin: 1.0
+    wg_margin: 1
     wg_width: 0.5
-    xsize: 8.0
-    ysize: 8.0
+    xsize: 8
+    ysize: 8
   full:
     east: 4
     layer:
@@ -110,10 +110,10 @@ info:
     north: 0
     south: 0
     west: 1
-    wg_margin: 1.0
+    wg_margin: 1
     wg_width: 0.5
-    xsize: 8.0
-    ysize: 8.0
+    xsize: 8
+    ysize: 8
   function_name: nxn
   info_version: 1
   module: gdsfactory.components.nxn
@@ -124,10 +124,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 4.0
+    - 0
+    - 4
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -135,10 +135,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 8.0
+    - 8
     - 6.75
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o3:
@@ -146,10 +146,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 8.0
+    - 8
     - 4.917
     name: o3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o4:
@@ -157,10 +157,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 8.0
+    - 8
     - 3.083
     name: o4
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o5:
@@ -168,10 +168,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 8.0
+    - 8
     - 1.25
     name: o5
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

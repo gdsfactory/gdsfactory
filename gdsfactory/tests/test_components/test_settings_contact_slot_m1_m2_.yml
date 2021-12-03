@@ -1,60 +1,60 @@
 cells:
-  compass_306064d6:
+  compass_225d333d:
     changed:
       layer:
       - 45
       - 0
       size:
-      - 13.0
-      - 13.0
+      - 13
+      - 13
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 45
       - 0
       port_type: electrical
       size:
-      - 13.0
-      - 13.0
+      - 13
+      - 13
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_306064d6
-  compass_b4336a8a:
+    name: compass_225d333d
+  compass_ef690c07:
     changed:
       layer:
       - 41
       - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 41
       - 0
       port_type: electrical
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_b4336a8a
+    name: compass_ef690c07
   contact_slot_9a3dc57d:
     changed:
       layers:
@@ -69,10 +69,10 @@ cells:
         - 44
         - 0
     default:
-      enclosure: 1.0
+      enclosure: 1
       layer_offsets:
       - 0
-      - 1.0
+      - 1
       layer_port: null
       layers:
       - - 41
@@ -80,15 +80,15 @@ cells:
       - - 45
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       ysize: 0.5
-      yspacing: 2.0
+      yspacing: 2
     full:
-      enclosure: 1.0
+      enclosure: 1
       layer_offsets:
       - 0
-      - 1.0
+      - 1
       layer_port: null
       layers:
       - - 41
@@ -96,8 +96,8 @@ cells:
       - - 45
         - 0
       size:
-      - 11.0
-      - 11.0
+      - 11
+      - 11
       via:
         enclosure: 2
         function: via
@@ -105,14 +105,14 @@ cells:
         - 44
         - 0
       ysize: 0.5
-      yspacing: 2.0
+      yspacing: 2
     function_name: contact_slot
     info_version: 1
     module: gdsfactory.components.contact_slot
     name: contact_slot_9a3dc57d
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
 info:
   changed:
     layers:
@@ -127,10 +127,10 @@ info:
       - 44
       - 0
   default:
-    enclosure: 1.0
+    enclosure: 1
     layer_offsets:
     - 0
-    - 1.0
+    - 1
     layer_port: null
     layers:
     - - 41
@@ -138,15 +138,15 @@ info:
     - - 45
       - 0
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
     ysize: 0.5
-    yspacing: 2.0
+    yspacing: 2
   full:
-    enclosure: 1.0
+    enclosure: 1
     layer_offsets:
     - 0
-    - 1.0
+    - 1
     layer_port: null
     layers:
     - - 41
@@ -154,8 +154,8 @@ info:
     - - 45
       - 0
     size:
-    - 11.0
-    - 11.0
+    - 11
+    - 11
     via:
       enclosure: 2
       function: via
@@ -163,14 +163,14 @@ info:
       - 44
       - 0
     ysize: 0.5
-    yspacing: 2.0
+    yspacing: 2
   function_name: contact_slot
   info_version: 1
   module: gdsfactory.components.contact_slot
   name: contact_slot_9a3dc57d
   size:
-  - 11.0
-  - 11.0
+  - 11
+  - 11
 ports:
   e1:
     layer:
@@ -178,42 +178,42 @@ ports:
     - 0
     midpoint:
     - -6.5
-    - 0.0
+    - 0
     name: e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 13.0
+    width: 13
   e2:
     layer:
     - 45
     - 0
     midpoint:
-    - 0.0
+    - 0
     - 6.5
     name: e2
-    orientation: 90.0
+    orientation: 90
     port_type: electrical
-    width: 13.0
+    width: 13
   e3:
     layer:
     - 45
     - 0
     midpoint:
     - 6.5
-    - 0.0
+    - 0
     name: e3
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 13.0
+    width: 13
   e4:
     layer:
     - 45
     - 0
     midpoint:
-    - 0.0
+    - 0
     - -6.5
     name: e4
-    orientation: 270.0
+    orientation: 270
     port_type: electrical
-    width: 13.0
+    width: 13
 version: 1

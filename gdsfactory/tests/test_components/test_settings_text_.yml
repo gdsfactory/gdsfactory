@@ -9,7 +9,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     full:
       justify: left
@@ -19,7 +19,7 @@ cells:
       position:
       - 0
       - 0
-      size: 10.0
+      size: 10
       text: abcd
     function_name: text
     info_version: 1
@@ -35,7 +35,7 @@ info:
     position:
     - 0
     - 0
-    size: 10.0
+    size: 10
     text: abcd
   full:
     justify: left
@@ -45,7 +45,7 @@ info:
     position:
     - 0
     - 0
-    size: 10.0
+    size: 10
     text: abcd
   function_name: text
   info_version: 1

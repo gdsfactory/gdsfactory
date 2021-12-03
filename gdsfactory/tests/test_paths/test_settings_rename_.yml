@@ -24,20 +24,20 @@ ports:
     - 0
     midpoint:
     - 6.123233995736766e-16
-    - 0.0
+    - 0
     name: in
-    orientation: 180.0
+    orientation: 180
     port_type: optical
-    width: 1.0
+    width: 1
   out:
     layer:
     - 0
     - 0
     midpoint:
-    - 10.0
-    - 10.0
+    - 10
+    - 10
     name: out
-    orientation: 90.0
+    orientation: 90
     port_type: optical
-    width: 1.0
+    width: 1
 version: 1

@@ -4,18 +4,18 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -27,13 +27,79 @@ cells:
         cross_section:
           function: cross_section
         size:
-        - 90.0
+        - 90
         - 11.875
+      child:
+        changed:
+          control_points:
+          - - 0
+            - 0
+          - - 45
+            - 0
+          - - 45
+            - 11.875
+          - - 90
+            - 11.875
+          layer:
+          - 1
+          - 0
+          npoints: 99
+          width: 0.5
+        default:
+          control_points:
+          - - 0
+            - 0
+          - - 5
+            - 0
+          - - 5
+            - 2
+          - - 10
+            - 2
+          end_angle: null
+          grid: 0.001
+          layer:
+          - 1
+          - 0
+          name: null
+          npoints: 201
+          spike_length: 0
+          start_angle: null
+          width: 0.5
+          with_manhattan_facing_angles: true
+        end_angle: 0.155
+        full:
+          control_points:
+          - - 0
+            - 0
+          - - 45
+            - 0
+          - - 45
+            - 11.875
+          - - 90
+            - 11.875
+          end_angle: null
+          grid: 0.001
+          layer:
+          - 1
+          - 0
+          name: null
+          npoints: 99
+          spike_length: 0
+          start_angle: null
+          width: 0.5
+          with_manhattan_facing_angles: true
+        function_name: bezier
+        info_version: 1
+        length: 91.103
+        min_bend_radius: 129.147
+        module: gdsfactory.components.bezier
+        name: bezier_dd2e1266
+        start_angle: 0.155
       default:
         nb_points: 99
         size:
-        - 10.0
-        - 2.0
+        - 10
+        - 2
         with_cladding_box: true
       end_angle: 0.155
       full:
@@ -41,7 +107,7 @@ cells:
           function: cross_section
         nb_points: 99
         size:
-        - 90.0
+        - 90
         - 11.875
         with_cladding_box: true
       function_name: bend_s
@@ -49,21 +115,21 @@ cells:
       length: 91.103
       min_bend_radius: 129.147
       module: gdsfactory.components.bend_s
-      name: bend_s_6267eca1
+      name: bend_s_845a372c
       start_angle: 0.155
     changed: {}
     default:
       bend_s_xsize: null
       noutputs: 4
       spacing:
-      - 90.0
-      - 50.0
+      - 90
+      - 50
     full:
       bend_s_xsize: null
       noutputs: 4
       spacing:
-      - 90.0
-      - 50.0
+      - 90
+      - 50
     function_name: splitter_tree
     info_version: 1
     module: gdsfactory.components.splitter_tree
@@ -74,13 +140,79 @@ info:
       cross_section:
         function: cross_section
       size:
-      - 90.0
+      - 90
       - 11.875
+    child:
+      changed:
+        control_points:
+        - - 0
+          - 0
+        - - 45
+          - 0
+        - - 45
+          - 11.875
+        - - 90
+          - 11.875
+        layer:
+        - 1
+        - 0
+        npoints: 99
+        width: 0.5
+      default:
+        control_points:
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 201
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      end_angle: 0.155
+      full:
+        control_points:
+        - - 0
+          - 0
+        - - 45
+          - 0
+        - - 45
+          - 11.875
+        - - 90
+          - 11.875
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 99
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      function_name: bezier
+      info_version: 1
+      length: 91.103
+      min_bend_radius: 129.147
+      module: gdsfactory.components.bezier
+      name: bezier_dd2e1266
+      start_angle: 0.155
     default:
       nb_points: 99
       size:
-      - 10.0
-      - 2.0
+      - 10
+      - 2
       with_cladding_box: true
     end_angle: 0.155
     full:
@@ -88,7 +220,7 @@ info:
         function: cross_section
       nb_points: 99
       size:
-      - 90.0
+      - 90
       - 11.875
       with_cladding_box: true
     function_name: bend_s
@@ -96,21 +228,21 @@ info:
     length: 91.103
     min_bend_radius: 129.147
     module: gdsfactory.components.bend_s
-    name: bend_s_6267eca1
+    name: bend_s_845a372c
     start_angle: 0.155
   changed: {}
   default:
     bend_s_xsize: null
     noutputs: 4
     spacing:
-    - 90.0
-    - 50.0
+    - 90
+    - 50
   full:
     bend_s_xsize: null
     noutputs: 4
     spacing:
-    - 90.0
-    - 50.0
+    - 90
+    - 50
   function_name: splitter_tree
   info_version: 1
   module: gdsfactory.components.splitter_tree
@@ -122,9 +254,9 @@ ports:
     - 0
     midpoint:
     - -12.75
-    - 0.0
+    - 0
     name: o1_0_0
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2_1_1:
@@ -135,7 +267,7 @@ ports:
     - 192.75
     - -12.5
     name: o2_1_1
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_2:
@@ -146,7 +278,7 @@ ports:
     - 192.75
     - -37.5
     name: o2_1_2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_3:
@@ -157,7 +289,7 @@ ports:
     - 192.75
     - 37.5
     name: o2_1_3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_4:
@@ -168,7 +300,7 @@ ports:
     - 192.75
     - 12.5
     name: o2_1_4
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

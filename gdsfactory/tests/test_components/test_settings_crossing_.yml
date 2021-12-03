@@ -21,10 +21,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -4.0
-    - 0.0
+    - -4
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -33,9 +33,9 @@ ports:
     - 0
     midpoint:
     - 2.4492935982947064e-16
-    - 4.0
+    - 4
     name: o2
-    orientation: 90.0
+    orientation: 90
     port_type: optical
     width: 0.5
   o3:
@@ -43,10 +43,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 4.0
-    - 0.0
+    - 4
+    - 0
     name: o3
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o4:
@@ -55,9 +55,9 @@ ports:
     - 0
     midpoint:
     - -2.4492935982947064e-16
-    - -4.0
+    - -4
     name: o4
-    orientation: 270.0
+    orientation: 270
     port_type: optical
     width: 0.5
 version: 1

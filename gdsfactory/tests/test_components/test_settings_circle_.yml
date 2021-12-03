@@ -6,13 +6,13 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10.0
+      radius: 10
     full:
       angle_resolution: 2.5
       layer:
       - 1
       - 0
-      radius: 10.0
+      radius: 10
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
@@ -24,13 +24,13 @@ info:
     layer:
     - 1
     - 0
-    radius: 10.0
+    radius: 10
   full:
     angle_resolution: 2.5
     layer:
     - 1
     - 0
-    radius: 10.0
+    radius: 10
   function_name: circle
   info_version: 1
   module: gdsfactory.components.circle

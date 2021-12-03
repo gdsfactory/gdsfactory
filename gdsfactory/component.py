@@ -36,6 +36,11 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
+
+class MutabilityError(ValueError):
+    pass
+
+
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
@@ -48,11 +53,11 @@ _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
 
-def copy(D: Device) -> Device:
+def copy(D: Device, prefix: str = "") -> Device:
     """returns a deep copy of a Component.
     based on phidl.geometry with CellArray support
     """
-    D_copy = Component(name=D.name)
+    D_copy = Component(name=f"{prefix}{D.name}")
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
         if isinstance(ref, DeviceReference):
@@ -152,8 +157,13 @@ def _rotate_points(
         0.0,
     ),
 ) -> ndarray:
-    """Rotates points around a centerpoint defined by ``center``.  ``points`` may be
-    input as either single points [1,2] or array-like[N][2], and will return in kind
+    """Rotates points around a center point
+    accepts single points [1,2] or array-like[N][2], and will return in kind
+
+    Args:
+        points: rotate points around center point
+        angle:
+        center:
     """
     # First check for common, easy values of angle
     p_arr = np.asarray(points)
@@ -626,6 +636,7 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
+        self._cached = False
 
     @classmethod
     def __get_validators__(cls):
@@ -679,7 +690,7 @@ class Component(Device):
         return self.ports[key2]
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Returns a the xdistance from east to west ports
+        """Returns xdistance from east to west ports
 
         Args:
             kwargs: orientation, port_type, layer
@@ -689,7 +700,7 @@ class Component(Device):
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Returns a the ydistance from east to west ports"""
+        """Returns ydistance from east to west ports"""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
@@ -1000,12 +1011,12 @@ class Component(Device):
                 component.add_polygon(polys, layer=layer)
         return component
 
-    def copy(self) -> Device:
-        return copy(self)
+    def copy(self, prefix: str = "") -> Device:
+        return copy(self, prefix=prefix)
 
     def copy_child_info(self, component) -> None:
         """Copy info from another component.
-        great for hiearchical components that propagate child cells info.
+        so hierarchical components propagate child cells info.
         """
         self.info.child = component.info
 
@@ -1015,6 +1026,45 @@ class Component(Device):
         # if self.__size_info__ == None:
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
+
+    def add(self, element):
+        """
+        Add a new element or list of elements to this Component
+
+        Args:
+            element : `PolygonSet`, `CellReference`, `CellArray` or iterable
+            The element or iterable of elements to be inserted in this
+            cell.
+
+        """
+        if self._cached:
+            raise MutabilityError(
+                f"Error Adding element to cached Component {self.name!r}. "
+                "You need to make a copy of this cached Component or create a new one."
+            )
+        super().add(element)
+
+    def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
+        """Returns a flattened copy of the component
+        Flattens the hierarchy of the Component such that there are no longer
+        any references to other Components. All polygons and labels from
+        underlying references are copied and placed in the top-level Component.
+        If single_layer is specified, all polygons are moved to that layer.
+
+        Args:
+            single_layer: move all polygons are moved to the specified
+        """
+
+        component_flat = self.copy()
+        component_flat.polygons = []
+        component_flat.references = []
+
+        poly_dict = self.get_polygons(by_spec=True)
+        for layer, polys in poly_dict.items():
+            component_flat.add_polygon(polys, layer=single_layer or layer)
+
+        component_flat.name = f"{self.name}_flat"
+        return component_flat
 
     def add_ref(self, D: Device, alias: Optional[str] = None) -> "ComponentReference":
         """Takes a Component and adds it as a ComponentReference to the current
@@ -1118,7 +1168,7 @@ class Component(Device):
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
     ) -> Path:
-        """Write component to GDS and returs gdspath
+        """Write component to GDS and returns gdspath
 
         Args:
             gdspath: GDS file path to write to.
@@ -1184,7 +1234,7 @@ class Component(Device):
         return OmegaConf.to_yaml(self.to_dict())
 
     def to_dict_polygons(self) -> DictConfig:
-        """Returns a dict representation of the flattened compoment."""
+        """Returns a dict representation of the flattened component."""
         d = DictConfig({})
         polygons = {}
         layer_to_polygons = self.get_polygons(by_spec=True)
@@ -1373,13 +1423,13 @@ def _clean_value(value: Any) -> Any:
     if isinstance(value, CrossSection):
         value = value.info
         # value = clean_dict(value.to_dict())
-    # if isinstance(value, float) and float(int(value)) == value:
-    #     value = int(value)
-    if type(value) in [int, float, str, bool]:
-        return value
-    if isinstance(value, (np.int64, np.int32)):
+    if isinstance(value, float) and int(value) == value:
         value = int(value)
-    if isinstance(value, np.ndarray):
+    elif type(value) in [int, float, str, bool]:
+        value = value
+    elif isinstance(value, (np.int64, np.int32)):
+        value = int(value)
+    elif isinstance(value, np.ndarray):
         value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)

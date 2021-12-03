@@ -1,5 +1,5 @@
 cells:
-  compass_76ebfe66:
+  compass_ae46bf3c:
     changed:
       layer:
       - 1
@@ -7,15 +7,15 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
@@ -23,11 +23,11 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_76ebfe66
+    name: compass_ae46bf3c
   grating_coupler_rectang_0b571e8d:
     changed: {}
     default:
@@ -49,13 +49,13 @@ cells:
       layer_slab:
       - 2
       - 0
-      length_taper: 150.0
+      length_taper: 150
       polarization: te
-      slab_offset: 1.0
-      slab_xmin: -1.0
+      slab_offset: 1
+      slab_xmin: -1
       wavelength: 1.55
       wg_width: 0.5
-      width_grating: 11.0
+      width_grating: 11
       widths:
       - 0.5
       - 0.5
@@ -86,13 +86,13 @@ cells:
       layer_slab:
       - 2
       - 0
-      length_taper: 150.0
+      length_taper: 150
       polarization: te
-      slab_offset: 1.0
-      slab_xmin: -1.0
+      slab_offset: 1
+      slab_xmin: -1
       wavelength: 1.55
       wg_width: 0.5
-      width_grating: 11.0
+      width_grating: 11
       widths:
       - 0.5
       - 0.5
@@ -110,7 +110,7 @@ cells:
     name: grating_coupler_rectang_0b571e8d
     polarization: te
     wavelength: 1.55
-  rectangle_bbaaa725:
+  rectangle_14fb5f60:
     changed:
       centered: true
       layer:
@@ -119,7 +119,7 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     default:
       centered: false
       layer:
@@ -127,8 +127,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: true
       layer:
@@ -137,21 +137,21 @@ cells:
       port_type: null
       size:
       - 0.5
-      - 11.0
+      - 11
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_bbaaa725
-  taper_3a98f2ae:
+    name: rectangle_14fb5f60
+  taper_211ef0b5:
     changed:
       layer:
       - 1
       - 0
-      length: 150.0
+      length: 150
       width1: 0.5
-      width2: 11.0
+      width2: 11
     default:
-      length: 10.0
+      length: 10
       port: null
       width1: 0.5
       width2: null
@@ -160,18 +160,18 @@ cells:
       layer:
       - 1
       - 0
-      length: 150.0
+      length: 150
       port: null
       width1: 0.5
-      width2: 11.0
+      width2: 11
       with_cladding_box: true
     function_name: taper
     info_version: 1
-    length: 150.0
+    length: 150
     module: gdsfactory.components.taper
-    name: taper_3a98f2ae
+    name: taper_211ef0b5
     width1: 0.5
-    width2: 11.0
+    width2: 11
 info:
   changed: {}
   default:
@@ -193,13 +193,13 @@ info:
     layer_slab:
     - 2
     - 0
-    length_taper: 150.0
+    length_taper: 150
     polarization: te
-    slab_offset: 1.0
-    slab_xmin: -1.0
+    slab_offset: 1
+    slab_xmin: -1
     wavelength: 1.55
     wg_width: 0.5
-    width_grating: 11.0
+    width_grating: 11
     widths:
     - 0.5
     - 0.5
@@ -230,13 +230,13 @@ info:
     layer_slab:
     - 2
     - 0
-    length_taper: 150.0
+    length_taper: 150
     polarization: te
-    slab_offset: 1.0
-    slab_xmin: -1.0
+    slab_offset: 1
+    slab_xmin: -1
     wavelength: 1.55
     wg_width: 0.5
-    width_grating: 11.0
+    width_grating: 11
     widths:
     - 0.5
     - 0.5
@@ -260,10 +260,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   vertical_te:
@@ -272,9 +272,9 @@ ports:
     - 0
     midpoint:
     - 153.5
-    - 0.0
+    - 0
     name: vertical_te
-    orientation: 0.0
+    orientation: 0
     port_type: vertical_te
-    width: 1.0
+    width: 1
 version: 1

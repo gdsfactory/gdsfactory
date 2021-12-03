@@ -2,6 +2,7 @@ import pathlib
 from typing import List, Optional, Tuple
 
 import numpy as np
+from pydantic import validate_arguments
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -10,6 +11,7 @@ from gdsfactory.port import Port
 from gdsfactory.tech import LAYER
 
 
+@validate_arguments
 def _add_pin_square(
     component: Component,
     port: Port,
@@ -153,7 +155,7 @@ def add_monitors(
 
     # add monitors
     component_with_monitors = add_monitors_and_extend_ports(
-        component=component,
+        component=component.copy(),
         extension_length=source_distance_to_monitors,
         port_margin=port_margin,
         layer=layer_monitor,
@@ -161,14 +163,14 @@ def add_monitors(
 
     # add source
     component_with_source = add_monitors_and_extend_ports(
-        component_with_monitors,
+        component=component_with_monitors.copy(),
         extension_length=extension_length,
         port_labels=[source_port_name],
         layer=layer_source,
     )
 
     # add simulation region
-    component_with_padding = gf.add_padding(
+    component_with_padding = gf.add_padding_container(
         component=component_with_source,
         default=0,
         layers=[layer_simulation_region],

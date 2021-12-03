@@ -10,7 +10,7 @@ cells:
       layer:
       - 1
       - 0
-      radius: 10.0
+      radius: 10
     full:
       angle_resolution: 2.5
       layer:
@@ -24,6 +24,7 @@ cells:
   grating_coupler_ellipti_9d85a0c6:
     changed: {}
     default:
+      bias_gap: 0
       fiber_angle: 5
       info: null
       layer:
@@ -86,6 +87,7 @@ cells:
       taper_angle: 55
       taper_length: 12.6
     full:
+      bias_gap: 0
       fiber_angle: 5
       info: null
       layer:
@@ -157,6 +159,7 @@ cells:
 info:
   changed: {}
   default:
+    bias_gap: 0
     fiber_angle: 5
     info: null
     layer:
@@ -219,6 +222,7 @@ info:
     taper_angle: 55
     taper_length: 12.6
   full:
+    bias_gap: 0
     fiber_angle: 5
     info: null
     layer:
@@ -294,9 +298,9 @@ ports:
     - 0
     midpoint:
     - 0.24
-    - 0.0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   vertical_te:
@@ -305,9 +309,9 @@ ports:
     - 0
     midpoint:
     - 19.752
-    - 0.0
+    - 0
     name: vertical_te
-    orientation: 0.0
+    orientation: 0
     port_type: vertical_te
-    width: 11.0
+    width: 11
 version: 1

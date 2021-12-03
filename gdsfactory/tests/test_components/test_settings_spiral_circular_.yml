@@ -5,19 +5,19 @@ cells:
       layer:
       - 1
       - 0
-      length: 1000.0
-      min_bend_radius: 5.0
+      length: 1000
+      min_bend_radius: 5
       points: 1000
-      spacing: 3.0
+      spacing: 3
       wg_width: 0.5
     full:
       layer:
       - 1
       - 0
-      length: 1000.0
-      min_bend_radius: 5.0
+      length: 1000
+      min_bend_radius: 5
       points: 1000
-      spacing: 3.0
+      spacing: 3
       wg_width: 0.5
     function_name: spiral_circular
     info_version: 1
@@ -30,19 +30,19 @@ info:
     layer:
     - 1
     - 0
-    length: 1000.0
-    min_bend_radius: 5.0
+    length: 1000
+    min_bend_radius: 5
     points: 1000
-    spacing: 3.0
+    spacing: 3
     wg_width: 0.5
   full:
     layer:
     - 1
     - 0
-    length: 1000.0
-    min_bend_radius: 5.0
+    length: 1000
+    min_bend_radius: 5
     points: 1000
-    spacing: 3.0
+    spacing: 3
     wg_width: 0.5
   function_name: spiral_circular
   info_version: 1
@@ -55,10 +55,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - -52.0
+    - -52
     - -40.5
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -69,7 +69,7 @@ ports:
     - 40.53
     - -40.5
     name: o2
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
 version: 1
