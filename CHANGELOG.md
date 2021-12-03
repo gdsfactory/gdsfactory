@@ -19,8 +19,8 @@ Maybe:
 
 ## 3.7.1
 
-- small patch to keep python3.7 functionality when using `gf.functions.cache` decorator
-- add_fiber_array accepts ComponentOrFactory
+- keep python3.7 compatibility for `gf.functions.cache` decorator by using `cache = lru_cache(maxsize=None)` instead of `cache = lru_cache`
+- `add_fiber_array` accepts ComponentOrFactory, convenient for testing the function without building a component
 
 ## 3.7.0
 
