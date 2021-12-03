@@ -33,7 +33,6 @@ from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.add_text import add_text
 from gdsfactory.types import Label
 
 from gdsfactory import cross_section
@@ -89,7 +88,6 @@ __all__ = [
     "add_pins_to_references",
     "add_tapers",
     "add_termination",
-    "add_text",
     "asserts",
     "geometry",
     "c",

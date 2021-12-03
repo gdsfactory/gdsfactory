@@ -53,11 +53,11 @@ _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
 
-def copy(D: Device) -> Device:
+def copy(D: Device, prefix: str = "") -> Device:
     """returns a deep copy of a Component.
     based on phidl.geometry with CellArray support
     """
-    D_copy = Component(name=D.name)
+    D_copy = Component(name=f"{prefix}{D.name}")
     D_copy.info = python_copy.deepcopy(D.info)
     for ref in D.references:
         if isinstance(ref, DeviceReference):
@@ -1011,8 +1011,8 @@ class Component(Device):
                 component.add_polygon(polys, layer=layer)
         return component
 
-    def copy(self) -> Device:
-        return copy(self)
+    def copy(self, prefix: str = "") -> Device:
+        return copy(self, prefix=prefix)
 
     def copy_child_info(self, component) -> None:
         """Copy info from another component.
