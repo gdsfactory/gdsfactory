@@ -27,8 +27,8 @@ def get_input_label_text(
         prefix:
 
     """
-    polarization = gc.info_child.get("polarization")
-    wavelength = gc.info_child.get("wavelength")
+    polarization = gc.info.get("polarization") or gf.info_child.get("polarization")
+    wavelength = gc.info.get("wavelength") or gf.info_child.get("wavelength")
 
     assert polarization in [
         "te",

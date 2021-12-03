@@ -60,8 +60,8 @@ from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
     add_padding,
-    get_padding_points,
     add_padding_container,
+    get_padding_points,
 )
 from gdsfactory.add_pins import add_pins, add_pins_to_references
 from gdsfactory.fill import fill_rectangle

@@ -713,7 +713,7 @@ from pydantic import validate_arguments
 - added `component.show(show_subports=True)`
 - added `pf merge-cells`
 - added `auto_taper_to_wide_waveguides` option to add_fiber_array
-- `add_padding` returns the same component, `add_padding_container` returns a container with component inside
+- `add_padding` returns the same component, `add_padding` returns a container with component inside
 - remove container decorator, containers are just regular cells now with @cell decorator
 - add `add_pin_square_double` and make it the default
 

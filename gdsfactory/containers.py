@@ -3,7 +3,7 @@ from gdsfactory.add_grating_couplers import (
     add_grating_couplers_with_loopback_fiber_array,
     add_grating_couplers_with_loopback_fiber_single,
 )
-from gdsfactory.add_padding import add_padding_container
+from gdsfactory.add_padding import add_padding
 from gdsfactory.add_termination import add_termination
 from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.cavity import cavity
@@ -27,7 +27,7 @@ container_library.register(
         add_grating_couplers,
         add_grating_couplers_with_loopback_fiber_single,
         add_grating_couplers_with_loopback_fiber_array,
-        add_padding_container,
+        add_padding,
         add_termination,
         cavity,
         extend_ports,
