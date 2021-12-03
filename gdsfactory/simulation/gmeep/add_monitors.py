@@ -170,7 +170,7 @@ def add_monitors(
     )
 
     # add simulation region
-    component_with_padding = gf.add_padding(
+    component_with_padding = gf.add_padding_container(
         component=component_with_source,
         default=0,
         layers=[layer_simulation_region],
