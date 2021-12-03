@@ -21,15 +21,15 @@ Maybe:
 
 - fix clean_name
     - generators and iterables are properly hashed now
-    - toolz.compose functions cache both the functions and first function
+    - toolz.compose functions hash both the functions and first function
     - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
-- set Component._cached = True when added into cache, and raises MutabilityError when adding any element to it.
-- Component.flatten() returns a copy of the component, that includes the flattened component. Name is also different by adding `_flat` suffix
+- set Component._cached = True when adding Component into cache, and raises MutabilityError when adding any element to it.
+- Component.flatten() returns a copy of the component, that includes the flattened component. New name adds `_flat` suffix to oringinal name
 - add bias to grating_coupler_lumerical
 - try to cast float to int when exporting info
-- remove `ComponentSweep` as it was easier to define as a list comprehension
-- remove `add_text` as it is prone to create create mutability errors
-- pack can now add text labels if passed text: ComponentFactory
+- remove `ComponentSweep` as it was trivial to define as a list comprehension
+- remove `add_text` as it is prone to creating mutability errors
+- pack can now add text labels if passed a text ComponentFactory
 
 ## 3.6.8
 
