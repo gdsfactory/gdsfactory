@@ -6,7 +6,7 @@ from gdsfactory.component import Component
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import Float2, Optional
 
-cache = lru_cache
+cache = lru_cache(maxsize=None)
 
 
 def add_port(component: Component, **kwargs) -> Component:
