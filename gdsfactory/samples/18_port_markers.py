@@ -7,6 +7,7 @@ from gdsfactory.component import Component
 def test_pins_custom() -> Component:
     """You can define the `pins_function` that we use to add markers to each port"""
     c = gf.components.straight(length=11.1)
+    c = c.copy()
     add_pins_triangle(component=c)
     return c
 

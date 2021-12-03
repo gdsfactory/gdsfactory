@@ -4,18 +4,18 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
       with_cladding_box: true
     function_name: mmi1x2
     info_version: 1
@@ -26,32 +26,32 @@ cells:
     default:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
     full:
       gap_mmi: 0.25
       length_mmi: 5.5
-      length_taper: 10.0
+      length_taper: 10
       width: 0.5
       width_mmi: 2.5
-      width_taper: 1.0
+      width_taper: 1
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_77da55f0:
+  mzi_3a1627bd:
     changed:
       combiner: mmi2x2
       delta_length: 0
-      length_x: 320.0
+      length_x: 320
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
       combiner: null
-      delta_length: 10.0
+      delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
@@ -63,7 +63,7 @@ cells:
       combiner: mmi2x2
       delta_length: 0
       layer: null
-      length_x: 320.0
+      length_x: 320
       length_y: 0.8
       straight_x_bot: null
       straight_x_top:
@@ -74,38 +74,11 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_77da55f0
-  mzi_arm_bc818cb2:
+    name: mzi_3a1627bd
+  mzi_arm_3aabaa29:
     changed:
       bend: bend_euler
-      length_x: 320.0
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: straight
-      straight_y: straight
-    default:
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: null
-      straight_y: null
-    full:
-      bend: bend_euler
-      length_x: 320.0
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x: straight
-      straight_y: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_bc818cb2
-  mzi_arm_f8b34917:
-    changed:
-      bend: bend_euler
-      length_x: 320.0
+      length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -120,7 +93,7 @@ cells:
       straight_y: null
     full:
       bend: bend_euler
-      length_x: 320.0
+      length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
@@ -129,23 +102,116 @@ cells:
       straight_y: straight
     function_name: mzi_arm
     info_version: 1
-    length_x: 320.0
-    length_xsize: 320.0
+    length_x: 320
+    length_xsize: 320
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_f8b34917
-  splitter_tree_776bbad8:
+    name: mzi_arm_3aabaa29
+  mzi_arm_dfcb483b:
+    changed:
+      bend: bend_euler
+      length_x: 320
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: straight
+      straight_y: straight
+    default:
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: null
+      straight_y: null
+    full:
+      bend: bend_euler
+      length_x: 320
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight_x: straight
+      straight_y: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320
+    length_xsize: 320
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_dfcb483b
+  splitter_tree_e508e659:
     bend_s:
       changed:
         cross_section:
           function: cross_section
         size:
-        - 500.0
+        - 500
         - 24.375
+      child:
+        changed:
+          control_points:
+          - - 0
+            - 0
+          - - 250
+            - 0
+          - - 250
+            - 24.375
+          - - 500
+            - 24.375
+          layer:
+          - 1
+          - 0
+          npoints: 99
+          width: 0.5
+        default:
+          control_points:
+          - - 0
+            - 0
+          - - 5
+            - 0
+          - - 5
+            - 2
+          - - 10
+            - 2
+          end_angle: null
+          grid: 0.001
+          layer:
+          - 1
+          - 0
+          name: null
+          npoints: 201
+          spike_length: 0
+          start_angle: null
+          width: 0.5
+          with_manhattan_facing_angles: true
+        end_angle: 0.057
+        full:
+          control_points:
+          - - 0
+            - 0
+          - - 250
+            - 0
+          - - 250
+            - 24.375
+          - - 500
+            - 24.375
+          end_angle: null
+          grid: 0.001
+          layer:
+          - 1
+          - 0
+          name: null
+          npoints: 99
+          spike_length: 0
+          start_angle: null
+          width: 0.5
+          with_manhattan_facing_angles: true
+        function_name: bezier
+        info_version: 1
+        length: 500.845
+        min_bend_radius: 1870.03
+        module: gdsfactory.components.bezier
+        name: bezier_1cd7d155
+        start_angle: 0.057
       default:
         nb_points: 99
         size:
-        - 10.0
-        - 2.0
+        - 10
+        - 2
         with_cladding_box: true
       end_angle: 0.057
       full:
@@ -153,7 +219,7 @@ cells:
           function: cross_section
         nb_points: 99
         size:
-        - 500.0
+        - 500
         - 24.375
         with_cladding_box: true
       function_name: bend_s
@@ -161,14 +227,14 @@ cells:
       length: 500.845
       min_bend_radius: 1870.03
       module: gdsfactory.components.bend_s
-      name: bend_s_7e3fe90a
+      name: bend_s_74621b0d
       start_angle: 0.057
     changed:
       coupler:
         combiner: mmi2x2
         delta_length: 0
         function: mzi
-        length_x: 320.0
+        length_x: 320
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
@@ -179,15 +245,15 @@ cells:
       bend_s_xsize: null
       noutputs: 4
       spacing:
-      - 90.0
-      - 50.0
+      - 90
+      - 50
     full:
       bend_s_xsize: null
       coupler:
         combiner: mmi2x2
         delta_length: 0
         function: mzi
-        length_x: 320.0
+        length_x: 320
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
@@ -198,20 +264,86 @@ cells:
     function_name: splitter_tree
     info_version: 1
     module: gdsfactory.components.splitter_tree
-    name: splitter_tree_776bbad8
+    name: splitter_tree_e508e659
 info:
   bend_s:
     changed:
       cross_section:
         function: cross_section
       size:
-      - 500.0
+      - 500
       - 24.375
+    child:
+      changed:
+        control_points:
+        - - 0
+          - 0
+        - - 250
+          - 0
+        - - 250
+          - 24.375
+        - - 500
+          - 24.375
+        layer:
+        - 1
+        - 0
+        npoints: 99
+        width: 0.5
+      default:
+        control_points:
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 201
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      end_angle: 0.057
+      full:
+        control_points:
+        - - 0
+          - 0
+        - - 250
+          - 0
+        - - 250
+          - 24.375
+        - - 500
+          - 24.375
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 99
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      function_name: bezier
+      info_version: 1
+      length: 500.845
+      min_bend_radius: 1870.03
+      module: gdsfactory.components.bezier
+      name: bezier_1cd7d155
+      start_angle: 0.057
     default:
       nb_points: 99
       size:
-      - 10.0
-      - 2.0
+      - 10
+      - 2
       with_cladding_box: true
     end_angle: 0.057
     full:
@@ -219,7 +351,7 @@ info:
         function: cross_section
       nb_points: 99
       size:
-      - 500.0
+      - 500
       - 24.375
       with_cladding_box: true
     function_name: bend_s
@@ -227,14 +359,14 @@ info:
     length: 500.845
     min_bend_radius: 1870.03
     module: gdsfactory.components.bend_s
-    name: bend_s_7e3fe90a
+    name: bend_s_74621b0d
     start_angle: 0.057
   changed:
     coupler:
       combiner: mmi2x2
       delta_length: 0
       function: mzi
-      length_x: 320.0
+      length_x: 320
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
@@ -245,15 +377,15 @@ info:
     bend_s_xsize: null
     noutputs: 4
     spacing:
-    - 90.0
-    - 50.0
+    - 90
+    - 50
   full:
     bend_s_xsize: null
     coupler:
       combiner: mmi2x2
       delta_length: 0
       function: mzi
-      length_x: 320.0
+      length_x: 320
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
@@ -264,7 +396,7 @@ info:
   function_name: splitter_tree
   info_version: 1
   module: gdsfactory.components.splitter_tree
-  name: splitter_tree_776bbad8
+  name: splitter_tree_e508e659
 ports:
   e1_0_1:
     layer:
@@ -274,9 +406,9 @@ ports:
     - 16.75
     - 21.425
     name: e1_0_1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 11.0
+    width: 11
   e1_1_3:
     layer:
     - 49
@@ -285,9 +417,9 @@ ports:
     - 516.75
     - -28.575
     name: e1_1_3
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 11.0
+    width: 11
   e1_1_7:
     layer:
     - 49
@@ -296,9 +428,9 @@ ports:
     - 516.75
     - 71.425
     name: e1_1_7
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 11.0
+    width: 11
   e2_0_2:
     layer:
     - 49
@@ -307,9 +439,9 @@ ports:
     - 368.75
     - 21.425
     name: e2_0_2
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 11.0
+    width: 11
   e2_1_4:
     layer:
     - 49
@@ -318,9 +450,9 @@ ports:
     - 868.75
     - -28.575
     name: e2_1_4
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 11.0
+    width: 11
   e2_1_8:
     layer:
     - 49
@@ -329,18 +461,18 @@ ports:
     - 868.75
     - 71.425
     name: e2_1_8
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 11.0
+    width: 11
   o1_0_0:
     layer:
     - 1
     - 0
     midpoint:
     - -12.75
-    - 0.0
+    - 0
     name: o1_0_0
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2_1_10:
@@ -349,9 +481,9 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - 25.0
+    - 25
     name: o2_1_10
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_5:
@@ -360,9 +492,9 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - -25.0
+    - -25
     name: o2_1_5
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_6:
@@ -371,9 +503,9 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - -75.0
+    - -75
     name: o2_1_6
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
   o2_1_9:
@@ -382,9 +514,9 @@ ports:
     - 0
     midpoint:
     - 1398.25
-    - 75.0
+    - 75
     name: o2_1_9
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

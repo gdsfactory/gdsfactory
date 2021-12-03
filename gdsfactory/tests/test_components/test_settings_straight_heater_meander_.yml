@@ -2,31 +2,31 @@ cells: {}
 info:
   changed: {}
   default:
-    extension_length: 15.0
-    heater_taper_length: 10.0
+    extension_length: 15
+    heater_taper_length: 10
     heater_width: 2.5
     layer_heater:
     - 47
     - 0
-    length: 300.0
+    length: 300
     port_orientation1: 180
     port_orientation2: 0
-    radius: 5.0
-    spacing: 2.0
+    radius: 5
+    spacing: 2
     straight_width: 0.9
     taper_length: 10
   full:
-    extension_length: 15.0
-    heater_taper_length: 10.0
+    extension_length: 15
+    heater_taper_length: 10
     heater_width: 2.5
     layer_heater:
     - 47
     - 0
-    length: 300.0
+    length: 300
     port_orientation1: 180
     port_orientation2: 0
-    radius: 5.0
-    spacing: 2.0
+    radius: 5
+    spacing: 2
     straight_width: 0.9
     taper_length: 10
   function_name: straight_heater_meander
@@ -39,32 +39,32 @@ ports:
     - 49
     - 0
     midpoint:
-    - -21.0
-    - 2.0
+    - -21
+    - 2
     name: e1
-    orientation: 180.0
+    orientation: 180
     port_type: electrical
-    width: 11.0
+    width: 11
   e2:
     layer:
     - 49
     - 0
     midpoint:
     - 90.779
-    - 2.0
+    - 2
     name: e2
-    orientation: 0.0
+    orientation: 0
     port_type: electrical
-    width: 11.0
+    width: 11
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - -25.0
-    - 0.0
+    - -25
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -73,9 +73,9 @@ ports:
     - 0
     midpoint:
     - 74.779
-    - 4.0
+    - 4
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

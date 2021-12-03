@@ -44,22 +44,24 @@ def add_padding(
     layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
-    """Adds padding layers to a component.
+    """Adds padding layers to a component inside a container.
 
-    The cell name will be the same as the original component.
+    Returns the same ports as the component.
 
     Args:
         component
         layers: list of layers
-        suffix for name
+        new_component: returns a new component if True
+
+    keyword Args:
         default: default padding
         top: north padding
         bottom: south padding
         right: east padding
         left: west padding
     """
+
     points = get_padding_points(component, **kwargs)
-    layers = layers or []
     for layer in layers:
         component.add_polygon(points, layer=layer)
     return component
@@ -71,9 +73,7 @@ def add_padding_container(
     layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
-    """Adds padding layers to a component inside a container.
-
-    Returns the same ports as the component.
+    """Returns new component with padding added.
 
     Args:
         component
@@ -126,20 +126,42 @@ def add_padding_to_size(
     return component
 
 
-# def test_container():
-#     import gdsfactory as gf
-#     c = gf.components.straight(length=128)
-#     cc = add_padding_container(component=c, layers=[(1, 0)])
-#     assert len(cc.info["parent"]) == 5, len(cc.info['parent'])
-#     cc = add_padding_container(component=c, layers=[(2, 0)])
-#     assert len(cc.info["parent"]) == 5, len(cc.info['parent'])
-#     cc = add_padding_container(component=c, layers=[(3, 0)])
-#     assert len(cc.info["parent"]) == 5, len(cc.info['parent'])
+@cell
+def add_padding_to_size_container(
+    component: Component,
+    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
+    xsize: Optional[float] = None,
+    ysize: Optional[float] = None,
+    left: float = 0,
+    bottom: float = 0,
+) -> Component:
+    """Returns new component with padding layers on each side.
+    New size is multiple of grid size
 
-# cc = add_padding_container(component=c, layers=[(4, 0)])
-# assert isinstance(cc.settings["component"], Component)
-# print(cc.settings["component"])
-# print(len(cc.settings["component"]))
+    Args:
+        component
+        layers: list of layers
+        xsize:
+        ysize:
+        left:
+        bottom:
+    """
+    c = Component()
+    cref = c << component
+
+    top = abs(ysize - component.ysize) if ysize else 0
+    right = abs(xsize - component.xsize) if xsize else 0
+    points = [
+        [cref.xmin - left, cref.ymin - bottom],
+        [cref.xmax + right, cref.ymin - bottom],
+        [cref.xmax + right, cref.ymax + top],
+        [cref.xmin - left, cref.ymax + top],
+    ]
+
+    for layer in layers:
+        c.add_polygon(points, layer=layer)
+
+    return c
 
 
 if __name__ == "__main__":
@@ -147,14 +169,9 @@ if __name__ == "__main__":
 
     import gdsfactory as gf
 
-    c = gf.components.straight(length=128)
-    cc = add_padding_container(component=c, layers=[(2, 0)])
-    print(cc.info["parent"])
-    # cc.show()
-    # cc.pprint()
+    # c = gf.components.straight(length=128)
+    # cc = add_padding(component=c, layers=[(2, 0)])
 
-    # c = gf.components.straight(length=5)
-    # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
-    # cc.show()
-    # print(cc.settings)
-    # print(cc.ports)
+    c = gf.components.straight(length=5)
+    cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
+    cc.show()

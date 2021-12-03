@@ -1,61 +1,61 @@
 cells:
-  compass_61f9fdf6:
+  compass_bdc25def:
     changed:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     default:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       layer:
       - 1
       - 0
       port_type: electrical
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_61f9fdf6
+    name: compass_bdc25def
   cross:
     changed: {}
     default:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: null
-      width: 3.0
+      width: 3
     full:
       layer:
       - 1
       - 0
-      length: 10.0
+      length: 10
       port_type: null
-      width: 3.0
+      width: 3
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
     name: cross
-  rectangle_0273adbb:
+  rectangle_0eb96b44:
     changed:
       layer:
       - 1
       - 0
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     default:
       centered: false
       layer:
@@ -63,8 +63,8 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4.0
-      - 2.0
+      - 4
+      - 2
     full:
       centered: false
       layer:
@@ -72,28 +72,28 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 3.0
-      - 10.0
+      - 3
+      - 10
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_0273adbb
+    name: rectangle_0eb96b44
 info:
   changed: {}
   default:
     layer:
     - 1
     - 0
-    length: 10.0
+    length: 10
     port_type: null
-    width: 3.0
+    width: 3
   full:
     layer:
     - 1
     - 0
-    length: 10.0
+    length: 10
     port_type: null
-    width: 3.0
+    width: 3
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross

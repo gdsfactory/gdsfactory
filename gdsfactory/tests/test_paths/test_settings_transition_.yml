@@ -18,7 +18,7 @@ cells:
       widths: null
     function_name: extrude
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.path
     name: extrude_1ac1c90c
   extrude_bdcc3302:
@@ -40,7 +40,7 @@ cells:
       widths: null
     function_name: extrude
     info_version: 1
-    length: 5.0
+    length: 5
     module: gdsfactory.path
     name: extrude_bdcc3302
   extrude_c61f54b8:

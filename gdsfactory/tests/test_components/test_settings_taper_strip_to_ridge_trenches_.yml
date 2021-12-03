@@ -5,25 +5,25 @@ cells:
       layer_wg:
       - 1
       - 0
-      length: 10.0
-      slab_offset: 3.0
+      length: 10
+      slab_offset: 3
       trench_layer:
       - 3
       - 0
       trench_offset: 0.1
-      trench_width: 2.0
+      trench_width: 2
       width: 0.5
     full:
       layer_wg:
       - 1
       - 0
-      length: 10.0
-      slab_offset: 3.0
+      length: 10
+      slab_offset: 3
       trench_layer:
       - 3
       - 0
       trench_offset: 0.1
-      trench_width: 2.0
+      trench_width: 2
       width: 0.5
     function_name: taper_strip_to_ridge_trenches
     info_version: 1
@@ -35,25 +35,25 @@ info:
     layer_wg:
     - 1
     - 0
-    length: 10.0
-    slab_offset: 3.0
+    length: 10
+    slab_offset: 3
     trench_layer:
     - 3
     - 0
     trench_offset: 0.1
-    trench_width: 2.0
+    trench_width: 2
     width: 0.5
   full:
     layer_wg:
     - 1
     - 0
-    length: 10.0
-    slab_offset: 3.0
+    length: 10
+    slab_offset: 3
     trench_layer:
     - 3
     - 0
     trench_offset: 0.1
-    trench_width: 2.0
+    trench_width: 2
     width: 0.5
   function_name: taper_strip_to_ridge_trenches
   info_version: 1
@@ -65,10 +65,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -76,10 +76,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 0.0
+    - 10
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

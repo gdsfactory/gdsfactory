@@ -73,6 +73,7 @@ def grating_coupler_elliptical_lumerical(
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
     info: Dict[str, Any] = None,
+    bias_gap: float = 0,
     **kwargs,
 ) -> Component:
     """Returns a grating coupler from lumerical inverse design 3D optimization
@@ -81,6 +82,7 @@ def grating_coupler_elliptical_lumerical(
     https://support.lumerical.com/hc/en-us/articles/1500000306621
     https://support.lumerical.com/hc/en-us/articles/360042800573
 
+    Here are the simulation settings used in lumerical
 
         n_bg=1.44401 #Refractive index of the background material (cladding)
         wg=3.47668   # Refractive index of the waveguide material (core)
@@ -100,7 +102,11 @@ def grating_coupler_elliptical_lumerical(
         layer_slab:
         taper_angle:
         taper_length:
+        fiber_angle: used to compute ellipticity
         info: optional simulation settings
+        bias_gap: gap/trenches bias (um) to compensate for etching bias
+
+    keyword Args:
         wg_width: waveguide width
         taper_length: taper length from input
         taper_angle: grating flare angle
@@ -125,6 +131,7 @@ def grating_coupler_elliptical_lumerical(
     gaps = teeth_list[::2]
     widths = teeth_list[1::2]
     info = info or {}
+    gaps = list(gap + bias_gap for gap in gaps)
 
     return grating_coupler_elliptical_arbitrary(
         gaps=gaps,

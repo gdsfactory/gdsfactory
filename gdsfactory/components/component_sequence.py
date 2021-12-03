@@ -3,6 +3,7 @@ from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import ComponentOrFactory
 
 
 class SequenceGenerator:
@@ -64,7 +65,7 @@ def _flip_ref(c_ref, port_name):
 @gf.cell
 def component_sequence(
     sequence: str,
-    symbol_to_component: Dict[str, Tuple[Component, str, str]],
+    symbol_to_component: Dict[str, Tuple[ComponentOrFactory, str, str]],
     ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
     port_name1: str = "o1",
     port_name2: str = "o2",

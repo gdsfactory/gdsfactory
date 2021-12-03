@@ -13,7 +13,7 @@ cells:
       npoints: 101
     function_name: taper_cross_section
     info_version: 1
-    length: 10.0
+    length: 10
     module: gdsfactory.components.taper_cross_section
     name: taper_cross_section_11c0a1bc
 info:
@@ -30,7 +30,7 @@ info:
     npoints: 101
   function_name: taper_cross_section
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_11c0a1bc
 ports:
@@ -39,10 +39,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - 0.0
+    - 0
+    - 0
     name: o1
-    orientation: 180.0
+    orientation: 180
     port_type: optical
     width: 0.5
   o2:
@@ -50,10 +50,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 10.0
-    - 0.0
+    - 10
+    - 0
     name: o2
-    orientation: 0.0
+    orientation: 0
     port_type: optical
     width: 0.5
 version: 1

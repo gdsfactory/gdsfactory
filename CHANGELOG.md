@@ -17,10 +17,25 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.0
+
+- fix clean_name
+    - generators and iterables are properly hashed now
+    - toolz.compose functions hash both the functions and first function
+    - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
+- set Component._cached = True when adding Component into cache, and raises MutabilityError when adding any element to it.
+- Component.flatten() returns a copy of the component, that includes the flattened component. New name adds `_flat` suffix to oringinal name
+- add bias to grating_coupler_lumerical
+- try to cast float to int when exporting info
+- remove `ComponentSweep` as it was trivial to define as a list comprehension
+- remove `add_text` as it is prone to creating mutability errors
+- pack can now add text labels if passed a text ComponentFactory
+
 ## 3.6.8
 
 - `add_fiber_single` allows to have multiple gratings
 - converted add_fiber_single, component_sequence and add_fiber_array from `cell_without_validator` to `cell`
+- Component pydantic validator accepts cell names below 100 characters (before it was forcing 32)
 
 ## 3.6.7
 
@@ -698,7 +713,7 @@ from pydantic import validate_arguments
 - added `component.show(show_subports=True)`
 - added `pf merge-cells`
 - added `auto_taper_to_wide_waveguides` option to add_fiber_array
-- `add_padding` returns the same component, `add_padding_container` returns a container with component inside
+- `add_padding` returns the same component, `add_padding` returns a container with component inside
 - remove container decorator, containers are just regular cells now with @cell decorator
 - add `add_pin_square_double` and make it the default
 

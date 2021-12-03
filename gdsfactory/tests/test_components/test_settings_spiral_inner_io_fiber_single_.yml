@@ -1,41 +1,41 @@
 cells:
-  spiral_inner_io_5d149cf5:
+  spiral_inner_io_82cec748:
     changed:
       cross_section:
         function: cross_section
       cross_section_bend: null
-      grating_spacing: 200.0
-      x_straight_inner_left: 75.0
-      x_straight_inner_right: 40.0
-      y_straight_inner_bottom: 0.0
-      y_straight_inner_top: 10.0
+      grating_spacing: 200
+      x_straight_inner_left: 75
+      x_straight_inner_right: 40
+      y_straight_inner_bottom: 0
+      y_straight_inner_top: 10
     default:
       N: 6
       cross_section_bend: null
-      grating_spacing: 127.0
+      grating_spacing: 127
       length: null
-      waveguide_spacing: 3.0
-      x_straight_inner_left: 50.0
-      x_straight_inner_right: 150.0
-      y_straight_inner_bottom: 10.0
-      y_straight_inner_top: 50.0
+      waveguide_spacing: 3
+      x_straight_inner_left: 50
+      x_straight_inner_right: 150
+      y_straight_inner_bottom: 10
+      y_straight_inner_top: 50
     full:
       N: 6
       cross_section:
         function: cross_section
       cross_section_bend: null
-      grating_spacing: 200.0
+      grating_spacing: 200
       length: null
-      waveguide_spacing: 3.0
-      x_straight_inner_left: 75.0
-      x_straight_inner_right: 40.0
-      y_straight_inner_bottom: 0.0
-      y_straight_inner_top: 10.0
+      waveguide_spacing: 3
+      x_straight_inner_left: 75
+      x_straight_inner_right: 40
+      y_straight_inner_bottom: 0
+      y_straight_inner_top: 10
     function_name: spiral_inner_io
     info_version: 1
     length: 9973.394
     module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_5d149cf5
+    name: spiral_inner_io_82cec748
   spiral_inner_io_fiber_single:
     changed: {}
     child:
@@ -43,54 +43,54 @@ cells:
         cross_section:
           function: cross_section
         cross_section_bend: null
-        grating_spacing: 200.0
-        x_straight_inner_left: 75.0
-        x_straight_inner_right: 40.0
-        y_straight_inner_bottom: 0.0
-        y_straight_inner_top: 10.0
+        grating_spacing: 200
+        x_straight_inner_left: 75
+        x_straight_inner_right: 40
+        y_straight_inner_bottom: 0
+        y_straight_inner_top: 10
       default:
         N: 6
         cross_section_bend: null
-        grating_spacing: 127.0
+        grating_spacing: 127
         length: null
-        waveguide_spacing: 3.0
-        x_straight_inner_left: 50.0
-        x_straight_inner_right: 150.0
-        y_straight_inner_bottom: 10.0
-        y_straight_inner_top: 50.0
+        waveguide_spacing: 3
+        x_straight_inner_left: 50
+        x_straight_inner_right: 150
+        y_straight_inner_bottom: 10
+        y_straight_inner_top: 50
       full:
         N: 6
         cross_section:
           function: cross_section
         cross_section_bend: null
-        grating_spacing: 200.0
+        grating_spacing: 200
         length: null
-        waveguide_spacing: 3.0
-        x_straight_inner_left: 75.0
-        x_straight_inner_right: 40.0
-        y_straight_inner_bottom: 0.0
-        y_straight_inner_top: 10.0
+        waveguide_spacing: 3
+        x_straight_inner_left: 75
+        x_straight_inner_right: 40
+        y_straight_inner_bottom: 0
+        y_straight_inner_top: 10
       function_name: spiral_inner_io
       info_version: 1
       length: 9973.394
       module: gdsfactory.components.spiral_inner_io
-      name: spiral_inner_io_5d149cf5
+      name: spiral_inner_io_82cec748
     default:
       cross_section_bend: null
       cross_section_ports: null
-      grating_spacing: 200.0
-      x_straight_inner_left: 75.0
-      x_straight_inner_right: 40.0
-      y_straight_inner_bottom: 0.0
-      y_straight_inner_top: 10.0
+      grating_spacing: 200
+      x_straight_inner_left: 75
+      x_straight_inner_right: 40
+      y_straight_inner_bottom: 0
+      y_straight_inner_top: 10
     full:
       cross_section_bend: null
       cross_section_ports: null
-      grating_spacing: 200.0
-      x_straight_inner_left: 75.0
-      x_straight_inner_right: 40.0
-      y_straight_inner_bottom: 0.0
-      y_straight_inner_top: 10.0
+      grating_spacing: 200
+      x_straight_inner_left: 75
+      x_straight_inner_right: 40
+      y_straight_inner_bottom: 0
+      y_straight_inner_top: 10
     function_name: spiral_inner_io_fiber_single
     info_version: 1
     module: gdsfactory.components.spiral_inner_io
@@ -102,54 +102,54 @@ info:
       cross_section:
         function: cross_section
       cross_section_bend: null
-      grating_spacing: 200.0
-      x_straight_inner_left: 75.0
-      x_straight_inner_right: 40.0
-      y_straight_inner_bottom: 0.0
-      y_straight_inner_top: 10.0
+      grating_spacing: 200
+      x_straight_inner_left: 75
+      x_straight_inner_right: 40
+      y_straight_inner_bottom: 0
+      y_straight_inner_top: 10
     default:
       N: 6
       cross_section_bend: null
-      grating_spacing: 127.0
+      grating_spacing: 127
       length: null
-      waveguide_spacing: 3.0
-      x_straight_inner_left: 50.0
-      x_straight_inner_right: 150.0
-      y_straight_inner_bottom: 10.0
-      y_straight_inner_top: 50.0
+      waveguide_spacing: 3
+      x_straight_inner_left: 50
+      x_straight_inner_right: 150
+      y_straight_inner_bottom: 10
+      y_straight_inner_top: 50
     full:
       N: 6
       cross_section:
         function: cross_section
       cross_section_bend: null
-      grating_spacing: 200.0
+      grating_spacing: 200
       length: null
-      waveguide_spacing: 3.0
-      x_straight_inner_left: 75.0
-      x_straight_inner_right: 40.0
-      y_straight_inner_bottom: 0.0
-      y_straight_inner_top: 10.0
+      waveguide_spacing: 3
+      x_straight_inner_left: 75
+      x_straight_inner_right: 40
+      y_straight_inner_bottom: 0
+      y_straight_inner_top: 10
     function_name: spiral_inner_io
     info_version: 1
     length: 9973.394
     module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_5d149cf5
+    name: spiral_inner_io_82cec748
   default:
     cross_section_bend: null
     cross_section_ports: null
-    grating_spacing: 200.0
-    x_straight_inner_left: 75.0
-    x_straight_inner_right: 40.0
-    y_straight_inner_bottom: 0.0
-    y_straight_inner_top: 10.0
+    grating_spacing: 200
+    x_straight_inner_left: 75
+    x_straight_inner_right: 40
+    y_straight_inner_bottom: 0
+    y_straight_inner_top: 10
   full:
     cross_section_bend: null
     cross_section_ports: null
-    grating_spacing: 200.0
-    x_straight_inner_left: 75.0
-    x_straight_inner_right: 40.0
-    y_straight_inner_bottom: 0.0
-    y_straight_inner_top: 10.0
+    grating_spacing: 200
+    x_straight_inner_left: 75
+    x_straight_inner_right: 40
+    y_straight_inner_bottom: 0
+    y_straight_inner_top: 10
   function_name: spiral_inner_io_fiber_single
   info_version: 1
   module: gdsfactory.components.spiral_inner_io
@@ -160,10 +160,10 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.0
-    - -10.0
+    - 0
+    - -10
     name: o1
-    orientation: 270.0
+    orientation: 270
     port_type: optical
     width: 0.5
   o2:
@@ -172,9 +172,9 @@ ports:
     - 0
     midpoint:
     - 1.2434497875801753e-14
-    - 210.0
+    - 210
     name: o2
-    orientation: 90.0
+    orientation: 90
     port_type: optical
     width: 0.5
 version: 1

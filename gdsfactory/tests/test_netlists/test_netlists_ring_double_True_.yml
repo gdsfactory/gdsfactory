@@ -1,10 +1,10 @@
 connections:
-  coupler_ring_29d68926_m0p005_16p185,o2: straight_5743d35a_10p0_10p705,o2
-  coupler_ring_29d68926_m0p005_16p185,o3: straight_5743d35a_m10p01_10p705,o2
-  coupler_ring_29d68926_m0p005_5p225,o2: straight_5743d35a_m10p01_10p705,o1
-  coupler_ring_29d68926_m0p005_5p225,o3: straight_5743d35a_10p0_10p705,o1
+  coupler_ring_884bafc4_m0p005_16p185,o2: straight_5743d35a_10p0_10p705,o2
+  coupler_ring_884bafc4_m0p005_16p185,o3: straight_5743d35a_m10p01_10p705,o2
+  coupler_ring_884bafc4_m0p005_5p225,o2: straight_5743d35a_m10p01_10p705,o1
+  coupler_ring_884bafc4_m0p005_5p225,o3: straight_5743d35a_10p0_10p705,o1
 instances:
-  coupler_ring_29d68926_m0p005_16p185:
+  coupler_ring_884bafc4_m0p005_16p185:
     component: coupler_ring
     settings:
       bend: null
@@ -12,8 +12,8 @@ instances:
         function: cross_section
       gap: 0.2
       length_x: 0.01
-      radius: 10.0
-  coupler_ring_29d68926_m0p005_5p225:
+      radius: 10
+  coupler_ring_884bafc4_m0p005_5p225:
     component: coupler_ring
     settings:
       bend: null
@@ -21,7 +21,7 @@ instances:
         function: cross_section
       gap: 0.2
       length_x: 0.01
-      radius: 10.0
+      radius: 10
   straight_5743d35a_10p0_10p705:
     component: straight
     settings:
@@ -40,12 +40,12 @@ instances:
       with_cladding_box: true
 name: ring_double
 placements:
-  coupler_ring_29d68926_m0p005_16p185:
+  coupler_ring_884bafc4_m0p005_16p185:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_29d68926_m0p005_5p225:
+  coupler_ring_884bafc4_m0p005_5p225:
     mirror: false
     rotation: 0
     x: 0.0
@@ -61,7 +61,7 @@ placements:
     x: -10.01
     y: 10.7
 ports:
-  o1: coupler_ring_29d68926_m0p005_5p225,o1
-  o2: coupler_ring_29d68926_m0p005_5p225,o4
-  o3: coupler_ring_29d68926_m0p005_16p185,o4
-  o4: coupler_ring_29d68926_m0p005_16p185,o1
+  o1: coupler_ring_884bafc4_m0p005_5p225,o1
+  o2: coupler_ring_884bafc4_m0p005_5p225,o4
+  o3: coupler_ring_884bafc4_m0p005_16p185,o4
+  o4: coupler_ring_884bafc4_m0p005_16p185,o1

@@ -7,16 +7,16 @@ cells:
       - 1
       - 0
       radii:
-      - 10.0
-      - 5.0
+      - 10
+      - 5
     full:
       angle_resolution: 2.5
       layer:
       - 1
       - 0
       radii:
-      - 10.0
-      - 5.0
+      - 10
+      - 5
     function_name: ellipse
     info_version: 1
     module: gdsfactory.components.ellipse
@@ -29,16 +29,16 @@ info:
     - 1
     - 0
     radii:
-    - 10.0
-    - 5.0
+    - 10
+    - 5
   full:
     angle_resolution: 2.5
     layer:
     - 1
     - 0
     radii:
-    - 10.0
-    - 5.0
+    - 10
+    - 5
   function_name: ellipse
   info_version: 1
   module: gdsfactory.components.ellipse

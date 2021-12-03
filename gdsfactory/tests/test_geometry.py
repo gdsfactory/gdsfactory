@@ -51,6 +51,6 @@ def test_boolean_and_klayout():
 
 if __name__ == "__main__":
     c3 = gf.geometry.boolean_klayout(c1, c2, operation="and", layer3=(1, 0))
-    c4 = gf.geometry.boolean(c1, c2, operation="and", layer=(1, 0))
-    print(int(c3.area()))
-    c4.show()
+    # c4 = gf.geometry.boolean(c1, c2, operation="and", layer=(1, 0))
+    # print(int(c3.area()))
+    # c4.show()

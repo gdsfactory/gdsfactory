@@ -7,9 +7,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import rectpack
+from pydantic import validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.types import Float2, Number
+from gdsfactory.types import Anchor, ComponentFactory, Float2, Number
 
 
 def _pack_single_bin(
@@ -90,14 +91,19 @@ def _pack_single_bin(
     return packed_rect_dict, unpacked_rect_dict
 
 
+@validate_arguments
 def pack(
     component_list: List[Component],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
-    max_size: Optional[Float2] = None,
+    max_size: Tuple[Optional[float], Optional[float]] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
+    text: Optional[ComponentFactory] = None,
+    prefix: str = "",
+    offset: Float2 = (0, 0),
+    anchor: Anchor = "cc",
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -111,8 +117,12 @@ def pack(
         sort_by_area: Pre-sorts the shapes by area
         density: Values closer to 1 pack tighter but require more computation
         precision: Desired precision for rounding vertex coordinates.
+        text: function for creating the text
+        prefix: for the text
+        offset: relative to component center
+        anchor: size info (ce cw nc ne nw sc se sw center cc)
     """
-    max_size = max_size or (None, None)
+    i = 0
 
     if density < 1.01:
         raise ValueError(
@@ -163,6 +173,12 @@ def pack(
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = component.settings
             d.center = (xcenter * precision, ycenter * precision)
+
+            if text:
+                label = packed << text(f"{prefix}{i}")
+                label.move((np.array(offset) + getattr(d.size_info, anchor)))
+                i += 1
+
         components_packed_list.append(packed)
 
     if len(components_packed_list) > 1:
@@ -217,6 +233,7 @@ def test_pack_with_settings() -> Component:
 
 
 if __name__ == "__main__":
+    test_pack()
     import gdsfactory as gf
 
     # c = test_pack_with_settings()

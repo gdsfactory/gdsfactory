@@ -31,7 +31,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.port import Port
 
-anchors = Literal[
+Anchor = Literal[
     "ce",
     "cw",
     "nc",
@@ -81,7 +81,7 @@ class PlacementModel(BaseModel):
     y: Union[str, float] = 0
     dx: float = 0
     dy: float = 0
-    port: Optional[Union[str, anchors]] = None
+    port: Optional[Union[str, Anchor]] = None
     rotation: int = 0
     mirror: bool = False
 
@@ -131,23 +131,7 @@ CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 
 
-class ComponentSweep(BaseModel):
-    settings: Optional[List[Dict[str, Any]]]
-    factory: ComponentFactory
-    decorator: Optional[ComponentFactory] = None
-
-    @property
-    def components(self) -> List[Component]:
-        if self.decorator:
-            return [
-                self.decorator(self.factory(**settings)) for settings in self.settings
-            ]
-        else:
-            return [self.factory(**settings) for settings in self.settings]
-
-
 __all__ = (
-    "ComponentSweep",
     "ComponentFactory",
     "ComponentFactoryDict",
     "ComponentOrFactory",
@@ -188,9 +172,4 @@ def write_schema(model: BaseModel = CircuitModel):
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    sw = ComponentSweep(
-        factory=gf.c.straight, settings=[{"length": length} for length in [1, 10]]
-    )
-    c = sw.components
+    write_schema()
