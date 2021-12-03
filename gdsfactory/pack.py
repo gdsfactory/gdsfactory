@@ -96,7 +96,7 @@ def pack(
     component_list: List[Component],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
-    max_size: Optional[Float2] = None,
+    max_size: Tuple[Optional[float], Optional[float]] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
@@ -122,7 +122,6 @@ def pack(
         offset: relative to component center
         anchor: size info (ce cw nc ne nw sc se sw center cc)
     """
-    max_size = max_size or (None, None)
     i = 0
 
     if density < 1.01:
@@ -234,6 +233,7 @@ def test_pack_with_settings() -> Component:
 
 
 if __name__ == "__main__":
+    test_pack()
     import gdsfactory as gf
 
     # c = test_pack_with_settings()
