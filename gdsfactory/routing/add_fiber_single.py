@@ -115,7 +115,8 @@ def add_fiber_single(
         raise ValueError(f"No ports for {component.name}")
 
     component = component() if callable(component) else component
-    component_name = component_name or component.info_child.name
+
+    component_name = component_name or component.info_child.get("name", component.name)
 
     gc = (
         grating_coupler[0]
