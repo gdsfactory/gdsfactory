@@ -6,7 +6,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentFactory, ComponentOrFactory
 
 
@@ -23,8 +23,21 @@ def cutback_bend(
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 5,
+    straight: ComponentFactory = straight_function,
+    **kwargs
 ):
-    """Deprecated! use cutback_bend90 instead!
+    """Deprecated! use cutback_bend90 instead,
+    which has smaller footprint
+
+    Args:
+        bend90:
+        straight_length:
+        rows:
+        columns:
+        straight: function for straight
+
+    keyword args:
+        cross_section:
 
 
     .. code::
@@ -39,7 +52,9 @@ def cutback_bend(
     """
 
     bend90 = gf.call_if_func(bend90)
-    straightx = straight(length=straight_length, width=bend90.ports["o1"].width)
+    straightx = straight(
+        length=straight_length, width=bend90.ports["o1"].width, **kwargs
+    )
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -69,7 +84,7 @@ def cutback_bend90(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 5,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
 ) -> Component:
     """
 
@@ -118,7 +133,7 @@ def staircase(
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
 ) -> Component:
     bend90 = gf.call_if_func(bend90)
 
@@ -150,7 +165,7 @@ def cutback_bend180(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 3,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
 ) -> Component:
     """
 
@@ -199,12 +214,14 @@ cutback_bend180circular = gf.partial(cutback_bend180, bend180=bend_circular180)
 cutback_bend90circular = gf.partial(cutback_bend90, bend90=bend_circular)
 
 if __name__ == "__main__":
+    c = cutback_bend()
+    # c = cutback_bend90()
     # c = cutback_bend_circular(rows=7, columns=4, radius=5) #62
     # c = cutback_bend_circular(rows=14, columns=4) #118
     # c = cutback_bend90()
     # c = cutback_bend180(rows=3, columns=1)
     # c = cutback_bend(rows=3, columns=2)
     # c = cutback_bend90(rows=3, columns=2)
-    c = cutback_bend180(rows=2, columns=2)
+    # c = cutback_bend180(rows=2, columns=2)
     # c = cutback_bend(rows=3, columns=2)
     c.show()
