@@ -41,6 +41,7 @@ def route_ports_to_side(
         side: 'north', 'south', 'east' or 'west'.
         x: position to route ports for east/west. None, uses most east/west value
         y: position to route ports for south/north. None, uses most north/south value
+
         routing_func: the routing function. By default uses `get_route`
         kwargs:
           radius

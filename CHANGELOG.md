@@ -17,6 +17,12 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.3
+
+- add `*kwargs` to `cutback_bend`
+- pack also accepts `List[ComponentOrFactory]`  instead of `List[Component]`
+- `cutback_component` has `length` parameter as well as a more sensitive default value (2*radius)
+
 ## 3.7.2
 
 - add_fiber_array and add_fiber_single can also get a component that has no child_info
