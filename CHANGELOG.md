@@ -21,7 +21,7 @@ Maybe:
 
 - add `*kwargs` to `cutback_bend`
 - pack also accepts `List[ComponentOrFactory]`  instead of `List[Component]`
-- `cutback_component` has `length` parameter as well as a more sensitive default value (2*radius)
+- `cutback_component` has `straight_length` parameter as well as a more sensitive default value (2*radius)
 
 ## 3.7.2
 

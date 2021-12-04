@@ -19,7 +19,7 @@ def cutback_component(
     bend180: ComponentFactory = bend_euler180,
     straight: ComponentFactory = straight_function,
     mirror: bool = False,
-    length: Optional[float] = None,
+    straight_length: Optional[float] = None,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
@@ -33,12 +33,12 @@ def cutback_component(
         bend180: ubend
         straight: waveguide function to connect both sides
         mirror: Flips component. Useful when 'o2' is the port that you want to route to
-        length: length beween cutbacks
+        straight_length: length of the straight section beween cutbacks
 
     """
     component = component() if callable(component) else component
     bendu = bend180(radius=radius)
-    straight_component = straight(length=length or radius * 2)
+    straight_component = straight(length=straight_length or radius * 2)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
