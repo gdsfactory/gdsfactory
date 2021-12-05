@@ -19,9 +19,10 @@ Maybe:
 
 ## 3.7.3
 
-- add `*kwargs` to `cutback_bend`
-- pack also accepts `List[ComponentOrFactory]`  instead of `List[Component]`
-- `cutback_component` has `straight_length` parameter as well as a more sensitive default value (2*radius)
+- add `**kwargs` to `cutback_bend`
+- pack type annotation is more general with `List[ComponentOrFactory]` instead of `List[Component]`, it also builds any Components if you pass the factory instead of the component.
+- add `straight_length` parameter and more sensitive default values (2*radius) to `cutback_component`
+- add `gf.components.taper_parabolic`
 
 ## 3.7.2
 
