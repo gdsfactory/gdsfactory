@@ -2,7 +2,11 @@ cells: {}
 info:
   changed:
     cross_section:
+      cladding_offset: 0
       function: cross_section
+      layers_cladding:
+      - - 3
+        - 0
       sections:
       - slab
   default:
@@ -11,7 +15,11 @@ info:
     with_cladding_box: true
   full:
     cross_section:
+      cladding_offset: 0
       function: cross_section
+      layers_cladding:
+      - - 3
+        - 0
       sections:
       - slab
     length: 10
@@ -21,7 +29,7 @@ info:
   info_version: 1
   length: 10.0
   module: gdsfactory.components.straight
-  name: straight_3edba0b0
+  name: straight_59648496
   width: 0.5
 ports:
   o1:
