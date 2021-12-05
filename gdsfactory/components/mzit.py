@@ -22,7 +22,7 @@ def mzit(
     coupler_gap1: float = 0.2,
     coupler_gap2: float = 0.3,
     bend_radius: float = 10.0,
-    taper_factory: ComponentFactory = taper,
+    taper: ComponentFactory = taper,
     taper_length: float = 5.0,
     bend90: ComponentFactory = bend_euler,
     straight: ComponentFactory = straight_function,
@@ -44,7 +44,7 @@ def mzit(
         coupler_gap1: coupler1
         coupler_gap2: coupler2
         bend_radius: 10.0
-        taper_factory: taper library
+        taper: taper library
         taper_length:
         bend90: bend_circular or library
         straight: library
@@ -89,7 +89,7 @@ def mzit(
     )
 
     # inner arm (w1)
-    t1 = c << taper_factory(
+    t1 = c << taper(
         width1=w0,
         width2=w1,
         length=taper_length,
@@ -110,7 +110,7 @@ def mzit(
     b1b.connect("o1", t1.ports["o2"])
     b1t.connect("o1", b1b.ports["o2"])
 
-    t3b = c << taper_factory(
+    t3b = c << taper(
         width1=w1,
         width2=w2,
         length=taper_length,
@@ -119,7 +119,7 @@ def mzit(
     t3b.connect("o1", b1t.ports["o2"])
     wgs2 = c << straight(width=w2, length=Ls, **kwargs)
     wgs2.connect("o1", t3b.ports["o2"])
-    t20i = c << taper_factory(
+    t20i = c << taper(
         width1=w2,
         width2=w0,
         length=taper_length,
@@ -128,7 +128,7 @@ def mzit(
     t20i.connect("o1", wgs2.ports["o2"])
 
     # outer_arm (w2)
-    t2 = c << taper_factory(
+    t2 = c << taper(
         width1=w0,
         width2=w2,
         length=taper_length,
@@ -164,7 +164,7 @@ def mzit(
     wg2t = c << straight(width=w2, length=dx, **kwargs)
     wg2t.connect("o1", b2t.ports["o2"])
 
-    t3t = c << taper_factory(
+    t3t = c << taper(
         width1=w2,
         width2=w1,
         length=taper_length,
@@ -173,7 +173,7 @@ def mzit(
     t3t.connect("o1", wg2t.ports["o2"])
     wgs1 = c << straight(width=w1, length=Ls, **kwargs)
     wgs1.connect("o1", t3t.ports["o2"])
-    t20o = c << taper_factory(
+    t20o = c << taper(
         width1=w1,
         width2=w0,
         length=taper_length,

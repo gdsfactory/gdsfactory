@@ -18,7 +18,7 @@ def get_route_from_steps(
     steps: Optional[List[Dict[str, float]]] = None,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentOrFactory = straight_function,
-    taper_factory: Optional[ComponentOrFactory] = taper_function,
+    taper: Optional[ComponentOrFactory] = taper_function,
     cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Route:
@@ -34,7 +34,7 @@ def get_route_from_steps(
         steps: changes that define the route [{'dx': 5}, {'dy': 10}]
         bend: function that returns bends
         straight: function that returns straight waveguides
-        taper_factory: function that returns tapers
+        taper: function that returns tapers
         cross_section
         **kwargs: cross_section settings
 
@@ -96,15 +96,15 @@ def get_route_from_steps(
 
     if auto_widen:
         taper = (
-            taper_factory(
+            taper(
                 length=taper_length,
                 width1=width1,
                 width2=width2,
                 cross_section=cross_section,
                 **kwargs,
             )
-            if callable(taper_factory)
-            else taper_factory
+            if callable(taper)
+            else taper
         )
     else:
         taper = None
