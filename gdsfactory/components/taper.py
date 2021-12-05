@@ -211,5 +211,6 @@ if __name__ == "__main__":
     # c = taper(width2=1)
     # c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
     # print(c.get_optical_ports())
-    c = taper_strip_to_ridge_trenches()
+    # c = taper_strip_to_ridge_trenches()
+    c = taper()
     c.show()
