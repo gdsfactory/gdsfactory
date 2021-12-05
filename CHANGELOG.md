@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.4
+
+- add pad_gsg_short and pad_gsg_open to components
+
 ## 3.7.3
 
 - add `**kwargs` to `cutback_bend`
