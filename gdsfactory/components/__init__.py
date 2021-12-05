@@ -195,6 +195,7 @@ from gdsfactory.components.taper_from_csv import (
     taper_w11_l200,
     taper_w12_l200,
 )
+from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.text import githash, text
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.components.triangle import triangle
@@ -349,6 +350,7 @@ factory = dict(
     taper_cross_section_linear=taper_cross_section_linear,
     taper_cross_section_sine=taper_cross_section_sine,
     taper=taper,
+    taper_parabolic=taper_parabolic,
     taper2=taper2,
     taper_0p5_to_3_l36=taper_0p5_to_3_l36,
     taper_from_csv=taper_from_csv,

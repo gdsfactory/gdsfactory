@@ -27,7 +27,7 @@ def get_bundle_path_length_match(
     modify_segment_i: int = -2,
     bend: ComponentFactory = bend_euler,
     straight: Callable = straight,
-    taper_factory: Optional[Callable] = taper_function,
+    taper: Optional[Callable] = taper_function,
     start_straight_length: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
@@ -48,7 +48,7 @@ def get_bundle_path_length_match(
             default is next to last segment
         bend: for bends
         straight: for straights
-        taper_factory:
+        taper:
         start_straight_length:
         route_filter: get_route_from_waypoints
         sort_ports: sorts ports before routing
@@ -129,7 +129,7 @@ def get_bundle_path_length_match(
             waypoints,
             bend=bend,
             straight=straight,
-            taper_factory=taper_factory,
+            taper=taper,
             cross_section=cross_section,
             **kwargs,
         )

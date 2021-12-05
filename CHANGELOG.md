@@ -2,7 +2,7 @@
 
 ## TODO
 
-- write better pydantic validation error messages
+- component needs to export the factory names
 - fix FIXMEs
 - add example on how to customize visualization of a component
 - build docker container
@@ -16,6 +16,19 @@ Maybe:
 - xdoctest
 - mypy passing
 - pass force-regen flag from pytest
+
+## 3.7.3
+
+- add `**kwargs` to `cutback_bend`
+- pack type annotation is more general with `List[ComponentOrFactory]` instead of `List[Component]`, it also builds any Components if you pass the factory instead of the component.
+- add `straight_length` parameter and more sensitive default values (2*radius) to `cutback_component`
+- add `gf.components.taper_parabolic`
+- `mzi_lattice` adds all electrical ports from any of the mzi stages
+- rename `mzi_factory` to `mzi` in mzi_lattice to be consistent with other component kwargs
+- replace taper_factory with taper to be consistent with other component kwargs
+- coupler snaps length to grid, instead of asserting length is on_grid
+- add layers_cladding to rib so bezier_slabs render correctly for rib couplers
+
 
 ## 3.7.2
 

@@ -43,7 +43,7 @@ def grating_coupler_tree(
         component_name=c.name,
         bend=bend,
         layer_label=layer_label,
-        taper_factory=None,
+        taper=None,
         **kwargs,
     )
     return cc

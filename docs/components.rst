@@ -811,7 +811,7 @@ cutback_component
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component(cols=4, rows=5, radius=5.0, port1='o1', port2='o2')
+  c = gf.components.cutback_component(cols=4, rows=5, radius=5.0, port1='o1', port2='o2', mirror=False)
   c.plot()
 
 
@@ -826,7 +826,7 @@ cutback_component_mirror
 
   import gdsfactory as gf
 
-  c = gf.components.cutback_component_mirror(cols=4, rows=5, radius=10, port1='o2', port2='o1')
+  c = gf.components.cutback_component_mirror(cols=4, rows=5, radius=5.0, port1='o1', port2='o2', mirror=True)
   c.plot()
 
 
@@ -2271,6 +2271,21 @@ taper_from_csv
 
 
 
+taper_parabolic
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_parabolic
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_parabolic(length=20, width1=0.5, width2=5.0, exp=0.5, npoints=100, layer=(1, 0))
+  c.plot()
+
+
+
 taper_strip_to_ridge
 ----------------------------------------------------
 
@@ -2446,7 +2461,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.7.0', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.7.2', text_size=10)
   c.plot()
 
 

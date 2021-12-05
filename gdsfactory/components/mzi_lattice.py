@@ -14,7 +14,7 @@ def mzi_lattice(
     coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
     delta_lengths: Tuple[float, ...] = (10.0,),
-    mzi_factory: ComponentFactory = mzi_function,
+    mzi: ComponentFactory = mzi_function,
     splitter: ComponentFactory = coupler_function,
     straight: ComponentFactory = straight_function,
     **kwargs,
@@ -48,7 +48,7 @@ def mzi_lattice(
 
     cp1 = splitter1()
 
-    sprevious = c << mzi_factory(
+    sprevious = c << mzi(
         splitter=splitter1,
         combiner=combiner1,
         with_splitter=True,
@@ -56,6 +56,7 @@ def mzi_lattice(
         straight=straight,
         **kwargs,
     )
+    c.add_ports(sprevious.get_ports_list(port_type="electrical"))
 
     stages = []
 
@@ -68,7 +69,7 @@ def mzi_lattice(
         splitter1 = partial(splitter, **splitter_settings)
         combiner1 = partial(splitter, **combiner_settings)
 
-        stage = c << mzi_factory(
+        stage = c << mzi(
             splitter=splitter1,
             combiner=combiner1,
             with_splitter=False,
@@ -79,16 +80,17 @@ def mzi_lattice(
         splitter_settings = combiner_settings
 
         stages.append(stage)
+        c.add_ports(stage.get_ports_list(port_type="electrical"))
 
     for stage in stages:
         stage.connect("o1", sprevious.ports["o4"])
         # stage.connect('o2', sprevious.ports['o1'])
         sprevious = stage
 
-    for port in cp1.get_ports_list(orientation=180):
+    for port in cp1.get_ports_list(orientation=180, port_type="optical"):
         c.add_port(port.name, port=port)
 
-    for port in sprevious.get_ports_list(orientation=0):
+    for port in sprevious.get_ports_list(orientation=0, port_type="optical"):
         c.add_port(f"o_{port.name}", port=port)
 
     c.auto_rename_ports()
