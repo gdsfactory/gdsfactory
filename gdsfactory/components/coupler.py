@@ -3,7 +3,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.coupler_symmetric import coupler_symmetric
 from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_1nm_grid, assert_on_2nm_grid
+from gdsfactory.snap import assert_on_2nm_grid, snap_to_grid
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
@@ -46,7 +46,7 @@ def coupler(
 
 
     """
-    assert_on_1nm_grid(length)
+    length = snap_to_grid(length)
     assert_on_2nm_grid(gap)
     c = Component()
 
