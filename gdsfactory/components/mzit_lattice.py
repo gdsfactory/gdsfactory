@@ -11,7 +11,7 @@ def mzit_lattice(
     coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
     delta_lengths: Tuple[float, ...] = (10.0,),
-    mzi_factory: ComponentFactory = mzit,
+    mzi: ComponentFactory = mzit,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 
@@ -44,7 +44,7 @@ def mzit_lattice(
 
     c = Component()
 
-    cp1 = coupler0 = c << mzi_factory(
+    cp1 = coupler0 = c << mzi(
         coupler_gap1=coupler_gaps[0],
         coupler_gap2=coupler_gaps[1],
         coupler_length1=coupler_lengths[0],
@@ -54,7 +54,7 @@ def mzit_lattice(
 
     couplers = [
         c
-        << mzi_factory(
+        << mzi(
             coupler_gap2=coupler_gap,
             coupler_length2=coupler_length,
             coupler1=None,

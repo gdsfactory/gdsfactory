@@ -2,7 +2,7 @@
 
 ## TODO
 
-- write better pydantic validation error messages
+- component YAML needs to store the factory names
 - fix FIXMEs
 - add example on how to customize visualization of a component
 - build docker container
@@ -23,6 +23,8 @@ Maybe:
 - pack type annotation is more general with `List[ComponentOrFactory]` instead of `List[Component]`, it also builds any Components if you pass the factory instead of the component.
 - add `straight_length` parameter and more sensitive default values (2*radius) to `cutback_component`
 - add `gf.components.taper_parabolic`
+- `mzi_lattice` adds all electrical ports from any of the mzi stages
+- rename `mzi_factory` to `mzi` in mzi_lattice to be consistent with other component kwargs
 
 ## 3.7.2
 
