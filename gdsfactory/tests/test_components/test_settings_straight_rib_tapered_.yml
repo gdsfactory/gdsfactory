@@ -1,9 +1,13 @@
 cells:
-  extend_ports_013f1c0d:
+  extend_ports_ed19c5c1:
     changed:
       component:
         cross_section:
+          cladding_offset: 0
           function: cross_section
+          layers_cladding:
+          - - 3
+            - 0
           sections:
           - slab
         function: straight
@@ -13,7 +17,11 @@ cells:
     child:
       changed:
         cross_section:
+          cladding_offset: 0
           function: cross_section
+          layers_cladding:
+          - - 3
+            - 0
           sections:
           - slab
       default:
@@ -22,7 +30,11 @@ cells:
         with_cladding_box: true
       full:
         cross_section:
+          cladding_offset: 0
           function: cross_section
+          layers_cladding:
+          - - 3
+            - 0
           sections:
           - slab
         length: 10
@@ -32,7 +44,7 @@ cells:
       info_version: 1
       length: 10
       module: gdsfactory.components.straight
-      name: straight_3edba0b0
+      name: straight_59648496
       width: 0.5
     default:
       centered: false
@@ -46,7 +58,11 @@ cells:
       centered: false
       component:
         cross_section:
+          cladding_offset: 0
           function: cross_section
+          layers_cladding:
+          - - 3
+            - 0
           sections:
           - slab
         function: straight
@@ -59,12 +75,16 @@ cells:
     function_name: extend_ports
     info_version: 1
     module: gdsfactory.components.extension
-    name: extend_ports_013f1c0d
+    name: extend_ports_ed19c5c1
 info:
   changed:
     component:
       cross_section:
+        cladding_offset: 0
         function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
         sections:
         - slab
       function: straight
@@ -74,7 +94,11 @@ info:
   child:
     changed:
       cross_section:
+        cladding_offset: 0
         function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
         sections:
         - slab
     default:
@@ -83,7 +107,11 @@ info:
       with_cladding_box: true
     full:
       cross_section:
+        cladding_offset: 0
         function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
         sections:
         - slab
       length: 10
@@ -93,7 +121,7 @@ info:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_3edba0b0
+    name: straight_59648496
     width: 0.5
   default:
     centered: false
@@ -107,7 +135,11 @@ info:
     centered: false
     component:
       cross_section:
+        cladding_offset: 0
         function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
         sections:
         - slab
       function: straight
@@ -120,7 +152,7 @@ info:
   function_name: extend_ports
   info_version: 1
   module: gdsfactory.components.extension
-  name: extend_ports_013f1c0d
+  name: extend_ports_ed19c5c1
 ports:
   o1:
     layer:
