@@ -133,6 +133,7 @@ from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
 from gdsfactory.components.pad import pad, pad_array, pad_array90, pad_array270
+from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
@@ -309,6 +310,8 @@ factory = dict(
     mzit_lattice=mzit_lattice,
     nxn=nxn,
     pad=pad,
+    pad_gsg_short=pad_gsg_short,
+    pad_gsg_open=pad_gsg_open,
     pad_array=pad_array,
     pads_shorted=pads_shorted,
     pcm_optical=pcm_optical,
