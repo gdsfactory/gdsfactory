@@ -27,6 +27,7 @@ Maybe:
 - rename `mzi_factory` to `mzi` in mzi_lattice to be consistent with other component kwargs
 - replace taper_factory with taper to be consistent with other component kwargs
 - coupler snaps length to grid, instead of asserting length is on_grid
+- add layers_cladding to rib so bezier_slabs render correctly for rib couplers
 
 
 ## 3.7.2
