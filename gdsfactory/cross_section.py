@@ -753,7 +753,12 @@ def rib_heater_doped_contact(
 
 strip = partial(cross_section)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
-rib = partial(strip, sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),))
+rib = partial(
+    strip,
+    sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),),
+    layers_cladding=(LAYER.SLAB90,),
+    cladding_offset=0,
+)
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 strip_rib_tip = partial(
     strip, sections=(Section(width=0.2, layer=LAYER.SLAB90, name="slab"),)

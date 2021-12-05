@@ -23,7 +23,7 @@ def route_south(
     gc_port_name: str = 1,
     bend: ComponentFactory = bend_euler,
     straight: ComponentFactory = straight,
-    taper_factory: Optional[ComponentFactory] = taper_function,
+    taper: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
@@ -75,7 +75,7 @@ def route_south(
     conn_params = dict(
         bend=bend,
         straight=straight,
-        taper_factory=taper_factory,
+        taper=taper,
         auto_widen=auto_widen,
         cross_section=cross_section,
         **kwargs,

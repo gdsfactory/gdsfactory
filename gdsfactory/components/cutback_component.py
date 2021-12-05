@@ -5,7 +5,7 @@ from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, Optional
 
 
 @gf.cell
@@ -19,6 +19,7 @@ def cutback_component(
     bend180: ComponentFactory = bend_euler180,
     straight: ComponentFactory = straight_function,
     mirror: bool = False,
+    straight_length: Optional[float] = None,
 ) -> Component:
     """Returns a daisy chain of components for measuring their loss.
 
@@ -32,11 +33,12 @@ def cutback_component(
         bend180: ubend
         straight: waveguide function to connect both sides
         mirror: Flips component. Useful when 'o2' is the port that you want to route to
+        straight_length: length of the straight section beween cutbacks
 
     """
     component = component() if callable(component) else component
     bendu = bend180(radius=radius)
-    straight_component = straight()
+    straight_component = straight(length=straight_length or radius * 2)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -91,7 +93,7 @@ cutback_component_mirror = gf.partial(cutback_component, mirror=True)
 
 
 if __name__ == "__main__":
-    # c = cutback_component()
-    c = cutback_component_mirror(component=component_flipped)
+    c = cutback_component()
+    # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
     c.show()

@@ -10,7 +10,13 @@ import rectpack
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.types import Anchor, ComponentFactory, Float2, Number
+from gdsfactory.types import (
+    Anchor,
+    ComponentFactory,
+    ComponentOrFactory,
+    Float2,
+    Number,
+)
 
 
 def _pack_single_bin(
@@ -93,7 +99,7 @@ def _pack_single_bin(
 
 @validate_arguments
 def pack(
-    component_list: List[Component],
+    component_list: List[ComponentOrFactory],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: Tuple[Optional[float], Optional[float]] = (None, None),
@@ -134,6 +140,11 @@ def pack(
     max_size = [np.inf if v is None else v for v in max_size]
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision
+
+    component_list = [
+        component() if callable(component) else component
+        for component in component_list
+    ]
 
     # Convert Components to rectangles
     rect_dict = {}
@@ -244,8 +255,10 @@ if __name__ == "__main__":
 
     p = pack(
         [gf.components.rectangle(size=(i, i)) for i in range(1, 10)],
-        spacing=1.0,
-        max_size=(20, 20),
+        spacing=10.0,
+        max_size=(100, 100),
+        text=gf.c.text,
+        prefix="R",
     )
     c = p[0]
     c.show()

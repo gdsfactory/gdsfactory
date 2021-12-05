@@ -200,14 +200,17 @@ __all__ = ["extend_ports", "extend_port"]
 if __name__ == "__main__":
     # c = extend_ports()
     # c = test_extend_ports_selection()
-    c = test_extend_ports()
-    c.show()
+    # c = test_extend_ports()
+    # c.show()
 
     # c = gf.c.bend_circular()
     # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
     # ce.show()
 
-    # wg_pin = gf.components.straight_pin(length=40)
+    c = gf.components.straight_pin(length=40)
+    # ce = extend_ports(c, port_names=('top_e1', 'bot_e3'))
+    ce = extend_ports(c, port_names=("bad", "worse"))
+    ce.show()
     # wg_pin.show()
 
     # c = pc.straight(layer=(3, 0))

@@ -1,10 +1,10 @@
 cells:
-  component_sequence_d377cad6:
+  component_sequence_c72a7644:
     changed:
       sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
       symbol_to_component:
         '-':
-        - straight
+        - straight_5b6c3269
         - o1
         - o2
         A:
@@ -24,7 +24,7 @@ cells:
         - o1
         - o2
         _:
-        - straight
+        - straight_5b6c3269
         - o2
         - o1
     default:
@@ -40,7 +40,7 @@ cells:
       start_orientation: 0
       symbol_to_component:
         '-':
-        - straight
+        - straight_5b6c3269
         - o1
         - o2
         A:
@@ -60,13 +60,13 @@ cells:
         - o1
         - o2
         _:
-        - straight
+        - straight_5b6c3269
         - o2
         - o1
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_d377cad6
+    name: component_sequence_c72a7644
   cutback_component_91884563:
     changed:
       mirror: true
@@ -86,6 +86,7 @@ cells:
       port2: o2
       radius: 5
       rows: 5
+      straight_length: null
     full:
       cols: 4
       mirror: true
@@ -93,26 +94,11 @@ cells:
       port2: o2
       radius: 5
       rows: 5
+      straight_length: null
     function_name: cutback_component
     info_version: 1
     module: gdsfactory.components.cutback_component
     name: cutback_component_91884563
-  straight:
-    changed: {}
-    default:
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight
-    width: 0.5
   taper_0p5_to_3_l36:
     changed: {}
     default: {}
@@ -140,6 +126,7 @@ info:
     port2: o2
     radius: 5
     rows: 5
+    straight_length: null
   full:
     cols: 4
     mirror: true
@@ -147,6 +134,7 @@ info:
     port2: o2
     radius: 5
     rows: 5
+    straight_length: null
   function_name: cutback_component
   info_version: 1
   module: gdsfactory.components.cutback_component

@@ -40,21 +40,32 @@ class Path(PathPhidl):
 
 
 def _sinusoidal_transition(y1, y2):
-    dx = y2 - y1
+    dy = y2 - y1
 
     def sine(t):
-        return y1 + (1 - np.cos(np.pi * t)) / 2 * dx
+        return y1 + (1 - np.cos(np.pi * t)) / 2 * dy
 
     return sine
 
 
 def _linear_transition(y1, y2):
-    dx = y2 - y1
+    dy = y2 - y1
 
     def linear(t):
-        return y1 + t * dx
+        return y1 + t * dy
 
     return linear
+
+
+def transition_exponential(y1, y2, exp=0.5):
+    """Returns the function for an exponential transition
+
+    Args:
+        y1: start width
+        y2: end width
+        exp: exponent
+    """
+    return lambda t: y1 + (y2 - y1) * t ** exp
 
 
 def transition(

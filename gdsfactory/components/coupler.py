@@ -1,9 +1,13 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.coupler_straight import coupler_straight
-from gdsfactory.components.coupler_symmetric import coupler_symmetric
+from gdsfactory.components.coupler_straight import (
+    coupler_straight as coupler_straight_function,
+)
+from gdsfactory.components.coupler_symmetric import (
+    coupler_symmetric as coupler_symmetric_function,
+)
 from gdsfactory.cross_section import strip
-from gdsfactory.snap import assert_on_1nm_grid, assert_on_2nm_grid
+from gdsfactory.snap import assert_on_2nm_grid, snap_to_grid
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 
@@ -11,8 +15,8 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,
-    coupler_symmetric_factory: ComponentFactory = coupler_symmetric,
-    coupler_straight: ComponentFactory = coupler_straight,
+    coupler_symmetric: ComponentFactory = coupler_symmetric_function,
+    coupler_straight: ComponentFactory = coupler_straight_function,
     dy: float = 5.0,
     dx: float = 10.0,
     cross_section: CrossSectionFactory = strip,
@@ -23,7 +27,7 @@ def coupler(
     Args:
         gap: between straights
         length: of coupling region
-        coupler_symmetric_factory
+        coupler_symmetric
         coupler_straight
         dy: port to port vertical spacing
         dx: length of bend in x direction
@@ -42,15 +46,15 @@ def coupler(
             ________/                         \_______    |
          o1                                          o4
 
-              coupler_straight  coupler_symmetric_factory
+                        coupler_straight  coupler_symmetric
 
 
     """
-    assert_on_1nm_grid(length)
+    length = snap_to_grid(length)
     assert_on_2nm_grid(gap)
     c = Component()
 
-    sbend = coupler_symmetric_factory(
+    sbend = coupler_symmetric(
         gap=gap, dy=dy, dx=dx, cross_section=cross_section, **kwargs
     )
 
@@ -84,6 +88,7 @@ if __name__ == "__main__":
     # cp1.ymin = 0
     # cp2.ymin = 0
 
-    layer = (2, 0)
-    c = coupler(gap=0.300, layer=layer)
+    # layer = (2, 0)
+    # c = coupler(gap=0.300, layer=layer)
+    c = coupler(cross_section=gf.cross_section.rib)
     c.show(show_subports=True)

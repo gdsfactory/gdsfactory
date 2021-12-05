@@ -99,7 +99,6 @@ def get_netlist(
 
         settings = c.info.full if full_settings else c.info.changed
         instances[reference_name] = dict(
-            # component=c.function_name,
             component=getattr(c.info, "function_name", c.name),
             settings=settings,
         )

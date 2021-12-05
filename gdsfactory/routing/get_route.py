@@ -8,7 +8,7 @@ To make a route, you need to supply:
  - output port
  - bend
  - straight
- - taper_factory to taper to wider straights and reduce straight loss (Optional)
+ - taper to taper to wider straights and reduce straight loss (Optional)
 
 
 To generate a straight route:
@@ -58,7 +58,7 @@ def get_route(
     output_port: Port,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentOrFactory = straight_function,
-    taper_factory: Optional[ComponentFactory] = None,
+    taper: Optional[ComponentFactory] = None,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,
@@ -74,7 +74,7 @@ def get_route(
         output_port: end port
         bend: function that return bends
         straight: function that returns straights
-        taper_factory:
+        taper:
         start_straight_length: length of starting straight
         end_straight_length: length of end straight
         min_straight_length: min length of straight for any intermediate segment
@@ -104,9 +104,9 @@ def get_route(
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
 
-    if taper_factory:
-        taper_factory = partial(
-            taper_factory,
+    if taper:
+        taper = partial(
+            taper,
             length=taper_length,
             width1=input_port.width,
             width2=width2,
@@ -118,7 +118,7 @@ def get_route(
         input_port=input_port,
         output_port=output_port,
         straight=straight,
-        taper=taper_factory,
+        taper=taper,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         min_straight_length=min_straight_length,
@@ -134,7 +134,7 @@ get_route_electrical = partial(
     start_straight_length=10,
     end_straight_length=10,
     cross_section=metal3,
-    taper_factory=None,
+    taper=None,
 )
 
 
@@ -142,7 +142,7 @@ def get_route_from_waypoints(
     waypoints: Coordinates,
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
-    taper_factory: Optional[Callable] = taper_function,
+    taper: Optional[Callable] = taper_function,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Route:
@@ -157,7 +157,7 @@ def get_route_from_waypoints(
         waypoints: Coordinates that define the route
         bend: function that returns bends
         straight: function that returns straight waveguides
-        taper_factory: function that returns tapers
+        taper: function that returns tapers
         cross_section:
         kwargs: cross_section settings
 
@@ -211,15 +211,15 @@ def get_route_from_waypoints(
 
     if auto_widen:
         taper = (
-            taper_factory(
+            taper(
                 length=taper_length,
                 width1=width1,
                 width2=width2,
                 cross_section=cross_section,
                 **kwargs,
             )
-            if callable(taper_factory)
-            else taper_factory
+            if callable(taper)
+            else taper
         )
     else:
         taper = None
