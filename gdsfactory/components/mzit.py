@@ -168,6 +168,7 @@ def mzit(
         width1=w2,
         width2=w1,
         length=taper_length,
+        **kwargs,
     )
     t3t.connect("o1", wg2t.ports["o2"])
     wgs1 = c << straight(width=w1, length=Ls, **kwargs)
