@@ -2,7 +2,7 @@
 
 ## TODO
 
-- component YAML needs to store the factory names
+- component needs to export the factory names
 - fix FIXMEs
 - add example on how to customize visualization of a component
 - build docker container
@@ -25,6 +25,8 @@ Maybe:
 - add `gf.components.taper_parabolic`
 - `mzi_lattice` adds all electrical ports from any of the mzi stages
 - rename `mzi_factory` to `mzi` in mzi_lattice to be consistent with other component kwargs
+- replace taper_factory with taper to be consistent with other component kwargs
+
 
 ## 3.7.2
 
