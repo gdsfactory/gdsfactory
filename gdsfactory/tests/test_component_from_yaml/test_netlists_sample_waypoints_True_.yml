@@ -23,6 +23,7 @@ instances:
       orientation: 90
       pad:
         function: pad
+        module: gdsfactory.components.pad
       rows: 1
       spacing:
       - 150
@@ -34,6 +35,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -46,6 +48,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -58,6 +61,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -70,6 +74,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -82,6 +87,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -94,6 +100,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -106,6 +113,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -118,6 +126,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -129,6 +138,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 140
       npoints: 2
       with_cladding_box: true
@@ -138,6 +148,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 630
       npoints: 2
       with_cladding_box: true
@@ -147,6 +158,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 630
       npoints: 2
       with_cladding_box: true
@@ -156,6 +168,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 290
       npoints: 2
       with_cladding_box: true
@@ -165,6 +178,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 80
       npoints: 2
       with_cladding_box: true
@@ -174,6 +188,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 590
       npoints: 2
       with_cladding_box: true
@@ -183,6 +198,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 380
       npoints: 2
       with_cladding_box: true
@@ -192,6 +208,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 380
       npoints: 2
       with_cladding_box: true
@@ -201,6 +218,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 380
       npoints: 2
       with_cladding_box: true
@@ -210,6 +228,7 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 440
       npoints: 2
       with_cladding_box: true
@@ -220,6 +239,7 @@ instances:
       orientation: 270
       pad:
         function: pad
+        module: gdsfactory.components.pad
       rows: 1
       spacing:
       - 150

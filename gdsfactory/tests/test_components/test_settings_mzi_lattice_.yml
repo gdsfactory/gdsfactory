@@ -6,10 +6,13 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
+        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
+        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -17,10 +20,13 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
+        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
+        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.2
@@ -38,10 +44,13 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
+        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
+        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -49,10 +58,13 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
+        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
+        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.3
@@ -67,35 +79,44 @@ cells:
     changed:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x:
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 0.1
@@ -106,35 +127,44 @@ cells:
     changed:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
       straight_x:
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x:
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 0.1
@@ -147,17 +177,21 @@ cells:
         function: coupler
         gap: 0.3
         length: 20
+        module: gdsfactory.components.coupler
       delta_length: 10
       splitter:
         function: coupler
         gap: 0.2
         length: 10
+        module: gdsfactory.components.coupler
       straight:
         function: straight
+        module: gdsfactory.components.straight
       with_splitter: true
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -165,8 +199,10 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -174,10 +210,12 @@ cells:
     full:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       combiner:
         function: coupler
         gap: 0.3
         length: 20
+        module: gdsfactory.components.coupler
       delta_length: 10
       layer: null
       length_x: 0.1
@@ -186,8 +224,10 @@ cells:
         function: coupler
         gap: 0.2
         length: 10
+        module: gdsfactory.components.coupler
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -209,10 +249,13 @@ cells:
       - 10
       mzi:
         function: mzi
+        module: gdsfactory.components.mzi
       splitter:
         function: coupler
+        module: gdsfactory.components.coupler
       straight:
         function: straight
+        module: gdsfactory.components.straight
     full:
       coupler_gaps:
       - 0.2
@@ -224,10 +267,13 @@ cells:
       - 10
       mzi:
         function: mzi
+        module: gdsfactory.components.mzi
       splitter:
         function: coupler
+        module: gdsfactory.components.coupler
       straight:
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_lattice
     info_version: 1
     module: gdsfactory.components.mzi_lattice
@@ -245,10 +291,13 @@ info:
     - 10
     mzi:
       function: mzi
+      module: gdsfactory.components.mzi
     splitter:
       function: coupler
+      module: gdsfactory.components.coupler
     straight:
       function: straight
+      module: gdsfactory.components.straight
   full:
     coupler_gaps:
     - 0.2
@@ -260,10 +309,13 @@ info:
     - 10
     mzi:
       function: mzi
+      module: gdsfactory.components.mzi
     splitter:
       function: coupler
+      module: gdsfactory.components.coupler
     straight:
       function: straight
+      module: gdsfactory.components.straight
   function_name: mzi_lattice
   info_version: 1
   module: gdsfactory.components.mzi_lattice

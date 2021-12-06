@@ -4,11 +4,13 @@ cells:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -16,11 +18,13 @@ cells:
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -34,6 +38,7 @@ cells:
       changed:
         cross_section:
           function: cross_section
+          module: gdsfactory.cross_section
         size:
         - 90
         - 11.875
@@ -106,6 +111,7 @@ cells:
       default:
         cross_section:
           function: cross_section
+          module: gdsfactory.cross_section
         nb_points: 99
         size:
         - 10
@@ -115,6 +121,7 @@ cells:
       full:
         cross_section:
           function: cross_section
+          module: gdsfactory.cross_section
         nb_points: 99
         size:
         - 90
@@ -131,11 +138,14 @@ cells:
     default:
       bend_s:
         function: bend_s
+        module: gdsfactory.components.bend_s
       bend_s_xsize: null
       coupler:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       noutputs: 4
       spacing:
       - 90
@@ -143,11 +153,14 @@ cells:
     full:
       bend_s:
         function: bend_s
+        module: gdsfactory.components.bend_s
       bend_s_xsize: null
       coupler:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       noutputs: 4
       spacing:
       - 90
@@ -161,6 +174,7 @@ info:
     changed:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       size:
       - 90
       - 11.875
@@ -233,6 +247,7 @@ info:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       nb_points: 99
       size:
       - 10
@@ -242,6 +257,7 @@ info:
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       nb_points: 99
       size:
       - 90
@@ -258,11 +274,14 @@ info:
   default:
     bend_s:
       function: bend_s
+      module: gdsfactory.components.bend_s
     bend_s_xsize: null
     coupler:
       function: mmi1x2
+      module: gdsfactory.components.mmi1x2
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
     noutputs: 4
     spacing:
     - 90
@@ -270,11 +289,14 @@ info:
   full:
     bend_s:
       function: bend_s
+      module: gdsfactory.components.bend_s
     bend_s_xsize: null
     coupler:
       function: mmi1x2
+      module: gdsfactory.components.mmi1x2
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
     noutputs: 4
     spacing:
     - 90

@@ -9,6 +9,7 @@ cells:
         n: 10
         straight:
           function: straight
+          module: gdsfactory.components.straight
         w1: 0.475
         w2: 0.525
       full:
@@ -17,6 +18,7 @@ cells:
         n: 10
         straight:
           function: straight
+          module: gdsfactory.components.straight
         w1: 0.475
         w2: 0.525
       function_name: dbr
@@ -26,15 +28,19 @@ cells:
     default:
       component:
         function: dbr
+        module: gdsfactory.components.dbr
       coupler:
         function: coupler
+        module: gdsfactory.components.coupler
       gap: 0.2
       length: 0.1
     full:
       component:
         function: dbr
+        module: gdsfactory.components.dbr
       coupler:
         function: coupler
+        module: gdsfactory.components.coupler
       gap: 0.2
       length: 0.1
     function_name: cavity
@@ -48,10 +54,13 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
+        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
+        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -59,10 +68,13 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
+        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
+        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.2
@@ -81,6 +93,7 @@ cells:
       n: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
       w1: 0.475
       w2: 0.525
     full:
@@ -89,6 +102,7 @@ cells:
       n: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -105,6 +119,7 @@ info:
       n: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
       w1: 0.475
       w2: 0.525
     full:
@@ -113,6 +128,7 @@ info:
       n: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -122,15 +138,19 @@ info:
   default:
     component:
       function: dbr
+      module: gdsfactory.components.dbr
     coupler:
       function: coupler
+      module: gdsfactory.components.coupler
     gap: 0.2
     length: 0.1
   full:
     component:
       function: dbr
+      module: gdsfactory.components.dbr
     coupler:
       function: coupler
+      module: gdsfactory.components.coupler
     gap: 0.2
     length: 0.1
   function_name: cavity

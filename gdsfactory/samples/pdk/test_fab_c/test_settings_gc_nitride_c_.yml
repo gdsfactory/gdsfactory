@@ -25,6 +25,7 @@ cells:
     changed:
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       grating_line_width: 0.6
       layer:
       - 34
@@ -61,6 +62,7 @@ cells:
       big_last_tooth: false
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       fiber_angle: 15
       fiber_marker_layer:
       - 203
@@ -93,6 +95,7 @@ info:
   changed:
     decorator:
       function: add_pins
+      module: gdsfactory.samples.pdk.fab_c
     grating_line_width: 0.6
     layer:
     - 34
@@ -129,6 +132,7 @@ info:
     big_last_tooth: false
     decorator:
       function: add_pins
+      module: gdsfactory.samples.pdk.fab_c
     fiber_angle: 15
     fiber_marker_layer:
     - 203

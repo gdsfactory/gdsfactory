@@ -5,21 +5,25 @@ cells:
       bend180:
         angle: 180
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       columns: 6
       rows: 6
       spacing: 3
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_length: 5
     full:
       bend180:
         angle: 180
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       columns: 6
       rows: 6
       spacing: 3
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_length: 5
     function_name: cutback_bend180
     info_version: 1
@@ -32,21 +36,25 @@ info:
     bend180:
       angle: 180
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     columns: 6
     rows: 6
     spacing: 3
     straight:
       function: straight
+      module: gdsfactory.components.straight
     straight_length: 5
   full:
     bend180:
       angle: 180
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     columns: 6
     rows: 6
     spacing: 3
     straight:
       function: straight
+      module: gdsfactory.components.straight
     straight_length: 5
   function_name: cutback_bend180
   info_version: 1

@@ -14,6 +14,7 @@ cells:
       - 0
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       wg_sep: 1
     full:
       direction: EAST
@@ -28,6 +29,7 @@ cells:
       - 0
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       wg_sep: 1
     function_name: coupler_adiabatic
     info_version: 1
@@ -48,6 +50,7 @@ info:
     - 0
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     wg_sep: 1
   full:
     direction: EAST
@@ -62,6 +65,7 @@ info:
     - 0
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     wg_sep: 1
   function_name: coupler_adiabatic
   info_version: 1

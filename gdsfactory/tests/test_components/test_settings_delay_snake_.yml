@@ -5,11 +5,14 @@ cells:
       L0: 5
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       n: 2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       taper:
         function: taper
+        module: gdsfactory.components.taper
       taper_length: 10
       total_length: 1600
       wg_width: 0.5
@@ -18,11 +21,14 @@ cells:
       L0: 5
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       n: 2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       taper:
         function: taper
+        module: gdsfactory.components.taper
       taper_length: 10
       total_length: 1600
       wg_width: 0.5
@@ -37,11 +43,14 @@ info:
     L0: 5
     bend:
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     n: 2
     straight:
       function: straight
+      module: gdsfactory.components.straight
     taper:
       function: taper
+      module: gdsfactory.components.taper
     taper_length: 10
     total_length: 1600
     wg_width: 0.5
@@ -50,11 +59,14 @@ info:
     L0: 5
     bend:
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     n: 2
     straight:
       function: straight
+      module: gdsfactory.components.straight
     taper:
       function: taper
+      module: gdsfactory.components.taper
     taper_length: 10
     total_length: 1600
     wg_width: 0.5

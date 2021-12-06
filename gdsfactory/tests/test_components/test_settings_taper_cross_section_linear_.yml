@@ -6,6 +6,7 @@ cells:
     default:
       cross_section1:
         function: cross_section
+        module: gdsfactory.cross_section
         sections:
         - slab
       cross_section2:
@@ -14,6 +15,7 @@ cells:
         layers_cladding:
         - - 3
           - 0
+        module: gdsfactory.cross_section
         sections:
         - slab
       length: 10
@@ -22,6 +24,7 @@ cells:
     full:
       cross_section1:
         function: cross_section
+        module: gdsfactory.cross_section
         sections:
         - slab
       cross_section2:
@@ -30,6 +33,7 @@ cells:
         layers_cladding:
         - - 3
           - 0
+        module: gdsfactory.cross_section
         sections:
         - slab
       length: 10
@@ -47,6 +51,7 @@ info:
   default:
     cross_section1:
       function: cross_section
+      module: gdsfactory.cross_section
       sections:
       - slab
     cross_section2:
@@ -55,6 +60,7 @@ info:
       layers_cladding:
       - - 3
         - 0
+      module: gdsfactory.cross_section
       sections:
       - slab
     length: 10
@@ -63,6 +69,7 @@ info:
   full:
     cross_section1:
       function: cross_section
+      module: gdsfactory.cross_section
       sections:
       - slab
     cross_section2:
@@ -71,6 +78,7 @@ info:
       layers_cladding:
       - - 3
         - 0
+      module: gdsfactory.cross_section
       sections:
       - slab
     length: 10

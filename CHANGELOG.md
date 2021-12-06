@@ -20,7 +20,8 @@ Maybe:
 ## 3.7.4
 
 - add pad_gsg_short and pad_gsg_open to components
-- export function settings as dicts, with function name
+- a function in settings exports as dict {'function': straight, 'width': 3}
+    - works also for partial and composed functions
 
 ## 3.7.3
 

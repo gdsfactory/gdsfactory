@@ -6,11 +6,14 @@ instances:
       Ls: 1
       bend90:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       bend_radius: 10
       coupler1:
         function: coupler
+        module: gdsfactory.components.coupler
       coupler2:
         function: coupler
+        module: gdsfactory.components.coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 10
@@ -19,8 +22,10 @@ instances:
       dy: 2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       taper:
         function: taper
+        module: gdsfactory.components.taper
       taper_length: 5
       w0: 0.5
       w1: 0.45

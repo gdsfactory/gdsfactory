@@ -1439,10 +1439,10 @@ def _clean_value(value: Any) -> Any:
             _clean_value(func) for func in value.funcs
         ]
     elif callable(value) and hasattr(value, "__name__"):
-        value = dict(function=value.__name__)
+        value = dict(function=value.__name__, module=value.__module__)
     elif callable(value) and isinstance(value, functools.partial):
         v = value.keywords.copy()
-        v.update(function=value.func.__name__)
+        v.update(function=value.func.__name__, module=value.func.__module__)
         value = _clean_value(v)
     elif isinstance(value, dict):
         clean_dict(value)

@@ -11,6 +11,7 @@ cells:
       radius: 10
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       wrap_angle_deg: 180
     full:
       direction: EAST
@@ -22,6 +23,7 @@ cells:
       radius: 10
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       wrap_angle_deg: 180
     function_name: disk
     info_version: 1
@@ -39,6 +41,7 @@ info:
     radius: 10
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     wrap_angle_deg: 180
   full:
     direction: EAST
@@ -50,6 +53,7 @@ info:
     radius: 10
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     wrap_angle_deg: 180
   function_name: disk
   info_version: 1

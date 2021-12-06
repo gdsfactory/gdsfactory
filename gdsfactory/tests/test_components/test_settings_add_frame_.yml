@@ -4,6 +4,7 @@ cells:
     default:
       component:
         function: rectangle
+        module: gdsfactory.components.rectangle
       layer:
       - 1
       - 0
@@ -12,6 +13,7 @@ cells:
     full:
       component:
         function: rectangle
+        module: gdsfactory.components.rectangle
       layer:
       - 1
       - 0
@@ -146,6 +148,7 @@ info:
   default:
     component:
       function: rectangle
+      module: gdsfactory.components.rectangle
     layer:
     - 1
     - 0
@@ -154,6 +157,7 @@ info:
   full:
     component:
       function: rectangle
+      module: gdsfactory.components.rectangle
     layer:
     - 1
     - 0

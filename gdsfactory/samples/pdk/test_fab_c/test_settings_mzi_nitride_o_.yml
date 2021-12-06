@@ -9,18 +9,22 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       width: 0.9
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -34,14 +38,17 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.9
       width_mmi: 2.5
       width_taper: 1
@@ -61,10 +68,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
         layer:
@@ -73,9 +83,11 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       layer:
       - 34
       - 0
@@ -88,10 +100,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
         width: 0.9
       straight:
         cross_section:
@@ -102,13 +117,17 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -116,8 +135,10 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -132,10 +153,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       combiner: null
       cross_section:
         function: cross_section
@@ -145,9 +169,11 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       delta_length: 10
       layer:
       - 34
@@ -163,10 +189,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
         width: 0.9
       straight:
         cross_section:
@@ -177,10 +206,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -200,10 +232,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
         layer:
@@ -212,6 +247,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       length_x: 0.1
       length_y_left: 0.8
@@ -225,10 +261,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         cross_section:
           function: cross_section
@@ -238,18 +277,23 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
@@ -262,10 +306,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
         layer:
@@ -274,12 +321,14 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x:
         cross_section:
           function: cross_section
@@ -289,10 +338,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         cross_section:
           function: cross_section
@@ -302,10 +354,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 0.1
@@ -323,10 +378,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
         layer:
@@ -335,6 +393,7 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       length_x: 0.1
       length_y_left: 5.8
@@ -348,10 +407,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         cross_section:
           function: cross_section
@@ -361,18 +423,23 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
@@ -385,10 +452,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
         layer:
@@ -397,12 +467,14 @@ cells:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x:
         cross_section:
           function: cross_section
@@ -412,10 +484,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         cross_section:
           function: cross_section
@@ -425,10 +500,13 @@ cells:
           layers_cladding:
           - - 36
             - 0
+          module: gdsfactory.cross_section
           width: 0.9
         decorator:
           function: add_pins
+          module: gdsfactory.samples.pdk.fab_c
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 0.1
@@ -446,10 +524,13 @@ info:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     cross_section:
       function: cross_section
       layer:
@@ -458,9 +539,11 @@ info:
       layers_cladding:
       - - 36
         - 0
+      module: gdsfactory.cross_section
       width: 0.9
     decorator:
       function: add_pins
+      module: gdsfactory.samples.pdk.fab_c
     layer:
     - 34
     - 0
@@ -473,10 +556,13 @@ info:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       function: mmi1x2
+      module: gdsfactory.components.mmi1x2
       width: 0.9
     straight:
       cross_section:
@@ -487,13 +573,17 @@ info:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       function: straight
+      module: gdsfactory.components.straight
   default:
     bend:
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     combiner: null
     delta_length: 10
     layer: null
@@ -501,8 +591,10 @@ info:
     length_y: 0.8
     splitter:
       function: mmi1x2
+      module: gdsfactory.components.mmi1x2
     straight:
       function: straight
+      module: gdsfactory.components.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -517,10 +609,13 @@ info:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     combiner: null
     cross_section:
       function: cross_section
@@ -530,9 +625,11 @@ info:
       layers_cladding:
       - - 36
         - 0
+      module: gdsfactory.cross_section
       width: 0.9
     decorator:
       function: add_pins
+      module: gdsfactory.samples.pdk.fab_c
     delta_length: 10
     layer:
     - 34
@@ -548,10 +645,13 @@ info:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       function: mmi1x2
+      module: gdsfactory.components.mmi1x2
       width: 0.9
     straight:
       cross_section:
@@ -562,10 +662,13 @@ info:
         layers_cladding:
         - - 36
           - 0
+        module: gdsfactory.cross_section
         width: 0.9
       decorator:
         function: add_pins
+        module: gdsfactory.samples.pdk.fab_c
       function: straight
+      module: gdsfactory.components.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null

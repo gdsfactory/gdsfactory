@@ -11,11 +11,13 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
   bend_euler_1da190e0_76p865_m34p5:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
   mmi_bot:
     component: mmi1x2
     settings:
@@ -31,18 +33,21 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 19.99
   straight_5743d35a_81p995_m39p375:
     component: straight
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 0.01
   straight_b649c633_71p99_m20p0:
     component: straight
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 18.75
 name: sample_docstring
 placements:

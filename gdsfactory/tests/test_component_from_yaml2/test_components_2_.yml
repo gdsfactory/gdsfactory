@@ -6,11 +6,13 @@ cells:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -18,11 +20,13 @@ cells:
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 4.5
       width_taper: 1

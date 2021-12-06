@@ -4,19 +4,23 @@ cells:
     default:
       bend90:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_h: 5
       length_v: 5
       rows: 4
       straight:
         function: straight
+        module: gdsfactory.components.straight
     full:
       bend90:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_h: 5
       length_v: 5
       rows: 4
       straight:
         function: straight
+        module: gdsfactory.components.straight
     function_name: staircase
     info_version: 1
     module: gdsfactory.components.cutback_bend
@@ -27,19 +31,23 @@ info:
   default:
     bend90:
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     length_h: 5
     length_v: 5
     rows: 4
     straight:
       function: straight
+      module: gdsfactory.components.straight
   full:
     bend90:
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     length_h: 5
     length_v: 5
     rows: 4
     straight:
       function: straight
+      module: gdsfactory.components.straight
   function_name: staircase
   info_version: 1
   module: gdsfactory.components.cutback_bend

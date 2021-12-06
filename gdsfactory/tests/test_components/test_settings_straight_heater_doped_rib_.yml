@@ -11,6 +11,7 @@ info:
         - 0
       - - 41
         - 0
+      module: gdsfactory.components.contact
       vias:
       - null
       - null
@@ -18,6 +19,7 @@ info:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     contact_metal:
       function: contact
       layers:
@@ -27,16 +29,19 @@ info:
         - 0
       - - 49
         - 0
+      module: gdsfactory.components.contact
       vias:
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     contact_metal_size:
     - 10
     - 10
@@ -46,14 +51,17 @@ info:
     contact_yspacing: 2
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
       sections:
       - slab
     cross_section_heater:
       function: rib_heater_doped
+      module: gdsfactory.cross_section
     length: 320
     nsections: 3
     taper:
       function: taper_cross_section
+      module: gdsfactory.components.taper_cross_section
   full:
     contact:
       function: contact
@@ -64,6 +72,7 @@ info:
         - 0
       - - 41
         - 0
+      module: gdsfactory.components.contact
       vias:
       - null
       - null
@@ -71,6 +80,7 @@ info:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     contact_metal:
       function: contact
       layers:
@@ -80,16 +90,19 @@ info:
         - 0
       - - 49
         - 0
+      module: gdsfactory.components.contact
       vias:
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     contact_metal_size:
     - 10
     - 10
@@ -99,14 +112,17 @@ info:
     contact_yspacing: 2
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
       sections:
       - slab
     cross_section_heater:
       function: rib_heater_doped
+      module: gdsfactory.cross_section
     length: 320
     nsections: 3
     taper:
       function: taper_cross_section
+      module: gdsfactory.components.taper_cross_section
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib

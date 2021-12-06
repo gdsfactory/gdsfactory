@@ -190,10 +190,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -212,10 +214,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -249,10 +253,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -271,10 +277,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -290,12 +298,14 @@ cells:
     default:
       component:
         function: rectangle
+        module: gdsfactory.components.rectangle
         size:
         - 1300
         - 2600
       padding: 10
       seal:
         function: contact
+        module: gdsfactory.components.contact
       width: 10
       with_east: true
       with_north: true
@@ -304,12 +314,14 @@ cells:
     full:
       component:
         function: rectangle
+        module: gdsfactory.components.rectangle
         size:
         - 1300
         - 2600
       padding: 10
       seal:
         function: contact
+        module: gdsfactory.components.contact
       width: 10
       with_east: true
       with_north: true
@@ -324,12 +336,14 @@ info:
   default:
     component:
       function: rectangle
+      module: gdsfactory.components.rectangle
       size:
       - 1300
       - 2600
     padding: 10
     seal:
       function: contact
+      module: gdsfactory.components.contact
     width: 10
     with_east: true
     with_north: true
@@ -338,12 +352,14 @@ info:
   full:
     component:
       function: rectangle
+      module: gdsfactory.components.rectangle
       size:
       - 1300
       - 2600
     padding: 10
     seal:
       function: contact
+      module: gdsfactory.components.contact
     width: 10
     with_east: true
     with_north: true
