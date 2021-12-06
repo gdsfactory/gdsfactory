@@ -33,16 +33,13 @@ info:
     length_x: 0.1
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     straight:
       function: straight
-      module: gdsfactory.components.straight
     straight_y: null
     straight_x_top: null
     straight_x_bot: null
     splitter:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
     combiner: null
     with_splitter: true
     layer: null
@@ -52,16 +49,13 @@ info:
     length_x: 0.1
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     straight:
       function: straight
-      module: gdsfactory.components.straight
     straight_y: null
     straight_x_top: null
     straight_x_bot: null
     splitter:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
     combiner: null
     with_splitter: true
     layer: null
@@ -78,16 +72,13 @@ cells:
       length_x: 0.1
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_y: null
       straight_x_top: null
       straight_x_bot: null
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       combiner: null
       with_splitter: true
       layer: null
@@ -97,16 +88,13 @@ cells:
       length_x: 0.1
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_y: null
       straight_x_top: null
       straight_x_bot: null
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       combiner: null
       with_splitter: true
       layer: null
@@ -125,7 +113,6 @@ cells:
       gap_mmi: 0.25
       taper:
         function: taper
-        module: gdsfactory.components.taper
       with_cladding_box: true
       cross_section:
         function: cross_section
@@ -138,7 +125,6 @@ cells:
       gap_mmi: 0.25
       taper:
         function: taper
-        module: gdsfactory.components.taper
       with_cladding_box: true
       cross_section:
         function: cross_section
@@ -150,26 +136,21 @@ cells:
     changed:
       straight_x:
         function: straight
-        module: gdsfactory.components.straight
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
     default:
       length_y_left: 0.8
       length_y_right: 0.8
       length_x: 0.1
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
@@ -178,16 +159,12 @@ cells:
       length_x: 0.1
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x:
         function: straight
-        module: gdsfactory.components.straight
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
     length_x: 0.1
     length_xsize: 0.1
   mzi_arm_f85ac2e9:
@@ -198,26 +175,21 @@ cells:
     changed:
       straight_x:
         function: straight
-        module: gdsfactory.components.straight
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
     default:
       length_y_left: 0.8
       length_y_right: 0.8
       length_x: 0.1
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
@@ -226,16 +198,12 @@ cells:
       length_x: 0.1
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x:
         function: straight
-        module: gdsfactory.components.straight
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
     length_x: 0.1
     length_xsize: 0.1
 version: 1
