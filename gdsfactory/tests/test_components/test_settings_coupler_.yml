@@ -2,11 +2,23 @@ cells:
   coupler:
     changed: {}
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -20,11 +32,23 @@ cells:
 info:
   changed: {}
   default:
+    coupler_straight:
+      function: coupler_straight
+    coupler_symmetric:
+      function: coupler_symmetric
+    cross_section:
+      function: cross_section
     dx: 10
     dy: 5
     gap: 0.236
     length: 20
   full:
+    coupler_straight:
+      function: coupler_straight
+    coupler_symmetric:
+      function: coupler_symmetric
+    cross_section:
+      function: cross_section
     dx: 10
     dy: 5
     gap: 0.236

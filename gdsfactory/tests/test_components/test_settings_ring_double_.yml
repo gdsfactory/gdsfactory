@@ -9,11 +9,21 @@ cells:
       radius: 10
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
@@ -27,16 +37,28 @@ cells:
     changed: {}
     default:
       bend: null
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
       radius: 10
+      straight:
+        function: straight
     full:
       bend: null
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
       radius: 10
+      straight:
+        function: straight
     function_name: ring_double
     info_version: 1
     module: gdsfactory.components.ring_double
@@ -45,16 +67,28 @@ info:
   changed: {}
   default:
     bend: null
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
     radius: 10
+    straight:
+      function: straight
   full:
     bend: null
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
     radius: 10
+    straight:
+      function: straight
   function_name: ring_double
   info_version: 1
   module: gdsfactory.components.ring_double

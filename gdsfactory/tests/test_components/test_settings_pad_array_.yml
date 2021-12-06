@@ -4,6 +4,8 @@ cells:
     default:
       columns: 6
       orientation: 270
+      pad:
+        function: pad
       rows: 1
       spacing:
       - 150
@@ -11,6 +13,8 @@ cells:
     full:
       columns: 6
       orientation: 270
+      pad:
+        function: pad
       rows: 1
       spacing:
       - 150
@@ -27,6 +31,8 @@ info:
   default:
     columns: 6
     orientation: 270
+    pad:
+      function: pad
     rows: 1
     spacing:
     - 150
@@ -34,6 +40,8 @@ info:
   full:
     columns: 6
     orientation: 270
+    pad:
+      function: pad
     rows: 1
     spacing:
     - 150

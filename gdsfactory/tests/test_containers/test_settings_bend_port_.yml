@@ -5,27 +5,39 @@ info:
   child:
     changed:
       length_x: 320
-      splitter: mmi2x2
+      splitter:
+        function: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 320
       length_y: 0.8
-      splitter: mmi2x2
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
@@ -38,6 +50,23 @@ info:
     name: mzi_ac6d448d
   default:
     angle: 180
+    bend:
+      function: bend_circular
+    component:
+      function: straight_heater_metal_undercut
+      with_undercut: false
+    cross_section:
+      function: cross_section
+      layer:
+      - 49
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
     extension_length: null
     port_name: e1
     port_name1_bend: null
@@ -45,7 +74,21 @@ info:
     port_name2_bend: null
   full:
     angle: 180
+    bend:
+      function: bend_circular
     component: mzi_ac6d448d
+    cross_section:
+      function: cross_section
+      layer:
+      - 49
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
     extension_length: null
     port_name: e1
     port_name1_bend: null

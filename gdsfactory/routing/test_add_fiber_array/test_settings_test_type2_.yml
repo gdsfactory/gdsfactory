@@ -8,11 +8,23 @@ cells:
         gap: 0.244
         length: 5.67
       default:
+        coupler_straight:
+          function: coupler_straight
+        coupler_symmetric:
+          function: coupler_symmetric
+        cross_section:
+          function: cross_section
         dx: 10
         dy: 5
         gap: 0.236
         length: 20
       full:
+        coupler_straight:
+          function: coupler_straight
+        coupler_symmetric:
+          function: coupler_symmetric
+        cross_section:
+          function: cross_section
         dx: 10
         dy: 5
         gap: 0.244
@@ -24,21 +36,51 @@ cells:
       module: gdsfactory.components.coupler
       name: coupler_12df0178
     default:
+      bend:
+        function: bend_euler
       component_name: null
+      cross_section:
+        function: cross_section
       gc_port_labels: null
       gc_port_name: o1
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       layer_label:
       - 66
       - 0
+      select_ports:
+        function: select_ports
+        port_type: optical
+      straight:
+        function: straight
     full:
+      bend:
+        function: bend_euler
       component: coupler_12df0178
       component_name: null
+      cross_section:
+        function: cross_section
       gc_port_labels: null
       gc_port_name: o1
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       layer_label:
       - 66
       - 0
       optical_routing_type: 2
+      select_ports:
+        function: select_ports
+        port_type: optical
+      straight:
+        function: straight
     function_name: add_fiber_array
     info_version: 1
     module: gdsfactory.routing.add_fiber_array
@@ -70,11 +112,23 @@ cells:
       gap: 0.244
       length: 5.67
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.244
@@ -153,11 +207,23 @@ info:
       gap: 0.244
       length: 5.67
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.244
@@ -169,21 +235,51 @@ info:
     module: gdsfactory.components.coupler
     name: coupler_12df0178
   default:
+    bend:
+      function: bend_euler
     component_name: null
+    cross_section:
+      function: cross_section
     gc_port_labels: null
     gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
     layer_label:
     - 66
     - 0
+    select_ports:
+      function: select_ports
+      port_type: optical
+    straight:
+      function: straight
   full:
+    bend:
+      function: bend_euler
     component: coupler_12df0178
     component_name: null
+    cross_section:
+      function: cross_section
     gc_port_labels: null
     gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
     layer_label:
     - 66
     - 0
     optical_routing_type: 2
+    select_ports:
+      function: select_ports
+      port_type: optical
+    straight:
+      function: straight
   function_name: add_fiber_array
   info_version: 1
   module: gdsfactory.routing.add_fiber_array

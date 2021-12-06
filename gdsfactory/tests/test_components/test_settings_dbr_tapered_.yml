@@ -16,6 +16,8 @@ cells:
       taper_length: 20
       w1: 0.4
       w2: 1
+      waveguide_template:
+        function: strip
       waveguide_template_dbr: null
     full:
       dc: 0.5
@@ -32,6 +34,8 @@ cells:
       taper_length: 20
       w1: 0.4
       w2: 1
+      waveguide_template:
+        function: strip
       waveguide_template_dbr: null
     function_name: dbr_tapered
     info_version: 1
@@ -54,6 +58,8 @@ info:
     taper_length: 20
     w1: 0.4
     w2: 1
+    waveguide_template:
+      function: strip
     waveguide_template_dbr: null
   full:
     dc: 0.5
@@ -70,6 +76,8 @@ info:
     taper_length: 20
     w1: 0.4
     w2: 1
+    waveguide_template:
+      function: strip
     waveguide_template_dbr: null
   function_name: dbr_tapered
   info_version: 1

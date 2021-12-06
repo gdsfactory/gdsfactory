@@ -1,17 +1,25 @@
 cells:
   cutback_bend90_fd4656cd:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
     default:
+      bend90:
+        function: bend_euler
       columns: 6
       rows: 6
       spacing: 5
+      straight:
+        function: straight
       straight_length: 5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       columns: 6
       rows: 6
       spacing: 5
+      straight:
+        function: straight
       straight_length: 5
     function_name: cutback_bend90
     info_version: 1
@@ -20,17 +28,25 @@ cells:
     name: cutback_bend90_fd4656cd
 info:
   changed:
-    bend90: bend_circular
+    bend90:
+      function: bend_circular
   default:
+    bend90:
+      function: bend_euler
     columns: 6
     rows: 6
     spacing: 5
+    straight:
+      function: straight
     straight_length: 5
   full:
-    bend90: bend_circular
+    bend90:
+      function: bend_circular
     columns: 6
     rows: 6
     spacing: 5
+    straight:
+      function: straight
     straight_length: 5
   function_name: cutback_bend90
   info_version: 1

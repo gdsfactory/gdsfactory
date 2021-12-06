@@ -90,15 +90,23 @@ cells:
       default:
         n: 4
         spacing: 4
+        straigth:
+          function: straight
       full:
         n: 4
         spacing: 4
+        straigth:
+          function: straight
       function_name: straight_array
       info_version: 1
       module: gdsfactory.components.straight_array
       name: straight_array_e79eb4c6
     default:
+      bend:
+        function: bend_euler
       fanout_length: 0
+      grating_coupler_function:
+        function: grating_coupler_elliptical
       layer_label:
       - 66
       - 0
@@ -106,7 +114,11 @@ cells:
       straight_spacing: 4
       with_loopback: false
     full:
+      bend:
+        function: bend_euler
       fanout_length: 0
+      grating_coupler_function:
+        function: grating_coupler_elliptical
       layer_label:
       - 66
       - 0
@@ -126,15 +138,23 @@ info:
     default:
       n: 4
       spacing: 4
+      straigth:
+        function: straight
     full:
       n: 4
       spacing: 4
+      straigth:
+        function: straight
     function_name: straight_array
     info_version: 1
     module: gdsfactory.components.straight_array
     name: straight_array_e79eb4c6
   default:
+    bend:
+      function: bend_euler
     fanout_length: 0
+    grating_coupler_function:
+      function: grating_coupler_elliptical
     layer_label:
     - 66
     - 0
@@ -142,7 +162,11 @@ info:
     straight_spacing: 4
     with_loopback: false
   full:
+    bend:
+      function: bend_euler
     fanout_length: 0
+    grating_coupler_function:
+      function: grating_coupler_elliptical
     layer_label:
     - 66
     - 0

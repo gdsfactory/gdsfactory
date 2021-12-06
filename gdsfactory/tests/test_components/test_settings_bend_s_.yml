@@ -68,6 +68,8 @@ info:
     name: bezier_2ee69c51
     start_angle: 0.235
   default:
+    cross_section:
+      function: cross_section
     nb_points: 99
     size:
     - 10
@@ -75,6 +77,8 @@ info:
     with_cladding_box: true
   end_angle: 0.235
   full:
+    cross_section:
+      function: cross_section
     nb_points: 99
     size:
     - 10

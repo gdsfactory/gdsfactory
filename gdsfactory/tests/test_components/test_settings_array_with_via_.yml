@@ -3,7 +3,23 @@ cells:
     changed: {}
     default:
       columns: 3
+      component:
+        function: pad
+      contact:
+        function: contact
       contact_dy: 0
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
       port_offset: null
       port_orientation: 180
       spacing: 150
@@ -11,7 +27,23 @@ cells:
       via_spacing: 10
     full:
       columns: 3
+      component:
+        function: pad
+      contact:
+        function: contact
       contact_dy: 0
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
       port_offset: null
       port_orientation: 180
       spacing: 150
@@ -223,7 +255,23 @@ info:
   changed: {}
   default:
     columns: 3
+    component:
+      function: pad
+    contact:
+      function: contact
     contact_dy: 0
+    cross_section:
+      function: cross_section
+      layer:
+      - 45
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
     port_offset: null
     port_orientation: 180
     spacing: 150
@@ -231,7 +279,23 @@ info:
     via_spacing: 10
   full:
     columns: 3
+    component:
+      function: pad
+    contact:
+      function: contact
     contact_dy: 0
+    cross_section:
+      function: cross_section
+      layer:
+      - 45
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
     port_offset: null
     port_orientation: 180
     spacing: 150

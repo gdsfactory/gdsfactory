@@ -5,12 +5,16 @@ cells:
       l1: 0.159
       l2: 0.159
       n: 10
+      straight:
+        function: straight
       w1: 0.475
       w2: 0.525
     full:
       l1: 0.159
       l2: 0.159
       n: 10
+      straight:
+        function: straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -23,12 +27,16 @@ info:
     l1: 0.159
     l2: 0.159
     n: 10
+    straight:
+      function: straight
     w1: 0.475
     w2: 0.525
   full:
     l1: 0.159
     l2: 0.159
     n: 10
+    straight:
+      function: straight
     w1: 0.475
     w2: 0.525
   function_name: dbr

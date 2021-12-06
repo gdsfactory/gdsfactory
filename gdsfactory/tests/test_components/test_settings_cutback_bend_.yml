@@ -2,12 +2,20 @@ cells:
   cutback_bend:
     changed: {}
     default:
+      bend90:
+        function: bend_euler
       columns: 5
       rows: 6
+      straight:
+        function: straight
       straight_length: 5
     full:
+      bend90:
+        function: bend_euler
       columns: 5
       rows: 6
+      straight:
+        function: straight
       straight_length: 5
     function_name: cutback_bend
     info_version: 1
@@ -17,12 +25,20 @@ cells:
 info:
   changed: {}
   default:
+    bend90:
+      function: bend_euler
     columns: 5
     rows: 6
+    straight:
+      function: straight
     straight_length: 5
   full:
+    bend90:
+      function: bend_euler
     columns: 5
     rows: 6
+    straight:
+      function: straight
     straight_length: 5
   function_name: cutback_bend
   info_version: 1

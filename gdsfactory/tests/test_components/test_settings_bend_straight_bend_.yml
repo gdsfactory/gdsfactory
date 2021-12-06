@@ -3,6 +3,8 @@ info:
   changed: {}
   default:
     angle: 90
+    cross_section:
+      function: cross_section
     direction: ccw
     npoints: 720
     p: 0.5
@@ -11,6 +13,8 @@ info:
     with_cladding_box: true
   full:
     angle: 90
+    cross_section:
+      function: cross_section
     direction: ccw
     npoints: 720
     p: 0.5

@@ -2,17 +2,25 @@ cells:
   mmi1x2:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -24,16 +32,24 @@ cells:
   mmi2x2:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -43,28 +59,42 @@ cells:
     name: mmi2x2
   mzi_3a1627bd:
     changed:
-      combiner: mmi2x2
+      combiner:
+        function: mmi2x2
       delta_length: 0
       length_x: 320
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
-      combiner: mmi2x2
+      bend:
+        function: bend_euler
+      combiner:
+        function: mmi2x2
       delta_length: 0
       layer: null
       length_x: 320
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
@@ -77,29 +107,39 @@ cells:
     name: mzi_3a1627bd
   mzi_arm_3aabaa29:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight_heater_metal_undercut
         with_undercut: false
-      straight_y: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x:
         function: straight_heater_metal_undercut
         with_undercut: false
-      straight_y: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -108,25 +148,37 @@ cells:
     name: mzi_arm_3aabaa29
   mzi_arm_dfcb483b:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
-      straight_x: straight
-      straight_y: straight
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -208,6 +260,8 @@ cells:
         name: bezier_1cd7d155
         start_angle: 0.057
       default:
+        cross_section:
+          function: cross_section
         nb_points: 99
         size:
         - 10
@@ -231,7 +285,8 @@ cells:
       start_angle: 0.057
     changed:
       coupler:
-        combiner: mmi2x2
+        combiner:
+          function: mmi2x2
         delta_length: 0
         function: mzi
         length_x: 320
@@ -242,21 +297,32 @@ cells:
       - 500
       - 100
     default:
+      bend_s:
+        function: bend_s
       bend_s_xsize: null
+      coupler:
+        function: mmi1x2
+      cross_section:
+        function: cross_section
       noutputs: 4
       spacing:
       - 90
       - 50
     full:
+      bend_s:
+        function: bend_s
       bend_s_xsize: null
       coupler:
-        combiner: mmi2x2
+        combiner:
+          function: mmi2x2
         delta_length: 0
         function: mzi
         length_x: 320
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
+      cross_section:
+        function: cross_section
       noutputs: 4
       spacing:
       - 500
@@ -340,6 +406,8 @@ info:
       name: bezier_1cd7d155
       start_angle: 0.057
     default:
+      cross_section:
+        function: cross_section
       nb_points: 99
       size:
       - 10
@@ -363,7 +431,8 @@ info:
     start_angle: 0.057
   changed:
     coupler:
-      combiner: mmi2x2
+      combiner:
+        function: mmi2x2
       delta_length: 0
       function: mzi
       length_x: 320
@@ -374,21 +443,32 @@ info:
     - 500
     - 100
   default:
+    bend_s:
+      function: bend_s
     bend_s_xsize: null
+    coupler:
+      function: mmi1x2
+    cross_section:
+      function: cross_section
     noutputs: 4
     spacing:
     - 90
     - 50
   full:
+    bend_s:
+      function: bend_s
     bend_s_xsize: null
     coupler:
-      combiner: mmi2x2
+      combiner:
+        function: mmi2x2
       delta_length: 0
       function: mzi
       length_x: 320
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
+    cross_section:
+      function: cross_section
     noutputs: 4
     spacing:
     - 500

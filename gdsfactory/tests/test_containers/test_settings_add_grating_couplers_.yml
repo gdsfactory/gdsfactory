@@ -5,27 +5,39 @@ cells:
     child:
       changed:
         length_x: 320
-        splitter: mmi2x2
+        splitter:
+          function: mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
           with_undercut: false
       default:
+        bend:
+          function: bend_euler
         combiner: null
         delta_length: 10
         layer: null
         length_x: 0.1
         length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
         straight_x_bot: null
         straight_x_top: null
         straight_y: null
         with_splitter: true
       full:
+        bend:
+          function: bend_euler
         combiner: null
         delta_length: 10
         layer: null
         length_x: 320
         length_y: 0.8
-        splitter: mmi2x2
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
         straight_x_bot: null
         straight_x_top:
           function: straight_heater_metal_undercut
@@ -39,16 +51,34 @@ cells:
     default:
       component_name: null
       gc_port_name: o1
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       layer_label:
       - 200
       - 0
+      select_ports:
+        function: select_ports
+        port_type: optical
     full:
       component: mzi_ac6d448d
       component_name: null
       gc_port_name: o1
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       layer_label:
       - 200
       - 0
+      select_ports:
+        function: select_ports
+        port_type: optical
     function_name: add_grating_couplers
     info_version: 1
     module: gdsfactory.add_grating_couplers
@@ -137,16 +167,24 @@ cells:
   mmi2x2:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -157,27 +195,39 @@ cells:
   mzi_ac6d448d:
     changed:
       length_x: 320
-      splitter: mmi2x2
+      splitter:
+        function: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 320
       length_y: 0.8
-      splitter: mmi2x2
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
@@ -190,29 +240,39 @@ cells:
     name: mzi_ac6d448d
   mzi_arm_3aabaa29:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight_heater_metal_undercut
         with_undercut: false
-      straight_y: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x:
         function: straight_heater_metal_undercut
         with_undercut: false
-      straight_y: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -221,25 +281,37 @@ cells:
     name: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -252,27 +324,39 @@ info:
   child:
     changed:
       length_x: 320
-      splitter: mmi2x2
+      splitter:
+        function: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 320
       length_y: 0.8
-      splitter: mmi2x2
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
@@ -286,16 +370,34 @@ info:
   default:
     component_name: null
     gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
     layer_label:
     - 200
     - 0
+    select_ports:
+      function: select_ports
+      port_type: optical
   full:
     component: mzi_ac6d448d
     component_name: null
     gc_port_name: o1
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
     layer_label:
     - 200
     - 0
+    select_ports:
+      function: select_ports
+      port_type: optical
   function_name: add_grating_couplers
   info_version: 1
   module: gdsfactory.add_grating_couplers
