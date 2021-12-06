@@ -1,3 +1,5 @@
+import toolz
+
 import gdsfactory as gf
 
 
@@ -15,11 +17,22 @@ def test_metadata_export_function():
     assert d.info.full.straight.function == "straight"
 
 
-if __name__ == "__main__":
-    # test_metadata_export_function()
-    c = gf.c.mzi()
+def test_metadata_export_compose():
+    straight_wide = toolz.compose(gf.c.extend_ports, gf.c.straight)
+    c = gf.c.mzi(straight=straight_wide)
     d = c.to_dict_config()
-    print(d.info.full.straight.function)
+    print(d.info.full.straight)
+    assert d.info.full.straight[0]["function"] == "straight"
+    assert d.info.full.straight[1]["function"] == "extend_ports"
+
+
+if __name__ == "__main__":
+    test_metadata_export_compose()
+
+    # test_metadata_export_function()
+    # c = gf.c.mzi()
+    # d = c.to_dict_config()
+    # print(d.info.full.straight.function)
 
     # test_metadata_export_partial()
     # from gdsfactory.cell import clean_name
@@ -37,11 +50,10 @@ if __name__ == "__main__":
 
     # straight_wide = gf.partial(gf.c.straight, width=2)
 
-    # import toolz
-    # straight_wide = toolz.compose(gf.c.extend_ports, gf.c.straight)
-    # c = gf.c.mzi(straight=straight_wide)
-    # d = c.to_dict_config()
-    # print(d.info.full.straight)
+    straight_wide = toolz.compose(gf.c.extend_ports, gf.c.straight)
+    c = gf.c.mzi(straight=straight_wide)
+    d = c.to_dict_config()
+    print(d.info.full.straight)
 
     # df = d.info.full
     # sf = df.straight

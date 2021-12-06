@@ -168,7 +168,6 @@ def cell_without_validator(func):
                 p.name: p.default
                 for p in sig.parameters.values()
                 if not p.default == inspect._empty
-                # if not callable(p.default)
             }
             full = default.copy()
             full.update(**args_as_kwargs)
