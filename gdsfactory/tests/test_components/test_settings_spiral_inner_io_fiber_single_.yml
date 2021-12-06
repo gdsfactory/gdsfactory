@@ -3,7 +3,6 @@ cells:
     changed:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       grating_spacing: 200
       x_straight_inner_left: 75
@@ -15,19 +14,15 @@ cells:
       bend180_function:
         angle: 180
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend90_function:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       grating_spacing: 127
       length: null
       straight:
         function: straight
-        module: gdsfactory.components.straight
       waveguide_spacing: 3
       x_straight_inner_left: 50
       x_straight_inner_right: 150
@@ -38,19 +33,15 @@ cells:
       bend180_function:
         angle: 180
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend90_function:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       grating_spacing: 200
       length: null
       straight:
         function: straight
-        module: gdsfactory.components.straight
       waveguide_spacing: 3
       x_straight_inner_left: 75
       x_straight_inner_right: 40
@@ -67,7 +58,6 @@ cells:
       changed:
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         cross_section_bend: null
         grating_spacing: 200
         x_straight_inner_left: 75
@@ -79,19 +69,15 @@ cells:
         bend180_function:
           angle: 180
           function: bend_euler
-          module: gdsfactory.components.bend_euler
         bend90_function:
           function: bend_euler
-          module: gdsfactory.components.bend_euler
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         cross_section_bend: null
         grating_spacing: 127
         length: null
         straight:
           function: straight
-          module: gdsfactory.components.straight
         waveguide_spacing: 3
         x_straight_inner_left: 50
         x_straight_inner_right: 150
@@ -102,19 +88,15 @@ cells:
         bend180_function:
           angle: 180
           function: bend_euler
-          module: gdsfactory.components.bend_euler
         bend90_function:
           function: bend_euler
-          module: gdsfactory.components.bend_euler
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         cross_section_bend: null
         grating_spacing: 200
         length: null
         straight:
           function: straight
-          module: gdsfactory.components.straight
         waveguide_spacing: 3
         x_straight_inner_left: 75
         x_straight_inner_right: 40
@@ -128,7 +110,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       cross_section_ports: null
       grating_spacing: 200
@@ -139,7 +120,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       cross_section_ports: null
       grating_spacing: 200
@@ -157,7 +137,6 @@ info:
     changed:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       grating_spacing: 200
       x_straight_inner_left: 75
@@ -169,19 +148,15 @@ info:
       bend180_function:
         angle: 180
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend90_function:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       grating_spacing: 127
       length: null
       straight:
         function: straight
-        module: gdsfactory.components.straight
       waveguide_spacing: 3
       x_straight_inner_left: 50
       x_straight_inner_right: 150
@@ -192,19 +167,15 @@ info:
       bend180_function:
         angle: 180
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend90_function:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       cross_section_bend: null
       grating_spacing: 200
       length: null
       straight:
         function: straight
-        module: gdsfactory.components.straight
       waveguide_spacing: 3
       x_straight_inner_left: 75
       x_straight_inner_right: 40
@@ -218,7 +189,6 @@ info:
   default:
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
@@ -229,7 +199,6 @@ info:
   full:
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200

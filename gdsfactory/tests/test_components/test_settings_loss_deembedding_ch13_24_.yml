@@ -86,10 +86,8 @@ cells:
       R: 10
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       grating_coupler_factory:
         function: grating_coupler_elliptical_trenches
-        module: gdsfactory.components.grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
       input_port_indexes:
@@ -100,10 +98,8 @@ cells:
       R: 10
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       grating_coupler_factory:
         function: grating_coupler_elliptical_trenches
-        module: gdsfactory.components.grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
       input_port_indexes:
@@ -120,10 +116,8 @@ info:
     R: 10
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     grating_coupler_factory:
       function: grating_coupler_elliptical_trenches
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     input_port_indexes:
@@ -134,10 +128,8 @@ info:
     R: 10
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     grating_coupler_factory:
       function: grating_coupler_elliptical_trenches
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     input_port_indexes:

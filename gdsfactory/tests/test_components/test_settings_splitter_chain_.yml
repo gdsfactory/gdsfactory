@@ -4,13 +4,11 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -18,13 +16,11 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -40,13 +36,11 @@ cells:
       default:
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         gap_mmi: 0.25
         length_mmi: 5.5
         length_taper: 10
         taper:
           function: taper
-          module: gdsfactory.components.taper
         width: 0.5
         width_mmi: 2.5
         width_taper: 1
@@ -54,13 +48,11 @@ cells:
       full:
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         gap_mmi: 0.25
         length_mmi: 5.5
         length_taper: 10
         taper:
           function: taper
-          module: gdsfactory.components.taper
         width: 0.5
         width_mmi: 2.5
         width_taper: 1
@@ -72,19 +64,15 @@ cells:
     default:
       bend:
         function: bend_s
-        module: gdsfactory.components.bend_s
       columns: 3
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
     full:
       bend:
         function: bend_s
-        module: gdsfactory.components.bend_s
       columns: 3
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
     function_name: splitter_chain
     info_version: 1
     module: gdsfactory.components.splitter_chain
@@ -96,13 +84,11 @@ info:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -110,13 +96,11 @@ info:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -128,19 +112,15 @@ info:
   default:
     bend:
       function: bend_s
-      module: gdsfactory.components.bend_s
     columns: 3
     splitter:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
   full:
     bend:
       function: bend_s
-      module: gdsfactory.components.bend_s
     columns: 3
     splitter:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
   function_name: splitter_chain
   info_version: 1
   module: gdsfactory.components.splitter_chain

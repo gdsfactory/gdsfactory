@@ -7,15 +7,12 @@ cells:
         length_x: 320
         splitter:
           function: mmi2x2
-          module: gdsfactory.components.mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
-          module: gdsfactory.components.straight_heater_metal
           with_undercut: false
       default:
         bend:
           function: bend_euler
-          module: gdsfactory.components.bend_euler
         combiner: null
         delta_length: 10
         layer: null
@@ -23,10 +20,8 @@ cells:
         length_y: 0.8
         splitter:
           function: mmi1x2
-          module: gdsfactory.components.mmi1x2
         straight:
           function: straight
-          module: gdsfactory.components.straight
         straight_x_bot: null
         straight_x_top: null
         straight_y: null
@@ -34,7 +29,6 @@ cells:
       full:
         bend:
           function: bend_euler
-          module: gdsfactory.components.bend_euler
         combiner: null
         delta_length: 10
         layer: null
@@ -42,14 +36,11 @@ cells:
         length_y: 0.8
         splitter:
           function: mmi2x2
-          module: gdsfactory.components.mmi2x2
         straight:
           function: straight
-          module: gdsfactory.components.straight
         straight_x_bot: null
         straight_x_top:
           function: straight_heater_metal_undercut
-          module: gdsfactory.components.straight_heater_metal
           with_undercut: false
         straight_y: null
         with_splitter: true
@@ -62,10 +53,8 @@ cells:
       gc_port_name: o1
       get_input_labels_function:
         function: get_input_labels
-        module: gdsfactory.routing.get_input_labels
       grating_coupler:
         function: grating_coupler_elliptical_trenches
-        module: gdsfactory.components.grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
       layer_label:
@@ -73,7 +62,6 @@ cells:
       - 0
       select_ports:
         function: select_ports
-        module: gdsfactory.port
         port_type: optical
     full:
       component: mzi_ac6d448d
@@ -81,10 +69,8 @@ cells:
       gc_port_name: o1
       get_input_labels_function:
         function: get_input_labels
-        module: gdsfactory.routing.get_input_labels
       grating_coupler:
         function: grating_coupler_elliptical_trenches
-        module: gdsfactory.components.grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
       layer_label:
@@ -92,7 +78,6 @@ cells:
       - 0
       select_ports:
         function: select_ports
-        module: gdsfactory.port
         port_type: optical
     function_name: add_grating_couplers
     info_version: 1
@@ -184,26 +169,22 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -216,15 +197,12 @@ cells:
       length_x: 320
       splitter:
         function: mmi2x2
-        module: gdsfactory.components.mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -232,10 +210,8 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -243,7 +219,6 @@ cells:
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -251,14 +226,11 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi2x2
-        module: gdsfactory.components.mmi2x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -270,46 +242,37 @@ cells:
     changed:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -320,44 +283,35 @@ cells:
     changed:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
       straight_x:
         function: straight
-        module: gdsfactory.components.straight
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x:
         function: straight
-        module: gdsfactory.components.straight
       straight_y:
         function: straight
-        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -372,15 +326,12 @@ info:
       length_x: 320
       splitter:
         function: mmi2x2
-        module: gdsfactory.components.mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -388,10 +339,8 @@ info:
       length_y: 0.8
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -399,7 +348,6 @@ info:
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -407,14 +355,11 @@ info:
       length_y: 0.8
       splitter:
         function: mmi2x2
-        module: gdsfactory.components.mmi2x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -427,10 +372,8 @@ info:
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
-      module: gdsfactory.routing.get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -438,7 +381,6 @@ info:
     - 0
     select_ports:
       function: select_ports
-      module: gdsfactory.port
       port_type: optical
   full:
     component: mzi_ac6d448d
@@ -446,10 +388,8 @@ info:
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
-      module: gdsfactory.routing.get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -457,7 +397,6 @@ info:
     - 0
     select_ports:
       function: select_ports
-      module: gdsfactory.port
       port_type: optical
   function_name: add_grating_couplers
   info_version: 1

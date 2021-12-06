@@ -4,11 +4,9 @@ cells:
     default:
       arm:
         function: crossing_arm
-        module: gdsfactory.components.crossing_waveguide
     full:
       arm:
         function: crossing_arm
-        module: gdsfactory.components.crossing_waveguide
     function_name: crossing
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
@@ -18,11 +16,9 @@ info:
   default:
     arm:
       function: crossing_arm
-      module: gdsfactory.components.crossing_waveguide
   full:
     arm:
       function: crossing_arm
-      module: gdsfactory.components.crossing_waveguide
   function_name: crossing
   info_version: 1
   module: gdsfactory.components.crossing_waveguide

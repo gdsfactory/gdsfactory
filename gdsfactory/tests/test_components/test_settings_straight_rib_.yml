@@ -7,13 +7,11 @@ info:
       layers_cladding:
       - - 3
         - 0
-      module: gdsfactory.cross_section
       sections:
       - slab
   default:
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: 10
     npoints: 2
     with_cladding_box: true
@@ -24,7 +22,6 @@ info:
       layers_cladding:
       - - 3
         - 0
-      module: gdsfactory.cross_section
       sections:
       - slab
     length: 10

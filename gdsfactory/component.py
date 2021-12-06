@@ -1420,14 +1420,14 @@ def clean_key(key):
 
 
 def _clean_value(value: Any) -> Any:
-    """Returns a clean value that is JSON serializable"""
+    """Returns a is JSON serializable"""
     if isinstance(value, CrossSection):
         value = value.info
         # value = clean_dict(value.to_dict())
     if isinstance(value, float) and int(value) == value:
         value = int(value)
     elif type(value) in [int, float, str, bool]:
-        value = value
+        pass
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.ndarray):
@@ -1438,11 +1438,15 @@ def _clean_value(value: Any) -> Any:
         value = [_clean_value(value.first)] + [
             _clean_value(func) for func in value.funcs
         ]
+    # elif (
+    #     callable(value) and hasattr(value, "__name__") and hasattr(value, "__module__")
+    # ):
+    #     value = dict(function=value.__name__, module=value.__module__)
     elif callable(value) and hasattr(value, "__name__"):
-        value = dict(function=value.__name__, module=value.__module__)
+        value = dict(function=value.__name__)
     elif callable(value) and isinstance(value, functools.partial):
         v = value.keywords.copy()
-        v.update(function=value.func.__name__, module=value.func.__module__)
+        v.update(function=value.func.__name__)
         value = _clean_value(v)
     elif isinstance(value, dict):
         clean_dict(value)

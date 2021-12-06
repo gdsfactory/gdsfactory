@@ -3,28 +3,23 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
     default:
       bend90:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       columns: 6
       rows: 6
       spacing: 5
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_length: 5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       columns: 6
       rows: 6
       spacing: 5
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_length: 5
     function_name: cutback_bend90
     info_version: 1
@@ -35,28 +30,23 @@ info:
   changed:
     bend90:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
   default:
     bend90:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     columns: 6
     rows: 6
     spacing: 5
     straight:
       function: straight
-      module: gdsfactory.components.straight
     straight_length: 5
   full:
     bend90:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
     columns: 6
     rows: 6
     spacing: 5
     straight:
       function: straight
-      module: gdsfactory.components.straight
     straight_length: 5
   function_name: cutback_bend90
   info_version: 1

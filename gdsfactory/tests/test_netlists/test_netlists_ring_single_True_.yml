@@ -12,7 +12,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -25,7 +24,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -37,16 +35,12 @@ instances:
     settings:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       coupler90:
         function: coupler90
-        module: gdsfactory.components.coupler90
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 4
       radius: 10
@@ -55,7 +49,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 4
       npoints: 2
       with_cladding_box: true
@@ -64,7 +57,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.6
       npoints: 2
       with_cladding_box: true
@@ -73,7 +65,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.6
       npoints: 2
       with_cladding_box: true

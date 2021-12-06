@@ -385,12 +385,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     default:
       layer_port: null
       layers:
@@ -409,12 +407,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -433,12 +429,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -467,12 +461,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     default:
       layer_port: null
       layers:
@@ -491,12 +483,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -515,12 +505,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -549,12 +537,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     default:
       layer_port: null
       layers:
@@ -573,12 +559,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -597,12 +581,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -633,19 +615,16 @@ cells:
           - 0
         - - 49
           - 0
-        module: gdsfactory.components.contact
         vias:
         - enclosure: 2
           function: via
           layer:
           - 44
           - 0
-          module: gdsfactory.components.via
         - function: via
           layer:
           - 43
           - 0
-          module: gdsfactory.components.via
       pad_size:
       - 150
       - 150
@@ -674,19 +653,16 @@ cells:
           - 0
         - - 49
           - 0
-        module: gdsfactory.components.contact
         vias:
         - enclosure: 2
           function: via
           layer:
           - 44
           - 0
-          module: gdsfactory.components.via
         - function: via
           layer:
           - 43
           - 0
-          module: gdsfactory.components.via
       pad_size:
       - 150
       - 150
@@ -721,19 +697,16 @@ info:
         - 0
       - - 49
         - 0
-      module: gdsfactory.components.contact
       vias:
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     pad_size:
     - 150
     - 150
@@ -762,19 +735,16 @@ info:
         - 0
       - - 49
         - 0
-      module: gdsfactory.components.contact
       vias:
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     pad_size:
     - 150
     - 150

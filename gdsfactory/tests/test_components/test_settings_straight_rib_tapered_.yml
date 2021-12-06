@@ -8,14 +8,11 @@ cells:
           layers_cladding:
           - - 3
             - 0
-          module: gdsfactory.cross_section
           sections:
           - slab
         function: straight
-        module: gdsfactory.components.straight
       extension_factory:
         function: taper_strip_to_ridge
-        module: gdsfactory.components.taper
       port1: o2
       port2: o1
     child:
@@ -26,13 +23,11 @@ cells:
           layers_cladding:
           - - 3
             - 0
-          module: gdsfactory.cross_section
           sections:
           - slab
       default:
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         length: 10
         npoints: 2
         with_cladding_box: true
@@ -43,7 +38,6 @@ cells:
           layers_cladding:
           - - 3
             - 0
-          module: gdsfactory.cross_section
           sections:
           - slab
         length: 10
@@ -59,10 +53,8 @@ cells:
       centered: false
       component:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       extension_factory: null
       length: 5
       port1: null
@@ -78,17 +70,13 @@ cells:
           layers_cladding:
           - - 3
             - 0
-          module: gdsfactory.cross_section
           sections:
           - slab
         function: straight
-        module: gdsfactory.components.straight
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       extension_factory:
         function: taper_strip_to_ridge
-        module: gdsfactory.components.taper
       length: 5
       port1: o2
       port2: o1
@@ -107,14 +95,11 @@ info:
         layers_cladding:
         - - 3
           - 0
-        module: gdsfactory.cross_section
         sections:
         - slab
       function: straight
-      module: gdsfactory.components.straight
     extension_factory:
       function: taper_strip_to_ridge
-      module: gdsfactory.components.taper
     port1: o2
     port2: o1
   child:
@@ -125,13 +110,11 @@ info:
         layers_cladding:
         - - 3
           - 0
-        module: gdsfactory.cross_section
         sections:
         - slab
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       npoints: 2
       with_cladding_box: true
@@ -142,7 +125,6 @@ info:
         layers_cladding:
         - - 3
           - 0
-        module: gdsfactory.cross_section
         sections:
         - slab
       length: 10
@@ -158,10 +140,8 @@ info:
     centered: false
     component:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     extension_factory: null
     length: 5
     port1: null
@@ -177,17 +157,13 @@ info:
         layers_cladding:
         - - 3
           - 0
-        module: gdsfactory.cross_section
         sections:
         - slab
       function: straight
-      module: gdsfactory.components.straight
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     extension_factory:
       function: taper_strip_to_ridge
-      module: gdsfactory.components.taper
     length: 5
     port1: o2
     port2: o1

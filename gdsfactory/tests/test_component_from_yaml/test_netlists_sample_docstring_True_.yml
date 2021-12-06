@@ -12,7 +12,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -24,7 +23,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -35,13 +33,11 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 11
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 5
       width_taper: 1
@@ -51,13 +47,11 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 22
       length_taper: 10
       taper:
         function: taper
-        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 6
       width_taper: 1
@@ -67,7 +61,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 19.99
       npoints: 2
       with_cladding_box: true
@@ -76,7 +69,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.01
       npoints: 2
       with_cladding_box: true
@@ -85,7 +77,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 18.75
       npoints: 2
       with_cladding_box: true

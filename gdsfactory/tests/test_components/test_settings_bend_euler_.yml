@@ -5,7 +5,6 @@ info:
     angle: 90
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     direction: ccw
     npoints: 720
     p: 0.5
@@ -16,7 +15,6 @@ info:
     angle: 90
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     direction: ccw
     npoints: 720
     p: 0.5

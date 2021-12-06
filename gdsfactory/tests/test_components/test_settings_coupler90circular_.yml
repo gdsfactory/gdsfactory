@@ -3,23 +3,18 @@ cells:
     changed:
       bend:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       radius: 10
     full:
       bend:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       radius: 10
     function_name: coupler90
@@ -30,23 +25,18 @@ info:
   changed:
     bend:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
   default:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     gap: 0.2
     radius: 10
   full:
     bend:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     gap: 0.2
     radius: 10
   function_name: coupler90

@@ -10,13 +10,10 @@ cells:
       default:
         coupler_straight:
           function: coupler_straight
-          module: gdsfactory.components.coupler_straight
         coupler_symmetric:
           function: coupler_symmetric
-          module: gdsfactory.components.coupler_symmetric
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         dx: 10
         dy: 5
         gap: 0.236
@@ -24,13 +21,10 @@ cells:
       full:
         coupler_straight:
           function: coupler_straight
-          module: gdsfactory.components.coupler_straight
         coupler_symmetric:
           function: coupler_symmetric
-          module: gdsfactory.components.coupler_symmetric
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         dx: 10
         dy: 5
         gap: 0.2
@@ -44,19 +38,15 @@ cells:
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       component_name: null
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gc_port_labels: null
       gc_port_name: o1
       get_input_labels_function:
         function: get_input_labels
-        module: gdsfactory.routing.get_input_labels
       grating_coupler:
         function: grating_coupler_elliptical_trenches
-        module: gdsfactory.components.grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
       layer_label:
@@ -64,28 +54,22 @@ cells:
       - 0
       select_ports:
         function: select_ports
-        module: gdsfactory.port
         port_type: optical
       straight:
         function: straight
-        module: gdsfactory.components.straight
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       component: coupler_70441075
       component_name: null
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gc_port_labels: null
       gc_port_name: o1
       get_input_labels_function:
         function: get_input_labels
-        module: gdsfactory.routing.get_input_labels
       grating_coupler:
         function: grating_coupler_elliptical_trenches
-        module: gdsfactory.components.grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
       layer_label:
@@ -94,11 +78,9 @@ cells:
       optical_routing_type: 1
       select_ports:
         function: select_ports
-        module: gdsfactory.port
         port_type: optical
       straight:
         function: straight
-        module: gdsfactory.components.straight
     function_name: add_fiber_array
     info_version: 1
     module: gdsfactory.routing.add_fiber_array
@@ -132,13 +114,10 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -146,13 +125,10 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.2
@@ -233,13 +209,10 @@ info:
     default:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -247,13 +220,10 @@ info:
     full:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.2
@@ -267,19 +237,15 @@ info:
   default:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     component_name: null
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
-      module: gdsfactory.routing.get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -287,28 +253,22 @@ info:
     - 0
     select_ports:
       function: select_ports
-      module: gdsfactory.port
       port_type: optical
     straight:
       function: straight
-      module: gdsfactory.components.straight
   full:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     component: coupler_70441075
     component_name: null
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
-      module: gdsfactory.routing.get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      module: gdsfactory.components.grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -317,11 +277,9 @@ info:
     optical_routing_type: 1
     select_ports:
       function: select_ports
-      module: gdsfactory.port
       port_type: optical
     straight:
       function: straight
-      module: gdsfactory.components.straight
   function_name: add_fiber_array
   info_version: 1
   module: gdsfactory.routing.add_fiber_array

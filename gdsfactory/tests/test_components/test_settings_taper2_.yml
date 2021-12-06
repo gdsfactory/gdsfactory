@@ -5,7 +5,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -14,7 +13,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -33,7 +31,6 @@ info:
   default:
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: 10
     port: null
     width1: 0.5
@@ -42,7 +39,6 @@ info:
   full:
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: 10
     port: null
     width1: 0.5

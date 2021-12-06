@@ -5,7 +5,6 @@ cells:
       columns: 6
       component:
         function: straight
-        module: gdsfactory.components.straight
       rows: 1
       spacing:
       - 150
@@ -14,7 +13,6 @@ cells:
       columns: 6
       component:
         function: straight
-        module: gdsfactory.components.straight
       rows: 1
       spacing:
       - 150
@@ -29,7 +27,6 @@ info:
     columns: 6
     component:
       function: straight
-      module: gdsfactory.components.straight
     rows: 1
     spacing:
     - 150
@@ -38,7 +35,6 @@ info:
     columns: 6
     component:
       function: straight
-      module: gdsfactory.components.straight
     rows: 1
     spacing:
     - 150

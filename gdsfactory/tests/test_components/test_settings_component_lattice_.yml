@@ -130,7 +130,6 @@ cells:
     default:
       crossing45:
         function: crossing45
-        module: gdsfactory.components.crossing_waveguide
       direction: top
     full:
       crossing45: crossing45_f9b93bcb
@@ -222,13 +221,10 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -236,13 +232,10 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -258,11 +251,9 @@ cells:
     default:
       arm:
         function: crossing_arm
-        module: gdsfactory.components.crossing_waveguide
     full:
       arm:
         function: crossing_arm
-        module: gdsfactory.components.crossing_waveguide
     function_name: crossing
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
@@ -276,11 +267,9 @@ cells:
       default:
         arm:
           function: crossing_arm
-          module: gdsfactory.components.crossing_waveguide
       full:
         arm:
           function: crossing_arm
-          module: gdsfactory.components.crossing_waveguide
       function_name: crossing
       info_version: 1
       module: gdsfactory.components.crossing_waveguide
@@ -289,7 +278,6 @@ cells:
       alpha: 0.08
       crossing:
         function: crossing
-        module: gdsfactory.components.crossing_waveguide
       dx: null
       npoints: 101
       port_spacing: 40
@@ -297,7 +285,6 @@ cells:
       alpha: 0.08
       crossing:
         function: crossing
-        module: gdsfactory.components.crossing_waveguide
       dx: null
       npoints: 101
       port_spacing: 40
@@ -315,13 +302,10 @@ cells:
       default:
         coupler_straight:
           function: coupler_straight
-          module: gdsfactory.components.coupler_straight
         coupler_symmetric:
           function: coupler_symmetric
-          module: gdsfactory.components.coupler_symmetric
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         dx: 10
         dy: 5
         gap: 0.236
@@ -329,13 +313,10 @@ cells:
       full:
         coupler_straight:
           function: coupler_straight
-          module: gdsfactory.components.coupler_straight
         coupler_symmetric:
           function: coupler_symmetric
-          module: gdsfactory.components.coupler_symmetric
         cross_section:
           function: cross_section
-          module: gdsfactory.cross_section
         dx: 10
         dy: 5
         gap: 0.236
@@ -352,7 +333,6 @@ cells:
       port_spacing: 20
       select_ports:
         function: select_ports
-        module: gdsfactory.port
         port_type: optical
     full:
       bend_length: null
@@ -361,7 +341,6 @@ cells:
       port_spacing: 40
       select_ports:
         function: select_ports
-        module: gdsfactory.port
         port_type: optical
     function_name: fanout2x2
     info_version: 1

@@ -11,13 +11,11 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
   bend_euler_1da190e0_120p135_95p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
   mmi_long:
     component: mmi1x2
     settings:
@@ -33,21 +31,18 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.01
   straight_c8d42def_125p01_50p312:
     component: straight
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 79.375
   straight_c96c7cf4_63p755_0p625:
     component: straight
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 102.51
 name: Unnamed_a491ff8b
 placements:

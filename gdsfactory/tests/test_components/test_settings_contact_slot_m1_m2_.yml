@@ -68,7 +68,6 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
     default:
       enclosure: 1
       layer_offsets:
@@ -89,7 +88,6 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       ysize: 0.5
       yspacing: 2
     full:
@@ -112,7 +110,6 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       ysize: 0.5
       yspacing: 2
     function_name: contact_slot
@@ -135,7 +132,6 @@ info:
       layer:
       - 44
       - 0
-      module: gdsfactory.components.via
   default:
     enclosure: 1
     layer_offsets:
@@ -156,7 +152,6 @@ info:
       layer:
       - 44
       - 0
-      module: gdsfactory.components.via
     ysize: 0.5
     yspacing: 2
   full:
@@ -179,7 +174,6 @@ info:
       layer:
       - 44
       - 0
-      module: gdsfactory.components.via
     ysize: 0.5
     yspacing: 2
   function_name: contact_slot

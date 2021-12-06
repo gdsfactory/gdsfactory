@@ -85,7 +85,6 @@ cells:
         layer_slab:
         - 2
         - 0
-        module: gdsfactory.components.taper
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11
@@ -126,7 +125,6 @@ cells:
         layer_slab:
         - 2
         - 0
-        module: gdsfactory.components.taper
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11
@@ -283,7 +281,6 @@ info:
       layer_slab:
       - 2
       - 0
-      module: gdsfactory.components.taper
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11
@@ -324,7 +321,6 @@ info:
       layer_slab:
       - 2
       - 0
-      module: gdsfactory.components.taper
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11

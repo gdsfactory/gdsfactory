@@ -92,13 +92,11 @@ cells:
         spacing: 4
         straigth:
           function: straight
-          module: gdsfactory.components.straight
       full:
         n: 4
         spacing: 4
         straigth:
           function: straight
-          module: gdsfactory.components.straight
       function_name: straight_array
       info_version: 1
       module: gdsfactory.components.straight_array
@@ -106,11 +104,9 @@ cells:
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       fanout_length: 0
       grating_coupler_function:
         function: grating_coupler_elliptical
-        module: gdsfactory.components.grating_coupler_elliptical
       layer_label:
       - 66
       - 0
@@ -120,11 +116,9 @@ cells:
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       fanout_length: 0
       grating_coupler_function:
         function: grating_coupler_elliptical
-        module: gdsfactory.components.grating_coupler_elliptical
       layer_label:
       - 66
       - 0
@@ -146,13 +140,11 @@ info:
       spacing: 4
       straigth:
         function: straight
-        module: gdsfactory.components.straight
     full:
       n: 4
       spacing: 4
       straigth:
         function: straight
-        module: gdsfactory.components.straight
     function_name: straight_array
     info_version: 1
     module: gdsfactory.components.straight_array
@@ -160,11 +152,9 @@ info:
   default:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     fanout_length: 0
     grating_coupler_function:
       function: grating_coupler_elliptical
-      module: gdsfactory.components.grating_coupler_elliptical
     layer_label:
     - 66
     - 0
@@ -174,11 +164,9 @@ info:
   full:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     fanout_length: 0
     grating_coupler_function:
       function: grating_coupler_elliptical
-      module: gdsfactory.components.grating_coupler_elliptical
     layer_label:
     - 66
     - 0

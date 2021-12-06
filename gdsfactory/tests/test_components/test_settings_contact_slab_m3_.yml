@@ -127,18 +127,15 @@ cells:
         layer:
         - 40
         - 0
-        module: gdsfactory.components.via
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     default:
       layer_port: null
       layers:
@@ -157,12 +154,10 @@ cells:
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -182,18 +177,15 @@ cells:
         layer:
         - 40
         - 0
-        module: gdsfactory.components.via
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -220,18 +212,15 @@ info:
       layer:
       - 40
       - 0
-      module: gdsfactory.components.via
     - enclosure: 2
       function: via
       layer:
       - 44
       - 0
-      module: gdsfactory.components.via
     - function: via
       layer:
       - 43
       - 0
-      module: gdsfactory.components.via
   default:
     layer_port: null
     layers:
@@ -250,12 +239,10 @@ info:
       layer:
       - 44
       - 0
-      module: gdsfactory.components.via
     - function: via
       layer:
       - 43
       - 0
-      module: gdsfactory.components.via
   full:
     layer_port: null
     layers:
@@ -275,18 +262,15 @@ info:
       layer:
       - 40
       - 0
-      module: gdsfactory.components.via
     - enclosure: 2
       function: via
       layer:
       - 44
       - 0
-      module: gdsfactory.components.via
     - function: via
       layer:
       - 43
       - 0
-      module: gdsfactory.components.via
   function_name: contact
   info_version: 1
   layer:

@@ -23,7 +23,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -37,7 +36,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -51,7 +49,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -65,7 +62,6 @@ instances:
       angle: 90
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -78,13 +74,10 @@ instances:
     settings:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 2
       gap: 0.3
@@ -94,13 +87,10 @@ instances:
     settings:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 2
       gap: 0.2
@@ -110,7 +100,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 1
       npoints: 2
       width: 0.55
@@ -120,7 +109,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 4
       npoints: 2
       width: 0.55
@@ -130,7 +118,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 1
       npoints: 2
       width: 0.45
@@ -140,7 +127,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 3
       npoints: 2
       width: 0.55
@@ -150,7 +136,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 3
       npoints: 2
       width: 0.55
@@ -160,7 +145,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.5
@@ -171,7 +155,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.5
@@ -182,7 +165,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.45
@@ -193,7 +175,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.55
@@ -204,7 +185,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.55
@@ -215,7 +195,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.45

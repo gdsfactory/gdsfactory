@@ -9,16 +9,13 @@ info:
       layers_cladding:
       - - 36
         - 0
-      module: gdsfactory.cross_section
       width: 1
     decorator:
       function: add_pins
-      module: gdsfactory.samples.pdk.fab_c
   default:
     angle: 90
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     direction: ccw
     npoints: 720
     p: 0.5
@@ -35,11 +32,9 @@ info:
       layers_cladding:
       - - 36
         - 0
-      module: gdsfactory.cross_section
       width: 1
     decorator:
       function: add_pins
-      module: gdsfactory.samples.pdk.fab_c
     direction: ccw
     npoints: 720
     p: 0.5

@@ -7,15 +7,12 @@ info:
       length_x: 320
       splitter:
         function: mmi2x2
-        module: gdsfactory.components.mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -23,10 +20,8 @@ info:
       length_y: 0.8
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -34,7 +29,6 @@ info:
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -42,14 +36,11 @@ info:
       length_y: 0.8
       splitter:
         function: mmi2x2
-        module: gdsfactory.components.mmi2x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
-        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -61,17 +52,14 @@ info:
     angle: 180
     bend:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
     component:
       function: straight_heater_metal_undercut
-      module: gdsfactory.components.straight_heater_metal
       with_undercut: false
     cross_section:
       function: cross_section
       layer:
       - 49
       - 0
-      module: gdsfactory.cross_section
       port_names:
       - e1
       - e2
@@ -88,14 +76,12 @@ info:
     angle: 180
     bend:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
     component: mzi_ac6d448d
     cross_section:
       function: cross_section
       layer:
       - 49
       - 0
-      module: gdsfactory.cross_section
       port_names:
       - e1
       - e2
