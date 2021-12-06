@@ -637,7 +637,8 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
-        self._cached = False
+        self.cached = False
+        self.get_child_name = False
 
     @classmethod
     def __get_validators__(cls):
@@ -1020,6 +1021,7 @@ class Component(Device):
         so hierarchical components propagate child cells info.
         """
         self.info.child = component.info
+        self.get_child_name = True
 
     @property
     def size_info(self) -> SizeInfo:
@@ -1038,7 +1040,7 @@ class Component(Device):
             cell.
 
         """
-        if self._cached:
+        if self.cached:
             raise MutabilityError(
                 f"Error Adding element to cached Component {self.name!r}. "
                 "You need to make a copy of this cached Component or create a new one."

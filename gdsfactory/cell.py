@@ -53,6 +53,14 @@ def clean_doc(name: str) -> str:
     return name
 
 
+def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
+    """Returns a short name."""
+    if len(name) > max_name_length:
+        name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
+        name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
+    return name
+
+
 def cell_without_validator(func):
     @functools.wraps(func)
     def _cell(*args, **kwargs):
@@ -117,10 +125,7 @@ def cell_without_validator(func):
         )
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
-
-        if len(name) > max_name_length:
-            name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-            name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
+        name = get_name_short(name, max_name_length=max_name_length)
 
         if (
             "args" not in sig.parameters
@@ -158,8 +163,20 @@ def cell_without_validator(func):
                     "make sure that functions with @cell decorator return a Component",
                 )
 
-            component.name = name
-            component.info.name = name
+            if (
+                component.get_child_name
+                and hasattr(component, "info_child")
+                and hasattr(component.info_child, "name")
+            ):
+                component_name = f"{component.info_child.name}_{name}"
+                component_name = get_name_short(
+                    component_name, max_name_length=max_name_length
+                )
+            else:
+                component_name = name
+
+            component.name = component_name
+            component.info.name = component_name
             component.info.module = func.__module__
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
@@ -182,7 +199,7 @@ def cell_without_validator(func):
             component.info.full = full
 
             component.info.update(**info)
-            component._cached = True
+            component.cached = True
             CACHE[name] = component
             return component
 

@@ -128,7 +128,7 @@ info:
   function_name: bend_port
   info_version: 1
   module: gdsfactory.components.bend_port
-  name: bend_port
+  name: straight_heater_metal_u_d78c69b7
 ports:
   e1:
     layer:

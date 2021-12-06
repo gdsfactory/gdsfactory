@@ -246,54 +246,7 @@ cells:
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
     name: coupler
-  crossing:
-    changed: {}
-    default:
-      arm:
-        function: crossing_arm
-    full:
-      arm:
-        function: crossing_arm
-    function_name: crossing
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing
-  crossing45_f9b93bcb:
-    bezier_length: 42.085
-    changed:
-      port_spacing: 40
-    crossing:
-      changed: {}
-      default:
-        arm:
-          function: crossing_arm
-      full:
-        arm:
-          function: crossing_arm
-      function_name: crossing
-      info_version: 1
-      module: gdsfactory.components.crossing_waveguide
-      name: crossing
-    default:
-      alpha: 0.08
-      crossing:
-        function: crossing
-      dx: null
-      npoints: 101
-      port_spacing: 40
-    full:
-      alpha: 0.08
-      crossing:
-        function: crossing
-      dx: null
-      npoints: 101
-      port_spacing: 40
-    function_name: crossing45
-    info_version: 1
-    min_bend_radius: 44.312
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing45_f9b93bcb
-  fanout2x2_345db3f5:
+  coupler_fanout2x2_345db3f5:
     changed:
       component: coupler
       port_spacing: 40
@@ -345,7 +298,54 @@ cells:
     function_name: fanout2x2
     info_version: 1
     module: gdsfactory.routing.fanout2x2
-    name: fanout2x2_345db3f5
+    name: coupler_fanout2x2_345db3f5
+  crossing:
+    changed: {}
+    default:
+      arm:
+        function: crossing_arm
+    full:
+      arm:
+        function: crossing_arm
+    function_name: crossing
+    info_version: 1
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing
+  crossing45_f9b93bcb:
+    bezier_length: 42.085
+    changed:
+      port_spacing: 40
+    crossing:
+      changed: {}
+      default:
+        arm:
+          function: crossing_arm
+      full:
+        arm:
+          function: crossing_arm
+      function_name: crossing
+      info_version: 1
+      module: gdsfactory.components.crossing_waveguide
+      name: crossing
+    default:
+      alpha: 0.08
+      crossing:
+        function: crossing
+      dx: null
+      npoints: 101
+      port_spacing: 40
+    full:
+      alpha: 0.08
+      crossing:
+        function: crossing
+      dx: null
+      npoints: 101
+      port_spacing: 40
+    function_name: crossing45
+    info_version: 1
+    min_bend_radius: 44.312
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing45_f9b93bcb
 info:
   changed: {}
   default:
