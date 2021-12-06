@@ -1,8 +1,32 @@
 cells:
   wire_corner:
     changed: {}
-    default: {}
-    full: {}
+    default:
+      cross_section:
+        function: cross_section
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     function_name: wire_corner
     info_version: 1
     length: 10
@@ -10,8 +34,32 @@ cells:
     name: wire_corner
 info:
   changed: {}
-  default: {}
-  full: {}
+  default:
+    cross_section:
+      function: cross_section
+      layer:
+      - 49
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
+  full:
+    cross_section:
+      function: cross_section
+      layer:
+      - 49
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
   function_name: wire_corner
   info_version: 1
   length: 10

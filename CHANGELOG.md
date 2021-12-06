@@ -20,6 +20,7 @@ Maybe:
 ## 3.7.4
 
 - add pad_gsg_short and pad_gsg_open to components
+- export function settings as dicts, with function name
 
 ## 3.7.3
 

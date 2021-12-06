@@ -10,9 +10,12 @@ info:
       - - 36
         - 0
       width: 1
-    decorator: add_pins
+    decorator:
+      function: add_pins
   default:
     angle: 90
+    cross_section:
+      function: cross_section
     direction: ccw
     npoints: 720
     p: 0.5
@@ -30,7 +33,8 @@ info:
       - - 36
         - 0
       width: 1
-    decorator: add_pins
+    decorator:
+      function: add_pins
     direction: ccw
     npoints: 720
     p: 0.5

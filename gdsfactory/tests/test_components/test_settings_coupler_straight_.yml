@@ -4,9 +4,13 @@ cells:
     default:
       gap: 0.27
       length: 10
+      straight:
+        function: straight
     full:
       gap: 0.27
       length: 10
+      straight:
+        function: straight
     function_name: coupler_straight
     info_version: 1
     module: gdsfactory.components.coupler_straight
@@ -16,9 +20,13 @@ info:
   default:
     gap: 0.27
     length: 10
+    straight:
+      function: straight
   full:
     gap: 0.27
     length: 10
+    straight:
+      function: straight
   function_name: coupler_straight
   info_version: 1
   module: gdsfactory.components.coupler_straight

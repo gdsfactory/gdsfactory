@@ -1,7 +1,8 @@
 cells:
   coupler_ring_ca9f110c:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       cross_section:
         function: cross_section
       gap: 0.2
@@ -9,11 +10,22 @@ cells:
       radius: 5
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
@@ -25,7 +37,8 @@ cells:
     name: coupler_ring_ca9f110c
   coupler_ring_e9939844:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       cross_section:
         function: cross_section
       gap: 0.2
@@ -33,11 +46,22 @@ cells:
       radius: 10
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
@@ -52,15 +76,31 @@ cells:
       length_x: 20
       radius: 10
     default:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       length_y: 0.6
       radius: 10
+      straight:
+        function: straight
     full:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 20
       length_y: 0.6
       radius: 10
+      straight:
+        function: straight
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
@@ -70,15 +110,31 @@ cells:
       length_x: 10
       radius: 5
     default:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       length_y: 0.6
       radius: 10
+      straight:
+        function: straight
     full:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 10
       length_y: 0.6
       radius: 5
+      straight:
+        function: straight
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
@@ -91,14 +147,22 @@ cells:
         radius: 5
       - length_x: 20
         radius: 10
+      ring_function:
+        function: ring_single
       spacing: 5
+      straight_function:
+        function: straight
     full:
       list_of_dicts:
       - length_x: 10
         radius: 5
       - length_x: 20
         radius: 10
+      ring_function:
+        function: ring_single
       spacing: 5
+      straight_function:
+        function: straight
     function_name: ring_single_array
     info_version: 1
     module: gdsfactory.components.ring_single_array
@@ -111,14 +175,22 @@ info:
       radius: 5
     - length_x: 20
       radius: 10
+    ring_function:
+      function: ring_single
     spacing: 5
+    straight_function:
+      function: straight
   full:
     list_of_dicts:
     - length_x: 10
       radius: 5
     - length_x: 20
       radius: 10
+    ring_function:
+      function: ring_single
     spacing: 5
+    straight_function:
+      function: straight
   function_name: ring_single_array
   info_version: 1
   module: gdsfactory.components.ring_single_array

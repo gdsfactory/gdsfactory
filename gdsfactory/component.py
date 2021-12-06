@@ -1434,7 +1434,7 @@ def _clean_value(value: Any) -> Any:
     elif isinstance(value, np.float64):
         value = float(value)
     elif callable(value) and hasattr(value, "__name__"):
-        value = value.__name__
+        value = dict(function=value.__name__)
     elif callable(value) and isinstance(value, functools.partial):
         v = value.keywords.copy()
         v.update(function=value.func.__name__)

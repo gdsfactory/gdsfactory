@@ -2,10 +2,20 @@ cells:
   delay_snake2:
     changed: {}
     default:
+      bend180:
+        angle: 180
+        function: bend_euler
+      cross_section:
+        function: cross_section
       length: 1600
       length0: 0
       n: 2
     full:
+      bend180:
+        angle: 180
+        function: bend_euler
+      cross_section:
+        function: cross_section
       length: 1600
       length0: 0
       n: 2
@@ -16,10 +26,20 @@ cells:
 info:
   changed: {}
   default:
+    bend180:
+      angle: 180
+      function: bend_euler
+    cross_section:
+      function: cross_section
     length: 1600
     length0: 0
     n: 2
   full:
+    bend180:
+      angle: 180
+      function: bend_euler
+    cross_section:
+      function: cross_section
     length: 1600
     length0: 0
     n: 2

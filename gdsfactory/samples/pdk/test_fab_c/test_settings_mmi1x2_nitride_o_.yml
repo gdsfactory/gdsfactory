@@ -10,12 +10,17 @@ cells:
         - - 36
           - 0
         width: 0.9
-      decorator: add_pins
+      decorator:
+        function: add_pins
       width: 0.9
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -30,10 +35,13 @@ cells:
         - - 36
           - 0
         width: 0.9
-      decorator: add_pins
+      decorator:
+        function: add_pins
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.9
       width_mmi: 2.5
       width_taper: 1
@@ -53,12 +61,17 @@ info:
       - - 36
         - 0
       width: 0.9
-    decorator: add_pins
+    decorator:
+      function: add_pins
     width: 0.9
   default:
+    cross_section:
+      function: cross_section
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
+    taper:
+      function: taper
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
@@ -73,10 +86,13 @@ info:
       - - 36
         - 0
       width: 0.9
-    decorator: add_pins
+    decorator:
+      function: add_pins
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
+    taper:
+      function: taper
     width: 0.9
     width_mmi: 2.5
     width_taper: 1

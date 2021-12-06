@@ -83,8 +83,16 @@ cells:
   grating_coupler_loss:
     changed: {}
     default:
+      grating_coupler_factory:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       pitch: 127
     full:
+      grating_coupler_factory:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       pitch: 127
     function_name: grating_coupler_loss
     info_version: 1
@@ -98,6 +106,10 @@ cells:
         taper_angle: 35
     default:
       R: 10
+      grating_coupler_factory:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       input_port_indexes:
       - 0
       - 2
@@ -124,12 +136,20 @@ cells:
         taper_angle: 35
     default:
       R: 10
+      cross_section:
+        function: cross_section
+      grating_coupler_factory:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       input_port_indexes:
       - 0
       - 1
       pitch: 127
     full:
       R: 10
+      cross_section:
+        function: cross_section
       grating_coupler_factory:
         function: grating_coupler_elliptical_trenches
         polarization: te
@@ -150,6 +170,10 @@ cells:
         taper_angle: 35
     default:
       R: 10
+      grating_coupler_factory:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
       input_port_indexes:
       - 0
       - 1
@@ -171,8 +195,16 @@ cells:
 info:
   changed: {}
   default:
+    grating_coupler_factory:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
     pitch: 127
   full:
+    grating_coupler_factory:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
     pitch: 127
   function_name: grating_coupler_loss
   info_version: 1

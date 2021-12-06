@@ -3,11 +3,15 @@ info:
   changed: {}
   default:
     angle: 90
+    cross_section:
+      function: cross_section
     npoints: 720
     with_cladding_box: true
   dy: 10.0
   full:
     angle: 90
+    cross_section:
+      function: cross_section
     npoints: 720
     with_cladding_box: true
   function_name: bend_circular

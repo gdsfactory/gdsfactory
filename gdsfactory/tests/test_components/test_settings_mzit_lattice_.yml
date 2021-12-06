@@ -5,11 +5,23 @@ cells:
       gap: 0.3
       length: 20
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 2
       gap: 0.3
@@ -26,11 +38,23 @@ cells:
       gap: 0.2
       length: 10
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 2
       gap: 0.2
@@ -50,26 +74,46 @@ cells:
       delta_length: 10
     default:
       Ls: 1
+      bend90:
+        function: bend_euler
       bend_radius: 10
+      coupler1:
+        function: coupler
+      coupler2:
+        function: coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 5
       coupler_length2: 10
       delta_length: 10
       dy: 2
+      straight:
+        function: straight
+      taper:
+        function: taper
       taper_length: 5
       w0: 0.5
       w1: 0.45
       w2: 0.55
     full:
       Ls: 1
+      bend90:
+        function: bend_euler
       bend_radius: 10
+      coupler1:
+        function: coupler
+      coupler2:
+        function: coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 10
       coupler_length2: 20
       delta_length: 10
       dy: 2
+      straight:
+        function: straight
+      taper:
+        function: taper
       taper_length: 5
       w0: 0.5
       w1: 0.45
@@ -89,6 +133,8 @@ cells:
       - 20
       delta_lengths:
       - 10
+      mzi:
+        function: mzit
     full:
       coupler_gaps:
       - 0.2
@@ -98,6 +144,8 @@ cells:
       - 20
       delta_lengths:
       - 10
+      mzi:
+        function: mzit
     function_name: mzit_lattice
     info_version: 1
     module: gdsfactory.components.mzit_lattice
@@ -108,12 +156,16 @@ cells:
       width1: 0.5
       width2: 0.45
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.5
@@ -132,12 +184,16 @@ cells:
       width1: 0.5
       width2: 0.55
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.5
@@ -156,12 +212,16 @@ cells:
       width1: 0.45
       width2: 0.55
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.45
@@ -180,12 +240,16 @@ cells:
       width1: 0.55
       width2: 0.45
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.55
@@ -204,12 +268,16 @@ cells:
       width1: 0.55
       width2: 0.5
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.55
@@ -228,12 +296,16 @@ cells:
       width1: 0.45
       width2: 0.5
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.45
@@ -257,6 +329,8 @@ info:
     - 20
     delta_lengths:
     - 10
+    mzi:
+      function: mzit
   full:
     coupler_gaps:
     - 0.2
@@ -266,6 +340,8 @@ info:
     - 20
     delta_lengths:
     - 10
+    mzi:
+      function: mzit
   function_name: mzit_lattice
   info_version: 1
   module: gdsfactory.components.mzit_lattice

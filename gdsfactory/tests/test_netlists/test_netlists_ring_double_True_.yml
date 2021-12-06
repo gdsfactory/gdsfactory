@@ -8,6 +8,10 @@ instances:
     component: coupler_ring
     settings:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
@@ -17,6 +21,10 @@ instances:
     component: coupler_ring
     settings:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2

@@ -9,6 +9,8 @@ cells:
       - 150
     default:
       columns: 6
+      component:
+        function: straight
       rows: 1
       spacing:
       - 150
@@ -56,20 +58,34 @@ cells:
   pad_gsg_short:
     changed: {}
     default:
+      contact:
+        function: rectangle
+        layer:
+        - 49
+        - 0
       layer_metal:
       - 49
       - 0
       metal_spacing: 5
+      pad:
+        function: pad
       pad_spacing: 150
       short: true
       size:
       - 22
       - 7
     full:
+      contact:
+        function: rectangle
+        layer:
+        - 49
+        - 0
       layer_metal:
       - 49
       - 0
       metal_spacing: 5
+      pad:
+        function: pad
       pad_spacing: 150
       short: true
       size:
@@ -187,20 +203,34 @@ cells:
 info:
   changed: {}
   default:
+    contact:
+      function: rectangle
+      layer:
+      - 49
+      - 0
     layer_metal:
     - 49
     - 0
     metal_spacing: 5
+    pad:
+      function: pad
     pad_spacing: 150
     short: true
     size:
     - 22
     - 7
   full:
+    contact:
+      function: rectangle
+      layer:
+      - 49
+      - 0
     layer_metal:
     - 49
     - 0
     metal_spacing: 5
+    pad:
+      function: pad
     pad_spacing: 150
     short: true
     size:

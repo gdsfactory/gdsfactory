@@ -71,6 +71,12 @@ cells:
       size:
       - 11
       - 11
+      via:
+        enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
       ysize: 0.5
       yspacing: 2
     full:
@@ -87,6 +93,12 @@ cells:
       size:
       - 11
       - 11
+      via:
+        enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
       ysize: 0.5
       yspacing: 2
     function_name: contact_slot
@@ -112,6 +124,12 @@ info:
     size:
     - 11
     - 11
+    via:
+      enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
     ysize: 0.5
     yspacing: 2
   full:
@@ -128,6 +146,12 @@ info:
     size:
     - 11
     - 11
+    via:
+      enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
     ysize: 0.5
     yspacing: 2
   function_name: contact_slot

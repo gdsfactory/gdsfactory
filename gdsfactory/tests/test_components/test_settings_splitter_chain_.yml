@@ -2,17 +2,25 @@ cells:
   mmi1x2:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -26,17 +34,25 @@ cells:
     child:
       changed: {}
       default:
+        cross_section:
+          function: cross_section
         gap_mmi: 0.25
         length_mmi: 5.5
         length_taper: 10
+        taper:
+          function: taper
         width: 0.5
         width_mmi: 2.5
         width_taper: 1
         with_cladding_box: true
       full:
+        cross_section:
+          function: cross_section
         gap_mmi: 0.25
         length_mmi: 5.5
         length_taper: 10
+        taper:
+          function: taper
         width: 0.5
         width_mmi: 2.5
         width_taper: 1
@@ -46,9 +62,17 @@ cells:
       module: gdsfactory.components.mmi1x2
       name: mmi1x2
     default:
+      bend:
+        function: bend_s
       columns: 3
+      splitter:
+        function: mmi1x2
     full:
+      bend:
+        function: bend_s
       columns: 3
+      splitter:
+        function: mmi1x2
     function_name: splitter_chain
     info_version: 1
     module: gdsfactory.components.splitter_chain
@@ -58,17 +82,25 @@ info:
   child:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -78,9 +110,17 @@ info:
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
   default:
+    bend:
+      function: bend_s
     columns: 3
+    splitter:
+      function: mmi1x2
   full:
+    bend:
+      function: bend_s
     columns: 3
+    splitter:
+      function: mmi1x2
   function_name: splitter_chain
   info_version: 1
   module: gdsfactory.components.splitter_chain

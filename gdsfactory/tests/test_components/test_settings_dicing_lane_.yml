@@ -34,6 +34,12 @@ cells:
       layer_dicing:
       - 100
       - 0
+      marker:
+        function: triangle
+        layer:
+        - 49
+        - 0
+        xtop: 2
       size:
       - 50
       - 300
@@ -41,6 +47,12 @@ cells:
       layer_dicing:
       - 100
       - 0
+      marker:
+        function: triangle
+        layer:
+        - 49
+        - 0
+        xtop: 2
       size:
       - 50
       - 300
@@ -110,6 +122,12 @@ info:
     layer_dicing:
     - 100
     - 0
+    marker:
+      function: triangle
+      layer:
+      - 49
+      - 0
+      xtop: 2
     size:
     - 50
     - 300
@@ -117,6 +135,12 @@ info:
     layer_dicing:
     - 100
     - 0
+    marker:
+      function: triangle
+      layer:
+      - 49
+      - 0
+      xtop: 2
     size:
     - 50
     - 300

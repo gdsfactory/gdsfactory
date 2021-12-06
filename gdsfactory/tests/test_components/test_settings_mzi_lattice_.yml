@@ -4,11 +4,23 @@ cells:
       gap: 0.2
       length: 10
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.2
@@ -24,11 +36,23 @@ cells:
       gap: 0.3
       length: 20
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.3
@@ -41,25 +65,37 @@ cells:
     name: coupler_676c6f34
   mzi_arm_74064cef:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
-      straight_x: straight
-      straight_y: straight
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 0.1
@@ -68,25 +104,37 @@ cells:
     name: mzi_arm_74064cef
   mzi_arm_f85ac2e9:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 0.1
@@ -104,19 +152,28 @@ cells:
         function: coupler
         gap: 0.2
         length: 10
-      straight: straight
+      straight:
+        function: straight
       with_splitter: true
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
+      bend:
+        function: bend_euler
       combiner:
         function: coupler
         gap: 0.3
@@ -129,7 +186,8 @@ cells:
         function: coupler
         gap: 0.2
         length: 10
-      straight: straight
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -149,6 +207,12 @@ cells:
       - 20
       delta_lengths:
       - 10
+      mzi:
+        function: mzi
+      splitter:
+        function: coupler
+      straight:
+        function: straight
     full:
       coupler_gaps:
       - 0.2
@@ -158,6 +222,12 @@ cells:
       - 20
       delta_lengths:
       - 10
+      mzi:
+        function: mzi
+      splitter:
+        function: coupler
+      straight:
+        function: straight
     function_name: mzi_lattice
     info_version: 1
     module: gdsfactory.components.mzi_lattice
@@ -173,6 +243,12 @@ info:
     - 20
     delta_lengths:
     - 10
+    mzi:
+      function: mzi
+    splitter:
+      function: coupler
+    straight:
+      function: straight
   full:
     coupler_gaps:
     - 0.2
@@ -182,6 +258,12 @@ info:
     - 20
     delta_lengths:
     - 10
+    mzi:
+      function: mzi
+    splitter:
+      function: coupler
+    straight:
+      function: straight
   function_name: mzi_lattice
   info_version: 1
   module: gdsfactory.components.mzi_lattice

@@ -58,6 +58,11 @@ cells:
       module: gdsfactory.components.rectangle
       name: rectangle_6df08d23
     default:
+      component:
+        function: rectangle
+        size:
+        - 1300
+        - 2600
       die_name: null
       layer:
       - 49
@@ -68,6 +73,11 @@ cells:
       text_location: SW
       text_size: 100
     full:
+      component:
+        function: rectangle
+        size:
+        - 1300
+        - 2600
       die_name: null
       layer:
       - 49
@@ -138,6 +148,11 @@ info:
     module: gdsfactory.components.rectangle
     name: rectangle_6df08d23
   default:
+    component:
+      function: rectangle
+      size:
+      - 1300
+      - 2600
     die_name: null
     layer:
     - 49
@@ -148,6 +163,11 @@ info:
     text_location: SW
     text_size: 100
   full:
+    component:
+      function: rectangle
+      size:
+      - 1300
+      - 2600
     die_name: null
     layer:
     - 49

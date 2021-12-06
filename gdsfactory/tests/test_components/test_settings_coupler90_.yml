@@ -2,9 +2,17 @@ cells:
   coupler90:
     changed: {}
     default:
+      bend:
+        function: bend_euler
+      cross_section:
+        function: cross_section
       gap: 0.2
       radius: 10
     full:
+      bend:
+        function: bend_euler
+      cross_section:
+        function: cross_section
       gap: 0.2
       radius: 10
     function_name: coupler90
@@ -14,9 +22,17 @@ cells:
 info:
   changed: {}
   default:
+    bend:
+      function: bend_euler
+    cross_section:
+      function: cross_section
     gap: 0.2
     radius: 10
   full:
+    bend:
+      function: bend_euler
+    cross_section:
+      function: cross_section
     gap: 0.2
     radius: 10
   function_name: coupler90

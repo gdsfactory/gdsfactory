@@ -7,12 +7,16 @@ cells:
         l1: 0.159
         l2: 0.159
         n: 10
+        straight:
+          function: straight
         w1: 0.475
         w2: 0.525
       full:
         l1: 0.159
         l2: 0.159
         n: 10
+        straight:
+          function: straight
         w1: 0.475
         w2: 0.525
       function_name: dbr
@@ -20,9 +24,17 @@ cells:
       module: gdsfactory.components.dbr
       name: dbr
     default:
+      component:
+        function: dbr
+      coupler:
+        function: coupler
       gap: 0.2
       length: 0.1
     full:
+      component:
+        function: dbr
+      coupler:
+        function: coupler
       gap: 0.2
       length: 0.1
     function_name: cavity
@@ -34,11 +46,23 @@ cells:
       gap: 0.2
       length: 0.1
     default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.236
       length: 20
     full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.2
@@ -55,12 +79,16 @@ cells:
       l1: 0.159
       l2: 0.159
       n: 10
+      straight:
+        function: straight
       w1: 0.475
       w2: 0.525
     full:
       l1: 0.159
       l2: 0.159
       n: 10
+      straight:
+        function: straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -75,12 +103,16 @@ info:
       l1: 0.159
       l2: 0.159
       n: 10
+      straight:
+        function: straight
       w1: 0.475
       w2: 0.525
     full:
       l1: 0.159
       l2: 0.159
       n: 10
+      straight:
+        function: straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -88,9 +120,17 @@ info:
     module: gdsfactory.components.dbr
     name: dbr
   default:
+    component:
+      function: dbr
+    coupler:
+      function: coupler
     gap: 0.2
     length: 0.1
   full:
+    component:
+      function: dbr
+    coupler:
+      function: coupler
     gap: 0.2
     length: 0.1
   function_name: cavity

@@ -1,16 +1,24 @@
 cells:
   crossing_from_taper:
     changed: {}
-    default: {}
-    full: {}
+    default:
+      taper:
+        function: <lambda>
+    full:
+      taper:
+        function: <lambda>
     function_name: crossing_from_taper
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing_from_taper
 info:
   changed: {}
-  default: {}
-  full: {}
+  default:
+    taper:
+      function: <lambda>
+  full:
+    taper:
+      function: <lambda>
   function_name: crossing_from_taper
   info_version: 1
   module: gdsfactory.components.crossing_waveguide

@@ -6,11 +6,23 @@ cells:
       radius: 5
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
@@ -24,12 +36,16 @@ cells:
       changed:
         width2: 3
       default:
+        cross_section:
+          function: cross_section
         length: 10
         port: null
         width1: 0.5
         width2: null
         with_cladding_box: true
       full:
+        cross_section:
+          function: cross_section
         length: 10
         port: null
         width1: 0.5
@@ -43,17 +59,35 @@ cells:
       width1: 0.5
       width2: 3
     default:
+      bend:
+        function: bend_euler
+      component:
+        function: taper
+        width2: 3
+      coupler:
+        function: coupler_ring
       gap: 0.2
       length_x: 4
       length_y: 0
       radius: 5
+      straight:
+        function: straight
       wg_width: 0.5
       with_component: true
     full:
+      bend:
+        function: bend_euler
+      component:
+        function: taper
+        width2: 3
+      coupler:
+        function: coupler_ring
       gap: 0.2
       length_x: 4
       length_y: 0
       radius: 5
+      straight:
+        function: straight
       wg_width: 0.5
       with_component: true
     function_name: ring_single_dut
@@ -64,12 +98,16 @@ cells:
     changed:
       width2: 3
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
@@ -88,12 +126,16 @@ info:
     changed:
       width2: 3
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
@@ -107,17 +149,35 @@ info:
     width1: 0.5
     width2: 3
   default:
+    bend:
+      function: bend_euler
+    component:
+      function: taper
+      width2: 3
+    coupler:
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
     radius: 5
+    straight:
+      function: straight
     wg_width: 0.5
     with_component: true
   full:
+    bend:
+      function: bend_euler
+    component:
+      function: taper
+      width2: 3
+    coupler:
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
     radius: 5
+    straight:
+      function: straight
     wg_width: 0.5
     with_component: true
   function_name: ring_single_dut

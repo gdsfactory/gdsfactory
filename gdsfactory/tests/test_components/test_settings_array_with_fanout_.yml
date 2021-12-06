@@ -2,20 +2,32 @@ cells:
   array_with_fanout:
     changed: {}
     default:
+      bend:
+        function: bend_euler
       bend_port_name1: null
       bend_port_name2: null
       columns: 3
+      component:
+        function: pad
       component_port_name: e4
+      cross_section:
+        function: cross_section
       end_straight_length: 40
       pitch: 150
       radius: 5
       start_straight_length: 5
       waveguide_pitch: 10
     full:
+      bend:
+        function: bend_euler
       bend_port_name1: null
       bend_port_name2: null
       columns: 3
+      component:
+        function: pad
       component_port_name: e4
+      cross_section:
+        function: cross_section
       end_straight_length: 40
       pitch: 150
       radius: 5
@@ -86,20 +98,32 @@ cells:
 info:
   changed: {}
   default:
+    bend:
+      function: bend_euler
     bend_port_name1: null
     bend_port_name2: null
     columns: 3
+    component:
+      function: pad
     component_port_name: e4
+    cross_section:
+      function: cross_section
     end_straight_length: 40
     pitch: 150
     radius: 5
     start_straight_length: 5
     waveguide_pitch: 10
   full:
+    bend:
+      function: bend_euler
     bend_port_name1: null
     bend_port_name2: null
     columns: 3
+    component:
+      function: pad
     component_port_name: e4
+    cross_section:
+      function: cross_section
     end_straight_length: 40
     pitch: 150
     radius: 5

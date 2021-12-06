@@ -2,10 +2,14 @@ cells:
   straight:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       length: 10
       npoints: 2
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 10
       npoints: 2
       with_cladding_box: true
@@ -18,10 +22,14 @@ cells:
 info:
   changed: {}
   default:
+    cross_section:
+      function: cross_section
     length: 10
     npoints: 2
     with_cladding_box: true
   full:
+    cross_section:
+      function: cross_section
     length: 10
     npoints: 2
     with_cladding_box: true
