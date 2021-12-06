@@ -4,7 +4,6 @@ cells:
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -12,10 +11,8 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -23,7 +20,6 @@ cells:
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -31,10 +27,8 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi1x2
-        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -48,7 +42,6 @@ info:
   default:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     combiner: null
     delta_length: 10
     layer: null
@@ -56,10 +49,8 @@ info:
     length_y: 0.8
     splitter:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
     straight:
       function: straight
-      module: gdsfactory.components.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -67,7 +58,6 @@ info:
   full:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     combiner: null
     delta_length: 10
     layer: null
@@ -75,10 +65,8 @@ info:
     length_y: 0.8
     splitter:
       function: mmi1x2
-      module: gdsfactory.components.mmi1x2
     straight:
       function: straight
-      module: gdsfactory.components.straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
