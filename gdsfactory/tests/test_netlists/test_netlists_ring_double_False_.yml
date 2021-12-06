@@ -10,7 +10,6 @@ instances:
       bend: null
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       radius: 10
@@ -20,7 +19,6 @@ instances:
       bend: null
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       radius: 10
@@ -29,14 +27,12 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.01
   straight_5743d35a_m10p01_10p705:
     component: straight
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.01
 name: ring_double
 placements:

@@ -11,22 +11,18 @@ info:
         - 0
       - - 49
         - 0
-      module: gdsfactory.components.contact
       vias:
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     extension_length: 15
     heater_taper_length: 10
     heater_width: 2.5
@@ -50,22 +46,18 @@ info:
         - 0
       - - 49
         - 0
-      module: gdsfactory.components.contact
       vias:
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     extension_length: 15
     heater_taper_length: 10
     heater_width: 2.5

@@ -5,7 +5,6 @@ info:
     angle: 90
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     npoints: 720
     with_cladding_box: true
   dy: 10.0
@@ -13,7 +12,6 @@ info:
     angle: 90
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     npoints: 720
     with_cladding_box: true
   function_name: bend_circular

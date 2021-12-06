@@ -7,13 +7,10 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -21,13 +18,10 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 2
       gap: 0.3
@@ -46,13 +40,10 @@ cells:
     default:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -60,13 +51,10 @@ cells:
     full:
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
-        module: gdsfactory.components.coupler_symmetric
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 2
       gap: 0.2
@@ -88,14 +76,11 @@ cells:
       Ls: 1
       bend90:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend_radius: 10
       coupler1:
         function: coupler
-        module: gdsfactory.components.coupler
       coupler2:
         function: coupler
-        module: gdsfactory.components.coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 5
@@ -104,10 +89,8 @@ cells:
       dy: 2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       taper:
         function: taper
-        module: gdsfactory.components.taper
       taper_length: 5
       w0: 0.5
       w1: 0.45
@@ -116,14 +99,11 @@ cells:
       Ls: 1
       bend90:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend_radius: 10
       coupler1:
         function: coupler
-        module: gdsfactory.components.coupler
       coupler2:
         function: coupler
-        module: gdsfactory.components.coupler
       coupler_gap1: 0.2
       coupler_gap2: 0.3
       coupler_length1: 10
@@ -132,10 +112,8 @@ cells:
       dy: 2
       straight:
         function: straight
-        module: gdsfactory.components.straight
       taper:
         function: taper
-        module: gdsfactory.components.taper
       taper_length: 5
       w0: 0.5
       w1: 0.45
@@ -157,7 +135,6 @@ cells:
       - 10
       mzi:
         function: mzit
-        module: gdsfactory.components.mzit
     full:
       coupler_gaps:
       - 0.2
@@ -169,7 +146,6 @@ cells:
       - 10
       mzi:
         function: mzit
-        module: gdsfactory.components.mzit
     function_name: mzit_lattice
     info_version: 1
     module: gdsfactory.components.mzit_lattice
@@ -182,7 +158,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -191,7 +166,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.5
@@ -212,7 +186,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -221,7 +194,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.5
@@ -242,7 +214,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -251,7 +222,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.45
@@ -272,7 +242,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -281,7 +250,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.55
@@ -302,7 +270,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -311,7 +278,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.55
@@ -332,7 +298,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -341,7 +306,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 5
       port: null
       width1: 0.45
@@ -367,7 +331,6 @@ info:
     - 10
     mzi:
       function: mzit
-      module: gdsfactory.components.mzit
   full:
     coupler_gaps:
     - 0.2
@@ -379,7 +342,6 @@ info:
     - 10
     mzi:
       function: mzit
-      module: gdsfactory.components.mzit
   function_name: mzit_lattice
   info_version: 1
   module: gdsfactory.components.mzit_lattice

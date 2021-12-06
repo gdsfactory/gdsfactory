@@ -4,20 +4,16 @@ cells:
     default:
       bend:
         function: bend_s
-        module: gdsfactory.components.bend_s
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.234
     full:
       bend:
         function: bend_s
-        module: gdsfactory.components.bend_s
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.234
@@ -32,20 +28,16 @@ info:
   default:
     bend:
       function: bend_s
-      module: gdsfactory.components.bend_s
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     dx: 10
     dy: 5
     gap: 0.234
   full:
     bend:
       function: bend_s
-      module: gdsfactory.components.bend_s
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     dx: 10
     dy: 5
     gap: 0.234

@@ -26,7 +26,6 @@ cells:
     default:
       grating_coupler:
         function: grating_coupler_circular
-        module: gdsfactory.components.grating_coupler_circular
       n: 6
       pitch: 127
       port_name: o1
@@ -34,7 +33,6 @@ cells:
     full:
       grating_coupler:
         function: grating_coupler_circular
-        module: gdsfactory.components.grating_coupler_circular
       n: 6
       pitch: 127
       port_name: o1
@@ -108,7 +106,6 @@ info:
   default:
     grating_coupler:
       function: grating_coupler_circular
-      module: gdsfactory.components.grating_coupler_circular
     n: 6
     pitch: 127
     port_name: o1
@@ -116,7 +113,6 @@ info:
   full:
     grating_coupler:
       function: grating_coupler_circular
-      module: gdsfactory.components.grating_coupler_circular
     n: 6
     pitch: 127
     port_name: o1

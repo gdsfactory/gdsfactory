@@ -3,7 +3,6 @@ cells:
     changed:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -11,7 +10,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       widths:
       - 0.4
       - 0.45
@@ -22,7 +20,6 @@ cells:
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -32,7 +29,6 @@ cells:
       spacing: 4.5
       straight:
         function: straight
-        module: gdsfactory.components.straight
       widths:
       - 0.4
       - 0.45
@@ -43,7 +39,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -53,7 +48,6 @@ cells:
       spacing: 4.5
       straight:
         function: straight
-        module: gdsfactory.components.straight
       widths:
       - 0.4
       - 0.45
@@ -69,7 +63,6 @@ cells:
     changed:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: DL
       layer:
       - 1
@@ -78,13 +71,11 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.27999999999999997
       width: 0.27999999999999997
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: ''
       layer:
       - 1
@@ -94,7 +85,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.304
       width: 0.372
       x: 420
@@ -102,7 +92,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: DL
       layer:
       - 1
@@ -112,7 +101,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.27999999999999997
       width: 0.27999999999999997
       x: 420
@@ -125,7 +113,6 @@ cells:
     changed:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: DM
       layer:
       - 1
@@ -134,13 +121,11 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.3
       width: 0.3
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: ''
       layer:
       - 1
@@ -150,7 +135,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.304
       width: 0.372
       x: 420
@@ -158,7 +142,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: DM
       layer:
       - 1
@@ -168,7 +151,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.3
       width: 0.3
       x: 420
@@ -181,7 +163,6 @@ cells:
     changed:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: DH
       layer:
       - 1
@@ -190,13 +171,11 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.32
       width: 0.32
     default:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: ''
       layer:
       - 1
@@ -206,7 +185,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.304
       width: 0.372
       x: 420
@@ -214,7 +192,6 @@ cells:
     full:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       label: DH
       layer:
       - 1
@@ -224,7 +201,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       trench_width: 0.32
       width: 0.32
       x: 420
@@ -237,10 +213,8 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -248,15 +222,12 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       width: 1
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -265,16 +236,13 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -283,7 +251,6 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 1
     function_name: cdsem_uturn
@@ -294,10 +261,8 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -305,15 +270,12 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       width: 0.6
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -322,16 +284,13 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -340,7 +299,6 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.6
     function_name: cdsem_uturn
@@ -351,10 +309,8 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -362,15 +318,12 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       width: 0.5
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -379,16 +332,13 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -397,7 +347,6 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     function_name: cdsem_uturn
@@ -408,10 +357,8 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -419,15 +366,12 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       width: 0.4
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -436,16 +380,13 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -454,7 +395,6 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.4
     function_name: cdsem_uturn
@@ -465,10 +405,8 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -476,15 +414,12 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       width: 0.8
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -493,16 +428,13 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -511,7 +443,6 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.8
     function_name: cdsem_uturn
@@ -522,10 +453,8 @@ cells:
     changed:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -533,15 +462,12 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       width: 0.45
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -550,16 +476,13 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.5
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -568,7 +491,6 @@ cells:
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
       wg_length: 420
       width: 0.45
     function_name: cdsem_uturn
@@ -766,10 +688,8 @@ cells:
     default:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dense_lines_gap: 0.3
       dense_lines_labels:
       - DL
@@ -784,7 +704,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       widths:
       - 0.4
       - 0.45
@@ -795,10 +714,8 @@ cells:
     full:
       bend90:
         function: bend_circular
-        module: gdsfactory.components.bend_circular
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       dense_lines_gap: 0.3
       dense_lines_labels:
       - DL
@@ -813,7 +730,6 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-        module: gdsfactory.components.straight
       widths:
       - 0.4
       - 0.45
@@ -830,10 +746,8 @@ info:
   default:
     bend90:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -848,7 +762,6 @@ info:
     pixel_size: 1
     straight:
       function: straight
-      module: gdsfactory.components.straight
     widths:
     - 0.4
     - 0.45
@@ -859,10 +772,8 @@ info:
   full:
     bend90:
       function: bend_circular
-      module: gdsfactory.components.bend_circular
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -877,7 +788,6 @@ info:
     pixel_size: 1
     straight:
       function: straight
-      module: gdsfactory.components.straight
     widths:
     - 0.4
     - 0.45

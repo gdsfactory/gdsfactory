@@ -96,7 +96,6 @@ cells:
       metal_width: 10
       pad:
         function: pad
-        module: gdsfactory.components.pad
       pad_spacing: 150
     full:
       columns: 8
@@ -106,7 +105,6 @@ cells:
       metal_width: 10
       pad:
         function: pad
-        module: gdsfactory.components.pad
       pad_spacing: 150
     function_name: pads_shorted
     info_version: 1
@@ -153,7 +151,6 @@ info:
     metal_width: 10
     pad:
       function: pad
-      module: gdsfactory.components.pad
     pad_spacing: 150
   full:
     columns: 8
@@ -163,7 +160,6 @@ info:
     metal_width: 10
     pad:
       function: pad
-      module: gdsfactory.components.pad
     pad_spacing: 150
   function_name: pads_shorted
   info_version: 1

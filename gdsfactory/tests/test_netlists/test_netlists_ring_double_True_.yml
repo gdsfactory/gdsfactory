@@ -10,13 +10,10 @@ instances:
       bend: null
       coupler90:
         function: coupler90
-        module: gdsfactory.components.coupler90
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       radius: 10
@@ -26,13 +23,10 @@ instances:
       bend: null
       coupler90:
         function: coupler90
-        module: gdsfactory.components.coupler90
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       radius: 10
@@ -41,7 +35,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.01
       npoints: 2
       with_cladding_box: true
@@ -50,7 +43,6 @@ instances:
     settings:
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 0.01
       npoints: 2
       with_cladding_box: true

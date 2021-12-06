@@ -4,7 +4,6 @@ cells:
       bend: null
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       radius: 10
@@ -12,13 +11,10 @@ cells:
       bend: null
       coupler90:
         function: coupler90
-        module: gdsfactory.components.coupler90
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 4
       radius: 5
@@ -26,13 +22,10 @@ cells:
       bend: null
       coupler90:
         function: coupler90
-        module: gdsfactory.components.coupler90
       coupler_straight:
         function: coupler_straight
-        module: gdsfactory.components.coupler_straight
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       radius: 10
@@ -46,32 +39,26 @@ cells:
       bend: null
       coupler_ring:
         function: coupler_ring
-        module: gdsfactory.components.coupler_ring
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
     full:
       bend: null
       coupler_ring:
         function: coupler_ring
-        module: gdsfactory.components.coupler_ring
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       gap: 0.2
       length_x: 0.01
       length_y: 0.01
       radius: 10
       straight:
         function: straight
-        module: gdsfactory.components.straight
     function_name: ring_double
     info_version: 1
     module: gdsfactory.components.ring_double
@@ -82,32 +69,26 @@ info:
     bend: null
     coupler_ring:
       function: coupler_ring
-      module: gdsfactory.components.coupler_ring
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
     radius: 10
     straight:
       function: straight
-      module: gdsfactory.components.straight
   full:
     bend: null
     coupler_ring:
       function: coupler_ring
-      module: gdsfactory.components.coupler_ring
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
     radius: 10
     straight:
       function: straight
-      module: gdsfactory.components.straight
   function_name: ring_double
   info_version: 1
   module: gdsfactory.components.ring_double

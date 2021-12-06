@@ -5,10 +5,8 @@ cells:
       N: 6
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: null
       x_inner_length_cutback: 300
       x_inner_offset: 0
@@ -19,10 +17,8 @@ cells:
       N: 6
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: null
       x_inner_length_cutback: 300
       x_inner_offset: 0
@@ -40,10 +36,8 @@ info:
     N: 6
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: null
     x_inner_length_cutback: 300
     x_inner_offset: 0
@@ -54,10 +48,8 @@ info:
     N: 6
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: null
     x_inner_length_cutback: 300
     x_inner_offset: 0

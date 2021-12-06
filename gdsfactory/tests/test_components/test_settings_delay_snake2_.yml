@@ -5,10 +5,8 @@ cells:
       bend180:
         angle: 180
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 1600
       length0: 0
       n: 2
@@ -16,10 +14,8 @@ cells:
       bend180:
         angle: 180
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       length: 1600
       length0: 0
       n: 2
@@ -33,10 +29,8 @@ info:
     bend180:
       angle: 180
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: 1600
     length0: 0
     n: 2
@@ -44,10 +38,8 @@ info:
     bend180:
       angle: 180
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     length: 1600
     length0: 0
     n: 2

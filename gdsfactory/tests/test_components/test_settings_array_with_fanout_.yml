@@ -4,17 +4,14 @@ cells:
     default:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend_port_name1: null
       bend_port_name2: null
       columns: 3
       component:
         function: pad
-        module: gdsfactory.components.pad
       component_port_name: e4
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       end_straight_length: 40
       pitch: 150
       radius: 5
@@ -23,17 +20,14 @@ cells:
     full:
       bend:
         function: bend_euler
-        module: gdsfactory.components.bend_euler
       bend_port_name1: null
       bend_port_name2: null
       columns: 3
       component:
         function: pad
-        module: gdsfactory.components.pad
       component_port_name: e4
       cross_section:
         function: cross_section
-        module: gdsfactory.cross_section
       end_straight_length: 40
       pitch: 150
       radius: 5
@@ -106,17 +100,14 @@ info:
   default:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     bend_port_name1: null
     bend_port_name2: null
     columns: 3
     component:
       function: pad
-      module: gdsfactory.components.pad
     component_port_name: e4
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     end_straight_length: 40
     pitch: 150
     radius: 5
@@ -125,17 +116,14 @@ info:
   full:
     bend:
       function: bend_euler
-      module: gdsfactory.components.bend_euler
     bend_port_name1: null
     bend_port_name2: null
     columns: 3
     component:
       function: pad
-      module: gdsfactory.components.pad
     component_port_name: e4
     cross_section:
       function: cross_section
-      module: gdsfactory.cross_section
     end_straight_length: 40
     pitch: 150
     radius: 5

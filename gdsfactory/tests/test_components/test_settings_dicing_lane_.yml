@@ -39,7 +39,6 @@ cells:
         layer:
         - 49
         - 0
-        module: gdsfactory.components.triangle
         xtop: 2
       size:
       - 50
@@ -53,7 +52,6 @@ cells:
         layer:
         - 49
         - 0
-        module: gdsfactory.components.triangle
         xtop: 2
       size:
       - 50
@@ -129,7 +127,6 @@ info:
       layer:
       - 49
       - 0
-      module: gdsfactory.components.triangle
       xtop: 2
     size:
     - 50
@@ -143,7 +140,6 @@ info:
       layer:
       - 49
       - 0
-      module: gdsfactory.components.triangle
       xtop: 2
     size:
     - 50

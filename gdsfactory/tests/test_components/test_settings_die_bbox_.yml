@@ -60,7 +60,6 @@ cells:
     default:
       component:
         function: rectangle
-        module: gdsfactory.components.rectangle
         size:
         - 1300
         - 2600
@@ -76,7 +75,6 @@ cells:
     full:
       component:
         function: rectangle
-        module: gdsfactory.components.rectangle
         size:
         - 1300
         - 2600
@@ -152,7 +150,6 @@ info:
   default:
     component:
       function: rectangle
-      module: gdsfactory.components.rectangle
       size:
       - 1300
       - 2600
@@ -168,7 +165,6 @@ info:
   full:
     component:
       function: rectangle
-      module: gdsfactory.components.rectangle
       size:
       - 1300
       - 2600

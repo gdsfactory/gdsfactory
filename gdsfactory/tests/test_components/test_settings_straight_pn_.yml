@@ -3,7 +3,6 @@ info:
   changed:
     cross_section:
       function: pn
-      module: gdsfactory.cross_section
   default:
     contact:
       function: contact
@@ -16,33 +15,27 @@ info:
         - 0
       - - 49
         - 0
-      module: gdsfactory.components.contact
       vias:
       - function: via
         layer:
         - 40
         - 0
-        module: gdsfactory.components.via
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     contact_spacing: 2
     contact_width: 10
     cross_section:
       function: pin
-      module: gdsfactory.cross_section
     length: 500
     taper:
       function: taper_strip_to_ridge
-      module: gdsfactory.components.taper
   full:
     contact:
       function: contact
@@ -55,33 +48,27 @@ info:
         - 0
       - - 49
         - 0
-      module: gdsfactory.components.contact
       vias:
       - function: via
         layer:
         - 40
         - 0
-        module: gdsfactory.components.via
       - enclosure: 2
         function: via
         layer:
         - 44
         - 0
-        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
-        module: gdsfactory.components.via
     contact_spacing: 2
     contact_width: 10
     cross_section:
       function: pn
-      module: gdsfactory.cross_section
     length: 500
     taper:
       function: taper_strip_to_ridge
-      module: gdsfactory.components.taper
   function_name: straight_pin
   info_version: 1
   module: gdsfactory.components.straight_pin

@@ -6,7 +6,6 @@ cells:
       orientation: 270
       pad:
         function: pad
-        module: gdsfactory.components.pad
       rows: 1
       spacing:
       - 150
@@ -16,7 +15,6 @@ cells:
       orientation: 270
       pad:
         function: pad
-        module: gdsfactory.components.pad
       rows: 1
       spacing:
       - 150
@@ -35,7 +33,6 @@ info:
     orientation: 270
     pad:
       function: pad
-      module: gdsfactory.components.pad
     rows: 1
     spacing:
     - 150
@@ -45,7 +42,6 @@ info:
     orientation: 270
     pad:
       function: pad
-      module: gdsfactory.components.pad
     rows: 1
     spacing:
     - 150

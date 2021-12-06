@@ -65,12 +65,10 @@ cells:
     default:
       crossing45:
         function: crossing45
-        module: gdsfactory.components.crossing_waveguide
       direction: top
     full:
       crossing45:
         function: crossing45
-        module: gdsfactory.components.crossing_waveguide
       direction: top
     function_name: compensation_path
     info_version: 1
@@ -143,11 +141,9 @@ cells:
     default:
       arm:
         function: crossing_arm
-        module: gdsfactory.components.crossing_waveguide
     full:
       arm:
         function: crossing_arm
-        module: gdsfactory.components.crossing_waveguide
     function_name: crossing
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
@@ -157,12 +153,10 @@ info:
   default:
     crossing45:
       function: crossing45
-      module: gdsfactory.components.crossing_waveguide
     direction: top
   full:
     crossing45:
       function: crossing45
-      module: gdsfactory.components.crossing_waveguide
     direction: top
   function_name: compensation_path
   info_version: 1
