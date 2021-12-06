@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 import gdspy
 import networkx as nx
 import numpy as np
+import toolz
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
@@ -1433,6 +1434,10 @@ def _clean_value(value: Any) -> Any:
         value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
+    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
+        value = [_clean_value(value.first)] + [
+            _clean_value(func) for func in value.funcs
+        ]
     elif callable(value) and hasattr(value, "__name__"):
         value = dict(function=value.__name__)
     elif callable(value) and isinstance(value, functools.partial):

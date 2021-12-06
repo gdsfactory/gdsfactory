@@ -2,21 +2,33 @@ cells:
   mzi_gds:
     changed: {}
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -24,25 +36,37 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi
+    name: mzi_gds
 info:
   changed: {}
   default:
+    bend:
+      function: bend_euler
     combiner: null
     delta_length: 10
     layer: null
     length_x: 0.1
     length_y: 0.8
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
   full:
+    bend:
+      function: bend_euler
     combiner: null
     delta_length: 10
     layer: null
     length_x: 0.1
     length_y: 0.8
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
