@@ -1,80 +1,4 @@
 cells:
-  extend_ports_487eeed5:
-    changed:
-      component: mzi_ac6d448d
-    child:
-      changed:
-        length_x: 320
-        splitter:
-          function: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        splitter:
-          function: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter:
-          function: mmi2x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
-    default:
-      centered: false
-      component:
-        function: mmi1x2
-      cross_section:
-        function: cross_section
-      extension_factory: null
-      length: 5
-      port1: null
-      port2: null
-      port_names: null
-      port_type: optical
-    full:
-      centered: false
-      component: mzi_ac6d448d
-      cross_section:
-        function: cross_section
-      extension_factory: null
-      length: 5
-      port1: null
-      port2: null
-      port_names: null
-      port_type: optical
-    function_name: extend_ports
-    info_version: 1
-    module: gdsfactory.components.extension
-    name: extend_ports_487eeed5
   mmi2x2:
     changed: {}
     default:
@@ -149,6 +73,82 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
+  mzi_ac6d448d_extend_por_fbda50f6:
+    changed:
+      component: mzi_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_ac6d448d
+    default:
+      centered: false
+      component:
+        function: mmi1x2
+      cross_section:
+        function: cross_section
+      extension_factory: null
+      length: 5
+      port1: null
+      port2: null
+      port_names: null
+      port_type: optical
+    full:
+      centered: false
+      component: mzi_ac6d448d
+      cross_section:
+        function: cross_section
+      extension_factory: null
+      length: 5
+      port1: null
+      port2: null
+      port_names: null
+      port_type: optical
+    function_name: extend_ports
+    info_version: 1
+    module: gdsfactory.components.extension
+    name: mzi_ac6d448d_extend_por_fbda50f6
   mzi_arm_3aabaa29:
     changed:
       bend:
@@ -304,7 +304,7 @@ info:
   function_name: extend_ports
   info_version: 1
   module: gdsfactory.components.extension
-  name: extend_ports_487eeed5
+  name: mzi_ac6d448d_extend_por_fbda50f6
 ports:
   e1:
     layer:

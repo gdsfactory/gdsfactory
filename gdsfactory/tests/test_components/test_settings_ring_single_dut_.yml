@@ -30,7 +30,33 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_6a2f750e
-  ring_single_dut:
+  taper_2e9853cc:
+    changed:
+      width2: 3
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 3
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.taper
+    name: taper_2e9853cc
+    width1: 0.5
+    width2: 3
+  taper_2e9853cc_ring_single_dut:
     changed: {}
     child:
       changed:
@@ -93,33 +119,7 @@ cells:
     function_name: ring_single_dut
     info_version: 1
     module: gdsfactory.components.ring_single_dut
-    name: ring_single_dut
-  taper_2e9853cc:
-    changed:
-      width2: 3
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: 3
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_2e9853cc
-    width1: 0.5
-    width2: 3
+    name: taper_2e9853cc_ring_single_dut
 info:
   changed: {}
   child:
@@ -183,7 +183,7 @@ info:
   function_name: ring_single_dut
   info_version: 1
   module: gdsfactory.components.ring_single_dut
-  name: ring_single_dut
+  name: taper_2e9853cc_ring_single_dut
 ports:
   o1:
     layer:

@@ -1,80 +1,4 @@
 cells:
-  add_electrical_pads_sho_bb4fd01b:
-    changed:
-      component: mzi_ac6d448d
-    child:
-      changed:
-        length_x: 320
-        splitter:
-          function: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        splitter:
-          function: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter:
-          function: mmi2x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
-    default:
-      layer:
-      - 31
-      - 0
-      pad:
-        function: pad
-      pad_port_spacing: 50
-      port_orientation: 90
-      select_ports:
-        function: select_ports
-        port_type: electrical
-    full:
-      component: mzi_ac6d448d
-      layer:
-      - 31
-      - 0
-      pad:
-        function: pad
-      pad_port_spacing: 50
-      port_orientation: 90
-      select_ports:
-        function: select_ports
-        port_type: electrical
-    function_name: add_electrical_pads_shortest
-    info_version: 1
-    module: gdsfactory.routing.add_electrical_pads_shortest
-    name: add_electrical_pads_sho_bb4fd01b
   compass_a0b38c11:
     changed:
       layer:
@@ -177,6 +101,82 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
+  mzi_ac6d448d_add_electr_af938a81:
+    changed:
+      component: mzi_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_ac6d448d
+    default:
+      layer:
+      - 31
+      - 0
+      pad:
+        function: pad
+      pad_port_spacing: 50
+      port_orientation: 90
+      select_ports:
+        function: select_ports
+        port_type: electrical
+    full:
+      component: mzi_ac6d448d
+      layer:
+      - 31
+      - 0
+      pad:
+        function: pad
+      pad_port_spacing: 50
+      port_orientation: 90
+      select_ports:
+        function: select_ports
+        port_type: electrical
+    function_name: add_electrical_pads_shortest
+    info_version: 1
+    module: gdsfactory.routing.add_electrical_pads_shortest
+    name: mzi_ac6d448d_add_electr_af938a81
   mzi_arm_3aabaa29:
     changed:
       bend:
@@ -362,7 +362,7 @@ info:
   function_name: add_electrical_pads_shortest
   info_version: 1
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: add_electrical_pads_sho_bb4fd01b
+  name: mzi_ac6d448d_add_electr_af938a81
 ports:
   o1:
     layer:

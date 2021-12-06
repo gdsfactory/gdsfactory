@@ -1,46 +1,4 @@
 cells:
-  cavity:
-    changed: {}
-    child:
-      changed: {}
-      default:
-        l1: 0.159
-        l2: 0.159
-        n: 10
-        straight:
-          function: straight
-        w1: 0.475
-        w2: 0.525
-      full:
-        l1: 0.159
-        l2: 0.159
-        n: 10
-        straight:
-          function: straight
-        w1: 0.475
-        w2: 0.525
-      function_name: dbr
-      info_version: 1
-      module: gdsfactory.components.dbr
-      name: dbr
-    default:
-      component:
-        function: dbr
-      coupler:
-        function: coupler
-      gap: 0.2
-      length: 0.1
-    full:
-      component:
-        function: dbr
-      coupler:
-        function: coupler
-      gap: 0.2
-      length: 0.1
-    function_name: cavity
-    info_version: 1
-    module: gdsfactory.components.cavity
-    name: cavity
   coupler_3e9f9e6a:
     changed:
       gap: 0.2
@@ -95,6 +53,48 @@ cells:
     info_version: 1
     module: gdsfactory.components.dbr
     name: dbr
+  dbr_cavity:
+    changed: {}
+    child:
+      changed: {}
+      default:
+        l1: 0.159
+        l2: 0.159
+        n: 10
+        straight:
+          function: straight
+        w1: 0.475
+        w2: 0.525
+      full:
+        l1: 0.159
+        l2: 0.159
+        n: 10
+        straight:
+          function: straight
+        w1: 0.475
+        w2: 0.525
+      function_name: dbr
+      info_version: 1
+      module: gdsfactory.components.dbr
+      name: dbr
+    default:
+      component:
+        function: dbr
+      coupler:
+        function: coupler
+      gap: 0.2
+      length: 0.1
+    full:
+      component:
+        function: dbr
+      coupler:
+        function: coupler
+      gap: 0.2
+      length: 0.1
+    function_name: cavity
+    info_version: 1
+    module: gdsfactory.components.cavity
+    name: dbr_cavity
 info:
   changed: {}
   child:
@@ -136,7 +136,7 @@ info:
   function_name: cavity
   info_version: 1
   module: gdsfactory.components.cavity
-  name: cavity
+  name: dbr_cavity
 ports:
   o1:
     layer:

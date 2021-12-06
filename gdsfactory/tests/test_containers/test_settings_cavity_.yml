@@ -1,70 +1,4 @@
 cells:
-  cavity_487eeed5:
-    changed:
-      component: mzi_ac6d448d
-    child:
-      changed:
-        length_x: 320
-        splitter:
-          function: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        splitter:
-          function: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter:
-          function: mmi2x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
-    default:
-      component:
-        function: dbr
-      coupler:
-        function: coupler
-      gap: 0.2
-      length: 0.1
-    full:
-      component: mzi_ac6d448d
-      coupler:
-        function: coupler
-      gap: 0.2
-      length: 0.1
-    function_name: cavity
-    info_version: 1
-    module: gdsfactory.components.cavity
-    name: cavity_487eeed5
   coupler_3e9f9e6a:
     changed:
       gap: 0.2
@@ -171,6 +105,72 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_ac6d448d
+  mzi_ac6d448d_cavity_487eeed5:
+    changed:
+      component: mzi_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_ac6d448d
+    default:
+      component:
+        function: dbr
+      coupler:
+        function: coupler
+      gap: 0.2
+      length: 0.1
+    full:
+      component: mzi_ac6d448d
+      coupler:
+        function: coupler
+      gap: 0.2
+      length: 0.1
+    function_name: cavity
+    info_version: 1
+    module: gdsfactory.components.cavity
+    name: mzi_ac6d448d_cavity_487eeed5
   mzi_arm_3aabaa29:
     changed:
       bend:
@@ -316,7 +316,7 @@ info:
   function_name: cavity
   info_version: 1
   module: gdsfactory.components.cavity
-  name: cavity_487eeed5
+  name: mzi_ac6d448d_cavity_487eeed5
 ports:
   o1:
     layer:
