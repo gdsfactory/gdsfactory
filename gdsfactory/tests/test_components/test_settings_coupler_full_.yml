@@ -13,6 +13,7 @@ cells:
       - 0
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
     full:
       angle: 0.5235987755982988
       direction: EAST
@@ -25,6 +26,7 @@ cells:
       - 0
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
     function_name: coupler_full
     info_version: 1
     module: gdsfactory.components.coupler_full
@@ -43,6 +45,7 @@ info:
     - 0
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
   full:
     angle: 0.5235987755982988
     direction: EAST
@@ -55,6 +58,7 @@ info:
     - 0
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
   function_name: coupler_full
   info_version: 1
   module: gdsfactory.components.coupler_full

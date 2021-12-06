@@ -18,6 +18,7 @@ cells:
       w2: 1
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       waveguide_template_dbr: null
     full:
       dc: 0.5
@@ -36,6 +37,7 @@ cells:
       w2: 1
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       waveguide_template_dbr: null
     function_name: dbr_tapered
     info_version: 1
@@ -60,6 +62,7 @@ info:
     w2: 1
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     waveguide_template_dbr: null
   full:
     dc: 0.5
@@ -78,6 +81,7 @@ info:
     w2: 1
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     waveguide_template_dbr: null
   function_name: dbr_tapered
   info_version: 1

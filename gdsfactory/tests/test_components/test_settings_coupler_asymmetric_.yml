@@ -4,23 +4,29 @@ cells:
     default:
       bend:
         function: bend_s
+        module: gdsfactory.components.bend_s
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.234
       straight:
         function: straight
+        module: gdsfactory.components.straight
     full:
       bend:
         function: bend_s
+        module: gdsfactory.components.bend_s
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       dx: 10
       dy: 5
       gap: 0.234
       straight:
         function: straight
+        module: gdsfactory.components.straight
     function_name: coupler_asymmetric
     info_version: 1
     module: gdsfactory.components.coupler_asymmetric
@@ -30,23 +36,29 @@ info:
   default:
     bend:
       function: bend_s
+      module: gdsfactory.components.bend_s
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
     dx: 10
     dy: 5
     gap: 0.234
     straight:
       function: straight
+      module: gdsfactory.components.straight
   full:
     bend:
       function: bend_s
+      module: gdsfactory.components.bend_s
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
     dx: 10
     dy: 5
     gap: 0.234
     straight:
       function: straight
+      module: gdsfactory.components.straight
   function_name: coupler_asymmetric
   info_version: 1
   module: gdsfactory.components.coupler_asymmetric

@@ -158,6 +158,7 @@ cells:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     default:
       layer_port: null
       layers:
@@ -176,10 +177,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -199,6 +202,7 @@ cells:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -230,6 +234,7 @@ cells:
           - 0
         - - 41
           - 0
+        module: gdsfactory.components.contact
         size:
         - 80
         - 80
@@ -240,6 +245,7 @@ cells:
           layer:
           - 40
           - 0
+          module: gdsfactory.components.via
       pad_pitch: 100
       width: 10
     full:
@@ -261,6 +267,7 @@ cells:
           - 0
         - - 41
           - 0
+        module: gdsfactory.components.contact
         size:
         - 80
         - 80
@@ -271,6 +278,7 @@ cells:
           layer:
           - 40
           - 0
+          module: gdsfactory.components.via
       pad_pitch: 100
       width: 10
     function_name: resistance_sheet
@@ -299,6 +307,7 @@ info:
         - 0
       - - 41
         - 0
+      module: gdsfactory.components.contact
       size:
       - 80
       - 80
@@ -309,6 +318,7 @@ info:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     pad_pitch: 100
     width: 10
   full:
@@ -330,6 +340,7 @@ info:
         - 0
       - - 41
         - 0
+      module: gdsfactory.components.contact
       size:
       - 80
       - 80
@@ -340,6 +351,7 @@ info:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     pad_pitch: 100
     width: 10
   function_name: resistance_sheet

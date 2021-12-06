@@ -20,6 +20,7 @@ cells:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     full:
       layers:
       - - 25
@@ -39,6 +40,7 @@ cells:
         layer:
         - 40
         - 0
+        module: gdsfactory.components.via
     function_name: contact_with_offset
     info_version: 1
     module: gdsfactory.components.contact_with_offset
@@ -64,6 +66,7 @@ info:
       layer:
       - 40
       - 0
+      module: gdsfactory.components.via
   full:
     layers:
     - - 25
@@ -83,6 +86,7 @@ info:
       layer:
       - 40
       - 0
+      module: gdsfactory.components.via
   function_name: contact_with_offset
   info_version: 1
   module: gdsfactory.components.contact_with_offset

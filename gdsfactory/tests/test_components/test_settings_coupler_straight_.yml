@@ -6,11 +6,13 @@ cells:
       length: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
     full:
       gap: 0.27
       length: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
     function_name: coupler_straight
     info_version: 1
     module: gdsfactory.components.coupler_straight
@@ -22,11 +24,13 @@ info:
     length: 10
     straight:
       function: straight
+      module: gdsfactory.components.straight
   full:
     gap: 0.27
     length: 10
     straight:
       function: straight
+      module: gdsfactory.components.straight
   function_name: coupler_straight
   info_version: 1
   module: gdsfactory.components.coupler_straight

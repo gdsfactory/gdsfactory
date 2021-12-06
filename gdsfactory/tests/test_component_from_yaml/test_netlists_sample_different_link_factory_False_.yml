@@ -25,72 +25,84 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_234p875_555p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_234p875_584p875:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_234p875_595p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_255p125_4p875:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_264p875_355p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_264p875_384p875:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_264p875_395p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_495p125_564p875:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_495p125_575p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_525p125_364p875:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bend_euler_4725f0ef_525p125_375p125:
     component: bend_euler
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       radius: 10
   bl:
     component: pad
@@ -103,6 +115,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 200
       radius: 10
   straight_7b1e3316_560p0_400p0:
@@ -110,6 +123,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 580
       radius: 10
   straight_95cf111d_230p0_380p0:
@@ -117,6 +131,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 340
       radius: 10
   straight_95cf111d_260p0_180p0:
@@ -124,6 +139,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 340
       radius: 10
   straight_99672b3b_365p0_560p0:
@@ -131,6 +147,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 250
       radius: 10
   straight_99672b3b_365p0_580p0:
@@ -138,6 +155,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 250
       radius: 10
   straight_99672b3b_395p0_360p0:
@@ -145,6 +163,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 250
       radius: 10
   straight_99672b3b_395p0_380p0:
@@ -152,6 +171,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 250
       radius: 10
   straight_ab370e58_135p0_200p0:
@@ -159,6 +179,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 170
       radius: 10
   straight_b28806b6_545p0_600p0:
@@ -166,6 +187,7 @@ instances:
     settings:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 610
       radius: 10
   tl:

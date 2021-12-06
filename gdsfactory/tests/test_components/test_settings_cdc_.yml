@@ -21,6 +21,7 @@ cells:
       - 0
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       width_bot: 0.75
       width_top: 2
     full:
@@ -43,6 +44,7 @@ cells:
       - 0
       waveguide_template:
         function: strip
+        module: gdsfactory.components.waveguide_template
       width_bot: 0.75
       width_top: 2
     function_name: cdc
@@ -71,6 +73,7 @@ info:
     - 0
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     width_bot: 0.75
     width_top: 2
   full:
@@ -93,6 +96,7 @@ info:
     - 0
     waveguide_template:
       function: strip
+      module: gdsfactory.components.waveguide_template
     width_bot: 0.75
     width_top: 2
   function_name: cdc

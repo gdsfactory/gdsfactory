@@ -5,14 +5,17 @@ cells:
       columns: 3
       component:
         function: pad
+        module: gdsfactory.components.pad
       contact:
         function: contact
+        module: gdsfactory.components.contact
       contact_dy: 0
       cross_section:
         function: cross_section
         layer:
         - 45
         - 0
+        module: gdsfactory.cross_section
         port_names:
         - e1
         - e2
@@ -29,14 +32,17 @@ cells:
       columns: 3
       component:
         function: pad
+        module: gdsfactory.components.pad
       contact:
         function: contact
+        module: gdsfactory.components.contact
       contact_dy: 0
       cross_section:
         function: cross_section
         layer:
         - 45
         - 0
+        module: gdsfactory.cross_section
         port_names:
         - e1
         - e2
@@ -185,10 +191,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     full:
       layer_port: null
       layers:
@@ -207,10 +215,12 @@ cells:
         layer:
         - 44
         - 0
+        module: gdsfactory.components.via
       - function: via
         layer:
         - 43
         - 0
+        module: gdsfactory.components.via
     function_name: contact
     info_version: 1
     layer:
@@ -257,14 +267,17 @@ info:
     columns: 3
     component:
       function: pad
+      module: gdsfactory.components.pad
     contact:
       function: contact
+      module: gdsfactory.components.contact
     contact_dy: 0
     cross_section:
       function: cross_section
       layer:
       - 45
       - 0
+      module: gdsfactory.cross_section
       port_names:
       - e1
       - e2
@@ -281,14 +294,17 @@ info:
     columns: 3
     component:
       function: pad
+      module: gdsfactory.components.pad
     contact:
       function: contact
+      module: gdsfactory.components.contact
     contact_dy: 0
     cross_section:
       function: cross_section
       layer:
       - 45
       - 0
+      module: gdsfactory.cross_section
       port_names:
       - e1
       - e2

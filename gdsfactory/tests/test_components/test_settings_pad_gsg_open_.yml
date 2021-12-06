@@ -11,6 +11,7 @@ cells:
       columns: 6
       component:
         function: straight
+        module: gdsfactory.components.straight
       rows: 1
       spacing:
       - 150
@@ -64,12 +65,14 @@ cells:
         layer:
         - 49
         - 0
+        module: gdsfactory.components.rectangle
       layer_metal:
       - 49
       - 0
       metal_spacing: 5
       pad:
         function: pad
+        module: gdsfactory.components.pad
       pad_spacing: 150
       short: true
       size:
@@ -81,12 +84,14 @@ cells:
         layer:
         - 49
         - 0
+        module: gdsfactory.components.rectangle
       layer_metal:
       - 49
       - 0
       metal_spacing: 5
       pad:
         function: pad
+        module: gdsfactory.components.pad
       pad_spacing: 150
       short: false
       size:
@@ -210,12 +215,14 @@ info:
       layer:
       - 49
       - 0
+      module: gdsfactory.components.rectangle
     layer_metal:
     - 49
     - 0
     metal_spacing: 5
     pad:
       function: pad
+      module: gdsfactory.components.pad
     pad_spacing: 150
     short: true
     size:
@@ -227,12 +234,14 @@ info:
       layer:
       - 49
       - 0
+      module: gdsfactory.components.rectangle
     layer_metal:
     - 49
     - 0
     metal_spacing: 5
     pad:
       function: pad
+      module: gdsfactory.components.pad
     pad_spacing: 150
     short: false
     size:

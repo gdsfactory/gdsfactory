@@ -46,6 +46,7 @@ cells:
       slab_xmin: -1
       taper:
         function: taper
+        module: gdsfactory.components.taper
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11
@@ -65,6 +66,7 @@ cells:
       slab_xmin: -1
       taper:
         function: taper
+        module: gdsfactory.components.taper
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11
@@ -116,6 +118,7 @@ cells:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       length: 10
       port: null
       width1: 0.5
@@ -124,6 +127,7 @@ cells:
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       layer:
       - 1
       - 0
@@ -157,6 +161,7 @@ info:
     slab_xmin: -1
     taper:
       function: taper
+      module: gdsfactory.components.taper
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11
@@ -176,6 +181,7 @@ info:
     slab_xmin: -1
     taper:
       function: taper
+      module: gdsfactory.components.taper
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11

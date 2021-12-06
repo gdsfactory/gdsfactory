@@ -4,11 +4,13 @@ cells:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -16,11 +18,13 @@ cells:
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -34,22 +38,26 @@ cells:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
       taper:
         function: taper
+        module: gdsfactory.components.taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -61,14 +69,17 @@ cells:
     changed:
       combiner:
         function: mmi2x2
+        module: gdsfactory.components.mmi2x2
       delta_length: 0
       length_x: 320
       straight_x_top:
         function: straight_heater_metal_undercut
+        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       combiner: null
       delta_length: 10
       layer: null
@@ -76,8 +87,10 @@ cells:
       length_y: 0.8
       splitter:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -85,19 +98,24 @@ cells:
     full:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       combiner:
         function: mmi2x2
+        module: gdsfactory.components.mmi2x2
       delta_length: 0
       layer: null
       length_x: 320
       length_y: 0.8
       splitter:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
+        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -109,37 +127,46 @@ cells:
     changed:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight_heater_metal_undercut
+        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x:
         function: straight_heater_metal_undercut
+        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -150,35 +177,44 @@ cells:
     changed:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     default:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x: null
       straight_y: null
     full:
       bend:
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_x:
         function: straight
+        module: gdsfactory.components.straight
       straight_y:
         function: straight
+        module: gdsfactory.components.straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -190,6 +226,7 @@ cells:
       changed:
         cross_section:
           function: cross_section
+          module: gdsfactory.cross_section
         size:
         - 500
         - 24.375
@@ -262,6 +299,7 @@ cells:
       default:
         cross_section:
           function: cross_section
+          module: gdsfactory.cross_section
         nb_points: 99
         size:
         - 10
@@ -271,6 +309,7 @@ cells:
       full:
         cross_section:
           function: cross_section
+          module: gdsfactory.cross_section
         nb_points: 99
         size:
         - 500
@@ -287,11 +326,14 @@ cells:
       coupler:
         combiner:
           function: mmi2x2
+          module: gdsfactory.components.mmi2x2
         delta_length: 0
         function: mzi
         length_x: 320
+        module: gdsfactory.components.mzi
         straight_x_top:
           function: straight_heater_metal_undercut
+          module: gdsfactory.components.straight_heater_metal
           with_undercut: false
       spacing:
       - 500
@@ -299,11 +341,14 @@ cells:
     default:
       bend_s:
         function: bend_s
+        module: gdsfactory.components.bend_s
       bend_s_xsize: null
       coupler:
         function: mmi1x2
+        module: gdsfactory.components.mmi1x2
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       noutputs: 4
       spacing:
       - 90
@@ -311,18 +356,23 @@ cells:
     full:
       bend_s:
         function: bend_s
+        module: gdsfactory.components.bend_s
       bend_s_xsize: null
       coupler:
         combiner:
           function: mmi2x2
+          module: gdsfactory.components.mmi2x2
         delta_length: 0
         function: mzi
         length_x: 320
+        module: gdsfactory.components.mzi
         straight_x_top:
           function: straight_heater_metal_undercut
+          module: gdsfactory.components.straight_heater_metal
           with_undercut: false
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       noutputs: 4
       spacing:
       - 500
@@ -336,6 +386,7 @@ info:
     changed:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       size:
       - 500
       - 24.375
@@ -408,6 +459,7 @@ info:
     default:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       nb_points: 99
       size:
       - 10
@@ -417,6 +469,7 @@ info:
     full:
       cross_section:
         function: cross_section
+        module: gdsfactory.cross_section
       nb_points: 99
       size:
       - 500
@@ -433,11 +486,14 @@ info:
     coupler:
       combiner:
         function: mmi2x2
+        module: gdsfactory.components.mmi2x2
       delta_length: 0
       function: mzi
       length_x: 320
+      module: gdsfactory.components.mzi
       straight_x_top:
         function: straight_heater_metal_undercut
+        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
     spacing:
     - 500
@@ -445,11 +501,14 @@ info:
   default:
     bend_s:
       function: bend_s
+      module: gdsfactory.components.bend_s
     bend_s_xsize: null
     coupler:
       function: mmi1x2
+      module: gdsfactory.components.mmi1x2
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
     noutputs: 4
     spacing:
     - 90
@@ -457,18 +516,23 @@ info:
   full:
     bend_s:
       function: bend_s
+      module: gdsfactory.components.bend_s
     bend_s_xsize: null
     coupler:
       combiner:
         function: mmi2x2
+        module: gdsfactory.components.mmi2x2
       delta_length: 0
       function: mzi
       length_x: 320
+      module: gdsfactory.components.mzi
       straight_x_top:
         function: straight_heater_metal_undercut
+        module: gdsfactory.components.straight_heater_metal
         with_undercut: false
     cross_section:
       function: cross_section
+      module: gdsfactory.cross_section
     noutputs: 4
     spacing:
     - 500

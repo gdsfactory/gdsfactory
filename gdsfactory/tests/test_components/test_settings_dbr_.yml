@@ -7,6 +7,7 @@ cells:
       n: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
       w1: 0.475
       w2: 0.525
     full:
@@ -15,6 +16,7 @@ cells:
       n: 10
       straight:
         function: straight
+        module: gdsfactory.components.straight
       w1: 0.475
       w2: 0.525
     function_name: dbr
@@ -29,6 +31,7 @@ info:
     n: 10
     straight:
       function: straight
+      module: gdsfactory.components.straight
     w1: 0.475
     w2: 0.525
   full:
@@ -37,6 +40,7 @@ info:
     n: 10
     straight:
       function: straight
+      module: gdsfactory.components.straight
     w1: 0.475
     w2: 0.525
   function_name: dbr

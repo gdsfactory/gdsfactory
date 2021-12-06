@@ -82,9 +82,11 @@ cells:
       bend180:
         angle: 180
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cols: 4
       component:
         function: taper_0p5_to_3_l36
+        module: gdsfactory.components.taper_from_csv
       mirror: false
       port1: o1
       port2: o2
@@ -92,14 +94,17 @@ cells:
       rows: 5
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_length: null
     full:
       bend180:
         angle: 180
         function: bend_euler
+        module: gdsfactory.components.bend_euler
       cols: 4
       component:
         function: taper_0p5_to_3_l36
+        module: gdsfactory.components.taper_from_csv
       mirror: false
       port1: o1
       port2: o2
@@ -107,6 +112,7 @@ cells:
       rows: 5
       straight:
         function: straight
+        module: gdsfactory.components.straight
       straight_length: null
     function_name: cutback_component
     info_version: 1
@@ -135,9 +141,11 @@ info:
     bend180:
       angle: 180
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     cols: 4
     component:
       function: taper_0p5_to_3_l36
+      module: gdsfactory.components.taper_from_csv
     mirror: false
     port1: o1
     port2: o2
@@ -145,14 +153,17 @@ info:
     rows: 5
     straight:
       function: straight
+      module: gdsfactory.components.straight
     straight_length: null
   full:
     bend180:
       angle: 180
       function: bend_euler
+      module: gdsfactory.components.bend_euler
     cols: 4
     component:
       function: taper_0p5_to_3_l36
+      module: gdsfactory.components.taper_from_csv
     mirror: false
     port1: o1
     port2: o2
@@ -160,6 +171,7 @@ info:
     rows: 5
     straight:
       function: straight
+      module: gdsfactory.components.straight
     straight_length: null
   function_name: cutback_component
   info_version: 1
