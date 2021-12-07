@@ -1215,11 +1215,24 @@ class Component(Device):
         metadata.write_text(self.to_yaml())
         return gdspath
 
-    def to_dict_config(self) -> DictConfig:
-        """Returns a DictConfig representation of the compoment."""
+    def to_dict_config(
+        self,
+        ignore_components_prefix: Optional[List[str]] = None,
+        ignore_functions_prefix: Optional[List[str]] = None,
+    ) -> DictConfig:
+        """Returns a DictConfig representation of the compoment.
+
+        Args:
+            ignore_components_prefix: for components to ignore when exporting
+            ignore_functions_prefix: for functions to ignore when exporting
+        """
         d = DictConfig({})
         ports = {port.name: port.settings for port in self.get_ports_list()}
-        cells = recurse_structures(self)
+        cells = recurse_structures(
+            self,
+            ignore_functions_prefix=ignore_functions_prefix,
+            ignore_components_prefix=ignore_components_prefix,
+        )
         clean_dict(ports)
         clean_dict(cells)
 
@@ -1374,20 +1387,24 @@ def _filter_polys(polygons, layers_excl):
     ]
 
 
-IGNORE_FUNCTION_NAMES = set()
-IGNORE_STRUCTURE_NAME_PREFIXES = set(["straight_", "bend_"])
-
-
-def recurse_structures(structure: Component) -> DictConfig:
+def recurse_structures(
+    structure: Component,
+    ignore_components_prefix: Optional[List[str]] = None,
+    ignore_functions_prefix: Optional[List[str]] = None,
+) -> DictConfig:
     """Recurse over structures"""
+
+    ignore_functions_prefix = ignore_functions_prefix or []
+    ignore_components_prefix = ignore_components_prefix or []
+
     if (
         hasattr(structure, "function_name")
-        and structure.function_name in IGNORE_FUNCTION_NAMES
+        and structure.function_name in ignore_functions_prefix
     ):
         return DictConfig({})
 
     if hasattr(structure, "name") and any(
-        [structure.name.startswith(i) for i in IGNORE_STRUCTURE_NAME_PREFIXES]
+        [structure.name.startswith(i) for i in ignore_components_prefix]
     ):
         return DictConfig({})
 
