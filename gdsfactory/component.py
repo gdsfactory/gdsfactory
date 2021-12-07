@@ -1203,9 +1203,14 @@ class Component(Device):
         referenced_cells = list(self.get_dependencies(recursive=True))
         all_cells = [self] + referenced_cells
 
-        for cell in all_cells:
-            if cell.name.startswith("Unnamed"):
-                warnings.warn(f"Component {self.name} contains Unnamed cells")
+        no_name_cells = [
+            cell.name for cell in all_cells if cell.name.startswith("Unnamed")
+        ]
+
+        if no_name_cells:
+            warnings.warn(
+                f"Component {self.name} contains {len(no_name_cells)} Unnamed cells"
+            )
 
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
         lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)

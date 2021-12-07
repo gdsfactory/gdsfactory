@@ -225,8 +225,12 @@ def test_pack() -> Component:
 def test_pack_with_settings() -> Component:
     import gdsfactory as gf
 
-    component_list = [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
-    component_list += [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
+    component_list = [
+        gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
+    ]
+    component_list += [
+        gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
+    ]
 
     components_packed_list = pack(
         component_list,  # Must be a list or tuple of Components
@@ -244,7 +248,7 @@ def test_pack_with_settings() -> Component:
 
 
 if __name__ == "__main__":
-    test_pack()
+    # test_pack()
     import gdsfactory as gf
 
     # c = test_pack_with_settings()
@@ -254,7 +258,7 @@ if __name__ == "__main__":
     # c.write_gds_with_metadata("mask.gds")
 
     p = pack(
-        [gf.components.rectangle(size=(i, i)) for i in range(1, 10)],
+        [gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)],
         spacing=10.0,
         max_size=(100, 100),
         text=gf.c.text,
