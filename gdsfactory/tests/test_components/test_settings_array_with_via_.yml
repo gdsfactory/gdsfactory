@@ -251,6 +251,135 @@ cells:
     size:
     - 100
     - 100
+  straight_2fbbd4a9:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 360
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 360
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 360
+    module: gdsfactory.components.straight
+    name: straight_2fbbd4a9
+    width: 10
+  straight_5ca1245d:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 210
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 210
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 210
+    module: gdsfactory.components.straight
+    name: straight_5ca1245d
+    width: 10
+  straight_9d5a0d1b:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 60
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 60
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 60
+    module: gdsfactory.components.straight
+    name: straight_9d5a0d1b
+    width: 10
 info:
   changed: {}
   default:

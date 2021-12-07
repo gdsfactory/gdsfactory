@@ -1,4 +1,32 @@
 cells:
+  bend_euler:
+    changed: {}
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler
+    radius: 10
+    radius_min: 7.061
   cutback_bend:
     changed: {}
     default:
@@ -22,6 +50,29 @@ cells:
     module: gdsfactory.components.cutback_bend
     n_bends: 68
     name: cutback_bend
+  straight_ffad5cea:
+    changed:
+      length: 5
+      width: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      npoints: 2
+      width: 0.5
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.straight
+    name: straight_ffad5cea
+    width: 0.5
 info:
   changed: {}
   default:

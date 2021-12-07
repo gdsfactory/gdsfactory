@@ -1,4 +1,38 @@
-cells: {}
+cells:
+  straight_59648496:
+    changed:
+      cross_section:
+        cladding_offset: 0
+        function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
+        sections:
+        - slab
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        cladding_offset: 0
+        function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
+        sections:
+        - slab
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.straight
+    name: straight_59648496
+    width: 0.5
 info:
   changed:
     cross_section:
@@ -29,7 +63,7 @@ info:
     with_cladding_box: true
   function_name: straight
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.straight
   name: straight_59648496
   width: 0.5
