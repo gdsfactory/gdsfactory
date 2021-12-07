@@ -2,12 +2,16 @@ cells:
   add_frame:
     changed: {}
     default:
+      component:
+        function: rectangle
       layer:
       - 1
       - 0
       spacing: 10
       width: 10
     full:
+      component:
+        function: rectangle
       layer:
       - 1
       - 0
@@ -140,12 +144,16 @@ cells:
 info:
   changed: {}
   default:
+    component:
+      function: rectangle
     layer:
     - 1
     - 0
     spacing: 10
     width: 10
   full:
+    component:
+      function: rectangle
     layer:
     - 1
     - 0

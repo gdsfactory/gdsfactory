@@ -21,6 +21,8 @@ instances:
     settings:
       columns: 6
       orientation: 90
+      pad:
+        function: pad
       rows: 1
       spacing:
       - 150
@@ -216,6 +218,8 @@ instances:
     settings:
       columns: 6
       orientation: 270
+      pad:
+        function: pad
       rows: 1
       spacing:
       - 150

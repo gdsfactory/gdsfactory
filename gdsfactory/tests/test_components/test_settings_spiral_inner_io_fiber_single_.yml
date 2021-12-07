@@ -11,9 +11,18 @@ cells:
       y_straight_inner_top: 10
     default:
       N: 6
+      bend180_function:
+        angle: 180
+        function: bend_euler
+      bend90_function:
+        function: bend_euler
+      cross_section:
+        function: cross_section
       cross_section_bend: null
       grating_spacing: 127
       length: null
+      straight:
+        function: straight
       waveguide_spacing: 3
       x_straight_inner_left: 50
       x_straight_inner_right: 150
@@ -21,11 +30,18 @@ cells:
       y_straight_inner_top: 50
     full:
       N: 6
+      bend180_function:
+        angle: 180
+        function: bend_euler
+      bend90_function:
+        function: bend_euler
       cross_section:
         function: cross_section
       cross_section_bend: null
       grating_spacing: 200
       length: null
+      straight:
+        function: straight
       waveguide_spacing: 3
       x_straight_inner_left: 75
       x_straight_inner_right: 40
@@ -36,7 +52,7 @@ cells:
     length: 9973.394
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_82cec748
-  spiral_inner_io_fiber_single:
+  spiral_inner_io_82cec74_33144991:
     changed: {}
     child:
       changed:
@@ -50,9 +66,18 @@ cells:
         y_straight_inner_top: 10
       default:
         N: 6
+        bend180_function:
+          angle: 180
+          function: bend_euler
+        bend90_function:
+          function: bend_euler
+        cross_section:
+          function: cross_section
         cross_section_bend: null
         grating_spacing: 127
         length: null
+        straight:
+          function: straight
         waveguide_spacing: 3
         x_straight_inner_left: 50
         x_straight_inner_right: 150
@@ -60,11 +85,18 @@ cells:
         y_straight_inner_top: 50
       full:
         N: 6
+        bend180_function:
+          angle: 180
+          function: bend_euler
+        bend90_function:
+          function: bend_euler
         cross_section:
           function: cross_section
         cross_section_bend: null
         grating_spacing: 200
         length: null
+        straight:
+          function: straight
         waveguide_spacing: 3
         x_straight_inner_left: 75
         x_straight_inner_right: 40
@@ -76,6 +108,8 @@ cells:
       module: gdsfactory.components.spiral_inner_io
       name: spiral_inner_io_82cec748
     default:
+      cross_section:
+        function: cross_section
       cross_section_bend: null
       cross_section_ports: null
       grating_spacing: 200
@@ -84,6 +118,8 @@ cells:
       y_straight_inner_bottom: 0
       y_straight_inner_top: 10
     full:
+      cross_section:
+        function: cross_section
       cross_section_bend: null
       cross_section_ports: null
       grating_spacing: 200
@@ -94,7 +130,7 @@ cells:
     function_name: spiral_inner_io_fiber_single
     info_version: 1
     module: gdsfactory.components.spiral_inner_io
-    name: spiral_inner_io_fiber_single
+    name: spiral_inner_io_82cec74_33144991
 info:
   changed: {}
   child:
@@ -109,9 +145,18 @@ info:
       y_straight_inner_top: 10
     default:
       N: 6
+      bend180_function:
+        angle: 180
+        function: bend_euler
+      bend90_function:
+        function: bend_euler
+      cross_section:
+        function: cross_section
       cross_section_bend: null
       grating_spacing: 127
       length: null
+      straight:
+        function: straight
       waveguide_spacing: 3
       x_straight_inner_left: 50
       x_straight_inner_right: 150
@@ -119,11 +164,18 @@ info:
       y_straight_inner_top: 50
     full:
       N: 6
+      bend180_function:
+        angle: 180
+        function: bend_euler
+      bend90_function:
+        function: bend_euler
       cross_section:
         function: cross_section
       cross_section_bend: null
       grating_spacing: 200
       length: null
+      straight:
+        function: straight
       waveguide_spacing: 3
       x_straight_inner_left: 75
       x_straight_inner_right: 40
@@ -135,6 +187,8 @@ info:
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_82cec748
   default:
+    cross_section:
+      function: cross_section
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
@@ -143,6 +197,8 @@ info:
     y_straight_inner_bottom: 0
     y_straight_inner_top: 10
   full:
+    cross_section:
+      function: cross_section
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
@@ -153,7 +209,7 @@ info:
   function_name: spiral_inner_io_fiber_single
   info_version: 1
   module: gdsfactory.components.spiral_inner_io
-  name: spiral_inner_io_fiber_single
+  name: spiral_inner_io_82cec74_33144991
 ports:
   o1:
     layer:

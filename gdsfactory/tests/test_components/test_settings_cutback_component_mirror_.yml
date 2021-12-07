@@ -67,7 +67,15 @@ cells:
     info_version: 1
     module: gdsfactory.components.component_sequence
     name: component_sequence_c72a7644
-  cutback_component_91884563:
+  taper_0p5_to_3_l36:
+    changed: {}
+    default: {}
+    full: {}
+    function_name: taper_0p5_to_3_l36
+    info_version: 1
+    module: gdsfactory.components.taper_from_csv
+    name: taper_0p5_to_3_l36
+  taper_0p5_to_3_l36_cutb_8d365e01:
     changed:
       mirror: true
     child:
@@ -80,33 +88,39 @@ cells:
       name: taper_0p5_to_3_l36
     components: 88
     default:
+      bend180:
+        angle: 180
+        function: bend_euler
       cols: 4
+      component:
+        function: taper_0p5_to_3_l36
       mirror: false
       port1: o1
       port2: o2
       radius: 5
       rows: 5
+      straight:
+        function: straight
       straight_length: null
     full:
+      bend180:
+        angle: 180
+        function: bend_euler
       cols: 4
+      component:
+        function: taper_0p5_to_3_l36
       mirror: true
       port1: o1
       port2: o2
       radius: 5
       rows: 5
+      straight:
+        function: straight
       straight_length: null
     function_name: cutback_component
     info_version: 1
     module: gdsfactory.components.cutback_component
-    name: cutback_component_91884563
-  taper_0p5_to_3_l36:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: taper_0p5_to_3_l36
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36
+    name: taper_0p5_to_3_l36_cutb_8d365e01
 info:
   changed:
     mirror: true
@@ -120,25 +134,39 @@ info:
     name: taper_0p5_to_3_l36
   components: 88
   default:
+    bend180:
+      angle: 180
+      function: bend_euler
     cols: 4
+    component:
+      function: taper_0p5_to_3_l36
     mirror: false
     port1: o1
     port2: o2
     radius: 5
     rows: 5
+    straight:
+      function: straight
     straight_length: null
   full:
+    bend180:
+      angle: 180
+      function: bend_euler
     cols: 4
+    component:
+      function: taper_0p5_to_3_l36
     mirror: true
     port1: o1
     port2: o2
     radius: 5
     rows: 5
+    straight:
+      function: straight
     straight_length: null
   function_name: cutback_component
   info_version: 1
   module: gdsfactory.components.cutback_component
-  name: cutback_component_91884563
+  name: taper_0p5_to_3_l36_cutb_8d365e01
 ports:
   o1:
     layer:

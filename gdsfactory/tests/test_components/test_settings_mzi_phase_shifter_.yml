@@ -2,17 +2,25 @@ cells:
   mmi1x2:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -28,21 +36,33 @@ cells:
         function: straight_heater_metal_undercut
         with_undercut: false
     default:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 0.1
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
+      bend:
+        function: bend_euler
       combiner: null
       delta_length: 10
       layer: null
       length_x: 320
       length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
@@ -55,29 +75,39 @@ cells:
     name: mzi_614a18b2
   mzi_arm_3aabaa29:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
       straight_x:
         function: straight_heater_metal_undercut
         with_undercut: false
-      straight_y: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x:
         function: straight_heater_metal_undercut
         with_undercut: false
-      straight_y: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -86,25 +116,37 @@ cells:
     name: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     default:
+      bend:
+        function: bend_euler
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       length_x: 320
       length_y_left: 5.8
       length_y_right: 5.8
-      straight_x: straight
-      straight_y: straight
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     function_name: mzi_arm
     info_version: 1
     length_x: 320
@@ -118,21 +160,33 @@ info:
       function: straight_heater_metal_undercut
       with_undercut: false
   default:
+    bend:
+      function: bend_euler
     combiner: null
     delta_length: 10
     layer: null
     length_x: 0.1
     length_y: 0.8
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
   full:
+    bend:
+      function: bend_euler
     combiner: null
     delta_length: 10
     layer: null
     length_x: 320
     length_y: 0.8
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
     straight_x_bot: null
     straight_x_top:
       function: straight_heater_metal_undercut

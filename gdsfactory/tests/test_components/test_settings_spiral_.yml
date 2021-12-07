@@ -18,6 +18,8 @@ cells:
       port_spacing: 500
       radius: 10
       spacing: null
+      waveguide_template:
+        function: strip
       wg_width: 0.5
     full:
       cladding_offset: 3
@@ -36,6 +38,8 @@ cells:
       port_spacing: 500
       radius: 10
       spacing: null
+      waveguide_template:
+        function: strip
       wg_width: 0.5
     function_name: spiral
     info_version: 1
@@ -60,6 +64,8 @@ info:
     port_spacing: 500
     radius: 10
     spacing: null
+    waveguide_template:
+      function: strip
     wg_width: 0.5
   full:
     cladding_offset: 3
@@ -78,6 +84,8 @@ info:
     port_spacing: 500
     radius: 10
     spacing: null
+    waveguide_template:
+      function: strip
     wg_width: 0.5
   function_name: spiral
   info_version: 1

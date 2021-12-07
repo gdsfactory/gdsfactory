@@ -3,13 +3,13 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.dbr import dbr
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentOrFactory
 
 
 @cell
 def cavity(
-    component: Component = dbr,
-    coupler: ComponentFactory = coupler_function,
+    component: ComponentOrFactory = dbr,
+    coupler: ComponentOrFactory = coupler_function,
     length: float = 0.1,
     gap: float = 0.2,
     **kwargs

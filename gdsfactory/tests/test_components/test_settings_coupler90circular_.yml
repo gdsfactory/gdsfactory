@@ -1,12 +1,20 @@
 cells:
   coupler90_a71eeef5:
     changed:
-      bend: bend_circular
+      bend:
+        function: bend_circular
     default:
+      bend:
+        function: bend_euler
+      cross_section:
+        function: cross_section
       gap: 0.2
       radius: 10
     full:
-      bend: bend_circular
+      bend:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       gap: 0.2
       radius: 10
     function_name: coupler90
@@ -15,12 +23,20 @@ cells:
     name: coupler90_a71eeef5
 info:
   changed:
-    bend: bend_circular
+    bend:
+      function: bend_circular
   default:
+    bend:
+      function: bend_euler
+    cross_section:
+      function: cross_section
     gap: 0.2
     radius: 10
   full:
-    bend: bend_circular
+    bend:
+      function: bend_circular
+    cross_section:
+      function: cross_section
     gap: 0.2
     radius: 10
   function_name: coupler90

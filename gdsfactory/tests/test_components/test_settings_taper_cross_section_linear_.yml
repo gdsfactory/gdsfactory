@@ -4,10 +4,34 @@ cells:
       linear: true
       npoints: 2
     default:
+      cross_section1:
+        function: cross_section
+        sections:
+        - slab
+      cross_section2:
+        cladding_offset: 0
+        function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
+        sections:
+        - slab
       length: 10
       linear: false
       npoints: 100
     full:
+      cross_section1:
+        function: cross_section
+        sections:
+        - slab
+      cross_section2:
+        cladding_offset: 0
+        function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
+        sections:
+        - slab
       length: 10
       linear: true
       npoints: 2
@@ -21,10 +45,34 @@ info:
     linear: true
     npoints: 2
   default:
+    cross_section1:
+      function: cross_section
+      sections:
+      - slab
+    cross_section2:
+      cladding_offset: 0
+      function: cross_section
+      layers_cladding:
+      - - 3
+        - 0
+      sections:
+      - slab
     length: 10
     linear: false
     npoints: 100
   full:
+    cross_section1:
+      function: cross_section
+      sections:
+      - slab
+    cross_section2:
+      cladding_offset: 0
+      function: cross_section
+      layers_cladding:
+      - - 3
+        - 0
+      sections:
+      - slab
     length: 10
     linear: true
     npoints: 2

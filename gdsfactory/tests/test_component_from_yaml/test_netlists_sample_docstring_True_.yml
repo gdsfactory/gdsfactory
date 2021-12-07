@@ -31,9 +31,13 @@ instances:
   mmi_bot:
     component: mmi1x2
     settings:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 11
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 5
       width_taper: 1
@@ -41,9 +45,13 @@ instances:
   mmi_top:
     component: mmi1x2
     settings:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 22
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 6
       width_taper: 1

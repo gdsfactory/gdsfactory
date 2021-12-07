@@ -5,9 +5,14 @@ cells:
         angle: 180
         function: bend_circular
     default:
+      bend180:
+        angle: 180
+        function: bend_euler
       columns: 6
       rows: 6
       spacing: 3
+      straight:
+        function: straight
       straight_length: 5
     full:
       bend180:
@@ -16,6 +21,8 @@ cells:
       columns: 6
       rows: 6
       spacing: 3
+      straight:
+        function: straight
       straight_length: 5
     function_name: cutback_bend180
     info_version: 1
@@ -28,9 +35,14 @@ info:
       angle: 180
       function: bend_circular
   default:
+    bend180:
+      angle: 180
+      function: bend_euler
     columns: 6
     rows: 6
     spacing: 3
+    straight:
+      function: straight
     straight_length: 5
   full:
     bend180:
@@ -39,6 +51,8 @@ info:
     columns: 6
     rows: 6
     spacing: 3
+    straight:
+      function: straight
     straight_length: 5
   function_name: cutback_bend180
   info_version: 1

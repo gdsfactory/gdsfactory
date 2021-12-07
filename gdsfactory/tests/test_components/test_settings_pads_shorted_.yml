@@ -94,6 +94,8 @@ cells:
       - 49
       - 0
       metal_width: 10
+      pad:
+        function: pad
       pad_spacing: 150
     full:
       columns: 8
@@ -101,6 +103,8 @@ cells:
       - 49
       - 0
       metal_width: 10
+      pad:
+        function: pad
       pad_spacing: 150
     function_name: pads_shorted
     info_version: 1
@@ -145,6 +149,8 @@ info:
     - 49
     - 0
     metal_width: 10
+    pad:
+      function: pad
     pad_spacing: 150
   full:
     columns: 8
@@ -152,6 +158,8 @@ info:
     - 49
     - 0
     metal_width: 10
+    pad:
+      function: pad
     pad_spacing: 150
   function_name: pads_shorted
   info_version: 1

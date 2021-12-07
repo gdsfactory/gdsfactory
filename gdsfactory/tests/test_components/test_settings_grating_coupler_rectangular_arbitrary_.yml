@@ -53,6 +53,8 @@ cells:
       polarization: te
       slab_offset: 1
       slab_xmin: -1
+      taper:
+        function: taper
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11
@@ -90,6 +92,8 @@ cells:
       polarization: te
       slab_offset: 1
       slab_xmin: -1
+      taper:
+        function: taper
       wavelength: 1.55
       wg_width: 0.5
       width_grating: 11
@@ -151,12 +155,16 @@ cells:
       width1: 0.5
       width2: 11
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
@@ -197,6 +205,8 @@ info:
     polarization: te
     slab_offset: 1
     slab_xmin: -1
+    taper:
+      function: taper
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11
@@ -234,6 +244,8 @@ info:
     polarization: te
     slab_offset: 1
     slab_xmin: -1
+    taper:
+      function: taper
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11

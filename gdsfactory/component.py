@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 import gdspy
 import networkx as nx
 import numpy as np
+import toolz
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
@@ -636,7 +637,8 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
-        self._cached = False
+        self.cached = False
+        self.get_child_name = False
 
     @classmethod
     def __get_validators__(cls):
@@ -1019,6 +1021,7 @@ class Component(Device):
         so hierarchical components propagate child cells info.
         """
         self.info.child = component.info
+        self.get_child_name = True
 
     @property
     def size_info(self) -> SizeInfo:
@@ -1037,7 +1040,7 @@ class Component(Device):
             cell.
 
         """
-        if self._cached:
+        if self.cached:
             raise MutabilityError(
                 f"Error Adding element to cached Component {self.name!r}. "
                 "You need to make a copy of this cached Component or create a new one."
@@ -1419,22 +1422,30 @@ def clean_key(key):
 
 
 def _clean_value(value: Any) -> Any:
-    """Returns a clean value that is JSON serializable"""
+    """Returns a is JSON serializable"""
     if isinstance(value, CrossSection):
         value = value.info
         # value = clean_dict(value.to_dict())
     if isinstance(value, float) and int(value) == value:
         value = int(value)
     elif type(value) in [int, float, str, bool]:
-        value = value
+        pass
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.ndarray):
         value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
+    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
+        value = [_clean_value(value.first)] + [
+            _clean_value(func) for func in value.funcs
+        ]
+    # elif (
+    #     callable(value) and hasattr(value, "__name__") and hasattr(value, "__module__")
+    # ):
+    #     value = dict(function=value.__name__, module=value.__module__)
     elif callable(value) and hasattr(value, "__name__"):
-        value = value.__name__
+        value = dict(function=value.__name__)
     elif callable(value) and isinstance(value, functools.partial):
         v = value.keywords.copy()
         v.update(function=value.func.__name__)

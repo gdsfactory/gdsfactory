@@ -11,6 +11,8 @@ cells:
       port:
       - 0
       - 0
+      waveguide_template:
+        function: strip
     full:
       angle: 0.5235987755982988
       direction: EAST
@@ -21,6 +23,8 @@ cells:
       port:
       - 0
       - 0
+      waveguide_template:
+        function: strip
     function_name: coupler_full
     info_version: 1
     module: gdsfactory.components.coupler_full
@@ -37,6 +41,8 @@ info:
     port:
     - 0
     - 0
+    waveguide_template:
+      function: strip
   full:
     angle: 0.5235987755982988
     direction: EAST
@@ -47,6 +53,8 @@ info:
     port:
     - 0
     - 0
+    waveguide_template:
+      function: strip
   function_name: coupler_full
   info_version: 1
   module: gdsfactory.components.coupler_full

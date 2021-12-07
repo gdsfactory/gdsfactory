@@ -22,7 +22,7 @@ ports:
     - 0
     port_type: optical
 info:
-  name: mzi
+  name: mzi_gds
   module: gdsfactory.components.mzi
   function_name: mzi
   info_version: 1
@@ -31,9 +31,15 @@ info:
     delta_length: 10
     length_y: 0.8
     length_x: 0.1
+    bend:
+      function: bend_euler
+    straight:
+      function: straight
     straight_y: null
     straight_x_top: null
     straight_x_bot: null
+    splitter:
+      function: mmi1x2
     combiner: null
     with_splitter: true
     layer: null
@@ -41,9 +47,15 @@ info:
     delta_length: 10
     length_y: 0.8
     length_x: 0.1
+    bend:
+      function: bend_euler
+    straight:
+      function: straight
     straight_y: null
     straight_x_top: null
     straight_x_bot: null
+    splitter:
+      function: mmi1x2
     combiner: null
     with_splitter: true
     layer: null
@@ -58,9 +70,15 @@ cells:
       delta_length: 10
       length_y: 0.8
       length_x: 0.1
+      bend:
+        function: bend_euler
+      straight:
+        function: straight
       straight_y: null
       straight_x_top: null
       straight_x_bot: null
+      splitter:
+        function: mmi1x2
       combiner: null
       with_splitter: true
       layer: null
@@ -68,9 +86,15 @@ cells:
       delta_length: 10
       length_y: 0.8
       length_x: 0.1
+      bend:
+        function: bend_euler
+      straight:
+        function: straight
       straight_y: null
       straight_x_top: null
       straight_x_bot: null
+      splitter:
+        function: mmi1x2
       combiner: null
       with_splitter: true
       layer: null
@@ -87,7 +111,11 @@ cells:
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
+      taper:
+        function: taper
       with_cladding_box: true
+      cross_section:
+        function: cross_section
     full:
       width: 0.5
       width_taper: 1
@@ -95,32 +123,48 @@ cells:
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
+      taper:
+        function: taper
       with_cladding_box: true
+      cross_section:
+        function: cross_section
   mzi_arm_74064cef:
     name: mzi_arm_74064cef
     module: gdsfactory.components.mzi_arm
     function_name: mzi_arm
     info_version: 1
     changed:
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
       length_x: 0.1
       length_y_left: 0.8
       length_y_right: 0.8
-      bend: bend_euler
+      bend:
+        function: bend_euler
     default:
       length_y_left: 0.8
       length_y_right: 0.8
       length_x: 0.1
+      bend:
+        function: bend_euler
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
       length_y_left: 0.8
       length_y_right: 0.8
       length_x: 0.1
-      straight_x: straight
-      straight_y: straight
-      bend: bend_euler
+      bend:
+        function: bend_euler
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     length_x: 0.1
     length_xsize: 0.1
   mzi_arm_f85ac2e9:
@@ -129,25 +173,37 @@ cells:
     function_name: mzi_arm
     info_version: 1
     changed:
-      straight_x: straight
-      straight_y: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
       length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
-      bend: bend_euler
+      bend:
+        function: bend_euler
     default:
       length_y_left: 0.8
       length_y_right: 0.8
       length_x: 0.1
+      bend:
+        function: bend_euler
+      straight:
+        function: straight
       straight_x: null
       straight_y: null
     full:
       length_y_left: 5.8
       length_y_right: 5.8
       length_x: 0.1
-      straight_x: straight
-      straight_y: straight
-      bend: bend_euler
+      bend:
+        function: bend_euler
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
     length_x: 0.1
     length_xsize: 0.1
 version: 1

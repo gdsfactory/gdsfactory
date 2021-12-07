@@ -19,6 +19,8 @@ cells:
       port_midpoint:
       - 0
       - 0
+      waveguide_template:
+        function: strip
       width_bot: 0.75
       width_top: 2
     full:
@@ -39,6 +41,8 @@ cells:
       port_midpoint:
       - 0
       - 0
+      waveguide_template:
+        function: strip
       width_bot: 0.75
       width_top: 2
     function_name: cdc
@@ -65,6 +69,8 @@ info:
     port_midpoint:
     - 0
     - 0
+    waveguide_template:
+      function: strip
     width_bot: 0.75
     width_top: 2
   full:
@@ -85,6 +91,8 @@ info:
     port_midpoint:
     - 0
     - 0
+    waveguide_template:
+      function: strip
     width_bot: 0.75
     width_top: 2
   function_name: cdc

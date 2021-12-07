@@ -3,11 +3,23 @@ cells:
     changed: {}
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
@@ -19,11 +31,23 @@ info:
   changed: {}
   default:
     bend: null
+    coupler90:
+      function: coupler90
+    coupler_straight:
+      function: coupler_straight
+    cross_section:
+      function: cross_section
     gap: 0.2
     length_x: 4
     radius: 5
   full:
     bend: null
+    coupler90:
+      function: coupler90
+    coupler_straight:
+      function: coupler_straight
+    cross_section:
+      function: cross_section
     gap: 0.2
     length_x: 4
     radius: 5

@@ -3,12 +3,16 @@ cells:
     changed: {}
     default:
       columns: 6
+      component:
+        function: straight
       rows: 1
       spacing:
       - 150
       - 150
     full:
       columns: 6
+      component:
+        function: straight
       rows: 1
       spacing:
       - 150
@@ -21,12 +25,16 @@ info:
   changed: {}
   default:
     columns: 6
+    component:
+      function: straight
     rows: 1
     spacing:
     - 150
     - 150
   full:
     columns: 6
+    component:
+      function: straight
     rows: 1
     spacing:
     - 150

@@ -9,6 +9,8 @@ cells:
       - 0
       - 0
       radius: 10
+      waveguide_template:
+        function: strip
       wrap_angle_deg: 180
     full:
       direction: EAST
@@ -18,6 +20,8 @@ cells:
       - 0
       - 0
       radius: 10
+      waveguide_template:
+        function: strip
       wrap_angle_deg: 180
     function_name: disk
     info_version: 1
@@ -33,6 +37,8 @@ info:
     - 0
     - 0
     radius: 10
+    waveguide_template:
+      function: strip
     wrap_angle_deg: 180
   full:
     direction: EAST
@@ -42,6 +48,8 @@ info:
     - 0
     - 0
     radius: 10
+    waveguide_template:
+      function: strip
     wrap_angle_deg: 180
   function_name: disk
   info_version: 1
