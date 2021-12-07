@@ -2,13 +2,13 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import rib, strip, strip_rib_tip
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionOrFactory
 
 
 @cell
 def taper_cross_section(
-    cross_section1: CrossSectionFactory = strip_rib_tip,
-    cross_section2: CrossSectionFactory = rib,
+    cross_section1: CrossSectionOrFactory = strip_rib_tip,
+    cross_section2: CrossSectionOrFactory = rib,
     length: float = 10,
     npoints: int = 100,
     linear: bool = False,
@@ -40,8 +40,10 @@ def taper_cross_section(
 
     """
     transition = gf.path.transition(
-        cross_section1=cross_section1(),
-        cross_section2=cross_section2(**kwargs),
+        cross_section1=cross_section1() if callable(cross_section1) else cross_section1,
+        cross_section2=cross_section2(**kwargs)
+        if callable(cross_section2)
+        else cross_section2,
         width_type="linear" if linear else "sine",
     )
     taper_path = gf.path.straight(length=length, npoints=npoints)
