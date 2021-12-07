@@ -57,7 +57,7 @@ def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
     """Returns a short name."""
     if len(name) > max_name_length:
         name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
+        name = f"{name[:(max_name_length - 9)]}_{name_hash}"
     return name
 
 
