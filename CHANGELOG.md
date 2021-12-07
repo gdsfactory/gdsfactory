@@ -17,6 +17,9 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.7
+- warning includes the number of unnamed cells
+
 ## 3.7.6
 
 - to dict accepts component and function prefixes of the structures that we want to ignore when saving the settings dict
