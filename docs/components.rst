@@ -1611,6 +1611,36 @@ pad_array
 
 
 
+pad_gsg_open
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_gsg_open
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_gsg_open(size=(22, 7), layer_metal=(49, 0), metal_spacing=5.0, short=False, pad_spacing=150)
+  c.plot()
+
+
+
+pad_gsg_short
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_gsg_short
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_gsg_short(size=(22, 7), layer_metal=(49, 0), metal_spacing=5.0, short=True, pad_spacing=150)
+  c.plot()
+
+
+
 pads_shorted
 ----------------------------------------------------
 
@@ -2461,7 +2491,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.7.2', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.7.4', text_size=10)
   c.plot()
 
 
