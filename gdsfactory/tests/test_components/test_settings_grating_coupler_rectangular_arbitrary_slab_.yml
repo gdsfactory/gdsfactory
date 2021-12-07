@@ -220,6 +220,8 @@ cells:
       width2: 11
     default:
       cladding_offset: 3
+      cross_section:
+        function: cross_section
       layer_slab:
       - 3
       - 0
@@ -232,9 +234,10 @@ cells:
       w_slab2: 6
       width1: 0.5
       width2: 0.5
-      with_slab_port: false
     full:
       cladding_offset: 3
+      cross_section:
+        function: cross_section
       layer_slab:
       - 2
       - 0
@@ -247,7 +250,6 @@ cells:
       w_slab2: 15
       width1: 0.5
       width2: 11
-      with_slab_port: false
     function_name: taper_strip_to_ridge
     info_version: 1
     length: 150

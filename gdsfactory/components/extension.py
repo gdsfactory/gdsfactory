@@ -140,25 +140,16 @@ def extend_ports(
         cross_section = port.cross_section or cross_section
 
         if port_name in port_names:
-
-            def extension_factory_default(
-                length=length,
-                width=port.width,
-                cross_section=cross_section,
-            ):
-                return gf.components.straight(
-                    length=length,
-                    width=width,
-                    layer=port.layer,
-                    cross_section=cross_section,
-                )
-
             if extension_factory:
                 extension_component = extension_factory()
             else:
-                extension_component = extension_factory_default(
-                    length=length, width=port.width, cross_section=cross_section
-                )
+                extension_component = gf.partial(
+                    gf.c.straight,
+                    length=length,
+                    width=port.width,
+                    cross_section=cross_section,
+                    layer=port.layer,
+                )()
             port_labels = list(extension_component.ports.keys())
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
@@ -208,8 +199,8 @@ if __name__ == "__main__":
     # ce.show()
 
     c = gf.components.straight_pin(length=40)
-    # ce = extend_ports(c, port_names=('top_e1', 'bot_e3'))
-    ce = extend_ports(c, port_names=("bad", "worse"))
+    ce = extend_ports(c, port_names=("top_e1", "bot_e3"))
+    # ce = extend_ports(c, port_names=("bad", "worse"))
     ce.show()
     # wg_pin.show()
 
