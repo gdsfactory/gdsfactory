@@ -1,4 +1,34 @@
 cells:
+  bend_euler_1da190e0:
+    changed:
+      cross_section:
+        function: cross_section
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_1da190e0
+    radius: 10
+    radius_min: 7.061
   circle_602e85fd:
     changed:
       layer:
@@ -106,6 +136,52 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
     name: loss_deembedding_ch12_34
+  straight_d9996de2:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 40
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 40
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 40
+    module: gdsfactory.components.straight
+    name: straight_d9996de2
+    width: 0.5
+  straight_f031ecb0:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 107
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 107
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 107
+    module: gdsfactory.components.straight
+    name: straight_f031ecb0
+    width: 0.5
 info:
   changed: {}
   default:

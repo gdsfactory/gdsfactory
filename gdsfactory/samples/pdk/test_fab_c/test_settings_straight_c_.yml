@@ -1,4 +1,44 @@
-cells: {}
+cells:
+  straight_40e83c11:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      decorator:
+        function: add_pins
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 1
+      decorator:
+        function: add_pins
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.straight
+    name: straight_40e83c11
+    width: 1
 info:
   changed:
     cross_section:
@@ -35,10 +75,10 @@ info:
     with_cladding_box: true
   function_name: straight
   info_version: 1
-  length: 10.0
+  length: 10
   module: gdsfactory.components.straight
   name: straight_40e83c11
-  width: 1.0
+  width: 1
 ports:
   o1:
     layer:

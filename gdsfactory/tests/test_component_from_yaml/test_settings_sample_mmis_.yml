@@ -3,6 +3,36 @@ cells:
     description: just a demo on adding metadata
     polarization: te
     wavelength: 1.55
+  bend_euler_1da190e0:
+    changed:
+      cross_section:
+        function: cross_section
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_1da190e0
+    radius: 10
+    radius_min: 7.061
   mmi1x2_41793ed4:
     changed:
       length_mmi: 5
@@ -67,6 +97,75 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_5ad5950d
+  straight_5743d35a:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 0.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.01
+    module: gdsfactory.components.straight
+    name: straight_5743d35a
+    width: 0.5
+  straight_c8d42def:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 79.375
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 79.375
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 79.375
+    module: gdsfactory.components.straight
+    name: straight_c8d42def
+    width: 0.5
+  straight_c96c7cf4:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 102.51
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 102.51
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 102.51
+    module: gdsfactory.components.straight
+    name: straight_c96c7cf4
+    width: 0.5
 info:
   description: just a demo on adding metadata
   name: Unnamed_a491ff8b
