@@ -1,4 +1,36 @@
 cells:
+  bend_euler_4725f0ef:
+    changed:
+      cross_section:
+        function: cross_section
+      radius: 10
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      radius: 10
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_4725f0ef
+    radius: 10
+    radius_min: 7.061
   compass_a0b38c11:
     changed:
       layer:
@@ -58,6 +90,156 @@ cells:
     - 100
     - 100
   sample_path_length_matching: {}
+  straight_3bc3129a:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 200
+      radius: 10
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 200
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 200
+    module: gdsfactory.components.straight
+    name: straight_3bc3129a
+    width: 0.5
+  straight_7b1e3316:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 580
+      radius: 10
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 580
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 580
+    module: gdsfactory.components.straight
+    name: straight_7b1e3316
+    width: 0.5
+  straight_95cf111d:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 340
+      radius: 10
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 340
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 340
+    module: gdsfactory.components.straight
+    name: straight_95cf111d
+    width: 0.5
+  straight_99672b3b:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 250
+      radius: 10
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 250
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 250
+    module: gdsfactory.components.straight
+    name: straight_99672b3b
+    width: 0.5
+  straight_ab370e58:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 170
+      radius: 10
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 170
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 170
+    module: gdsfactory.components.straight
+    name: straight_ab370e58
+    width: 0.5
+  straight_b28806b6:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 610
+      radius: 10
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 610
+      npoints: 2
+      radius: 10
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 610
+    module: gdsfactory.components.straight
+    name: straight_b28806b6
+    width: 0.5
 info:
   name: sample_path_length_matching
 ports: {}

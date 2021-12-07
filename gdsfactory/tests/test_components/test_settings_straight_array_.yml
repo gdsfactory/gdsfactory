@@ -1,4 +1,40 @@
-cells: {}
+cells:
+  straight:
+    changed: {}
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.straight
+    name: straight
+    width: 0.5
+  straight_array:
+    changed: {}
+    default:
+      n: 4
+      spacing: 4
+      straigth:
+        function: straight
+    full:
+      n: 4
+      spacing: 4
+      straigth:
+        function: straight
+    function_name: straight_array
+    info_version: 1
+    module: gdsfactory.components.straight_array
+    name: straight_array
 info:
   changed: {}
   default:

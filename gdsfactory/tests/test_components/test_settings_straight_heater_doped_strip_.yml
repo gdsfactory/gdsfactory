@@ -1,4 +1,603 @@
-cells: {}
+cells:
+  compass_3c3280cc:
+    changed:
+      layer:
+      - 1
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_3c3280cc
+  compass_44af43f4:
+    changed:
+      layer:
+      - 24
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 24
+      - 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_44af43f4
+  compass_5903820c:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_5903820c
+  compass_67c6df50:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_67c6df50
+  compass_cb91cde4:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 330
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_type: electrical
+      size:
+      - 330
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_cb91cde4
+  compass_cc867db5:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 330
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 330
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_cc867db5
+  compass_d4049e84:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 330
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 330
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_d4049e84
+  compass_e429d7e7:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_e429d7e7
+  contact_32dac979:
+    changed:
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 10
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 10
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_32dac979
+    size:
+    - 10
+    - 10
+  contact_3ad7d3c9:
+    changed:
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 330
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 330
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_3ad7d3c9
+    size:
+    - 330
+    - 10
+  contact_5fef78eb:
+    changed:
+      layers:
+      - - 1
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      size:
+      - 10
+      - 10
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 1
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      size:
+      - 10
+      - 10
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 41
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_5fef78eb
+    size:
+    - 10
+    - 10
+  straight_00e46342:
+    changed:
+      cross_section:
+        function: strip_heater_doped
+      length: 320
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_doped
+      length: 320
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 320
+    module: gdsfactory.components.straight
+    name: straight_00e46342
+    width: 0.5
+  straight_heater_doped_r_7650a421:
+    changed:
+      contact:
+        function: contact
+        layers:
+        - - 1
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          layer:
+          - 40
+          - 0
+      cross_section_heater:
+        function: strip_heater_doped
+      taper: null
+    default:
+      contact:
+        function: contact
+        layers:
+        - - 3
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          layer:
+          - 40
+          - 0
+      contact_metal:
+        function: contact
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - enclosure: 2
+          function: via
+          layer:
+          - 44
+          - 0
+        - function: via
+          layer:
+          - 43
+          - 0
+      contact_metal_size:
+      - 10
+      - 10
+      contact_size:
+      - 10
+      - 10
+      contact_yspacing: 2
+      cross_section:
+        function: cross_section
+        sections:
+        - slab
+      cross_section_heater:
+        function: rib_heater_doped
+      length: 320
+      nsections: 3
+      taper:
+        function: taper_cross_section
+    full:
+      contact:
+        function: contact
+        layers:
+        - - 1
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          layer:
+          - 40
+          - 0
+      contact_metal:
+        function: contact
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - enclosure: 2
+          function: via
+          layer:
+          - 44
+          - 0
+        - function: via
+          layer:
+          - 43
+          - 0
+      contact_metal_size:
+      - 10
+      - 10
+      contact_size:
+      - 10
+      - 10
+      contact_yspacing: 2
+      cross_section:
+        function: cross_section
+        sections:
+        - slab
+      cross_section_heater:
+        function: strip_heater_doped
+      length: 320
+      nsections: 3
+      taper: null
+    function_name: straight_heater_doped_rib
+    info_version: 1
+    module: gdsfactory.components.straight_heater_doped_rib
+    name: straight_heater_doped_r_7650a421
 info:
   changed:
     contact:
