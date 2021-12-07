@@ -1,4 +1,32 @@
 cells:
+  bend_euler:
+    changed: {}
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler
+    radius: 10
+    radius_min: 7.061
   coupler_02a30dd4:
     changed:
       gap: 0.2
@@ -232,6 +260,69 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi_lattice
     name: mzi_lattice
+  straight_10336aac:
+    changed:
+      length: 5.8
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5.8
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 5.8
+    module: gdsfactory.components.straight
+    name: straight_10336aac
+    width: 0.5
+  straight_8c093820:
+    changed:
+      length: 0.1
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.1
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.1
+    module: gdsfactory.components.straight
+    name: straight_8c093820
+    width: 0.5
+  straight_b75caec8:
+    changed:
+      length: 0.8
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.8
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.8
+    module: gdsfactory.components.straight
+    name: straight_b75caec8
+    width: 0.5
 info:
   changed: {}
   default:
