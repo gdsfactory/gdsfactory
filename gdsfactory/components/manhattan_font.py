@@ -223,9 +223,9 @@ U
 1	1	1	1	1
 V
 1	0	0	0	1
-1	0	0	0	1
-1	0	0	0	1
+0	0	0	0	0
 0	1	0	1	0
+0	0	0	0	0
 0	0	1	0	0
 W
 1	0	0	0	1
@@ -366,7 +366,11 @@ load_font()
 
 
 if __name__ == "__main__":
+    import string
+
     c = manhattan_text(
-        text="The mask is nearly done. only 12345 drc errors remaining?",
+        # text="The mask is nearly done. only 12345 drc errors remaining?",
+        # text="v",
+        text=string.ascii_lowercase
     )
     c.show()
