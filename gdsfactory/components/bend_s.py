@@ -68,6 +68,8 @@ def bend_s(
 
 if __name__ == "__main__":
     c = bend_s(width=1, layers_cladding=[(2, 0)])
+    c = bend_s(size=[10, 2.5], layers_cladding=[(2, 0)])  # 10um bend radius
+    c = bend_s(size=[20, 3], layers_cladding=[(2, 0)])  # 10um bend radius
     c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])

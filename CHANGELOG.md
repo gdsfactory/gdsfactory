@@ -20,9 +20,10 @@ Maybe:
 ## 3.7.4
 
 - add pad_gsg_short and pad_gsg_open to components
-- a function in settings exports as dict {'function': straight, 'width': 3}
+- export function parameters in settings exports as dict {'function': straight, 'width': 3}
     - works also for partial and composed functions
 - add `get_child_name` for Component, so that when you run `copy_child_info` the name prefix also propagates
+- only add layers_cladding for waveguide lengths > 0. Otherwise it creates non-orientable boundaries
 
 ## 3.7.3
 
