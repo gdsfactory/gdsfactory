@@ -20,6 +20,7 @@ Maybe:
 ## 3.7.6
 
 - to dict accepts component and function prefixes of the structures that we want to ignore when saving the settings dict
+- `write_gds` prints warning when writing GDS files with Unnamed cells. Unnamed cells don't get deterministic names.
 
 ## 3.7.5
 
