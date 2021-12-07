@@ -288,14 +288,28 @@ cells:
   seal_ring:
     changed: {}
     default:
+      component:
+        function: rectangle
+        size:
+        - 1300
+        - 2600
       padding: 10
+      seal:
+        function: contact
       width: 10
       with_east: true
       with_north: true
       with_south: true
       with_west: true
     full:
+      component:
+        function: rectangle
+        size:
+        - 1300
+        - 2600
       padding: 10
+      seal:
+        function: contact
       width: 10
       with_east: true
       with_north: true
@@ -308,14 +322,28 @@ cells:
 info:
   changed: {}
   default:
+    component:
+      function: rectangle
+      size:
+      - 1300
+      - 2600
     padding: 10
+    seal:
+      function: contact
     width: 10
     with_east: true
     with_north: true
     with_south: true
     with_west: true
   full:
+    component:
+      function: rectangle
+      size:
+      - 1300
+      - 2600
     padding: 10
+    seal:
+      function: contact
     width: 10
     with_east: true
     with_north: true

@@ -8,7 +8,8 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       widths:
       - 0.4
       - 0.45
@@ -17,6 +18,8 @@ cells:
       - 0.8
       - 1
     default:
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
@@ -24,6 +27,8 @@ cells:
       length: 420
       pixel_size: 1
       spacing: 4.5
+      straight:
+        function: straight
       widths:
       - 0.4
       - 0.45
@@ -41,7 +46,8 @@ cells:
       length: 420
       pixel_size: 1
       spacing: 4.5
-      straight: straight
+      straight:
+        function: straight
       widths:
       - 0.4
       - 0.45
@@ -63,10 +69,13 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       trench_width: 0.27999999999999997
       width: 0.27999999999999997
     default:
+      cross_section:
+        function: cross_section
       label: ''
       layer:
       - 1
@@ -74,6 +83,8 @@ cells:
       layers_cladding: null
       margin: 2
       pixel_size: 1
+      straight:
+        function: straight
       trench_width: 0.304
       width: 0.372
       x: 420
@@ -88,7 +99,8 @@ cells:
       layers_cladding: null
       margin: 2
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       trench_width: 0.27999999999999997
       width: 0.27999999999999997
       x: 420
@@ -107,10 +119,13 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       trench_width: 0.3
       width: 0.3
     default:
+      cross_section:
+        function: cross_section
       label: ''
       layer:
       - 1
@@ -118,6 +133,8 @@ cells:
       layers_cladding: null
       margin: 2
       pixel_size: 1
+      straight:
+        function: straight
       trench_width: 0.304
       width: 0.372
       x: 420
@@ -132,7 +149,8 @@ cells:
       layers_cladding: null
       margin: 2
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       trench_width: 0.3
       width: 0.3
       x: 420
@@ -151,10 +169,13 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       trench_width: 0.32
       width: 0.32
     default:
+      cross_section:
+        function: cross_section
       label: ''
       layer:
       - 1
@@ -162,6 +183,8 @@ cells:
       layers_cladding: null
       margin: 2
       pixel_size: 1
+      straight:
+        function: straight
       trench_width: 0.304
       width: 0.372
       x: 420
@@ -176,7 +199,8 @@ cells:
       layers_cladding: null
       margin: 2
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       trench_width: 0.32
       width: 0.32
       x: 420
@@ -187,7 +211,8 @@ cells:
     name: cdsem_straight_density_f3cd459a
   cdsem_uturn_1d375524:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -195,19 +220,27 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       width: 1
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
       layers_cladding: null
       pixel_size: 1
       radius: 10
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -216,7 +249,8 @@ cells:
       layers_cladding: null
       pixel_size: 1
       radius: 10
-      straight: straight
+      straight:
+        function: straight
       wg_length: 420
       width: 1
     function_name: cdsem_uturn
@@ -225,7 +259,8 @@ cells:
     name: cdsem_uturn_1d375524
   cdsem_uturn_29c8e298:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -233,19 +268,27 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       width: 0.6
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
       layers_cladding: null
       pixel_size: 1
       radius: 10
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -254,7 +297,8 @@ cells:
       layers_cladding: null
       pixel_size: 1
       radius: 10
-      straight: straight
+      straight:
+        function: straight
       wg_length: 420
       width: 0.6
     function_name: cdsem_uturn
@@ -263,7 +307,8 @@ cells:
     name: cdsem_uturn_29c8e298
   cdsem_uturn_4bfcdf27:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -271,19 +316,27 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       width: 0.5
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
       layers_cladding: null
       pixel_size: 1
       radius: 10
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -292,7 +345,8 @@ cells:
       layers_cladding: null
       pixel_size: 1
       radius: 10
-      straight: straight
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     function_name: cdsem_uturn
@@ -301,7 +355,8 @@ cells:
     name: cdsem_uturn_4bfcdf27
   cdsem_uturn_5109446d:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -309,19 +364,27 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       width: 0.4
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
       layers_cladding: null
       pixel_size: 1
       radius: 10
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -330,7 +393,8 @@ cells:
       layers_cladding: null
       pixel_size: 1
       radius: 10
-      straight: straight
+      straight:
+        function: straight
       wg_length: 420
       width: 0.4
     function_name: cdsem_uturn
@@ -339,7 +403,8 @@ cells:
     name: cdsem_uturn_5109446d
   cdsem_uturn_531743ce:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -347,19 +412,27 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       width: 0.8
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
       layers_cladding: null
       pixel_size: 1
       radius: 10
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -368,7 +441,8 @@ cells:
       layers_cladding: null
       pixel_size: 1
       radius: 10
-      straight: straight
+      straight:
+        function: straight
       wg_length: 420
       width: 0.8
     function_name: cdsem_uturn
@@ -377,7 +451,8 @@ cells:
     name: cdsem_uturn_531743ce
   cdsem_uturn_87db98ff:
     changed:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -385,19 +460,27 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
-      straight: straight
+      straight:
+        function: straight
       width: 0.45
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       layer:
       - 1
       - 0
       layers_cladding: null
       pixel_size: 1
       radius: 10
+      straight:
+        function: straight
       wg_length: 420
       width: 0.5
     full:
-      bend90: bend_circular
+      bend90:
+        function: bend_circular
       cross_section:
         function: cross_section
       layer:
@@ -406,7 +489,8 @@ cells:
       layers_cladding: null
       pixel_size: 1
       radius: 10
-      straight: straight
+      straight:
+        function: straight
       wg_length: 420
       width: 0.45
     function_name: cdsem_uturn
@@ -602,6 +686,10 @@ cells:
   pcm_optical:
     changed: {}
     default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       dense_lines_gap: 0.3
       dense_lines_labels:
       - DL
@@ -614,6 +702,8 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
+      straight:
+        function: straight
       widths:
       - 0.4
       - 0.45
@@ -622,6 +712,10 @@ cells:
       - 0.8
       - 1
     full:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
       dense_lines_gap: 0.3
       dense_lines_labels:
       - DL
@@ -634,6 +728,8 @@ cells:
       - 0
       layers_cladding: null
       pixel_size: 1
+      straight:
+        function: straight
       widths:
       - 0.4
       - 0.45
@@ -648,6 +744,10 @@ cells:
 info:
   changed: {}
   default:
+    bend90:
+      function: bend_circular
+    cross_section:
+      function: cross_section
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -660,6 +760,8 @@ info:
     - 0
     layers_cladding: null
     pixel_size: 1
+    straight:
+      function: straight
     widths:
     - 0.4
     - 0.45
@@ -668,6 +770,10 @@ info:
     - 0.8
     - 1
   full:
+    bend90:
+      function: bend_circular
+    cross_section:
+      function: cross_section
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -680,6 +786,8 @@ info:
     - 0
     layers_cladding: null
     pixel_size: 1
+    straight:
+      function: straight
     widths:
     - 0.4
     - 0.45

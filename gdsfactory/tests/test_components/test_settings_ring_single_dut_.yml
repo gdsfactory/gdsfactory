@@ -6,11 +6,23 @@ cells:
       radius: 5
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
@@ -18,18 +30,48 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_6a2f750e
-  ring_single_dut:
+  taper_2e9853cc:
+    changed:
+      width2: 3
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: 3
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.taper
+    name: taper_2e9853cc
+    width1: 0.5
+    width2: 3
+  taper_2e9853cc_ring_single_dut:
     changed: {}
     child:
       changed:
         width2: 3
       default:
+        cross_section:
+          function: cross_section
         length: 10
         port: null
         width1: 0.5
         width2: null
         with_cladding_box: true
       full:
+        cross_section:
+          function: cross_section
         length: 10
         port: null
         width1: 0.5
@@ -43,57 +85,57 @@ cells:
       width1: 0.5
       width2: 3
     default:
+      bend:
+        function: bend_euler
+      component:
+        function: taper
+        width2: 3
+      coupler:
+        function: coupler_ring
       gap: 0.2
       length_x: 4
       length_y: 0
       radius: 5
+      straight:
+        function: straight
       wg_width: 0.5
       with_component: true
     full:
+      bend:
+        function: bend_euler
+      component:
+        function: taper
+        width2: 3
+      coupler:
+        function: coupler_ring
       gap: 0.2
       length_x: 4
       length_y: 0
       radius: 5
+      straight:
+        function: straight
       wg_width: 0.5
       with_component: true
     function_name: ring_single_dut
     info_version: 1
     module: gdsfactory.components.ring_single_dut
-    name: ring_single_dut
-  taper_2e9853cc:
-    changed:
-      width2: 3
-    default:
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      length: 10
-      port: null
-      width1: 0.5
-      width2: 3
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_2e9853cc
-    width1: 0.5
-    width2: 3
+    name: taper_2e9853cc_ring_single_dut
 info:
   changed: {}
   child:
     changed:
       width2: 3
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
@@ -107,23 +149,41 @@ info:
     width1: 0.5
     width2: 3
   default:
+    bend:
+      function: bend_euler
+    component:
+      function: taper
+      width2: 3
+    coupler:
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
     radius: 5
+    straight:
+      function: straight
     wg_width: 0.5
     with_component: true
   full:
+    bend:
+      function: bend_euler
+    component:
+      function: taper
+      width2: 3
+    coupler:
+      function: coupler_ring
     gap: 0.2
     length_x: 4
     length_y: 0
     radius: 5
+    straight:
+      function: straight
     wg_width: 0.5
     with_component: true
   function_name: ring_single_dut
   info_version: 1
   module: gdsfactory.components.ring_single_dut
-  name: ring_single_dut
+  name: taper_2e9853cc_ring_single_dut
 ports:
   o1:
     layer:

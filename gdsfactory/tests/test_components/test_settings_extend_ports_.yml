@@ -1,20 +1,58 @@
 cells:
-  extend_ports:
+  mmi1x2:
+    changed: {}
+    default:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2
+  mmi1x2_extend_ports:
     changed: {}
     child:
       changed: {}
       default:
+        cross_section:
+          function: cross_section
         gap_mmi: 0.25
         length_mmi: 5.5
         length_taper: 10
+        taper:
+          function: taper
         width: 0.5
         width_mmi: 2.5
         width_taper: 1
         with_cladding_box: true
       full:
+        cross_section:
+          function: cross_section
         gap_mmi: 0.25
         length_mmi: 5.5
         length_taper: 10
+        taper:
+          function: taper
         width: 0.5
         width_mmi: 2.5
         width_taper: 1
@@ -25,6 +63,10 @@ cells:
       name: mmi1x2
     default:
       centered: false
+      component:
+        function: mmi1x2
+      cross_section:
+        function: cross_section
       extension_factory: null
       length: 5
       port1: null
@@ -33,6 +75,10 @@ cells:
       port_type: optical
     full:
       centered: false
+      component:
+        function: mmi1x2
+      cross_section:
+        function: cross_section
       extension_factory: null
       length: 5
       port1: null
@@ -42,45 +88,31 @@ cells:
     function_name: extend_ports
     info_version: 1
     module: gdsfactory.components.extension
-    name: extend_ports
-  mmi1x2:
-    changed: {}
-    default:
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2
+    name: mmi1x2_extend_ports
 info:
   changed: {}
   child:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
@@ -91,6 +123,10 @@ info:
     name: mmi1x2
   default:
     centered: false
+    component:
+      function: mmi1x2
+    cross_section:
+      function: cross_section
     extension_factory: null
     length: 5
     port1: null
@@ -99,6 +135,10 @@ info:
     port_type: optical
   full:
     centered: false
+    component:
+      function: mmi1x2
+    cross_section:
+      function: cross_section
     extension_factory: null
     length: 5
     port1: null
@@ -108,7 +148,7 @@ info:
   function_name: extend_ports
   info_version: 1
   module: gdsfactory.components.extension
-  name: extend_ports
+  name: mmi1x2_extend_ports
 ports:
   o1:
     layer:

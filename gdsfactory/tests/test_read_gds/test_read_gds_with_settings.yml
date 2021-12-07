@@ -3,10 +3,14 @@ info:
   changed:
     length: 1.234
   default:
+    cross_section:
+      function: cross_section
     length: 10
     npoints: 2
     with_cladding_box: true
   full:
+    cross_section:
+      function: cross_section
     length: 1.234
     npoints: 2
     with_cladding_box: true
@@ -15,7 +19,6 @@ info:
   length: 1.234
   module: gdsfactory.components.straight
   name: straight_0a6c91fb
-  name_long: straight_0a6c91fb
   width: 0.5
 ports:
   o1:

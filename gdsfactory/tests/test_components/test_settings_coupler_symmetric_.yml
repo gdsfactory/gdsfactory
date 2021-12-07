@@ -2,10 +2,18 @@ cells:
   coupler_symmetric:
     changed: {}
     default:
+      bend:
+        function: bend_s
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.234
     full:
+      bend:
+        function: bend_s
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 5
       gap: 0.234
@@ -18,10 +26,18 @@ cells:
 info:
   changed: {}
   default:
+    bend:
+      function: bend_s
+    cross_section:
+      function: cross_section
     dx: 10
     dy: 5
     gap: 0.234
   full:
+    bend:
+      function: bend_s
+    cross_section:
+      function: cross_section
     dx: 10
     dy: 5
     gap: 0.234

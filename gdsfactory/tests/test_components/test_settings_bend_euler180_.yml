@@ -4,6 +4,8 @@ info:
     angle: 180
   default:
     angle: 90
+    cross_section:
+      function: cross_section
     direction: ccw
     npoints: 720
     p: 0.5
@@ -12,6 +14,8 @@ info:
   dy: 0.0
   full:
     angle: 180
+    cross_section:
+      function: cross_section
     direction: ccw
     npoints: 720
     p: 0.5

@@ -33,7 +33,12 @@ instances:
   coupler_ring_6859e681_m2p0_5p225:
     component: coupler_ring
     settings:
-      bend: bend_euler
+      bend:
+        function: bend_euler
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2

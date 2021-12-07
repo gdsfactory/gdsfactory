@@ -2,12 +2,16 @@ cells:
   taper:
     changed: {}
     default:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
       width2: null
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       length: 10
       port: null
       width1: 0.5
@@ -23,12 +27,16 @@ cells:
 info:
   changed: {}
   default:
+    cross_section:
+      function: cross_section
     length: 10
     port: null
     width1: 0.5
     width2: null
     with_cladding_box: true
   full:
+    cross_section:
+      function: cross_section
     length: 10
     port: null
     width1: 0.5

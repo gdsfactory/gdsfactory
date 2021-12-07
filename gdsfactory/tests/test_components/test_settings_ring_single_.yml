@@ -1,7 +1,8 @@
 cells:
   coupler_ring_6859e681:
     changed:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       cross_section:
         function: cross_section
       gap: 0.2
@@ -9,11 +10,22 @@ cells:
       radius: 10
     default:
       bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       radius: 5
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
@@ -26,15 +38,31 @@ cells:
   ring_single:
     changed: {}
     default:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       length_y: 0.6
       radius: 10
+      straight:
+        function: straight
     full:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
       gap: 0.2
       length_x: 4
       length_y: 0.6
       radius: 10
+      straight:
+        function: straight
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
@@ -42,15 +70,31 @@ cells:
 info:
   changed: {}
   default:
+    bend:
+      function: bend_euler
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
     gap: 0.2
     length_x: 4
     length_y: 0.6
     radius: 10
+    straight:
+      function: straight
   full:
+    bend:
+      function: bend_euler
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
     gap: 0.2
     length_x: 4
     length_y: 0.6
     radius: 10
+    straight:
+      function: straight
   function_name: ring_single
   info_version: 1
   module: gdsfactory.components.ring_single

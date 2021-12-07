@@ -1,4 +1,162 @@
-cells: {}
+cells:
+  bezier_2ee69c51:
+    changed:
+      control_points:
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
+      layer:
+      - 1
+      - 0
+      npoints: 99
+      width: 0.5
+    default:
+      control_points:
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
+      end_angle: null
+      grid: 0.001
+      layer:
+      - 1
+      - 0
+      name: null
+      npoints: 201
+      spike_length: 0
+      start_angle: null
+      width: 0.5
+      with_manhattan_facing_angles: true
+    end_angle: 0.235
+    full:
+      control_points:
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
+      end_angle: null
+      grid: 0.001
+      layer:
+      - 1
+      - 0
+      name: null
+      npoints: 99
+      spike_length: 0
+      start_angle: null
+      width: 0.5
+      with_manhattan_facing_angles: true
+    function_name: bezier
+    info_version: 1
+    length: 10.278
+    min_bend_radius: 9.959
+    module: gdsfactory.components.bezier
+    name: bezier_2ee69c51
+    start_angle: 0.235
+  bezier_2ee69c51_bend_s:
+    changed: {}
+    child:
+      changed:
+        control_points:
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
+        layer:
+        - 1
+        - 0
+        npoints: 99
+        width: 0.5
+      default:
+        control_points:
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 201
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      end_angle: 0.235
+      full:
+        control_points:
+        - - 0
+          - 0
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 10
+          - 2
+        end_angle: null
+        grid: 0.001
+        layer:
+        - 1
+        - 0
+        name: null
+        npoints: 99
+        spike_length: 0
+        start_angle: null
+        width: 0.5
+        with_manhattan_facing_angles: true
+      function_name: bezier
+      info_version: 1
+      length: 10.278
+      min_bend_radius: 9.959
+      module: gdsfactory.components.bezier
+      name: bezier_2ee69c51
+      start_angle: 0.235
+    default:
+      cross_section:
+        function: cross_section
+      nb_points: 99
+      size:
+      - 10
+      - 2
+      with_cladding_box: true
+    end_angle: 0.235
+    full:
+      cross_section:
+        function: cross_section
+      nb_points: 99
+      size:
+      - 10
+      - 2
+      with_cladding_box: true
+    function_name: bend_s
+    info_version: 1
+    length: 10.278
+    min_bend_radius: 9.959
+    module: gdsfactory.components.bend_s
+    name: bezier_2ee69c51_bend_s
+    start_angle: 0.235
 info:
   changed: {}
   child:
@@ -68,6 +226,8 @@ info:
     name: bezier_2ee69c51
     start_angle: 0.235
   default:
+    cross_section:
+      function: cross_section
     nb_points: 99
     size:
     - 10
@@ -75,6 +235,8 @@ info:
     with_cladding_box: true
   end_angle: 0.235
   full:
+    cross_section:
+      function: cross_section
     nb_points: 99
     size:
     - 10
@@ -85,7 +247,7 @@ info:
   length: 10.278
   min_bend_radius: 9.959
   module: gdsfactory.components.bend_s
-  name: bend_s
+  name: bezier_2ee69c51_bend_s
   start_angle: 0.235
 ports:
   o1:

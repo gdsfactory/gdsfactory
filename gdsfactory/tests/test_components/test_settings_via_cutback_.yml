@@ -606,6 +606,25 @@ cells:
       - 0
       min_pad_spacing: 0
       num_vias: 100
+      pad:
+        function: contact
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - enclosure: 2
+          function: via
+          layer:
+          - 44
+          - 0
+        - function: via
+          layer:
+          - 43
+          - 0
       pad_size:
       - 150
       - 150
@@ -625,6 +644,25 @@ cells:
       - 0
       min_pad_spacing: 0
       num_vias: 100
+      pad:
+        function: contact
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - enclosure: 2
+          function: via
+          layer:
+          - 44
+          - 0
+        - function: via
+          layer:
+          - 43
+          - 0
       pad_size:
       - 150
       - 150
@@ -650,6 +688,25 @@ info:
     - 0
     min_pad_spacing: 0
     num_vias: 100
+    pad:
+      function: contact
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
     pad_size:
     - 150
     - 150
@@ -669,6 +726,25 @@ info:
     - 0
     min_pad_spacing: 0
     num_vias: 100
+    pad:
+      function: contact
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
     pad_size:
     - 150
     - 150

@@ -21,6 +21,8 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      cross_section:
+        function: cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -32,6 +34,8 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      cross_section:
+        function: cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -43,6 +47,8 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      cross_section:
+        function: cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -54,6 +60,8 @@ instances:
     component: bend_euler
     settings:
       angle: 90
+      cross_section:
+        function: cross_section
       direction: ccw
       npoints: 720
       p: 0.5
@@ -64,6 +72,12 @@ instances:
   coupler_8eaa93fc_5p0_0p4:
     component: coupler
     settings:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 2
       gap: 0.3
@@ -71,6 +85,12 @@ instances:
   coupler_cb43455d_1p5_22p4:
     component: coupler
     settings:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
       dx: 10
       dy: 2
       gap: 0.2
@@ -78,6 +98,8 @@ instances:
   straight_0832c2df_19p5_21p4:
     component: straight
     settings:
+      cross_section:
+        function: cross_section
       length: 1
       npoints: 2
       width: 0.55
@@ -85,6 +107,8 @@ instances:
   straight_325d35db_38p0_11p4:
     component: straight
     settings:
+      cross_section:
+        function: cross_section
       length: 4
       npoints: 2
       width: 0.55
@@ -92,6 +116,8 @@ instances:
   straight_dab38390_19p5_23p4:
     component: straight
     settings:
+      cross_section:
+        function: cross_section
       length: 1
       npoints: 2
       width: 0.45
@@ -99,6 +125,8 @@ instances:
   straight_e8243227_26p5_23p4:
     component: straight
     settings:
+      cross_section:
+        function: cross_section
       length: 3
       npoints: 2
       width: 0.55
@@ -106,6 +134,8 @@ instances:
   straight_e8243227_26p5_m0p6:
     component: straight
     settings:
+      cross_section:
+        function: cross_section
       length: 3
       npoints: 2
       width: 0.55
@@ -113,6 +143,8 @@ instances:
   taper_35742b85_22p5_1p4:
     component: taper
     settings:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.5
@@ -121,6 +153,8 @@ instances:
   taper_497b9706_22p5_m0p6:
     component: taper
     settings:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.5
@@ -129,6 +163,8 @@ instances:
   taper_5ef18b11_22p5_21p4:
     component: taper
     settings:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.45
@@ -137,6 +173,8 @@ instances:
   taper_85794c73_22p5_23p4:
     component: taper
     settings:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.55
@@ -145,6 +183,8 @@ instances:
   taper_95acb109_16p5_21p4:
     component: taper
     settings:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.55
@@ -153,6 +193,8 @@ instances:
   taper_feb4a44d_16p5_23p4:
     component: taper
     settings:
+      cross_section:
+        function: cross_section
       length: 5
       port: null
       width1: 0.45

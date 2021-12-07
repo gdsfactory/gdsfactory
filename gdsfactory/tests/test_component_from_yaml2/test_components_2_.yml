@@ -4,17 +4,25 @@ cells:
       length_mmi: 5
       width_mmi: 4.5
     default:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 2.5
       width_taper: 1
       with_cladding_box: true
     full:
+      cross_section:
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5
       length_taper: 10
+      taper:
+        function: taper
       width: 0.5
       width_mmi: 4.5
       width_taper: 1

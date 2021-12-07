@@ -24,11 +24,15 @@ cells:
   grating_coupler_array:
     changed: {}
     default:
+      grating_coupler:
+        function: grating_coupler_circular
       n: 6
       pitch: 127
       port_name: o1
       rotation: 0
     full:
+      grating_coupler:
+        function: grating_coupler_circular
       n: 6
       pitch: 127
       port_name: o1
@@ -100,11 +104,15 @@ cells:
 info:
   changed: {}
   default:
+    grating_coupler:
+      function: grating_coupler_circular
     n: 6
     pitch: 127
     port_name: o1
     rotation: 0
   full:
+    grating_coupler:
+      function: grating_coupler_circular
     n: 6
     pitch: 127
     port_name: o1

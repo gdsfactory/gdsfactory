@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # c = test_read_gds_hash()
     # test_mix_cells_from_gds_and_from_function()
 
-    # _write()
+    _write()
     # test_load_component_gds()
     # test_read_gds_with_settings()
     # test_read_gds_equivalent()

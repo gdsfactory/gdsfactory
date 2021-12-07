@@ -23,7 +23,8 @@ cells:
     name: circle_602e85fd
   grating_coupler_ellipti_4d17128b:
     changed:
-      decorator: add_pins
+      decorator:
+        function: add_pins
       grating_line_width: 0.6
       layer:
       - 34
@@ -58,7 +59,8 @@ cells:
       wg_width: 0.5
     full:
       big_last_tooth: false
-      decorator: add_pins
+      decorator:
+        function: add_pins
       fiber_angle: 15
       fiber_marker_layer:
       - 203
@@ -89,7 +91,8 @@ cells:
     wavelength: 1.554
 info:
   changed:
-    decorator: add_pins
+    decorator:
+      function: add_pins
     grating_line_width: 0.6
     layer:
     - 34
@@ -124,7 +127,8 @@ info:
     wg_width: 0.5
   full:
     big_last_tooth: false
-    decorator: add_pins
+    decorator:
+      function: add_pins
     fiber_angle: 15
     fiber_marker_layer:
     - 203
