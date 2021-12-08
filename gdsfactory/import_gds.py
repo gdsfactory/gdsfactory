@@ -417,7 +417,7 @@ def import_gds(
 
     component.name = name or component.name
     return cell_without_validator(lambda: component)(
-        name=component.name, max_name_length=max_name_length
+        name=component.name, max_name_length=max_name_length, autoname=False
     )
 
 
