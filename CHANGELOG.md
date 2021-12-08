@@ -18,7 +18,11 @@ Maybe:
 - pass force-regen flag from pytest
 
 ## 3.7.7
+
 - warning includes the number of unnamed cells
+- cells that include decorators that return a new cell now name both cells
+- pack includes a name_prefix to avoid unnamed cells
+- add `taper_cross_section` into a container so we can use a decorator over it without triggering InmutabilityError
 
 ## 3.7.6
 

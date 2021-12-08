@@ -10,6 +10,7 @@ import rectpack
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
+from gdsfactory.name import get_name_short
 from gdsfactory.types import (
     Anchor,
     ComponentFactory,
@@ -25,7 +26,6 @@ def _pack_single_bin(
     max_size: Tuple[float, float],
     sort_by_area: bool,
     density: float,
-    precision: float,
 ) -> Tuple[Dict[int, Tuple[Number, Number, Number, Number]], Dict[Any, Any]]:
     """Packs a dict of rectangles {id:(w,h)} and tries to
     pack it into a bin as small as possible with aspect ratio `aspect_ratio`
@@ -38,7 +38,6 @@ def _pack_single_bin(
         max_size: tuple of max X, Y size
         sort_by_area: sorts components by area
         density: of packing. Values closer to 1 require more computation to pack tighter
-        precision: Desired precision for rounding vertex coordinates.
 
     Returns:
         packed rectangles dict {id:(x,y,w,h)}
@@ -110,6 +109,7 @@ def pack(
     prefix: str = "",
     offset: Float2 = (0, 0),
     anchor: Anchor = "cc",
+    name_prefix: Optional[str] = None,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -132,8 +132,8 @@ def pack(
 
     if density < 1.01:
         raise ValueError(
-            "pack() was given a `density` argument that is"
-            + " too small.  The density argument must be >= 1.01"
+            "pack() `density` argument is too small. "
+            "The density argument must be >= 1.01"
         )
 
     # Santize max_size variable
@@ -153,9 +153,8 @@ def pack(
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
-                "pack() failed because one of the objects (D)"
-                + "in `component_list` is has an x or y dimension larger than `max_size` and "
-                + "so cannot be packed"
+                "pack() failed because one Component in component_list has x or y "
+                "dimension larger than `max_size` and cannot be packed"
             )
         rect_dict[n] = (w, h)
 
@@ -167,13 +166,13 @@ def pack(
             max_size=max_size,
             sort_by_area=sort_by_area,
             density=density,
-            precision=precision,
         )
         packed_list.append(packed_rect_dict)
 
     components_packed_list = []
-    for rect_dict in packed_list:
-        packed = Component()
+    for i, rect_dict in enumerate(packed_list):
+        name = get_name_short(f"{name_prefix or 'pack'}_{i}")
+        packed = Component(name, with_uuid=True)
         packed.info["components"] = {}
         for n, rect in rect_dict.items():
             x, y, w, h = rect
@@ -259,10 +258,12 @@ if __name__ == "__main__":
 
     p = pack(
         [gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)],
-        spacing=10.0,
+        spacing=20.0,
         max_size=(100, 100),
         text=gf.c.text,
         prefix="R",
+        # name_prefix="demo",
     )
     c = p[0]
+    print(c.name)
     c.show()
