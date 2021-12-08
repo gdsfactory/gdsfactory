@@ -13,7 +13,7 @@ import omegaconf
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component, clean_dict
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value
+from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_short
 
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 1
@@ -50,14 +50,6 @@ def clean_doc(name: str) -> str:
 
     # name = ",".join(name.split('\n'))
     # name = " ".join(name.split())
-    return name
-
-
-def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
-    """Returns a short name."""
-    if len(name) > max_name_length:
-        name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{name[:(max_name_length - 9)]}_{name_hash}"
     return name
 
 
@@ -150,13 +142,6 @@ def cell_without_validator(func):
 
             component = func(*args, **kwargs)
 
-            if decorator:
-                assert callable(
-                    decorator
-                ), f"decorator = {type(decorator)} needs to be callable"
-                component_new = decorator(component)
-                component = component_new or component
-
             if not isinstance(component, Component):
                 raise CellReturnTypeError(
                     f"function `{func.__name__}` return type = `{type(component)}`",
@@ -199,6 +184,19 @@ def cell_without_validator(func):
             component.info.full = full
 
             component.info.update(**info)
+
+            if decorator:
+                assert callable(
+                    decorator
+                ), f"decorator = {type(decorator)} needs to be callable"
+                component_new = decorator(component)
+                if component_new:
+                    component_new.name = get_name_short(
+                        f"{component.name}_{clean_value(decorator)}",
+                        max_name_length=max_name_length,
+                    )
+                component = component_new or component
+
             component.cached = True
             CACHE[name] = component
             return component
@@ -282,9 +280,27 @@ def test_names() -> None:
     assert name_args == name_kwargs, name_with_prefix
 
 
+@cell
+def straight_with_pins(**kwargs):
+    import gdsfactory as gf
+
+    c = gf.Component()
+    ref = c << gf.c.straight()
+    c.add_ports(ref.ports)
+    gf.add_pins(c)
+    return c
+
+
 if __name__ == "__main__":
-    c = wg(name="my_waveguide")
-    print(c.name)
+    import gdsfactory as gf
+
+    c = gf.Component()
+    c = straight_with_pins(decorator=gf.routing.add_fiber_single)
+    # c = straight_with_pins()
+    c.show()
+
+    # c = wg(name="my_waveguide")
+    # print(c.name)
 
     # dummy2 = functools.partial(_dummy, length=3)
     # c = dummy2()

@@ -17,6 +17,13 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.7
+
+- `write_gds` prints warning when writing GDS files with Unnamed cells. Unnamed cells don't get deterministic names. warning includes the number of unnamed cells
+- cells with `decorator=function` that return a new cell do not leave Unnamed cells now
+- pack includes a name_prefix to avoid unnamed cells
+- add `taper_cross_section` into a container so we can use a decorator over it without triggering InmutabilityError
+
 ## 3.7.6
 
 - to dict accepts component and function prefixes of the structures that we want to ignore when saving the settings dict
