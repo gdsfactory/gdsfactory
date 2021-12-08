@@ -24,7 +24,7 @@ class CellReturnTypeError(ValueError):
 
 
 def clear_cache() -> None:
-    """Clears the cache of components."""
+    """Clears the component CACHE."""
     global CACHE
     CACHE = {}
 
@@ -32,25 +32,6 @@ def clear_cache() -> None:
 def print_cache():
     for k in CACHE:
         print(k)
-
-
-def clean_doc(name: str) -> str:
-    """Returns a clean docstring"""
-    # replace_map = {
-    #     " ": " ",
-    #     "  ": " ",
-    #     "   ": " ",
-    #     "    ": ",",
-    #     "     ": " ",
-    #     "\n": " ",
-    #     "\n\n": " ",
-    # }
-    # for k, v in list(replace_map.items()):
-    #     name = name.replace(k, v)
-
-    # name = ",".join(name.split('\n'))
-    # name = " ".join(name.split())
-    return name
 
 
 def cell_without_validator(func):
@@ -62,6 +43,7 @@ def cell_without_validator(func):
         type annotations
 
         kwargs:
+            autoname: if True renames component based on args and kwargs
             name (str): Optional (ignored when autoname=True)
             cache (bool): get component from the cache if it already exists.
               Useful in jupyter notebook, so you don't have to clear the cache
@@ -92,6 +74,7 @@ def cell_without_validator(func):
           c.plot()
 
         """
+        autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
         info = kwargs.pop("info", omegaconf.DictConfig({}))
@@ -160,7 +143,8 @@ def cell_without_validator(func):
             else:
                 component_name = name
 
-            component.name = component_name
+            if autoname:
+                component.name = component_name
             component.info.name = component_name
             component.info.module = func.__module__
             component.info.function_name = func.__name__
@@ -190,7 +174,7 @@ def cell_without_validator(func):
                     decorator
                 ), f"decorator = {type(decorator)} needs to be callable"
                 component_new = decorator(component)
-                if component_new:
+                if component_new and autoname:
                     component_new.name = get_name_short(
                         f"{component.name}_{clean_value(decorator)}",
                         max_name_length=max_name_length,

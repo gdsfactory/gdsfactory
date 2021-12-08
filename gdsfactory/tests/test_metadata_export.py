@@ -12,6 +12,7 @@ def test_metadata_export_partial():
 
 
 def test_metadata_export_function():
+    gf.clear_cache()
     c = gf.c.mzi()
     d = c.to_dict_config()
     assert d.info.full.straight.function == "straight"
@@ -21,7 +22,6 @@ def test_metadata_export_compose():
     straight_wide = toolz.compose(gf.c.extend_ports, gf.c.straight)
     c = gf.c.mzi(straight=straight_wide)
     d = c.to_dict_config()
-    print(d.info.full.straight)
     assert d.info.full.straight[0]["function"] == "straight"
     assert d.info.full.straight[1]["function"] == "extend_ports"
 

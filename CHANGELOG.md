@@ -17,6 +17,11 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.8
+
+- cell accepts `autoname` (True by default)
+- import_gds defaults calls cell with `autoname=False`
+
 ## 3.7.7
 
 - `write_gds` prints warning when writing GDS files with Unnamed cells. Unnamed cells don't get deterministic names. warning includes the number of unnamed cells
