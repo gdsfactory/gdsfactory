@@ -47,7 +47,11 @@ def taper_cross_section(
         width_type="linear" if linear else "sine",
     )
     taper_path = gf.path.straight(length=length, npoints=npoints)
-    return gf.path.extrude(taper_path, transition)
+
+    c = gf.Component()
+    ref = c << gf.path.extrude(taper_path, transition)
+    c.add_ports(ref.ports)
+    return c
 
 
 taper_cross_section_linear = gf.partial(taper_cross_section, linear=True, npoints=2)

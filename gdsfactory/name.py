@@ -6,6 +6,7 @@ import inspect
 from typing import Any, Iterable
 
 import numpy as np
+import pydantic
 import toolz
 from phidl import Device, Port
 from phidl.device_layout import Path as PathPhidl
@@ -14,6 +15,15 @@ from gdsfactory.hash_points import hash_points
 from gdsfactory.snap import snap_to_grid
 
 MAX_NAME_LENGTH = 32
+
+
+@pydantic.validate_arguments
+def get_name_short(name: str, max_name_length=MAX_NAME_LENGTH) -> str:
+    """Returns a short name."""
+    if len(name) > max_name_length:
+        name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
+        name = f"{name[:(max_name_length - 9)]}_{name_hash}"
+    return name
 
 
 def join_first_letters(name: str) -> str:
@@ -182,23 +192,6 @@ def clean_value(value: Any) -> str:
         value = "_".join(clean_value(v) for v in value)
 
     return str(value)
-
-
-def get_name_short(name: str):
-    if len(name) > MAX_NAME_LENGTH:
-        name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
-    return clean_name(name)
-
-
-def get_name(name: str) -> str:
-    """Returns name with correct number of characters"""
-    if not isinstance(name, str):
-        raise ValueError(f"{name} needs to be a string")
-    if len(name) > MAX_NAME_LENGTH:
-        name_hash = hashlib.md5(name.encode()).hexdigest()[:8]
-        name = f"{name[:(MAX_NAME_LENGTH - 9)]}_{name_hash}"
-    return clean_name(name)
 
 
 def test_clean_value() -> None:
