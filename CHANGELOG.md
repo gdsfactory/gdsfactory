@@ -19,8 +19,8 @@ Maybe:
 
 ## 3.7.7
 
-- warning includes the number of unnamed cells
-- cells that include decorators that return a new cell now name both cells
+- `write_gds` prints warning when writing GDS files with Unnamed cells. Unnamed cells don't get deterministic names. warning includes the number of unnamed cells
+- cells with `decorator=function` that return a new cell do not leave Unnamed cells now
 - pack includes a name_prefix to avoid unnamed cells
 - add `taper_cross_section` into a container so we can use a decorator over it without triggering InmutabilityError
 
