@@ -47,7 +47,7 @@ def test_import_gds_add_padding() -> gf.Component:
     gf.clear_cache()
 
     c1 = import_gds(gdspath, decorator=gf.add_padding_container, name="mzi")
-    c1.name == "mzi"
+    assert c1.name == "mzi"
     return c1
 
 
