@@ -1,4 +1,26 @@
 cells:
+  extrude_96406c1e:
+    changed:
+      cross_section: {}
+      p: path_ed76b77e33fcc87170ee125e6372cc8f
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: path_ed76b77e33fcc87170ee125e6372cc8f
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
+    length: 10
+    module: gdsfactory.path
+    name: extrude_96406c1e
   taper_cross_section_11c0a1bc:
     changed:
       linear: false
@@ -37,7 +59,6 @@ cells:
       npoints: 101
     function_name: taper_cross_section
     info_version: 1
-    length: 10
     module: gdsfactory.components.taper_cross_section
     name: taper_cross_section_11c0a1bc
 info:
@@ -78,7 +99,6 @@ info:
     npoints: 101
   function_name: taper_cross_section
   info_version: 1
-  length: 10
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_11c0a1bc
 ports:
