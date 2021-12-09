@@ -12,6 +12,7 @@
 # Packages
 *.egg
 *.egg-info
+*.csv
 dist
 doc_pdks/
 deprecated/
