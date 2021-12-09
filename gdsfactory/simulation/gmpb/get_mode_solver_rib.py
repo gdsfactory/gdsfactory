@@ -128,13 +128,13 @@ def get_mode_solver_rib(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_rib()
+    m = get_mode_solver_rib(slab_thickness=0.09)
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"
-    origin = "upper"
+    origin = "lower"
     plt.imshow(
-        eps ** 0.5,
+        eps.T ** 0.5,
         cmap=cmap,
         origin=origin,
         aspect="auto",

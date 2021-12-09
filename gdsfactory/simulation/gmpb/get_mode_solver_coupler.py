@@ -21,7 +21,7 @@ def get_mode_solver_coupler(
     wg_widths: Floats = (0.5, 0.5),
     gaps: Floats = (0.2,),
     wg_thickness: float = 0.22,
-    slab_thickness: int = 0.0,
+    slab_thickness: float = 0.0,
     ncore: float = 3.47,
     nclad: float = 1.44,
     ymargin: float = 2.0,
@@ -147,14 +147,15 @@ def get_mode_solver_coupler(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_coupler()
-    # m.init_params(p=0.5, reset_fields=False)
+    m = get_mode_solver_coupler(slab_thickness=90e-3)
+    m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"
-    origin = "upper"
+    origin = "lower"
     plt.imshow(
-        eps ** 0.5,
+        eps.T ** 0.5,
         cmap=cmap,
         origin=origin,
         aspect="auto",
     )
+    plt.show()

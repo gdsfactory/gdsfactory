@@ -45,6 +45,7 @@ def find_neff_vs_width(
     df = pd.DataFrame(neff)
     df["width"] = width
     if filepath:
+        filepath = pathlib.Path(filepath)
         dirpath = filepath.parent
         dirpath.mkdir(exist_ok=True, parents=True)
         df.to_csv(filepath, index=False)
