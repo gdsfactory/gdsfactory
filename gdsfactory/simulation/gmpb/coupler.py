@@ -20,7 +20,7 @@ get_mode_solver_coupler_rib90 = gf.partial(
 )
 
 get_mode_solver_coupler_nitride = gf.partial(
-    get_mode_solver_coupler, wg_widths=(0.5, 0.5), slab_thickness=0.09, ncore=2.0
+    get_mode_solver_coupler, wg_widths=(1.0, 1.0), slab_thickness=0.0, ncore=2.0
 )
 
 
