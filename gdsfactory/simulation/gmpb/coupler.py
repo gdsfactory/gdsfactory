@@ -9,19 +9,26 @@ from gdsfactory.simulation.gmpb.get_mode_solver_coupler import get_mode_solver_c
 
 PATH = pathlib.Path(__file__).parent.absolute() / "modes"
 
+nm = 1e-3
+wg_thickness = 220 * nm
+nitride_thickness = 400 * nm
+slab_thickness = 90 * nm
+strip_width = 500 * nm
+rib_width = 550 * nm
+
 
 get_mode_solver_coupler_strip = gf.partial(
     get_mode_solver_coupler,
-    wg_width=0.5,
-    wg_thickness=0.22,
+    wg_width=strip_width,
+    wg_thickness=wg_thickness,
     slab_thickness=0.0,
 )
 
 get_mode_solver_coupler_rib90 = gf.partial(
     get_mode_solver_coupler,
-    wg_width=0.5,
-    wg_thickness=0.22,
-    slab_thickness=0.09,
+    wg_width=rib_width,
+    wg_thickness=wg_thickness,
+    slab_thickness=slab_thickness,
 )
 
 get_mode_solver_coupler_nitride = gf.partial(
@@ -29,7 +36,7 @@ get_mode_solver_coupler_nitride = gf.partial(
     wg_width=1.0,
     slab_thickness=0.0,
     ncore=2.0,
-    wg_thickness=0.4,
+    wg_thickness=nitride_thickness,
     sz=4,
     ymargin=4,
 )
@@ -55,8 +62,8 @@ find_coupling_vs_gap_rib = gf.partial(
 find_coupling_vs_gap_nitride = gf.partial(
     find_coupling_vs_gap,
     mode_solver=get_mode_solver_coupler_nitride,
-    gap1=0.3,
-    gap2=0.6,
+    gap1=300 * nm,
+    gap2=600 * nm,
 )
 
 
@@ -66,5 +73,6 @@ if __name__ == "__main__":
     # gm.plot_coupling_vs_gap(df)
 
     # lc = find_coupling_vs_gap_strip()
+    # lc = find_coupling_strip(gap=0.2)
     lc = find_coupling_nitride(gap=0.4)
     print(lc)
