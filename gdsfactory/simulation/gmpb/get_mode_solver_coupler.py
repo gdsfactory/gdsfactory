@@ -1,7 +1,7 @@
 """FIXME! add sidewall angles."""
 import pathlib
 import tempfile
-from typing import Tuple
+from typing import Optional, Tuple
 
 import meep as mp
 import numpy as np
@@ -18,8 +18,10 @@ Floats = Tuple[float, ...]
 
 @pydantic.validate_arguments
 def get_mode_solver_coupler(
-    wg_widths: Floats = (0.5, 0.5),
-    gaps: Floats = (0.2,),
+    wg_width: float = 0.5,
+    gap: float = 0.2,
+    wg_widths: Optional[Floats] = None,
+    gaps: Optional[Floats] = None,
     wg_thickness: float = 0.22,
     slab_thickness: float = 0.0,
     ncore: float = 3.47,
@@ -65,6 +67,8 @@ def get_mode_solver_coupler(
 
 
     """
+    wg_widths = wg_widths or (wg_width, wg_width)
+    gaps = gaps or (gap,)
     material_core = mp.Medium(index=ncore)
     material_clad = mp.Medium(index=nclad)
 
@@ -84,7 +88,7 @@ def get_mode_solver_coupler(
         mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
             material=material_core,
-            center=mp.Vector3(z=-0.5 * slab_thickness),
+            center=mp.Vector3(z=slab_thickness / 2),
         ),
     ]
 
@@ -96,7 +100,7 @@ def get_mode_solver_coupler(
             mp.Block(
                 size=mp.Vector3(mp.inf, wg_width, wg_thickness),
                 material=material_core,
-                center=mp.Vector3(y=y + wg_width / 2, z=0),
+                center=mp.Vector3(y=y + wg_width / 2, z=wg_thickness / 2),
             )
         )
 
@@ -147,7 +151,7 @@ def get_mode_solver_coupler(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_coupler(slab_thickness=90e-3)
+    m = get_mode_solver_coupler(slab_thickness=90e-3, gap=0.5, wg_width=1, res=64)
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"

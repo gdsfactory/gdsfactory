@@ -35,9 +35,37 @@ def coupling_length(
 
 
 @pydantic.validate_arguments
+def find_coupling(
+    gap: float = 0.2,
+    mode_solver: ModeSolverFactory = get_mode_solver_coupler,
+    find_modes: Callable = find_modes_function,
+    **kwargs
+) -> float:
+    """
+    Returns coupling
+
+    Args:
+        gap:
+        mode_solver:
+        find_modes:
+
+    keyword Args:
+        nmodes:
+        wavelength:
+        parity:
+    """
+    modes = find_modes(mode_solver=gf.partial(mode_solver, gaps=(gap,)), **kwargs)
+    ne = modes[1].neff
+    no = modes[2].neff
+
+    lc = coupling_length(neff1=ne, neff2=no)
+    return lc
+
+
+@pydantic.validate_arguments
 def find_coupling_vs_gap(
     gap1: float = 0.2,
-    gap2: float = 0.6,
+    gap2: float = 0.4,
     steps: int = 12,
     mode_solver: ModeSolverFactory = get_mode_solver_coupler,
     find_modes: Callable = find_modes_function,

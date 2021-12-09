@@ -1,7 +1,10 @@
 import pathlib
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmpb.find_coupling_vs_gap import find_coupling_vs_gap
+from gdsfactory.simulation.gmpb.find_coupling_vs_gap import (
+    find_coupling,
+    find_coupling_vs_gap,
+)
 from gdsfactory.simulation.gmpb.get_mode_solver_coupler import get_mode_solver_coupler
 
 PATH = pathlib.Path(__file__).parent.absolute() / "modes"
@@ -9,18 +12,36 @@ PATH = pathlib.Path(__file__).parent.absolute() / "modes"
 
 get_mode_solver_coupler_strip = gf.partial(
     get_mode_solver_coupler,
-    wg_widths=(0.5, 0.5),
+    wg_width=0.5,
+    wg_thickness=0.22,
     slab_thickness=0.0,
 )
 
 get_mode_solver_coupler_rib90 = gf.partial(
     get_mode_solver_coupler,
-    wg_widths=(0.5, 0.5),
+    wg_width=0.5,
+    wg_thickness=0.22,
     slab_thickness=0.09,
 )
 
 get_mode_solver_coupler_nitride = gf.partial(
-    get_mode_solver_coupler, wg_widths=(1.0, 1.0), slab_thickness=0.0, ncore=2.0
+    get_mode_solver_coupler,
+    wg_width=1.0,
+    slab_thickness=0.0,
+    ncore=2.0,
+    wg_thickness=0.4,
+    sz=4,
+    ymargin=4,
+)
+
+
+find_coupling_strip = gf.partial(
+    find_coupling,
+    mode_solver=get_mode_solver_coupler_strip,
+)
+find_coupling_rib = gf.partial(find_coupling, mode_solver=get_mode_solver_coupler_rib90)
+find_coupling_nitride = gf.partial(
+    find_coupling, mode_solver=get_mode_solver_coupler_nitride
 )
 
 
@@ -32,12 +53,18 @@ find_coupling_vs_gap_rib = gf.partial(
     find_coupling_vs_gap, mode_solver=get_mode_solver_coupler_rib90
 )
 find_coupling_vs_gap_nitride = gf.partial(
-    find_coupling_vs_gap, mode_solver=get_mode_solver_coupler_nitride
+    find_coupling_vs_gap,
+    mode_solver=get_mode_solver_coupler_nitride,
+    gap1=0.3,
+    gap2=0.6,
 )
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gmpb as gm
+    # import gdsfactory.simulation.gmpb as gm
+    # df = find_coupling_vs_gap_strip()
+    # gm.plot_coupling_vs_gap(df)
 
-    df = find_coupling_vs_gap_strip()
-    gm.plot_coupling_vs_gap(df)
+    # lc = find_coupling_vs_gap_strip()
+    lc = find_coupling_nitride(gap=0.4)
+    print(lc)

@@ -128,7 +128,7 @@ def get_mode_solver_rib(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_rib(slab_thickness=0.09)
+    m = get_mode_solver_rib(slab_thickness=0.09, res=64)
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"
