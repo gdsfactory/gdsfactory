@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.7.9
+
+- add `gf.components.copy_layers` to duplicate a component in multiple layers
+
 ## 3.7.8
 
 - cell accepts `autoname` (True by default)
