@@ -1,8 +1,8 @@
 import pathlib
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmpb.find_neff_vs_width import find_neff_vs_width
-from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.modes.find_neff_vs_width import find_neff_vs_width
+from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 
 PATH = pathlib.Path(__file__).parent.absolute() / "modes"
 
@@ -50,7 +50,7 @@ find_neff_vs_width_nitride = gf.partial(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gmpb as gm
+    import gdsfactory.simulation.modes as gm
 
     df = find_neff_vs_width_strip()
     df = find_neff_vs_width_rib90()

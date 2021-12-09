@@ -7,9 +7,9 @@ import pandas as pd
 import pydantic
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmpb.find_modes import find_modes as find_modes_function
-from gdsfactory.simulation.gmpb.get_mode_solver_coupler import get_mode_solver_coupler
-from gdsfactory.simulation.gmpb.types import ModeSolverFactory
+from gdsfactory.simulation.modes.find_modes import find_modes as find_modes_function
+from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
+from gdsfactory.simulation.modes.types import ModeSolverFactory
 from gdsfactory.types import Callable, Optional, PathType
 
 

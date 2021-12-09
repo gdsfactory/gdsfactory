@@ -1,11 +1,11 @@
 import pathlib
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmpb.find_coupling_vs_gap import (
+from gdsfactory.simulation.modes.find_coupling_vs_gap import (
     find_coupling,
     find_coupling_vs_gap,
 )
-from gdsfactory.simulation.gmpb.get_mode_solver_coupler import get_mode_solver_coupler
+from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 
 PATH = pathlib.Path(__file__).parent.absolute() / "modes"
 
@@ -68,7 +68,7 @@ find_coupling_vs_gap_nitride = gf.partial(
 
 
 if __name__ == "__main__":
-    # import gdsfactory.simulation.gmpb as gm
+    # import gdsfactory.simulation.modes as gm
     # df = find_coupling_vs_gap_strip()
     # gm.plot_coupling_vs_gap(df)
 
