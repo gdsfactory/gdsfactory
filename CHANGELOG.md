@@ -21,7 +21,8 @@ Maybe:
 
 - add `gf.components.copy_layers` to duplicate a component in multiple layers.
 - better error message for `gf.pack` when it fails to pack some Component.
-- gf.simulation.gmpb.find_neff_vs_width can store neffs in CSV file when passing `filepath`
+- rename gf.simulation.gmpb as modes
+- gf.simulation.modes.find_neff_vs_width can store neffs in CSV file when passing `filepath`
 
 ## 3.7.8
 
