@@ -39,8 +39,18 @@ def find_modes(
         tol: tolerance when finding modes
         wavelength: wavelength
         mode_number: mode order of the first mode
-        paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM. Reduces spurious modes.
-        kwargs: for the mode solver
+        paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+
+    Keyword Args:
+        wg_width: wg_width (um)
+        wg_thickness: wg height (um)
+        slab_thickness: thickness for the waveguide slab
+        ncore: core material refractive index
+        nclad: clad material refractive index
+        sy: simulation region width (um)
+        sz: simulation region height (um)
+        res: resolution (pixels/um)
+        nmodes: number of modes
 
     Returns: Dict[mode_number, Mode]
 
