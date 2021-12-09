@@ -17,9 +17,9 @@ import meep as mp
 import numpy as np
 from meep import mpb
 
-from gdsfactory.simulation.gmpb.disable_print import disable_print, enable_print
-from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.gmpb.types import Mode, ModeSolverOrFactory
+from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
+from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
 
 mpb.Verbosity(0)
 

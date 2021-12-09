@@ -1,7 +1,7 @@
 import numpy as np
 
-from gdsfactory.simulation.gmpb.find_modes import find_modes
-from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.modes.find_modes import find_modes
+from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 
 
 def test_find_modes():

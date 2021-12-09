@@ -1,4 +1,4 @@
-import gdsfactory.simulation.gmpb as gm
+import gdsfactory.simulation.modes as gm
 
 
 def test_neff_vs_width(dataframe_regression):
