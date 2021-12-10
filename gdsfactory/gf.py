@@ -25,7 +25,7 @@ from gdsfactory.sweep.write_sweep_from_yaml import import_custom_doe_factories
 from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
 
-VERSION = "3.8.0"
+VERSION = "3.8.1"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
