@@ -1,7 +1,7 @@
 import numpy as np
 import tidy3d as td
 
-from gdsfactory.simulation.gtidy3d.get_sparameters import get_sparameters
+from gdsfactory.simulation.tidy3d.get_sparameters import get_sparameters
 
 
 def get_coupling(sim: td.Simulation) -> np.ndarray:
