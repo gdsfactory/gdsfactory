@@ -14,6 +14,7 @@ from gdsfactory.types import Float2, Layer
 def rectangle_with_slits(
     size: Tuple[float, float] = (100.0, 200.0),
     layer: Layer = (1, 0),
+    layer_slit: Optional[Layer] = (2, 0),
     centered: bool = False,
     port_type: Optional[str] = None,
     slit_size: Tuple[float, float] = (1.0, 1.0),
@@ -25,6 +26,7 @@ def rectangle_with_slits(
     Args:
         size: (tuple) Width and height of rectangle.
         layer: Specific layer to put polygon geometry on.
+        layer_slit: does a boolan NOT when None.
         centered: True sets center to (0, 0), False sets south-west to (0, 0)
         port_type: for the rectangle
         slit_size: x, y slit size
@@ -59,7 +61,7 @@ def rectangle_with_slits(
     c = Component()
     r = rectangle(size=size, layer=layer, port_type=port_type, centered=centered)
     c.add_ports(r.ports)
-    slit = rectangle(size=slit_size, port_type=None, layer=layer)
+    slit = rectangle(size=slit_size, port_type=None, layer=layer_slit or layer)
 
     columns = np.floor(size[0] / slit_spacing[0])
     rows = np.floor(size[1] / slit_spacing[1])
@@ -67,11 +69,16 @@ def rectangle_with_slits(
     slits.xmin = slit_enclosure
     slits.ymin = slit_enclosure
 
-    r_with_slits = c << gf.geometry.boolean(r, slits, operation="not", layer=layer)
-    c.absorb(r_with_slits)
+    if layer_slit:
+        c << r
+        c.add(slits)
+    else:
+        r_with_slits = c << gf.geometry.boolean(r, slits, operation="not", layer=layer)
+        c.absorb(r_with_slits)
     return c
 
 
 if __name__ == "__main__":
-    c = rectangle_with_slits()
+    c = rectangle_with_slits(layer_slit=None)
+    c = rectangle_with_slits(layer_slit=(2, 0))
     c.show()
