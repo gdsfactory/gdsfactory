@@ -17,6 +17,15 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.8.0
+
+- add `gf.components.copy_layers` to duplicate a component in multiple layers.
+- better error message for `gf.pack` when it fails to pack some Component.
+- rename gf.simulation.gmpb as gf.simulation.modes
+- rename gf.simulation.gtidy3d as gf.simulation.tidy3d
+- gf.simulation.modes.find_neff_vs_width can store neffs in CSV file when passing `filepath`
+- `gf.components.rectangle_with_slits` has now `layer_slit` parameter
+
 ## 3.7.8
 
 - cell accepts `autoname` (True by default)

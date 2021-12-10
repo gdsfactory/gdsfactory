@@ -37,7 +37,7 @@ def _pack_single_bin(
         aspect_ratio:
         max_size: tuple of max X, Y size
         sort_by_area: sorts components by area
-        density: of packing. Values closer to 1 require more computation to pack tighter
+        density: of packing, closer to 1 packs tighter (more compute heavy)
 
     Returns:
         packed rectangles dict {id:(x,y,w,h)}
@@ -153,8 +153,9 @@ def pack(
         w, h = int(w), int(h)
         if (w > max_size[0]) or (h > max_size[1]):
             raise ValueError(
-                "pack() failed because one Component in component_list has x or y "
-                "dimension larger than `max_size` and cannot be packed"
+                f"pack() failed because Component {D.name!r} has x or y "
+                "dimension larger than `max_size` and cannot be packed.\n"
+                f"size = {w*precision, h*precision}, max_size = {max_size*precision}"
             )
         rect_dict[n] = (w, h)
 

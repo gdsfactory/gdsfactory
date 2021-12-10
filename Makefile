@@ -33,8 +33,7 @@ test-force:
 	pytest --force-regen
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep
-	pytest gdsfactory/simulation/gmpb
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes
 
 retest:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'

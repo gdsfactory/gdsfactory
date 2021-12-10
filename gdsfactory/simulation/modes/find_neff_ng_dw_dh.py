@@ -10,10 +10,11 @@ import pathlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import pydantic
 from scipy.interpolate import interp2d
 
 from gdsfactory.config import PATH
-from gdsfactory.simulation.gmpb.find_mode_dispersion import find_mode_dispersion
+from gdsfactory.simulation.modes.find_mode_dispersion import find_mode_dispersion
 
 PATH.modes = pathlib.Path.cwd() / "data"
 
@@ -24,6 +25,7 @@ dwmax = 10e-3
 dhmax = 5e-3
 
 
+@pydantic.validate_arguments
 def find_neff_ng_dw_dh(
     ncore: float = 3.47668,
     nclad: float = 1.44401,

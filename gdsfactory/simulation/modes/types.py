@@ -4,6 +4,7 @@ from typing import Callable, Dict, List, Optional, Union
 import matplotlib.pyplot as plt
 import numpy as np
 from meep import mpb
+from pydantic import BaseModel
 
 
 @dataclasses.dataclass
@@ -164,37 +165,37 @@ class Mode:
 
 @dataclasses.dataclass
 class Waveguide:
-    wg_width: float
-    wg_thickness: float
-    slab_thickness: float
-    ncore: float
-    nclad: float
-    sy: float
-    sz: float
-    res: int
-    nmodes: int
-    modes: List[Mode]
+    """
+    Args:
+        wg_width: float
+        wg_thickness: float
+        slab_thickness: float
+        ncore: float = 3.47
+        nclad: float = 1.44
+        sy: float
+        sz: float
+        res: int
+        nmodes: int
+        modes: Dict[Mode]
+
+    """
+
+    wg_width: float = 0.45
+    wg_thickness: float = 0.22
+    slab_thickness: float = 0
+    ncore: float = 3.47
+    nclad: float = 1.44
+    sy: float = 2.0
+    sz: float = 2.0
+    res: int = 32
+    nmodes: int = 4
+    modes: Optional[Dict[int, Mode]] = None
 
 
-@dataclasses.dataclass
-class WavelengthSweep:
+class WavelengthSweep(BaseModel):
     wavelength: List[float]
     neff: Dict[int, List[float]]
     ng: Dict[int, List[float]]
-
-
-@dataclasses.dataclass
-class WidthSweep:
-    width: List[float]
-    neff: Dict[int, List[float]]
-
-    def plot(self, **kwargs):
-        for mode_number, neff in self.neff.items():
-            plt.plot(self.width, neff, ".-", label=str(mode_number))
-
-        plt.legend(**kwargs)
-        plt.xlabel("width (um)")
-        plt.ylabel("neff")
 
 
 ModeSolverFactory = Callable[..., mpb.ModeSolver]
@@ -202,7 +203,7 @@ ModeSolverOrFactory = Union[mpb.ModeSolver, ModeSolverFactory]
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gmpb as gm
-
-    m = gm.find_modes()
-    m[1].plot_e_all()
+    # import gdsfactory.simulation.modes as gm
+    # m = gm.find_modes()
+    # m[1].plot_e_all()
+    w = Waveguide()

@@ -1,10 +1,101 @@
 cells:
+  array_74da7a6c:
+    changed:
+      columns: 5
+      component: rectangle_dc798a8d
+      rows: 10
+      spacing:
+      - 20
+      - 20
+    default:
+      columns: 6
+      component:
+        function: straight
+      rows: 1
+      spacing:
+      - 150
+      - 150
+    full:
+      columns: 5
+      component: rectangle_dc798a8d
+      rows: 10
+      spacing:
+      - 20
+      - 20
+    function_name: array
+    info_version: 1
+    module: gdsfactory.components.array
+    name: array_74da7a6c
+  compass_ad4aadff:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 100
+      - 200
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 100
+      - 200
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_ad4aadff
+  rectangle_2fbcbfd8:
+    changed:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 100
+      - 200
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 100
+      - 200
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_2fbcbfd8
   rectangle_with_slits:
     changed: {}
     default:
       centered: false
       layer:
       - 1
+      - 0
+      layer_slit:
+      - 2
       - 0
       port_type: null
       size:
@@ -21,6 +112,9 @@ cells:
       centered: false
       layer:
       - 1
+      - 0
+      layer_slit:
+      - 2
       - 0
       port_type: null
       size:
@@ -44,6 +138,9 @@ info:
     layer:
     - 1
     - 0
+    layer_slit:
+    - 2
+    - 0
     port_type: null
     size:
     - 100
@@ -59,6 +156,9 @@ info:
     centered: false
     layer:
     - 1
+    - 0
+    layer_slit:
+    - 2
     - 0
     port_type: null
     size:

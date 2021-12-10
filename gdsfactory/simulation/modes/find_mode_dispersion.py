@@ -3,8 +3,8 @@
 from functools import partial
 
 from gdsfactory.simulation.gmeep.get_material import get_index
-from gdsfactory.simulation.gmpb.find_modes import find_modes
-from gdsfactory.simulation.gmpb.types import Mode
+from gdsfactory.simulation.modes.find_modes import find_modes
+from gdsfactory.simulation.modes.types import Mode
 
 
 def find_mode_dispersion(

@@ -30,5 +30,4 @@ jobs:
       - name: Test with pytest
         run: |
           conda install pytest
-          pytest gdsfactory/simulation/gmeep
-          pytest gdsfactory/simulation/gmpb
+          make test-plugins
