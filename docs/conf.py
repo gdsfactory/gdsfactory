@@ -1,5 +1,5 @@
 project = "gdsfactory"
-release = "3.7.9"
+release = "3.8.0"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
