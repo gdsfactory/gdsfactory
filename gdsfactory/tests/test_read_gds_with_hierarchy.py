@@ -11,7 +11,7 @@ gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
 def test_read_gds_hash2() -> gf.Component:
     c = gf.read.from_gds(gdspath)
     assert (
-        c.hash_geometry() == "2cdf1cbed0ecf8e9cc4eedfffac02c03334eccb2"
+        c.hash_geometry() == "7bc2d1d759011e5f41daf8683cf9467bdc8ebad4"
     ), c.hash_geometry()
     return c
 
@@ -66,10 +66,11 @@ def _write():
 
 
 if __name__ == "__main__":
-    _write()
-    test_read_gds_equivalent2()
+    # _write()
+    # test_read_gds_equivalent2()
 
-    # c = test_read_gds_hash2()
+    c = test_read_gds_hash2()
+    c.show()
     # test_mix_cells_from_gds_and_from_function2()
 
     # _write()

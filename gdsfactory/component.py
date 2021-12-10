@@ -598,6 +598,22 @@ class ComponentReference(DeviceReference):
         for port in self.ports.values():
             port.snap_to_grid(nm=nm)
 
+    def get_ports_xsize(self, **kwargs) -> float:
+        """Returns xdistance from east to west ports
+
+        Args:
+            kwargs: orientation, port_type, layer
+        """
+        ports_cw = self.get_ports_list(clockwise=True, **kwargs)
+        ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
+        return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
+
+    def get_ports_ysize(self, **kwargs) -> float:
+        """Returns ydistance from east to west ports"""
+        ports_cw = self.get_ports_list(clockwise=True, **kwargs)
+        ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
+        return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+
 
 class Component(Device):
     """extends phidl.Device
@@ -1527,7 +1543,7 @@ def test_netlist_simple() -> None:
 def test_netlist_complex() -> None:
     import gdsfactory as gf
 
-    c = gf.components.mzi()
+    c = gf.components.mzi_arms()
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
