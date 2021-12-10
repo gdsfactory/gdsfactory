@@ -22,6 +22,7 @@ Maybe:
 - add `gf.components.mzi` as a more robust implementation for the MZI
 - rename `gf.components.mzi` to `gf.components.mzi_arms`
 - expose `toolz.compose` as `gf.compose`
+- add `gf.c.mzi1x2`, `mzi1x2_2x2`, `mzi_coupler`
 
 ## 3.8.0
 
