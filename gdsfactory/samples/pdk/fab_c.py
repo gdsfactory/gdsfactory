@@ -79,10 +79,10 @@ def add_pins(
 
 # cross_sections
 
-fabc_nitride_cband = gf.partial(
+xs_nitridec = gf.partial(
     strip, width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
 )
-fabc_nitride_oband = gf.partial(
+xs_nitrideo = gf.partial(
     strip, width=WIDTH_NITRIDE_OBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
 )
 
@@ -93,26 +93,26 @@ mmi1x2_nitride_c = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     width_mmi=3,
-    cross_section=fabc_nitride_cband,
+    cross_section=xs_nitridec,
     decorator=add_pins,
 )
 mmi1x2_nitride_o = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
-    cross_section=fabc_nitride_oband,
+    cross_section=xs_nitrideo,
     decorator=add_pins,
 )
 bend_euler_c = gf.partial(
-    gf.components.bend_euler, cross_section=fabc_nitride_cband, decorator=add_pins
+    gf.components.bend_euler, cross_section=xs_nitridec, decorator=add_pins
 )
 straight_c = gf.partial(
-    gf.components.straight, cross_section=fabc_nitride_cband, decorator=add_pins
+    gf.components.straight, cross_section=xs_nitridec, decorator=add_pins
 )
 bend_euler_o = gf.partial(
-    gf.components.bend_euler, cross_section=fabc_nitride_oband, decorator=add_pins
+    gf.components.bend_euler, cross_section=xs_nitrideo, decorator=add_pins
 )
 straight_o = gf.partial(
-    gf.components.straight, cross_section=fabc_nitride_oband, decorator=add_pins
+    gf.components.straight, cross_section=xs_nitrideo, decorator=add_pins
 )
 
 gc_nitride_c = gf.partial(
@@ -128,21 +128,19 @@ gc_nitride_c = gf.partial(
 
 mzi_nitride_c = gf.partial(
     gf.components.mzi,
-    cross_section=fabc_nitride_cband,
+    cross_section=xs_nitridec,
     splitter=mmi1x2_nitride_c,
     decorator=add_pins,
     straight=straight_c,
     bend=bend_euler_c,
-    layer=LAYER.WGN,
 )
 mzi_nitride_o = gf.partial(
     gf.components.mzi,
-    cross_section=fabc_nitride_oband,
+    cross_section=xs_nitrideo,
     splitter=mmi1x2_nitride_o,
     decorator=add_pins,
     straight=straight_o,
     bend=bend_euler_o,
-    layer=LAYER.WGN,
 )
 
 
@@ -186,7 +184,7 @@ if __name__ == "__main__":
     mzi_gc = gf.routing.add_fiber_single(
         component=mzi,
         grating_coupler=gc_nitride_c,
-        cross_section=fabc_nitride_cband,
+        cross_section=xs_nitridec,
         optical_routing_type=1,
         straight=straight_c,
         bend=bend_euler_c,

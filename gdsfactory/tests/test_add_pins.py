@@ -5,8 +5,8 @@ from gdsfactory.samples.pdk.fab_c import (
     LAYER,
     WIDTH_NITRIDE_CBAND,
     bend_euler_c,
-    fabc_nitride_cband,
     straight_c,
+    xs_nitridec,
 )
 
 
@@ -24,7 +24,7 @@ def test_add_pins_with_routes(optical_routing_type) -> gf.Component:
     cc = gf.routing.add_fiber_single(
         component=c,
         grating_coupler=[gc, gf.c.grating_coupler_tm],
-        cross_section=fabc_nitride_cband,
+        cross_section=xs_nitridec,
         straight=straight_c,
         bend=bend_euler_c,
         optical_routing_type=optical_routing_type,

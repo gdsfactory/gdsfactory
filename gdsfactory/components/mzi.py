@@ -1,18 +1,22 @@
+from functools import partial
 from typing import Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
+from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.components.mzi_arm import mzi_arm
+from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
+from gdsfactory.cross_section import strip
+from gdsfactory.routing import get_route
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @cell
 def mzi(
     delta_length: float = 10.0,
-    length_y: float = 0.8,
+    length_y: float = 2.0,
     length_x: float = 0.1,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentFactory = straight_function,
@@ -22,8 +26,12 @@ def mzi(
     splitter: ComponentOrFactory = mmi1x2,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
-    layer: Optional[Layer] = None,
-    **kwargs,
+    port_e1_splitter: str = "o2",
+    port_e0_splitter: str = "o3",
+    port_e1_combiner: str = "o2",
+    port_e0_combiner: str = "o3",
+    nbends: int = 2,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """Mzi.
 
@@ -39,113 +47,128 @@ def mzi(
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
-        kwargs: cross_section settings
+        port_e1_combiner: east top combiner port
+        port_e0_splitter: east bot splitter port
+        port_e1_splitter: east top splitter port
+        port_e0_combiner: east bot combiner port
+        nbends: from straight section to combiner (at least 2)
+        cross_section: for routing (sxtop/sxbot to combiner)
 
     .. code::
 
-                   __Lx__
-                  |      |
-                  Ly     Lyr (not a parameter)
-                  |      |
-        splitter==|      |==combiner
-                  |      |
-                  Ly     Lyr (not a parameter)
-                  |      |
-                  | delta_length/2
-                  |      |
-                  |__Lx__|
-
-            ____________           __________
-            |          |          |
-            |          |       ___|
-        ____|          |____
-            | splitter   d1     d2  combiner
-        ____|           ____
-            |          |       ____
-            |          |          |
-            |__________|          |__________
+                       b2______b3
+                      |  sxtop  |
+              straight_y        |
+                      |         |
+                      b1        b4
+            splitter==|         |==combiner
+                      b5        b8
+                      |         |
+              straight_y        |
+                      |         |
+        delta_length/2          |
+                      |         |
+                     b6__sxbot__b7
+                          Lx
     """
     combiner = combiner or splitter
 
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
+    bend_factory = bend
+    bend = bend_factory(cross_section=cross_section)
 
     c = Component()
     cp1 = splitter() if callable(splitter) else splitter
     cp2 = combiner() if combiner else cp1
 
     if with_splitter:
-        cin = c << cp1
-    cout = c << cp2
+        cp1 = c << cp1
 
-    ports_cp1 = cp1.get_ports_list(clockwise=False)
-    ports_cp2 = cp2.get_ports_list(clockwise=False)
-    layer = layer or ports_cp1[0].layer
+    cp2 = c << cp2
+    b5 = c << bend
+    b5.mirror()
+    b5.connect("o1", cp1.ports[port_e0_splitter])
 
-    port_e1_cp1 = ports_cp1[1]
-    port_e0_cp1 = ports_cp1[0]
-
-    port_e1_cp2 = ports_cp2[1]
-    port_e0_cp2 = ports_cp2[0]
-
-    y1t = port_e1_cp1.y
-    y1b = port_e0_cp1.y
-
-    y2t = port_e1_cp2.y
-    y2b = port_e0_cp2.y
-
-    d1 = abs(y1t - y1b)  # splitter ports distance
-    d2 = abs(y2t - y2b)  # combiner ports distance
-
-    if d2 > d1:
-        length_y_left = length_y + (d2 - d1) / 2
-        length_y_right = length_y
-    else:
-        length_y_right = length_y + (d1 - d2) / 2
-        length_y_left = length_y
-
-    _top_arm = mzi_arm(
-        straight_x=straight_x_top,
-        straight_y=straight_y,
-        length_x=length_x,
-        length_y_left=length_y_left,
-        length_y_right=length_y_right,
-        bend=bend,
-        **kwargs,
+    syl = c << straight_y(
+        length=delta_length / 2 + length_y, cross_section=cross_section
     )
+    syl.connect("o1", b5.ports["o2"])
+    b6 = c << bend
+    b6.connect("o1", syl.ports["o2"])
+    sxb = c << straight_x_bot(length=length_x)
+    sxb.connect("o1", b6.ports["o2"])
 
-    top_arm = c << _top_arm
+    b1 = c << bend
+    b1.connect("o1", cp1.ports[port_e1_splitter])
 
-    bot_arm = c << mzi_arm(
-        straight_x=straight_x_bot,
-        straight_y=straight_y,
-        length_x=length_x,
-        length_y_left=length_y_left + delta_length / 2,
-        length_y_right=length_y_right + delta_length / 2,
-        bend=bend,
-        **kwargs,
+    sy = c << straight_y(length=length_y)
+    sy.connect("o1", b1.ports["o2"])
+
+    b2 = c << bend
+    b2.connect("o2", sy.ports["o2"])
+    sxt = c << straight_x_top(length=length_x)
+    sxt.connect("o1", b2.ports["o1"])
+
+    cp2.mirror()
+    cp2.xmin = sxt.ports["o2"].x + bend.info["radius"] * nbends + 0.1
+
+    route = get_route(
+        sxt.ports["o2"],
+        cp2.ports[port_e1_combiner],
+        straight=straight,
+        bend=bend_factory,
+        cross_section=cross_section,
     )
+    c.add(route.references)
+    route = get_route(
+        sxb.ports["o2"],
+        cp2.ports[port_e0_combiner],
+        straight=straight,
+        bend=bend_factory,
+        cross_section=cross_section,
+    )
+    c.add(route.references)
 
-    bot_arm.mirror()
-    top_arm.connect("o1", port_e1_cp1)
-    bot_arm.connect("o1", port_e0_cp1)
-    cout.connect(port_e1_cp2.name, bot_arm.ports["o2"])
     if with_splitter:
-        c.add_ports(cin.get_ports_list(orientation=180), prefix="in")
+        c.add_ports(cp1.get_ports_list(orientation=180), prefix="in")
     else:
-        c.add_port("o1", port=bot_arm.ports["o1"])
-        c.add_port("o2", port=top_arm.ports["o1"])
-
-    c.add_ports(cout.get_ports_list(orientation=0), prefix="out")
-    c.add_ports(top_arm.get_ports_list(port_type="electrical"), prefix="top")
-    c.add_ports(bot_arm.get_ports_list(port_type="electrical"), prefix="bot")
+        c.add_port("o1", port=b1.ports["o1"])
+        c.add_port("o2", port=b5.ports["o1"])
+    c.add_ports(cp2.get_ports_list(orientation=0), prefix="out")
+    c.add_ports(sxt.get_ports_list(port_type="electrical"), prefix="top")
+    c.add_ports(sxb.get_ports_list(port_type="electrical"), prefix="bot")
     c.auto_rename_ports()
     return c
 
 
+mzi1x2 = partial(mzi, splitter=mmi1x2, combiner=mmi1x2)
+mzi2x2 = partial(
+    mzi,
+    splitter=mmi2x2,
+    combiner=mmi2x2,
+    port_e1_splitter="o3",
+    port_e0_splitter="o4",
+    port_e1_combiner="o3",
+    port_e0_combiner="o4",
+)
+
+mzi1x2_2x2 = partial(
+    mzi,
+    combiner=mmi2x2,
+    port_e1_combiner="o3",
+    port_e0_combiner="o4",
+)
+
+mzi_coupler = partial(
+    mzi2x2,
+    splitter=coupler,
+    combiner=coupler,
+)
+
+
 if __name__ == "__main__":
-    import gdsfactory as gf
 
     # delta_length = 116.8 / 2
     # print(delta_length)
@@ -154,18 +177,23 @@ if __name__ == "__main__":
     # mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
     # c = mzi(delta_length=10, combiner=gf.c.mmi1x2, splitter=mmi2x2)
 
-    c = mzi(
-        delta_length=100,
-        straight_x_top=gf.c.straight_heater_meander,
-        straight_x_bot=gf.c.straight_heater_meander,
-        # straight_x_top=gf.c.straight_heater_metal,
-        # straight_x_bot=gf.c.straight_heater_metal,
-        length_x=300,
-        # length_x_bot=300,
-        # length_y=1.8,
-        # with_splitter=False,
-    )
-    c.show(show_ports=True)
+    c = mzi1x2_2x2()
+    # c = mzi_coupler(length_x=5)
+    # c = mzi2x2()
+    c.show()
+
+    # c = mzi(
+    #     delta_length=100,
+    #     straight_x_top=gf.c.straight_heater_meander,
+    #     straight_x_bot=gf.c.straight_heater_meander,
+    #     # straight_x_top=gf.c.straight_heater_metal,
+    #     # straight_x_bot=gf.c.straight_heater_metal,
+    #     length_x=300,
+    #     # length_x_bot=300,
+    #     # length_y=1.8,
+    #     with_splitter=False,
+    # )
+    # c.show(show_ports=True)
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()

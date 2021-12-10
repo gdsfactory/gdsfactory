@@ -123,8 +123,9 @@ from gdsfactory.components.loop_mirror import loop_mirror
 from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.components.mzi import mzi
+from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
+from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
@@ -304,7 +305,11 @@ factory = dict(
     mmi1x2=mmi1x2,
     mmi2x2=mmi2x2,
     mzi=mzi,
+    mzi2x2=mzi2x2,
+    mzi1x2_2x2=mzi1x2_2x2,
+    mzi_coupler=mzi_coupler,
     mzi_arm=mzi_arm,
+    mzi_arms=mzi_arms,
     mzi_lattice=mzi_lattice,
     mzi_phase_shifter=mzi_phase_shifter,
     mzi_phase_shifter_90_90=mzi_phase_shifter_90_90,
