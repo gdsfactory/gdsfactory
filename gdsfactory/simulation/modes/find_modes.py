@@ -17,9 +17,9 @@ import meep as mp
 import numpy as np
 from meep import mpb
 
-from gdsfactory.simulation.gmpb.disable_print import disable_print, enable_print
-from gdsfactory.simulation.gmpb.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.gmpb.types import Mode, ModeSolverOrFactory
+from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
+from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
+from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
 
 mpb.Verbosity(0)
 
@@ -39,8 +39,18 @@ def find_modes(
         tol: tolerance when finding modes
         wavelength: wavelength
         mode_number: mode order of the first mode
-        paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM. Reduces spurious modes.
-        kwargs: for the mode solver
+        paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+
+    Keyword Args:
+        wg_width: wg_width (um)
+        wg_thickness: wg height (um)
+        slab_thickness: thickness for the waveguide slab
+        ncore: core material refractive index
+        nclad: clad material refractive index
+        sy: simulation region width (um)
+        sz: simulation region height (um)
+        res: resolution (pixels/um)
+        nmodes: number of modes
 
     Returns: Dict[mode_number, Mode]
 

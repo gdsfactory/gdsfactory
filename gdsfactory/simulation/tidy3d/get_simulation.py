@@ -1,4 +1,4 @@
-"""Returns simulation from gdsfactory Component."""
+"""Returns tidy3d simulation from gdsfactory Component."""
 import warnings
 from typing import Optional
 
@@ -11,7 +11,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.gtidy3d.materials import get_material
+from gdsfactory.simulation.tidy3d.materials import get_material
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 MATERIAL_NAME_TO_TIDY3D = {
@@ -220,6 +220,7 @@ def plot_simulation(
     """Returns figure with two axis of the Simulation.
 
     Args:
+        sim: simulation object
         normal1: {'x', 'y', 'z'} Axis normal to the cross-section plane.
         normal2: {'x', 'y', 'z'} Axis normal to the cross-section plane.
         position1: Position offset along the normal axis.
@@ -243,6 +244,7 @@ def plot_materials(
     """Returns figure with two axis of the Simulation.
 
     Args:
+        sim: simulation object
         normal1: {'x', 'y', 'z'} Axis normal to the cross-section plane.
         normal2: {'x', 'y', 'z'} Axis normal to the cross-section plane.
         position1: Position offset along the normal axis.
