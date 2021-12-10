@@ -1,7 +1,7 @@
 import numpy as np
 import tidy3d as td
 
-from gdsfactory.simulation.gtidy3d.run_simulation import run_simulation
+from gdsfactory.simulation.tidy3d.run_simulation import run_simulation
 
 
 def get_sparameters(sim: td.Simulation) -> np.ndarray:
