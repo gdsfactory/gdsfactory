@@ -5,10 +5,16 @@ cells:
       bend:
         function: bend_euler
       combiner: null
+      cross_section:
+        function: cross_section
       delta_length: 10
-      layer: null
       length_x: 0.1
-      length_y: 0.8
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
       splitter:
         function: mmi1x2
       straight:
@@ -21,10 +27,16 @@ cells:
       bend:
         function: bend_euler
       combiner: null
+      cross_section:
+        function: cross_section
       delta_length: 10
-      layer: null
       length_x: 0.1
-      length_y: 0.8
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
       splitter:
         function: mmi1x2
       straight:
@@ -43,10 +55,16 @@ info:
     bend:
       function: bend_euler
     combiner: null
+    cross_section:
+      function: cross_section
     delta_length: 10
-    layer: null
     length_x: 0.1
-    length_y: 0.8
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
     splitter:
       function: mmi1x2
     straight:
@@ -59,10 +77,16 @@ info:
     bend:
       function: bend_euler
     combiner: null
+    cross_section:
+      function: cross_section
     delta_length: 10
-    layer: null
     length_x: 0.1
-    length_y: 0.8
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
     splitter:
       function: mmi1x2
     straight:
@@ -92,7 +116,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 78.35
+    - 78.45
     - 0
     name: o2
     orientation: 0

@@ -399,191 +399,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_ac6d448d:
-    changed:
-      length_x: 320
-      splitter:
-        function: mmi2x2
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-    default:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 0.1
-      length_y: 0.8
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    full:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 320
-      length_y: 0.8
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
-  mzi_ac6d448d_add_fiber__5f72f2e6:
-    changed:
-      component: mzi_ac6d448d
-    child:
-      changed:
-        length_x: 320
-        splitter:
-          function: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        splitter:
-          function: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter:
-          function: mmi2x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
-    default:
-      bend:
-        function: bend_euler
-      component_name: null
-      cross_section:
-        function: cross_section
-      gc_port_labels: null
-      gc_port_name: o1
-      get_input_labels_function:
-        function: get_input_labels
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-      layer_label:
-      - 66
-      - 0
-      select_ports:
-        function: select_ports
-        port_type: optical
-      straight:
-        function: straight
-    full:
-      bend:
-        function: bend_euler
-      component: mzi_ac6d448d
-      component_name: null
-      cross_section:
-        function: cross_section
-      gc_port_labels: null
-      gc_port_name: o1
-      get_input_labels_function:
-        function: get_input_labels
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-      layer_label:
-      - 66
-      - 0
-      select_ports:
-        function: select_ports
-        port_type: optical
-      straight:
-        function: straight
-    function_name: add_fiber_array
-    info_version: 1
-    module: gdsfactory.routing.add_fiber_array
-    name: mzi_ac6d448d_add_fiber__5f72f2e6
-  mzi_arm_3aabaa29:
-    changed:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend:
@@ -623,6 +438,191 @@ cells:
     length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
+  mzi_arm_dd2de148:
+    changed:
+      bend:
+        function: bend_euler
+      length_x: 320
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y:
+        function: straight
+    default:
+      bend:
+        function: bend_euler
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight:
+        function: straight
+      straight_x: null
+      straight_y: null
+    full:
+      bend:
+        function: bend_euler
+      length_x: 320
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight:
+        function: straight
+      straight_x:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y:
+        function: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320
+    length_xsize: 320
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_dd2de148
+  mzi_arms_ac6d448d:
+    changed:
+      length_x: 320
+      splitter:
+        function: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      bend:
+        function: bend_euler
+      combiner: null
+      delta_length: 10
+      delta_yright: 0
+      length_x: 0.1
+      length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      bend:
+        function: bend_euler
+      combiner: null
+      delta_length: 10
+      delta_yright: 0
+      length_x: 320
+      length_y: 0.8
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi_arms
+    info_version: 1
+    module: gdsfactory.components.mzi_arms
+    name: mzi_arms_ac6d448d
+  mzi_arms_ac6d448d_add_f_d11a3e08:
+    changed:
+      component: mzi_arms_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        delta_yright: 0
+        length_x: 0.1
+        length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        delta_yright: 0
+        length_x: 320
+        length_y: 0.8
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi_arms
+      info_version: 1
+      module: gdsfactory.components.mzi_arms
+      name: mzi_arms_ac6d448d
+    default:
+      bend:
+        function: bend_euler
+      component_name: null
+      cross_section:
+        function: cross_section
+      gc_port_labels: null
+      gc_port_name: o1
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
+      layer_label:
+      - 66
+      - 0
+      select_ports:
+        function: select_ports
+        port_type: optical
+      straight:
+        function: straight
+    full:
+      bend:
+        function: bend_euler
+      component: mzi_arms_ac6d448d
+      component_name: null
+      cross_section:
+        function: cross_section
+      gc_port_labels: null
+      gc_port_name: o1
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
+      layer_label:
+      - 66
+      - 0
+      select_ports:
+        function: select_ports
+        port_type: optical
+      straight:
+        function: straight
+    function_name: add_fiber_array
+    info_version: 1
+    module: gdsfactory.routing.add_fiber_array
+    name: mzi_arms_ac6d448d_add_f_d11a3e08
   straight_02352a98:
     changed:
       auto_widen: true
@@ -953,27 +953,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight_b6647796
     width: 0.5
-  straight_b75caec8:
-    changed:
-      length: 0.8
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.8
-    module: gdsfactory.components.straight
-    name: straight_b75caec8
-    width: 0.5
   straight_bc29f1fe:
     changed:
       cross_section:
@@ -1227,7 +1206,7 @@ cells:
     width2: 2.5
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_arms_ac6d448d
   child:
     changed:
       length_x: 320
@@ -1241,7 +1220,7 @@ info:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -1257,7 +1236,7 @@ info:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 320
       length_y: 0.8
       splitter:
@@ -1270,10 +1249,10 @@ info:
         with_undercut: false
       straight_y: null
       with_splitter: true
-    function_name: mzi
+    function_name: mzi_arms
     info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    module: gdsfactory.components.mzi_arms
+    name: mzi_arms_ac6d448d
   default:
     bend:
       function: bend_euler
@@ -1299,7 +1278,7 @@ info:
   full:
     bend:
       function: bend_euler
-    component: mzi_ac6d448d
+    component: mzi_arms_ac6d448d
     component_name: null
     cross_section:
       function: cross_section
@@ -1322,7 +1301,7 @@ info:
   function_name: add_fiber_array
   info_version: 1
   module: gdsfactory.routing.add_fiber_array
-  name: mzi_ac6d448d_add_fiber__5f72f2e6
+  name: mzi_arms_ac6d448d_add_f_d11a3e08
 ports:
   e1:
     layer:
@@ -1330,7 +1309,7 @@ ports:
     - 0
     midpoint:
     - 16.75
-    - 21.425
+    - 26.425
     name: e1
     orientation: 180
     port_type: electrical
@@ -1341,7 +1320,7 @@ ports:
     - 0
     midpoint:
     - 368.75
-    - 21.425
+    - 26.425
     name: e2
     orientation: 0
     port_type: electrical

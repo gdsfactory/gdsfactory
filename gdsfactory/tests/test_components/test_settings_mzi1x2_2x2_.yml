@@ -59,8 +59,40 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-  mzi:
+  mmi2x2:
     changed: {}
+    default:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    full:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    function_name: mmi2x2
+    info_version: 1
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+  mzi_4b5b1125:
+    changed:
+      combiner:
+        function: mmi2x2
+      port_e0_combiner: o4
+      port_e1_combiner: o3
     default:
       bend:
         function: bend_euler
@@ -86,16 +118,17 @@ cells:
     full:
       bend:
         function: bend_euler
-      combiner: null
+      combiner:
+        function: mmi2x2
       cross_section:
         function: cross_section
       delta_length: 10
       length_x: 0.1
       length_y: 2
       nbends: 2
-      port_e0_combiner: o3
+      port_e0_combiner: o4
       port_e0_splitter: o3
-      port_e1_combiner: o2
+      port_e1_combiner: o3
       port_e1_splitter: o2
       splitter:
         function: mmi1x2
@@ -108,7 +141,7 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi
+    name: mzi_4b5b1125
   straight_15a9c8d1:
     changed:
       cross_section:
@@ -244,7 +277,11 @@ cells:
     name: straight_fba69bc3
     width: 0.5
 info:
-  changed: {}
+  changed:
+    combiner:
+      function: mmi2x2
+    port_e0_combiner: o4
+    port_e1_combiner: o3
   default:
     bend:
       function: bend_euler
@@ -270,16 +307,17 @@ info:
   full:
     bend:
       function: bend_euler
-    combiner: null
+    combiner:
+      function: mmi2x2
     cross_section:
       function: cross_section
     delta_length: 10
     length_x: 0.1
     length_y: 2
     nbends: 2
-    port_e0_combiner: o3
+    port_e0_combiner: o4
     port_e0_splitter: o3
-    port_e1_combiner: o2
+    port_e1_combiner: o3
     port_e1_splitter: o2
     splitter:
       function: mmi1x2
@@ -292,7 +330,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi
+  name: mzi_4b5b1125
 ports:
   o1:
     layer:
@@ -311,8 +349,19 @@ ports:
     - 0
     midpoint:
     - 78.45
-    - 1.5614246689128753e-15
+    - 0.6250000000000016
     name: o2
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 78.45
+    - -0.6249999999999984
+    name: o3
     orientation: 0
     port_type: optical
     width: 0.5
