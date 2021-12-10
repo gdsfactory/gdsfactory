@@ -154,6 +154,13 @@ mzi2x2 = partial(
     port_e0_combiner="o4",
 )
 
+mzi1x2_2x2 = partial(
+    mzi,
+    combiner=mmi2x2,
+    port_e1_combiner="o3",
+    port_e0_combiner="o4",
+)
+
 mzi_coupler = partial(
     mzi2x2,
     splitter=coupler,
@@ -170,7 +177,8 @@ if __name__ == "__main__":
     # mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
     # c = mzi(delta_length=10, combiner=gf.c.mmi1x2, splitter=mmi2x2)
 
-    c = mzi_coupler(length_x=5)
+    c = mzi1x2_2x2()
+    # c = mzi_coupler(length_x=5)
     # c = mzi2x2()
     c.show()
 

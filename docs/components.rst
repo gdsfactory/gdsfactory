@@ -486,6 +486,21 @@ contact_with_offset
 
 
 
+copy_layers
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.copy_layers
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.copy_layers(layers=((1, 0), (2, 0)))
+  c.plot()
+
+
+
 coupler
 ----------------------------------------------------
 
@@ -1471,7 +1486,37 @@ mzi
 
   import gdsfactory as gf
 
-  c = gf.components.mzi(delta_length=10.0, length_y=0.8, length_x=0.1, with_splitter=True)
+  c = gf.components.mzi(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2)
+  c.plot()
+
+
+
+mzi1x2_2x2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi1x2_2x2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi1x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2)
+  c.plot()
+
+
+
+mzi2x2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi2x2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2)
   c.plot()
 
 
@@ -1487,6 +1532,36 @@ mzi_arm
   import gdsfactory as gf
 
   c = gf.components.mzi_arm(length_y_left=0.8, length_y_right=0.8, length_x=0.1)
+  c.plot()
+
+
+
+mzi_arms
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi_arms
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi_arms(delta_length=10.0, length_y=0.8, length_x=0.1, with_splitter=True, delta_yright=0)
+  c.plot()
+
+
+
+mzi_coupler
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.mzi_coupler
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.mzi_coupler(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2)
   c.plot()
 
 
@@ -1516,7 +1591,7 @@ mzi_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=0.8, length_x=320.0, with_splitter=True)
+  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=0.8, length_x=320.0, with_splitter=True, delta_yright=0)
   c.plot()
 
 
@@ -1531,7 +1606,7 @@ mzi_phase_shifter_90_90
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter_90_90(delta_length=10.0, length_y=0.8, length_x=320.0, with_splitter=True)
+  c = gf.components.mzi_phase_shifter_90_90(delta_length=10.0, length_y=0.8, length_x=320.0, with_splitter=True, delta_yright=0)
   c.plot()
 
 
@@ -1741,7 +1816,7 @@ rectangle_with_slits
 
   import gdsfactory as gf
 
-  c = gf.components.rectangle_with_slits(size=(100.0, 200.0), layer=(1, 0), centered=False, slit_size=(1.0, 1.0), slit_spacing=(20, 20), slit_enclosure=10)
+  c = gf.components.rectangle_with_slits(size=(100.0, 200.0), layer=(1, 0), layer_slit=(2, 0), centered=False, slit_size=(1.0, 1.0), slit_spacing=(20, 20), slit_enclosure=10)
   c.plot()
 
 
@@ -2491,7 +2566,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.7.5', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.8.1', text_size=10)
   c.plot()
 
 
