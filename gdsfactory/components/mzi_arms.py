@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
+from gdsfactory.types import ComponentFactory, ComponentOrFactory
 
 
 @cell
@@ -22,7 +22,7 @@ def mzi_arms(
     splitter: ComponentOrFactory = mmi1x2,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
-    layer: Optional[Layer] = None,
+    delta_yright: float = 0,
     **kwargs,
 ) -> Component:
     """Mzi made with arms.
@@ -42,6 +42,7 @@ def mzi_arms(
         splitter: splitter function
         combiner: combiner function
         with_splitter: if False removes splitter
+        delta_yright: extra length for right y-oriented waveguide
         kwargs: cross_section settings
 
     .. code::
@@ -84,7 +85,6 @@ def mzi_arms(
 
     ports_cp1 = cp1.get_ports_list(clockwise=False)
     ports_cp2 = cp2.get_ports_list(clockwise=False)
-    layer = layer or ports_cp1[0].layer
 
     port_e1_cp1 = ports_cp1[1]
     port_e0_cp1 = ports_cp1[0]
@@ -101,6 +101,8 @@ def mzi_arms(
     d1 = abs(y1t - y1b)  # splitter ports distance
     d2 = abs(y2t - y2b)  # combiner ports distance
 
+    delta_symm_half = (delta_length - delta_yright) / 2
+
     if d2 > d1:
         length_y_left = length_y + (d2 - d1) / 2
         length_y_right = length_y
@@ -112,8 +114,8 @@ def mzi_arms(
         straight_x=straight_x_top,
         straight_y=straight_y,
         length_x=length_x,
-        length_y_left=length_y_left,
-        length_y_right=length_y_right,
+        length_y_left=length_y_left + delta_symm_half,
+        length_y_right=length_y_right + delta_symm_half + delta_yright,
         bend=bend,
         **kwargs,
     )
@@ -155,15 +157,21 @@ if __name__ == "__main__":
     # c = mzi(delta_length=delta_length, with_splitter=False)
     # c.pprint_netlist()
     # mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
-    # c = mzi(delta_length=10, combiner=gf.c.mmi1x2, splitter=mmi2x2)
+    # c = mzi(delta_length=10, combiner=gf.components.mmi1x2, splitter=mmi2x2)
+
+    def bend_s(length: float = 10, **kwargs):
+        return gf.c.bend_s(size=(length, 10), **kwargs)
 
     c = mzi_arms(
-        delta_length=100,
-        straight_x_top=gf.c.straight_heater_meander,
-        straight_x_bot=gf.c.straight_heater_meander,
+        delta_length=10,
+        straight_x_top=bend_s,
+        straight_x_bot=gf.compose(gf.functions.mirror, bend_s),
+        # straight_x_top=gf.c.straight_heater_meander,
+        # straight_x_bot=gf.c.straight_heater_meander,
         # straight_x_top=gf.c.straight_heater_metal,
         # straight_x_bot=gf.c.straight_heater_metal,
         length_x=300,
+        delta_yright=-20,
         # length_x_bot=300,
         # length_y=1.8,
         # with_splitter=False,

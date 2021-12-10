@@ -288,47 +288,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_arm_3aabaa29:
-    changed:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_3aabaa29
   mzi_arm_5644a682:
     changed:
       bend:
@@ -368,6 +327,47 @@ cells:
     length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
+  mzi_arm_dd2de148:
+    changed:
+      bend:
+        function: bend_euler
+      length_x: 320
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight_x:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y:
+        function: straight
+    default:
+      bend:
+        function: bend_euler
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight:
+        function: straight
+      straight_x: null
+      straight_y: null
+    full:
+      bend:
+        function: bend_euler
+      length_x: 320
+      length_y_left: 5.8
+      length_y_right: 5.8
+      straight:
+        function: straight
+      straight_x:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y:
+        function: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 320
+    length_xsize: 320
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_dd2de148
   mzi_arms_ac6d448d:
     changed:
       length_x: 320
@@ -381,7 +381,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -397,7 +397,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 320
       length_y: 0.8
       splitter:
@@ -430,7 +430,7 @@ cells:
           function: bend_euler
         combiner: null
         delta_length: 10
-        layer: null
+        delta_yright: 0
         length_x: 0.1
         length_y: 0.8
         splitter:
@@ -446,7 +446,7 @@ cells:
           function: bend_euler
         combiner: null
         delta_length: 10
-        layer: null
+        delta_yright: 0
         length_x: 320
         length_y: 0.8
         splitter:
@@ -571,27 +571,6 @@ cells:
     length: 320
     module: gdsfactory.components.straight
     name: straight_b6647796
-    width: 0.5
-  straight_b75caec8:
-    changed:
-      length: 0.8
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.8
-    module: gdsfactory.components.straight
-    name: straight_b75caec8
     width: 0.5
   straight_e3f148d8:
     changed:
@@ -745,7 +724,7 @@ info:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -761,7 +740,7 @@ info:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 320
       length_y: 0.8
       splitter:

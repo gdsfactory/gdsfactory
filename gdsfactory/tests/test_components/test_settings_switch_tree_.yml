@@ -573,7 +573,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -590,7 +590,7 @@ cells:
       combiner:
         function: mmi2x2
       delta_length: 0
-      layer: null
+      delta_yright: 0
       length_x: 320
       length_y: 0.8
       splitter:

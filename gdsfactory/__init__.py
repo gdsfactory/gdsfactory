@@ -18,7 +18,9 @@ modules:
 isort:skip_file
 """
 
+
 from functools import partial
+from toolz import compose
 from phidl import quickplot as plot
 from phidl.device_layout import Group, Path
 
@@ -76,6 +78,7 @@ __all__ = [
     "Component",
     "ComponentReference",
     "CrossSection",
+    "compose",
     "Group",
     "LAYER",
     "Path",
