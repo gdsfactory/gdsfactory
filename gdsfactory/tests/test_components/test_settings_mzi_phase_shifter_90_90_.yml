@@ -297,13 +297,13 @@ cells:
     length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
-  mzi_arm_907a9428:
+  mzi_arm_97b33310:
     changed:
       bend:
         function: bend_euler
       length_x: 320
-      length_y_left: 0.8
-      length_y_right: 0.8
+      length_y_left: 5.8
+      length_y_right: 5.8
       straight_x:
         function: straight_heater_metal_undercut
         port_orientation1: 90
@@ -325,8 +325,8 @@ cells:
       bend:
         function: bend_euler
       length_x: 320
-      length_y_left: 0.8
-      length_y_right: 0.8
+      length_y_left: 5.8
+      length_y_right: 5.8
       straight:
         function: straight
       straight_x:
@@ -341,7 +341,7 @@ cells:
     length_x: 320
     length_xsize: 320
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_907a9428
+    name: mzi_arm_97b33310
   mzi_arms_466b9b06:
     changed:
       length_x: 320
@@ -355,7 +355,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -371,7 +371,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 320
       length_y: 0.8
       splitter:
@@ -481,27 +481,6 @@ cells:
     length: 320
     module: gdsfactory.components.straight
     name: straight_b6647796
-    width: 0.5
-  straight_b75caec8:
-    changed:
-      length: 0.8
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.8
-    module: gdsfactory.components.straight
-    name: straight_b75caec8
     width: 0.5
   straight_e3f148d8:
     changed:
@@ -654,7 +633,7 @@ info:
       function: bend_euler
     combiner: null
     delta_length: 10
-    layer: null
+    delta_yright: 0
     length_x: 0.1
     length_y: 0.8
     splitter:
@@ -670,7 +649,7 @@ info:
       function: bend_euler
     combiner: null
     delta_length: 10
-    layer: null
+    delta_yright: 0
     length_x: 320
     length_y: 0.8
     splitter:
@@ -696,7 +675,7 @@ ports:
     - 0
     midpoint:
     - 22.25
-    - 26.925
+    - 31.925
     name: e1
     orientation: 90
     port_type: electrical
@@ -707,7 +686,7 @@ ports:
     - 0
     midpoint:
     - 363.25
-    - 26.925
+    - 31.925
     name: e2
     orientation: 90
     port_type: electrical

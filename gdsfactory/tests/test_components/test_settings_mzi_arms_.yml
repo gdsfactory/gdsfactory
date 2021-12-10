@@ -57,45 +57,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-  mzi_arm_74064cef:
-    changed:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 0.1
-    length_xsize: 0.1
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_74064cef
   mzi_arm_f85ac2e9:
     changed:
       bend:
@@ -142,7 +103,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -158,7 +119,7 @@ cells:
         function: bend_euler
       combiner: null
       delta_length: 10
-      layer: null
+      delta_yright: 0
       length_x: 0.1
       length_y: 0.8
       splitter:
@@ -215,27 +176,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight_8c093820
     width: 0.5
-  straight_b75caec8:
-    changed:
-      length: 0.8
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.8
-    module: gdsfactory.components.straight
-    name: straight_b75caec8
-    width: 0.5
 info:
   changed: {}
   default:
@@ -243,7 +183,7 @@ info:
       function: bend_euler
     combiner: null
     delta_length: 10
-    layer: null
+    delta_yright: 0
     length_x: 0.1
     length_y: 0.8
     splitter:
@@ -259,7 +199,7 @@ info:
       function: bend_euler
     combiner: null
     delta_length: 10
-    layer: null
+    delta_yright: 0
     length_x: 0.1
     length_y: 0.8
     splitter:
