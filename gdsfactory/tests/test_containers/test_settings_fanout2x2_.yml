@@ -320,120 +320,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_ac6d448d:
-    changed:
-      length_x: 320
-      splitter:
-        function: mmi2x2
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-    default:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 0.1
-      length_y: 0.8
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    full:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 320
-      length_y: 0.8
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
-  mzi_ac6d448d_fanout2x2_487eeed5:
-    changed:
-      component: mzi_ac6d448d
-    child:
-      changed:
-        length_x: 320
-        splitter:
-          function: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        splitter:
-          function: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter:
-          function: mmi2x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
-    default:
-      bend_length: null
-      npoints: 101
-      port_spacing: 20
-      select_ports:
-        function: select_ports
-        port_type: optical
-    full:
-      bend_length: null
-      component: mzi_ac6d448d
-      npoints: 101
-      port_spacing: 20
-      select_ports:
-        function: select_ports
-        port_type: optical
-    function_name: fanout2x2
-    info_version: 1
-    module: gdsfactory.routing.fanout2x2
-    name: mzi_ac6d448d_fanout2x2_487eeed5
   mzi_arm_3aabaa29:
     changed:
       bend:
@@ -514,6 +400,120 @@ cells:
     length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
+  mzi_arms_ac6d448d:
+    changed:
+      length_x: 320
+      splitter:
+        function: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      bend:
+        function: bend_euler
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      bend:
+        function: bend_euler
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi_arms
+    info_version: 1
+    module: gdsfactory.components.mzi_arms
+    name: mzi_arms_ac6d448d
+  mzi_arms_ac6d448d_fanou_8f7c39a5:
+    changed:
+      component: mzi_arms_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi_arms
+      info_version: 1
+      module: gdsfactory.components.mzi_arms
+      name: mzi_arms_ac6d448d
+    default:
+      bend_length: null
+      npoints: 101
+      port_spacing: 20
+      select_ports:
+        function: select_ports
+        port_type: optical
+    full:
+      bend_length: null
+      component: mzi_arms_ac6d448d
+      npoints: 101
+      port_spacing: 20
+      select_ports:
+        function: select_ports
+        port_type: optical
+    function_name: fanout2x2
+    info_version: 1
+    module: gdsfactory.routing.fanout2x2
+    name: mzi_arms_ac6d448d_fanou_8f7c39a5
   straight_10336aac:
     changed:
       length: 5.8
@@ -765,7 +765,7 @@ cells:
     width2: 2.5
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_arms_ac6d448d
   child:
     changed:
       length_x: 320
@@ -808,10 +808,10 @@ info:
         with_undercut: false
       straight_y: null
       with_splitter: true
-    function_name: mzi
+    function_name: mzi_arms
     info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    module: gdsfactory.components.mzi_arms
+    name: mzi_arms_ac6d448d
   default:
     bend_length: null
     npoints: 101
@@ -821,7 +821,7 @@ info:
       port_type: optical
   full:
     bend_length: null
-    component: mzi_ac6d448d
+    component: mzi_arms_ac6d448d
     npoints: 101
     port_spacing: 20
     select_ports:
@@ -830,7 +830,7 @@ info:
   function_name: fanout2x2
   info_version: 1
   module: gdsfactory.routing.fanout2x2
-  name: mzi_ac6d448d_fanout2x2_487eeed5
+  name: mzi_arms_ac6d448d_fanou_8f7c39a5
 ports:
   e1:
     layer:

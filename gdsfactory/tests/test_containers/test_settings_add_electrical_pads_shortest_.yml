@@ -284,128 +284,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_ac6d448d:
-    changed:
-      length_x: 320
-      splitter:
-        function: mmi2x2
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-    default:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 0.1
-      length_y: 0.8
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    full:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      layer: null
-      length_x: 320
-      length_y: 0.8
-      splitter:
-        function: mmi2x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y: null
-      with_splitter: true
-    function_name: mzi
-    info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
-  mzi_ac6d448d_add_electr_af938a81:
-    changed:
-      component: mzi_ac6d448d
-    child:
-      changed:
-        length_x: 320
-        splitter:
-          function: mmi2x2
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-      default:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 0.1
-        length_y: 0.8
-        splitter:
-          function: mmi1x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top: null
-        straight_y: null
-        with_splitter: true
-      full:
-        bend:
-          function: bend_euler
-        combiner: null
-        delta_length: 10
-        layer: null
-        length_x: 320
-        length_y: 0.8
-        splitter:
-          function: mmi2x2
-        straight:
-          function: straight
-        straight_x_bot: null
-        straight_x_top:
-          function: straight_heater_metal_undercut
-          with_undercut: false
-        straight_y: null
-        with_splitter: true
-      function_name: mzi
-      info_version: 1
-      module: gdsfactory.components.mzi
-      name: mzi_ac6d448d
-    default:
-      layer:
-      - 31
-      - 0
-      pad:
-        function: pad
-      pad_port_spacing: 50
-      port_orientation: 90
-      select_ports:
-        function: select_ports
-        port_type: electrical
-    full:
-      component: mzi_ac6d448d
-      layer:
-      - 31
-      - 0
-      pad:
-        function: pad
-      pad_port_spacing: 50
-      port_orientation: 90
-      select_ports:
-        function: select_ports
-        port_type: electrical
-    function_name: add_electrical_pads_shortest
-    info_version: 1
-    module: gdsfactory.routing.add_electrical_pads_shortest
-    name: mzi_ac6d448d_add_electr_af938a81
   mzi_arm_3aabaa29:
     changed:
       bend:
@@ -486,6 +364,128 @@ cells:
     length_xsize: 320
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_5644a682
+  mzi_arms_ac6d448d:
+    changed:
+      length_x: 320
+      splitter:
+        function: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      bend:
+        function: bend_euler
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 0.1
+      length_y: 0.8
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      bend:
+        function: bend_euler
+      combiner: null
+      delta_length: 10
+      layer: null
+      length_x: 320
+      length_y: 0.8
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi_arms
+    info_version: 1
+    module: gdsfactory.components.mzi_arms
+    name: mzi_arms_ac6d448d
+  mzi_arms_ac6d448d_add_e_9d84f213:
+    changed:
+      component: mzi_arms_ac6d448d
+    child:
+      changed:
+        length_x: 320
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 0.1
+        length_y: 0.8
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        delta_length: 10
+        layer: null
+        length_x: 320
+        length_y: 0.8
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi_arms
+      info_version: 1
+      module: gdsfactory.components.mzi_arms
+      name: mzi_arms_ac6d448d
+    default:
+      layer:
+      - 31
+      - 0
+      pad:
+        function: pad
+      pad_port_spacing: 50
+      port_orientation: 90
+      select_ports:
+        function: select_ports
+        port_type: electrical
+    full:
+      component: mzi_arms_ac6d448d
+      layer:
+      - 31
+      - 0
+      pad:
+        function: pad
+      pad_port_spacing: 50
+      port_orientation: 90
+      select_ports:
+        function: select_ports
+        port_type: electrical
+    function_name: add_electrical_pads_shortest
+    info_version: 1
+    module: gdsfactory.routing.add_electrical_pads_shortest
+    name: mzi_arms_ac6d448d_add_e_9d84f213
   pad:
     changed: {}
     default:
@@ -767,7 +767,7 @@ cells:
     width2: 2.5
 info:
   changed:
-    component: mzi_ac6d448d
+    component: mzi_arms_ac6d448d
   child:
     changed:
       length_x: 320
@@ -810,10 +810,10 @@ info:
         with_undercut: false
       straight_y: null
       with_splitter: true
-    function_name: mzi
+    function_name: mzi_arms
     info_version: 1
-    module: gdsfactory.components.mzi
-    name: mzi_ac6d448d
+    module: gdsfactory.components.mzi_arms
+    name: mzi_arms_ac6d448d
   default:
     layer:
     - 31
@@ -826,7 +826,7 @@ info:
       function: select_ports
       port_type: electrical
   full:
-    component: mzi_ac6d448d
+    component: mzi_arms_ac6d448d
     layer:
     - 31
     - 0
@@ -840,7 +840,7 @@ info:
   function_name: add_electrical_pads_shortest
   info_version: 1
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: mzi_ac6d448d_add_electr_af938a81
+  name: mzi_arms_ac6d448d_add_e_9d84f213
 ports:
   o1:
     layer:
