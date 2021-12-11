@@ -1,5 +1,5 @@
 cells:
-  compass_3e01b358:
+  compass_bdc25def:
     changed:
       layer:
       - 1
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_3e01b358
-  cross_cbc183f3:
+    name: compass_bdc25def
+  cross_d41d8cd9:
     changed: {}
     default:
       layer:
@@ -47,8 +47,8 @@ cells:
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
-    name: cross_cbc183f3
-  rectangle_4b411f93:
+    name: cross_d41d8cd9
+  rectangle_0eb96b44:
     changed:
       layer:
       - 1
@@ -77,7 +77,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_4b411f93
+    name: rectangle_0eb96b44
 info:
   changed: {}
   default:
@@ -97,6 +97,6 @@ info:
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross
-  name: cross_cbc183f3
+  name: cross_d41d8cd9
 ports: {}
 version: 1

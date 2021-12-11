@@ -1,5 +1,5 @@
 cells:
-  coupler_ring_fd71dedc:
+  coupler_ring_d41d8cd9:
     changed: {}
     default:
       bend: null
@@ -26,7 +26,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_fd71dedc
+    name: coupler_ring_d41d8cd9
 info:
   changed: {}
   default:
@@ -54,7 +54,7 @@ info:
   function_name: coupler_ring
   info_version: 1
   module: gdsfactory.components.coupler_ring
-  name: coupler_ring_fd71dedc
+  name: coupler_ring_d41d8cd9
 ports:
   o1:
     layer:

@@ -1,5 +1,5 @@
 cells:
-  bend_euler_2961da5f:
+  bend_euler_d80b08de:
     changed:
       angle: 180
       cross_section:
@@ -27,10 +27,10 @@ cells:
     info_version: 1
     length: 42.818
     module: gdsfactory.components.bend_euler
-    name: bend_euler_2961da5f
+    name: bend_euler_d80b08de
     radius: 10
     radius_min: 9.086
-  delay_snake3_93cb6cf7:
+  delay_snake3_d41d8cd9:
     changed: {}
     default:
       bend180:
@@ -53,31 +53,8 @@ cells:
     function_name: delay_snake3
     info_version: 1
     module: gdsfactory.components.delay_snake3
-    name: delay_snake3_93cb6cf7
-  straight_62fadbac:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 0
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0
-    module: gdsfactory.components.straight
-    name: straight_62fadbac
-    width: 0.5
-  straight_80b51f5c:
+    name: delay_snake3_d41d8cd9
+  straight_73b2527a:
     changed:
       cross_section:
         function: cross_section
@@ -98,7 +75,30 @@ cells:
     info_version: 1
     length: 504.788
     module: gdsfactory.components.straight
-    name: straight_80b51f5c
+    name: straight_73b2527a
+    width: 0.5
+  straight_80d6c653:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 0
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0
+    module: gdsfactory.components.straight
+    name: straight_80d6c653
     width: 0.5
 info:
   changed: {}
@@ -123,7 +123,7 @@ info:
   function_name: delay_snake3
   info_version: 1
   module: gdsfactory.components.delay_snake3
-  name: delay_snake3_93cb6cf7
+  name: delay_snake3_d41d8cd9
 ports:
   o1:
     layer:

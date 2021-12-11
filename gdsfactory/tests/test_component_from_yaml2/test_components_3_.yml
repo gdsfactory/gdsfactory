@@ -1,6 +1,6 @@
 cells:
   dxdy: {}
-  mmi1x2_81d6fe15:
+  mmi1x2_41793ed4:
     changed:
       length_mmi: 5
       width_mmi: 4.5
@@ -31,8 +31,8 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_81d6fe15
-  mmi1x2_c8a58286:
+    name: mmi1x2_41793ed4
+  mmi1x2_5ad5950d:
     changed:
       length_mmi: 10
       width_mmi: 4.5
@@ -63,7 +63,7 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_c8a58286
+    name: mmi1x2_5ad5950d
 info:
   name: dxdy
 ports:

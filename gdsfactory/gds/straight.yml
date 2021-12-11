@@ -24,7 +24,7 @@ ports:
 info:
   length: 1.234
   width: 0.5
-  name: straight_61d00b29
+  name: straight_0a6c91fb
   module: gdsfactory.components.straight
   function_name: straight
   info_version: 1
@@ -43,10 +43,10 @@ info:
     cross_section:
       function: cross_section
 cells:
-  straight_61d00b29:
+  straight_0a6c91fb:
     length: 1.234
     width: 0.5
-    name: straight_61d00b29
+    name: straight_0a6c91fb
     module: gdsfactory.components.straight
     function_name: straight
     info_version: 1

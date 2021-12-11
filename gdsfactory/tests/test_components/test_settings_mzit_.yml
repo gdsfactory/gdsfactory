@@ -1,37 +1,5 @@
 cells:
-  bend_euler_1c9fe6ef:
-    changed:
-      radius: 10
-      width: 0.45
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 10
-      width: 0.45
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_1c9fe6ef
-    radius: 10
-    radius_min: 7.061
-  bend_euler_6191e4c8:
+  bend_euler_7f403255:
     changed:
       radius: 10
       width: 0.55
@@ -60,43 +28,42 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_6191e4c8
+    name: bend_euler_7f403255
     radius: 10
     radius_min: 7.061
-  coupler_284f2743:
+  bend_euler_d48fbab9:
     changed:
-      dy: 2
-      gap: 0.2
-      length: 5
+      radius: 10
+      width: 0.45
     default:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
+      angle: 90
       cross_section:
         function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.236
-      length: 20
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
     full:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
+      angle: 90
       cross_section:
         function: cross_section
-      dx: 10
-      dy: 2
-      gap: 0.2
-      length: 5
-    function_name: coupler
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      radius: 10
+      width: 0.45
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
     info_version: 1
-    length: 10.03
-    min_bend_radius: 28.187
-    module: gdsfactory.components.coupler
-    name: coupler_284f2743
-  coupler_df5a914a:
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_d48fbab9
+    radius: 10
+    radius_min: 7.061
+  coupler_8eaa93fc:
     changed:
       dy: 2
       gap: 0.3
@@ -128,8 +95,41 @@ cells:
     length: 10.026
     min_bend_radius: 30.486
     module: gdsfactory.components.coupler
-    name: coupler_df5a914a
-  mzit_070e14e4:
+    name: coupler_8eaa93fc
+  coupler_cb43455d:
+    changed:
+      dy: 2
+      gap: 0.2
+      length: 5
+    default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
+      dx: 10
+      dy: 2
+      gap: 0.2
+      length: 5
+    function_name: coupler
+    info_version: 1
+    length: 10.03
+    min_bend_radius: 28.187
+    module: gdsfactory.components.coupler
+    name: coupler_cb43455d
+  mzit_d41d8cd9:
     changed: {}
     default:
       Ls: 1
@@ -180,11 +180,11 @@ cells:
     function_name: mzit
     info_version: 1
     module: gdsfactory.components.mzit
-    name: mzit_070e14e4
-  straight_19a16b63:
+    name: mzit_d41d8cd9
+  straight_0832c2df:
     changed:
       length: 1
-      width: 0.45
+      width: 0.55
     default:
       cross_section:
         function: cross_section
@@ -196,15 +196,15 @@ cells:
         function: cross_section
       length: 1
       npoints: 2
-      width: 0.45
+      width: 0.55
       with_cladding_box: true
     function_name: straight
     info_version: 1
     length: 1
     module: gdsfactory.components.straight
-    name: straight_19a16b63
-    width: 0.45
-  straight_792e863c:
+    name: straight_0832c2df
+    width: 0.55
+  straight_325d35db:
     changed:
       length: 4
       width: 0.55
@@ -225,9 +225,32 @@ cells:
     info_version: 1
     length: 4
     module: gdsfactory.components.straight
-    name: straight_792e863c
+    name: straight_325d35db
     width: 0.55
-  straight_8c66aa2a:
+  straight_dab38390:
+    changed:
+      length: 1
+      width: 0.45
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 1
+      npoints: 2
+      width: 0.45
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 1
+    module: gdsfactory.components.straight
+    name: straight_dab38390
+    width: 0.45
+  straight_e8243227:
     changed:
       length: 3
       width: 0.55
@@ -248,60 +271,9 @@ cells:
     info_version: 1
     length: 3
     module: gdsfactory.components.straight
-    name: straight_8c66aa2a
+    name: straight_e8243227
     width: 0.55
-  straight_d11767bf:
-    changed:
-      length: 1
-      width: 0.55
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 1
-      npoints: 2
-      width: 0.55
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 1
-    module: gdsfactory.components.straight
-    name: straight_d11767bf
-    width: 0.55
-  taper_48a01b87:
-    changed:
-      length: 5
-      width1: 0.55
-      width2: 0.45
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.55
-      width2: 0.45
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.taper
-    name: taper_48a01b87
-    width1: 0.55
-    width2: 0.45
-  taper_50586a24:
+  taper_35742b85:
     changed:
       length: 5
       width1: 0.5
@@ -326,38 +298,10 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.taper
-    name: taper_50586a24
+    name: taper_35742b85
     width1: 0.5
     width2: 0.45
-  taper_6194da98:
-    changed:
-      length: 5
-      width1: 0.45
-      width2: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.45
-      width2: 0.5
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.taper
-    name: taper_6194da98
-    width1: 0.45
-    width2: 0.5
-  taper_844aacef:
+  taper_497b9706:
     changed:
       length: 5
       width1: 0.5
@@ -382,38 +326,10 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.taper
-    name: taper_844aacef
+    name: taper_497b9706
     width1: 0.5
     width2: 0.55
-  taper_de675c03:
-    changed:
-      length: 5
-      width1: 0.55
-      width2: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.55
-      width2: 0.5
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.taper
-    name: taper_de675c03
-    width1: 0.55
-    width2: 0.5
-  taper_f3d51c50:
+  taper_5ef18b11:
     changed:
       length: 5
       width1: 0.45
@@ -438,9 +354,93 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.taper
-    name: taper_f3d51c50
+    name: taper_5ef18b11
     width1: 0.45
     width2: 0.55
+  taper_85794c73:
+    changed:
+      length: 5
+      width1: 0.55
+      width2: 0.45
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.55
+      width2: 0.45
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.taper
+    name: taper_85794c73
+    width1: 0.55
+    width2: 0.45
+  taper_95acb109:
+    changed:
+      length: 5
+      width1: 0.55
+      width2: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.55
+      width2: 0.5
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.taper
+    name: taper_95acb109
+    width1: 0.55
+    width2: 0.5
+  taper_feb4a44d:
+    changed:
+      length: 5
+      width1: 0.45
+      width2: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.45
+      width2: 0.5
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.taper
+    name: taper_feb4a44d
+    width1: 0.45
+    width2: 0.5
 info:
   changed: {}
   default:
@@ -492,7 +492,7 @@ info:
   function_name: mzit
   info_version: 1
   module: gdsfactory.components.mzit
-  name: mzit_070e14e4
+  name: mzit_d41d8cd9
 ports:
   o1:
     layer:

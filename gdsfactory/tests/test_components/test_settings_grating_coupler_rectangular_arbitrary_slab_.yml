@@ -1,34 +1,5 @@
 cells:
-  compass_537922fd:
-    changed:
-      layer:
-      - 1
-      - 0
-      port_type: null
-      size:
-      - 0.5
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_type: null
-      size:
-      - 0.5
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_537922fd
-  compass_98e6b73c:
+  compass_14a57bc5:
     changed:
       layer:
       - 2
@@ -56,8 +27,37 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_98e6b73c
-  grating_coupler_rectang_02943fe1:
+    name: compass_14a57bc5
+  compass_ae46bf3c:
+    changed:
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 0.5
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 0.5
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_ae46bf3c
+  grating_coupler_rectang_aec72af6:
     changed: {}
     default:
       gaps:
@@ -142,42 +142,10 @@ cells:
     function_name: grating_coupler_rectangular_arbitrary_slab
     info_version: 1
     module: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
-    name: grating_coupler_rectang_02943fe1
+    name: grating_coupler_rectang_aec72af6
     polarization: te
     wavelength: 1.55
-  rectangle_95a4f707:
-    changed:
-      centered: true
-      layer:
-      - 2
-      - 0
-      port_type: null
-      size:
-      - 9
-      - 15
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: true
-      layer:
-      - 2
-      - 0
-      port_type: null
-      size:
-      - 9
-      - 15
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_95a4f707
-  rectangle_b36fa07c:
+  rectangle_14fb5f60:
     changed:
       centered: true
       layer:
@@ -208,8 +176,40 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_b36fa07c
-  taper_strip_to_ridge_9998df90:
+    name: rectangle_14fb5f60
+  rectangle_a3e44e0a:
+    changed:
+      centered: true
+      layer:
+      - 2
+      - 0
+      port_type: null
+      size:
+      - 9
+      - 15
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: true
+      layer:
+      - 2
+      - 0
+      port_type: null
+      size:
+      - 9
+      - 15
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_a3e44e0a
+  taper_strip_to_ridge_2502810c:
     changed:
       layer_slab:
       - 2
@@ -254,7 +254,7 @@ cells:
     info_version: 1
     length: 150
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_9998df90
+    name: taper_strip_to_ridge_2502810c
 info:
   changed: {}
   default:
@@ -340,7 +340,7 @@ info:
   function_name: grating_coupler_rectangular_arbitrary_slab
   info_version: 1
   module: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
-  name: grating_coupler_rectang_02943fe1
+  name: grating_coupler_rectang_aec72af6
   polarization: te
   wavelength: 1.55
 ports:

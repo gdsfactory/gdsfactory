@@ -1,5 +1,5 @@
 cells:
-  array_with_via_1d101bed:
+  array_with_via_d41d8cd9:
     changed: {}
     default:
       columns: 3
@@ -52,64 +52,8 @@ cells:
     function_name: array_with_via
     info_version: 1
     module: gdsfactory.components.array_with_via
-    name: array_with_via_1d101bed
-  compass_12d5a699:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 100
-      - 100
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 100
-      - 100
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_12d5a699
-  compass_215fba3b:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_215fba3b
-  compass_39889ce5:
+    name: array_with_via_d41d8cd9
+  compass_280a2d8b:
     changed:
       layer:
       - 45
@@ -136,8 +80,64 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_39889ce5
-  compass_4b1cabad:
+    name: compass_280a2d8b
+  compass_8e661824:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_8e661824
+  compass_a0b38c11:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_a0b38c11
+  compass_ef690c07:
     changed:
       layer:
       - 41
@@ -164,8 +164,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_4b1cabad
-  contact_1207945c:
+    name: compass_ef690c07
+  contact_d41d8cd9:
     changed: {}
     default:
       layer_port: null
@@ -217,11 +217,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_1207945c
+    name: contact_d41d8cd9
     size:
     - 11
     - 11
-  pad_bf0e2f24:
+  pad_d41d8cd9:
     changed: {}
     default:
       cladding_offsets: null
@@ -247,97 +247,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad_bf0e2f24
+    name: pad_d41d8cd9
     size:
     - 100
     - 100
-  straight_37008296:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 45
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-      length: 60
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 45
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-      length: 60
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 60
-    module: gdsfactory.components.straight
-    name: straight_37008296
-    width: 10
-  straight_438bd40a:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 45
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-      length: 210
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 45
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-      length: 210
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 210
-    module: gdsfactory.components.straight
-    name: straight_438bd40a
-    width: 10
-  straight_4c10bbe2:
+  straight_2fbbd4a9:
     changed:
       cross_section:
         function: cross_section
@@ -378,7 +292,93 @@ cells:
     info_version: 1
     length: 360
     module: gdsfactory.components.straight
-    name: straight_4c10bbe2
+    name: straight_2fbbd4a9
+    width: 10
+  straight_5ca1245d:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 210
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 210
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 210
+    module: gdsfactory.components.straight
+    name: straight_5ca1245d
+    width: 10
+  straight_9d5a0d1b:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 60
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
+      length: 60
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 60
+    module: gdsfactory.components.straight
+    name: straight_9d5a0d1b
     width: 10
 info:
   changed: {}
@@ -433,7 +433,7 @@ info:
   function_name: array_with_via
   info_version: 1
   module: gdsfactory.components.array_with_via
-  name: array_with_via_1d101bed
+  name: array_with_via_d41d8cd9
 ports:
   e0:
     layer:

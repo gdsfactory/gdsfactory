@@ -1,5 +1,5 @@
 cells:
-  straight_e3a3a11d:
+  straight_40e83c11:
     changed:
       cross_section:
         function: cross_section
@@ -37,7 +37,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_e3a3a11d
+    name: straight_40e83c11
     width: 1
 info:
   changed:
@@ -77,7 +77,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.straight
-  name: straight_e3a3a11d
+  name: straight_40e83c11
   width: 1
 ports:
   o1:
