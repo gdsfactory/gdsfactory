@@ -3,12 +3,11 @@ from gdsfactory.component import Component
 
 LENGTH = 0.5
 
-CELL_NAME = "straight_b8776d87"
 
-
-def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
+def test_label_fiber_single(length=LENGTH) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
     c = gf.components.straight(length=length)
+    cell_name = c.name
 
     assert len(c.labels) == 0
     cte = gf.routing.add_fiber_single(component=c, with_loopback=False)
@@ -23,9 +22,10 @@ def test_label_fiber_single(length=LENGTH, cell_name=CELL_NAME) -> Component:
     return cte
 
 
-def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Component:
+def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
     c = gf.components.straight(length=length)
+    cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
 

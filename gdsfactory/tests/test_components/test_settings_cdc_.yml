@@ -1,5 +1,5 @@
 cells:
-  cdc:
+  cdc_78ddbaa5:
     changed: {}
     default:
       angle: 0.5235987755982988
@@ -48,7 +48,7 @@ cells:
     function_name: cdc
     info_version: 1
     module: gdsfactory.components.cdc
-    name: cdc
+    name: cdc_78ddbaa5
 info:
   changed: {}
   default:
@@ -98,7 +98,7 @@ info:
   function_name: cdc
   info_version: 1
   module: gdsfactory.components.cdc
-  name: cdc
+  name: cdc_78ddbaa5
 ports:
   o1:
     layer:

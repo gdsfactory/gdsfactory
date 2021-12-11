@@ -1,5 +1,5 @@
 cells:
-  compass_f4e2fd7c:
+  compass_39dfce0c:
     changed:
       layer:
       - 100
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_f4e2fd7c
-  dicing_lane:
+    name: compass_39dfce0c
+  dicing_lane_dac27b76:
     changed: {}
     default:
       layer_dicing:
@@ -59,8 +59,8 @@ cells:
     function_name: dicing_lane
     info_version: 1
     module: gdsfactory.components.dicing_lane
-    name: dicing_lane
-  rectangle_93ceba3b:
+    name: dicing_lane_dac27b76
+  rectangle_39833c9a:
     changed:
       layer:
       - 100
@@ -89,8 +89,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_93ceba3b
-  triangle_0196de93:
+    name: rectangle_39833c9a
+  triangle_29c239c4:
     changed:
       layer:
       - 49
@@ -115,7 +115,7 @@ cells:
     function_name: triangle
     info_version: 1
     module: gdsfactory.components.triangle
-    name: triangle_0196de93
+    name: triangle_29c239c4
 info:
   changed: {}
   default:
@@ -147,6 +147,6 @@ info:
   function_name: dicing_lane
   info_version: 1
   module: gdsfactory.components.dicing_lane
-  name: dicing_lane
+  name: dicing_lane_dac27b76
 ports: {}
 version: 1

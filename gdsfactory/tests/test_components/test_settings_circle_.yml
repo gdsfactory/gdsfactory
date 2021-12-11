@@ -1,5 +1,5 @@
 cells:
-  circle:
+  circle_a535d79e:
     changed: {}
     default:
       angle_resolution: 2.5
@@ -16,7 +16,7 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle
+    name: circle_a535d79e
 info:
   changed: {}
   default:
@@ -34,6 +34,6 @@ info:
   function_name: circle
   info_version: 1
   module: gdsfactory.components.circle
-  name: circle
+  name: circle_a535d79e
 ports: {}
 version: 1

@@ -1,61 +1,5 @@
 cells:
-  compass_23f1de76:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_23f1de76
-  compass_2d2aeb66:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_2d2aeb66
-  compass_4369a919:
+  compass_5189aabf:
     changed:
       layer:
       - 41
@@ -82,8 +26,64 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_4369a919
-  contact_5c360167:
+    name: compass_5189aabf
+  compass_751abc99:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 480
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_type: electrical
+      size:
+      - 480
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_751abc99
+  compass_fa773139:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 480
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 480
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_fa773139
+  contact_4166d1ad:
     changed:
       layers:
       - - 41
@@ -155,11 +155,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_5c360167
+    name: contact_4166d1ad
     size:
     - 480
     - 10
-  contact_slot_945954a1:
+  contact_slot_9e2c1809:
     changed:
       layers:
       - - 41
@@ -216,11 +216,11 @@ cells:
     function_name: contact_slot
     info_version: 1
     module: gdsfactory.components.contact_slot
-    name: contact_slot_945954a1
+    name: contact_slot_9e2c1809
     size:
     - 480
     - 10
-  straight_fec761a3:
+  straight_81233ce7:
     changed:
       cross_section:
         function: pin
@@ -241,9 +241,9 @@ cells:
     info_version: 1
     length: 480
     module: gdsfactory.components.straight
-    name: straight_fec761a3
+    name: straight_81233ce7
     width: 0.5
-  straight_pin_slot:
+  straight_pin_slot_e9d3f0c3:
     changed: {}
     default:
       contact:
@@ -330,8 +330,8 @@ cells:
     function_name: straight_pin_slot
     info_version: 1
     module: gdsfactory.components.straight_pin_slot
-    name: straight_pin_slot
-  taper_strip_to_ridge:
+    name: straight_pin_slot_e9d3f0c3
+  taper_strip_to_ridge_ad58252d:
     changed: {}
     default:
       cladding_offset: 3
@@ -369,7 +369,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge
+    name: taper_strip_to_ridge_ad58252d
 info:
   changed: {}
   default:
@@ -457,7 +457,7 @@ info:
   function_name: straight_pin_slot
   info_version: 1
   module: gdsfactory.components.straight_pin_slot
-  name: straight_pin_slot
+  name: straight_pin_slot_e9d3f0c3
 ports:
   bot_e1:
     layer:

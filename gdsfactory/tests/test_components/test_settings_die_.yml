@@ -1,5 +1,5 @@
 cells:
-  die:
+  die_ac6eea56:
     changed: {}
     default:
       bbox_layer:
@@ -38,8 +38,8 @@ cells:
     function_name: die
     info_version: 1
     module: gdsfactory.components.die
-    name: die
-  text_cc38bd78:
+    name: die_ac6eea56
+  text_9b5c5240:
     changed:
       layer:
       - 99
@@ -69,7 +69,7 @@ cells:
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_cc38bd78
+    name: text_9b5c5240
 info:
   changed: {}
   default:
@@ -109,6 +109,6 @@ info:
   function_name: die
   info_version: 1
   module: gdsfactory.components.die
-  name: die
+  name: die_ac6eea56
 ports: {}
 version: 1

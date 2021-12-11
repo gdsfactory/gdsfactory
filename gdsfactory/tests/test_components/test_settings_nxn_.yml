@@ -1,5 +1,5 @@
 cells:
-  compass_f2a0af54:
+  compass_c40a9096:
     changed:
       layer:
       - 1
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_f2a0af54
-  nxn:
+    name: compass_c40a9096
+  nxn_20bc33d7:
     changed: {}
     default:
       east: 4
@@ -57,8 +57,8 @@ cells:
     function_name: nxn
     info_version: 1
     module: gdsfactory.components.nxn
-    name: nxn
-  rectangle_48d69079:
+    name: nxn_20bc33d7
+  rectangle_858ef5d6:
     changed:
       layer:
       - 1
@@ -87,7 +87,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_48d69079
+    name: rectangle_858ef5d6
 info:
   changed: {}
   default:
@@ -117,7 +117,7 @@ info:
   function_name: nxn
   info_version: 1
   module: gdsfactory.components.nxn
-  name: nxn
+  name: nxn_20bc33d7
 ports:
   o1:
     layer:

@@ -20,7 +20,7 @@ Maybe:
 ## 3.8.3
 
 - replace in contact_yspacing by heater_gap in straight_heater_doped
-- cell includes signature hash in all the names to minimize risk of naming conflicts
+- cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
 ## 3.8.2
 

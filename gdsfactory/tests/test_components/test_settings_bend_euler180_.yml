@@ -1,5 +1,5 @@
 cells:
-  bend_euler_8d359e58:
+  bend_euler_55cd45e8:
     changed:
       angle: 180
     default:
@@ -25,7 +25,7 @@ cells:
     info_version: 1
     length: 42.818
     module: gdsfactory.components.bend_euler
-    name: bend_euler_8d359e58
+    name: bend_euler_55cd45e8
     radius: 10
     radius_min: 9.086
 info:
@@ -54,7 +54,7 @@ info:
   info_version: 1
   length: 42.818
   module: gdsfactory.components.bend_euler
-  name: bend_euler_8d359e58
+  name: bend_euler_55cd45e8
   radius: 10
   radius_min: 9.086
 ports:

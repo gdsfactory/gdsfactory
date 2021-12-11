@@ -1,5 +1,5 @@
 cells:
-  pixel:
+  pixel_160ea01b:
     changed: {}
     default:
       layer:
@@ -14,7 +14,7 @@ cells:
     function_name: pixel
     info_version: 1
     module: gdsfactory.components.version_stamp
-    name: pixel
+    name: pixel_160ea01b
 info:
   changed: {}
   default:
@@ -30,6 +30,6 @@ info:
   function_name: pixel
   info_version: 1
   module: gdsfactory.components.version_stamp
-  name: pixel
+  name: pixel_160ea01b
 ports: {}
 version: 1

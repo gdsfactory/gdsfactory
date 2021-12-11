@@ -1,6 +1,6 @@
 cells:
   Unnamed_85f74110: {}
-  compass_b3c54927:
+  compass_3ebf205c:
     changed:
       port_type: None
       size:
@@ -25,7 +25,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_b3c54927
+    name: compass_3ebf205c
 info:
   name: Unnamed_85f74110
 ports:

@@ -1,5 +1,5 @@
 cells:
-  coupler_ring_884bafc4:
+  coupler_ring_6d497ee0:
     changed:
       bend: null
       cross_section:
@@ -32,8 +32,8 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_884bafc4
-  ring_double:
+    name: coupler_ring_6d497ee0
+  ring_double_cd1ec1ba:
     changed: {}
     default:
       bend: null
@@ -62,8 +62,8 @@ cells:
     function_name: ring_double
     info_version: 1
     module: gdsfactory.components.ring_double
-    name: ring_double
-  straight_5743d35a:
+    name: ring_double_cd1ec1ba
+  straight_1c532bf8:
     changed:
       cross_section:
         function: cross_section
@@ -84,7 +84,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_5743d35a
+    name: straight_1c532bf8
     width: 0.5
 info:
   changed: {}
@@ -115,7 +115,7 @@ info:
   function_name: ring_double
   info_version: 1
   module: gdsfactory.components.ring_double
-  name: ring_double
+  name: ring_double_cd1ec1ba
 ports:
   o1:
     layer:

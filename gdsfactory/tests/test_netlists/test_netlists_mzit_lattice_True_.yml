@@ -1,6 +1,6 @@
 connections: {}
 instances:
-  mzit_f7e2e81d_19p138_11p4:
+  mzit_b9dc5d8c_19p138_11p4:
     component: mzit
     settings:
       Ls: 1
@@ -25,15 +25,15 @@ instances:
       w0: 0.5
       w1: 0.45
       w2: 0.55
-name: mzit_lattice
+name: mzit_lattice_8515b7ec
 placements:
-  mzit_f7e2e81d_19p138_11p4:
+  mzit_b9dc5d8c_19p138_11p4:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
 ports:
-  o1: mzit_f7e2e81d_19p138_11p4,o1
-  o2: mzit_f7e2e81d_19p138_11p4,o2
-  o3: mzit_f7e2e81d_19p138_11p4,o3
-  o4: mzit_f7e2e81d_19p138_11p4,o4
+  o1: mzit_b9dc5d8c_19p138_11p4,o1
+  o2: mzit_b9dc5d8c_19p138_11p4,o2
+  o3: mzit_b9dc5d8c_19p138_11p4,o3
+  o4: mzit_b9dc5d8c_19p138_11p4,o4

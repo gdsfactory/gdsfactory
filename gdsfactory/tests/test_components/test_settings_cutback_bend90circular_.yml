@@ -1,5 +1,5 @@
 cells:
-  bend_circular:
+  bend_circular_07ed82ff:
     changed: {}
     default:
       angle: 90
@@ -18,9 +18,9 @@ cells:
     info_version: 1
     length: 15.708
     module: gdsfactory.components.bend_circular
-    name: bend_circular
+    name: bend_circular_07ed82ff
     radius_min: 10
-  cutback_bend90_fd4656cd:
+  cutback_bend90_6f79df15:
     changed:
       bend90:
         function: bend_circular
@@ -46,31 +46,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_bend
     n_bends: 144
-    name: cutback_bend90_fd4656cd
-  straight_49d3caf3:
-    changed:
-      length: 30
-      width: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 30
-      npoints: 2
-      width: 0.5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 30
-    module: gdsfactory.components.straight
-    name: straight_49d3caf3
-    width: 0.5
-  straight_ffad5cea:
+    name: cutback_bend90_6f79df15
+  straight_aa1fe4e7:
     changed:
       length: 5
       width: 0.5
@@ -91,7 +68,30 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.straight
-    name: straight_ffad5cea
+    name: straight_aa1fe4e7
+    width: 0.5
+  straight_cd00278d:
+    changed:
+      length: 30
+      width: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 30
+      npoints: 2
+      width: 0.5
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 30
+    module: gdsfactory.components.straight
+    name: straight_cd00278d
     width: 0.5
 info:
   changed:
@@ -119,7 +119,7 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_bend
   n_bends: 144
-  name: cutback_bend90_fd4656cd
+  name: cutback_bend90_6f79df15
 ports:
   o1:
     layer:

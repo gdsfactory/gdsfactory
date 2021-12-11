@@ -1,12 +1,12 @@
 cells:
-  taper_w12_l200:
+  taper_w12_l200_86870774:
     changed: {}
     default: {}
     full: {}
     function_name: taper_w12_l200
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_w12_l200
+    name: taper_w12_l200_86870774
 info:
   changed: {}
   default: {}
@@ -14,7 +14,7 @@ info:
   function_name: taper_w12_l200
   info_version: 1
   module: gdsfactory.components.taper_from_csv
-  name: taper_w12_l200
+  name: taper_w12_l200_86870774
 ports:
   o1:
     layer:

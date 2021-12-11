@@ -1,5 +1,5 @@
 cells:
-  ramp:
+  ramp_9b2a604b:
     changed: {}
     default:
       layer:
@@ -18,7 +18,7 @@ cells:
     function_name: ramp
     info_version: 1
     module: gdsfactory.components.ramp
-    name: ramp
+    name: ramp_9b2a604b
 info:
   changed: {}
   default:
@@ -38,7 +38,7 @@ info:
   function_name: ramp
   info_version: 1
   module: gdsfactory.components.ramp
-  name: ramp
+  name: ramp_9b2a604b
 ports:
   o1:
     layer:

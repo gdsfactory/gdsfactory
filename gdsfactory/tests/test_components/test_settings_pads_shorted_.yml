@@ -1,5 +1,5 @@
 cells:
-  compass_a0b38c11:
+  compass_12d5a699:
     changed:
       layer:
       - 49
@@ -26,8 +26,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a0b38c11
-  compass_b0af43a3:
+    name: compass_12d5a699
+  compass_991a0065:
     changed:
       layer:
       - 49
@@ -55,8 +55,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_b0af43a3
-  pad:
+    name: compass_991a0065
+  pad_bf0e2f24:
     changed: {}
     default:
       cladding_offsets: null
@@ -82,11 +82,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad
+    name: pad_bf0e2f24
     size:
     - 100
     - 100
-  pads_shorted:
+  pads_shorted_d3d50792:
     changed: {}
     default:
       columns: 8
@@ -109,8 +109,8 @@ cells:
     function_name: pads_shorted
     info_version: 1
     module: gdsfactory.components.pads_shorted
-    name: pads_shorted
-  rectangle_0fa1e1c2:
+    name: pads_shorted_d3d50792
+  rectangle_639a0285:
     changed:
       centered: true
       layer:
@@ -140,7 +140,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_0fa1e1c2
+    name: rectangle_639a0285
 info:
   changed: {}
   default:
@@ -164,6 +164,6 @@ info:
   function_name: pads_shorted
   info_version: 1
   module: gdsfactory.components.pads_shorted
-  name: pads_shorted
+  name: pads_shorted_d3d50792
 ports: {}
 version: 1

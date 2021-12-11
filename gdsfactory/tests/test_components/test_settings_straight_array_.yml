@@ -1,5 +1,5 @@
 cells:
-  straight:
+  straight_3e927ea7:
     changed: {}
     default:
       cross_section:
@@ -17,9 +17,9 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight
+    name: straight_3e927ea7
     width: 0.5
-  straight_array:
+  straight_array_7761d902:
     changed: {}
     default:
       n: 4
@@ -34,7 +34,7 @@ cells:
     function_name: straight_array
     info_version: 1
     module: gdsfactory.components.straight_array
-    name: straight_array
+    name: straight_array_7761d902
 info:
   changed: {}
   default:
@@ -50,7 +50,7 @@ info:
   function_name: straight_array
   info_version: 1
   module: gdsfactory.components.straight_array
-  name: straight_array
+  name: straight_array_7761d902
 ports:
   o1:
     layer:

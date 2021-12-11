@@ -1,5 +1,5 @@
 cells:
-  compass_85d33a91:
+  compass_9a9ae1b9:
     changed:
       layer:
       - 1
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_85d33a91
-  rectangle_6df08d23:
+    name: compass_9a9ae1b9
+  rectangle_bc95870a:
     changed:
       size:
       - 1300
@@ -54,8 +54,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_6df08d23
-  rectangle_6df08d23_die_bbox:
+    name: rectangle_bc95870a
+  rectangle_bc95870a_die__805508ee:
     changed: {}
     child:
       changed:
@@ -83,7 +83,7 @@ cells:
       function_name: rectangle
       info_version: 1
       module: gdsfactory.components.rectangle
-      name: rectangle_6df08d23
+      name: rectangle_bc95870a
     default:
       component:
         function: rectangle
@@ -117,7 +117,7 @@ cells:
     function_name: die_bbox
     info_version: 1
     module: gdsfactory.components.die_bbox
-    name: rectangle_6df08d23_die_bbox
+    name: rectangle_bc95870a_die__805508ee
 info:
   changed: {}
   child:
@@ -146,7 +146,7 @@ info:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_6df08d23
+    name: rectangle_bc95870a
   default:
     component:
       function: rectangle
@@ -180,6 +180,6 @@ info:
   function_name: die_bbox
   info_version: 1
   module: gdsfactory.components.die_bbox
-  name: rectangle_6df08d23_die_bbox
+  name: rectangle_bc95870a_die__805508ee
 ports: {}
 version: 1

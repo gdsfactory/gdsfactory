@@ -1,5 +1,5 @@
 cells:
-  taper:
+  taper_7f9e9e05:
     changed: {}
     default:
       cross_section:
@@ -21,7 +21,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper
+    name: taper_7f9e9e05
     width1: 0.5
     width2: 0.5
 info:
@@ -46,7 +46,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.taper
-  name: taper
+  name: taper_7f9e9e05
   width1: 0.5
   width2: 0.5
 ports:

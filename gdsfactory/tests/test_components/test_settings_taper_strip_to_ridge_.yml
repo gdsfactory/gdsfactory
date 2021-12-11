@@ -1,5 +1,5 @@
 cells:
-  taper_strip_to_ridge:
+  taper_strip_to_ridge_ad58252d:
     changed: {}
     default:
       cladding_offset: 3
@@ -37,7 +37,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge
+    name: taper_strip_to_ridge_ad58252d
 info:
   changed: {}
   default:
@@ -76,7 +76,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.taper
-  name: taper_strip_to_ridge
+  name: taper_strip_to_ridge_ad58252d
 ports:
   o1:
     layer:
