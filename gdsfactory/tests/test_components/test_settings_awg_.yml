@@ -1,5 +1,5 @@
 cells:
-  awg:
+  awg_d41d8cd9:
     changed: {}
     default:
       arms: 10
@@ -20,7 +20,7 @@ cells:
     function_name: awg
     info_version: 1
     module: gdsfactory.components.awg
-    name: awg
+    name: awg_d41d8cd9
   bend_euler_1da190e0:
     changed:
       cross_section:
@@ -568,7 +568,7 @@ info:
   function_name: awg
   info_version: 1
   module: gdsfactory.components.awg
-  name: awg
+  name: awg_d41d8cd9
 ports:
   E0:
     layer:

@@ -1,5 +1,5 @@
 cells:
-  align_wafer:
+  align_wafer_d41d8cd9:
     changed: {}
     default:
       cross_length: 80
@@ -22,7 +22,7 @@ cells:
     function_name: align_wafer
     info_version: 1
     module: gdsfactory.components.align
-    name: align_wafer
+    name: align_wafer_d41d8cd9
   compass_127270ff:
     changed:
       layer:
@@ -310,6 +310,6 @@ info:
   function_name: align_wafer
   info_version: 1
   module: gdsfactory.components.align
-  name: align_wafer
+  name: align_wafer_d41d8cd9
 ports: {}
 version: 1

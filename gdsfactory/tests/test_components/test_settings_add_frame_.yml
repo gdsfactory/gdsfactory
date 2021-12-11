@@ -1,5 +1,5 @@
 cells:
-  add_frame:
+  add_frame_d41d8cd9:
     changed: {}
     default:
       component:
@@ -20,7 +20,7 @@ cells:
     function_name: add_frame
     info_version: 1
     module: gdsfactory.components.align
-    name: add_frame
+    name: add_frame_d41d8cd9
   compass_1634c468:
     changed:
       layer:
@@ -162,6 +162,6 @@ info:
   function_name: add_frame
   info_version: 1
   module: gdsfactory.components.align
-  name: add_frame
+  name: add_frame_d41d8cd9
 ports: {}
 version: 1

@@ -27,7 +27,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_a0b38c11
-  pad:
+  pad_d41d8cd9:
     changed: {}
     default:
       cladding_offsets: null
@@ -53,7 +53,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad
+    name: pad_d41d8cd9
     size:
     - 100
     - 100
@@ -83,7 +83,7 @@ info:
   - 49
   - 0
   module: gdsfactory.components.pad
-  name: pad
+  name: pad_d41d8cd9
   size:
   - 100
   - 100

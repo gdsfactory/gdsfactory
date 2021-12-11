@@ -7,9 +7,10 @@ INFO_VERSION
 import functools
 import hashlib
 import inspect
-from typing import Dict
+from typing import Callable, Dict
 
 import omegaconf
+import toolz
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component, clean_dict
@@ -32,6 +33,18 @@ def clear_cache() -> None:
 def print_cache():
     for k in CACHE:
         print(k)
+
+
+def get_source_code(func: Callable) -> str:
+    if isinstance(func, functools.partial):
+        source = inspect.getsource(func.func)
+    elif isinstance(func, toolz.functoolz.Compose):
+        source = inspect.getsource(func.first)
+    elif callable(func):
+        source = inspect.getsource(func)
+    else:
+        raise ValueError(f"{func!r} needs to be callable")
+    return source
 
 
 def cell_without_validator(func):
@@ -95,9 +108,7 @@ def cell_without_validator(func):
         arguments = "_".join(args_as_kwargs_string_list)
         arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
 
-        name_signature = (
-            clean_name(f"{prefix}_{arguments_hash}") if arguments else prefix
-        )
+        name_signature = clean_name(f"{prefix}_{arguments_hash}")
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
         name = get_name_short(name, max_name_length=max_name_length)
@@ -207,20 +218,14 @@ def wg(length: int = 3, width: float = 0.5) -> Component:
     return c
 
 
-def test_autoname() -> None:
-    c = wg(length=3)
-    # assert c.name == "wg_length3", c.name
-    assert c.name == "wg_2dcab9f2", c.name
-
-
 def test_set_name() -> None:
     c = wg(length=3, name="hi_there")
     assert c.name == "hi_there", c.name
 
 
 @cell
-def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
-    """Dummy cell"""
+def demo(length: int = 3, wg_width: float = 0.5) -> Component:
+    """Demo Dummy cell"""
     c = Component()
     w = length
     h = wg_width
@@ -235,32 +240,23 @@ def _dummy(length: int = 3, wg_width: float = 0.5) -> Component:
 
 
 def test_names() -> None:
-    name_base = _dummy().name
-    assert name_base == "_dummy", name_base
+    name_base = demo().name
+    assert name_base.split("_")[0] == "demo", name_base
 
-    name_int = _dummy(length=3).name
-    assert name_int == "_dummy_2dcab9f2", name_int
+    demo2 = functools.partial(demo, length=3)
+    c1 = demo2(length=3)
+    c2 = demo(length=3)
+    assert c1.name == c2.name
 
-    dummy2 = functools.partial(_dummy, length=3)
-    component_int = dummy2(length=3)
-    name_int = component_int.name
-    assert name_int == "_dummy_2dcab9f2", name_int
-    # assert component_int.info.doc == "Dummy cell"
+    c1 = demo(length=3, wg_width=0.5).name
+    c2 = demo(wg_width=0.5, length=3).name
+    assert c1 == c2, f"{c1} != {c2}"
 
-    name_float = _dummy(wg_width=0.5).name
-    assert name_float == "_dummy_b78ec006", name_float
+    name_with_prefix = demo(prefix="hi").name
+    assert name_with_prefix.split("_")[0] == "hi", name_with_prefix
 
-    name_length_first = _dummy(length=3, wg_width=0.5).name
-    name_width_first = _dummy(wg_width=0.5, length=3).name
-    assert (
-        name_length_first == name_width_first
-    ), f"{name_length_first} != {name_width_first}"
-
-    name_with_prefix = _dummy(prefix="hi").name
-    assert name_with_prefix == "hi", name_with_prefix
-
-    name_args = _dummy(3).name
-    name_kwargs = _dummy(length=3).name
+    name_args = demo(3).name
+    name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
 
 
@@ -276,48 +272,4 @@ def straight_with_pins(**kwargs):
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
-    c = gf.Component()
-    c = straight_with_pins(decorator=gf.routing.add_fiber_single)
-    # c = straight_with_pins()
-    c.show()
-
-    # c = wg(name="my_waveguide")
-    # print(c.name)
-
-    # dummy2 = functools.partial(_dummy, length=3)
-    # c = dummy2()
-
-    # c = _dummy()
-    # test_raise_error_args()
-    # c = gf.components.straight()
-
-    # test_autoname_false()
-    # test_autoname_true()
-    # test_autoname()
-    # test_set_name()
-
-    # c = wg(length=3)
-    # c = wg(length=3, autoname=False)
-
-    # import gdsfactory as gf
-    # info = dict(polarization="te")
-
-    # c = gf.components.straight()
-    # c = gf.components.straight(info=info)
-    # c = gf.components.straight(length=3, info=info)
-    # print(c.info.polarization)
-
-    # print(c.settings.info.doc)
-    # c = gf.components.spiral_inner_io(length=1e3)
-    # c = gf.components.straight(length=3)
-    # print(c.name)
-    # c.show()
-
-    # D = gf.Component()
-    # arc = D << gf.components.bend_circular(
-    #     radius=10, width=0.5, angle=90, layer=(1, 0), info=dict(polarization="te")
-    # )
-    # arc.rotate(90)
-    # rect = D << gf.components.bbox(bbox=arc.bbox, layer=(0, 0))
+    test_names()

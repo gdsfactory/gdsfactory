@@ -33,7 +33,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_884bafc4
-  ring_double:
+  ring_double_d41d8cd9:
     changed: {}
     default:
       bend: null
@@ -62,7 +62,7 @@ cells:
     function_name: ring_double
     info_version: 1
     module: gdsfactory.components.ring_double
-    name: ring_double
+    name: ring_double_d41d8cd9
   straight_5743d35a:
     changed:
       cross_section:
@@ -115,7 +115,7 @@ info:
   function_name: ring_double
   info_version: 1
   module: gdsfactory.components.ring_double
-  name: ring_double
+  name: ring_double_d41d8cd9
 ports:
   o1:
     layer:

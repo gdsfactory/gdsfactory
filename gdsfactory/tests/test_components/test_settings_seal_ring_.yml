@@ -285,7 +285,7 @@ cells:
     size:
     - 10
     - 2620
-  seal_ring:
+  seal_ring_d41d8cd9:
     changed: {}
     default:
       component:
@@ -318,7 +318,7 @@ cells:
     function_name: seal_ring
     info_version: 1
     module: gdsfactory.components.seal_ring
-    name: seal_ring
+    name: seal_ring_d41d8cd9
 info:
   changed: {}
   default:
@@ -352,6 +352,6 @@ info:
   function_name: seal_ring
   info_version: 1
   module: gdsfactory.components.seal_ring
-  name: seal_ring
+  name: seal_ring_d41d8cd9
 ports: {}
 version: 1

@@ -45,7 +45,6 @@ straight_heater_doped_strip = partial(
     straight_heater_doped_rib,
     cross_section_heater=strip_heater_doped,
     contact=contact_npp_m1,
-    taper=None,
 )
 
 

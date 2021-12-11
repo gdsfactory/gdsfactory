@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 
 
 @gf.cell
-def straight_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
+def straight(width: Union[float, int] = 10, height: int = 1) -> Component:
     """Returns straight with automatic name."""
     wg = gf.Component("straight")
     wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
@@ -23,16 +23,16 @@ def straight_cell(width: Union[float, int] = 10, height: int = 1) -> Component:
 
 
 def test_autoname() -> None:
-    c = straight_cell()
-    assert c.name == "straight_cell"
+    c = straight()
+    assert c.name.split("_")[0] == "straight"
 
 
 if __name__ == "__main__":
-    c1 = straight_cell()
+    c1 = straight()
     print(c1)
 
-    c2 = straight_cell(width=0.5)
+    c2 = straight(width=0.5)
     print(c2)
 
-    c3 = straight_cell(0.5)
+    c3 = straight(0.5)
     assert c2.name == c3.name

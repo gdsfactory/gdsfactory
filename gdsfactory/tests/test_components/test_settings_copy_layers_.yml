@@ -80,7 +80,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.cross
     name: cross_0d76638b
-  cross_0d76638b_copy_layers:
+  cross_0d76638b_copy_lay_1c385586:
     changed: {}
     child:
       changed:
@@ -124,7 +124,7 @@ cells:
     function_name: copy_layers
     info_version: 1
     module: gdsfactory.components.copy_layers
-    name: cross_0d76638b_copy_layers
+    name: cross_0d76638b_copy_lay_1c385586
   cross_8e0fe979:
     changed:
       layer:
@@ -252,6 +252,6 @@ info:
   function_name: copy_layers
   info_version: 1
   module: gdsfactory.components.copy_layers
-  name: cross_0d76638b_copy_layers
+  name: cross_0d76638b_copy_lay_1c385586
 ports: {}
 version: 1
