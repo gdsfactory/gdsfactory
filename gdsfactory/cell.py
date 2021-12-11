@@ -102,11 +102,12 @@ def cell_without_validator(func):
             for key in sorted(args_as_kwargs.keys())
         ]
 
-        # for key in sorted(args_as_kwargs.keys()):
-        #     print(f"{key}={clean_value(args_as_kwargs[key])}")
-
         arguments = "_".join(args_as_kwargs_string_list)
         arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
+
+        # for key in sorted(args_as_kwargs.keys()):
+        #     print(f"{key}={clean_value(args_as_kwargs[key])}")
+        # print(arguments)
 
         name_signature = clean_name(f"{prefix}_{arguments_hash}")
         name = name or name_signature
@@ -272,4 +273,10 @@ def straight_with_pins(**kwargs):
 
 
 if __name__ == "__main__":
-    test_names()
+    # test_names()
+
+    import gdsfactory as gf
+
+    c = gf.c.straight()
+    # c = gf.c.straight()
+    # print(c.name)
