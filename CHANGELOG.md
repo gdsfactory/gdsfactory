@@ -18,6 +18,11 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.4
+
+- straight_heater_doped has with_top_contact and with_bot_contact settings to remove some contacts
+- rib_heater_doped and rib_heater_doped_contact has with_bot_heater and with_top_heater settings
+
 ## 3.8.3
 
 - replace in contact_yspacing by heater_gap in straight_heater_doped
