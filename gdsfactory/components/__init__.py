@@ -129,7 +129,7 @@ from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
-    mzi_phase_shifter_90_90,
+    mzi_phase_shifter_top_heater_metal,
 )
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
@@ -312,7 +312,7 @@ factory = dict(
     mzi_arms=mzi_arms,
     mzi_lattice=mzi_lattice,
     mzi_phase_shifter=mzi_phase_shifter,
-    mzi_phase_shifter_90_90=mzi_phase_shifter_90_90,
+    mzi_phase_shifter_top_heater_metal=mzi_phase_shifter_top_heater_metal,
     mzit=mzit,
     mzit_lattice=mzit_lattice,
     nxn=nxn,
@@ -528,7 +528,7 @@ __all__ = [
     "mzi_arm",
     "mzi_lattice",
     "mzi_phase_shifter",
-    "mzi_phase_shifter_90_90",
+    "mzi_phase_shifter_top_heater_metal",
     "mzit",
     "mzit_lattice",
     "nxn",

@@ -17,10 +17,12 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
-
 ## 3.8.2
 
 - add_ports_from_markers_center auto_rename_ports by default
+- mzi length_x is optional and defaults to straight_x_bot/top defaults
+- change mzi_phase_shifter straight_x = None, to match phase shifter footprint
+- replace gf.c.mzi_phase_shifter_90_90 with gf.c.mzi_phase_shifter_top_heater_metal
 
 ## 3.8.1
 
@@ -64,7 +66,7 @@ Maybe:
 
 - add pad_gsg_short and pad_gsg_open to components
 - export function parameters in settings exports as dict {'function': straight, 'width': 3}
-    - works also for partial and composed functions
+  - works also for partial and composed functions
 - add `get_child_name` for Component, so that when you run `copy_child_info` the name prefix also propagates
 - only add layers_cladding for waveguide lengths > 0. Otherwise it creates non-orientable boundaries
 
@@ -72,14 +74,13 @@ Maybe:
 
 - add `**kwargs` to `cutback_bend`
 - pack type annotation is more general with `List[ComponentOrFactory]` instead of `List[Component]`, it also builds any Components if you pass the factory instead of the component.
-- add `straight_length` parameter and more sensitive default values (2*radius) to `cutback_component`
+- add `straight_length` parameter and more sensitive default values (2\*radius) to `cutback_component`
 - add `gf.components.taper_parabolic`
 - `mzi_lattice` adds all electrical ports from any of the mzi stages
 - rename `mzi_factory` to `mzi` in mzi_lattice to be consistent with other component kwargs
 - replace taper_factory with taper to be consistent with other component kwargs
 - coupler snaps length to grid, instead of asserting length is on_grid
 - add layers_cladding to rib so bezier_slabs render correctly for rib couplers
-
 
 ## 3.7.2
 
@@ -93,10 +94,10 @@ Maybe:
 ## 3.7.0
 
 - fix clean_name
-    - generators and iterables are properly hashed now
-    - toolz.compose functions hash both the functions and first function
-    - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
-- set Component._cached = True when adding Component into cache, and raises MutabilityError when adding any element to it.
+  - generators and iterables are properly hashed now
+  - toolz.compose functions hash both the functions and first function
+  - casting foats to ints when possible, so straight(length=5) and straight(length=5.0) return the same component
+- set Component.\_cached = True when adding Component into cache, and raises MutabilityError when adding any element to it.
 - Component.flatten() returns a copy of the component, that includes the flattened component. New name adds `_flat` suffix to original name
 - add bias to grating_coupler_lumerical
 - try to cast float to int when exporting info
@@ -124,7 +125,6 @@ Maybe:
 - replace `phidl.device_layout.Label` with `gf.Label`
 - Route has an Optional list of Label, in case route fails, or in case you want to add connectivity labels
 
-
 ## 3.6.6
 
 - add slab arguments (slab_layer, slab_xmin) to grating couplers
@@ -136,14 +136,14 @@ Maybe:
 - fix gdsfactory/samples
 - better docstrings documents `keyword Args` as well as `Args`
 - refactor:
-    - pads_shorted accepts pad as parameter
-    - rename `n_devices` to columns in splitter_chain
-    - rename `dbr2` to `dbr_tapered`
-    - simpler pn cross_section definition
+  - pads_shorted accepts pad as parameter
+  - rename `n_devices` to columns in splitter_chain
+  - rename `dbr2` to `dbr_tapered`
+  - simpler pn cross_section definition
 
 ## 3.6.3
 
-- args in partial functions was being ignore when creating the name. Only kwargs and func.__name__ were being considered
+- args in partial functions was being ignore when creating the name. Only kwargs and func.**name** were being considered
 
 ## 3.6.2
 
@@ -181,11 +181,11 @@ Maybe:
 - cross have port_type argument
 - splitter_tree exposes bend_s info
 - change simulation_settings default values
-    - port_margin = 0.5 -> 1.5
-    - port_extension = 2.0 -> 5.0
-    - xmargin = 0.5 -> 3.0
-    - ymargin = 2.0 -> 3.0
-    - remove pml_width as it was redundant with xmargin and ymargin
+  - port_margin = 0.5 -> 1.5
+  - port_extension = 2.0 -> 5.0
+  - xmargin = 0.5 -> 3.0
+  - ymargin = 2.0 -> 3.0
+  - remove pml_width as it was redundant with xmargin and ymargin
 - route with auto_taper was missing a mirror
 
 ## 3.5.8
@@ -233,7 +233,6 @@ Maybe:
 - add fixme/routing
 - enable `gf.read.from_yaml` to read ports that are defined without referencing any reference
 
-
 ## 3.4.5
 
 - decorate `gf.path.extrude` with cell, to avoid duplicated cell names
@@ -260,7 +259,6 @@ Maybe:
 - add pydantic validator for `ComponentReference`
 - max_name_length is a cell decorator argument used when importing gds cells
 - add `geometry.boolean_klayout`
-
 
 ## 3.4.2
 

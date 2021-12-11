@@ -12,7 +12,7 @@ def problem1():
     c = gf.Component()
     n = 2
 
-    ps = gf.c.mzi_phase_shifter_90_90()
+    ps = gf.c.mzi_phase_shifter_top_heater_metal()
     phase_shifters = c << gf.components.array(ps, rows=n, columns=1, spacing=(0, 300))
     pads = c << gf.c.pad_array(columns=2 * n)
 
@@ -35,7 +35,7 @@ def solution1():
     c = gf.Component()
     n = 2
 
-    ps = gf.c.mzi_phase_shifter_90_90()
+    ps = gf.c.mzi_phase_shifter_top_heater_metal()
     phase_shifters = c << gf.components.array(ps, rows=n, columns=1, spacing=(0, 300))
     pads = c << gf.c.pad_array(columns=2 * n)
 
