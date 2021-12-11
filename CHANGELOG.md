@@ -17,6 +17,10 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+## 3.8.3
+
+- straight_heater_doped contact_yspacing defined from waveguide edge instead of waveguide
+
 ## 3.8.2
 
 - add kwarg `auto_rename_ports=True` to `add_ports_from_markers_center`

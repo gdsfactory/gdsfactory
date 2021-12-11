@@ -36,7 +36,7 @@ def straight_heater_doped_rib(
         contact_metal: function to connect the metal area
         contact_metal_size:
         contact_size:
-        contact_yspacing: spacing from waveguide to contact
+        contact_yspacing: spacing from waveguide edge to contact
         taper: optional taper function
         **kwargs: cross_section settings
 
@@ -82,6 +82,8 @@ def straight_heater_doped_rib(
         cross_section=cross_section_heater, length=snap_to_grid(length), **kwargs
     )
 
+    x = cross_section_heater(**kwargs)
+
     if taper:
         taper1 = c << taper
         taper2 = c << taper
@@ -118,8 +120,8 @@ def straight_heater_doped_rib(
             contact_top = c << contact(size=contact_size)
             contact_top.x = xi
             contact_bot.x = xi
-            contact_top.ymin = +contact_yspacing
-            contact_bot.ymax = -contact_yspacing
+            contact_top.ymin = +(contact_yspacing + x.info["width"] / 2)
+            contact_bot.ymax = -(contact_yspacing + x.info["width"] / 2)
 
     if contact_metal and contact:
         contact_length = length + contact_metal_size[0]
