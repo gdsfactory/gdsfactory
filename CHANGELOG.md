@@ -19,7 +19,8 @@ Maybe:
 
 ## 3.8.3
 
-- straight_heater_doped contact_yspacing defined from waveguide edge instead of waveguide
+- replace in contact_yspacing by heater_gap in straight_heater_doped
+- cell includes signature hash in all the names to minimize risk of naming conflicts
 
 ## 3.8.2
 
