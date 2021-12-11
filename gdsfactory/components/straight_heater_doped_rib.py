@@ -7,12 +7,7 @@ from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    CrossSectionFactory,
-    Layer,
-)
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
 
 
 @gf.cell
@@ -29,6 +24,8 @@ def straight_heater_doped_rib(
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     width: float = 0.5,
+    with_top_contact: bool = True,
+    with_bot_contact: bool = True,
     **kwargs
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
@@ -61,12 +58,12 @@ def straight_heater_doped_rib(
         |   |        |                    |        |    |
         |   | contact|____________________|        |    |
         |   |  size  |    heater width    |        |    |
-        |  /|________|____________________|        |\   |
+        |  /|________|____________________|________|\   |
         | / |             heater_gap               | \  |
         |/  |______________________________________|  \ |
          \  |_______________width__________________|  /
-          \ |                             |        | /
-           \|________ ____heater_gap______|        |/
+          \ |                                      | /
+           \|_____________heater_gap______________ |/
             |        |                    |        |
             |        |____heater_width____|        |
             |        |                    |        |
@@ -78,7 +75,7 @@ def straight_heater_doped_rib(
 
                                    |<------width------>|
                                     ____________________ heater_gap             slab_gap
-                                   |                   |<---------->|               <-->
+             top_contact           |                   |<---------->| bot_contact   <-->
          ___ ______________________|                   |___________________________|___
         |   |            |               undoped Si                 |              |   |
         |   |layer_heater|               intrinsic region           |layer_heater  |   |
@@ -114,6 +111,7 @@ def straight_heater_doped_rib(
     if taper:
         taper1 = c << taper
         taper2 = c << taper
+        taper2.mirror()
         taper1.connect("o2", wg.ports["o1"])
         taper2.connect("o2", wg.ports["o2"])
         c.add_port("o1", port=taper1.ports["o1"])
@@ -143,12 +141,15 @@ def straight_heater_doped_rib(
             contacts.append(contact_ref)
 
         if contact:
-            contact_bot = c << contact(size=contact_size)
-            contact_top = c << contact(size=contact_size)
-            contact_top.x = xi
-            contact_bot.x = xi
-            contact_top.ymin = +(heater_gap + width / 2)
-            contact_bot.ymax = -(heater_gap + width / 2)
+            if with_top_contact:
+                contact_top = c << contact(size=contact_size)
+                contact_top.x = xi
+                contact_top.ymin = +(heater_gap + width / 2)
+
+            if with_bot_contact:
+                contact_bot = c << contact(size=contact_size)
+                contact_bot.x = xi
+                contact_bot.ymax = -(heater_gap + width / 2)
 
     if contact_metal and contact:
         contact_length = length + contact_metal_size[0]
@@ -178,33 +179,7 @@ def test_straight_heater_doped_rib_ports() -> Component:
     return c
 
 
-@gf.cell
-def straight_heater_doped_rib_south(
-    contact_metal_size: Tuple[float, float] = (10.0, 10.0),
-    layer_metal: Layer = (49, 0),
-):
-    c = gf.Component()
-    s = c << straight_heater_doped_rib()
-    contact_metal_size = (10.0, 10.0)
-    lbend = c << gf.c.L(
-        width=contact_metal_size[0], size=(10, s.ysize), layer=layer_metal
-    )
-    lbend.connect("e2", s.ports["top_e3"])
-    c.add_ports(s.ports)
-    c.ports.pop("top_e3")
-    c.add_port("e1", port=lbend.ports["e1"])
-    return c
-
-
 if __name__ == "__main__":
-    # c = straight_heater_doped_rib(length=80, contact_metal=None, contact=None)
-    c = straight_heater_doped_rib(length=80, width=1.8)
-    # c = test_straight_heater_doped_rib_ports()
-
-    # c = gf.Component()
-    # s = c << straight_heater_doped_rib()
-    # contact_metal_size = (10.0, 10.0)
-    # lbend = c << gf.c.L(width=contact_metal_size[0], size=(10, s.ysize))
-    # lbend.connect("o2", s.ports["e1"])
-    # c = straight_heater_doped_rib_south()
+    c = straight_heater_doped_rib(with_top_heater=False, with_top_contact=False)
+    # c = straight_heater_doped_rib()
     c.show()

@@ -553,6 +553,8 @@ cells:
       taper:
         function: taper_cross_section
       width: 0.5
+      with_bot_contact: true
+      with_top_contact: true
     full:
       contact:
         function: contact
@@ -608,6 +610,8 @@ cells:
       taper:
         function: taper_cross_section
       width: 0.5
+      with_bot_contact: true
+      with_top_contact: true
     function_name: straight_heater_doped_rib
     info_version: 1
     module: gdsfactory.components.straight_heater_doped_rib
@@ -713,6 +717,8 @@ info:
     taper:
       function: taper_cross_section
     width: 0.5
+    with_bot_contact: true
+    with_top_contact: true
   full:
     contact:
       function: contact
@@ -768,6 +774,8 @@ info:
     taper:
       function: taper_cross_section
     width: 0.5
+    with_bot_contact: true
+    with_top_contact: true
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib
@@ -834,7 +842,7 @@ ports:
     - 0
     midpoint:
     - 310
-    - 0
+    - 1.2246467991473533e-15
     name: o2
     orientation: 0
     port_type: optical

@@ -630,6 +630,8 @@ def rib_heater_doped(
     layer_heater: Layer = LAYER.NPP,
     layer_slab: Layer = LAYER.SLAB90,
     slab_gap: float = 0.2,
+    with_top_heater: bool = True,
+    with_bot_heater: bool = True,
     **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
@@ -651,23 +653,34 @@ def rib_heater_doped(
                                          slab_width
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
-    slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
+
+    if with_bot_heater and with_top_heater:
+        slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
+        slab_offset = 0
+    elif with_top_heater:
+        slab_width = width + heater_gap + heater_width + slab_gap
+        slab_offset = -slab_width / 2
+    elif with_bot_heater:
+        slab_width = width + heater_gap + heater_width + slab_gap
+        slab_offset = +slab_width / 2
+
+    sections = []
+
+    if with_bot_heater:
+        sections += [
+            Section(layer=layer_heater, width=heater_width, offset=+heater_offset)
+        ]
+    if with_top_heater:
+        sections += [
+            Section(layer=layer_heater, width=heater_width, offset=-heater_offset)
+        ]
+    sections += [
+        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab")
+    ]
     return cross_section(
         width=width,
         layer=layer,
-        sections=(
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=+heater_offset,
-            ),
-            Section(
-                layer=layer_heater,
-                width=heater_width,
-                offset=-heater_offset,
-            ),
-            Section(width=slab_width, layer=layer_slab, name="slab"),
-        ),
+        sections=sections,
         **kwargs,
     )
 
@@ -685,6 +698,8 @@ def rib_heater_doped_contact(
     layers_contact: Layers = (LAYER.NPP, LAYER.VIAC),
     cladding_offsets_contact: Tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
+    with_top_heater: bool = True,
+    with_bot_heater: bool = True,
     **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
@@ -706,42 +721,59 @@ def rib_heater_doped_contact(
        <--------------------------------------------------------------------------------->
                                          slab_width
 
-
     """
-    slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
+    if with_bot_heater and with_top_heater:
+        slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
+        slab_offset = 0
+    elif with_top_heater:
+        slab_width = width + heater_gap + heater_width + slab_gap
+        slab_offset = -slab_width / 2
+    elif with_bot_heater:
+        slab_width = width + heater_gap + heater_width + slab_gap
+        slab_offset = +slab_width / 2
+
     heater_offset = width / 2 + heater_gap + heater_width / 2
     contact_offset = width / 2 + contact_gap + contact_width / 2
     sections = [
-        Section(
-            layer=layer_heater,
-            width=heater_width,
-            offset=+heater_offset,
-        ),
-        Section(
-            layer=layer_heater,
-            width=heater_width,
-            offset=-heater_offset,
-        ),
-        Section(width=slab_width, layer=layer_slab, name="slab"),
+        Section(width=slab_width, layer=layer_slab, offset=slab_offset, name="slab"),
     ]
+    if with_bot_heater:
+        sections += [
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=+heater_offset,
+            )
+        ]
 
-    sections += [
-        Section(
-            layer=layer,
-            width=heater_width + 2 * cladding_offset,
-            offset=+contact_offset,
-        )
-        for layer, cladding_offset in zip(layers_contact, cladding_offsets_contact)
-    ]
+    if with_top_heater:
+        sections += [
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                offset=-heater_offset,
+            )
+        ]
 
-    sections += [
-        Section(
-            layer=layer,
-            width=heater_width + 2 * cladding_offset,
-            offset=-contact_offset,
-        )
-        for layer, cladding_offset in zip(layers_contact, cladding_offsets_contact)
-    ]
+    if with_bot_heater:
+        sections += [
+            Section(
+                layer=layer,
+                width=heater_width + 2 * cladding_offset,
+                offset=+contact_offset,
+            )
+            for layer, cladding_offset in zip(layers_contact, cladding_offsets_contact)
+        ]
+
+    if with_top_heater:
+        sections += [
+            Section(
+                layer=layer,
+                width=heater_width + 2 * cladding_offset,
+                offset=-contact_offset,
+            )
+            for layer, cladding_offset in zip(layers_contact, cladding_offsets_contact)
+        ]
 
     return cross_section(
         sections=sections,
@@ -836,28 +868,25 @@ if __name__ == "__main__":
     # X = pin(width=0.5, width_i=0.5)
     # x = strip(width=0.5)
 
-    # X = cross_section(width=3, layer=(2, 0))
-    # X = cross_section(**s)
-    # X = strip_heater_metal_undercut()
-    # X = rib_heater_doped()
-
     # X = strip_heater_metal_undercut()
     # X = metal1()
     # X = pin(layer_via=LAYER.VIAC, via_offsets=(-2, 2))
     # X = pin()
     # X = strip_heater_doped()
 
-    x1 = strip_rib_tip()
-    x2 = rib_heater_doped_contact()
-    X = gf.path.transition(x1, x2)
+    # x1 = strip_rib_tip()
+    # x2 = rib_heater_doped_contact()
+    # X = gf.path.transition(x1, x2)
+    # P = gf.path.straight(npoints=100, length=10)
+
+    # X = CrossSection()
+    # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["e1", "e2"])
+    # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
+
+    X = rib_heater_doped(with_bot_heater=False)
     P = gf.path.straight(npoints=100, length=10)
 
-    X = CrossSection()
-    X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["e1", "e2"])
-    X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
-    P = gf.path.straight(npoints=100, length=10)
-
-    c = gf.path.extrude(P, pn)
+    c = gf.path.extrude(P, X)
 
     # print(x1.to_dict())
     # print(x1.name)
