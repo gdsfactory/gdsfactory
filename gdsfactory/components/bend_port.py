@@ -72,6 +72,7 @@ def bend_port(
 
 if __name__ == "__main__":
     # c = gf.c.straight_pin()
-    c = gf.c.straight_heater_metal()
-    c = bend_port(component=c, port_name="e1")
+    # c = gf.c.straight_heater_metal()
+    # c = bend_port(component=c, port_name="e1")
+    c = bend_port(component=gf.c.mzi_phase_shifter)
     c.show()
