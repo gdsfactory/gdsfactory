@@ -51,7 +51,7 @@ def mzi(
         port_e0_splitter: east bot splitter port
         port_e1_splitter: east top splitter port
         port_e0_combiner: east bot combiner port
-        nbends: from straight section to combiner (at least 2)
+        nbends: from straight top/bot to combiner (at least 2)
         cross_section: for routing (sxtop/sxbot to combiner)
 
     .. code::
@@ -72,6 +72,7 @@ def mzi(
                           Lx
     """
     combiner = combiner or splitter
+    straight = partial(straight, cross_section=cross_section)
 
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
@@ -92,7 +93,7 @@ def mzi(
     b5.connect("o1", cp1.ports[port_e0_splitter])
 
     syl = c << straight_y(
-        length=delta_length / 2 + length_y, cross_section=cross_section
+        length=delta_length / 2 + length_y,
     )
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
@@ -177,23 +178,25 @@ if __name__ == "__main__":
     # mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
     # c = mzi(delta_length=10, combiner=gf.c.mmi1x2, splitter=mmi2x2)
 
-    c = mzi1x2_2x2()
+    # c = mzi1x2_2x2()
     # c = mzi_coupler(length_x=5)
     # c = mzi2x2()
-    c.show()
+    # c.show()
 
-    # c = mzi(
-    #     delta_length=100,
-    #     straight_x_top=gf.c.straight_heater_meander,
-    #     straight_x_bot=gf.c.straight_heater_meander,
-    #     # straight_x_top=gf.c.straight_heater_metal,
-    #     # straight_x_bot=gf.c.straight_heater_metal,
-    #     length_x=300,
-    #     # length_x_bot=300,
-    #     # length_y=1.8,
-    #     with_splitter=False,
-    # )
-    # c.show(show_ports=True)
+    import gdsfactory as gf
+
+    c = mzi(
+        delta_length=100,
+        straight_x_top=gf.c.straight_heater_meander,
+        straight_x_bot=gf.c.straight_heater_meander,
+        # straight_x_top=gf.c.straight_heater_metal,
+        # straight_x_bot=gf.c.straight_heater_metal,
+        length_x=300,
+        # length_x_bot=300,
+        # length_y=1.8,
+        with_splitter=False,
+    )
+    c.show()
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()
