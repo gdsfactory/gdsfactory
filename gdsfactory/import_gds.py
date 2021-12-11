@@ -82,6 +82,7 @@ def add_ports_from_markers_center(
     ycenter: Optional[float] = None,
     port_name_prefix: str = "o",
     port_type: str = "optical",
+    auto_rename_ports: bool = True,
 ) -> Component:
     """Add ports from rectangular pin markers.
 
@@ -102,6 +103,8 @@ def add_ports_from_markers_center(
         xcenter: for guessing orientation of rectangular ports
         ycenter: for guessing orientation of rectangular ports
         port_name_prefix: o for optical ports (o1, o2, o3)
+        port_type: type of port (optical, electrical ...)
+        auto_rename_ports:
 
     For the default center case (inside=False)
 
@@ -241,6 +244,8 @@ def add_ports_from_markers_center(
     for port_name, port in ports.items():
         if port_name not in component.ports:
             component.add_port(name=port_name, port=port)
+    if auto_rename_ports:
+        component.auto_rename_ports()
     return component
 
 
