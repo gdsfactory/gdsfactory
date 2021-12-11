@@ -17,7 +17,7 @@ from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionF
 def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
-    length_x: float = 0.1,
+    length_x: Optional[float] = 0.1,
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentFactory = straight_function,
     straight_y: Optional[ComponentFactory] = None,
@@ -98,7 +98,9 @@ def mzi(
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
     b6.connect("o1", syl.ports["o2"])
-    sxb = c << straight_x_bot(length=length_x)
+
+    straight_x_bot = straight_x_bot(length=length_x) if length_x else straight_x_bot()
+    sxb = c << straight_x_bot
     sxb.connect("o1", b6.ports["o2"])
 
     b1 = c << bend
@@ -109,7 +111,8 @@ def mzi(
 
     b2 = c << bend
     b2.connect("o2", sy.ports["o2"])
-    sxt = c << straight_x_top(length=length_x)
+    straight_x_top = straight_x_top(length=length_x) if length_x else straight_x_top()
+    sxt = c << straight_x_top
     sxt.connect("o1", b2.ports["o1"])
 
     cp2.mirror()
@@ -188,11 +191,11 @@ if __name__ == "__main__":
     c = mzi(
         delta_length=100,
         straight_x_top=gf.c.straight_heater_meander,
-        straight_x_bot=gf.c.straight_heater_meander,
+        # straight_x_bot=gf.c.straight_heater_meander,
         # straight_x_top=gf.c.straight_heater_metal,
         # straight_x_bot=gf.c.straight_heater_metal,
-        length_x=300,
-        # length_x_bot=300,
+        # length_x=None,
+        length_x=None,
         # length_y=1.8,
         with_splitter=False,
     )
