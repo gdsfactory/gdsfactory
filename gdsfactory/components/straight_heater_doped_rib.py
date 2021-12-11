@@ -7,7 +7,12 @@ from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer
+from gdsfactory.types import (
+    ComponentFactory,
+    ComponentOrFactory,
+    CrossSectionFactory,
+    Layer,
+)
 
 
 @gf.cell
@@ -20,8 +25,10 @@ def straight_heater_doped_rib(
     contact_metal: Optional[ComponentFactory] = contact_metal_function,
     contact_metal_size: Tuple[float, float] = (10.0, 10.0),
     contact_size: Tuple[float, float] = (10.0, 10.0),
-    contact_yspacing: float = 2.0,
-    taper: Optional[ComponentFactory] = taper_cross_section,
+    taper: Optional[ComponentOrFactory] = taper_cross_section,
+    heater_width: float = 2.0,
+    heater_gap: float = 0.8,
+    width: float = 0.5,
     **kwargs
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
@@ -36,24 +43,34 @@ def straight_heater_doped_rib(
         contact_metal: function to connect the metal area
         contact_metal_size:
         contact_size:
-        contact_yspacing: spacing from waveguide edge to contact
         taper: optional taper function
-        **kwargs: cross_section settings
+        heater_width:
+        heater_gap:
+        width: waveguide width on the ridge
+        kwargs: cross_section settings
 
     .. code::
 
                               length
-          <-------------------------------------------->
-                       length_section
-             <--------------------------->
-           length_contact
-             <------->                             taper
-             ______________________________________
-           /|        |____________________|        |\
-        __/ |contact_|                    |        | \___
-        __  |        |                    |        |  ___cross_section
-          \ | size   |____________________|        | /
-           \|________|____________________|________|/
+        |<--------------------------------------------->|
+        |              length_section                   |
+        |    <--------------------------->              |
+        |  length_contact                               |
+        |    <------->                             taper|
+        |    _________                    _________     |
+        |   |        |                    |        |    |
+        |   | contact|____________________|        |    |
+        |   |  size  |    heater width    |        |    |
+        |  /|________|____________________|        |\   |
+        | / |             heater_gap               | \  |
+        |/  |______________________________________|  \ |
+         \  |_______________width__________________|  /
+          \ |                             |        | /
+           \|________ ____heater_gap______|        |/
+            |        |                    |        |
+            |        |____heater_width____|        |
+            |        |                    |        |
+            |________|                    |________|
 
         taper         cross_section_heater
 
@@ -73,16 +90,26 @@ def straight_heater_doped_rib(
 
     """
     c = Component()
+    cross_section_heater = gf.partial(
+        cross_section_heater,
+        heater_width=heater_width,
+        heater_gap=heater_gap,
+        width=width,
+        **kwargs
+    )
 
     if taper:
-        taper = taper()
+        taper = (
+            taper(cross_section1=cross_section, cross_section2=cross_section_heater)
+            if callable(taper)
+            else taper
+        )
         length -= taper.get_ports_xsize() * 2
 
     wg = c << gf.c.straight(
-        cross_section=cross_section_heater, length=snap_to_grid(length), **kwargs
+        cross_section=cross_section_heater,
+        length=snap_to_grid(length),
     )
-
-    x = cross_section_heater(**kwargs)
 
     if taper:
         taper1 = c << taper
@@ -120,8 +147,8 @@ def straight_heater_doped_rib(
             contact_top = c << contact(size=contact_size)
             contact_top.x = xi
             contact_bot.x = xi
-            contact_top.ymin = +(contact_yspacing + x.info["width"] / 2)
-            contact_bot.ymax = -(contact_yspacing + x.info["width"] / 2)
+            contact_top.ymin = +(heater_gap + width / 2)
+            contact_bot.ymax = -(heater_gap + width / 2)
 
     if contact_metal and contact:
         contact_length = length + contact_metal_size[0]
@@ -171,7 +198,7 @@ def straight_heater_doped_rib_south(
 
 if __name__ == "__main__":
     # c = straight_heater_doped_rib(length=80, contact_metal=None, contact=None)
-    c = straight_heater_doped_rib(length=80)
+    c = straight_heater_doped_rib(length=80, width=1.8)
     # c = test_straight_heater_doped_rib_ports()
 
     # c = gf.Component()
