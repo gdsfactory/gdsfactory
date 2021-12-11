@@ -19,7 +19,7 @@ Maybe:
 
 ## 3.8.2
 
-- add_ports_from_markers_center auto_rename_ports by default
+- add kwarg `auto_rename_ports=True` to `add_ports_from_markers_center`
 - mzi length_x is optional and defaults to straight_x_bot/top defaults
 - change mzi_phase_shifter straight_x = None, to match phase shifter footprint
 - replace gf.c.mzi_phase_shifter_90_90 with gf.c.mzi_phase_shifter_top_heater_metal
