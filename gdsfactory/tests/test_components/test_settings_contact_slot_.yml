@@ -1,33 +1,5 @@
 cells:
-  compass_225d333d:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 13
-      - 13
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 13
-      - 13
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_225d333d
-  compass_ef690c07:
+  compass_4b1cabad:
     changed:
       layer:
       - 41
@@ -54,8 +26,36 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ef690c07
-  contact_slot:
+    name: compass_4b1cabad
+  compass_b82bf185:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 13
+      - 13
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 13
+      - 13
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_b82bf185
+  contact_slot_c1d32533:
     changed: {}
     default:
       enclosure: 1
@@ -104,7 +104,7 @@ cells:
     function_name: contact_slot
     info_version: 1
     module: gdsfactory.components.contact_slot
-    name: contact_slot
+    name: contact_slot_c1d32533
     size:
     - 11
     - 11
@@ -157,7 +157,7 @@ info:
   function_name: contact_slot
   info_version: 1
   module: gdsfactory.components.contact_slot
-  name: contact_slot
+  name: contact_slot_c1d32533
   size:
   - 11
   - 11

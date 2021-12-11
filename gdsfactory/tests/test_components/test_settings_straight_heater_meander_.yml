@@ -1,8 +1,8 @@
 cells:
-  array_d995c19f:
+  array_2084620a:
     changed:
       columns: 1
-      component: straight_568cb457_exten_2872a9d7
+      component: straight_06de2383_exten_c37271ac
       rows: 3
       spacing:
       - 0
@@ -17,7 +17,7 @@ cells:
       - 150
     full:
       columns: 1
-      component: straight_568cb457_exten_2872a9d7
+      component: straight_06de2383_exten_c37271ac
       rows: 3
       spacing:
       - 0
@@ -25,8 +25,8 @@ cells:
     function_name: array
     info_version: 1
     module: gdsfactory.components.array
-    name: array_d995c19f
-  bend_euler_a519ff2d:
+    name: array_2084620a
+  bend_euler_ee30d2ea:
     changed:
       cross_section:
         function: cross_section
@@ -55,66 +55,10 @@ cells:
     info_version: 1
     length: 8.318
     module: gdsfactory.components.bend_euler
-    name: bend_euler_a519ff2d
+    name: bend_euler_ee30d2ea
     radius: 5
     radius_min: 3.53
-  compass_164fc476:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_164fc476
-  compass_280a2d8b:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_280a2d8b
-  compass_8e661824:
+  compass_215fba3b:
     changed:
       layer:
       - 49
@@ -141,8 +85,64 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_8e661824
-  contact_46068602:
+    name: compass_215fba3b
+  compass_39889ce5:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_39889ce5
+  compass_962bbc5d:
+    changed:
+      layer:
+      - 47
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 47
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_962bbc5d
+  contact_8334bb4b:
     changed:
       layers:
       - - 47
@@ -211,11 +211,34 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_46068602
+    name: contact_8334bb4b
     size:
     - 11
     - 11
-  straight_1427c4e9:
+  straight_2a5c2e22:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 15
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 15
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 15
+    module: gdsfactory.components.straight
+    name: straight_2a5c2e22
+    width: 0.5
+  straight_9632d8f2:
     changed:
       cross_section:
         function: cross_section
@@ -244,32 +267,9 @@ cells:
     info_version: 1
     length: 69.779
     module: gdsfactory.components.straight
-    name: straight_1427c4e9
+    name: straight_9632d8f2
     width: 2.5
-  straight_396b7705:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 15
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 15
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 15
-    module: gdsfactory.components.straight
-    name: straight_396b7705
-    width: 0.5
-  straight_763c11c2:
+  straight_a86dc530:
     changed:
       cross_section:
         function: cross_section
@@ -292,9 +292,9 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_763c11c2
+    name: straight_a86dc530
     width: 0.5
-  straight_c5b20cce:
+  straight_ddfc6f8a:
     changed:
       cross_section:
         function: cross_section
@@ -317,9 +317,9 @@ cells:
     info_version: 1
     length: 10.02
     module: gdsfactory.components.straight
-    name: straight_c5b20cce
+    name: straight_ddfc6f8a
     width: 0.5
-  straight_dbc1e874:
+  straight_e5f5df5d:
     changed:
       cross_section:
         function: cross_section
@@ -342,9 +342,9 @@ cells:
     info_version: 1
     length: 2.01
     module: gdsfactory.components.straight
-    name: straight_dbc1e874
+    name: straight_e5f5df5d
     width: 0.5
-  straight_heater_meander:
+  straight_heater_meander_0260f534:
     changed: {}
     default:
       contact:
@@ -419,8 +419,8 @@ cells:
     function_name: straight_heater_meander
     info_version: 1
     module: gdsfactory.components.straight_heater_meander
-    name: straight_heater_meander
-  taper_d31ba445:
+    name: straight_heater_meander_0260f534
+  taper_dee79c4f:
     changed:
       cross_section:
         function: cross_section
@@ -455,7 +455,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper_d31ba445
+    name: taper_dee79c4f
     width1: 11
     width2: 2.5
 info:
@@ -533,7 +533,7 @@ info:
   function_name: straight_heater_meander
   info_version: 1
   module: gdsfactory.components.straight_heater_meander
-  name: straight_heater_meander
+  name: straight_heater_meander_0260f534
 ports:
   e1:
     layer:

@@ -1,5 +1,5 @@
 cells:
-  straight_0a6c91fb:
+  straight_61d00b29:
     changed:
       length: 1.234
     default:
@@ -18,7 +18,7 @@ cells:
     info_version: 1
     length: 1.234
     module: gdsfactory.components.straight
-    name: straight_0a6c91fb
+    name: straight_61d00b29
     width: 0.5
 info:
   changed:
@@ -39,7 +39,7 @@ info:
   info_version: 1
   length: 1.234
   module: gdsfactory.components.straight
-  name: straight_0a6c91fb
+  name: straight_61d00b29
   width: 0.5
 ports:
   o1:

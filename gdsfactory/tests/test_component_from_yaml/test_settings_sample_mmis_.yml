@@ -3,7 +3,7 @@ cells:
     description: just a demo on adding metadata
     polarization: te
     wavelength: 1.55
-  bend_euler_1da190e0:
+  bend_euler_5843a2b9:
     changed:
       cross_section:
         function: cross_section
@@ -30,10 +30,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_1da190e0
+    name: bend_euler_5843a2b9
     radius: 10
     radius_min: 7.061
-  mmi1x2_41793ed4:
+  mmi1x2_81d6fe15:
     changed:
       length_mmi: 5
       width_mmi: 4.5
@@ -64,8 +64,8 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_41793ed4
-  mmi1x2_5ad5950d:
+    name: mmi1x2_81d6fe15
+  mmi1x2_c8a58286:
     changed:
       length_mmi: 10
       width_mmi: 4.5
@@ -96,8 +96,8 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_5ad5950d
-  straight_5743d35a:
+    name: mmi1x2_c8a58286
+  straight_1c532bf8:
     changed:
       cross_section:
         function: cross_section
@@ -118,9 +118,9 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_5743d35a
+    name: straight_1c532bf8
     width: 0.5
-  straight_c8d42def:
+  straight_b5e739cb:
     changed:
       cross_section:
         function: cross_section
@@ -141,9 +141,9 @@ cells:
     info_version: 1
     length: 79.375
     module: gdsfactory.components.straight
-    name: straight_c8d42def
+    name: straight_b5e739cb
     width: 0.5
-  straight_c96c7cf4:
+  straight_ce926c86:
     changed:
       cross_section:
         function: cross_section
@@ -164,7 +164,7 @@ cells:
     info_version: 1
     length: 102.51
     module: gdsfactory.components.straight
-    name: straight_c96c7cf4
+    name: straight_ce926c86
     width: 0.5
 info:
   description: just a demo on adding metadata

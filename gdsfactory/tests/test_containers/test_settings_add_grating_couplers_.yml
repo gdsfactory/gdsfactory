@@ -1,5 +1,5 @@
 cells:
-  bend_euler_1da190e0:
+  bend_euler_5843a2b9:
     changed:
       cross_section:
         function: cross_section
@@ -26,10 +26,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_1da190e0
+    name: bend_euler_5843a2b9
     radius: 10
     radius_min: 7.061
-  circle_602e85fd:
+  circle_56e9f8ce:
     changed:
       layer:
       - 203
@@ -50,64 +50,8 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_602e85fd
-  compass_164fc476:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_164fc476
-  compass_280a2d8b:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_280a2d8b
-  compass_8e661824:
+    name: circle_56e9f8ce
+  compass_215fba3b:
     changed:
       layer:
       - 49
@@ -134,21 +78,77 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_8e661824
-  component_sequence_e4dca69b:
+    name: compass_215fba3b
+  compass_39889ce5:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_39889ce5
+  compass_962bbc5d:
+    changed:
+      layer:
+      - 47
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 47
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_962bbc5d
+  component_sequence_f373b723:
     changed:
       sequence: -UHUHUHUHUHUHUHUH-
       symbol_to_component:
         '-':
-        - straight_b0b74a72
+        - straight_f1af8500
         - o1
         - o2
         H:
-        - straight_e3f148d8
+        - straight_be825e39
         - o1
         - o2
         U:
-        - straight_32174f25
+        - straight_6a1de77c
         - o1
         - o2
     default:
@@ -164,22 +164,22 @@ cells:
       start_orientation: 0
       symbol_to_component:
         '-':
-        - straight_b0b74a72
+        - straight_f1af8500
         - o1
         - o2
         H:
-        - straight_e3f148d8
+        - straight_be825e39
         - o1
         - o2
         U:
-        - straight_32174f25
+        - straight_6a1de77c
         - o1
         - o2
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_e4dca69b
-  contact_46068602:
+    name: component_sequence_f373b723
+  contact_8334bb4b:
     changed:
       layers:
       - - 47
@@ -248,11 +248,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_46068602
+    name: contact_8334bb4b
     size:
     - 11
     - 11
-  grating_coupler_ellipti_b632d295:
+  grating_coupler_ellipti_fcbf3bce:
     changed:
       polarization: te
       taper_angle: 35
@@ -307,11 +307,11 @@ cells:
     function_name: grating_coupler_elliptical_trenches
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_b632d295
+    name: grating_coupler_ellipti_fcbf3bce
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  mmi2x2:
+  mmi2x2_8b7d43c5:
     changed: {}
     default:
       cross_section:
@@ -338,8 +338,8 @@ cells:
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
-    name: mmi2x2
-  mzi_d275fe52:
+    name: mmi2x2_8b7d43c5
+  mzi_829d1464:
     changed:
       length_x: null
       splitter:
@@ -396,10 +396,10 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_d275fe52
-  mzi_d275fe52_add_gratin_85d33944:
+    name: mzi_829d1464
+  mzi_829d1464_add_gratin_2dbc311e:
     changed:
-      component: mzi_d275fe52
+      component: mzi_829d1464
     child:
       changed:
         length_x: null
@@ -457,7 +457,7 @@ cells:
       function_name: mzi
       info_version: 1
       module: gdsfactory.components.mzi
-      name: mzi_d275fe52
+      name: mzi_829d1464
     default:
       component_name: null
       gc_port_name: o1
@@ -474,7 +474,7 @@ cells:
         function: select_ports
         port_type: optical
     full:
-      component: mzi_d275fe52
+      component: mzi_829d1464
       component_name: null
       gc_port_name: o1
       get_input_labels_function:
@@ -492,8 +492,8 @@ cells:
     function_name: add_grating_couplers
     info_version: 1
     module: gdsfactory.add_grating_couplers
-    name: mzi_d275fe52_add_gratin_85d33944
-  straight_15a9c8d1:
+    name: mzi_829d1464_add_gratin_2dbc311e
+  straight_03b4cac8:
     changed:
       cross_section:
         function: cross_section
@@ -514,9 +514,78 @@ cells:
     info_version: 1
     length: 2
     module: gdsfactory.components.straight
-    name: straight_15a9c8d1
+    name: straight_03b4cac8
     width: 0.5
-  straight_18ee7f79:
+  straight_1c532bf8:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 0.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.01
+    module: gdsfactory.components.straight
+    name: straight_1c532bf8
+    width: 0.5
+  straight_1dc827c0:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 7
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 7
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 7
+    module: gdsfactory.components.straight
+    name: straight_1dc827c0
+    width: 0.5
+  straight_39aa6734:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 22.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 22.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 22.01
+    module: gdsfactory.components.straight
+    name: straight_39aa6734
+    width: 0.5
+  straight_3e674ddb:
     changed:
       cross_section:
         function: cross_section
@@ -537,12 +606,13 @@ cells:
     info_version: 1
     length: 375.42
     module: gdsfactory.components.straight
-    name: straight_18ee7f79
+    name: straight_3e674ddb
     width: 0.5
-  straight_1da190e0:
+  straight_4f623c49:
     changed:
       cross_section:
         function: cross_section
+      length: 45.62
     default:
       cross_section:
         function: cross_section
@@ -552,39 +622,16 @@ cells:
     full:
       cross_section:
         function: cross_section
-      length: 10
+      length: 45.62
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 10
+    length: 45.62
     module: gdsfactory.components.straight
-    name: straight_1da190e0
+    name: straight_4f623c49
     width: 0.5
-  straight_26b9e310:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 27.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 27.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 27.01
-    module: gdsfactory.components.straight
-    name: straight_26b9e310
-    width: 0.5
-  straight_32174f25:
+  straight_6a1de77c:
     changed:
       cross_section:
         function: strip_heater_metal
@@ -607,13 +654,13 @@ cells:
     info_version: 1
     length: 30
     module: gdsfactory.components.straight
-    name: straight_32174f25
+    name: straight_6a1de77c
     width: 0.5
-  straight_5743d35a:
+  straight_8c441738:
     changed:
       cross_section:
         function: cross_section
-      length: 0.01
+      length: 27.01
     default:
       cross_section:
         function: cross_section
@@ -623,45 +670,19 @@ cells:
     full:
       cross_section:
         function: cross_section
-      length: 0.01
+      length: 27.01
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 0.01
+    length: 27.01
     module: gdsfactory.components.straight
-    name: straight_5743d35a
+    name: straight_8c441738
     width: 0.5
-  straight_b0b74a72:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 16
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 16
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 16
-    module: gdsfactory.components.straight
-    name: straight_b0b74a72
-    width: 0.5
-  straight_bd3b506b:
+  straight_9d3a68d3:
     changed:
       cross_section:
         function: cross_section
-      length: 45.62
     default:
       cross_section:
         function: cross_section
@@ -671,39 +692,16 @@ cells:
     full:
       cross_section:
         function: cross_section
-      length: 45.62
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 45.62
-    module: gdsfactory.components.straight
-    name: straight_bd3b506b
-    width: 0.5
-  straight_cd61840b:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 7
-    default:
-      cross_section:
-        function: cross_section
       length: 10
       npoints: 2
       with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 7
-      npoints: 2
-      with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 7
+    length: 10
     module: gdsfactory.components.straight
-    name: straight_cd61840b
+    name: straight_9d3a68d3
     width: 0.5
-  straight_e3f148d8:
+  straight_be825e39:
     changed:
       cross_section:
         function: strip_heater_metal
@@ -726,13 +724,14 @@ cells:
     info_version: 1
     length: 6
     module: gdsfactory.components.straight
-    name: straight_e3f148d8
+    name: straight_be825e39
     width: 0.5
-  straight_fe273143:
+  straight_f1af8500:
     changed:
       cross_section:
-        function: cross_section
-      length: 22.01
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 16
     default:
       cross_section:
         function: cross_section
@@ -741,17 +740,18 @@ cells:
       with_cladding_box: true
     full:
       cross_section:
-        function: cross_section
-      length: 22.01
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 16
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 22.01
+    length: 16
     module: gdsfactory.components.straight
-    name: straight_fe273143
+    name: straight_f1af8500
     width: 0.5
-  straight_heater_metal_u_6e8de97e:
+  straight_heater_metal_u_124a6e93:
     changed:
       with_undercut: false
     default:
@@ -825,9 +825,9 @@ cells:
     function_name: straight_heater_metal_undercut
     info_version: 1
     module: gdsfactory.components.straight_heater_metal
-    name: straight_heater_metal_u_6e8de97e
+    name: straight_heater_metal_u_124a6e93
     resistance: null
-  taper_ea91ec9c:
+  taper_fb06b526:
     changed:
       layer:
       - 47
@@ -858,12 +858,12 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.taper
-    name: taper_ea91ec9c
+    name: taper_fb06b526
     width1: 11
     width2: 2.5
 info:
   changed:
-    component: mzi_d275fe52
+    component: mzi_829d1464
   child:
     changed:
       length_x: null
@@ -921,7 +921,7 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_d275fe52
+    name: mzi_829d1464
   default:
     component_name: null
     gc_port_name: o1
@@ -938,7 +938,7 @@ info:
       function: select_ports
       port_type: optical
   full:
-    component: mzi_d275fe52
+    component: mzi_829d1464
     component_name: null
     gc_port_name: o1
     get_input_labels_function:
@@ -956,6 +956,6 @@ info:
   function_name: add_grating_couplers
   info_version: 1
   module: gdsfactory.add_grating_couplers
-  name: mzi_d275fe52_add_gratin_85d33944
+  name: mzi_829d1464_add_gratin_2dbc311e
 ports: {}
 version: 1

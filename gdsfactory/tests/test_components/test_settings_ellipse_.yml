@@ -1,5 +1,5 @@
 cells:
-  ellipse:
+  ellipse_5ae62f88:
     changed: {}
     default:
       angle_resolution: 2.5
@@ -20,7 +20,7 @@ cells:
     function_name: ellipse
     info_version: 1
     module: gdsfactory.components.ellipse
-    name: ellipse
+    name: ellipse_5ae62f88
 info:
   changed: {}
   default:
@@ -42,6 +42,6 @@ info:
   function_name: ellipse
   info_version: 1
   module: gdsfactory.components.ellipse
-  name: ellipse
+  name: ellipse_5ae62f88
 ports: {}
 version: 1

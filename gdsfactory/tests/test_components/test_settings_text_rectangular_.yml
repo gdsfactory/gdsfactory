@@ -1,5 +1,5 @@
 cells:
-  manhattan_text_3f068da3:
+  manhattan_text_5a3251f9:
     changed:
       justify: left
       layer:
@@ -33,8 +33,8 @@ cells:
     function_name: manhattan_text
     info_version: 1
     module: gdsfactory.components.manhattan_font
-    name: manhattan_text_3f068da3
-  text_rectangular:
+    name: manhattan_text_5a3251f9
+  text_rectangular_6c6d7215:
     changed: {}
     default:
       justify: left
@@ -59,7 +59,7 @@ cells:
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular
+    name: text_rectangular_6c6d7215
 info:
   changed: {}
   default:
@@ -85,6 +85,6 @@ info:
   function_name: text_rectangular
   info_version: 1
   module: gdsfactory.components.text_rectangular
-  name: text_rectangular
+  name: text_rectangular_6c6d7215
 ports: {}
 version: 1

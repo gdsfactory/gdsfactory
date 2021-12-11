@@ -1,5 +1,5 @@
 cells:
-  straight_e57a8330:
+  straight_b99721b9:
     changed:
       cross_section:
         function: cross_section
@@ -41,9 +41,9 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_e57a8330
+    name: straight_b99721b9
     width: 10
-  wire_corner:
+  wire_corner_ea1b6f2c:
     changed: {}
     default:
       cross_section:
@@ -75,8 +75,8 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.wire
-    name: wire_corner
-  wire_sbend:
+    name: wire_corner_ea1b6f2c
+  wire_sbend_be23d93b:
     changed: {}
     default:
       dx: 20
@@ -87,7 +87,7 @@ cells:
     function_name: wire_sbend
     info_version: 1
     module: gdsfactory.components.wire_sbend
-    name: wire_sbend
+    name: wire_sbend_be23d93b
 info:
   changed: {}
   default:
@@ -99,7 +99,7 @@ info:
   function_name: wire_sbend
   info_version: 1
   module: gdsfactory.components.wire_sbend
-  name: wire_sbend
+  name: wire_sbend_be23d93b
 ports:
   e1:
     layer:

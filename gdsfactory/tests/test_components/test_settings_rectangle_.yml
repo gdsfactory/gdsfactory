@@ -1,5 +1,5 @@
 cells:
-  compass_896ae020:
+  compass_f5c11d7b:
     changed:
       layer:
       - 1
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_896ae020
-  rectangle:
+    name: compass_f5c11d7b
+  rectangle_d41736d4:
     changed: {}
     default:
       centered: false
@@ -51,7 +51,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle
+    name: rectangle_d41736d4
 info:
   changed: {}
   default:
@@ -75,7 +75,7 @@ info:
   function_name: rectangle
   info_version: 1
   module: gdsfactory.components.rectangle
-  name: rectangle
+  name: rectangle_d41736d4
 ports:
   e1:
     layer:

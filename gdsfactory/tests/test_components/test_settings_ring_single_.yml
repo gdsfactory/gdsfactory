@@ -1,5 +1,5 @@
 cells:
-  bend_euler_4725f0ef:
+  bend_euler_1830e956:
     changed:
       cross_section:
         function: cross_section
@@ -28,10 +28,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_4725f0ef
+    name: bend_euler_1830e956
     radius: 10
     radius_min: 7.061
-  coupler_ring_6859e681:
+  coupler_ring_c898a27c:
     changed:
       bend:
         function: bend_euler
@@ -66,8 +66,8 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_6859e681
-  ring_single:
+    name: coupler_ring_c898a27c
+  ring_single_e9cafe25:
     changed: {}
     default:
       bend:
@@ -98,31 +98,8 @@ cells:
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
-    name: ring_single
-  straight_178d4157:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 4
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 4
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 4
-    module: gdsfactory.components.straight
-    name: straight_178d4157
-    width: 0.5
-  straight_417ceb80:
+    name: ring_single_e9cafe25
+  straight_1336a012:
     changed:
       cross_section:
         function: cross_section
@@ -143,7 +120,30 @@ cells:
     info_version: 1
     length: 0.6
     module: gdsfactory.components.straight
-    name: straight_417ceb80
+    name: straight_1336a012
+    width: 0.5
+  straight_c4ca6ba0:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 4
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 4
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 4
+    module: gdsfactory.components.straight
+    name: straight_c4ca6ba0
     width: 0.5
 info:
   changed: {}
@@ -176,7 +176,7 @@ info:
   function_name: ring_single
   info_version: 1
   module: gdsfactory.components.ring_single
-  name: ring_single
+  name: ring_single_e9cafe25
 ports:
   o1:
     layer:

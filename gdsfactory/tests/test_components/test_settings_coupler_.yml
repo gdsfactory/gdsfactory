@@ -1,5 +1,5 @@
 cells:
-  coupler:
+  coupler_59a17a51:
     changed: {}
     default:
       coupler_straight:
@@ -28,7 +28,7 @@ cells:
     length: 10.314
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
-    name: coupler
+    name: coupler_59a17a51
 info:
   changed: {}
   default:
@@ -58,7 +58,7 @@ info:
   length: 10.314
   min_bend_radius: 9.451
   module: gdsfactory.components.coupler
-  name: coupler
+  name: coupler_59a17a51
 ports:
   o1:
     layer:

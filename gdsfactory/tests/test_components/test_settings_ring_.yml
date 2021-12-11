@@ -1,5 +1,5 @@
 cells:
-  ring:
+  ring_776742c0:
     changed: {}
     default:
       angle_resolution: 2.5
@@ -18,7 +18,7 @@ cells:
     function_name: ring
     info_version: 1
     module: gdsfactory.components.ring
-    name: ring
+    name: ring_776742c0
 info:
   changed: {}
   default:
@@ -38,6 +38,6 @@ info:
   function_name: ring
   info_version: 1
   module: gdsfactory.components.ring
-  name: ring
+  name: ring_776742c0
 ports: {}
 version: 1

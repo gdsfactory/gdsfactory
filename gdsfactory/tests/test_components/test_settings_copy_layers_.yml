@@ -1,34 +1,5 @@
 cells:
-  compass_2cd8b8ea:
-    changed:
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_2cd8b8ea
-  compass_bdc25def:
+  compass_3e01b358:
     changed:
       layer:
       - 1
@@ -56,8 +27,37 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_bdc25def
-  cross_0d76638b:
+    name: compass_3e01b358
+  compass_98e765ea:
+    changed:
+      layer:
+      - 2
+      - 0
+      port_type: electrical
+      size:
+      - 3
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 2
+      - 0
+      port_type: electrical
+      size:
+      - 3
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_98e765ea
+  cross_db05afcc:
     changed:
       layer:
       - 2
@@ -79,8 +79,8 @@ cells:
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
-    name: cross_0d76638b
-  cross_0d76638b_copy_layers:
+    name: cross_db05afcc
+  cross_db05afcc_copy_lay_1d3a97de:
     changed: {}
     child:
       changed:
@@ -104,7 +104,7 @@ cells:
       function_name: cross
       info_version: 1
       module: gdsfactory.components.cross
-      name: cross_0d76638b
+      name: cross_db05afcc
     default:
       factory:
         function: cross
@@ -124,8 +124,8 @@ cells:
     function_name: copy_layers
     info_version: 1
     module: gdsfactory.components.copy_layers
-    name: cross_0d76638b_copy_layers
-  cross_8e0fe979:
+    name: cross_db05afcc_copy_lay_1d3a97de
+  cross_e5625831:
     changed:
       layer:
       - 1
@@ -147,8 +147,8 @@ cells:
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
-    name: cross_8e0fe979
-  rectangle_0eb96b44:
+    name: cross_e5625831
+  rectangle_4b411f93:
     changed:
       layer:
       - 1
@@ -177,8 +177,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_0eb96b44
-  rectangle_fe969b88:
+    name: rectangle_4b411f93
+  rectangle_81e7e81b:
     changed:
       layer:
       - 2
@@ -207,7 +207,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_fe969b88
+    name: rectangle_81e7e81b
 info:
   changed: {}
   child:
@@ -232,7 +232,7 @@ info:
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
-    name: cross_0d76638b
+    name: cross_db05afcc
   default:
     factory:
       function: cross
@@ -252,6 +252,6 @@ info:
   function_name: copy_layers
   info_version: 1
   module: gdsfactory.components.copy_layers
-  name: cross_0d76638b_copy_layers
+  name: cross_db05afcc_copy_lay_1d3a97de
 ports: {}
 version: 1

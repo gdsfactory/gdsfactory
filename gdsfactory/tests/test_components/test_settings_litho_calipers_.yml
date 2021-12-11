@@ -1,5 +1,5 @@
 cells:
-  compass_205010ac:
+  compass_0f7913eb:
     changed:
       layer:
       - 1
@@ -27,8 +27,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_205010ac
-  compass_c14e0736:
+    name: compass_0f7913eb
+  compass_6ee21476:
     changed:
       layer:
       - 2
@@ -56,8 +56,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c14e0736
-  litho_calipers:
+    name: compass_6ee21476
+  litho_calipers_979a8333:
     changed: {}
     default:
       layer1:
@@ -90,8 +90,8 @@ cells:
     function_name: litho_calipers
     info_version: 1
     module: gdsfactory.components.litho_calipers
-    name: litho_calipers
-  rectangle_229ba6f2:
+    name: litho_calipers_979a8333
+  rectangle_5c9d2d02:
     changed:
       layer:
       - 2
@@ -120,8 +120,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_229ba6f2
-  rectangle_92db19f8:
+    name: rectangle_5c9d2d02
+  rectangle_c283297b:
     changed:
       layer:
       - 1
@@ -150,7 +150,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_92db19f8
+    name: rectangle_c283297b
 info:
   changed: {}
   default:
@@ -184,6 +184,6 @@ info:
   function_name: litho_calipers
   info_version: 1
   module: gdsfactory.components.litho_calipers
-  name: litho_calipers
+  name: litho_calipers_979a8333
 ports: {}
 version: 1
