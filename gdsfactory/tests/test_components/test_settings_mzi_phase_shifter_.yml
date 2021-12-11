@@ -1,6 +1,8 @@
 cells:
-  bend_euler:
-    changed: {}
+  bend_euler_1da190e0:
+    changed:
+      cross_section:
+        function: cross_section
     default:
       angle: 90
       cross_section:
@@ -24,210 +26,9 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler
+    name: bend_euler_1da190e0
     radius: 10
     radius_min: 7.061
-  compass_164fc476:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_164fc476
-  compass_280a2d8b:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_280a2d8b
-  compass_8e661824:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_8e661824
-  component_sequence_e4dca69b:
-    changed:
-      sequence: -UHUHUHUHUHUHUHUH-
-      symbol_to_component:
-        '-':
-        - straight_b0b74a72
-        - o1
-        - o2
-        H:
-        - straight_e3f148d8
-        - o1
-        - o2
-        U:
-        - straight_32174f25
-        - o1
-        - o2
-    default:
-      port_name1: o1
-      port_name2: o2
-      ports_map: null
-      start_orientation: 0
-    full:
-      port_name1: o1
-      port_name2: o2
-      ports_map: null
-      sequence: -UHUHUHUHUHUHUHUH-
-      start_orientation: 0
-      symbol_to_component:
-        '-':
-        - straight_b0b74a72
-        - o1
-        - o2
-        H:
-        - straight_e3f148d8
-        - o1
-        - o2
-        U:
-        - straight_32174f25
-        - o1
-        - o2
-    function_name: component_sequence
-    info_version: 1
-    module: gdsfactory.components.component_sequence
-    name: component_sequence_e4dca69b
-  contact_46068602:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_46068602
-    size:
-    - 11
-    - 11
   mmi1x2:
     changed: {}
     default:
@@ -258,100 +59,23 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-  mzi_arm_5644a682:
+  mzi_442cfd4a:
     changed:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_5644a682
-  mzi_arm_dd2de148:
-    changed:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 320
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight_heater_metal_undercut
-        with_undercut: false
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 320
-    length_xsize: 320
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_dd2de148
-  mzi_arms_614a18b2:
-    changed:
-      length_x: 320
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
+      length_x: null
     default:
       bend:
         function: bend_euler
       combiner: null
+      cross_section:
+        function: cross_section
       delta_length: 10
-      delta_yright: 0
       length_x: 0.1
-      length_y: 0.8
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
       splitter:
         function: mmi1x2
       straight:
@@ -364,27 +88,33 @@ cells:
       bend:
         function: bend_euler
       combiner: null
+      cross_section:
+        function: cross_section
       delta_length: 10
-      delta_yright: 0
-      length_x: 320
-      length_y: 0.8
+      length_x: null
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
       splitter:
         function: mmi1x2
       straight:
         function: straight
       straight_x_bot: null
-      straight_x_top:
-        function: straight_heater_metal_undercut
-        with_undercut: false
+      straight_x_top: null
       straight_y: null
       with_splitter: true
-    function_name: mzi_arms
+    function_name: mzi
     info_version: 1
-    module: gdsfactory.components.mzi_arms
-    name: mzi_arms_614a18b2
-  straight_10336aac:
+    module: gdsfactory.components.mzi
+    name: mzi_442cfd4a
+  straight_15a9c8d1:
     changed:
-      length: 5.8
+      cross_section:
+        function: cross_section
+      length: 2
     default:
       cross_section:
         function: cross_section
@@ -394,21 +124,19 @@ cells:
     full:
       cross_section:
         function: cross_section
-      length: 5.8
+      length: 2
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 5.8
+    length: 2
     module: gdsfactory.components.straight
-    name: straight_10336aac
+    name: straight_15a9c8d1
     width: 0.5
-  straight_32174f25:
+  straight_1da190e0:
     changed:
       cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 30
+        function: cross_section
     default:
       cross_section:
         function: cross_section
@@ -417,23 +145,21 @@ cells:
       with_cladding_box: true
     full:
       cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 30
+        function: cross_section
+      length: 10
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 30
+    length: 10
     module: gdsfactory.components.straight
-    name: straight_32174f25
+    name: straight_1da190e0
     width: 0.5
-  straight_b0b74a72:
+  straight_4e82411b:
     changed:
       cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 16
+        function: cross_section
+      length: 0.09
     default:
       cross_section:
         function: cross_section
@@ -442,20 +168,21 @@ cells:
       with_cladding_box: true
     full:
       cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 16
+        function: cross_section
+      length: 0.09
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 16
+    length: 0.09
     module: gdsfactory.components.straight
-    name: straight_b0b74a72
+    name: straight_4e82411b
     width: 0.5
-  straight_b6647796:
+  straight_5743d35a:
     changed:
-      length: 320
+      cross_section:
+        function: cross_section
+      length: 0.01
     default:
       cross_section:
         function: cross_section
@@ -465,21 +192,20 @@ cells:
     full:
       cross_section:
         function: cross_section
-      length: 320
+      length: 0.01
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 320
+    length: 0.01
     module: gdsfactory.components.straight
-    name: straight_b6647796
+    name: straight_5743d35a
     width: 0.5
-  straight_e3f148d8:
+  straight_cd61840b:
     changed:
       cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 6
+        function: cross_section
+      length: 7
     default:
       cross_section:
         function: cross_section
@@ -488,142 +214,33 @@ cells:
       with_cladding_box: true
     full:
       cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 6
+        function: cross_section
+      length: 7
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 6
+    length: 7
     module: gdsfactory.components.straight
-    name: straight_e3f148d8
+    name: straight_cd61840b
     width: 0.5
-  straight_heater_metal_u_0baf9cc7:
-    changed:
-      length: 320
-      with_undercut: false
-    default:
-      contact:
-        function: contact
-        layers:
-        - - 47
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      cross_section_heater:
-        function: strip_heater_metal
-      cross_section_heater_undercut:
-        function: strip_heater_metal_undercut
-      heater_taper_length: 5
-      heater_width: 2.5
-      length: 320
-      length_straight_input: 15
-      length_undercut: 30
-      length_undercut_spacing: 6
-      ohms_per_square: null
-      port_orientation1: 180
-      port_orientation2: 0
-      with_undercut: true
-    full:
-      contact:
-        function: contact
-        layers:
-        - - 47
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      cross_section_heater:
-        function: strip_heater_metal
-      cross_section_heater_undercut:
-        function: strip_heater_metal_undercut
-      heater_taper_length: 5
-      heater_width: 2.5
-      length: 320
-      length_straight_input: 15
-      length_undercut: 30
-      length_undercut_spacing: 6
-      ohms_per_square: null
-      port_orientation1: 180
-      port_orientation2: 0
-      with_undercut: false
-    function_name: straight_heater_metal_undercut
-    info_version: 1
-    module: gdsfactory.components.straight_heater_metal
-    name: straight_heater_metal_u_0baf9cc7
-    resistance: null
-  taper_ea91ec9c:
-    changed:
-      layer:
-      - 47
-      - 0
-      length: 5
-      width1: 11
-      width2: 2.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      layer:
-      - 47
-      - 0
-      length: 5
-      port: null
-      width1: 11
-      width2: 2.5
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.taper
-    name: taper_ea91ec9c
-    width1: 11
-    width2: 2.5
 info:
   changed:
-    length_x: 320
-    straight_x_top:
-      function: straight_heater_metal_undercut
-      with_undercut: false
+    length_x: null
   default:
     bend:
       function: bend_euler
     combiner: null
+    cross_section:
+      function: cross_section
     delta_length: 10
-    delta_yright: 0
     length_x: 0.1
-    length_y: 0.8
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
     splitter:
       function: mmi1x2
     straight:
@@ -636,47 +253,29 @@ info:
     bend:
       function: bend_euler
     combiner: null
+    cross_section:
+      function: cross_section
     delta_length: 10
-    delta_yright: 0
-    length_x: 320
-    length_y: 0.8
+    length_x: null
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
     splitter:
       function: mmi1x2
     straight:
       function: straight
     straight_x_bot: null
-    straight_x_top:
-      function: straight_heater_metal_undercut
-      with_undercut: false
+    straight_x_top: null
     straight_y: null
     with_splitter: true
-  function_name: mzi_arms
+  function_name: mzi
   info_version: 1
-  module: gdsfactory.components.mzi_arms
-  name: mzi_arms_614a18b2
+  module: gdsfactory.components.mzi
+  name: mzi_442cfd4a
 ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 16.75
-    - 26.425
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 11
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 368.75
-    - 26.425
-    name: e2
-    orientation: 0
-    port_type: electrical
-    width: 11
   o1:
     layer:
     - 1
@@ -693,8 +292,8 @@ ports:
     - 1
     - 0
     midpoint:
-    - 398.25
-    - 1.7763568394002505e-15
+    - 88.35
+    - 1.5614246689128753e-15
     name: o2
     orientation: 0
     port_type: optical

@@ -38,7 +38,7 @@ def mzi(
     Args:
         delta_length: bottom arm vertical extra length
         length_y: vertical length for both and top arms
-        length_x: horizontal length
+        length_x: horizontal length. None uses to the straight_x_bot/top defaults
         bend: 90 degrees bend library
         straight: straight function
         straight_y: straight for length_y and delta_length
