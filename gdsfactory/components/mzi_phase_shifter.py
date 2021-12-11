@@ -6,7 +6,7 @@ from gdsfactory.components.straight_heater_metal import (
 )
 
 mzi_phase_shifter = gf.partial(
-    mzi_arms, straight_x_top=straight_heater_metal, length_x=320.0
+    mzi_arms, straight_x_top=straight_heater_metal, length_x=None
 )
 
 mzi_phase_shifter_90_90 = gf.partial(
@@ -19,7 +19,7 @@ if __name__ == "__main__":
         straight_x_top=gf.c.straight_pin, straight_x_bot=gf.c.straight_pin
     )
     c = mzi_phase_shifter(
-        straight_x_top=gf.c.straight_heater_doped_rib,
+        # straight_x_top=gf.c.straight_heater_doped_rib,
         straight_x_bot=gf.c.straight_heater_doped_rib,
         delta_length=20,
     )
