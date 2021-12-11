@@ -17,6 +17,11 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 
+
+## 3.8.2
+
+- add_ports_from_markers_center auto_rename_ports by default
+
 ## 3.8.1
 
 - add `gf.components.mzi` as a more robust implementation for the MZI
