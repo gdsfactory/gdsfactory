@@ -881,7 +881,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.manhattan_font
     name: manhattan_text_df780215
-  pcm_optical:
+  pcm_optical_d41d8cd9:
     changed: {}
     default:
       bend90:
@@ -938,7 +938,7 @@ cells:
     function_name: pcm_optical
     info_version: 1
     module: gdsfactory.components.pcm_optical
-    name: pcm_optical
+    name: pcm_optical_d41d8cd9
   straight_02e29346:
     changed:
       cross_section:
@@ -1182,6 +1182,6 @@ info:
   function_name: pcm_optical
   info_version: 1
   module: gdsfactory.components.pcm_optical
-  name: pcm_optical
+  name: pcm_optical_d41d8cd9
 ports: {}
 version: 1

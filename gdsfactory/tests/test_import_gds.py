@@ -19,7 +19,7 @@ def test_import_gds_hierarchy() -> gf.Component:
 
     c = import_gds(gdspath)
     assert len(c.get_dependencies()) == 2, len(c.get_dependencies())
-    assert c.name == "mzi_arms", c.name
+    assert c.name == c0.name, c.name
     return c
 
 

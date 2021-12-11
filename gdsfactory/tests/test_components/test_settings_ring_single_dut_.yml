@@ -134,7 +134,7 @@ cells:
     name: taper_2e9853cc
     width1: 0.5
     width2: 3
-  taper_2e9853cc_ring_single_dut:
+  taper_2e9853cc_ring_sin_7b254a70:
     changed: {}
     child:
       changed:
@@ -197,7 +197,7 @@ cells:
     function_name: ring_single_dut
     info_version: 1
     module: gdsfactory.components.ring_single_dut
-    name: taper_2e9853cc_ring_single_dut
+    name: taper_2e9853cc_ring_sin_7b254a70
 info:
   changed: {}
   child:
@@ -261,7 +261,7 @@ info:
   function_name: ring_single_dut
   info_version: 1
   module: gdsfactory.components.ring_single_dut
-  name: taper_2e9853cc_ring_single_dut
+  name: taper_2e9853cc_ring_sin_7b254a70
 ports:
   o1:
     layer:

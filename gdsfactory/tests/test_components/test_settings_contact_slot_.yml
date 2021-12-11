@@ -55,7 +55,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ef690c07
-  contact_slot:
+  contact_slot_d41d8cd9:
     changed: {}
     default:
       enclosure: 1
@@ -104,7 +104,7 @@ cells:
     function_name: contact_slot
     info_version: 1
     module: gdsfactory.components.contact_slot
-    name: contact_slot
+    name: contact_slot_d41d8cd9
     size:
     - 11
     - 11
@@ -157,7 +157,7 @@ info:
   function_name: contact_slot
   info_version: 1
   module: gdsfactory.components.contact_slot
-  name: contact_slot
+  name: contact_slot_d41d8cd9
   size:
   - 11
   - 11

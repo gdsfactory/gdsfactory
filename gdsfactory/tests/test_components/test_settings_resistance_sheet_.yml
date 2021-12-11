@@ -209,7 +209,7 @@ cells:
     size:
     - 80
     - 80
-  resistance_sheet:
+  resistance_sheet_d41d8cd9:
     changed: {}
     default:
       layer_offsets:
@@ -276,7 +276,7 @@ cells:
     function_name: resistance_sheet
     info_version: 1
     module: gdsfactory.components.resistance_sheet
-    name: resistance_sheet
+    name: resistance_sheet_d41d8cd9
     resistance: null
 info:
   changed: {}
@@ -345,7 +345,7 @@ info:
   function_name: resistance_sheet
   info_version: 1
   module: gdsfactory.components.resistance_sheet
-  name: resistance_sheet
+  name: resistance_sheet_d41d8cd9
   resistance: null
 ports:
   pad1:

@@ -83,7 +83,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ef690c07
-  contact:
+  contact_d41d8cd9:
     changed: {}
     default:
       layer_port: null
@@ -135,7 +135,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact
+    name: contact_d41d8cd9
     size:
     - 11
     - 11
@@ -191,7 +191,7 @@ info:
   - 49
   - 0
   module: gdsfactory.components.contact
-  name: contact
+  name: contact_d41d8cd9
   size:
   - 11
   - 11

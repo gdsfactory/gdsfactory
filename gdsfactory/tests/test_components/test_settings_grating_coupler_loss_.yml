@@ -142,7 +142,7 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  grating_coupler_loss:
+  grating_coupler_loss_d41d8cd9:
     changed: {}
     default:
       grating_coupler_factory:
@@ -159,7 +159,7 @@ cells:
     function_name: grating_coupler_loss
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
-    name: grating_coupler_loss
+    name: grating_coupler_loss_d41d8cd9
   loss_deembedding_ch12_3_bda266e9:
     changed:
       grating_coupler_factory:
@@ -455,6 +455,6 @@ info:
   function_name: grating_coupler_loss
   info_version: 1
   module: gdsfactory.components.grating_coupler_loss
-  name: grating_coupler_loss
+  name: grating_coupler_loss_d41d8cd9
 ports: {}
 version: 1

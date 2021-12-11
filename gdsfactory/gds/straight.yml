@@ -42,5 +42,26 @@ info:
     with_cladding_box: true
     cross_section:
       function: cross_section
-cells: {}
+cells:
+  straight_0a6c91fb:
+    length: 1.234
+    width: 0.5
+    name: straight_0a6c91fb
+    module: gdsfactory.components.straight
+    function_name: straight
+    info_version: 1
+    changed:
+      length: 1.234
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+    full:
+      length: 1.234
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
 version: 1

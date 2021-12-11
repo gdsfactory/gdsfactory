@@ -111,13 +111,13 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_67c6df50
-  compass_cb91cde4:
+  compass_70bcd629:
     changed:
       layer:
       - 49
       - 0
       size:
-      - 330
+      - 310
       - 10
     default:
       layer:
@@ -133,19 +133,19 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 330
+      - 310
       - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_cb91cde4
-  compass_cc867db5:
+    name: compass_70bcd629
+  compass_a7656554:
     changed:
       layer:
       - 41
       - 0
       size:
-      - 330
+      - 310
       - 10
     default:
       layer:
@@ -161,19 +161,19 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 330
+      - 310
       - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_cc867db5
-  compass_d4049e84:
+    name: compass_a7656554
+  compass_cfeb36a5:
     changed:
       layer:
       - 45
       - 0
       size:
-      - 330
+      - 310
       - 10
     default:
       layer:
@@ -189,12 +189,12 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 330
+      - 310
       - 10
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_d4049e84
+    name: compass_cfeb36a5
   compass_e429d7e7:
     changed:
       layer:
@@ -223,6 +223,82 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_e429d7e7
+  contact_016afa8d:
+    changed:
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 310
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 310
+      - 10
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_016afa8d
+    size:
+    - 310
+    - 10
   contact_32dac979:
     changed:
       layers:
@@ -299,82 +375,6 @@ cells:
     size:
     - 10
     - 10
-  contact_3ad7d3c9:
-    changed:
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 330
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 330
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_3ad7d3c9
-    size:
-    - 330
-    - 10
   contact_5fef78eb:
     changed:
       layers:
@@ -445,11 +445,36 @@ cells:
     size:
     - 10
     - 10
-  straight_00e46342:
+  extrude_94545d1a:
+    changed:
+      cross_section: {}
+      p: path_df9f9721565520dc57f5cb1446179439
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section: {}
+      layer: null
+      p: path_df9f9721565520dc57f5cb1446179439
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
+    length: 10
+    module: gdsfactory.path
+    name: extrude_94545d1a
+  straight_6fffabef:
     changed:
       cross_section:
         function: strip_heater_doped
-      length: 320
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
+      length: 300
     default:
       cross_section:
         function: cross_section
@@ -459,16 +484,19 @@ cells:
     full:
       cross_section:
         function: strip_heater_doped
-      length: 320
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
+      length: 300
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 320
+    length: 300
     module: gdsfactory.components.straight
-    name: straight_00e46342
+    name: straight_6fffabef
     width: 0.5
-  straight_heater_doped_r_7650a421:
+  straight_heater_doped_r_3a183396:
     changed:
       contact:
         function: contact
@@ -488,7 +516,6 @@ cells:
           - 0
       cross_section_heater:
         function: strip_heater_doped
-      taper: null
     default:
       contact:
         function: contact
@@ -531,17 +558,19 @@ cells:
       contact_size:
       - 10
       - 10
-      contact_yspacing: 2
       cross_section:
         function: cross_section
         sections:
         - slab
       cross_section_heater:
         function: rib_heater_doped
+      heater_gap: 0.8
+      heater_width: 2
       length: 320
       nsections: 3
       taper:
         function: taper_cross_section
+      width: 0.5
     full:
       contact:
         function: contact
@@ -584,20 +613,67 @@ cells:
       contact_size:
       - 10
       - 10
-      contact_yspacing: 2
       cross_section:
         function: cross_section
         sections:
         - slab
       cross_section_heater:
         function: strip_heater_doped
+      heater_gap: 0.8
+      heater_width: 2
       length: 320
       nsections: 3
-      taper: null
+      taper:
+        function: taper_cross_section
+      width: 0.5
     function_name: straight_heater_doped_rib
     info_version: 1
     module: gdsfactory.components.straight_heater_doped_rib
-    name: straight_heater_doped_r_7650a421
+    name: straight_heater_doped_r_3a183396
+  taper_cross_section_bc4ced8f:
+    changed:
+      cross_section1:
+        function: cross_section
+        sections:
+        - slab
+      cross_section2:
+        function: strip_heater_doped
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
+    default:
+      cross_section1:
+        function: cross_section
+        sections:
+        - slab
+      cross_section2:
+        cladding_offset: 0
+        function: cross_section
+        layers_cladding:
+        - - 3
+          - 0
+        sections:
+        - slab
+      length: 10
+      linear: false
+      npoints: 100
+    full:
+      cross_section1:
+        function: cross_section
+        sections:
+        - slab
+      cross_section2:
+        function: strip_heater_doped
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
+      length: 10
+      linear: false
+      npoints: 100
+    function_name: taper_cross_section
+    info_version: 1
+    module: gdsfactory.components.taper_cross_section
+    name: taper_cross_section_bc4ced8f
 info:
   changed:
     contact:
@@ -618,7 +694,6 @@ info:
         - 0
     cross_section_heater:
       function: strip_heater_doped
-    taper: null
   default:
     contact:
       function: contact
@@ -661,17 +736,19 @@ info:
     contact_size:
     - 10
     - 10
-    contact_yspacing: 2
     cross_section:
       function: cross_section
       sections:
       - slab
     cross_section_heater:
       function: rib_heater_doped
+    heater_gap: 0.8
+    heater_width: 2
     length: 320
     nsections: 3
     taper:
       function: taper_cross_section
+    width: 0.5
   full:
     contact:
       function: contact
@@ -714,20 +791,23 @@ info:
     contact_size:
     - 10
     - 10
-    contact_yspacing: 2
     cross_section:
       function: cross_section
       sections:
       - slab
     cross_section_heater:
       function: strip_heater_doped
+    heater_gap: 0.8
+    heater_width: 2
     length: 320
     nsections: 3
-    taper: null
+    taper:
+      function: taper_cross_section
+    width: 0.5
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_7650a421
+  name: straight_heater_doped_r_3a183396
 ports:
   bot_e1:
     layer:
@@ -745,18 +825,18 @@ ports:
     - 49
     - 0
     midpoint:
-    - 165
+    - 155
     - -15
     name: bot_e2
     orientation: 90
     port_type: electrical
-    width: 330
+    width: 310
   bot_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 330
+    - 310
     - -20
     name: bot_e3
     orientation: 0
@@ -767,18 +847,18 @@ ports:
     - 49
     - 0
     midpoint:
-    - 165
+    - 155
     - -25
     name: bot_e4
     orientation: 270
     port_type: electrical
-    width: 330
+    width: 310
   o1:
     layer:
     - 1
     - 0
     midpoint:
-    - 0
+    - -10
     - 0
     name: o1
     orientation: 180
@@ -789,7 +869,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 320
+    - 310
     - 0
     name: o2
     orientation: 0
@@ -811,18 +891,18 @@ ports:
     - 49
     - 0
     midpoint:
-    - 165
+    - 155
     - 25
     name: top_e2
     orientation: 90
     port_type: electrical
-    width: 330
+    width: 310
   top_e3:
     layer:
     - 49
     - 0
     midpoint:
-    - 330
+    - 310
     - 20
     name: top_e3
     orientation: 0
@@ -833,10 +913,10 @@ ports:
     - 49
     - 0
     midpoint:
-    - 165
+    - 155
     - 15
     name: top_e4
     orientation: 270
     port_type: electrical
-    width: 330
+    width: 310
 version: 1

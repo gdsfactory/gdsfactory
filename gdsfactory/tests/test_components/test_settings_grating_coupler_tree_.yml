@@ -51,7 +51,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_elliptical:
+  grating_coupler_ellipti_9314da1b:
     changed: {}
     default:
       big_last_tooth: false
@@ -108,29 +108,9 @@ cells:
     function_name: grating_coupler_elliptical
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_elliptical
+    name: grating_coupler_ellipti_9314da1b
     polarization: te
     wavelength: 1.554
-  straight:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight
-    width: 0.5
   straight_09267a6d:
     changed:
       cross_section:
@@ -287,7 +267,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.straight_array
     name: straight_array_e79eb4c6
-  straight_array_e79eb4c6_be2a1404:
+  straight_array_e79eb4c6_dc3919be:
     changed: {}
     child:
       changed:
@@ -334,7 +314,7 @@ cells:
     function_name: grating_coupler_tree
     info_version: 1
     module: gdsfactory.components.grating_coupler_tree
-    name: straight_array_e79eb4c6_be2a1404
+    name: straight_array_e79eb4c6_dc3919be
   straight_b5891e42:
     changed:
       cross_section:
@@ -357,6 +337,26 @@ cells:
     length: 34
     module: gdsfactory.components.straight
     name: straight_b5891e42
+    width: 0.5
+  straight_d41d8cd9:
+    changed: {}
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.straight
+    name: straight_d41d8cd9
     width: 0.5
   straight_f57ff793:
     changed:
@@ -428,7 +428,7 @@ info:
   function_name: grating_coupler_tree
   info_version: 1
   module: gdsfactory.components.grating_coupler_tree
-  name: straight_array_e79eb4c6_be2a1404
+  name: straight_array_e79eb4c6_dc3919be
 ports:
   vertical_te_00:
     layer:

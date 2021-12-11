@@ -16,10 +16,15 @@ Maybe:
 - xdoctest
 - mypy passing
 - pass force-regen flag from pytest
+- cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
+
+## 3.8.3
+
+- replace in contact_yspacing by heater_gap in straight_heater_doped
 
 ## 3.8.2
 
-- add_ports_from_markers_center auto_rename_ports by default
+- add kwarg `auto_rename_ports=True` to `add_ports_from_markers_center`
 - mzi length_x is optional and defaults to straight_x_bot/top defaults
 - change mzi_phase_shifter straight_x = None, to match phase shifter footprint
 - replace gf.c.mzi_phase_shifter_90_90 with gf.c.mzi_phase_shifter_top_heater_metal

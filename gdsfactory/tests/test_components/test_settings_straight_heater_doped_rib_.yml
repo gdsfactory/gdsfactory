@@ -445,7 +445,7 @@ cells:
     size:
     - 10
     - 10
-  extrude_f34680de:
+  extrude_c3ae1f05:
     changed:
       cross_section: {}
       p: path_df9f9721565520dc57f5cb1446179439
@@ -466,11 +466,14 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.path
-    name: extrude_f34680de
-  straight_f9c8624e:
+    name: extrude_c3ae1f05
+  straight_8d718ae9:
     changed:
       cross_section:
         function: rib_heater_doped
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
       length: 300
     default:
       cross_section:
@@ -481,6 +484,9 @@ cells:
     full:
       cross_section:
         function: rib_heater_doped
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
       length: 300
       npoints: 2
       with_cladding_box: true
@@ -488,9 +494,9 @@ cells:
     info_version: 1
     length: 300
     module: gdsfactory.components.straight
-    name: straight_f9c8624e
+    name: straight_8d718ae9
     width: 0.5
-  straight_heater_doped_rib:
+  straight_heater_doped_r_7f91a14d:
     changed: {}
     default:
       contact:
@@ -534,17 +540,19 @@ cells:
       contact_size:
       - 10
       - 10
-      contact_yspacing: 2
       cross_section:
         function: cross_section
         sections:
         - slab
       cross_section_heater:
         function: rib_heater_doped
+      heater_gap: 0.8
+      heater_width: 2
       length: 320
       nsections: 3
       taper:
         function: taper_cross_section
+      width: 0.5
     full:
       contact:
         function: contact
@@ -587,23 +595,34 @@ cells:
       contact_size:
       - 10
       - 10
-      contact_yspacing: 2
       cross_section:
         function: cross_section
         sections:
         - slab
       cross_section_heater:
         function: rib_heater_doped
+      heater_gap: 0.8
+      heater_width: 2
       length: 320
       nsections: 3
       taper:
         function: taper_cross_section
+      width: 0.5
     function_name: straight_heater_doped_rib
     info_version: 1
     module: gdsfactory.components.straight_heater_doped_rib
-    name: straight_heater_doped_rib
-  taper_cross_section:
-    changed: {}
+    name: straight_heater_doped_r_7f91a14d
+  taper_cross_section_3652c7ff:
+    changed:
+      cross_section1:
+        function: cross_section
+        sections:
+        - slab
+      cross_section2:
+        function: rib_heater_doped
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
     default:
       cross_section1:
         function: cross_section
@@ -626,20 +645,17 @@ cells:
         sections:
         - slab
       cross_section2:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
+        function: rib_heater_doped
+        heater_gap: 0.8
+        heater_width: 2
+        width: 0.5
       length: 10
       linear: false
       npoints: 100
     function_name: taper_cross_section
     info_version: 1
     module: gdsfactory.components.taper_cross_section
-    name: taper_cross_section
+    name: taper_cross_section_3652c7ff
 info:
   changed: {}
   default:
@@ -684,17 +700,19 @@ info:
     contact_size:
     - 10
     - 10
-    contact_yspacing: 2
     cross_section:
       function: cross_section
       sections:
       - slab
     cross_section_heater:
       function: rib_heater_doped
+    heater_gap: 0.8
+    heater_width: 2
     length: 320
     nsections: 3
     taper:
       function: taper_cross_section
+    width: 0.5
   full:
     contact:
       function: contact
@@ -737,21 +755,23 @@ info:
     contact_size:
     - 10
     - 10
-    contact_yspacing: 2
     cross_section:
       function: cross_section
       sections:
       - slab
     cross_section_heater:
       function: rib_heater_doped
+    heater_gap: 0.8
+    heater_width: 2
     length: 320
     nsections: 3
     taper:
       function: taper_cross_section
+    width: 0.5
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_rib
+  name: straight_heater_doped_r_7f91a14d
 ports:
   bot_e1:
     layer:

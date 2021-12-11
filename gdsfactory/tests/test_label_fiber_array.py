@@ -4,12 +4,11 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 
 LENGTH = 0.5
-# CELL_NAME = "straight_length500n"
-CELL_NAME = "straight_b8776d87"
 
 
-def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
+def test_label_fiber_array(length=LENGTH) -> Component:
     c = gf.components.straight(length=LENGTH)
+    cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
 
@@ -33,9 +32,11 @@ def test_label_fiber_array(length=LENGTH, cell_name=CELL_NAME) -> Component:
     return c
 
 
-def test_label_fiber_single_loopback(length=LENGTH, cell_name=CELL_NAME) -> Component:
+def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     """Test that adds the correct label for measurements."""
     c = gf.components.straight(length=length)
+    cell_name = c.name
+
     assert len(c.labels) == 0, len(c.labels)
     # nlabels = len(c.labels)
 

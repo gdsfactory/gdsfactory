@@ -28,7 +28,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ae46bf3c
-  grating_coupler_rectang_0b571e8d:
+  grating_coupler_rectang_943e7524:
     changed: {}
     default:
       gaps:
@@ -111,7 +111,7 @@ cells:
     function_name: grating_coupler_rectangular_arbitrary
     info_version: 1
     module: gdsfactory.components.grating_coupler_rectangular_arbitrary
-    name: grating_coupler_rectang_0b571e8d
+    name: grating_coupler_rectang_943e7524
     polarization: te
     wavelength: 1.55
   rectangle_14fb5f60:
@@ -263,7 +263,7 @@ info:
   function_name: grating_coupler_rectangular_arbitrary
   info_version: 1
   module: gdsfactory.components.grating_coupler_rectangular_arbitrary
-  name: grating_coupler_rectang_0b571e8d
+  name: grating_coupler_rectang_943e7524
   polarization: te
   wavelength: 1.55
 ports:
