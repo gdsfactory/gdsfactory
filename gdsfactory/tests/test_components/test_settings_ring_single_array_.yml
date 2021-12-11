@@ -1,5 +1,5 @@
 cells:
-  bend_euler_1830e956:
+  bend_euler_4725f0ef:
     changed:
       cross_section:
         function: cross_section
@@ -28,10 +28,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_1830e956
+    name: bend_euler_4725f0ef
     radius: 10
     radius_min: 7.061
-  bend_euler_ee30d2ea:
+  bend_euler_a519ff2d:
     changed:
       cross_section:
         function: cross_section
@@ -60,46 +60,10 @@ cells:
     info_version: 1
     length: 8.318
     module: gdsfactory.components.bend_euler
-    name: bend_euler_ee30d2ea
+    name: bend_euler_a519ff2d
     radius: 5
     radius_min: 3.53
-  coupler_ring_4d6b2d88:
-    changed:
-      bend:
-        function: bend_euler
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 20
-      radius: 10
-    default:
-      bend: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend:
-        function: bend_euler
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 20
-      radius: 10
-    function_name: coupler_ring
-    info_version: 1
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring_4d6b2d88
-  coupler_ring_d16af5bb:
+  coupler_ring_ca9f110c:
     changed:
       bend:
         function: bend_euler
@@ -134,42 +98,44 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_d16af5bb
-  ring_single_4fecd753:
+    name: coupler_ring_ca9f110c
+  coupler_ring_e9939844:
     changed:
-      length_x: 10
-      radius: 5
-    default:
       bend:
         function: bend_euler
-      coupler_ring:
-        function: coupler_ring
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 20
+      radius: 10
+    default:
+      bend: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
       length_x: 4
-      length_y: 0.6
-      radius: 10
-      straight:
-        function: straight
+      radius: 5
     full:
       bend:
         function: bend_euler
-      coupler_ring:
-        function: coupler_ring
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
       cross_section:
         function: cross_section
       gap: 0.2
-      length_x: 10
-      length_y: 0.6
-      radius: 5
-      straight:
-        function: straight
-    function_name: ring_single
+      length_x: 20
+      radius: 10
+    function_name: coupler_ring
     info_version: 1
-    module: gdsfactory.components.ring_single
-    name: ring_single_4fecd753
-  ring_single_a52def4e:
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_e9939844
+  ring_single_245fa0a7:
     changed:
       length_x: 20
       radius: 10
@@ -202,8 +168,42 @@ cells:
     function_name: ring_single
     info_version: 1
     module: gdsfactory.components.ring_single
-    name: ring_single_a52def4e
-  ring_single_array_c2a018b6:
+    name: ring_single_245fa0a7
+  ring_single_a371eccc:
+    changed:
+      length_x: 10
+      radius: 5
+    default:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 4
+      length_y: 0.6
+      radius: 10
+      straight:
+        function: straight
+    full:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 10
+      length_y: 0.6
+      radius: 5
+      straight:
+        function: straight
+    function_name: ring_single
+    info_version: 1
+    module: gdsfactory.components.ring_single
+    name: ring_single_a371eccc
+  ring_single_array_d41d8cd9:
     changed: {}
     default:
       list_of_dicts:
@@ -230,8 +230,8 @@ cells:
     function_name: ring_single_array
     info_version: 1
     module: gdsfactory.components.ring_single_array
-    name: ring_single_array_c2a018b6
-  straight_1336a012:
+    name: ring_single_array_d41d8cd9
+  straight_417ceb80:
     changed:
       cross_section:
         function: cross_section
@@ -252,30 +252,9 @@ cells:
     info_version: 1
     length: 0.6
     module: gdsfactory.components.straight
-    name: straight_1336a012
+    name: straight_417ceb80
     width: 0.5
-  straight_49e58ff8:
-    changed:
-      length: 5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.straight
-    name: straight_49e58ff8
-    width: 0.5
-  straight_802458d9:
+  straight_457f2252:
     changed:
       cross_section:
         function: cross_section
@@ -296,9 +275,9 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_802458d9
+    name: straight_457f2252
     width: 0.5
-  straight_8ce16504:
+  straight_6c1c731d:
     changed:
       cross_section:
         function: cross_section
@@ -319,7 +298,28 @@ cells:
     info_version: 1
     length: 20
     module: gdsfactory.components.straight
-    name: straight_8ce16504
+    name: straight_6c1c731d
+    width: 0.5
+  straight_b3dac65b:
+    changed:
+      length: 5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.straight
+    name: straight_b3dac65b
     width: 0.5
 info:
   changed: {}
@@ -348,7 +348,7 @@ info:
   function_name: ring_single_array
   info_version: 1
   module: gdsfactory.components.ring_single_array
-  name: ring_single_array_c2a018b6
+  name: ring_single_array_d41d8cd9
 ports:
   o1:
     layer:

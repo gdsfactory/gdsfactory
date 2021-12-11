@@ -1,61 +1,5 @@
 cells:
-  compass_215fba3b:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_215fba3b
-  compass_39889ce5:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_39889ce5
-  compass_962bbc5d:
+  compass_164fc476:
     changed:
       layer:
       - 47
@@ -82,8 +26,64 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_962bbc5d
-  contact_8334bb4b:
+    name: compass_164fc476
+  compass_280a2d8b:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_280a2d8b
+  compass_8e661824:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_8e661824
+  contact_46068602:
     changed:
       layers:
       - - 47
@@ -152,7 +152,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_8334bb4b
+    name: contact_46068602
     size:
     - 11
     - 11
@@ -225,7 +225,7 @@ info:
   - 49
   - 0
   module: gdsfactory.components.contact
-  name: contact_8334bb4b
+  name: contact_46068602
   size:
   - 11
   - 11

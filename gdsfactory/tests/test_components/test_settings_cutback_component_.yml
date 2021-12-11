@@ -1,5 +1,5 @@
 cells:
-  bend_euler_2c7db65b:
+  bend_euler_3cfca9b9:
     changed:
       angle: 180
       radius: 5
@@ -27,35 +27,35 @@ cells:
     info_version: 1
     length: 21.409
     module: gdsfactory.components.bend_euler
-    name: bend_euler_2c7db65b
+    name: bend_euler_3cfca9b9
     radius: 5
     radius_min: 4.543
-  component_sequence_58a7da68:
+  component_sequence_4582aac4:
     changed:
       sequence: ABABABABDABABABABCABABABABDABABABABCABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
       symbol_to_component:
         '-':
-        - straight_a9536229
+        - straight_5b6c3269
         - o1
         - o2
         A:
-        - taper_0p5_to_3_l36_252c84a9
+        - taper_0p5_to_3_l36_d41d8cd9
         - o1
         - o2
         B:
-        - taper_0p5_to_3_l36_252c84a9
+        - taper_0p5_to_3_l36_d41d8cd9
         - o2
         - o1
         C:
-        - bend_euler_2c7db65b
+        - bend_euler_3cfca9b9
         - o2
         - o1
         D:
-        - bend_euler_2c7db65b
+        - bend_euler_3cfca9b9
         - o1
         - o2
         _:
-        - straight_a9536229
+        - straight_5b6c3269
         - o2
         - o1
     default:
@@ -71,34 +71,34 @@ cells:
       start_orientation: 0
       symbol_to_component:
         '-':
-        - straight_a9536229
+        - straight_5b6c3269
         - o1
         - o2
         A:
-        - taper_0p5_to_3_l36_252c84a9
+        - taper_0p5_to_3_l36_d41d8cd9
         - o1
         - o2
         B:
-        - taper_0p5_to_3_l36_252c84a9
+        - taper_0p5_to_3_l36_d41d8cd9
         - o2
         - o1
         C:
-        - bend_euler_2c7db65b
+        - bend_euler_3cfca9b9
         - o2
         - o1
         D:
-        - bend_euler_2c7db65b
+        - bend_euler_3cfca9b9
         - o1
         - o2
         _:
-        - straight_a9536229
+        - straight_5b6c3269
         - o2
         - o1
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_58a7da68
-  straight_a9536229:
+    name: component_sequence_4582aac4
+  straight_5b6c3269:
     changed:
       length: 10
     default:
@@ -117,17 +117,17 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_a9536229
+    name: straight_5b6c3269
     width: 0.5
-  taper_0p5_to_3_l36_252c84a9:
+  taper_0p5_to_3_l36_d41d8cd9:
     changed: {}
     default: {}
     full: {}
     function_name: taper_0p5_to_3_l36
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_252c84a9
-  taper_0p5_to_3_l36_252c_a339c474:
+    name: taper_0p5_to_3_l36_d41d8cd9
+  taper_0p5_to_3_l36_d41d_5d83367e:
     changed: {}
     child:
       changed: {}
@@ -136,7 +136,7 @@ cells:
       function_name: taper_0p5_to_3_l36
       info_version: 1
       module: gdsfactory.components.taper_from_csv
-      name: taper_0p5_to_3_l36_252c84a9
+      name: taper_0p5_to_3_l36_d41d8cd9
     components: 88
     default:
       bend180:
@@ -171,7 +171,7 @@ cells:
     function_name: cutback_component
     info_version: 1
     module: gdsfactory.components.cutback_component
-    name: taper_0p5_to_3_l36_252c_a339c474
+    name: taper_0p5_to_3_l36_d41d_5d83367e
 info:
   changed: {}
   child:
@@ -181,7 +181,7 @@ info:
     function_name: taper_0p5_to_3_l36
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_252c84a9
+    name: taper_0p5_to_3_l36_d41d8cd9
   components: 88
   default:
     bend180:
@@ -216,7 +216,7 @@ info:
   function_name: cutback_component
   info_version: 1
   module: gdsfactory.components.cutback_component
-  name: taper_0p5_to_3_l36_252c_a339c474
+  name: taper_0p5_to_3_l36_d41d_5d83367e
 ports:
   o1:
     layer:

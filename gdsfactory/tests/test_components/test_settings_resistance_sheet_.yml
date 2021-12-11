@@ -1,61 +1,5 @@
 cells:
-  compass_21d6142a:
-    changed:
-      layer:
-      - 24
-      - 0
-      size:
-      - 80
-      - 80
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 24
-      - 0
-      port_type: electrical
-      size:
-      - 80
-      - 80
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_21d6142a
-  compass_4d28d448:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 80
-      - 80
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_type: electrical
-      size:
-      - 80
-      - 80
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_4d28d448
-  compass_a3e02a7f:
+  compass_09edc7bd:
     changed:
       layer:
       - 3
@@ -82,36 +26,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a3e02a7f
-  compass_c351066c:
-    changed:
-      layer:
-      - 24
-      - 0
-      size:
-      - 20.2
-      - 10.2
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 24
-      - 0
-      port_type: electrical
-      size:
-      - 20.2
-      - 10.2
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_c351066c
-  compass_ec7284dc:
+    name: compass_09edc7bd
+  compass_5402b302:
     changed:
       layer:
       - 3
@@ -138,8 +54,92 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ec7284dc
-  contact_bed3a60c:
+    name: compass_5402b302
+  compass_c15b4e69:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 80
+      - 80
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 80
+      - 80
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_c15b4e69
+  compass_c305bcfa:
+    changed:
+      layer:
+      - 24
+      - 0
+      size:
+      - 80
+      - 80
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 24
+      - 0
+      port_type: electrical
+      size:
+      - 80
+      - 80
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_c305bcfa
+  compass_ef81f079:
+    changed:
+      layer:
+      - 24
+      - 0
+      size:
+      - 20.2
+      - 10.2
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 24
+      - 0
+      port_type: electrical
+      size:
+      - 20.2
+      - 10.2
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_ef81f079
+  contact_3a2b60f1:
     changed:
       layers:
       - - 3
@@ -205,11 +205,11 @@ cells:
     - 41
     - 0
     module: gdsfactory.components.contact
-    name: contact_bed3a60c
+    name: contact_3a2b60f1
     size:
     - 80
     - 80
-  resistance_sheet_ef53a4a4:
+  resistance_sheet_d41d8cd9:
     changed: {}
     default:
       layer_offsets:
@@ -276,7 +276,7 @@ cells:
     function_name: resistance_sheet
     info_version: 1
     module: gdsfactory.components.resistance_sheet
-    name: resistance_sheet_ef53a4a4
+    name: resistance_sheet_d41d8cd9
     resistance: null
 info:
   changed: {}
@@ -345,7 +345,7 @@ info:
   function_name: resistance_sheet
   info_version: 1
   module: gdsfactory.components.resistance_sheet
-  name: resistance_sheet_ef53a4a4
+  name: resistance_sheet_d41d8cd9
   resistance: null
 ports:
   pad1:

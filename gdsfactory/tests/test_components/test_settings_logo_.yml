@@ -1,5 +1,5 @@
 cells:
-  logo_85f35823:
+  logo_d41d8cd9:
     changed: {}
     default:
       text: GDSFACTORY
@@ -8,256 +8,8 @@ cells:
     function_name: logo
     info_version: 1
     module: gdsfactory.components.logo
-    name: logo_85f35823
-  text_074f000f:
-    changed:
-      layer:
-      - 8
-      - 0
-      size: 10
-      text: O
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 8
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: O
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_074f000f
-  text_1cce2a77:
-    changed:
-      layer:
-      - 3
-      - 0
-      size: 10
-      text: S
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 3
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: S
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_1cce2a77
-  text_4093e345:
-    changed:
-      layer:
-      - 6
-      - 0
-      size: 10
-      text: C
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 6
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: C
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_4093e345
-  text_4433bcde:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 10
-      text: G
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: G
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_4433bcde
-  text_77644bb6:
-    changed:
-      layer:
-      - 5
-      - 0
-      size: 10
-      text: A
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 5
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: A
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_77644bb6
-  text_9f5bad96:
-    changed:
-      layer:
-      - 10
-      - 0
-      size: 10
-      text: Y
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 10
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: Y
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_9f5bad96
-  text_ae21e076:
-    changed:
-      layer:
-      - 9
-      - 0
-      size: 10
-      text: R
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 9
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: R
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_ae21e076
-  text_c42217fa:
-    changed:
-      layer:
-      - 2
-      - 0
-      size: 10
-      text: D
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 2
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: D
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_c42217fa
-  text_d2623161:
+    name: logo_d41d8cd9
+  text_0f9ea51c:
     changed:
       layer:
       - 4
@@ -287,8 +39,194 @@ cells:
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_d2623161
-  text_ddab09c2:
+    name: text_0f9ea51c
+  text_19d0c9ec:
+    changed:
+      layer:
+      - 9
+      - 0
+      size: 10
+      text: R
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 9
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: R
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_19d0c9ec
+  text_3c548262:
+    changed:
+      layer:
+      - 10
+      - 0
+      size: 10
+      text: Y
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 10
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: Y
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_3c548262
+  text_6619dbe6:
+    changed:
+      layer:
+      - 6
+      - 0
+      size: 10
+      text: C
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 6
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: C
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_6619dbe6
+  text_972f5232:
+    changed:
+      layer:
+      - 5
+      - 0
+      size: 10
+      text: A
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 5
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: A
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_972f5232
+  text_9c978283:
+    changed:
+      layer:
+      - 2
+      - 0
+      size: 10
+      text: D
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 2
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: D
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_9c978283
+  text_c5bdb23c:
+    changed:
+      layer:
+      - 8
+      - 0
+      size: 10
+      text: O
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 8
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: O
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_c5bdb23c
+  text_eaa6de8d:
     changed:
       layer:
       - 7
@@ -318,7 +256,69 @@ cells:
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_ddab09c2
+    name: text_eaa6de8d
+  text_ecd14e34:
+    changed:
+      layer:
+      - 3
+      - 0
+      size: 10
+      text: S
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 3
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: S
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_ecd14e34
+  text_f8200b73:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 10
+      text: G
+    default:
+      justify: left
+      layer:
+      - 66
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: G
+    function_name: text
+    info_version: 1
+    module: gdsfactory.components.text
+    name: text_f8200b73
 info:
   changed: {}
   default:
@@ -328,6 +328,6 @@ info:
   function_name: logo
   info_version: 1
   module: gdsfactory.components.logo
-  name: logo_85f35823
+  name: logo_d41d8cd9
 ports: {}
 version: 1

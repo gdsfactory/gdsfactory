@@ -16,11 +16,11 @@ Maybe:
 - xdoctest
 - mypy passing
 - pass force-regen flag from pytest
+- cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
 ## 3.8.3
 
 - replace in contact_yspacing by heater_gap in straight_heater_doped
-- cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
 ## 3.8.2
 

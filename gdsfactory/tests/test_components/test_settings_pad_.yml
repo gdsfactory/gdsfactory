@@ -1,5 +1,5 @@
 cells:
-  compass_12d5a699:
+  compass_a0b38c11:
     changed:
       layer:
       - 49
@@ -26,8 +26,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_12d5a699
-  pad_bf0e2f24:
+    name: compass_a0b38c11
+  pad_d41d8cd9:
     changed: {}
     default:
       cladding_offsets: null
@@ -53,7 +53,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad_bf0e2f24
+    name: pad_d41d8cd9
     size:
     - 100
     - 100
@@ -83,7 +83,7 @@ info:
   - 49
   - 0
   module: gdsfactory.components.pad
-  name: pad_bf0e2f24
+  name: pad_d41d8cd9
   size:
   - 100
   - 100

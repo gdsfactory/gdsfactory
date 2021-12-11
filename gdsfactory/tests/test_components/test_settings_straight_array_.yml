@@ -1,5 +1,21 @@
 cells:
-  straight_3e927ea7:
+  straight_array_d41d8cd9:
+    changed: {}
+    default:
+      n: 4
+      spacing: 4
+      straigth:
+        function: straight
+    full:
+      n: 4
+      spacing: 4
+      straigth:
+        function: straight
+    function_name: straight_array
+    info_version: 1
+    module: gdsfactory.components.straight_array
+    name: straight_array_d41d8cd9
+  straight_d41d8cd9:
     changed: {}
     default:
       cross_section:
@@ -17,24 +33,8 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_3e927ea7
+    name: straight_d41d8cd9
     width: 0.5
-  straight_array_7761d902:
-    changed: {}
-    default:
-      n: 4
-      spacing: 4
-      straigth:
-        function: straight
-    full:
-      n: 4
-      spacing: 4
-      straigth:
-        function: straight
-    function_name: straight_array
-    info_version: 1
-    module: gdsfactory.components.straight_array
-    name: straight_array_7761d902
 info:
   changed: {}
   default:
@@ -50,7 +50,7 @@ info:
   function_name: straight_array
   info_version: 1
   module: gdsfactory.components.straight_array
-  name: straight_array_7761d902
+  name: straight_array_d41d8cd9
 ports:
   o1:
     layer:

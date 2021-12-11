@@ -1,33 +1,5 @@
 cells:
-  compass_215fba3b:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_215fba3b
-  compass_39889ce5:
+  compass_280a2d8b:
     changed:
       layer:
       - 45
@@ -54,11 +26,11 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_39889ce5
-  compass_4b1cabad:
+    name: compass_280a2d8b
+  compass_8e661824:
     changed:
       layer:
-      - 41
+      - 49
       - 0
       size:
       - 11
@@ -73,7 +45,7 @@ cells:
       - 2
     full:
       layer:
-      - 41
+      - 49
       - 0
       port_type: electrical
       size:
@@ -82,8 +54,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_4b1cabad
-  compass_8a2fa6fa:
+    name: compass_8e661824
+  compass_e24a4316:
     changed:
       layer:
       - 3
@@ -110,8 +82,36 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_8a2fa6fa
-  contact_6d8db959:
+    name: compass_e24a4316
+  compass_ef690c07:
+    changed:
+      layer:
+      - 41
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_ef690c07
+  contact_339a6fb6:
     changed:
       layers:
       - - 3
@@ -192,7 +192,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_6d8db959
+    name: contact_339a6fb6
     size:
     - 11
     - 11
@@ -277,7 +277,7 @@ info:
   - 49
   - 0
   module: gdsfactory.components.contact
-  name: contact_6d8db959
+  name: contact_339a6fb6
   size:
   - 11
   - 11

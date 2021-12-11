@@ -1,5 +1,5 @@
 cells:
-  bend_euler_c70532d9:
+  bend_euler_e146b96b:
     changed:
       angle: 90
       cross_section:
@@ -32,10 +32,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_c70532d9
+    name: bend_euler_e146b96b
     radius: 10
     radius_min: 7.061
-  bend_straight_bend_a14a9f64:
+  bend_straight_bend_d41d8cd9:
     changed: {}
     default:
       angle: 90
@@ -60,8 +60,8 @@ cells:
     function_name: bend_straight_bend
     info_version: 1
     module: gdsfactory.components.bend_euler
-    name: bend_straight_bend_a14a9f64
-  straight_802458d9:
+    name: bend_straight_bend_d41d8cd9
+  straight_457f2252:
     changed:
       cross_section:
         function: cross_section
@@ -82,7 +82,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_802458d9
+    name: straight_457f2252
     width: 0.5
 info:
   changed: {}
@@ -109,7 +109,7 @@ info:
   function_name: bend_straight_bend
   info_version: 1
   module: gdsfactory.components.bend_euler
-  name: bend_straight_bend_a14a9f64
+  name: bend_straight_bend_d41d8cd9
 ports:
   o1:
     layer:

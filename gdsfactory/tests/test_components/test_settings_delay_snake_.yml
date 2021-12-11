@@ -1,5 +1,5 @@
 cells:
-  bend_euler_72c26a3f:
+  bend_euler_a96febb9:
     changed:
       width: 0.5
     default:
@@ -26,10 +26,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_72c26a3f
+    name: bend_euler_a96febb9
     radius: 10
     radius_min: 7.061
-  delay_snake_72cd5f00:
+  delay_snake_d41d8cd9:
     changed: {}
     default:
       L0: 5
@@ -60,8 +60,8 @@ cells:
     function_name: delay_snake
     info_version: 1
     module: gdsfactory.components.delay_snake
-    name: delay_snake_72cd5f00
-  straight_24fb037f:
+    name: delay_snake_d41d8cd9
+  straight_0bb8b569:
     changed:
       cross_section:
         function: cross_section
@@ -84,9 +84,9 @@ cells:
     info_version: 1
     length: 293.394
     module: gdsfactory.components.straight
-    name: straight_24fb037f
+    name: straight_0bb8b569
     width: 0.5
-  straight_8d46e5f9:
+  straight_4cf66f33:
     changed:
       cross_section:
         function: cross_section
@@ -109,9 +109,9 @@ cells:
     info_version: 1
     length: 298.394
     module: gdsfactory.components.straight
-    name: straight_8d46e5f9
+    name: straight_4cf66f33
     width: 0.5
-  straight_d1762157:
+  straight_5617416a:
     changed:
       cross_section:
         function: cross_section
@@ -134,9 +134,9 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_d1762157
+    name: straight_5617416a
     width: 0.5
-  straight_e7a16827:
+  straight_7b4f04d9:
     changed:
       cross_section:
         function: cross_section
@@ -159,7 +159,7 @@ cells:
     info_version: 1
     length: 288.394
     module: gdsfactory.components.straight
-    name: straight_e7a16827
+    name: straight_7b4f04d9
     width: 0.5
 info:
   changed: {}
@@ -192,7 +192,7 @@ info:
   function_name: delay_snake
   info_version: 1
   module: gdsfactory.components.delay_snake
-  name: delay_snake_72cd5f00
+  name: delay_snake_d41d8cd9
 ports:
   o1:
     layer:

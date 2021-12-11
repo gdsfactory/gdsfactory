@@ -1,5 +1,5 @@
 cells:
-  array_5a93479c:
+  array_d41d8cd9:
     changed: {}
     default:
       columns: 6
@@ -20,7 +20,7 @@ cells:
     function_name: array
     info_version: 1
     module: gdsfactory.components.array
-    name: array_5a93479c
+    name: array_d41d8cd9
 info:
   changed: {}
   default:
@@ -42,7 +42,7 @@ info:
   function_name: array
   info_version: 1
   module: gdsfactory.components.array
-  name: array_5a93479c
+  name: array_d41d8cd9
 ports:
   o1_1_1:
     layer:

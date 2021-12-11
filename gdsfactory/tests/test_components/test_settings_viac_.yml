@@ -1,5 +1,5 @@
 cells:
-  via_12a52909:
+  via_3db94f98:
     changed:
       layer:
       - 40
@@ -34,7 +34,7 @@ cells:
     function_name: via
     info_version: 1
     module: gdsfactory.components.via
-    name: via_12a52909
+    name: via_3db94f98
     size:
     - 0.7
     - 0.7
@@ -76,7 +76,7 @@ info:
   function_name: via
   info_version: 1
   module: gdsfactory.components.via
-  name: via_12a52909
+  name: via_3db94f98
   size:
   - 0.7
   - 0.7
