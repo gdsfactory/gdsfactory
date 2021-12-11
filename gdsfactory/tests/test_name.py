@@ -56,6 +56,24 @@ def test_float_point_errors():
     assert c1.name == c2.name, f"{c1.name} does not match {c2.name}"
 
 
+def test_name_different_signatures():
+    c1 = gf.c.compass()
+
+    @gf.cell
+    def compass(layer=(2, 0)):
+        return gf.c.compass(layer=layer)
+
+    c2 = compass()
+    assert c1.name != c2.name, f"{c1.name} should differ from {c2.name}"
+
+
 if __name__ == "__main__":
-    test_name_partial_functions()
-    test_name_int_float()
+    # test_name_partial_functions()
+    # test_name_int_float()
+    test_name_different_signatures()
+
+    # c1 = gf.c.compass()
+    # @gf.cell
+    # def compass(layer=(2, 0)):
+    #     return gf.c.compass(layer=layer)
+    # c2 = compass()

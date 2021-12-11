@@ -84,20 +84,30 @@ def cell_without_validator(func):
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(**kwargs)
-        args_as_kwargs_string_list = [
-            f"{key}={clean_value(args_as_kwargs[key])}"
-            for key in sorted(args_as_kwargs.keys())
-        ]
+        default = {
+            p.name: p.default
+            for p in sig.parameters.values()
+            if not p.default == inspect._empty
+        }
+        full = default.copy()
+        full.update(**args_as_kwargs)
+        changed = args_as_kwargs.copy()
 
         # for key in sorted(args_as_kwargs.keys()):
         #     print(f"{key}={clean_value(args_as_kwargs[key])}")
 
-        arguments = "_".join(args_as_kwargs_string_list)
+        # signature_string_list = [
+        #     f"{key}={clean_value(args_as_kwargs[key])}"
+        #     for key in sorted(args_as_kwargs.keys())
+        # ]
+
+        signature_string_list = [
+            f"{key}={clean_value(full[key])}" for key in sorted(full.keys())
+        ]
+        arguments = "_".join(signature_string_list)
         arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
 
-        name_signature = (
-            clean_name(f"{prefix}_{arguments_hash}") if arguments else prefix
-        )
+        name_signature = clean_name(f"{prefix}_{arguments_hash}")
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
         name = get_name_short(name, max_name_length=max_name_length)
@@ -149,15 +159,6 @@ def cell_without_validator(func):
             component.info.module = func.__module__
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
-
-            default = {
-                p.name: p.default
-                for p in sig.parameters.values()
-                if not p.default == inspect._empty
-            }
-            full = default.copy()
-            full.update(**args_as_kwargs)
-            changed = args_as_kwargs.copy()
 
             clean_dict(full)
             clean_dict(default)
@@ -278,8 +279,9 @@ def straight_with_pins(**kwargs):
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.Component()
-    c = straight_with_pins(decorator=gf.routing.add_fiber_single)
+    c = gf.c.straight()
+    # c = gf.Component()
+    # c = straight_with_pins(decorator=gf.routing.add_fiber_single)
     # c = straight_with_pins()
     c.show()
 
