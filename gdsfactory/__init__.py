@@ -68,7 +68,7 @@ from gdsfactory.add_padding import (
 from gdsfactory.add_pins import add_pins, add_pins_to_references
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
-from gdsfactory.grid import grid
+from gdsfactory.grid import grid, grid_with_text
 
 
 c = components
@@ -105,6 +105,7 @@ __all__ = [
     "functions",
     "get_padding_points",
     "grid",
+    "grid_with_text",
     "import_gds",
     "klive",
     "layers",

@@ -8,8 +8,9 @@ from phidl.device_layout import Group
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.difftest import difftest
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, Float2
 
 
 @cell
@@ -116,6 +117,48 @@ def grid(
     return D
 
 
+@cell
+def grid_with_text(
+    text_prefix: str = "",
+    offset: Float2 = (0, 0),
+    text: ComponentFactory = text_rectangular,
+    **kwargs,
+) -> Component:
+    """Returns Grid with text labels
+
+    Args:
+        text_prefix: Optional prefix
+        offset:
+        text: factory for text
+
+    keyword Args:
+        components: Iterable to be placed onto a grid. (can be 1D or 2D)
+        spacing: between adjacent elements on the grid, can be a tuple for
+          different distances in height and width.
+        separation: If True, guarantees elements are speparated with fixed spacing
+          if False, elements are spaced evenly along a grid.
+        shape: x, y shape of the grid (see np.reshape).
+          If no shape and the list is 1D, if np.reshape were run with (1, -1).
+        align_x: {'x', 'xmin', 'xmax'}
+          to perform the x (column) alignment along
+        align_y: {'y', 'ymin', 'ymax'}
+          to perform the y (row) alignment along
+        edge_x: {'x', 'xmin', 'xmax'}
+          to perform the x (column) distribution (ignored if separation = True)
+        edge_y: {'y', 'ymin', 'ymax'}
+          to perform the y (row) distribution along (ignored if separation = True)
+        rotation: for each reference in degrees
+
+    """
+    c = Component()
+    g = grid(**kwargs)
+    c << g
+    for i, ref in enumerate(g.aliases.values()):
+        t = c << text(f"{text_prefix}{i}")
+        t.move(ref.center + offset)
+    return c
+
+
 def test_grid():
     import gdsfactory as gf
 
@@ -128,6 +171,6 @@ def test_grid():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    components = [gf.components.rectangle(size=(i, i)) for i in range(1, 10)]
-    c = grid(components)
+    components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
+    c = grid_with_text(components, offset=(-30, 40), shape=(1, len(components)))
     c.show()
