@@ -18,6 +18,10 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.6
+
+- add gf.grid_with_text
+
 ## 3.8.5
 
 - fix rectangle_with_slits
