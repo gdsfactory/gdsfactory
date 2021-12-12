@@ -63,8 +63,8 @@ def rectangle_with_slits(
     c.add_ports(r.ports)
     slit = rectangle(size=slit_size, port_type=None, layer=layer_slit or layer)
 
-    columns = np.floor(size[0] / slit_spacing[0])
-    rows = np.floor(size[1] / slit_spacing[1])
+    columns = np.floor((size[0] - 2 * slit_enclosure) / slit_spacing[0])
+    rows = np.floor((size[1] - 2 * slit_enclosure) / slit_spacing[1])
     slits = array(slit, columns=columns, rows=rows, spacing=slit_spacing).ref()
     slits.xmin = slit_enclosure
     slits.ymin = slit_enclosure
@@ -79,6 +79,6 @@ def rectangle_with_slits(
 
 
 if __name__ == "__main__":
-    c = rectangle_with_slits(layer_slit=None)
-    c = rectangle_with_slits(layer_slit=(2, 0))
+    # c = rectangle_with_slits(layer_slit=None)
+    c = rectangle_with_slits(layer_slit=(2, 0), slit_size=(10, 10))
     c.show()
