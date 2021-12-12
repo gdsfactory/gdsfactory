@@ -18,6 +18,11 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.5
+
+- fix rectangle_with_slits
+- rename mzi2x2 as mzi2x2_2x2, so it's clearly different from mzi1x2_2x2
+
 ## 3.8.4
 
 - straight_heater_doped has with_top_contact and with_bot_contact settings to remove some contacts
