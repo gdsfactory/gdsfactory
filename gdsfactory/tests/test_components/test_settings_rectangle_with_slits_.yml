@@ -1,9 +1,9 @@
 cells:
-  array_74da7a6c:
+  array_05d1b8c2:
     changed:
-      columns: 5
+      columns: 4
       component: rectangle_dc798a8d
-      rows: 10
+      rows: 9
       spacing:
       - 20
       - 20
@@ -16,16 +16,16 @@ cells:
       - 150
       - 150
     full:
-      columns: 5
+      columns: 4
       component: rectangle_dc798a8d
-      rows: 10
+      rows: 9
       spacing:
       - 20
       - 20
     function_name: array
     info_version: 1
     module: gdsfactory.components.array
-    name: array_74da7a6c
+    name: array_05d1b8c2
   compass_ad4aadff:
     changed:
       layer:

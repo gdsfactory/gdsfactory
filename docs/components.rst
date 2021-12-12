@@ -1506,17 +1506,17 @@ mzi1x2_2x2
 
 
 
-mzi2x2
+mzi2x2_2x2
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.mzi2x2
+.. autofunction:: gdsfactory.components.mzi2x2_2x2
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.mzi2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2)
+  c = gf.components.mzi2x2_2x2(delta_length=10.0, length_y=2.0, length_x=0.1, with_splitter=True, port_e1_splitter='o3', port_e0_splitter='o4', port_e1_combiner='o3', port_e0_combiner='o4', nbends=2)
   c.plot()
 
 
@@ -2566,7 +2566,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.8.3', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.8.4', text_size=10)
   c.plot()
 
 

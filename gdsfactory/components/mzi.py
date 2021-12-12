@@ -148,7 +148,7 @@ def mzi(
 
 
 mzi1x2 = partial(mzi, splitter=mmi1x2, combiner=mmi1x2)
-mzi2x2 = partial(
+mzi2x2_2x2 = partial(
     mzi,
     splitter=mmi2x2,
     combiner=mmi2x2,
@@ -166,7 +166,7 @@ mzi1x2_2x2 = partial(
 )
 
 mzi_coupler = partial(
-    mzi2x2,
+    mzi2x2_2x2,
     splitter=coupler,
     combiner=coupler,
 )
