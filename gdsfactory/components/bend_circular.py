@@ -37,7 +37,7 @@ def bend_circular(
 
     c.info.length = snap_to_grid(p.length())
     c.info.dy = float(abs(p.points[0][0] - p.points[-1][0]))
-    c.info.radius_min = float(radius)
+    c.info.radius = float(radius)
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

@@ -19,7 +19,9 @@ def write_sparameters_components_lumerical(
         factory: dict of component functions
         run: if False, does not run and prompts you to review each simulation
         session: lumapi.FDTD() Lumerical FDTD session
-        **kwargs: simulation settings
+
+    Keyword Args:
+        simulation settings
     """
     import lumapi
 

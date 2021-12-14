@@ -18,6 +18,12 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.7
+
+- rotate accepts component or factory
+- add plot_imbalance1x2 and plot_loss1x2 for component.simulation.plot
+- rename bend_circular c.info.radius_min = float(radius) to c.info.radius = float(radius)
+
 ## 3.8.6
 
 - add gf.grid_with_text

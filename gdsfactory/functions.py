@@ -4,7 +4,7 @@ from functools import lru_cache
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import Float2, Optional
+from gdsfactory.types import ComponentOrFactory, Float2, Optional
 
 cache = lru_cache(maxsize=None)
 
@@ -17,7 +17,7 @@ def add_port(component: Component, **kwargs) -> Component:
 
 @cell
 def rotate(
-    component: Component,
+    component: ComponentOrFactory,
     angle: int = 90,
 ) -> Component:
     """Returns rotated component inside a new component.
@@ -29,6 +29,7 @@ def rotate(
         component:
         angle: in degrees
     """
+    component = component() if callable(component) else component
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)

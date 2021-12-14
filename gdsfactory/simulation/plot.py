@@ -25,10 +25,12 @@ def plot_sparameters(
     Args:
         component_or_df: Component or Sparameters pandas DataFrame
         logscale: plots 20*log10(results)
-        keys: list of keys to plot
-        dirpath: where to store the simulations
+        keys: list of keys to plot, plots all by default
+        dirpath: where to store/read the simulations
         write_sparameters_function: custom function to write sparameters
-        **sim_settings: simulation settings
+
+    Keyword Args:
+        sim_settings: simulation settings for the write_sparameters_function
 
     """
 
@@ -51,6 +53,30 @@ def plot_sparameters(
     plt.legend()
     plt.xlabel("wavelength (nm)")
     plt.ylabel("Transmission (dB)") if logscale else plt.ylabel("Transmission")
+
+
+def plot_imbalance2x2(df: DataFrame, port1: str = "S13m", port2: str = "S14m") -> None:
+    """Plots imbalance in % for 2x2 coupler"""
+    y1 = df[port1].values
+    y2 = df[port2].values
+    imbalance = y1 / y2
+    plt.plot(df.wavelength_nm, 100 * abs(imbalance))
+    plt.xlabel("wavelength (nm)")
+    plt.ylabel("imbalance (%)")
+    plt.grid()
+
+
+def plot_loss2x2(df: DataFrame, port1: str = "S13m", port2: str = "S14m") -> None:
+    """Plots imbalance in % for 2x2 coupler"""
+    y1 = df[port1].values
+    y2 = df[port2].values
+    plt.plot(df.wavelength_nm, abs(10 * np.log10(y1 ** 2 + y2 ** 2)))
+    plt.xlabel("wavelength")
+    plt.ylabel("excess loss (dB)")
+
+
+plot_loss1x2 = gf.partial(plot_loss2x2, port1="S13m", port2="S12m")
+plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="S13m", port2="S12m")
 
 
 if __name__ == "__main__":
