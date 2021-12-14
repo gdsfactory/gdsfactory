@@ -18,6 +18,15 @@ def C(
         size: length and height of the base
         layer:
 
+    .. code::
+         ______
+        |       o1
+        |   ___
+        |  |
+        |  |___
+        ||<---> size[0]
+        |______ o2
+
     """
     D = Component()
     w = width / 2

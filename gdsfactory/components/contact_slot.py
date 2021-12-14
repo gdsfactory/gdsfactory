@@ -55,6 +55,14 @@ def contact_slot(
 
 
     """
+    if size[0] - 2 * enclosure < 0:
+        raise ValueError(
+            f"Contact length (size[0] = {size[0]}) < 2*enclosure ({2*enclosure}). "
+        )
+    if size[1] - 2 * enclosure < 0:
+        raise ValueError(
+            f"Contact width (size[1] = {size[1]}) < 2*enclosure ({2*enclosure}). "
+        )
 
     layer_port = layer_port or layers[-1]
 
@@ -85,5 +93,5 @@ contact_slot_slab_m1 = gf.partial(contact_slot, layers=(LAYER.M1,), via=viac)
 
 
 if __name__ == "__main__":
-    c = contact_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2)
+    c = contact_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2, size=(1, 1))
     c.show()
