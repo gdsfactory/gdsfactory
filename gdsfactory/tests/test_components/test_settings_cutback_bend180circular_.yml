@@ -20,7 +20,7 @@ cells:
     length: 31.416
     module: gdsfactory.components.bend_circular
     name: bend_circular_8d359e58
-    radius_min: 10
+    radius: 10
   cutback_bend180_f50204c2:
     changed:
       bend180:
