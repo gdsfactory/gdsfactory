@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
-<text>
+ <text>
 from __future__ import print_function
 import pya
 import re
@@ -67,7 +67,11 @@ class MyServer(pya.QTcpServer):
             previous_view = current_view.box() if current_view else None
 
             # Load the new layout
-            window.load_layout(gds_path, 0)
+            if previous_view and "reload" in data and data["reload"]==True:
+                window.reload()
+
+            else:
+                window.load_layout(gds_path, 0)
 
             # Restore the previous position
             view = window.current_view()

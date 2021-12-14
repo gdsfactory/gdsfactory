@@ -7,7 +7,10 @@ from gdsfactory.component import Component
 
 
 def show(
-    component: Union[Component, str, pathlib.Path], clear_cache: bool = True, **kwargs
+    component: Union[Component, str, pathlib.Path],
+    clear_cache: bool = True,
+    reload: bool = False,
+    **kwargs,
 ) -> None:
     """Shows Component in klayout
 
@@ -28,7 +31,7 @@ def show(
 
     elif isinstance(component, Component):
         gdspath = component.write_gds(**kwargs)
-        klive.show(gdspath)
+        klive.show(gdspath, reload=reload)
     else:
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"

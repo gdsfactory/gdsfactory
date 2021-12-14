@@ -10,13 +10,16 @@ from pathlib import Path
 from typing import Union
 
 
-def show(gds_filename: Union[Path, str], keep_position: bool = True) -> None:
+def show(
+    gds_filename: Union[Path, str], keep_position: bool = True, reload: bool = True
+) -> None:
     """Show GDS in klayout."""
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")
     data = {
         "gds": os.path.abspath(gds_filename),
         "keep_position": keep_position,
+        "reload": reload,
     }
     data_string = json.dumps(data)
     try:
