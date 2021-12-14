@@ -545,6 +545,7 @@ def _rename_ports_counter_clockwise(direction_ports, prefix=""):
 
 
 def _rename_ports_clockwise(direction_ports, prefix: str = ""):
+    """Rename ports in the clockwise direction starting from the bottom left (west) corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
 
@@ -559,6 +560,26 @@ def _rename_ports_clockwise(direction_ports, prefix: str = ""):
     # south_ports.sort(key=lambda p: p.y)  #  south first
 
     ports = west_ports + north_ports + east_ports + south_ports
+
+    for i, p in enumerate(ports):
+        p.name = f"{prefix}{i+1}" if prefix else i + 1
+
+
+def _rename_ports_clockwise_top_right(direction_ports, prefix: str = ""):
+    """Rename ports in the clockwise direction starting from the top right corner."""
+    east_ports = direction_ports["E"]
+    east_ports.sort(key=lambda p: -p.y)  # sort north to south
+
+    north_ports = direction_ports["N"]
+    north_ports.sort(key=lambda p: +p.x)  # sort west to east
+
+    west_ports = direction_ports["W"]
+    west_ports.sort(key=lambda p: +p.y)  # sort south to north
+
+    south_ports = direction_ports["S"]
+    south_ports.sort(key=lambda p: -p.x)  # sort east to west
+
+    ports = east_ports + south_ports + west_ports + north_ports
 
     for i, p in enumerate(ports):
         p.name = f"{prefix}{i+1}" if prefix else i + 1
