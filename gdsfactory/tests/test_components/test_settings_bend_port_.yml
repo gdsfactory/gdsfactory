@@ -42,7 +42,7 @@ cells:
     length: 31.416
     module: gdsfactory.components.bend_circular
     name: bend_circular_fe5fb2bc
-    radius_min: 10
+    radius: 10
   compass_164fc476:
     changed:
       layer:

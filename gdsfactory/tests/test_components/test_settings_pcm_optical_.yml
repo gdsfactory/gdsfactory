@@ -31,7 +31,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_3a7273e5
-    radius_min: 10
+    radius: 10
   bend_circular_5627540d:
     changed:
       cross_section:
@@ -64,7 +64,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_5627540d
-    radius_min: 10
+    radius: 10
   bend_circular_9bb5df4d:
     changed:
       cross_section:
@@ -97,7 +97,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_9bb5df4d
-    radius_min: 10
+    radius: 10
   bend_circular_d6565737:
     changed:
       cross_section:
@@ -130,7 +130,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_d6565737
-    radius_min: 10
+    radius: 10
   bend_circular_dea8ebd0:
     changed:
       cross_section:
@@ -163,7 +163,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_dea8ebd0
-    radius_min: 10
+    radius: 10
   bend_circular_ecf39380:
     changed:
       cross_section:
@@ -196,7 +196,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_ecf39380
-    radius_min: 10
+    radius: 10
   cdsem_straight_all_af1777b0:
     changed:
       cross_section:

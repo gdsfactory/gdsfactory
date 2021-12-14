@@ -19,7 +19,7 @@ cells:
     length: 15.708
     module: gdsfactory.components.bend_circular
     name: bend_circular_d41d8cd9
-    radius_min: 10
+    radius: 10
   sample_mirror_simple: {}
   straight_d41d8cd9:
     changed: {}
