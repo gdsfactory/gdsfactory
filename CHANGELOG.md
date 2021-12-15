@@ -18,6 +18,12 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+
+## 3.8.8
+
+- rename pack parameters (offset->text_offset, anchor->text_anchor, prefix->text_prefix)
+- pack and grid can mirror references
+
 ## 3.8.7
 
 - rotate accepts component or factory
