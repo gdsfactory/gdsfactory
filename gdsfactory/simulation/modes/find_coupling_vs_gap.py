@@ -39,27 +39,36 @@ def find_coupling(
     gap: float = 0.2,
     mode_solver: ModeSolverFactory = get_mode_solver_coupler,
     find_modes: Callable = find_modes_function,
+    power_ratio: float = 1.0,
+    wavelength: float = 1.55,
     **kwargs
 ) -> float:
     """
-    Returns coupling
+    Returns the coupling length (um) of the directional coupler
+    to achieve power_ratio
 
     Args:
-        gap:
-        mode_solver:
-        find_modes:
+        gap: in um
+        mode_solver: function to get the mode solver
+        find_modes: function to find the modes
+        power_ratio: p2/p1, where 1 means 100% power transfer
+        wavelength: in um
 
     keyword Args:
-        nmodes:
-        wavelength:
-        parity:
+        nmodes: number of modes
+        parity: for symmetries
     """
-    modes = find_modes(mode_solver=gf.partial(mode_solver, gaps=(gap,)), **kwargs)
+    modes = find_modes(
+        mode_solver=gf.partial(mode_solver, gaps=(gap,)),
+        wavelength=wavelength,
+        **kwargs
+    )
     ne = modes[1].neff
     no = modes[2].neff
 
-    lc = coupling_length(neff1=ne, neff2=no)
-    return lc
+    return coupling_length(
+        neff1=ne, neff2=no, power_ratio=power_ratio, wavelength=wavelength
+    )
 
 
 @pydantic.validate_arguments
