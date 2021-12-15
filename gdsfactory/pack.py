@@ -110,6 +110,9 @@ def pack(
     text_offset: Float2 = (0, 0),
     text_anchor: Anchor = "cc",
     name_prefix: Optional[str] = None,
+    rotation: int = 0,
+    h_mirror: bool = False,
+    v_mirror: bool = False,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
 
@@ -129,6 +132,9 @@ def pack(
         text_offset: relative to component size info anchor. Defaults to center.
         name_prefix: for each packed component (avoids the Unnamed cells warning).
             Note that the suffix contains a uuid so the name will not be deterministic
+        rotation: for each component in degrees
+        h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
+        v_mirror: vertical mirror using x axis (1, y) (0, y)
     """
     i = 0
 
@@ -182,7 +188,8 @@ def pack(
             xcenter = x + w / 2 + spacing / 2
             ycenter = y + h / 2 + spacing / 2
             component = component_list[n]
-            d = packed.add_ref(component)
+            d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
+            packed.add(d)
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = component.settings
             d.center = (xcenter * precision, ycenter * precision)
@@ -260,7 +267,7 @@ if __name__ == "__main__":
     # c.write_gds_with_metadata("mask.gds")
 
     p = pack(
-        [gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)],
+        [gf.components.triangle(x=i) for i in range(1, 10)],
         spacing=20.0,
         max_size=(100, 100),
         text=gf.partial(gf.c.text, justify="center"),
@@ -268,6 +275,7 @@ if __name__ == "__main__":
         name_prefix="demo",
         text_anchor="nc",
         text_offset=(-10, 0),
+        v_mirror=True,
     )
     c = p[0]
     print(c.name)

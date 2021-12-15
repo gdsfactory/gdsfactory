@@ -22,6 +22,7 @@ Maybe:
 ## 3.8.8
 
 - rename pack parameters (offset->text_offset, anchor->text_anchor, prefix->text_prefix)
+- pack and grid can mirror references
 
 ## 3.8.7
 
