@@ -106,9 +106,9 @@ def pack(
     density: float = 1.1,
     precision: float = 1e-2,
     text: Optional[ComponentFactory] = None,
-    prefix: str = "",
-    offset: Float2 = (0, 0),
-    anchor: Anchor = "cc",
+    text_prefix: str = "",
+    text_offset: Float2 = (0, 0),
+    text_anchor: Anchor = "cc",
     name_prefix: Optional[str] = None,
 ) -> List[Component]:
     """Pack a list of components into as few Components as possible.
@@ -123,10 +123,12 @@ def pack(
         sort_by_area: Pre-sorts the shapes by area
         density: Values closer to 1 pack tighter but require more computation
         precision: Desired precision for rounding vertex coordinates.
-        text: function for creating the text
-        prefix: for the text
-        offset: relative to component center
-        anchor: size info (ce cw nc ne nw sc se sw center cc)
+        text: Optional function to add text labels.
+        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
+        text_anchor: size info (ce cw nc ne nw sc se sw center cc). Defaults to center.
+        text_offset: relative to component size info anchor. Defaults to center.
+        name_prefix: for each packed component (avoids the Unnamed cells warning).
+            Note that the suffix contains a uuid so the name will not be deterministic
     """
     i = 0
 
@@ -186,8 +188,8 @@ def pack(
             d.center = (xcenter * precision, ycenter * precision)
 
             if text:
-                label = packed << text(f"{prefix}{i}")
-                label.move((np.array(offset) + getattr(d.size_info, anchor)))
+                label = packed << text(f"{text_prefix}{i}")
+                label.move((np.array(text_offset) + getattr(d.size_info, text_anchor)))
                 i += 1
 
         components_packed_list.append(packed)
@@ -261,9 +263,11 @@ if __name__ == "__main__":
         [gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)],
         spacing=20.0,
         max_size=(100, 100),
-        text=gf.c.text,
-        prefix="R",
-        # name_prefix="demo",
+        text=gf.partial(gf.c.text, justify="center"),
+        text_prefix="R",
+        name_prefix="demo",
+        text_anchor="nc",
+        text_offset=(-10, 0),
     )
     c = p[0]
     print(c.name)
