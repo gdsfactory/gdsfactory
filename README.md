@@ -1,4 +1,4 @@
-# gdsfactory 3.8.7
+# gdsfactory 3.8.8
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -13,20 +13,20 @@
 
 gdsfactory is an [EDA (electronics design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) tool to Layout Integrated Circuits.
 
-It is build on top of [phidl](https://github.com/amccaugh/phidl) [gdspy](https://github.com/heitzmann/gdspy) and klayout to provide you with functions to build your GDSII components, PDKs and masks for different foundries.
+It is build on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and klayout to provide you with functions to build your GDSII components, PDKs and masks for different foundries.
 
 You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
-gdsfactory provides you with:
+gdsfactory provides you with functions that you can use to:
 
-- functions easily adaptable to define components
-- functions to route electrical ports to pads and optical ports grating couplers
-- functions to define components, circuits or masks in python and YAML files
+- define components, circuits and masks in python or YAML
+- add routes between components
+- ensure you can build complex systems by testing settings, ports and GDS geometry
 
 As input, gdsfactory needs you to write python or YAML code to describe your layouts.
 
-As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by the CMOS industry.
-It also can output YAML components settings (that you can use for measurement and data analysis). You can also easily adapt this metadata output files to your needs.
+As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by CMOS foundries.
+It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). You can also easily adapt this metadata output files to your needs.
 
 ![](https://i.imgur.com/XbhWJDz.png)
 
@@ -74,7 +74,7 @@ What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
 
 How can you learn more?
 
-gdsfactory is all written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
+gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
 
 Once you are familiar with python, you can also:
 
@@ -147,7 +147,7 @@ After installing you should be able to `import gdsfactory as gf` from a python s
 
 ## Plugins
 
-We try to keep gdsfactory core with minimum depedencies.
+We try to keep gdsfactory core with minimum dependencies.
 So when you run `pip install gdsfactory` you do not install any plugins by default.
 If you want to install gdsfactory together with all the plugins you can run
 
@@ -166,7 +166,7 @@ Open source FDTD / mode simulator. Requires you to run `conda install -c conda-f
 
 ### tidy3d
 
-For FDTD simulations on the web. It will require you to create an account on [simulation.cloud](simulation.cloud)
+For FDTD simulations on the web. Requires you to create an account on [simulation.cloud](simulation.cloud)
 
 ## Links
 

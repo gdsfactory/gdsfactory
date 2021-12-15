@@ -24,6 +24,8 @@ def grid(
     edge_x: str = "x",
     edge_y: str = "ymax",
     rotation: int = 0,
+    h_mirror: bool = False,
+    v_mirror: bool = False,
 ) -> Component:
     """Returns a component with a 1D or 2D grid of components
 
@@ -45,7 +47,9 @@ def grid(
           to perform the x (column) distribution (ignored if separation = True)
         edge_y: {'y', 'ymin', 'ymax'}
           to perform the y (row) distribution along (ignored if separation = True)
-        rotation: for each reference in degrees
+        rotation: for each component in degrees
+        h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
+        v_mirror: vertical mirror using x axis (1, y) (0, y)
 
     Returns:
         Component containing all the components in a grid.
@@ -91,8 +95,10 @@ def grid(
     for idx, d in np.ndenumerate(device_array):
         if d is not None:
             d = d() if callable(d) else d
-            ref_array[idx] = D << d
-            ref_array[idx].rotate(rotation)
+            ref = d.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
+            D.add(ref)
+            ref_array[idx] = ref
+
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
         D.aliases[idx] = ref_array[idx]
@@ -119,8 +125,9 @@ def grid(
 
 @cell
 def grid_with_text(
+    components: Tuple[ComponentOrFactory, ...],
     text_prefix: str = "",
-    offset: Float2 = (0, 0),
+    text_offset: Float2 = (0, 0),
     text: ComponentFactory = text_rectangular,
     **kwargs,
 ) -> Component:
@@ -128,7 +135,7 @@ def grid_with_text(
 
     Args:
         text_prefix: Optional prefix
-        offset:
+        text_offset:
         text: factory for text
 
     keyword Args:
@@ -151,11 +158,11 @@ def grid_with_text(
 
     """
     c = Component()
-    g = grid(**kwargs)
+    g = grid(components=components, **kwargs)
     c << g
     for i, ref in enumerate(g.aliases.values()):
         t = c << text(f"{text_prefix}{i}")
-        t.move(ref.center + offset)
+        t.move(ref.center + text_offset)
     return c
 
 
@@ -171,6 +178,15 @@ def test_grid():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
-    c = grid_with_text(components, offset=(-30, 40), shape=(1, len(components)))
+    # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
+    # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
+
+    components = [gf.components.triangle(x=i) for i in range(1, 10)]
+    c = grid(
+        components,
+        shape=(1, len(components)),
+        rotation=0,
+        h_mirror=False,
+        v_mirror=True,
+    )
     c.show()

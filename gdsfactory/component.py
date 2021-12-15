@@ -460,7 +460,9 @@ class ComponentReference(DeviceReference):
     def reflect_h(
         self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
     ) -> None:
-        """Perform horizontal mirror using x0 or port as axis (default, x0=0)."""
+        """Perform horizontal mirror using x0 or port as axis (default, x0=0).
+        This is the default for mirror along X=x0 axis
+        """
         if port_name is None and x0 is None:
             x0 = -self.x
 
@@ -472,7 +474,7 @@ class ComponentReference(DeviceReference):
     def reflect_v(
         self, port_name: Optional[str] = None, y0: Optional[Number] = None
     ) -> None:
-        """Perform vertical mirror using y0 as axis (default, y0=0)"""
+        """Perform vertical mirror using y0 as axis (default, y0=0)."""
         if port_name is None and y0 is None:
             y0 = 0.0
 
@@ -829,8 +831,8 @@ class Component(Device):
         Args:
             position:
             port_id: name of the port
-            rotation:
-            h_mirror: horizontal mirror using y axis (x, 1) (1, 0)
+            rotation: in degrees
+            h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
             v_mirror: vertical mirror using x axis (1, y) (0, y)
         """
         _ref = ComponentReference(self)

@@ -6,7 +6,7 @@ jsondiff
 klayout==0.27.5
 loguru
 lytest==0.0.20
-matplotlib==3.5.0
+matplotlib==3.5.1
 networkx==2.6.3
 numpy
 omegaconf==2.1.1
@@ -23,6 +23,6 @@ scikit-image
 scipy
 Shapely==1.8.0
 toolz==0.11.2
-trimesh==3.9.35
+trimesh==3.9.36
 typing_extensions
 xmltodict==0.12.0

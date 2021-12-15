@@ -17,9 +17,15 @@ def contact(
     vias: Optional[Tuple[Optional[ComponentOrFactory], ...]] = (via1, via2),
     layer_port: Optional[Layer] = None,
 ) -> Component:
-    """Rectangular contact.
-    You can use contact to connect different metal layers.
+    """Rectangular via array stack
+
+    You can use it to connect different metal layers or metals to silicon.
     You can use the naming convention contact_layerSource_layerDestination
+
+    Via array / stack name is more common for contacting metal while
+    contact is used for contacting silicon
+
+    http://www.vlsi-expert.com/2017/12/vias.html
 
     Args:
         size: of the layers
