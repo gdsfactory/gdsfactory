@@ -1,5 +1,5 @@
 """All functions return a component so they are easy to pipe and compose."""
-from functools import lru_cache
+from functools import lru_cache, partial
 
 import numpy as np
 
@@ -76,6 +76,11 @@ def rotate(
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new
+
+
+rotate90 = partial(rotate, angle=90)
+rotate90n = partial(rotate, angle=-90)
+rotate180 = partial(rotate, angle=180)
 
 
 @cell
