@@ -21,6 +21,7 @@ Maybe:
 ## 3.8.9
 
 - pack and grid accepts tuples of text labels (text_offsets, text_anchors), in case we want multiple text labels per component
+- add `gf.functions.add_text` to create a new component with a text label
 
 ## 3.8.8
 
