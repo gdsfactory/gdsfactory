@@ -18,6 +18,11 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.9
+
+- pack and grid accepts tuples of text labels (text_offsets, text_anchors), in case we want multiple text labels per component
+- add `gf.functions.add_text` to create a new component with a text label
+- add rotate90, rotate90n and rotate180 to functions
 
 ## 3.8.8
 

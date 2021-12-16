@@ -1,10 +1,19 @@
 """All functions return a component so they are easy to pipe and compose."""
-from functools import lru_cache
+from functools import lru_cache, partial
+
+import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import ComponentOrFactory, Float2, Optional
+from gdsfactory.types import (
+    Anchor,
+    ComponentFactory,
+    ComponentOrFactory,
+    Float2,
+    Optional,
+)
 
 cache = lru_cache(maxsize=None)
 
@@ -13,6 +22,36 @@ def add_port(component: Component, **kwargs) -> Component:
     """Returns Component with a new port."""
     component.add_port(**kwargs)
     return component
+
+
+@cell
+def add_text(
+    component: ComponentOrFactory,
+    text: str = "",
+    text_offset: Float2 = (0, 0),
+    text_anchor: Anchor = "cc",
+    text_factory: ComponentFactory = text_rectangular,
+) -> Component:
+    """Returns component inside a new component with text geometry.
+
+    Args:
+        component:
+        text_offset: relative to component size info anchor. Defaults to center.
+        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
+        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
+        text_factory: function to add text labels.
+    """
+    component = component() if callable(component) else component
+    component_new = Component()
+    component_new.component = component
+    ref = component_new.add_ref(component)
+
+    t = component_new << text_factory(text)
+    t.move((np.array(text_offset) + getattr(ref.size_info, text_anchor)))
+
+    component_new.add_ports(ref.ports)
+    component_new.copy_child_info(component)
+    return component_new
 
 
 @cell
@@ -37,6 +76,11 @@ def rotate(
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new
+
+
+rotate90 = partial(rotate, angle=90)
+rotate90n = partial(rotate, angle=-90)
+rotate180 = partial(rotate, angle=180)
 
 
 @cell
@@ -91,12 +135,14 @@ def update_info(component: Component, **kwargs) -> Component:
 
 
 __all__ = (
-    "cache",
     "add_port",
-    "rotate",
+    "add_text",
     "auto_rename_ports",
+    "cache",
+    "mirror",
     "move",
     "move_port_to_zero",
+    "rotate",
     "update_info",
 )
 
@@ -119,6 +165,9 @@ if __name__ == "__main__":
 
     cm2 = move_port_to_zero(cm)
     cm2.show()
+
+    cm3 = add_text(c, "hi")
+    cm3.show()
 
     # cr = rotate(component=c)
     # cr.show()
