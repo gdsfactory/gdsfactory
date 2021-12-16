@@ -18,6 +18,10 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.11
+
+- gf.assert.version supports [semantic versioning](https://python-semanticversion.readthedocs.io/en/latest/)
+
 ## 3.8.10
 
 - get_netlist works even with cells that have have no info.full or info.changed (not properly decorated with cell decorator)

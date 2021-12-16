@@ -1,3 +1,5 @@
+import semantic_version
+
 from gdsfactory.component import Component
 from gdsfactory.config import __version__
 
@@ -25,10 +27,11 @@ def grating_coupler(gc: Component) -> None:
         )
 
 
-def version_equal_or_greater_than(version: str):
-    """Raises error if version  is not high enough"""
+def version(requirement: str):
+    """Raises error if current version does not match requirement."""
 
-    if __version__ < version:
+    s = semantic_version.SimpleSpec(requirement)
+    if not s.match(semantic_version.Version(__version__)):
         raise ValueError(
             f"gf.minimum required version = {version}\n"
             f"not compatible your current installed version {__version__}\n"
@@ -42,4 +45,4 @@ if __name__ == "__main__":
     # equal_or_greater_than("3.0.0")
     # equal_or_greater_than("2.4.9")
     # equal_or_greater_than("2.4.8")
-    version_equal_or_greater_than("2.5.0")
+    version(">=3.8.10")
