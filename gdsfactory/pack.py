@@ -107,8 +107,8 @@ def pack(
     precision: float = 1e-2,
     text: Optional[ComponentFactory] = None,
     text_prefix: str = "",
-    text_offset: Float2 = (0, 0),
-    text_anchor: Anchor = "cc",
+    text_offsets: Tuple[Float2, ...] = ((0, 0),),
+    text_anchors: Tuple[Anchor, ...] = ("cc",),
     name_prefix: Optional[str] = None,
     rotation: int = 0,
     h_mirror: bool = False,
@@ -128,16 +128,14 @@ def pack(
         precision: Desired precision for rounding vertex coordinates.
         text: Optional function to add text labels.
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
-        text_anchor: size info (ce cw nc ne nw sc se sw center cc). Defaults to center.
-        text_offset: relative to component size info anchor. Defaults to center.
+        text_offsets: relative to component size info anchor. Defaults to center.
+        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         name_prefix: for each packed component (avoids the Unnamed cells warning).
             Note that the suffix contains a uuid so the name will not be deterministic
         rotation: for each component in degrees
-        h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
+        h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y)
     """
-    i = 0
-
     if density < 1.01:
         raise ValueError(
             "pack() `density` argument is too small. "
@@ -179,6 +177,7 @@ def pack(
         packed_list.append(packed_rect_dict)
 
     components_packed_list = []
+    index = 0
     for i, rect_dict in enumerate(packed_list):
         name = get_name_short(f"{name_prefix or 'pack'}_{i}")
         packed = Component(name, with_uuid=True)
@@ -195,9 +194,12 @@ def pack(
             d.center = (xcenter * precision, ycenter * precision)
 
             if text:
-                label = packed << text(f"{text_prefix}{i}")
-                label.move((np.array(text_offset) + getattr(d.size_info, text_anchor)))
-                i += 1
+                for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                    label = packed << text(f"{text_prefix}{index}")
+                    label.move(
+                        (np.array(text_offset) + getattr(d.size_info, text_anchor))
+                    )
+                index += 1
 
         components_packed_list.append(packed)
 

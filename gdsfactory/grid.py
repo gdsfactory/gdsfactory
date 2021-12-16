@@ -1,6 +1,4 @@
-"""From phidl
-
-"""
+"""pack a list of components into a grid """
 from typing import Tuple
 
 import numpy as np
@@ -10,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.difftest import difftest
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, Float2
+from gdsfactory.types import Anchor, ComponentFactory, ComponentOrFactory, Float2
 
 
 @cell
@@ -29,24 +27,20 @@ def grid(
 ) -> Component:
     """Returns a component with a 1D or 2D grid of components
 
-    Adapted from phid.geometry
+    Adapted from phidl.geometry
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D)
         spacing: between adjacent elements on the grid, can be a tuple for
-          different distances in height and width.
+            different distances in height and width.
         separation: If True, guarantees elements are speparated with fixed spacing
-          if False, elements are spaced evenly along a grid.
+            if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
-          If no shape and the list is 1D, if np.reshape were run with (1, -1).
-        align_x: {'x', 'xmin', 'xmax'}
-          to perform the x (column) alignment along
-        align_y: {'y', 'ymin', 'ymax'}
-          to perform the y (row) alignment along
-        edge_x: {'x', 'xmin', 'xmax'}
-          to perform the x (column) distribution (ignored if separation = True)
-        edge_y: {'y', 'ymin', 'ymax'}
-          to perform the y (row) distribution along (ignored if separation = True)
+            If no shape and the list is 1D, if np.reshape were run with (1, -1).
+        align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along
+        align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along
+        edge_x: {'x', 'xmin', 'xmax'} for x (column) distribution (ignored if separation = True)
+        edge_y: {'y', 'ymin', 'ymax'} for y (row) distribution along (ignored if separation = True)
         rotation: for each component in degrees
         h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y)
@@ -127,19 +121,21 @@ def grid(
 def grid_with_text(
     components: Tuple[ComponentOrFactory, ...],
     text_prefix: str = "",
-    text_offset: Float2 = (0, 0),
+    text_offsets: Tuple[Float2, ...] = ((0, 0),),
+    text_anchors: Tuple[Anchor, ...] = ("cc",),
     text: ComponentFactory = text_rectangular,
     **kwargs,
 ) -> Component:
     """Returns Grid with text labels
 
     Args:
-        text_prefix: Optional prefix
-        text_offset:
-        text: factory for text
+        components: Iterable to be placed onto a grid. (can be 1D or 2D)
+        text: function to add text labels.
+        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
+        text_offsets: relative to component size info anchor. Defaults to center.
+        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
 
     keyword Args:
-        components: Iterable to be placed onto a grid. (can be 1D or 2D)
         spacing: between adjacent elements on the grid, can be a tuple for
           different distances in height and width.
         separation: If True, guarantees elements are speparated with fixed spacing
@@ -161,8 +157,9 @@ def grid_with_text(
     g = grid(components=components, **kwargs)
     c << g
     for i, ref in enumerate(g.aliases.values()):
-        t = c << text(f"{text_prefix}{i}")
-        t.move(ref.center + text_offset)
+        for text_offset, text_anchor in zip(text_offsets, text_anchors):
+            t = c << text(f"{text_prefix}{i}")
+            t.move((np.array(text_offset) + getattr(ref.size_info, text_anchor)))
     return c
 
 
@@ -181,12 +178,15 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
 
-    components = [gf.components.triangle(x=i) for i in range(1, 10)]
-    c = grid(
-        components,
-        shape=(1, len(components)),
+    c = [gf.components.triangle(x=i) for i in range(1, 10)]
+    c = grid_with_text(
+        c,
+        shape=(1, len(c)),
         rotation=0,
         h_mirror=False,
         v_mirror=True,
+        spacing=(100, 100),
+        text_offsets=((0, 100), (0, -100)),
+        text_anchors=("nc", "sc"),
     )
     c.show()
