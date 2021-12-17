@@ -1,4 +1,3 @@
-import copy as python_copy
 import datetime
 import functools
 import hashlib
@@ -18,7 +17,7 @@ from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
 from omegaconf.listconfig import ListConfig
-from phidl.device_layout import CellArray, Device, DeviceReference
+from phidl.device_layout import Device, DeviceReference
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _parse_layer
 
@@ -52,51 +51,6 @@ tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
 tmp.mkdir(exist_ok=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
-
-
-def copy(D: Device, prefix: str = "") -> Device:
-    """returns a deep copy of a Component.
-    based on phidl.geometry with CellArray support
-    """
-    D_copy = Component(name=f"{prefix}{D.name}")
-    D_copy.info = python_copy.deepcopy(D.info)
-    for ref in D.references:
-        if isinstance(ref, DeviceReference):
-            new_ref = ComponentReference(
-                ref.parent,
-                origin=ref.origin,
-                rotation=ref.rotation,
-                magnification=ref.magnification,
-                x_reflection=ref.x_reflection,
-            )
-            new_ref.owner = D_copy
-        elif isinstance(ref, gdspy.CellArray):
-            new_ref = CellArray(
-                device=ref.parent,
-                columns=ref.columns,
-                rows=ref.rows,
-                spacing=ref.spacing,
-                origin=ref.origin,
-                rotation=ref.rotation,
-                magnification=ref.magnification,
-                x_reflection=ref.x_reflection,
-            )
-        D_copy.add(new_ref)
-        for alias_name, alias_ref in D.aliases.items():
-            if alias_ref == ref:
-                D_copy.aliases[alias_name] = new_ref
-
-    for port in D.ports.values():
-        D_copy.add_port(port=port)
-    for poly in D.polygons:
-        D_copy.add_polygon(poly)
-    for label in D.labels:
-        D_copy.add_label(
-            text=label.text,
-            position=label.position,
-            layer=(label.layer, label.texttype),
-        )
-    return D_copy
 
 
 class SizeInfo:
@@ -1031,8 +985,10 @@ class Component(Device):
                 component.add_polygon(polys, layer=layer)
         return component
 
-    def copy(self, prefix: str = "") -> Device:
-        return copy(self, prefix=prefix)
+    def copy(self, prefix: str = "", suffix: str = "_copy") -> Device:
+        from gdsfactory.copy import copy
+
+        return copy(self, prefix=prefix, suffix=suffix)
 
     def copy_child_info(self, component) -> None:
         """Copy info from another component.

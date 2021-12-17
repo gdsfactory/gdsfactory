@@ -18,6 +18,10 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.13
+
+- copy adds `_copy` suffix to minimize chances of having duplicated cell names
+
 ## 3.8.12
 
 - add gf.functions.add_texts to add labels to a list of components or componentFactories
