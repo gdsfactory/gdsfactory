@@ -12,6 +12,7 @@ from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
     Float2,
+    List,
     Optional,
 )
 
@@ -52,6 +53,31 @@ def add_text(
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new
+
+
+def add_texts(
+    components: List[ComponentOrFactory],
+    prefix: str = "",
+    index0: int = 0,
+    **kwargs,
+) -> List[Component]:
+    """Returns a list of Component with text labels.
+
+    Args:
+        components: list of components
+        prefix: Optional prefix for the labels
+        index0: defaults to 0 (0, for first component, 1 for second ...)
+
+    keyword Args:
+        text_offset: relative to component size info anchor. Defaults to center.
+        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
+        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
+        text_factory: function to add text labels.
+    """
+    return [
+        add_text(component, text=f"{prefix}{i+index0}", **kwargs)
+        for i, component in enumerate(components)
+    ]
 
 
 @cell
