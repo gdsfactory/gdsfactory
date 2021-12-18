@@ -1,7 +1,6 @@
 import pathlib
 import shutil
 
-from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.config import logger
 from gdsfactory.samples.autoplacer.spiral import spiral
 from gdsfactory.sweep.write_sweeps import write_sweeps
@@ -22,6 +21,8 @@ logpath = gdspath.with_suffix(".log")
 
 
 def test_autoplacer():
+    from gdsfactory.autoplacer.yaml_placer import place_from_yaml
+
     shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 

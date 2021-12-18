@@ -2,7 +2,6 @@ import pathlib
 import shutil
 
 import gdsfactory as gf
-from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.config import logger
 from gdsfactory.mask.merge_metadata import merge_metadata
 from gdsfactory.sweep.write_sweeps import write_sweeps
@@ -16,6 +15,7 @@ def get_mask():
     - merge mask JSON metadata into a combined JSON file
 
     """
+    from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 
     cwd = pathlib.Path(__file__).absolute().parent
     does_path = cwd / "does.yml"
