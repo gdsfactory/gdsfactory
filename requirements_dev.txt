@@ -4,6 +4,7 @@ flake8
 flake8-rst-docstrings
 furo
 ipykernel
+klayout==0.27.5
 mypy
 myst-parser
 nbsphinx

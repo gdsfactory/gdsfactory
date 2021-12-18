@@ -3,7 +3,6 @@ click
 gdspy==1.6.10
 ipympl
 jsondiff
-klayout==0.27.5
 loguru
 lytest==0.0.20
 matplotlib==3.5.1

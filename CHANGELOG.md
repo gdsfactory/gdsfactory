@@ -20,6 +20,10 @@ Maybe:
 
 ## 3.8.13
 
+- klayout is an optional dependency
+
+## 3.8.13
+
 - copy adds `_copy` suffix to minimize chances of having duplicated cell names
 
 ## 3.8.12
