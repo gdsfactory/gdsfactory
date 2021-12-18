@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.add_grating_couplers import (
     add_grating_couplers_with_loopback_fiber_array,
 )
-from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 from gdsfactory.component import Component
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.config import CONFIG, logger
@@ -74,6 +73,8 @@ component_factory = dict(
 
 
 def test_mask(precision: float = 2e-9) -> Path:
+    from gdsfactory.autoplacer.yaml_placer import place_from_yaml
+
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
     build_path = workspace_folder / "build"
     doe_root_path = build_path / "cache_doe"
