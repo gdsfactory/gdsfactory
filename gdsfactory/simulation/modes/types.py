@@ -162,6 +162,125 @@ class Mode:
 
         plt.show()
 
+    def plot_h(
+        self,
+        cmap: str = "viridis",
+        origin="lower",
+        logscale: bool = False,
+        show: bool = True,
+    ):
+        H = self.H
+        Eabs = np.sqrt(
+            np.multiply(H[:, :, 0, 2], H[:, :, 0, 2])
+            + np.multiply(H[:, :, 0, 1], H[:, :, 0, 1])
+            + np.multiply(H[:, :, 0, 0], H[:, :, 0, 0])
+        )
+        ep = abs(Eabs)
+        ep = 10 * np.log10(ep) if logscale else ep
+        plt.imshow(
+            ep.T,
+            cmap=cmap,
+            origin=origin,
+            aspect="auto",
+        )
+        plt.title("Waveguide mode $|H|$")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
+        plt.colorbar()
+        if show:
+            plt.show()
+
+    def plot_hx(
+        self,
+        cmap: str = "viridis",
+        origin="lower",
+        logscale: bool = False,
+        show: bool = True,
+    ):
+        hx = self.H[:, :, 0, 2]
+        hx = 10 * np.log10(np.abs(hx)) if logscale else np.real(hx)
+        plt.imshow(
+            hx.T,
+            cmap=cmap,
+            origin=origin,
+            aspect="auto",
+        )
+        plt.title("Waveguide mode $|H_x|$")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
+        plt.colorbar()
+        if show:
+            plt.show()
+
+    def plot_hy(
+        self,
+        cmap: str = "viridis",
+        origin="lower",
+        logscale: bool = False,
+        show: bool = True,
+    ):
+        hy = self.H[:, :, 0, 1]
+        hy = 10 * np.log10(np.abs(hy)) if logscale else np.real(hy)
+        plt.imshow(
+            hy.T,
+            cmap=cmap,
+            origin=origin,
+            aspect="auto",
+        )
+        plt.title("Waveguide mode $|H_y|$")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
+        plt.colorbar()
+        if show:
+            plt.show()
+
+    def plot_hz(
+        self,
+        cmap: str = "viridis",
+        origin="lower",
+        logscale: bool = False,
+        show: bool = True,
+    ):
+        H = self.H
+        hz = abs(H[:, :, 0, 0])
+        hz = 10 * np.log10(hz) if logscale else hz
+        plt.imshow(
+            hz.T,
+            cmap=cmap,
+            origin=origin,
+            aspect="auto",
+        )
+        plt.title("Waveguide mode $|H_z|$")
+        plt.ylabel("z-axis")
+        plt.xlabel("y-axis")
+        plt.colorbar()
+        if show:
+            plt.show()
+
+    def plot_h_all(
+        self,
+        cmap: str = "viridis",
+        origin="lower",
+        logscale: bool = False,
+        show: bool = True,
+    ):
+        plt.subplot(2, 3, 1)
+        self.plot_h(show=False)
+
+        plt.subplot(2, 3, 2)
+        self.plot_hy(show=False)
+
+        plt.subplot(2, 3, 3)
+        self.plot_hx(show=False)
+
+        plt.subplot(2, 3, 4)
+        self.plot_hz(show=False)
+
+        plt.subplot(2, 3, 5)
+        self.plot_eps(show=False)
+
+        plt.show()
+
 
 @dataclasses.dataclass
 class Waveguide:
