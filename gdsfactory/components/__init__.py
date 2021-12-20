@@ -97,12 +97,14 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import (
     grating_coupler_tm,
 )
 from gdsfactory.components.grating_coupler_loss import (
-    connect_loopback,
     grating_coupler_loss_fiber_array,
     grating_coupler_loss_fiber_array4,
     loss_deembedding_ch12_34,
     loss_deembedding_ch13_24,
     loss_deembedding_ch14_23,
+)
+from gdsfactory.components.grating_coupler_loss_fiber_single import (
+    grating_coupler_loss_fiber_single,
 )
 from gdsfactory.components.grating_coupler_rectangular import (
     grating_coupler_rectangular,
@@ -289,6 +291,7 @@ factory = dict(
     grating_coupler_elliptical_trenches=grating_coupler_elliptical_trenches,
     grating_coupler_loss_fiber_array4=grating_coupler_loss_fiber_array4,
     grating_coupler_loss_fiber_array=grating_coupler_loss_fiber_array,
+    grating_coupler_loss_fiber_single=grating_coupler_loss_fiber_single,
     grating_coupler_te=grating_coupler_te,
     grating_coupler_tm=grating_coupler_tm,
     grating_coupler_tree=grating_coupler_tree,
@@ -454,7 +457,6 @@ __all__ = [
     "compensation_path",
     "component_lattice",
     "component_sequence",
-    "connect_loopback",
     "coupler",
     "coupler90",
     "coupler90bend",

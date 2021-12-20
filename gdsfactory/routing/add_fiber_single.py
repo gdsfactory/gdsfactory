@@ -58,18 +58,18 @@ def add_fiber_single(
         max_y0_optical: None
         with_loopback: True, adds loopback structures
         straight_separation: 4.0
-        list_port_labels: None, adds TM labels to port indices in this list
+        list_port_labels: None, add labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
         force_manhattan: False
-        excluded_ports:
+        excluded_ports: list of ports to exclude
         grating_indices: None
-        routing_method: get_route
-        gc_port_name: W0
+        routing_method: function to ge the route
+        gc_port_name: grating coupler name
         zero_port: name of the port to move to (0, 0) for the routing to work correctly
         get_input_labels_function: function to get input labels for grating couplers
         optical_routing_type: None: autoselection, 0: no extension
-        gc_rotation: -90
+        gc_rotation: grating_coupler rotation (deg)
         component_name: name of component
         cross_section:
         get_input_label_text_function: for the grating couplers input label
