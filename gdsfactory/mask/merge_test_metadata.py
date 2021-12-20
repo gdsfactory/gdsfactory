@@ -45,6 +45,7 @@ doe02:
 """
 
 import pathlib
+import warnings
 from pathlib import Path
 from typing import List
 
@@ -115,6 +116,7 @@ def merge_test_metadata(
             test_metadata[cell].label = dict(x=x, y=y, text=label)
         else:
             logger.error(f"missing cell metadata for {cell}")
+            warnings.warn(f"missing cell metadata for {cell}")
 
     OmegaConf.save(test_metadata, f=test_metadata_path)
     return test_metadata
