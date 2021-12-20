@@ -24,7 +24,7 @@ def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:
     return component
 
 
-def gdsdir(dirpath: PathType) -> Component:
+def from_gdsdir(dirpath: PathType) -> Component:
     """Merges GDS cells from a directory into a single Component"""
     dirpath = pathlib.Path(dirpath)
     return from_gdspaths(dirpath.glob("*.gds"))
