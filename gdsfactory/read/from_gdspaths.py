@@ -3,7 +3,7 @@ from typing import Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds
 from gdsfactory.types import ComponentOrPath, PathType
 
 
@@ -24,7 +24,7 @@ def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:
     return component
 
 
-def gdsdir(dirpath: PathType) -> Component:
+def from_gdsdir(dirpath: PathType) -> Component:
     """Merges GDS cells from a directory into a single Component"""
     dirpath = pathlib.Path(dirpath)
     return from_gdspaths(dirpath.glob("*.gds"))

@@ -117,19 +117,20 @@ def route_fiber_single(
     south_ports = ref.get_ports_dict(orientation=270)
     component_west_ports.ports = south_ports
 
-    elements_south, gratings_south, _ = route_fiber_array(
-        component=component_west_ports,
-        with_loopback=False,
-        fiber_spacing=fiber_spacing,
-        fanout_length=fanout_length,
-        grating_coupler=grating_couplers[0],
-        optical_routing_type=optical_routing_type,
-        auto_widen=auto_widen,
-        component_name=component_name,
-        cross_section=cross_section,
-        select_ports=select_ports,
-        **kwargs,
-    )
+    if len(south_ports):
+        elements_south, gratings_south, _ = route_fiber_array(
+            component=component_west_ports,
+            with_loopback=False,
+            fiber_spacing=fiber_spacing,
+            fanout_length=fanout_length,
+            grating_coupler=grating_couplers[0],
+            optical_routing_type=optical_routing_type,
+            auto_widen=auto_widen,
+            component_name=component_name,
+            cross_section=cross_section,
+            select_ports=select_ports,
+            **kwargs,
+        )
 
     # route non WEST ports north
     component = gf.Component()
@@ -187,6 +188,7 @@ if __name__ == "__main__":
     c = gf.components.ring_single(length_x=167)
     c = gf.components.mmi2x2()
     c = gf.components.spiral(direction="NORTH")
+    c = gf.c.spiral_inner_io_fiber_single()
 
     gc = gf.components.grating_coupler_elliptical_te(layer=layer)
     elements, gc = route_fiber_single(
