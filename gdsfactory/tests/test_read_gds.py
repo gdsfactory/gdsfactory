@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # c = test_read_gds_hash()
     # test_mix_cells_from_gds_and_from_function()
 
-    _write()
+    # _write()
     # test_load_component_gds()
     # test_read_gds_with_settings()
     # test_read_gds_equivalent()
@@ -76,10 +76,13 @@ if __name__ == "__main__":
     c1 = gf.c.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
-    c2 = gf.read.from_gds(gdspath)
-    d1 = c1.to_dict_config
-    d2 = c2.to_dict_config
-    dd1 = c1.to_dict
-    dd2 = c2.to_dict
-    d = jsondiff.diff(dd1, dd2)
+    c2 = gf.import_gds(gdspath, name="c2")
+    d = c2.to_dict()["cells"]
     print(d)
+
+    # d1 = c1.to_dict_config
+    # d2 = c2.to_dict_config
+    # dd1 = c1.to_dict
+    # dd2 = c2.to_dict
+    # d = jsondiff.diff(dd1, dd2)
+    # print(d)

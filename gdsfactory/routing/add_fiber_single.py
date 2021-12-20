@@ -266,8 +266,9 @@ if __name__ == "__main__":
         c.add_ports(ref.ports)
         return c
 
-    c = gf.components.ring_single(length_x=167)
+    # c = gf.components.ring_single(length_x=167)
     # c = gf.components.spiral(direction="NORTH")
+    c = gf.c.spiral_inner_io_fiber_single()
     cc = add_fiber_single(
         # component=gf.c.straight_heater_metal(width=2),
         component=c,
@@ -275,7 +276,7 @@ if __name__ == "__main__":
         with_loopback=True,
         layer=(2, 0),
         zero_port="o2",
-        grating_coupler=[gf.c.grating_coupler_te, gf.c.grating_coupler_tm],
+        # grating_coupler=[gf.c.grating_coupler_te, gf.c.grating_coupler_tm],
     )
     cc.show()
 

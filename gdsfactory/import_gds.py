@@ -310,7 +310,7 @@ def import_gds(
         name: Optional name
         decorator: function to apply over the imported gds
         max_name_length: can truncate the name of the cell before importing it
-        **kwargs: component.info
+        kwargs: component.info
     """
     gdspath = Path(gdspath)
     if not gdspath.exists():

@@ -1,5 +1,5 @@
 """pack a list of components into a grid """
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 from phidl.device_layout import Group
@@ -123,17 +123,17 @@ def grid_with_text(
     text_prefix: str = "",
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
-    text: ComponentFactory = text_rectangular,
+    text: Optional[ComponentFactory] = text_rectangular,
     **kwargs,
 ) -> Component:
     """Returns Grid with text labels
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D)
-        text: function to add text labels.
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
-        text_offsets: relative to component size info anchor. Defaults to center.
-        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
+        text_offsets: relative to component anchor. Defaults to center
+        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc)
+        text: function to add text labels.
 
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
@@ -156,10 +156,11 @@ def grid_with_text(
     c = Component()
     g = grid(components=components, **kwargs)
     c << g
-    for i, ref in enumerate(g.aliases.values()):
-        for text_offset, text_anchor in zip(text_offsets, text_anchors):
-            t = c << text(f"{text_prefix}{i}")
-            t.move((np.array(text_offset) + getattr(ref.size_info, text_anchor)))
+    if text:
+        for i, ref in enumerate(g.aliases.values()):
+            for text_offset, text_anchor in zip(text_offsets, text_anchors):
+                t = c << text(f"{text_prefix}{i}")
+                t.move((np.array(text_offset) + getattr(ref.size_info, text_anchor)))
     return c
 
 
