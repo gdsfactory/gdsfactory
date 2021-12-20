@@ -3,7 +3,7 @@ from typing import Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds
 from gdsfactory.types import ComponentOrPath, PathType
 
 

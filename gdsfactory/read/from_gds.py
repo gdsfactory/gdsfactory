@@ -6,7 +6,7 @@ from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds
 
 
 def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
