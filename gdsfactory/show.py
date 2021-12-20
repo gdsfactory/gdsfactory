@@ -4,17 +4,18 @@ from typing import Union
 from gdsfactory import klive
 from gdsfactory.cell import clear_cache as clear_cache_function
 from gdsfactory.component import Component
+from gdsfactory.config import logger
 
 
 def show(
-    component: Union[Component, str, pathlib.Path], clear_cache: bool = True, **kwargs
+    component: Union[Component, str, pathlib.Path],
+    clear_cache: bool = True,
 ) -> None:
     """Shows Component in klayout
 
     Args:
         component
-        clear_cache: clear_cache
-        kwargs: settings for write_gds
+        clear_cache: clear_cache after showing the component
     """
     if isinstance(component, pathlib.Path):
         component = str(component)
@@ -27,8 +28,9 @@ def show(
         )
 
     elif isinstance(component, Component):
-        gdspath = component.write_gds(**kwargs)
+        gdspath = component.write_gds(logging=False)
         klive.show(gdspath)
+        logger.info(f"showing {component} in klayout")
     else:
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
