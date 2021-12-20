@@ -30,7 +30,7 @@ def show(
     elif isinstance(component, Component):
         gdspath = component.write_gds(logging=False)
         klive.show(gdspath)
-        logger.info(f"showing {component} in klayout")
+        logger.info(f"Klayout show {component!r}")
     else:
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
