@@ -125,7 +125,7 @@ __all__ = [
     "sweep",
     "Label",
 ]
-__version__ = "3.8.14"
+__version__ = "3.9.0"
 
 
 if __name__ == "__main__":
