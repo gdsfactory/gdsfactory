@@ -14,16 +14,22 @@ def from_gds(gdspath: Union[str, Path], **kwargs) -> Component:
 
     Args:
         gdspath: path of GDS file
+
+    keyword Args:
         cellname: cell of the name to import (None) imports top cell
         flatten: if True returns flattened (no hierarchy)
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
+        name: Optional name
+        decorator: function to apply over the imported gds
+        max_name_length: can truncate the name of the cell before importing it
+        kwargs: component.info
 
     """
     gdspath = Path(gdspath)
     metadata_filepath = gdspath.with_suffix(".yml")
     if not gdspath.exists():
         raise FileNotFoundError(f"No such file '{gdspath}'")
-    component = import_gds(gdspath)
+    component = import_gds(gdspath, **kwargs)
 
     if metadata_filepath.exists():
         metadata = OmegaConf.load(metadata_filepath)

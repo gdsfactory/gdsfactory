@@ -18,6 +18,11 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.8.15
+
+- gf.read.from_gds passes kwargs to gf.import_gds
+- rename grating_coupler_loss to grating_coupler_loss_fiber_array4
+
 ## 3.8.14
 
 - klayout is an optional dependency

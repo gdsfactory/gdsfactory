@@ -1120,12 +1120,12 @@ class Component(Device):
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy()
+            component = self.copy(suffix="")
             for reference in component.references:
                 add_pins_triangle(component=component, reference=reference)
 
         elif show_ports:
-            component = self.copy()
+            component = self.copy(suffix="")
             add_pins_triangle(component=component)
         else:
             component = self
