@@ -6,7 +6,7 @@ from typing import Union
 import gdspy
 
 from gdsfactory.component import Component
-from gdsfactory.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds
 
 COUNTER = itertools.count()
 

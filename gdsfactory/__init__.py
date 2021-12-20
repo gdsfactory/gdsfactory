@@ -33,7 +33,7 @@ from gdsfactory.cell import cell_without_validator
 from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
-from gdsfactory.import_gds import import_gds
+from gdsfactory.read.import_gds import import_gds
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.types import Label
 
@@ -48,7 +48,6 @@ from gdsfactory import path
 from gdsfactory import snap
 from gdsfactory import tech
 from gdsfactory import read
-from gdsfactory import remove
 from gdsfactory import layers
 from gdsfactory import add_termination
 from gdsfactory import add_grating_couplers
@@ -57,6 +56,7 @@ from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import mask
 from gdsfactory import sweep
+from gdsfactory import add_ports
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -89,6 +89,7 @@ __all__ = [
     "add_padding_container",
     "add_pins",
     "add_pins_to_references",
+    "add_ports",
     "add_tapers",
     "add_termination",
     "asserts",
@@ -116,7 +117,6 @@ __all__ = [
     "plot",
     "port",
     "read",
-    "remove",
     "routing",
     "show",
     "snap",
@@ -125,7 +125,7 @@ __all__ = [
     "sweep",
     "Label",
 ]
-__version__ = "3.8.14"
+__version__ = "3.9.0"
 
 
 if __name__ == "__main__":

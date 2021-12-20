@@ -12,7 +12,6 @@ import gdsfactory
 import gdsfactory.build as pb
 from gdsfactory.config import CONFIG, print_config
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
-from gdsfactory.import_gds import write_cells as write_cells_to_separate_gds
 from gdsfactory.install import install_gdsdiff, install_generic_tech, install_klive
 from gdsfactory.layers import lyp_to_dataclass
 from gdsfactory.mask.merge_json import merge_json
@@ -24,8 +23,9 @@ from gdsfactory.mask.write_labels import write_labels
 from gdsfactory.sweep.write_sweep_from_yaml import import_custom_doe_factories
 from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
+from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "3.8.14"
+VERSION = "3.9.0"
 log_directory = CONFIG.get("log_directory")
 cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL

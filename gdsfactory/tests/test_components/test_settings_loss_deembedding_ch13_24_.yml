@@ -29,38 +29,6 @@ cells:
     name: bend_euler_1da190e0
     radius: 10
     radius_min: 7.061
-  bend_euler_4725f0ef:
-    changed:
-      cross_section:
-        function: cross_section
-      radius: 10
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_4725f0ef
-    radius: 10
-    radius_min: 7.061
   circle_602e85fd:
     changed:
       layer:
@@ -145,10 +113,9 @@ cells:
   loss_deembedding_ch13_2_af949409:
     changed: {}
     default:
-      R: 10
       cross_section:
         function: cross_section
-      grating_coupler_factory:
+      grating_coupler:
         function: grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
@@ -157,10 +124,9 @@ cells:
       - 1
       pitch: 127
     full:
-      R: 10
       cross_section:
         function: cross_section
-      grating_coupler_factory:
+      grating_coupler:
         function: grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
@@ -313,10 +279,9 @@ cells:
 info:
   changed: {}
   default:
-    R: 10
     cross_section:
       function: cross_section
-    grating_coupler_factory:
+    grating_coupler:
       function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
@@ -325,10 +290,9 @@ info:
     - 1
     pitch: 127
   full:
-    R: 10
     cross_section:
       function: cross_section
-    grating_coupler_factory:
+    grating_coupler:
       function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35

@@ -18,7 +18,6 @@ def connect_loopback(
     port1: Port,
     a: float,
     b: float,
-    R: float,
     y_bot_align_route: float,
     cross_section: CrossSectionFactory = strip,
     **kwargs
@@ -36,7 +35,7 @@ def connect_loopback(
         p1,
     ]
 
-    bend90 = gf.components.bend_euler(radius=R, cross_section=cross_section, **kwargs)
+    bend90 = gf.components.bend_euler(cross_section=cross_section, **kwargs)
     return round_corners(
         points=points, bend=bend90, straight=gf.components.straight, **kwargs
     ).references
@@ -45,14 +44,24 @@ def connect_loopback(
 @cell
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
-    R: float = 10.0,
-    grating_coupler_factory: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
     cross_section: CrossSectionFactory = strip,
     **kwargs
 ) -> Component:
+    """Grating coupler test structure for fiber array.
 
-    gc = grating_coupler_factory()
+    Connects channel 1->3, 2->4
+
+    Args:
+        pitch:
+        grating_coupler:
+        input_port_indexes: adds test labels
+        cross_section:
+        kwargs: cross_section settings
+    """
+
+    gc = grating_coupler()
     c = gf.Component()
     dx = pitch
     gcs = [gc.ref(position=(i * dx, 0), port_id="o1", rotation=-90) for i in range(4)]
@@ -71,16 +80,19 @@ def loss_deembedding_ch13_24(
         ).references
     )
 
+    x = cross_section(**kwargs)
+    radius = x.info["radius"]
+
     gsi = gc.size_info
     p1 = gc_ports[1]
     p3 = gc_ports[3]
-    a = R + 5.0  # 0.5
+    a = radius + 5.0  # 0.5
     b = max(2 * a, pitch / 2)
     y_bot_align_route = -gsi.width - 5.0
 
     c.add(
         connect_loopback(
-            p1, p3, a, b, R, y_bot_align_route, cross_section=cross_section, **kwargs
+            p1, p3, a, b, y_bot_align_route, cross_section=cross_section, **kwargs
         )
     )
     for i, index in enumerate(input_port_indexes):
@@ -96,12 +108,22 @@ def loss_deembedding_ch13_24(
 @cell
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
-    R: float = 10.0,
-    grating_coupler_factory: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 2),
     **kwargs
 ) -> Component:
-    gc = grating_coupler_factory()
+    """Grating coupler test structure for fiber array.
+
+    Connects channel 1->2, 3->4
+
+    Args:
+        pitch:
+        grating_coupler:
+        input_port_indexes:
+        cross_section:
+        kwargs: cross_section settings
+    """
+    gc = grating_coupler()
 
     c = gf.Component()
     dx = pitch
@@ -132,12 +154,23 @@ def loss_deembedding_ch12_34(
 @cell
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
-    R: float = 10.0,
-    grating_coupler_factory: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
     **kwargs
 ) -> Component:
-    gc = grating_coupler_factory()
+    """Grating coupler test structure for fiber array.
+
+    Connects channel 1->4, 2->3
+
+    Args:
+        pitch:
+        grating_coupler:
+        input_port_indexes:
+
+    Keyword Args:
+        cross_section settings
+    """
+    gc = grating_coupler()
 
     c = gf.Component()
     dx = pitch
@@ -166,32 +199,71 @@ def loss_deembedding_ch14_23(
 
 
 @cell
-def grating_coupler_loss(
+def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
-    grating_coupler_factory: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentFactory = grating_coupler_te,
+    input_port_indexes: Tuple[int, ...] = (0, 1),
     **kwargs
 ) -> Component:
+    """Returns Grating coupler fiber array loopback.
+
+    Args:
+        pitch:
+        grating_coupler:
+        cross_section:
+        input_port_indexes: adds test labels
+        kwargs: cross_section settings
     """
+    gc = grating_coupler()
+
+    c = gf.Component()
+    dx = pitch
+    gcs = [gc.ref(position=(i * dx, 0), port_id="o1", rotation=-90) for i in range(2)]
+
+    gc_ports = [g.ports["o1"] for g in gcs]
+    c.add(gcs)
+
+    c.add(
+        get_route(
+            gc_ports[0], gc_ports[1], start_straight_length=40.0, taper=None, **kwargs
+        ).references
+    )
+    for i, index in enumerate(input_port_indexes):
+        label = get_input_label(
+            gc_ports[index], gc, i, component_name=inspect.stack()[0][3]
+        )
+        label.position = gc_ports[index].position
+        c.add(label)
+    return c
+
+
+@cell
+def grating_coupler_loss_fiber_array4(
+    pitch: float = 127.0,
+    grating_coupler: ComponentFactory = grating_coupler_te,
+    **kwargs
+) -> Component:
+    """Returns a grating coupler test structure for fiber array
+
+    Measures all combinations for a 4 fiber fiber_array
+
+    Connects channel 1->3, 2->4
+    Connects channel 1->4, 2->3
+    Connects channel 1->2, 3->4
 
     Args:
         pitch: grating_coupler_pitch
-        grating_coupler_factory: function
-        **kwargs: cross_section settings
+        grating_coupler: function
+        kwargs: cross_section settings
 
     """
     c = gf.Component()
-    _c1 = loss_deembedding_ch13_24(
-        grating_coupler_factory=grating_coupler_factory, **kwargs
-    )
-    _c2 = loss_deembedding_ch14_23(
-        grating_coupler_factory=grating_coupler_factory, **kwargs
-    )
-    _c3 = loss_deembedding_ch12_34(
-        grating_coupler_factory=grating_coupler_factory, **kwargs
-    )
-    c.add_ref(_c1)
-    c2 = c.add_ref(_c2)
-    c3 = c.add_ref(_c3)
+    c1 = loss_deembedding_ch13_24(grating_coupler=grating_coupler, **kwargs)
+    c2 = loss_deembedding_ch14_23(grating_coupler=grating_coupler, **kwargs)
+    c3 = loss_deembedding_ch12_34(grating_coupler=grating_coupler, **kwargs)
+    c.add_ref(c1)
+    c2 = c.add_ref(c2)
+    c3 = c.add_ref(c3)
     c2.movex(pitch * 4)
     c3.movex(pitch * 8)
 
@@ -202,5 +274,6 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
-    c = grating_coupler_loss(layer=(2, 0))
+    # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
+    c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
     c.show()

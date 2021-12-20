@@ -18,6 +18,20 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.0
+
+- move add_ports_from_markers functions from `gf.import_gds` to `gf.add_ports`
+- move write_cells functions from `gf.import_gds` to `gf.write_cells`
+- move `gf.import_gds` to `gf.read.import_gds`. keep `gf.import_gds` as a link to `gf.read.import_gds`
+- combine gf.read.from_gds with gf.import_gds
+- add logger.info for write_gds, write_gds_with_metadata, gf.read.import_gds, klive.show()
+
+## 3.8.15
+
+- gf.read.from_gds passes kwargs to gf.import_gds
+- rename grating_coupler_loss to grating_coupler_loss_fiber_array4 gf.components
+- add grating_coupler_loss_fiber_single to components
+
 ## 3.8.14
 
 - klayout is an optional dependency
