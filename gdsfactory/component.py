@@ -21,6 +21,7 @@ from phidl.device_layout import Device, DeviceReference
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _parse_layer
 
+from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
 from gdsfactory.port import (
@@ -1144,6 +1145,7 @@ class Component(Device):
         unit: float = 1e-6,
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
+        logging: bool = True,
     ) -> Path:
         """Write component to GDS and returns gdspath
 
@@ -1189,6 +1191,8 @@ class Component(Device):
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
         lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
         self.path = gdspath
+        if logging:
+            logger.info(f"Write GDS to {gdspath}")
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
@@ -1196,6 +1200,7 @@ class Component(Device):
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml())
+        logger.info(f"Write YAML metadata to {metadata}")
         return gdspath
 
     def to_dict_config(
@@ -1550,12 +1555,13 @@ def test_bbox_component():
 
 
 if __name__ == "__main__":
-    test_bbox_reference()
-    test_bbox_component()
+    # test_bbox_reference()
+    # test_bbox_component()
 
-    # import gdsfactory as gf
-    # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
-    # c2 = c.rotate()
+    import gdsfactory as gf
+
+    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
+    c.show()
 
     # c = gf.Component("component_with_offgrid_polygons")
     # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)

@@ -3,11 +3,12 @@ from typing import Callable, Optional, Union, cast
 
 import gdspy
 import numpy as np
+from omegaconf import OmegaConf
 from phidl.device_layout import CellArray, DeviceReference
 
 from gdsfactory.cell import cell_without_validator
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG
+from gdsfactory.config import CONFIG, logger
 from gdsfactory.snap import snap_to_grid
 
 
@@ -37,7 +38,10 @@ def import_gds(
     """
     gdspath = Path(gdspath)
     if not gdspath.exists():
-        raise FileNotFoundError(f"No file {gdspath} found")
+        raise FileNotFoundError(f"No file {gdspath!r} found")
+
+    metadata_filepath = gdspath.with_suffix(".yml")
+
     gdsii_lib = gdspy.GdsLibrary()
     gdsii_lib.read_gds(str(gdspath))
     top_level_cells = gdsii_lib.top_level()
@@ -142,11 +146,29 @@ def import_gds(
         component.flatten()
 
     component.info.update(**kwargs)
-
     component.name = name or component.name
-    return cell_without_validator(lambda: component)(
+
+    component = cell_without_validator(lambda: component)(
         name=component.name, max_name_length=max_name_length, autoname=False
     )
+
+    if metadata_filepath.exists():
+        logger.info(f"Read YAML metadata from {metadata_filepath}")
+        metadata = OmegaConf.load(metadata_filepath)
+
+        for port_name, port in metadata.ports.items():
+            if port_name not in component.ports:
+                component.add_port(
+                    name=port_name,
+                    midpoint=port.midpoint,
+                    width=port.width,
+                    orientation=port.orientation,
+                    layer=port.layer,
+                    port_type=port.port_type,
+                )
+
+        component.info = metadata.info
+    return component
 
 
 if __name__ == "__main__":
