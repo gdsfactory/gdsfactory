@@ -145,13 +145,11 @@ def import_gds(
     if flatten:
         component.flatten()
 
-    component.info.update(**kwargs)
-    component.name = name or component.name
-
+    name = name or component.name
+    component.name = name
     component = cell_without_validator(lambda: component)(
-        name=component.name, max_name_length=max_name_length, autoname=False
+        name=name, max_name_length=max_name_length, autoname=False
     )
-
     if metadata_filepath.exists():
         logger.info(f"Read YAML metadata from {metadata_filepath}")
         metadata = OmegaConf.load(metadata_filepath)
@@ -168,6 +166,10 @@ def import_gds(
                 )
 
         component.info = metadata.info
+
+    component.info.update(**kwargs)
+    component.name = name
+    component.info.name = name
     return component
 
 

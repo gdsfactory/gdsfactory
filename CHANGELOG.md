@@ -18,6 +18,11 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.1
+
+- gf.import_gds updates info based on `kwargs`. In case you want to specify (wavelength, test_protocol...)
+- store gf.import_gds name
+
 ## 3.9.0
 
 - move add_ports_from_markers functions from `gf.import_gds` to `gf.add_ports`
