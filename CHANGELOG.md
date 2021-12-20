@@ -23,8 +23,8 @@ Maybe:
 - move add_ports_from_markers functions from `gf.import_gds` to `gf.add_ports`
 - move write_cells functions from `gf.import_gds` to `gf.write_cells`
 - move `gf.import_gds` to `gf.read.import_gds`. keep `gf.import_gds` as a link to `gf.read.import_gds`
-- logger.info for write_gds, write_gds_with_metadata and gf.read.import_gds
 - combine gf.read.from_gds with gf.import_gds
+- add logger.info for write_gds, write_gds_with_metadata, gf.read.import_gds, klive.show()
 
 ## 3.8.15
 
