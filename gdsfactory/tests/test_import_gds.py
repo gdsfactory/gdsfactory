@@ -1,5 +1,6 @@
 import gdsfactory as gf
-from gdsfactory.import_gds import add_ports_from_markers_inside, import_gds
+from gdsfactory.add_ports import add_ports_from_markers_inside
+from gdsfactory.read.import_gds import import_gds
 
 
 def test_import_gds_snap_to_grid() -> None:

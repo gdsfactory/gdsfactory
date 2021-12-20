@@ -5,7 +5,7 @@ cells:
     full: {}
     function_name: <lambda>
     info_version: 1
-    module: gdsfactory.import_gds
+    module: gdsfactory.read.import_gds
     name: mzi_gds
 info:
   changed: {}
@@ -13,7 +13,7 @@ info:
   full: {}
   function_name: <lambda>
   info_version: 1
-  module: gdsfactory.import_gds
+  module: gdsfactory.read.import_gds
   name: mzi_gds
 ports: {}
 version: 1
