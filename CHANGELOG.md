@@ -21,7 +21,8 @@ Maybe:
 ## 3.8.15
 
 - gf.read.from_gds passes kwargs to gf.import_gds
-- rename grating_coupler_loss to grating_coupler_loss_fiber_array4
+- rename grating_coupler_loss to grating_coupler_loss_fiber_array4 gf.components
+- add grating_coupler_loss_fiber_single to components
 
 ## 3.8.14
 
