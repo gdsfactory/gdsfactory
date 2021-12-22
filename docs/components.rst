@@ -2551,7 +2551,7 @@ text_rectangular_multi_layer
 
   import gdsfactory as gf
 
-  c = gf.components.text_rectangular_multi_layer(layers=((1, 0), (41, 0), (45, 0), (49, 0)))
+  c = gf.components.text_rectangular_multi_layer(text='abcd', layers=((1, 0), (41, 0), (45, 0), (49, 0)))
   c.plot()
 
 
@@ -2596,7 +2596,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.1', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.2', text_size=10)
   c.plot()
 
 
