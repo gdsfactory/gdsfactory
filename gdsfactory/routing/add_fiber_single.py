@@ -104,6 +104,8 @@ def add_fiber_single(
         cc.plot()
 
     """
+    component = component() if callable(component) else component
+
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
     optical_port_names = [p.name for p in optical_ports]
@@ -111,7 +113,6 @@ def add_fiber_single(
     if zero_port not in optical_port_names:
         raise ValueError(f"zero_port = {zero_port!r} not in {optical_port_names}")
 
-    component = component() if callable(component) else component
     component = move_port_to_zero(component, zero_port) if zero_port else component
 
     optical_ports = select_ports(component.ports)
