@@ -1206,17 +1206,47 @@ grating_coupler_elliptical_trenches
 
 
 
-grating_coupler_loss
+grating_coupler_loss_fiber_array
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.grating_coupler_loss
+.. autofunction:: gdsfactory.components.grating_coupler_loss_fiber_array
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_loss(pitch=127.0)
+  c = gf.components.grating_coupler_loss_fiber_array(pitch=127.0, input_port_indexes=(0, 1))
+  c.plot()
+
+
+
+grating_coupler_loss_fiber_array4
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_loss_fiber_array4
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_loss_fiber_array4(pitch=127.0)
+  c.plot()
+
+
+
+grating_coupler_loss_fiber_single
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.grating_coupler_loss_fiber_single
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.grating_coupler_loss_fiber_single()
   c.plot()
 
 
@@ -1396,7 +1426,7 @@ loss_deembedding_ch12_34
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch12_34(pitch=127.0, R=10.0, input_port_indexes=(0, 2))
+  c = gf.components.loss_deembedding_ch12_34(pitch=127.0, input_port_indexes=(0, 2))
   c.plot()
 
 
@@ -1411,7 +1441,7 @@ loss_deembedding_ch13_24
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch13_24(pitch=127.0, R=10.0, input_port_indexes=(0, 1))
+  c = gf.components.loss_deembedding_ch13_24(pitch=127.0, input_port_indexes=(0, 1))
   c.plot()
 
 
@@ -1426,22 +1456,7 @@ loss_deembedding_ch14_23
 
   import gdsfactory as gf
 
-  c = gf.components.loss_deembedding_ch14_23(pitch=127.0, R=10.0, input_port_indexes=(0, 1))
-  c.plot()
-
-
-
-text_rectangular
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.text_rectangular
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.text_rectangular(text='abcd', size=10.0, position=(0.0, 0.0), justify='left', layer=(1, 0))
+  c = gf.components.loss_deembedding_ch14_23(pitch=127.0, input_port_indexes=(0, 1))
   c.plot()
 
 
@@ -2511,6 +2526,21 @@ text
 
 
 
+text_rectangular
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.text_rectangular
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.text_rectangular(text='abcd', size=10.0, position=(0.0, 0.0), justify='left', layer=(1, 0))
+  c.plot()
+
+
+
 text_rectangular_multi_layer
 ----------------------------------------------------
 
@@ -2521,7 +2551,7 @@ text_rectangular_multi_layer
 
   import gdsfactory as gf
 
-  c = gf.components.text_rectangular_multi_layer(text='abcd', size=10.0, position=(0, 0), justify='left', layers=((1, 0),))
+  c = gf.components.text_rectangular_multi_layer(layers=((1, 0), (41, 0), (45, 0), (49, 0)))
   c.plot()
 
 
@@ -2566,7 +2596,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.8.4', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.1', text_size=10)
   c.plot()
 
 
