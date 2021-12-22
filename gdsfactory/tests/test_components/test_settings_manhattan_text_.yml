@@ -1,5 +1,5 @@
 cells:
-  manhattan_text_d41d8cd9:
+  text_rectangular_d41d8cd9:
     changed: {}
     default:
       justify: left
@@ -21,10 +21,10 @@ cells:
       - 0
       size: 10
       text: abcd
-    function_name: manhattan_text
+    function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.manhattan_font
-    name: manhattan_text_d41d8cd9
+    name: text_rectangular_d41d8cd9
 info:
   changed: {}
   default:
@@ -47,9 +47,9 @@ info:
     - 0
     size: 10
     text: abcd
-  function_name: manhattan_text
+  function_name: text_rectangular
   info_version: 1
   module: gdsfactory.components.manhattan_font
-  name: manhattan_text_d41d8cd9
+  name: text_rectangular_d41d8cd9
 ports: {}
 version: 1

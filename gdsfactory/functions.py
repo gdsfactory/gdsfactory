@@ -5,7 +5,7 @@ import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import (
     Anchor,
@@ -31,7 +31,7 @@ def add_text(
     text: str = "",
     text_offset: Float2 = (0, 0),
     text_anchor: Anchor = "cc",
-    text_factory: ComponentFactory = text_rectangular,
+    text_factory: ComponentFactory = text_rectangular_multi_layer,
 ) -> Component:
     """Returns component inside a new component with text geometry.
 

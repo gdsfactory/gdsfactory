@@ -1,0 +1,275 @@
+cells:
+  text_rectangular_8e0fe979:
+    changed:
+      layer:
+      - 1
+      - 0
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_8e0fe979
+  text_rectangular_b665fe57:
+    changed:
+      layer:
+      - 45
+      - 0
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 45
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_b665fe57
+  text_rectangular_e73c7b_a1745724:
+    changed:
+      factory:
+        function: text_rectangular
+      layers:
+      - - 1
+        - 0
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+    child:
+      changed:
+        layer:
+        - 49
+        - 0
+      default:
+        font:
+          function: rectangular_font
+        justify: left
+        layer:
+        - 1
+        - 0
+        position:
+        - 0
+        - 0
+        size: 10
+        text: abcd
+      full:
+        font:
+          function: rectangular_font
+        justify: left
+        layer:
+        - 49
+        - 0
+        position:
+        - 0
+        - 0
+        size: 10
+        text: abcd
+      function_name: text_rectangular
+      info_version: 1
+      module: gdsfactory.components.text_rectangular
+      name: text_rectangular_e73c7be4
+    default:
+      factory:
+        function: cross
+      layers:
+      - - 1
+        - 0
+      - - 2
+        - 0
+    full:
+      factory:
+        function: text_rectangular
+      layers:
+      - - 1
+        - 0
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+    function_name: copy_layers
+    info_version: 1
+    module: gdsfactory.components.copy_layers
+    name: text_rectangular_e73c7b_a1745724
+  text_rectangular_e73c7be4:
+    changed:
+      layer:
+      - 49
+      - 0
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 49
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_e73c7be4
+  text_rectangular_e9647926:
+    changed:
+      layer:
+      - 41
+      - 0
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 41
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_e9647926
+info:
+  changed:
+    factory:
+      function: text_rectangular
+    layers:
+    - - 1
+      - 0
+    - - 41
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+  child:
+    changed:
+      layer:
+      - 49
+      - 0
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 49
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_e73c7be4
+  default:
+    factory:
+      function: cross
+    layers:
+    - - 1
+      - 0
+    - - 2
+      - 0
+  full:
+    factory:
+      function: text_rectangular
+    layers:
+    - - 1
+      - 0
+    - - 41
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+  function_name: copy_layers
+  info_version: 1
+  module: gdsfactory.components.copy_layers
+  name: text_rectangular_e73c7b_a1745724
+ports: {}
+version: 1

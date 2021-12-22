@@ -123,7 +123,6 @@ from gdsfactory.components.litho_ruler import litho_ruler
 from gdsfactory.components.litho_steps import litho_steps
 from gdsfactory.components.logo import logo
 from gdsfactory.components.loop_mirror import loop_mirror
-from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
@@ -203,7 +202,10 @@ from gdsfactory.components.taper_from_csv import (
 )
 from gdsfactory.components.taper_parabolic import taper_parabolic
 from gdsfactory.components.text import githash, text
-from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.components.text_rectangular import (
+    text_rectangular,
+    text_rectangular_multi_layer,
+)
 from gdsfactory.components.triangle import triangle
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
@@ -306,7 +308,6 @@ factory = dict(
     loss_deembedding_ch12_34=loss_deembedding_ch12_34,
     loss_deembedding_ch13_24=loss_deembedding_ch13_24,
     loss_deembedding_ch14_23=loss_deembedding_ch14_23,
-    manhattan_text=manhattan_text,
     mmi1x2=mmi1x2,
     mmi2x2=mmi2x2,
     mzi=mzi,
@@ -378,6 +379,7 @@ factory = dict(
     taper_w12_l200=taper_w12_l200,
     text=text,
     text_rectangular=text_rectangular,
+    text_rectangular_multi_layer=text_rectangular_multi_layer,
     triangle=triangle,
     verniers=verniers,
     version_stamp=version_stamp,
@@ -524,8 +526,7 @@ __all__ = [
     "loss_deembedding_ch12_34",
     "loss_deembedding_ch13_24",
     "loss_deembedding_ch14_23",
-    "manhattan_font",
-    "manhattan_text",
+    "text_rectangular",
     "mmi1x2",
     "mmi2x2",
     "mzi",

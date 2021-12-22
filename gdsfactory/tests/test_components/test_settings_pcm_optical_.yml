@@ -695,192 +695,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.pcm_optical
     name: cdsem_uturn_87db98ff
-  manhattan_text_1cba8f86:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 1
-      text: '400'
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '400'
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_1cba8f86
-  manhattan_text_49c18516:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 1
-      text: '500'
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '500'
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_49c18516
-  manhattan_text_669a9938:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 1
-      text: '450'
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '450'
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_669a9938
-  manhattan_text_91aef3a7:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 1
-      text: '1000'
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '1000'
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_91aef3a7
-  manhattan_text_9a125eb4:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 1
-      text: '600'
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '600'
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_9a125eb4
-  manhattan_text_df780215:
-    changed:
-      layer:
-      - 1
-      - 0
-      size: 1
-      text: '800'
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 1
-      text: '800'
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_df780215
   pcm_optical_d41d8cd9:
     changed: {}
     default:
@@ -1125,6 +939,216 @@ cells:
     module: gdsfactory.components.straight
     name: straight_f0c5ca20
     width: 0.45
+  text_rectangular_1cba8f86:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '400'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '400'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_1cba8f86
+  text_rectangular_49c18516:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '500'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '500'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_49c18516
+  text_rectangular_669a9938:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '450'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '450'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_669a9938
+  text_rectangular_91aef3a7:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '1000'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '1000'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_91aef3a7
+  text_rectangular_9a125eb4:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '600'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '600'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_9a125eb4
+  text_rectangular_df780215:
+    changed:
+      layer:
+      - 1
+      - 0
+      size: 1
+      text: '800'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '800'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_df780215
 info:
   changed: {}
   default:
