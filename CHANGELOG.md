@@ -18,6 +18,12 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.2
+
+- increase `gf.routing.get_route_electrical` default min_straight_length from 10nm to 2um
+- rename text_rectangular to text_rectangular_multi_layer
+- rename manhattan_text to text_rectangular
+
 ## 3.9.1
 
 - gf.import_gds updates info based on `kwargs`. In case you want to specify (wavelength, test_protocol...)
@@ -136,7 +142,7 @@ Maybe:
 ## 3.7.5
 
 - add `add_tapers_cross_section` to taper component cross_sections
-- letter `v` in text_rectangular is now DRC free
+- letter `v` in text_rectangular_multi_layer is now DRC free
 
 ## 3.7.4
 
@@ -235,7 +241,7 @@ Maybe:
 ## 3.6.0
 
 - snap_to_grid_nm waypoints in round_corners to avoid 1nm gaps in some routes
-- add `gf.components.text_rectangular`
+- add `gf.components.text_rectangular_multi_layer`
 - add `gf.components.rectangle_with_slits`
 
 ## 3.5.12
