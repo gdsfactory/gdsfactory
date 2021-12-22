@@ -25,7 +25,7 @@ def text_rectangular(
         position: coordinate
         justify: left, right or center
         layer:
-        font: function to get the dictionary of characters
+        font: function that returns dictionary of characters
 
     """
     pixel_size = size
@@ -71,6 +71,19 @@ def text_rectangular_multi_layer(
     text_factory: ComponentFactory = text_rectangular,
     **kwargs,
 ) -> Component:
+    """Returns rectangular text in different layers
+
+    Args:
+        text: string of text
+        layers: list of layers to replicate the text
+        text_factory: function to create the text Components
+
+    Keyword Args:
+        size: pixel size
+        position: coordinate
+        justify: left, right or center
+        font: function that returns dictionary of characters
+    """
     func = gf.partial(
         copy_layers,
         factory=gf.partial(text_factory, text=text, **kwargs),
