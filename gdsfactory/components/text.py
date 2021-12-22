@@ -5,7 +5,7 @@ from phidl.geometry import _glyph, _indent, _width
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.manhattan_font import manhattan_text
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.name import clean_name
 from gdsfactory.tech import LAYER
 from gdsfactory.types import Coordinate, Layer
@@ -90,12 +90,12 @@ def githash(
         git_hash = f"gf_{gf.__version__}"
 
     c = gf.Component()
-    t = manhattan_text(text=git_hash, size=size, layer=layer)
+    t = text_rectangular(text=git_hash, size=size, layer=layer)
     tref = c.add_ref(t)
     c.absorb(tref)
 
     for i, texti in enumerate(text):
-        t = manhattan_text(text=texti, size=size, layer=layer)
+        t = text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
         tref.movey(-6 * size * (i + 1))
         c.absorb(tref)
