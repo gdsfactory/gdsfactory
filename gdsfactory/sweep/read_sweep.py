@@ -66,15 +66,15 @@ def read_sweep(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
         else:
             do_permutation = True
         if not doe.get("settings"):
-            raise ValueError(f"Error, missing settings: for {doe_name}")
+            raise ValueError(f"Error, missing settings: for {doe_name!r}")
 
         doe_settings = doe.pop("settings", "")
         if doe_settings:
             doe["settings"] = get_settings_list(do_permutation, **doe_settings)
         else:
             raise ValueError(
-                f"DOE {doe_name} is not a dictionary",
-                f"\n\t got: {doe}\n\t sample: {_sample_yaml_code}",
+                f"DOE {doe_name!r} is not a dictionary",
+                f"\n\t got: {doe!r}\n\t sample: {_sample_yaml_code}",
             )
 
         does[doe_name] = doe

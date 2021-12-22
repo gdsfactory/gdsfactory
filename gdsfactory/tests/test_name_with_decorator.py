@@ -26,7 +26,9 @@ def test_name_with_decorator():
             cell_names.remove(cell_name)
 
         cell_names_duplicated = "\n".join(set(cell_names))
-        raise ValueError(f"Duplicated cell names in {c.name}:\n{cell_names_duplicated}")
+        raise ValueError(
+            f"Duplicated cell names in {c.name!r}:\n{cell_names_duplicated}"
+        )
 
     referenced_cells = list(c.get_dependencies(recursive=True))
     all_cells = [c] + referenced_cells
@@ -34,7 +36,7 @@ def test_name_with_decorator():
     no_name_cells = [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
     assert (
         len(no_name_cells) == 0
-    ), f"Component {c.name} contains {len(no_name_cells)} Unnamed cells"
+    ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
 
 
 if __name__ == "__main__":
@@ -53,7 +55,9 @@ if __name__ == "__main__":
             cell_names.remove(cell_name)
 
         cell_names_duplicated = "\n".join(set(cell_names))
-        raise ValueError(f"Duplicated cell names in {c.name}:\n{cell_names_duplicated}")
+        raise ValueError(
+            f"Duplicated cell names in {c.name!r}:\n{cell_names_duplicated}"
+        )
 
     referenced_cells = list(c.get_dependencies(recursive=True))
     all_cells = [c] + referenced_cells
@@ -61,4 +65,4 @@ if __name__ == "__main__":
     no_name_cells = [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
     assert (
         len(no_name_cells) == 0
-    ), f"Component {c.name} contains {len(no_name_cells)} Unnamed cells"
+    ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
