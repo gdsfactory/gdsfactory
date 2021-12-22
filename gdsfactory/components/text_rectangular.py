@@ -5,6 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.text_rectangular_font import pixel_array, rectangular_font
 from gdsfactory.tech import LAYER
+from gdsfactory.types import ComponentFactory, Layers
 
 
 @gf.cell
@@ -64,11 +65,19 @@ def text_rectangular(
     return component
 
 
-text_rectangular_multi_layer = gf.partial(
-    copy_layers,
-    factory=text_rectangular,
-    layers=(LAYER.WG, LAYER.M1, LAYER.M2, LAYER.M3),
-)
+def text_rectangular_multi_layer(
+    text: str = "abcd",
+    layers: Layers = (LAYER.WG, LAYER.M1, LAYER.M2, LAYER.M3),
+    text_factory: ComponentFactory = text_rectangular,
+    **kwargs,
+) -> Component:
+    func = gf.partial(
+        copy_layers,
+        factory=gf.partial(text_factory, text=text, **kwargs),
+        layers=(LAYER.WG, LAYER.M1, LAYER.M2, LAYER.M3),
+    )
+    return func()
+
 
 if __name__ == "__main__":
     import string
@@ -78,5 +87,6 @@ if __name__ == "__main__":
         # text="v",
         text=string.ascii_lowercase,
         layers=(LAYER.SLAB90, LAYER.M2),
+        justify="center",
     )
     c.show()
