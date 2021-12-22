@@ -45,7 +45,7 @@ def check_inclusion(
 
     valid_metrics = ["Square", "Euclidian"]
     if metrics not in valid_metrics:
-        raise ValueError("metrics = {metrics} not in {valid_metrics}")
+        raise ValueError("metrics = {metrics!r} not in {valid_metrics}")
     metrics = getattr(pya.Region, metrics)
 
     d = b.inside_check(
