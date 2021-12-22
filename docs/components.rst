@@ -1431,17 +1431,17 @@ loss_deembedding_ch14_23
 
 
 
-manhattan_text
+text_rectangular
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.manhattan_text
+.. autofunction:: gdsfactory.components.text_rectangular
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.manhattan_text(text='abcd', size=10.0, position=(0.0, 0.0), justify='left', layer=(1, 0))
+  c = gf.components.text_rectangular(text='abcd', size=10.0, position=(0.0, 0.0), justify='left', layer=(1, 0))
   c.plot()
 
 
@@ -2511,17 +2511,17 @@ text
 
 
 
-text_rectangular
+text_rectangular_multi_layer
 ----------------------------------------------------
 
-.. autofunction:: gdsfactory.components.text_rectangular
+.. autofunction:: gdsfactory.components.text_rectangular_multi_layer
 
 .. plot::
   :include-source:
 
   import gdsfactory as gf
 
-  c = gf.components.text_rectangular(text='abcd', size=10.0, position=(0, 0), justify='left', layers=((1, 0),))
+  c = gf.components.text_rectangular_multi_layer(text='abcd', size=10.0, position=(0, 0), justify='left', layers=((1, 0),))
   c.plot()
 
 

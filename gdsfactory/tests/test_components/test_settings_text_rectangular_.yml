@@ -1,56 +1,25 @@
 cells:
-  manhattan_text_3f068da3:
-    changed:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    default:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: manhattan_text
-    info_version: 1
-    module: gdsfactory.components.manhattan_font
-    name: manhattan_text_3f068da3
   text_rectangular_d41d8cd9:
     changed: {}
     default:
+      font:
+        function: rectangular_font
       justify: left
-      layers:
-      - - 1
-        - 0
+      layer:
+      - 1
+      - 0
       position:
       - 0
       - 0
       size: 10
       text: abcd
     full:
+      font:
+        function: rectangular_font
       justify: left
-      layers:
-      - - 1
-        - 0
+      layer:
+      - 1
+      - 0
       position:
       - 0
       - 0
@@ -63,20 +32,24 @@ cells:
 info:
   changed: {}
   default:
+    font:
+      function: rectangular_font
     justify: left
-    layers:
-    - - 1
-      - 0
+    layer:
+    - 1
+    - 0
     position:
     - 0
     - 0
     size: 10
     text: abcd
   full:
+    font:
+      function: rectangular_font
     justify: left
-    layers:
-    - - 1
-      - 0
+    layer:
+    - 1
+    - 0
     position:
     - 0
     - 0

@@ -141,7 +141,7 @@ Maybe:
 ## 3.7.5
 
 - add `add_tapers_cross_section` to taper component cross_sections
-- letter `v` in text_rectangular is now DRC free
+- letter `v` in text_rectangular_multi_layer is now DRC free
 
 ## 3.7.4
 
@@ -240,7 +240,7 @@ Maybe:
 ## 3.6.0
 
 - snap_to_grid_nm waypoints in round_corners to avoid 1nm gaps in some routes
-- add `gf.components.text_rectangular`
+- add `gf.components.text_rectangular_multi_layer`
 - add `gf.components.rectangle_with_slits`
 
 ## 3.5.12
