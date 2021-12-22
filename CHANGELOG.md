@@ -21,7 +21,8 @@ Maybe:
 ## 3.9.2
 
 - increase `gf.routing.get_route_electrical` default min_straight_length from 10nm to 2um
-
+- rename text_rectangular to text_rectangular_multi_layer
+- rename manhattan_text to text_rectangular
 
 ## 3.9.1
 
