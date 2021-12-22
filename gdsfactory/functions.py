@@ -149,7 +149,7 @@ def move_port_to_zero(component: Component, port_name: str = "o1"):
     """
     if port_name not in component.ports:
         raise ValueError(
-            f"port_name = {port_name} not in {list(component.ports.keys())}"
+            f"port_name = {port_name!r} not in {list(component.ports.keys())}"
         )
     return move(component, -component.ports[port_name].midpoint)
 

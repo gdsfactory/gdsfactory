@@ -357,8 +357,9 @@ class ComponentReference(DeviceReference):
             o = origin.midpoint
         else:
             raise ValueError(
-                f"move(origin={origin}) needs a Coordinate, a port, "
-                + f"or a port name {list(self.ports.keys())}"
+                f"move(origin={origin})\n"
+                f"Invalid origin = {origin!r} needs to be"
+                f"a coordinate, port or port name {list(self.ports.keys())}"
             )
 
         if hasattr(destination, "midpoint"):
@@ -372,8 +373,9 @@ class ComponentReference(DeviceReference):
             d = destination.midpoint
         else:
             raise ValueError(
-                f"{self.parent.name}.move(destination={destination}) Move needs "
-                + f"a coordinate, a port, or a port name {list(self.ports.keys())}"
+                f"{self.parent.name}.move(destination={destination}) \n"
+                f"Invalid destination = {destination!r} needs to be"
+                f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
             )
 
         # Lock one axis if necessary
@@ -911,7 +913,7 @@ class Component(Device):
         if name is not None:
             p.name = name
         if p.name in self.ports:
-            raise ValueError(f"add_port() Port name {p.name} exists in {self.name}")
+            raise ValueError(f"add_port() Port name {p.name!r} exists in {self.name!r}")
 
         self.ports[p.name] = p
         return p

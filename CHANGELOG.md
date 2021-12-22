@@ -18,6 +18,10 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.3
+
+- better error messages
+
 ## 3.9.2
 
 - increase `gf.routing.get_route_electrical` default min_straight_length from 10nm to 2um
