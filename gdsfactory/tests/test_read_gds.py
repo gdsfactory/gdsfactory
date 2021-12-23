@@ -25,15 +25,12 @@ def test_read_gds_equivalent():
     """Ensures we can load it from GDS + YAML and get the same component settings"""
     c1 = gf.c.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+
+    gf.clear_cache()
     c2 = gf.import_gds(gdspath)
 
-    d1 = c1.to_dict
-    d2 = c2.to_dict
-
-    # d1.pop('cells')
-    # d2.pop('cells')
-    # c1.pprint
-    # c2.pprint
+    d1 = c1.to_dict()
+    d2 = c2.to_dict()
 
     d = jsondiff.diff(d1, d2)
 
