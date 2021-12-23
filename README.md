@@ -93,14 +93,14 @@ If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Mini
 
 ```
 conda install -c conda-forge gdspy
-pip install gdsfactory
+pip install gdsfactory[full]
 gf tool install
 ```
 
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
 ```
-pip install gdsfactory
+pip install gdsfactory[full]
 gf tool install
 ```
 
