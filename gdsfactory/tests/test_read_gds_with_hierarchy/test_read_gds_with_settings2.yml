@@ -1,5 +1,5 @@
 cells:
-  mzi_gds:
+  mzi_gds_:
     changed: {}
     default:
       bend:
@@ -48,7 +48,7 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_gds
+    name: mzi_gds_
 info:
   changed: {}
   default:
@@ -98,7 +98,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi_gds
+  name: mzi_gds_
 ports:
   o1:
     layer:
