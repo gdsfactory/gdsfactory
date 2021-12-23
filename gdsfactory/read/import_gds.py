@@ -69,7 +69,7 @@ def import_gds(
 
     else:
         D_list = []
-        c2dmap = {}
+        cell_to_device = {}
         for c in gdsii_lib.cells.values():
             D = Component(name=c.name)
             D.polygons = c.polygons
@@ -90,14 +90,15 @@ def import_gds(
 
             D = avoid_duplicated_cells(D)
             D.unlock()
-            c2dmap.update({c: D})
+
+            cell_to_device.update({c: D})
             D_list += [D]
 
         for D in D_list:
             # First convert each reference so it points to the right Device
             converted_references = []
             for e in D.references:
-                ref_device = c2dmap[e.ref_cell]
+                ref_device = cell_to_device[e.ref_cell]
                 if isinstance(e, gdspy.CellReference):
                     dr = DeviceReference(
                         device=ref_device,
@@ -139,7 +140,7 @@ def import_gds(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
                 D.add_polygon(p)
-        component = c2dmap[topcell]
+        component = cell_to_device[topcell]
         cast(Component, component)
 
     if decorator:
