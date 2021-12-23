@@ -19,6 +19,29 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_s
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 1
 
+CACHE_IMPORTED_CELLS = {}
+
+
+def avoid_duplicated_cells(c: Component) -> Component:
+    """Ensures import_gds cells do not create duplicated cell names
+    with the ones in CACHE.
+    if component in CACHE or CACHE_IMPORTED_CELLS we get it from there
+
+    TODO: check geometric hash
+
+
+    """
+
+    #  if the cell is already on any CACHE rename if
+    if c.name in CACHE or c.name in CACHE_IMPORTED_CELLS:
+        c.name = f"{c.name}_"
+        CACHE_IMPORTED_CELLS[c.name] = c
+
+    # if is not on CACHE add it to CACHE_IMPORTED_CELLS
+    else:
+        CACHE_IMPORTED_CELLS[c.name] = c
+    return c
+
 
 class CellReturnTypeError(ValueError):
     pass
@@ -27,7 +50,9 @@ class CellReturnTypeError(ValueError):
 def clear_cache() -> None:
     """Clears the component CACHE."""
     global CACHE
+    global CACHE_IMPORTED_CELLS
     CACHE = {}
+    CACHE_IMPORTED_CELLS = {}
 
 
 def print_cache():
@@ -195,6 +220,14 @@ def cell_without_validator(func):
 
             component.cached = True
             CACHE[name] = component
+
+            # avoid_duplicated_cells
+            if name in CACHE_IMPORTED_CELLS:
+                cell_imported = CACHE_IMPORTED_CELLS.pop(name)
+                new_name = f"{cell_imported.name}_"
+                cell_imported.name = new_name
+                CACHE_IMPORTED_CELLS[new_name] = cell_imported
+
             return component
 
     return _cell

@@ -74,7 +74,7 @@ class CrossSection(CrossSectionPhidl):
         for p in ports:
             if p is not None and p in self.ports:
                 raise ValueError(
-                    f"CrossSection.add(): a port named {p} already "
+                    f"CrossSection.add(): a port named {p!r} already "
                     "exists in this CrossSection, please rename port"
                 )
 
@@ -83,8 +83,8 @@ class CrossSection(CrossSectionPhidl):
 
         if name in self.aliases:
             raise ValueError(
-                'CrossSection.add(): an element named "%s" already '
-                "exists in this CrossSection, please change the name" % name
+                f"CrossSection.add(): an element named {name!r} already "
+                "exists in this CrossSection, please change the name"
             )
 
         new_segment = dict(

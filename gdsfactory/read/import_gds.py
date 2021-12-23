@@ -6,7 +6,7 @@ import numpy as np
 from omegaconf import OmegaConf
 from phidl.device_layout import CellArray, DeviceReference
 
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.cell import avoid_duplicated_cells
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.snap import snap_to_grid
@@ -69,7 +69,7 @@ def import_gds(
 
     else:
         D_list = []
-        c2dmap = {}
+        cell_to_device = {}
         for c in gdsii_lib.cells.values():
             D = Component(name=c.name)
             D.polygons = c.polygons
@@ -87,14 +87,18 @@ def import_gds(
                     layer=(label.layer, label.texttype),
                 )
                 label_ref.anchor = label.anchor
-            c2dmap.update({c: D})
+
+            D = avoid_duplicated_cells(D)
+            D.unlock()
+
+            cell_to_device.update({c: D})
             D_list += [D]
 
         for D in D_list:
             # First convert each reference so it points to the right Device
             converted_references = []
             for e in D.references:
-                ref_device = c2dmap[e.ref_cell]
+                ref_device = cell_to_device[e.ref_cell]
                 if isinstance(e, gdspy.CellReference):
                     dr = DeviceReference(
                         device=ref_device,
@@ -136,7 +140,7 @@ def import_gds(
                         points_on_grid, layer=p.layers[0], datatype=p.datatypes[0]
                     )
                 D.add_polygon(p)
-        component = c2dmap[topcell]
+        component = cell_to_device[topcell]
         cast(Component, component)
 
     if decorator:
@@ -147,9 +151,7 @@ def import_gds(
 
     name = name or component.name
     component.name = name
-    component = cell_without_validator(lambda: component)(
-        name=name, max_name_length=max_name_length, autoname=False
-    )
+
     if metadata_filepath.exists():
         logger.info(f"Read YAML metadata from {metadata_filepath}")
         metadata = OmegaConf.load(metadata_filepath)

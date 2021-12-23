@@ -301,7 +301,7 @@ def place(
                 ref.reflect_h(x0=mirror)
             else:
                 raise ValueError(
-                    f"{mirror} can only be a port name {ref.ports.keys()}, "
+                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
                     "x value or True/False"
                 )
 
@@ -552,7 +552,7 @@ def from_yaml(
                     cross_section_factory[name], **name_or_dict
                 )
             else:
-                raise ValueError(f"invalid type for cross_section={name_or_dict}")
+                raise ValueError(f"invalid type for cross_section={name_or_dict!r}")
             settings["cross_section"] = cross_section
 
         ci = component_factory[component_type](**settings)
@@ -601,7 +601,7 @@ def from_yaml(
             for key in routes_dict.keys():
                 if key not in valid_route_keys:
                     raise ValueError(
-                        f"`{route_alias}` key=`{key}` not in {valid_route_keys}"
+                        f"{route_alias!r} key={key!r} not in {valid_route_keys}"
                     )
 
             settings = routes_dict.pop("settings", {})
@@ -623,12 +623,12 @@ def from_yaml(
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
                 raise ValueError(
-                    f"function `{routing_strategy_name}` not in routing_strategy {list(routing_strategy.keys())}"
+                    f"function {routing_strategy_name!r} not in routing_strategy {list(routing_strategy.keys())}"
                 )
 
             if "links" not in routes_dict:
                 raise ValueError(
-                    f"You need to define links for the `{route_alias}` route"
+                    f"You need to define links for the {route_alias!r} route"
                 )
             links_dict = routes_dict["links"]
 

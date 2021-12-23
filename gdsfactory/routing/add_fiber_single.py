@@ -105,6 +105,14 @@ def add_fiber_single(
 
     """
     component = component() if callable(component) else component
+
+    optical_ports = select_ports(component.ports)
+    optical_ports = list(optical_ports.values())
+    optical_port_names = [p.name for p in optical_ports]
+
+    if zero_port not in optical_port_names:
+        raise ValueError(f"zero_port = {zero_port!r} not in {optical_port_names}")
+
     component = move_port_to_zero(component, zero_port) if zero_port else component
 
     optical_ports = select_ports(component.ports)
@@ -126,7 +134,7 @@ def add_fiber_single(
     gc = gc() if callable(gc) else gc
 
     if gc_port_name not in gc.ports:
-        raise ValueError(f"{gc_port_name} not in {list(gc.ports.keys())}")
+        raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
 
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
 

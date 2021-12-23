@@ -157,7 +157,7 @@ def write_sweeps(
         component = doe["component"]
 
         if component not in component_factory:
-            raise ValueError(f"{component} not in {component_factory.keys()}")
+            raise ValueError(f"{component!r} not in {component_factory.keys()}")
 
         if "template" in doe:
             # The keyword template is used to enrich the dictionary from the template
@@ -202,13 +202,13 @@ def write_sweeps(
             if "doe_template" in doe:
                 # this DOE points to another existing component
                 _doe_exists = True
-                logger.info("Using template - {}".format(doe_name))
+                logger.info(f"Using template - {doe_name!r}")
                 save_doe_use_template(doe)
 
             elif use_cached_does:
                 _doe_exists = doe_exists(doe_name, list_settings)
                 if _doe_exists:
-                    logger.info("Cached - {}".format(doe_name))
+                    logger.info("Cached - {doe_name!r}")
                     if overwrite:
                         component_names = load_doe_component_names(doe_name)
 

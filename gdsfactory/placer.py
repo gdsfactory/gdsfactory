@@ -32,7 +32,6 @@ YAML defines component DOE settings and placement
 
 import os
 import pathlib
-import sys
 from pathlib import Path
 from typing import Callable, Dict, List, Union
 
@@ -41,14 +40,9 @@ from omegaconf import OmegaConf
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
-from gdsfactory.config import CONFIG
+from gdsfactory.config import CONFIG, logger
 from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
 from gdsfactory.types import ComponentFactoryDict
-
-
-def _print(*args, **kwargs):
-    print(*args, **kwargs)
-    sys.stdout.flush()
 
 
 def placer_grid_cell_refs(
@@ -190,10 +184,8 @@ def pack_vertical(
 
     if len(cells) != len(col_ids):
         raise ValueError(
-            "Each cell should be assigned a row id. \
-        Got {} cells for {} col ids".format(
-                len(cells), len(col_ids)
-            )
+            "Each cell should be assigned a row id. "
+            f"Got {len(cells)} cells for {len(col_ids)} col ids"
         )
 
     # Find the width of each column to fit the cells
@@ -431,7 +423,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
             try:
                 components = load_doe_from_cache(doe_name)
             except Exception as e:
-                _print(e)
+                logger.error(e)
                 components = None
 
         # If no component is loaded, build them
@@ -443,9 +435,9 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
             if cache_enabled:
                 save_doe(doe_name, components, precision=precision)
         else:
-            _print("{} - Loaded components from cache".format(doe_name))
+            logger.info("{} - Loaded components from cache".format(doe_name))
 
-        # _print(doe_name, [c.name for c in components])
+        # logger.info(doe_name, [c.name for c in components])
         # Find placer information
 
         default_settings = {"align_x": "W", "align_y": "S", "margin": 10}
