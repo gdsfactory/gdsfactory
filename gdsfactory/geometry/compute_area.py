@@ -138,26 +138,27 @@ def compute_area_hierarchical(
 def test_compute_area():
     import gdsfactory as gf
 
-    c = gf.components.mzi_arms()
-    assert int(compute_area(c, layer=(1, 0))) == 150, int(compute_area(c, layer=(1, 0)))
+    c = gf.components.mzi()
+    assert int(compute_area(c, layer=(1, 0))) == 148, int(compute_area(c, layer=(1, 0)))
 
 
 def test_compute_area_hierarchical():
     import gdsfactory as gf
 
-    c = gf.components.mzi_arms()
-    print(c.name)
-    assert int(compute_area_hierarchical(c, layer=(1, 0))[c.name][0]) == 150, int(
+    c = gf.components.mzi()
+    assert int(compute_area_hierarchical(c, layer=(1, 0))[c.name][0]) == 148, int(
         compute_area_hierarchical(c, layer=(1, 0))[c.name][0]
     )
 
 
 if __name__ == "__main__":
+    test_compute_area_hierarchical()
+    # test_compute_area()
     # import gdsfactory as gf
     # print(bucket_cells_by_rank([c] + list(c.get_dependencies(recursive=True))))
     # c = gf.components.mzi()
     # print(compute_area(c, layer=(1, 0)))
     # d = compute_area_hierarchical(c, layer=(1, 0))
     # c.show()
-    test_compute_area_hierarchical()
+    # test_compute_area_hierarchical()
     # test_compute_area()

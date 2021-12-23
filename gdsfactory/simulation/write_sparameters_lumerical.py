@@ -274,7 +274,9 @@ def write_sparameters_lumerical(
 
     material = ss.background_material
     if material not in MATERIAL_NAME_TO_LUMERICAL:
-        raise ValueError(f"{material} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}")
+        raise ValueError(
+            f"{material!r} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+        )
     material = MATERIAL_NAME_TO_LUMERICAL[material]
     s.setnamed("clad", "material", material)
 
@@ -297,12 +299,12 @@ def write_sparameters_lumerical(
             continue
 
         if layer not in layer_to_material:
-            raise ValueError(f"{layer} not in {layer_to_material.keys()}")
+            raise ValueError(f"{layer!r} not in {layer_to_material.keys()}")
 
         material_name = layer_to_material[layer]
         if material_name not in MATERIAL_NAME_TO_LUMERICAL:
             raise ValueError(
-                f"{material_name} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+                f"{material_name!r} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
             )
         material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material_name]
 

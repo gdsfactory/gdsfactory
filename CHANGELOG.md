@@ -18,6 +18,15 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.3
+
+- better error messages using f"{component!r}" to get `'component_name'`
+- import_gds avoids duplicated cells by checking CACHE_IMPORTED and adding and underscore `_` suffix in case there are some name conflicts.
+- add `Component.lock()` and `Component.unlock()` allows you to modify component after adding it into CACHE
+- add `gf.geometry.check_duplicated_cells` to check duplicated cells. Thanks to Klayout
+- fix `mzi_with_arms`, before it had `delta_length` in both arms
+
+
 ## 3.9.2
 
 - increase `gf.routing.get_route_electrical` default min_straight_length from 10nm to 2um

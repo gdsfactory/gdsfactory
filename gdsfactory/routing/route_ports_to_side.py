@@ -181,7 +181,7 @@ def route_ports_to_x(
     elif isinstance(x, (float, int)):
         pass
     else:
-        raise ValueError(f'x={x} should be a float or "east" or "west"')
+        raise ValueError(f"x={x!r} should be a float or east or west")
 
     if x < min(xs):
         sort_key_north = sort_key_west_to_east
