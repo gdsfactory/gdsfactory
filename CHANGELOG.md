@@ -18,6 +18,10 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.4
+
+- imported cell names get incremented (starting on index0) as we find them also in the CACHE. This avoids duplicated cell names.
+
 ## 3.9.3
 
 - better error messages using f"{component!r}" to get `'component_name'`
