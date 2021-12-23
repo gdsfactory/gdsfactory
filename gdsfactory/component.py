@@ -615,6 +615,12 @@ class Component(Device):
         self.cached = False
         self.get_child_name = False
 
+    def unlock(self):
+        self.cached = False
+
+    def lock(self):
+        self.cached = True
+
     @classmethod
     def __get_validators__(cls):
         yield cls.validate

@@ -19,6 +19,40 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_s
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 1
 
+CACHE_IMPORTED_CELLS = {}
+
+
+def avoid_duplicated_cells(c: Component) -> Component:
+    """Ensures import_gds cells do not create duplicated cell names
+    with the ones in CACHE.
+    """
+
+    # if hash_geometry is different from cache, rename it
+    if c.name in CACHE or c.name in CACHE_IMPORTED_CELLS:
+        existing_cell = CACHE.get(c.name, CACHE_IMPORTED_CELLS.get(c.name))
+
+        # if hash_geometry is different, rename the CACHE_IMPORTED_CELLS cell
+        if c.hash_geometry() != existing_cell.hash_geometry():
+            c.name = f"{c.name}_"
+            CACHE_IMPORTED_CELLS[c.name] = c
+            # print("A")
+
+        # if hash_geometry is the same and is in CACHE, get it from CACHE
+        elif c.name in CACHE:
+            c = CACHE[c.name]
+            # print("B")
+
+        # if hash_geometry is the same and is in CACHE_IMPORTED_CELLS, get it from CACHE_IMPORTED_CELLS
+        elif c.name in CACHE_IMPORTED_CELLS:
+            c = CACHE_IMPORTED_CELLS[c.name]
+            # print("C")
+
+    # if is not on CACHE_IMPORTED_CELLS or CACHE, add it to CACHE_IMPORTED_CELLS
+    else:
+        CACHE_IMPORTED_CELLS[c.name] = c
+        # print("D")
+    return c
+
 
 class CellReturnTypeError(ValueError):
     pass
@@ -27,7 +61,9 @@ class CellReturnTypeError(ValueError):
 def clear_cache() -> None:
     """Clears the component CACHE."""
     global CACHE
+    global CACHE_IMPORTED_CELLS
     CACHE = {}
+    CACHE_IMPORTED_CELLS = {}
 
 
 def print_cache():
@@ -195,6 +231,14 @@ def cell_without_validator(func):
 
             component.cached = True
             CACHE[name] = component
+
+            # avoid_duplicated_cells
+            if name in CACHE_IMPORTED_CELLS:
+                cell_imported = CACHE_IMPORTED_CELLS.pop(name)
+                new_name = f"{cell_imported.name}_"
+                cell_imported.name = new_name
+                CACHE_IMPORTED_CELLS[new_name] = cell_imported
+
             return component
 
     return _cell

@@ -6,7 +6,7 @@ import numpy as np
 from omegaconf import OmegaConf
 from phidl.device_layout import CellArray, DeviceReference
 
-from gdsfactory.cell import cell_without_validator
+from gdsfactory.cell import avoid_duplicated_cells
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.snap import snap_to_grid
@@ -87,6 +87,9 @@ def import_gds(
                     layer=(label.layer, label.texttype),
                 )
                 label_ref.anchor = label.anchor
+
+            D = avoid_duplicated_cells(D)
+            D.unlock()
             c2dmap.update({c: D})
             D_list += [D]
 
@@ -147,9 +150,7 @@ def import_gds(
 
     name = name or component.name
     component.name = name
-    component = cell_without_validator(lambda: component)(
-        name=name, max_name_length=max_name_length, autoname=False
-    )
+
     if metadata_filepath.exists():
         logger.info(f"Read YAML metadata from {metadata_filepath}")
         metadata = OmegaConf.load(metadata_filepath)

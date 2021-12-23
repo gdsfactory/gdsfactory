@@ -20,7 +20,12 @@ Maybe:
 
 ## 3.9.3
 
-- better error messages
+- better error messages using f"{component!r}" to get `'component_name'`
+- import_gds avoids duplicated cells by checking CACHE_IMPORTED
+- add `Component.lock()` and `Component.unlock()` allows you to modify component after adding it into CACHE
+- add `gf.geometry.check_duplicated_cells` to check duplicated cells. Thanks to Klayout
+- fix `mzi_with_arms`, before it had `delta_length` in both arms
+
 
 ## 3.9.2
 
