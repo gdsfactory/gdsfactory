@@ -22,17 +22,18 @@ def test_read_gds_with_settings(data_regression: DataRegressionFixture) -> None:
 
 
 def test_read_gds_equivalent():
-    """Ensures we can load it from GDS + YAML and get the same component settings"""
+    """Ensures we load Component from GDS + YAML and get the same component settings"""
     c1 = gf.c.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
-    gf.clear_cache()
     c2 = gf.import_gds(gdspath)
-
     d1 = c1.to_dict()
     d2 = c2.to_dict()
+    d1["info"].pop("name")
+    d2["info"].pop("name")
 
     d = jsondiff.diff(d1, d2)
+    d.pop("cells")
 
     # pprint(d1)
     # pprint(d2)
@@ -61,11 +62,11 @@ def _write():
 
 
 if __name__ == "__main__":
-    test_read_gds_equivalent()
+    # _write()
+    # test_read_gds_equivalent()
     # c = test_read_gds_hash()
     # test_mix_cells_from_gds_and_from_function()
 
-    # _write()
     # test_load_component_gds()
     # test_read_gds_with_settings()
     # test_read_gds_equivalent()
@@ -77,9 +78,15 @@ if __name__ == "__main__":
     # d = c2.to_dict()["cells"]
     # print(d)
 
-    # d1 = c1.to_dict_config
-    # d2 = c2.to_dict_config
-    # dd1 = c1.to_dict
-    # dd2 = c2.to_dict
-    # d = jsondiff.diff(dd1, dd2)
-    # print(d)
+    c1 = gf.c.straight(length=1.234)
+    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+
+    c2 = gf.import_gds(gdspath)
+    d1 = c1.to_dict()
+    d2 = c2.to_dict()
+    d1["info"].pop("name")
+    d2["info"].pop("name")
+
+    d = jsondiff.diff(d1, d2)
+    d.pop("cells")
+    assert len(d) == 0, d

@@ -8,14 +8,21 @@ from gdsfactory.config import logger
 
 
 def show(
-    component: Union[Component, str, pathlib.Path],
-    clear_cache: bool = True,
+    component: Union[Component, str, pathlib.Path], clear_cache: bool = True, **kwargs
 ) -> None:
-    """Shows Component in klayout
+    """Write GDS and show Component in klayout
 
     Args:
         component
         clear_cache: clear_cache after showing the component
+
+    Keyword Args:
+        gdspath: GDS file path to write to.
+        gdsdir: directory for the GDS file. Defaults to /tmp/
+        unit: unit size for objects in library. 1um by default.
+        precision: for object dimensions in the library (m). 1nm by default.
+        timestamp: Defaults to 2019-10-25. If None uses current time.
+
     """
     if isinstance(component, pathlib.Path):
         component = str(component)
@@ -28,7 +35,7 @@ def show(
         )
 
     elif isinstance(component, Component):
-        gdspath = component.write_gds(logging=False)
+        gdspath = component.write_gds(logging=False, **kwargs)
         klive.show(gdspath)
         logger.info(f"Klayout show {component!r}")
     else:
