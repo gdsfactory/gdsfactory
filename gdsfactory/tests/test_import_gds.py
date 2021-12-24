@@ -41,20 +41,20 @@ def test_import_ports() -> gf.Component:
     return c1
 
 
-def test_import_gds_add_padding() -> gf.Component:
-    """Make sure you can import the ports"""
-    c0 = gf.components.mzi_arms(decorator=gf.add_pins)
-    gdspath = c0.write_gds()
-    gf.clear_cache()
+# def test_import_gds_add_padding() -> gf.Component:
+#     """Make sure you can import the ports"""
+#     c0 = gf.components.mzi_arms(decorator=gf.add_pins)
+#     gdspath = c0.write_gds()
+#     gf.clear_cache()
 
-    c1 = import_gds(gdspath, decorator=gf.add_padding_container, name="mzi")
-    assert c1.name == "mzi"
-    return c1
+#     c1 = import_gds(gdspath, decorator=gf.add_padding_container, name="mzi")
+#     assert c1.name == "mzi"
+#     return c1
 
 
 if __name__ == "__main__":
-    c = test_import_gds_hierarchy()
-    # c = test_import_ports()
+    # c = test_import_gds_hierarchy()
+    c = test_import_ports()
     # c = test_import_gds_add_padding()
     c.show()
     # test_import_gds_snap_to_grid()

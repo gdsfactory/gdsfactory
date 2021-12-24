@@ -1,7 +1,5 @@
 """avoid duplicated cell names when importing GDS files."""
 
-import pytest
-
 import gdsfactory as gf
 from gdsfactory import geometry
 
@@ -62,48 +60,8 @@ def test_import_thrice():
     geometry.check_duplicated_cells(gdspath2)
 
 
-def test_import_name_already_on_cache():
-    c0 = gf.c.mmi1x2()
-    gdspath1 = c0.write_gds("extra/mmi.gds")
-
-    c = gf.Component("parent")
-
-    gdspath1 = "extra/mmi.gds"
-    with pytest.raises(ValueError):
-        c1 = gf.import_gds(gdspath1, name="mmi2")  # IMPORT
-        c2 = gf.import_gds(gdspath1, name="mmi2")  # IMPORT
-
-        c << c0
-        c << c1
-        c << c2
-
-        gdspath2 = c.write_gds("extra/mzis.gds")
-        geometry.check_duplicated_cells(gdspath2)
-
-
-def test_import_name_already_on_cache_flat():
-    c0 = gf.c.mmi1x2()
-    gdspath1 = c0.write_gds("extra/mmi.gds")
-
-    c = gf.Component("parent")
-
-    gdspath1 = "extra/mmi.gds"
-    with pytest.raises(ValueError):
-        c1 = gf.import_gds(gdspath1, name="mmi2", flatten=True)  # IMPORT
-        c2 = gf.import_gds(gdspath1, name="mmi2", flatten=True)  # IMPORT
-
-        c << c0
-        c << c1
-        c << c2
-
-        gdspath2 = c.write_gds("extra/mzis.gds")
-        geometry.check_duplicated_cells(gdspath2)
-
-
 if __name__ == "__main__":
-    # test_import_name_already_on_cache()
-    # test_import_name_already_on_cache_flat()
-    # test_import_twice()
+    test_import_twice()
     # test_build_first()
     # test_import_first()
 
@@ -112,17 +70,16 @@ if __name__ == "__main__":
 
     # gdspath1 = c0.write_gds("extra/mmi.gds")
 
-    c = gf.Component("parent")
+    # c = gf.Component("parent")
+    # c0 = gf.c.mmi1x2()
+    # gdspath1 = "extra/mmi.gds"
+    # c1 = gf.import_gds(gdspath1)  # IMPORT
+    # c2 = gf.import_gds(gdspath1)  # IMPORT
 
-    c0 = gf.c.mmi1x2()
-    gdspath1 = "extra/mmi.gds"
-    c1 = gf.import_gds(gdspath1)  # IMPORT
-    c2 = gf.import_gds(gdspath1)  # IMPORT
+    # c << c0
+    # c << c1
+    # c << c2
 
-    c << c0
-    c << c1
-    c << c2
-
-    gdspath2 = c.write_gds("extra/mzis.gds")
-    geometry.check_duplicated_cells(gdspath2)
-    c.show()
+    # gdspath2 = c.write_gds("extra/mzis.gds")
+    # geometry.check_duplicated_cells(gdspath2)
+    # c.show()

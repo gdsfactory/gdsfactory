@@ -1,3 +1,4 @@
+from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Optional, Union, cast
 
@@ -12,6 +13,7 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.snap import snap_to_grid
 
 
+@lru_cache(maxsize=None)
 def import_gds(
     gdspath: Union[str, Path],
     cellname: Optional[str] = None,
@@ -155,12 +157,6 @@ def import_gds(
         component = cell_to_device[topcell]
         cast(Component, component)
 
-    if decorator:
-        component_new = decorator(component)
-        component = component_new or component
-    if flatten:
-        component.flatten()
-
     name = name or component.name
     component.name = name
 
@@ -184,6 +180,12 @@ def import_gds(
     component.info.update(**kwargs)
     component.name = name
     component.info.name = name
+
+    if decorator:
+        component_new = decorator(component)
+        component = component_new or component
+    if flatten:
+        component.flatten()
     return component
 
 
