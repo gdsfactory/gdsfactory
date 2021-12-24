@@ -31,10 +31,16 @@ def avoid_duplicated_cells(c: Component) -> Component:
 
 
     """
+    i = 0
 
-    #  if the cell is already on any CACHE rename if
+    # rename cell if it is already on any CACHE
     if c.name in CACHE or c.name in CACHE_IMPORTED_CELLS:
-        c.name = f"{c.name}_"
+        new_name = f"{c.name}{i}"
+        while new_name in CACHE or new_name in CACHE_IMPORTED_CELLS:
+            i += 1
+            new_name = f"{c.name}{i}"
+
+        c.name = new_name
         CACHE_IMPORTED_CELLS[c.name] = c
 
     # if is not on CACHE add it to CACHE_IMPORTED_CELLS

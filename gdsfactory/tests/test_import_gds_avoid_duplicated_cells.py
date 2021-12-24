@@ -46,14 +46,35 @@ def test_import_twice():
     assert len(c1.hash_geometry()) == len(c2.hash_geometry())
 
 
+def test_import_thrice():
+    c0 = gf.Component("parent")
+    c0 << gf.c.mzi_arms()
+    gdspath1 = c0.write_gds("extra/mzi.gds")
+
+    c = gf.Component()
+    c << gf.import_gds(gdspath1)  # IMPORT
+    c << gf.import_gds(gdspath1)  # IMPORT
+    c << gf.import_gds(gdspath1)  # IMPORT
+
+    gdspath2 = c.write_gds("extra/mzis.gds")
+    geometry.check_duplicated_cells(gdspath2)
+
+
 if __name__ == "__main__":
     # test_import_twice()
     # test_build_first()
     # test_import_first()
 
     # gf.clear_cache()
-    gdspath1 = "extra/mzi.gds"
-    c1 = gf.import_gds(gdspath1)  # IMPORT
-    c2 = gf.import_gds(gdspath1)  # IMPORT
-    c = gf.import_gds(gdspath1)  # IMPORT
+    c0 = gf.Component("parent")
+    c0 << gf.c.mzi_arms()
+    gdspath1 = c0.write_gds("extra/mzi.gds")
+
+    c = gf.Component()
+    c << gf.import_gds(gdspath1)  # IMPORT
+    c << gf.import_gds(gdspath1)  # IMPORT
+    c << gf.import_gds(gdspath1)  # IMPORT
+
+    gdspath2 = c.write_gds("extra/mzis.gds")
+    geometry.check_duplicated_cells(gdspath2)
     c.show()
