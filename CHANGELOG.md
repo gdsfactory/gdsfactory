@@ -18,13 +18,18 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.6
+
+- Component.show() writes component in a different tempfile everytime. This avoids the `reload` question prompt from klayout.
+- update klive to 0.0.7 to keep the same layers active between sessions
+
 ## 3.9.5
 
 - imported cell names get incremented (starting on index = 1) with a `$` (based on Klayout naming convention)
 - add test for flatten = True
 - raise ValueError if the passed name is already on any CAHE (CACHE_IMPORTED or CACHE)
 - avoid duplicate cells decorating import_gds with functools.lru_cache
-- show accepts `**kwargs`
+- show accepts `**kwargs` for write_gds
 - simplify decorator in @cell (does not change name)
 
 

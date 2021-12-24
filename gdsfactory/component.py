@@ -48,8 +48,8 @@ Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
-tmp.mkdir(exist_ok=True)
+tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 

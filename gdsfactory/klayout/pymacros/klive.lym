@@ -14,13 +14,16 @@
  <menu-path/>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
-<text>
-from __future__ import print_function
+ <text>from __future__ import print_function
 import pya
 import re
 import json
 import sys
+import tempfile
+import pathlib
+
 is_python3 = sys.version_info.major==3
+
 
 if is_python3:
     import codecs
@@ -34,12 +37,9 @@ class MyServer(pya.QTcpServer):
     """
 
     def new_connection(self):
+        """ Handler for a new connection
         """
-        Handler for a new connection
-        """
-
         try:
-
             url = None
 
             # Get a new connection object
@@ -66,8 +66,18 @@ class MyServer(pya.QTcpServer):
             current_view = window.current_view()
             previous_view = current_view.box() if current_view else None
 
+            temp = pathlib.Path(tempfile.TemporaryDirectory().name)
+            temp.mkdir(exist_ok=True)
+            filepath_layers = temp / 'klayout_layers.lyp'
+
+            if current_view:
+                current_view.save_layer_props(str(filepath_layers))
+
             # Load the new layout
             window.load_layout(gds_path, 0)
+
+            if current_view and filepath_layers.exists():
+                current_view.load_layer_props(str(filepath_layers))
 
             # Restore the previous position
             view = window.current_view()
@@ -98,7 +108,6 @@ class MyServer(pya.QTcpServer):
         """
         Initialize the server and put into listen mode
         """
-
         super(MyServer, self).__init__(parent)
 
         ha = pya.QHostAddress.new_ip4(0)
@@ -110,7 +119,7 @@ class MyServer(pya.QTcpServer):
 
 # Start the server
 server = MyServer()
-print("klive v0.0.6 is running")
+print("klive v0.0.7 is running")
 
 
 </text>
