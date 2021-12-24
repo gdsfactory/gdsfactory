@@ -612,14 +612,14 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
-        self.cached = False
+        self._locked = False
         self.get_child_name = False
 
     def unlock(self):
-        self.cached = False
+        self._locked = False
 
     def lock(self):
-        self.cached = True
+        self._locked = True
 
     @classmethod
     def __get_validators__(cls):
@@ -1023,10 +1023,13 @@ class Component(Device):
             cell.
 
         """
-        if self.cached:
+        if self._locked:
             raise MutabilityError(
-                f"Error Adding element to cached Component {self.name!r}. "
-                "You need to make a copy of this cached Component or create a new one."
+                f"Error Adding element to locked Component {self.name!r}. "
+                "You need to make a copy of this Component or create a new one."
+                "Changing a component after creating it can be dangerous "
+                "as it will affect all of its instances. "
+                "You can unlock it (at your own risk) by calling `unlock()`"
             )
         super().add(element)
 

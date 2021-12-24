@@ -210,18 +210,14 @@ def cell_without_validator(func):
             component.info.update(**info)
 
             if decorator:
-                assert callable(
-                    decorator
-                ), f"decorator = {type(decorator)} needs to be callable"
-                component_new = decorator(component)
-                if component_new and autoname:
-                    component_new.name = get_name_short(
-                        f"{component.name}_{clean_value(decorator)}",
-                        max_name_length=max_name_length,
+                if not callable(decorator):
+                    raise ValueError(
+                        f"decorator = {type(decorator)} needs to be callable"
                     )
+                component_new = decorator(component)
                 component = component_new or component
 
-            component.cached = True
+            component.lock()
             CACHE[name] = component
 
             # avoid_duplicated_cells

@@ -186,6 +186,7 @@ def import_gds(
         component = component_new or component
     if flatten:
         component.flatten()
+    component.lock()
     return component
 
 
