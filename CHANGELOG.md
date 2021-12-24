@@ -24,6 +24,8 @@ Maybe:
 - add test for flatten = True
 - raise ValueError if the passed name is already on any CAHE (CACHE_IMPORTED or CACHE)
 - avoid duplicate cells decorating import_gds with functools.lru_cache
+- show accepts `**kwargs`
+- simplify decorator in @cell (does not change name)
 
 
 ## 3.9.4
