@@ -6,7 +6,7 @@ import numpy as np
 from omegaconf import OmegaConf
 from phidl.device_layout import CellArray, DeviceReference
 
-from gdsfactory.cell import avoid_duplicated_cells
+from gdsfactory.cell import CACHE, CACHE_IMPORTED_CELLS, avoid_duplicated_cells
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.snap import snap_to_grid
@@ -57,15 +57,27 @@ def import_gds(
         topcell = top_level_cells[0]
     elif cellname is None and len(top_level_cells) > 1:
         raise ValueError(
-            f"import_gds() There are multiple top-level cells in {gdspath}, "
+            f"import_gds() There are multiple top-level cells in {gdspath!r}, "
             f"you must specify `cellname` to select of one of them among {cellnames}"
         )
+
+    if name:
+        if name in CACHE or name in CACHE_IMPORTED_CELLS:
+            raise ValueError(
+                f"name = {name!r} already on cache. "
+                "Please, choose a different name or set name = None. "
+            )
+        else:
+            topcell.name = name
+
     if flatten:
         component = Component(name=name or cellname or cellnames[0])
         polygons = topcell.get_polygons(by_spec=True)
 
         for layer_in_gds, polys in polygons.items():
             component.add_polygon(polys, layer=layer_in_gds)
+
+        component = avoid_duplicated_cells(component)
 
     else:
         D_list = []

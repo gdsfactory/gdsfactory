@@ -27,18 +27,15 @@ def avoid_duplicated_cells(c: Component) -> Component:
     with the ones in CACHE.
     if component in CACHE or CACHE_IMPORTED_CELLS we get it from there
 
-    TODO: check geometric hash
-
-
     """
-    i = 0
 
     # rename cell if it is already on any CACHE
     if c.name in CACHE or c.name in CACHE_IMPORTED_CELLS:
-        new_name = f"{c.name}{i}"
+        i = 1
+        new_name = f"{c.name}${i}"
         while new_name in CACHE or new_name in CACHE_IMPORTED_CELLS:
             i += 1
-            new_name = f"{c.name}{i}"
+            new_name = f"{c.name}${i}"
 
         c.name = new_name
         CACHE_IMPORTED_CELLS[c.name] = c
@@ -229,10 +226,15 @@ def cell_without_validator(func):
 
             # avoid_duplicated_cells
             if name in CACHE_IMPORTED_CELLS:
-                cell_imported = CACHE_IMPORTED_CELLS.pop(name)
-                new_name = f"{cell_imported.name}_"
-                cell_imported.name = new_name
-                CACHE_IMPORTED_CELLS[new_name] = cell_imported
+                c = CACHE_IMPORTED_CELLS.pop(name)
+                i = 1
+                new_name = f"{c.name}${i}"
+                while new_name in CACHE or new_name in CACHE_IMPORTED_CELLS:
+                    i += 1
+                    new_name = f"{c.name}${i}"
+
+                c.name = new_name
+                CACHE_IMPORTED_CELLS[new_name] = c
 
             return component
 
