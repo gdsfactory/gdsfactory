@@ -23,7 +23,8 @@ Maybe:
 - imported cell names get incremented (starting on index = 1) with a `$` (based on Klayout naming convention)
 - add test for flatten = True
 - raise ValueError if the passed name is already on any CAHE (CACHE_IMPORTED or CACHE)
-- duplicate import_gds with functools.lru_cache
+- avoid duplicate cells decorating import_gds with functools.lru_cache
+
 
 ## 3.9.4
 
