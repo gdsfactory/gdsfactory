@@ -18,9 +18,15 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.5
+
+- imported cell names get incremented (starting on index = 1) with a `$` (based on Klayout naming convention)
+- add test for flatten = True
+- raise ValueError if the passed name is already on any CAHE (CACHE_IMPORTED or CACHE)
+
 ## 3.9.4
 
-- imported cell names get incremented (starting on index0) as we find them also in the CACHE. This avoids duplicated cell names.
+- imported cell names get incremented (starting on index = 0) as we find them also in the CACHE. This avoids duplicated cell names.
 
 ## 3.9.3
 
