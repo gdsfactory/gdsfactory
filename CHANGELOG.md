@@ -7,6 +7,7 @@
 - add example on how to customize visualization of a component
 - build docker container
 - remove kwargs from most components as a way to customize cross_sections to get more intuitive error messages
+- base docker container on [miniconda](https://hub.docker.com/r/continuumio/miniconda3/tags)
 
 Maybe:
 
