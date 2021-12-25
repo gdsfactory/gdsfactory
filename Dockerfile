@@ -11,6 +11,5 @@ RUN conda init bash
 # Activate the environment, and make sure it's activated:
 # RUN echo "conda activate myenv" > ~/.bashrc
 
-RUN conda install -y gdspy
-RUN conda install -y triangle
+RUN conda install gdspy triangle
 RUN bash install.sh
