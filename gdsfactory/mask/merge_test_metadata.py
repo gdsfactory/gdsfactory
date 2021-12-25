@@ -1,50 +1,7 @@
-"""Merge mask metadata with test and data analysis protocols
-
-config.yml
-
-```yaml
-test_protocols:
-    passive_optical_te_coarse:
-        wl_min:
-        wl_max:
-        wl_step:
-        polarization: te
-
-    passive_optical_tm_coarse:
-        wl_min:
-        wl_max:
-        wl_step:
-        polarization: tm
-    ...
-
-```
-
-
-does.yml
-
-```yaml
-doe01:
-    instances:
-        - cell_name1, x1, y1
-        - cell_name2, x2, y2
-        - cell_name3, x3, y3
-
-    test_protocols:
-        - passive_optical_te_coarse
-
-doe02:
-    instances:
-        - cell_name21, x21, y21
-        - cell_name22, x22, y22
-        - cell_name23, x23, y23
-
-    test_protocols:
-        - passive_optical_te_coarse
-    ...
-```
-"""
+"""Merge mask metadata with test labels to return test_metadata """
 
 import pathlib
+import warnings
 from pathlib import Path
 from typing import List
 
@@ -84,10 +41,19 @@ def merge_test_metadata(
     gdspath: Path = CONFIG["mask_gds"], labels_prefix: str = "opt"
 ) -> DictConfig:
     """Returns a test metadata dict config of labeled cells
+    by merging GDS labels in CSV and YAML mask metadata
 
     Args:
-        gdspath
-        labels_prefix
+        gdspath: for GDS file
+        labels_prefix: only select labels with a text prefix
+
+    .. code::
+
+        CSV labels  -------
+                          |--> merge_test_metadata dict
+                          |
+        YAML metatada  ----
+
 
     """
     gdspath = pathlib.Path(gdspath)
@@ -115,6 +81,7 @@ def merge_test_metadata(
             test_metadata[cell].label = dict(x=x, y=y, text=label)
         else:
             logger.error(f"missing cell metadata for {cell}")
+            warnings.warn(f"missing cell metadata for {cell}")
 
     OmegaConf.save(test_metadata, f=test_metadata_path)
     return test_metadata

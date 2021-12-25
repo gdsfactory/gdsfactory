@@ -58,18 +58,18 @@ def add_fiber_single(
         max_y0_optical: None
         with_loopback: True, adds loopback structures
         straight_separation: 4.0
-        list_port_labels: None, adds TM labels to port indices in this list
+        list_port_labels: None, add labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
         force_manhattan: False
-        excluded_ports:
+        excluded_ports: list of ports to exclude
         grating_indices: None
-        routing_method: get_route
-        gc_port_name: W0
+        routing_method: function to ge the route
+        gc_port_name: grating coupler name
         zero_port: name of the port to move to (0, 0) for the routing to work correctly
         get_input_labels_function: function to get input labels for grating couplers
         optical_routing_type: None: autoselection, 0: no extension
-        gc_rotation: -90
+        gc_rotation: grating_coupler rotation (deg)
         component_name: name of component
         cross_section:
         get_input_label_text_function: for the grating couplers input label
@@ -105,6 +105,14 @@ def add_fiber_single(
 
     """
     component = component() if callable(component) else component
+
+    optical_ports = select_ports(component.ports)
+    optical_ports = list(optical_ports.values())
+    optical_port_names = [p.name for p in optical_ports]
+
+    if zero_port not in optical_port_names:
+        raise ValueError(f"zero_port = {zero_port!r} not in {optical_port_names}")
+
     component = move_port_to_zero(component, zero_port) if zero_port else component
 
     optical_ports = select_ports(component.ports)
@@ -126,7 +134,7 @@ def add_fiber_single(
     gc = gc() if callable(gc) else gc
 
     if gc_port_name not in gc.ports:
-        raise ValueError(f"{gc_port_name} not in {list(gc.ports.keys())}")
+        raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
 
     gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
 
@@ -266,8 +274,9 @@ if __name__ == "__main__":
         c.add_ports(ref.ports)
         return c
 
-    c = gf.components.ring_single(length_x=167)
+    # c = gf.components.ring_single(length_x=167)
     # c = gf.components.spiral(direction="NORTH")
+    c = gf.c.spiral_inner_io_fiber_single()
     cc = add_fiber_single(
         # component=gf.c.straight_heater_metal(width=2),
         component=c,
@@ -275,7 +284,7 @@ if __name__ == "__main__":
         with_loopback=True,
         layer=(2, 0),
         zero_port="o2",
-        grating_coupler=[gf.c.grating_coupler_te, gf.c.grating_coupler_tm],
+        # grating_coupler=[gf.c.grating_coupler_te, gf.c.grating_coupler_tm],
     )
     cc.show()
 

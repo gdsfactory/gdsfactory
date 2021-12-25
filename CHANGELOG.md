@@ -18,6 +18,59 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.6
+
+- Component.show() writes component in a different tempfile everytime. This avoids the `reload` question prompt from klayout.
+- update klive to 0.0.7 to keep the same layers active between sessions
+
+## 3.9.5
+
+- imported cell names get incremented (starting on index = 1) with a `$` (based on Klayout naming convention)
+- add test for flatten = True
+- raise ValueError if the passed name is already on any CAHE (CACHE_IMPORTED or CACHE)
+- avoid duplicate cells decorating import_gds with functools.lru_cache
+- show accepts `**kwargs` for write_gds
+- simplify decorator in @cell (does not change name)
+
+
+## 3.9.4
+
+- imported cell names get incremented (starting on index = 0) as we find them also in the CACHE. This avoids duplicated cell names.
+
+## 3.9.3
+
+- better error messages using f"{component!r}" to get `'component_name'`
+- import_gds avoids duplicated cells by checking CACHE_IMPORTED and adding and underscore `_` suffix in case there are some name conflicts.
+- add `Component.lock()` and `Component.unlock()` allows you to modify component after adding it into CACHE
+- add `gf.geometry.check_duplicated_cells` to check duplicated cells. Thanks to Klayout
+- fix `mzi_with_arms`, before it had `delta_length` in both arms
+
+
+## 3.9.2
+
+- increase `gf.routing.get_route_electrical` default min_straight_length from 10nm to 2um
+- rename text_rectangular to text_rectangular_multi_layer
+- rename manhattan_text to text_rectangular
+
+## 3.9.1
+
+- gf.import_gds updates info based on `kwargs`. In case you want to specify (wavelength, test_protocol...)
+- store gf.import_gds name
+
+## 3.9.0
+
+- move add_ports_from_markers functions from `gf.import_gds` to `gf.add_ports`
+- move write_cells functions from `gf.import_gds` to `gf.write_cells`
+- move `gf.import_gds` to `gf.read.import_gds`. keep `gf.import_gds` as a link to `gf.read.import_gds`
+- combine gf.read.from_gds with gf.import_gds
+- add logger.info for write_gds, write_gds_with_metadata, gf.read.import_gds, klive.show()
+
+## 3.8.15
+
+- gf.read.from_gds passes kwargs to gf.import_gds
+- rename grating_coupler_loss to grating_coupler_loss_fiber_array4 gf.components
+- add grating_coupler_loss_fiber_single to components
+
 ## 3.8.14
 
 - klayout is an optional dependency
@@ -117,7 +170,7 @@ Maybe:
 ## 3.7.5
 
 - add `add_tapers_cross_section` to taper component cross_sections
-- letter `v` in text_rectangular is now DRC free
+- letter `v` in text_rectangular_multi_layer is now DRC free
 
 ## 3.7.4
 
@@ -216,7 +269,7 @@ Maybe:
 ## 3.6.0
 
 - snap_to_grid_nm waypoints in round_corners to avoid 1nm gaps in some routes
-- add `gf.components.text_rectangular`
+- add `gf.components.text_rectangular_multi_layer`
 - add `gf.components.rectangle_with_slits`
 
 ## 3.5.12

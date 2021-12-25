@@ -648,7 +648,7 @@ def auto_rename_ports(
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
     **kwargs,
-):
+) -> Device:
     """Adds prefix for optical and electical.
 
     Args:

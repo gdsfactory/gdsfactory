@@ -19,6 +19,32 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_s
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 1
 
+CACHE_IMPORTED_CELLS = {}
+
+
+def avoid_duplicated_cells(c: Component) -> Component:
+    """Ensures import_gds cells do not create duplicated cell names
+    with the ones in CACHE.
+    if component in CACHE or CACHE_IMPORTED_CELLS we get it from there
+
+    """
+
+    # rename cell if it is already on any CACHE
+    if c.name in CACHE or c.name in CACHE_IMPORTED_CELLS:
+        i = 1
+        new_name = f"{c.name}${i}"
+        while new_name in CACHE or new_name in CACHE_IMPORTED_CELLS:
+            i += 1
+            new_name = f"{c.name}${i}"
+
+        c.name = new_name
+        CACHE_IMPORTED_CELLS[c.name] = c
+
+    # if is not on CACHE add it to CACHE_IMPORTED_CELLS
+    else:
+        CACHE_IMPORTED_CELLS[c.name] = c
+    return c
+
 
 class CellReturnTypeError(ValueError):
     pass
@@ -27,7 +53,9 @@ class CellReturnTypeError(ValueError):
 def clear_cache() -> None:
     """Clears the component CACHE."""
     global CACHE
+    global CACHE_IMPORTED_CELLS
     CACHE = {}
+    CACHE_IMPORTED_CELLS = {}
 
 
 def print_cache():
@@ -182,19 +210,28 @@ def cell_without_validator(func):
             component.info.update(**info)
 
             if decorator:
-                assert callable(
-                    decorator
-                ), f"decorator = {type(decorator)} needs to be callable"
-                component_new = decorator(component)
-                if component_new and autoname:
-                    component_new.name = get_name_short(
-                        f"{component.name}_{clean_value(decorator)}",
-                        max_name_length=max_name_length,
+                if not callable(decorator):
+                    raise ValueError(
+                        f"decorator = {type(decorator)} needs to be callable"
                     )
+                component_new = decorator(component)
                 component = component_new or component
 
-            component.cached = True
+            component.lock()
             CACHE[name] = component
+
+            # avoid_duplicated_cells
+            if name in CACHE_IMPORTED_CELLS:
+                c = CACHE_IMPORTED_CELLS.pop(name)
+                i = 1
+                new_name = f"{c.name}${i}"
+                while new_name in CACHE or new_name in CACHE_IMPORTED_CELLS:
+                    i += 1
+                    new_name = f"{c.name}${i}"
+
+                c.name = new_name
+                CACHE_IMPORTED_CELLS[new_name] = c
+
             return component
 
     return _cell

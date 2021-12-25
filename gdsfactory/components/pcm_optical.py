@@ -6,8 +6,8 @@ from typing import List, Optional, Tuple
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.manhattan_font import manhattan_text
 from gdsfactory.components.straight import straight
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer
@@ -68,7 +68,7 @@ def cdsem_straight_density(
         tooth_ref.movey((-n_o_lines / 2 + 0.5 + i) * period)
         c.absorb(tooth_ref)
 
-    marker_label = manhattan_text(
+    marker_label = text_rectangular(
         text=f"{label}",
         size=pixel_size,
         layer=layer,
@@ -124,7 +124,7 @@ def cdsem_uturn(
     wg2 = c.add_ref(wg)
     wg2.connect("o1", b2.ports["o1"])
 
-    label = c << manhattan_text(
+    label = c << text_rectangular(
         text=str(int(width * 1e3)), size=pixel_size, layer=layer
     )
     label.ymax = b2.ymin - 5

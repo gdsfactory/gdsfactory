@@ -135,7 +135,7 @@ def transition(
             else:
                 raise ValueError(
                     "transition() width_type "
-                    + "argument must be one of {'sine','linear'}"
+                    "argument must be one of {'sine','linear'}"
                 )
 
             if X1[alias]["layer"] != X2[alias]["layer"]:

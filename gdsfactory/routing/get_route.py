@@ -135,6 +135,7 @@ get_route_electrical = partial(
     end_straight_length=10,
     cross_section=metal3,
     taper=None,
+    min_straight_length=2.0,
 )
 
 

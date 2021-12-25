@@ -1,79 +1,36 @@
-from typing import Tuple
+from functools import lru_cache
+from typing import Dict, Tuple
 
 import numpy as np
 
-import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
 
+character_a = """
+ XXX
+X   X
+XXXXX
+X   X
+X   X
 
-@gf.cell
-def manhattan_text(
-    text: str = "abcd",
-    size: float = 10.0,
-    position: Tuple[float, float] = (0.0, 0.0),
-    justify: str = "left",
-    layer: Tuple[int, int] = (1, 0),
-) -> Component:
-    """Pixel based font, guaranteed to be manhattan, without acute angles.
-
-    Args:
-        text:
-        size: pixel size
-        position: coordinate
-        justify: left, right or center
-        layer:
-
-    """
-    pixel_size = size
-    xoffset = position[0]
-    yoffset = position[1]
-    component = gf.Component()
-
-    for line in text.split("\n"):
-        for character in line:
-            if character == " ":
-                xoffset += pixel_size * 6
-            elif character.upper() not in CHARAC_MAP:
-                print(f"skipping character {character} not in font")
-            else:
-                pixels = CHARAC_MAP[character.upper()]
-                ref = component.add_ref(
-                    pixel_array(pixels=pixels, pixel_size=pixel_size, layer=layer)
-                )
-                ref.move((xoffset, yoffset))
-                component.absorb(ref)
-                xoffset += pixel_size * 6
-
-        yoffset -= pixel_size * 6
-        xoffset = position[0]
-    justify = justify.lower()
-    for ref in component.references:
-        if justify == "left":
-            pass
-        elif justify == "right":
-            ref.xmax = position[0]
-        elif justify == "center":
-            ref.move(origin=ref.center, destination=position, axis="x")
-        else:
-            raise ValueError(f"justify = {justify} not valid (left, center, right)")
-
-    return component
+"""
 
 
-@gf.cell
+@cell
 def pixel_array(
-    pixels: str = """
-     XXX
-    X   X
-    XXXXX
-    X   X
-    X   X
-    """,
+    pixels: str = character_a,
     pixel_size: float = 10.0,
     layer: Tuple[int, int] = LAYER.M1,
 ) -> Component:
-    component = gf.Component()
+    """Returns a pixel component from a string representing the pixels.
+
+    Args:
+        pixels: string representing the pixels
+        pixel_size: widht/height for each pixel
+        layer: layer for each pixel
+    """
+    component = Component()
     lines = [line for line in pixels.split("\n") if len(line) > 0]
     lines.reverse()
     j = 0
@@ -343,12 +300,15 @@ _
 0	0	0	0	0
 """
 
-CHARAC_MAP = {}
 
-
-def load_font() -> None:
+@lru_cache(maxsize=None)
+def rectangular_font() -> Dict[str, str]:
+    """Returns a rectangular font dict
+    The keys of the dictionary are the characters
+    The values are the pixel representation of the character
+    """
+    characters = {}
     lines = FONT.split("\n")
-    global CHARAC_MAP
     while lines:
         line = lines.pop(0)
         if not line:
@@ -359,18 +319,10 @@ def load_font() -> None:
         for _i in range(5):
             pixels += lines.pop(0).replace("\t", "").replace(" ", "") + "\n"
 
-        CHARAC_MAP[charac] = pixels
-
-
-load_font()
+        characters[charac] = pixels
+    return characters
 
 
 if __name__ == "__main__":
-    import string
-
-    c = manhattan_text(
-        # text="The mask is nearly done. only 12345 drc errors remaining?",
-        # text="v",
-        text=string.ascii_lowercase
-    )
+    c = pixel_array()
     c.show()
