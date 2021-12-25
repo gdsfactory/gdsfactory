@@ -113,8 +113,7 @@ cells:
   loss_deembedding_ch12_3_ae4c0d3d:
     changed: {}
     default:
-      R: 10
-      grating_coupler_factory:
+      grating_coupler:
         function: grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
@@ -123,8 +122,7 @@ cells:
       - 2
       pitch: 127
     full:
-      R: 10
-      grating_coupler_factory:
+      grating_coupler:
         function: grating_coupler_elliptical_trenches
         polarization: te
         taper_angle: 35
@@ -185,8 +183,7 @@ cells:
 info:
   changed: {}
   default:
-    R: 10
-    grating_coupler_factory:
+    grating_coupler:
       function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
@@ -195,8 +192,7 @@ info:
     - 2
     pitch: 127
   full:
-    R: 10
-    grating_coupler_factory:
+    grating_coupler:
       function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35

@@ -21,6 +21,7 @@ from phidl.device_layout import Device, DeviceReference
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _parse_layer
 
+from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
 from gdsfactory.port import (
@@ -47,8 +48,8 @@ Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 
-tmp = pathlib.Path(tempfile.TemporaryDirectory().name).parent / "gdsfactory"
-tmp.mkdir(exist_ok=True)
+tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+tmp.mkdir(exist_ok=True, parents=True)
 _timestamp2019 = datetime.datetime.fromtimestamp(1572014192.8273)
 MAX_NAME_LENGTH = 32
 
@@ -356,8 +357,9 @@ class ComponentReference(DeviceReference):
             o = origin.midpoint
         else:
             raise ValueError(
-                f"move(origin={origin}) needs a Coordinate, a port, "
-                + f"or a port name {list(self.ports.keys())}"
+                f"move(origin={origin})\n"
+                f"Invalid origin = {origin!r} needs to be"
+                f"a coordinate, port or port name {list(self.ports.keys())}"
             )
 
         if hasattr(destination, "midpoint"):
@@ -371,8 +373,9 @@ class ComponentReference(DeviceReference):
             d = destination.midpoint
         else:
             raise ValueError(
-                f"{self.parent.name}.move(destination={destination}) Move needs "
-                + f"a coordinate, a port, or a port name {list(self.ports.keys())}"
+                f"{self.parent.name}.move(destination={destination}) \n"
+                f"Invalid destination = {destination!r} needs to be"
+                f"a coordinate, a port, or a valid port name {list(self.ports.keys())}"
             )
 
         # Lock one axis if necessary
@@ -609,8 +612,14 @@ class Component(Device):
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
         self.info = DictConfig(self.info)
-        self.cached = False
+        self._locked = False
         self.get_child_name = False
+
+    def unlock(self):
+        self._locked = False
+
+    def lock(self):
+        self._locked = True
 
     @classmethod
     def __get_validators__(cls):
@@ -910,7 +919,7 @@ class Component(Device):
         if name is not None:
             p.name = name
         if p.name in self.ports:
-            raise ValueError(f"add_port() Port name {p.name} exists in {self.name}")
+            raise ValueError(f"add_port() Port name {p.name!r} exists in {self.name!r}")
 
         self.ports[p.name] = p
         return p
@@ -1014,10 +1023,13 @@ class Component(Device):
             cell.
 
         """
-        if self.cached:
+        if self._locked:
             raise MutabilityError(
-                f"Error Adding element to cached Component {self.name!r}. "
-                "You need to make a copy of this cached Component or create a new one."
+                f"Error Adding element to locked Component {self.name!r}. "
+                "You need to make a copy of this Component or create a new one."
+                "Changing a component after creating it can be dangerous "
+                "as it will affect all of its instances. "
+                "You can unlock it (at your own risk) by calling `unlock()`"
             )
         super().add(element)
 
@@ -1120,12 +1132,12 @@ class Component(Device):
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy()
+            component = self.copy(suffix="")
             for reference in component.references:
                 add_pins_triangle(component=component, reference=reference)
 
         elif show_ports:
-            component = self.copy()
+            component = self.copy(suffix="")
             add_pins_triangle(component=component)
         else:
             component = self
@@ -1144,6 +1156,7 @@ class Component(Device):
         unit: float = 1e-6,
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
+        logging: bool = True,
     ) -> Path:
         """Write component to GDS and returns gdspath
 
@@ -1189,6 +1202,8 @@ class Component(Device):
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
         lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
         self.path = gdspath
+        if logging:
+            logger.info(f"Write GDS to {gdspath}")
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
@@ -1196,6 +1211,7 @@ class Component(Device):
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml())
+        logger.info(f"Write YAML metadata to {metadata}")
         return gdspath
 
     def to_dict_config(
@@ -1550,12 +1566,13 @@ def test_bbox_component():
 
 
 if __name__ == "__main__":
-    test_bbox_reference()
-    test_bbox_component()
+    # test_bbox_reference()
+    # test_bbox_component()
 
-    # import gdsfactory as gf
-    # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
-    # c2 = c.rotate()
+    import gdsfactory as gf
+
+    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
+    c.show()
 
     # c = gf.Component("component_with_offgrid_polygons")
     # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)

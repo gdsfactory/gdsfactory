@@ -9,7 +9,7 @@ gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
 
 
 def test_read_gds_hash2() -> gf.Component:
-    c = gf.read.from_gds(gdspath)
+    c = gf.import_gds(gdspath)
     assert (
         c.hash_geometry() == "7bc2d1d759011e5f41daf8683cf9467bdc8ebad4"
     ), c.hash_geometry()
@@ -17,20 +17,22 @@ def test_read_gds_hash2() -> gf.Component:
 
 
 def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None:
-    c = gf.read.from_gds(gdspath)
+    c = gf.import_gds(gdspath)
     data_regression.check(c.to_dict())
 
 
 def test_read_gds_equivalent2():
     """Ensures we can load it from GDS + YAML and get the same component settings"""
     c1 = gf.c.mzi()
-    c2 = gf.read.from_gds(gdspath)
+    c2 = gf.import_gds(gdspath)
 
     d1 = c1.to_dict()
     d2 = c2.to_dict()
 
+    # we change the name, so there is no cache conflicts
     d1["info"].pop("name")
     d2["info"].pop("name")
+
     d1.pop("cells")
     d2.pop("cells")
     d1.pop("ports")
@@ -40,8 +42,10 @@ def test_read_gds_equivalent2():
 
     d = jsondiff.diff(d1, d2)
 
+    from pprint import pprint
+
     # pprint(d1)
-    # pprint(d2)
+    pprint(d2)
     # pprint(d)
     assert len(d) == 0, d
 
@@ -53,7 +57,7 @@ def test_mix_cells_from_gds_and_from_function2():
     """
     c = gf.Component("test_mix_cells_from_gds_and_from_function")
     c << gf.c.mzi()
-    c << gf.read.from_gds(gdspath)
+    c << gf.import_gds(gdspath)
     c.write_gds()
     c.show()
 
@@ -67,10 +71,10 @@ def _write():
 
 if __name__ == "__main__":
     # _write()
-    # test_read_gds_equivalent2()
+    test_read_gds_equivalent2()
 
-    c = test_read_gds_hash2()
-    c.show()
+    # c = test_read_gds_hash2()
+    # c.show()
     # test_mix_cells_from_gds_and_from_function2()
 
     # _write()
@@ -78,7 +82,7 @@ if __name__ == "__main__":
     # test_read_gds_equivalent2()
 
     # c1 = gf.c.mzi()
-    # c2 = gf.read.from_gds(gdspath)
+    # c2 = gf.import_gds(gdspath)
     # d1 = c1.to_dict_config()
     # d2 = c2.to_dict_config()
     # dd1 = c1.to_dict()

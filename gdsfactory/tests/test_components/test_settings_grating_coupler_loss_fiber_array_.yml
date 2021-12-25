@@ -110,7 +110,7 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  loss_deembedding_ch14_2_03827813:
+  grating_coupler_loss_fi_a6347806:
     changed: {}
     default:
       grating_coupler:
@@ -130,56 +130,10 @@ cells:
       - 0
       - 1
       pitch: 127
-    function_name: loss_deembedding_ch14_23
+    function_name: grating_coupler_loss_fiber_array
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
-    name: loss_deembedding_ch14_2_03827813
-  straight_93f9bbf9:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 30
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 30
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 30
-    module: gdsfactory.components.straight
-    name: straight_93f9bbf9
-    width: 0.5
-  straight_c812ca36:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 361
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 361
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 361
-    module: gdsfactory.components.straight
-    name: straight_c812ca36
-    width: 0.5
+    name: grating_coupler_loss_fi_a6347806
   straight_d9996de2:
     changed:
       cross_section:
@@ -246,9 +200,9 @@ info:
     - 0
     - 1
     pitch: 127
-  function_name: loss_deembedding_ch14_23
+  function_name: grating_coupler_loss_fiber_array
   info_version: 1
   module: gdsfactory.components.grating_coupler_loss
-  name: loss_deembedding_ch14_2_03827813
+  name: grating_coupler_loss_fi_a6347806
 ports: {}
 version: 1

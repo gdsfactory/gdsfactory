@@ -18,7 +18,7 @@ def get_index(
 
     """
     if name not in MATERIALS:
-        raise ValueError(f"{name} not in {MATERIALS}")
+        raise ValueError(f"{name!r} not in {MATERIALS}")
 
     medium = getattr(mat, name)
     epsilon_matrix = medium.epsilon(1 / wavelength)
@@ -46,7 +46,7 @@ def get_material(
     elif name.lower() == "sin":
         return mp.Medium(epsilon=4)
     else:
-        raise ValueError(f"material, name = {name} not in {MATERIALS}")
+        raise ValueError(f"material, name = {name!r} not in {MATERIALS}")
 
     return getattr(mat, name)
 
