@@ -1,9 +1,9 @@
 FROM continuumio/miniconda3
 # FROM jupyter/base-notebook
 
-COPY environment.yml ./
-RUN conda env create -f environment.yml
+EXPOSE 8082
+COPY . .
 
-RUN conda install -c conda-forge gdspy
-RUN pip install -r requirements.txt
-RUN pip install -r requirements_dev.txt
+RUN apt install -y make
+RUN conda install -c conda-forge gdspy -y
+RUN bash install.sh
