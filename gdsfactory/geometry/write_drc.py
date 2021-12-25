@@ -2,7 +2,12 @@
 
 import pathlib
 from dataclasses import asdict, is_dataclass
-from typing import List, Literal, Optional
+from typing import List, Optional
+
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal
 
 from pydantic import BaseModel
 
