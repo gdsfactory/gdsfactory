@@ -18,13 +18,15 @@ class Mode:
     E: Optional[np.ndarray] = None
     H: Optional[np.ndarray] = None
     eps: Optional[np.ndarray] = None
+    y: Optional[np.ndarray] = None
+    z: Optional[np.ndarray] = None
 
     def __repr__(self):
         return f"Mode{self.mode_number}"
 
     def plot_eps(
         self,
-        cmap: str = "viridis",
+        cmap: str = "binary",
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -35,6 +37,7 @@ class Mode:
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
         )
         plt.title("index profile")
         plt.ylabel("z-axis")
@@ -49,8 +52,9 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        E = self.E
+        E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         Eabs = np.sqrt(
             np.multiply(E[:, :, 0, 2], E[:, :, 0, 2])
             + np.multiply(E[:, :, 0, 1], E[:, :, 0, 1])
@@ -63,8 +67,11 @@ class Mode:
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=0 if scale else ep.min(),
+            vmax=1 if scale else ep.max(),
         )
-        plt.title("Waveguide mode $|E|$")
+        plt.title("$|E|$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -77,16 +84,21 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        ex = self.E[:, :, 0, 2]
+        E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
+        ex = E[:, :, 0, 2]
         ex = 10 * np.log10(np.abs(ex)) if logscale else np.real(ex)
         plt.imshow(
             ex.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=-1 if scale else ex.min(),
+            vmax=1 if scale else ex.max(),
         )
-        plt.title("Waveguide mode $|E_x|$")
+        plt.title("$Re(E_x)$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -99,16 +111,21 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        ey = self.E[:, :, 0, 1]
+        E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
+        ey = E[:, :, 0, 1]
         ey = 10 * np.log10(np.abs(ey)) if logscale else np.real(ey)
         plt.imshow(
             ey.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=-1 if scale else ey.min(),
+            vmax=1 if scale else ey.max(),
         )
-        plt.title("Waveguide mode $|E_y|$")
+        plt.title("$Re(E_y)$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -121,17 +138,21 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        E = self.E
-        ez = abs(E[:, :, 0, 0])
-        ez = 10 * np.log10(ez) if logscale else ez
+        E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
+        ez = E[:, :, 0, 0]
+        ez = 10 * np.log10(ez) if logscale else np.real(ez)
         plt.imshow(
             ez.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=-1 if scale else ez.min(),
+            vmax=1 if scale else ez.max(),
         )
-        plt.title("Waveguide mode $|E_z|$")
+        plt.title("$Re(E_z)$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -144,22 +165,26 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
+        plt.figure(figsize=(16, 10), dpi=100)
+
         plt.subplot(2, 3, 1)
-        self.plot_e(show=False)
+        self.plot_ex(show=False, scale=scale, cmap=cmap)
 
         plt.subplot(2, 3, 2)
-        self.plot_ey(show=False)
+        self.plot_ey(show=False, scale=scale, cmap=cmap)
 
         plt.subplot(2, 3, 3)
-        self.plot_ex(show=False)
+        self.plot_ez(show=False, scale=scale, cmap=cmap)
 
         plt.subplot(2, 3, 4)
-        self.plot_ez(show=False)
+        self.plot_e(show=False, scale=scale)
 
         plt.subplot(2, 3, 5)
         self.plot_eps(show=False)
 
+        plt.tight_layout()
         plt.show()
 
     def plot_h(
@@ -168,22 +193,26 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        H = self.H
-        Eabs = np.sqrt(
+        H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
+        Habs = np.sqrt(
             np.multiply(H[:, :, 0, 2], H[:, :, 0, 2])
             + np.multiply(H[:, :, 0, 1], H[:, :, 0, 1])
             + np.multiply(H[:, :, 0, 0], H[:, :, 0, 0])
         )
-        ep = abs(Eabs)
-        ep = 10 * np.log10(ep) if logscale else ep
+        hp = abs(Habs)
+        hp = 10 * np.log10(hp) if logscale else hp
         plt.imshow(
-            ep.T,
+            hp.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=0 if scale else hp.min(),
+            vmax=1 if scale else hp.max(),
         )
-        plt.title("Waveguide mode $|H|$")
+        plt.title("$|H|$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -196,16 +225,21 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        hx = self.H[:, :, 0, 2]
+        H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
+        hx = H[:, :, 0, 2]
         hx = 10 * np.log10(np.abs(hx)) if logscale else np.real(hx)
         plt.imshow(
             hx.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=-1 if scale else hx.min(),
+            vmax=1 if scale else hx.max(),
         )
-        plt.title("Waveguide mode $|H_x|$")
+        plt.title("$Re(H_x)$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -218,16 +252,21 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        hy = self.H[:, :, 0, 1]
+        H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
+        hy = H[:, :, 0, 1]
         hy = 10 * np.log10(np.abs(hy)) if logscale else np.real(hy)
         plt.imshow(
             hy.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=-1 if scale else hy.min(),
+            vmax=1 if scale else hy.max(),
         )
-        plt.title("Waveguide mode $|H_y|$")
+        plt.title("$Re(H_y)$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -240,17 +279,21 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
-        H = self.H
+        H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
         hz = abs(H[:, :, 0, 0])
-        hz = 10 * np.log10(hz) if logscale else hz
+        hz = 10 * np.log10(hz) if logscale else np.real(hz)
         plt.imshow(
             hz.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
+            extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
+            vmin=-1 if scale else hz.min(),
+            vmax=1 if scale else hz.max(),
         )
-        plt.title("Waveguide mode $|H_z|$")
+        plt.title("$Re(H_z)$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -263,22 +306,26 @@ class Mode:
         origin="lower",
         logscale: bool = False,
         show: bool = True,
+        scale: bool = False,
     ):
+        plt.figure(figsize=(16, 10), dpi=100)
+
         plt.subplot(2, 3, 1)
-        self.plot_h(show=False)
+        self.plot_hx(show=False, scale=scale, cmap=cmap)
 
         plt.subplot(2, 3, 2)
-        self.plot_hy(show=False)
+        self.plot_hy(show=False, scale=scale, cmap=cmap)
 
         plt.subplot(2, 3, 3)
-        self.plot_hx(show=False)
+        self.plot_hz(show=False, scale=scale, cmap=cmap)
 
         plt.subplot(2, 3, 4)
-        self.plot_hz(show=False)
+        self.plot_h(show=False, scale=scale)
 
         plt.subplot(2, 3, 5)
         self.plot_eps(show=False)
 
+        plt.tight_layout()
         plt.show()
 
 
