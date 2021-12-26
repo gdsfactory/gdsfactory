@@ -15,7 +15,9 @@ RUN apt-get update --yes && \
     fish
 
 USER jovyan
-COPY . /home/jovyan/gdfactory
+# COPY . /home/jovyan/gdfactory
+
+RUN git clone https://github.com/gdsfactory/gdsfactory.git
 COPY docs/notebooks /home/jovyan/notebooks
 RUN conda init bash
 
