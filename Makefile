@@ -70,7 +70,7 @@ docker-debug:
 docker-build:
 	docker build -t joamatab/gdsfactory .
 
-docker:
+docker-run:
 	docker run -p 8082:8082 -p 8888:8888 \
 		-e JUPYTER_ENABLE_LAB=yes \
 		-v $(pwd)/notebooks:/notebooks \
