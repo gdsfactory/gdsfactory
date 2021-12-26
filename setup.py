@@ -11,6 +11,11 @@ def get_install_requires_dev():
         return [line.strip() for line in f.readlines() if not line.startswith("-")]
 
 
+def get_install_requires_pip():
+    with open("requirements_pip.txt", "r") as f:
+        return [line.strip() for line in f.readlines() if not line.startswith("-")]
+
+
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
@@ -30,5 +35,12 @@ setup(
     extras_require={
         "full": list(set(get_install_requires() + get_install_requires_dev())),
         "basic": get_install_requires(),
+        "pip": list(
+            set(
+                get_install_requires()
+                + get_install_requires_dev()
+                + get_install_requires_pip()
+            )
+        ),
     },
 )
