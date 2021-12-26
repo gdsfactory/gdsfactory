@@ -21,5 +21,4 @@ sphinx-click
 sphinx-markdown-tables
 tidy3d
 tox
-triangle
 xdoctest
