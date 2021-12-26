@@ -47,10 +47,12 @@ def get_simulation(
     wl_max: float = 1.6,
     wl_steps: int = 50,
     dfcen: float = 0.2,
-    port_source_name: str = 1,
-    port_field_monitor_name: str = 2,
+    port_source_name: str = "o1",
+    port_field_monitor_name: str = "o2",
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
+    port_source_offset: float = 0,
+    port_field_monitor_offset: float = 0,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
 
@@ -76,6 +78,8 @@ def get_simulation(
         port_field_monitor_name:
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
+        port_source_offset: offset between source GDS port and source MEEP port
+        port_field_monitor_offset: offset between monitor GDS port and monitor MEEP port
 
     Returns:
         sim: simulation object
@@ -197,7 +201,10 @@ def get_simulation(
     size_y = 0 if size_y < 0.001 else size_y
     size_z = cell_thickness - 2 * tpml if is_3d else 20
     size = [size_x, size_y, size_z]
-    center = port.center.tolist() + [0]  # (x, y, z=0)
+    xy_shifted = move_polar_rad_copy(
+        np.array(port.center), angle=angle * np.pi / 180, length=port_source_offset
+    )
+    center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
     field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
@@ -237,7 +244,11 @@ def get_simulation(
         size = [size_x, size_y, size_z]
 
         # if monitor has a source move monitor inwards
-        length = -distance_source_to_monitors if port_name == port_source_name else 0
+        length = (
+            -distance_source_to_monitors + port_source_offset
+            if port_name == port_source_name
+            else port_field_monitor_offset
+        )
         xy_shifted = move_polar_rad_copy(
             np.array(port.center), angle=angle * np.pi / 180, length=length
         )
