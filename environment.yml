@@ -5,6 +5,7 @@ channels:
 dependencies:
     - python
     - gdspy
+    - triangle
     - nbgitpuller
     - ffmpeg
     - numpy

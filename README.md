@@ -1,4 +1,4 @@
-# gdsfactory 3.9.6
+# gdsfactory 3.9.7
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -93,6 +93,7 @@ If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Mini
 
 ```
 conda install -c conda-forge gdspy
+conda install -c conda-forge triangle
 pip install gdsfactory[full]
 gf tool install
 ```
@@ -100,7 +101,7 @@ gf tool install
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
 ```
-pip install gdsfactory[full]
+pip install gdsfactory[pip]
 gf tool install
 ```
 

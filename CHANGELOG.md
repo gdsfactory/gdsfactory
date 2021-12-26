@@ -7,6 +7,7 @@
 - add example on how to customize visualization of a component
 - build docker container
 - remove kwargs from most components as a way to customize cross_sections to get more intuitive error messages
+- base docker container on [miniconda](https://hub.docker.com/r/continuumio/miniconda3/tags)
 
 Maybe:
 
@@ -17,6 +18,12 @@ Maybe:
 - mypy passing
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
+
+## 3.9.7
+
+- build docker container
+- recommend building triangle with conda forge instead of pip for conda based distributions
+- add `pip install gdsfactory[pip]` as a pip-based alternative of `pip install gdsfactory[full]`
 
 ## 3.9.6
 
