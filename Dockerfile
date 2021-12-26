@@ -16,4 +16,5 @@ RUN conda init bash
 RUN conda install -c conda-forge gdspy -y
 RUN conda install -c conda-forge triangle -y
 RUN conda install -c conda-forge pymeep -y
-RUN bash install.sh
+RUN pip install -r requirements.txt
+RUN pip install -r requirements_dev.txt
