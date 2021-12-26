@@ -1,7 +1,9 @@
 FROM jupyter/base-notebook
 # FROM continuumio/miniconda3
 
+# expose klive and jupyter notebook ports
 EXPOSE 8082
+EXPOSE 8888
 COPY . .
 
 RUN conda init bash

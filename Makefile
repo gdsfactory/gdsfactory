@@ -64,6 +64,12 @@ pyenv3:
 	which python # Print out which python for debugging
 	python setup.py develop
 
+docker-debug:
+	docker run -it joamatab/gdsfactory sh
+
+docker:
+	docker run -d -p 8095:8095 -p 8888:8888  joamatab/gdsfactory
+
 conda:
 	conda env create -f environment.yml
 	echo 'conda env installed, run `conda activate gdsfactory` to activate it'
@@ -104,5 +110,6 @@ codestyle:
 
 doc:
 	python docs/write_components_doc.py
+
 
 .PHONY: gdsdiff build conda
