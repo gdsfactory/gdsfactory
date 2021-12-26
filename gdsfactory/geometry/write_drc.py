@@ -33,15 +33,17 @@ class DrcRule(BaseModel):
 
     def get_string(self):
         if self.layer2:
+            error = f"{self.layer1} {self.category} {self.value}"
             return (
-                f"{self.layer1}.{self.category}({self.layer2}, angle_limit({self.angle_limit}))"
-                f".output('{self.layer1}', '{self.layer2} minimum {self.category} {self.value}')"
+                f"{self.layer1}.{self.category}({self.layer2}, angle_limit({self.angle_limit}), {self.value})"
+                f".output('{error}', '{self.layer2} minimum {self.category} {self.value}')"
             )
 
         else:
+            error = f"{self.layer1} {self.category} {self.value}"
             return (
                 f"{self.layer1}.{self.category}({self.value}, angle_limit({self.angle_limit}))"
-                f".output('{self.layer1}', '{self.layer1} minimum {self.category} {self.value}')"
+                f".output('{error}', '{error}')"
             )
 
 
