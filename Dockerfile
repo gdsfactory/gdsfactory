@@ -1,5 +1,5 @@
-FROM continuumio/miniconda3
-# FROM jupyter/base-notebook
+FROM jupyter/base-notebook
+# FROM continuumio/miniconda3
 
 EXPOSE 8082
 COPY . .
