@@ -3,6 +3,8 @@ name: build docker container
 
 on:
   push:
+    branches: [master]
+    tags: [v*]
 
 jobs:
   docker:
