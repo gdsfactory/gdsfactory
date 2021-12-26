@@ -11,8 +11,7 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # Common useful utilities
     git \
-    neovim \
-    fish
+    neovim
 
 USER jovyan
 # COPY . /home/jovyan/gdfactory
@@ -37,4 +36,4 @@ RUN pip install gdsfactory[full]
 # RUN pip install -r requirements_dev.txt
 
 WORKDIR /home/jovyan
-VOLUME /home/jovyan/work
+# VOLUME /home/jovyan/work

@@ -75,7 +75,6 @@ docker-run:
 		-p 8888:8888 \
 		-p 8082:8082 \
 		-e JUPYTER_ENABLE_LAB=yes \
-		-v $(pwd)/work:/home/jovyan/work \
 		joamatab/gdsfactory:latest
 
 conda:
