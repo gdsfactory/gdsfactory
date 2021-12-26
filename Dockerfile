@@ -3,13 +3,24 @@ FROM jupyter/base-notebook
 
 # expose klive and jupyter notebook ports
 EXPOSE 8082
+EXPOSE 8083
 EXPOSE 8888
 
-COPY . /home/jovyan/gdfactory
-COPY docs/notebooks /home/jovyan/notebooks
+USER root
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends \
+    # Common useful utilities
+    git \
+    neovim
 
+USER jovyan
+# COPY . /home/jovyan/gdfactory
+
+RUN git clone https://github.com/gdsfactory/gdsfactory.git
+COPY docs/notebooks /home/jovyan/notebooks
 RUN conda init bash
 
+# USER ${NB_UID}
 # RUN apt update
 # RUN apt install gcc
 
@@ -25,3 +36,4 @@ RUN pip install gdsfactory[full]
 # RUN pip install -r requirements_dev.txt
 
 WORKDIR /home/jovyan
+# VOLUME /home/jovyan/work
