@@ -4,17 +4,24 @@ FROM jupyter/base-notebook
 # expose klive and jupyter notebook ports
 EXPOSE 8082
 EXPOSE 8888
-COPY . .
+
+COPY . /home/jovyan/gdfactory
+COPY docs/notebooks /home/jovyan/notebooks
 
 RUN conda init bash
 
 # RUN apt update
 # RUN apt install gcc
-# Activate the environment, and make sure it's activated:
-# RUN echo "conda activate myenv" > ~/.bashrc
 
 RUN conda install -c conda-forge gdspy -y
 RUN conda install -c conda-forge triangle -y
 RUN conda install -c conda-forge pymeep -y
-RUN pip install -r requirements.txt
-RUN pip install -r requirements_dev.txt
+RUN pip install gdsfactory[full]
+
+# COPY requirements.txt /opt/app/requirements.txt
+# COPY requirements_dev.txt /opt/app/requirements_dev.txt
+# WORKDIR /opt/app
+# RUN pip install -r requirements.txt
+# RUN pip install -r requirements_dev.txt
+
+WORKDIR /home/jovyan

@@ -93,6 +93,7 @@ If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Mini
 
 ```
 conda install -c conda-forge gdspy
+conda install -c conda-forge triangle
 pip install gdsfactory[full]
 gf tool install
 ```
