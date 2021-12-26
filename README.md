@@ -162,7 +162,7 @@ For (3D rendering and STL export)
 
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep`
+Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
 
 ### tidy3d
 
