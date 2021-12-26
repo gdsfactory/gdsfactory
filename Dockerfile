@@ -3,10 +3,10 @@ FROM jupyter/base-notebook
 
 # expose klive and jupyter notebook ports
 EXPOSE 8082
+EXPOSE 8083
 EXPOSE 8888
 
 USER root
-
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # Common useful utilities
@@ -14,11 +14,12 @@ RUN apt-get update --yes && \
     neovim \
     fish
 
-USER ${NB_UID}
+USER jovyan
 COPY . /home/jovyan/gdfactory
 COPY docs/notebooks /home/jovyan/notebooks
 RUN conda init bash
 
+# USER ${NB_UID}
 # RUN apt update
 # RUN apt install gcc
 
@@ -34,4 +35,4 @@ RUN pip install gdsfactory[full]
 # RUN pip install -r requirements_dev.txt
 
 WORKDIR /home/jovyan
-VOLUME /notebooks
+VOLUME /home/jovyan/work
