@@ -5,7 +5,16 @@ FROM jupyter/base-notebook
 EXPOSE 8082
 EXPOSE 8888
 
-USER jovyan
+USER root
+
+RUN apt-get update --yes && \
+    apt-get install --yes --no-install-recommends \
+    # Common useful utilities
+    git \
+    neovim \
+    fish
+
+USER ${NB_UID}
 COPY . /home/jovyan/gdfactory
 COPY docs/notebooks /home/jovyan/notebooks
 RUN conda init bash

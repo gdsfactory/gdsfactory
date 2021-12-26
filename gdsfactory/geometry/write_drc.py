@@ -9,8 +9,6 @@ try:
 except ImportError:
     from typing_extensions import Literal
 
-from pydantic import BaseModel
-
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
 from gdsfactory.types import Dict, Layer, PathType
@@ -24,27 +22,42 @@ RuleType = Literal[
 ]
 
 
-class DrcRule(BaseModel):
-    category: RuleType
-    value: float
-    layer1: str
-    layer2: Optional[str] = None
-    angle_limit: float = 90
+def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
+    """Min feature size"""
+    category = "width"
+    error = f"{layer} {category} {value}"
+    return (
+        f"{layer}.{category}({value}, angle_limit({angle_limit}))"
+        f".output('{error}', '{error}')"
+    )
 
-    def get_string(self):
-        if self.layer2:
-            error = f"{self.layer1} {self.category} {self.value}"
-            return (
-                f"{self.layer1}.{self.category}({self.layer2}, angle_limit({self.angle_limit}), {self.value})"
-                f".output('{error}', '{self.layer2} minimum {self.category} {self.value}')"
-            )
 
-        else:
-            error = f"{self.layer1} {self.category} {self.value}"
-            return (
-                f"{self.layer1}.{self.category}({self.value}, angle_limit({self.angle_limit}))"
-                f".output('{error}', '{error}')"
-            )
+def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
+    """Min Space between shapes of layer"""
+    category = "space"
+    error = f"{layer} {category} {value}"
+    return (
+        f"{layer}.{category}({value}, angle_limit({angle_limit}))"
+        f".output('{error}', '{error}')"
+    )
+
+
+def rule_separation(value: float, layer1: str, layer2: str):
+    """Min space between different layers"""
+    error = f"min {layer1} {layer2} separation {value}"
+    return f"{layer1}.separation({layer2}, {value})" f".output('{error}', '{error}')"
+
+
+def rule_enclosing(
+    value: float, layer1: str, layer2: str, angle_limit: float = 90
+) -> str:
+    """Layer1 must be enclosed by layer2 by value"""
+    category = "enclosing"
+    error = f"{layer1} {category} {value}"
+    return (
+        f"{layer1}.{category}({layer2}, angle_limit({angle_limit}), {value})"
+        f".output('{error}', '{layer2} minimum {category} {value}')"
+    )
 
 
 def write_layer_definition(layer_map: Dict[str, Layer]) -> str:
@@ -60,7 +73,7 @@ def write_layer_definition(layer_map: Dict[str, Layer]) -> str:
     ]
 
 
-def write_drc_deck(rules: List[DrcRule], layer_map: Dict[str, Layer]) -> str:
+def write_drc_deck(rules: List[str], layer_map: Dict[str, Layer]) -> str:
     """Returns drc_rule_deck for klayou
 
     Args:
@@ -71,7 +84,7 @@ def write_drc_deck(rules: List[DrcRule], layer_map: Dict[str, Layer]) -> str:
     script = []
     script += write_layer_definition(layer_map=layer_map)
     script += ["\n"]
-    script += [rule.get_string() for rule in rules]
+    script += rules
     return "\n".join(script)
 
 
@@ -132,12 +145,12 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     rules = [
-        DrcRule(category="width", layer1="WG", value=0.2),
-        DrcRule(category="space", layer1="WG", value=0.2),
-        DrcRule(category="width", layer1="M1", value=1),
-        DrcRule(category="width", layer1="M2", value=2),
-        DrcRule(category="space", layer1="M2", value=2),
-        DrcRule(category="enclosing", layer1="M2", layer2="M1", value=2),
+        rule_width(layer="WG", value=0.2),
+        rule_width(layer="M1", value=1),
+        rule_width(layer="M2", value=2),
+        rule_space(layer="WG", value=0.2),
+        rule_space(layer="M2", value=2),
+        rule_enclosing(layer1="M2", layer2="M1", value=2),
     ]
 
     drc_rule_deck = write_drc_deck_macro(rules=rules, layer_map=gf.LAYER)
