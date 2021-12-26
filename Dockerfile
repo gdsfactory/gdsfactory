@@ -5,9 +5,9 @@ FROM jupyter/base-notebook
 EXPOSE 8082
 EXPOSE 8888
 
+USER jovyan
 COPY . /home/jovyan/gdfactory
 COPY docs/notebooks /home/jovyan/notebooks
-
 RUN conda init bash
 
 # RUN apt update
@@ -25,3 +25,4 @@ RUN pip install gdsfactory[full]
 # RUN pip install -r requirements_dev.txt
 
 WORKDIR /home/jovyan
+VOLUME /notebooks
