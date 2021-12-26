@@ -1,6 +1,0 @@
-gdspy==1.6.8
-klayout==0.27.1
-matplotlib==3.4.3
-networkx==2.6.3
-phidl==1.6.0
-Shapely==1.7.1

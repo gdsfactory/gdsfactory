@@ -1,5 +1,5 @@
 ---
-name: dockerhub gdsfactory
+name: build docker container
 
 on:
   push:

@@ -19,6 +19,12 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.7
+
+- build docker container
+- recommend building triangle with conda forge instead of pip for conda based distributions
+- add `pip install gdsfactory[pip]` as a pip-based alternative of `pip install gdsfactory[full]`
+
 ## 3.9.6
 
 - Component.show() writes component in a different tempfile everytime. This avoids the `reload` question prompt from klayout.
