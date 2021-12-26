@@ -67,8 +67,14 @@ pyenv3:
 docker-debug:
 	docker run -it joamatab/gdsfactory sh
 
+docker-build:
+	docker build -t joamatab/gdsfactory .
+
 docker:
-	docker run -p 8095:8095 -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes joamatab/gdsfactory
+	docker run -p 8082:8082 -p 8888:8888 \
+		-e JUPYTER_ENABLE_LAB=yes \
+		-v $(pwd)/notebooks:/notebooks \
+		joamatab/gdsfactory:latest
 
 conda:
 	conda env create -f environment.yml
