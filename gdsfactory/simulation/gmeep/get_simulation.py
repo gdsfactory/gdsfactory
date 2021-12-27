@@ -49,7 +49,7 @@ def get_simulation(
     dfcen: float = 0.2,
     port_source_name: str = "o1",
     port_field_monitor_name: str = "o2",
-    port_margin: float = 0.5,
+    port_margin: float = 2,
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
     port_field_monitor_offset: float = 0,
@@ -193,16 +193,16 @@ def get_simulation(
 
     # Add source
     port = component_ref.ports[port_source_name]
-    angle = port.orientation
+    angle = np.radians(port.orientation)
     width = port.width + 2 * port_margin
-    size_x = width * abs(np.sin(angle * np.pi / 180))
-    size_y = width * abs(np.cos(angle * np.pi / 180))
+    size_x = width * abs(np.sin(angle))
+    size_y = width * abs(np.cos(angle))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_z = cell_thickness - 2 * tpml if is_3d else 20
     size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
-        np.array(port.center), angle=angle * np.pi / 180, length=port_source_offset
+        np.array(port.center), angle=angle, length=port_source_offset
     )
     center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
@@ -217,6 +217,7 @@ def get_simulation(
             eig_band=1,
             eig_parity=mp.NO_PARITY if is_3d else mp.EVEN_Y + mp.ODD_Z,
             eig_match_freq=True,
+            direction=mp.AUTOMATIC,
         )
     ]
 
@@ -234,10 +235,10 @@ def get_simulation(
     monitors = {}
     for port_name in component_ref.ports.keys():
         port = component_ref.ports[port_name]
-        angle = port.orientation
+        angle = np.radians(port.orientation)
         width = port.width + 2 * port_margin
-        size_x = width * abs(np.sin(angle * np.pi / 180))
-        size_y = width * abs(np.cos(angle * np.pi / 180))
+        size_x = width * abs(np.sin(angle))
+        size_y = width * abs(np.cos(angle))
         size_x = 0 if size_x < 0.001 else size_x
         size_y = 0 if size_y < 0.001 else size_y
         size = mp.Vector3(size_x, size_y, size_z)
@@ -250,7 +251,7 @@ def get_simulation(
             else port_field_monitor_offset
         )
         xy_shifted = move_polar_rad_copy(
-            np.array(port.center), angle=angle * np.pi / 180, length=length
+            np.array(port.center), angle=angle, length=length
         )
         center = xy_shifted.tolist() + [0]  # (x, y, z=0)
         m = sim.add_mode_monitor(freqs, mp.ModeRegion(center=center, size=size))
