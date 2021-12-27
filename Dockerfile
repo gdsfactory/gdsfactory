@@ -17,7 +17,7 @@ USER jovyan
 # COPY . /home/jovyan/gdfactory
 
 RUN git clone https://github.com/gdsfactory/gdsfactory.git
-COPY docs/notebooks /home/jovyan/notebooks
+COPY gdsfactory/docs/notebooks /home/jovyan/notebooks
 RUN conda init bash
 
 # USER ${NB_UID}
