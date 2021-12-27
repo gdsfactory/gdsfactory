@@ -33,3 +33,4 @@ python:
    install:
    - requirements: requirements.txt
    - requirements: requirements_dev.txt
+   - requirements: requirements_pip.txt
