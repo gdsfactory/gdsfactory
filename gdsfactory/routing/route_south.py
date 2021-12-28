@@ -5,7 +5,7 @@ import phidl.device_layout as pd
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
@@ -22,7 +22,7 @@ def route_south(
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
     gc_port_name: str = 1,
     bend: ComponentFactory = bend_euler,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     taper: Optional[ComponentFactory] = taper_function,
     auto_widen: bool = True,
     select_ports: Callable = select_ports_optical,

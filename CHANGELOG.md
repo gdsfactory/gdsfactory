@@ -22,6 +22,7 @@ Maybe:
 ## 3.9.9
 
 - pack_row in klayout_yaml_placer also accepts rotation
+- placer uses Literal ('N', 'S', 'E', 'W') from gf.types
 
 ## 3.9.8
 
