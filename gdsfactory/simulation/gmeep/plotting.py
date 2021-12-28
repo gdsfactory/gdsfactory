@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
-from meep.visualization import get_2D_dimensions
 
 from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.modes.types import Mode
 
+'''
+CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
 
 def get_domain_measurements(sim, output_plane, frequency, resolution=0):
     """
@@ -48,6 +49,7 @@ def get_domain_measurements(sim, output_plane, frequency, resolution=0):
 
     eps_data = np.rot90(np.real(sim.get_epsilon_grid(xtics, ytics, ztics, frequency)))
     return eps_data
+'''
 
 
 def plot_xsection(sim, center=(0, 0, 0), size=(0, 2, 2)):
@@ -58,10 +60,11 @@ def plot_xsection(sim, center=(0, 0, 0), size=(0, 2, 2)):
     # plt.colorbar()
 
 
-def get_port_eigenmode(
+def get_port_eigenmodes(
     sim,
     source,
     mode_monitor,
+    band_num=1,
     choose_yz=False,
     y=0,
     z=0,
@@ -71,6 +74,7 @@ def get_port_eigenmode(
         sim: simulation object
         source: MEEP source object
         mode_monitor: MEEP mode_monitor object to inspect
+        band_num: band number to solve for
         choose_yz: whether y-z samples are generated or provided
         y: y array (if choose_yz is True)
         z: z array (if choose_yz is True)
@@ -84,26 +88,31 @@ def get_port_eigenmode(
     # Obtain xsection
     center = mode_monitor.regions[0].center
     size = mode_monitor.regions[0].size
-    # output_plane = mp.Volume(center=center, size=size)
 
+    """
+    CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
+    # output_plane = mp.Volume(center=center, size=size)
     # Get best guess for kvector
     # eps_data = get_domain_measurements(
     #     sim, output_plane, fsrc, resolution=1 / (y[1] - y[0]) if y else 0
     # )
     # n = np.sqrt(np.max(eps_data))
+    """
 
     # Solve for the modes
     sim.init_sim()
     eigenmode = sim.get_eigenmode(
         direction=mp.X,
         where=mp.Volume(center=center, size=size),
-        band_num=1,
-        kpoint=mp.Vector3(fsrc * 3.45),
+        band_num=band_num,
+        kpoint=mp.Vector3(
+            fsrc * 3.45
+        ),  # Hardcoded index for now, pull from simulation eventually
         frequency=fsrc,
     )
 
     # The output of this function is slightly different then MPB (there is no mode_solver object)
-    # Format like the mode objects in /modes
+    # Format like the mode objects in gdsfactory/simulation/modes
     if not choose_yz:
         ny = int(size.y * sim.resolution)
         nz = int(size.z * sim.resolution)
@@ -136,28 +145,49 @@ def get_port_eigenmode(
             )
 
     mode = Mode(
-        mode_number=1,
+        mode_number=band_num,
         neff=eigenmode.kdom / fsrc,
         wavelength=1 / fsrc,
         ng=None,  # Not currently supported
         E=E,
         H=H,
-        eps=None,
+        eps=None,  # Eventually return the index distribution
     )
     return mode
 
 
-def plot_eigenmode(sim, source, mode_monitor):
+def plot_eigenmode(sim, source, mode_monitor, component="E"):
     """
     sim: simulation object
+    source: MEEP source object
+    mode_monitor: MEEP mode_monitor object to inspect
+    component: component to plot (same as gdsfactory.simulation.modes.types plotting functions)
     """
-    mode = get_port_eigenmode(sim, source, mode_monitor)
-    mode.plot_e()
+    mode = get_port_eigenmodes(sim, source, mode_monitor)
+    if component == "E":
+        mode.plot_e()
+    elif component == "Ex":
+        mode.plot_ex()
+    elif component == "Ey":
+        mode.plot_ey()
+    elif component == "Ez":
+        mode.plot_ez()
+    elif component == "all_e":
+        mode.plot_all_e()
+    elif component == "H":
+        mode.plot_h()
+    elif component == "Hx":
+        mode.plot_hx()
+    elif component == "Hy":
+        mode.plot_hy()
+    elif component == "Hz":
+        mode.plot_hz()
+    elif component == "all_h":
+        mode.plot_all_h()
     plt.show()
 
 
 if __name__ == "__main__":
-    # test_eigenmode()
     c = straight(length=2, width=0.5)
     c = add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
 
@@ -174,5 +204,13 @@ if __name__ == "__main__":
         sim,
         center=sim_dict["monitors"]["o1"].regions[0].center,
         size=sim_dict["monitors"]["o1"].regions[0].size,
+    )
+    plt.show()
+
+    plot_eigenmode(
+        sim,
+        source=sim_dict["sources"][0],
+        mode_monitor=sim_dict["monitors"]["o1"],
+        component="E",
     )
     plt.show()
