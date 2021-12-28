@@ -32,6 +32,7 @@ from omegaconf import OmegaConf
 from gdsfactory.autoplacer import text
 from gdsfactory.autoplacer.helpers import CELLS, import_cell, load_gds
 from gdsfactory.config import CONFIG, logger
+from gdsfactory.types import NSEW
 
 UM_TO_GRID = 1e3
 DEFAULT_BBOX_LAYER_IGNORE = [(8484, 8484)]
@@ -145,8 +146,8 @@ def pack_row(
     nb_cols: Optional[int] = None,
     x0: Union[float, int] = 0,
     y0: Union[float, int] = 0,
-    align_x: str = "W",
-    align_y: str = "S",
+    align_x: NSEW = "W",
+    align_y: NSEW = "S",
     margin: Union[float, int] = 20,
     margin_x: Optional[Union[float, int]] = None,
     margin_y: Optional[Union[float, int]] = None,
@@ -156,6 +157,7 @@ def pack_row(
     rotation: int = 0,
 ) -> List[CellInstArray]:
     """Pack row.
+
     Args:
         cells: a list of cells (size n)
         row_ids: a list of row ids (size n)
@@ -166,7 +168,7 @@ def pack_row(
             if set, use this period instead of computing the component spacing
             from the margin and the component dimension
 
-    Returns:list of cell references
+    Returns: list of cell references
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
@@ -228,7 +230,6 @@ def pack_row(
                 _y = to_grid(y - component_origin[1], um_to_grid)
 
                 transform = pya.Trans(rotation / 2, 0, _x, _y)
-                # transform = pya.Trans(_x, _y)
                 c_ref = pya.CellInstArray(c.cell_index(), transform)
                 components += [c_ref]
 
@@ -263,14 +264,15 @@ def pack_col(
     nb_rows: Optional[int] = None,
     x0: float = 0,
     y0: float = 0,
-    align_x: str = "W",
-    align_y: str = "S",
+    align_x: NSEW = "W",
+    align_y: NSEW = "S",
     margin: int = 20,
     margin_x: Optional[int] = None,
     margin_y: Optional[int] = None,
     um_to_grid: int = UM_TO_GRID,
     period_x: Optional[float] = None,
     period_y: Optional[float] = None,
+    rotation: int = 0,
 ) -> List[CellInstArray]:
     """
 
@@ -342,7 +344,8 @@ def pack_col(
             _y = to_grid(y - component_origin[1], um_to_grid=um_to_grid)
 
             try:
-                transform = pya.Trans(_x, _y)
+                transform = pya.Trans(rotation / 2, 0, _x, _y)
+                # transform = pya.Trans(_x, _y)
                 c_ref = pya.CellInstArray(c.cell_index(), transform)
                 components += [c_ref]
             except BaseException:
@@ -515,11 +518,11 @@ def place_from_yaml(
     root_does: Path = CONFIG["cache_doe_directory"],
     precision: float = 1e-9,
     fontpath: Path = text.FONT_PATH,
-    default_align_x: str = "W",
-    default_align_y: str = "S",
+    default_align_x: NSEW = "W",
+    default_align_y: NSEW = "S",
     default_margin: int = 10,
-    default_x0: str = "E",
-    default_y0: str = "S",
+    default_x0: NSEW = "E",
+    default_y0: NSEW = "S",
 ) -> Cell:
     """Returns a gds cell composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
@@ -738,9 +741,9 @@ def place_from_yaml(
         add_doe_visual_label = doe["add_doe_visual_label"]
 
         if add_doe_label:
-            label_layer_index, label_layer_datatype = layer_doe_label
+            layer_label_index, layer_label_datatype = layer_doe_label
             layer_index = top_level.layout().insert_layer(
-                pya.LayerInfo(label_layer_index, label_layer_datatype)
+                pya.LayerInfo(layer_label_index, layer_label_datatype)
             )
             # Add the name of the DOE at the center of the cell
             _p = doe_instance.bbox(top_level_layout).center()

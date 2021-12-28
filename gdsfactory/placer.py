@@ -42,7 +42,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
-from gdsfactory.types import ComponentFactoryDict
+from gdsfactory.types import NSEW, ComponentFactoryDict
 
 
 def placer_grid_cell_refs(
@@ -82,8 +82,8 @@ def pack_horizontal(
     row_ids=None,
     x0: float = 0.0,
     y0: float = 0.0,
-    align_x: str = "W",
-    align_y: str = "S",
+    align_x: NSEW = "W",
+    align_y: NSEW = "S",
     margin_x: float = 20.0,
     margin_y: float = 20.0,
 ):
@@ -165,8 +165,8 @@ def pack_vertical(
     col_ids=None,
     x0: float = 0.0,
     y0: float = 0.0,
-    align_x: str = "W",
-    align_y: str = "S",
+    align_x: NSEW = "W",
+    align_y: NSEW = "S",
     margin_x: float = 20.0,
     margin_y: float = 20.0,
 ) -> List[Component]:

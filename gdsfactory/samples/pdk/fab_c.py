@@ -71,7 +71,7 @@ def add_pins(
             component=component,
             port=p,
             layer=port_layer,
-            label_layer=port_layer,
+            layer_label=port_layer,
             pin_length=pin_length,
             **kwargs,
         )

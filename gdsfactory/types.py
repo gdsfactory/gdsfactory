@@ -44,6 +44,8 @@ Anchor = Literal[
     "cc",
 ]
 
+NSEW = Literal["N", "S", "E", "W"]
+
 
 class Label(LabelPhidl):
     @classmethod
