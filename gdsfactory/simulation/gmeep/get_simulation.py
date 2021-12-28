@@ -38,8 +38,8 @@ def get_simulation(
     extend_ports_length: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     res: int = 20,
-    t_clad_top: float = 1.0,
-    t_clad_bot: float = 1.0,
+    t_clad_top: float = 2.0,
+    t_clad_bot: float = 2.0,
     tpml: float = 1.0,
     clad_material: str = "SiO2",
     is_3d: bool = False,
@@ -53,6 +53,7 @@ def get_simulation(
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
     port_field_monitor_offset: float = 0,
+    **kwargs,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
 
@@ -80,6 +81,7 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
         port_field_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        kwargs**: other parameters for sim.simulation object (see https://meep.readthedocs.io/en/latest/Python_User_Interface/#the-simulation-class)
 
     Returns:
         sim: simulation object
@@ -228,7 +230,7 @@ def get_simulation(
         sources=sources,
         geometry=geometry,
         default_material=get_material(name=clad_material),
-        # geometry_center=geometry_center,
+        eps_averaging=False,
     )
 
     # Add port monitors dict
