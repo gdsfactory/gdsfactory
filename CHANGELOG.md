@@ -24,6 +24,7 @@ Maybe:
 - better DRC messages
 - write_drc allows you to define the shortcut
 - fix resistance_sheet offset
+- add comments to build does flow
 
 ## 3.9.7
 

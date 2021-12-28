@@ -1,4 +1,5 @@
 import collections
+import multiprocessing
 import pathlib
 import time
 from multiprocessing import Process
@@ -23,6 +24,8 @@ factory = {
     for i in dir(components)
     if not i.startswith("_") and callable(getattr(components, i))
 }
+
+n_cores = multiprocessing.cpu_count()
 
 
 def separate_does_from_templates(dicts: Dict[str, Any]) -> Any:
@@ -125,7 +128,7 @@ def write_sweeps(
     component_factory: Dict[str, Callable] = factory,
     doe_root_path: PathType = CONFIG["cache_doe_directory"],
     doe_metadata_path: PathType = CONFIG["doe_directory"],
-    n_cores: int = 8,
+    n_cores: int = n_cores,
     overwrite: bool = False,
     precision: float = 1e-9,
     cache: bool = False,
@@ -133,6 +136,16 @@ def write_sweeps(
     """Generates a sweep/DOEs of components specified in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
     similar to write_doe
+
+    Args:
+        filepath: for the does.yml
+        component_factory:
+        doe_root_path:
+        doe_metadata_path:
+        n_cores: number of cores
+        overwrite:
+        precision: for the GDS, defaults to 1nm
+        cache: if True uses cache
     """
     doe_root_path = pathlib.Path(doe_root_path)
     doe_metadata_path = pathlib.Path(doe_metadata_path)
@@ -147,9 +160,7 @@ def write_sweeps(
         templates_by_type["template"] if "template" in templates_by_type else {}
     )
 
-    default_use_cached_does = (
-        mask_settings["cache"] if "cache" in mask_settings else cache
-    )
+    with_cache_default = mask_settings["cache"] if "cache" in mask_settings else cache
 
     list_args = []
     for doe_name, doe in does.items():
@@ -193,9 +204,7 @@ def write_sweeps(
 
             list_settings = doe["list_settings"]
 
-            use_cached_does = (
-                default_use_cached_does if "cache" not in doe else doe["cache"]
-            )
+            with_cache = with_cache_default if "cache" not in doe else doe["cache"]
 
             _doe_exists = False
 
@@ -205,8 +214,12 @@ def write_sweeps(
                 logger.info(f"Using template - {doe_name!r}")
                 save_doe_use_template(doe)
 
-            elif use_cached_does:
-                _doe_exists = doe_exists(doe_name, list_settings)
+            elif with_cache:
+                _doe_exists = doe_exists(
+                    doe_name=doe_name,
+                    list_settings=list_settings,
+                    doe_root_path=doe_root_path,
+                )
                 if _doe_exists:
                     logger.info("Cached - {doe_name!r}")
                     if overwrite:
@@ -236,7 +249,7 @@ def write_sweeps(
                 try:
                     p.start()
                 except Exception:
-                    print("Issue starting process for {}".format(doe_name))
+                    print(f"Issue starting process for {doe_name}")
                     print(type(component_factory))
                     raise
 
