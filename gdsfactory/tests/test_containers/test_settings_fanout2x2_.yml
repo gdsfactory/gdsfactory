@@ -29,7 +29,7 @@ cells:
     name: bend_euler_1da190e0
     radius: 10
     radius_min: 7.061
-  bezier_d1b4a139:
+  bezier_862baa15:
     changed:
       control_points:
       - - 0
@@ -41,8 +41,12 @@ cells:
       - - 20
         - -13.317499999999999
       end_angle: 0
+      layer:
+      - 1
+      - 0
       npoints: 101
       start_angle: 0
+      width: 0.5
     default:
       control_points:
       - - 0
@@ -91,7 +95,7 @@ cells:
     length: 25.117
     min_bend_radius: 8.705
     module: gdsfactory.components.bezier
-    name: bezier_d1b4a139
+    name: bezier_862baa15
     start_angle: -0.766
   compass_164fc476:
     changed:
@@ -443,19 +447,25 @@ cells:
       name: mzi_d275fe52
     default:
       bend_length: null
+      cross_section:
+        function: cross_section
       npoints: 101
       port_spacing: 20
       select_ports:
         function: select_ports
         port_type: optical
+      with_cladding_box: true
     full:
       bend_length: null
       component: mzi_d275fe52
+      cross_section:
+        function: cross_section
       npoints: 101
       port_spacing: 20
       select_ports:
         function: select_ports
         port_type: optical
+      with_cladding_box: true
     function_name: fanout2x2
     info_version: 1
     module: gdsfactory.routing.fanout2x2
@@ -891,19 +901,25 @@ info:
     name: mzi_d275fe52
   default:
     bend_length: null
+    cross_section:
+      function: cross_section
     npoints: 101
     port_spacing: 20
     select_ports:
       function: select_ports
       port_type: optical
+    with_cladding_box: true
   full:
     bend_length: null
     component: mzi_d275fe52
+    cross_section:
+      function: cross_section
     npoints: 101
     port_spacing: 20
     select_ports:
       function: select_ports
       port_type: optical
+    with_cladding_box: true
   function_name: fanout2x2
   info_version: 1
   module: gdsfactory.routing.fanout2x2
