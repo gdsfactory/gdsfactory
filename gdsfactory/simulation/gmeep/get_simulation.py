@@ -265,6 +265,7 @@ def get_simulation(
         sources=sources,
         field_monitor_point=field_monitor_point,
         port_source_name=port_source_name,
+        initialized=False,
     )
 
 

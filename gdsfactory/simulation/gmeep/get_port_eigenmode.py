@@ -9,6 +9,7 @@ from gdsfactory.simulation.modes.types import Mode
 
 '''
 CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
+Could also modify the epsilon plotting of mode to be override by plot_xsection, which already works
 
 def get_domain_measurements(sim, output_plane, frequency, resolution=0):
     """
@@ -52,18 +53,10 @@ def get_domain_measurements(sim, output_plane, frequency, resolution=0):
 '''
 
 
-def plot_xsection(sim, center=(0, 0, 0), size=(0, 2, 2)):
-    """
-    sim: simulation object
-    """
-    sim.plot2D(output_plane=mp.Volume(center=center, size=size))
-    # plt.colorbar()
-
-
-def get_port_eigenmodes(
-    sim,
-    source,
-    mode_monitor,
+def get_port_eigenmode(
+    sim_dict,
+    source_index=0,
+    port_name="o1",
     band_num=1,
     choose_yz=False,
     y=0,
@@ -71,9 +64,9 @@ def get_port_eigenmodes(
 ):
     """
     Args:
-        sim: simulation object
-        source: MEEP source object
-        mode_monitor: MEEP mode_monitor object to inspect
+        sim_dict: simulation dict
+        source_index: source index (to pull from sim_dict)
+        port_name: port name corresponding to mode_monitor to inspect
         band_num: band number to solve for
         choose_yz: whether y-z samples are generated or provided
         y: y array (if choose_yz is True)
@@ -82,6 +75,11 @@ def get_port_eigenmodes(
     Returns:
         Mode object compatible with /modes plugin
     """
+    # Initialize
+    sim = sim_dict["sim"]
+    source = sim_dict["sources"][source_index]
+    mode_monitor = sim_dict["monitors"][port_name]
+
     # Obtain source frequency
     fsrc = source.src.frequency
 
@@ -100,7 +98,8 @@ def get_port_eigenmodes(
     """
 
     # Solve for the modes
-    sim.init_sim()
+    if sim_dict["initialized"] is False:
+        sim.init_sim()
     eigenmode = sim.get_eigenmode(
         direction=mp.X,
         where=mp.Volume(center=center, size=size),
@@ -112,7 +111,7 @@ def get_port_eigenmodes(
     )
 
     # The output of this function is slightly different then MPB (there is no mode_solver object)
-    # Format like the mode objects in gdsfactory/simulation/modes
+    # Format like the mode objects in gdsfactory/simulation/modes to reuse modes' functions
     if not choose_yz:
         ny = int(size.y * sim.resolution)
         nz = int(size.z * sim.resolution)
@@ -151,40 +150,11 @@ def get_port_eigenmodes(
         ng=None,  # Not currently supported
         E=E,
         H=H,
-        eps=None,  # Eventually return the index distribution
+        eps=None,  # Eventually return the index distribution for co-plotting
+        y=y,
+        z=z,
     )
     return mode
-
-
-def plot_eigenmode(sim, source, mode_monitor, component="E"):
-    """
-    sim: simulation object
-    source: MEEP source object
-    mode_monitor: MEEP mode_monitor object to inspect
-    component: component to plot (same as gdsfactory.simulation.modes.types plotting functions)
-    """
-    mode = get_port_eigenmodes(sim, source, mode_monitor)
-    if component == "E":
-        mode.plot_e()
-    elif component == "Ex":
-        mode.plot_ex()
-    elif component == "Ey":
-        mode.plot_ey()
-    elif component == "Ez":
-        mode.plot_ez()
-    elif component == "all_e":
-        mode.plot_all_e()
-    elif component == "H":
-        mode.plot_h()
-    elif component == "Hx":
-        mode.plot_hx()
-    elif component == "Hy":
-        mode.plot_hy()
-    elif component == "Hz":
-        mode.plot_hz()
-    elif component == "all_h":
-        mode.plot_all_h()
-    plt.show()
 
 
 if __name__ == "__main__":
@@ -194,23 +164,17 @@ if __name__ == "__main__":
     sim_dict = get_simulation(
         c,
         is_3d=True,
-        res=50,
+        res=30,
         port_source_offset=-0.1,
         port_field_monitor_offset=-0.1,
         port_margin=2.5,
     )
-    sim = sim_dict["sim"]
-    plot_xsection(
-        sim,
-        center=sim_dict["monitors"]["o1"].regions[0].center,
-        size=sim_dict["monitors"]["o1"].regions[0].size,
-    )
-    plt.show()
 
-    plot_eigenmode(
-        sim,
-        source=sim_dict["sources"][0],
-        mode_monitor=sim_dict["monitors"]["o1"],
-        component="E",
+    mode = get_port_eigenmode(
+        sim_dict=sim_dict,
+        source=0,
+        mode_monitor="o1",
     )
+    mode.plot_hx()
+
     plt.show()

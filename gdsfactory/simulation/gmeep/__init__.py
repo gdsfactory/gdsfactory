@@ -5,7 +5,7 @@ from gdsfactory.simulation.gmeep.get_transmission_2ports import (
     plot2D,
     plot3D,
 )
-from gdsfactory.simulation.gmeep.plotting import plot_eigenmode, plot_xsection
+from gdsfactory.simulation.gmeep.plot_xsection import plot_xsection
 
 __all__ = [
     "add_monitors",
