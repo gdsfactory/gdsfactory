@@ -23,6 +23,7 @@ def straight_heater_doped_rib(
     taper: Optional[ComponentOrFactory] = taper_cross_section,
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
+    contact_gap: float = 0.0,
     width: float = 0.5,
     with_top_contact: bool = True,
     with_bot_contact: bool = True,
@@ -43,6 +44,7 @@ def straight_heater_doped_rib(
         taper: optional taper function
         heater_width:
         heater_gap:
+        contact_gap: from edge of contact to waveguide
         width: waveguide width on the ridge
         kwargs: cross_section settings
 
@@ -144,12 +146,12 @@ def straight_heater_doped_rib(
             if with_top_contact:
                 contact_top = c << contact(size=contact_size)
                 contact_top.x = xi
-                contact_top.ymin = +(heater_gap + width / 2)
+                contact_top.ymin = +(heater_gap + width / 2 + contact_gap)
 
             if with_bot_contact:
                 contact_bot = c << contact(size=contact_size)
                 contact_bot.x = xi
-                contact_bot.ymax = -(heater_gap + width / 2)
+                contact_bot.ymax = -(heater_gap + width / 2 + contact_gap)
 
     if contact_metal and contact:
         contact_length = length + contact_metal_size[0]
