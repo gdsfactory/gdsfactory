@@ -25,7 +25,7 @@ RuleType = Literal[
 def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
     """Min feature size"""
     category = "width"
-    error = f"{layer} {category} {value}"
+    error = f"{layer} {category} {value}um"
     return (
         f"{layer}.{category}({value}, angle_limit({angle_limit}))"
         f".output('{error}', '{error}')"
@@ -35,7 +35,7 @@ def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
 def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
     """Min Space between shapes of layer"""
     category = "space"
-    error = f"{layer} {category} {value}"
+    error = f"{layer} {category} {value}um"
     return (
         f"{layer}.{category}({value}, angle_limit({angle_limit}))"
         f".output('{error}', '{error}')"
@@ -44,19 +44,20 @@ def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
 
 def rule_separation(value: float, layer1: str, layer2: str):
     """Min space between different layers"""
-    error = f"min {layer1} {layer2} separation {value}"
+    error = f"min {layer1} {layer2} separation {value}um"
     return f"{layer1}.separation({layer2}, {value})" f".output('{error}', '{error}')"
 
 
 def rule_enclosing(
     value: float, layer1: str, layer2: str, angle_limit: float = 90
 ) -> str:
-    """Layer1 must be enclosed by layer2 by value"""
-    category = "enclosing"
-    error = f"{layer1} {category} {value}"
+    """Layer1 must be enclosed by layer2 by value.
+    checks if layer1 encloses (is bigger than) layer2 by value
+    """
+    error = f"{layer1} enclosing {layer2} by {value}um"
     return (
-        f"{layer1}.{category}({layer2}, angle_limit({angle_limit}), {value})"
-        f".output('{error}', '{layer2} minimum {category} {value}')"
+        f"{layer1}.enclosing({layer2}, angle_limit({angle_limit}), {value})"
+        f".output('{error}', '{error}')"
     )
 
 
@@ -146,11 +147,12 @@ if __name__ == "__main__":
 
     rules = [
         rule_width(layer="WG", value=0.2),
+        rule_space(layer="WG", value=0.2),
         rule_width(layer="M1", value=1),
         rule_width(layer="M2", value=2),
-        rule_space(layer="WG", value=0.2),
         rule_space(layer="M2", value=2),
-        rule_enclosing(layer1="M2", layer2="M1", value=2),
+        rule_separation(layer1="HEATER", layer2="M1", value=1.0),
+        rule_enclosing(layer1="M1", layer2="VIAC", value=0.2),
     ]
 
     drc_rule_deck = write_drc_deck_macro(rules=rules, layer_map=gf.LAYER)
