@@ -63,7 +63,7 @@ def get_portx_eigenmode(
     z=0,
 ):
     """
-    NOTE: it is portx because it only works well for ports normal to x
+    NOTE: currently only handles ports normal to x-direction
 
     Args:
         sim_dict: simulation dict
@@ -149,7 +149,7 @@ def get_portx_eigenmode(
 
     mode = Mode(
         mode_number=band_num,
-        neff=eigenmode.kdom.x / fsrc,
+        neff=eigenmode.k.x / fsrc,
         wavelength=1 / fsrc,
         ng=None,  # Not currently supported
         E=E,
@@ -168,19 +168,21 @@ if __name__ == "__main__":
     sim_dict = get_simulation(
         c,
         is_3d=True,
-        res=30,
+        res=50,
         port_source_offset=-0.1,
         port_field_monitor_offset=-0.1,
         port_margin=2.5,
+        # kwargs
+        eps_averaging=False,
     )
 
-    mode = get_portx_eigenmode(
+    m1_MEEP = get_portx_eigenmode(
         sim_dict=sim_dict,
         source_index=0,
         port_name="o1",
     )
-    print(mode.neff)
-    mode.plot_hy()
-    mode.plot_hx()
-    mode.plot_hz()
+    print(m1_MEEP.neff)
+    m1_MEEP.plot_hy()
+    m1_MEEP.plot_hx()
+    m1_MEEP.plot_hz()
     plt.show()
