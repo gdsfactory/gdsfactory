@@ -19,6 +19,10 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.8
+
+- better DRC messages
+
 ## 3.9.7
 
 - build docker container
