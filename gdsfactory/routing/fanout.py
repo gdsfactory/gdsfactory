@@ -5,21 +5,24 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import port_array
 from gdsfactory.routing.get_route_sbend import get_route_sbend
+from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
+from gdsfactory.types import ComponentOrFactory
 
 
 @cell
 def fanout_component(
-    component: Component,
+    component: ComponentOrFactory,
     port_names: Tuple[str, ...],
     pitch: Tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
+    sort_ports: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with Sbend fanout routes.
 
     Args:
-        component: to package
+        component: to fanout ports
         port_names: list of port names
         pitch: target port spacing for new component
         dx: how far the fanout in x direction
@@ -31,6 +34,10 @@ def fanout_component(
     ref = c.add_ref(comp)
     ref.movey(-comp.y)
 
+    for port_name in port_names:
+        if port_name not in ref.ports:
+            raise ValueError(f"{port_name} not in {list(ref.ports.keys())}")
+
     ports1 = [p for p in ref.ports.values() if p.name in port_names]
     port = ports1[0]
     port_extended_x = port.get_extended_midpoint(dx)[0]
@@ -41,6 +48,9 @@ def fanout_component(
     port_settings.update(orientation=(port.angle + 180) % 360)
 
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
+
+    if sort_ports:
+        ports1, ports2 = sort_ports_function(ports1, ports2)
 
     for i, (p1, p2) in enumerate(zip(ports1, ports2)):
         route = get_route_sbend(port1=p1, port2=p2, **kwargs)
