@@ -104,7 +104,7 @@ def test_mask(
     m.write_gds_with_metadata(gdspath)
 
     csvpath = write_labels(
-        gdspath=gdspath, prefix=labels_prefix, label_layer=layer_label
+        gdspath=gdspath, prefix=labels_prefix, layer_label=layer_label
     )
     assert gdspath.exists()
     assert csvpath.exists()
