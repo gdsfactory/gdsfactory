@@ -32,6 +32,7 @@ from omegaconf import OmegaConf
 from gdsfactory.autoplacer import text
 from gdsfactory.autoplacer.helpers import CELLS, import_cell, load_gds
 from gdsfactory.config import CONFIG, logger
+from gdsfactory.types import NSEW
 
 UM_TO_GRID = 1e3
 DEFAULT_BBOX_LAYER_IGNORE = [(8484, 8484)]
@@ -145,8 +146,8 @@ def pack_row(
     nb_cols: Optional[int] = None,
     x0: Union[float, int] = 0,
     y0: Union[float, int] = 0,
-    align_x: str = "W",
-    align_y: str = "S",
+    align_x: NSEW = "W",
+    align_y: NSEW = "S",
     margin: Union[float, int] = 20,
     margin_x: Optional[Union[float, int]] = None,
     margin_y: Optional[Union[float, int]] = None,
@@ -263,8 +264,8 @@ def pack_col(
     nb_rows: Optional[int] = None,
     x0: float = 0,
     y0: float = 0,
-    align_x: str = "W",
-    align_y: str = "S",
+    align_x: NSEW = "W",
+    align_y: NSEW = "S",
     margin: int = 20,
     margin_x: Optional[int] = None,
     margin_y: Optional[int] = None,
@@ -517,11 +518,11 @@ def place_from_yaml(
     root_does: Path = CONFIG["cache_doe_directory"],
     precision: float = 1e-9,
     fontpath: Path = text.FONT_PATH,
-    default_align_x: str = "W",
-    default_align_y: str = "S",
+    default_align_x: NSEW = "W",
+    default_align_y: NSEW = "S",
     default_margin: int = 10,
-    default_x0: str = "E",
-    default_y0: str = "S",
+    default_x0: NSEW = "E",
+    default_y0: NSEW = "S",
 ) -> Cell:
     """Returns a gds cell composed of DOEs/components given in a yaml file
     allows for each DOE to have its own x and y spacing (more flexible than method1)
