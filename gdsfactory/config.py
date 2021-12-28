@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "3.9.7"
+__version__ = "3.9.8"
 import json
 import os
 import pathlib
@@ -57,6 +57,9 @@ class Paths:
     repo = repo_path
     sparameters = repo_path / "sparameters"
     results_tidy3d = home / ".tidy3d"
+    klayout = module / "klayout"
+    klayout_tech = klayout / "tech"
+    klayout_lyp = klayout_tech / "layers.lyp"
 
 
 def read_config(

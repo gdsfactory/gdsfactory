@@ -360,12 +360,19 @@ def doe_exists(
     """
     Check whether the folder exists and that the number of items in content.txt
     matches the number of items in list_settings
+
+    Args:
+        doe_name: name of the doe
+        list_settings:
+        doe_root_path: path
     """
-    if doe_root_path is None:
-        doe_root_path = CONFIG["cache_doe_directory"]
-    doe_dir = os.path.join(doe_root_path, doe_name)
-    content_file = os.path.join(doe_dir, "content.txt")
-    if not os.path.exists(content_file):
+    doe_root_path = doe_root_path or CONFIG["cache_doe_directory"]
+    doe_root_path = Path(doe_root_path)
+    doe_dir = doe_root_path / doe_name
+    content_file = doe_dir / "content.txt"
+
+    if not content_file.exists():
+        print(f"{content_file} not found")
         return False
     with open(content_file) as f:
         component_names = f.read().split(CONTENT_SEP)
@@ -373,6 +380,7 @@ def doe_exists(
     if len(component_names) == len(list_settings) or (
         len(list_settings) == 0 and len(component_names) == 1
     ):
+        print(f"{content_file} found")
         return True
 
     print(

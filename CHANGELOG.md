@@ -19,6 +19,13 @@ Maybe:
 - pass force-regen flag from pytest
 - cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
 
+## 3.9.8
+
+- better DRC messages
+- write_drc allows you to define the shortcut
+- fix resistance_sheet offset
+- add comments to build does flow
+
 ## 3.9.7
 
 - build docker container
