@@ -14,12 +14,11 @@ RUN apt-get update --yes && \
     neovim
 
 USER jovyan
-# COPY . /home/jovyan/gdfactory
-
-RUN git clone https://github.com/gdsfactory/gdsfactory.git
-COPY gdsfactory/docs/notebooks /home/jovyan/notebooks
+COPY . /home/jovyan/gdfactory
+COPY docs/notebooks /home/jovyan/notebooks
 RUN conda init bash
 
+# RUN git clone https://github.com/gdsfactory/gdsfactory.git
 # USER ${NB_UID}
 # RUN apt update
 # RUN apt install gcc

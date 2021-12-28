@@ -57,6 +57,7 @@ from gdsfactory import geometry
 from gdsfactory import mask
 from gdsfactory import sweep
 from gdsfactory import add_ports
+from gdsfactory import write_cells
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -123,9 +124,10 @@ __all__ = [
     "tech",
     "types",
     "sweep",
+    "write_cells",
     "Label",
 ]
-__version__ = "3.9.7"
+__version__ = "3.9.8"
 
 
 if __name__ == "__main__":
