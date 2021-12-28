@@ -15,7 +15,7 @@ RUN apt-get update --yes && \
 
 USER jovyan
 COPY . /home/jovyan/gdfactory
-COPY gdsfactory/docs/notebooks /home/jovyan/notebooks
+COPY /home/jovyan/gdsfactory/docs/notebooks /home/jovyan/notebooks
 RUN conda init bash
 
 # RUN git clone https://github.com/gdsfactory/gdsfactory.git
