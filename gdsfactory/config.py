@@ -57,6 +57,9 @@ class Paths:
     repo = repo_path
     sparameters = repo_path / "sparameters"
     results_tidy3d = home / ".tidy3d"
+    klayout = module / "klayout"
+    klayout_tech = klayout / "tech"
+    klayout_lyp = klayout_tech / "layers.lyp"
 
 
 def read_config(
