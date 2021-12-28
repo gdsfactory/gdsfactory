@@ -127,7 +127,7 @@ __all__ = [
     "write_cells",
     "Label",
 ]
-__version__ = "3.9.8"
+__version__ = "3.9.9"
 
 
 if __name__ == "__main__":
