@@ -1,4 +1,10 @@
-"""Write DRC rule decks in klayout."""
+"""Write DRC rule decks in klayout.
+
+TODO:
+
+- add min area
+- define derived layers (composed rules)
+"""
 
 import pathlib
 from dataclasses import asdict, is_dataclass
@@ -90,12 +96,20 @@ def write_drc_deck(rules: List[str], layer_map: Dict[str, Layer]) -> str:
 
 
 def write_drc_deck_macro(
-    name="generic", filepath: Optional[PathType] = None, **kwargs
+    name="generic",
+    filepath: Optional[PathType] = None,
+    shortcut: str = "Ctrl+Shift+D",
+    **kwargs,
 ) -> str:
     """Write script for klayout rule deck
 
     Args:
         name: drc rule deck name
+        filepath: Optional macro path (defaults to .klayout/drc/name.lydrc)
+
+    Keyword Args:
+        rules: list of rules
+        layer_map: layer definitions can be dict or dataclass
 
     Keyword Args:
         rules: list of rules
@@ -112,7 +126,7 @@ def write_drc_deck_macro(
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
- <shortcut>Ctrl+Shift+D</shortcut>
+ <shortcut>{shortcut}</shortcut>
  <show-in-menu>true</show-in-menu>
  <group-name>drc_scripts</group-name>
  <menu-path>tools_menu.drc.end</menu-path>

@@ -22,6 +22,8 @@ Maybe:
 ## 3.9.8
 
 - better DRC messages
+- write_drc allows you to define the shortcut
+- fix resistance_sheet offset
 
 ## 3.9.7
 

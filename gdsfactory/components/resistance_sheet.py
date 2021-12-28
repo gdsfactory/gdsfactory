@@ -42,7 +42,7 @@ def resistance_sheet(
     )
 
     for layer, offset in zip(layers[1:], layer_offsets[1:]):
-        c << compass(size=(length + offset, width + offset), layer=layer)
+        c << compass(size=(length + 2 * offset, width + 2 * offset), layer=layer)
 
     pad1.connect("e3", r0.ports["e1"])
     pad2.connect("e1", r0.ports["e3"])
