@@ -256,6 +256,8 @@ def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> 
 
     script = """
 import dataclasses
+from gdsfactory.types import Layer
+
 
 @dataclasses.dataclass
 class LayerMap():
