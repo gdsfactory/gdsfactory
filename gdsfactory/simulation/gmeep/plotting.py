@@ -3,6 +3,9 @@ import meep as mp
 import numpy as np
 from meep.visualization import get_2D_dimensions
 
+from gdsfactory import add_padding
+from gdsfactory.components import straight
+from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.modes.types import Mode
 
 
@@ -81,13 +84,13 @@ def get_port_eigenmode(
     # Obtain xsection
     center = mode_monitor.regions[0].center
     size = mode_monitor.regions[0].size
-    output_plane = mp.Volume(center=center, size=size)
+    # output_plane = mp.Volume(center=center, size=size)
 
     # Get best guess for kvector
-    eps_data = get_domain_measurements(
-        sim, output_plane, fsrc, resolution=1 / (y[1] - y[0]) if y else 0
-    )
-    n = np.sqrt(np.max(eps_data))
+    # eps_data = get_domain_measurements(
+    #     sim, output_plane, fsrc, resolution=1 / (y[1] - y[0]) if y else 0
+    # )
+    # n = np.sqrt(np.max(eps_data))
 
     # Solve for the modes
     sim.init_sim()
@@ -95,7 +98,7 @@ def get_port_eigenmode(
         direction=mp.X,
         where=mp.Volume(center=center, size=size),
         band_num=1,
-        kpoint=mp.Vector3(fsrc * n),
+        kpoint=mp.Vector3(fsrc * 3.45),
         frequency=fsrc,
     )
 
@@ -139,7 +142,7 @@ def get_port_eigenmode(
         ng=None,  # Not currently supported
         E=E,
         H=H,
-        eps=eps_data,
+        eps=None,
     )
     return mode
 
@@ -149,5 +152,27 @@ def plot_eigenmode(sim, source, mode_monitor):
     sim: simulation object
     """
     mode = get_port_eigenmode(sim, source, mode_monitor)
-    mode.plot_e_all()
+    mode.plot_e()
+    plt.show()
+
+
+if __name__ == "__main__":
+    # test_eigenmode()
+    c = straight(length=2, width=0.5)
+    c = add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
+
+    sim_dict = get_simulation(
+        c,
+        is_3d=True,
+        res=50,
+        port_source_offset=-0.1,
+        port_field_monitor_offset=-0.1,
+        port_margin=2.5,
+    )
+    sim = sim_dict["sim"]
+    plot_xsection(
+        sim,
+        center=sim_dict["monitors"]["o1"].regions[0].center,
+        size=sim_dict["monitors"]["o1"].regions[0].size,
+    )
     plt.show()
