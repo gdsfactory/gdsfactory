@@ -741,9 +741,9 @@ def place_from_yaml(
         add_doe_visual_label = doe["add_doe_visual_label"]
 
         if add_doe_label:
-            label_layer_index, label_layer_datatype = layer_doe_label
+            layer_label_index, layer_label_datatype = layer_doe_label
             layer_index = top_level.layout().insert_layer(
-                pya.LayerInfo(label_layer_index, label_layer_datatype)
+                pya.LayerInfo(layer_label_index, layer_label_datatype)
             )
             # Add the name of the DOE at the center of the cell
             _p = doe_instance.bbox(top_level_layout).center()

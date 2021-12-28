@@ -23,6 +23,7 @@ Maybe:
 
 - pack_row in klayout_yaml_placer also accepts rotation
 - placer uses Literal ('N', 'S', 'E', 'W') from gf.types
+- rename label_layer as layer_label for consistency
 
 ## 3.9.8
 
