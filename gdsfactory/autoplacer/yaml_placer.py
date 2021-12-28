@@ -156,6 +156,7 @@ def pack_row(
     rotation: int = 0,
 ) -> List[CellInstArray]:
     """Pack row.
+
     Args:
         cells: a list of cells (size n)
         row_ids: a list of row ids (size n)
@@ -166,7 +167,7 @@ def pack_row(
             if set, use this period instead of computing the component spacing
             from the margin and the component dimension
 
-    Returns:list of cell references
+    Returns: list of cell references
     """
     si_list = [SizeInfo(c, um_to_grid=um_to_grid) for c in cells]
     heights = [si.height for si in si_list]
@@ -228,7 +229,6 @@ def pack_row(
                 _y = to_grid(y - component_origin[1], um_to_grid)
 
                 transform = pya.Trans(rotation / 2, 0, _x, _y)
-                # transform = pya.Trans(_x, _y)
                 c_ref = pya.CellInstArray(c.cell_index(), transform)
                 components += [c_ref]
 
@@ -271,6 +271,7 @@ def pack_col(
     um_to_grid: int = UM_TO_GRID,
     period_x: Optional[float] = None,
     period_y: Optional[float] = None,
+    rotation: int = 0,
 ) -> List[CellInstArray]:
     """
 
@@ -342,7 +343,8 @@ def pack_col(
             _y = to_grid(y - component_origin[1], um_to_grid=um_to_grid)
 
             try:
-                transform = pya.Trans(_x, _y)
+                transform = pya.Trans(rotation / 2, 0, _x, _y)
+                # transform = pya.Trans(_x, _y)
                 c_ref = pya.CellInstArray(c.cell_index(), transform)
                 components += [c_ref]
             except BaseException:
