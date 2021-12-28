@@ -30,7 +30,7 @@ def add_pin_triangle(
     component: Component,
     port: Port,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
     """Add triangle pin with a right angle, pointing out of the port
 
@@ -38,7 +38,7 @@ def add_pin_triangle(
         component:
         port: Port
         layer: for the pin marker
-        label_layer: for the label
+        layer_label: for the label
     """
     p = port
 
@@ -59,11 +59,11 @@ def add_pin_triangle(
     polygon = [p0, p1, ptip]
     component.add_polygon(polygon, layer=layer)
 
-    if label_layer:
+    if layer_label:
         component.add_label(
             text=str(p.name),
             position=ptip,
-            layer=label_layer,
+            layer=layer_label,
         )
 
 
@@ -72,7 +72,7 @@ def add_pin_square_inside(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
     """Add square pin towards the inside of the port
 
@@ -81,7 +81,7 @@ def add_pin_square_inside(
         port: Port
         pin_length: length of the pin marker for the port
         layer: for the pin marker
-        label_layer: for the label
+        layer_label: for the label
 
     .. code::
 
@@ -116,11 +116,11 @@ def add_pin_square_inside(
     pbotin = p.position + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
-    if label_layer:
+    if layer_label:
         component.add_label(
             text=str(p.name),
             position=p.midpoint,
-            layer=label_layer,
+            layer=layer_label,
         )
 
 
@@ -129,7 +129,7 @@ def add_pin_square_double(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
     """Add two square pins: one inside with label, one outside
 
@@ -138,7 +138,7 @@ def add_pin_square_double(
         port: Port
         pin_length: length of the pin marker for the port
         layer: for the pin marker
-        label_layer: for the label
+        layer_label: for the label
 
     .. code::
 
@@ -188,11 +188,11 @@ def add_pin_square_double(
 
     x = (p0[0] + ptopin[0]) / 2
     y = (ptopin[1] + pbotin[1]) / 2
-    if label_layer:
+    if layer_label:
         component.add_label(
             text=str(p.name),
             position=(x, y),
-            layer=label_layer,
+            layer=layer_label,
         )
 
 
@@ -201,7 +201,7 @@ def add_pin_square(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Optional[Tuple[int, int]] = LAYER.PORT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.PORT,
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -211,7 +211,7 @@ def add_pin_square(
         port: Port
         pin_length: length of the pin marker for the port
         layer: for the pin marker
-        label_layer: for the label
+        layer_label: for the label
         port_margin: margin to port edge
 
 
@@ -249,11 +249,11 @@ def add_pin_square(
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
-    if label_layer:
+    if layer_label:
         component.add_label(
             text=str(p.name),
             position=p.midpoint,
-            layer=label_layer,
+            layer=layer_label,
         )
 
 
@@ -329,14 +329,14 @@ def add_pins_container(
 def add_settings_label(
     component: Component,
     reference: ComponentReference,
-    label_layer: Tuple[int, int] = LAYER.LABEL_SETTINGS,
+    layer_label: Tuple[int, int] = LAYER.LABEL_SETTINGS,
 ) -> None:
     """Add settings in label
 
     Args:
         componnent
         reference
-        label_layer:
+        layer_label:
 
     """
     settings_dict = OmegaConf.to_container(reference.settings.full)
@@ -345,7 +345,7 @@ def add_settings_label(
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
-        position=reference.center, text=settings_string, layer=label_layer
+        position=reference.center, text=settings_string, layer=layer_label
     )
 
 

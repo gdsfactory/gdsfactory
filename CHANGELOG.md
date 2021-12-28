@@ -2,22 +2,26 @@
 
 ## TODO
 
-- component needs to export the factory names
 - fix FIXMEs
 - add example on how to customize visualization of a component
-- build docker container
-- remove kwargs from most components as a way to customize cross_sections to get more intuitive error messages
-- base docker container on [miniconda](https://hub.docker.com/r/continuumio/miniconda3/tags)
+- remove kwargs from most components as a way to customize cross_sections to get more clear error messages
+- klayout placer north, west does not work well with rotations
 
 Maybe:
 
-- enable routing with 180euler and Sbends
-- electrical routing
-- pads have a port with `pad` name on the center of the pad
-- xdoctest
-- mypy passing
-- pass force-regen flag from pytest
-- cell decorator includes hashes all the soruce code from a function to ensure no name conflicts happen when merging old and future cells
+- add xdoctest
+- type checker passing (mypy, pyre, pytype)
+- cell decorator includes hashes all the source code from a function to ensure no name conflicts happen when merging old and future cells. This was quite slow.
+
+- add non-manhattan routing
+    * enable routing with 180euler and Sbends
+    * electrical routing with 45
+
+## 3.9.9
+
+- pack_row in klayout_yaml_placer also accepts rotation
+- placer uses Literal ('N', 'S', 'E', 'W') from gf.types
+- rename label_layer as layer_label for consistency
 
 ## 3.9.8
 

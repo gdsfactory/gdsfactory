@@ -1,18 +1,24 @@
 from typing import Callable, Optional
 
 import gdsfactory as gf
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
+from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
+from gdsfactory.types import ComponentOrFactory, CrossSectionFactory
 
 
 @gf.cell
 def fanout2x2(
-    component: Component,
+    component: ComponentOrFactory,
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
+    cross_section: CrossSectionFactory = strip,
+    with_cladding_box: bool = True,
+    **kwargs
 ) -> Component:
     """returns component with port_spacing.
 
@@ -22,6 +28,11 @@ def fanout2x2(
         bend_length: length of the bend (defaults to port_spacing)
         npoints: for sbend
         select_ports: function to select  optical_ports ports
+        cross_section:
+        with_cladding_box: square bounding box to avoid DRC errors
+
+    Keyword Args:
+        cross_section settings
 
     """
 
@@ -48,14 +59,35 @@ def fanout2x2(
 
     control_points = [(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)]
 
-    bezier_bend_t = bezier(
-        control_points=control_points, npoints=npoints, start_angle=0, end_angle=0
-    )
+    x = cross_section(**kwargs)
+    width = x.info["width"]
+    layer = x.info["layer"]
 
-    b_tr = bezier_bend_t.ref(port_id="o1", position=p_e1)
-    b_br = bezier_bend_t.ref(port_id="o1", position=p_e0, v_mirror=True)
-    b_tl = bezier_bend_t.ref(port_id="o1", position=p_w1, h_mirror=True)
-    b_bl = bezier_bend_t.ref(port_id="o1", position=p_w0, rotation=180)
+    bend = bezier(
+        control_points=control_points,
+        npoints=npoints,
+        start_angle=0,
+        end_angle=0,
+        width=width,
+        layer=layer,
+    )
+    if with_cladding_box and x.info["layers_cladding"]:
+        layers_cladding = x.info["layers_cladding"]
+        cladding_offset = x.info["cladding_offset"]
+        bend.unlock()
+        points = get_padding_points(
+            component=bend,
+            default=0,
+            bottom=cladding_offset,
+            top=cladding_offset,
+        )
+        for layer in layers_cladding or []:
+            bend.add_polygon(points, layer=layer)
+
+    b_tr = bend.ref(port_id="o1", position=p_e1)
+    b_br = bend.ref(port_id="o1", position=p_e0, v_mirror=True)
+    b_tl = bend.ref(port_id="o1", position=p_w1, h_mirror=True)
+    b_bl = bend.ref(port_id="o1", position=p_w0, rotation=180)
 
     c.add([b_tr, b_br, b_tl, b_bl])
 
@@ -64,7 +96,7 @@ def fanout2x2(
     c.add_port("o3", port=b_tr.ports["o2"])
     c.add_port("o4", port=b_br.ports["o2"])
 
-    c.min_bend_radius = bezier_bend_t.info["min_bend_radius"]
+    c.min_bend_radius = bend.info["min_bend_radius"]
 
     optical_ports = select_ports(ref.ports)
     for port_name in ref.ports.keys():

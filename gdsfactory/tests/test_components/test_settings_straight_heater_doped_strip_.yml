@@ -533,6 +533,7 @@ cells:
           layer:
           - 40
           - 0
+      contact_gap: 0
       contact_metal:
         function: contact
         layers:
@@ -590,6 +591,7 @@ cells:
           layer:
           - 40
           - 0
+      contact_gap: 0
       contact_metal:
         function: contact
         layers:
@@ -715,6 +717,7 @@ info:
         layer:
         - 40
         - 0
+    contact_gap: 0
     contact_metal:
       function: contact
       layers:
@@ -772,6 +775,7 @@ info:
         layer:
         - 40
         - 0
+    contact_gap: 0
     contact_metal:
       function: contact
       layers:

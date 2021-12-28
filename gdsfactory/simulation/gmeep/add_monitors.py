@@ -17,7 +17,7 @@ def _add_pin_square(
     port: Port,
     pin_length: float = 0.1,
     layer: Tuple[int, int] = LAYER.PORT,
-    label_layer: Optional[Tuple[int, int]] = LAYER.PORT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.PORT,
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -27,7 +27,7 @@ def _add_pin_square(
         port: Port
         pin_length: length of the pin marker for the port
         layer: for the pin marker
-        label_layer: for the label
+        layer_label: for the label
         port_margin: margin to port edge
 
 
@@ -65,11 +65,11 @@ def _add_pin_square(
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
-    if label_layer:
+    if layer_label:
         component.add_label(
             text=str(p.name),
             position=p.midpoint,
-            layer=label_layer,
+            layer=layer_label,
         )
 
 

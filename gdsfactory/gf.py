@@ -147,12 +147,12 @@ def build_does(yamlpath: str) -> None:
 
 
 @click.command(name="write_metadata")
-@click.argument("label_layer", required=False, default=LAYER_LABEL)
-def mask_merge(label_layer) -> None:
+@click.argument("layer_label", required=False, default=LAYER_LABEL)
+def mask_merge(layer_label) -> None:
     """merge JSON/Markdown from build/devices into build/mask"""
 
     gdspath = CONFIG["mask_gds"]
-    write_labels(gdspath=gdspath, label_layer=label_layer)
+    write_labels(gdspath=gdspath, layer_label=layer_label)
 
     merge_json()
     merge_markdown()
@@ -161,13 +161,13 @@ def mask_merge(label_layer) -> None:
 
 @click.command(name="write_labels")
 @click.argument("gdspath", default=None)
-@click.argument("label_layer", required=False, default=LAYER_LABEL)
-def write_mask_labels(gdspath: str, label_layer) -> None:
+@click.argument("layer_label", required=False, default=LAYER_LABEL)
+def write_mask_labels(gdspath: str, layer_label) -> None:
     """Find test and measurement labels."""
     if gdspath is None:
         gdspath = CONFIG["mask_gds"]
 
-    write_labels(gdspath=gdspath, label_layer=label_layer)
+    write_labels(gdspath=gdspath, layer_label=layer_label)
 
 
 # EXTRA
