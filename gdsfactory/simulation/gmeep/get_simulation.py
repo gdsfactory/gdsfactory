@@ -297,7 +297,7 @@ if __name__ == "__main__":
 
     # sim.plot2D()  # plot top view (is_3D needs to be False)
     # Plot monitor cross-section (is_3D needs to be True)
-    from gdsfactory.simulation.gmeep.plotting import plot_xsection
+    from gdsfactory.simulation.gmeep.plot_xsection import plot_xsection
 
     plot_xsection(
         sim,

@@ -53,7 +53,7 @@ def get_domain_measurements(sim, output_plane, frequency, resolution=0):
 '''
 
 
-def get_port_eigenmode(
+def get_portx_eigenmode(
     sim_dict,
     source_index=0,
     port_name="o1",
@@ -63,6 +63,8 @@ def get_port_eigenmode(
     z=0,
 ):
     """
+    NOTE: it is portx because it only works well for ports normal to x
+
     Args:
         sim_dict: simulation dict
         source_index: source index (to pull from sim_dict)
@@ -100,12 +102,14 @@ def get_port_eigenmode(
     # Solve for the modes
     if sim_dict["initialized"] is False:
         sim.init_sim()
+        sim_dict["initialized"] = True
+
     eigenmode = sim.get_eigenmode(
         direction=mp.X,
         where=mp.Volume(center=center, size=size),
         band_num=band_num,
         kpoint=mp.Vector3(
-            fsrc * 3.45
+            fsrc * 3.45, 0, 0
         ),  # Hardcoded index for now, pull from simulation eventually
         frequency=fsrc,
     )
@@ -145,7 +149,7 @@ def get_port_eigenmode(
 
     mode = Mode(
         mode_number=band_num,
-        neff=eigenmode.kdom / fsrc,
+        neff=eigenmode.kdom.x / fsrc,
         wavelength=1 / fsrc,
         ng=None,  # Not currently supported
         E=E,
@@ -170,11 +174,13 @@ if __name__ == "__main__":
         port_margin=2.5,
     )
 
-    mode = get_port_eigenmode(
+    mode = get_portx_eigenmode(
         sim_dict=sim_dict,
-        source=0,
-        mode_monitor="o1",
+        source_index=0,
+        port_name="o1",
     )
+    print(mode.neff)
+    mode.plot_hy()
     mode.plot_hx()
-
+    mode.plot_hz()
     plt.show()
