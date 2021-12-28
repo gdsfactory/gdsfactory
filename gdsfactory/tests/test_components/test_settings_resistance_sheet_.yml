@@ -111,14 +111,14 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_c305bcfa
-  compass_ef81f079:
+  compass_cc9a3711:
     changed:
       layer:
       - 24
       - 0
       size:
-      - 20.2
-      - 10.2
+      - 20.4
+      - 10.4
     default:
       layer:
       - 1
@@ -133,12 +133,12 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 20.2
-      - 10.2
+      - 20.4
+      - 10.4
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ef81f079
+    name: compass_cc9a3711
   contact_3a2b60f1:
     changed:
       layers:

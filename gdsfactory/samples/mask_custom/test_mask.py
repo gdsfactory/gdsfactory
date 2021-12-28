@@ -72,7 +72,7 @@ component_factory = dict(
 )
 
 
-def test_mask(precision: float = 2e-9) -> Path:
+def test_mask(precision: float = 2e-9, overwrite=True) -> Path:
     from gdsfactory.autoplacer.yaml_placer import place_from_yaml
 
     workspace_folder = CONFIG["samples_path"] / "mask_custom"
@@ -82,7 +82,8 @@ def test_mask(precision: float = 2e-9) -> Path:
     mask_path = build_path / "mask"
     does_yml = workspace_folder / "does.yml"
 
-    shutil.rmtree(build_path, ignore_errors=True)
+    if overwrite:
+        shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
@@ -95,6 +96,7 @@ def test_mask(precision: float = 2e-9) -> Path:
         precision=precision,
         doe_root_path=doe_root_path,
         doe_metadata_path=doe_metadata_path,
+        cache=True,
     )
 
     top_level = place_from_yaml(does_yml, precision=precision, root_does=doe_root_path)
