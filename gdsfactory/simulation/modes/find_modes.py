@@ -114,6 +114,7 @@ def find_modes(
         )
         for index, i in enumerate(range(mode_number, mode_number + nmodes))
     }
+
     return modes
 
 
