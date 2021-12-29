@@ -87,12 +87,37 @@ def test_eigenmode(plot=False):
         plt.figure(figsize=(10, 8), dpi=100)
 
         plt.subplot(3, 2, 1)
-        m1_MEEP.plot_hx(show=False, operation=np.abs)
+        m1_MEEP.plot_ex(show=False, operation=np.abs)
         plt.title(r"MEEP get_eigenmode \n Abs($E_x$)")
 
         plt.subplot(3, 2, 2)
-        m1_MPB.plot_hx(show=False, operation=np.abs)
+        m1_MPB.plot_ex(show=False, operation=np.abs)
         plt.title(r"MPB find_modes \n Abs($E_x$)")
+
+        plt.subplot(3, 2, 3)
+        m1_MEEP.plot_ey(show=False, operation=np.abs)
+
+        plt.subplot(3, 2, 4)
+        m1_MPB.plot_ey(show=False, operation=np.abs)
+
+        plt.subplot(3, 2, 5)
+        m1_MEEP.plot_ez(show=False, operation=np.abs)
+
+        plt.subplot(3, 2, 6)
+        m1_MPB.plot_ez(show=False, operation=np.abs)
+
+        plt.tight_layout()
+        plt.show()
+
+        plt.figure(figsize=(10, 8), dpi=100)
+
+        plt.subplot(3, 2, 1)
+        m1_MEEP.plot_hx(show=False, operation=np.abs)
+        plt.title(r"MEEP get_eigenmode \n Abs($H_x$)")
+
+        plt.subplot(3, 2, 2)
+        m1_MPB.plot_hx(show=False, operation=np.abs)
+        plt.title(r"MPB find_modes \n Abs($H_x$)")
 
         plt.subplot(3, 2, 3)
         m1_MEEP.plot_hy(show=False, operation=np.abs)
