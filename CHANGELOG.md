@@ -17,6 +17,10 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.10
+
+- add `gf.mask.merge_yaml` to merge yaml metadata
+
 ## 3.9.9
 
 - pack_row in klayout_yaml_placer also accepts rotation
