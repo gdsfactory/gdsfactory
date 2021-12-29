@@ -115,7 +115,7 @@ def get_portx_eigenmode(
     )
 
     # The output of this function is slightly different then MPB (there is no mode_solver object)
-    # Format like the mode objects in gdsfactory/simulation/modes to reuse modes' functions
+    # Format like the Mode objects in gdsfactory/simulation/modes to reuse modes' functions
     if not choose_yz:
         ny = int(size.y * sim.resolution)
         nz = int(size.z * sim.resolution)
