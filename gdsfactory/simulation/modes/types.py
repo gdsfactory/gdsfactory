@@ -15,6 +15,7 @@ class Mode:
     ng: Optional[float] = None
     fraction_te: Optional[float] = None
     fraction_tm: Optional[float] = None
+    effective_area: Optional[float] = None
     E: Optional[np.ndarray] = None
     H: Optional[np.ndarray] = None
     eps: Optional[np.ndarray] = None
@@ -85,10 +86,11 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
-        ex = E[:, :, 0, 2]
-        ex = 10 * np.log10(np.abs(ex)) if logscale else np.real(ex)
+        ex = E[:, :, 0, 0]
+        ex = 10 * np.log10(np.abs(ex)) if logscale else operation(ex)
         plt.imshow(
             ex.T,
             cmap=cmap,
@@ -98,7 +100,7 @@ class Mode:
             vmin=-1 if scale else ex.min(),
             vmax=1 if scale else ex.max(),
         )
-        plt.title("$Re(E_x)$")
+        plt.title("{}($E_x$)".format(operation))
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -112,10 +114,11 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         ey = E[:, :, 0, 1]
-        ey = 10 * np.log10(np.abs(ey)) if logscale else np.real(ey)
+        ey = 10 * np.log10(np.abs(ey)) if logscale else operation(ey)
         plt.imshow(
             ey.T,
             cmap=cmap,
@@ -125,7 +128,7 @@ class Mode:
             vmin=-1 if scale else ey.min(),
             vmax=1 if scale else ey.max(),
         )
-        plt.title("$Re(E_y)$")
+        plt.title("{}($E_y$)".format(operation))
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -139,10 +142,11 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
-        ez = E[:, :, 0, 0]
-        ez = 10 * np.log10(ez) if logscale else np.real(ez)
+        ez = E[:, :, 0, 2]
+        ez = 10 * np.log10(ez) if logscale else operation(ez)
         plt.imshow(
             ez.T,
             cmap=cmap,
@@ -152,7 +156,7 @@ class Mode:
             vmin=-1 if scale else ez.min(),
             vmax=1 if scale else ez.max(),
         )
-        plt.title("$Re(E_z)$")
+        plt.title("{}($E_z$)".format(operation))
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -166,17 +170,18 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         plt.figure(figsize=(16, 10), dpi=100)
 
         plt.subplot(2, 3, 1)
-        self.plot_ex(show=False, scale=scale, cmap=cmap)
+        self.plot_ex(show=False, scale=scale, cmap=cmap, operation=operation)
 
         plt.subplot(2, 3, 2)
-        self.plot_ey(show=False, scale=scale, cmap=cmap)
+        self.plot_ey(show=False, scale=scale, cmap=cmap, operation=operation)
 
         plt.subplot(2, 3, 3)
-        self.plot_ez(show=False, scale=scale, cmap=cmap)
+        self.plot_ez(show=False, scale=scale, cmap=cmap, operation=operation)
 
         plt.subplot(2, 3, 4)
         self.plot_e(show=False, scale=scale)
@@ -226,10 +231,11 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
-        hx = H[:, :, 0, 2]
-        hx = 10 * np.log10(np.abs(hx)) if logscale else np.real(hx)
+        hx = H[:, :, 0, 0]
+        hx = 10 * np.log10(np.abs(hx)) if logscale else operation(hx)
         plt.imshow(
             hx.T,
             cmap=cmap,
@@ -239,7 +245,7 @@ class Mode:
             vmin=-1 if scale else hx.min(),
             vmax=1 if scale else hx.max(),
         )
-        plt.title("$Re(H_x)$")
+        plt.title("{}($H_x$)".format(operation))
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -253,10 +259,11 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
         hy = H[:, :, 0, 1]
-        hy = 10 * np.log10(np.abs(hy)) if logscale else np.real(hy)
+        hy = 10 * np.log10(np.abs(hy)) if logscale else operation(hy)
         plt.imshow(
             hy.T,
             cmap=cmap,
@@ -266,7 +273,7 @@ class Mode:
             vmin=-1 if scale else hy.min(),
             vmax=1 if scale else hy.max(),
         )
-        plt.title("$Re(H_y)$")
+        plt.title("{}($H_y$)".format(operation))
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -280,20 +287,21 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
-        hz = abs(H[:, :, 0, 0])
-        hz = 10 * np.log10(hz) if logscale else np.real(hz)
+        hz = abs(H[:, :, 0, 2])
+        hz = 10 * np.log10(hz) if logscale else operation(hz)
         plt.imshow(
             hz.T,
             cmap=cmap,
             origin=origin,
             aspect="auto",
             extent=[np.min(self.y), np.max(self.y), np.min(self.z), np.max(self.z)],
-            vmin=-1 if scale else hz.min(),
+            vmin=0 if scale else hz.min(),
             vmax=1 if scale else hz.max(),
         )
-        plt.title("$Re(H_z)$")
+        plt.title("{}($H_z$)".format(operation))
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -307,17 +315,18 @@ class Mode:
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
+        operation: Callable = np.real,
     ):
         plt.figure(figsize=(16, 10), dpi=100)
 
         plt.subplot(2, 3, 1)
-        self.plot_hx(show=False, scale=scale, cmap=cmap)
+        self.plot_hx(show=False, scale=scale, cmap=cmap, operation=operation)
 
         plt.subplot(2, 3, 2)
-        self.plot_hy(show=False, scale=scale, cmap=cmap)
+        self.plot_hy(show=False, scale=scale, cmap=cmap, operation=operation)
 
         plt.subplot(2, 3, 3)
-        self.plot_hz(show=False, scale=scale, cmap=cmap)
+        self.plot_hz(show=False, scale=scale, cmap=cmap, operation=operation)
 
         plt.subplot(2, 3, 4)
         self.plot_h(show=False, scale=scale)
@@ -369,7 +378,9 @@ ModeSolverOrFactory = Union[mpb.ModeSolver, ModeSolverFactory]
 
 
 if __name__ == "__main__":
-    # import gdsfactory.simulation.modes as gm
-    # m = gm.find_modes()
-    # m[1].plot_e_all()
-    w = Waveguide()
+    import gdsfactory.simulation.modes as gm
+
+    m = gm.find_modes()
+    m[1].plot_e_all(operation=np.abs)
+    m[1].plot_h_all(operation=np.abs)
+    # w = Waveguide()
