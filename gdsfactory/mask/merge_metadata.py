@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Tuple
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.mask.merge_markdown import merge_markdown
@@ -27,6 +27,7 @@ def merge_metadata(
     """
     mdpath = gdspath.with_suffix(".md")
     yaml_path = gdspath.with_suffix(".json")
+    test_metadata_path = gdspath.with_suffix(".tp.yml")
 
     build_directory = gdspath.parent.parent
     doe_directory = build_directory / "cache_doe"
@@ -40,11 +41,14 @@ def merge_metadata(
 
     mask_metadata = merge_yaml(doe_directory=doe_directory, yaml_path=yaml_path)
     merge_markdown(reports_directory=doe_directory, mdpath=mdpath)
-    return merge_test_metadata(
+    tm = merge_test_metadata(
         labels_prefix=labels_prefix,
         mask_metadata=mask_metadata,
         labels_path=labels_path,
     )
+
+    test_metadata_path.write_text(OmegaConf.to_yaml(tm))
+    return tm
 
 
 if __name__ == "__main__":
