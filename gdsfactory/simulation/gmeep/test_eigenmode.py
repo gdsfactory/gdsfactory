@@ -29,7 +29,7 @@ def MPB_eigenmode_toDisk():
     np.save("test_data/stripWG_mpb/z.npy", m1_MPB.z)
 
 
-def test_eigenmode():
+def test_eigenmode(plot=False):
     """
     WARNING: Segmentation fault occurs if both ms object above and sim object exist in memory at the same time
     Instead load results from separate MPB run
@@ -61,7 +61,6 @@ def test_eigenmode():
         y=m1_MPB_y,
         z=m1_MPB_z,
     )
-    print(m1_MPB.neff)
 
     # MEEP calculation
     c = straight(length=2, width=0.5)
@@ -80,32 +79,35 @@ def test_eigenmode():
         sim_dict=sim_dict,
         source_index=0,
         port_name="o1",
+        y=m1_MPB.y,
+        z=m1_MPB.z,
     )
 
-    print(m1_MEEP.neff)
+    if plot:
+        plt.figure(figsize=(10, 8), dpi=100)
 
-    plt.figure(figsize=(10, 8), dpi=100)
+        plt.subplot(3, 2, 1)
+        m1_MEEP.plot_hx(show=False, operation=np.abs)
+        plt.title(r"MEEP get_eigenmode \n Abs($E_x$)")
 
-    plt.subplot(3, 2, 1)
-    m1_MEEP.plot_hx(show=False)
+        plt.subplot(3, 2, 2)
+        m1_MPB.plot_hx(show=False, operation=np.abs)
+        plt.title(r"MPB find_modes \n Abs($E_x$)")
 
-    plt.subplot(3, 2, 2)
-    m1_MPB.plot_hx(show=False)
+        plt.subplot(3, 2, 3)
+        m1_MEEP.plot_hy(show=False, operation=np.abs)
 
-    plt.subplot(3, 2, 3)
-    m1_MEEP.plot_hy(show=False)
+        plt.subplot(3, 2, 4)
+        m1_MPB.plot_hy(show=False, operation=np.abs)
 
-    plt.subplot(3, 2, 4)
-    m1_MPB.plot_hy(show=False)
+        plt.subplot(3, 2, 5)
+        m1_MEEP.plot_hz(show=False, operation=np.abs)
 
-    plt.subplot(3, 2, 5)
-    m1_MEEP.plot_hz(show=False)
+        plt.subplot(3, 2, 6)
+        m1_MPB.plot_hz(show=False, operation=np.abs)
 
-    plt.subplot(3, 2, 6)
-    m1_MPB.plot_hz(show=False)
-
-    plt.tight_layout()
-    plt.show()
+        plt.tight_layout()
+        plt.show()
 
     # # assert np.isclose(m1.neff, neff1), (m1.neff, neff1)
     # # assert np.isclose(m2.neff, neff2), (m2.neff, neff2)
@@ -113,4 +115,4 @@ def test_eigenmode():
 
 if __name__ == "__main__":
     # MPB_eigenmode_toDisk()
-    test_eigenmode()
+    test_eigenmode(plot=True)
