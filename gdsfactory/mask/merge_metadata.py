@@ -16,7 +16,6 @@ def merge_metadata(
     gdspath: Path,
     labels_prefix: str = "opt",
     layer_label: Tuple[int, int] = gf.LAYER.TEXT,
-    **kwargs
 ) -> DictConfig:
     """Merges all mask metadata and returns test metadata
 
