@@ -994,10 +994,12 @@ class Component(Device):
                 component.add_polygon(polys, layer=layer)
         return component
 
-    def copy(self, prefix: str = "", suffix: str = "_copy") -> Device:
+    def copy(
+        self, prefix: str = "", suffix: str = "_copy", cache: bool = True
+    ) -> Device:
         from gdsfactory.copy import copy
 
-        return copy(self, prefix=prefix, suffix=suffix)
+        return copy(self, prefix=prefix, suffix=suffix, cache=cache)
 
     def copy_child_info(self, component) -> None:
         """Copy info from another component.
@@ -1132,12 +1134,12 @@ class Component(Device):
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy(suffix="")
+            component = self.copy(suffix="", cache=False)
             for reference in component.references:
                 add_pins_triangle(component=component, reference=reference)
 
         elif show_ports:
-            component = self.copy(suffix="")
+            component = self.copy(suffix="", cache=False)
             add_pins_triangle(component=component)
         else:
             component = self

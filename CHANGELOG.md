@@ -17,6 +17,13 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.10
+
+- add `gf.mask.merge_yaml` to merge yaml metadata
+- rename `pcm_optical` to `cdsem_all`
+- add `cdsem_coupler`
+- Component.copy hash cache=True flag that adds new copies to CACHE (similarly to import_gds) to avoid duplicated cells
+
 ## 3.9.9
 
 - pack_row in klayout_yaml_placer also accepts rotation
@@ -565,7 +572,7 @@ Maybe:
 - add cross_section property to ports
 - `gdsfactory/routing/fanout.py` passes cross_section settings from port into bend_s
 - fix manhattan text, avoid creating duplicated cells
-- fix pcm_optical
+- fix cdsem_all
 
 ## 3.1.4
 

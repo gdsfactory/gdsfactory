@@ -1,13 +1,12 @@
 """Merge mask metadata with test labels to return test_metadata """
-
-import pathlib
 import warnings
 from pathlib import Path
-from typing import List
+from typing import Any, Dict, List
 
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import logger
+from gdsfactory.types import PathType
 
 
 def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
@@ -38,13 +37,16 @@ def get_cell_from_label(label: str) -> str:
 
 
 def merge_test_metadata(
-    gdspath: Path = CONFIG["mask_gds"], labels_prefix: str = "opt"
+    labels_path: PathType,
+    mask_metadata: Dict[str, Any],
+    labels_prefix: str = "opt",
 ) -> DictConfig:
     """Returns a test metadata dict config of labeled cells
     by merging GDS labels in CSV and YAML mask metadata
 
     Args:
-        gdspath: for GDS file
+        labels_path: for test labels in CSV
+        mask_metadata: dict with test metadata
         labels_prefix: only select labels with a text prefix
 
     .. code::
@@ -56,20 +58,13 @@ def merge_test_metadata(
 
 
     """
-    gdspath = pathlib.Path(gdspath)
-    mask_metadata_path = gdspath.with_suffix(".yml")
-    csv_labels_path = gdspath.with_suffix(".csv")
-    test_metadata_path = gdspath.with_suffix(".tp.yml")
+    labels_path = Path(labels_path)
 
-    if not mask_metadata_path.exists():
-        raise FileNotFoundError(f"missing mask YAML metadata {mask_metadata_path}")
+    if not labels_path.exists():
+        raise FileNotFoundError(f"missing CSV labels {labels_path}")
 
-    if not csv_labels_path.exists():
-        raise FileNotFoundError(f"missing CSV labels {csv_labels_path}")
-
-    labels_list = parse_csv_data(csv_labels_path)
-    metadata = OmegaConf.load(mask_metadata_path)
-    cells_metadata = metadata.get("cells", {})
+    labels_list = parse_csv_data(labels_path)
+    cells_metadata = mask_metadata.get("cells", {})
 
     test_metadata = DictConfig({})
 
@@ -78,21 +73,23 @@ def merge_test_metadata(
 
         if cell in cells_metadata:
             test_metadata[cell] = cells_metadata[cell]
-            test_metadata[cell].label = dict(x=x, y=y, text=label)
+            test_metadata[cell].label = dict(x=float(x), y=float(y), text=label)
         else:
             logger.error(f"missing cell metadata for {cell}")
             warnings.warn(f"missing cell metadata for {cell}")
 
-    OmegaConf.save(test_metadata, f=test_metadata_path)
     return test_metadata
 
 
 if __name__ == "__main__":
+    from omegaconf import OmegaConf
+
     from gdsfactory import CONFIG
 
-    # gdspath = CONFIG["repo_path"] / "samples" / "mask" / "build" / "mask" / "mask.gds"
-    gdspath = (
-        CONFIG["samples_path"] / "mask_pack" / "build" / "mask" / "sample_mask.gds"
+    labels_path = (
+        CONFIG["samples_path"] / "mask_pack" / "build" / "mask" / "sample_mask.csv"
     )
-    d = merge_test_metadata(gdspath)
+    mask_metadata_path = labels_path.with_suffix(".yml")
+    mask_metadata = OmegaConf.load(mask_metadata_path)
+    d = merge_test_metadata(labels_path=labels_path, mask_metadata=mask_metadata)
     print(d)

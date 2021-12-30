@@ -197,7 +197,7 @@ cells:
     module: gdsfactory.components.bend_circular
     name: bend_circular_ecf39380
     radius: 10
-  cdsem_straight_all_af1777b0:
+  cdsem_straight_af1777b0:
     changed:
       cross_section:
         function: cross_section
@@ -253,10 +253,10 @@ cells:
       - 0.6
       - 0.8
       - 1
-    function_name: cdsem_straight_all
+    function_name: cdsem_straight
     info_version: 1
-    module: gdsfactory.components.pcm_optical
-    name: cdsem_straight_all_af1777b0
+    module: gdsfactory.components.cdsem_all
+    name: cdsem_straight_af1777b0
   cdsem_straight_density_352deb0b:
     changed:
       cross_section:
@@ -283,8 +283,8 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-      trench_width: 0.304
-      width: 0.372
+      trench_width: 0.3
+      width: 0.3
       x: 420
       y: 50
     full:
@@ -305,7 +305,7 @@ cells:
       y: 50
     function_name: cdsem_straight_density
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_straight_density_352deb0b
   cdsem_straight_density_445f4a1c:
     changed:
@@ -333,8 +333,8 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-      trench_width: 0.304
-      width: 0.372
+      trench_width: 0.3
+      width: 0.3
       x: 420
       y: 50
     full:
@@ -355,7 +355,7 @@ cells:
       y: 50
     function_name: cdsem_straight_density
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_straight_density_445f4a1c
   cdsem_straight_density_f3cd459a:
     changed:
@@ -383,8 +383,8 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-      trench_width: 0.304
-      width: 0.372
+      trench_width: 0.3
+      width: 0.3
       x: 420
       y: 50
     full:
@@ -405,7 +405,7 @@ cells:
       y: 50
     function_name: cdsem_straight_density
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_straight_density_f3cd459a
   cdsem_uturn_1d375524:
     changed:
@@ -453,7 +453,7 @@ cells:
       width: 1
     function_name: cdsem_uturn
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_uturn_1d375524
   cdsem_uturn_29c8e298:
     changed:
@@ -501,7 +501,7 @@ cells:
       width: 0.6
     function_name: cdsem_uturn
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_uturn_29c8e298
   cdsem_uturn_4bfcdf27:
     changed:
@@ -549,7 +549,7 @@ cells:
       width: 0.5
     function_name: cdsem_uturn
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_uturn_4bfcdf27
   cdsem_uturn_5109446d:
     changed:
@@ -597,7 +597,7 @@ cells:
       width: 0.4
     function_name: cdsem_uturn
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_uturn_5109446d
   cdsem_uturn_531743ce:
     changed:
@@ -645,7 +645,7 @@ cells:
       width: 0.8
     function_name: cdsem_uturn
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_uturn_531743ce
   cdsem_uturn_87db98ff:
     changed:
@@ -693,9 +693,9 @@ cells:
       width: 0.45
     function_name: cdsem_uturn
     info_version: 1
-    module: gdsfactory.components.pcm_optical
+    module: gdsfactory.components.cdsem_all
     name: cdsem_uturn_87db98ff
-  pcm_optical_d41d8cd9:
+  cdsem_all_d41d8cd9:
     changed: {}
     default:
       bend90:
@@ -749,10 +749,10 @@ cells:
       - 0.6
       - 0.8
       - 1
-    function_name: pcm_optical
+    function_name: cdsem_all
     info_version: 1
-    module: gdsfactory.components.pcm_optical
-    name: pcm_optical_d41d8cd9
+    module: gdsfactory.components.cdsem_all
+    name: cdsem_all_d41d8cd9
   straight_02e29346:
     changed:
       cross_section:
@@ -1203,9 +1203,9 @@ info:
     - 0.6
     - 0.8
     - 1
-  function_name: pcm_optical
+  function_name: cdsem_all
   info_version: 1
-  module: gdsfactory.components.pcm_optical
-  name: pcm_optical_d41d8cd9
+  module: gdsfactory.components.cdsem_all
+  name: cdsem_all_d41d8cd9
 ports: {}
 version: 1
