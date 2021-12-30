@@ -172,8 +172,6 @@ if __name__ == "__main__":
         port_source_offset=-0.1,
         port_field_monitor_offset=-0.1,
         port_margin=2.5,
-        # kwargs
-        eps_averaging=False,
     )
 
     m1_MEEP = get_port_2Dx_eigenmode(
