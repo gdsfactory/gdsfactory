@@ -15,5 +15,6 @@ __all__ = [
     "plot2D",
     "plot3D",
     "plot_xsection",
+    "plot_eigenmode",
 ]
 __version__ = "0.0.2"
