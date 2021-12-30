@@ -197,7 +197,7 @@ cells:
     module: gdsfactory.components.bend_circular
     name: bend_circular_ecf39380
     radius: 10
-  cdsem_straight_all_af1777b0:
+  cdsem_straight_af1777b0:
     changed:
       cross_section:
         function: cross_section
@@ -253,10 +253,10 @@ cells:
       - 0.6
       - 0.8
       - 1
-    function_name: cdsem_straight_all
+    function_name: cdsem_straight
     info_version: 1
     module: gdsfactory.components.pcm_optical
-    name: cdsem_straight_all_af1777b0
+    name: cdsem_straight_af1777b0
   cdsem_straight_density_352deb0b:
     changed:
       cross_section:
@@ -283,8 +283,8 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-      trench_width: 0.304
-      width: 0.372
+      trench_width: 0.3
+      width: 0.3
       x: 420
       y: 50
     full:
@@ -333,8 +333,8 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-      trench_width: 0.304
-      width: 0.372
+      trench_width: 0.3
+      width: 0.3
       x: 420
       y: 50
     full:
@@ -383,8 +383,8 @@ cells:
       pixel_size: 1
       straight:
         function: straight
-      trench_width: 0.304
-      width: 0.372
+      trench_width: 0.3
+      width: 0.3
       x: 420
       y: 50
     full:
