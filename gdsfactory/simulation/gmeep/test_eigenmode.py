@@ -15,14 +15,23 @@ from gdsfactory.simulation.modes import find_modes, get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode
 
 
-def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50):
+def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
     """
     Lumerical data is in 1D arrays, and over a nonregular mesh
     Converts 1D arrays of fields to 2D arrays according to positions
+
+    Args
+        E_1D: E array from Lumerical
+        H_1D: H array from Lumerical
+        y_1D: y array from Lumerical
+        z_1D: z array from Lumerical
+        res: desired resolution
+        z_offset: z offset to move the fields
     """
     # Make regular grid from resolution and range of domain
     y_1D = y_1D[...].flatten()
     z_1D = z_1D[...].flatten()
+    print(z_1D)
     ny = int(np.max(y_1D) - np.min(y_1D) * 1e6 * res)
     nz = int(np.max(z_1D) - np.min(z_1D) * 1e6 * res)
     y = np.linspace(np.min(y_1D), np.max(y_1D), ny) * 1e6
@@ -189,12 +198,12 @@ def test_eigenmode(plot=False):
 
     # MEEP calculation
     c = straight(length=2, width=0.45)
-    c = add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
+    c = add_padding(c.copy(), default=0, bottom=4, top=4, layers=[(100, 0)])
 
     sim_dict = get_simulation(
         c,
         is_3d=True,
-        res=100,
+        res=50,
         port_source_offset=-0.1,
         port_field_monitor_offset=-0.1,
         port_margin=3,
@@ -216,6 +225,11 @@ def test_eigenmode(plot=False):
     if plot:
         # M1, E-field
         plt.figure(figsize=(10, 8), dpi=100)
+        plt.suptitle(
+            "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
+            y=1.05,
+            fontsize=18,
+        )
 
         plt.subplot(3, 3, 1)
         m1_MEEP.plot_ex(show=False, operation=np.abs, scale=False)
@@ -249,6 +263,11 @@ def test_eigenmode(plot=False):
 
         # M1, H-field
         plt.figure(figsize=(10, 8), dpi=100)
+        plt.suptitle(
+            "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
+            y=1.05,
+            fontsize=18,
+        )
 
         plt.subplot(3, 3, 1)
         m1_MEEP.plot_hx(show=False, operation=np.abs, scale=False)
@@ -280,83 +299,85 @@ def test_eigenmode(plot=False):
         plt.tight_layout()
         plt.show()
 
-        # M2, E-field
-        plt.figure(figsize=(10, 8), dpi=100)
+        # # M2, E-field
+        # plt.figure(figsize=(10, 8), dpi=100)
 
-        plt.subplot(3, 3, 1)
-        m2_MEEP.plot_ex(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 1)
+        # m2_MEEP.plot_ex(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 2)
-        m2_MPB.plot_ex(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 2)
+        # m2_MPB.plot_ex(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 3)
-        m2_lumerical.plot_ex(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 3)
+        # m2_lumerical.plot_ex(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 4)
-        m2_MEEP.plot_ey(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 4)
+        # m2_MEEP.plot_ey(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 5)
-        m2_MPB.plot_ey(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 5)
+        # m2_MPB.plot_ey(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 6)
-        m2_lumerical.plot_ey(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 6)
+        # m2_lumerical.plot_ey(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 7)
-        m2_MEEP.plot_ez(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 7)
+        # m2_MEEP.plot_ez(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 8)
-        m2_MPB.plot_ez(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 8)
+        # m2_MPB.plot_ez(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 9)
-        m2_lumerical.plot_ez(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 9)
+        # m2_lumerical.plot_ez(show=False, operation=np.abs, scale=False)
 
-        plt.tight_layout()
-        plt.show()
+        # plt.tight_layout()
+        # plt.show()
 
-        # M2, H-field
-        plt.figure(figsize=(10, 8), dpi=100)
+        # # M2, H-field
+        # plt.figure(figsize=(10, 8), dpi=100)
 
-        plt.subplot(3, 3, 1)
-        m2_MEEP.plot_hx(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 1)
+        # m2_MEEP.plot_hx(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 2)
-        m2_MPB.plot_hx(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 2)
+        # m2_MPB.plot_hx(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 3)
-        m2_lumerical.plot_hx(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 3)
+        # m2_lumerical.plot_hx(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 4)
-        m2_MEEP.plot_hy(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 4)
+        # m2_MEEP.plot_hy(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 5)
-        m2_MPB.plot_hy(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 5)
+        # m2_MPB.plot_hy(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 6)
-        m2_lumerical.plot_hy(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 6)
+        # m2_lumerical.plot_hy(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 7)
-        m2_MEEP.plot_hz(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 7)
+        # m2_MEEP.plot_hz(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 8)
-        m2_MPB.plot_hz(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 8)
+        # m2_MPB.plot_hz(show=False, operation=np.abs, scale=False)
 
-        plt.subplot(3, 3, 9)
-        m2_lumerical.plot_hz(show=False, operation=np.abs, scale=False)
+        # plt.subplot(3, 3, 9)
+        # m2_lumerical.plot_hz(show=False, operation=np.abs, scale=False)
 
-        plt.tight_layout()
-        plt.show()
+        # plt.tight_layout()
+        # plt.show()
 
     # Check propagation constants
-    print(m1_MEEP.neff, m1_MPB.neff, m1_lumerical.neff)
-    print(m2_MEEP.neff, m2_MPB.neff, m2_lumerical.neff)
+    # print(m1_MEEP.neff, m1_MPB.neff, m1_lumerical.neff)
+    # print(m2_MEEP.neff, m2_MPB.neff, m2_lumerical.neff)
 
     # Check mode profiles
-    # assert np.isclose(m1_MPB.neff, m1_lumerical.neff, atol=0.01)
-    # assert np.isclose(m1_MEEP.neff, m1_MPB.neff, atol=0.01)
-    # assert np.isclose(m2_MPB.neff, m2_lumerical.neff, atol=0.01)
-    # assert np.isclose(m2_MEEP.neff, m2_MPB.neff, atol=0.01)
+    assert np.isclose(m1_MPB.neff, m1_lumerical.neff, atol=0.02)
+    assert np.isclose(m1_MEEP.neff, m1_MPB.neff, atol=0.02)
+    assert np.isclose(m2_MPB.neff, m2_lumerical.neff, atol=0.07)
+    assert np.isclose(m2_MEEP.neff, m2_MPB.neff, atol=0.07)
+
+    # TODO modes check
 
 
 if __name__ == "__main__":
     # MPB_eigenmode_toDisk()
-    test_eigenmode(plot=False)
+    test_eigenmode(plot=True)
