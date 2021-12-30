@@ -71,14 +71,13 @@ def cdsem_all(
 
         all_devices += [
             cdsem_straight_density(
-                width=w,
-                trench_width=t,
+                widths=[w] * 10,
+                gaps=[g] * 10,
                 label=lbl,
-                straight=straight,
                 cross_section=cross_section,
                 text=text,
             )
-            for w, t, lbl in density_params
+            for w, g, lbl in density_params
         ]
 
     [c.add_ref(d) for d in all_devices]
