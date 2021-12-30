@@ -6,6 +6,7 @@ from typing import Any, Dict, List
 from omegaconf import DictConfig
 
 from gdsfactory.config import logger
+from gdsfactory.types import PathType
 
 
 def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
@@ -36,7 +37,7 @@ def get_cell_from_label(label: str) -> str:
 
 
 def merge_test_metadata(
-    labels_path: Path,
+    labels_path: PathType,
     mask_metadata: Dict[str, Any],
     labels_prefix: str = "opt",
 ) -> DictConfig:
@@ -57,6 +58,7 @@ def merge_test_metadata(
 
 
     """
+    labels_path = Path(labels_path)
 
     if not labels_path.exists():
         raise FileNotFoundError(f"missing CSV labels {labels_path}")

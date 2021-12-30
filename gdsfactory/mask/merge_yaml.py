@@ -1,6 +1,6 @@
 """Combine multiple YAML files into one."""
 
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from omegaconf import OmegaConf
 
@@ -10,7 +10,7 @@ from gdsfactory.types import PathType
 
 def merge_yaml(
     doe_directory: PathType,
-    yaml_path: PathType,
+    yaml_path: Optional[PathType] = None,
     json_version: int = 6,
 ) -> Dict[str, Any]:
     """Combine several YAML files
@@ -20,9 +20,8 @@ def merge_yaml(
     Args:
         doe_directory: defaults to current working directory
         extra_directories: list of extra_directories
-        yaml_path: metadata path
+        yaml_path: optional metadata path to write metadata
         json_version:
-        config:
 
     """
     logger.debug(f"Merging JSON files from {doe_directory}")
@@ -39,8 +38,9 @@ def merge_yaml(
         cells=cells,
     )
 
-    yaml_path.write_text(OmegaConf.to_yaml(metadata))
-    logger.info(f"Wrote metadata in {yaml_path}")
+    if yaml_path:
+        yaml_path.write_text(OmegaConf.to_yaml(metadata))
+        logger.info(f"Wrote metadata in {yaml_path}")
     return metadata
 
 
