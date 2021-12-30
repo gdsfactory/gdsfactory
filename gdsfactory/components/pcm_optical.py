@@ -1,12 +1,11 @@
-""" CD SEM structures
-"""
+"""CD SEM structures."""
 from functools import partial
 from typing import List, Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
 from gdsfactory.tech import LAYER
@@ -16,8 +15,8 @@ LINE_LENGTH = 420.0
 
 
 @cell
-def cdsem_straight_all(
-    straight: ComponentFactory = straight,
+def cdsem_straight(
+    straight: ComponentFactory = straight_function,
     cross_section: CrossSectionFactory = strip,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -26,6 +25,7 @@ def cdsem_straight_all(
     length: float = LINE_LENGTH,
     spacing: float = 4.5,
 ) -> Component:
+    """Returns straight"""
     c = Component()
     for width in widths:
         cross_section = partial(cross_section, width=width, layer=layer)
@@ -37,13 +37,13 @@ def cdsem_straight_all(
 
 @cell
 def cdsem_straight_density(
-    width: float = 0.372,
-    trench_width: float = 0.304,
+    width: float = 0.3,
+    trench_width: float = 0.3,
     x: float = LINE_LENGTH,
     y: float = 50.0,
     margin: float = 2.0,
     label: str = "",
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -84,7 +84,7 @@ def cdsem_uturn(
     width: float = 0.5,
     radius: float = 10.0,
     wg_length: float = LINE_LENGTH,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     bend90: ComponentFactory = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
@@ -140,12 +140,12 @@ def cdsem_uturn(
 @cell
 def pcm_optical(
     widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
-    dense_lines_width: float = 0.3,
+    dense_lines_width: Optional[float] = 0.3,
     dense_lines_width_difference: float = 20e-3,
     dense_lines_gap: float = 0.3,
     dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
-    straight: ComponentFactory = straight,
-    bend90: ComponentFactory = bend_circular,
+    straight: ComponentFactory = straight_function,
+    bend90: Optional[ComponentFactory] = bend_circular,
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
@@ -154,11 +154,11 @@ def pcm_optical(
     """column with all optical PCMs
 
     Args:
-        widths:  for straight
+        widths: for straight lines
 
     """
     c = Component()
-    _c1 = cdsem_straight_all(
+    _c1 = cdsem_straight(
         straight=straight,
         layer=layer,
         layers_cladding=layers_cladding,
@@ -169,46 +169,48 @@ def pcm_optical(
 
     all_devices = [_c1]
 
-    all_devices += [
-        cdsem_uturn(
-            width=width,
-            straight=straight,
-            bend90=bend90,
-            layer=layer,
-            layers_cladding=layers_cladding,
-            cross_section=cross_section,
-            pixel_size=pixel_size,
-        )
-        for width in widths
-    ]
+    if bend90:
+        all_devices += [
+            cdsem_uturn(
+                width=width,
+                straight=straight,
+                bend90=bend90,
+                layer=layer,
+                layers_cladding=layers_cladding,
+                cross_section=cross_section,
+                pixel_size=pixel_size,
+            )
+            for width in widths
+        ]
 
-    density_params = [
-        (
-            dense_lines_width - dense_lines_width_difference,
-            dense_lines_gap - dense_lines_width_difference,
-            dense_lines_labels[0],
-        ),
-        (dense_lines_width, dense_lines_gap, dense_lines_labels[1]),
-        (
-            dense_lines_width + dense_lines_width_difference,
-            dense_lines_gap + dense_lines_width_difference,
-            dense_lines_labels[2],
-        ),
-    ]
+    if dense_lines_width:
+        density_params = [
+            (
+                dense_lines_width - dense_lines_width_difference,
+                dense_lines_gap - dense_lines_width_difference,
+                dense_lines_labels[0],
+            ),
+            (dense_lines_width, dense_lines_gap, dense_lines_labels[1]),
+            (
+                dense_lines_width + dense_lines_width_difference,
+                dense_lines_gap + dense_lines_width_difference,
+                dense_lines_labels[2],
+            ),
+        ]
 
-    all_devices += [
-        cdsem_straight_density(
-            width=w,
-            trench_width=t,
-            label=lbl,
-            straight=straight,
-            layer=layer,
-            layers_cladding=layers_cladding,
-            cross_section=cross_section,
-            pixel_size=pixel_size,
-        )
-        for w, t, lbl in density_params
-    ]
+        all_devices += [
+            cdsem_straight_density(
+                width=w,
+                trench_width=t,
+                label=lbl,
+                straight=straight,
+                layer=layer,
+                layers_cladding=layers_cladding,
+                cross_section=cross_section,
+                pixel_size=pixel_size,
+            )
+            for w, t, lbl in density_params
+        ]
 
     [c.add_ref(d) for d in all_devices]
     c.align(elements="all", alignment="xmin")
@@ -218,8 +220,8 @@ def pcm_optical(
 
 if __name__ == "__main__":
     # c = cdsem_straight()
-    # c = cdsem_straight_all()
+    c = cdsem_straight()
     # c = cdsem_uturn(width=2)
     # c = cdsem_straight_density()
-    c = pcm_optical(layer=(2, 0))
+    # c = pcm_optical(layer=(2, 0))
     c.show()

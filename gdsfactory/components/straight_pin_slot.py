@@ -14,9 +14,9 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionFactory = pin,
-    contact: ComponentFactory = contact_m1_m3,
+    contact: Optional[ComponentFactory] = contact_m1_m3,
     contact_width: float = 10.0,
-    contact_slab: ComponentFactory = contact_slot_slab_m1,
+    contact_slab: Optional[ComponentFactory] = contact_slot_slab_m1,
     contact_slab_top: Optional[ComponentFactory] = None,
     contact_slab_bot: Optional[ComponentFactory] = None,
     contact_slab_width: Optional[float] = None,
@@ -75,35 +75,40 @@ def straight_pin_slot(
         c.add_ports(wg.get_ports_list())
 
     contact_length = length
-    contact_top = c << contact(
-        size=(contact_length, contact_width),
-    )
-    contact_bot = c << contact(
-        size=(contact_length, contact_width),
-    )
 
-    contact_bot.x = wg.x
-    contact_top.x = wg.x
+    if contact:
+        contact_top = c << contact(
+            size=(contact_length, contact_width),
+        )
+        contact_bot = c << contact(
+            size=(contact_length, contact_width),
+        )
 
-    contact_top.ymin = +contact_spacing / 2
-    contact_bot.ymax = -contact_spacing / 2
+        contact_bot.x = wg.x
+        contact_top.x = wg.x
+
+        contact_top.ymin = +contact_spacing / 2
+        contact_bot.ymax = -contact_spacing / 2
+        c.add_ports(contact_bot.ports, prefix="bot_")
+        c.add_ports(contact_top.ports, prefix="top_")
 
     contact_slab_top = contact_slab_top or contact_slab
     contact_slab_bot = contact_slab_bot or contact_slab
-    slot_top = c << contact_slab_top(
-        size=(contact_length, contact_slab_width),
-    )
-    slot_bot = c << contact_slab_bot(
-        size=(contact_length, contact_slab_width),
-    )
 
-    slot_bot.x = wg.x
-    slot_top.x = wg.x
-    slot_top.ymin = +contact_slab_spacing / 2
-    slot_bot.ymax = -contact_slab_spacing / 2
+    if contact_slab_top:
+        slot_top = c << contact_slab_top(
+            size=(contact_length, contact_slab_width),
+        )
+        slot_top.x = wg.x
+        slot_top.ymin = +contact_slab_spacing / 2
 
-    c.add_ports(contact_bot.ports, prefix="bot_")
-    c.add_ports(contact_top.ports, prefix="top_")
+    if contact_slab_bot:
+        slot_bot = c << contact_slab_bot(
+            size=(contact_length, contact_slab_width),
+        )
+        slot_bot.x = wg.x
+        slot_bot.ymax = -contact_slab_spacing / 2
+
     return c
 
 
