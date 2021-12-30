@@ -5,7 +5,7 @@ FIXME, zmin_um does not work
 import warnings
 from typing import Any, Dict, Optional
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pydantic
@@ -38,8 +38,8 @@ def get_simulation(
     extend_ports_length: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     res: int = 20,
-    t_clad_top: float = 1.0,
-    t_clad_bot: float = 1.0,
+    t_clad_top: float = 3.0,
+    t_clad_bot: float = 3.0,
     tpml: float = 1.0,
     clad_material: str = "SiO2",
     is_3d: bool = False,
@@ -47,10 +47,13 @@ def get_simulation(
     wl_max: float = 1.6,
     wl_steps: int = 50,
     dfcen: float = 0.2,
-    port_source_name: str = 1,
-    port_field_monitor_name: str = 2,
-    port_margin: float = 0.5,
+    port_source_name: str = "o1",
+    port_field_monitor_name: str = "o2",
+    port_margin: float = 3,
     distance_source_to_monitors: float = 0.2,
+    port_source_offset: float = 0,
+    port_field_monitor_offset: float = 0,
+    **kwargs,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
 
@@ -76,6 +79,9 @@ def get_simulation(
         port_field_monitor_name:
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
+        port_source_offset: offset between source GDS port and source MEEP port
+        port_field_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        kwargs**: other parameters for sim.simulation object (see https://meep.readthedocs.io/en/latest/Python_User_Interface/#the-simulation-class)
 
     Returns:
         sim: simulation object
@@ -189,15 +195,18 @@ def get_simulation(
 
     # Add source
     port = component_ref.ports[port_source_name]
-    angle = port.orientation
+    angle = np.radians(port.orientation)
     width = port.width + 2 * port_margin
-    size_x = width * abs(np.sin(angle * np.pi / 180))
-    size_y = width * abs(np.cos(angle * np.pi / 180))
+    size_x = width * abs(np.sin(angle))
+    size_y = width * abs(np.cos(angle))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_z = cell_thickness - 2 * tpml if is_3d else 20
     size = [size_x, size_y, size_z]
-    center = port.center.tolist() + [0]  # (x, y, z=0)
+    xy_shifted = move_polar_rad_copy(
+        np.array(port.center), angle=angle, length=port_source_offset
+    )
+    center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
     field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
@@ -210,6 +219,7 @@ def get_simulation(
             eig_band=1,
             eig_parity=mp.NO_PARITY if is_3d else mp.EVEN_Y + mp.ODD_Z,
             eig_match_freq=True,
+            direction=mp.AUTOMATIC,
         )
     ]
 
@@ -220,26 +230,29 @@ def get_simulation(
         sources=sources,
         geometry=geometry,
         default_material=get_material(name=clad_material),
-        # geometry_center=geometry_center,
     )
 
     # Add port monitors dict
     monitors = {}
     for port_name in component_ref.ports.keys():
         port = component_ref.ports[port_name]
-        angle = port.orientation
+        angle = np.radians(port.orientation)
         width = port.width + 2 * port_margin
-        size_x = width * abs(np.sin(angle * np.pi / 180))
-        size_y = width * abs(np.cos(angle * np.pi / 180))
+        size_x = width * abs(np.sin(angle))
+        size_y = width * abs(np.cos(angle))
         size_x = 0 if size_x < 0.001 else size_x
         size_y = 0 if size_y < 0.001 else size_y
         size = mp.Vector3(size_x, size_y, size_z)
         size = [size_x, size_y, size_z]
 
         # if monitor has a source move monitor inwards
-        length = -distance_source_to_monitors if port_name == port_source_name else 0
+        length = (
+            -distance_source_to_monitors + port_source_offset
+            if port_name == port_source_name
+            else port_field_monitor_offset
+        )
         xy_shifted = move_polar_rad_copy(
-            np.array(port.center), angle=angle * np.pi / 180, length=length
+            np.array(port.center), angle=angle, length=length
         )
         center = xy_shifted.tolist() + [0]  # (x, y, z=0)
         m = sim.add_mode_monitor(freqs, mp.ModeRegion(center=center, size=size))
@@ -253,28 +266,50 @@ def get_simulation(
         sources=sources,
         field_monitor_point=field_monitor_point,
         port_source_name=port_source_name,
+        initialized=False,
     )
 
 
 if __name__ == "__main__":
-    c = gf.components.straight(length=2)
-    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    # c = gf.components.straight(length=2)
+    # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gf.components.mmi1x2()
-    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    # c = gf.components.mmi1x2()
+    # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gf.components.bend_circular(radius=2)
-    c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    # c = gf.components.bend_circular(radius=2)
+    # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    sim_dict = get_simulation(c, is_3d=False)
+    c = gf.components.straight(length=2, width=0.5)
+    c2 = gf.add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
+
+    sim_dict = get_simulation(
+        c2,
+        is_3d=True,
+        res=50,
+        # port_source_offset=-0.1,
+        # port_field_monitor_offset=-0.1,
+        # port_margin=2.5,
+    )
     sim = sim_dict["sim"]
+    sim.init_sim()
 
-    sim.plot2D()  # plot top view
+    # sim.plot3D()
 
-    # center = (0, 0, 0)
-    # size = sim.cell_size
-    # sim.plot2D(
-    #     output_plane=mp.Volume(center=center, size=(0, size[1], size[2]))
-    # )  # plot xsection
+    # sim.plot2D()  # plot top view (is_3D needs to be False)
+    # Plot monitor cross-section (is_3D needs to be True)
+    from gdsfactory.simulation.gmeep.plot_xsection import plot_xsection
 
-    plt.show()
+    plot_xsection(
+        sim,
+        center=sim_dict["monitors"]["o1"].regions[0].center,
+        size=sim_dict["monitors"]["o1"].regions[0].size,
+    )
+
+    # sim.init_sim()
+
+    # eps_data = sim.get_epsilon()
+
+    # from mayavi import mlab
+    # s = mlab.contour3d(eps_data, colormap="YlGnBu")
+    # mlab.show()
