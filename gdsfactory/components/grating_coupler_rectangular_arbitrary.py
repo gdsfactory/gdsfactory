@@ -23,7 +23,7 @@ def grating_coupler_rectangular_arbitrary(
     layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: ComponentFactory = taper_function,
+    taper: Optional[ComponentFactory] = taper_function,
     layer_grating: Optional[Layer] = None,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     slab_xmin: float = -1.0,
@@ -76,15 +76,20 @@ def grating_coupler_rectangular_arbitrary(
 
     """
     c = Component()
-    taper_ref = c << taper(
-        length=length_taper,
-        width2=width_grating,
-        width1=wg_width,
-        layer=layer,
-    )
 
-    c.add_port(port=taper_ref.ports["o1"], name="o1")
-    xi = taper_ref.xmax
+    if taper:
+        taper_ref = c << taper(
+            length=length_taper,
+            width2=width_grating,
+            width1=wg_width,
+            layer=layer,
+        )
+
+        c.add_port(port=taper_ref.ports["o1"], name="o1")
+        xi = taper_ref.xmax
+    else:
+        length_taper = 0
+        xi = 0
 
     widths = gf.snap.snap_to_grid(widths)
     gaps = gf.snap.snap_to_grid(gaps)
