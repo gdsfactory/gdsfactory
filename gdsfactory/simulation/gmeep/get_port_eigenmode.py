@@ -53,7 +53,7 @@ def get_domain_measurements(sim, output_plane, frequency, resolution=0):
 '''
 
 
-def get_portx_eigenmode(
+def get_port_2Dx_eigenmode(
     sim_dict,
     source_index=0,
     port_name="o1",
@@ -176,7 +176,7 @@ if __name__ == "__main__":
         eps_averaging=False,
     )
 
-    m1_MEEP = get_portx_eigenmode(
+    m1_MEEP = get_port_2Dx_eigenmode(
         sim_dict=sim_dict,
         source_index=0,
         port_name="o1",

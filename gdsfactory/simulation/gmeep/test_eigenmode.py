@@ -10,7 +10,7 @@ from scipy.interpolate import griddata
 from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
-from gdsfactory.simulation.gmeep.get_port_eigenmode import get_portx_eigenmode
+from gdsfactory.simulation.gmeep.get_port_eigenmode import get_port_2Dx_eigenmode
 from gdsfactory.simulation.modes import find_modes, get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode
 
@@ -194,19 +194,19 @@ def test_eigenmode(plot=False):
     sim_dict = get_simulation(
         c,
         is_3d=True,
-        res=50,
+        res=100,
         port_source_offset=-0.1,
         port_field_monitor_offset=-0.1,
         port_margin=3,
     )
 
-    m1_MEEP = get_portx_eigenmode(
+    m1_MEEP = get_port_2Dx_eigenmode(
         sim_dict=sim_dict,
         source_index=0,
         port_name="o1",
     )
 
-    m2_MEEP = get_portx_eigenmode(
+    m2_MEEP = get_port_2Dx_eigenmode(
         sim_dict=sim_dict,
         source_index=0,
         port_name="o1",
@@ -349,12 +349,14 @@ def test_eigenmode(plot=False):
     # Check propagation constants
     print(m1_MEEP.neff, m1_MPB.neff, m1_lumerical.neff)
     print(m2_MEEP.neff, m2_MPB.neff, m2_lumerical.neff)
-    # assert np.isclose(m1_MPB.neff, m1_lumerical.neff)
-    # assert np.isclose(m1_MEEP.neff, m1_MPB.neff)
-    # assert np.isclose(m2_MPB.neff, m2_lumerical.neff)
-    # assert np.isclose(m2_MEEP.neff, m2_MPB.neff)
+
+    # Check mode profiles
+    # assert np.isclose(m1_MPB.neff, m1_lumerical.neff, atol=0.01)
+    # assert np.isclose(m1_MEEP.neff, m1_MPB.neff, atol=0.01)
+    # assert np.isclose(m2_MPB.neff, m2_lumerical.neff, atol=0.01)
+    # assert np.isclose(m2_MEEP.neff, m2_MPB.neff, atol=0.01)
 
 
 if __name__ == "__main__":
     # MPB_eigenmode_toDisk()
-    test_eigenmode(plot=True)
+    test_eigenmode(plot=False)
