@@ -230,7 +230,6 @@ def get_simulation(
         sources=sources,
         geometry=geometry,
         default_material=get_material(name=clad_material),
-        eps_averaging=False,
     )
 
     # Add port monitors dict
