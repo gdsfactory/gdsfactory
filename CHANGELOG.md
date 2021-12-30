@@ -20,6 +20,8 @@ Maybe:
 ## 3.9.10
 
 - add `gf.mask.merge_yaml` to merge yaml metadata
+- rename `pcm_optical` to `cdsem_all`
+- add `cdsem_coupler`
 
 ## 3.9.9
 
@@ -569,7 +571,7 @@ Maybe:
 - add cross_section property to ports
 - `gdsfactory/routing/fanout.py` passes cross_section settings from port into bend_s
 - fix manhattan text, avoid creating duplicated cells
-- fix pcm_optical
+- fix cdsem_all
 
 ## 3.1.4
 
