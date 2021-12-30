@@ -1,13 +1,16 @@
 """CD SEM structures."""
 from functools import partial
-from typing import Tuple
+from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
+from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
 from gdsfactory.grid import grid
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory
+
+text_rectangular_mini = partial(text_rectangular, size=1)
 
 
 @cell
@@ -16,23 +19,36 @@ def cdsem_coupler(
     length: float = 420.0,
     gaps: Tuple[float, ...] = (0.15, 0.2, 0.25),
     cross_section: CrossSectionFactory = strip,
+    text: Optional[ComponentFactory] = text_rectangular_mini,
+    spacing: float = 3,
 ) -> Component:
     """Returns 2 coupled waveguides gap sweep.
 
     Args:
         width: for the waveguide
         length: for the line
-        gaps: list of gaps
-        cross_section
+        gaps: list of gaps for the sweep
+        cross_section: for the lines
+        text: optional text for labels
+        spacing: edge to edge spacing
 
     """
 
     cross_section = partial(cross_section, width=width)
-    couplers = [
-        coupler_straight(length=length, gap=gap, cross_section=cross_section)
-        for gap in gaps
-    ]
-    return grid(couplers)
+
+    couplers = []
+
+    for gap in gaps:
+        coupler = coupler_straight(length=length, gap=gap, cross_section=cross_section)
+        if text:
+            coupler = coupler.copy()
+            t = coupler << text(str(int(gap * 1e3)))
+            t.xmin = coupler.xmax + 5
+            t.y = 0
+
+        couplers.append(coupler)
+
+    return grid(couplers, spacing=(0, spacing))
 
 
 if __name__ == "__main__":

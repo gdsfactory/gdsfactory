@@ -3,6 +3,7 @@ import copy as python_copy
 import gdspy
 from phidl.device_layout import CellArray, Device, DeviceReference
 
+from gdsfactory.cell import avoid_duplicated_cells
 from gdsfactory.component import Component, ComponentReference
 
 
@@ -48,4 +49,5 @@ def copy(D: Component, prefix: str = "", suffix: str = "_copy") -> Device:
             position=label.position,
             layer=(label.layer, label.texttype),
         )
+    D_copy = avoid_duplicated_cells(D_copy)
     return D_copy

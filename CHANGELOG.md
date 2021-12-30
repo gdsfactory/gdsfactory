@@ -22,6 +22,7 @@ Maybe:
 - add `gf.mask.merge_yaml` to merge yaml metadata
 - rename `pcm_optical` to `cdsem_all`
 - add `cdsem_coupler`
+- Component.copy also adds new copies to CACHE (similarly to import_gds) to avoid duplicated cells
 
 ## 3.9.9
 
