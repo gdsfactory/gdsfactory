@@ -20,6 +20,7 @@ from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.C import C
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.cdc import cdc
+from gdsfactory.components.cdsem_all import cdsem_all
 from gdsfactory.components.circle import circle
 from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
@@ -139,7 +140,6 @@ from gdsfactory.components.nxn import nxn
 from gdsfactory.components.pad import pad, pad_array, pad_array90, pad_array270
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
-from gdsfactory.components.pcm_optical import pcm_optical
 from gdsfactory.components.ramp import ramp
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.rectangle_with_slits import rectangle_with_slits
@@ -327,7 +327,7 @@ factory = dict(
     pad_gsg_open=pad_gsg_open,
     pad_array=pad_array,
     pads_shorted=pads_shorted,
-    pcm_optical=pcm_optical,
+    cdsem_all=cdsem_all,
     pixel=pixel,
     qrcode=qrcode,
     ramp=ramp,
@@ -537,7 +537,7 @@ __all__ = [
     "mzit",
     "mzit_lattice",
     "nxn",
-    "pcm_optical",
+    "cdsem_all",
     "pad",
     "pad_array",
     "pad_array90",
