@@ -5,9 +5,11 @@ from typing import List, Optional, Tuple
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
+from gdsfactory.grid import grid
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, CrossSectionFactory, Layer
 
@@ -16,23 +18,49 @@ LINE_LENGTH = 420.0
 
 @cell
 def cdsem_straight(
-    straight: ComponentFactory = straight_function,
-    cross_section: CrossSectionFactory = strip,
-    layer: Tuple[int, int] = LAYER.WG,
-    layers_cladding: List[Tuple[int, int]] = None,
     widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
-    pixel_size: float = 1.0,
     length: float = LINE_LENGTH,
-    spacing: float = 4.5,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
-    """Returns straight"""
-    c = Component()
-    for width in widths:
-        cross_section = partial(cross_section, width=width, layer=layer)
-        c.add_ref(straight(length=length, cross_section=cross_section))
+    """Returns straight waveguide lines width sweep.
 
-    c.distribute(direction="y", spacing=spacing)
-    return c
+    Args:
+        widths: for the sweep
+        length: for the line
+        cross_section:
+    """
+
+    lines = []
+    for width in widths:
+        cross_section = partial(cross_section, width=width)
+        lines.append(straight_function(length=length, cross_section=cross_section))
+
+    return grid(lines)
+
+
+@cell
+def cdsem_coupler(
+    width: float = 0.45,
+    length: float = LINE_LENGTH,
+    gaps: Tuple[float, ...] = (0.15, 0.2, 0.25),
+    cross_section: CrossSectionFactory = strip,
+) -> Component:
+    """Returns 2 coupled waveguides gap sweep.
+
+    Args:
+        width: for the waveguide
+        length: for the line
+        gaps: list of gaps
+        cross_section
+
+    """
+
+    cross_section = partial(cross_section, width=width)
+    couplers = [
+        coupler_straight(length=length, gap=gap, cross_section=cross_section)
+        for gap in gaps
+    ]
+    return grid(couplers)
 
 
 @cell
@@ -47,7 +75,7 @@ def cdsem_straight_density(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     cross_section: CrossSectionFactory = strip,
-    pixel_size: float = 1.0,
+    text: ComponentFactory = text_rectangular,
 ) -> Component:
     """Horizontal grating etch lines
 
@@ -68,9 +96,8 @@ def cdsem_straight_density(
         tooth_ref.movey((-n_o_lines / 2 + 0.5 + i) * period)
         c.absorb(tooth_ref)
 
-    marker_label = text_rectangular(
+    marker_label = text(
         text=f"{label}",
-        size=pixel_size,
         layer=layer,
     )
     _marker_label = c.add_ref(marker_label)
@@ -80,7 +107,7 @@ def cdsem_straight_density(
 
 
 @cell
-def cdsem_uturn(
+def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,
     wg_length: float = LINE_LENGTH,
@@ -89,7 +116,7 @@ def cdsem_uturn(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
-    pixel_size: float = 1.0,
+    text: ComponentFactory = text_rectangular,
 ) -> Component:
     """
 
@@ -124,9 +151,7 @@ def cdsem_uturn(
     wg2 = c.add_ref(wg)
     wg2.connect("o1", b2.ports["o1"])
 
-    label = c << text_rectangular(
-        text=str(int(width * 1e3)), size=pixel_size, layer=layer
-    )
+    label = c << text(text=str(int(width * 1e3)), layer=layer)
     label.ymax = b2.ymin - 5
     label.x = 0
     b1.rotate(90)
@@ -149,7 +174,7 @@ def pcm_optical(
     layer: Tuple[int, int] = LAYER.WG,
     layers_cladding: List[Tuple[int, int]] = None,
     cross_section: CrossSectionFactory = strip,
-    pixel_size: float = 1.0,
+    text: ComponentFactory = text_rectangular,
 ) -> Component:
     """column with all optical PCMs
 
@@ -164,21 +189,21 @@ def pcm_optical(
         layers_cladding=layers_cladding,
         widths=widths,
         cross_section=cross_section,
-        pixel_size=pixel_size,
+        text=text,
     )
 
     all_devices = [_c1]
 
     if bend90:
         all_devices += [
-            cdsem_uturn(
+            cdsem_bend180(
                 width=width,
                 straight=straight,
                 bend90=bend90,
                 layer=layer,
                 layers_cladding=layers_cladding,
                 cross_section=cross_section,
-                pixel_size=pixel_size,
+                text=text,
             )
             for width in widths
         ]
@@ -207,7 +232,7 @@ def pcm_optical(
                 layer=layer,
                 layers_cladding=layers_cladding,
                 cross_section=cross_section,
-                pixel_size=pixel_size,
+                text=text,
             )
             for w, t, lbl in density_params
         ]
@@ -219,9 +244,10 @@ def pcm_optical(
 
 
 if __name__ == "__main__":
+    c = cdsem_coupler()
     # c = cdsem_straight()
-    c = cdsem_straight()
-    # c = cdsem_uturn(width=2)
+    # c = cdsem_straight()
+    # c = cdsem_bend180(width=2)
     # c = cdsem_straight_density()
     # c = pcm_optical(layer=(2, 0))
     c.show()
