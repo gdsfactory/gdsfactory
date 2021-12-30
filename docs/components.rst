@@ -337,6 +337,21 @@ cdc
 
 
 
+cdsem_all
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.cdsem_all
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.cdsem_all(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1.0), dense_lines_width=0.3, dense_lines_width_difference=0.02, dense_lines_gap=0.3, dense_lines_labels=('DL', 'DM', 'DH'))
+  c.plot()
+
+
+
 circle
 ----------------------------------------------------
 
@@ -1746,21 +1761,6 @@ pads_shorted
 
 
 
-pcm_optical
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.pcm_optical
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.pcm_optical(widths=(0.4, 0.45, 0.5, 0.6, 0.8, 1.0), dense_lines_width=0.3, dense_lines_width_difference=0.02, dense_lines_gap=0.3, dense_lines_labels=('DL', 'DM', 'DH'), layer=(1, 0), pixel_size=1.0)
-  c.plot()
-
-
-
 pixel
 ----------------------------------------------------
 
@@ -2116,7 +2116,7 @@ straight_heater_doped_rib
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), heater_width=2.0, heater_gap=0.8, width=0.5, with_top_contact=True, with_bot_contact=True)
+  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True)
   c.plot()
 
 
@@ -2131,7 +2131,7 @@ straight_heater_doped_strip
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), heater_width=2.0, heater_gap=0.8, width=0.5, with_top_contact=True, with_bot_contact=True)
+  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True)
   c.plot()
 
 
@@ -2596,7 +2596,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.2', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.9', text_size=10)
   c.plot()
 
 

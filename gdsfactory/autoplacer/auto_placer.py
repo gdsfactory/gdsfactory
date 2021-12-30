@@ -144,7 +144,7 @@ class AutoPlacer(pya.Layout):
                 if len(collisions) == 0:
                     return sx, sy
 
-                # Otherwise, search from the northmost collision
+                # Otherwise, search from the north most collision
                 sy = self.get_edge(
                     collisions, bbox, ap.NORTH if ap.SOUTH in origin else ap.SOUTH
                 )

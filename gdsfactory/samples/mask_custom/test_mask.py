@@ -2,6 +2,8 @@
 import shutil
 from pathlib import Path
 
+from omegaconf import OmegaConf
+
 import gdsfactory as gf
 from gdsfactory.add_grating_couplers import (
     add_grating_couplers_with_loopback_fiber_array,
@@ -9,6 +11,7 @@ from gdsfactory.add_grating_couplers import (
 from gdsfactory.component import Component
 from gdsfactory.components.spiral_inner_io import spiral_inner_io
 from gdsfactory.config import CONFIG, logger
+from gdsfactory.mask.merge_metadata import merge_metadata
 from gdsfactory.sweep.write_sweeps import write_sweeps
 
 add_te = gf.partial(
@@ -87,6 +90,8 @@ def test_mask(precision: float = 2e-9, overwrite=True) -> Path:
     mask_path.mkdir(parents=True, exist_ok=True)
 
     gdspath = mask_path / "sample_mask.gds"
+    test_protocol_path = gdspath.with_suffix(".tp.yml")
+
     logpath = gdspath.with_suffix(".log")
     logger.add(sink=logpath)
 
@@ -101,6 +106,8 @@ def test_mask(precision: float = 2e-9, overwrite=True) -> Path:
 
     top_level = place_from_yaml(does_yml, precision=precision, root_does=doe_root_path)
     top_level.write(str(gdspath))
+    tm = merge_metadata(gdspath)
+    test_protocol_path.write_text(OmegaConf.to_yaml(tm))
 
     assert gdspath.exists()
     return gdspath
