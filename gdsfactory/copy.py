@@ -7,7 +7,9 @@ from gdsfactory.cell import avoid_duplicated_cells
 from gdsfactory.component import Component, ComponentReference
 
 
-def copy(D: Component, prefix: str = "", suffix: str = "_copy") -> Device:
+def copy(
+    D: Component, prefix: str = "", suffix: str = "_copy", cache: bool = True
+) -> Device:
     """returns a deep copy of a Component.
     based on phidl.geometry with CellArray support
     """
@@ -49,5 +51,6 @@ def copy(D: Component, prefix: str = "", suffix: str = "_copy") -> Device:
             position=label.position,
             layer=(label.layer, label.texttype),
         )
-    D_copy = avoid_duplicated_cells(D_copy)
+    if cache:
+        D_copy = avoid_duplicated_cells(D_copy)
     return D_copy
