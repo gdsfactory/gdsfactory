@@ -179,6 +179,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       widths:
       - 0.4
       - 0.45
@@ -202,6 +203,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       widths:
       - 0.4
       - 0.45
@@ -213,7 +215,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.cdsem_all
     name: cdsem_all_d41d8cd9
-  cdsem_bend180_1144b7ce:
+  cdsem_bend180_04367601:
     changed:
       bend90:
         function: bend_circular
@@ -223,7 +225,8 @@ cells:
         function: straight
       text:
         function: text_rectangular
-      width: 0.8
+        size: 1
+      width: 0.5
     default:
       bend90:
         function: bend_circular
@@ -234,6 +237,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.5
     full:
@@ -246,52 +250,14 @@ cells:
         function: straight
       text:
         function: text_rectangular
-      wg_length: 420
-      width: 0.8
-    function_name: cdsem_bend180
-    info_version: 1
-    module: gdsfactory.components.cdsem_bend180
-    name: cdsem_bend180_1144b7ce
-  cdsem_bend180_31486bed:
-    changed:
-      bend90:
-        function: bend_circular
-      cross_section:
-        function: cross_section
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      width: 0.45
-    default:
-      bend90:
-        function: bend_circular
-      cross_section:
-        function: cross_section
-      radius: 10
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.5
-    full:
-      bend90:
-        function: bend_circular
-      cross_section:
-        function: cross_section
-      radius: 10
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      wg_length: 420
-      width: 0.45
     function_name: cdsem_bend180
     info_version: 1
     module: gdsfactory.components.cdsem_bend180
-    name: cdsem_bend180_31486bed
-  cdsem_bend180_35663f6f:
+    name: cdsem_bend180_04367601
+  cdsem_bend180_123844b1:
     changed:
       bend90:
         function: bend_circular
@@ -301,6 +267,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       width: 1
     default:
       bend90:
@@ -312,6 +279,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.5
     full:
@@ -324,13 +292,14 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 1
     function_name: cdsem_bend180
     info_version: 1
     module: gdsfactory.components.cdsem_bend180
-    name: cdsem_bend180_35663f6f
-  cdsem_bend180_92995e8a:
+    name: cdsem_bend180_123844b1
+  cdsem_bend180_3af2012c:
     changed:
       bend90:
         function: bend_circular
@@ -340,6 +309,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       width: 0.6
     default:
       bend90:
@@ -351,6 +321,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.5
     full:
@@ -363,13 +334,14 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.6
     function_name: cdsem_bend180
     info_version: 1
     module: gdsfactory.components.cdsem_bend180
-    name: cdsem_bend180_92995e8a
-  cdsem_bend180_9b82c45e:
+    name: cdsem_bend180_3af2012c
+  cdsem_bend180_87e3494a:
     changed:
       bend90:
         function: bend_circular
@@ -379,7 +351,8 @@ cells:
         function: straight
       text:
         function: text_rectangular
-      width: 0.4
+        size: 1
+      width: 0.8
     default:
       bend90:
         function: bend_circular
@@ -390,6 +363,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.5
     full:
@@ -402,13 +376,14 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
-      width: 0.4
+      width: 0.8
     function_name: cdsem_bend180
     info_version: 1
     module: gdsfactory.components.cdsem_bend180
-    name: cdsem_bend180_9b82c45e
-  cdsem_bend180_ace0e820:
+    name: cdsem_bend180_87e3494a
+  cdsem_bend180_9b187b5d:
     changed:
       bend90:
         function: bend_circular
@@ -418,7 +393,8 @@ cells:
         function: straight
       text:
         function: text_rectangular
-      width: 0.5
+        size: 1
+      width: 0.45
     default:
       bend90:
         function: bend_circular
@@ -429,6 +405,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
       width: 0.5
     full:
@@ -441,12 +418,55 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       wg_length: 420
-      width: 0.5
+      width: 0.45
     function_name: cdsem_bend180
     info_version: 1
     module: gdsfactory.components.cdsem_bend180
-    name: cdsem_bend180_ace0e820
+    name: cdsem_bend180_9b187b5d
+  cdsem_bend180_bdb79983:
+    changed:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      width: 0.4
+    default:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
+      radius: 10
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      wg_length: 420
+      width: 0.5
+    full:
+      bend90:
+        function: bend_circular
+      cross_section:
+        function: cross_section
+      radius: 10
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      wg_length: 420
+      width: 0.4
+    function_name: cdsem_bend180
+    info_version: 1
+    module: gdsfactory.components.cdsem_bend180
+    name: cdsem_bend180_bdb79983
   cdsem_straight_8cc4f19e:
     changed:
       cross_section:
@@ -462,6 +482,10 @@ cells:
       cross_section:
         function: cross_section
       length: 420
+      spacing: 3
+      text:
+        function: text_rectangular
+        size: 1
       widths:
       - 0.4
       - 0.45
@@ -473,6 +497,10 @@ cells:
       cross_section:
         function: cross_section
       length: 420
+      spacing: 3
+      text:
+        function: text_rectangular
+        size: 1
       widths:
       - 0.4
       - 0.45
@@ -484,89 +512,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.cdsem_straight
     name: cdsem_straight_8cc4f19e
-  cdsem_straight_density_2e7fe387:
-    changed:
-      cross_section:
-        function: cross_section
-      label: DL
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      trench_width: 0.27999999999999997
-      width: 0.27999999999999997
-    default:
-      cross_section:
-        function: cross_section
-      label: ''
-      margin: 2
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      trench_width: 0.3
-      width: 0.3
-      x: 420
-      y: 50
-    full:
-      cross_section:
-        function: cross_section
-      label: DL
-      margin: 2
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      trench_width: 0.27999999999999997
-      width: 0.27999999999999997
-      x: 420
-      y: 50
-    function_name: cdsem_straight_density
-    info_version: 1
-    module: gdsfactory.components.cdsem_straight_density
-    name: cdsem_straight_density_2e7fe387
-  cdsem_straight_density_30c2dd46:
-    changed:
-      cross_section:
-        function: cross_section
-      label: DM
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      trench_width: 0.3
-      width: 0.3
-    default:
-      cross_section:
-        function: cross_section
-      label: ''
-      margin: 2
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      trench_width: 0.3
-      width: 0.3
-      x: 420
-      y: 50
-    full:
-      cross_section:
-        function: cross_section
-      label: DM
-      margin: 2
-      straight:
-        function: straight
-      text:
-        function: text_rectangular
-      trench_width: 0.3
-      width: 0.3
-      x: 420
-      y: 50
-    function_name: cdsem_straight_density
-    info_version: 1
-    module: gdsfactory.components.cdsem_straight_density
-    name: cdsem_straight_density_30c2dd46
-  cdsem_straight_density_6d58e415:
+  cdsem_straight_density_0a08a9be:
     changed:
       cross_section:
         function: cross_section
@@ -575,6 +521,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       trench_width: 0.32
       width: 0.32
     default:
@@ -599,6 +546,7 @@ cells:
         function: straight
       text:
         function: text_rectangular
+        size: 1
       trench_width: 0.32
       width: 0.32
       x: 420
@@ -606,8 +554,119 @@ cells:
     function_name: cdsem_straight_density
     info_version: 1
     module: gdsfactory.components.cdsem_straight_density
-    name: cdsem_straight_density_6d58e415
+    name: cdsem_straight_density_0a08a9be
+  cdsem_straight_density_8398b82b:
+    changed:
+      cross_section:
+        function: cross_section
+      label: DL
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      trench_width: 0.27999999999999997
+      width: 0.27999999999999997
+    default:
+      cross_section:
+        function: cross_section
+      label: ''
+      margin: 2
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+      trench_width: 0.3
+      width: 0.3
+      x: 420
+      y: 50
+    full:
+      cross_section:
+        function: cross_section
+      label: DL
+      margin: 2
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      trench_width: 0.27999999999999997
+      width: 0.27999999999999997
+      x: 420
+      y: 50
+    function_name: cdsem_straight_density
+    info_version: 1
+    module: gdsfactory.components.cdsem_straight_density
+    name: cdsem_straight_density_8398b82b
+  cdsem_straight_density_f55ec388:
+    changed:
+      cross_section:
+        function: cross_section
+      label: DM
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      trench_width: 0.3
+      width: 0.3
+    default:
+      cross_section:
+        function: cross_section
+      label: ''
+      margin: 2
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+      trench_width: 0.3
+      width: 0.3
+      x: 420
+      y: 50
+    full:
+      cross_section:
+        function: cross_section
+      label: DM
+      margin: 2
+      straight:
+        function: straight
+      text:
+        function: text_rectangular
+        size: 1
+      trench_width: 0.3
+      width: 0.3
+      x: 420
+      y: 50
+    function_name: cdsem_straight_density
+    info_version: 1
+    module: gdsfactory.components.cdsem_straight_density
+    name: cdsem_straight_density_f55ec388
   straight_16be8a94:
+    changed:
+      cross_section:
+        function: cross_section
+        width: 0.5
+      length: 420
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        width: 0.5
+      length: 420
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 420
+    module: gdsfactory.components.straight
+    name: straight_16be8a94
+    width: 0.5
+  straight_16be8a94_copy:
     changed:
       cross_section:
         function: cross_section
@@ -657,7 +716,57 @@ cells:
     module: gdsfactory.components.straight
     name: straight_2ec186d7
     width: 0.4
+  straight_2ec186d7_copy:
+    changed:
+      cross_section:
+        function: cross_section
+        width: 0.4
+      length: 420
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        width: 0.4
+      length: 420
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 420
+    module: gdsfactory.components.straight
+    name: straight_2ec186d7
+    width: 0.4
   straight_4d6984e2:
+    changed:
+      cross_section:
+        function: cross_section
+        width: 1
+      length: 420
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        width: 1
+      length: 420
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 420
+    module: gdsfactory.components.straight
+    name: straight_4d6984e2
+    width: 1
+  straight_4d6984e2_copy:
     changed:
       cross_section:
         function: cross_section
@@ -707,7 +816,57 @@ cells:
     module: gdsfactory.components.straight
     name: straight_7cd12c13
     width: 0.45
+  straight_7cd12c13_copy:
+    changed:
+      cross_section:
+        function: cross_section
+        width: 0.45
+      length: 420
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        width: 0.45
+      length: 420
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 420
+    module: gdsfactory.components.straight
+    name: straight_7cd12c13
+    width: 0.45
   straight_84a2ba0c:
+    changed:
+      cross_section:
+        function: cross_section
+        width: 0.6
+      length: 420
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        width: 0.6
+      length: 420
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 420
+    module: gdsfactory.components.straight
+    name: straight_84a2ba0c
+    width: 0.6
+  straight_84a2ba0c_copy:
     changed:
       cross_section:
         function: cross_section
@@ -757,101 +916,34 @@ cells:
     module: gdsfactory.components.straight
     name: straight_8eab5a24
     width: 0.8
-  text_rectangular_0855d666:
+  straight_8eab5a24_copy:
     changed:
-      text: '400'
+      cross_section:
+        function: cross_section
+        width: 0.8
+      length: 420
     default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
     full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: '400'
-    function_name: text_rectangular
+      cross_section:
+        function: cross_section
+        width: 0.8
+      length: 420
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
     info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_0855d666
-  text_rectangular_2e21dcd6:
+    length: 420
+    module: gdsfactory.components.straight
+    name: straight_8eab5a24
+    width: 0.8
+  text_rectangular_488895c8:
     changed:
-      text: '800'
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: '800'
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_2e21dcd6
-  text_rectangular_366bbed3:
-    changed:
-      text: '600'
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: '600'
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_366bbed3
-  text_rectangular_aadf34c0:
-    changed:
+      size: 1
       text: '500'
     default:
       font:
@@ -875,14 +967,15 @@ cells:
       position:
       - 0
       - 0
-      size: 10
+      size: 1
       text: '500'
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_aadf34c0
-  text_rectangular_db428730:
+    name: text_rectangular_488895c8
+  text_rectangular_4fffcdb5:
     changed:
+      size: 1
       text: '450'
     default:
       font:
@@ -906,14 +999,79 @@ cells:
       position:
       - 0
       - 0
-      size: 10
+      size: 1
       text: '450'
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_db428730
-  text_rectangular_f149dc82:
+    name: text_rectangular_4fffcdb5
+  text_rectangular_64b6a9bc:
     changed:
+      size: 1
+      text: '800'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '800'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_64b6a9bc
+  text_rectangular_ae9f9e1c:
+    changed:
+      size: 1
+      text: '600'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '600'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_ae9f9e1c
+  text_rectangular_ced30fc7:
+    changed:
+      size: 1
       text: '1000'
     default:
       font:
@@ -937,12 +1095,44 @@ cells:
       position:
       - 0
       - 0
-      size: 10
+      size: 1
       text: '1000'
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_f149dc82
+    name: text_rectangular_ced30fc7
+  text_rectangular_f2bbb882:
+    changed:
+      size: 1
+      text: '400'
+    default:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 10
+      text: abcd
+    full:
+      font:
+        function: rectangular_font
+      justify: left
+      layer:
+      - 1
+      - 0
+      position:
+      - 0
+      - 0
+      size: 1
+      text: '400'
+    function_name: text_rectangular
+    info_version: 1
+    module: gdsfactory.components.text_rectangular
+    name: text_rectangular_f2bbb882
 info:
   changed: {}
   default:
@@ -961,6 +1151,7 @@ info:
       function: straight
     text:
       function: text_rectangular
+      size: 1
     widths:
     - 0.4
     - 0.45
@@ -984,6 +1175,7 @@ info:
       function: straight
     text:
       function: text_rectangular
+      size: 1
     widths:
     - 0.4
     - 0.45

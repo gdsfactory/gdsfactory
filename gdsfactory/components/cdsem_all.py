@@ -1,4 +1,5 @@
 """CD SEM structures."""
+from functools import partial
 from typing import Optional, Tuple
 
 from gdsfactory.cell import cell
@@ -12,6 +13,8 @@ from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
+text_rectangular_mini = partial(text_rectangular, size=1)
+
 
 @cell
 def cdsem_all(
@@ -23,7 +26,7 @@ def cdsem_all(
     straight: ComponentFactory = straight_function,
     bend90: Optional[ComponentFactory] = bend_circular,
     cross_section: CrossSectionFactory = strip,
-    text: ComponentFactory = text_rectangular,
+    text: ComponentFactory = text_rectangular_mini,
 ) -> Component:
     """column with all optical PCMs
 

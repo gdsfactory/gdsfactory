@@ -11,6 +11,8 @@ from gdsfactory.types import ComponentFactory, CrossSectionFactory
 
 LINE_LENGTH = 420.0
 
+text_rectangular_mini = partial(text_rectangular, size=1)
+
 
 @cell
 def cdsem_bend180(
@@ -20,7 +22,7 @@ def cdsem_bend180(
     straight: ComponentFactory = straight_function,
     bend90: ComponentFactory = bend_circular,
     cross_section: CrossSectionFactory = strip,
-    text: ComponentFactory = text_rectangular,
+    text: ComponentFactory = text_rectangular_mini,
 ) -> Component:
     """
 

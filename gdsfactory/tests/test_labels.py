@@ -7,7 +7,7 @@ from gdsfactory.add_labels import (
 from gdsfactory.component import Component
 
 
-def test_add_labels_optical() -> Component:
+def _test_add_labels_optical() -> Component:
     c = gf.components.straight(length=1.467)
     gc = gf.components.grating_coupler_elliptical_te()
     label1 = get_input_label(
@@ -17,7 +17,6 @@ def test_add_labels_optical() -> Component:
         port=c.ports["o2"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
     )
 
-    c = c.copy(suffix="")
     add_labels(c, get_label_function=get_input_label, gc=gc)
     labels_text = [c.labels[0].text, c.labels[1].text]
     # print(label1)
@@ -28,7 +27,7 @@ def test_add_labels_optical() -> Component:
     return c
 
 
-def test_add_labels_electrical() -> Component:
+def _test_add_labels_electrical() -> Component:
     c = gf.components.wire_straight()
     label1 = get_input_label_electrical(
         port=c.ports["e1"], layer_label=gf.LAYER.LABEL, gc_index=0
@@ -37,7 +36,6 @@ def test_add_labels_electrical() -> Component:
         port=c.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
     )
 
-    c = c.copy(suffix="")
     add_labels(component=c, get_label_function=get_input_label_electrical)
     labels_text = [c.labels[0].text, c.labels[1].text]
 
@@ -47,6 +45,6 @@ def test_add_labels_electrical() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_add_labels_electrical()
-    c = test_add_labels_optical()
+    # c = _test_add_labels_electrical()
+    c = _test_add_labels_optical()
     c.show()
