@@ -16,6 +16,7 @@ def get_input_label_text(
     gc_index: Optional[int] = None,
     component_name: Optional[str] = None,
     prefix: str = "",
+    label_prefix: str = "opt",
 ) -> str:
     """Get text string for an optical port based on grating coupler.
 
@@ -24,7 +25,7 @@ def get_input_label_text(
         gc: grating coupler
         gc_index: grating_coupler index, which grating_coupler we are labelling
         component_name:
-        prefix:
+        prefix: component prefix
 
     """
     polarization = gc.info.get("polarization") or gc.info_child.get("polarization")
@@ -40,7 +41,7 @@ def get_input_label_text(
 
     component_name = component_name or port.parent.info_child.name
 
-    text = f"opt_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
+    text = f"{label_prefix}_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
     if isinstance(gc_index, int):
         text += f"_{gc_index}_{port.name}"
     else:

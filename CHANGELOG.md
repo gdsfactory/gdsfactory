@@ -17,6 +17,10 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.11
+
+- add label_prefix to test and measurement labels
+
 ## 3.9.10
 
 - add `gf.mask.merge_yaml` to merge yaml metadata
