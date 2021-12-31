@@ -68,6 +68,78 @@ def transition_exponential(y1, y2, exp=0.5):
     return lambda t: y1 + (y2 - y1) * t ** exp
 
 
+adiabatic_polyfit_TE1550SOI_220nm = np.array(
+    [
+        1.02478963e-09,
+        -8.65556534e-08,
+        3.32415694e-06,
+        -7.68408985e-05,
+        1.19282177e-03,
+        -1.31366332e-02,
+        1.05721429e-01,
+        -6.31057637e-01,
+        2.80689677e00,
+        -9.26867694e00,
+        2.24535191e01,
+        -3.90664800e01,
+        4.71899278e01,
+        -3.74726005e01,
+        1.77381560e01,
+        -1.12666286e00,
+    ]
+)
+
+
+def transition_adiabatic(
+    y1,
+    y2,
+    neff_y=lambda y: np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(y),
+    wavelength=1.55,
+    alpha=1,
+):
+    """Returns the function for an optimal adiabatic transition for well-guided modes
+
+    Args:
+        y1: start width
+        y2: end width
+        neff_y: a callable that returns the effective index as a function of width
+                - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
+        alpha: parameter that scales the rate of width change
+                - closer to 0 means longer and more adiabatic;
+                - 1 is the intuitive limit beyond which higher order modes are excited;
+                - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
+
+    References:
+        [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
+        [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
+    """
+    # Define ODE
+    def dWdx(y, x, neff_y, wavelength, alpha):
+        return alpha * wavelength / (neff_y(y) * y)
+
+    # Parse input
+    if y2 < y1:
+        ymin = y2
+        ymax = y1
+        # ordered = False
+    else:
+        ymin = y1
+        ymax = y2
+        # ordered = True
+
+    # Solve ODE
+    x = np.linspace(0, 200, 2001)
+    from scipy.integrate import odeint
+
+    sol = odeint(dWdx, ymin, x, args=(neff_y, wavelength, alpha))
+
+    # Extract curve
+    xs = x[np.where(sol[:, 0] < ymax)]
+    ys = sol[:, 0][np.where(sol[:, 0] < ymax)]
+
+    return xs, ys
+
+
 def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
@@ -474,6 +546,9 @@ if __name__ == "__main__":
     # print(c.ports["in"].layer)
     # c.show()
 
+    """
+    init
+    """
     import gdsfactory as gf
 
     X1 = gf.CrossSection()
@@ -496,6 +571,10 @@ if __name__ == "__main__":
     P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
     wg_trans = gf.path.extrude(P4, Xtrans)
     wg_trans.show()
+
+    """
+    end
+    """
 
     # import gdsfactory as gf
     # # Create our first CrossSection
@@ -540,3 +619,10 @@ if __name__ == "__main__":
 
     # wgt_ref.connect("o1", wg1_ref.ports["o2"])
     # wg2_ref.connect("o1", wgt_ref.ports["o2"])
+
+    # '''
+    # Developing adiabatic taper
+    # '''
+    # import gdsfactory as gf
+    # adiabat = transition_adiabatic(0.5, 7, neff_y=lambda y: np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(y), wavelength=1.55, alpha=1)
+    # print(adiabat)
