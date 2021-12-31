@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import griddata
 
+import gdsfactory as gf
 from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
@@ -31,7 +32,6 @@ def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
     # Make regular grid from resolution and range of domain
     y_1D = y_1D[...].flatten()
     z_1D = z_1D[...].flatten()
-    print(z_1D)
     ny = int(np.max(y_1D) - np.min(y_1D) * 1e6 * res)
     nz = int(np.max(z_1D) - np.min(z_1D) * 1e6 * res)
     y = np.linspace(np.min(y_1D), np.max(y_1D), ny) * 1e6
@@ -126,18 +126,21 @@ def test_eigenmode(plot=False):
     separate namespace run does not work either
     # m1_MPB = MPB_eigenmode()
     """
+    # Test data
+    filepath = gf.CONFIG["module_path"] / "simulation" / "gmeep" / "test_data"
+
     # MPB calculation
     # Load previously-computed waveguide results
-    m1_MPB_neff = np.load("test_data/stripWG_mpb/neff1.npy")
-    m1_MPB_E = np.load("test_data/stripWG_mpb/E1.npy")
-    m1_MPB_H = np.load("test_data/stripWG_mpb/H1.npy")
-    m1_MPB_y = np.load("test_data/stripWG_mpb/y1.npy")
-    m1_MPB_z = np.load("test_data/stripWG_mpb/z1.npy")
-    m2_MPB_neff = np.load("test_data/stripWG_mpb/neff2.npy")
-    m2_MPB_E = np.load("test_data/stripWG_mpb/E2.npy")
-    m2_MPB_H = np.load("test_data/stripWG_mpb/H2.npy")
-    m2_MPB_y = np.load("test_data/stripWG_mpb/y2.npy")
-    m2_MPB_z = np.load("test_data/stripWG_mpb/z2.npy")
+    m1_MPB_neff = np.load(filepath / "stripWG_mpb" / "neff1.npy")
+    m1_MPB_E = np.load(filepath / "stripWG_mpb" / "E1.npy")
+    m1_MPB_H = np.load(filepath / "stripWG_mpb" / "H1.npy")
+    m1_MPB_y = np.load(filepath / "stripWG_mpb" / "y1.npy")
+    m1_MPB_z = np.load(filepath / "stripWG_mpb" / "z1.npy")
+    m2_MPB_neff = np.load(filepath / "stripWG_mpb" / "neff2.npy")
+    m2_MPB_E = np.load(filepath / "stripWG_mpb" / "E2.npy")
+    m2_MPB_H = np.load(filepath / "stripWG_mpb" / "H2.npy")
+    m2_MPB_y = np.load(filepath / "stripWG_mpb" / "y2.npy")
+    m2_MPB_z = np.load(filepath / "stripWG_mpb" / "z2.npy")
     # Package into modes object
     m1_MPB = Mode(
         mode_number=1,
@@ -163,7 +166,7 @@ def test_eigenmode(plot=False):
     )
 
     # Load Lumerical result
-    with h5py.File("test_data/stripWG_lumerical/mode1.mat", "r") as f:
+    with h5py.File(filepath / "stripWG_lumerical" / "mode1.mat", "r") as f:
         E, H, y, z = lumerical_parser(
             f["E"]["E"], f["H"]["H"], f["E"]["y"], f["E"]["z"], res=50
         )
@@ -179,7 +182,7 @@ def test_eigenmode(plot=False):
             y=y,
             z=z,
         )
-    with h5py.File("test_data/stripWG_lumerical/mode2.mat", "r") as f:
+    with h5py.File(filepath / "stripWG_lumerical" / "mode2.mat", "r") as f:
         E, H, y, z = lumerical_parser(
             f["E"]["E"], f["H"]["H"], f["E"]["y"], f["E"]["z"], res=50
         )
@@ -380,4 +383,4 @@ def test_eigenmode(plot=False):
 
 if __name__ == "__main__":
     # MPB_eigenmode_toDisk()
-    test_eigenmode(plot=True)
+    test_eigenmode(plot=False)
