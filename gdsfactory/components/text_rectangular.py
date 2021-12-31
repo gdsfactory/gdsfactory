@@ -87,7 +87,7 @@ def text_rectangular_multi_layer(
     func = gf.partial(
         copy_layers,
         factory=gf.partial(text_factory, text=text, **kwargs),
-        layers=(LAYER.WG, LAYER.M1, LAYER.M2, LAYER.M3),
+        layers=layers,
     )
     return func()
 
