@@ -60,7 +60,7 @@ def taper_adiabatic(
     """
     # Obtain optimal curve
     x_opt, w_opt = transition_adiabatic(
-        width1, width2, neff_w=neff_w, wavelength=1.55, alpha=1
+        width1, width2, neff_w=neff_w, wavelength=wavelength, alpha=alpha
     )
 
     # Resample the points
