@@ -91,53 +91,58 @@ adiabatic_polyfit_TE1550SOI_220nm = np.array(
 
 
 def transition_adiabatic(
-    y1,
-    y2,
-    neff_y=lambda y: np.poly1d(adiabatic_polyfit_TE1550SOI_220nm)(y),
+    w1,
+    w2,
+    neff_w,
     wavelength=1.55,
     alpha=1,
+    max_length=200,
+    num_points_ODE=2000,
 ):
-    """Returns the function for an optimal adiabatic transition for well-guided modes
+    """Returns the points for an optimal adiabatic transition for well-guided modes
 
     Args:
-        y1: start width
-        y2: end width
-        neff_y: a callable that returns the effective index as a function of width
+        w1: start width
+        w2: end width
+        neff_w: a callable that returns the effective index as a function of width
                 - By default, will use a compact model of neff(y) for fundamental 1550 nm TE mode of 220nm-thick core with 3.45 index, fully clad with 1.44 index. Many coefficients are needed to capture the behaviour.
+        wavelength: wavelength, in same units as widths
         alpha: parameter that scales the rate of width change
                 - closer to 0 means longer and more adiabatic;
                 - 1 is the intuitive limit beyond which higher order modes are excited;
                 - [2] reports good performance up to 1.4 for fundamental TE in SOI (for multiple core thicknesses)
+        max_length: maximum length
+        num_points_ODE: number of samplings points for the ODE solve
 
     References:
         [1] Burns, W. K., et al. "Optical waveguide parabolic coupling horns." Appl. Phys. Lett., vol. 30, no. 1, 1 Jan. 1977, pp. 28-30, doi:10.1063/1.89199.
         [2] Fu, Yunfei, et al. "Efficient adiabatic silicon-on-insulator waveguide taper." Photonics Res., vol. 2, no. 3, 1 June 2014, pp. A41-A44, doi:10.1364/PRJ.2.000A41.
     """
     # Define ODE
-    def dWdx(y, x, neff_y, wavelength, alpha):
-        return alpha * wavelength / (neff_y(y) * y)
+    def dWdx(w, x, neff_w, wavelength, alpha):
+        return alpha * wavelength / (neff_w(w) * w)
 
     # Parse input
-    if y2 < y1:
-        ymin = y2
-        ymax = y1
-        # ordered = False
+    if w2 < w1:
+        wmin = w2
+        wmax = w1
+        order = -1
     else:
-        ymin = y1
-        ymax = y2
-        # ordered = True
+        wmin = w1
+        wmax = w2
+        order = 1
 
     # Solve ODE
-    x = np.linspace(0, 200, 2001)
+    x = np.linspace(0, max_length, num_points_ODE)
     from scipy.integrate import odeint
 
-    sol = odeint(dWdx, ymin, x, args=(neff_y, wavelength, alpha))
+    sol = odeint(dWdx, wmin, x, args=(neff_w, wavelength, alpha))
 
-    # Extract curve
-    xs = x[np.where(sol[:, 0] < ymax)]
-    ys = sol[:, 0][np.where(sol[:, 0] < ymax)]
+    # Extract optimal curve
+    xs = x[np.where(sol[:, 0] < wmax)]
+    ws = sol[:, 0][np.where(sol[:, 0] < wmax)]
 
-    return xs, ys
+    return xs, ws[::order]
 
 
 def transition(
