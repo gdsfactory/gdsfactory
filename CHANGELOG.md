@@ -17,6 +17,10 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.12
+
+- fix text_rectangular_multi_layer layers
+
 ## 3.9.11
 
 - add label_prefix to test and measurement labels
