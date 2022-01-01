@@ -209,13 +209,13 @@ def get_simulation(
     field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
-    if angle.isclose(0):
+    if np.isclose(angle, 0):
         direction = mp.X
-    elif angle.isclose(np.pi / 2):
+    elif np.isclose(angle, np.pi / 2):
         direction = mp.Y
-    elif angle.isclose(np.pi):
+    elif np.isclose(angle, np.pi):
         direction = -1 * mp.X
-    elif angle.isclose(3 * np.pi / 2):
+    elif np.isclose(angle, 3 * np.pi / 2):
         direction = -1 * mp.Y
     else:
         ValueError("Port angle is not 0, 90, 180, or 270 degrees!")
