@@ -40,7 +40,7 @@ def get_simulation(
     res: int = 20,
     t_clad_top: float = 3.0,
     t_clad_bot: float = 3.0,
-    tpml: float = 1.0,
+    tpml: float = 1.5,
     clad_material: str = "SiO2",
     is_3d: bool = False,
     wl_min: float = 1.5,
@@ -193,30 +193,30 @@ def get_simulation(
 
     # Add source
     port = component_ref.ports[port_source_name]
-    angle = np.radians(port.orientation)
+    angle_rad = np.radians(port.orientation)
     width = port.width + 2 * port_margin
-    size_x = width * abs(np.sin(angle))
-    size_y = width * abs(np.cos(angle))
+    size_x = width * abs(np.sin(angle_rad))
+    size_y = width * abs(np.cos(angle_rad))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_z = cell_thickness - 2 * tpml if is_3d else 20
     size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
-        np.array(port.center), angle=angle, length=port_source_offset
+        np.array(port.center), angle=angle_rad, length=port_source_offset
     )
     center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
     field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
-    if np.isclose(angle, 0):
+    if np.isclose(port.orientation, 0):
         direction = mp.X
-    elif np.isclose(angle, np.pi / 2):
+    elif np.isclose(port.orientation, 90):
         direction = mp.Y
-    elif np.isclose(angle, np.pi):
-        direction = -1 * mp.X
-    elif np.isclose(angle, 3 * np.pi / 2):
-        direction = -1 * mp.Y
+    elif np.isclose(port.orientation, 180):
+        direction = mp.X
+    elif np.isclose(port.orientation, 270):
+        direction = mp.Y
     else:
         ValueError("Port angle is not 0, 90, 180, or 270 degrees!")
 
@@ -228,6 +228,7 @@ def get_simulation(
             eig_band=1,
             eig_parity=mp.NO_PARITY if is_3d else mp.EVEN_Y + mp.ODD_Z,
             eig_match_freq=True,
+            eig_kpoint=-1 * mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad),
             direction=direction,
         )
     ]
@@ -245,10 +246,10 @@ def get_simulation(
     monitors = {}
     for port_name in component_ref.ports.keys():
         port = component_ref.ports[port_name]
-        angle = np.radians(port.orientation)
+        angle_rad = np.radians(port.orientation)
         width = port.width + 2 * port_margin
-        size_x = width * abs(np.sin(angle))
-        size_y = width * abs(np.cos(angle))
+        size_x = width * abs(np.sin(angle_rad))
+        size_y = width * abs(np.cos(angle_rad))
         size_x = 0 if size_x < 0.001 else size_x
         size_y = 0 if size_y < 0.001 else size_y
         size = mp.Vector3(size_x, size_y, size_z)
@@ -261,7 +262,7 @@ def get_simulation(
             else port_monitor_offset
         )
         xy_shifted = move_polar_rad_copy(
-            np.array(port.center), angle=angle, length=length
+            np.array(port.center), angle=angle_rad, length=length
         )
         center = xy_shifted.tolist() + [0]  # (x, y, z=0)
         m = sim.add_mode_monitor(freqs, mp.ModeRegion(center=center, size=size))
