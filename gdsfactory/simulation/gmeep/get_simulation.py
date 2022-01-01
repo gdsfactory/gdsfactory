@@ -52,8 +52,7 @@ def get_simulation(
     port_margin: float = 3,
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
-    port_field_monitor_offset: float = 0,
-    **kwargs,
+    port_monitor_offset: float = 0,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
 
@@ -80,8 +79,7 @@ def get_simulation(
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
-        port_field_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        kwargs**: other parameters for sim.simulation object (see https://meep.readthedocs.io/en/latest/Python_User_Interface/#the-simulation-class)
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
 
     Returns:
         sim: simulation object
@@ -211,6 +209,17 @@ def get_simulation(
     field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
+    if angle.isclose(0):
+        direction = mp.X
+    elif angle.isclose(np.pi / 2):
+        direction = mp.Y
+    elif angle.isclose(np.pi):
+        direction = -1 * mp.X
+    elif angle.isclose(3 * np.pi / 2):
+        direction = -1 * mp.Y
+    else:
+        ValueError("Port angle is not 0, 90, 180, or 270 degrees!")
+
     sources = [
         mp.EigenModeSource(
             src=mp.GaussianSource(fcen, fwidth=frequency_width),
@@ -219,7 +228,7 @@ def get_simulation(
             eig_band=1,
             eig_parity=mp.NO_PARITY if is_3d else mp.EVEN_Y + mp.ODD_Z,
             eig_match_freq=True,
-            direction=mp.AUTOMATIC,
+            direction=direction,
         )
     ]
 
@@ -249,7 +258,7 @@ def get_simulation(
         length = (
             -distance_source_to_monitors + port_source_offset
             if port_name == port_source_name
-            else port_field_monitor_offset
+            else port_monitor_offset
         )
         xy_shifted = move_polar_rad_copy(
             np.array(port.center), angle=angle, length=length
