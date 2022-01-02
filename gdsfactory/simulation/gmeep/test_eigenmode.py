@@ -383,4 +383,4 @@ def test_eigenmode(plot=False):
 
 if __name__ == "__main__":
     # MPB_eigenmode_toDisk()
-    test_eigenmode(plot=False)
+    test_eigenmode(plot=True)
