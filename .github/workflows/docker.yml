@@ -22,4 +22,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:3.9.12
+          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:3.9.13
