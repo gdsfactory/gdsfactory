@@ -17,6 +17,10 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.13
+
+- fix seal_ring snap_to_grid to 2nm
+
 ## 3.9.12
 
 - fix text_rectangular_multi_layer layers

@@ -32,12 +32,18 @@ def seal_ring(
         with_west: includes seal
 
     """
+
     c = gf.Component()
     component = component() if callable(component) else component
     size = component.size
     sx, sy = size
-    sx = gf.snap.snap_to_grid(sx, nm=2)
-    sy = gf.snap.snap_to_grid(sy, nm=2)
+
+    snap = gf.partial(snap_to_grid, nm=2)
+    sx = snap(sx)
+    sy = snap(sy)
+
+    ymin_north = snap(component.ymax + padding)
+    ymax_south = snap(component.ymax - sy - padding)
 
     # north south
     size_north_south = (sx + 2 * padding + 2 * width, width)
@@ -45,23 +51,23 @@ def seal_ring(
 
     if with_north:
         north = c << seal(size=size_north_south)
-        north.ymin = snap_to_grid(component.ymax + padding)
-        north.x = snap_to_grid(component.x)
-
-    if with_south:
-        south = c << seal(size=size_north_south)
-        south.ymax = snap_to_grid(component.ymin - padding)
-        south.x = snap_to_grid(component.x)
+        north.ymin = ymin_north
+        north.x = component.x
 
     if with_east:
         east = c << seal(size=size_east_west)
-        east.xmin = snap_to_grid(component.xmax + padding)
-        east.y = snap_to_grid(component.y)
+        east.xmin = component.xmax + padding
+        east.ymax = component.ymax + padding
 
     if with_west:
         west = c << seal(size=size_east_west)
-        west.xmax = snap_to_grid(component.xmin - padding)
-        west.y = snap_to_grid(component.y)
+        west.xmax = component.xmin - padding
+        west.ymax = component.ymax + padding
+
+    if with_south:
+        south = c << seal(size=size_north_south)
+        south.ymax = ymax_south
+        south.x = component.x
 
     return c
 
