@@ -23,6 +23,7 @@ Maybe:
 - add Component.version and Component.changelog
 - Component.to_dict() exports version
 - add ring_single_heater and ring_double_heater to components
+- add port_inclusion to pad and compass
 
 ## 3.9.13
 
