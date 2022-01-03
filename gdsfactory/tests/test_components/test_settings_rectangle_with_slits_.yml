@@ -176,4 +176,4 @@ info:
   module: gdsfactory.components.rectangle_with_slits
   name: rectangle_with_slits_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1

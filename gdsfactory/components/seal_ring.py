@@ -57,12 +57,12 @@ def seal_ring(
     if with_east:
         east = c << seal(size=size_east_west)
         east.xmin = component.xmax + padding
-        east.ymax = component.ymax + padding
+        east.ymax = ymin_north
 
     if with_west:
         west = c << seal(size=size_east_west)
         west.xmax = component.xmin - padding
-        west.ymax = component.ymax + padding
+        west.ymax = ymin_north
 
     if with_south:
         south = c << seal(size=size_north_south)
