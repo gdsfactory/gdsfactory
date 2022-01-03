@@ -171,8 +171,12 @@ def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
     # print('idx (outgoing wave) = ', idx_out)
     # print('idx (ingoing wave) = ', idx_in)
 
-    coeff_in = monitor_coeff.alpha[0, :, idx_in]  # ingoing wave
-    coeff_out = monitor_coeff.alpha[0, :, idx_out]  # outgoing wave
+    coeff_in = monitor_coeff.alpha[
+        0, :, idx_in
+    ]  # ingoing (w.r.t. simulation cell) wave
+    coeff_out = monitor_coeff.alpha[
+        0, :, idx_out
+    ]  # outgoing (w.r.t. simulation cell) wave
 
     return coeff_in, coeff_out
 
@@ -180,6 +184,7 @@ def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
 @pydantic.validate_arguments
 def get_sparametersNxN(
     component: Component,
+    res: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
     wl_steps: int = 50,
@@ -256,7 +261,6 @@ def get_sparametersNxN(
             port_margin=2,
             port_monitor_offset=-0.1,
             port_source_offset=-0.1,
-            res=20,
             **settings,
         )
 
@@ -264,6 +268,8 @@ def get_sparametersNxN(
         monitors = sim_dict["monitors"]
         # freqs = sim_dict["freqs"]
         # wavelengths = 1 / freqs
+
+        print(sim.resolution)
 
         # Make termination when field decayed enough across ALL monitors
         termination = []
@@ -374,7 +380,6 @@ def get_sparametersNxN(
 
     else:
         for n in range(len(Sparams_indices)):
-            print("source = ", Sparams_indices[n])
             Sparams_dict.update(
                 sparameter_calculation(
                     n,
@@ -444,8 +449,9 @@ if __name__ == "__main__":
         c,
         filepath="./df_lazy_consolidated.csv",
         overwrite=True,
-        animate=False,
+        animate=True,
         lazy_parallelism=True,
+        resolution=120,
     )
     # df.to_csv("df_lazy.csv", index=False)
     # plot_sparameters(df)
