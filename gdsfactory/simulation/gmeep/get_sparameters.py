@@ -68,8 +68,8 @@ def get_sparameters1x1(
     sim = sim_dict["sim"]
     monitors = sim_dict["monitors"]
     freqs = sim_dict["freqs"]
-    field_monitor_point = sim_dict["field_monitor_point"]
     wavelengths = 1 / freqs
+    field_monitor_point = sim_dict["field_monitor_point"]
     port1 = sim_dict["port_source_name"]
     port2 = set(monitors.keys()) - set([port1])
     port2 = list(port2)[0]
@@ -180,7 +180,7 @@ def get_sparametersNxN(
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
     Repeats the simulation, each time using a different port in (by default, all of them)
-    TODO : user can provide list of port name tuples in symmetries
+    TODO : user can provide list of port name tuples whose results to merge (e.g. symmetric ports)
 
     Args:
         component: to simulate.
@@ -191,7 +191,7 @@ def get_sparametersNxN(
         filepath: to store pandas Dataframe with Sparameters in CSV format
         overwrite: overwrites
         animate: saves a MP4 images of the simulation for inspection, and also outputs during computation. The name of the file is the source index
-        lazy_parallelism: toggles the flag "meep.divide_parallel_processes(N)"
+        lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to perform the simulations with different sources in parallel
         **settings: sim settings
 
     Returns:
@@ -217,29 +217,39 @@ def get_sparametersNxN(
             Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
 
     # Create S-parameter storage object
-    # Sparams_array = np.zeros([2*len(Sparams_indices), 2*len(Sparams_indices), wl_steps])
     Sparams_dict = {}
 
-    # Since source is defined upon sim object instanciation, loop here
-    for port_index in Sparams_indices:
+    @pydantic.validate_arguments
+    def sparameter_calculation(
+        n,
+        component: Component,
+        wl_min: float = 1.5,
+        wl_max: float = 1.6,
+        wl_steps: int = 50,
+        dirpath: Path = CONFIG["sparameters"],
+        layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
+        layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
+        animate: bool = False,
+        **settings,
+    ) -> Dict:
 
         sim_dict = get_simulation(
             component=component,
-            port_source_name="o{}".format(port_index),
+            port_source_name="o{}".format(Sparams_indices[n]),
             wl_min=wl_min,
             wl_max=wl_max,
             wl_steps=wl_steps,
             port_margin=2,
             port_monitor_offset=-0.1,
             port_source_offset=-0.1,
-            res=120,
+            res=20,
             **settings,
         )
 
         sim = sim_dict["sim"]
         monitors = sim_dict["monitors"]
-        freqs = sim_dict["freqs"]
-        wavelengths = 1 / freqs
+        # freqs = sim_dict["freqs"]
+        # wavelengths = 1 / freqs
 
         # Make termination when field decayed enough across ALL monitors
         termination = []
@@ -265,9 +275,10 @@ def get_sparametersNxN(
                     "interpolation": "none",
                 },
                 eps_parameters={"contour": True},
+                normalize=True,
             )
             sim.run(mp.at_every(1, animate), until_after_sources=termination)
-            animate.to_mp4(30, port_index + ".mp4")
+            animate.to_mp4(30, Sparams_indices[n] + ".mp4")
         else:
             sim.run(until_after_sources=termination)
         # call this function every 50 time spes
@@ -277,17 +288,17 @@ def get_sparametersNxN(
         # # Calculate mode overlaps
         # Get source monitor results
         source_entering, source_exiting = parse_port_eigenmode_coeff(
-            port_index, component_ref.ports, sim_dict
+            Sparams_indices[n], component_ref.ports, sim_dict
         )
         source_fields = np.squeeze(source_entering)
         # Get coefficients
         for monitor_index in Sparams_indices:
-            if monitor_index == port_index:
+            if monitor_index == Sparams_indices[n]:
                 sii = source_exiting / source_fields
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                Sparams_dict["s{}{}a".format(port_index, monitor_index)] = siia
-                Sparams_dict["s{}{}m".format(port_index, monitor_index)] = siim
+                Sparams_dict["s{}{}a".format(Sparams_indices[n], monitor_index)] = siia
+                Sparams_dict["s{}{}m".format(Sparams_indices[n], monitor_index)] = siim
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
@@ -295,14 +306,70 @@ def get_sparametersNxN(
                 sij = monitor_exiting / source_fields
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                Sparams_dict["s{}{}a".format(port_index, monitor_index)] = sija
-                Sparams_dict["s{}{}m".format(port_index, monitor_index)] = sijm
+                Sparams_dict["s{}{}a".format(Sparams_indices[n], monitor_index)] = sija
+                Sparams_dict["s{}{}m".format(Sparams_indices[n], monitor_index)] = sijm
 
-    df = pd.DataFrame(Sparams_dict)
-    df["wavelengths"] = wavelengths
-    df["freqs"] = freqs
+        return Sparams_dict
 
-    return df
+    # Since source is defined upon sim object instanciation, loop here
+    # for port_index in Sparams_indices:
+
+    if lazy_parallelism:
+        from mpi4py import MPI
+
+        n = mp.divide_parallel_processes(len(Sparams_indices))
+        comm = MPI.COMM_WORLD
+        size = comm.Get_size()
+        rank = comm.Get_rank()
+
+        Sparams_dict = sparameter_calculation(
+            n,
+            component=component,
+            wl_min=wl_min,
+            wl_max=wl_max,
+            wl_steps=wl_steps,
+            layer_to_thickness=layer_to_thickness,
+            layer_to_material=layer_to_material,
+            animate=animate,
+            **settings,
+        )
+        """
+        Synchronize dicts
+        From https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
+        """
+        if rank == 0:
+            for i in range(1, size, 1):
+                data = comm.recv(source=i, tag=11)
+                Sparams_dict.update(data)
+
+            df = pd.DataFrame(Sparams_dict)
+            df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
+            df["freqs"] = 1 / df["wavelengths"]
+            df.to_csv(filepath, index=False)
+            return df
+        else:
+            comm.send(Sparams_dict, dest=0, tag=11)
+
+    else:
+        for n in range(len(Sparams_indices)):
+            Sparams_dict.update(
+                sparameter_calculation(
+                    n,
+                    component=component,
+                    wl_min=wl_min,
+                    wl_max=wl_max,
+                    wl_steps=wl_steps,
+                    layer_to_thickness=layer_to_thickness,
+                    layer_to_material=layer_to_material,
+                    animate=animate,
+                    **settings,
+                )
+            )
+        df = pd.DataFrame(Sparams_dict)
+        df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
+        df["freqs"] = 1 / df["wavelengths"]
+        df.to_csv(filepath, index=False)
+        return df
 
 
 def plot_sparameters(df: pd.DataFrame, **settings) -> None:
@@ -338,11 +405,10 @@ if __name__ == "__main__":
     # )
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    c = gf.components.coupler_full(length=20, gap=0.2, dw=0)
-    c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
+    # c = gf.components.coupler_full(length=20, gap=0.2, dw=0)
+    # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    # c = gf.components.straight(length=2)
-    # c2 = gf.add_padding(c.copy(), default=0, bottom=2.5, top=2.5, layers=[(100, 0)])
+    c = gf.components.crossing()
 
     # sim_dict = get_simulation(c, is_3d=False)
     # df = get_sparameters1x1(c, overwrite=True)
@@ -350,7 +416,14 @@ if __name__ == "__main__":
     # plt.show()
     # print(df)
 
-    df = get_sparametersNxN(c2, overwrite=True, animate=False)
-    df.to_csv("df.csv", index=False)
+    # df = get_sparametersNxN(c, filepath='./df_lazy_consolidated.csv', overwrite=True, animate=False, lazy_parallelism=True)
+    df = get_sparametersNxN(
+        c,
+        filepath="./df_lazy_consolidated.csv",
+        overwrite=True,
+        animate=False,
+        lazy_parallelism=False,
+    )
+    # df.to_csv("df_lazy.csv", index=False)
     # plot_sparameters(df)
-    plt.show()
+    # plt.show()
