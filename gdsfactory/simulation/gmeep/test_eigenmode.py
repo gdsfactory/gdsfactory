@@ -206,10 +206,10 @@ def test_eigenmode(plot=False):
     sim_dict = get_simulation(
         c,
         is_3d=True,
-        res=50,
         port_source_offset=-0.1,
-        port_field_monitor_offset=-0.1,
+        port_monitor_offset=-0.1,
         port_margin=3,
+        resolution=50,
     )
 
     m1_MEEP = get_port_2Dx_eigenmode(
