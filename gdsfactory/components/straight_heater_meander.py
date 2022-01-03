@@ -133,8 +133,11 @@ def straight_heater_meander(
             )
             taper1 = c << taper
             taper2 = c << taper
-            taper1.connect("o1", contact_west.ports["e3"])
-            taper2.connect("o1", contact_east.ports["e1"])
+            taper1.connect("o2", heater.ports["o1"])
+            taper2.connect("o2", heater.ports["o2"])
+
+            contact_west.connect("e3", taper1.ports["o1"])
+            contact_east.connect("e1", taper2.ports["o1"])
     return c
 
 

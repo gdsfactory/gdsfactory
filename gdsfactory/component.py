@@ -601,7 +601,13 @@ class Component(Device):
 
     """
 
-    def __init__(self, name: str = "Unnamed", **kwargs) -> None:
+    def __init__(
+        self,
+        name: str = "Unnamed",
+        version: str = "0.0.1",
+        changelog: str = "",
+        **kwargs,
+    ) -> None:
 
         self.__ports__ = {}
         self.aliases = {}
@@ -614,6 +620,8 @@ class Component(Device):
         self.info = DictConfig(self.info)
         self._locked = False
         self.get_child_name = False
+        self.version = version
+        self.changelog = changelog
 
     def unlock(self):
         self._locked = False
