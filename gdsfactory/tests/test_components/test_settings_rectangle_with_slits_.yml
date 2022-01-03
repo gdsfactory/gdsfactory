@@ -39,6 +39,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -47,6 +48,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: null
       size:
       - 100
