@@ -18,6 +18,20 @@ def merge_metadata(
     layer_label: Tuple[int, int] = gf.LAYER.TEXT,
 ) -> DictConfig:
     """Merges all mask metadata and returns test metadata
+    This function works well only when you define the mask in YAML
+    Exports a YAML file with only the cells information that have a valid test and measurement label
+
+    For the cells that need to be measure we add test labels
+
+    This is the automatic version of write_labels combined with merge_test_metadata
+
+    .. code::
+
+        CSV labels  -------
+                          |--> merge_test_metadata dict
+                          |
+        YAML metatada  ----
+
 
     Args:
         gdspath: GDSpath
@@ -25,7 +39,7 @@ def merge_metadata(
         layer_label: layer for the labels
     """
     mdpath = gdspath.with_suffix(".md")
-    yaml_path = gdspath.with_suffix(".json")
+    yaml_path = gdspath.with_suffix(".yml")
     test_metadata_path = gdspath.with_suffix(".tp.yml")
 
     build_directory = gdspath.parent.parent
