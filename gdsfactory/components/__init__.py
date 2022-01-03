@@ -147,9 +147,11 @@ from gdsfactory.components.resistance_meander import resistance_meander
 from gdsfactory.components.resistance_sheet import resistance_sheet
 from gdsfactory.components.ring import ring
 from gdsfactory.components.ring_double import ring_double
+from gdsfactory.components.ring_double_heater import ring_double_heater
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.ring_single_array import ring_single_array
 from gdsfactory.components.ring_single_dut import ring_single_dut, taper2
+from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.spiral import spiral
 from gdsfactory.components.spiral_circular import spiral_circular
@@ -340,6 +342,8 @@ factory = dict(
     ring_single=ring_single,
     ring_single_array=ring_single_array,
     ring_single_dut=ring_single_dut,
+    ring_single_heater=ring_single_heater,
+    ring_double_heater=ring_double_heater,
     spiral=spiral,
     spiral_circular=spiral_circular,
     spiral_external_io=spiral_external_io,

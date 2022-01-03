@@ -11,6 +11,7 @@ def compass(
     size: Tuple[float, float] = (4.0, 2.0),
     layer: Layer = gf.LAYER.WG,
     port_type: Optional[str] = "electrical",
+    port_inclusion: float = 0.0,
 ) -> Component:
     """Rectangular contact pad with centered ports on rectangle edges
     (north, south, east, and west)
@@ -19,6 +20,7 @@ def compass(
         size: rectangle size
         layer: tuple (int, int)
         port_type:
+        port_inclusion: from edge
     """
     c = gf.Component()
     dx, dy = size
@@ -35,7 +37,7 @@ def compass(
     if port_type:
         c.add_port(
             name="e1",
-            midpoint=[-dx / 2, 0],
+            midpoint=[-dx / 2 + port_inclusion, 0],
             width=dy,
             orientation=180,
             layer=layer,
@@ -43,7 +45,7 @@ def compass(
         )
         c.add_port(
             name="e2",
-            midpoint=[0, dy / 2],
+            midpoint=[0, dy / 2 - port_inclusion],
             width=dx,
             orientation=90,
             layer=layer,
@@ -51,7 +53,7 @@ def compass(
         )
         c.add_port(
             name="e3",
-            midpoint=[dx / 2, 0],
+            midpoint=[dx / 2 - port_inclusion, 0],
             width=dy,
             orientation=0,
             layer=layer,
@@ -59,7 +61,7 @@ def compass(
         )
         c.add_port(
             name="e4",
-            midpoint=[0, -dy / 2],
+            midpoint=[0, -dy / 2 + port_inclusion],
             width=dx,
             orientation=-90,
             layer=layer,
@@ -70,5 +72,5 @@ def compass(
 
 
 if __name__ == "__main__":
-    c = compass(size=(1, 2), layer=gf.LAYER.WG, port_type="optical")
+    c = compass(size=(1, 2), layer=gf.LAYER.WG, port_type="optical", port_inclusion=0.5)
     c.show()

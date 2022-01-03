@@ -9,6 +9,7 @@ cells:
       radius: 10
     default:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
@@ -20,6 +21,7 @@ cells:
       radius: 5
     full:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
@@ -161,4 +163,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-version: 1
+version: 0.0.1

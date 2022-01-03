@@ -39,6 +39,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -47,6 +48,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: null
       size:
       - 100
@@ -176,4 +178,4 @@ info:
   module: gdsfactory.components.rectangle_with_slits
   name: rectangle_with_slits_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1

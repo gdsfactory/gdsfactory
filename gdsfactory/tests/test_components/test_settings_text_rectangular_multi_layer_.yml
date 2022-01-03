@@ -282,4 +282,4 @@ info:
   module: gdsfactory.components.copy_layers
   name: text_rectangular_83bce1_c69186bd
 ports: {}
-version: 1
+version: 0.0.1

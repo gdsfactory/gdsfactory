@@ -12,6 +12,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -20,6 +21,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 1300
@@ -182,4 +184,4 @@ info:
   module: gdsfactory.components.die_bbox
   name: rectangle_6df08d23_die__93f9a7c5
 ports: {}
-version: 1
+version: 0.0.1

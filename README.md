@@ -1,4 +1,4 @@
-# gdsfactory 3.9.13
+# gdsfactory 3.9.14
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -145,7 +145,6 @@ After installing you should be able to `import gdsfactory as gf` from a python s
   - tests:
 - docs/notebooks: jupyter-notebooks based tutorial
 
-
 ## Plugins
 
 We try to keep gdsfactory core with minimum dependencies.
@@ -160,7 +159,6 @@ pip install gdsfactory[full]
 
 For (3D rendering and STL export)
 
-
 ### meep / mpb
 
 Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
@@ -168,6 +166,32 @@ Open source FDTD / mode simulator. Requires you to run `conda install -c conda-f
 ### tidy3d
 
 For FDTD simulations on the web. Requires you to create an account on [simulation.cloud](simulation.cloud)
+
+## CHANGELOG
+
+gdsfactory keeps a general [changelog](https://gdsfactory.readthedocs.io/en/latest/CHANGELOG.html) as well as for each individual component
+
+By default each component has an empty changelog and starts with version '0.0.1'
+
+- major:
+  - position of ports changes. Affects position of ports. High level circuits may not work.
+- minor
+  - affects a physical layer. Footprint is the same. it fits, but may not work the same.
+- patch: (decoration or formalities)
+  - smaller changes
+  - name change
+
+
+you will need to manually bump the version and document any changes
+
+```
+@gf.cell
+def my_component():
+    c = gf.Component()
+
+    c.version = "0.0.2"
+    c.changelog += " # 0.0.2 increase default length to 11um "
+```
 
 ## Links
 

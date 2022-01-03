@@ -32,4 +32,4 @@ info:
   module: gdsfactory.components.version_stamp
   name: pixel_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1

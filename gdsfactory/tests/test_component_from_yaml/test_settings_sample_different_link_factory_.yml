@@ -31,11 +31,12 @@ cells:
     name: bend_euler_4725f0ef
     radius: 10
     radius_min: 7.061
-  compass_a0b38c11:
+  compass_6ffda32f:
     changed:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -43,6 +44,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -51,6 +53,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 100
@@ -58,7 +61,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a0b38c11
+    name: compass_6ffda32f
   pad_d41d8cd9:
     changed: {}
     default:
@@ -67,6 +70,7 @@ cells:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -76,6 +80,7 @@ cells:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -243,4 +248,4 @@ cells:
 info:
   name: sample_path_length_matching
 ports: {}
-version: 1
+version: 0.0.1
