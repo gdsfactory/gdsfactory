@@ -37,10 +37,9 @@ def get_simulation(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
-    res: int = 20,
     t_clad_top: float = 3.0,
     t_clad_bot: float = 3.0,
-    tpml: float = 1.0,
+    tpml: float = 1.5,
     clad_material: str = "SiO2",
     is_3d: bool = False,
     wl_min: float = 1.5,
@@ -52,8 +51,9 @@ def get_simulation(
     port_margin: float = 3,
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
-    port_field_monitor_offset: float = 0,
-    **kwargs,
+    port_monitor_offset: float = 0,
+    res: Optional[int] = 0,  # prevous resolution parameter, now handled by **settings
+    **settings,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
 
@@ -66,7 +66,6 @@ def get_simulation(
         component: gf.Component
         extend_ports_function: to extend ports beyond the PML
         layer_to_thickness: Dict of layer number (int, int) to thickness (um)
-        res: resolution (pixels/um) For example: (10: 100nm step size)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
@@ -80,8 +79,8 @@ def get_simulation(
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
-        port_field_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        kwargs**: other parameters for sim.simulation object (see https://meep.readthedocs.io/en/latest/Python_User_Interface/#the-simulation-class)
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        **settings: other parameters for sim object (resolution, symmetries, etc.)
 
     Returns:
         sim: simulation object
@@ -99,6 +98,12 @@ def get_simulation(
         gf.show(cm)
 
     """
+    # Generate default resolution
+    if res != 0:  # legacy parameter
+        settings["resolution"] = res
+    elif "resolution" not in settings:  # otherwise default
+        settings["resolution"] = 20
+
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
@@ -195,21 +200,32 @@ def get_simulation(
 
     # Add source
     port = component_ref.ports[port_source_name]
-    angle = np.radians(port.orientation)
+    angle_rad = np.radians(port.orientation)
     width = port.width + 2 * port_margin
-    size_x = width * abs(np.sin(angle))
-    size_y = width * abs(np.cos(angle))
+    size_x = width * abs(np.sin(angle_rad))
+    size_y = width * abs(np.cos(angle_rad))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_z = cell_thickness - 2 * tpml if is_3d else 20
     size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
-        np.array(port.center), angle=angle, length=port_source_offset
+        np.array(port.center), angle=angle_rad, length=port_source_offset
     )
     center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
     field_monitor_port = component_ref.ports[port_field_monitor_name]
     field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
+
+    if np.isclose(port.orientation, 0):
+        direction = mp.X
+    elif np.isclose(port.orientation, 90):
+        direction = mp.Y
+    elif np.isclose(port.orientation, 180):
+        direction = mp.X
+    elif np.isclose(port.orientation, 270):
+        direction = mp.Y
+    else:
+        ValueError("Port angle is not 0, 90, 180, or 270 degrees!")
 
     sources = [
         mp.EigenModeSource(
@@ -219,27 +235,28 @@ def get_simulation(
             eig_band=1,
             eig_parity=mp.NO_PARITY if is_3d else mp.EVEN_Y + mp.ODD_Z,
             eig_match_freq=True,
-            direction=mp.AUTOMATIC,
+            eig_kpoint=-1 * mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad),
+            direction=direction,
         )
     ]
 
     sim = mp.Simulation(
-        resolution=res,
         cell_size=cell_size,
         boundary_layers=[mp.PML(tpml)],
         sources=sources,
         geometry=geometry,
         default_material=get_material(name=clad_material),
+        **settings,
     )
 
     # Add port monitors dict
     monitors = {}
     for port_name in component_ref.ports.keys():
         port = component_ref.ports[port_name]
-        angle = np.radians(port.orientation)
+        angle_rad = np.radians(port.orientation)
         width = port.width + 2 * port_margin
-        size_x = width * abs(np.sin(angle))
-        size_y = width * abs(np.cos(angle))
+        size_x = width * abs(np.sin(angle_rad))
+        size_y = width * abs(np.cos(angle_rad))
         size_x = 0 if size_x < 0.001 else size_x
         size_y = 0 if size_y < 0.001 else size_y
         size = mp.Vector3(size_x, size_y, size_z)
@@ -249,10 +266,10 @@ def get_simulation(
         length = (
             -distance_source_to_monitors + port_source_offset
             if port_name == port_source_name
-            else port_field_monitor_offset
+            else port_monitor_offset
         )
         xy_shifted = move_polar_rad_copy(
-            np.array(port.center), angle=angle, length=length
+            np.array(port.center), angle=angle_rad, length=length
         )
         center = xy_shifted.tolist() + [0]  # (x, y, z=0)
         m = sim.add_mode_monitor(freqs, mp.ModeRegion(center=center, size=size))
@@ -292,6 +309,9 @@ if __name__ == "__main__":
         # port_margin=2.5,
     )
     sim = sim_dict["sim"]
+
+    print(sim.resolution)
+
     sim.init_sim()
 
     # sim.plot3D()
