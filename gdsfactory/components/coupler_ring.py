@@ -21,6 +21,7 @@ def coupler_ring(
     bend: Optional[ComponentFactory] = None,
     coupler_straight: ComponentFactory = coupler_straight_function,
     cross_section: CrossSectionFactory = strip,
+    bend_cross_section: Optional[CrossSectionFactory] = None,
     **kwargs
 ) -> Component:
     r"""Coupler for ring.
@@ -54,7 +55,12 @@ def coupler_ring(
     # define subcells
     coupler90_component = (
         coupler90(
-            gap=gap, radius=radius, bend=bend, cross_section=cross_section, **kwargs
+            gap=gap,
+            radius=radius,
+            bend=bend,
+            cross_section=cross_section,
+            bend_cross_section=bend_cross_section,
+            **kwargs
         )
         if callable(coupler90)
         else coupler90

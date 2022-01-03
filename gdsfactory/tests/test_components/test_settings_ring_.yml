@@ -40,4 +40,4 @@ info:
   module: gdsfactory.components.ring
   name: ring_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1

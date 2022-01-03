@@ -108,4 +108,4 @@ ports:
     orientation: 0
     port_type: electrical
     width: 10
-version: 1
+version: 0.0.1

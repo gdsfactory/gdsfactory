@@ -4,7 +4,7 @@ from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Optional
 
 
 @gf.cell
@@ -13,6 +13,7 @@ def coupler90(
     radius: float = 10.0,
     bend: ComponentFactory = bend_euler,
     cross_section: CrossSectionFactory = strip,
+    bend_cross_section: Optional[CrossSectionFactory] = None,
     **kwargs
 ) -> Component:
     r"""straight coupled to a bend.
@@ -37,9 +38,10 @@ def coupler90(
     """
     c = Component()
     x = cross_section(radius=radius, **kwargs)
+    bend_cross_section = bend_cross_section or cross_section
 
     bend90 = (
-        bend(cross_section=cross_section, radius=radius, **kwargs)
+        bend(cross_section=bend_cross_section, radius=radius, **kwargs)
         if callable(bend)
         else bend
     )

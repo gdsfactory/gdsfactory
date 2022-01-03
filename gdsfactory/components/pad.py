@@ -14,18 +14,19 @@ def pad(
     layer: Layer = LAYER.M3,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     cladding_offsets: Optional[Tuple[float, ...]] = None,
+    port_inclusion: float = 0,
 ) -> Component:
     """Rectangular pad with 4 ports (1, 2, 3, 4)
 
     Args:
-        width: pad width
-        height: pad height
+        size:
         layer: pad layer
         layers_cladding:
         cladding_offsets:
+        port_inclusion: from edge
     """
     c = Component()
-    rect = compass(size=size, layer=layer)
+    rect = compass(size=size, layer=layer, port_inclusion=port_inclusion)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
     c.info.size = (float(size[0]), float(size[1]))

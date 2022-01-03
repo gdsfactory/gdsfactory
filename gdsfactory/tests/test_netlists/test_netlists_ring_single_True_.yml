@@ -35,6 +35,7 @@ instances:
     settings:
       bend:
         function: bend_euler
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:

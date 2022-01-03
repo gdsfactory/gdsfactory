@@ -39,6 +39,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -47,6 +48,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 22
@@ -241,4 +243,4 @@ info:
   module: gdsfactory.components.pad_gsg
   name: pad_gsg_short_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1
