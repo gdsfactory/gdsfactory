@@ -259,6 +259,9 @@ cells:
           layer:
           - 43
           - 0
+      contact_offset:
+      - 0
+      - 0
       coupler_ring:
         function: coupler_ring
       cross_section:
@@ -268,6 +271,7 @@ cells:
       gap: 0.2
       length_x: 4
       length_y: 0.6
+      port_orientation: 90
       radius: 10
       straight:
         function: straight
@@ -296,6 +300,9 @@ cells:
           layer:
           - 43
           - 0
+      contact_offset:
+      - 0
+      - 0
       coupler_ring:
         function: coupler_ring
       cross_section:
@@ -305,6 +312,7 @@ cells:
       gap: 0.2
       length_x: 4
       length_y: 0.6
+      port_orientation: 90
       radius: 10
       straight:
         function: straight
@@ -385,6 +393,9 @@ info:
         layer:
         - 43
         - 0
+    contact_offset:
+    - 0
+    - 0
     coupler_ring:
       function: coupler_ring
     cross_section:
@@ -394,6 +405,7 @@ info:
     gap: 0.2
     length_x: 4
     length_y: 0.6
+    port_orientation: 90
     radius: 10
     straight:
       function: straight
@@ -422,6 +434,9 @@ info:
         layer:
         - 43
         - 0
+    contact_offset:
+    - 0
+    - 0
     coupler_ring:
       function: coupler_ring
     cross_section:
@@ -431,6 +446,7 @@ info:
     gap: 0.2
     length_x: 4
     length_y: 0.6
+    port_orientation: 90
     radius: 10
     straight:
       function: straight
@@ -444,10 +460,10 @@ ports:
     - 49
     - 0
     midpoint:
-    - -8
-    - 0
+    - -6
+    - 2
     name: e1
-    orientation: 180
+    orientation: 90
     port_type: electrical
     width: 4
   e2:
@@ -455,76 +471,10 @@ ports:
     - 49
     - 0
     midpoint:
-    - 0
-    - 0
+    - 2
+    - 2
     name: e2
-    orientation: 180
-    port_type: electrical
-    width: 4
-  e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -6
-    - 2
-    name: e3
     orientation: 90
-    port_type: electrical
-    width: 4
-  e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 2
-    - 2
-    name: e4
-    orientation: 90
-    port_type: electrical
-    width: 4
-  e5:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -4
-    - 0
-    name: e5
-    orientation: 0
-    port_type: electrical
-    width: 4
-  e6:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 4
-    - 0
-    name: e6
-    orientation: 0
-    port_type: electrical
-    width: 4
-  e7:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 2
-    - -2
-    name: e7
-    orientation: 270
-    port_type: electrical
-    width: 4
-  e8:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -6
-    - -2
-    name: e8
-    orientation: 270
     port_type: electrical
     width: 4
   o1:

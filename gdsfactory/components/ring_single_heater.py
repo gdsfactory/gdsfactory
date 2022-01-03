@@ -3,6 +3,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight as _straight
+from gdsfactory.types import ComponentFactory, CrossSectionFactory, Float2
 
 contact_heater_m3_mini = gf.partial(contact_heater_m3, size=(4, 4))
 
@@ -13,12 +14,14 @@ def ring_single_heater(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: gf.types.ComponentFactory = _coupler_ring,
-    straight: gf.types.ComponentFactory = _straight,
-    bend: gf.types.ComponentFactory = bend_euler,
-    cross_section_heater: gf.types.CrossSectionFactory = gf.cross_section.strip_heater_metal,
-    cross_section: gf.types.CrossSectionFactory = gf.cross_section.strip,
-    contact: gf.types.ComponentFactory = contact_heater_m3_mini,
+    coupler_ring: ComponentFactory = _coupler_ring,
+    straight: ComponentFactory = _straight,
+    bend: ComponentFactory = bend_euler,
+    cross_section_heater: CrossSectionFactory = gf.cross_section.strip_heater_metal,
+    cross_section: CrossSectionFactory = gf.cross_section.strip,
+    contact: ComponentFactory = contact_heater_m3_mini,
+    port_orientation: int = 90,
+    contact_offset: Float2 = (0, 0),
     **kwargs
 ) -> gf.Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -37,6 +40,7 @@ def ring_single_heater(
         cross_section_heater:
         cross_section:
         contact:
+        port_orientation: for electrical ports to promote from contact
         kwargs: cross_section settings
 
 
@@ -95,10 +99,12 @@ def ring_single_heater(
 
     c1 = c << contact()
     c2 = c << contact()
-    c1.xmax = -length_x / 2 + cb.x
-    c2.xmin = +length_x / 2 + cb.x
-    c.add_ports(c1.ports, prefix="e1")
-    c.add_ports(c2.ports, prefix="e2")
+    c1.xmax = -length_x / 2 + cb.x - contact_offset[0]
+    c2.xmin = +length_x / 2 + cb.x + contact_offset[0]
+    c1.movey(contact_offset[1])
+    c2.movey(contact_offset[1])
+    c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
+    c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()
     return c
 
