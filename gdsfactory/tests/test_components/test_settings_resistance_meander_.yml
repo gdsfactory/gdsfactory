@@ -72,4 +72,4 @@ info:
   module: gdsfactory.components.resistance_meander
   name: resistance_meander_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1

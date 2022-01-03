@@ -17,6 +17,12 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.14
+
+- fix seal_ring snap_to_grid to 2nm
+- add Component.version and Component.changelog
+- Component.to_dict() exports version
+
 ## 3.9.13
 
 - fix seal_ring snap_to_grid to 2nm
