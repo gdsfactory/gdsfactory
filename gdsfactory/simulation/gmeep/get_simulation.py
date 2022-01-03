@@ -37,7 +37,6 @@ def get_simulation(
     component: Component,
     extend_ports_length: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
-    res: int = 20,
     t_clad_top: float = 3.0,
     t_clad_bot: float = 3.0,
     tpml: float = 1.5,
@@ -53,6 +52,8 @@ def get_simulation(
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
     port_monitor_offset: float = 0,
+    res: Optional[int] = 0,  # prevous resolution parameter, now handled by **settings
+    **settings,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
 
@@ -65,7 +66,6 @@ def get_simulation(
         component: gf.Component
         extend_ports_function: to extend ports beyond the PML
         layer_to_thickness: Dict of layer number (int, int) to thickness (um)
-        res: resolution (pixels/um) For example: (10: 100nm step size)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
@@ -80,6 +80,7 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        **settings: other parameters for sim object (resolution, symmetries, etc.)
 
     Returns:
         sim: simulation object
@@ -97,6 +98,12 @@ def get_simulation(
         gf.show(cm)
 
     """
+    # Generate default resolution
+    if res != 0:  # legacy parameter
+        settings["resolution"] = res
+    elif "resolution" not in settings:  # otherwise default
+        settings["resolution"] = 20
+
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
@@ -234,12 +241,12 @@ def get_simulation(
     ]
 
     sim = mp.Simulation(
-        resolution=res,
         cell_size=cell_size,
         boundary_layers=[mp.PML(tpml)],
         sources=sources,
         geometry=geometry,
         default_material=get_material(name=clad_material),
+        **settings,
     )
 
     # Add port monitors dict
@@ -302,6 +309,9 @@ if __name__ == "__main__":
         # port_margin=2.5,
     )
     sim = sim_dict["sim"]
+
+    print(sim.resolution)
+
     sim.init_sim()
 
     # sim.plot3D()
