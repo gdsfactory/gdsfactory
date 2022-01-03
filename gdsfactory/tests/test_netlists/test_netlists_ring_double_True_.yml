@@ -8,6 +8,7 @@ instances:
     component: coupler_ring
     settings:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
@@ -21,6 +22,7 @@ instances:
     component: coupler_ring
     settings:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:

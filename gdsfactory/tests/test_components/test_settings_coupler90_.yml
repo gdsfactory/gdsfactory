@@ -4,6 +4,7 @@ cells:
     default:
       bend:
         function: bend_euler
+      bend_cross_section: null
       cross_section:
         function: cross_section
       gap: 0.2
@@ -11,6 +12,7 @@ cells:
     full:
       bend:
         function: bend_euler
+      bend_cross_section: null
       cross_section:
         function: cross_section
       gap: 0.2
@@ -24,6 +26,7 @@ info:
   default:
     bend:
       function: bend_euler
+    bend_cross_section: null
     cross_section:
       function: cross_section
     gap: 0.2
@@ -31,6 +34,7 @@ info:
   full:
     bend:
       function: bend_euler
+    bend_cross_section: null
     cross_section:
       function: cross_section
     gap: 0.2
