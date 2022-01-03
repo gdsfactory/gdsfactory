@@ -109,6 +109,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -117,6 +118,7 @@ cells:
       layer:
       - 47
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -137,6 +139,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -145,6 +148,7 @@ cells:
       layer:
       - 45
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -165,6 +169,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -173,6 +178,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -991,4 +997,4 @@ ports:
     orientation: 0
     port_type: optical
     width: 0.5
-version: 1
+version: 0.0.1

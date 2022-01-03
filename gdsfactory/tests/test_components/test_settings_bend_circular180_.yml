@@ -66,4 +66,4 @@ ports:
     orientation: 180
     port_type: optical
     width: 0.5
-version: 1
+version: 0.0.1

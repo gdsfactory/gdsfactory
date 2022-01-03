@@ -11,6 +11,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -19,6 +20,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 10
@@ -39,6 +41,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -47,6 +50,7 @@ cells:
       layer:
       - 45
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 10
@@ -67,6 +71,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -75,6 +80,7 @@ cells:
       layer:
       - 41
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 1340
@@ -95,6 +101,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -103,6 +110,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 1340
@@ -123,6 +131,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -131,6 +140,7 @@ cells:
       layer:
       - 41
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 10
@@ -151,6 +161,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -159,6 +170,7 @@ cells:
       layer:
       - 45
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 1340
@@ -354,4 +366,4 @@ info:
   module: gdsfactory.components.seal_ring
   name: seal_ring_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1

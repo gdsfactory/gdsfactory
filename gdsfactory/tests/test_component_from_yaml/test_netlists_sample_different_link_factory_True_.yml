@@ -172,6 +172,7 @@ instances:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -183,6 +184,7 @@ instances:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -284,6 +286,7 @@ instances:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -295,6 +298,7 @@ instances:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
