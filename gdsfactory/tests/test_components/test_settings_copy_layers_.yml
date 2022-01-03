@@ -254,4 +254,4 @@ info:
   module: gdsfactory.components.copy_layers
   name: cross_0d76638b_copy_lay_1c385586
 ports: {}
-version: 1
+version: 0.0.1

@@ -1248,7 +1248,7 @@ class Component(Device):
         d.ports = ports
         d.info = self.info
         d.cells = cells
-        d.version = 1
+        d.version = self.version
         d.info.name = self.name
         return d
 

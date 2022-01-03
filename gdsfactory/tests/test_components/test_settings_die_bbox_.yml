@@ -182,4 +182,4 @@ info:
   module: gdsfactory.components.die_bbox
   name: rectangle_6df08d23_die__93f9a7c5
 ports: {}
-version: 1
+version: 0.0.1

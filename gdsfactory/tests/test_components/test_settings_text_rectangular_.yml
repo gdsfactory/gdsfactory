@@ -60,4 +60,4 @@ info:
   module: gdsfactory.components.text_rectangular
   name: text_rectangular_d41d8cd9
 ports: {}
-version: 1
+version: 0.0.1
