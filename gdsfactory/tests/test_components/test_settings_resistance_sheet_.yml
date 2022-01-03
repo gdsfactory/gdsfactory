@@ -11,6 +11,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -19,6 +20,7 @@ cells:
       layer:
       - 3
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 80
@@ -39,6 +41,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -47,6 +50,7 @@ cells:
       layer:
       - 3
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 20
@@ -67,6 +71,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -75,6 +80,7 @@ cells:
       layer:
       - 41
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 80
@@ -95,6 +101,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -103,6 +110,7 @@ cells:
       layer:
       - 24
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 80
@@ -123,6 +131,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -131,6 +140,7 @@ cells:
       layer:
       - 24
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 20.4
