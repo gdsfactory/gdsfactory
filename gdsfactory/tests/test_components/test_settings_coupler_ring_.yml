@@ -3,6 +3,7 @@ cells:
     changed: {}
     default:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
@@ -14,6 +15,7 @@ cells:
       radius: 5
     full:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
@@ -31,6 +33,7 @@ info:
   changed: {}
   default:
     bend: null
+    bend_cross_section: null
     coupler90:
       function: coupler90
     coupler_straight:
@@ -42,6 +45,7 @@ info:
     radius: 5
   full:
     bend: null
+    bend_cross_section: null
     coupler90:
       function: coupler90
     coupler_straight:

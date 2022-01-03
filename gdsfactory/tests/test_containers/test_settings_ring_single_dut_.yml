@@ -269,6 +269,7 @@ cells:
       radius: 5
     default:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
@@ -280,6 +281,7 @@ cells:
       radius: 5
     full:
       bend: null
+      bend_cross_section: null
       coupler90:
         function: coupler90
       coupler_straight:
