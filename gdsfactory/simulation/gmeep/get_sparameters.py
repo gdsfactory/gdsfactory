@@ -132,10 +132,8 @@ def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
     sim = sim_dict["sim"]
     monitors = sim_dict["monitors"]
 
-    # Obtain port direction
+    # Direction of port (pointing away from the simulation)
     angle_rad = np.radians(ports["o{}".format(port_index)].orientation)
-
-    # angle faces *out* of the simulation from the port, which is default behaviour
     kpoint = mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad)
 
     # Get port coeffs
@@ -143,24 +141,40 @@ def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
         monitors["o{}".format(port_index)], [1], kpoint_func=lambda f, n: kpoint
     )
 
+    # Get port logical orientation
+    # kdom = monitor_coeff.kdom[0] # Pick one wavelength, assume behaviour similar across others
+
     # get_eigenmode_coeff.alpha[:,:,idx] with ind being the forward or backward wave according to cell coordinates.
     # Figure out if that is exiting the simulation or not depending on the port orientation (assuming it's near PMLs)
-    if (
-        ports["o{}".format(port_index)].orientation == 0
-        or ports["o{}".format(port_index)].orientation == 270
-    ):
-        idx = 1
-    elif (
-        ports["o{}".format(port_index)].orientation == 90
-        or ports["o{}".format(port_index)].orientation == 180
-    ):
-        idx = 0
+    if ports["o{}".format(port_index)].orientation == 0:  # east
+        idx_in = 1
+        idx_out = 0
+    elif ports["o{}".format(port_index)].orientation == 90:  # north
+        idx_in = 1
+        idx_out = 0
+    elif ports["o{}".format(port_index)].orientation == 180:  # west
+        idx_in = 0
+        idx_out = 1
+    elif ports["o{}".format(port_index)].orientation == 270:  # south
+        idx_in = 0
+        idx_out = 1
     else:
-        ValueError("Port angle is not 0, 90, 180, or 270 degrees!")
-    coeff_entering = monitor_coeff.alpha[0, :, idx]
-    coeff_exiting = monitor_coeff.alpha[0, :, 1 - idx]
+        ValueError("Port orientation is not 0, 90, 180, or 270 degrees!")
 
-    return coeff_entering, coeff_exiting
+    # # Adjust according to whatever the monitor decided was positive
+    # idx_out = 1 - (kdom*kpoint > 0) # if true 1 - 1, outgoing wave is the forward (0) wave
+    # idx_in = 1 - idx_out
+    # print('monitor_n = ', port_index)
+    # print('kangle = ', kpoint)
+    # print('kdom = ', kdom)
+    # print('kdom*kpoint', kdom*kpoint)
+    # print('idx (outgoing wave) = ', idx_out)
+    # print('idx (ingoing wave) = ', idx_in)
+
+    coeff_in = monitor_coeff.alpha[0, :, idx_in]  # ingoing wave
+    coeff_out = monitor_coeff.alpha[0, :, idx_out]  # outgoing wave
+
+    return coeff_in, coeff_out
 
 
 @pydantic.validate_arguments
@@ -290,24 +304,32 @@ def get_sparametersNxN(
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             Sparams_indices[n], component_ref.ports, sim_dict
         )
-        source_fields = np.squeeze(source_entering)
         # Get coefficients
         for monitor_index in Sparams_indices:
             if monitor_index == Sparams_indices[n]:
-                sii = source_exiting / source_fields
+                sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
+                # Sparams_dict["sourceExiting{}{}".format(Sparams_indices[n], monitor_index)] = source_exiting
+                # Sparams_dict["sourceEntering{}{}".format(Sparams_indices[n], monitor_index)] = source_entering
                 Sparams_dict["s{}{}a".format(Sparams_indices[n], monitor_index)] = siia
                 Sparams_dict["s{}{}m".format(Sparams_indices[n], monitor_index)] = siim
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
                 )
-                sij = monitor_exiting / source_fields
+                sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
+                # Sparams_dict["monitorExiting{}{}".format(Sparams_indices[n], monitor_index)] = monitor_exiting
+                # Sparams_dict["monitorEntering{}{}".format(Sparams_indices[n], monitor_index)] = monitor_entering
                 Sparams_dict["s{}{}a".format(Sparams_indices[n], monitor_index)] = sija
                 Sparams_dict["s{}{}m".format(Sparams_indices[n], monitor_index)] = sijm
+                sij = monitor_entering / source_entering
+                sija = np.unwrap(np.angle(sij))
+                sijm = np.abs(sij)
+                # Sparams_dict["s{}{}a_enter".format(Sparams_indices[n], monitor_index)] = sija
+                # Sparams_dict["s{}{}m_enter".format(Sparams_indices[n], monitor_index)] = sijm
 
         return Sparams_dict
 
@@ -352,6 +374,7 @@ def get_sparametersNxN(
 
     else:
         for n in range(len(Sparams_indices)):
+            print("source = ", Sparams_indices[n])
             Sparams_dict.update(
                 sparameter_calculation(
                     n,
@@ -422,7 +445,7 @@ if __name__ == "__main__":
         filepath="./df_lazy_consolidated.csv",
         overwrite=True,
         animate=False,
-        lazy_parallelism=False,
+        lazy_parallelism=True,
     )
     # df.to_csv("df_lazy.csv", index=False)
     # plot_sparameters(df)
