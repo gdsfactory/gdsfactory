@@ -41,6 +41,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -49,6 +50,7 @@ cells:
       layer:
       - 47
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -69,6 +71,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -77,6 +80,7 @@ cells:
       layer:
       - 45
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -85,6 +89,37 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_280a2d8b
+  compass_6ffda32f:
+    changed:
+      layer:
+      - 49
+      - 0
+      port_inclusion: 0
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_6ffda32f
   compass_8e661824:
     changed:
       layer:
@@ -97,6 +132,7 @@ cells:
       layer:
       - 1
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 4
@@ -105,6 +141,7 @@ cells:
       layer:
       - 49
       - 0
+      port_inclusion: 0
       port_type: electrical
       size:
       - 11
@@ -113,34 +150,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_8e661824
-  compass_a0b38c11:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 100
-      - 100
-    default:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 100
-      - 100
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_a0b38c11
   component_sequence_e4dca69b:
     changed:
       sequence: -UHUHUHUHUHUHUHUH-
@@ -440,6 +449,7 @@ cells:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
@@ -449,6 +459,7 @@ cells:
       - 49
       - 0
       layers_cladding: null
+      port_inclusion: 0
       size:
       - 100
       - 100
