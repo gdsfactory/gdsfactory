@@ -163,6 +163,8 @@ For (3D rendering and STL export)
 
 Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
 
+Also for parallel execution you can install `conda install mpi4py -y`
+
 ### tidy3d
 
 For FDTD simulations on the web. Requires you to create an account on [simulation.cloud](simulation.cloud)
