@@ -32,6 +32,7 @@ MATERIAL_NAME_TO_MEEP = {
 @pydantic.validate_arguments
 def get_simulation(
     component: Component,
+    resolution: int = 20,
     extend_ports_length: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     t_clad_top: float = 3.0,
@@ -49,7 +50,6 @@ def get_simulation(
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
     port_monitor_offset: float = 0,
-    res: Optional[int] = 0,  # prevous resolution parameter, now handled by **settings
     **settings,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
@@ -61,6 +61,7 @@ def get_simulation(
 
     Args:
         component: gf.Component
+        resolution: in pixels/um (20: for coarse, 120: for fine)
         extend_ports_function: to extend ports beyond the PML
         layer_to_thickness: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
@@ -97,11 +98,6 @@ def get_simulation(
         gf.show(cm)
 
     """
-    # Generate default resolution
-    if res != 0:  # legacy parameter
-        settings["resolution"] = res
-    elif "resolution" not in settings:  # otherwise default
-        settings["resolution"] = 20
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
@@ -245,6 +241,7 @@ def get_simulation(
         sources=sources,
         geometry=geometry,
         default_material=get_material(name=clad_material),
+        resolution=resolution,
         **settings,
     )
 
@@ -302,19 +299,15 @@ if __name__ == "__main__":
     sim_dict = get_simulation(
         c2,
         is_3d=True,
-        res=50,
+        resolution=50,
         # port_source_offset=-0.1,
         # port_field_monitor_offset=-0.1,
         # port_margin=2.5,
     )
     sim = sim_dict["sim"]
-
-    print(sim.resolution)
-
     sim.init_sim()
 
     # sim.plot3D()
-
     # sim.plot2D()  # plot top view (is_3D needs to be False)
     # Plot monitor cross-section (is_3D needs to be True)
     from gdsfactory.simulation.gmeep.plot_xsection import plot_xsection
