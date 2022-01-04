@@ -1,4 +1,8 @@
-"""Compute and write Sparameters using Meep."""
+"""Compute and write Sparameters using Meep.
+
+Synchronize dicts
+from https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
+"""
 
 import pathlib
 import re
@@ -53,10 +57,11 @@ def get_sparameters1x1(
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
         suffix=".csv",
+        **settings,
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
-        logger.info(f"Simulation loaded from file: {filepath}")
+        logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
 
     sim_dict = get_simulation(
@@ -185,7 +190,6 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
 @pydantic.validate_arguments
 def get_sparametersNxN(
     component: Component,
-    res: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
     wl_steps: int = 50,
@@ -216,6 +220,7 @@ def get_sparametersNxN(
             perform the simulations with different sources in parallel
 
     keyword Args:
+        resolution: in pixels/um (20: for coarse, 120: for fine)
         extend_ports_function: to extend ports beyond the PML
         layer_to_thickness: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
@@ -242,11 +247,15 @@ def get_sparametersNxN(
         dirpath=dirpath,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
+        wl_min=wl_min,
+        wl_max=wl_max,
+        wl_steps=wl_steps,
         suffix=".csv",
+        **settings,
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
-        logger.info(f"Simulation loaded from file: {filepath}")
+        logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
 
     # Parse ports
@@ -322,10 +331,10 @@ def get_sparametersNxN(
         else:
             sim.run(until_after_sources=termination)
         # call this function every 50 time spes
-        # look at simulation and measure component that we want to measure (Ez component)
+        # look at simulation and measure Ez component
         # when field_monitor_point decays below a certain 1e-9 field threshold
 
-        # # Calculate mode overlaps
+        # Calculate mode overlaps
         # Get source monitor results
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             Sparams_indices[n], component_ref.ports, sim_dict
@@ -384,7 +393,6 @@ def get_sparametersNxN(
             **settings,
         )
         # Synchronize dicts
-        # From https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
         if rank == 0:
             for i in range(1, size, 1):
                 data = comm.recv(source=i, tag=11)
@@ -416,6 +424,7 @@ def get_sparametersNxN(
         df = pd.DataFrame(Sparams_dict)
         df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
         df["freqs"] = 1 / df["wavelengths"]
+        logger.info(f"Write simulation results to {filepath!r}")
         df.to_csv(filepath, index=False)
         return df
 
