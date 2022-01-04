@@ -37,10 +37,10 @@ def plot_sparameters(
     df = component_or_df() if callable(component_or_df) else component_or_df
     if isinstance(df, Component):
         df = write_sparameters_function(component=df, dirpath=dirpath, **sim_settings)
-    w = df["wavelength_nm"]
+    w = df["wavelengths"] * 1e3
 
     keys = keys or [
-        key for key in df.keys() if key.startswith("S") and key.endswith("m")
+        key for key in df.keys() if key.startswith("s") and key.endswith("m")
     ]
 
     for key in keys:
@@ -52,7 +52,7 @@ def plot_sparameters(
             raise ValueError(f"{key} not in {df.keys()}")
     plt.legend()
     plt.xlabel("wavelength (nm)")
-    plt.ylabel("Transmission (dB)") if logscale else plt.ylabel("Transmission")
+    plt.ylabel("|S| (dB)") if logscale else plt.ylabel("|S|")
 
 
 def plot_imbalance2x2(df: DataFrame, port1: str = "S13m", port2: str = "S14m") -> None:
