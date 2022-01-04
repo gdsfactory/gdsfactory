@@ -13,7 +13,7 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG
+from gdsfactory.config import CONFIG, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.simulation.gmeep.get_simulation import (
     LAYER_TO_MATERIAL,
@@ -52,10 +52,11 @@ def get_sparameters1x1(
         dirpath=dirpath,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
+        suffix=".csv",
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
-        print(f"Simulation loaded from file: {filepath}")
+        logger.info(f"Simulation loaded from file: {filepath}")
         return pd.read_csv(filepath)
 
     sim_dict = get_simulation(
@@ -119,9 +120,9 @@ def get_sparameters1x1(
     return df
 
 
-def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
-    """
-    Given a port and eigenmode coefficient result, returns the coefficients relative to whether the wavevector is entering or exiting simulation
+def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
+    """Given a port and eigenmode coefficient result, returns the coefficients
+    relative to whether the wavevector is entering or exiting simulation
 
     Args:
         port_index: index of port
@@ -133,12 +134,12 @@ def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
     monitors = sim_dict["monitors"]
 
     # Direction of port (pointing away from the simulation)
-    angle_rad = np.radians(ports["o{}".format(port_index)].orientation)
+    angle_rad = np.radians(ports[f"o{port_index}"].orientation)
     kpoint = mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad)
 
     # Get port coeffs
     monitor_coeff = sim.get_eigenmode_coefficients(
-        monitors["o{}".format(port_index)], [1], kpoint_func=lambda f, n: kpoint
+        monitors[f"o{port_index}"], [1], kpoint_func=lambda f, n: kpoint
     )
 
     # Get port logical orientation
@@ -146,16 +147,16 @@ def parse_port_eigenmode_coeff(port_index, ports, sim_dict):
 
     # get_eigenmode_coeff.alpha[:,:,idx] with ind being the forward or backward wave according to cell coordinates.
     # Figure out if that is exiting the simulation or not depending on the port orientation (assuming it's near PMLs)
-    if ports["o{}".format(port_index)].orientation == 0:  # east
+    if ports[f"o{port_index}"].orientation == 0:  # east
         idx_in = 1
         idx_out = 0
-    elif ports["o{}".format(port_index)].orientation == 90:  # north
+    elif ports[f"o{port_index}"].orientation == 90:  # north
         idx_in = 1
         idx_out = 0
-    elif ports["o{}".format(port_index)].orientation == 180:  # west
+    elif ports[f"o{port_index}"].orientation == 180:  # west
         idx_in = 0
         idx_out = 1
-    elif ports["o{}".format(port_index)].orientation == 270:  # south
+    elif ports[f"o{port_index}"].orientation == 270:  # south
         idx_in = 0
         idx_out = 1
     else:
@@ -199,7 +200,7 @@ def get_sparametersNxN(
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
     Repeats the simulation, each time using a different port in (by default, all of them)
-    TODO : user can provide list of port name tuples whose results to merge (e.g. symmetric ports)
+    TODO: user can provide list of port name tuples whose results to merge (e.g. symmetric ports)
 
     Args:
         component: to simulate.
@@ -209,9 +210,28 @@ def get_sparametersNxN(
         layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
         filepath: to store pandas Dataframe with Sparameters in CSV format
         overwrite: overwrites
-        animate: saves a MP4 images of the simulation for inspection, and also outputs during computation. The name of the file is the source index
-        lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to perform the simulations with different sources in parallel
-        **settings: sim settings
+        animate: saves a MP4 images of the simulation for inspection, and also
+            outputs during computation. The name of the file is the source index
+        lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
+            perform the simulations with different sources in parallel
+
+    keyword Args:
+        extend_ports_function: to extend ports beyond the PML
+        layer_to_thickness: Dict of layer number (int, int) to thickness (um)
+        t_clad_top: thickness for cladding above core
+        t_clad_bot: thickness for cladding below core
+        tpml: PML thickness (um)
+        clad_material: material for cladding
+        is_3d: if True runs in 3D
+        wavelengths: iterable of wavelengths to simulate
+        dfcen: delta frequency
+        sidewall_angle: in degrees
+        port_source_name: input port name
+        port_field_monitor_name:
+        port_margin: margin on each side of the port
+        distance_source_to_monitors: in (um) source goes before
+        port_source_offset: offset between source GDS port and source MEEP port
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
 
     Returns:
         sparameters in a pandas Dataframe
@@ -222,10 +242,11 @@ def get_sparametersNxN(
         dirpath=dirpath,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
+        suffix=".csv",
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
-        print(f"Simulation loaded from file: {filepath}")
+        logger.info(f"Simulation loaded from file: {filepath}")
         return pd.read_csv(filepath)
 
     # Parse ports
@@ -254,7 +275,7 @@ def get_sparametersNxN(
 
         sim_dict = get_simulation(
             component=component,
-            port_source_name="o{}".format(Sparams_indices[n]),
+            port_source_name=f"o{Sparams_indices[n]}",
             wl_min=wl_min,
             wl_max=wl_max,
             wl_steps=wl_steps,
@@ -268,8 +289,7 @@ def get_sparametersNxN(
         monitors = sim_dict["monitors"]
         # freqs = sim_dict["freqs"]
         # wavelengths = 1 / freqs
-
-        print(sim.resolution)
+        # print(sim.resolution)
 
         # Make termination when field decayed enough across ALL monitors
         termination = []
@@ -312,14 +332,16 @@ def get_sparametersNxN(
         )
         # Get coefficients
         for monitor_index in Sparams_indices:
+            i = Sparams_indices[n]
+            j = monitor_index
             if monitor_index == Sparams_indices[n]:
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                # Sparams_dict["sourceExiting{}{}".format(Sparams_indices[n], monitor_index)] = source_exiting
-                # Sparams_dict["sourceEntering{}{}".format(Sparams_indices[n], monitor_index)] = source_entering
-                Sparams_dict["s{}{}a".format(Sparams_indices[n], monitor_index)] = siia
-                Sparams_dict["s{}{}m".format(Sparams_indices[n], monitor_index)] = siim
+                # Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
+                # Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
+                Sparams_dict[f"s{i}{j}a"] = siia
+                Sparams_dict[f"s{i}{j}m"] = siim
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
@@ -327,15 +349,15 @@ def get_sparametersNxN(
                 sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict["monitorExiting{}{}".format(Sparams_indices[n], monitor_index)] = monitor_exiting
-                # Sparams_dict["monitorEntering{}{}".format(Sparams_indices[n], monitor_index)] = monitor_entering
-                Sparams_dict["s{}{}a".format(Sparams_indices[n], monitor_index)] = sija
-                Sparams_dict["s{}{}m".format(Sparams_indices[n], monitor_index)] = sijm
+                # Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
+                # Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
+                Sparams_dict[f"s{i}{j}a"] = sija
+                Sparams_dict[f"s{i}{j}m"] = sijm
                 sij = monitor_entering / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict["s{}{}a_enter".format(Sparams_indices[n], monitor_index)] = sija
-                # Sparams_dict["s{}{}m_enter".format(Sparams_indices[n], monitor_index)] = sijm
+                # Sparams_dict[f"s{i}{j}a_enter"] = sija
+                # Sparams_dict[f"s{i}{j}m_enter"] = sijm
 
         return Sparams_dict
 
@@ -361,10 +383,8 @@ def get_sparametersNxN(
             animate=animate,
             **settings,
         )
-        """
-        Synchronize dicts
-        From https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
-        """
+        # Synchronize dicts
+        # From https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
         if rank == 0:
             for i in range(1, size, 1):
                 data = comm.recv(source=i, tag=11)
@@ -400,18 +420,6 @@ def get_sparametersNxN(
         return df
 
 
-def plot_sparameters(df: pd.DataFrame, **settings) -> None:
-    """Plot Sparameters from a Pandas DataFrame."""
-    wavelengths = df["wavelengths"]
-    for key in df.keys():
-        if key.endswith("m"):
-            plt.plot(wavelengths, df[key], "-o", label=key, **settings)
-    plt.ylabel("Power (dB)")
-    plt.xlabel(r"Wavelength ($\mu$m)")
-    plt.legend()
-    plt.grid(True)
-
-
 if __name__ == "__main__":
 
     # c = gf.components.bend_circular(radius=2)
@@ -435,8 +443,12 @@ if __name__ == "__main__":
 
     # c = gf.components.coupler_full(length=20, gap=0.2, dw=0)
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
+    # c = gf.components.crossing()
 
-    c = gf.components.crossing()
+    c = gf.c.straight(length=1)
+    p = 3
+    c = gf.add_padding_container(c, default=0, top=p, bottom=p)
+    c.show()
 
     # sim_dict = get_simulation(c, is_3d=False)
     # df = get_sparameters1x1(c, overwrite=True)
@@ -447,12 +459,12 @@ if __name__ == "__main__":
     # df = get_sparametersNxN(c, filepath='./df_lazy_consolidated.csv', overwrite=True, animate=False, lazy_parallelism=True)
     df = get_sparametersNxN(
         c,
-        filepath="./df_lazy_consolidated.csv",
-        overwrite=True,
-        animate=True,
-        lazy_parallelism=True,
-        resolution=120,
+        # filepath="./df_lazy_consolidated.csv",
+        # overwrite=True,
+        # animate=True,
+        # lazy_parallelism=True,
+        # resolution=120,
     )
     # df.to_csv("df_lazy.csv", index=False)
-    # plot_sparameters(df)
-    # plt.show()
+    gf.simulation.plot.plot_sparameters(df)
+    plt.show()

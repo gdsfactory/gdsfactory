@@ -1,6 +1,4 @@
 """Returns simulation from component
-
-FIXME, zmin_um does not work
 """
 import warnings
 from typing import Any, Dict, Optional
@@ -21,7 +19,6 @@ mp.verbosity(0)
 
 LAYER_TO_THICKNESS = {(1, 0): 220e-3}
 LAYER_TO_MATERIAL = {(1, 0): "Si"}
-LAYER_TO_ZMIN = {(1, 0): "Si"}
 LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
 
 
@@ -80,7 +77,9 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        **settings: other parameters for sim object (resolution, symmetries, etc.)
+
+    Keyword Args:
+        settings: other parameters for sim object (resolution, symmetries, etc.)
 
     Returns:
         sim: simulation object
@@ -225,7 +224,7 @@ def get_simulation(
     elif np.isclose(port.orientation, 270):
         direction = mp.Y
     else:
-        ValueError("Port angle is not 0, 90, 180, or 270 degrees!")
+        ValueError(f"Port angle {port.orientation} not 0, 90, 180, or 270 degrees!")
 
     sources = [
         mp.EigenModeSource(

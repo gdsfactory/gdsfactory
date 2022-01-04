@@ -43,6 +43,7 @@ Anchor = Literal[
     "center",
     "cc",
 ]
+SimulationSuffix = Literal[".dat", ".csv"]
 
 NSEW = Literal["N", "S", "E", "W"]
 
