@@ -23,7 +23,7 @@ def get_transmission_2ports(
     layer_monitor1: int = 101,
     layer_monitor2: int = 102,
     layer_simulation_region: int = 2,
-    res: int = 20,
+    resolution: int = 20,
     t_clad_bot: float = 1.0,
     t_core: float = 0.22,
     t_clad_top: float = 1.0,
@@ -55,7 +55,7 @@ def get_transmission_2ports(
         layer_monitor1: monitor layer for port 1
         layer_monitor2: monitor layer for port 2
         layer_simulation_region: for simulation region
-        res: resolution (pixels/um) For example: (10: 100nm step size)
+        resolution: resolution (pixels/um) For example: (10: 100nm step size)
         t_clad_bot: thickness for cladding below core
         t_core: thickness of the core material
         t_clad_top: thickness for cladding above core
@@ -139,7 +139,7 @@ def get_transmission_2ports(
     ]
 
     sim = mp.Simulation(
-        resolution=res,
+        resolution=resolution,
         cell_size=cell_size,
         boundary_layers=[mp.PML(dpml)],
         sources=sources,
@@ -147,7 +147,7 @@ def get_transmission_2ports(
         default_material=clad_material,
     )
     sim_settings = dict(
-        resolution=res,
+        resolution=resolution,
         cell_size=cell_size,
         fcen=fcen,
         field_monitor_point=field_monitor_point,
