@@ -17,6 +17,14 @@ Maybe:
     * enable routing with 180euler and Sbends
     * electrical routing with 45
 
+## 3.9.15
+
+- meep interface improvements
+    - add test Sparameters file dataframe
+- lumerical interface improvements (consitent with meep)
+    - wavelengths in um
+    - Sparameters starts with lowercase
+
 ## 3.9.14
 
 - fix seal_ring snap_to_grid to 2nm

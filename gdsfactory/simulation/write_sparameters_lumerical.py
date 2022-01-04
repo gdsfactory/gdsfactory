@@ -136,7 +136,7 @@ def write_sparameters_lumerical(
 
 
     Return:
-        Sparameters pandas DataFrame (wavelength_nm, S11m, S11a, S12a ...)
+        Sparameters pandas DataFrame (wavelengths, s11m, s11a, s12a ...)
         suffix `a` for angle in radians and `m` for module
 
     """
@@ -399,12 +399,12 @@ def write_sparameters_lumerical(
         keys = [key for key in sp.keys() if key.startswith("S")]
         ra = {f"{key}a": list(np.unwrap(np.angle(sp[key].flatten()))) for key in keys}
         rm = {f"{key}m": list(np.abs(sp[key].flatten())) for key in keys}
-        wavelength_nm = sp["lambda"].flatten() * 1e9
+        wavelengths = sp["lambda"].flatten() * 1e6
 
-        results = {"wavelength_nm": wavelength_nm}
+        results = {"wavelengths": wavelengths}
         results.update(ra)
         results.update(rm)
-        df = pd.DataFrame(results, index=wavelength_nm)
+        df = pd.DataFrame(results, index=wavelengths)
 
         end = time.time()
         df.to_csv(filepath_csv, index=False)

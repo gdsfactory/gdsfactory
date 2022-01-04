@@ -6,6 +6,7 @@ from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.name import dict2name, get_name_short
 from gdsfactory.tech import LAYER
+from gdsfactory.types import SimulationSuffix
 
 
 def get_sparameters_path(
@@ -13,6 +14,7 @@ def get_sparameters_path(
     layer_to_material: Dict[Tuple[int, int], str],
     layer_to_thickness: Dict[Tuple[int, int], int],
     dirpath: Path = CONFIG["sparameters"],
+    suffix: SimulationSuffix = ".dat",
     **kwargs,
 ) -> Path:
     """Returns Sparameters filepath.
@@ -24,6 +26,7 @@ def get_sparameters_path(
         layer_to_material: GDSlayer tuple to material alias
         layer_to_thickness: GDSlayer tuple to thickness (nm)
         dirpath:
+        suffix: .dat for interconnect
         kwargs: simulation settings
     """
     dirpath = pathlib.Path(dirpath)
@@ -39,8 +42,8 @@ def get_sparameters_path(
         if tuple(layer) in component.get_layers()
     }
     material_to_thickness.update(**kwargs)
-    suffix = get_name_short(dict2name(**material_to_thickness))
-    return dirpath / f"{component.name}_{suffix}.dat"
+    name_suffix = get_name_short(dict2name(**material_to_thickness))
+    return dirpath / f"{component.name}_{name_suffix}{suffix}"
 
 
 def test_get_sparameters_path() -> None:
