@@ -26,105 +26,6 @@ from gdsfactory.simulation.gmeep.get_simulation import (
 )
 
 
-@pydantic.validate_arguments
-def get_sparameters1x1(
-    component: Component,
-    dirpath: Path = CONFIG["sparameters"],
-    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
-    layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-    filepath: Optional[Path] = None,
-    overwrite: bool = False,
-    **settings,
-) -> pd.DataFrame:
-    """Compute Sparameters and writes them in CSV filepath.
-
-    Args:
-        component: to simulate.
-        dirpath: directory to store Sparameters
-        layer_to_thickness: GDS layer (int, int) to thickness
-        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
-        filepath: to store pandas Dataframe with Sparameters in CSV format
-        overwrite: overwrites
-        **settings: sim settings
-
-    Returns:
-        sparameters in a pandas Dataframe
-
-    """
-    filepath = filepath or get_sparameters_path(
-        component=component,
-        dirpath=dirpath,
-        layer_to_material=layer_to_material,
-        layer_to_thickness=layer_to_thickness,
-        suffix=".csv",
-        **settings,
-    )
-    filepath = pathlib.Path(filepath)
-    if filepath.exists() and not overwrite:
-        logger.info(f"Simulation loaded from {filepath!r}")
-        return pd.read_csv(filepath)
-
-    sim_dict = get_simulation(
-        component=component,
-        layer_to_thickness=layer_to_thickness,
-        layer_to_material=layer_to_material,
-        **settings,
-    )
-
-    sim = sim_dict["sim"]
-    monitors = sim_dict["monitors"]
-    freqs = sim_dict["freqs"]
-    wavelengths = 1 / freqs
-    field_monitor_point = sim_dict["field_monitor_point"]
-    port1 = sim_dict["port_source_name"]
-    port2 = set(monitors.keys()) - set([port1])
-    port2 = list(port2)[0]
-    monitor1 = monitors[port1]
-    monitor2 = monitors[port2]
-
-    sim.run(
-        until_after_sources=mp.stop_when_fields_decayed(
-            dt=50, c=mp.Ez, pt=field_monitor_point, decay_by=1e-9
-        )
-    )
-    # call this function every 50 time spes
-    # look at simulation and measure component that we want to measure (Ez component)
-    # when field_monitor_point decays below a certain 1e-9 field threshold
-
-    # Calculate mode overlaps
-    m_results = np.abs(sim.get_eigenmode_coefficients(monitor1, [1]).alpha)
-    a = m_results[:, :, 0]  # forward wave
-    source_fields = np.squeeze(a)
-    t = sim.get_eigenmode_coefficients(monitor2, [1]).alpha[0, :, 0] / source_fields
-    r = sim.get_eigenmode_coefficients(monitor1, [1]).alpha[0, :, 1] / source_fields
-
-    s11 = r
-    s12 = t
-
-    s11a = np.unwrap(np.angle(s11))
-    s12a = np.unwrap(np.angle(s12))
-    s11m = np.abs(s11)
-    s12m = np.abs(s12)
-
-    df = pd.DataFrame(
-        dict(
-            wavelengths=wavelengths,
-            freqs=freqs,
-            s11m=s11m,
-            s11a=s11a,
-            s12m=s12m,
-            s12a=s12a,
-            s22m=s11m,
-            s22a=s11a,
-            s21m=s12m,
-            s21a=s12a,
-        )
-    )
-    print(f"transmission: {t}")
-
-    return df
-
-
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
     """Given a port and eigenmode coefficient result, returns the coefficients
     relative to whether the wavevector is entering or exiting simulation
@@ -134,6 +35,12 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
         ports: component_ref.ports
         sim_dict:
     """
+    if f"o{port_index}" not in ports:
+        raise ValueError(
+            f"port = 'o{port_index}' not in {list(ports.keys())}. "
+            "You can rename ports with Component.auto_rename_ports()"
+        )
+
     # Inputs
     sim = sim_dict["sim"]
     monitors = sim_dict["monitors"]
@@ -190,16 +97,21 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
 @pydantic.validate_arguments
 def get_sparametersNxN(
     component: Component,
+    resolution: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
     wl_steps: int = 50,
     dirpath: Path = CONFIG["sparameters"],
     layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
     layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
+    port_margin: float = 2,
+    port_monitor_offset: float = -0.1,
+    port_source_offset: float = -0.1,
     filepath: Optional[Path] = None,
     overwrite: bool = False,
     animate: bool = False,
     lazy_parallelism: bool = False,
+    run: bool = True,
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
@@ -212,6 +124,9 @@ def get_sparametersNxN(
         dirpath: directory to store Sparameters
         layer_to_thickness: GDS layer (int, int) to thickness
         layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
+        port_margin: margin on each side of the port
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        port_source_offset: offset between source GDS port and source MEEP port
         filepath: to store pandas Dataframe with Sparameters in CSV format
         overwrite: overwrites
         animate: saves a MP4 images of the simulation for inspection, and also
@@ -233,23 +148,40 @@ def get_sparametersNxN(
         sidewall_angle: in degrees
         port_source_name: input port name
         port_field_monitor_name:
-        port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
-        port_source_offset: offset between source GDS port and source MEEP port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
 
     Returns:
         sparameters in a pandas Dataframe
 
     """
+    if not run:
+        sim_dict = get_simulation(
+            component=component,
+            wl_min=wl_min,
+            wl_max=wl_max,
+            wl_steps=wl_steps,
+            port_margin=port_margin,
+            port_monitor_offset=port_monitor_offset,
+            port_source_offset=port_source_offset,
+            resolution=20,
+            **settings,
+        )
+        sim_dict["sim"].plot2D()
+        plt.show()
+        return
+
     filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
+        resolution=resolution,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
         wl_min=wl_min,
         wl_max=wl_max,
         wl_steps=wl_steps,
+        port_margin=port_margin,
+        port_monitor_offset=port_monitor_offset,
+        port_source_offset=port_source_offset,
         suffix=".csv",
         **settings,
     )
@@ -272,25 +204,26 @@ def get_sparametersNxN(
     def sparameter_calculation(
         n,
         component: Component,
-        wl_min: float = 1.5,
-        wl_max: float = 1.6,
-        wl_steps: int = 50,
-        dirpath: Path = CONFIG["sparameters"],
-        layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
-        layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
-        animate: bool = False,
+        wl_min: float = wl_min,
+        wl_max: float = wl_max,
+        wl_steps: int = wl_steps,
+        dirpath: Path = dirpath,
+        layer_to_thickness: Dict[Tuple[int, int], float] = layer_to_thickness,
+        layer_to_material: Dict[Tuple[int, int], str] = layer_to_material,
+        animate: bool = animate,
         **settings,
     ) -> Dict:
 
         sim_dict = get_simulation(
             component=component,
             port_source_name=f"o{Sparams_indices[n]}",
+            resolution=resolution,
             wl_min=wl_min,
             wl_max=wl_max,
             wl_steps=wl_steps,
-            port_margin=2,
-            port_monitor_offset=-0.1,
-            port_source_offset=-0.1,
+            port_margin=port_margin,
+            port_monitor_offset=port_monitor_offset,
+            port_source_offset=port_source_offset,
             **settings,
         )
 
@@ -374,9 +307,16 @@ def get_sparametersNxN(
     # for port_index in Sparams_indices:
 
     if lazy_parallelism:
+        import multiprocessing
+
         from mpi4py import MPI
 
-        n = mp.divide_parallel_processes(len(Sparams_indices))
+        cores = min([len(Sparams_indices), multiprocessing.cpu_count()])
+        # mp.count_processors = lambda x: cores
+        # FIXME RuntimeError: meep: numgroups > count_processors
+        # Using MPI version 3.1, 1 processes
+
+        n = mp.divide_parallel_processes(cores)
         comm = MPI.COMM_WORLD
         size = comm.Get_size()
         rank = comm.Get_rank()
@@ -454,10 +394,10 @@ if __name__ == "__main__":
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
 
-    c = gf.c.straight(length=1)
+    c = gf.c.straight(length=5)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    c.show()
+    # c.show()
 
     # sim_dict = get_simulation(c, is_3d=False)
     # df = get_sparameters1x1(c, overwrite=True)
@@ -468,12 +408,16 @@ if __name__ == "__main__":
     # df = get_sparametersNxN(c, filepath='./df_lazy_consolidated.csv', overwrite=True, animate=False, lazy_parallelism=True)
     df = get_sparametersNxN(
         c,
+        port_margin=2.5,
+        # run=False,
+        overwrite=True,
+        # resolution=20
         # filepath="./df_lazy_consolidated.csv",
         # overwrite=True,
         # animate=True,
-        # lazy_parallelism=True,
+        lazy_parallelism=True,
         # resolution=120,
     )
     # df.to_csv("df_lazy.csv", index=False)
-    gf.simulation.plot.plot_sparameters(df)
+    gf.simulation.plot.plot_sparameters(df, keys=["s21m"])
     plt.show()
