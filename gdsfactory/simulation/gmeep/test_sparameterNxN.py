@@ -5,7 +5,7 @@ import gdsfactory as gf
 from gdsfactory.simulation.gmeep.get_sparameters import get_sparametersNxN
 
 
-def test_sparameterNxN_crossover_straight(dataframe_regression):
+def test_sparameterNxN_straight(dataframe_regression):
     """
     Checks that computed transmission is reasonable to see if there are issues in get_simulation + transmission analysis
     """
@@ -55,5 +55,5 @@ def test_sparameterNxN_crossing(dataframe_regression):
 
 
 if __name__ == "__main__":
-    test_sparameterNxN_crossover_straight(None)
+    test_sparameterNxN_straight(None)
     test_sparameterNxN_crossing(None)
