@@ -24,8 +24,8 @@ def test_sparameterNxN_straight():
     #     dataframe_regression.check(df)
 
 
-# def test_sparameterNxN_crossing(dataframe_regression):
-def test_sparameterNxN_crossing():
+
+def test_sparameterNxN():
     """
     Checks that get_sparameterNxN properly sources, monitors, and sweeps over the ports of all orientations
     Uses low resolution 2D simulations to run faster
@@ -56,6 +56,7 @@ def test_sparameterNxN_crossing():
     #     dataframe_regression.check(df)
 
 
+
 if __name__ == "__main__":
-    test_sparameterNxN_straight()
-    test_sparameterNxN_crossing()
+    test_sparameterNxN(None)
+
