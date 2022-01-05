@@ -25,7 +25,8 @@ RUN conda init bash
 
 RUN conda install -c conda-forge gdspy -y
 RUN conda install -c conda-forge triangle -y
-RUN conda install -c conda-forge pymeep -y
+# RUN conda install -c conda-forge pymeep -y
+RUN conda install -c conda-forge pymeep=*=mpi_mpich_*
 RUN conda install -c conda-forge mpi4py -y
 RUN pip install gdsfactory[full]
 
