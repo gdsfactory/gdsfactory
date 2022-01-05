@@ -9,7 +9,6 @@ import re
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
-import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
@@ -139,13 +138,14 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
     monitors = sim_dict["monitors"]
 
     # Direction of port (pointing away from the simulation)
-    angle_rad = np.radians(ports[f"o{port_index}"].orientation)
-    kpoint = mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad)
 
-    # Get port coeffs
-    monitor_coeff = sim.get_eigenmode_coefficients(
-        monitors[f"o{port_index}"], [1], kpoint_func=lambda f, n: kpoint
-    )
+    # angle_rad = np.radians(ports[f"o{port_index}"].orientation)
+    # kpoint = mp.Vector3(x=1).rotate(mp.Vector3(z=1), angle_rad)
+
+    # # Get port coeffs
+    # monitor_coeff = sim.get_eigenmode_coefficients(
+    #     monitors[f"o{port_index}"], [1], kpoint_func=lambda f, n: kpoint
+    # )
 
     # Get port logical orientation
     # kdom = monitor_coeff.kdom[0] # Pick one wavelength, assume behaviour similar across others
@@ -153,19 +153,28 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
     # get_eigenmode_coeff.alpha[:,:,idx] with ind being the forward or backward wave according to cell coordinates.
     # Figure out if that is exiting the simulation or not depending on the port orientation (assuming it's near PMLs)
     if ports[f"o{port_index}"].orientation == 0:  # east
+        kpoint = mp.Vector3(x=1)
         idx_in = 1
         idx_out = 0
     elif ports[f"o{port_index}"].orientation == 90:  # north
+        kpoint = mp.Vector3(y=1)
         idx_in = 1
         idx_out = 0
     elif ports[f"o{port_index}"].orientation == 180:  # west
+        kpoint = mp.Vector3(x=1)
         idx_in = 0
         idx_out = 1
     elif ports[f"o{port_index}"].orientation == 270:  # south
+        kpoint = mp.Vector3(y=1)
         idx_in = 0
         idx_out = 1
     else:
         ValueError("Port orientation is not 0, 90, 180, or 270 degrees!")
+
+    # Get port coeffs
+    monitor_coeff = sim.get_eigenmode_coefficients(
+        monitors[f"o{port_index}"], [1], kpoint_func=lambda f, n: kpoint
+    )
 
     # # Adjust according to whatever the monitor decided was positive
     # idx_out = 1 - (kdom*kpoint > 0) # if true 1 - 1, outgoing wave is the forward (0) wave
@@ -347,8 +356,8 @@ def get_sparametersNxN(
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                # Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
-                # Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
+                Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
+                Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
                 Sparams_dict[f"s{i}{j}a"] = siia
                 Sparams_dict[f"s{i}{j}m"] = siim
             else:
@@ -358,15 +367,15 @@ def get_sparametersNxN(
                 sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
-                # Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
+                Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
+                Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
                 Sparams_dict[f"s{i}{j}a"] = sija
                 Sparams_dict[f"s{i}{j}m"] = sijm
                 sij = monitor_entering / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict[f"s{i}{j}a_enter"] = sija
-                # Sparams_dict[f"s{i}{j}m_enter"] = sijm
+                Sparams_dict[f"s{i}{j}a_enter"] = sija
+                Sparams_dict[f"s{i}{j}m_enter"] = sijm
 
         return Sparams_dict
 
@@ -468,12 +477,12 @@ if __name__ == "__main__":
     # df = get_sparametersNxN(c, filepath='./df_lazy_consolidated.csv', overwrite=True, animate=False, lazy_parallelism=True)
     df = get_sparametersNxN(
         c,
-        # filepath="./df_lazy_consolidated.csv",
-        # overwrite=True,
+        filepath="./testwg.csv",
+        overwrite=True,
         # animate=True,
         # lazy_parallelism=True,
         # resolution=120,
     )
     # df.to_csv("df_lazy.csv", index=False)
     gf.simulation.plot.plot_sparameters(df)
-    plt.show()
+    # plt.show()
