@@ -356,8 +356,8 @@ def get_sparametersNxN(
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
-                Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
+                # Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
+                # Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
                 Sparams_dict[f"s{i}{j}a"] = siia
                 Sparams_dict[f"s{i}{j}m"] = siim
             else:
@@ -367,15 +367,15 @@ def get_sparametersNxN(
                 sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
-                Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
+                # Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
+                # Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
                 Sparams_dict[f"s{i}{j}a"] = sija
                 Sparams_dict[f"s{i}{j}m"] = sijm
                 sij = monitor_entering / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                Sparams_dict[f"s{i}{j}a_enter"] = sija
-                Sparams_dict[f"s{i}{j}m_enter"] = sijm
+                # Sparams_dict[f"s{i}{j}a_enter"] = sija
+                # Sparams_dict[f"s{i}{j}m_enter"] = sijm
 
         return Sparams_dict
 
