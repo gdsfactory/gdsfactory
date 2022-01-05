@@ -379,16 +379,14 @@ def get_sparametersNxN(
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
 
     # c = gf.components.bend_circular(radius=2)
     # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
-
     # c = gf.components.mmi1x2()
     # c = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-
     # c = gf.components.mmi1x2()
     # c = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-
     # c = gf.components.mmi1x2(
     #     width=0.5,
     #     width_taper=1.0,
@@ -398,7 +396,6 @@ if __name__ == "__main__":
     #     gap_mmi=2,
     # )
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-
     # c = gf.components.coupler_full(length=20, gap=0.2, dw=0)
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
@@ -424,7 +421,6 @@ if __name__ == "__main__":
         # resolution=20
         # filepath="./df_lazy_consolidated.csv",
         # overwrite=True,
-
         # animate=True,
         lazy_parallelism=True,
         # resolution=120,
@@ -432,4 +428,3 @@ if __name__ == "__main__":
     # df.to_csv("df_lazy.csv", index=False)
     gf.simulation.plot.plot_sparameters(df, keys=["s21m"])
     plt.show()
-
