@@ -5,10 +5,9 @@ import gdsfactory as gf
 from gdsfactory.simulation.gmeep.get_sparameters import get_sparametersNxN
 
 
-# def test_sparameterNxN_straight(dataframe_regression):
-def test_sparameterNxN_straight():
-    """
-    Checks that computed transmission is reasonable to see if there are issues in get_simulation + transmission analysis
+def test_sparameterNxN_straight(dataframe_regression):
+    """Checks that computed transmission is reasonable
+    to see if there are issues in get_simulation + transmission analysis
     """
     c = gf.components.straight(length=2)
     p = 3
@@ -20,14 +19,14 @@ def test_sparameterNxN_straight():
     assert np.allclose(df["s21m"], 1, atol=1e-02)
     assert np.allclose(df["s11m"], 0, atol=5e-02)
     assert np.allclose(df["s22m"], 0, atol=5e-02)
-    # if dataframe_regression:
-    #     dataframe_regression.check(df)
+
+    if dataframe_regression:
+        dataframe_regression.check(df)
 
 
-
-def test_sparameterNxN():
-    """
-    Checks that get_sparameterNxN properly sources, monitors, and sweeps over the ports of all orientations
+def test_sparameterNxN_crossing(dataframe_regression):
+    """Checks that get_sparameterNxN properly sources, monitors,
+    and sweeps over the ports of all orientations
     Uses low resolution 2D simulations to run faster
     """
     # c = gf.components.crossing()
@@ -52,11 +51,9 @@ def test_sparameterNxN():
                     df["s{}{}a".format(j, i)].to_numpy(),
                     atol=1e-02,
                 )
-    # if dataframe_regression:
-    #     dataframe_regression.check(df)
-
+    if dataframe_regression:
+        dataframe_regression.check(df)
 
 
 if __name__ == "__main__":
-    test_sparameterNxN(None)
-
+    test_sparameterNxN_crossing(None)
