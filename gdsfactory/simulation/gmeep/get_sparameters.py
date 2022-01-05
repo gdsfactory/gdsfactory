@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
+import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
@@ -379,7 +380,6 @@ def get_sparametersNxN(
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
 
     # c = gf.components.bend_circular(radius=2)
     # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
