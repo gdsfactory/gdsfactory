@@ -32,8 +32,9 @@ def test_sparameterNxN(dataframe_regression):
                     df["s{}{}a".format(j, i)].to_numpy(),
                     atol=1e-02,
                 )
-    dataframe_regression.check(df)
+    if dataframe_regression:
+        dataframe_regression.check(df)
 
 
 if __name__ == "__main__":
-    test_sparameterNxN()
+    test_sparameterNxN(None)

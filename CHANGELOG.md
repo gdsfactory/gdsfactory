@@ -14,16 +14,22 @@ Maybe:
 - cell decorator includes hashes all the source code from a function to ensure no name conflicts happen when merging old and future cells. This was quite slow.
 
 - add non-manhattan routing
-    * enable routing with 180euler and Sbends
-    * electrical routing with 45
+  - enable routing with 180euler and Sbends
+  - electrical routing with 45
+
+## 3.9.16
+
+- meep interface improvements
+  - add run=True flag, if run=False, plots simulation
+- docker includes mpi version of meep
 
 ## 3.9.15
 
 - meep interface improvements
-    - add test Sparameters file dataframe
+  - add test Sparameters file dataframe
 - lumerical interface improvements (consitent with meep)
-    - wavelengths in um
-    - Sparameters starts with lowercase
+  - wavelengths in um
+  - Sparameters starts with lowercase
 
 ## 3.9.14
 
@@ -85,7 +91,6 @@ Maybe:
 - show accepts `**kwargs` for write_gds
 - simplify decorator in @cell (does not change name)
 
-
 ## 3.9.4
 
 - imported cell names get incremented (starting on index = 0) as we find them also in the CACHE. This avoids duplicated cell names.
@@ -93,11 +98,10 @@ Maybe:
 ## 3.9.3
 
 - better error messages using f"{component!r}" to get `'component_name'`
-- import_gds avoids duplicated cells by checking CACHE_IMPORTED and adding and underscore `_` suffix in case there are some name conflicts.
+- import*gds avoids duplicated cells by checking CACHE_IMPORTED and adding and underscore `*` suffix in case there are some name conflicts.
 - add `Component.lock()` and `Component.unlock()` allows you to modify component after adding it into CACHE
 - add `gf.geometry.check_duplicated_cells` to check duplicated cells. Thanks to Klayout
 - fix `mzi_with_arms`, before it had `delta_length` in both arms
-
 
 ## 3.9.2
 
@@ -143,7 +147,6 @@ Maybe:
 ## 3.8.10
 
 - get_netlist works even with cells that have have no info.full or info.changed (not properly decorated with cell decorator)
-
 
 ## 3.8.9
 

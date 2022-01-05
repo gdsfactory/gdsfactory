@@ -1,5 +1,4 @@
-"""Returns simulation from component
-"""
+"""Returns simulation from component."""
 import warnings
 from typing import Any, Dict, Optional
 
@@ -83,7 +82,7 @@ def get_simulation(
         settings: other parameters for sim object (resolution, symmetries, etc.)
 
     Returns:
-        sim: simulation object
+        simulation dict: sim, monitors, sources
 
     Make sure you review the simulation before you simulate a component
 
@@ -299,7 +298,7 @@ if __name__ == "__main__":
     sim_dict = get_simulation(
         c2,
         is_3d=True,
-        resolution=50,
+        # resolution=50,
         # port_source_offset=-0.1,
         # port_field_monitor_offset=-0.1,
         # port_margin=2.5,
