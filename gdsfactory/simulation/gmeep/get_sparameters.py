@@ -14,16 +14,14 @@ import meep as mp
 import numpy as np
 import pandas as pd
 import pydantic
+from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
-from gdsfactory.simulation.gmeep.get_simulation import (
-    LAYER_TO_MATERIAL,
-    LAYER_TO_THICKNESS,
-    get_simulation,
-)
+from gdsfactory.simulation.gmeep.get_simulation import get_simulation
+from gdsfactory.tech import LAYER_STACK, LayerStack
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
@@ -112,8 +110,7 @@ def get_sparametersNxN(
     wl_max: float = 1.6,
     wl_steps: int = 50,
     dirpath: Path = CONFIG["sparameters"],
-    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
-    layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
+    layer_stack: LayerStack = LAYER_STACK,
     port_margin: float = 2,
     port_monitor_offset: float = -0.1,
     port_source_offset: float = -0.1,
@@ -164,21 +161,9 @@ def get_sparametersNxN(
         sparameters in a pandas Dataframe
 
     """
-    if not run:
-        sim_dict = get_simulation(
-            component=component,
-            wl_min=wl_min,
-            wl_max=wl_max,
-            wl_steps=wl_steps,
-            port_margin=port_margin,
-            port_monitor_offset=port_monitor_offset,
-            port_source_offset=port_source_offset,
-            resolution=20,
-            **settings,
-        )
-        sim_dict["sim"].plot2D()
-        plt.show()
-        return
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_material = layer_stack.get_layer_to_material()
+    # layer_to_zmin = layer_stack.get_layer_to_zmin()
 
     filepath = filepath or get_sparameters_path(
         component=component,
@@ -196,6 +181,41 @@ def get_sparametersNxN(
         **settings,
     )
     filepath = pathlib.Path(filepath)
+    filepath_sim_settings = filepath.with_suffix(".yml")
+
+    sim_settings = dict(
+        component=component.to_dict(),
+        resolution=resolution,
+        layer_stack=layer_stack.to_dict(),
+        wl_min=wl_min,
+        wl_max=wl_max,
+        wl_steps=wl_steps,
+        port_margin=port_margin,
+        port_monitor_offset=port_monitor_offset,
+        port_source_offset=port_source_offset,
+        **settings,
+    )
+    # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+    # logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
+    # return filepath_sim_settings
+
+    if not run:
+        sim_dict = get_simulation(
+            component=component,
+            wl_min=wl_min,
+            wl_max=wl_max,
+            wl_steps=wl_steps,
+            layer_stack=layer_stack,
+            port_margin=port_margin,
+            port_monitor_offset=port_monitor_offset,
+            port_source_offset=port_source_offset,
+            resolution=20,
+            **settings,
+        )
+        sim_dict["sim"].plot2D()
+        plt.show()
+        return
+
     if filepath.exists() and not overwrite:
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
@@ -374,8 +394,10 @@ def get_sparametersNxN(
         df = pd.DataFrame(Sparams_dict)
         df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
         df["freqs"] = 1 / df["wavelengths"]
-        logger.info(f"Write simulation results to {filepath!r}")
         df.to_csv(filepath, index=False)
+        logger.info(f"Write simulation results to {filepath!r}")
+        filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+        logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
         return df
 
 
@@ -426,5 +448,5 @@ if __name__ == "__main__":
         # resolution=120,
     )
     # df.to_csv("df_lazy.csv", index=False)
-    gf.simulation.plot.plot_sparameters(df, keys=["s21m"])
-    plt.show()
+    # gf.simulation.plot.plot_sparameters(df, keys=["s21m"])
+    # plt.show()
