@@ -17,6 +17,10 @@ Maybe:
   - enable routing with 180euler and Sbends
   - electrical routing with 45
 
+## 3.9.17
+
+- meep interface stores simulation metadata
+
 ## 3.9.16
 
 - meep interface improvements

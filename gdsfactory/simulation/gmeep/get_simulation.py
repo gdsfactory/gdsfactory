@@ -16,11 +16,6 @@ from gdsfactory.tech import LAYER_STACK, LayerStack
 mp.verbosity(0)
 
 
-LAYER_TO_THICKNESS = {(1, 0): 220e-3}
-LAYER_TO_MATERIAL = {(1, 0): "Si"}
-LAYER_TO_SIDEWALL_ANGLE = {(1, 0): "Si"}
-
-
 MATERIAL_NAME_TO_MEEP = {
     "si": "Si",
     "sio2": "SiO2",
