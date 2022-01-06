@@ -23,7 +23,7 @@ from gdsfactory.tech import LAYER_STACK, LayerStack
 
 
 @pydantic.validate_arguments
-def get_sparameters1x1(
+def write_sparameters_meep_1x1(
     component: Component,
     dirpath: Path = CONFIG["sparameters"],
     layer_stack: LayerStack = LAYER_STACK,
@@ -153,6 +153,6 @@ if __name__ == "__main__":
     c.show()
 
     sim_dict = get_simulation(c, is_3d=False)
-    df = get_sparameters1x1(c, overwrite=True)
+    df = write_sparameters_meep_1x1(c, overwrite=True)
     gf.simulation.plot.plot_sparameters(df)
     plt.show()
