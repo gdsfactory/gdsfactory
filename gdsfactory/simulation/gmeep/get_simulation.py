@@ -2,7 +2,6 @@
 import warnings
 from typing import Any, Dict, Optional
 
-# import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pydantic
@@ -56,16 +55,17 @@ def get_simulation(
     Args:
         component: gf.Component
         resolution: in pixels/um (20: for coarse, 120: for fine)
-        extend_ports_function: to extend ports beyond the PML
-        layer_to_thickness: Dict of layer number (int, int) to thickness (um)
+        extend_ports_length: to extend ports beyond the PML
+        layer_stack: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
         clad_material: material for cladding
         is_3d: if True runs in 3D
-        wavelengths: iterable of wavelengths to simulate
+        wl_min: wavelength min (um)
+        wl_max: wavelength max (um)
+        wl_steps: wavelength steps
         dfcen: delta frequency
-        sidewall_angle: in degrees
         port_source_name: input port name
         port_field_monitor_name:
         port_margin: margin on each side of the port
@@ -103,18 +103,17 @@ def get_simulation(
     component_ref.y = 0
 
     wavelengths = np.linspace(wl_min, wl_max, wl_steps)
-    if port_source_name not in component_ref.ports:
-        warnings.warn(
-            f"port_source_name={port_source_name} not in {component.ports.keys()}"
-        )
+    port_names = list(component_ref.ports.keys())
+
+    if port_source_name not in port_names:
+        warnings.warn(f"port_source_name={port_source_name!r} not in {port_names}")
         port_source = component_ref.get_ports_list()[0]
         port_source_name = port_source.name
-        warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
+        warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
 
     if port_field_monitor_name not in component_ref.ports:
-        port_names = list(component_ref.ports.keys())
         warnings.warn(
-            f"port_field_monitor_name={port_field_monitor_name} not in {port_names}"
+            f"port_field_monitor_name={port_field_monitor_name!r} not in {port_names}"
         )
         port_field_monitor = (
             component_ref.get_ports_list()[0]
@@ -123,7 +122,7 @@ def get_simulation(
         )
         port_field_monitor_name = port_field_monitor.name
         warnings.warn(
-            f"Selecting port_field_monitor_name={port_field_monitor_name} instead."
+            f"Selecting port_field_monitor_name={port_field_monitor_name!r} instead."
         )
 
     assert isinstance(
@@ -313,7 +312,6 @@ if __name__ == "__main__":
     )
 
     # sim.init_sim()
-
     # eps_data = sim.get_epsilon()
 
     # from mayavi import mlab

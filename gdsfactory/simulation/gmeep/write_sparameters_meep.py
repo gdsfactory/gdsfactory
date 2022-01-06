@@ -57,7 +57,8 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
     # kdom = monitor_coeff.kdom[0] # Pick one wavelength, assume behaviour similar across others
 
     # get_eigenmode_coeff.alpha[:,:,idx] with ind being the forward or backward wave according to cell coordinates.
-    # Figure out if that is exiting the simulation or not depending on the port orientation (assuming it's near PMLs)
+    # Figure out if that is exiting the simulation or not
+    # depending on the port orientation (assuming it's near PMLs)
     if ports[f"o{port_index}"].orientation == 0:  # east
         kpoint = mp.Vector3(x=1)
         idx_in = 1
@@ -103,7 +104,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
 
 
 @pydantic.validate_arguments
-def get_sparametersNxN(
+def write_sparameters_meep(
     component: Component,
     resolution: int = 20,
     wl_min: float = 1.5,
@@ -127,6 +128,7 @@ def get_sparametersNxN(
 
     Args:
         component: to simulate.
+        resolution: in pixels/um (20: for coarse, 120: for fine)
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
         layer_to_thickness: GDS layer (int, int) to thickness
@@ -142,20 +144,23 @@ def get_sparametersNxN(
             perform the simulations with different sources in parallel
 
     keyword Args:
-        resolution: in pixels/um (20: for coarse, 120: for fine)
-        extend_ports_function: to extend ports beyond the PML
-        layer_to_thickness: Dict of layer number (int, int) to thickness (um)
+        extend_ports_length: to extend ports beyond the PML
+        layer_stack: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
         clad_material: material for cladding
         is_3d: if True runs in 3D
-        wavelengths: iterable of wavelengths to simulate
+        wl_min: wavelength min (um)
+        wl_max: wavelength max (um)
+        wl_steps: wavelength steps
         dfcen: delta frequency
-        sidewall_angle: in degrees
         port_source_name: input port name
         port_field_monitor_name:
+        port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before
+        port_source_offset: offset between source GDS port and source MEEP port
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
 
     Returns:
         sparameters in a pandas Dataframe
@@ -434,7 +439,7 @@ if __name__ == "__main__":
     # print(df)
 
     # df = get_sparametersNxN(c, filepath='./df_lazy_consolidated.csv', overwrite=True, animate=False, lazy_parallelism=True)
-    df = get_sparametersNxN(
+    df = write_sparameters_meep(
         c,
         filepath="./testwg.csv",
         port_margin=2.5,
