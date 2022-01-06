@@ -19,6 +19,10 @@ Maybe:
 
 ## 3.9.17
 
+- rename get_sparametersNxN to write_sparameters_meep, to be consistent with write_sparameters_lumerical function name
+
+## 3.9.17
+
 - meep interface stores simulation metadata
 
 ## 3.9.16
