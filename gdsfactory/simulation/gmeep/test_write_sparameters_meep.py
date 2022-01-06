@@ -2,7 +2,7 @@
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.simulation.gmeep.get_sparameters import get_sparametersNxN
+from gdsfactory.simulation.gmeep.write_sparameters_meep import write_sparameters_meep
 
 
 def test_sparameterNxN_straight(dataframe_regression):
@@ -12,7 +12,7 @@ def test_sparameterNxN_straight(dataframe_regression):
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    df = get_sparametersNxN(c, overwrite=True, animate=False)
+    df = write_sparameters_meep(c, overwrite=True, animate=False)
 
     # Check reasonable reflection/transmission
     assert np.allclose(df["s12m"], 1, atol=1e-02)
@@ -33,7 +33,7 @@ def test_sparameterNxN_crossing(dataframe_regression):
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    df = get_sparametersNxN(c, overwrite=True, animate=False)
+    df = write_sparameters_meep(c, overwrite=True, animate=False)
 
     # Check reciprocity
     for i in range(1, len(c.ports) + 1):
