@@ -6,7 +6,7 @@ from https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-
 
 import pathlib
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Optional
 
 import matplotlib.pyplot as plt
 import meep as mp
@@ -18,19 +18,15 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
-from gdsfactory.simulation.gmeep.get_simulation import (
-    LAYER_TO_MATERIAL,
-    LAYER_TO_THICKNESS,
-    get_simulation,
-)
+from gdsfactory.simulation.gmeep.get_simulation import get_simulation
+from gdsfactory.tech import LAYER_STACK, LayerStack
 
 
 @pydantic.validate_arguments
 def get_sparameters1x1(
     component: Component,
     dirpath: Path = CONFIG["sparameters"],
-    layer_to_thickness: Dict[Tuple[int, int], float] = LAYER_TO_THICKNESS,
-    layer_to_material: Dict[Tuple[int, int], str] = LAYER_TO_MATERIAL,
+    layer_stack: LayerStack = LAYER_STACK,
     filepath: Optional[Path] = None,
     overwrite: bool = False,
     **settings,
@@ -50,6 +46,9 @@ def get_sparameters1x1(
         sparameters in a pandas Dataframe
 
     """
+    layer_to_thickness = layer_stack.get_layer_to_thickness()
+    layer_to_material = layer_stack.get_layer_to_material()
+
     filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
@@ -120,7 +119,6 @@ def get_sparameters1x1(
         )
     )
     print(f"transmission: {t}")
-
     return df
 
 
