@@ -1,7 +1,16 @@
-"""All functions return a component so they are easy to pipe and compose."""
+"""All functions return a component so they are easy to pipe and compose.
+
+There are two types of functions:
+
+- decorators: return the original component
+- containers: return a new component
+
+"""
 from functools import lru_cache, partial
 
 import numpy as np
+from omegaconf import OmegaConf
+from pydantic import validate_arguments
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -12,8 +21,10 @@ from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
     Float2,
+    Layer,
     List,
     Optional,
+    Strs,
 )
 
 cache = lru_cache(maxsize=None)
@@ -160,9 +171,32 @@ def update_info(component: Component, **kwargs) -> Component:
     return component
 
 
+@validate_arguments
+def add_settings_label(
+    component: Component, layer_label: Layer = (66, 0), settings: Optional[Strs] = None
+) -> Component:
+    """Add a settings label to a component.
+
+    Args:
+        component:
+        layer_label:
+        settings: tuple or list of settings. if None, adds all changed settings
+
+    """
+    d = (
+        {setting: component.get_setting(setting) for setting in settings}
+        if settings
+        else component.info.changed
+    )
+
+    component.add_label(text=OmegaConf.to_yaml(d), layer=layer_label)
+    return component
+
+
 __all__ = (
     "add_port",
     "add_text",
+    "add_settings_label",
     "auto_rename_ports",
     "cache",
     "mirror",
@@ -176,24 +210,29 @@ __all__ = (
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2()
-    cr = c.rotate()
-    cr.show()
+    c = gf.components.mmi1x2(
+        length_mmi=10,
+        decorator=gf.partial(add_settings_label, settings=["name", "length_mmi"]),
+    )
+    c.show()
 
-    cm = move(c, destination=(20, 20))
-    cm.show()
+    # cr = c.rotate()
+    # cr.show()
 
-    cm = mirror(c)
-    cm.show()
+    # cm = move(c, destination=(20, 20))
+    # cm.show()
 
-    cm = c.mirror()
-    cm.show()
+    # cm = mirror(c)
+    # cm.show()
 
-    cm2 = move_port_to_zero(cm)
-    cm2.show()
+    # cm = c.mirror()
+    # cm.show()
 
-    cm3 = add_text(c, "hi")
-    cm3.show()
+    # cm2 = move_port_to_zero(cm)
+    # cm2.show()
+
+    # cm3 = add_text(c, "hi")
+    # cm3.show()
 
     # cr = rotate(component=c)
     # cr.show()

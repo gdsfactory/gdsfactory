@@ -162,6 +162,23 @@ def _compare_bend_euler180():
     c1.show()
 
 
+def _compare_bend_euler90():
+    """Compare bend euler with 90deg circular bend."""
+    import gdsfactory as gf
+
+    c = gf.Component()
+    radius = 10
+    b1 = bend_euler(radius=radius)
+    b2 = gf.c.bend_circular(radius=radius)
+
+    print(b1.info.length)
+    print(b2.info.length)
+
+    c << b1
+    c << b2
+    return c
+
+
 if __name__ == "__main__":
     # c = bend_euler_s()
     # c = bend_euler180()
@@ -169,7 +186,8 @@ if __name__ == "__main__":
     # c = bend_euler(angle=270)
     # c.pprint()
     # p = euler()
-    c = bend_straight_bend()
+    # c = bend_straight_bend()
+    c = _compare_bend_euler90()
 
     c.show()
     # _compare_bend_euler180()
