@@ -39,6 +39,7 @@ mzi.yml
 *.png
 mpb-sim/
 data/
+extrakdown-parser/
 
 # Installer logs
 pip-log.txt
