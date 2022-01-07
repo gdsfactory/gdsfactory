@@ -19,7 +19,10 @@ def delay_snake3(
     **kwargs,
 ) -> Component:
     r"""Snake input facing west
+
     Snake output facing east
+
+    This snake
 
     Args:
         length:
@@ -92,5 +95,7 @@ def test_delay_snake3_length() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_delay_snake3_length()
+    # c = test_delay_snake3_length()
+    length = 200.0
+    c = delay_snake3(n=2, length=length, length0=50)
     c.show()
