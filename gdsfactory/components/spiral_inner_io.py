@@ -1,5 +1,4 @@
-""" bends with grating couplers inside the spiral
-"""
+"""spiral with grating couplers inside to save space"""
 from typing import Optional, Tuple
 
 import numpy as np
@@ -37,7 +36,7 @@ def spiral_inner_io(
     **kwargs
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
-    You can add grating couplers inside to save space.
+    You can add grating couplers inside .
 
     Args:
         N: number of loops

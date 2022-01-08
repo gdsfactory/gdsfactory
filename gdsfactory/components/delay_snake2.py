@@ -19,7 +19,10 @@ def delay_snake2(
     **kwargs,
 ) -> Component:
     """Snake input facing west
+
     Snake output facing east
+
+    This snakes can have a starting offset (length0)
 
     Args:
         length: total length
@@ -27,7 +30,7 @@ def delay_snake2(
         n: number of loops
         bend180
         cross_section: factory
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
     .. code::
 
@@ -46,7 +49,9 @@ def delay_snake2(
     if n % 2:
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
+
     bend180 = bend180(cross_section=cross_section, **kwargs)
+
     delta_length = (length - length0 - n * bend180.info.length) / (n + 1)
     length1 = delta_length - length0
     assert (
@@ -76,10 +81,13 @@ def delay_snake2(
 
 
 def test_delay_snake2_length() -> Component:
-    length = 200.0
-    c = delay_snake2(n=2, length=length, layer=(2, 0))
+    length = 500.0
+    n = 6
+    c = delay_snake2(n=n, length=length, layer=(2, 0))
     length_measured = (
-        c.aliases[")1"].parent.info.length * 2 + c.aliases["-1"].parent.info.length * 3
+        c.aliases[")1"].parent.info.length * n
+        + c.aliases["-1"].parent.info.length * n
+        + c.aliases["_1"].parent.info.length
     )
     assert np.isclose(
         length, length_measured
@@ -88,7 +96,7 @@ def test_delay_snake2_length() -> Component:
 
 
 if __name__ == "__main__":
-    c = test_delay_snake2_length()
-    c.show()
-    # c = delay_snake2(n=2, length=200, layer=(2,0))
+    # c = test_delay_snake2_length()
     # c.show()
+    c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
+    c.show()
