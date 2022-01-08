@@ -15,13 +15,6 @@ from gdsfactory.tech import LAYER_STACK, LayerStack
 mp.verbosity(0)
 
 
-MATERIAL_NAME_TO_MEEP = {
-    "si": "Si",
-    "sio2": "SiO2",
-    "sin": "Si3N4",
-}
-
-
 @pydantic.validate_arguments
 def get_simulation(
     component: Component,
