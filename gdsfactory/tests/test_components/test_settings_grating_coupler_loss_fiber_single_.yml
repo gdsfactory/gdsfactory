@@ -253,6 +253,7 @@ cells:
       layer_label:
       - 201
       - 0
+      loopback_xspacing: 50
       min_input_to_output_spacing: 200
       optical_routing_type: 2
       route_filter:
@@ -281,6 +282,7 @@ cells:
       layer_label:
       - 201
       - 0
+      loopback_xspacing: 50
       min_input_to_output_spacing: 200
       optical_routing_type: 2
       route_filter:
