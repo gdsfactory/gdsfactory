@@ -20,6 +20,7 @@ Maybe:
 ## 3.9.22
 
 - add `gf.read.from_dphox`
+- update requirements.txt
 
 ## 3.9.21
 
