@@ -33,6 +33,7 @@ def add_fiber_single(
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
     with_loopback: bool = True,
+    loopback_xspacing: float = 50.0,
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     zero_port: Optional[str] = "o1",
@@ -57,6 +58,7 @@ def add_fiber_single(
         min_input_to_output_spacing: spacing from input to output fiber
         max_y0_optical: None
         with_loopback: True, adds loopback structures
+        loopback_xspacing: spacing from loopback xmin to component.xmin
         straight_separation: 4.0
         list_port_labels: None, add labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
@@ -215,9 +217,9 @@ def add_fiber_single(
         wg = c << straight(length=length, cross_section=cross_section, **kwargs)
         wg.rotate(90)
         wg.xmax = (
-            c.xmin - fiber_spacing
-            if abs(c.xmin) > abs(fiber_spacing)
-            else c.xmin - fiber_spacing
+            c.xmin - loopback_xspacing
+            if abs(c.xmin) > abs(loopback_xspacing)
+            else c.xmin - loopback_xspacing
         )
         wg.ymin = c.ymin + gc_port_to_edge
 
@@ -274,9 +276,9 @@ if __name__ == "__main__":
         c.add_ports(ref.ports)
         return c
 
-    # c = gf.components.ring_single(length_x=167)
+    c = gf.components.ring_single(length_x=167)
     # c = gf.components.spiral(direction="NORTH")
-    c = gf.c.spiral_inner_io_fiber_single()
+    # c = gf.c.spiral_inner_io_fiber_single()
     cc = add_fiber_single(
         # component=gf.c.straight_heater_metal(width=2),
         component=c,
@@ -284,6 +286,7 @@ if __name__ == "__main__":
         with_loopback=True,
         layer=(2, 0),
         zero_port="o2",
+        loopback_xspacing=-50,
         # grating_coupler=[gf.c.grating_coupler_te, gf.c.grating_coupler_tm],
     )
     cc.show()

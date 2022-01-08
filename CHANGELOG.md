@@ -17,6 +17,10 @@ Maybe:
   - enable routing with 180euler and Sbends
   - electrical routing with 45
 
+## 3.9.20
+
+- add `loopback_xspacing` to `gf.routing.add_fiber_single`
+
 ## 3.9.19
 
 - add `Component.get_setting()` which looks inside info, info.full and child_info
