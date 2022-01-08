@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # c = straight(cross_section=gf.partial(gf.cross_section.strip, width=2))
     # c = straight(cladding_offset=2.5)
     # c = straight(width=2.5)
-    c = straight(length=0)
+    c = straight(length=1)
     c.assert_ports_on_grid()
     c.show()
     c.pprint()

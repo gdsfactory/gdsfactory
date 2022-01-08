@@ -17,7 +17,12 @@ Maybe:
   - enable routing with 180euler and Sbends
   - electrical routing with 45
 
-## 3.9.17
+## 3.9.19
+
+- add `Component.get_setting()` which looks inside info, info.full and child_info
+- add `gf.function.add_settings_label` decorator
+
+## 3.9.18
 
 - rename get_sparametersNxN to write_sparameters_meep, to be consistent with write_sparameters_lumerical function name
 
