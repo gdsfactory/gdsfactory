@@ -1,3 +1,11 @@
+"""
+This is a weird problem
+
+A possible solution is to have `gf.cell` hash the content of the function
+
+however that slows down things
+"""
+
 import gdsfactory as gf
 
 if __name__ == "__main__":
