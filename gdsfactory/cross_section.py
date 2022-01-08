@@ -119,6 +119,9 @@ class CrossSection(CrossSectionPhidl):
     @classmethod
     def validate(cls, v):
         """pydantic assumes CrossSection is always valid"""
+        assert isinstance(
+            v, CrossSection
+        ), f"TypeError, Got {type(v)}, expecting CrossSection"
         return v
 
     def to_dict(self):
