@@ -1023,6 +1023,11 @@ class Component(Device):
         # self.__size_info__  = SizeInfo(self.bbox)
         return SizeInfo(self.bbox)  # self.__size_info__
 
+    def get_setting(self, setting: str) -> Union[str, int, float]:
+        return self.info.get(
+            setting, self.info.full.get(setting, self.info_child.get(setting))
+        )
+
     def add(self, element):
         """
         Add a new element or list of elements to this Component
