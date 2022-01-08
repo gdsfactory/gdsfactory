@@ -112,6 +112,8 @@ def add_fiber_single(
     optical_ports = list(optical_ports.values())
     optical_port_names = [p.name for p in optical_ports]
 
+    zero_port = zero_port or optical_port_names[0]
+
     if zero_port not in optical_port_names:
         raise ValueError(f"zero_port = {zero_port!r} not in {optical_port_names}")
 
