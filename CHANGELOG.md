@@ -17,6 +17,10 @@ Maybe:
   - enable routing with 180euler and Sbends
   - electrical routing with 45
 
+## 3.9.23
+
+- validate cross_section
+
 ## 3.9.22
 
 - add `gf.read.from_dphox`
