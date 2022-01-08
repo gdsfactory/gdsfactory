@@ -1,3 +1,9 @@
+"""phidl Dummy fill does not look as good as the one in klayout
+
+Maybe: create klayout dummy fill example
+
+"""
+
 import toolz
 import gdsfactory as gf
 
