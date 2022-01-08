@@ -17,6 +17,10 @@ Maybe:
   - enable routing with 180euler and Sbends
   - electrical routing with 45
 
+## 3.9.21
+
+- thanks to @thomasdorch [PR](https://github.com/gdsfactory/gdsfactory/pull/128) you can now use Meep's material database in your mode and FDTD simulations
+
 ## 3.9.20
 
 - add `loopback_xspacing` to `gf.routing.add_fiber_single`
