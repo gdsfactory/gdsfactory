@@ -3,7 +3,7 @@ import meep.materials as mat
 
 # Dictionary for materials with different names in Meep
 MATERIAL_NAME_TO_MEEP = {
-    "sin": "Si3N4",
+    "sin": "Si3N4_NIR",
 }
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
@@ -17,11 +17,12 @@ def get_material(
     Args:
         name: material name
         wavelength: wavelength (um)
-        dispersive: set to True for built-in Meep index model, False for simple, non-dispersive model
+        dispersive: True for built-in Meep index model,
+            False for simple, non-dispersive model
 
     Note:
-        Using the built-in models can be problematic at low resolution. If fields are NaN or Inf, increase resolution
-        or use a non-dispersive model
+        Using the built-in models can be problematic at low resolution.
+        If fields are NaN or Inf, increase resolution or use a non-dispersive model
     """
 
     materials_lower = [material.lower() for material in MATERIALS]
@@ -39,24 +40,30 @@ def get_material(
         return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
 
 
-def get_index(wavelength: float = 1.55, name: str = "Si") -> float:
+def get_index(
+    wavelength: float = 1.55, name: str = "Si", dispersive: bool = False
+) -> float:
     """Returns refractive index from Meep's material database.
 
     Args:
         name: material name
         wavelength: wavelength (um)
+        dispersive: True for built-in Meep index model,
+            False for simple, non-dispersive model
+
+    Note:
+        Using the built-in models can be problematic at low resolution.
+        If fields are NaN or Inf, increase resolution or use a non-dispersive model
 
     """
-    medium = get_material(name, wavelength)
+    medium = get_material(name=name, wavelength=wavelength, dispersive=dispersive)
 
     epsilon_matrix = medium.epsilon(1 / wavelength)
     epsilon11 = epsilon_matrix[0][0]
     return epsilon11 ** 0.5
 
 
-#
 # si = partial(get_index, name="Si")
-#
 # sio2 = partial(get_index, name="SiO2")
 
 
