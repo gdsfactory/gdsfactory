@@ -1,3 +1,4 @@
+from gdsfactory.read.from_dphox import from_dphox
 from gdsfactory.read.from_gdspaths import from_gdsdir, from_gdspaths
 from gdsfactory.read.from_np import from_np
 from gdsfactory.read.from_phidl import from_phidl
@@ -13,4 +14,5 @@ __all__ = [
     "from_gdsdir",
     "from_np",
     "from_yaml",
+    "from_dphox",
 ]
