@@ -1,6 +1,6 @@
 """
-when we auto_rename_ports_layer_orientation we get the wrong mapping
 
+when we auto_rename_ports_layer_orientation we get the wrong mapping
 
 """
 

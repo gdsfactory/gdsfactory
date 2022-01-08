@@ -24,8 +24,8 @@ def test_load_component_with_settings():
 
     c2 = gf.import_gds(gdspath)
 
-    d1 = c1.to_dict
-    d2 = c2.to_dict
+    d1 = c1.to_dict()
+    d2 = c2.to_dict()
     d = jsondiff.diff(d1, d2)
     assert len(d) == 0, d
 

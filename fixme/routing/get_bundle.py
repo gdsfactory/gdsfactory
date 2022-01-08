@@ -18,9 +18,12 @@ if __name__ == "__main__":
     routes = gf.routing.get_bundle(
         ports1=c1_ref.get_ports_list(), ports2=c2_ref.get_ports_list()
     )
-    # routes = gf.routing.get_bundle_path_length_match(ports1=c1_ref.get_ports_list(), ports2=c2_ref.get_ports_list())
-
     for route in routes:
         c.add(route.references)
-        print(route.length)
+
+    # routes = gf.routing.get_bundle_sbend(
+    #     ports1=c1_ref.get_ports_list(), ports2=c2_ref.get_ports_list()
+    # )
+    # c.add(routes.references)
+
     c.show()
