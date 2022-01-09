@@ -2,7 +2,10 @@
 name: build docker container
 
 on:
-  push:
+    release:
+        types: [created, published]
+    push:
+        tags: [v*]
 
 jobs:
   docker:
