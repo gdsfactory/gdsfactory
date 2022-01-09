@@ -19,7 +19,7 @@ Some of these inputs parameters are also functions.
 """
 import json
 import pathlib
-from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
 from phidl.device_layout import Label as LabelPhidl
@@ -116,7 +116,7 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 RouteFactory = Callable[..., Route]
 ComponentFactory = Callable[..., Component]
-ComponentFactoryDict = NewType("ComponentFactoryDict", Dict[str, ComponentFactory])
+ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]

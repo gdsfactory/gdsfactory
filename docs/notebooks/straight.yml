@@ -22,32 +22,7 @@ ports:
     - 0
     port_type: optical
 info:
-  cross_section:
-    width: 0.5
-    layer:
-    - 3
-    - 0
-    width_wide:
-    auto_widen: false
-    auto_widen_minimum_length: 200
-    taper_length: 10
-    radius: 10
-    cladding_offset: 3
-    layers_cladding:
-    sections: []
-    min_length: 0.01
-    start_straight: 0.01
-    end_straight_length: 0.01
-    snap_to_grid:
-    port_types:
-    - optical
-    - optical
-    port_names:
-    - o1
-    - o2
-  path: {}
-  length: 10.0
-  points_hash: 40318112410d6c0c23ae35d322
+  length: 10
   width: 0.5
   name: straight_cf5c9898
   module: gdsfactory.components.straight
@@ -61,12 +36,42 @@ info:
     length: 10
     npoints: 2
     with_cladding_box: true
+    cross_section:
+      function: cross_section
   full:
     length: 10
     npoints: 2
     with_cladding_box: true
+    cross_section:
+      function: cross_section
     layer:
     - 3
     - 0
-cells: {}
-version: 1
+cells:
+  straight_cf5c9898:
+    length: 10
+    width: 0.5
+    name: straight_cf5c9898
+    module: gdsfactory.components.straight
+    function_name: straight
+    info_version: 1
+    changed:
+      layer:
+      - 3
+      - 0
+    default:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+    full:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+      layer:
+      - 3
+      - 0
+version: 0.0.1
