@@ -8,6 +8,7 @@
 *.hdf5
 *.stl
 .pyre_configuration
+gdsfactory/klayout/tech/layers.py
 
 # Packages
 *.egg
