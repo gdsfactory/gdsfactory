@@ -23,8 +23,9 @@ def straight2a(
     wg1 = gf.components.straight(length=length1, cross_section=cross_section1)
     wg2 = gf.components.straight(length=length2, cross_section=cross_section2)
 
-    c.add_ref(wg1)
-    c.add_ref(wg2)
+    w1 = c.add_ref(wg1)
+    w2 = c.add_ref(wg2)
+    w2.connect("o1", w1.ports["o2"])
     return c
 
 
@@ -35,6 +36,6 @@ straight2b = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = straight2a() # works
-    c = straight2b()  # FIXME: does not work
+    c = straight2a()  # works
+    # c = straight2b()  # FIXME: does not work
     c.show()
