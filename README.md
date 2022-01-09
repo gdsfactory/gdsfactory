@@ -32,8 +32,6 @@ It also can output components settings (that you can use for measurement and dat
 
 ## Documentation
 
-gdsfactory examples for Photonics IC layout could easily adapt to Analog IC.
-
 For Photonics IC layout I used the open source version of [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
 In 2019, after hitting several major roadblocks in speed when building large masks I decided to stop using it despite many improvements that made it faster, easier to use, and in python3.
 
