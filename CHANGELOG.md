@@ -3,6 +3,8 @@
 ## 3.9.23
 
 - validate cross_section
+- update requirements
+- add acks in README
 
 ## 3.9.22
 
