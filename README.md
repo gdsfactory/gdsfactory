@@ -32,6 +32,22 @@ It also can output components settings (that you can use for measurement and dat
 
 ## Documentation
 
+gdsfactory examples for Photonics IC layout could easily adapt to Analog IC.
+
+For Photonics IC layout I used the open source version of [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
+In 2019, after hitting several major roadblocks in speed when building large masks I decided to stop using it despite many improvements that made it faster, easier to use, and in python3.
+
+Then I tried all the commercial (Luceda, Cadence, Synopsis) and open source soluttions (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) trying to find a faster/more usable workflow.
+
+The metrics for the benchmark were:
+
+1. Fast
+2. Easy to use
+3. Maintained / Documented / Popular
+
+The winner was PHIDL by a huge margin thanks to speed and usability. PHIDL is written on top of gdspy (which came second), which is a popular python library for writing GDS files.
+gdsfactory is mostly written on top of PHIDL, with some rare calls to gdspy and klayout API
+
 ![](https://i.imgur.com/4xQJ2yk.png)
 
 What nice things come from phidl?
@@ -47,7 +63,8 @@ What nice things come from klayout?
 
 - GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
 - layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
-- fast boolean xor to avoid geometric regressions on Components geometry
+- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdspy ones
+- basic DRC checks
 
 What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
 
@@ -56,7 +73,7 @@ What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
   - avoids duplicated names and faster runtime implementing a cache. If you try to call the same component function with the same parameters, you get the component directly from the cache.
   - automatically adds cell parameters into a `component.info` (`full`, `default`, `changed`) as well as any other `info` metadata (`polarization`, `wavelength`, `test_protocol`, `simulation_settings` ...)
   - writes component metadata in YAML including port information (name, position, width, orientation, type, layer)
-- routing functions where the routes are composed of configurable bends and straight sections (for circuit simulations you still have the concept of what the route is made of)
+- routing functions where the routes are composed of configurable bends and straight sections (for circuit simulations you want to maintain the route bends and straight settings)
   - `get_route`: for single routes between component ports
   - `get_route_from_steps`: for single routes between ports where we define the steps or bends
   - `get_bundle`: for bundles of routes (river routing)
@@ -183,8 +200,7 @@ By default each component has an empty changelog and starts with version '0.0.1'
   - smaller changes
   - name change
 
-
-you will need to manually bump the version and document any changes
+You will need to manually bump the version and document any changes
 
 ```
 @gf.cell
@@ -195,13 +211,35 @@ def my_component():
     c.changelog += " # 0.0.2 increase default length to 11um "
 ```
 
+## Acks
+
+gdsfactory top contributors:
+
+- Joaquin Matres (Google): maintainer
+- Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer
+- Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive)
+- Troy Tamas (Rockley): get_route_from_steps, component_from_yaml (schematic capture)
+- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://sax.readthedocs.io/en/latest/)
+- Alec Hammond (Georgia Tech): Meep and MPB interface
+- Simon Biladieu (Princeton): Meep FDTD write Sparameters
+
+Open source heroes:
+
+- Matthias Köfferlein (Germany): for Klayout
+- Lucas Heitzmann (University of Campinas, Brazil): for gdspy
+- Adam McCaughan (NIST): for phidl
+- Alex Tait (Queens University): for lytest
+- Thomas Ferreira de Lima (NEC): for `pip install klayout`
+
+
 ## Links
 
 - [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory)
 - [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
-- [ubc PDK](https://github.com/gdsfactory/ubc)
+- [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
 - [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
 - [picwriter](https://github.com/DerekK88/PICwriter)
 - [docs follow MyST syntax](https://myst-parser.readthedocs.io/en/latest/syntax/optional.html)
+- [versions follow semantic versioning](https://semver.org/)
