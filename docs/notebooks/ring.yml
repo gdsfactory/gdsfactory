@@ -44,6 +44,7 @@ instances:
         function: coupler_straight
       cross_section:
         function: cross_section
+      bend_cross_section: null
   straight_178d4157_m2p0_21p3:
     component: straight
     settings:
@@ -102,4 +103,4 @@ placements:
 ports:
   o2: coupler_ring_6859e681_m2p0_5p225,o4
   o1: coupler_ring_6859e681_m2p0_5p225,o1
-name: ring_single
+name: ring_single_d41d8cd9
