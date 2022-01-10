@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.9.25
+
+- `gf.components.contact_slot` accepts optional layer_offsetsx and layer_offsetsy
+- extend_ports cross_section is optional, and overrides port cross_section
+
+
+
 ## 3.9.23
 
 - validate cross_section
