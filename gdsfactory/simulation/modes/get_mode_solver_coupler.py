@@ -44,7 +44,8 @@ def get_mode_solver_coupler(
         sz: simulation region thickness (um)
         res: resolution (pixels/um)
         nmodes: number of modes
-        sidewall_angles: waveguide sidewall angle, tapers from wg_width at top of slab, upwards, to top of waveguide
+        sidewall_angles: waveguide sidewall angle (radians),
+            tapers from wg_width at top of slab, upwards, to top of waveguide
 
     ::
 
@@ -178,8 +179,7 @@ if __name__ == "__main__":
         gap=0.5,
         wg_width=1,
         res=64,
-        sidewall_angles=(10, 20),
-        sidewall_taper=-1,
+        sidewall_angles=(10.0 * (np.pi / 180), 20.0 * (np.pi / 180)),
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
