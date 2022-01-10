@@ -94,12 +94,12 @@ def extend_ports(
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended
-    it can accept an extension_factory or it defaults to the port
-    width and layer of each extended port
+    you can define an extension_factory
+    otherwise, defaults to the port cross_section of each port to extend
 
     Args:
         component: component to extend ports
-        port_names: specify an list of ports names, if None it extends all ports
+        port_names: list of ports names to extend, if None it extends all ports
         length: extension length
         extension_factory: function to extend ports (defaults to a straight)
         port1: input port name
@@ -127,31 +127,22 @@ def extend_ports(
         cref.y = 0
 
     ports_all = cref.get_ports_list()
-    port_all_names = [p.name for p in ports_all]
+    port_names_all = [p.name for p in ports_all]
 
     ports_to_extend = cref.get_ports_list(port_type=port_type, **kwargs)
     ports_to_extend_names = [p.name for p in ports_to_extend]
-    port_names = port_names or ports_to_extend_names or port_all_names
+    ports_to_extend_names = port_names or ports_to_extend_names or port_names_all
 
-    for port_name in port_names:
-        if port_name not in port_all_names:
-            warnings.warn(f"Port Name {port_name} not in {port_all_names}")
+    for port_name in ports_to_extend_names:
+        if port_name not in port_names_all:
+            warnings.warn(f"Port Name {port_name} not in {port_names_all}")
 
     for port in ports_all:
         port_name = port.name
-
-        if port_name not in ports_to_extend_names:
-            continue
-
         port = cref.ports[port_name]
         cross_section_extension = cross_section or port.cross_section
 
-        if not cross_section_extension:
-            raise ValueError(
-                f"You need to define a cross section for {port_name!r} port extension"
-            )
-
-        if port_name in port_names:
+        if port_name in ports_to_extend_names:
             if extension_factory:
                 extension_component = extension_factory()
             else:
@@ -185,8 +176,8 @@ def test_extend_ports() -> Component:
     xs_strip = gf.partial(gf.cross_section.strip, width=width)
 
     c = pc.cross(width=width, port_type="optical")
-    c1 = extend_ports(component=c, cross_section=xs_strip)
 
+    c1 = extend_ports(component=c, cross_section=xs_strip)
     assert len(c.ports) == len(c1.ports)
     p = len(c1.polygons)
     assert p == 4, p
@@ -195,7 +186,11 @@ def test_extend_ports() -> Component:
     p = len(c2.polygons)
     assert p == 2, p
 
-    return c2
+    c3 = extend_ports(component=c, cross_section=xs_strip)
+    p = len(c3.polygons)
+    assert p == 4, p
+
+    return c3
 
 
 __all__ = ["extend_ports", "extend_port"]
