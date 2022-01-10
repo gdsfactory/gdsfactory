@@ -387,8 +387,7 @@ cells:
       centered: false
       component:
         function: mmi1x2
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -398,8 +397,7 @@ cells:
     full:
       centered: false
       component: mzi_d275fe52
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -843,8 +841,7 @@ info:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null
@@ -854,8 +851,7 @@ info:
   full:
     centered: false
     component: mzi_d275fe52
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null

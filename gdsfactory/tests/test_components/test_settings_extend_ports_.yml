@@ -65,8 +65,7 @@ cells:
       centered: false
       component:
         function: mmi1x2
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -77,8 +76,7 @@ cells:
       centered: false
       component:
         function: mmi1x2
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -125,8 +123,7 @@ info:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null
@@ -137,8 +134,7 @@ info:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null

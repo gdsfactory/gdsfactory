@@ -381,9 +381,9 @@ def select_ports(
     Args:
         ports: Dict[str, Port] a port dict {port name: port}
         layer: port GDS layer
-        prefix: with in port name
+        prefix: port name prefix
         orientation: in degrees
-        width:
+        width: port width
         layers_excluded: List of layers to exclude
         port_type: optical, electrical, ...
         clockwise: if True, sort ports clockwise, False: counter-clockwise
