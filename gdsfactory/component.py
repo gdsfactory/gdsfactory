@@ -107,7 +107,7 @@ class SizeInfo:
 
 def _rotate_points(
     points: Coordinates,
-    angle: Number = 45,
+    angle: int = 45,
     center: Coordinate = (
         0.0,
         0.0,
@@ -149,7 +149,7 @@ class ComponentReference(DeviceReference):
         self,
         component: Device,
         origin: Coordinate = (0, 0),
-        rotation: Number = 0,
+        rotation: int = 0,
         magnification: None = None,
         x_reflection: bool = False,
         visual_label: str = "",
@@ -287,11 +287,11 @@ class ComponentReference(DeviceReference):
     def _transform_port(
         self,
         point: ndarray,
-        orientation: Number,
+        orientation: int,
         origin: Coordinate = (0, 0),
-        rotation: Optional[Number] = None,
+        rotation: Optional[int] = None,
         x_reflection: bool = False,
-    ) -> Tuple[ndarray, Number]:
+    ) -> Tuple[ndarray, int]:
         # Apply GDS-type transformations to a port (x_ref)
         new_point = np.array(point)
         new_orientation = orientation
@@ -306,13 +306,13 @@ class ComponentReference(DeviceReference):
             new_point = new_point + np.array(origin)
         new_orientation = mod(new_orientation, 360)
 
-        return new_point, new_orientation
+        return new_point, int(new_orientation)
 
     def _transform_point(
         self,
         point: ndarray,
         origin: Coordinate = (0, 0),
-        rotation: Optional[Number] = None,
+        rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> ndarray:
         # Apply GDS-type transformations to a port (x_ref)
@@ -392,14 +392,14 @@ class ComponentReference(DeviceReference):
 
     def rotate(
         self,
-        angle: Number = 45,
+        angle: int = 45,
         center: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """Return ComponentReference rotated:
+        """Returns rotated ComponentReference
 
         Args:
             angle: in degrees
-            center: x,y
+            center: x, y
         """
         if angle == 0:
             return self
@@ -429,7 +429,7 @@ class ComponentReference(DeviceReference):
         self.reflect((x0, 1), (x0, 0))
 
     def reflect_v(
-        self, port_name: Optional[str] = None, y0: Optional[Number] = None
+        self, port_name: Optional[str] = None, y0: Optional[float] = None
     ) -> None:
         """Perform vertical mirror using y0 as axis (default, y0=0)."""
         if port_name is None and y0 is None:
@@ -474,10 +474,9 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(
-        self, port: Union[str, Port], destination: Port, overlap: Number = 0.0
+        self, port: Union[str, Port], destination: Port, overlap: float = 0.0
     ) -> "ComponentReference":
-        """Returns Component reference
-        origin port_name connects to a destination
+        """Returns Component reference where port_name connects to a destination
 
         Args:
             port: origin port name
@@ -493,8 +492,9 @@ class ComponentReference(DeviceReference):
         elif isinstance(port, Port):
             p = port
         else:
+            ports = list(self.ports.keys())
             raise ValueError(
-                f"{self.parent.name}.connect({port}): {port} not in {list(self.ports.keys())}"
+                f"port = {port!r} not in {self.parent.name!r} ports {ports}"
             )
 
         angle = 180 + destination.orientation - p.orientation
@@ -518,8 +518,12 @@ class ComponentReference(DeviceReference):
 
         Args:
             layer: port GDS layer
-            prefix:
-            orientation:
+            prefix: port name prefix
+            orientation: in degrees
+            width: port width
+            layers_excluded: List of layers to exclude
+            port_type: optical, electrical, ...
+            clockwise: if True, sort ports clockwise, False: counter-clockwise
         """
         return list(select_ports(self.ports, **kwargs).values())
 
@@ -528,7 +532,12 @@ class ComponentReference(DeviceReference):
 
         Args:
             layer: port GDS layer
-            prefix: for example "E" for east, "W" for west ...
+            prefix: port name prefix
+            orientation: in degrees
+            width: port width
+            layers_excluded: List of layers to exclude
+            port_type: optical, electrical, ...
+            clockwise: if True, sort ports clockwise, False: counter-clockwise
         """
         return select_ports(self.ports, **kwargs)
 

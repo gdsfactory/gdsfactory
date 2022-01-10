@@ -87,8 +87,7 @@ cells:
       centered: false
       component:
         function: mmi1x2
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -107,8 +106,7 @@ cells:
           sections:
           - slab
         function: straight
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory:
         function: taper_strip_to_ridge
       length: 5
@@ -174,8 +172,7 @@ info:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null
@@ -194,8 +191,7 @@ info:
         sections:
         - slab
       function: straight
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory:
       function: taper_strip_to_ridge
     length: 5

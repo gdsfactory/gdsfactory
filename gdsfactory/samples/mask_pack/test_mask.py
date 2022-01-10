@@ -39,12 +39,12 @@ def coupler_te(
 
 
 @gf.cell
-def spiral_te(width: float = 0.5, length: int = 2) -> Component:
+def spiral_te(width: float = 0.5, length: int = 20e3) -> Component:
     """Spiral with TE grating_coupler
 
     Args:
         width: waveguide width um
-        lenght: cm
+        length: um
     """
     c = gf.c.spiral_inner_io(width=width, length=length)
     ce = gf.c.extend_ports(c)
@@ -64,7 +64,7 @@ def spiral_tm(width=0.5, length=20e3):
 
     Args:
         width: waveguide width um
-        lenght: um
+        length: um
     """
     c = gf.c.spiral_inner_io(width=width, length=length, waveguide_spacing=10, N=5)
     ce = gf.c.extend_ports(c)

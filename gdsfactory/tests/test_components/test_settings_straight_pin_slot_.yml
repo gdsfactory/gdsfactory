@@ -183,6 +183,8 @@ cells:
       layer_offsets:
       - 0
       - 1
+      layer_offsetsx: null
+      layer_offsetsy: null
       layer_port: null
       layers:
       - - 41
@@ -205,6 +207,8 @@ cells:
       layer_offsets:
       - 0
       - 1
+      layer_offsetsx: null
+      layer_offsetsy: null
       layer_port: null
       layers:
       - - 41

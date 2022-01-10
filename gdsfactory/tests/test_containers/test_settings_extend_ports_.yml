@@ -387,8 +387,7 @@ cells:
       centered: false
       component:
         function: mmi1x2
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -398,8 +397,7 @@ cells:
     full:
       centered: false
       component: mzi_d275fe52
-      cross_section:
-        function: cross_section
+      cross_section: null
       extension_factory: null
       length: 5
       port1: null
@@ -843,8 +841,7 @@ info:
     centered: false
     component:
       function: mmi1x2
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null
@@ -854,8 +851,7 @@ info:
   full:
     centered: false
     component: mzi_d275fe52
-    cross_section:
-      function: cross_section
+    cross_section: null
     extension_factory: null
     length: 5
     port1: null
@@ -867,28 +863,6 @@ info:
   module: gdsfactory.components.extension
   name: mzi_d275fe52_extend_por_41f60d23
 ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -368.75
-    - -21.375
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 11
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -16.75
-    - -21.375
-    name: e2
-    orientation: 0
-    port_type: electrical
-    width: 11
   o1:
     layer:
     - 1
