@@ -10,6 +10,7 @@ Maybe:
 - add xdoctest
 - type checker passing (mypy, pyre, pytype)
 - cell decorator includes hashes all the source code from a function to ensure no name conflicts happen when merging old and future cells. This was quite slow.
+- holoviews layout plot, similar to dphox
 
 - add non-manhattan routing
   - enable routing with 180euler and Sbends
