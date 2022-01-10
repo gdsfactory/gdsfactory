@@ -1,7 +1,6 @@
-"""FIXME! add sidewall angles."""
 import pathlib
 import tempfile
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 
 import meep as mp
 import numpy as np
@@ -30,6 +29,8 @@ def get_mode_solver_coupler(
     sz: float = 2.0,
     res: int = 32,
     nmodes: int = 4,
+    sidewall_angles: Union[Tuple[float, ...], float] = None,
+    # sidewall_taper: int = 1,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
 
@@ -43,6 +44,7 @@ def get_mode_solver_coupler(
         sz: simulation region thickness (um)
         res: resolution (pixels/um)
         nmodes: number of modes
+        sidewall_angles: waveguide sidewall angle, tapers from wg_width at top of slab, upwards, to top of waveguide
 
     ::
 
@@ -92,13 +94,36 @@ def get_mode_solver_coupler(
 
     gaps = list(gaps) + [0]
     for i, wg_width in enumerate(wg_widths):
-        geometry.append(
-            mp.Block(
-                size=mp.Vector3(mp.inf, wg_width, wg_thickness),
-                material=material_core,
-                center=mp.Vector3(y=y + wg_width / 2, z=wg_thickness / 2),
+        if sidewall_angles:
+            geometry.append(
+                mp.Prism(
+                    vertices=[
+                        mp.Vector3(y=y, z=slab_thickness),
+                        mp.Vector3(y=y + wg_width, z=slab_thickness),
+                        mp.Vector3(x=1, y=y + wg_width, z=slab_thickness),
+                        mp.Vector3(x=1, y=y, z=slab_thickness),
+                    ],
+                    height=wg_thickness - slab_thickness,
+                    center=mp.Vector3(
+                        y=y + wg_width / 2,
+                        z=slab_thickness + (wg_thickness - slab_thickness) / 2,
+                    ),
+                    # If only 1 angle is specified, use it for all waveguides
+                    sidewall_angle=sidewall_angles
+                    if len(np.unique(sidewall_angles)) == 1
+                    else sidewall_angles[i],
+                    # axis=mp.Vector3(z=sidewall_taper),
+                    material=material_core,
+                )
             )
-        )
+        else:
+            geometry.append(
+                mp.Block(
+                    size=mp.Vector3(mp.inf, wg_width, wg_thickness),
+                    material=material_core,
+                    center=mp.Vector3(y=y + wg_width / 2, z=wg_thickness / 2),
+                )
+            )
 
         y += gaps[i] + wg_width
 
@@ -148,7 +173,14 @@ def get_mode_solver_coupler(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_coupler(slab_thickness=90e-3, gap=0.5, wg_width=1, res=64)
+    m = get_mode_solver_coupler(
+        slab_thickness=90e-3,
+        gap=0.5,
+        wg_width=1,
+        res=64,
+        sidewall_angles=(10, 20),
+        sidewall_taper=-1,
+    )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"
@@ -158,5 +190,11 @@ if __name__ == "__main__":
         cmap=cmap,
         origin=origin,
         aspect="auto",
+        extent=[
+            -m.info["sy"] / 2,
+            m.info["sy"] / 2,
+            -m.info["sz"] / 2,
+            m.info["sz"] / 2,
+        ],
     )
     plt.show()
