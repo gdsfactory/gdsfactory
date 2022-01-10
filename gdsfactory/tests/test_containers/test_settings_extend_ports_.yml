@@ -863,6 +863,28 @@ info:
   module: gdsfactory.components.extension
   name: mzi_d275fe52_extend_por_41f60d23
 ports:
+  e1:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - -368.75
+    - -21.375
+    name: e1
+    orientation: 180
+    port_type: electrical
+    width: 11
+  e2:
+    layer:
+    - 49
+    - 0
+    midpoint:
+    - -16.75
+    - -21.375
+    name: e2
+    orientation: 0
+    port_type: electrical
+    width: 11
   o1:
     layer:
     - 1
