@@ -1294,7 +1294,7 @@ class Component(Device):
     def auto_rename_ports(self, **kwargs) -> None:
         """Renames ports by orientation NSEW (north, south, east, west).
 
-        Args:
+        Keyword Args:
             function: to rename ports
             select_ports_optical:
             select_ports_electrical:
@@ -1323,7 +1323,7 @@ class Component(Device):
     def auto_rename_ports_orientation(self, **kwargs) -> None:
         """Renames ports by orientation NSEW (north, south, east, west).
 
-        Args:
+        Keyword Args:
             function: to rename ports
             select_ports_optical:
             select_ports_electrical:
@@ -1375,7 +1375,7 @@ class Component(Device):
     def add_padding(self, **kwargs) -> Device:
         """Returns component with padding
 
-        Args:
+        Keyword Args:
             component
             layers: list of layers
             suffix for name
