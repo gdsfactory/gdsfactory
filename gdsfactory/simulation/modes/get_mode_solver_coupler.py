@@ -82,10 +82,6 @@ def get_mode_solver_coupler(
     # define the 2D blocks for the strip and substrate
     geometry = [
         mp.Block(
-            size=mp.Vector3(mp.inf, mp.inf, mp.inf),
-            material=material_clad,
-        ),
-        mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
             material=material_core,
             center=mp.Vector3(z=slab_thickness / 2),
@@ -131,6 +127,7 @@ def get_mode_solver_coupler(
         resolution=res,
         num_bands=nmodes,
         filename_prefix=str(filename_prefix),
+        default_material=material_clad,
     )
     mode_solver.nmodes = nmodes
     mode_solver.info = dict(
