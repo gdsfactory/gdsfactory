@@ -8,14 +8,8 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import (
-    ComponentOrFactory,
-    Coordinate,
-    CrossSectionOrFactory,
-    Layer,
-)
+from gdsfactory.types import ComponentOrFactory, Coordinate, CrossSectionFactory, Layer
 
 DEG2RAD = np.pi / 180
 
@@ -96,23 +90,32 @@ def extend_ports(
     port2: Optional[str] = None,
     port_type: str = "optical",
     centered: bool = False,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: Optional[CrossSectionFactory] = None,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended
-    it can accept an extension_factory or it defaults to the port
-    width and layer of each extended port
+    you can define an extension_factory
+    otherwise, defaults to the port cross_section of each port to extend
 
     Args:
         component: component to extend ports
-        port_names: specify an list of ports names, if None it extends all ports
+        port_names: list of ports names to extend, if None it extends all ports
         length: extension length
         extension_factory: function to extend ports (defaults to a straight)
         port1: input port name
         port2: output port name
         port_type: type of the ports to extend
         centered: if True centers rectangle at (0, 0)
-        kwargs: for selecting the ports
+        cross_section: extension cross_section, defaults to port cross_section
+
+    Keyword Args:
+        layer: port GDS layer
+        prefix: port name prefix
+        orientation: in degrees
+        width: port width
+        layers_excluded: List of layers to exclude
+        port_type: optical, electrical, ...
+        clockwise: if True, sort ports clockwise, False: counter-clockwise
     """
     c = gf.Component()
     component = component() if callable(component) else component
@@ -124,22 +127,22 @@ def extend_ports(
         cref.y = 0
 
     ports_all = cref.get_ports_list()
-    port_all_names = [p.name for p in ports_all]
+    port_names_all = [p.name for p in ports_all]
 
     ports_to_extend = cref.get_ports_list(port_type=port_type, **kwargs)
     ports_to_extend_names = [p.name for p in ports_to_extend]
-    port_names = port_names or ports_to_extend_names or port_all_names
+    ports_to_extend_names = port_names or ports_to_extend_names or port_names_all
 
-    for port_name in port_names:
-        if port_name not in port_all_names:
-            warnings.warn(f"Port Name {port_name} not in {port_all_names}")
+    for port_name in ports_to_extend_names:
+        if port_name not in port_names_all:
+            warnings.warn(f"Port Name {port_name} not in {port_names_all}")
 
     for port in ports_all:
         port_name = port.name
         port = cref.ports[port_name]
-        cross_section = port.cross_section or cross_section
+        cross_section_extension = cross_section or port.cross_section
 
-        if port_name in port_names:
+        if port_name in ports_to_extend_names:
             if extension_factory:
                 extension_component = extension_factory()
             else:
@@ -147,7 +150,7 @@ def extend_ports(
                     gf.c.straight,
                     length=length,
                     width=port.width,
-                    cross_section=cross_section,
+                    cross_section=cross_section_extension,
                     layer=port.layer,
                 )()
             port_labels = list(extension_component.ports.keys())
@@ -166,23 +169,28 @@ def extend_ports(
 
 
 def test_extend_ports() -> Component:
+    import gdsfactory as gf
     import gdsfactory.components as pc
 
-    c = pc.cross(width=2, port_type="optical")
-    ce = extend_ports(component=c)
-    assert len(c.ports) == len(ce.ports)
-    p = len(ce.polygons)
+    width = 0.5
+    xs_strip = gf.partial(gf.cross_section.strip, width=width)
+
+    c = pc.cross(width=width, port_type="optical")
+
+    c1 = extend_ports(component=c, cross_section=xs_strip)
+    assert len(c.ports) == len(c1.ports)
+    p = len(c1.polygons)
     assert p == 4, p
-    return ce
 
+    c2 = extend_ports(component=c, cross_section=xs_strip, port_names=("o1", "o2"))
+    p = len(c2.polygons)
+    assert p == 2, p
 
-def test_extend_ports_selection() -> Component:
-    import gdsfactory.components as pc
+    c3 = extend_ports(component=c, cross_section=xs_strip)
+    p = len(c3.polygons)
+    assert p == 4, p
 
-    c = pc.cross(width=2)
-    ce = extend_ports(component=c, port_names=list(range(1, 4)))
-    assert len(c.ports) == len(ce.ports)
-    return ce
+    return c3
 
 
 __all__ = ["extend_ports", "extend_port"]
@@ -190,18 +198,19 @@ __all__ = ["extend_ports", "extend_port"]
 
 if __name__ == "__main__":
     # c = extend_ports()
-    # c = test_extend_ports_selection()
-    # c = test_extend_ports()
-    # c.show()
+    # c = extend_ports(gf.c.mzi_phase_shifter_top_heater_metal)
+    c = test_extend_ports()
+    c.show()
 
     # c = gf.c.bend_circular()
     # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
     # ce.show()
 
-    c = gf.components.straight_pin(length=40)
-    ce = extend_ports(c, port_names=("top_e1", "bot_e3"))
+    # c = gf.components.straight_pin(length=40)
+    # ce = extend_ports(c, port_names=("o1", "o2"))
+    # ce = extend_ports(c, port_names=("top_e1", "bot_e3"))
     # ce = extend_ports(c, port_names=("bad", "worse"))
-    ce.show()
+    # ce.show()
     # wg_pin.show()
 
     # c = pc.straight(layer=(3, 0))
