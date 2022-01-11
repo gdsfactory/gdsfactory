@@ -1,11 +1,14 @@
 # CHANGELOG
 
+## 3.9.26
+
+- add some extra kwargs (with_taper1, with_taper2) to straight_heater_doped_rib
+- add slab offset kwargs to cross_section.rib_heater_doped_contact
+
 ## 3.9.25
 
 - `gf.components.contact_slot` accepts optional layer_offsetsx and layer_offsetsy
 - extend_ports cross_section is optional, and overrides port cross_section
-
-
 
 ## 3.9.23
 

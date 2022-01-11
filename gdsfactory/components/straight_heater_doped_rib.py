@@ -21,6 +21,8 @@ def straight_heater_doped_rib(
     contact_metal_size: Tuple[float, float] = (10.0, 10.0),
     contact_size: Tuple[float, float] = (10.0, 10.0),
     taper: Optional[ComponentOrFactory] = taper_cross_section,
+    with_taper1: bool = True,
+    with_taper2: bool = True,
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     contact_gap: float = 0.0,
@@ -111,17 +113,24 @@ def straight_heater_doped_rib(
     )
 
     if taper:
-        taper1 = c << taper
-        taper2 = c << taper
-        taper2.mirror()
-        taper1.connect("o2", wg.ports["o1"])
-        taper2.connect("o2", wg.ports["o2"])
-        c.add_port("o1", port=taper1.ports["o1"])
-        c.add_port("o2", port=taper2.ports["o1"])
+        if with_taper1:
+            taper1 = c << taper
+            taper1.connect("o2", wg.ports["o1"])
+            c.add_port("o1", port=taper1.ports["o1"])
+        else:
+            c.add_port("o1", port=wg.ports["o1"])
 
+        if with_taper2:
+            taper2 = c << taper
+            taper2.mirror()
+            taper2.connect("o2", wg.ports["o2"])
+            c.add_port("o2", port=taper2.ports["o1"])
+
+        else:
+            c.add_port("o2", port=wg.ports["o2"])
     else:
-        c.add_port("o1", port=wg.ports["o1"])
         c.add_port("o2", port=wg.ports["o2"])
+        c.add_port("o1", port=wg.ports["o1"])
 
     if contact_metal:
         contact_section = contact_metal(size=contact_metal_size)
@@ -182,6 +191,7 @@ def test_straight_heater_doped_rib_ports() -> Component:
 
 
 if __name__ == "__main__":
-    c = straight_heater_doped_rib(with_top_heater=False, with_top_contact=False)
+    # c = straight_heater_doped_rib(with_top_heater=False, with_top_contact=False)
+    c = straight_heater_doped_rib(with_taper1=False)
     # c = straight_heater_doped_rib()
     c.show()
