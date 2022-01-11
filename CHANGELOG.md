@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.9.27
+
+- Add [sidewall angles in MPB](https://github.com/gdsfactory/gdsfactory/pull/136)
+
 ## 3.9.26
 
 - add some extra kwargs (with_taper1, with_taper2) to straight_heater_doped_rib
