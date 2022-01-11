@@ -220,6 +220,7 @@ gdsfactory top contributors:
 - Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://sax.readthedocs.io/en/latest/)
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Biladieu (Princeton): Meep FDTD write Sparameters
+- Thomas Dorch (Freedom Photonics): for Meep's material database access and MPB sidewall angles
 
 Open source heroes:
 
