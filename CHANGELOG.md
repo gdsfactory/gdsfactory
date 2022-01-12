@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.9.28
+
+- seal ring accepts bbox instead of component
+
 ## 3.9.27
 
 - Add [sidewall angles in MPB](https://github.com/gdsfactory/gdsfactory/pull/136)
