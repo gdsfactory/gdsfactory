@@ -1160,6 +1160,7 @@ class Component(Device):
         layers_excluded: Optional[Layers] = None,
         layer_set: LayerSet = LAYER_SET,
         min_aspect: float = 0.25,
+        padding: float = 0.5,
     ):
         """Plot Component in holoviews.
 
@@ -1167,8 +1168,9 @@ class Component(Device):
 
         Args:
             layers_excluded: list of layers to exclude.
-            layer_set: layer_set colors loaded from Klayout
+            layer_set: layer_set colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
+            padding: around bounding box.
 
         Returns:
             Holoviews Overlay to display all polygons.
@@ -1182,7 +1184,7 @@ class Component(Device):
             print("you need to `pip install holoviews`")
 
         self._bb_valid = False  # recompute the bounding box
-        b = self.bbox
+        b = self.bbox + ((-padding, -padding), (padding, padding))
         b = np.array(b.flat)
         center = np.array((np.sum(b[::2]) / 2, np.sum(b[1::2]) / 2))
         size = np.array((np.abs(b[2] - b[0]), np.abs(b[3] - b[1])))
