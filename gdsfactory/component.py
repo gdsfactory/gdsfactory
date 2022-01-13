@@ -1217,7 +1217,7 @@ class Component(Device):
             polygon, ptip = get_pin_triangle_polygon_tip(port=port)
 
             plots_to_overlay.append(
-                hv.Polygons(polygon, label=port.name).opts(
+                hv.Polygons(polygon, label=name).opts(
                     data_aspect=1,
                     frame_height=200,
                     fill_alpha=0,
@@ -1227,7 +1227,7 @@ class Component(Device):
                     line_alpha=layer.alpha,
                     tools=["hover"],
                 )
-                * hv.Text(ptip[0], ptip[1], port.name)
+                * hv.Text(ptip[0], ptip[1], name)
             )
 
         return hv.Overlay(plots_to_overlay).opts(
