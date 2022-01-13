@@ -9,6 +9,8 @@
 - remove `Component.plotqt` as the qt plotter is not available under `Component.plot(plotter='qt')`
 - gf.geometry.boolean works with tuples of components or references as well as single component or Reference. Overcome phidl bug, where tuples are not trated as lists.
 - Before plotting make sure we recompute the bounding box
+- YAML mask definition allows using `vars` for global variables
+- grating_coupler_rectangular first teeth starts next to the taper
 
 ## 3.9.28
 
