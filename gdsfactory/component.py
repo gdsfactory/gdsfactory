@@ -1120,12 +1120,12 @@ class Component(Device):
         return layers
 
     def _repr_html_(self):
-        """Print component, show geometry in matplotlib and in klayout
-        when using jupyter notebooks
+        """Print component, show geometry in klayout and return plot
+        for jupyter notebooks
         """
         self.show(show_ports=False)
-        self.plot()
-        return self.__str__()
+        print(self)
+        return self.plot()
 
     def plot(self, plotter: Plotter = "holoviews", **kwargs) -> None:
         """Return component plot.
@@ -1181,6 +1181,7 @@ class Component(Device):
         except ImportError:
             print("you need to `pip install holoviews`")
 
+        self._bb_valid = False  # recompute the bounding box
         b = self.bbox
         b = np.array(b.flat)
         center = np.array((np.sum(b[::2]) / 2, np.sum(b[1::2]) / 2))
