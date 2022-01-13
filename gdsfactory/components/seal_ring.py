@@ -7,7 +7,6 @@ from gdsfactory.components.contact import contact
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.snap import snap_to_grid
 
-big_square = gf.partial(rectangle, size=(1300, 2600))
 Coordinate = Union[Tuple[float, float], array]
 
 
@@ -81,6 +80,7 @@ def seal_ring(
 
 
 if __name__ == "__main__":
+    big_square = gf.partial(rectangle, size=(1300, 2600))
     c = big_square()
     c.unlock()
     c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
