@@ -377,7 +377,7 @@ compass
 
   import gdsfactory as gf
 
-  c = gf.components.compass(size=(4.0, 2.0), layer=(1, 0), port_type='electrical')
+  c = gf.components.compass(size=(4.0, 2.0), layer=(1, 0), port_type='electrical', port_inclusion=0.0)
   c.plot()
 
 
@@ -976,7 +976,22 @@ die_bbox
 
   import gdsfactory as gf
 
-  c = gf.components.die_bbox(street_width=100.0, street_length=1000.0, text_size=100.0, text_location='SW', layer=(49, 0), padding=10.0)
+  c = gf.components.die_bbox(street_width=100.0, street_length=1000.0, text_size=100.0, text_anchor='sw', layer=(49, 0), padding=10.0)
+  c.plot()
+
+
+
+die_bbox_frame
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.die_bbox_frame
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.die_bbox_frame(bbox=((-1.0, -1.0), (3.0, 4.0)), street_width=100.0, street_length=1000.0, text_size=100.0, text_anchor='sw', layer=(49, 0), padding=10.0)
   c.plot()
 
 
@@ -1696,7 +1711,7 @@ pad
 
   import gdsfactory as gf
 
-  c = gf.components.pad(size=(100.0, 100.0), layer=(49, 0))
+  c = gf.components.pad(size=(100.0, 100.0), layer=(49, 0), port_inclusion=0)
   c.plot()
 
 
@@ -1896,6 +1911,21 @@ ring_double
 
 
 
+ring_double_heater
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_double_heater
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, port_orientation=90, contact_offset=(0, 0))
+  c.plot()
+
+
+
 ring_single
 ----------------------------------------------------
 
@@ -1941,6 +1971,21 @@ ring_single_dut
 
 
 
+ring_single_heater
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.ring_single_heater
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, port_orientation=90, contact_offset=(0, 0))
+  c.plot()
+
+
+
 seal_ring
 ----------------------------------------------------
 
@@ -1951,7 +1996,7 @@ seal_ring
 
   import gdsfactory as gf
 
-  c = gf.components.seal_ring(width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
+  c = gf.components.seal_ring(bbox=((-1.0, -1.0), (3.0, 4.0)), width=10, padding=10.0, with_north=True, with_south=True, with_east=True, with_west=True)
   c.plot()
 
 
@@ -2116,7 +2161,7 @@ straight_heater_doped_rib
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True)
+  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True)
   c.plot()
 
 
@@ -2131,7 +2176,7 @@ straight_heater_doped_strip
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True)
+  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True)
   c.plot()
 
 
@@ -2596,7 +2641,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.11', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.9.28', text_size=10)
   c.plot()
 
 

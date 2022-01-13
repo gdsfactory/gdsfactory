@@ -25,6 +25,15 @@ def bend_circular(
         kwargs: cross_section settings
 
 
+    .. code::
+
+                  o2
+                  |
+                 /
+                /
+               /
+       o1_____/
+
     """
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
     radius = x.info["radius"]
