@@ -1,4 +1,4 @@
-# gdsfactory 3.9.27
+# gdsfactory 3.9.28
 
 [![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -32,10 +32,11 @@ It also can output components settings (that you can use for measurement and dat
 
 ## Documentation
 
-For Photonics IC layout I used the open source version of [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
-In 2019, after hitting several major roadblocks in speed when building large masks I decided to stop using it despite many improvements that made it faster, easier to use, and in python3.
+For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
 
-Then I tried all the commercial (Luceda, Cadence, Synopsis) and open source soluttions (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) trying to find a faster/more usable workflow.
+IPKISS is quite slow when working with large layouts, so in 2019 I stopped using it.
+
+Then I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
 
 The metrics for the benchmark were:
 
@@ -43,8 +44,10 @@ The metrics for the benchmark were:
 2. Easy to use
 3. Maintained / Documented / Popular
 
-The winner was PHIDL by a huge margin thanks to speed and usability. PHIDL is written on top of gdspy (which came second), which is a popular python library for writing GDS files.
-gdsfactory is mostly written on top of PHIDL, with some rare calls to gdspy and klayout API
+
+PHIDL was the outstanding winner thanks to its speed, code beauty and easy of use, and is written on top of gdspy (which came second), so you can also leverage all the goodies from gdspy.
+
+Gdsfactory also leverages klayout and gdspy libraries for some functions.
 
 ![](https://i.imgur.com/4xQJ2yk.png)
 
