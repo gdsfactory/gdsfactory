@@ -9,7 +9,7 @@ They without modifying the cell name
 
 """
 import json
-from typing import Callable, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 import numpy as np
 from numpy import ndarray
@@ -26,20 +26,8 @@ def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
 
 
-def add_pin_triangle(
-    component: Component,
-    port: Port,
-    layer: Tuple[int, int] = LAYER.PORT,
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
-) -> None:
-    """Add triangle pin with a right angle, pointing out of the port
-
-    Args:
-        component:
-        port: Port
-        layer: for the pin marker
-        layer_label: for the label
-    """
+def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, float]]:
+    """Returns triangle polygon and tip position"""
     p = port
 
     a = p.orientation
@@ -57,11 +45,30 @@ def add_pin_triangle(
     p1 = p.position + _rotate(dtop, rot_mat)
     ptip = p.position + _rotate(dtip, rot_mat)
     polygon = [p0, p1, ptip]
+    polygon = np.stack(polygon)
+    return polygon, ptip
+
+
+def add_pin_triangle(
+    component: Component,
+    port: Port,
+    layer: Tuple[int, int] = LAYER.PORT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+) -> None:
+    """Add triangle pin with a right angle, pointing out of the port
+
+    Args:
+        component:
+        port: Port
+        layer: for the pin marker
+        layer_label: for the label
+    """
+    polygon, ptip = get_pin_triangle_polygon_tip(port=port)
     component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
-            text=str(p.name),
+            text=str(port.name),
             position=ptip,
             layer=layer_label,
         )
