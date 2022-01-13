@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 3.10.0
+
+- add Component.ploth() to plot with holoviews (inspired by dphox)
+- Component.plot(plotter='holoviews') accepts plotter argument for plotting backend (matplotlib or holoviews)
+- use holoviews as the default plotting backend
+- remove clear_cache from Component.plot() and Component.show(), it's easier to just do `gf.clear_cache()`
+
 ## 3.9.28
 
 - seal_ring accepts bbox instead of component

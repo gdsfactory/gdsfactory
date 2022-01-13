@@ -20,10 +20,12 @@ from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _parse_layer
+from typing_extensions import Literal
 
 from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
+from gdsfactory.layers import LAYER_SET, LayerSet
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -37,6 +39,11 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
+Plotter = Literal[
+    "holoviews",
+    "matplotlib",
+]
+
 
 class MutabilityError(ValueError):
     pass
@@ -47,6 +54,8 @@ Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
+Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
 tmp.mkdir(exist_ok=True, parents=True)
@@ -1121,24 +1130,104 @@ class Component(Device):
         self.plot()
         return self.__str__()
 
-    def plot(
+    def plot(self, plotter: Plotter = "holoviews", **kwargs) -> None:
+        """Returns component plot
+
+        Args:
+            plotter: plotting backend
+
+        KeyError Args:
+            layers_excluded: list of layers to exclude.
+            layer_set: layer_set colors loaded from Klayout
+            min_aspect: minimum aspect ratio.
+
+        """
+
+        if plotter == "matplotlib":
+            from phidl import quickplot as plot
+
+            return plot(self)
+        elif plotter == "holoviews":
+            import holoviews as hv
+
+            hv.extension("bokeh")
+
+            return self.ploth(**kwargs)
+
+    def ploth(
         self,
-        clear_cache: bool = False,
-    ) -> None:
-        """Plot component in matplotlib"""
-        from phidl import quickplot as plot
+        layers_excluded: Optional[Layers] = None,
+        layer_set: LayerSet = LAYER_SET,
+        min_aspect: float = 0.25,
+    ):
+        """Plot Component in holoviews.
 
-        from gdsfactory.cell import clear_cache as clear_cache_function
+        adapted from dphox.device.Device.hvplot
 
-        plot(self)
-        if clear_cache:
-            clear_cache_function()
+        Args:
+            layers_excluded: list of layers to exclude.
+            layer_set: layer_set colors loaded from Klayout
+            min_aspect: minimum aspect ratio.
+
+        Returns:
+            Holoviews Overlay to display all polygons.
+
+        """
+        try:
+            import holoviews as hv
+        except ImportError:
+            print("you need to `pip install holoviews`")
+
+        b = self.bbox
+        b = np.array(b.flat)
+        center = np.array((np.sum(b[::2]) / 2, np.sum(b[1::2]) / 2))
+        size = np.array((np.abs(b[2] - b[0]), np.abs(b[3] - b[1])))
+        dx = np.array(
+            (
+                np.maximum(min_aspect * size[1], size[0]) / 2,
+                np.maximum(size[1], min_aspect * size[0]) / 2,
+            )
+        )
+        b = np.hstack((center - dx, center + dx))
+
+        plots_to_overlay = []
+        layers_excluded = [] if layers_excluded is None else layers_excluded
+
+        for layer, polygon in self.get_polygons(by_spec=True).items():
+            if layer in layers_excluded:
+                continue
+
+            layer = layer_set.get_from_tuple(layer)
+            plots_to_overlay.append(
+                hv.Polygons(polygon, label=layer.name).opts(
+                    data_aspect=1,
+                    frame_height=200,
+                    fill_alpha=layer.alpha,
+                    ylim=(b[1], b[3]),
+                    xlim=(b[0], b[2]),
+                    color=layer.color,
+                    line_alpha=layer.alpha,
+                    tools=["hover"],
+                )
+            )
+        for name, port in self.ports.items():
+            x = port.x
+            y = port.y
+            plots_to_overlay.append(
+                hv.Polygons([{"x": x, "y": y}]).opts(
+                    data_aspect=1, frame_height=200, color="red", line_alpha=0
+                )
+                * hv.Text(x, y, port.name)
+            )
+
+        return hv.Overlay(plots_to_overlay).opts(
+            show_legend=True, shared_axes=False, ylim=(b[1], b[3]), xlim=(b[0], b[2])
+        )
 
     def show(
         self,
         show_ports: bool = True,
         show_subports: bool = False,
-        clear_cache: bool = False,
     ) -> None:
         """Show component in klayout
 
@@ -1150,7 +1239,6 @@ class Component(Device):
         Args:
             show_ports: shows component with port markers and labels
             show_subports: add ports markers and labels to component references
-            clear_cache: after showing component clears cache (useful for jupyter)
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -1166,7 +1254,7 @@ class Component(Device):
         else:
             component = self
 
-        show(component, clear_cache=clear_cache)
+        show(component)
 
     def plotqt(self):
         from phidl.quickplotter import quickplot2
@@ -1593,10 +1681,18 @@ if __name__ == "__main__":
     # test_bbox_reference()
     # test_bbox_component()
 
+    import holoviews as hv
+    from bokeh.plotting import output_file, show
+
     import gdsfactory as gf
 
+    hv.extension("bokeh")
+    output_file("plot.html")
+
     c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
-    c.show()
+    # c.show()
+    p = c.ploth()
+    show(p)
 
     # c = gf.Component("component_with_offgrid_polygons")
     # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
