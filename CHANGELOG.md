@@ -3,9 +3,10 @@
 ## 3.10.0
 
 - add Component.ploth() to plot with holoviews (inspired by dphox)
-- Component.plot(plotter='holoviews') accepts plotter argument for plotting backend (matplotlib or holoviews)
+- Component.plot(plotter='holoviews') accepts plotter argument for plotting backend (matplotlib, qt or holoviews)
 - use holoviews as the default plotting backend
 - remove clear_cache from Component.plot() and Component.show(), it's easier to just do `gf.clear_cache()`
+- remove `Component.plotqt` as the qt plotter is not available under `Component.plot(plotter='qt')`
 
 ## 3.9.28
 

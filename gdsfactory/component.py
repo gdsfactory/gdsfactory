@@ -39,10 +39,7 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
-Plotter = Literal[
-    "holoviews",
-    "matplotlib",
-]
+Plotter = Literal["holoviews", "matplotlib", "qt"]
 
 
 class MutabilityError(ValueError):
@@ -1131,14 +1128,14 @@ class Component(Device):
         return self.__str__()
 
     def plot(self, plotter: Plotter = "holoviews", **kwargs) -> None:
-        """Returns component plot
+        """Return component plot.
 
         Args:
-            plotter: plotting backend
+            plotter: plotting backend ('holoviews', 'matplotlib', 'qt').
 
         KeyError Args:
             layers_excluded: list of layers to exclude.
-            layer_set: layer_set colors loaded from Klayout
+            layer_set: layer_set colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
 
         """
@@ -1146,13 +1143,17 @@ class Component(Device):
         if plotter == "matplotlib":
             from phidl import quickplot as plot
 
-            return plot(self)
+            plot(self)
         elif plotter == "holoviews":
             import holoviews as hv
 
             hv.extension("bokeh")
-
             return self.ploth(**kwargs)
+
+        elif plotter == "qt":
+            from phidl.quickplotter import quickplot2
+
+            quickplot2(self)
 
     def ploth(
         self,
@@ -1229,15 +1230,6 @@ class Component(Device):
                 * hv.Text(ptip[0], ptip[1], port.name)
             )
 
-            # x = port.x
-            # y = port.y
-            # plots_to_overlay.append(
-            #     hv.Polygons([{"x": x, "y": y}]).opts(
-            #         data_aspect=1, frame_height=200, color="red", line_alpha=0
-            #     )
-            #     * hv.Text(x, y, port.name)
-            # )
-
         return hv.Overlay(plots_to_overlay).opts(
             show_legend=True, shared_axes=False, ylim=(b[1], b[3]), xlim=(b[0], b[2])
         )
@@ -1247,12 +1239,10 @@ class Component(Device):
         show_ports: bool = True,
         show_subports: bool = False,
     ) -> None:
-        """Show component in klayout
+        """Show component in klayout.
 
-        if show_subports = True
-        We add pins in a new component
-        that contains a reference to the old component
-        so we don't modify the original component
+        show_subports = True adds pins in a component copy (only used for display)
+        so the original component remains as it was
 
         Args:
             show_ports: shows component with port markers and labels
@@ -1273,11 +1263,6 @@ class Component(Device):
             component = self
 
         show(component)
-
-    def plotqt(self):
-        from phidl.quickplotter import quickplot2
-
-        quickplot2(self)
 
     def write_gds(
         self,
