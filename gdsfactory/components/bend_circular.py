@@ -75,8 +75,8 @@ if __name__ == "__main__":
     c.pprint()
     c.show()
 
-    # c = bend_circular180()
-    # c.plotqt()
+    c = bend_circular180()
+    c.plot("qt")
 
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()
