@@ -2,7 +2,10 @@
 
 ## 3.9.28
 
-- seal ring accepts bbox instead of component
+- seal_ring accepts bbox instead of component
+- die_bbox_frame accepts bbox
+- die_bbox: rename text_position to text_anchor
+- die_bbox: text_anchor accepts Literal instead of string
 
 ## 3.9.27
 
