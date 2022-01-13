@@ -15,7 +15,7 @@ cells:
       padding: 10
       street_length: 1000
       street_width: 100
-      text_location: sw
+      text_anchor: sw
       text_size: 100
     full:
       bbox:
@@ -30,7 +30,7 @@ cells:
       padding: 10
       street_length: 1000
       street_width: 100
-      text_location: sw
+      text_anchor: sw
       text_size: 100
     function_name: die_bbox_frame
     info_version: 1
@@ -52,7 +52,7 @@ info:
     padding: 10
     street_length: 1000
     street_width: 100
-    text_location: sw
+    text_anchor: sw
     text_size: 100
   full:
     bbox:
@@ -67,7 +67,7 @@ info:
     padding: 10
     street_length: 1000
     street_width: 100
-    text_location: sw
+    text_anchor: sw
     text_size: 100
   function_name: die_bbox_frame
   info_version: 1
