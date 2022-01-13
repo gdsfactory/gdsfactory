@@ -36,7 +36,7 @@ For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for
 
 IPKISS is quite slow when working with large layouts, so in 2019 I stopped using it.
 
-Then I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
+Then I tried all the commercial (Luceda, Cadence, Synopsys) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
 
 The metrics for the benchmark were:
 
