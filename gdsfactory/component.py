@@ -25,7 +25,7 @@ from typing_extensions import Literal
 from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
-from gdsfactory.layers import LAYER_SET, LayerSet
+from gdsfactory.layers import LAYER_SET, LayerPhidl, LayerSet
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -1200,7 +1200,13 @@ class Component(Device):
             if layer in layers_excluded:
                 continue
 
-            layer = layer_set.get_from_tuple(layer)
+            try:
+                layer = layer_set.get_from_tuple(layer)
+            except ValueError:
+                layers = list(layer_set._layers.keys())
+                warnings.warn(f"{layer} not defined in {layers}")
+                layer = LayerPhidl(gds_layer=layer[0], gds_datatype=layer[1])
+
             plots_to_overlay.append(
                 hv.Polygons(polygon, label=layer.name).opts(
                     data_aspect=1,
@@ -1692,7 +1698,8 @@ if __name__ == "__main__":
     hv.extension("bokeh")
     output_file("plot.html")
 
-    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
+    c = gf.components.rectangle(size=(10, 3), layer=(0, 0))
+    # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
     # c.show()
     p = c.ploth()
     show(p)
