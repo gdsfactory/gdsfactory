@@ -1173,6 +1173,8 @@ class Component(Device):
             Holoviews Overlay to display all polygons.
 
         """
+        from gdsfactory.add_pins import get_pin_triangle_polygon_tip
+
         try:
             import holoviews as hv
         except ImportError:
@@ -1211,14 +1213,30 @@ class Component(Device):
                 )
             )
         for name, port in self.ports.items():
-            x = port.x
-            y = port.y
+            polygon, ptip = get_pin_triangle_polygon_tip(port=port)
+
             plots_to_overlay.append(
-                hv.Polygons([{"x": x, "y": y}]).opts(
-                    data_aspect=1, frame_height=200, color="red", line_alpha=0
+                hv.Polygons(polygon, label=port.name).opts(
+                    data_aspect=1,
+                    frame_height=200,
+                    fill_alpha=0,
+                    ylim=(b[1], b[3]),
+                    xlim=(b[0], b[2]),
+                    color="red",
+                    line_alpha=layer.alpha,
+                    tools=["hover"],
                 )
-                * hv.Text(x, y, port.name)
+                * hv.Text(ptip[0], ptip[1], port.name)
             )
+
+            # x = port.x
+            # y = port.y
+            # plots_to_overlay.append(
+            #     hv.Polygons([{"x": x, "y": y}]).opts(
+            #         data_aspect=1, frame_height=200, color="red", line_alpha=0
+            #     )
+            #     * hv.Text(x, y, port.name)
+            # )
 
         return hv.Overlay(plots_to_overlay).opts(
             show_legend=True, shared_axes=False, ylim=(b[1], b[3]), xlim=(b[0], b[2])
