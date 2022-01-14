@@ -17,6 +17,7 @@ skip = {
     "dataclasses",
     "library",
     "waveguide_template",
+    "extend_ports_list",
 }
 
 skip_plot = [
