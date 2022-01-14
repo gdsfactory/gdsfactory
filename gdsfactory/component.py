@@ -1211,7 +1211,7 @@ class Component(Device):
                 layer = LayerPhidl(gds_layer=layer[0], gds_datatype=layer[1])
 
             plots_to_overlay.append(
-                hv.Polygons(polygon, label=layer.name).opts(
+                hv.Polygons(polygon, label=str(layer.name)).opts(
                     data_aspect=1,
                     frame_height=200,
                     fill_alpha=layer.alpha,
@@ -1223,6 +1223,7 @@ class Component(Device):
                 )
             )
         for name, port in self.ports.items():
+            name = str(name)
             polygon, ptip = get_pin_triangle_polygon_tip(port=port)
 
             plots_to_overlay.append(
