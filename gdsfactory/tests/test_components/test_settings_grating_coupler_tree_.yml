@@ -70,7 +70,6 @@ cells:
       n_periods: 30
       nclad: 1.443
       neff: 2.638
-      p_start: 26
       polarization: te
       slab_offset: 2
       slab_xmin: -1
@@ -96,7 +95,6 @@ cells:
       n_periods: 30
       nclad: 1.443
       neff: 2.638
-      p_start: 26
       polarization: te
       slab_offset: 2
       slab_xmin: -1
@@ -133,6 +131,52 @@ cells:
     length: 429.5
     module: gdsfactory.components.straight
     name: straight_09267a6d
+    width: 0.5
+  straight_2480e476:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 24.2
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 24.2
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 24.2
+    module: gdsfactory.components.straight
+    name: straight_2480e476
+    width: 0.5
+  straight_2ac686be:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 33.2
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 33.2
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 33.2
+    module: gdsfactory.components.straight
+    name: straight_2ac686be
     width: 0.5
   straight_35279b0d:
     changed:
@@ -180,52 +224,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight_8535e376
     width: 0.5
-  straight_999e033a:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 25
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 25
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 25
-    module: gdsfactory.components.straight
-    name: straight_999e033a
-    width: 0.5
-  straight_9fd15a43:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 29.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 29.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 29.5
-    module: gdsfactory.components.straight
-    name: straight_9fd15a43
-    width: 0.5
   straight_aa45e1cb:
     changed:
       cross_section:
@@ -248,6 +246,29 @@ cells:
     length: 302.5
     module: gdsfactory.components.straight
     name: straight_aa45e1cb
+    width: 0.5
+  straight_aea980a7:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 28.7
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 28.7
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 28.7
+    module: gdsfactory.components.straight
+    name: straight_aea980a7
     width: 0.5
   straight_array_e79eb4c6:
     changed:
@@ -315,29 +336,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.grating_coupler_tree
     name: straight_array_e79eb4c6_dc3919be
-  straight_b5891e42:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 34
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 34
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 34
-    module: gdsfactory.components.straight
-    name: straight_b5891e42
-    width: 0.5
   straight_d41d8cd9:
     changed: {}
     default:
@@ -358,11 +356,11 @@ cells:
     module: gdsfactory.components.straight
     name: straight_d41d8cd9
     width: 0.5
-  straight_f57ff793:
+  straight_d9504b06:
     changed:
       cross_section:
         function: cross_section
-      length: 38.5
+      length: 37.7
     default:
       cross_section:
         function: cross_section
@@ -372,14 +370,14 @@ cells:
     full:
       cross_section:
         function: cross_section
-      length: 38.5
+      length: 37.7
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 38.5
+    length: 37.7
     module: gdsfactory.components.straight
-    name: straight_f57ff793
+    name: straight_d9504b06
     width: 0.5
 info:
   changed: {}
@@ -436,7 +434,7 @@ ports:
     - 0
     midpoint:
     - -439.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_00
     orientation: 270
     port_type: vertical_te
@@ -447,7 +445,7 @@ ports:
     - 0
     midpoint:
     - -312.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_01
     orientation: 270
     port_type: vertical_te
@@ -458,7 +456,7 @@ ports:
     - 0
     midpoint:
     - -185.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_02
     orientation: 270
     port_type: vertical_te
@@ -468,8 +466,8 @@ ports:
     - 203
     - 0
     midpoint:
-    - -58.5
-    - -51.601
+    - -58.50000000000001
+    - -56.300000000000004
     name: vertical_te_03
     orientation: 270
     port_type: vertical_te
@@ -480,7 +478,7 @@ ports:
     - 0
     midpoint:
     - 68.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_04
     orientation: 270
     port_type: vertical_te
@@ -491,7 +489,7 @@ ports:
     - 0
     midpoint:
     - 195.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_05
     orientation: 270
     port_type: vertical_te
@@ -502,7 +500,7 @@ ports:
     - 0
     midpoint:
     - 322.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_06
     orientation: 270
     port_type: vertical_te
@@ -513,7 +511,7 @@ ports:
     - 0
     midpoint:
     - 449.5
-    - -51.601
+    - -56.300000000000004
     name: vertical_te_07
     orientation: 270
     port_type: vertical_te

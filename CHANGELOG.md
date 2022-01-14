@@ -3,6 +3,10 @@
 ## 3.10.1
 
 - You can set up the default plotter from the gdsfactory config `gf.CONF.plotter = 'matplotlib'`
+- [PR 142](https://github.com/gdsfactory/gdsfactory/pull/142)
+    * dispersive flag to meep simulations
+    * fixed bug where adding a layer would throw an error if "visible" or "transparent" were undefined in the .lyp file
+- remove p_start (starting period) from grating_coupler_elliptical
 
 ## 3.10.0
 

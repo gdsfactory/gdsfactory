@@ -58,6 +58,10 @@ def grating_coupler_elliptical_arbitrary(
         fiber_marker_layer
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
 
+    https://en.wikipedia.org/wiki/Ellipse
+    c = (a1 ** 2 - b1 ** 2) ** 0.5
+    e = (1 - (b1 / a1) ** 2) ** 0.5
+    print(e)
 
     .. code::
 
@@ -83,12 +87,6 @@ def grating_coupler_elliptical_arbitrary(
     b1 = round(b1, 3)
     x1 = round(x1, 3)
     period = a1 + x1
-
-    # https://en.wikipedia.org/wiki/Ellipse
-    c = (a1 ** 2 - b1 ** 2) ** 0.5
-
-    # e = (1 - (b1 / a1) ** 2) ** 0.5
-    # print(e)
 
     c = gf.Component()
     c.info.polarization = polarization
