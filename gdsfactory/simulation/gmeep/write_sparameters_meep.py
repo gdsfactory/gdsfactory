@@ -24,7 +24,7 @@ from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 
-def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict):
+def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
     """Given a port and eigenmode coefficient result, returns the coefficients
     relative to whether the wavevector is entering or exiting simulation
 
@@ -120,6 +120,7 @@ def write_sparameters_meep(
     animate: bool = False,
     lazy_parallelism: bool = False,
     run: bool = True,
+    dispersive: bool = False,
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
@@ -142,7 +143,7 @@ def write_sparameters_meep(
             outputs during computation. The name of the file is the source index
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel
-
+        dispersive: whether to use dispersive models for materials (requires higher resolution)
     keyword Args:
         extend_ports_length: to extend ports beyond the PML
         layer_stack: Dict of layer number (int, int) to thickness (um)
@@ -198,6 +199,7 @@ def write_sparameters_meep(
         port_margin=port_margin,
         port_monitor_offset=port_monitor_offset,
         port_source_offset=port_source_offset,
+        dispersive=dispersive,
         **settings,
     )
     # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
@@ -246,6 +248,7 @@ def write_sparameters_meep(
         layer_to_thickness: Dict[Tuple[int, int], float] = layer_to_thickness,
         layer_to_material: Dict[Tuple[int, int], str] = layer_to_material,
         animate: bool = animate,
+        dispersive: bool = dispersive,
         **settings,
     ) -> Dict:
 
@@ -259,6 +262,7 @@ def write_sparameters_meep(
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
+            dispersive=dispersive,
             **settings,
         )
 
