@@ -3,7 +3,7 @@ name: Sphinx docs to gh-pages
 on:
   push:
     branches:
-      - main
+      - master
 
 # workflow_dispatch:        # Un comment line if you also want to trigger action manually
 
@@ -30,6 +30,6 @@ jobs:
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         with:
-          branch: main
+          branch: master
           dir_docs: docs
           sphinxopts: ''
