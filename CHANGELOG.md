@@ -1,11 +1,37 @@
 # CHANGELOG
 
+## 3.10.0
+
+- add Component.ploth() to plot with holoviews (inspired by dphox)
+- Component.plot(plotter='holoviews') accepts plotter argument for plotting backend (matplotlib, qt or holoviews)
+- use holoviews as the default plotting backend
+- remove clear_cache from Component.plot() and Component.show(), it's easier to just do `gf.clear_cache()`
+- remove `Component.plotqt` as the qt plotter is not available under `Component.plot(plotter='qt')`
+- gf.geometry.boolean works with tuples of components or references as well as single component or Reference. Overcome phidl bug, where tuples are not trated as lists.
+- Before plotting make sure we recompute the bounding box
+- YAML mask definition allows using `vars` for global variables
+- grating_coupler_rectangular first teeth starts next to the taper
+
+## 3.9.28
+
+- seal_ring accepts bbox instead of component
+- die_bbox_frame accepts bbox
+- die_bbox: rename text_position to text_anchor
+- die_bbox: text_anchor accepts Literal instead of string
+
+## 3.9.27
+
+- Add [sidewall angles in MPB](https://github.com/gdsfactory/gdsfactory/pull/136)
+
+## 3.9.26
+
+- add some extra kwargs (with_taper1, with_taper2) to straight_heater_doped_rib
+- add slab offset kwargs to cross_section.rib_heater_doped_contact
+
 ## 3.9.25
 
 - `gf.components.contact_slot` accepts optional layer_offsetsx and layer_offsetsy
 - extend_ports cross_section is optional, and overrides port cross_section
-
-
 
 ## 3.9.23
 

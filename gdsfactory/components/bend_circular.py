@@ -25,6 +25,15 @@ def bend_circular(
         kwargs: cross_section settings
 
 
+    .. code::
+
+                  o2
+                  |
+                 /
+                /
+               /
+       o1_____/
+
     """
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
     radius = x.info["radius"]
@@ -66,8 +75,8 @@ if __name__ == "__main__":
     c.pprint()
     c.show()
 
-    # c = bend_circular180()
-    # c.plotqt()
+    c = bend_circular180()
+    c.plot("qt")
 
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()

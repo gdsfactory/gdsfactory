@@ -89,7 +89,7 @@ def grating_coupler_rectangular(
         cgrating = c.add_ref(
             rectangle(size=[xsize, width_grating], layer=layer, port_type=None)
         )
-        cgrating.x = gf.snap.snap_to_grid(x0 + i * period)
+        cgrating.xmin = gf.snap.snap_to_grid(x0 + i * period)
         cgrating.y = 0
 
     xport = np.round((x0 + cgrating.x) / 2, 3)

@@ -99,7 +99,7 @@ cells:
       padding: 10
       street_length: 1000
       street_width: 100
-      text_location: SW
+      text_anchor: sw
       text_size: 100
     full:
       component:
@@ -114,7 +114,7 @@ cells:
       padding: 10
       street_length: 1000
       street_width: 100
-      text_location: SW
+      text_anchor: sw
       text_size: 100
     function_name: die_bbox
     info_version: 1
@@ -162,7 +162,7 @@ info:
     padding: 10
     street_length: 1000
     street_width: 100
-    text_location: SW
+    text_anchor: sw
     text_size: 100
   full:
     component:
@@ -177,7 +177,7 @@ info:
     padding: 10
     street_length: 1000
     street_width: 100
-    text_location: SW
+    text_anchor: sw
     text_size: 100
   function_name: die_bbox
   info_version: 1
