@@ -1,18 +1,18 @@
-from typing import Optional
+from typing import Optional, Tuple, Union
 
 import numpy as np
+from numpy import array
 
 import gdsfactory as gf
-from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.text import text
 from gdsfactory.types import Anchor, Layer
 
-big_square = gf.partial(rectangle, size=(1300, 2600))
+Coordinate = Union[Tuple[float, float], array]
 
 
-@gf.cell
-def die_bbox(
-    component: gf.types.ComponentOrFactory = big_square,
+@gf.cell_without_validator
+def die_bbox_frame(
+    bbox: Tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
     street_width: float = 100.0,
     street_length: float = 1000.0,
     die_name: Optional[str] = None,
@@ -21,15 +21,15 @@ def die_bbox(
     layer: Layer = (49, 0),
     padding: float = 10.0,
 ) -> gf.Component:
-    """Return component with boundary box frame around it.
-    Perfect for defining the boundary of the chip/die
+    """Return boundary box frame. Perfect for defining dicing lanes.
+    the boundary of the chip/die
     it can also add a label with the name of the die.
     similar to die and bbox
 
     adapted from phidl.geometry
 
     Args:
-        component: to frame
+        bbox: bounding box to frame. Component.bbox
         street_width: Width of the boundary box
         street_length: length of the boundary box
         die_name: Label text.
@@ -40,18 +40,19 @@ def die_bbox(
 
     """
     D = gf.Component()
-    component = component() if callable(component) else component
+    (xmin, ymin), (xmax, ymax) = bbox
 
-    D.copy_child_info(component)
-    cref = D.add_ref(component)
-    cref.x = 0
-    cref.y = 0
-    size = cref.size
-    sx, sy = size[0] / 2, size[1] / 2
+    x = (xmax + xmin) / 2
+    y = (ymax + ymin) / 2
+
+    sx = xmax - xmin
+    sy = ymax - ymin
+
+    sx = sx / 2
+    sy = sy / 2
 
     sx += street_width + padding
     sy += street_width + padding
-
     street_length = max([sx, sy])
 
     xpts = np.array(
@@ -81,8 +82,8 @@ def die_bbox(
 
     if die_name:
         t = D.add_ref(text(text=die_name, size=text_size, layer=layer))
-
         d = street_width + 20
+
         if text_anchor == "nw":
             t.xmin, t.ymax = [-sx + d, sy - d]
         elif text_anchor == "nc":
@@ -96,10 +97,11 @@ def die_bbox(
         elif text_anchor == "se":
             t.xmax, t.ymin = [sx - d, -sy + d]
 
-    return D
+    return D.move((x, y)).flatten()
 
 
 if __name__ == "__main__":
-    mask = gf.components.array(rows=10, columns=10)
-    c = die_bbox(component=mask, die_name="chip99")
+    c = gf.Component("demo")
+    mask = c << gf.components.array(rows=15, columns=10)
+    c << die_bbox_frame(mask.bbox, die_name="chip99")
     c.show()

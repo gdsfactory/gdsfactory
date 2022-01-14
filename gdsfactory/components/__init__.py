@@ -66,7 +66,8 @@ from gdsfactory.components.delay_snake2 import delay_snake2, test_delay_snake2_l
 from gdsfactory.components.delay_snake3 import delay_snake3, test_delay_snake3_length
 from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
-from gdsfactory.components.die_bbox import big_square, die_bbox
+from gdsfactory.components.die_bbox import die_bbox
+from gdsfactory.components.die_bbox_frame import die_bbox_frame
 from gdsfactory.components.disk import disk
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.extend_ports_list import extend_ports_list
@@ -277,6 +278,7 @@ factory = dict(
     delay_snake3=delay_snake3,
     die=die,
     die_bbox=die_bbox,
+    die_bbox_frame=die_bbox_frame,
     disk=disk,
     ellipse=ellipse,
     extend_port=extend_port,
@@ -456,7 +458,6 @@ __all__ = [
     "bend_euler_s",
     "bend_port",
     "bend_s",
-    "big_square",
     "cavity",
     "circle",
     "compass",
@@ -494,6 +495,7 @@ __all__ = [
     "delay_snake3",
     "die",
     "die_bbox",
+    "die_bbox_frame",
     "disk",
     "ellipse",
     "ellipse_arc",

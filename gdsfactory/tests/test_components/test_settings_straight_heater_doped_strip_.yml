@@ -589,6 +589,8 @@ cells:
         function: taper_cross_section
       width: 0.5
       with_bot_contact: true
+      with_taper1: true
+      with_taper2: true
       with_top_contact: true
     full:
       contact:
@@ -647,6 +649,8 @@ cells:
         function: taper_cross_section
       width: 0.5
       with_bot_contact: true
+      with_taper1: true
+      with_taper2: true
       with_top_contact: true
     function_name: straight_heater_doped_rib
     info_version: 1
@@ -773,6 +777,8 @@ info:
       function: taper_cross_section
     width: 0.5
     with_bot_contact: true
+    with_taper1: true
+    with_taper2: true
     with_top_contact: true
   full:
     contact:
@@ -831,6 +837,8 @@ info:
       function: taper_cross_section
     width: 0.5
     with_bot_contact: true
+    with_taper1: true
+    with_taper2: true
     with_top_contact: true
   function_name: straight_heater_doped_rib
   info_version: 1

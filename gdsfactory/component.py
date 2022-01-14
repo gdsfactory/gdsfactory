@@ -20,10 +20,12 @@ from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Device, DeviceReference
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _parse_layer
+from typing_extensions import Literal
 
 from gdsfactory.config import logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
+from gdsfactory.layers import LAYER_SET, LayerPhidl, LayerSet
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -37,6 +39,8 @@ from gdsfactory.port import (
 )
 from gdsfactory.snap import snap_to_grid
 
+Plotter = Literal["holoviews", "matplotlib", "qt"]
+
 
 class MutabilityError(ValueError):
     pass
@@ -47,6 +51,8 @@ Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
 Coordinates = Union[List[Coordinate], ndarray, List[Number], Tuple[Number, ...]]
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
+Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
 tmp.mkdir(exist_ok=True, parents=True)
@@ -1114,43 +1120,143 @@ class Component(Device):
         return layers
 
     def _repr_html_(self):
-        """Print component, show geometry in matplotlib and in klayout
-        when using jupyter notebooks
+        """Print component, show geometry in klayout and return plot
+        for jupyter notebooks
         """
         self.show(show_ports=False)
-        self.plot()
-        return self.__str__()
+        print(self)
+        return self.plot(plotter="matplotlib")
 
-    def plot(
+    def plot(self, plotter: Plotter = "holoviews", **kwargs) -> None:
+        """Return component plot.
+
+        Args:
+            plotter: plotting backend ('holoviews', 'matplotlib', 'qt').
+
+        KeyError Args:
+            layers_excluded: list of layers to exclude.
+            layer_set: layer_set colors loaded from Klayout.
+            min_aspect: minimum aspect ratio.
+
+        """
+
+        if plotter == "matplotlib":
+            from phidl import quickplot as plot
+
+            plot(self)
+        elif plotter == "holoviews":
+            import holoviews as hv
+
+            hv.extension("bokeh")
+            return self.ploth(**kwargs)
+
+        elif plotter == "qt":
+            from phidl.quickplotter import quickplot2
+
+            quickplot2(self)
+
+    def ploth(
         self,
-        clear_cache: bool = False,
-    ) -> None:
-        """Plot component in matplotlib"""
-        from phidl import quickplot as plot
+        layers_excluded: Optional[Layers] = None,
+        layer_set: LayerSet = LAYER_SET,
+        min_aspect: float = 0.25,
+        padding: float = 0.5,
+    ):
+        """Plot Component in holoviews.
 
-        from gdsfactory.cell import clear_cache as clear_cache_function
+        adapted from dphox.device.Device.hvplot
 
-        plot(self)
-        if clear_cache:
-            clear_cache_function()
+        Args:
+            layers_excluded: list of layers to exclude.
+            layer_set: layer_set colors loaded from Klayout.
+            min_aspect: minimum aspect ratio.
+            padding: around bounding box.
+
+        Returns:
+            Holoviews Overlay to display all polygons.
+
+        """
+        from gdsfactory.add_pins import get_pin_triangle_polygon_tip
+
+        try:
+            import holoviews as hv
+        except ImportError:
+            print("you need to `pip install holoviews`")
+
+        self._bb_valid = False  # recompute the bounding box
+        b = self.bbox + ((-padding, -padding), (padding, padding))
+        b = np.array(b.flat)
+        center = np.array((np.sum(b[::2]) / 2, np.sum(b[1::2]) / 2))
+        size = np.array((np.abs(b[2] - b[0]), np.abs(b[3] - b[1])))
+        dx = np.array(
+            (
+                np.maximum(min_aspect * size[1], size[0]) / 2,
+                np.maximum(size[1], min_aspect * size[0]) / 2,
+            )
+        )
+        b = np.hstack((center - dx, center + dx))
+
+        plots_to_overlay = []
+        layers_excluded = [] if layers_excluded is None else layers_excluded
+
+        for layer, polygon in self.get_polygons(by_spec=True).items():
+            if layer in layers_excluded:
+                continue
+
+            try:
+                layer = layer_set.get_from_tuple(layer)
+            except ValueError:
+                layers = list(layer_set._layers.keys())
+                warnings.warn(f"{layer} not defined in {layers}")
+                layer = LayerPhidl(gds_layer=layer[0], gds_datatype=layer[1])
+
+            plots_to_overlay.append(
+                hv.Polygons(polygon, label=str(layer.name)).opts(
+                    data_aspect=1,
+                    frame_height=200,
+                    fill_alpha=layer.alpha,
+                    ylim=(b[1], b[3]),
+                    xlim=(b[0], b[2]),
+                    color=layer.color,
+                    line_alpha=layer.alpha,
+                    tools=["hover"],
+                )
+            )
+        for name, port in self.ports.items():
+            name = str(name)
+            polygon, ptip = get_pin_triangle_polygon_tip(port=port)
+
+            plots_to_overlay.append(
+                hv.Polygons(polygon, label=name).opts(
+                    data_aspect=1,
+                    frame_height=200,
+                    fill_alpha=0,
+                    ylim=(b[1], b[3]),
+                    xlim=(b[0], b[2]),
+                    color="red",
+                    line_alpha=layer.alpha,
+                    tools=["hover"],
+                )
+                * hv.Text(ptip[0], ptip[1], name)
+            )
+
+        return hv.Overlay(plots_to_overlay).opts(
+            show_legend=True, shared_axes=False, ylim=(b[1], b[3]), xlim=(b[0], b[2])
+        )
 
     def show(
         self,
         show_ports: bool = True,
         show_subports: bool = False,
-        clear_cache: bool = False,
     ) -> None:
-        """Show component in klayout
+        """Show component in klayout.
 
-        if show_subports = True
-        We add pins in a new component
-        that contains a reference to the old component
-        so we don't modify the original component
+        show_subports = True adds pins in a component copy (only used for display)
+        so the original component remains as it was
 
         Args:
             show_ports: shows component with port markers and labels
             show_subports: add ports markers and labels to component references
-            clear_cache: after showing component clears cache (useful for jupyter)
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -1166,12 +1272,7 @@ class Component(Device):
         else:
             component = self
 
-        show(component, clear_cache=clear_cache)
-
-    def plotqt(self):
-        from phidl.quickplotter import quickplot2
-
-        quickplot2(self)
+        show(component)
 
     def write_gds(
         self,
@@ -1468,14 +1569,14 @@ def _clean_value(value: Any) -> Any:
         # value = clean_dict(value.to_dict())
     if isinstance(value, float) and int(value) == value:
         value = int(value)
-    elif type(value) in [int, float, str, bool]:
-        pass
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.ndarray):
         value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
+    elif type(value) in [int, float, str, bool]:
+        pass
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [_clean_value(value.first)] + [
             _clean_value(func) for func in value.funcs
@@ -1593,10 +1694,19 @@ if __name__ == "__main__":
     # test_bbox_reference()
     # test_bbox_component()
 
+    import holoviews as hv
+    from bokeh.plotting import output_file, show
+
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
-    c.show()
+    hv.extension("bokeh")
+    output_file("plot.html")
+
+    c = gf.components.rectangle(size=(10, 3), layer=(0, 0))
+    # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
+    # c.show()
+    p = c.ploth()
+    show(p)
 
     # c = gf.Component("component_with_offgrid_polygons")
     # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)

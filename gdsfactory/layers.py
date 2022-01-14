@@ -90,8 +90,8 @@ class LayerSet(LayerSetPhidl):
             description: Layer description.
             color: Hex code of color for the Layer.
             inverted: If true, inverts the Layer.
-            alpha: layer opacity between 0 and 1.
-            dither: KLayout dither style, only used in phidl.utilities.write_lyp().
+            alpha: layer opacity between 0 and 1 (0: invisible,  1: opaque).
+            dither: KLayout dither style, only used for phidl.utilities.write_lyp().
         """
         new_layer = LayerPhidl(
             gds_layer=gds_layer,
