@@ -11,15 +11,15 @@ from gdsfactory.tech import LAYER
 
 @cell
 def resistance_meander(
-    pad_size: Tuple[float] = (50.0, 50.0),
+    pad_size: Tuple[float, float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
     res_layer: Tuple[int, int] = LAYER.M3,
     pad_layer: Tuple[int, int] = LAYER.M3,
     gnd_layer: Tuple[int, int] = LAYER.M3,
 ) -> Component:
-    """meander to test resistance
-    from phidl.geometry
+    """Return meander to test resistance
+    adapted from phidl.geometry
 
     Args:
         pad_size: Size of the two matched impedance pads (microns)
