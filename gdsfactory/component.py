@@ -1125,7 +1125,7 @@ class Component(Device):
         """
         self.show(show_ports=False)
         print(self)
-        return self.plot()
+        return self.plot(plotter="matplotlib")
 
     def plot(self, plotter: Plotter = "holoviews", **kwargs) -> None:
         """Return component plot.
@@ -1569,14 +1569,14 @@ def _clean_value(value: Any) -> Any:
         # value = clean_dict(value.to_dict())
     if isinstance(value, float) and int(value) == value:
         value = int(value)
-    elif type(value) in [int, float, str, bool]:
-        pass
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.ndarray):
         value = [_clean_value(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
+    elif type(value) in [int, float, str, bool]:
+        pass
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [_clean_value(value.first)] + [
             _clean_value(func) for func in value.funcs

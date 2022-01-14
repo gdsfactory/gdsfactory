@@ -1,7 +1,7 @@
 from omegaconf import OmegaConf
 from phidl.device_layout import Device
 
-from gdsfactory.component import Component, ComponentReference, Port
+from gdsfactory.component import Component, ComponentReference, Port, clean_dict
 from gdsfactory.config import call_if_func
 
 
@@ -9,7 +9,8 @@ def from_phidl(component: Device, **kwargs) -> Component:
     """Returns gf.Component from a phidl Device or function"""
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)
-    component.info = OmegaConf.create(device.info)
+    info = clean_dict(device.info)
+    component.info = OmegaConf.create(info)
     for ref in device.references:
         new_ref = ComponentReference(
             component=ref.parent,
