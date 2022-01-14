@@ -533,7 +533,7 @@ class ComponentReference(DeviceReference):
         """
         return list(select_ports(self.ports, **kwargs).values())
 
-    def get_ports_dict(self, **kwargs) -> List[Port]:
+    def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
         """Returns a list of ports.
 
         Args:
@@ -1024,7 +1024,7 @@ class Component(Device):
 
         return copy(self, prefix=prefix, suffix=suffix, cache=cache)
 
-    def copy_child_info(self, component) -> None:
+    def copy_child_info(self, component: "Component") -> None:
         """Copy info from another component.
         so hierarchical components propagate child cells info.
         """
@@ -1043,7 +1043,7 @@ class Component(Device):
             setting, self.info.full.get(setting, self.info_child.get(setting))
         )
 
-    def add(self, element):
+    def add(self, element) -> None:
         """
         Add a new element or list of elements to this Component
 
