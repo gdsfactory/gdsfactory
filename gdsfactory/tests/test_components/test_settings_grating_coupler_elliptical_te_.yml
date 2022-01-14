@@ -40,7 +40,6 @@ cells:
       n_periods: 30
       nclad: 1.443
       neff: 2.638
-      p_start: 26
       polarization: te
       slab_offset: 2
       slab_xmin: -1
@@ -66,7 +65,6 @@ cells:
       n_periods: 30
       nclad: 1.443
       neff: 2.638
-      p_start: 26
       polarization: te
       slab_offset: 2
       slab_xmin: -1
@@ -100,7 +98,6 @@ info:
     n_periods: 30
     nclad: 1.443
     neff: 2.638
-    p_start: 26
     polarization: te
     slab_offset: 2
     slab_xmin: -1
@@ -126,7 +123,6 @@ info:
     n_periods: 30
     nclad: 1.443
     neff: 2.638
-    p_start: 26
     polarization: te
     slab_offset: 2
     slab_xmin: -1
@@ -147,7 +143,7 @@ ports:
     - 1
     - 0
     midpoint:
-    - 0.721
+    - 0
     - 0
     name: o1
     orientation: 180
@@ -158,7 +154,7 @@ ports:
     - 203
     - 0
     midpoint:
-    - 17.322
+    - 22.1
     - 0
     name: vertical_te
     orientation: 0
