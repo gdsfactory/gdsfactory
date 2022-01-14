@@ -96,7 +96,7 @@ gdsfactory is written in python and requires some basic knowledge of python. If 
 
 Once you are familiar with python, you can also:
 
-- [read online docs](https://gdsfactory.com)
+- [read online docs](https://www.gdsfactory.com/)
 - run gdsfactory/samples
 - run [docs/notebooks](https://gdsfactory.readthedocs.io/en/latest/notebooks.html)
 
@@ -236,7 +236,7 @@ Open source heroes:
 
 ## Links
 
-- [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory)
+- [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://www.gdsfactory.com/)
 - [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
 - [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
