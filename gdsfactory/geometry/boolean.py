@@ -48,6 +48,10 @@ def boolean(
     'A-B' is equivalent to 'not'.
     'B-A' is equivalent to 'not' with the operands switched.
     """
+
+    A = list(A) if isinstance(A, tuple) else A
+    B = list(B) if isinstance(B, tuple) else B
+
     c = pg.boolean(
         A=A,
         B=B,
@@ -58,6 +62,17 @@ def boolean(
         layer=layer,
     )
     return gf.read.from_phidl(component=c)
+
+
+def test_boolean():
+    c = gf.Component()
+    e1 = c << gf.components.ellipse()
+    e2 = c << gf.components.ellipse(radii=(10, 6))
+    e3 = c << gf.components.ellipse(radii=(10, 4))
+    e3.movex(5)
+    e2.movex(2)
+    c = boolean(A=[e1, e3], B=e2, operation="A-B")
+    assert len(c.polygons) == 2, len(c.polygons)
 
 
 if __name__ == "__main__":

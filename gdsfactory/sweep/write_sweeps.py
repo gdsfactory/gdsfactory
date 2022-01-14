@@ -107,12 +107,13 @@ def write_sweep(
 def read_sweep(
     filepath: PathType, defaults: Optional[Dict[str, bool]] = None
 ) -> Tuple[Any, Any]:
-    """Load does from file."""
+    """Read DOE YAML file and returns a tuple of DOEs"""
     does = {}
     defaults = defaults or {"do_permutation": True, "settings": {}}
     data = OmegaConf.load(filepath)
     data = OmegaConf.to_container(data)
     mask = data.pop("mask")
+    data.pop("vars", "")
 
     for doe_name, doe in data.items():
         for k in defaults:
