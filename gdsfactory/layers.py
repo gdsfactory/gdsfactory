@@ -200,9 +200,9 @@ def _add_layer(entry, lys: LayerSet) -> LayerSet:
     # print(name, entry["xfill"], entry["fill-color"])
     # if entry["visible"] == "false" or entry["xfill"] == "false":
 
-    if entry["visible"] == "false":
+    if ("visible" in entry.keys()) and (entry["visible"] == "false"):
         alpha = 0
-    elif entry["transparent"] == "false":
+    elif ("transparent" in entry.keys()) and (entry["transparent"] == "false"):
         alpha = 1
     else:
         alpha = 0.5

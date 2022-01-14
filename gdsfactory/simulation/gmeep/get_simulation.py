@@ -36,6 +36,7 @@ def get_simulation(
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
     port_monitor_offset: float = 0,
+    dispersive: bool = False,
     **settings,
 ) -> Dict[str, Any]:
     """Returns Simulation dict from gdsfactory.component
@@ -65,6 +66,7 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        dispersive: whether to use dispersive models for materials (requires higher resolution)
 
     Keyword Args:
         settings: other parameters for sim object (resolution, symmetries, etc.)
@@ -164,7 +166,7 @@ def get_simulation(
             for polygon in polygons:
                 vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
                 material_name = layer_to_material[layer]
-                material = get_material(name=material_name)
+                material = get_material(name=material_name, dispersive=dispersive)
                 geometry.append(
                     mp.Prism(
                         vertices=vertices,
