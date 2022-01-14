@@ -1,8 +1,8 @@
-"""FIXME! add sidewall angles"""
 import pathlib
 import tempfile
 
 import meep as mp
+import numpy as np
 import pydantic
 from meep import mpb
 
@@ -23,6 +23,8 @@ def get_mode_solver_rib(
     sz: float = 2.0,
     res: int = 32,
     nmodes: int = 4,
+    sidewall_angle: float = None,
+    # sidewall_taper: int = 1,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
 
@@ -36,6 +38,8 @@ def get_mode_solver_rib(
         sz: simulation region height (um)
         res: resolution (pixels/um)
         nmodes: number of modes
+        sidewall_angle: waveguide sidewall angle (radians),
+            tapers from wg_width at top of slab, upwards, to top of waveguide
 
     ::
 
@@ -66,29 +70,49 @@ def get_mode_solver_rib(
     # far away from the mode field.
     geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
-    # define the 2d blocks for the strip and substrate
     geometry = [
-        mp.Block(
-            size=mp.Vector3(mp.inf, mp.inf, mp.inf),
-            material=material_clad,
-        ),
-        # uncomment this for not oxide cladded waveguides
-        # mp.Block(
-        #     size=mp.Vector3(mp.inf, mp.inf, 0.5 * (sz - wg_thickness)),
-        #     center=mp.Vector3(z=0.25 * (sz + wg_thickness)),
-        #     material=material_clad,
-        # ),
         mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
             material=material_core,
             center=mp.Vector3(z=slab_thickness / 2),
         ),
-        mp.Block(
-            size=mp.Vector3(mp.inf, wg_width, wg_thickness),
-            material=material_core,
-            center=mp.Vector3(z=wg_thickness / 2),
-        ),
     ]
+    # define the 2d blocks for the strip and substrate
+    if sidewall_angle:
+        geometry.append(
+            mp.Prism(
+                vertices=[
+                    mp.Vector3(y=-wg_width / 2, z=slab_thickness),
+                    mp.Vector3(y=wg_width / 2, z=slab_thickness),
+                    mp.Vector3(x=1, y=wg_width / 2, z=slab_thickness),
+                    mp.Vector3(x=1, y=-wg_width / 2, z=slab_thickness),
+                ],
+                height=wg_thickness - slab_thickness,
+                center=mp.Vector3(
+                    z=slab_thickness + (wg_thickness - slab_thickness) / 2,
+                ),
+                # If only 1 angle is specified, use it for all waveguides
+                sidewall_angle=sidewall_angle,
+                # axis=mp.Vector3(z=sidewall_taper),
+                material=material_core,
+            )
+        )
+    else:
+        geometry.append(
+            mp.Block(
+                size=mp.Vector3(mp.inf, wg_width, wg_thickness),
+                material=material_core,
+                center=mp.Vector3(z=wg_thickness / 2),
+            )
+        )
+        # uncomment this for not oxide cladded waveguides
+        # geometry.append(
+        # mp.Block(
+        #     size=mp.Vector3(mp.inf, mp.inf, 0.5 * (sz - wg_thickness)),
+        #     center=mp.Vector3(z=0.25 * (sz + wg_thickness)),
+        #     material=material_clad,
+        # ),
+        # )
 
     # The k (i.e. beta, i.e. propagation constant) points to look at, in
     # units of 2*pi/um.  We'll look at num_k points from k_min to k_max.
@@ -110,6 +134,7 @@ def get_mode_solver_rib(
         k_points=k_points,
         resolution=res,
         num_bands=nmodes,
+        default_material=material_clad,
         filename_prefix=str(filename_prefix),
     )
     mode_solver.nmodes = nmodes
@@ -130,7 +155,9 @@ def get_mode_solver_rib(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    m = get_mode_solver_rib(slab_thickness=0.09, res=64)
+    m = get_mode_solver_rib(
+        slab_thickness=0.09, res=64, sidewall_angle=10 * (np.pi / 180)
+    )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
     cmap = "viridis"
@@ -140,5 +167,11 @@ if __name__ == "__main__":
         cmap=cmap,
         origin=origin,
         aspect="auto",
+        extent=[
+            -m.info["sy"] / 2,
+            m.info["sy"] / 2,
+            -m.info["sz"] / 2,
+            m.info["sz"] / 2,
+        ],
     )
     plt.show()

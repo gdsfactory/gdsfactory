@@ -5,6 +5,7 @@ on:
     release:
         types: [created, published]
     push:
+        branches: [master]
         tags: [v*]
 
 jobs:
