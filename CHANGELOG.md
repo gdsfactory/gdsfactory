@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.10.1
+
+- You can set up the default plotter from the gdsfactory config `gf.CONF.plotter = 'matplotlib'`
+
 ## 3.10.0
 
 - add Component.ploth() to plot with holoviews (inspired by dphox)
