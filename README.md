@@ -1,6 +1,6 @@
 # gdsfactory 3.10.0
 
-[![](https://readthedocs.org/projects/gdsfactory/badge/?version=latest)](https://gdsfactory.readthedocs.io/en/latest/?badge=latest)
+![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
 [![](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
 ![](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
@@ -96,7 +96,7 @@ gdsfactory is written in python and requires some basic knowledge of python. If 
 
 Once you are familiar with python, you can also:
 
-- [read online docs](https://gdsfactory.readthedocs.io/en/latest)
+- [read online docs](https://gdsfactory.com)
 - run gdsfactory/samples
 - run [docs/notebooks](https://gdsfactory.readthedocs.io/en/latest/notebooks.html)
 
