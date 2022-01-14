@@ -12,6 +12,7 @@ You can access the config dictionary with `print_config`
 """
 
 __version__ = "3.10.0"
+import io
 import json
 import os
 import pathlib
@@ -52,6 +53,13 @@ logger.info(__version__)
 logger.add(sink=logpath)
 
 
+default_config = io.StringIO(
+    """
+plotter: holoviews
+"""
+)
+
+
 class Paths:
     module = module_path
     repo = repo_path
@@ -65,7 +73,7 @@ class Paths:
 def read_config(
     yamlpaths: Iterable[PathType] = (yamlpath_default, yamlpath_home, yamlpath_cwd),
 ) -> omegaconf.DictConfig:
-    CONFIG = OmegaConf.create()
+    CONFIG = OmegaConf.load(default_config)
     for yamlpath in set(yamlpaths):
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
             logger.info(f"loading tech config from {yamlpath}")

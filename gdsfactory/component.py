@@ -22,7 +22,7 @@ from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _parse_layer
 from typing_extensions import Literal
 
-from gdsfactory.config import logger
+from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.hash_points import hash_points
 from gdsfactory.layers import LAYER_SET, LayerPhidl, LayerSet
@@ -1127,7 +1127,7 @@ class Component(Device):
         print(self)
         return self.plot(plotter="matplotlib")
 
-    def plot(self, plotter: Plotter = "holoviews", **kwargs) -> None:
+    def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
         """Return component plot.
 
         Args:
@@ -1139,6 +1139,7 @@ class Component(Device):
             min_aspect: minimum aspect ratio.
 
         """
+        plotter = plotter or CONF.get("plotter", "holoviews")
 
         if plotter == "matplotlib":
             from phidl import quickplot as plot
