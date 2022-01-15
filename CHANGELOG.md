@@ -2,10 +2,10 @@
 
 ## 3.10.2
 
-- write_cells uses gdspy interface directly
+- write_cells in gf.write_cells uses gdspy interface directly
 - gf.import_gds has an optional gdsdir argument
 - remove unused max_name_length in gf.import_gds
-- bring back matplotlib as the default plotter backend
+- bring back matplotlib as the default plotter backend. Holoviews does not work well with some `sphinx.autodoc`
 - add_fiber_array prints warning if grating coupler port is not facing west
 
 ## 3.10.1
