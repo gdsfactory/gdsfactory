@@ -65,7 +65,7 @@ def add_ports_from_markers_center(
     pin_extra_width: float = 0.0,
     min_pin_area_um2: Optional[float] = None,
     max_pin_area_um2: float = 150.0 * 150.0,
-    skip_square_ports: bool = True,
+    skip_square_ports: bool = False,
     xcenter: Optional[float] = None,
     ycenter: Optional[float] = None,
     port_name_prefix: str = "o",
@@ -195,6 +195,7 @@ def add_ports_from_markers_center(
 
         # port markers have same width and height
         # check which edge (E, W, N, S) they are closer to
+
         elif pxmax > xmax - tol:  # east
             orientation = 0
             width = dy
@@ -211,6 +212,16 @@ def add_ports_from_markers_center(
             orientation = 270
             width = dx
             y = p.ymin
+
+        elif pxmax > xc:
+            orientation = 0
+            width = dy
+            x = p.x if inside else p.xmax
+
+        elif pxmax < xc:
+            orientation = 180
+            width = dy
+            x = p.x if inside else p.xmin
 
         x = snap_to_grid(x)
         y = snap_to_grid(y)
