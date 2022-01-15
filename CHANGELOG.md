@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.10.2
+
+- write_cells uses gdspy interface directly
+- gf.import_gds has an optional gdsdir argument
+- gf.import_gds does not accept `kwargs` anymore
+
 ## 3.10.1
 
 - You can set up the default plotter from the gdsfactory config `gf.CONF.plotter = 'matplotlib'`
