@@ -68,7 +68,7 @@ def add_ports_from_markers_center(
     skip_square_ports: bool = False,
     xcenter: Optional[float] = None,
     ycenter: Optional[float] = None,
-    port_name_prefix: str = "o",
+    port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
     auto_rename_ports: bool = True,
 ) -> Component:
@@ -79,8 +79,8 @@ def add_ports_from_markers_center(
     guess port orientation from the component center (xcenter)
 
     Args:
-        component: to read polygons from and to write ports to
-        pin_layer: GDS layer for maker [int, int]
+        component: to read polygons from and to write ports to.
+        pin_layer: GDS layer for maker [int, int].
         port_layer: for the new created port
         inside: True-> markers  inside. False-> markers at center
         tol: tolerance for comparing how rectangular is the pin
@@ -90,7 +90,7 @@ def add_ports_from_markers_center(
         skip_square_ports: skips square ports (hard to guess orientation)
         xcenter: for guessing orientation of rectangular ports
         ycenter: for guessing orientation of rectangular ports
-        port_name_prefix: o for optical ports (o1, o2, o3)
+        port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
         port_type: type of port (optical, electrical ...)
         auto_rename_ports:
 
@@ -149,6 +149,9 @@ def add_ports_from_markers_center(
     port_locations = []
 
     ports = {}
+
+    port_name_prefix_default = "o" if port_type == "optical" else "e"
+    port_name_prefix = port_name_prefix or port_name_prefix_default
 
     for i, p in enumerate(port_markers.polygons):
         port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
