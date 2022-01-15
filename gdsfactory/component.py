@@ -1131,7 +1131,7 @@ class Component(Device):
         """Return component plot.
 
         Args:
-            plotter: plotting backend ('holoviews', 'matplotlib', 'qt').
+            plotter: backend ('holoviews', 'matplotlib', 'qt'). Defaults to matplotlib
 
         KeyError Args:
             layers_excluded: list of layers to exclude.
@@ -1139,7 +1139,7 @@ class Component(Device):
             min_aspect: minimum aspect ratio.
 
         """
-        plotter = plotter or CONF.get("plotter", "holoviews")
+        plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "matplotlib":
             from phidl import quickplot as plot
