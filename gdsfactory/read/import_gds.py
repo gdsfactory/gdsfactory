@@ -21,7 +21,7 @@ def import_gds(
     snap_to_grid_nm: Optional[int] = None,
     name: Optional[str] = None,
     decorator: Optional[Callable] = None,
-    max_name_length: int = 32,
+    gdsdir: Optional[Union[str, Path]] = None,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -29,16 +29,16 @@ def import_gds(
     Adapted from phidl/geometry.py
 
     Args:
-        gdspath: path of GDS file
-        cellname: cell of the name to import (None) imports top cell
+        gdspath: path of GDS file.
+        cellname: cell of the name to import (None) imports top cell.
         flatten: if True returns flattened (no hierarchy)
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
-        name: Optional name
-        decorator: function to apply over the imported gds
-        max_name_length: can truncate the name of the cell before importing it
-        kwargs: component.info
+        name: Optional name. Over-rides the default imported name.
+        decorator: function to apply over the imported gds.
+        gdsdir: optional GDS directory.
+        kwargs: settings for the imported component (polarization, wavelength ...).
     """
-    gdspath = Path(gdspath)
+    gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     if not gdspath.exists():
         raise FileNotFoundError(f"No file {gdspath!r} found")
 
