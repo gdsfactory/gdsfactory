@@ -1,11 +1,15 @@
 # CHANGELOG
 
+## 3.10.3
+
+- [plot Sparameters uses lowercase s11, s21 ...](https://github.com/gdsfactory/gdsfactory/pull/146)
+
 ## 3.10.2
 
 - write_cells in gf.write_cells uses gdspy interface directly
 - gf.import_gds has an optional gdsdir argument
-- remove unused max_name_length in gf.import_gds
-- bring back matplotlib as the default plotter backend. Holoviews does not work well with some `sphinx.autodoc`
+- remove unused max_name_length parameter in gf.import_gds
+- bring back matplotlib as the default plotter backend. Holoviews does not work well with some `sphinx.autodoc` docs
 - add_fiber_array prints warning if grating coupler port is not facing west
 
 ## 3.10.1
