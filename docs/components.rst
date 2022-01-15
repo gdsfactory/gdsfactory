@@ -1141,7 +1141,7 @@ grating_coupler_elliptical
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, nclad=1.443, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=2.0, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
+  c = gf.components.grating_coupler_elliptical(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, nclad=1.443, layer=(1, 0), n_periods=30, big_last_tooth=False, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=2.0, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
   c.plot()
 
 
@@ -1186,7 +1186,7 @@ grating_coupler_elliptical_te
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_te(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, nclad=1.443, layer=(1, 0), p_start=26, n_periods=30, big_last_tooth=False, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=2.0, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
+  c = gf.components.grating_coupler_elliptical_te(polarization='te', taper_length=16.6, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.343, wg_width=0.5, neff=2.638, nclad=1.443, layer=(1, 0), n_periods=30, big_last_tooth=False, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=2.0, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
   c.plot()
 
 
@@ -1201,7 +1201,7 @@ grating_coupler_elliptical_tm
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_tm(polarization='tm', taper_length=30, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.707, wg_width=0.5, neff=1.8, nclad=1.443, layer=(1, 0), p_start=26, n_periods=16, big_last_tooth=False, layer_slab=(2, 0), slab_xmin=-2, slab_offset=2.0, fiber_marker_width=11.0, fiber_marker_layer=(204, 0), spiked=True)
+  c = gf.components.grating_coupler_elliptical_tm(polarization='tm', taper_length=30, taper_angle=40.0, wavelength=1.554, fiber_angle=15.0, grating_line_width=0.707, wg_width=0.5, neff=1.8, nclad=1.443, layer=(1, 0), n_periods=16, big_last_tooth=False, layer_slab=(2, 0), slab_xmin=-2, slab_offset=2.0, fiber_marker_width=11.0, fiber_marker_layer=(204, 0), spiked=True)
   c.plot()
 
 
@@ -2626,7 +2626,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.10.0', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.10.2', text_size=10)
   c.plot()
 
 
