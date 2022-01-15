@@ -4,7 +4,8 @@
 
 - write_cells uses gdspy interface directly
 - gf.import_gds has an optional gdsdir argument
-- gf.import_gds does not accept `kwargs` anymore
+- remove unused max_name_length in gf.import_gds
+- bring back matplotlib as the default plotter backend
 
 ## 3.10.1
 

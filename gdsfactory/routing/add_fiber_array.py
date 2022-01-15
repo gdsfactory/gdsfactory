@@ -1,3 +1,4 @@
+import warnings
 from typing import Callable, Optional, Tuple
 
 import gdsfactory as gf
@@ -96,6 +97,15 @@ def add_fiber_array(
     else:
         gc = grating_coupler
     gc = gf.call_if_func(gc)
+
+    orientation = int(gc.ports[gc_port_name].orientation)
+
+    if orientation != 180:
+        warnings.warn(
+            "add_fiber_array requires a grating coupler port facing west "
+            f"(orientation = 180). "
+            f"Got orientation = {orientation} degrees for port {gc_port_name!r}"
+        )
 
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name} not in {gc.ports.keys()}")
@@ -197,6 +207,7 @@ if __name__ == "__main__":
         # get_route_factory=route_fiber_single,
         # get_route_factory=route_fiber_array,
         grating_coupler=[gcte, gctm, gcte, gctm],
+        # grating_coupler=gf.functions.rotate(gcte, angle=180),
         auto_widen=True,
         # layer=(2, 0),
         gc_port_labels=["loop_in", "in", "out", "loop_out"],
