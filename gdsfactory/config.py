@@ -55,7 +55,7 @@ logger.add(sink=logpath)
 
 default_config = io.StringIO(
     """
-plotter: holoviews
+plotter: matplotlib
 """
 )
 
