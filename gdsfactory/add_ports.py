@@ -19,22 +19,26 @@ def add_ports_from_markers_square(
     max_pin_area_um2: float = 150 * 150,
     pin_extra_width: float = 0.0,
     port_names: Optional[Tuple[str, ...]] = None,
-    port_name_prefix: str = "o",
+    port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
 ) -> Component:
     """Add ports from square markers at the port center in port_layer
 
     Args:
-        component: to read polygons from and to write ports to
-        pin_layer: for port markers
-        port_layer: for the new created port
+        component: to read polygons from and to write ports to.
+        pin_layer: for port markers.
+        port_layer: for the new created port.
         orientation: in degrees 90: north, 0: east, 180: west, 270: south
         min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
         max_pin_area_um2: ignore pins for area above certain size
         pin_extra_width: 2*offset from pin to straight
         port_names: names of the ports (defaults to {i})
+        port_name_prefix: defaults to 'o' for optical and 'e' for electrical
+        port_type: optical, electrical
 
     """
+    port_name_prefix_default = "o" if port_type == "optical" else "e"
+    port_name_prefix = port_name_prefix or port_name_prefix_default
     port_markers = read_port_markers(component, [pin_layer])
     port_names = port_names or [
         f"{port_name_prefix}{i+1}" for i in range(len(port_markers.polygons))
@@ -257,12 +261,24 @@ def add_ports_from_labels(
     port_width: float,
     port_layer: Layer,
     xcenter: Optional[float] = None,
-    port_name_prefix: str = "o",
+    port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
 ) -> Component:
     """Add ports from labels.
     Assumes that all ports have a label at the port center.
+    because labels do not have width, you have to manually specify the ports width
+
+    Args:
+        component: to read polygons from and to write ports to.
+        port_width: for ports.
+        port_layer: for the new created port.
+        xcenter: center of the component, for guessing port orientation.
+        port_name_prefix: defaults to 'o' for optical and 'e' for electrical
+        port_type: optical, electrical
+
     """
+    port_name_prefix_default = "o" if port_type == "optical" else "e"
+    port_name_prefix = port_name_prefix or port_name_prefix_default
     xc = xcenter or component.x
     yc = component.y
     for i, label in enumerate(component.labels):

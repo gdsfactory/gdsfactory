@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.10.5
+
+- fix add_ports_from_markers_center port location for square ports, depending on inside parameter
+
 ## 3.10.4
 
 - use matplotlib for default plotter instead of holoviews
