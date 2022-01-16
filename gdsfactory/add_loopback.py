@@ -20,8 +20,9 @@ def gen_loopback(
     straight: ComponentFactory = gf.components.straight,
     y_bot_align_route: None = None,
 ) -> List[ComponentReference]:
-    """
-    Add a loopback (grating coupler align reference) to a start port and and end port
+    """Returns loopback (grating coupler align reference) references
+    from a start_port and end_port
+
     Input grating generated on the left of start_port
     Output grating generated on the right of end_port
 
