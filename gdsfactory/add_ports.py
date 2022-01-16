@@ -20,6 +20,7 @@ def add_ports_from_markers_square(
     pin_extra_width: float = 0.0,
     port_names: Optional[Tuple[str, ...]] = None,
     port_name_prefix: str = "o",
+    port_type: str = "optical",
 ) -> Component:
     """Add ports from square markers at the port center in port_layer
 
@@ -94,7 +95,7 @@ def add_ports_from_markers_center(
         port_type: type of port (optical, electrical ...)
         auto_rename_ports:
 
-    For the default center case (inside=False)
+    For inside=False the port location is at the middle of the PIN
 
     .. code::
            _______________
@@ -105,22 +106,22 @@ def add_ports_from_markers_center(
          |||             |||____
          |||             |||
           |      __       |
-          |_______________|
-                 __
+          |_____|__|______|
+                |__|
 
 
-    For the inside case (inside=True)
+    For inside=True all the pin is inside the port
 
     .. code::
            _______________
           |               |
           |               |
+          |_              |
+          | |             |
+          |_|             |
           |               |
-          | |             |
-          | |             |
           |      __       |
-          |               |
-          |_______________|
+          |_____|__|______|
 
 
 
@@ -156,6 +157,7 @@ def add_ports_from_markers_center(
         dx = p.xmax - p.xmin
         x = p.x
         y = p.y
+
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
             warnings.warn(f"skipping port with min_pin_area_um2 {dx * dy}")
             continue
@@ -175,53 +177,49 @@ def add_ports_from_markers_center(
         if dx < dy and x > xc:  # east
             orientation = 0
             width = dy
-            if inside:
-                x = p.xmax
+            x = p.xmax if inside else p.x
         elif dx < dy and x < xc:  # west
             orientation = 180
             width = dy
-            if inside:
-                x = p.xmin
+            x = p.xmin if inside else p.x
         elif dx > dy and y > yc:  # north
             orientation = 90
             width = dx
-            if inside:
-                y = p.ymax
+            y = p.ymax if inside else p.y
         elif dx > dy and y < yc:  # south
             orientation = 270
             width = dx
-            if inside:
-                y = p.ymin
+            y = p.ymin if inside else p.y
 
-        # port markers have same width and height
+        # square port markers have same width and height
         # check which edge (E, W, N, S) they are closer to
 
         elif pxmax > xmax - tol:  # east
             orientation = 0
             width = dy
-            x = p.xmax
+            x = p.xmax if inside else p.x
         elif pxmin < xmin + tol:  # west
             orientation = 180
             width = dy
-            x = p.xmin
+            x = p.xmin if inside else p.x
         elif pymax > ymax - tol:  # north
             orientation = 90
             width = dx
-            y = p.ymax
+            y = p.ymax if inside else p.y
         elif pymin < ymin + tol:  # south
             orientation = 270
             width = dx
-            y = p.ymin
+            y = p.ymin if inside else p.y
 
         elif pxmax > xc:
             orientation = 0
             width = dy
-            x = p.x if inside else p.xmax
+            x = p.xmax if inside else p.x
 
         elif pxmax < xc:
             orientation = 180
             width = dy
-            x = p.x if inside else p.xmin
+            x = p.xmin if inside else p.x
 
         x = snap_to_grid(x)
         y = snap_to_grid(y)
