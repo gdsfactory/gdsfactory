@@ -14,8 +14,8 @@ from pathlib import PosixPath
 from functools import partial
 import gdsfactory as gf
 
-add_ports_optical = gf.partial(gf.add_ports.add_ports_from_markers_inside, port_layer=(1, 0))
-add_ports_electrical = gf.partial(gf.add_ports.add_ports_from_markers_inside, port_layer=(41, 0))
+add_ports_optical = gf.partial(gf.add_ports.add_ports_from_markers_inside, pin_layer=(1, 0), port_layer=(2, 0))
+add_ports_electrical = gf.partial(gf.add_ports.add_ports_from_markers_inside, pin_layer=(41, 0), port_layer=(1, 0))
 add_ports = gf.compose(add_ports_optical, add_ports_electrical)
 
 """
