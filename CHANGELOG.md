@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.10.4
+
+- use matplotlib for default plotter instead of holoviews
+- add_ports default prefix is 'o' for optical and 'e' for electrical ports
+
 ## 3.10.3
 
 - [plot Sparameters uses lowercase s11, s21 ...](https://github.com/gdsfactory/gdsfactory/pull/146)
