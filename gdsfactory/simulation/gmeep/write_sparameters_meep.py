@@ -420,7 +420,7 @@ def write_sparameters_meep_parallel(
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     delete_temp_files: bool = True,
     verbosity: bool = False,
-) -> Tuple[pd.DataFrame]:
+):
     """
     Given a Dict of write_sparameters_meep keyword arguments (the "instance"), launches a parallel simulation on `cores` cores
 
@@ -480,7 +480,7 @@ def write_sparameters_meep_parallel_pools(
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     delete_temp_files: bool = True,
     verbosity: bool = False,
-) -> Tuple[pd.DataFrame]:
+):
     """
     Given a tuple of write_sparameters_meep keyword arguments (the "instances"), launches parallel simulations
     Each simulation is assigned "cores_per_instance" cores
