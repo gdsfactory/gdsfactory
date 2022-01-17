@@ -7,6 +7,7 @@ from https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-
 import pathlib
 import pickle
 import re
+import shlex
 import shutil
 import subprocess
 from pathlib import Path
@@ -471,7 +472,7 @@ def write_sparameters_meep_parallel(
     # Launch simulation
     if verbosity:
         print(f"Launching: {command}")
-    proc = subprocess.Popen(command, shell=True)
+    proc = subprocess.Popen(shlex.split(command), shell=False)
 
     return proc
 
@@ -540,7 +541,6 @@ def write_sparameters_meep_parallel_pools(
             i += 1
 
         # Wait for pool to end
-
         for process in processes:
             process.wait()
 
@@ -569,27 +569,27 @@ if __name__ == "__main__":
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
 
-    # """
-    # Parallel example
-    # """
+    """
+    Parallel example
+    """
 
-    # c1 = gf.c.straight(length=5)
-    # p = 3
-    # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+    c1 = gf.c.straight(length=5)
+    p = 3
+    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
 
-    # instance_dict = {
-    #     "component": c1,
-    #     "run": True,
-    #     "overwrite": True,
-    #     "lazy_parallelism": True,
-    #     "filepath": "instance_dict.csv",
-    # }
+    instance_dict = {
+        "component": c1,
+        "run": True,
+        "overwrite": True,
+        "lazy_parallelism": True,
+        "filepath": "instance_dict.csv",
+    }
 
-    # proc = write_sparameters_meep_parallel(
-    #     instance=instance_dict,
-    #     cores=3,
-    #     verbosity=True,
-    # )
+    proc = write_sparameters_meep_parallel(
+        instance=instance_dict,
+        cores=3,
+        verbosity=True,
+    )
 
     """
     Parallel pools example
