@@ -472,7 +472,13 @@ def write_sparameters_meep_parallel(
     # Launch simulation
     if verbosity:
         print(f"Launching: {command}")
-    proc = subprocess.Popen(shlex.split(command), shell=False)
+    proc = subprocess.Popen(
+        shlex.split(command),
+        shell=False,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
 
     return proc
 
