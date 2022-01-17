@@ -1,11 +1,11 @@
 -e .
 click
-gdspy==1.6.11
+gdspy~=1.6.11
 ipympl
 jsondiff
 loguru
 lytest==0.0.20
-matplotlib==3.5.1
+matplotlib~=3.5.1
 networkx==2.6.3
 numpy
 omegaconf==2.1.1
@@ -21,7 +21,7 @@ rectpack==0.2.2
 scikit-image
 scipy
 semantic_version
-Shapely==1.8.0
+Shapely~=1.8.0
 toolz==0.11.2
 trimesh==3.9.42
 typing_extensions
