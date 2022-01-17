@@ -418,23 +418,25 @@ def write_sparameters_meep_parallel(
     instance: Dict,
     cores: int = 2,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
-    delete_temp_files: bool = True,
+    temp_file_str: str = "write_sparameters_meep_parallel",
     verbosity: bool = False,
 ):
     """
     Given a Dict of write_sparameters_meep keyword arguments (the "instance"), launches a parallel simulation on `cores` cores
+    Returns the subprocess Popen object
 
     Args
         instances (Dict): Dict. The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores_ (int): number of processors
-        delete_temp_file (Boolean): whether to delete temp_dir when done
+        cores (int): number of processors
+        temp_dir (FilePath): temporary directory to hold simulation files
+        temp_file_str (str): names of temporary files in temp_dir
+        verbosity (bool): progress messages
     """
 
     # Save the component object to simulation for later retrieval
     component = instance["component"]
     temp_dir.mkdir(exist_ok=True, parents=True)
-    file_str = "write_sparameters_meep_parallel"
-    filepath = temp_dir / file_str
+    filepath = temp_dir / temp_file_str
     component_file = filepath.with_suffix(".pkl")
     with open(component_file, "wb") as outp:
         pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
@@ -467,6 +469,8 @@ def write_sparameters_meep_parallel(
     command = f"mpirun -np {cores} python {script_file}"
 
     # Launch simulation
+    if verbosity:
+        print(f"Launching: {command}")
     proc = subprocess.Popen(command, shell=True)
 
     return proc
@@ -492,6 +496,7 @@ def write_sparameters_meep_parallel_pools(
         total_cores (int): total number of cores to use
         temp_dir (FilePath): temporary directory to hold simulation files
         delete_temp_file (Boolean): whether to delete temp_dir when done
+        verbosity: progress messages
     """
 
     # Setup pools
@@ -511,7 +516,7 @@ def write_sparameters_meep_parallel_pools(
     i = 0
     # For each pool
     for j in range(num_pools):
-        commands = []
+        processes = []
         # For instance in the pool
         for k in range(instances_per_pool):
             # Flag to catch nonfull pools
@@ -522,53 +527,22 @@ def write_sparameters_meep_parallel_pools(
             # Obtain current instance
             instance = instances[i]
 
-            # Save the component object to simulation for later retrieval
-            component = instance["component"]
-            temp_dir.mkdir(exist_ok=True, parents=True)
-            file_str = f"write_sparameters_meep_parallel_{i}"
-            filepath = temp_dir / file_str
-            component_file = filepath.with_suffix(".pkl")
-            with open(component_file, "wb") as outp:
-                pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
-
-            # Write execution file
-            script_lines = [
-                "import pickle\n",
-                "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
-                'if __name__ == "__main__":\n\n',
-                f"\twith open(\"{component_file}\", 'rb') as inp:\n",
-                "\t\tcomponent = pickle.load(inp)\n\n"
-                "\twrite_sparameters_meep(component = component,\n",
-            ]
-            for key in instance.keys():
-                if key == "component":
-                    continue
-                else:
-                    if isinstance(instance[key], str):
-                        parameter = f'"{instance[key]}"'
-                    else:
-                        parameter = instance[key]
-                    script_lines.append(f"\t\t{key} = {parameter},\n")
-            script_lines.append("\t)")
-            script_file = filepath.with_suffix(".py")
-            script_file_obj = open(script_file, "w")
-            script_file_obj.writelines(script_lines)
-            script_file_obj.close()
-
-            # Exec string
-            commands.append(f"mpirun -np {cores_per_instance} python {script_file}")
+            process = write_sparameters_meep_parallel(
+                instance=instance,
+                cores=cores_per_instance,
+                temp_dir=temp_dir,
+                temp_file_str=f"write_sparameters_meep_parallel_{i}",
+                verbosity=verbosity,
+            )
+            processes.append(process)
 
             # Increment task number
             i += 1
 
-        # Launch simulations and wait for pool to end
-        procs = [subprocess.Popen(n, shell=True) for n in commands]
-        if verbosity:
-            print(f"Launching pool {j} simulations, which contain commands:")
-            for command in commands:
-                print(command)
-        for p in procs:
-            p.wait()
+        # Wait for pool to end
+
+        for process in processes:
+            process.wait()
 
     if delete_temp_files:
         shutil.rmtree(temp_dir)
@@ -595,75 +569,75 @@ if __name__ == "__main__":
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
 
-    """
-    Parallel example
-    """
-
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
-
-    instance_dict = {
-        "component": c1,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": "instance_dict.csv",
-    }
-
-    proc = write_sparameters_meep_parallel(
-        instance=instance_dict,
-        cores=3,
-        delete_temp_files=False,
-    )
-
     # """
-    # Parallel pools example
+    # Parallel example
     # """
 
     # c1 = gf.c.straight(length=5)
     # p = 3
     # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
 
-    # c2 = gf.c.straight(length=4)
-    # p = 3
-    # c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
-
-    # c1_dict = {
+    # instance_dict = {
     #     "component": c1,
     #     "run": True,
     #     "overwrite": True,
     #     "lazy_parallelism": True,
-    #     "filepath": "c1_dict.csv",
-    # }
-    # c2_dict = {
-    #     "component": c2,
-    #     "run": True,
-    #     "overwrite": True,
-    #     "lazy_parallelism": True,
-    #     "filepath": "c2_dict.csv",
-    # }
-    # c3_dict = {
-    #     "component": c2,
-    #     "run": True,
-    #     "overwrite": True,
-    #     "lazy_parallelism": True,
-    #     "resolution": 40,
-    #     "port_source_offset": 0.3,
-    #     "filepath": "c3_dict.csv",
+    #     "filepath": "instance_dict.csv",
     # }
 
-    # # Instances
-    # instances = [
-    #     c1_dict,
-    #     c2_dict,
-    #     c3_dict,
-    # ]
-
-    # write_sparameters_meep_parallel_pools(
-    #     instances=instances,
-    #     cores_per_instance=4,
-    #     total_cores=10,
-    #     delete_temp_files=False,
+    # proc = write_sparameters_meep_parallel(
+    #     instance=instance_dict,
+    #     cores=3,
     #     verbosity=True,
     # )
+
+    """
+    Parallel pools example
+    """
+
+    c1 = gf.c.straight(length=5)
+    p = 3
+    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+
+    c2 = gf.c.straight(length=4)
+    p = 3
+    c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
+
+    c1_dict = {
+        "component": c1,
+        "run": True,
+        "overwrite": True,
+        "lazy_parallelism": True,
+        "filepath": "c1_dict.csv",
+    }
+    c2_dict = {
+        "component": c2,
+        "run": True,
+        "overwrite": True,
+        "lazy_parallelism": True,
+        "filepath": "c2_dict.csv",
+    }
+    c3_dict = {
+        "component": c2,
+        "run": True,
+        "overwrite": True,
+        "lazy_parallelism": True,
+        "resolution": 40,
+        "port_source_offset": 0.3,
+        "filepath": "c3_dict.csv",
+    }
+
+    # Instances
+    instances = [
+        c1_dict,
+        c2_dict,
+        c3_dict,
+    ]
+
+    write_sparameters_meep_parallel_pools(
+        instances=instances,
+        cores_per_instance=4,
+        total_cores=10,
+        delete_temp_files=False,
+        verbosity=True,
+    )
