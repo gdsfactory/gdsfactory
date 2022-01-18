@@ -8,6 +8,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
+from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentOrFactory, Coordinate, CrossSectionFactory, Layer
 
@@ -107,6 +108,7 @@ def extend_ports(
         port_type: type of the ports to extend
         centered: if True centers rectangle at (0, 0)
         cross_section: extension cross_section, defaults to port cross_section
+            if port has no cross_section it creates one using width and layer
 
     Keyword Args:
         layer: port GDS layer
@@ -140,7 +142,11 @@ def extend_ports(
     for port in ports_all:
         port_name = port.name
         port = cref.ports[port_name]
-        cross_section_extension = cross_section or port.cross_section
+        cross_section_extension = (
+            cross_section
+            or port.cross_section
+            or cross_section_function(layer=port.layer, width=port.width)
+        )
 
         if port_name in ports_to_extend_names:
             if extension_factory:
@@ -190,7 +196,11 @@ def test_extend_ports() -> Component:
     p = len(c3.polygons)
     assert p == 4, p
 
-    return c3
+    c4 = extend_ports(gf.c.cross(port_type="optical"))
+    p = len(c4.polygons)
+    assert p == 4, p
+
+    return c4
 
 
 __all__ = ["extend_ports", "extend_port"]
@@ -200,6 +210,8 @@ if __name__ == "__main__":
     # c = extend_ports()
     # c = extend_ports(gf.c.mzi_phase_shifter_top_heater_metal)
     c = test_extend_ports()
+
+    # c = extend_ports(gf.c.cross(port_type="optical"))
     c.show()
 
     # c = gf.c.bend_circular()
