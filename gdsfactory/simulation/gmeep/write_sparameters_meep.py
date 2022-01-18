@@ -147,7 +147,7 @@ def write_sparameters_meep(
             outputs during computation. The name of the file is the source index
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel
-        dispersive: whether to use dispersive models for materials (requires higher resolution)
+        dispersive: use dispersive models for materials (requires higher resolution)
     keyword Args:
         extend_ports_length: to extend ports beyond the PML
         layer_stack: Dict of layer number (int, int) to thickness (um)
