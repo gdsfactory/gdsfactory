@@ -50,7 +50,6 @@ def write_sparameters_lumerical(
     If simulation exists it returns the Sparameters directly unless overwrite=True
     which forces a re-run of the simulation
 
-
     Writes Sparameters both in .CSV and .DAT (interconnect format) as well as
     simulation settings in .YAML
 
@@ -81,22 +80,23 @@ def write_sparameters_lumerical(
         dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        settings: overwrite any simulation settings
-            background_material: for the background
-            port_margin: on both sides of the port width (um)
-            port_height: port height (um)
-            port_extension: port extension (um)
-            mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-            zmargin: for the FDTD region (um)
-            ymargin: for the FDTD region (um)
-            xmargin: for the FDTD region (um)
-            wavelength_start: 1.2 (um)
-            wavelength_stop: 1.6 (um)
-            wavelength_points: 500
-            simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
-            simulation_temperature: in kelvin (default = 300)
-            frequency_dependendent_profile: computes mode profiles for different wavelengths
-            field_profile_samples: number of wavelengths to compute field profile
+
+    Keyword Args:
+        background_material: for the background
+        port_margin: on both sides of the port width (um)
+        port_height: port height (um)
+        port_extension: port extension (um)
+        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
+        zmargin: for the FDTD region (um)
+        ymargin: for the FDTD region (um)
+        xmargin: for the FDTD region (um)
+        wavelength_start: 1.2 (um)
+        wavelength_stop: 1.6 (um)
+        wavelength_points: 500
+        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
+        simulation_temperature: in kelvin (default = 300)
+        frequency_dependendent_profile: computes mode profiles for different wavelengths
+        field_profile_samples: number of wavelengths to compute field profile
 
 
     .. code::
