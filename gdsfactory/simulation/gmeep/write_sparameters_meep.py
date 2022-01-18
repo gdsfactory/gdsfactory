@@ -110,6 +110,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 @pydantic.validate_arguments
 def write_sparameters_meep(
     component: Component,
+    port_symmetries: Dict = {},
     resolution: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
@@ -129,11 +130,25 @@ def write_sparameters_meep(
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
     Repeats the simulation, each time using a different port in (by default, all of them)
-    TODO: user can provide list of port name tuples whose results to merge (e.g. symmetric ports)
+
+    The "port_symmetries" argument is a Dict of form e.g. {"o1":
+                                                                {
+                                                                    "s11": ["s22","s33","s44"],
+                                                                    "s21": ["s21","s34","s43"],
+                                                                    "s31": ["s13","s24","s42"],
+                                                                    "s41": ["s14","s23","s32"],
+                                                                }
+                                                            }
+        (1) Only simulations using the outer key port names will be run
+        (2) The associated value is another dict whose keys are the S-parameters computed when this source is active
+        (3) The values of this inner Dict are lists of s-parameters whose values are copied
+        This allows the total number of computations to be cut down
+        TODO: automate this for common scenarios (geometrical symmetries, reciprocal materials, etc.)
 
     Args:
         component: to simulate.
         resolution: in pixels/um (20: for coarse, 120: for fine)
+        port_symmetries: Dict to specify
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
         layer_to_thickness: GDS layer (int, int) to thickness
@@ -231,11 +246,16 @@ def write_sparameters_meep(
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
 
-    # Parse ports
+    # Parse ports (default)
     Sparams_indices = []
-    component_ref = component.ref()
-    for port_name in component_ref.ports.keys():
-        if component_ref.ports[port_name].port_type == "optical":
+    if bool(port_symmetries) is False:
+        component_ref = component.ref()
+        for port_name in component_ref.ports.keys():
+            if component_ref.ports[port_name].port_type == "optical":
+                Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
+    # Otherwise user-specified
+    else:
+        for port_name in port_symmetries.keys():
             Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
 
     # Create S-parameter storage object
@@ -245,6 +265,7 @@ def write_sparameters_meep(
     def sparameter_calculation(
         n,
         component: Component,
+        port_symmetries: Dict = port_symmetries,
         wl_min: float = wl_min,
         wl_max: float = wl_max,
         wl_steps: int = wl_steps,
@@ -317,14 +338,12 @@ def write_sparameters_meep(
         )
         # Get coefficients
         for monitor_index in Sparams_indices:
-            i = Sparams_indices[n]
-            j = monitor_index
+            j = Sparams_indices[n]
+            i = monitor_index
             if monitor_index == Sparams_indices[n]:
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                # Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
-                # Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
                 Sparams_dict[f"s{i}{j}a"] = siia
                 Sparams_dict[f"s{i}{j}m"] = siim
             else:
@@ -334,15 +353,16 @@ def write_sparameters_meep(
                 sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
-                # Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
                 Sparams_dict[f"s{i}{j}a"] = sija
                 Sparams_dict[f"s{i}{j}m"] = sijm
                 sij = monitor_entering / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict[f"s{i}{j}a_enter"] = sija
-                # Sparams_dict[f"s{i}{j}m_enter"] = sijm
+
+        if bool(port_symmetries) is True:
+            for key in port_symmetries["o{n}"].keys():
+                value = port_symmetries["o{n}"][key]
+                Sparams_dict[f"{value}m"] = Sparams_dict[f"{key}m"]
 
         return Sparams_dict
 
@@ -575,75 +595,91 @@ if __name__ == "__main__":
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
 
-    """
-    Parallel example
-    """
+    # """
+    # Parallel example
+    # """
 
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+    # c1 = gf.c.straight(length=5)
+    # p = 3
+    # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
 
-    instance_dict = {
-        "component": c1,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": "instance_dict.csv",
-    }
+    # instance_dict = {
+    #     "component": c1,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "filepath": "instance_dict.csv",
+    # }
 
-    proc = write_sparameters_meep_parallel(
-        instance=instance_dict,
-        cores=3,
-        verbosity=True,
-    )
+    # proc = write_sparameters_meep_parallel(
+    #     instance=instance_dict,
+    #     cores=3,
+    #     verbosity=True,
+    # )
 
-    """
-    Parallel pools example
-    """
+    # """
+    # Parallel pools example
+    # """
 
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+    # c1 = gf.c.straight(length=5)
+    # p = 3
+    # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
 
-    c2 = gf.c.straight(length=4)
-    p = 3
-    c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
+    # c2 = gf.c.straight(length=4)
+    # p = 3
+    # c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
 
-    c1_dict = {
-        "component": c1,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": "c1_dict.csv",
-    }
-    c2_dict = {
-        "component": c2,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": "c2_dict.csv",
-    }
-    c3_dict = {
-        "component": c2,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "resolution": 40,
-        "port_source_offset": 0.3,
-        "filepath": "c3_dict.csv",
-    }
+    # c1_dict = {
+    #     "component": c1,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "filepath": "c1_dict.csv",
+    # }
+    # c2_dict = {
+    #     "component": c2,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "filepath": "c2_dict.csv",
+    # }
+    # c3_dict = {
+    #     "component": c2,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "resolution": 40,
+    #     "port_source_offset": 0.3,
+    #     "filepath": "c3_dict.csv",
+    # }
 
-    # Instances
-    instances = [
-        c1_dict,
-        c2_dict,
-        c3_dict,
-    ]
+    # # Instances
+    # instances = [
+    #     c1_dict,
+    #     c2_dict,
+    #     c3_dict,
+    # ]
 
-    write_sparameters_meep_parallel_pools(
-        instances=instances,
-        cores_per_instance=4,
-        total_cores=10,
-        delete_temp_files=False,
-        verbosity=True,
+    # write_sparameters_meep_parallel_pools(
+    #     instances=instances,
+    #     cores_per_instance=4,
+    #     total_cores=10,
+    #     delete_temp_files=False,
+    #     verbosity=True,
+    # )
+
+    c = gf.components.crossing()
+    # Symmetry toggle
+    df_symm = write_sparameters_meep(
+        c,
+        overwrite=True,
+        animate=False,
+        port_symmetries={
+            "o1": {
+                "s11": ["s22", "s33", "s44"],
+                "s21": ["s21", "s34", "s43"],
+                "s31": ["s13", "s24", "s42"],
+                "s41": ["s14", "s23", "s32"],
+            }
+        },
     )
