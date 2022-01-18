@@ -13,9 +13,15 @@ from gdsfactory.components.bezier import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
+from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, Layer
+from gdsfactory.types import (
+    ComponentFactory,
+    ComponentOrFactory,
+    CrossSectionFactory,
+    Layer,
+)
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -30,12 +36,15 @@ def crossing_arm(
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
+    layer_wg: Layer = LAYER.WG,
+    layer_slab: Layer = LAYER.SLAB150,
+    cross_section: CrossSectionFactory = strip,
 ) -> Component:
     """arm of a crossing"""
     c = Component()
-    _ellipse = ellipse(radii=(r1, r2), layer=LAYER.SLAB150).ref()
-    c.add(_ellipse)
-    c.absorb(_ellipse)
+    c << ellipse(radii=(r1, r2), layer=layer_slab)
+
+    xs = cross_section()
 
     a = np.round(L + w / 2, 3)
     h = width / 2
@@ -51,12 +60,24 @@ def crossing_arm(
         (-a, -h),
     ]
 
-    c.add_polygon(taper_pts, layer=LAYER.WG)
+    c.add_polygon(taper_pts, layer=layer_wg)
     c.add_port(
-        name="o1", midpoint=(-a, 0), orientation=180, width=width, layer=LAYER.WG
+        name="o1",
+        midpoint=(-a, 0),
+        orientation=180,
+        width=width,
+        layer=layer_wg,
+        cross_section=xs,
     )
 
-    c.add_port(name="o2", midpoint=(a, 0), orientation=0, width=width, layer=LAYER.WG)
+    c.add_port(
+        name="o2",
+        midpoint=(a, 0),
+        orientation=0,
+        width=width,
+        layer=layer_wg,
+        cross_section=xs,
+    )
 
     return c
 
