@@ -1,3 +1,4 @@
+from gdsfactory.components.add_fidutials import add_fidutials
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array import array
 from gdsfactory.components.array_with_fanout import (
@@ -131,6 +132,7 @@ from gdsfactory.components.mzi import mzi, mzi1x2_2x2, mzi2x2_2x2, mzi_coupler
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.mzi_arms import mzi_arms
 from gdsfactory.components.mzi_lattice import mzi_lattice
+from gdsfactory.components.mzi_pads_center import mzi_pads_center
 from gdsfactory.components.mzi_phase_shifter import (
     mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal,
@@ -218,9 +220,11 @@ from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
 
+# Components to test
 factory = dict(
     C=C,
     L=L,
+    add_fidutials=add_fidutials,
     add_frame=add_frame,
     align_wafer=align_wafer,
     array=array,
@@ -321,6 +325,7 @@ factory = dict(
     mzi_arm=mzi_arm,
     mzi_arms=mzi_arms,
     mzi_lattice=mzi_lattice,
+    mzi_pads_center=mzi_pads_center,
     mzi_phase_shifter=mzi_phase_shifter,
     mzi_phase_shifter_top_heater_metal=mzi_phase_shifter_top_heater_metal,
     mzit=mzit,

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.10.6
+
+- add mzi_pads_center to components
+
 ## 3.10.5
 
 - fix add_ports_from_markers_center port location for square ports, depending on inside parameter
