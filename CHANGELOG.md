@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.10.7
+
+- fix crossing hard coded layers. Add cross_section setting to ports so that they can be extended.
+- extend_ports creates cross_section with port_width and layer, if port has no cross_section and extend_ports does not have a specific cross_section
+
 ## 3.10.6
 
 - add mzi_pads_center to components
