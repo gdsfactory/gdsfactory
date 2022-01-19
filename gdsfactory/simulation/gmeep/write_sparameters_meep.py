@@ -28,7 +28,7 @@ from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
-cores = multiprocessing.cpu_count()
+ncores = multiprocessing.cpu_count()
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
@@ -353,7 +353,7 @@ def write_sparameters_meep(
 
         return Sparams_dict
 
-    # Since source is defined upon sim object instanciation, loop here
+    # Since source is defined upon sim object loop here
     # for port_index in Sparams_indices:
 
     if lazy_parallelism:
@@ -424,7 +424,7 @@ def write_sparameters_meep(
 @pydantic.validate_arguments
 def write_sparameters_meep_mpi(
     component: Component,
-    cores: int = cores,
+    cores: int = ncores,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     temp_file_str: str = "write_sparameters_meep_mpi",
     **kwargs,
@@ -516,7 +516,6 @@ def write_sparameters_meep_mpi(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-
     return proc
 
 
@@ -536,7 +535,7 @@ def write_sparameters_meep_mpi_pool(
     then the overflow will be performed serially
 
     Args
-        jobs ([Dict]): list of Dicts.
+        jobs ([Dict]): list of Dicts containing the simulation settings for each job.
             The keys must be parameters names of write_sparameters_meep, and entries the values
         cores_per_run (int): number of processors to assign to each component simulation
         total_cores (int): total number of cores to use
@@ -552,7 +551,7 @@ def write_sparameters_meep_mpi_pool(
 
     logger.info(f"Running parallel simulations over {njobs} jobs")
     logger.info(
-        f"Using a total of {total_cores} cores with {cores_per_run} cores per instance"
+        f"Using a total of {total_cores} cores with {cores_per_run} cores per job"
     )
     logger.info(
         f"Tasks split amongst {num_pools} pools with up to {jobs_per_pool} jobs each."
@@ -563,14 +562,14 @@ def write_sparameters_meep_mpi_pool(
     for j in range(num_pools):
         processes = []
 
-        # For instance in the pool
+        # For each job in the pool
         for k in range(jobs_per_pool):
             # Flag to catch non full pools
             if i >= njobs:
                 continue
-            logger.info(f"Task {k} of pool {j} is instance {i}")
+            logger.info(f"Task {k} of pool {j} is job {i}")
 
-            # Obtain current instance
+            # Obtain current job
             simulations_settings = jobs[i]
 
             process = write_sparameters_meep_mpi(
