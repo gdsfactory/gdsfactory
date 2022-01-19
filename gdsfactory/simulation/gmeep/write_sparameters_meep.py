@@ -141,8 +141,7 @@ def write_sparameters_meep(
         resolution: in pixels/um (20: for coarse, 120: for fine)
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
-        layer_to_thickness: GDS layer (int, int) to thickness
-        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
+        layer_stack:
         port_margin: margin on each side of the port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
         port_source_offset: offset between source GDS port and source MEEP port
@@ -156,6 +155,8 @@ def write_sparameters_meep(
         dispersive: use dispersive models for materials (requires higher resolution)
 
     keyword Args:
+        layer_to_thickness: GDS layer (int, int) to thickness
+        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
         extend_ports_length: to extend ports beyond the PML
         layer_stack: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
@@ -182,24 +183,6 @@ def write_sparameters_meep(
     layer_to_material = layer_stack.get_layer_to_material()
     # layer_to_zmin = layer_stack.get_layer_to_zmin()
 
-    filepath = filepath or get_sparameters_path(
-        component=component,
-        dirpath=dirpath,
-        resolution=resolution,
-        layer_to_material=layer_to_material,
-        layer_to_thickness=layer_to_thickness,
-        wl_min=wl_min,
-        wl_max=wl_max,
-        wl_steps=wl_steps,
-        port_margin=port_margin,
-        port_monitor_offset=port_monitor_offset,
-        port_source_offset=port_source_offset,
-        suffix=".csv",
-        **settings,
-    )
-    filepath = pathlib.Path(filepath)
-    filepath_sim_settings = filepath.with_suffix(".yml")
-
     sim_settings = dict(
         component=component.to_dict(),
         resolution=resolution,
@@ -213,6 +196,16 @@ def write_sparameters_meep(
         dispersive=dispersive,
         **settings,
     )
+
+    filepath = filepath or get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        suffix=".csv",
+        **sim_settings,
+    )
+    filepath = pathlib.Path(filepath)
+    filepath_sim_settings = filepath.with_suffix(".yml")
+
     # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
     # logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
     # return filepath_sim_settings
@@ -392,6 +385,9 @@ def write_sparameters_meep(
             df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
             df["freqs"] = 1 / df["wavelengths"]
             df.to_csv(filepath, index=False)
+            logger.info(f"Write simulation results to {filepath!r}")
+            filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+            logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
             return df
         else:
             comm.send(Sparams_dict, dest=0, tag=11)
@@ -415,6 +411,7 @@ def write_sparameters_meep(
         df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
         df["freqs"] = 1 / df["wavelengths"]
         df.to_csv(filepath, index=False)
+
         logger.info(f"Write simulation results to {filepath!r}")
         filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
         logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
@@ -425,20 +422,25 @@ def write_sparameters_meep(
 def write_sparameters_meep_mpi(
     component: Component,
     cores: int = ncores,
+    filepath: Optional[Path] = None,
+    dirpath: Path = CONFIG["sparameters"],
+    layer_stack: LayerStack = LAYER_STACK,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     temp_file_str: str = "write_sparameters_meep_mpi",
+    overwrite: bool = False,
     **kwargs,
-):
+) -> Path:
     """Write Sparameters using multiple cores and MPI
-    Given a Dict of write_sparameters_meep keyword arguments
-    launches a parallel simulation on `cores` cores
-    Returns the subprocess Popen object.
-    Each simulation will run in parallel,
+    and returns Sparameters filepath.
 
     Args:
         component: gdsfactory Component.
         cores: number of processors.
         temp_dir: temporary directory to hold simulation files.
+        filepath: to store pandas Dataframe with Sparameters in CSV format.
+            Defaults to dirpath/component_.csv
+        dirpath: directory to store Sparameters
+        layer_stack:
         temp_file_str: names of temporary files in temp_dir.
 
     Keyword Args:
@@ -476,11 +478,22 @@ def write_sparameters_meep_mpi(
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
     """
+    filepath_df = filepath or get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        suffix=".csv",
+        layer_stack=layer_stack,
+        **kwargs,
+    )
+    if filepath_df.exists() and not overwrite:
+        logger.info(f"Simulation {filepath_df!r} already exists")
+        return filepath_df
 
     # Save the component object to simulation for later retrieval
     temp_dir.mkdir(exist_ok=True, parents=True)
     filepath = temp_dir / temp_file_str
     component_file = filepath.with_suffix(".pkl")
+    kwargs.update(filepath=str(filepath_df))
 
     with open(component_file, "wb") as outp:
         pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
@@ -495,11 +508,7 @@ def write_sparameters_meep_mpi(
         "\twrite_sparameters_meep(component = component,\n",
     ]
     for key in kwargs.keys():
-        if isinstance(kwargs[key], str):
-            parameter = f'"{kwargs[key]}"'
-        else:
-            parameter = kwargs[key]
-        script_lines.append(f"\t\t{key} = {parameter},\n")
+        script_lines.append(f"\t\t{key} = {kwargs[key]!r},\n")
 
     script_lines.append("\t)")
     script_file = filepath.with_suffix(".py")
@@ -509,14 +518,16 @@ def write_sparameters_meep_mpi(
 
     command = f"mpirun -np {cores} python {script_file}"
     logger.info(command)
-    proc = subprocess.Popen(
+    logger.info(str(filepath_df))
+
+    subprocess.Popen(
         shlex.split(command),
         shell=False,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    return proc
+    return filepath_df
 
 
 @pydantic.validate_arguments
@@ -535,11 +546,11 @@ def write_sparameters_meep_mpi_pool(
     then the overflow will be performed serially
 
     Args
-        jobs ([Dict]): list of Dicts containing the simulation settings for each job.
-            The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores_per_run (int): number of processors to assign to each component simulation
-        total_cores (int): total number of cores to use
-        temp_dir (FilePath): temporary directory to hold simulation files
+        jobs: list of Dicts containing the simulation settings for each job.
+            for write_sparameters_meep
+        cores_per_run: number of processors to assign to each component simulation
+        total_cores: total number of cores to use
+        temp_dir: temporary directory to hold simulation files
         delete_temp_file (Boolean): whether to delete temp_dir when done
         verbose: log progress messages
     """

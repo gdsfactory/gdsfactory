@@ -38,8 +38,8 @@ def get_sparameters_path(
 
     if layer_to_material is None or layer_to_thickness is None:
         raise ValueError(
-            "You need to define layer_stack or"
-            "(layer_to_thickness and layer_to_material)"
+            "You need to define layer_stack or you need to define both "
+            "layer_to_thickness and layer_to_material."
         )
 
     dirpath = pathlib.Path(dirpath)
