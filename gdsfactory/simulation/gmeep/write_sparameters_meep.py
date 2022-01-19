@@ -184,9 +184,7 @@ def write_sparameters_meep(
     # layer_to_zmin = layer_stack.get_layer_to_zmin()
 
     sim_settings = dict(
-        component=component.to_dict(),
         resolution=resolution,
-        layer_stack=layer_stack.to_dict(),
         wl_min=wl_min,
         wl_max=wl_max,
         wl_steps=wl_steps,
@@ -201,8 +199,13 @@ def write_sparameters_meep(
         component=component,
         dirpath=dirpath,
         suffix=".csv",
+        layer_stack=layer_stack,
         **sim_settings,
     )
+
+    sim_settings = sim_settings.copy()
+    sim_settings["layer_stack"] = layer_stack.to_dict()
+    sim_settings["component"] = component.to_dict()
     filepath = pathlib.Path(filepath)
     filepath_sim_settings = filepath.with_suffix(".yml")
 
