@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.10.8
+
+- improve meep simulation interface documentation and functions
+- expose new `write_sparameters_meep_mpi` and  `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
+- `get_sparameters_path` can also accept a layer_stack
+
 ## 3.10.7
 
 - fix crossing hard coded layers. Add cross_section setting to ports so that they can be extended.
