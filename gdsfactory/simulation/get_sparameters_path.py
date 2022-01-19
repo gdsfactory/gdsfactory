@@ -1,23 +1,25 @@
 import pathlib
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
 from gdsfactory.name import dict2name, get_name_short
-from gdsfactory.tech import LAYER
+from gdsfactory.tech import LAYER, LayerStack
 from gdsfactory.types import SimulationSuffix
 
 
 def get_sparameters_path(
     component: Component,
-    layer_to_material: Dict[Tuple[int, int], str],
-    layer_to_thickness: Dict[Tuple[int, int], int],
+    layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
+    layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
+    layer_stack: Optional[LayerStack] = None,
     dirpath: Path = CONFIG["sparameters"],
     suffix: SimulationSuffix = ".dat",
     **kwargs,
 ) -> Path:
-    """Returns Sparameters filepath.
+    """Return Sparameters filepath.
+    The returned filepath has a hash of all the parameters
 
     it only includes the layers that are present in the component
 
@@ -29,6 +31,17 @@ def get_sparameters_path(
         suffix: .dat for interconnect
         kwargs: simulation settings
     """
+
+    if layer_stack:
+        layer_to_material = layer_to_material or layer_stack.get_layer_to_material()
+        layer_to_thickness = layer_to_thickness or layer_stack.get_layer_to_thickness()
+
+    if layer_to_material is None or layer_to_thickness is None:
+        raise ValueError(
+            "You need to define layer_stack or"
+            "(layer_to_thickness and layer_to_material)"
+        )
+
     dirpath = pathlib.Path(dirpath)
     dirpath = (
         dirpath / component.function_name
