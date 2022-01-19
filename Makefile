@@ -33,6 +33,9 @@ test-force:
 	rm -rf gdsfactory/samples/pdk/test_fab_c.gds
 	pytest --force-regen
 
+test-meep:
+	pytest gdsfactory/simulation/gmeep
+
 test-plugins:
 	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes
 
