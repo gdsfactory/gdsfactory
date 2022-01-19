@@ -11,6 +11,7 @@ import re
 import shlex
 import shutil
 import subprocess
+import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -557,6 +558,29 @@ def write_sparameters_meep_mpi_pool(
         delete_temp_file (Boolean): whether to delete temp_dir when done
         verbose: log progress messages
     """
+    # Parse jobs
+    jobs_to_run = []
+    for job in jobs:
+        filepath = job["filepath"] or get_sparameters_path(job)
+        if filepath.exists():
+            if job["overwrite"] is True:
+                pathlib.Path.unlink(filepath)
+                logger.info(
+                    f"Simulation {filepath!r} already exists; overwrite is True, deleting file and adding it to the queue"
+                )
+                jobs_to_run.append(job)
+            else:
+                logger.info(
+                    f"Simulation {filepath!r} already exists; overwrite is False, removing it from the queue"
+                )
+        else:
+            logger.info(
+                f"Simulation {filepath!r} does not exist; adding it to the queue"
+            )
+            jobs_to_run.append(job)
+
+    # Update jobs
+    jobs = jobs_to_run
 
     # Setup pools
     num_pools = int(np.ceil(cores_per_run * len(jobs) / total_cores))
@@ -574,7 +598,7 @@ def write_sparameters_meep_mpi_pool(
     i = 0
     # For each pool
     for j in range(num_pools):
-        processes = []
+        filepaths = []
 
         # For each job in the pool
         for k in range(jobs_per_pool):
@@ -586,20 +610,30 @@ def write_sparameters_meep_mpi_pool(
             # Obtain current job
             simulations_settings = jobs[i]
 
-            process = write_sparameters_meep_mpi(
+            filepath = write_sparameters_meep_mpi(
                 cores=cores_per_run,
                 temp_dir=temp_dir,
                 temp_file_str=f"write_sparameters_meep_mpi_{i}",
                 **simulations_settings,
             )
-            processes.append(process)
+            filepaths.append(filepath)
 
             # Increment task number
             i += 1
 
         # Wait for pool to end
-        for process in processes:
-            process.wait()
+        done = False
+        num_pool_jobs = len(filepaths)
+        while not done:
+            # Check if all jobs finished
+            jobs_done = 0
+            for filepath in filepaths:
+                if filepath.exists():
+                    jobs_done += 1
+            if jobs_done == num_pool_jobs:
+                done = True
+            else:
+                time.sleep(1)
 
     if delete_temp_files:
         shutil.rmtree(temp_dir)
@@ -628,13 +662,13 @@ if __name__ == "__main__":
 
     # Multicore example
 
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
-    proc = write_sparameters_meep_mpi(
-        component=c1,
-        cores=3,
-    )
+    # c1 = gf.c.straight(length=5)
+    # p = 3
+    # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+    # proc = write_sparameters_meep_mpi(
+    #     component=c1,
+    #     cores=3,
+    # )
 
     # Multicore pools example
     c1 = gf.c.straight(length=5)
@@ -650,14 +684,14 @@ if __name__ == "__main__":
         "run": True,
         "overwrite": True,
         "lazy_parallelism": True,
-        "filepath": "c1_dict.csv",
+        "filepath": Path("c1_dict.csv"),
     }
     c2_dict = {
         "component": c2,
         "run": True,
-        "overwrite": True,
+        "overwrite": False,
         "lazy_parallelism": True,
-        "filepath": "c2_dict.csv",
+        "filepath": Path("c2_dict.csv"),
     }
     c3_dict = {
         "component": c2,
@@ -666,7 +700,7 @@ if __name__ == "__main__":
         "lazy_parallelism": True,
         "resolution": 40,
         "port_source_offset": 0.3,
-        "filepath": "c3_dict.csv",
+        "filepath": Path("c3_dict.csv"),
     }
 
     # jobs
