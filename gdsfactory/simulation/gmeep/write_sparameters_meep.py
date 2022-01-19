@@ -527,9 +527,9 @@ def write_sparameters_meep_mpi(
     subprocess.Popen(
         shlex.split(command),
         shell=False,
-        # stdin=subprocess.PIPE,
-        # stdout=subprocess.PIPE,
-        # stderr=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
     return filepath_df
 
@@ -689,7 +689,7 @@ if __name__ == "__main__":
     c2_dict = {
         "component": c2,
         "run": True,
-        "overwrite": True,
+        "overwrite": False,
         "lazy_parallelism": True,
         "filepath": Path("c2_dict.csv"),
     }
