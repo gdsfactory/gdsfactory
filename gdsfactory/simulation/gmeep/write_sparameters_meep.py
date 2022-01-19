@@ -248,9 +248,14 @@ def write_sparameters_meep(
 
     # Parse ports (default)
     Sparams_indices = []
-    component_ref = component.ref()
-    for port_name in component_ref.ports.keys():
-        if component_ref.ports[port_name].port_type == "optical":
+    if bool(port_symmetries) is False:
+        component_ref = component.ref()
+        for port_name in component_ref.ports.keys():
+            if component_ref.ports[port_name].port_type == "optical":
+                Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
+    # Otherwise user-specified
+    else:
+        for port_name in port_symmetries.keys():
             Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
 
     # Create S-parameter storage object
