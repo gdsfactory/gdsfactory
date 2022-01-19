@@ -4,6 +4,7 @@ Synchronize dicts
 from https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
 """
 
+import multiprocessing
 import pathlib
 import pickle
 import re
@@ -26,6 +27,8 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
+
+cores = multiprocessing.cpu_count()
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
@@ -128,8 +131,9 @@ def write_sparameters_meep(
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
-    Repeats the simulation, each time using a different port in (by default, all of them)
-    TODO: user can provide list of port name tuples whose results to merge (e.g. symmetric ports)
+    Repeats the simulation, each time using a different input port (by default, all of them)
+
+    TODO: provide list of port name tuples whose results to merge (e.g. symmetric ports)
 
     Args:
         component: to simulate.
@@ -141,7 +145,8 @@ def write_sparameters_meep(
         port_margin: margin on each side of the port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
         port_source_offset: offset between source GDS port and source MEEP port
-        filepath: to store pandas Dataframe with Sparameters in CSV format
+        filepath: to store pandas Dataframe with Sparameters in CSV format.
+            Defaults to dirpath/component_.csv
         overwrite: overwrites
         animate: saves a MP4 images of the simulation for inspection, and also
             outputs during computation. The name of the file is the source index
@@ -415,23 +420,24 @@ def write_sparameters_meep(
 
 
 @pydantic.validate_arguments
-def write_sparameters_meep_parallel(
+def write_sparameters_meep_mpi(
     instance: Dict,
-    cores: int = 2,
+    cores: int = cores,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
-    temp_file_str: str = "write_sparameters_meep_parallel",
-    verbosity: bool = False,
+    temp_file_str: str = "write_sparameters_meep_mpi",
+    verbose: bool = False,
 ):
-    """
-    Given a Dict of write_sparameters_meep keyword arguments (the "instance"), launches a parallel simulation on `cores` cores
-    Returns the subprocess Popen object
+    """Write Sparameters using multiple cores and MPI
+    Given a Dict of write_sparameters_meep keyword arguments
+    launches a parallel simulation on `cores` cores
+    Returns the subprocess Popen object.
 
-    Args
-        instances (Dict): Dict. The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores (int): number of processors
-        temp_dir (FilePath): temporary directory to hold simulation files
-        temp_file_str (str): names of temporary files in temp_dir
-        verbosity (bool): progress messages
+    Args:
+        instances: Dict. The keys must be kwargs for write_sparameters_meep.
+        cores: number of processors.
+        temp_dir: temporary directory to hold simulation files.
+        temp_file_str: names of temporary files in temp_dir.
+        verbose: shows progress messages.
     """
 
     # Save the component object to simulation for later retrieval
@@ -470,7 +476,7 @@ def write_sparameters_meep_parallel(
     command = f"mpirun -np {cores} python {script_file}"
 
     # Launch simulation
-    if verbosity:
+    if verbose:
         print(f"Launching: {command}")
     proc = subprocess.Popen(
         shlex.split(command),
@@ -484,26 +490,29 @@ def write_sparameters_meep_parallel(
 
 
 @pydantic.validate_arguments
-def write_sparameters_meep_parallel_pools(
+def write_sparameters_meep_mpi_pool(
     instances: Tuple,
     cores_per_instance: int = 2,
     total_cores: int = 4,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     delete_temp_files: bool = True,
-    verbosity: bool = False,
+    verbose: bool = False,
 ):
-    """
-    Given a tuple of write_sparameters_meep keyword arguments (the "instances"), launches parallel simulations
+    """Write Sparameters
+    Given a tuple of write_sparameters_meep keyword arguments (the "instances"),
+        launches parallel simulations
     Each simulation is assigned "cores_per_instance" cores
-    A total of "total_cores" is assumed, if cores_per_instance * len(instances) > total_cores then the overflow will be performed serially
+    A total of "total_cores" is assumed, if cores_per_instance * len(instances) > total_cores
+    then the overflow will be performed serially
 
     Args
-        instances ([Dict]): list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values
+        instances ([Dict]): list of Dicts.
+            The keys must be parameters names of write_sparameters_meep, and entries the values
         cores_per_instance (int): number of processors to assign to each instance
         total_cores (int): total number of cores to use
         temp_dir (FilePath): temporary directory to hold simulation files
         delete_temp_file (Boolean): whether to delete temp_dir when done
-        verbosity: progress messages
+        verbose: log progress messages
     """
 
     # Setup pools
@@ -511,7 +520,7 @@ def write_sparameters_meep_parallel_pools(
     instances_per_pool = int(np.floor(total_cores / cores_per_instance))
     num_tasks = len(instances)
 
-    if verbosity:
+    if verbose:
         print(f"Running parallel simulations over {num_tasks} instances")
         print(
             f"Using a total of {total_cores} cores with {cores_per_instance} cores per instance"
@@ -526,20 +535,20 @@ def write_sparameters_meep_parallel_pools(
         processes = []
         # For instance in the pool
         for k in range(instances_per_pool):
-            # Flag to catch nonfull pools
+            # Flag to catch non full pools
             if i >= num_tasks:
                 continue
-            if verbosity:
+            if verbose:
                 print(f"Task {k} of pool {j} is instance {i}")
             # Obtain current instance
             instance = instances[i]
 
-            process = write_sparameters_meep_parallel(
+            process = write_sparameters_meep_mpi(
                 instance=instance,
                 cores=cores_per_instance,
                 temp_dir=temp_dir,
                 temp_file_str=f"write_sparameters_meep_parallel_{i}",
-                verbosity=verbosity,
+                verbose=verbose,
             )
             processes.append(process)
 
@@ -575,9 +584,7 @@ if __name__ == "__main__":
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
 
-    """
-    Parallel example
-    """
+    # Parallel example
 
     c1 = gf.c.straight(length=5)
     p = 3
@@ -591,15 +598,13 @@ if __name__ == "__main__":
         "filepath": "instance_dict.csv",
     }
 
-    proc = write_sparameters_meep_parallel(
+    proc = write_sparameters_meep_mpi(
         instance=instance_dict,
         cores=3,
-        verbosity=True,
+        verbose=True,
     )
 
-    """
-    Parallel pools example
-    """
+    # Parallel pools example
 
     c1 = gf.c.straight(length=5)
     p = 3
@@ -640,10 +645,10 @@ if __name__ == "__main__":
         c3_dict,
     ]
 
-    write_sparameters_meep_parallel_pools(
+    write_sparameters_meep_mpi_pool(
         instances=instances,
         cores_per_instance=4,
         total_cores=10,
         delete_temp_files=False,
-        verbosity=True,
+        verbose=True,
     )
