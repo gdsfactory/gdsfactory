@@ -133,8 +133,8 @@ make install
 
 To summarize: There are 2 methods to install gdsfactory
 
-1. `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
-2. you can download it from [GitHub](https://pypi.org/project/gdsfactory/) in your computer and link the library to your python
+1. For users, `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
+2. For developers, git clone it from [GitHub](https://pypi.org/project/gdsfactory/) to your computer and link the library to your python
 
 ```
 git clone https://github.com/gdsfactory/gdsfactory.git
@@ -142,15 +142,10 @@ cd gdsfactory
 make install
 ```
 
-for updating 1. you need to `pip install gdsfactory --upgrade`
-for updating 2. you need to pull from GitHub the latest changes
+for updating 1. you need to `pip install gdsfactory --upgrade` to install the latest release available.
+for updating 2. you need to `git pull` from GitHub the latest changes
 
-```
-cd gdsfactory
-git pull
-```
-
-After installing you should be able to `import gdsfactory as gf` from a python script.
+After installing it you should be able to `import gdsfactory as gf` from a python script.
 
 - gdsfactory
   - components: define a basic library of generic components that you can customize
