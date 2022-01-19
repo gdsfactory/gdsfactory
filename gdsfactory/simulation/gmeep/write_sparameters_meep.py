@@ -248,14 +248,9 @@ def write_sparameters_meep(
 
     # Parse ports (default)
     Sparams_indices = []
-    if bool(port_symmetries) is False:
-        component_ref = component.ref()
-        for port_name in component_ref.ports.keys():
-            if component_ref.ports[port_name].port_type == "optical":
-                Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
-    # Otherwise user-specified
-    else:
-        for port_name in port_symmetries.keys():
+    component_ref = component.ref()
+    for port_name in component_ref.ports.keys():
+        if component_ref.ports[port_name].port_type == "optical":
             Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
 
     # Create S-parameter storage object
@@ -266,6 +261,7 @@ def write_sparameters_meep(
         n,
         component: Component,
         port_symmetries: Dict = port_symmetries,
+        Sparams_indices: Tuple = Sparams_indices,
         wl_min: float = wl_min,
         wl_max: float = wl_max,
         wl_steps: int = wl_steps,
@@ -333,6 +329,7 @@ def write_sparameters_meep(
 
         # Calculate mode overlaps
         # Get source monitor results
+        component_ref = component.ref()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             Sparams_indices[n], component_ref.ports, sim_dict
         )
@@ -344,8 +341,8 @@ def write_sparameters_meep(
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                Sparams_dict[f"s{i}{j}a"] = siia
-                Sparams_dict[f"s{i}{j}m"] = siim
+                Sparams_dict[f"s{i}{i}a"] = siia
+                Sparams_dict[f"s{i}{i}m"] = siim
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
@@ -360,21 +357,24 @@ def write_sparameters_meep(
                 sijm = np.abs(sij)
 
         if bool(port_symmetries) is True:
-            for key in port_symmetries["o{n}"].keys():
-                value = port_symmetries["o{n}"][key]
-                Sparams_dict[f"{value}m"] = Sparams_dict[f"{key}m"]
+            for key in port_symmetries[f"o{Sparams_indices[n]}"].keys():
+                values = port_symmetries[f"o{Sparams_indices[n]}"][key]
+                for value in values:
+                    Sparams_dict[f"{value}m"] = Sparams_dict[f"{key}m"]
+                    Sparams_dict[f"{value}a"] = Sparams_dict[f"{key}a"]
 
         return Sparams_dict
 
     # Since source is defined upon sim object instanciation, loop here
     # for port_index in Sparams_indices:
 
+    num_sims = len(port_symmetries.keys()) or len(Sparams_indices)
     if lazy_parallelism:
         import multiprocessing
 
         from mpi4py import MPI
 
-        cores = min([len(Sparams_indices), multiprocessing.cpu_count()])
+        cores = min([num_sims, multiprocessing.cpu_count()])
         # mp.count_processors = lambda x: cores
         # FIXME RuntimeError: meep: numgroups > count_processors
         # Using MPI version 3.1, 1 processes
@@ -393,6 +393,8 @@ def write_sparameters_meep(
             layer_to_thickness=layer_to_thickness,
             layer_to_material=layer_to_material,
             animate=animate,
+            port_symmetries=port_symmetries,
+            Sparams_indices=Sparams_indices,
             **settings,
         )
         # Synchronize dicts
@@ -410,7 +412,7 @@ def write_sparameters_meep(
             comm.send(Sparams_dict, dest=0, tag=11)
 
     else:
-        for n in range(len(Sparams_indices)):
+        for n in range(num_sims):
             Sparams_dict.update(
                 sparameter_calculation(
                     n,
@@ -421,6 +423,8 @@ def write_sparameters_meep(
                     layer_to_thickness=layer_to_thickness,
                     layer_to_material=layer_to_material,
                     animate=animate,
+                    port_symmetries=port_symmetries,
+                    Sparams_indices=Sparams_indices,
                     **settings,
                 )
             )
