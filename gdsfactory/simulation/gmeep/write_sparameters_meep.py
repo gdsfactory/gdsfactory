@@ -4,14 +4,16 @@ Synchronize dicts
 from https://stackoverflow.com/questions/66703153/updating-dictionary-values-in-mpi4py
 """
 
+import multiprocessing
 import pathlib
 import pickle
 import re
 import shlex
 import shutil
 import subprocess
+import time
 from pathlib import Path
-from typing import Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import meep as mp
@@ -26,6 +28,8 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
+
+ncores = multiprocessing.cpu_count()
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
@@ -151,19 +155,22 @@ def write_sparameters_meep(
         port_symmetries: Dict to specify
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
-        layer_to_thickness: GDS layer (int, int) to thickness
-        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
+        layer_stack:
         port_margin: margin on each side of the port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
         port_source_offset: offset between source GDS port and source MEEP port
-        filepath: to store pandas Dataframe with Sparameters in CSV format
+        filepath: to store pandas Dataframe with Sparameters in CSV format.
+            Defaults to dirpath/component_.csv
         overwrite: overwrites
         animate: saves a MP4 images of the simulation for inspection, and also
             outputs during computation. The name of the file is the source index
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel
         dispersive: use dispersive models for materials (requires higher resolution)
+
     keyword Args:
+        layer_to_thickness: GDS layer (int, int) to thickness
+        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
         extend_ports_length: to extend ports beyond the PML
         layer_stack: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
@@ -190,30 +197,9 @@ def write_sparameters_meep(
     layer_to_material = layer_stack.get_layer_to_material()
     # layer_to_zmin = layer_stack.get_layer_to_zmin()
 
-    filepath = filepath or get_sparameters_path(
-        component=component,
-        port_symmetries=port_symmetries,
-        dirpath=dirpath,
-        resolution=resolution,
-        layer_to_material=layer_to_material,
-        layer_to_thickness=layer_to_thickness,
-        wl_min=wl_min,
-        wl_max=wl_max,
-        wl_steps=wl_steps,
-        port_margin=port_margin,
-        port_monitor_offset=port_monitor_offset,
-        port_source_offset=port_source_offset,
-        suffix=".csv",
-        **settings,
-    )
-    filepath = pathlib.Path(filepath)
-    filepath_sim_settings = filepath.with_suffix(".yml")
-
     sim_settings = dict(
-        component=component.to_dict(),
-        port_symmetries=port_symmetries,
         resolution=resolution,
-        layer_stack=layer_stack.to_dict(),
+        port_symmetries=port_symmetries,
         wl_min=wl_min,
         wl_max=wl_max,
         wl_steps=wl_steps,
@@ -223,6 +209,21 @@ def write_sparameters_meep(
         dispersive=dispersive,
         **settings,
     )
+
+    filepath = filepath or get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        suffix=".csv",
+        layer_stack=layer_stack,
+        **sim_settings,
+    )
+
+    sim_settings = sim_settings.copy()
+    sim_settings["layer_stack"] = layer_stack.to_dict()
+    sim_settings["component"] = component.to_dict()
+    filepath = pathlib.Path(filepath)
+    filepath_sim_settings = filepath.with_suffix(".yml")
+
     # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
     # logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
     # return filepath_sim_settings
@@ -415,6 +416,9 @@ def write_sparameters_meep(
             df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
             df["freqs"] = 1 / df["wavelengths"]
             df.to_csv(filepath, index=False)
+            logger.info(f"Write simulation results to {filepath!r}")
+            filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
+            logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
             return df
         else:
             comm.send(Sparams_dict, dest=0, tag=11)
@@ -440,6 +444,7 @@ def write_sparameters_meep(
         df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
         df["freqs"] = 1 / df["wavelengths"]
         df.to_csv(filepath, index=False)
+
         logger.info(f"Write simulation results to {filepath!r}")
         filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
         logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
@@ -447,30 +452,86 @@ def write_sparameters_meep(
 
 
 @pydantic.validate_arguments
-def write_sparameters_meep_parallel(
-    instance: Dict,
-    cores: int = 2,
+def write_sparameters_meep_mpi(
+    component: Component,
+    cores: int = ncores,
+    filepath: Optional[Path] = None,
+    dirpath: Path = CONFIG["sparameters"],
+    layer_stack: LayerStack = LAYER_STACK,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
-    temp_file_str: str = "write_sparameters_meep_parallel",
-    verbosity: bool = False,
-):
-    """
-    Given a Dict of write_sparameters_meep keyword arguments (the "instance"), launches a parallel simulation on `cores` cores
-    Returns the subprocess Popen object
+    temp_file_str: str = "write_sparameters_meep_mpi",
+    overwrite: bool = False,
+    wait_to_finish: bool = True,
+    **kwargs,
+) -> Path:
+    """Write Sparameters using multiple cores and MPI
+    and returns Sparameters filepath.
 
-    Args
-        instances (Dict): Dict. The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores (int): number of processors
-        temp_dir (FilePath): temporary directory to hold simulation files
-        temp_file_str (str): names of temporary files in temp_dir
-        verbosity (bool): progress messages
+    Args:
+        component: gdsfactory Component.
+        cores: number of processors.
+        filepath: to store pandas Dataframe with Sparameters in CSV format.
+            Defaults to dirpath/component_.csv
+        dirpath: directory to store Sparameters
+        layer_stack:
+        temp_dir: temporary directory to hold simulation files.
+        temp_file_str: names of temporary files in temp_dir.
+        overwrite:
+        wait_to_finish:
+
+    Keyword Args:
+        resolution: in pixels/um (20: for coarse, 120: for fine)
+        source_ports: list of port string names to use as sources
+        dirpath: directory to store Sparameters
+        layer_to_thickness: GDS layer (int, int) to thickness
+        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
+        port_margin: margin on each side of the port
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        port_source_offset: offset between source GDS port and source MEEP port
+        filepath: to store pandas Dataframe with Sparameters in CSV format.
+            Defaults to dirpath/component_.csv
+        overwrite: overwrites
+        animate: saves a MP4 images of the simulation for inspection, and also
+            outputs during computation. The name of the file is the source index
+        lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
+            perform the simulations with different sources in parallel
+        dispersive: use dispersive models for materials (requires higher resolution)
+        extend_ports_length: to extend ports beyond the PML
+        layer_stack: Dict of layer number (int, int) to thickness (um)
+        t_clad_top: thickness for cladding above core
+        t_clad_bot: thickness for cladding below core
+        tpml: PML thickness (um)
+        clad_material: material for cladding
+        is_3d: if True runs in 3D
+        wl_min: wavelength min (um)
+        wl_max: wavelength max (um)
+        wl_steps: wavelength steps
+        dfcen: delta frequency
+        port_source_name: input port name
+        port_field_monitor_name:
+        port_margin: margin on each side of the port
+        distance_source_to_monitors: in (um) source goes before
+        port_source_offset: offset between source GDS port and source MEEP port
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
     """
+    filepath = filepath or get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        suffix=".csv",
+        layer_stack=layer_stack,
+        **kwargs,
+    )
+    filepath = pathlib.Path(filepath)
+    if filepath.exists() and not overwrite:
+        logger.info(f"Simulation {filepath!r} already exists")
+        return filepath
 
     # Save the component object to simulation for later retrieval
-    component = instance["component"]
     temp_dir.mkdir(exist_ok=True, parents=True)
-    filepath = temp_dir / temp_file_str
-    component_file = filepath.with_suffix(".pkl")
+    tempfile = temp_dir / temp_file_str
+    component_file = tempfile.with_suffix(".pkl")
+    kwargs.update(filepath=str(filepath))
+
     with open(component_file, "wb") as outp:
         pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
 
@@ -483,107 +544,152 @@ def write_sparameters_meep_parallel(
         "\t\tcomponent = pickle.load(inp)\n\n"
         "\twrite_sparameters_meep(component = component,\n",
     ]
-    for key in instance.keys():
-        if key == "component":
-            continue
-        else:
-            if isinstance(instance[key], str):
-                parameter = f'"{instance[key]}"'
-            else:
-                parameter = instance[key]
-            script_lines.append(f"\t\t{key} = {parameter},\n")
+    for key in kwargs.keys():
+        script_lines.append(f"\t\t{key} = {kwargs[key]!r},\n")
+
     script_lines.append("\t)")
-    script_file = filepath.with_suffix(".py")
+    script_file = tempfile.with_suffix(".py")
     script_file_obj = open(script_file, "w")
     script_file_obj.writelines(script_lines)
     script_file_obj.close()
 
-    # Exec string
     command = f"mpirun -np {cores} python {script_file}"
+    logger.info(command)
+    logger.info(str(filepath))
 
-    # Launch simulation
-    if verbosity:
-        print(f"Launching: {command}")
-    proc = subprocess.Popen(
+    subprocess.Popen(
         shlex.split(command),
         shell=False,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
+    if wait_to_finish:
+        while not filepath.exists():
+            time.sleep(1)
 
-    return proc
+    return filepath
 
 
 @pydantic.validate_arguments
-def write_sparameters_meep_parallel_pools(
-    instances: Tuple,
-    cores_per_instance: int = 2,
+def write_sparameters_meep_mpi_pool(
+    jobs: List[Dict],
+    cores_per_run: int = 2,
     total_cores: int = 4,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     delete_temp_files: bool = True,
-    verbosity: bool = False,
-):
-    """
-    Given a tuple of write_sparameters_meep keyword arguments (the "instances"), launches parallel simulations
-    Each simulation is assigned "cores_per_instance" cores
-    A total of "total_cores" is assumed, if cores_per_instance * len(instances) > total_cores then the overflow will be performed serially
+    dirpath: Path = CONFIG["sparameters"],
+    layer_stack: LayerStack = LAYER_STACK,
+    **kwargs,
+) -> List[Path]:
+    """Write Sparameters and returns the filepaths
+    Given a list of write_sparameters_meep keyword arguments (the "jobs"),
+        launches them in different cores
+    Each simulation is assigned "cores_per_run" cores
+    A total of "total_cores" is assumed, if cores_per_run * len(jobs) > total_cores
+    then the overflow will run sequentially (not in parallel)
 
     Args
-        instances ([Dict]): list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores_per_instance (int): number of processors to assign to each instance
-        total_cores (int): total number of cores to use
-        temp_dir (FilePath): temporary directory to hold simulation files
-        delete_temp_file (Boolean): whether to delete temp_dir when done
-        verbosity: progress messages
+        jobs: list of Dicts containing the simulation settings for each job.
+            for write_sparameters_meep
+        cores_per_run: number of processors to assign to each component simulation
+        total_cores: total number of cores to use
+        temp_dir: temporary directory to hold simulation files
+        delete_temp_files: deletes temp_dir when done
+        dirpath: directory to store Sparameters
+        layer_stack:
     """
+    # Parse jobs
+    jobs_to_run = []
+    for job in jobs:
+        filepath = job.get(
+            "filepath",
+            get_sparameters_path(
+                component=job["component"],
+                dirpath=dirpath,
+                layer_stack=layer_stack,
+                suffix=".csv",
+                **kwargs,
+            ),
+        )
+        if filepath.exists():
+            job.update(**kwargs)
+            if job.get("overwrite", False):
+                pathlib.Path.unlink(filepath)
+                logger.info(
+                    f"Simulation {filepath!r} found and overwrite is True. "
+                    "Deleting file and adding it to the queue."
+                )
+                jobs_to_run.append(job)
+            else:
+                logger.info(
+                    f"Simulation {filepath!r} found exists and "
+                    "overwrite is False. Removing it from the queue."
+                )
+        else:
+            logger.info(f"Simulation {filepath!r} not found. Adding it to the queue")
+            jobs_to_run.append(job)
+
+    # Update jobs
+    jobs = jobs_to_run
 
     # Setup pools
-    num_pools = int(np.ceil(cores_per_instance * len(instances) / total_cores))
-    instances_per_pool = int(np.floor(total_cores / cores_per_instance))
-    num_tasks = len(instances)
+    num_pools = int(np.ceil(cores_per_run * len(jobs) / total_cores))
+    jobs_per_pool = int(np.floor(total_cores / cores_per_run))
+    njobs = len(jobs)
 
-    if verbosity:
-        print(f"Running parallel simulations over {num_tasks} instances")
-        print(
-            f"Using a total of {total_cores} cores with {cores_per_instance} cores per instance"
-        )
-        print(
-            f"Tasks split amongst {num_pools} pools with up to {instances_per_pool} instances each."
-        )
+    logger.info(f"Running parallel simulations over {njobs} jobs")
+    logger.info(
+        f"Using a total of {total_cores} cores with {cores_per_run} cores per job"
+    )
+    logger.info(
+        f"Tasks split amongst {num_pools} pools with up to {jobs_per_pool} jobs each."
+    )
 
     i = 0
     # For each pool
     for j in range(num_pools):
-        processes = []
-        # For instance in the pool
-        for k in range(instances_per_pool):
-            # Flag to catch nonfull pools
-            if i >= num_tasks:
-                continue
-            if verbosity:
-                print(f"Task {k} of pool {j} is instance {i}")
-            # Obtain current instance
-            instance = instances[i]
+        filepaths = []
 
-            process = write_sparameters_meep_parallel(
-                instance=instance,
-                cores=cores_per_instance,
+        # For each job in the pool
+        for k in range(jobs_per_pool):
+            # Flag to catch non full pools
+            if i >= njobs:
+                continue
+            logger.info(f"Task {k} of pool {j} is job {i}")
+
+            # Obtain current job
+            simulations_settings = jobs[i]
+
+            filepath = write_sparameters_meep_mpi(
+                cores=cores_per_run,
                 temp_dir=temp_dir,
-                temp_file_str=f"write_sparameters_meep_parallel_{i}",
-                verbosity=verbosity,
+                temp_file_str=f"write_sparameters_meep_mpi_{i}",
+                wait_to_finish=False,
+                **simulations_settings,
             )
-            processes.append(process)
+            filepaths.append(filepath)
 
             # Increment task number
             i += 1
 
         # Wait for pool to end
-        for process in processes:
-            process.wait()
+        done = False
+        num_pool_jobs = len(filepaths)
+        while not done:
+            # Check if all jobs finished
+            jobs_done = 0
+            for filepath in filepaths:
+                if filepath.exists():
+                    jobs_done += 1
+            if jobs_done == num_pool_jobs:
+                done = True
+            else:
+                time.sleep(1)
 
     if delete_temp_files:
         shutil.rmtree(temp_dir)
+    return filepaths
 
 
 if __name__ == "__main__":
@@ -607,9 +713,7 @@ if __name__ == "__main__":
     # c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.crossing()
 
-    # """
-    # Parallel example
-    # """
+    # Multicore example
 
     # c1 = gf.c.straight(length=5)
     # p = 3
@@ -680,18 +784,69 @@ if __name__ == "__main__":
     #     verbosity=True,
     # )
 
-    c = gf.components.crossing()
-    # Symmetry toggle
-    df_symm = write_sparameters_meep(
-        c,
-        overwrite=True,
-        animate=False,
-        port_symmetries={
-            "o1": {
-                "s11": ["s22", "s33", "s44"],
-                "s21": ["s21", "s34", "s43"],
-                "s31": ["s13", "s24", "s42"],
-                "s41": ["s14", "s23", "s32"],
-            }
-        },
+    # c = gf.components.crossing()
+    # # Symmetry toggle
+    # df_symm = write_sparameters_meep(
+    #     c,
+    #     overwrite=True,
+    #     animate=False,
+    #     port_symmetries={
+    #         "o1": {
+    #             "s11": ["s22", "s33", "s44"],
+    #             "s21": ["s21", "s34", "s43"],
+    #             "s31": ["s13", "s24", "s42"],
+    #             "s41": ["s14", "s23", "s32"],
+    #         }
+    #     },
+    # )
+    # proc = write_sparameters_meep_mpi(
+    #     component=c1,
+    #     cores=3,
+    # )
+
+    # Multicore pools example
+    c1 = gf.c.straight(length=5)
+    p = 3
+    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+
+    c2 = gf.c.straight(length=4)
+    p = 3
+    c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
+
+    c1_dict = {
+        "component": c1,
+        "run": True,
+        "overwrite": True,
+        "lazy_parallelism": True,
+        "filepath": Path("c1_dict.csv"),
+    }
+    c2_dict = {
+        "component": c2,
+        "run": True,
+        "overwrite": False,
+        "lazy_parallelism": True,
+        "filepath": Path("c2_dict.csv"),
+    }
+    c3_dict = {
+        "component": c2,
+        "run": True,
+        "overwrite": True,
+        "lazy_parallelism": True,
+        "resolution": 40,
+        "port_source_offset": 0.3,
+        "filepath": Path("c3_dict.csv"),
+    }
+
+    # jobs
+    jobs = [
+        c1_dict,
+        c2_dict,
+        c3_dict,
+    ]
+
+    filepaths = write_sparameters_meep_mpi_pool(
+        jobs=jobs,
+        cores_per_run=4,
+        total_cores=10,
+        delete_temp_files=False,
     )
