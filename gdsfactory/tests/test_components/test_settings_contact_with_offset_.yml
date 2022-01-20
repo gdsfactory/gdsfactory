@@ -1,5 +1,5 @@
 cells:
-  contact_with_offset_d41d8cd9:
+  contact_with_offset:
     changed: {}
     default:
       layers:
@@ -42,7 +42,7 @@ cells:
     function_name: contact_with_offset
     info_version: 1
     module: gdsfactory.components.contact_with_offset
-    name: contact_with_offset_d41d8cd9
+    name: contact_with_offset
 info:
   changed: {}
   default:
@@ -86,7 +86,7 @@ info:
   function_name: contact_with_offset
   info_version: 1
   module: gdsfactory.components.contact_with_offset
-  name: contact_with_offset_d41d8cd9
+  name: contact_with_offset
 ports:
   e1:
     layer:

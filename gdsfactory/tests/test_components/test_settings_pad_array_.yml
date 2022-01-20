@@ -1,5 +1,5 @@
 cells:
-  pad_array_d41d8cd9:
+  pad_array:
     changed: {}
     default:
       columns: 6
@@ -22,7 +22,7 @@ cells:
     function_name: pad_array
     info_version: 1
     module: gdsfactory.components.pad
-    name: pad_array_d41d8cd9
+    name: pad_array
     size:
     - 100
     - 100
@@ -49,7 +49,7 @@ info:
   function_name: pad_array
   info_version: 1
   module: gdsfactory.components.pad
-  name: pad_array_d41d8cd9
+  name: pad_array
   size:
   - 100
   - 100

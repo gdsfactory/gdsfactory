@@ -1,5 +1,5 @@
 cells:
-  crossing_arm_d41d8cd9:
+  crossing_arm:
     changed: {}
     default:
       L: 3.4
@@ -32,7 +32,7 @@ cells:
     function_name: crossing_arm
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
-    name: crossing_arm_d41d8cd9
+    name: crossing_arm
   ellipse_0ee24967:
     changed:
       layer:
@@ -94,7 +94,7 @@ info:
   function_name: crossing_arm
   info_version: 1
   module: gdsfactory.components.crossing_waveguide
-  name: crossing_arm_d41d8cd9
+  name: crossing_arm
 ports:
   o1:
     layer:

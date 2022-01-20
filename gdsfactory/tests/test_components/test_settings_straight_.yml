@@ -1,5 +1,5 @@
 cells:
-  straight_d41d8cd9:
+  straight:
     changed: {}
     default:
       cross_section:
@@ -17,7 +17,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_d41d8cd9
+    name: straight
     width: 0.5
 info:
   changed: {}
@@ -37,7 +37,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.straight
-  name: straight_d41d8cd9
+  name: straight
   width: 0.5
 ports:
   o1:

@@ -1,5 +1,5 @@
 cells:
-  bend_circular_d41d8cd9:
+  bend_circular:
     changed: {}
     default:
       angle: 90
@@ -18,7 +18,7 @@ cells:
     info_version: 1
     length: 15.708
     module: gdsfactory.components.bend_circular
-    name: bend_circular_d41d8cd9
+    name: bend_circular
     radius: 10
 info:
   changed: {}
@@ -39,7 +39,7 @@ info:
   info_version: 1
   length: 15.708
   module: gdsfactory.components.bend_circular
-  name: bend_circular_d41d8cd9
+  name: bend_circular
   radius: 10
 ports:
   o1:

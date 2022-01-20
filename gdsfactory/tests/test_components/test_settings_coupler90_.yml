@@ -1,5 +1,5 @@
 cells:
-  coupler90_d41d8cd9:
+  coupler90:
     changed: {}
     default:
       bend:
@@ -20,7 +20,7 @@ cells:
     function_name: coupler90
     info_version: 1
     module: gdsfactory.components.coupler90
-    name: coupler90_d41d8cd9
+    name: coupler90
 info:
   changed: {}
   default:
@@ -42,7 +42,7 @@ info:
   function_name: coupler90
   info_version: 1
   module: gdsfactory.components.coupler90
-  name: coupler90_d41d8cd9
+  name: coupler90
 ports:
   o1:
     layer:

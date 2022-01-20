@@ -16,7 +16,7 @@ instances:
     component: straight
     settings:
       length: 5
-name: ring_single_array_d41d8cd9
+name: ring_single_array
 placements:
   ring_single_245fa0a7_30p0_10p65:
     mirror: false

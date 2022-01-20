@@ -1,5 +1,5 @@
 cells:
-  spiral_d41d8cd9:
+  spiral:
     changed: {}
     default:
       cladding_offset: 3
@@ -44,7 +44,7 @@ cells:
     function_name: spiral
     info_version: 1
     module: gdsfactory.components.spiral
-    name: spiral_d41d8cd9
+    name: spiral
 info:
   changed: {}
   default:
@@ -90,7 +90,7 @@ info:
   function_name: spiral
   info_version: 1
   module: gdsfactory.components.spiral
-  name: spiral_d41d8cd9
+  name: spiral
 ports:
   o1:
     layer:

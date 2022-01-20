@@ -1,5 +1,5 @@
 cells:
-  coupler_d41d8cd9:
+  coupler:
     changed: {}
     default:
       coupler_straight:
@@ -28,7 +28,7 @@ cells:
     length: 10.314
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
-    name: coupler_d41d8cd9
+    name: coupler
 info:
   changed: {}
   default:
@@ -58,7 +58,7 @@ info:
   length: 10.314
   min_bend_radius: 9.451
   module: gdsfactory.components.coupler
-  name: coupler_d41d8cd9
+  name: coupler
 ports:
   o1:
     layer:

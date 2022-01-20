@@ -1,5 +1,5 @@
 cells:
-  bend_euler_d41d8cd9:
+  bend_euler:
     changed: {}
     default:
       angle: 90
@@ -24,10 +24,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_d41d8cd9
+    name: bend_euler
     radius: 10
     radius_min: 7.061
-  mmi1x2_d41d8cd9:
+  mmi1x2:
     changed: {}
     default:
       cross_section:
@@ -56,7 +56,7 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_d41d8cd9
+    name: mmi1x2
   mzi_arm_74064cef:
     changed:
       bend:
@@ -135,7 +135,7 @@ cells:
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
     name: mzi_arm_f85ac2e9
-  mzi_arms_d41d8cd9:
+  mzi_arms:
     changed: {}
     default:
       bend:
@@ -172,7 +172,7 @@ cells:
     function_name: mzi_arms
     info_version: 1
     module: gdsfactory.components.mzi_arms
-    name: mzi_arms_d41d8cd9
+    name: mzi_arms
   straight_10336aac:
     changed:
       length: 5.8
@@ -273,7 +273,7 @@ info:
   function_name: mzi_arms
   info_version: 1
   module: gdsfactory.components.mzi_arms
-  name: mzi_arms_d41d8cd9
+  name: mzi_arms
 ports:
   o1:
     layer:

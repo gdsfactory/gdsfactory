@@ -1,5 +1,5 @@
 cells:
-  array_with_via_2d_d41d8cd9:
+  array_with_via_2d:
     changed: {}
     default:
       columns: 3
@@ -16,7 +16,7 @@ cells:
     function_name: array_with_via_2d
     info_version: 1
     module: gdsfactory.components.array_with_via
-    name: array_with_via_2d_d41d8cd9
+    name: array_with_via_2d
 info:
   changed: {}
   default:
@@ -34,7 +34,7 @@ info:
   function_name: array_with_via_2d
   info_version: 1
   module: gdsfactory.components.array_with_via
-  name: array_with_via_2d_d41d8cd9
+  name: array_with_via_2d
 ports:
   e0_1_1:
     layer:

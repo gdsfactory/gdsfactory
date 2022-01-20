@@ -207,7 +207,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single
     name: ring_single_a371eccc
-  ring_single_array_d41d8cd9:
+  ring_single_array:
     changed: {}
     default:
       list_of_dicts:
@@ -234,7 +234,7 @@ cells:
     function_name: ring_single_array
     info_version: 1
     module: gdsfactory.components.ring_single_array
-    name: ring_single_array_d41d8cd9
+    name: ring_single_array
   straight_417ceb80:
     changed:
       cross_section:
@@ -352,7 +352,7 @@ info:
   function_name: ring_single_array
   info_version: 1
   module: gdsfactory.components.ring_single_array
-  name: ring_single_array_d41d8cd9
+  name: ring_single_array
 ports:
   o1:
     layer:

@@ -28,7 +28,7 @@ cells:
     name: bend_euler_8d359e58
     radius: 10
     radius_min: 9.086
-  cutback_bend180_d41d8cd9:
+  cutback_bend180:
     changed: {}
     default:
       bend180:
@@ -54,7 +54,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_bend
     n_bends: 82
-    name: cutback_bend180_d41d8cd9
+    name: cutback_bend180
   straight_03933fc3:
     changed:
       length: 40.656
@@ -127,7 +127,7 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_bend
   n_bends: 82
-  name: cutback_bend180_d41d8cd9
+  name: cutback_bend180
 ports:
   o1:
     layer:

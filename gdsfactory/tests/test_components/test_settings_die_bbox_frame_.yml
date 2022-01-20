@@ -1,5 +1,5 @@
 cells:
-  die_bbox_frame_d41d8cd9:
+  die_bbox_frame:
     changed: {}
     child: {}
     default:
@@ -35,7 +35,7 @@ cells:
     function_name: die_bbox_frame
     info_version: 1
     module: gdsfactory.components.die_bbox_frame
-    name: die_bbox_frame_d41d8cd9
+    name: die_bbox_frame
 info:
   changed: {}
   child: {}
@@ -72,6 +72,6 @@ info:
   function_name: die_bbox_frame
   info_version: 1
   module: gdsfactory.components.die_bbox_frame
-  name: die_bbox_frame_d41d8cd9
+  name: die_bbox_frame
 ports: {}
 version: 0.0.1

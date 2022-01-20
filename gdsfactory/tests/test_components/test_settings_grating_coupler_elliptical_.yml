@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_ellipti_9314da1b:
+  grating_coupler_elliptical:
     changed: {}
     default:
       big_last_tooth: false
@@ -76,7 +76,7 @@ cells:
     function_name: grating_coupler_elliptical
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical
-    name: grating_coupler_ellipti_9314da1b
+    name: grating_coupler_elliptical
     polarization: te
     wavelength: 1.554
 info:
@@ -134,7 +134,7 @@ info:
   function_name: grating_coupler_elliptical
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_9314da1b
+  name: grating_coupler_elliptical
   polarization: te
   wavelength: 1.554
 ports:

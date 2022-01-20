@@ -1,5 +1,5 @@
 cells:
-  array_with_via_d41d8cd9:
+  array_with_via:
     changed: {}
     default:
       columns: 3
@@ -52,7 +52,7 @@ cells:
     function_name: array_with_via
     info_version: 1
     module: gdsfactory.components.array_with_via
-    name: array_with_via_d41d8cd9
+    name: array_with_via
   compass_280a2d8b:
     changed:
       layer:
@@ -174,7 +174,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ef690c07
-  contact_d41d8cd9:
+  contact:
     changed: {}
     default:
       layer_port: null
@@ -226,11 +226,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_d41d8cd9
+    name: contact
     size:
     - 11
     - 11
-  pad_d41d8cd9:
+  pad:
     changed: {}
     default:
       cladding_offsets: null
@@ -258,7 +258,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad_d41d8cd9
+    name: pad
     size:
     - 100
     - 100
@@ -444,7 +444,7 @@ info:
   function_name: array_with_via
   info_version: 1
   module: gdsfactory.components.array_with_via
-  name: array_with_via_d41d8cd9
+  name: array_with_via
 ports:
   e0:
     layer:

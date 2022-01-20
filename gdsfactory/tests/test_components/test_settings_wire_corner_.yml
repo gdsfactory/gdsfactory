@@ -1,5 +1,5 @@
 cells:
-  wire_corner_d41d8cd9:
+  wire_corner:
     changed: {}
     default:
       cross_section:
@@ -31,7 +31,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.wire
-    name: wire_corner_d41d8cd9
+    name: wire_corner
 info:
   changed: {}
   default:
@@ -64,7 +64,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.wire
-  name: wire_corner_d41d8cd9
+  name: wire_corner
 ports:
   e1:
     layer:

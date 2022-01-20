@@ -297,7 +297,7 @@ cells:
     size:
     - 10
     - 25
-  seal_ring_d41d8cd9:
+  seal_ring:
     changed: {}
     default:
       bbox:
@@ -330,7 +330,7 @@ cells:
     function_name: seal_ring
     info_version: 1
     module: gdsfactory.components.seal_ring
-    name: seal_ring_d41d8cd9
+    name: seal_ring
 info:
   changed: {}
   default:
@@ -364,6 +364,6 @@ info:
   function_name: seal_ring
   info_version: 1
   module: gdsfactory.components.seal_ring
-  name: seal_ring_d41d8cd9
+  name: seal_ring
 ports: {}
 version: 0.0.1

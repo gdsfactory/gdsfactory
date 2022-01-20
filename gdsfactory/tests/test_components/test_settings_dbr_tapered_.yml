@@ -1,5 +1,5 @@
 cells:
-  dbr_tapered_d41d8cd9:
+  dbr_tapered:
     changed: {}
     default:
       dc: 0.5
@@ -40,7 +40,7 @@ cells:
     function_name: dbr_tapered
     info_version: 1
     module: gdsfactory.components.dbr_tapered
-    name: dbr_tapered_d41d8cd9
+    name: dbr_tapered
 info:
   changed: {}
   default:
@@ -82,7 +82,7 @@ info:
   function_name: dbr_tapered
   info_version: 1
   module: gdsfactory.components.dbr_tapered
-  name: dbr_tapered_d41d8cd9
+  name: dbr_tapered
 ports:
   o1:
     layer:

@@ -238,7 +238,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_5edf6857
-  ring_single_heater_d41d8cd9:
+  ring_single_heater:
     changed: {}
     default:
       bend:
@@ -325,7 +325,7 @@ cells:
     function_name: ring_single_heater
     info_version: 1
     module: gdsfactory.components.ring_single_heater
-    name: ring_single_heater_d41d8cd9
+    name: ring_single_heater
   straight_5844ea34:
     changed:
       cross_section:
@@ -459,7 +459,7 @@ info:
   function_name: ring_single_heater
   info_version: 1
   module: gdsfactory.components.ring_single_heater
-  name: ring_single_heater_d41d8cd9
+  name: ring_single_heater
 ports:
   e1:
     layer:

@@ -304,7 +304,7 @@ cells:
     size:
     - 11
     - 11
-  mmi2x2_d41d8cd9:
+  mmi2x2:
     changed: {}
     default:
       cross_section:
@@ -331,7 +331,7 @@ cells:
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
-    name: mmi2x2_d41d8cd9
+    name: mmi2x2
   mzi_d275fe52:
     changed:
       length_x: null
