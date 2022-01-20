@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.10.10
+
+- cell name with no parameters passed only includes prefix [PR](https://github.com/gdsfactory/gdsfactory/pull/158)
+- write_sparameters_meep can exploit symmetries [PR](https://github.com/gdsfactory/gdsfactory/pull/157)
+
 ## 3.10.9
 
 - add tests for `write_sparameters_meep_mpi` and  `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
