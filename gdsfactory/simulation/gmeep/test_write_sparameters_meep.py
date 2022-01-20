@@ -175,4 +175,5 @@ def test_sparameterNxN_symmetries_straight(dataframe_regression):
 
 
 if __name__ == "__main__":
-    test_sparameterNxN_symmetries_straight(False)
+    test_sparameterNxN_straight(None)
+    # test_sparameterNxN_crossing(None)

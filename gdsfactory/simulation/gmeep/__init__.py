@@ -9,7 +9,11 @@ from gdsfactory.simulation.gmeep.get_transmission_2ports import (
     plot3D,
 )
 from gdsfactory.simulation.gmeep.plot_xsection import plot_xsection
-from gdsfactory.simulation.gmeep.write_sparameters_meep import write_sparameters_meep
+from gdsfactory.simulation.gmeep.write_sparameters_meep import (
+    write_sparameters_meep,
+    write_sparameters_meep_mpi,
+    write_sparameters_meep_mpi_pool,
+)
 from gdsfactory.simulation.gmeep.write_sparameters_meep_1x1 import (
     write_sparameters_meep_1x1,
 )
@@ -20,6 +24,8 @@ __all__ = [
     "add_monitors",
     "get_simulation",
     "write_sparameters_meep",
+    "write_sparameters_meep_mpi",
+    "write_sparameters_meep_mpi_pool",
     "write_sparameters_meep_1x1",
     "get_transmission_2ports",
     "plot2D",
