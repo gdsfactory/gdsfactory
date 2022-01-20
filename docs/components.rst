@@ -736,7 +736,7 @@ crossing_arm
 
   import gdsfactory as gf
 
-  c = gf.components.crossing_arm(width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4)
+  c = gf.components.crossing_arm(width=0.5, r1=3.0, r2=1.1, w=1.2, L=3.4, layer_wg=(1, 0), layer_slab=(2, 0))
   c.plot()
 
 
@@ -2656,7 +2656,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.10.5', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.10.9', text_size=10)
   c.plot()
 
 
