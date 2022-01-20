@@ -114,7 +114,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 @pydantic.validate_arguments
 def write_sparameters_meep(
     component: Component,
-    port_symmetries: Dict = {},
+    port_symmetries: Optional[Dict[str, Dict[str, List[str]]]] = None,
     resolution: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
@@ -135,14 +135,15 @@ def write_sparameters_meep(
     """Compute Sparameters and writes them in CSV filepath.
     Repeats the simulation, each time using a different port in (by default, all of them)
 
-    The "port_symmetries" argument is a Dict of form e.g. {"o1":
-                                                                {
-                                                                    "s11": ["s22","s33","s44"],
-                                                                    "s21": ["s21","s34","s43"],
-                                                                    "s31": ["s13","s24","s42"],
-                                                                    "s41": ["s14","s23","s32"],
-                                                                }
-                                                            }
+    The "port_symmetries" argument is a Dict of form e.g.
+        {"o1":
+            {
+                "s11": ["s22","s33","s44"],
+                "s21": ["s21","s34","s43"],
+                "s31": ["s13","s24","s42"],
+                "s41": ["s14","s23","s32"],
+            }
+        }
         (1) Only simulations using the outer key port names will be run
         (2) The associated value is another dict whose keys are the S-parameters computed when this source is active
         (3) The values of this inner Dict are lists of s-parameters whose values are copied
@@ -196,6 +197,8 @@ def write_sparameters_meep(
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     # layer_to_zmin = layer_stack.get_layer_to_zmin()
+
+    port_symmetries = port_symmetries or {}
 
     sim_settings = dict(
         resolution=resolution,
