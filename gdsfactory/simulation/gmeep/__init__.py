@@ -1,6 +1,7 @@
 import meep as mp
 
 from gdsfactory.config import logger
+from gdsfactory.simulation import plot
 from gdsfactory.simulation.gmeep.add_monitors import add_monitors
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.simulation.gmeep.get_transmission_2ports import (
@@ -28,6 +29,7 @@ __all__ = [
     "write_sparameters_meep_mpi_pool",
     "write_sparameters_meep_1x1",
     "get_transmission_2ports",
+    "plot",
     "plot2D",
     "plot3D",
     "plot_xsection",
