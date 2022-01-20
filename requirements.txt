@@ -7,7 +7,7 @@ loguru
 lytest==0.0.20
 matplotlib~=3.5.1
 networkx==2.6.3
-numpy
+numpy>=1.20.0
 omegaconf==2.1.1
 pandas
 phidl==1.6.0
