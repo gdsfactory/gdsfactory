@@ -1,4 +1,4 @@
-# gdsfactory 3.10.10
+# gdsfactory 3.10.11
 
 ![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
