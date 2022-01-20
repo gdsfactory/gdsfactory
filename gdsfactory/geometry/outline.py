@@ -56,11 +56,12 @@ def test_outline():
     e1 = gf.components.ellipse(radii=(6, 6))
     e2 = gf.components.ellipse(radii=(10, 4))
     c = outline([e1, e2])
-    assert int(c.area()) == 52
+    assert int(c.area()) == 52, int(c.area())
 
 
 if __name__ == "__main__":
-    e1 = gf.components.ellipse(radii=(6, 6))
-    e2 = gf.components.ellipse(radii=(10, 4))
-    c = outline([e1, e2])
-    c.show()
+    test_outline()
+    # e1 = gf.components.ellipse(radii=(6, 6))
+    # e2 = gf.components.ellipse(radii=(10, 4))
+    # c = outline([e1, e2])
+    # c.show()
