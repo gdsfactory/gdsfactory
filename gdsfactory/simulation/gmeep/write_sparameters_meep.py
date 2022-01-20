@@ -485,23 +485,23 @@ def write_sparameters_meep_mpi(
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
     """
-    filepath_df = filepath or get_sparameters_path(
+    filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
         suffix=".csv",
         layer_stack=layer_stack,
         **kwargs,
     )
-    filepath_df = pathlib.Path(filepath_df)
-    if filepath_df.exists() and not overwrite:
-        logger.info(f"Simulation {filepath_df!r} already exists")
-        return filepath_df
+    filepath = pathlib.Path(filepath)
+    if filepath.exists() and not overwrite:
+        logger.info(f"Simulation {filepath!r} already exists")
+        return filepath
 
     # Save the component object to simulation for later retrieval
     temp_dir.mkdir(exist_ok=True, parents=True)
-    filepath = temp_dir / temp_file_str
-    component_file = filepath.with_suffix(".pkl")
-    kwargs.update(filepath=str(filepath_df))
+    tempfile = temp_dir / temp_file_str
+    component_file = tempfile.with_suffix(".pkl")
+    kwargs.update(filepath=str(filepath))
 
     with open(component_file, "wb") as outp:
         pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
@@ -519,14 +519,14 @@ def write_sparameters_meep_mpi(
         script_lines.append(f"\t\t{key} = {kwargs[key]!r},\n")
 
     script_lines.append("\t)")
-    script_file = filepath.with_suffix(".py")
+    script_file = tempfile.with_suffix(".py")
     script_file_obj = open(script_file, "w")
     script_file_obj.writelines(script_lines)
     script_file_obj.close()
 
     command = f"mpirun -np {cores} python {script_file}"
     logger.info(command)
-    logger.info(str(filepath_df))
+    logger.info(str(filepath))
 
     subprocess.Popen(
         shlex.split(command),
@@ -536,10 +536,10 @@ def write_sparameters_meep_mpi(
         stderr=subprocess.PIPE,
     )
     if wait_to_finish:
-        while not filepath_df.exists():
+        while not filepath.exists():
             time.sleep(1)
 
-    return filepath_df
+    return filepath
 
 
 @pydantic.validate_arguments
@@ -636,6 +636,7 @@ def write_sparameters_meep_mpi_pool(
                 cores=cores_per_run,
                 temp_dir=temp_dir,
                 temp_file_str=f"write_sparameters_meep_mpi_{i}",
+                wait_to_finish=False,
                 **simulations_settings,
             )
             filepaths.append(filepath)
@@ -733,7 +734,7 @@ if __name__ == "__main__":
         c3_dict,
     ]
 
-    write_sparameters_meep_mpi_pool(
+    filepaths = write_sparameters_meep_mpi_pool(
         jobs=jobs,
         cores_per_run=4,
         total_cores=10,
