@@ -461,6 +461,7 @@ def write_sparameters_meep_mpi(
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     temp_file_str: str = "write_sparameters_meep_mpi",
     overwrite: bool = False,
+    wait_to_finish: bool = True,
     **kwargs,
 ) -> Path:
     """Write Sparameters using multiple cores and MPI
@@ -469,12 +470,14 @@ def write_sparameters_meep_mpi(
     Args:
         component: gdsfactory Component.
         cores: number of processors.
-        temp_dir: temporary directory to hold simulation files.
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv
         dirpath: directory to store Sparameters
         layer_stack:
+        temp_dir: temporary directory to hold simulation files.
         temp_file_str: names of temporary files in temp_dir.
+        overwrite:
+        wait_to_finish:
 
     Keyword Args:
         resolution: in pixels/um (20: for coarse, 120: for fine)
@@ -511,22 +514,23 @@ def write_sparameters_meep_mpi(
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
     """
-    filepath_df = filepath or get_sparameters_path(
+    filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
         suffix=".csv",
         layer_stack=layer_stack,
         **kwargs,
     )
-    if filepath_df.exists() and not overwrite:
-        logger.info(f"Simulation {filepath_df!r} already exists")
-        return filepath_df
+    filepath = pathlib.Path(filepath)
+    if filepath.exists() and not overwrite:
+        logger.info(f"Simulation {filepath!r} already exists")
+        return filepath
 
     # Save the component object to simulation for later retrieval
     temp_dir.mkdir(exist_ok=True, parents=True)
-    filepath = temp_dir / temp_file_str
-    component_file = filepath.with_suffix(".pkl")
-    kwargs.update(filepath=str(filepath_df))
+    tempfile = temp_dir / temp_file_str
+    component_file = tempfile.with_suffix(".pkl")
+    kwargs.update(filepath=str(filepath))
 
     with open(component_file, "wb") as outp:
         pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
@@ -544,14 +548,14 @@ def write_sparameters_meep_mpi(
         script_lines.append(f"\t\t{key} = {kwargs[key]!r},\n")
 
     script_lines.append("\t)")
-    script_file = filepath.with_suffix(".py")
+    script_file = tempfile.with_suffix(".py")
     script_file_obj = open(script_file, "w")
     script_file_obj.writelines(script_lines)
     script_file_obj.close()
 
     command = f"mpirun -np {cores} python {script_file}"
     logger.info(command)
-    logger.info(str(filepath_df))
+    logger.info(str(filepath))
 
     subprocess.Popen(
         shlex.split(command),
@@ -560,7 +564,11 @@ def write_sparameters_meep_mpi(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
-    return filepath_df
+    if wait_to_finish:
+        while not filepath.exists():
+            time.sleep(1)
+
+    return filepath
 
 
 @pydantic.validate_arguments
@@ -570,13 +578,16 @@ def write_sparameters_meep_mpi_pool(
     total_cores: int = 4,
     temp_dir: Path = CONFIG["sparameters"] / "temp",
     delete_temp_files: bool = True,
-):
-    """Write Sparameters
-    Given a tuple of write_sparameters_meep keyword arguments (the "jobs"),
-        launches parallel simulations
+    dirpath: Path = CONFIG["sparameters"],
+    layer_stack: LayerStack = LAYER_STACK,
+    **kwargs,
+) -> List[Path]:
+    """Write Sparameters and returns the filepaths
+    Given a list of write_sparameters_meep keyword arguments (the "jobs"),
+        launches them in different cores
     Each simulation is assigned "cores_per_run" cores
     A total of "total_cores" is assumed, if cores_per_run * len(jobs) > total_cores
-    then the overflow will be performed serially
+    then the overflow will run sequentially (not in parallel)
 
     Args
         jobs: list of Dicts containing the simulation settings for each job.
@@ -584,28 +595,39 @@ def write_sparameters_meep_mpi_pool(
         cores_per_run: number of processors to assign to each component simulation
         total_cores: total number of cores to use
         temp_dir: temporary directory to hold simulation files
-        delete_temp_file (Boolean): whether to delete temp_dir when done
-        verbose: log progress messages
+        delete_temp_files: deletes temp_dir when done
+        dirpath: directory to store Sparameters
+        layer_stack:
     """
     # Parse jobs
     jobs_to_run = []
     for job in jobs:
-        filepath = job["filepath"] or get_sparameters_path(job)
+        filepath = job.get(
+            "filepath",
+            get_sparameters_path(
+                component=job["component"],
+                dirpath=dirpath,
+                layer_stack=layer_stack,
+                suffix=".csv",
+                **kwargs,
+            ),
+        )
         if filepath.exists():
-            if job["overwrite"] is True:
+            job.update(**kwargs)
+            if job.get("overwrite", False):
                 pathlib.Path.unlink(filepath)
                 logger.info(
-                    f"Simulation {filepath!r} already exists; overwrite is True, deleting file and adding it to the queue"
+                    f"Simulation {filepath!r} found and overwrite is True. "
+                    "Deleting file and adding it to the queue."
                 )
                 jobs_to_run.append(job)
             else:
                 logger.info(
-                    f"Simulation {filepath!r} already exists; overwrite is False, removing it from the queue"
+                    f"Simulation {filepath!r} found exists and "
+                    "overwrite is False. Removing it from the queue."
                 )
         else:
-            logger.info(
-                f"Simulation {filepath!r} does not exist; adding it to the queue"
-            )
+            logger.info(f"Simulation {filepath!r} not found. Adding it to the queue")
             jobs_to_run.append(job)
 
     # Update jobs
@@ -643,6 +665,7 @@ def write_sparameters_meep_mpi_pool(
                 cores=cores_per_run,
                 temp_dir=temp_dir,
                 temp_file_str=f"write_sparameters_meep_mpi_{i}",
+                wait_to_finish=False,
                 **simulations_settings,
             )
             filepaths.append(filepath)
@@ -666,6 +689,7 @@ def write_sparameters_meep_mpi_pool(
 
     if delete_temp_files:
         shutil.rmtree(temp_dir)
+    return filepaths
 
 
 if __name__ == "__main__":
@@ -774,4 +798,10 @@ if __name__ == "__main__":
                 "s41": ["s14", "s23", "s32"],
             }
         },
-    )
+
+#     filepaths = write_sparameters_meep_mpi_pool(
+#         jobs=jobs,
+#         cores_per_run=4,
+#         total_cores=10,
+#         delete_temp_files=False,
+#     )
