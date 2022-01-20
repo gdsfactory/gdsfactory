@@ -114,6 +114,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 @pydantic.validate_arguments
 def write_sparameters_meep(
     component: Component,
+    port_symmetries: Dict = {},
     resolution: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
@@ -132,14 +133,26 @@ def write_sparameters_meep(
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
-    Repeats the simulation, each time using a different input port sequentially
-    (by default, all of them)
+    Repeats the simulation, each time using a different port in (by default, all of them)
 
-    TODO: provide list of port name tuples whose results to merge (e.g. symmetric ports)
+    The "port_symmetries" argument is a Dict of form e.g. {"o1":
+                                                                {
+                                                                    "s11": ["s22","s33","s44"],
+                                                                    "s21": ["s21","s34","s43"],
+                                                                    "s31": ["s13","s24","s42"],
+                                                                    "s41": ["s14","s23","s32"],
+                                                                }
+                                                            }
+        (1) Only simulations using the outer key port names will be run
+        (2) The associated value is another dict whose keys are the S-parameters computed when this source is active
+        (3) The values of this inner Dict are lists of s-parameters whose values are copied
+        This allows the total number of computations to be cut down
+        TODO: automate this for common scenarios (geometrical symmetries, reciprocal materials, etc.)
 
     Args:
         component: to simulate.
         resolution: in pixels/um (20: for coarse, 120: for fine)
+        port_symmetries: Dict to specify
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
         layer_stack:
@@ -186,6 +199,7 @@ def write_sparameters_meep(
 
     sim_settings = dict(
         resolution=resolution,
+        port_symmetries=port_symmetries,
         wl_min=wl_min,
         wl_max=wl_max,
         wl_steps=wl_steps,
@@ -235,12 +249,18 @@ def write_sparameters_meep(
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
 
-    # Parse ports
-    Sparams_indices = []
+    # Parse ports (default)
+    monitor_indices = []
+    source_indices = []
     component_ref = component.ref()
     for port_name in component_ref.ports.keys():
         if component_ref.ports[port_name].port_type == "optical":
-            Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
+            monitor_indices.append(re.findall("[0-9]+", port_name)[0])
+    if bool(port_symmetries):  # user-specified
+        for port_name in port_symmetries.keys():
+            source_indices.append(re.findall("[0-9]+", port_name)[0])
+    else:  # otherwise cycle through all
+        source_indices = monitor_indices
 
     # Create S-parameter storage object
     Sparams_dict = {}
@@ -249,6 +269,8 @@ def write_sparameters_meep(
     def sparameter_calculation(
         n,
         component: Component,
+        port_symmetries: Dict = port_symmetries,
+        monitor_indices: Tuple = monitor_indices,
         wl_min: float = wl_min,
         wl_max: float = wl_max,
         wl_steps: int = wl_steps,
@@ -262,7 +284,7 @@ def write_sparameters_meep(
 
         sim_dict = get_simulation(
             component=component,
-            port_source_name=f"o{Sparams_indices[n]}",
+            port_source_name=f"o{monitor_indices[n]}",
             resolution=resolution,
             wl_min=wl_min,
             wl_max=wl_max,
@@ -307,7 +329,7 @@ def write_sparameters_meep(
                 normalize=True,
             )
             sim.run(mp.at_every(1, animate), until_after_sources=termination)
-            animate.to_mp4(30, Sparams_indices[n] + ".mp4")
+            animate.to_mp4(30, monitor_indices[n] + ".mp4")
         else:
             sim.run(until_after_sources=termination)
         # call this function every 50 time spes
@@ -316,21 +338,20 @@ def write_sparameters_meep(
 
         # Calculate mode overlaps
         # Get source monitor results
+        component_ref = component.ref()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
-            Sparams_indices[n], component_ref.ports, sim_dict
+            monitor_indices[n], component_ref.ports, sim_dict
         )
         # Get coefficients
-        for monitor_index in Sparams_indices:
-            i = Sparams_indices[n]
-            j = monitor_index
-            if monitor_index == Sparams_indices[n]:
+        for monitor_index in monitor_indices:
+            j = monitor_indices[n]
+            i = monitor_index
+            if monitor_index == monitor_indices[n]:
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                # Sparams_dict[f"sourceExiting{i}{j}"] = source_exiting
-                # Sparams_dict[f"sourceEntering{i}{j}"] = source_entering
-                Sparams_dict[f"s{i}{j}a"] = siia
-                Sparams_dict[f"s{i}{j}m"] = siim
+                Sparams_dict[f"s{i}{i}a"] = siia
+                Sparams_dict[f"s{i}{i}m"] = siim
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
@@ -338,27 +359,31 @@ def write_sparameters_meep(
                 sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict[f"monitorExiting{i}{j}"] = monitor_exiting
-                # Sparams_dict[f"monitorEntering{i}{j}"] = monitor_entering
                 Sparams_dict[f"s{i}{j}a"] = sija
                 Sparams_dict[f"s{i}{j}m"] = sijm
                 sij = monitor_entering / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                # Sparams_dict[f"s{i}{j}a_enter"] = sija
-                # Sparams_dict[f"s{i}{j}m_enter"] = sijm
+
+        if bool(port_symmetries) is True:
+            for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
+                values = port_symmetries[f"o{monitor_indices[n]}"][key]
+                for value in values:
+                    Sparams_dict[f"{value}m"] = Sparams_dict[f"{key}m"]
+                    Sparams_dict[f"{value}a"] = Sparams_dict[f"{key}a"]
 
         return Sparams_dict
 
-    # Since source is defined upon sim object loop here
-    # for port_index in Sparams_indices:
+    # Since source is defined upon sim object instanciation, loop here
+    # for port_index in monitor_indices:
 
+    num_sims = len(port_symmetries.keys()) or len(source_indices)
     if lazy_parallelism:
         import multiprocessing
 
         from mpi4py import MPI
 
-        cores = min([len(Sparams_indices), multiprocessing.cpu_count()])
+        cores = min([num_sims, multiprocessing.cpu_count()])
         # mp.count_processors = lambda x: cores
         # FIXME RuntimeError: meep: numgroups > count_processors
         # Using MPI version 3.1, 1 processes
@@ -371,12 +396,14 @@ def write_sparameters_meep(
         Sparams_dict = sparameter_calculation(
             n,
             component=component,
+            port_symmetries=port_symmetries,
             wl_min=wl_min,
             wl_max=wl_max,
             wl_steps=wl_steps,
             layer_to_thickness=layer_to_thickness,
             layer_to_material=layer_to_material,
             animate=animate,
+            monitor_indices=monitor_indices,
             **settings,
         )
         # Synchronize dicts
@@ -397,17 +424,19 @@ def write_sparameters_meep(
             comm.send(Sparams_dict, dest=0, tag=11)
 
     else:
-        for n in range(len(Sparams_indices)):
+        for n in range(num_sims):
             Sparams_dict.update(
                 sparameter_calculation(
                     n,
                     component=component,
+                    port_symmetries=port_symmetries,
                     wl_min=wl_min,
                     wl_max=wl_max,
                     wl_steps=wl_steps,
                     layer_to_thickness=layer_to_thickness,
                     layer_to_material=layer_to_material,
                     animate=animate,
+                    monitor_indices=monitor_indices,
                     **settings,
                 )
             )
@@ -689,6 +718,87 @@ if __name__ == "__main__":
     # c1 = gf.c.straight(length=5)
     # p = 3
     # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+
+    # instance_dict = {
+    #     "component": c1,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "filepath": "instance_dict.csv",
+    # }
+
+    # proc = write_sparameters_meep_parallel(
+    #     instance=instance_dict,
+    #     cores=3,
+    #     verbosity=True,
+    # )
+
+    # """
+    # Parallel pools example
+    # """
+
+    # c1 = gf.c.straight(length=5)
+    # p = 3
+    # c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
+
+    # c2 = gf.c.straight(length=4)
+    # p = 3
+    # c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
+
+    # c1_dict = {
+    #     "component": c1,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "filepath": "c1_dict.csv",
+    # }
+    # c2_dict = {
+    #     "component": c2,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "filepath": "c2_dict.csv",
+    # }
+    # c3_dict = {
+    #     "component": c2,
+    #     "run": True,
+    #     "overwrite": True,
+    #     "lazy_parallelism": True,
+    #     "resolution": 40,
+    #     "port_source_offset": 0.3,
+    #     "filepath": "c3_dict.csv",
+    # }
+
+    # # Instances
+    # instances = [
+    #     c1_dict,
+    #     c2_dict,
+    #     c3_dict,
+    # ]
+
+    # write_sparameters_meep_parallel_pools(
+    #     instances=instances,
+    #     cores_per_instance=4,
+    #     total_cores=10,
+    #     delete_temp_files=False,
+    #     verbosity=True,
+    # )
+
+    # c = gf.components.crossing()
+    # # Symmetry toggle
+    # df_symm = write_sparameters_meep(
+    #     c,
+    #     overwrite=True,
+    #     animate=False,
+    #     port_symmetries={
+    #         "o1": {
+    #             "s11": ["s22", "s33", "s44"],
+    #             "s21": ["s21", "s34", "s43"],
+    #             "s31": ["s13", "s24", "s42"],
+    #             "s41": ["s14", "s23", "s32"],
+    #         }
+    #     },
+    # )
     # proc = write_sparameters_meep_mpi(
     #     component=c1,
     #     cores=3,
