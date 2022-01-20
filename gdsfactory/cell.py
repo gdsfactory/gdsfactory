@@ -125,19 +125,21 @@ def cell_without_validator(func):
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
         args_as_kwargs.update(**kwargs)
-        args_as_kwargs_string_list = [
-            f"{key}={clean_value(args_as_kwargs[key])}"
-            for key in sorted(args_as_kwargs.keys())
-        ]
+        if args_as_kwargs:
+            args_as_kwargs_string_list = [
+                f"{key}={clean_value(args_as_kwargs[key])}"
+                for key in sorted(args_as_kwargs.keys())
+            ]
+            arguments = "_".join(args_as_kwargs_string_list)
+            arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
 
-        arguments = "_".join(args_as_kwargs_string_list)
-        arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
+            # for key in sorted(args_as_kwargs.keys()):
+            #     print(f"{key}={clean_value(args_as_kwargs[key])}")
+            # print(arguments)
 
-        # for key in sorted(args_as_kwargs.keys()):
-        #     print(f"{key}={clean_value(args_as_kwargs[key])}")
-        # print(arguments)
-
-        name_signature = clean_name(f"{prefix}_{arguments_hash}")
+            name_signature = clean_name(f"{prefix}_{arguments_hash}")
+        else:
+            name_signature = prefix
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
         name = get_name_short(name, max_name_length=max_name_length)
