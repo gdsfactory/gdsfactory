@@ -55,13 +55,12 @@ def test_sparameterNxN_crossing(dataframe_regression):
         dataframe_regression.check(df)
 
 
-def test_sparameterNxN_symmetries(dataframe_regression):
+def test_sparameterNxN_symmetries_straight(dataframe_regression):
     """Checks the duplication of Sparameters when using port_symmetry toggle
     Uses a straight to be faster than crossing, although crossing works well too
     """
 
     # No symmetry toggle
-    # c = gf.components.crossing()
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
@@ -75,15 +74,6 @@ def test_sparameterNxN_symmetries(dataframe_regression):
     stop = time.time()
     time_full = stop - start
 
-    # port_symmetries for crossing
-    # port_symmetries={
-    #         "o1": {
-    #             "s11": ["s22", "s33", "s44"],
-    #             "s21": ["s12", "s34", "s43"],
-    #             "s31": ["s13", "s24", "s42"],
-    #             "s41": ["s14", "s23", "s32"],
-    #         }
-    #     }
     # port_symmetries for straight
     port_symmetries = {
         "o1": {
@@ -123,5 +113,66 @@ def test_sparameterNxN_symmetries(dataframe_regression):
         dataframe_regression.check(df_symm)
 
 
+# def test_sparameterNxN_symmetries_crossing(dataframe_regression):
+#     """Checks the duplication of Sparameters when using port_symmetry toggle
+#     Uses a straight to be faster than crossing, although crossing works well too
+#     """
+
+#     # No symmetry toggle
+#     c = gf.components.crossing()
+#     # c = gf.components.straight(length=2)
+#     # p = 3
+#     # c = gf.add_padding_container(c, default=0, top=p, bottom=p)
+#     start = time.time()
+#     df = write_sparameters_meep(
+#         c,
+#         overwrite=True,
+#         resolution=50,  # Comparison needs higher resolution
+#         animate=False,
+#     )
+#     stop = time.time()
+#     time_full = stop - start
+
+#     # port_symmetries for crossing
+#     port_symmetries={
+#             "o1": {
+#                 "s11": ["s22", "s33", "s44"],
+#                 "s21": ["s12", "s34", "s43"],
+#                 "s31": ["s13", "s24", "s42"],
+#                 "s41": ["s14", "s23", "s32"],
+#             }
+#         }
+#     start = time.time()
+#     df_symm = write_sparameters_meep(
+#         c,
+#         overwrite=True,
+#         animate=False,
+#         resolution=50,  # Comparison needs higher resolution
+#         port_symmetries=port_symmetries,
+#     )
+#     stop = time.time()
+#     time_symm = stop - start
+
+#     # Compare symmetry to no symmetry
+#     for i in range(1, len(c.ports) + 1):
+#         for j in range(1, len(c.ports) + 1):
+#             assert np.allclose(
+#                 df["s{}{}m".format(i, j)].to_numpy(),
+#                 df_symm["s{}{}m".format(i, j)].to_numpy(),
+#                 atol=5e-02,
+#             )
+#             assert np.allclose(
+#                 df["s{}{}a".format(i, j)].to_numpy(),
+#                 df_symm["s{}{}a".format(i, j)].to_numpy(),
+#                 atol=5e-02,
+#             )
+#     # Check that it was shorter
+#     assert time_full > time_symm
+
+#     if dataframe_regression:
+#         dataframe_regression.check(df)
+#         dataframe_regression.check(df_symm)
+
+
 if __name__ == "__main__":
-    test_sparameterNxN_symmetries(False)
+    test_sparameterNxN_symmetries_straight(False)
