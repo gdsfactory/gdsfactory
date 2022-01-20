@@ -13,7 +13,7 @@ import shutil
 import subprocess
 import time
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import meep as mp
@@ -30,6 +30,22 @@ from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 ncores = multiprocessing.cpu_count()
+
+
+def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
+    """Returns a copy of dict with only simulation settings
+    removes all flags for the simulator itself
+    """
+    d = d.copy()
+    d.pop("run", None)
+    d.pop("lazy_parallelism", None)
+    d.pop("overwrite", None)
+    d.pop("animate", None)
+    d.pop("wait_to_finish", None)
+    d.pop("cores", None)
+    d.pop("temp_dir", None)
+    d.pop("temp_file_str", None)
+    return d
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
@@ -156,24 +172,23 @@ def write_sparameters_meep(
         port_symmetries: Dict to specify
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
-        layer_stack:
+        layer_stack: LayerStack class
         port_margin: margin on each side of the port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
         port_source_offset: offset between source GDS port and source MEEP port
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv
-        overwrite: overwrites
+        overwrite: overwrites stored simulation results.
         animate: saves a MP4 images of the simulation for inspection, and also
             outputs during computation. The name of the file is the source index
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel
+        run: runs simulation, if False, only plots simulation
         dispersive: use dispersive models for materials (requires higher resolution)
 
     keyword Args:
-        layer_to_thickness: GDS layer (int, int) to thickness
-        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
+        layer_to_thickness: GDS layer (int, int) to thickness (um)
         extend_ports_length: to extend ports beyond the PML
-        layer_stack: Dict of layer number (int, int) to thickness (um)
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
         tpml: PML thickness (um)
@@ -198,6 +213,7 @@ def write_sparameters_meep(
     layer_to_material = layer_stack.get_layer_to_material()
     # layer_to_zmin = layer_stack.get_layer_to_zmin()
 
+    layer_to_thickness.update(settings.get("layer_to_thickness", {}))
     port_symmetries = port_symmetries or {}
 
     sim_settings = dict(
@@ -479,7 +495,7 @@ def write_sparameters_meep_mpi(
         layer_stack:
         temp_dir: temporary directory to hold simulation files.
         temp_file_str: names of temporary files in temp_dir.
-        overwrite:
+        overwrite: overwrites stored simulation results.
         wait_to_finish:
 
     Keyword Args:
@@ -487,13 +503,11 @@ def write_sparameters_meep_mpi(
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
         layer_to_thickness: GDS layer (int, int) to thickness
-        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
+        layer_stack: LayerStack class
         port_margin: margin on each side of the port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
         port_source_offset: offset between source GDS port and source MEEP port
         filepath: to store pandas Dataframe with Sparameters in CSV format.
-            Defaults to dirpath/component_.csv
-        overwrite: overwrites
         animate: saves a MP4 images of the simulation for inspection, and also
             outputs during computation. The name of the file is the source index
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
@@ -517,12 +531,13 @@ def write_sparameters_meep_mpi(
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
     """
+    sim_settings = remove_simulation_kwargs(kwargs)
     filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
         suffix=".csv",
         layer_stack=layer_stack,
-        **kwargs,
+        **sim_settings,
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:
@@ -601,10 +616,16 @@ def write_sparameters_meep_mpi_pool(
         delete_temp_files: deletes temp_dir when done
         dirpath: directory to store Sparameters
         layer_stack:
+
+    keyword Args:
+        overwrite: overwrites stored simulation results.
+        dispersive: use dispersive models for materials (requires higher resolution)
+
     """
     # Parse jobs
     jobs_to_run = []
     for job in jobs:
+        settings = remove_simulation_kwargs(kwargs)
         filepath = job.get(
             "filepath",
             get_sparameters_path(
@@ -612,7 +633,7 @@ def write_sparameters_meep_mpi_pool(
                 dirpath=dirpath,
                 layer_stack=layer_stack,
                 suffix=".csv",
-                **kwargs,
+                **settings,
             ),
         )
         if filepath.exists():
