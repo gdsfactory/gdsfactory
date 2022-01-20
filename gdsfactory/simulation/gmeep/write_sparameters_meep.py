@@ -192,6 +192,7 @@ def write_sparameters_meep(
 
     filepath = filepath or get_sparameters_path(
         component=component,
+        port_symmetries=port_symmetries,
         dirpath=dirpath,
         resolution=resolution,
         layer_to_material=layer_to_material,
@@ -210,6 +211,7 @@ def write_sparameters_meep(
 
     sim_settings = dict(
         component=component.to_dict(),
+        port_symmetries=port_symmetries,
         resolution=resolution,
         layer_stack=layer_stack.to_dict(),
         wl_min=wl_min,
@@ -247,16 +249,17 @@ def write_sparameters_meep(
         return pd.read_csv(filepath)
 
     # Parse ports (default)
-    Sparams_indices = []
-    if bool(port_symmetries) is False:
-        component_ref = component.ref()
-        for port_name in component_ref.ports.keys():
-            if component_ref.ports[port_name].port_type == "optical":
-                Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
-    # Otherwise user-specified
-    else:
+    monitor_indices = []
+    source_indices = []
+    component_ref = component.ref()
+    for port_name in component_ref.ports.keys():
+        if component_ref.ports[port_name].port_type == "optical":
+            monitor_indices.append(re.findall("[0-9]+", port_name)[0])
+    if bool(port_symmetries):  # user-specified
         for port_name in port_symmetries.keys():
-            Sparams_indices.append(re.findall("[0-9]+", port_name)[0])
+            source_indices.append(re.findall("[0-9]+", port_name)[0])
+    else:  # otherwise cycle through all
+        source_indices = monitor_indices
 
     # Create S-parameter storage object
     Sparams_dict = {}
@@ -266,7 +269,7 @@ def write_sparameters_meep(
         n,
         component: Component,
         port_symmetries: Dict = port_symmetries,
-        Sparams_indices: Tuple = Sparams_indices,
+        monitor_indices: Tuple = monitor_indices,
         wl_min: float = wl_min,
         wl_max: float = wl_max,
         wl_steps: int = wl_steps,
@@ -280,7 +283,7 @@ def write_sparameters_meep(
 
         sim_dict = get_simulation(
             component=component,
-            port_source_name=f"o{Sparams_indices[n]}",
+            port_source_name=f"o{monitor_indices[n]}",
             resolution=resolution,
             wl_min=wl_min,
             wl_max=wl_max,
@@ -325,7 +328,7 @@ def write_sparameters_meep(
                 normalize=True,
             )
             sim.run(mp.at_every(1, animate), until_after_sources=termination)
-            animate.to_mp4(30, Sparams_indices[n] + ".mp4")
+            animate.to_mp4(30, monitor_indices[n] + ".mp4")
         else:
             sim.run(until_after_sources=termination)
         # call this function every 50 time spes
@@ -336,13 +339,13 @@ def write_sparameters_meep(
         # Get source monitor results
         component_ref = component.ref()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
-            Sparams_indices[n], component_ref.ports, sim_dict
+            monitor_indices[n], component_ref.ports, sim_dict
         )
         # Get coefficients
-        for monitor_index in Sparams_indices:
-            j = Sparams_indices[n]
+        for monitor_index in monitor_indices:
+            j = monitor_indices[n]
             i = monitor_index
-            if monitor_index == Sparams_indices[n]:
+            if monitor_index == monitor_indices[n]:
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
@@ -362,8 +365,8 @@ def write_sparameters_meep(
                 sijm = np.abs(sij)
 
         if bool(port_symmetries) is True:
-            for key in port_symmetries[f"o{Sparams_indices[n]}"].keys():
-                values = port_symmetries[f"o{Sparams_indices[n]}"][key]
+            for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
+                values = port_symmetries[f"o{monitor_indices[n]}"][key]
                 for value in values:
                     Sparams_dict[f"{value}m"] = Sparams_dict[f"{key}m"]
                     Sparams_dict[f"{value}a"] = Sparams_dict[f"{key}a"]
@@ -371,9 +374,9 @@ def write_sparameters_meep(
         return Sparams_dict
 
     # Since source is defined upon sim object instanciation, loop here
-    # for port_index in Sparams_indices:
+    # for port_index in monitor_indices:
 
-    num_sims = len(port_symmetries.keys()) or len(Sparams_indices)
+    num_sims = len(port_symmetries.keys()) or len(source_indices)
     if lazy_parallelism:
         import multiprocessing
 
@@ -392,14 +395,14 @@ def write_sparameters_meep(
         Sparams_dict = sparameter_calculation(
             n,
             component=component,
+            port_symmetries=port_symmetries,
             wl_min=wl_min,
             wl_max=wl_max,
             wl_steps=wl_steps,
             layer_to_thickness=layer_to_thickness,
             layer_to_material=layer_to_material,
             animate=animate,
-            port_symmetries=port_symmetries,
-            Sparams_indices=Sparams_indices,
+            monitor_indices=monitor_indices,
             **settings,
         )
         # Synchronize dicts
@@ -422,14 +425,14 @@ def write_sparameters_meep(
                 sparameter_calculation(
                     n,
                     component=component,
+                    port_symmetries=port_symmetries,
                     wl_min=wl_min,
                     wl_max=wl_max,
                     wl_steps=wl_steps,
                     layer_to_thickness=layer_to_thickness,
                     layer_to_material=layer_to_material,
                     animate=animate,
-                    port_symmetries=port_symmetries,
-                    Sparams_indices=Sparams_indices,
+                    monitor_indices=monitor_indices,
                     **settings,
                 )
             )
