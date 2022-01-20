@@ -1,5 +1,5 @@
 cells:
-  bbox_d41d8cd9:
+  bbox:
     changed: {}
     default:
       bbox:
@@ -30,7 +30,7 @@ cells:
     function_name: bbox
     info_version: 1
     module: gdsfactory.components.bbox
-    name: bbox_d41d8cd9
+    name: bbox
 info:
   changed: {}
   default:
@@ -62,6 +62,6 @@ info:
   function_name: bbox
   info_version: 1
   module: gdsfactory.components.bbox
-  name: bbox_d41d8cd9
+  name: bbox
 ports: {}
 version: 0.0.1

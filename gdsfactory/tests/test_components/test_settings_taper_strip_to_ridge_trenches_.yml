@@ -1,5 +1,5 @@
 cells:
-  taper_strip_to_ridge_tr_04f434ff:
+  taper_strip_to_ridge_trenches:
     changed: {}
     default:
       layer_wg:
@@ -28,7 +28,7 @@ cells:
     function_name: taper_strip_to_ridge_trenches
     info_version: 1
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_tr_04f434ff
+    name: taper_strip_to_ridge_trenches
 info:
   changed: {}
   default:
@@ -58,7 +58,7 @@ info:
   function_name: taper_strip_to_ridge_trenches
   info_version: 1
   module: gdsfactory.components.taper
-  name: taper_strip_to_ridge_tr_04f434ff
+  name: taper_strip_to_ridge_trenches
 ports:
   o1:
     layer:

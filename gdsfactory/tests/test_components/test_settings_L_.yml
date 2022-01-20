@@ -1,5 +1,5 @@
 cells:
-  L_d41d8cd9:
+  L:
     changed: {}
     default:
       layer:
@@ -22,7 +22,7 @@ cells:
     function_name: L
     info_version: 1
     module: gdsfactory.components.L
-    name: L_d41d8cd9
+    name: L
 info:
   changed: {}
   default:
@@ -46,7 +46,7 @@ info:
   function_name: L
   info_version: 1
   module: gdsfactory.components.L
-  name: L_d41d8cd9
+  name: L
 ports:
   e1:
     layer:

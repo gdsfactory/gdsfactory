@@ -1,5 +1,5 @@
 cells:
-  via_d41d8cd9:
+  via:
     changed: {}
     default:
       cladding_offset: 0
@@ -31,7 +31,7 @@ cells:
     function_name: via
     info_version: 1
     module: gdsfactory.components.via
-    name: via_d41d8cd9
+    name: via
     size:
     - 0.7
     - 0.7
@@ -70,7 +70,7 @@ info:
   function_name: via
   info_version: 1
   module: gdsfactory.components.via
-  name: via_d41d8cd9
+  name: via
   size:
   - 0.7
   - 0.7

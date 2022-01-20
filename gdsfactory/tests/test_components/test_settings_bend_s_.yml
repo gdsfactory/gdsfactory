@@ -65,7 +65,7 @@ cells:
     module: gdsfactory.components.bezier
     name: bezier_2ee69c51
     start_angle: 0.235
-  bezier_2ee69c51_bend_s_d41d8cd9:
+  bezier_2ee69c51_bend_s:
     changed: {}
     child:
       changed:
@@ -155,7 +155,7 @@ cells:
     length: 10.278
     min_bend_radius: 9.959
     module: gdsfactory.components.bend_s
-    name: bezier_2ee69c51_bend_s_d41d8cd9
+    name: bezier_2ee69c51_bend_s
     start_angle: 0.235
 info:
   changed: {}
@@ -247,7 +247,7 @@ info:
   length: 10.278
   min_bend_radius: 9.959
   module: gdsfactory.components.bend_s
-  name: bezier_2ee69c51_bend_s_d41d8cd9
+  name: bezier_2ee69c51_bend_s
   start_angle: 0.235
 ports:
   o1:

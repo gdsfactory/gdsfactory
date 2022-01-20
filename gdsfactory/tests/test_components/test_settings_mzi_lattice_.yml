@@ -162,7 +162,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_e111f24f
-  mzi_lattice_d41d8cd9:
+  mzi_lattice:
     changed: {}
     default:
       coupler_gaps:
@@ -209,7 +209,7 @@ cells:
     function_name: mzi_lattice
     info_version: 1
     module: gdsfactory.components.mzi_lattice
-    name: mzi_lattice_d41d8cd9
+    name: mzi_lattice
   straight_15a9c8d1:
     changed:
       cross_section:
@@ -418,7 +418,7 @@ info:
   function_name: mzi_lattice
   info_version: 1
   module: gdsfactory.components.mzi_lattice
-  name: mzi_lattice_d41d8cd9
+  name: mzi_lattice
 ports:
   o1:
     layer:

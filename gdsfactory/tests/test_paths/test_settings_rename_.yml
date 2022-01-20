@@ -1,5 +1,5 @@
 cells:
-  rename_d41d8cd9:
+  rename:
     changed: {}
     default: {}
     full: {}
@@ -7,7 +7,7 @@ cells:
     info_version: 1
     length: 15.708
     module: gdsfactory.tests.test_paths
-    name: rename_d41d8cd9
+    name: rename
 info:
   changed: {}
   default: {}
@@ -16,7 +16,7 @@ info:
   info_version: 1
   length: 15.708
   module: gdsfactory.tests.test_paths
-  name: rename_d41d8cd9
+  name: rename
 ports:
   in:
     layer:

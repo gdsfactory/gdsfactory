@@ -34,7 +34,7 @@ instances:
       cross_section:
         function: cross_section
       length: 0.01
-name: ring_double_d41d8cd9
+name: ring_double
 placements:
   coupler_ring_884bafc4_m0p005_16p185:
     mirror: false

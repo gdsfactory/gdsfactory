@@ -1,5 +1,5 @@
 cells:
-  coupler_full_d41d8cd9:
+  coupler_full:
     changed: {}
     default:
       angle: 0.5235987755982988
@@ -28,7 +28,7 @@ cells:
     function_name: coupler_full
     info_version: 1
     module: gdsfactory.components.coupler_full
-    name: coupler_full_d41d8cd9
+    name: coupler_full
 info:
   changed: {}
   default:
@@ -58,7 +58,7 @@ info:
   function_name: coupler_full
   info_version: 1
   module: gdsfactory.components.coupler_full
-  name: coupler_full_d41d8cd9
+  name: coupler_full
 ports:
   o1:
     layer:

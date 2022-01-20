@@ -204,7 +204,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_ring
     name: coupler_ring_538ed52b
-  ring_double_heater_d41d8cd9:
+  ring_double_heater:
     changed: {}
     default:
       bend: null
@@ -289,7 +289,7 @@ cells:
     function_name: ring_double_heater
     info_version: 1
     module: gdsfactory.components.ring_double_heater
-    name: ring_double_heater_d41d8cd9
+    name: ring_double_heater
   straight_ffdb2b22:
     changed:
       cross_section:
@@ -398,7 +398,7 @@ info:
   function_name: ring_double_heater
   info_version: 1
   module: gdsfactory.components.ring_double_heater
-  name: ring_double_heater_d41d8cd9
+  name: ring_double_heater
 ports:
   e1:
     layer:

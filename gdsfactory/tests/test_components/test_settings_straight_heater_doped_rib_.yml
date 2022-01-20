@@ -512,7 +512,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_8d718ae9
     width: 0.5
-  straight_heater_doped_r_7f91a14d:
+  straight_heater_doped_rib:
     changed: {}
     default:
       contact:
@@ -637,7 +637,7 @@ cells:
     function_name: straight_heater_doped_rib
     info_version: 1
     module: gdsfactory.components.straight_heater_doped_rib
-    name: straight_heater_doped_r_7f91a14d
+    name: straight_heater_doped_rib
   taper_cross_section_3652c7ff:
     changed:
       cross_section1:
@@ -807,7 +807,7 @@ info:
   function_name: straight_heater_doped_rib
   info_version: 1
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_7f91a14d
+  name: straight_heater_doped_rib
 ports:
   bot_e1:
     layer:

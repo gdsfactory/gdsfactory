@@ -29,7 +29,7 @@ cells:
     name: bend_euler_1da190e0
     radius: 10
     radius_min: 7.061
-  spiral_external_io_d41d8cd9:
+  spiral_external_io:
     changed: {}
     default:
       N: 6
@@ -59,7 +59,7 @@ cells:
     info_version: 1
     length: 9003.302
     module: gdsfactory.components.spiral_external_io
-    name: spiral_external_io_d41d8cd9
+    name: spiral_external_io
   straight_0182467e:
     changed:
       cross_section:
@@ -688,7 +688,7 @@ info:
   info_version: 1
   length: 9003.302
   module: gdsfactory.components.spiral_external_io
-  name: spiral_external_io_d41d8cd9
+  name: spiral_external_io
 ports:
   o1:
     layer:

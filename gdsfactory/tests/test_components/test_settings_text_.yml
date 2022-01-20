@@ -1,5 +1,5 @@
 cells:
-  text_d41d8cd9:
+  text:
     changed: {}
     default:
       justify: left
@@ -24,7 +24,7 @@ cells:
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_d41d8cd9
+    name: text
 info:
   changed: {}
   default:
@@ -50,6 +50,6 @@ info:
   function_name: text
   info_version: 1
   module: gdsfactory.components.text
-  name: text_d41d8cd9
+  name: text
 ports: {}
 version: 0.0.1
