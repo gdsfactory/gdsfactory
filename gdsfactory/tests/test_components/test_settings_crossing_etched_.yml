@@ -1,5 +1,5 @@
 cells:
-  crossing_etched_d41d8cd9:
+  crossing_etched:
     changed: {}
     default:
       L: 3.4
@@ -28,7 +28,7 @@ cells:
     function_name: crossing_etched
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
-    name: crossing_etched_d41d8cd9
+    name: crossing_etched
 info:
   changed: {}
   default:
@@ -58,7 +58,7 @@ info:
   function_name: crossing_etched
   info_version: 1
   module: gdsfactory.components.crossing_waveguide
-  name: crossing_etched_d41d8cd9
+  name: crossing_etched
 ports:
   o1:
     layer:

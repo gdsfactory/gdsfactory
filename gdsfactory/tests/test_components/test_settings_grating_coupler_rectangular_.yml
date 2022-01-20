@@ -30,7 +30,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_fa26bb75
-  grating_coupler_rectang_4d760e29:
+  grating_coupler_rectangular:
     changed: {}
     default:
       fill_factor: 0.5
@@ -73,7 +73,7 @@ cells:
     function_name: grating_coupler_rectangular
     info_version: 1
     module: gdsfactory.components.grating_coupler_rectangular
-    name: grating_coupler_rectang_4d760e29
+    name: grating_coupler_rectangular
     polarization: te
     wavelength: 1.55
   rectangle_fa26bb75:
@@ -184,7 +184,7 @@ info:
   function_name: grating_coupler_rectangular
   info_version: 1
   module: gdsfactory.components.grating_coupler_rectangular
-  name: grating_coupler_rectang_4d760e29
+  name: grating_coupler_rectangular
   polarization: te
   wavelength: 1.55
 ports:

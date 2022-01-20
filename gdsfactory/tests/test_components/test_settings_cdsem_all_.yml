@@ -161,7 +161,7 @@ cells:
     module: gdsfactory.components.bend_circular
     name: bend_circular_ef9bcc9f
     radius: 10
-  cdsem_all_d41d8cd9:
+  cdsem_all:
     changed: {}
     default:
       bend90:
@@ -214,7 +214,7 @@ cells:
     function_name: cdsem_all
     info_version: 1
     module: gdsfactory.components.cdsem_all
-    name: cdsem_all_d41d8cd9
+    name: cdsem_all
   cdsem_bend180_04367601:
     changed:
       bend90:
@@ -1510,6 +1510,6 @@ info:
   function_name: cdsem_all
   info_version: 1
   module: gdsfactory.components.cdsem_all
-  name: cdsem_all_d41d8cd9
+  name: cdsem_all
 ports: {}
 version: 0.0.1

@@ -1,5 +1,5 @@
 cells:
-  qrcode_d41d8cd9:
+  qrcode:
     changed: {}
     default:
       data: mask01
@@ -16,7 +16,7 @@ cells:
     function_name: qrcode
     info_version: 1
     module: gdsfactory.components.version_stamp
-    name: qrcode_d41d8cd9
+    name: qrcode
 info:
   changed: {}
   default:
@@ -34,6 +34,6 @@ info:
   function_name: qrcode
   info_version: 1
   module: gdsfactory.components.version_stamp
-  name: qrcode_d41d8cd9
+  name: qrcode
 ports: {}
 version: 0.0.1

@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_circula_74ce7d31:
+  grating_coupler_circular:
     changed: {}
     default:
       cladding_offset: 2
@@ -78,7 +78,7 @@ cells:
     function_name: grating_coupler_circular
     info_version: 1
     module: gdsfactory.components.grating_coupler_circular
-    name: grating_coupler_circula_74ce7d31
+    name: grating_coupler_circular
     polarization: te
     wavelength: 1.55
 info:
@@ -138,7 +138,7 @@ info:
   function_name: grating_coupler_circular
   info_version: 1
   module: gdsfactory.components.grating_coupler_circular
-  name: grating_coupler_circula_74ce7d31
+  name: grating_coupler_circular
   polarization: te
   wavelength: 1.55
 ports:

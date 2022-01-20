@@ -35,7 +35,7 @@ cells:
     name: bend_euler_e146b96b
     radius: 10
     radius_min: 7.061
-  bend_straight_bend_d41d8cd9:
+  bend_straight_bend:
     changed: {}
     default:
       angle: 90
@@ -60,7 +60,7 @@ cells:
     function_name: bend_straight_bend
     info_version: 1
     module: gdsfactory.components.bend_euler
-    name: bend_straight_bend_d41d8cd9
+    name: bend_straight_bend
   straight_457f2252:
     changed:
       cross_section:
@@ -109,7 +109,7 @@ info:
   function_name: bend_straight_bend
   info_version: 1
   module: gdsfactory.components.bend_euler
-  name: bend_straight_bend_d41d8cd9
+  name: bend_straight_bend
 ports:
   o1:
     layer:

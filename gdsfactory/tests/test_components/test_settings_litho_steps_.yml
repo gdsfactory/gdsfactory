@@ -185,7 +185,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_e92cd6ce
-  litho_steps_d41d8cd9:
+  litho_steps:
     changed: {}
     default:
       height: 100
@@ -214,7 +214,7 @@ cells:
     function_name: litho_steps
     info_version: 1
     module: gdsfactory.components.litho_steps
-    name: litho_steps_d41d8cd9
+    name: litho_steps
   rectangle_2f00fe9d:
     changed:
       layer:
@@ -456,6 +456,6 @@ info:
   function_name: litho_steps
   info_version: 1
   module: gdsfactory.components.litho_steps
-  name: litho_steps_d41d8cd9
+  name: litho_steps
 ports: {}
 version: 0.0.1

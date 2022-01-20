@@ -30,7 +30,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_f4e2fd7c
-  dicing_lane_d41d8cd9:
+  dicing_lane:
     changed: {}
     default:
       layer_dicing:
@@ -61,7 +61,7 @@ cells:
     function_name: dicing_lane
     info_version: 1
     module: gdsfactory.components.dicing_lane
-    name: dicing_lane_d41d8cd9
+    name: dicing_lane
   rectangle_93ceba3b:
     changed:
       layer:
@@ -149,6 +149,6 @@ info:
   function_name: dicing_lane
   info_version: 1
   module: gdsfactory.components.dicing_lane
-  name: dicing_lane_d41d8cd9
+  name: dicing_lane
 ports: {}
 version: 0.0.1

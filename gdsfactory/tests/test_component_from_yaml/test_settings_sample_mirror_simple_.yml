@@ -1,5 +1,5 @@
 cells:
-  bend_circular_d41d8cd9:
+  bend_circular:
     changed: {}
     default:
       angle: 90
@@ -18,10 +18,10 @@ cells:
     info_version: 1
     length: 15.708
     module: gdsfactory.components.bend_circular
-    name: bend_circular_d41d8cd9
+    name: bend_circular
     radius: 10
   sample_mirror_simple: {}
-  straight_d41d8cd9:
+  straight:
     changed: {}
     default:
       cross_section:
@@ -39,7 +39,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_d41d8cd9
+    name: straight
     width: 0.5
 info:
   name: sample_mirror_simple

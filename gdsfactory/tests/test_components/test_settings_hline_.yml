@@ -1,5 +1,5 @@
 cells:
-  hline_d41d8cd9:
+  hline:
     changed: {}
     default:
       layer:
@@ -19,7 +19,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.hline
-    name: hline_d41d8cd9
+    name: hline
     width: 0.5
 info:
   changed: {}
@@ -41,7 +41,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.hline
-  name: hline_d41d8cd9
+  name: hline
   width: 0.5
 ports:
   o1:

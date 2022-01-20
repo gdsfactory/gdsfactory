@@ -110,7 +110,7 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  loss_deembedding_ch12_3_ae4c0d3d:
+  loss_deembedding_ch12_34:
     changed: {}
     default:
       grating_coupler:
@@ -133,7 +133,7 @@ cells:
     function_name: loss_deembedding_ch12_34
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss
-    name: loss_deembedding_ch12_3_ae4c0d3d
+    name: loss_deembedding_ch12_34
   straight_d9996de2:
     changed:
       cross_section:
@@ -203,6 +203,6 @@ info:
   function_name: loss_deembedding_ch12_34
   info_version: 1
   module: gdsfactory.components.grating_coupler_loss
-  name: loss_deembedding_ch12_3_ae4c0d3d
+  name: loss_deembedding_ch12_34
 ports: {}
 version: 0.0.1

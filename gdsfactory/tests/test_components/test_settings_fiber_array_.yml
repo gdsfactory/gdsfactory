@@ -43,7 +43,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_e248ff5e
-  fiber_array_d41d8cd9:
+  fiber_array:
     changed: {}
     default:
       cladding_diameter: 125
@@ -70,7 +70,7 @@ cells:
     function_name: fiber_array
     info_version: 1
     module: gdsfactory.components.fiber_array
-    name: fiber_array_d41d8cd9
+    name: fiber_array
 info:
   changed: {}
   default:
@@ -98,7 +98,7 @@ info:
   function_name: fiber_array
   info_version: 1
   module: gdsfactory.components.fiber_array
-  name: fiber_array_d41d8cd9
+  name: fiber_array
 ports:
   F0:
     layer:

@@ -1,5 +1,5 @@
 cells:
-  taper_from_csv_d41d8cd9:
+  taper_from_csv:
     changed: {}
     default:
       cladding_offset: 3
@@ -22,7 +22,7 @@ cells:
     function_name: taper_from_csv
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_from_csv_d41d8cd9
+    name: taper_from_csv
 info:
   changed: {}
   default:
@@ -46,7 +46,7 @@ info:
   function_name: taper_from_csv
   info_version: 1
   module: gdsfactory.components.taper_from_csv
-  name: taper_from_csv_d41d8cd9
+  name: taper_from_csv
 ports:
   o1:
     layer:

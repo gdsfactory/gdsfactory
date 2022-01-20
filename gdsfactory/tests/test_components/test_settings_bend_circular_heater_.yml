@@ -1,5 +1,5 @@
 cells:
-  bend_circular_heater_d41d8cd9:
+  bend_circular_heater:
     changed: {}
     default:
       angle: 90
@@ -27,7 +27,7 @@ cells:
     info_version: 1
     length: 15.708
     module: gdsfactory.components.bend_circular_heater
-    name: bend_circular_heater_d41d8cd9
+    name: bend_circular_heater
 info:
   changed: {}
   default:
@@ -56,7 +56,7 @@ info:
   info_version: 1
   length: 15.708
   module: gdsfactory.components.bend_circular_heater
-  name: bend_circular_heater_d41d8cd9
+  name: bend_circular_heater
 ports:
   in:
     layer:

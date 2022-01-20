@@ -204,7 +204,7 @@ cells:
       module: gdsfactory.components.bezier
       name: bezier_87e8511e
       start_angle: 0.301
-  component_lattice_d41d8cd9:
+  component_lattice:
     changed: {}
     default:
       components: null
@@ -219,8 +219,8 @@ cells:
     function_name: component_lattice
     info_version: 1
     module: gdsfactory.components.component_lattice
-    name: component_lattice_d41d8cd9
-  coupler_d41d8cd9:
+    name: component_lattice
+  coupler:
     changed: {}
     default:
       coupler_straight:
@@ -249,10 +249,10 @@ cells:
     length: 10.314
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
-    name: coupler_d41d8cd9
-  coupler_d41d8cd9_fanout_880cbf0f:
+    name: coupler
+  coupler_fanout2x2_345db3f5:
     changed:
-      component: coupler_d41d8cd9
+      component: coupler
       port_spacing: 40
     child:
       changed: {}
@@ -283,7 +283,7 @@ cells:
       length: 10.314
       min_bend_radius: 9.451
       module: gdsfactory.components.coupler
-      name: coupler_d41d8cd9
+      name: coupler
     default:
       bend_length: null
       cross_section:
@@ -296,7 +296,7 @@ cells:
       with_cladding_box: true
     full:
       bend_length: null
-      component: coupler_d41d8cd9
+      component: coupler
       cross_section:
         function: cross_section
       npoints: 101
@@ -308,7 +308,19 @@ cells:
     function_name: fanout2x2
     info_version: 1
     module: gdsfactory.routing.fanout2x2
-    name: coupler_d41d8cd9_fanout_880cbf0f
+    name: coupler_fanout2x2_345db3f5
+  crossing:
+    changed: {}
+    default:
+      arm:
+        function: crossing_arm
+    full:
+      arm:
+        function: crossing_arm
+    function_name: crossing
+    info_version: 1
+    module: gdsfactory.components.crossing_waveguide
+    name: crossing
   crossing45_f9b93bcb:
     bezier_length: 42.085
     changed:
@@ -324,7 +336,7 @@ cells:
       function_name: crossing
       info_version: 1
       module: gdsfactory.components.crossing_waveguide
-      name: crossing_d41d8cd9
+      name: crossing
     default:
       alpha: 0.08
       crossing:
@@ -344,18 +356,6 @@ cells:
     min_bend_radius: 44.312
     module: gdsfactory.components.crossing_waveguide
     name: crossing45_f9b93bcb
-  crossing_d41d8cd9:
-    changed: {}
-    default:
-      arm:
-        function: crossing_arm
-    full:
-      arm:
-        function: crossing_arm
-    function_name: crossing
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing_d41d8cd9
 info:
   changed: {}
   default:
@@ -371,7 +371,7 @@ info:
   function_name: component_lattice
   info_version: 1
   module: gdsfactory.components.component_lattice
-  name: component_lattice_d41d8cd9
+  name: component_lattice
 ports:
   '0':
     layer:

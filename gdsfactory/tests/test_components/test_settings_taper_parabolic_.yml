@@ -1,5 +1,5 @@
 cells:
-  taper_parabolic_d41d8cd9:
+  taper_parabolic:
     changed: {}
     default:
       exp: 0.5
@@ -22,7 +22,7 @@ cells:
     function_name: taper_parabolic
     info_version: 1
     module: gdsfactory.components.taper_parabolic
-    name: taper_parabolic_d41d8cd9
+    name: taper_parabolic
 info:
   changed: {}
   default:
@@ -46,7 +46,7 @@ info:
   function_name: taper_parabolic
   info_version: 1
   module: gdsfactory.components.taper_parabolic
-  name: taper_parabolic_d41d8cd9
+  name: taper_parabolic
 ports:
   o1:
     layer:

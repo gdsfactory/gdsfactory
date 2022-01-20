@@ -200,7 +200,7 @@ instances:
       width1: 0.45
       width2: 0.5
       with_cladding_box: true
-name: mzit_d41d8cd9
+name: mzit
 placements:
   bend_euler_7f403255_33p138_18p538:
     mirror: false

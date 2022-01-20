@@ -57,7 +57,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_6df08d23
-  rectangle_6df08d23_die__93f9a7c5:
+  rectangle_6df08d23_die_bbox:
     changed: {}
     child:
       changed:
@@ -119,7 +119,7 @@ cells:
     function_name: die_bbox
     info_version: 1
     module: gdsfactory.components.die_bbox
-    name: rectangle_6df08d23_die__93f9a7c5
+    name: rectangle_6df08d23_die_bbox
 info:
   changed: {}
   child:
@@ -182,6 +182,6 @@ info:
   function_name: die_bbox
   info_version: 1
   module: gdsfactory.components.die_bbox
-  name: rectangle_6df08d23_die__93f9a7c5
+  name: rectangle_6df08d23_die_bbox
 ports: {}
 version: 0.0.1
