@@ -27,10 +27,8 @@ jobs:
           conda env update --file environment.yml --name base
       - name: Generate coverage report
         run: |
-          pip install pytest
-          pip install pytest-cov
-          pip install -r requirements.txt --upgrade
-          pip install -r requirements_dev.txt --upgrade
+          conda install pytest
+          conda install pytest-cov
           pytest gdsfactory gdsfactory/simulation/modes gdsfactory/simulation/gmeep --cov=./ --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1.2.1
