@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.10.9
+
+- add tests for `write_sparameters_meep_mpi` and  `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
+- `write_sparameters_meep_mpi` has `wait_to_finish` flag
+
 ## 3.10.8
 
 - improve meep simulation interface documentation and functions
