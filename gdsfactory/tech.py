@@ -273,7 +273,7 @@ class SimulationSettings:
         wavelength_points: 500
         simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
         simulation_temperature: in kelvin (default = 300)
-        frequency_dependendent_profile: computes mode profiles for different wavelengths
+        frequency_dependent_profile: computes mode profiles for different wavelengths
         field_profile_samples: number of wavelengths to compute field profile
 
     """
@@ -290,7 +290,7 @@ class SimulationSettings:
     wavelength_points: int = 500
     simulation_time: float = 10e-12
     simulation_temperature: float = 300
-    frequency_dependendent_profile: bool = True
+    frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
 
     mode_index: int = 0
