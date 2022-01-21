@@ -132,6 +132,7 @@ Coordinates = Tuple[Coordinate, ...]
 ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
+PortSymmetries = Dict[str, Dict[str, List[str]]]
 
 
 __all__ = (

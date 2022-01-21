@@ -64,7 +64,7 @@ def write_sparameters_lumerical(
 
     For your Fab technology you can overwrite
 
-    - Simulation Settings
+    - simulation_settings
     - dirpath
     - layerStack
 
@@ -191,6 +191,7 @@ def write_sparameters_lumerical(
         dirpath=dirpath,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
+        # material_name_to_lumerical=material_name_to_lumerical,
         **settings,
     )
     filepath_csv = filepath.with_suffix(".csv")
@@ -241,6 +242,7 @@ def write_sparameters_lumerical(
         simulation_settings=sim_settings,
         component=component.to_dict(),
         version=__version__,
+        material_name_to_lumerical=material_name_to_lumerical,
     )
 
     logger.info(
@@ -437,6 +439,7 @@ def write_sparameters_lumerical(
         sim_settings.update(compute_time_seconds=end - start)
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         return df
+
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
     return s
 

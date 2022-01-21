@@ -32,12 +32,11 @@ def write_sparameters_meep_1x1(
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them in CSV filepath.
+    Works only for 1 input port 1 output port
 
     Args:
         component: to simulate.
         dirpath: directory to store Sparameters
-        layer_to_thickness: GDS layer (int, int) to thickness
-        layer_to_material: GDS layer (int, int) to material string ('Si', 'SiO2', ...)
         filepath: to store pandas Dataframe with Sparameters in CSV format
         overwrite: overwrites
         **settings: sim settings
@@ -52,8 +51,7 @@ def write_sparameters_meep_1x1(
     filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material,
-        layer_to_thickness=layer_to_thickness,
+        layer_stack=layer_stack,
         suffix=".csv",
         **settings,
     )

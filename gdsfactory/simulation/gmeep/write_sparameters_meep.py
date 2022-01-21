@@ -28,6 +28,7 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.types import PortSymmetries
 
 ncores = multiprocessing.cpu_count()
 
@@ -130,7 +131,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 @pydantic.validate_arguments
 def write_sparameters_meep(
     component: Component,
-    port_symmetries: Optional[Dict[str, Dict[str, List[str]]]] = None,
+    port_symmetries: Optional[PortSymmetries] = None,
     resolution: int = 20,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
@@ -187,7 +188,6 @@ def write_sparameters_meep(
         dispersive: use dispersive models for materials (requires higher resolution)
 
     keyword Args:
-        layer_to_thickness: GDS layer (int, int) to thickness (um)
         extend_ports_length: to extend ports beyond the PML
         t_clad_top: thickness for cladding above core
         t_clad_bot: thickness for cladding below core
@@ -206,14 +206,11 @@ def write_sparameters_meep(
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
 
     Returns:
-        sparameters in a pandas Dataframe
+        sparameters in a pandas Dataframe (wavelengths, s11a, s12m, ...)
+            where `a` is the angle in radians and `m` the module
 
     """
-    layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_material = layer_stack.get_layer_to_material()
-    # layer_to_zmin = layer_stack.get_layer_to_zmin()
 
-    layer_to_thickness.update(settings.get("layer_to_thickness", {}))
     port_symmetries = port_symmetries or {}
 
     sim_settings = dict(
@@ -288,14 +285,12 @@ def write_sparameters_meep(
     def sparameter_calculation(
         n,
         component: Component,
-        port_symmetries: Dict = port_symmetries,
+        port_symmetries: Optional[PortSymmetries] = port_symmetries,
         monitor_indices: Tuple = monitor_indices,
         wl_min: float = wl_min,
         wl_max: float = wl_max,
         wl_steps: int = wl_steps,
         dirpath: Path = dirpath,
-        layer_to_thickness: Dict[Tuple[int, int], float] = layer_to_thickness,
-        layer_to_material: Dict[Tuple[int, int], str] = layer_to_material,
         animate: bool = animate,
         dispersive: bool = dispersive,
         **settings,
@@ -398,15 +393,9 @@ def write_sparameters_meep(
 
     num_sims = len(port_symmetries.keys()) or len(source_indices)
     if lazy_parallelism:
-        import multiprocessing
-
         from mpi4py import MPI
 
         cores = min([num_sims, multiprocessing.cpu_count()])
-        # mp.count_processors = lambda x: cores
-        # FIXME RuntimeError: meep: numgroups > count_processors
-        # Using MPI version 3.1, 1 processes
-
         n = mp.divide_parallel_processes(cores)
         comm = MPI.COMM_WORLD
         size = comm.Get_size()
@@ -419,8 +408,6 @@ def write_sparameters_meep(
             wl_min=wl_min,
             wl_max=wl_max,
             wl_steps=wl_steps,
-            layer_to_thickness=layer_to_thickness,
-            layer_to_material=layer_to_material,
             animate=animate,
             monitor_indices=monitor_indices,
             **settings,
@@ -452,8 +439,6 @@ def write_sparameters_meep(
                     wl_min=wl_min,
                     wl_max=wl_max,
                     wl_steps=wl_steps,
-                    layer_to_thickness=layer_to_thickness,
-                    layer_to_material=layer_to_material,
                     animate=animate,
                     monitor_indices=monitor_indices,
                     **settings,
@@ -502,7 +487,6 @@ def write_sparameters_meep_mpi(
         resolution: in pixels/um (20: for coarse, 120: for fine)
         source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
-        layer_to_thickness: GDS layer (int, int) to thickness
         layer_stack: LayerStack class
         port_margin: margin on each side of the port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
@@ -530,6 +514,10 @@ def write_sparameters_meep_mpi(
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+
+    Returns:
+        filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
+            where `a` is the angle in radians and `m` the module
     """
     sim_settings = remove_simulation_kwargs(kwargs)
     filepath = filepath or get_sparameters_path(
@@ -620,6 +608,10 @@ def write_sparameters_meep_mpi_pool(
     keyword Args:
         overwrite: overwrites stored simulation results.
         dispersive: use dispersive models for materials (requires higher resolution)
+
+    Returns:
+        filepath list for sparameters CSV (wavelengths, s11a, s12m, ...)
+            where `a` is the angle in radians and `m` the module
 
     """
     # Parse jobs

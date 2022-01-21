@@ -12,7 +12,7 @@ from gdsfactory.tech import LAYER
 
 
 @validate_arguments
-def _add_pin_square(
+def add_pin_square(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -101,7 +101,7 @@ def add_monitors_and_extend_ports(
     port_labels = port_labels or component.ports.keys()
 
     for i, port_label in enumerate(port_labels):
-        _add_pin_square(
+        add_pin_square(
             component=component,
             port=component.ports[port_label],
             pin_length=0,

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.10.13
+
+- get_sparameters_path filepath based on component_name + simulation_settings hash
+
 ## 3.10.12
 
 - write_sparameters_lumerical allows passing material refractive index or any material in Lumerical's material database

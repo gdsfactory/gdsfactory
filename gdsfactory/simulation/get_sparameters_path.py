@@ -1,46 +1,29 @@
+import hashlib
 import pathlib
 from pathlib import Path
-from typing import Dict, Optional, Tuple
 
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG
-from gdsfactory.name import dict2name, get_name_short
-from gdsfactory.tech import LAYER, LayerStack
+from gdsfactory.name import clean_value
+from gdsfactory.tech import LAYER, LAYER_STACK
 from gdsfactory.types import SimulationSuffix
 
 
 def get_sparameters_path(
     component: Component,
-    layer_to_material: Optional[Dict[Tuple[int, int], str]] = None,
-    layer_to_thickness: Optional[Dict[Tuple[int, int], int]] = None,
-    layer_stack: Optional[LayerStack] = None,
     dirpath: Path = CONFIG["sparameters"],
     suffix: SimulationSuffix = ".dat",
     **kwargs,
 ) -> Path:
     """Return Sparameters filepath.
-    The returned filepath has a hash of all the parameters
-
-    it only includes the layers that are present in the component
+    The returned filepath has a hash of all the parameters.
 
     Args:
         component:
-        layer_to_material: GDSlayer tuple to material alias
-        layer_to_thickness: GDSlayer tuple to thickness (nm)
         dirpath:
-        suffix: .dat for interconnect
+        suffix: .dat for interconnect, .csv for meep
         kwargs: simulation settings
     """
-
-    if layer_stack:
-        layer_to_material = layer_to_material or layer_stack.get_layer_to_material()
-        layer_to_thickness = layer_to_thickness or layer_stack.get_layer_to_thickness()
-
-    if layer_to_material is None or layer_to_thickness is None:
-        raise ValueError(
-            "You need to define layer_stack or you need to define both "
-            "layer_to_thickness and layer_to_material."
-        )
 
     dirpath = pathlib.Path(dirpath)
     dirpath = (
@@ -49,14 +32,13 @@ def get_sparameters_path(
         else dirpath
     )
     dirpath.mkdir(exist_ok=True, parents=True)
-    material_to_thickness = {
-        layer_to_material[layer]: layer_to_thickness[layer]
-        for layer in layer_to_thickness.keys()
-        if tuple(layer) in component.get_layers()
-    }
-    material_to_thickness.update(**kwargs)
-    name_suffix = get_name_short(dict2name(**material_to_thickness))
-    return dirpath / f"{component.name}_{name_suffix}{suffix}"
+
+    settings_list = [
+        f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())
+    ]
+    settings_string = "_".join(settings_list)
+    settings_hash = hashlib.md5(settings_string.encode()).hexdigest()[:8]
+    return dirpath / f"{component.name}_{settings_hash}{suffix}"
 
 
 def test_get_sparameters_path() -> None:
@@ -77,7 +59,11 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == f"{c.name}_si220n", p.stem
+    name1 = "straight_557fca9f"
+    name2 = "straight_cf5c9898_557fca9f"
+    name3 = "straight_cf5c9898_b4ea3a4d"
+
+    assert p.stem == name1, p.stem
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path(
@@ -85,8 +71,11 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    cell_name = f"{c.name}_si90n"
-    assert p.stem == cell_name, p.stem
+    assert p.stem == name2, p.stem
+
+    c = gf.components.straight(layer=LAYER.SLAB90)
+    p = get_sparameters_path(c, layer_stack=LAYER_STACK)
+    assert p.stem == name3, p.stem
 
 
 if __name__ == "__main__":
