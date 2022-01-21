@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -12,7 +11,6 @@ def plot_sparameters(
     df: DataFrame,
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
-    dirpath: Path = gf.CONFIG["sparameters"],
     **sim_settings,
 ):
     """Plots Sparameters from a pandas DataFrame.
@@ -21,7 +19,6 @@ def plot_sparameters(
         df: Sparameters pandas DataFrame
         logscale: plots 20*log10(S)
         keys: list of keys to plot, plots all by default.
-        dirpath: where to store/read the simulations.
 
     Keyword Args:
         sim_settings: simulation settings for the write_sparameters_function
