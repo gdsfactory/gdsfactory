@@ -172,6 +172,10 @@ pip install gdsfactory[full]
 
 For (3D rendering and STL export)
 
+### Lumerical FDTD
+
+For simulating Sparameters using FDTD.
+
 ### meep / mpb
 
 Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
