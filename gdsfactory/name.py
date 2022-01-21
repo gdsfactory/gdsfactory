@@ -163,6 +163,17 @@ def clean_value(value: Any) -> str:
         value = clean_name(value.name)
     elif isinstance(value, str):
         value = value.strip()
+    elif (
+        isinstance(value, dict)
+        and len(value) > 0
+        and not isinstance(list(value.keys())[0], str)
+    ):
+        value = [
+            f"{clean_value(key)}={clean_value(value[key])}"
+            for key in sorted(value.keys())
+        ]
+        value = "_".join(value)
+
     elif isinstance(value, dict):
         value = dict2name(**value)
         # value = [f"{k}={v!r}" for k, v in value.items()]
