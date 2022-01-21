@@ -69,6 +69,6 @@ plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="S13m", port2="S12m")
 if __name__ == "__main__":
     import gdsfactory.simulation as sim
 
-    d = sim.get_sparameters_data(component=gf.c.mmi1x2)
-    plot_sparameters(d, logscale=True)
+    df = sim.get_sparameters_data_lumerical(component=gf.c.mmi1x2)
+    plot_sparameters(df, logscale=True)
     plt.show()
