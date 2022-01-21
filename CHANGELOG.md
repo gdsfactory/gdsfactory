@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 3.10.12
+
+- write_sparameters_lumerical allows passing material refractive index or any material in Lumerical's material database
+
+## 3.10.11
+
+- improve docs
+
 ## 3.10.10
 
 - cell name with no parameters passed only includes prefix [PR](https://github.com/gdsfactory/gdsfactory/pull/158)
