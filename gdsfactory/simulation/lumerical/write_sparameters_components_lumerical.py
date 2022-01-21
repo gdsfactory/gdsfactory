@@ -1,7 +1,7 @@
 """Write Sparameters with for different components."""
 from typing import Optional
 
-from gdsfactory.simulation.write_sparameters_lumerical import (
+from gdsfactory.simulation.lumerical.write_sparameters_lumerical import (
     write_sparameters_lumerical,
 )
 from gdsfactory.types import ComponentFactoryDict

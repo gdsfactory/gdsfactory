@@ -4,7 +4,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 import gdsfactory.simulation as sim
 from gdsfactory import components
-from gdsfactory.simulation.read import read_sparameters_lumerical
+from gdsfactory.simulation.lumerical.read import read_sparameters_lumerical
 
 factory = {
     i: getattr(components, i)

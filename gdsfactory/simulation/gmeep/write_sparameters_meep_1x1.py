@@ -17,7 +17,9 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
-from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_meep as get_sparameters_path,
+)
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
 

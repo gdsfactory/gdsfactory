@@ -1,8 +1,10 @@
 # CHANGELOG
 
-## 3.10.13
+## 3.11.0
 
 - get_sparameters_path filepath based on component_name + simulation_settings hash
+- move gdsfactory.simulation.write_sparameters_lumerical to gdsfactory.simulation.lumerical.write_sparameters_lumerical
+- Sparameters are all lowercase (both for meep and lumerical plugins)
 
 ## 3.10.12
 

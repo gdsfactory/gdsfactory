@@ -1,29 +1,31 @@
 import hashlib
 import pathlib
+from functools import partial
 from pathlib import Path
 
-from gdsfactory.component import Component
+import pandas as pd
+
 from gdsfactory.config import CONFIG
 from gdsfactory.name import clean_value
 from gdsfactory.tech import LAYER, LAYER_STACK
-from gdsfactory.types import SimulationSuffix
+from gdsfactory.types import ComponentOrFactory
 
 
-def get_sparameters_path(
-    component: Component,
+def _get_sparameters_path(
+    component: ComponentOrFactory,
     dirpath: Path = CONFIG["sparameters"],
-    suffix: SimulationSuffix = ".dat",
     **kwargs,
 ) -> Path:
-    """Return Sparameters filepath.
-    The returned filepath has a hash of all the parameters.
+    """Return Sparameters CSV filepath.
+    hashes of all simulation settings to get a consitent and unique name.
 
     Args:
-        component:
-        dirpath:
-        suffix: .dat for interconnect, .csv for meep
+        component: component or component factory.
+        dirpath: directory path to store sparameters
         kwargs: simulation settings
     """
+
+    component = component() if callable(component) else component
 
     dirpath = pathlib.Path(dirpath)
     dirpath = (
@@ -38,7 +40,26 @@ def get_sparameters_path(
     ]
     settings_string = "_".join(settings_list)
     settings_hash = hashlib.md5(settings_string.encode()).hexdigest()[:8]
-    return dirpath / f"{component.name}_{settings_hash}{suffix}"
+    return dirpath / f"{component.name}_{settings_hash}.csv"
+
+
+def _get_sparameters_data(**kwargs) -> pd.DataFrame:
+    """Returns Sparameters data in a pandas DataFrame.
+
+    Keyword Args:
+        component: component
+        dirpath: directory path to store sparameters
+        kwargs: simulation settings
+    """
+    filepath = _get_sparameters_path(**kwargs)
+    return pd.read_csv(filepath)
+
+
+get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
+get_sparameters_path_lumerical = partial(_get_sparameters_path, tool="lumerical")
+
+get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
+get_sparameters_data_lumerical = partial(_get_sparameters_path, tool="lumerical")
 
 
 def test_get_sparameters_path() -> None:
@@ -53,20 +74,21 @@ def test_get_sparameters_path() -> None:
         LAYER.SLAB90: "si",
     }
 
+    name1 = "straight_713b8220"
+    name2 = "straight_cf5c9898_713b8220"
+    name3 = "straight_cf5c9898_5f6ae1fd"
+    name4 = "straight_2031115e"
+
     c = gf.components.straight()
-    p = get_sparameters_path(
+    p = get_sparameters_path_lumerical(
         component=c,
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    name1 = "straight_557fca9f"
-    name2 = "straight_cf5c9898_557fca9f"
-    name3 = "straight_cf5c9898_b4ea3a4d"
-
     assert p.stem == name1, p.stem
 
     c = gf.components.straight(layer=LAYER.SLAB90)
-    p = get_sparameters_path(
+    p = get_sparameters_path_lumerical(
         c,
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
@@ -74,8 +96,16 @@ def test_get_sparameters_path() -> None:
     assert p.stem == name2, p.stem
 
     c = gf.components.straight(layer=LAYER.SLAB90)
-    p = get_sparameters_path(c, layer_stack=LAYER_STACK)
+    p = get_sparameters_path_meep(c, layer_stack=LAYER_STACK)
     assert p.stem == name3, p.stem
+
+    c = gf.components.straight()
+    p = get_sparameters_path_meep(
+        component=c,
+        layer_to_thickness=layer_to_thickness_sample,
+        layer_to_material=layer_to_material_sample,
+    )
+    assert p.stem == name4, p.stem
 
 
 if __name__ == "__main__":
