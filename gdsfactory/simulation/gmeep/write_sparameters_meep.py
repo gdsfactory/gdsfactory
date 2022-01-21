@@ -25,7 +25,9 @@ from omegaconf import OmegaConf
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
-from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_meep as get_sparameters_path,
+)
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import PortSymmetries
@@ -279,7 +281,7 @@ def write_sparameters_meep(
         source_indices = monitor_indices
 
     # Create S-parameter storage object
-    Sparams_dict = {}
+    sp = {}
 
     @pydantic.validate_arguments
     def sparameter_calculation(
@@ -364,8 +366,8 @@ def write_sparameters_meep(
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
-                Sparams_dict[f"s{i}{i}a"] = siia
-                Sparams_dict[f"s{i}{i}m"] = siim
+                sp[f"s{i}{i}a"] = siia
+                sp[f"s{i}{i}m"] = siim
             else:
                 monitor_entering, monitor_exiting = parse_port_eigenmode_coeff(
                     monitor_index, component_ref.ports, sim_dict
@@ -373,8 +375,8 @@ def write_sparameters_meep(
                 sij = monitor_exiting / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
-                Sparams_dict[f"s{i}{j}a"] = sija
-                Sparams_dict[f"s{i}{j}m"] = sijm
+                sp[f"s{i}{j}a"] = sija
+                sp[f"s{i}{j}m"] = sijm
                 sij = monitor_entering / source_entering
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
@@ -383,10 +385,10 @@ def write_sparameters_meep(
             for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
                 values = port_symmetries[f"o{monitor_indices[n]}"][key]
                 for value in values:
-                    Sparams_dict[f"{value}m"] = Sparams_dict[f"{key}m"]
-                    Sparams_dict[f"{value}a"] = Sparams_dict[f"{key}a"]
+                    sp[f"{value}m"] = sp[f"{key}m"]
+                    sp[f"{value}a"] = sp[f"{key}a"]
 
-        return Sparams_dict
+        return sp
 
     # Since source is defined upon sim object instanciation, loop here
     # for port_index in monitor_indices:
@@ -401,7 +403,7 @@ def write_sparameters_meep(
         size = comm.Get_size()
         rank = comm.Get_rank()
 
-        Sparams_dict = sparameter_calculation(
+        sp = sparameter_calculation(
             n,
             component=component,
             port_symmetries=port_symmetries,
@@ -416,9 +418,9 @@ def write_sparameters_meep(
         if rank == 0:
             for i in range(1, size, 1):
                 data = comm.recv(source=i, tag=11)
-                Sparams_dict.update(data)
+                sp.update(data)
 
-            df = pd.DataFrame(Sparams_dict)
+            df = pd.DataFrame(sp)
             df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
             df["freqs"] = 1 / df["wavelengths"]
             df.to_csv(filepath, index=False)
@@ -427,11 +429,11 @@ def write_sparameters_meep(
             logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
             return df
         else:
-            comm.send(Sparams_dict, dest=0, tag=11)
+            comm.send(sp, dest=0, tag=11)
 
     else:
         for n in range(num_sims):
-            Sparams_dict.update(
+            sp.update(
                 sparameter_calculation(
                     n,
                     component=component,
@@ -444,7 +446,7 @@ def write_sparameters_meep(
                     **settings,
                 )
             )
-        df = pd.DataFrame(Sparams_dict)
+        df = pd.DataFrame(sp)
         df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
         df["freqs"] = 1 / df["wavelengths"]
         df.to_csv(filepath, index=False)
