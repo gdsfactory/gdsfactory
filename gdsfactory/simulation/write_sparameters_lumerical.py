@@ -3,7 +3,7 @@
 import dataclasses
 import time
 from pathlib import Path
-from typing import Optional
+from typing import Dict, Optional, Union
 
 import numpy as np
 import omegaconf
@@ -33,6 +33,7 @@ MATERIAL_NAME_TO_LUMERICAL = {
     "sio2": "SiO2 (Glass) - Palik",
     "sin": "Si3N4 (Silicon Nitride) - Phillip",
 }
+# translate from material names in LayerStack to lumerical's database
 
 
 def write_sparameters_lumerical(
@@ -43,6 +44,7 @@ def write_sparameters_lumerical(
     dirpath: Path = gf.CONFIG["sparameters"],
     layer_stack: LayerStack = LAYER_STACK,
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
+    material_name_to_lumerical: Optional[Dict[str, Union[str, float]]] = None,
     **settings,
 ) -> pd.DataFrame:
     r"""Returns and writes component Sparameters using Lumerical FDTD.
@@ -70,7 +72,7 @@ def write_sparameters_lumerical(
 
     Disclaimer: This function tries to extract Sparameters automatically
     is hard to make a function that will fit all your possible simulation settings.
-    You can use this function as an inspiration to create your own.
+    You can use this function for inspiration to create your own.
 
     Args:
         component: Component to simulate
@@ -80,6 +82,8 @@ def write_sparameters_lumerical(
         dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
+        material_name_to_lumerical: material alias to lumerical material database name
+            or refractive index.
 
     Keyword Args:
         background_material: for the background
@@ -95,7 +99,7 @@ def write_sparameters_lumerical(
         wavelength_points: 500
         simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
         simulation_temperature: in kelvin (default = 300)
-        frequency_dependendent_profile: computes mode profiles for different wavelengths
+        frequency_dependent_profile: computes mode profiles for different wavelengths
         field_profile_samples: number of wavelengths to compute field profile
 
 
@@ -146,6 +150,10 @@ def write_sparameters_lumerical(
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
+
+    material_name_to_lumerical_new = material_name_to_lumerical or {}
+    material_name_to_lumerical = MATERIAL_NAME_TO_LUMERICAL.copy()
+    material_name_to_lumerical.update(**material_name_to_lumerical_new)
 
     if hasattr(component.info, "simulation_settings"):
         sim_settings.update(component.info.simulation_settings)
@@ -273,12 +281,21 @@ def write_sparameters_lumerical(
     )
 
     material = ss.background_material
-    if material not in MATERIAL_NAME_TO_LUMERICAL:
+    if material not in material_name_to_lumerical:
         raise ValueError(
-            f"{material!r} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+            f"{material!r} not in {list(material_name_to_lumerical.keys())}"
         )
-    material = MATERIAL_NAME_TO_LUMERICAL[material]
-    s.setnamed("clad", "material", material)
+    material = material_name_to_lumerical[material]
+
+    if isinstance(material, str):
+        s.setnamed("clad", "material", material)
+    elif isinstance(material, (int, float)):
+        s.setnamed("clad", "index", material)
+    else:
+        raise ValueError(
+            f"{material!r} needs to be a string from lumerical's material database"
+            "or float (refractive index)"
+        )
 
     s.addfdtd(
         dimension="3D",
@@ -302,11 +319,11 @@ def write_sparameters_lumerical(
             raise ValueError(f"{layer!r} not in {layer_to_material.keys()}")
 
         material_name = layer_to_material[layer]
-        if material_name not in MATERIAL_NAME_TO_LUMERICAL:
+        if material_name not in material_name_to_lumerical:
             raise ValueError(
-                f"{material_name!r} not in {list(MATERIAL_NAME_TO_LUMERICAL.keys())}"
+                f"{material_name!r} not in {list(material_name_to_lumerical.keys())}"
             )
-        material_name_lumerical = MATERIAL_NAME_TO_LUMERICAL[material_name]
+        material = material_name_to_lumerical[material_name]
 
         if layer not in layer_to_zmin:
             raise ValueError(f"{layer} not in {list(layer_to_zmin.keys())}")
@@ -319,7 +336,16 @@ def write_sparameters_lumerical(
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z * 1e-6)
         s.setnamed(layername, "z span", thickness * 1e-6)
-        s.setnamed(layername, "material", material_name_lumerical)
+
+        if isinstance(material, str):
+            s.setnamed(layername, "material", material)
+        elif isinstance(material, (int, float)):
+            s.setnamed(layername, "index", material)
+        else:
+            raise ValueError(
+                f"{material!r} needs to be a string from lumerical's material database"
+                "or float (refractive index)"
+            )
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
     for i, port in enumerate(ports):
@@ -334,7 +360,7 @@ def write_sparameters_lumerical(
         s.setnamed(p, "y", port.y * 1e-6)
         s.setnamed(p, "z", z * 1e-6)
         s.setnamed(p, "z span", zspan * 1e-6)
-        s.setnamed(p, "frequency dependent profile", ss.frequency_dependendent_profile)
+        s.setnamed(p, "frequency dependent profile", ss.frequency_dependent_profile)
         s.setnamed(p, "number of field profile samples", ss.field_profile_samples)
 
         deg = int(port.orientation)
