@@ -59,7 +59,7 @@ get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
 get_sparameters_path_lumerical = partial(_get_sparameters_path, tool="lumerical")
 
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
-get_sparameters_data_lumerical = partial(_get_sparameters_path, tool="lumerical")
+get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
 
 
 def test_get_sparameters_path() -> None:
