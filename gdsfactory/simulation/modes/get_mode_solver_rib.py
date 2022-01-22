@@ -21,7 +21,7 @@ def get_mode_solver_rib(
     nclad: float = 1.44,
     sy: float = 2.0,
     sz: float = 2.0,
-    res: int = 32,
+    resolution: int = 32,
     nmodes: int = 4,
     sidewall_angle: float = None,
     # sidewall_taper: int = 1,
@@ -36,7 +36,7 @@ def get_mode_solver_rib(
         nclad: clad material refractive index
         sy: simulation region width (um)
         sz: simulation region height (um)
-        res: resolution (pixels/um)
+        resolution: resolution (pixels/um)
         nmodes: number of modes
         sidewall_angle: waveguide sidewall angle (radians),
             tapers from wg_width at top of slab, upwards, to top of waveguide
@@ -132,7 +132,7 @@ def get_mode_solver_rib(
         geometry_lattice=geometry_lattice,
         geometry=geometry,
         k_points=k_points,
-        resolution=res,
+        resolution=resolution,
         num_bands=nmodes,
         default_material=material_clad,
         filename_prefix=str(filename_prefix),
@@ -146,7 +146,7 @@ def get_mode_solver_rib(
         nclad=nclad,
         sy=sy,
         sz=sz,
-        res=res,
+        resolution=resolution,
         nmodes=nmodes,
     )
     return mode_solver
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     m = get_mode_solver_rib(
-        slab_thickness=0.09, res=64, sidewall_angle=10 * (np.pi / 180)
+        slab_thickness=0.09, resolution=64, sidewall_angle=10 * (np.pi / 180)
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()

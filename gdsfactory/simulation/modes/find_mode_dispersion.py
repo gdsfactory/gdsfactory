@@ -29,7 +29,7 @@ def find_mode_dispersion(
             wg_thickness: wg height (um)
             sx: supercell width (um)
             sy: supercell height (um)
-            res: (pixels/um)
+            resolution: (pixels/um)
             wavelength: wavelength
             num_bands: mode order
             plot: if True plots mode

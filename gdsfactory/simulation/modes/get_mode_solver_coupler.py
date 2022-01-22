@@ -27,7 +27,7 @@ def get_mode_solver_coupler(
     nclad: float = 1.44,
     ymargin: float = 2.0,
     sz: float = 2.0,
-    res: int = 32,
+    resolution: int = 32,
     nmodes: int = 4,
     sidewall_angles: Union[Tuple[float, ...], float] = None,
     # sidewall_taper: int = 1,
@@ -36,13 +36,16 @@ def get_mode_solver_coupler(
 
     Args:
         wg_width: wg_width (um)
+        gap:
+        wg_widths: list or tuple of waveguide widths.
+        gaps: list or tuple of waveguide gaps.
         wg_thickness: wg height (um)
         slab_thickness: thickness for the waveguide slab
         ncore: core material refractive index
         nclad: clad material refractive index
-        sy: simulation region width (um)
+        ymargin: margin in y.
         sz: simulation region thickness (um)
-        res: resolution (pixels/um)
+        resolution: resolution (pixels/um)
         nmodes: number of modes
         sidewall_angles: waveguide sidewall angle (radians),
             tapers from wg_width at top of slab, upwards, to top of waveguide
@@ -150,7 +153,7 @@ def get_mode_solver_coupler(
         geometry_lattice=geometry_lattice,
         geometry=geometry,
         k_points=k_points,
-        resolution=res,
+        resolution=resolution,
         num_bands=nmodes,
         filename_prefix=str(filename_prefix),
         default_material=material_clad,
@@ -165,7 +168,7 @@ def get_mode_solver_coupler(
         nclad=nclad,
         sy=sy,
         sz=sz,
-        res=res,
+        resolution=resolution,
         nmodes=nmodes,
     )
     return mode_solver
@@ -178,7 +181,7 @@ if __name__ == "__main__":
         slab_thickness=90e-3,
         gap=0.5,
         wg_width=1,
-        res=64,
+        resolution=64,
         sidewall_angles=(10.0 * (np.pi / 180), 20.0 * (np.pi / 180)),
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.11.3
+
+- rename `res` to `resolution` in simulation.modes to be consistent with simulation.gmeep
+
 ## 3.11.2
 
 - add plugins to notebooks and coverage
