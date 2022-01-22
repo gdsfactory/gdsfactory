@@ -1,44 +1,31 @@
-from pathlib import Path
-from typing import Callable, Optional, Tuple, Union
+from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
 from pandas import DataFrame
 
 import gdsfactory as gf
-from gdsfactory.simulation.write_sparameters_lumerical import (
-    write_sparameters_lumerical,
-)
-from gdsfactory.types import Component, ComponentOrFactory
 
 
 def plot_sparameters(
-    component_or_df: Union[ComponentOrFactory, DataFrame],
+    df: DataFrame,
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
-    dirpath: Path = gf.CONFIG["sparameters"],
-    write_sparameters_function: Callable = write_sparameters_lumerical,
     **sim_settings,
 ):
-    """Plots Sparameters.
+    """Plots Sparameters from a pandas DataFrame.
 
     Args:
-        component_or_df: Component or Sparameters pandas DataFrame
-        logscale: plots 20*log10(results)
-        keys: list of keys to plot, plots all by default
-        dirpath: where to store/read the simulations
-        write_sparameters_function: custom function to write sparameters
+        df: Sparameters pandas DataFrame
+        logscale: plots 20*log10(S)
+        keys: list of keys to plot, plots all by default.
 
     Keyword Args:
         sim_settings: simulation settings for the write_sparameters_function
 
     """
 
-    df = component_or_df() if callable(component_or_df) else component_or_df
-    if isinstance(df, Component):
-        df = write_sparameters_function(component=df, dirpath=dirpath, **sim_settings)
     w = df["wavelengths"] * 1e3
-
     keys = keys or [
         key for key in df.keys() if key.lower().startswith("s") and key.endswith("m")
     ]
@@ -55,7 +42,7 @@ def plot_sparameters(
     plt.ylabel("|S| (dB)") if logscale else plt.ylabel("|S|")
 
 
-def plot_imbalance2x2(df: DataFrame, port1: str = "S13m", port2: str = "S14m") -> None:
+def plot_imbalance2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -> None:
     """Plots imbalance in % for 2x2 coupler"""
     y1 = df[port1].values
     y2 = df[port2].values
@@ -66,7 +53,7 @@ def plot_imbalance2x2(df: DataFrame, port1: str = "S13m", port2: str = "S14m") -
     plt.grid()
 
 
-def plot_loss2x2(df: DataFrame, port1: str = "S13m", port2: str = "S14m") -> None:
+def plot_loss2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -> None:
     """Plots imbalance in % for 2x2 coupler"""
     y1 = df[port1].values
     y2 = df[port2].values
@@ -80,7 +67,8 @@ plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="S13m", port2="S12m")
 
 
 if __name__ == "__main__":
-    # plot_sparameters(df, logscale=True)
-    # plot_sparameters(gf.components.coupler())
-    plot_sparameters(gf.components.mmi1x2(), logscale=False)
+    import gdsfactory.simulation as sim
+
+    df = sim.get_sparameters_data_lumerical(component=gf.c.mmi1x2)
+    plot_sparameters(df, logscale=True)
     plt.show()

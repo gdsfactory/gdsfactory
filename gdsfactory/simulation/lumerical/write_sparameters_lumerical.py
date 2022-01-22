@@ -11,7 +11,9 @@ import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
-from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_lumerical as get_sparameters_path,
+)
 from gdsfactory.tech import (
     LAYER_STACK,
     SIMULATION_SETTINGS,
@@ -64,7 +66,7 @@ def write_sparameters_lumerical(
 
     For your Fab technology you can overwrite
 
-    - Simulation Settings
+    - simulation_settings
     - dirpath
     - layerStack
 
@@ -186,14 +188,15 @@ def write_sparameters_lumerical(
     c.name = "top"
     gdspath = c.write_gds()
 
-    filepath = get_sparameters_path(
+    filepath_csv = get_sparameters_path(
         component=component,
         dirpath=dirpath,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
+        # material_name_to_lumerical=material_name_to_lumerical,
         **settings,
     )
-    filepath_csv = filepath.with_suffix(".csv")
+    filepath = filepath_csv.with_suffix(".dat")
     filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
 
@@ -241,6 +244,7 @@ def write_sparameters_lumerical(
         simulation_settings=sim_settings,
         component=component.to_dict(),
         version=__version__,
+        material_name_to_lumerical=material_name_to_lumerical,
     )
 
     logger.info(
@@ -423,8 +427,11 @@ def write_sparameters_lumerical(
         logger.info(f"wrote sparameters to {filepath}")
 
         keys = [key for key in sp.keys() if key.startswith("S")]
-        ra = {f"{key}a": list(np.unwrap(np.angle(sp[key].flatten()))) for key in keys}
-        rm = {f"{key}m": list(np.abs(sp[key].flatten())) for key in keys}
+        ra = {
+            f"{key.lower()}a": list(np.unwrap(np.angle(sp[key].flatten())))
+            for key in keys
+        }
+        rm = {f"{key.lower()}m": list(np.abs(sp[key].flatten())) for key in keys}
         wavelengths = sp["lambda"].flatten() * 1e6
 
         results = {"wavelengths": wavelengths}
@@ -437,6 +444,7 @@ def write_sparameters_lumerical(
         sim_settings.update(compute_time_seconds=end - start)
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         return df
+
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
     return s
 
