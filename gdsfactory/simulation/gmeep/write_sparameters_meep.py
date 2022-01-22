@@ -228,7 +228,6 @@ def write_sparameters_meep(
     filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        suffix=".csv",
         layer_stack=layer_stack,
         **sim_settings,
     )
