@@ -3,11 +3,12 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 import numpy as np
-import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.simulation.get_sparameters_path import get_sparameters_path
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_lumerical as get_sparameters_path,
+)
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 
@@ -113,11 +114,14 @@ def read_sparameters_lumerical(
     if filepath and numports is None:
         raise ValueError("You need to define numports")
 
-    filepath = filepath or get_sparameters_path(
-        component=component,
-        dirpath=dirpath,
-        layer_to_material=layer_stack.get_layer_to_material(),
-        layer_to_thickness=layer_stack.get_layer_to_thickness(),
+    filepath = (
+        filepath
+        or get_sparameters_path(
+            component=component,
+            dirpath=dirpath,
+            layer_to_material=layer_stack.get_layer_to_material(),
+            layer_to_thickness=layer_stack.get_layer_to_thickness(),
+        ).with_suffix(".dat")
     )
     numports = numports or len(component.ports)
     assert (
@@ -127,34 +131,5 @@ def read_sparameters_lumerical(
     return _read_sparameters_file(filepath=filepath, numports=numports)
 
 
-def read_sparameters_pandas(
-    component: Component,
-    layer_stack: LayerStack = LAYER_STACK,
-    dirpath: Path = gf.CONFIG["sparameters"],
-    **kwargs,
-) -> pd.DataFrame:
-    """Returns Sparameters in a pandas DataFrame.
-
-    `S11m` `m` stands for module `S11a` `a` stands for angle (in radians)
-
-    Args:
-        component: Component
-        layer_stack:
-        dirpath: path where to look for the Sparameters
-        kwargs: simulation settings
-
-    """
-    filepath = get_sparameters_path(
-        component=component,
-        dirpath=dirpath,
-        layer_to_material=layer_stack.get_layer_to_material(),
-        layer_to_thickness=layer_stack.get_layer_to_thickness(),
-        **kwargs,
-    )
-    df = pd.read_csv(filepath.with_suffix(".csv"))
-    df.index = df["wavelength_nm"]
-    return df
-
-
 if __name__ == "__main__":
-    s = read_sparameters_pandas(gf.components.mmi2x2())
+    r = read_sparameters_lumerical(gf.components.mmi2x2())

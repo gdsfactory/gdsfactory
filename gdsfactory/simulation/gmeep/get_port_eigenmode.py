@@ -8,12 +8,12 @@ from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.modes.types import Mode
 
 '''
-CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
-Could also modify the epsilon plotting of mode to be override by plot_xsection, which already works
 
 def get_domain_measurements(sim, output_plane, frequency, resolution=0):
     """
     Modified from meep/python/visualization.py plot_eps
+    CURRENTLY UNUSED -- will be useful once the MEEP conda packages are updates to latest source
+    Could also modify the epsilon plotting of mode to be override by plot_xsection, which already works
     """
     # Get domain measurements
     sim_center, sim_size = get_2D_dimensions(sim, output_plane)

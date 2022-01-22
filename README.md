@@ -1,4 +1,4 @@
-# gdsfactory 3.10.12
+# gdsfactory 3.11.0
 
 ![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)
 [![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -171,6 +171,10 @@ pip install gdsfactory[full]
 ### Trimesh
 
 For (3D rendering and STL export)
+
+### Lumerical FDTD
+
+For simulating Sparameters using FDTD.
 
 ### meep / mpb
 
