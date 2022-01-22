@@ -37,7 +37,11 @@ def find_neff_ng_dw_dh(
     steps: int = 11,
     mode_number: int = 1,
 ) -> pd.DataFrame:
-    """Computes group and effective index for different widths and heights."""
+    """Computes group and effective index for different widths and heights.
+
+    Args:
+
+    """
     dw = np.linspace(-dwmax, dwmax, steps)
     dh = np.linspace(-dhmax, dhmax, steps)
 

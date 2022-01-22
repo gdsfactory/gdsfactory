@@ -26,6 +26,7 @@ def find_neff_vs_width(
     overwrite: bool = False,
     **kwargs
 ) -> pd.DataFrame:
+    """Seep waveguide width and computes effective index."""
 
     if filepath and not overwrite and pathlib.Path(filepath).exists():
         return pd.read_csv(filepath)
