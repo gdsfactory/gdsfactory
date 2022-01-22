@@ -4,7 +4,9 @@ import numpy as np
 import pandas as pd
 
 import gdsfactory as gf
+import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
+from gdsfactory.tech import LAYER_STACK
 
 
 def test_sparameters_straight(dataframe_regression):
@@ -252,6 +254,9 @@ def test_sparameters_straight_mpi_pool(dataframe_regression):
 
     filepath = filepaths[0]
     df = pd.read_csv(filepath)
+
+    filepath2 = sim.get_sparameters_path_meep(component=c, layer_stack=LAYER_STACK)
+    assert filepath2 == filepaths[0]
 
     # Check reasonable reflection/transmission
     assert np.allclose(df["s12m"], 1, atol=1e-02)
