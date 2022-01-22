@@ -22,6 +22,7 @@ jobs:
           conda env update --file environment.yml --name base
       - name: Test with pytest
         run: |
+          git clone https://github.com/gdsfactory/gdslib.git
           conda install pytest
           conda install pytest-cov
           pytest --cov=./ --cov-report=xml
