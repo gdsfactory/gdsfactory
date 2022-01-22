@@ -35,12 +35,10 @@ def _get_sparameters_path(
     )
     dirpath.mkdir(exist_ok=True, parents=True)
 
-    settings_list = [
-        f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())
-    ]
-    settings_string = "_".join(settings_list)
-    settings_hash = hashlib.md5(settings_string.encode()).hexdigest()[:8]
-    return dirpath / f"{component.name}_{settings_hash}.csv"
+    kwargs_list = [f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())]
+    kwargs_string = "_".join(kwargs_list)
+    kwargs_hash = hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
+    return dirpath / f"{component.name}_{kwargs_hash}.csv"
 
 
 def _get_sparameters_data(**kwargs) -> pd.DataFrame:
