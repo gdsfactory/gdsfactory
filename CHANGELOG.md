@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.11.2
+
+- add plugins to notebooks and coverage
+
 ## 3.11.0
 
 - get_sparameters_path filepath based on component_name + simulation_settings hash
