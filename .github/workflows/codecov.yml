@@ -1,40 +1,40 @@
 ---
 name: Code test coverage
 on:
-    pull_request:
-    push:
+  pull_request:
+  push:
 jobs:
-    run:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest]
-        env:
-            OS: ${{ matrix.os }}
-            PYTHON: '3.7'
-        steps:
-            - uses: actions/checkout@master
-            - name: Setup Python
-              uses: actions/setup-python@master
-              with:
-                  python-version: 3.7
-            - name: Generate coverage report
-              run: |
-                  make install
-                  pip install pytest
-                  pip install pytest-cov
-                  pip install -r requirements.txt --upgrade
-                  pip install -r requirements_dev.txt --upgrade
-                  pytest --cov=./ --cov-report=xml
-            - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v1.2.1
-              with:
-                  token: ${{ secrets.CODECOV_TOKEN }}
-                  files: ./coverage.xml
-                  directory: .
-                  flags: unittests
-                  env_vars: OS,PYTHON
-                  name: codecov-umbrella
-                  fail_ci_if_error: true
-                  path_to_write_report: codecov_report.txt
-                  verbose: true
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Add conda to system path
+        run: |
+          # $CONDA is an environment variable pointing to the root of the miniconda directory
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Install dependencies
+        run: |
+          conda env update --file environment.yml --name base
+      - name: Test with pytest
+        run: |
+          git clone https://github.com/gdsfactory/gdslib.git
+          conda install pytest
+          conda install pytest-cov
+          pytest gdsfactory gdsfactory/simulation/gmeep gdsfactory/simulation/modes --cov=./ --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1.2.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          directory: .
+          flags: unittests
+          env_vars: OS,PYTHON
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          path_to_write_report: codecov_report.txt
+          verbose: true
