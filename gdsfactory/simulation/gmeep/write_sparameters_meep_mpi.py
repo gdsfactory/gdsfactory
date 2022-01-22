@@ -100,13 +100,12 @@ def write_sparameters_meep_mpi(
         filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
             where `a` is the angle in radians and `m` the module
     """
-    sim_settings = remove_simulation_kwargs(kwargs)
+    settings = remove_simulation_kwargs(kwargs)
     filepath = filepath or get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        suffix=".csv",
         layer_stack=layer_stack,
-        **sim_settings,
+        **settings,
     )
     filepath = pathlib.Path(filepath)
     if filepath.exists() and not overwrite:

@@ -87,7 +87,6 @@ def write_sparameters_meep_mpi_pool(
                 component=job["component"],
                 dirpath=dirpath,
                 layer_stack=layer_stack,
-                suffix=".csv",
                 **settings,
             ),
         )
