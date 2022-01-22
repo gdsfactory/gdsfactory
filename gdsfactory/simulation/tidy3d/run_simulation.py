@@ -65,7 +65,9 @@ def load_results(
     return sim
 
 
-def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
+def run_simulation(
+    sim: td.Simulation, dirpath=PATH.results_tidy3d
+) -> Awaitable[td.Simulation]:
     """Returns a simulation with simulation results
 
     Only submits simulation if results not found locally or remotely.
@@ -85,7 +87,7 @@ def run_simulation(sim: td.Simulation) -> Awaitable[td.Simulation]:
     """
     td.logging_level("error")
     sim_hash = get_sim_hash(sim)
-    sim_path = PATH.results_tidy3d / f"{sim_hash}.hdf5"
+    sim_path = dirpath / f"{sim_hash}.hdf5"
     logger.info(f"running simulation {sim_hash}")
 
     hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_last_projects()}

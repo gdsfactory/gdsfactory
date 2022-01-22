@@ -1,7 +1,7 @@
 """Write Sparameters with for different components."""
 from typing import Optional
 
-from gdsfactory.simulation.write_sparameters_lumerical import (
+from gdsfactory.simulation.lumerical.write_sparameters_lumerical import (
     write_sparameters_lumerical,
 )
 from gdsfactory.types import ComponentFactoryDict
@@ -13,10 +13,10 @@ def write_sparameters_components_lumerical(
     session: Optional[object] = None,
     **kwargs,
 ) -> None:
-    """writes component Sparameters using Lumerical FDTD.
+    """Writes component Sparameters using Lumerical FDTD.
 
     Args:
-        factory: dict of component functions
+        factory: dict of component functions to simulate.
         run: if False, does not run and prompts you to review each simulation
         session: lumapi.FDTD() Lumerical FDTD session
 
