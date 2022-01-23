@@ -22,7 +22,7 @@ setup(
     version="3.11.4",
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
-    description="python libraries to generate GDS layouts",
+    description="python library to generate GDS layouts",
     packages=find_packages(),
     include_package_data=True,
     install_requires=get_install_requires(),
