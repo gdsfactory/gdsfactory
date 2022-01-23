@@ -24,10 +24,4 @@ Tutorial
    notebooks/06_mask.ipynb
    notebooks/07_yaml_component.ipynb
    notebooks/09_plugins.ipynb
-   notebooks/plugins/lumerical/30_sparameters.ipynb
-   notebooks/plugins/meep/001_meep_sparameters.ipynb
-   notebooks/plugins/tidy3d/01_tidy3d.ipynb
-   notebooks/plugins/mpb/001_mpb_waveguide.ipynb
-   notebooks/plugins/mpb/002_mpb_coupler.ipynb
-   notebooks/plugins/mpb/003_mpb_heater.ipynb
    notebooks/common_mistakes.ipynb
