@@ -4,4 +4,3 @@ pip install -r requirements.txt --upgrade
 pip install -r requirements_pip.txt --upgrade
 pip install -r requirements_dev.txt --upgrade
 pre-commit install
-gf tool install
