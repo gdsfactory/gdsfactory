@@ -13,6 +13,9 @@ update:
 	pur
 	pur -r requirements_dev.txt
 
+publish:
+	anaconda upload environment.yml
+
 update-pre:
 	pre-commit autoupdate --bleeding-edge
 
