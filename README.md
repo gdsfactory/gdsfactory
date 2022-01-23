@@ -111,7 +111,6 @@ If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Mini
 
 ```
 conda install -c conda-forge gdspy
-conda install -c conda-forge triangle
 pip install gdsfactory[full]
 gf tool install
 ```
@@ -178,9 +177,19 @@ For simulating Sparameters using FDTD.
 
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
+Open source FDTD / mode simulator. Requires you to run
 
-Also for parallel execution you can install `conda install mpi4py -y`
+```
+conda install -c conda-forge pymeep
+```
+
+or
+
+```
+conda install -c conda-forge pymeep=*=mpi_mpich_*
+```
+
+for parallel execution).
 
 ### tidy3d
 
