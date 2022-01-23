@@ -46,9 +46,7 @@ exclude_patterns = [
     "**.ipynb_checkpoints",
     "build",
     "extra",
-    # "notebooks/plugins/tidy3d/01_tidy3d.ipynb",
-    # "notebooks/plugins/lumerical/*",
-    # "notebooks/plugins/tidy3d/*",
+    "notebooks/plugins/*",
 ]
 
 napoleon_use_param = True
