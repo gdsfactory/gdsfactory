@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.11.4
+
+- Remove numpy.typing from snap.py to be compatible with minimum version of numpy
+
 ## 3.11.3
 
 - rename `res` to `resolution` in simulation.modes to be consistent with simulation.gmeep

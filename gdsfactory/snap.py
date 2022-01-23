@@ -1,10 +1,11 @@
+"""snaps values and coordinates to the GDS grid in nm"""
+
 from typing import Tuple, Union
 
 import numpy as np
-import numpy.typing as npt
 
 
-def is_on_grid(x: float, nm: int = 1) -> npt.NDArray[np.bool_]:
+def is_on_grid(x: float, nm: int = 1) -> bool:
     return np.isclose(snap_to_grid(x, nm=nm), x)
 
 
@@ -19,8 +20,8 @@ def assert_on_2nm_grid(x: float) -> None:
 
 
 def snap_to_grid(
-    x: Union[float, Tuple[float, ...], npt.NDArray[np.float_]], nm: int = 1
-) -> Union[float, Tuple[float, ...], npt.NDArray[np.float_]]:
+    x: Union[float, Tuple[float, ...]], nm: int = 1
+) -> Union[float, Tuple[float, ...]]:
     y = nm * np.round(np.array(x, dtype=float) * 1e3 / nm) / 1e3
     if isinstance(x, tuple):
         return tuple(y)
