@@ -6,7 +6,7 @@ from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 
 def test_find_modes_dispersion():
     ms = get_mode_solver_rib(wg_width=0.45)
-    modes = find_mode_dispersion(mode_solver=ms)
+    modes = find_mode_dispersion(mode_solver=ms, resolution=10)
     m1 = modes
 
     # print(m1.neff)

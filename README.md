@@ -107,13 +107,22 @@ First, you need to install [klayout](https://www.klayout.de/) to visualize the G
 gdsfactory works for python>=3.7 in Windows, MacOs and Linux.
 [Github](https://github.com/gdsfactory/gdsfactory/actions) runs all the tests at least once a day for different versions of python (3.7, 3.8, 3.9)
 
-If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Miniconda3.
+If you are on Windows, I recommend you install gdsfactory with Anaconda3, Miniconda3 or mamba (faster conda alternative).
+
+```
+mamba install gdspy
+pip install gdsfactory[full]
+gf tool install
+```
+
+If you don't want to install mamba (faster conda alternative) and don't mind to wait a few more seconds
 
 ```
 conda install -c conda-forge gdspy
 pip install gdsfactory[full]
 gf tool install
 ```
+
 
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
