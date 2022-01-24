@@ -18,32 +18,56 @@ from gdsfactory.simulation.modes.find_mode_dispersion import find_mode_dispersio
 
 PATH.modes = pathlib.Path.cwd() / "data"
 
-w0 = 0.465
-h0 = 0.215
+width0 = 0.465
+thickness0 = 0.215
 
-dwmax = 10e-3
-dhmax = 5e-3
+delta_width = 10e-3
+delta_thickness = 5e-3
 
 
 @pydantic.validate_arguments
 def find_neff_ng_dw_dh(
-    ncore: float = 3.47668,
-    nclad: float = 1.44401,
-    dwmax: float = 30e-3,
-    dhmax: float = 20e-3,
-    w0: float = w0,
-    h0: float = h0,
+    width: float = width0,
+    thickness: float = thickness0,
+    delta_width: float = 30e-3,
+    delta_thickness: float = 20e-3,
     wavelength: float = 1.55,
     steps: int = 11,
     mode_number: int = 1,
+    core: str = "Si",
+    clad: str = "SiO2",
+    **kwargs
 ) -> pd.DataFrame:
     """Computes group and effective index for different widths and heights.
 
     Args:
+        width: nominal waveguide width
+        thickness: nominal waveguide thickness
+        delta_width: delta width max
+        delta_thickness: delta thickness max
+        wavelength: center wavelength (um)
+        steps: number of steps to sweep in width and thickness.
+        mode_number: mode index to compute (1: fundanmental mode)
+        core: core material name
+        clad: clad material name
+
+    Keyword Args:
+        wg_thickness: wg height (um)
+        sx: supercell width (um)
+        sy: supercell height (um)
+        resolution: (pixels/um)
+        wavelength: wavelength
+        num_bands: mode order
+        plot: if True plots mode
+        logscale: plots in logscale
+        plotH: plot magnetic field
+        dirpath: path to save the modes
+        polarization: prefix when saving the modes
+        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
 
     """
-    dw = np.linspace(-dwmax, dwmax, steps)
-    dh = np.linspace(-dhmax, dhmax, steps)
+    dw = np.linspace(-delta_width, delta_width, steps)
+    dh = np.linspace(-delta_thickness, delta_thickness, steps)
 
     neffs = []
     ngs = []
@@ -53,23 +77,25 @@ def find_neff_ng_dw_dh(
     for dwi in dw:
         for dhi in dh:
             m = find_mode_dispersion(
-                wg_width=w0 + dwi,
-                wg_thickness=h0 + dhi,
+                core=core,
+                clad=clad,
+                wg_width=width + dwi,
+                wg_thickness=thickness + dhi,
                 wavelength=wavelength,
                 mode_number=mode_number,
+                **kwargs
             )
             neffs.append(m.neff)
             ngs.append(m.ng)
             dws.append(dwi)
             dhs.append(dhi)
 
-    df = pd.DataFrame(dict(dw=dws, dh=dhs, neff=neffs, ng=ngs))
-    return df
+    return pd.DataFrame(dict(dw=dws, dh=dhs, neff=neffs, ng=ngs))
 
 
 def plot_neff_ng_dw_dh(
-    w0: float = w0,
-    h0: float = h0,
+    width: float = width0,
+    thickness: float = thickness0,
     wavelength: float = 1.55,
     mode_number: int = 1,
     **kwargs
@@ -77,15 +103,17 @@ def plot_neff_ng_dw_dh(
     """
 
     Args:
-        w0: center width
-        h0: center height
+        width: center width
+        thickness: center height
         wavelength:
         mode_number: 1 is the fundamental first order mode
 
     """
 
     filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
-    m = find_mode_dispersion(wg_width=w0, wg_thickness=h0, wavelength=wavelength)
+    m = find_mode_dispersion(
+        wg_width=width, wg_thickness=thickness, wavelength=wavelength
+    )
     neff0 = m.neff
     ng0 = m.ng
 
@@ -106,16 +134,16 @@ def plot_neff_ng_dw_dh(
     f_w = interp2d(neffs, ngs, np.array(dws), kind="cubic")
     f_h = interp2d(neffs, ngs, np.array(dhs), kind="cubic")
 
-    ws = w0 + np.array(dws)
-    hs = h0 + np.array(dhs)
+    ws = width + np.array(dws)
+    hs = thickness + np.array(dhs)
 
     plt.plot(ws * 1e3, hs * 1e3, "ko")
     extracted_dw = []
     extracted_dh = []
 
     for neff, ng in zip(neffs, ngs):
-        temp_w = f_w(neff, ng) + w0
-        temp_h = f_h(neff, ng) + h0
+        temp_w = f_w(neff, ng) + width
+        temp_h = f_h(neff, ng) + thickness
         extracted_dw.append(temp_w * 1e3)
         extracted_dh.append(temp_h * 1e3)
 

@@ -20,24 +20,25 @@ def find_mode_dispersion(
     group index comes from a finite difference approximation at 3 wavelengths
 
     Args:
-        wavelength: center wavelength
+        wavelength: center wavelength (um)
         wavelength_step: in um
         core: core material name
         clad: clad material name
-        mode_number: to compute
-        kwargs:
-            wg_thickness: wg height (um)
-            sx: supercell width (um)
-            sy: supercell height (um)
-            resolution: (pixels/um)
-            wavelength: wavelength
-            num_bands: mode order
-            plot: if True plots mode
-            logscale: plots in logscale
-            plotH: plot magnetic field
-            dirpath: path to save the modes
-            polarization: prefix when saving the modes
-            paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
+        mode_number: mode index to compute (1: fundanmental mode)
+
+    Keyword Args:
+        wg_thickness: wg height (um)
+        sx: supercell width (um)
+        sy: supercell height (um)
+        resolution: (pixels/um)
+        wavelength: wavelength
+        num_bands: mode order
+        plot: if True plots mode
+        logscale: plots in logscale
+        plotH: plot magnetic field
+        dirpath: path to save the modes
+        polarization: prefix when saving the modes
+        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
 
     """
     w0 = wavelength - wavelength_step
