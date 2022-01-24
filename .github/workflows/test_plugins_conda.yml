@@ -21,15 +21,14 @@ jobs:
           mamba-version: "*"
           channels: conda-forge,defaults
           channel-priority: true
-          activate-environment: anaconda-client-env
-          environment-file: environment.yml
+          activate-environment: base
       - name: Add conda to system path
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          mamba env update --file environment.yml --name base
+          make install
       - name: Test with pytest
         run: |
-          mamba install pytest
+          make meep
           make test-plugins

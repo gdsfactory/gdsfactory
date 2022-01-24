@@ -8,19 +8,21 @@ import gdsfactory.simulation as sim
 import gdsfactory.simulation.gmeep as gm
 from gdsfactory.tech import LAYER_STACK
 
+RESOLUTION = 20
+
 
 def test_sparameters_straight(dataframe_regression):
     """Checks Sparameters for a straight waveguide"""
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    df = gm.write_sparameters_meep(c, overwrite=True, resolution=20)
+    df = gm.write_sparameters_meep(c, overwrite=True, resolution=RESOLUTION)
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02)
-    assert np.allclose(df["s21m"], 1, atol=1e-02)
-    assert np.allclose(df["s11m"], 0, atol=5e-02)
-    assert np.allclose(df["s22m"], 0, atol=5e-02)
+    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
+    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
+    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
+    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
 
     if dataframe_regression:
         dataframe_regression.check(df)
@@ -39,14 +41,14 @@ def test_sparameters_straight_symmetric(dataframe_regression):
         }
     }
     df = gm.write_sparameters_meep(
-        c, overwrite=True, resolution=20, port_symmetries=port_symmetries
+        c, overwrite=True, resolution=RESOLUTION, port_symmetries=port_symmetries
     )
 
     # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02)
-    assert np.allclose(df["s21m"], 1, atol=1e-02)
-    assert np.allclose(df["s11m"], 0, atol=5e-02)
-    assert np.allclose(df["s22m"], 0, atol=5e-02)
+    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
+    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
+    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
+    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
 
     if dataframe_regression:
         dataframe_regression.check(df)
@@ -64,7 +66,7 @@ def test_sparameters_crossing_symmetric(dataframe_regression):
         }
     }
     df = gm.write_sparameters_meep(
-        c, overwrite=True, resolution=20, port_symmetries=port_symmetries
+        c, overwrite=True, resolution=RESOLUTION, port_symmetries=port_symmetries
     )
 
     if dataframe_regression:
@@ -271,9 +273,8 @@ def test_sparameters_straight_mpi_pool(dataframe_regression):
 
 
 if __name__ == "__main__":
-    test_sparameters_straight_mpi_pool(None)
-    # test_sparameters_straight_mpi(None)
-    # test_sparameter_straight(None)
-    # test_sparameter_crossing(None)
+    test_sparameters_straight(None)
     # test_sparameters_straight_symmetric(False)
+    # test_sparameters_straight_mpi_pool(None)
+    # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)
