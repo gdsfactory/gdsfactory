@@ -118,7 +118,7 @@ gf tool install
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
 ```
-pip install gdsfactory[pip]
+pip install gdsfactory[full]
 gf tool install
 ```
 

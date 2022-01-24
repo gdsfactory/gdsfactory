@@ -1,7 +1,6 @@
 -e .
 click
 gdspy==1.6.11
-ipympl
 jsondiff
 loguru
 lytest==0.0.20
