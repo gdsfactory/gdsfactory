@@ -5,6 +5,8 @@
 - move rectpack import inside pack function
 - create `pip install[dev]` just for developers, and reduce the dependencies for `pip install[full]`
 - recommend installing gdspy and meep with mamba (faster than conda)
+- rename w1 as width1 and w2 as width2 in find_neff_vs_width
+
 
 ## 3.11.4
 
