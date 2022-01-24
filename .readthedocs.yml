@@ -10,8 +10,8 @@ version: 2
 build:
   os: ubuntu-20.04
   tools:
-    # python: "3.7"
-    python: "miniconda3-4.7"
+    python: "3.9"
+    # python: "miniconda3-4.7"
     # python: "mambaforge-4.10"
   # You can also specify other tool versions:
   # nodejs: "16"
@@ -27,10 +27,10 @@ sphinx:
 #    - pdf
 
 # Optionally declare the Python requirements required to build your docs
-conda:
+# conda:
   environment: environment.yml
-# python:
-#    install:
-#    - requirements: requirements.txt
-#    - requirements: requirements_dev.txt
-#    - requirements: requirements_pip.txt
+python:
+   install:
+   - requirements: requirements.txt
+   - requirements: requirements_dev.txt
+   - requirements: requirements_full.txt
