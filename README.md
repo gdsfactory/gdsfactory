@@ -195,10 +195,13 @@ mamba install pymeep=*=mpi_mpich_*
 
 for parallel execution (recommended)
 
+or for single core
 
 ```
-conda install -c conda-forge pymeep
+mamba install -c conda-forge pymeep
 ```
+
+Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install` with `conda install -c conda-forge`
 
 
 ### tidy3d
