@@ -15,8 +15,8 @@ from gdsfactory.types import Optional, PathType
 
 @pydantic.validate_arguments
 def find_neff_vs_width(
-    w1: float = 0.2,
-    w2: float = 1.0,
+    width1: float = 0.2,
+    width2: float = 1.0,
     steps: int = 12,
     mode_solver: ModeSolverFactory = get_mode_solver_rib,
     nmodes: int = 4,
@@ -26,12 +26,34 @@ def find_neff_vs_width(
     overwrite: bool = False,
     **kwargs
 ) -> pd.DataFrame:
-    """Seep waveguide width and computes effective index."""
+    """Seep waveguide width and computes effective index.
+
+    Args:
+        width1: starting waveguide width.
+        width2: end waveguide width.
+        steps: number of points.
+        mode_solver: function that returns mpb.ModeSolver
+        nmodes: number of modes to compute.
+        wavelength: wavelength in um.
+        parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        filepath: Optional filepath to store the results.
+        overwrite:
+
+
+    Keyword Args:
+        slab_thickness: thickness for the waveguide slab
+        ncore: core material refractive index
+        nclad: clad material refractive index
+        sy: simulation region width (um)
+        sz: simulation region height (um)
+        resolution: resolution (pixels/um)
+
+    """
 
     if filepath and not overwrite and pathlib.Path(filepath).exists():
         return pd.read_csv(filepath)
 
-    width = np.linspace(w1, w2, steps)
+    width = np.linspace(width1, width2, steps)
     neff = {}
     for mode_number in range(1, nmodes + 1):
         neff[mode_number] = []
@@ -69,14 +91,14 @@ if __name__ == "__main__":
     plot_neff_vs_width(df)
     plt.show()
 
-    # w1: float = 0.5
-    # w2: float = 1.0
+    # width1: float = 0.5
+    # width2: float = 1.0
     # steps: int = 3
     # mode_solver = get_mode_solver_rib
     # nmodes: int = 4
     # wavelength: float = 1.55
     # parity = mp.NO_PARITY
-    # width = np.linspace(w1, w2, steps)
+    # width = np.linspace(width1, width2, steps)
 
     # neff = {}
 
