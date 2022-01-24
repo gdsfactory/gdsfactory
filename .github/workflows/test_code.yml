@@ -18,6 +18,8 @@ jobs:
         os: [ubuntu-latest, windows-latest]
 
     steps:
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.9.1
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
