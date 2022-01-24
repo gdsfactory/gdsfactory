@@ -1,0 +1,2 @@
+- name: Cancel Workflow Action
+  uses: styfle/cancel-workflow-action@0.9.1
