@@ -40,7 +40,7 @@ test-meep:
 	pytest gdsfactory/simulation/gmeep
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical
 
 retest:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
