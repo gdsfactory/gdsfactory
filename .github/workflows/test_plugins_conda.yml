@@ -23,5 +23,5 @@ jobs:
           environment-file: environment.yml
       - name: Test with pytest
         run: |
-          mamba install pytest
+          conda activate anaconda-client-env
           make test-plugins
