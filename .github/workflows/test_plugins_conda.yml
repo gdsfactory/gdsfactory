@@ -23,5 +23,7 @@ jobs:
           environment-file: environment.yml
       - name: Test with pytest
         run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+          conda init bash
           conda activate anaconda-client-env
           make test-plugins

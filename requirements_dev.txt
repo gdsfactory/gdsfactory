@@ -1,7 +1,6 @@
 doc8
 docutils
 flake8
-flake8-rst-docstrings
 furo
 ipykernel
 mypy
