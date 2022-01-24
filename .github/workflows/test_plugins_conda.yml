@@ -21,9 +21,16 @@ jobs:
           channel-priority: true
           activate-environment: anaconda-client-env
           environment-file: environment.yml
-      - name: Test with pytest
+      - name: Add conda to system path
         run: |
           echo $CONDA/bin >> $GITHUB_PATH
           conda init bash
           conda activate anaconda-client-env
+          make test-plugins
+      - name: Install dependencies
+        run: |
+          mamba env update --file environment.yml --name base
+      - name: Test with pytest
+        run: |
+          mamba install pytest
           make test-plugins
