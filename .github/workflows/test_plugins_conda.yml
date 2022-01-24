@@ -1,6 +1,6 @@
 # https://github.com/conda-incubator/setup-miniconda
 # https://github.com/actions/starter-workflows/blob/main/ci/python-package-conda.yml
-name: Test pluings using mamba (fast conda)
+name: Test plugins
 
 on:
   pull_request:
