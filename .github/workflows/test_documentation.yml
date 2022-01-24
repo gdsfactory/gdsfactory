@@ -1,0 +1,32 @@
+---
+name: Test documentation
+
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: 0 2 * * * # run at 2 AM UTC
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.9.1
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          mkdir -p $HOME/.tidy3d
+          echo ${{ secrets.TIDY3D_EMAIL }}  > $HOME/.tidy3d/email
+          echo ${{ secrets.TIDY3D_PASSWORD }} > $HOME/.tidy3d/passwd
+          pip install .[dev]
+          sudo apt install pandoc
+      - name: Test documentation
+        run: |
+          cd docs
+          make html
