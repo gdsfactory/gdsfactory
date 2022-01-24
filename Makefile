@@ -26,7 +26,7 @@ gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
 
 test:
-	tox -e flake8
+	flake8
 	pytest -s
 
 test-force:
