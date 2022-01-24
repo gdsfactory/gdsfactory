@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.11.5
+
+- move rectpack import inside pack function
+- create `pip install[dev]` just for developers, and reduce the dependencies for `pip install[full]`
+
 ## 3.11.4
 
 - Remove numpy.typing from snap.py to be compatible with minimum version of numpy
