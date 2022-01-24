@@ -6,12 +6,21 @@ help:
 install: gdslib
 	bash install.sh
 
-meep:
+meep-serial:
+	mamba install pymeep
+
+meep-conda-serial:
 	conda install -c conda-forge pymeep
+
+meep:
+	mamba install pymeep=*=mpi_mpich_*
 
 update:
 	pur
 	pur -r requirements_dev.txt
+
+publish:
+	anaconda upload environment.yml
 
 update-pre:
 	pre-commit autoupdate --bleeding-edge
@@ -23,7 +32,7 @@ gdslib:
 	git clone https://github.com/gdsfactory/gdslib.git
 
 test:
-	tox -e flake8
+	flake8
 	pytest -s
 
 test-force:
@@ -37,7 +46,7 @@ test-meep:
 	pytest gdsfactory/simulation/gmeep
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical
 
 retest:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'

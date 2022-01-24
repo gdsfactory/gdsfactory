@@ -1,6 +1,6 @@
 # https://github.com/conda-incubator/setup-miniconda
 # https://github.com/actions/starter-workflows/blob/main/ci/python-package-conda.yml
-name: Test pluings using Conda
+name: Test plugins
 
 on:
   pull_request:
@@ -11,23 +11,24 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 5
-
     steps:
+      - name: Cancel Workflow Action
+        uses: styfle/cancel-workflow-action@0.9.1
       - uses: actions/checkout@v2
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+      - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.9
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
       - name: Add conda to system path
         run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
-          conda env update --file environment.yml --name base
+          make install
       - name: Test with pytest
         run: |
-          conda install pytest
+          make meep
           make test-plugins

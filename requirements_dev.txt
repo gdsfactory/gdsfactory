@@ -1,12 +1,8 @@
-bokeh~=2.2.3
 doc8
 docutils
 flake8
-flake8-rst-docstrings
 furo
-holoviews~=1.14.6
 ipykernel
-klayout~=0.27.5
 mypy
 myst-parser
 nbsphinx
@@ -21,6 +17,5 @@ sphinx==4.3.2
 sphinx-autodoc-typehints
 sphinx-click
 sphinx-markdown-tables
-tidy3d
 tox
 xdoctest

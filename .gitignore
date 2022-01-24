@@ -9,6 +9,7 @@
 *.stl
 .pyre_configuration
 gdsfactory/klayout/tech/layers.py
+poetry.lock
 
 # Packages
 *.egg
