@@ -6,8 +6,14 @@ help:
 install: gdslib
 	bash install.sh
 
-meep:
+meep-serial:
+	mamba install pymeep
+
+meep-conda-serial:
 	conda install -c conda-forge pymeep
+
+meep:
+	mamba install pymeep=*=mpi_mpich_*
 
 update:
 	pur
