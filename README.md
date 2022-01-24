@@ -179,17 +179,18 @@ For simulating Sparameters using FDTD.
 
 Open source FDTD / mode simulator. Requires you to run
 
+
+```
+mamba install pymeep=*=mpi_mpich_*
+```
+
+for parallel execution (recommended)
+
+
 ```
 conda install -c conda-forge pymeep
 ```
 
-or
-
-```
-conda install -c conda-forge pymeep=*=mpi_mpich_*
-```
-
-for parallel execution).
 
 ### tidy3d
 
