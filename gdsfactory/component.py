@@ -1131,7 +1131,7 @@ class Component(Device):
         """Return component plot.
 
         Args:
-            plotter: backend ('holoviews', 'matplotlib', 'qt'). Defaults to matplotlib
+            plotter: backend ('holoviews', 'matplotlib', 'qt').
 
         KeyError Args:
             layers_excluded: list of layers to exclude.
@@ -1544,13 +1544,14 @@ def recurse_structures(
     return output
 
 
-def clean_dict(d: Dict[str, Any]) -> None:
+def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary keys recursively."""
     for k, v in d.items():
         if isinstance(v, dict):
-            clean_dict(v)
+            d[k] = clean_dict(v)
         else:
             d[k] = _clean_value(v)
+    return d
 
 
 def clean_key(key):
