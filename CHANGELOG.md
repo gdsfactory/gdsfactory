@@ -2,7 +2,8 @@
 
 ## 3.11.8
 
-- `_clean_value json`
+- Consider only passed component args and kwargs when calculating hash for component name
+
 
 ## 3.11.5
 
