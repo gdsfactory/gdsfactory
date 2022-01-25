@@ -7,7 +7,7 @@ INFO_VERSION
 import functools
 import hashlib
 import inspect
-from typing import Callable, Dict
+from typing import Callable, Dict, Tuple
 
 import omegaconf
 import toolz
@@ -133,15 +133,17 @@ def cell_without_validator(func):
         }
         full = default.copy()
         full.update(**args_as_kwargs)
-        changed = args_as_kwargs.copy()
+        changed = args_as_kwargs
 
-        args_as_kwargs_string_list = [
-            f"{key}={clean_value(full[key])}" for key in sorted(full.keys())
+        named_args_list = [
+            f"{key}={clean_value(args_as_kwargs[key])}"
+            for key in sorted(args_as_kwargs.keys())
         ]
-        arguments = "_".join(args_as_kwargs_string_list)
-        arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
-
-        name_signature = clean_name(f"{prefix}_{arguments_hash}")
+        named_args_string = "_".join(named_args_list)
+        named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+        name_signature = (
+            clean_name(f"{prefix}_{named_args_hash}") if named_args_list else prefix
+        )
 
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
@@ -195,13 +197,13 @@ def cell_without_validator(func):
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
 
-            clean_dict(full)
-            clean_dict(default)
-            clean_dict(changed)
+            # component.changed = changed
+            # component.default = default
+            # component.full = full
 
-            component.info.changed = changed
-            component.info.default = default
-            component.info.full = full
+            component.info.changed = clean_dict(changed)
+            component.info.default = clean_dict(default)
+            component.info.full = clean_dict(full)
 
             component.info.update(**info)
 
@@ -239,13 +241,13 @@ def cell(func, *args, **kwargs):
 
 
 @cell
-def wg(length: int = 3, width: float = 0.5) -> Component:
+def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
     from gdsfactory.component import Component
 
     c = Component("straight")
+    width = 0.5
     w = width / 2
-    layer = (1, 0)
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
     c.add_port(name="o1", midpoint=[0, 0], width=width, orientation=180, layer=layer)
     c.add_port(name="o2", midpoint=[length, 0], width=width, orientation=0, layer=layer)
@@ -295,8 +297,15 @@ def test_names() -> None:
 
     c1name = wg(length=3).name
     c2name = wg(length=3.0).name
-    c3name = wg().name
-    assert c1name == c2name == c3name
+    assert c1name == c2name
+
+    # c1name = wg(length=3).name
+    # c2name = wg(length=3.0).name
+    # c3name = wg().name
+    # assert c1name == c2name == c3name
+
+    c = wg(length=3.1)
+    assert c.info.changed.length == 3.1
 
 
 @cell
@@ -312,6 +321,9 @@ def straight_with_pins(**kwargs):
 
 if __name__ == "__main__":
     # test_names()
+    # c = wg(layer=(1, 0))
+    # print(c.info.changed)
+
     # import gdsfactory as gf
     # c = gf.c.straight()
     # c = gf.c.straight()
