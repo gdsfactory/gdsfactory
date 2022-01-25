@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.11.8
+
+- `_clean_value json`
+
 ## 3.11.5
 
 - move rectpack import inside pack function
