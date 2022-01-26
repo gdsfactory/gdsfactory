@@ -206,7 +206,7 @@ def clean_value(value: Any) -> str:
     return str(value)
 
 
-def test_clean_value() -> None:
+def testclean_value_json() -> None:
     assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
     assert clean_value(5.0) == "5"
@@ -219,7 +219,7 @@ def test_clean_name() -> None:
 
 if __name__ == "__main__":
     # test_cell()
-    test_clean_value()
+    testclean_value_json()
     import gdsfactory as gf
 
     # print(clean_value(gf.components.straight))
