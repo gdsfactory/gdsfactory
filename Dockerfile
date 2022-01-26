@@ -26,13 +26,13 @@ RUN conda init bash
 
 RUN mamba install gdspy triangle -y
 RUN mamba install pymeep=*=mpi_mpich_*
-RUN pip install gdsfactory[full]
 
+# RUN pip install gdsfactory[full]
 # COPY requirements.txt /opt/app/requirements.txt
 # COPY requirements_dev.txt /opt/app/requirements_dev.txt
 # WORKDIR /opt/app
-# RUN pip install -r requirements.txt
-# RUN pip install -r requirements_dev.txt
+RUN pip install -r requirements.txt
+RUN pip install -r requirements_dev.txt
 
 WORKDIR /home/jovyan
 # VOLUME /home/jovyan/work
