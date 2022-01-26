@@ -19,7 +19,7 @@ cells:
       - 150
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
+    module: gdsfactory.components.array_component
     name: array
 info:
   changed: {}
@@ -41,7 +41,7 @@ info:
     - 150
   function_name: array
   info_version: 1
-  module: gdsfactory.components.array
+  module: gdsfactory.components.array_component
   name: array
 ports:
   o1_1_1:

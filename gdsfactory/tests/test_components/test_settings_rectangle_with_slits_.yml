@@ -24,7 +24,7 @@ cells:
       - 20
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
+    module: gdsfactory.components.array_component
     name: array_05d1b8c2
   compass_ad4aadff:
     changed:
