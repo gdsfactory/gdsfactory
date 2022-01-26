@@ -1550,7 +1550,7 @@ def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
         if isinstance(v, dict):
             d[k] = clean_dict(v)
         else:
-            d[k] = _clean_value(v)
+            d[k] = clean_value_json(v)
     return d
 
 
@@ -1564,7 +1564,7 @@ def clean_key(key):
     return key
 
 
-def _clean_value(value: Any) -> Any:
+def clean_value_json(value: Any) -> Any:
     """Returns a is JSON serializable"""
     if isinstance(value, CrossSection):
         value = value.info
@@ -1574,14 +1574,14 @@ def _clean_value(value: Any) -> Any:
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
     elif isinstance(value, np.ndarray):
-        value = [_clean_value(i) for i in value]
+        value = [clean_value_json(i) for i in value]
     elif isinstance(value, np.float64):
         value = float(value)
     elif type(value) in [int, float, str, bool]:
         pass
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
-        value = [_clean_value(value.first)] + [
-            _clean_value(func) for func in value.funcs
+        value = [clean_value_json(value.first)] + [
+            clean_value_json(func) for func in value.funcs
         ]
     # elif (
     #     callable(value) and hasattr(value, "__name__") and hasattr(value, "__module__")
@@ -1592,7 +1592,7 @@ def _clean_value(value: Any) -> Any:
     elif callable(value) and isinstance(value, functools.partial):
         v = value.keywords.copy()
         v.update(function=value.func.__name__)
-        value = _clean_value(v)
+        value = clean_value_json(v)
     elif isinstance(value, dict):
         clean_dict(value)
     elif isinstance(value, DictConfig):
@@ -1600,7 +1600,7 @@ def _clean_value(value: Any) -> Any:
     elif isinstance(value, PathPhidl):
         value = f"path_{hash_points(value.points)}"
     elif isinstance(value, (tuple, list, ListConfig)):
-        value = [_clean_value(i) for i in value]
+        value = [clean_value_json(i) for i in value]
     elif value is None:
         value = None
     elif hasattr(value, "name"):
