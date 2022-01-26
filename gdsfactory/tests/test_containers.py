@@ -5,10 +5,9 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter_top_heater_metal
 
 # from gdsfactory.components.spiral_inner_io import spiral_inner_io
-from gdsfactory.containers import container_library
+from gdsfactory.containers import container_factory
 from gdsfactory.difftest import difftest
 
-container_factory = container_library.factory
 container_names = set(container_factory.keys()) - set(
     ["add_grating_couplers_wi_e642a51b"]
 )

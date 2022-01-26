@@ -1,4 +1,3 @@
--e .
 click
 gdspy==1.6.11
 jsondiff

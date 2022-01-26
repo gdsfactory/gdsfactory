@@ -84,6 +84,7 @@ def test_get_sparameters_path() -> None:
         layer_to_material=layer_to_material_sample,
     )
     assert p.stem == name1, p.stem
+    # print(f"name1 = {p.stem!r}")
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path_lumerical(
@@ -92,10 +93,12 @@ def test_get_sparameters_path() -> None:
         layer_to_material=layer_to_material_sample,
     )
     assert p.stem == name2, p.stem
+    # print(f"name2 = {p.stem!r}")
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path_meep(c, layer_stack=LAYER_STACK)
     assert p.stem == name3, p.stem
+    # print(f"name3 = {p.stem!r}")
 
     c = gf.components.straight()
     p = get_sparameters_path_meep(
@@ -104,6 +107,7 @@ def test_get_sparameters_path() -> None:
         layer_to_material=layer_to_material_sample,
     )
     assert p.stem == name4, p.stem
+    # print(f"name4 = {p.stem!r}")
 
 
 if __name__ == "__main__":
