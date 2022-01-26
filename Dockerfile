@@ -22,12 +22,11 @@ RUN conda init bash
 # USER ${NB_UID}
 # RUN apt update
 # RUN apt install gcc
-
-RUN conda install -c conda-forge gdspy -y
-RUN conda install -c conda-forge triangle -y
 # RUN conda install -c conda-forge pymeep -y
-RUN conda install -c conda-forge pymeep=*=mpi_mpich_*
-RUN conda install -c conda-forge mpi4py -y
+
+RUN mamba install gdspy -y
+RUN mamba install triangle -y
+RUN mamba install pymeep=*=mpi_mpich_*
 RUN pip install gdsfactory[full]
 
 # COPY requirements.txt /opt/app/requirements.txt
