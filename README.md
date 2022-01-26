@@ -102,12 +102,12 @@ If you are on Windows, I recommend you install gdspy with Anaconda3, Miniconda3 
 I also recommend you install the gdsfactory link to klayout `gf tool install`
 
 ```
-mamba install gdspy
+mamba install gdspy -y
 pip install gdsfactory[full]
 gf tool install
 ```
 
-Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install gdspy` with `conda install -c conda-forge gdspy`
+Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install gdspy` with `conda install -c conda-forge gdspy -y`
 
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
@@ -182,7 +182,7 @@ For simulating Sparameters using FDTD.
 Open source FDTD / mode simulator. Requires you to run
 
 ```
-mamba install pymeep=*=mpi_mpich_*
+mamba install pymeep=*=mpi_mpich_* -y
 ```
 
 for parallel execution (recommended)
@@ -190,7 +190,7 @@ for parallel execution (recommended)
 or for single core
 
 ```
-mamba install pymeep
+mamba install pymeep -y
 ```
 
 Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install` with `conda install -c conda-forge`
