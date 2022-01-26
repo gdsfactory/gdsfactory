@@ -1,13 +1,14 @@
 # gdsfactory 3.12.4
 
 ![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)
-[![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
-[![](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
-![](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
-![](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
-[![](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
-[![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
-[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![pypi](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
+[![issues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
+![forks](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
+![Stars](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
+[![MIT](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
+[![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
@@ -153,9 +154,9 @@ After installing it you should be able to `import gdsfactory as gf` from a pytho
 
 ## Documentation
 
+- Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
 - [read online docs](https://gdsfactory.github.io/gdsfactory/)
 - [download the code](https://github.com/gdsfactory/gdsfactory)
-- run [docs/notebooks](https://gdsfactory.readthedocs.io/en/latest/notebooks.html) in [jupyterlab](https://jupyterlab.readthedocs.io/en/stable/index.html)
 - run gdsfactory/samples on your IDE (Spyder, PyCharm, VSCode)
 - play with [UBCpdk docs](https://gdsfactory.github.io/ubc/) and [code](https://github.com/gdsfactory/ubc)
 

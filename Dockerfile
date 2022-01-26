@@ -24,7 +24,7 @@ RUN conda init bash
 # RUN apt install gcc
 # RUN conda install -c conda-forge pymeep -y
 
-RUN mamba install gdspy triangle -y
+RUN mamba install gdspy -y
 RUN mamba install pymeep=*=mpi_mpich_* -y
 
 RUN pip install gdsfactory[full]
