@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.12.3
+
+- fix docker container gdsfactory:latest
+- leverage meep plot flag to avoid initializing the structure
+- reccommend to install triangle with mamba, and the rest of the dependencies with pip
+
 ## 3.12.1
 
 - rename gdsfactory.components.array to gdsfactory.components.array_component
