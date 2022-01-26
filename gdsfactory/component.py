@@ -1555,7 +1555,6 @@ def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def clean_key(key):
-    print(type(key), key)
     if isinstance(key, tuple):
         key = key[0]
     else:
