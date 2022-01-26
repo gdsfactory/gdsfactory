@@ -1,4 +1,5 @@
-FROM jupyter/base-notebook
+FROM jupyter/base-notebook:python-3.8.8
+# FROM jupyter/base-notebook
 # FROM continuumio/miniconda3
 
 # expose klive and jupyter notebook ports
@@ -27,7 +28,7 @@ RUN conda init bash
 RUN mamba install gdspy -y
 RUN mamba install pymeep=*=mpi_mpich_* -y
 
-RUN pip install gdsfactory[full]
+RUN pip install gdsfactory[full] triangle
 # COPY requirements.txt /opt/app/requirements.txt
 # COPY requirements_dev.txt /opt/app/requirements_dev.txt
 # WORKDIR /opt/app
