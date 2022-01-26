@@ -125,21 +125,20 @@ def cell_without_validator(func):
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(**kwargs)
+        args_as_kwargs.update(**copy.deepcopy(kwargs))
 
         default = {
             p.name: p.default
             for p in sig.parameters.values()
             if not p.default == inspect._empty
         }
-        changed = copy.deepcopy(args_as_kwargs)
-        default = copy.deepcopy(default)
+        changed = args_as_kwargs
+        default = default
         full = copy.deepcopy(default)
         full.update(**args_as_kwargs)
 
         named_args_list = [
-            f"{key}={clean_value(args_as_kwargs[key])}"
-            for key in sorted(args_as_kwargs.keys())
+            f"{key}={clean_value(changed[key])}" for key in sorted(changed.keys())
         ]
         named_args_string = "_".join(named_args_list)
         named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
