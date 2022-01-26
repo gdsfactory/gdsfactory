@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 3.11.8
+## 3.12.0
 
 - Consider only passed component args and kwargs when calculating hash for component name
 - replace `_clean_value` by `clean_value_json`
