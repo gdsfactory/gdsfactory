@@ -22,6 +22,5 @@ scipy
 semantic_version
 Shapely~=1.8.0
 toolz==0.11.2
-trimesh==3.9.42
 typing_extensions
 xmltodict==0.12.0
