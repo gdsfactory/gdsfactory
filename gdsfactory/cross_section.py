@@ -134,10 +134,6 @@ class CrossSection(CrossSectionPhidl):
         d["info"] = x.info
         return d
 
-    # @property
-    # def name(self):
-    #     return "_".join([str(i) for i in self.to_dict()["sections"]])
-
     def get_name(self):
         return self.name or "_".join([str(i) for i in self.to_dict()["sections"]])
 

@@ -1,9 +1,4 @@
-"""
-INFO_VERSION
-
-1: original metadata format
-
-"""
+"""cell decorator"""
 import copy
 import functools
 import hashlib
@@ -52,7 +47,7 @@ class CellReturnTypeError(ValueError):
 
 
 def clear_cache() -> None:
-    """Clears the component CACHE."""
+    """Clears Component CACHE."""
     global CACHE
     global CACHE_IMPORTED_CELLS
     CACHE = {}
@@ -84,8 +79,14 @@ def cell_without_validator(func):
         similar to cell decorator, this one does not validate_arguments using
         type annotations
 
-        kwargs:
-            autoname: if True renames component based on args and kwargs
+        when decorate your functions you get:
+
+        - CACHE: avoids creating duplicated cells.
+        - names: gives Components a unique name based on parameters.
+        - adds Component.info with (default, changed and full) component settings.
+
+        Keyword Args:
+            autoname (bool): if True renames component based on args and kwargs
             name (str): Optional (ignored when autoname=True)
             cache (bool): get component from the cache if it already exists.
               Useful in jupyter notebook, so you don't have to clear the cache
@@ -237,7 +238,9 @@ def cell_without_validator(func):
 
 
 def cell(func, *args, **kwargs):
-    """Validates type annotations with pydantic"""
+    """Validates type annotations with pydantic.
+    Wraps cell_without_validator
+    """
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 
 
