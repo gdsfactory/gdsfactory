@@ -12,6 +12,7 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # Common useful utilities
     git \
+    htop \
     neovim
 
 USER jovyan
