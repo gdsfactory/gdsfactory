@@ -23,7 +23,7 @@ cells:
       - 150
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
+    module: gdsfactory.components.array_component
     name: array_5a86ab1d
   bend_euler_1da190e0:
     changed:
