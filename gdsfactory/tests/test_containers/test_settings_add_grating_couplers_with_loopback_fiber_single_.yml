@@ -1,0 +1,1030 @@
+cells:
+  bend_euler_1da190e0:
+    changed:
+      cross_section:
+        function: cross_section
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_1da190e0
+    radius: 10
+    radius_min: 7.061
+  circle_602e85fd:
+    changed:
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    default:
+      angle_resolution: 2.5
+      layer:
+      - 1
+      - 0
+      radius: 10
+    full:
+      angle_resolution: 2.5
+      layer:
+      - 203
+      - 0
+      radius: 5.5
+    function_name: circle
+    info_version: 1
+    module: gdsfactory.components.circle
+    name: circle_602e85fd
+  compass_164fc476:
+    changed:
+      layer:
+      - 47
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 47
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_164fc476
+  compass_280a2d8b:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_280a2d8b
+  compass_8e661824:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_8e661824
+  component_sequence_e4dca69b:
+    changed:
+      sequence: -UHUHUHUHUHUHUHUH-
+      symbol_to_component:
+        '-':
+        - straight_b0b74a72
+        - o1
+        - o2
+        H:
+        - straight_e3f148d8
+        - o1
+        - o2
+        U:
+        - straight_32174f25
+        - o1
+        - o2
+    default:
+      port_name1: o1
+      port_name2: o2
+      ports_map: null
+      start_orientation: 0
+    full:
+      port_name1: o1
+      port_name2: o2
+      ports_map: null
+      sequence: -UHUHUHUHUHUHUHUH-
+      start_orientation: 0
+      symbol_to_component:
+        '-':
+        - straight_b0b74a72
+        - o1
+        - o2
+        H:
+        - straight_e3f148d8
+        - o1
+        - o2
+        U:
+        - straight_32174f25
+        - o1
+        - o2
+    function_name: component_sequence
+    info_version: 1
+    module: gdsfactory.components.component_sequence
+    name: component_sequence_e4dca69b
+  contact_46068602:
+    changed:
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    default:
+      layer_port: null
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    full:
+      layer_port: null
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      size:
+      - 11
+      - 11
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    function_name: contact
+    info_version: 1
+    layer:
+    - 49
+    - 0
+    module: gdsfactory.components.contact
+    name: contact_46068602
+    size:
+    - 11
+    - 11
+  grating_coupler_ellipti_b632d295:
+    changed:
+      polarization: te
+      taper_angle: 35
+    default:
+      end_straight_length: 0.2
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      layer_trench:
+      - 2
+      - 0
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
+      polarization: te
+      taper_angle: 30
+      taper_length: 16.6
+      trenches_extra_angle: 9
+      wavelength: 1.53
+      wg_width: 0.5
+    full:
+      end_straight_length: 0.2
+      fiber_angle: 15
+      fiber_marker_layer:
+      - 203
+      - 0
+      fiber_marker_width: 11
+      grating_line_width: 0.343
+      layer:
+      - 1
+      - 0
+      layer_trench:
+      - 2
+      - 0
+      n_periods: 30
+      ncladding: 1.443
+      neff: 2.638
+      p_start: 26
+      polarization: te
+      taper_angle: 35
+      taper_length: 16.6
+      trenches_extra_angle: 9
+      wavelength: 1.53
+      wg_width: 0.5
+    function_name: grating_coupler_elliptical_trenches
+    info_version: 1
+    module: gdsfactory.components.grating_coupler_elliptical_trenches
+    name: grating_coupler_ellipti_b632d295
+    period: 0.6759999999999999
+    polarization: te
+    wavelength: 1.53
+  mmi2x2:
+    changed: {}
+    default:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    full:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+    function_name: mmi2x2
+    info_version: 1
+    module: gdsfactory.components.mmi2x2
+    name: mmi2x2
+  mzi_d275fe52:
+    changed:
+      length_x: null
+      splitter:
+        function: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      bend:
+        function: bend_euler
+      combiner: null
+      cross_section:
+        function: cross_section
+      delta_length: 10
+      length_x: 0.1
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      bend:
+        function: bend_euler
+      combiner: null
+      cross_section:
+        function: cross_section
+      delta_length: 10
+      length_x: null
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_d275fe52
+  mzi_d275fe52_add_gratin_45b84cde:
+    changed:
+      component: mzi_d275fe52
+    child:
+      changed:
+        length_x: null
+        splitter:
+          function: mmi2x2
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+      default:
+        bend:
+          function: bend_euler
+        combiner: null
+        cross_section:
+          function: cross_section
+        delta_length: 10
+        length_x: 0.1
+        length_y: 2
+        nbends: 2
+        port_e0_combiner: o3
+        port_e0_splitter: o3
+        port_e1_combiner: o2
+        port_e1_splitter: o2
+        splitter:
+          function: mmi1x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top: null
+        straight_y: null
+        with_splitter: true
+      full:
+        bend:
+          function: bend_euler
+        combiner: null
+        cross_section:
+          function: cross_section
+        delta_length: 10
+        length_x: null
+        length_y: 2
+        nbends: 2
+        port_e0_combiner: o3
+        port_e0_splitter: o3
+        port_e1_combiner: o2
+        port_e1_splitter: o2
+        splitter:
+          function: mmi2x2
+        straight:
+          function: straight
+        straight_x_bot: null
+        straight_x_top:
+          function: straight_heater_metal_undercut
+          with_undercut: false
+        straight_y: null
+        with_splitter: true
+      function_name: mzi
+      info_version: 1
+      module: gdsfactory.components.mzi
+      name: mzi_d275fe52
+    default:
+      component_name: null
+      cross_section:
+        function: cross_section
+      fiber_spacing: 50
+      gc_port_name: o1
+      get_input_label_text_loopback_function:
+        function: get_input_label_text_loopback
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
+      layer_label:
+      - 200
+      - 0
+      loopback_xspacing: 5
+      rotation: 90
+      select_ports:
+        function: select_ports
+        port_type: optical
+      straight:
+        function: straight
+      with_loopback: true
+    full:
+      component: mzi_d275fe52
+      component_name: null
+      cross_section:
+        function: cross_section
+      fiber_spacing: 50
+      gc_port_name: o1
+      get_input_label_text_loopback_function:
+        function: get_input_label_text_loopback
+      get_input_labels_function:
+        function: get_input_labels
+      grating_coupler:
+        function: grating_coupler_elliptical_trenches
+        polarization: te
+        taper_angle: 35
+      layer_label:
+      - 200
+      - 0
+      loopback_xspacing: 5
+      rotation: 90
+      select_ports:
+        function: select_ports
+        port_type: optical
+      straight:
+        function: straight
+      with_loopback: true
+    function_name: add_grating_couplers_with_loopback_fiber_single
+    info_version: 1
+    module: gdsfactory.add_grating_couplers
+    name: mzi_d275fe52_add_gratin_45b84cde
+  straight_15a9c8d1:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 2
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 2
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 2
+    module: gdsfactory.components.straight
+    name: straight_15a9c8d1
+    width: 0.5
+  straight_18ee7f79:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 375.42
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 375.42
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 375.42
+    module: gdsfactory.components.straight
+    name: straight_18ee7f79
+    width: 0.5
+  straight_1da190e0:
+    changed:
+      cross_section:
+        function: cross_section
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 10
+    module: gdsfactory.components.straight
+    name: straight_1da190e0
+    width: 0.5
+  straight_26b9e310:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 27.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 27.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 27.01
+    module: gdsfactory.components.straight
+    name: straight_26b9e310
+    width: 0.5
+  straight_32174f25:
+    changed:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 30
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 30
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 30
+    module: gdsfactory.components.straight
+    name: straight_32174f25
+    width: 0.5
+  straight_5743d35a:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 0.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.01
+    module: gdsfactory.components.straight
+    name: straight_5743d35a
+    width: 0.5
+  straight_a19e1464:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 1.5543122344752192e-15
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 1.5543122344752192e-15
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0
+    module: gdsfactory.components.straight
+    name: straight_a19e1464
+    width: 0.5
+  straight_b0b74a72:
+    changed:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 16
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 16
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 16
+    module: gdsfactory.components.straight
+    name: straight_b0b74a72
+    width: 0.5
+  straight_bd3b506b:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 45.62
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 45.62
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 45.62
+    module: gdsfactory.components.straight
+    name: straight_bd3b506b
+    width: 0.5
+  straight_cd61840b:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 7
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 7
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 7
+    module: gdsfactory.components.straight
+    name: straight_cd61840b
+    width: 0.5
+  straight_e3f148d8:
+    changed:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 6
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 6
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 6
+    module: gdsfactory.components.straight
+    name: straight_e3f148d8
+    width: 0.5
+  straight_fe273143:
+    changed:
+      cross_section:
+        function: cross_section
+      length: 22.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 22.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 22.01
+    module: gdsfactory.components.straight
+    name: straight_fe273143
+    width: 0.5
+  straight_heater_metal_u_6e8de97e:
+    changed:
+      with_undercut: false
+    default:
+      contact:
+        function: contact
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - enclosure: 2
+          function: via
+          layer:
+          - 44
+          - 0
+        - function: via
+          layer:
+          - 43
+          - 0
+      cross_section_heater:
+        function: strip_heater_metal
+      cross_section_heater_undercut:
+        function: strip_heater_metal_undercut
+      heater_taper_length: 5
+      heater_width: 2.5
+      length: 320
+      length_straight_input: 15
+      length_undercut: 30
+      length_undercut_spacing: 6
+      ohms_per_square: null
+      port_orientation1: 180
+      port_orientation2: 0
+      with_undercut: true
+    full:
+      contact:
+        function: contact
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - enclosure: 2
+          function: via
+          layer:
+          - 44
+          - 0
+        - function: via
+          layer:
+          - 43
+          - 0
+      cross_section_heater:
+        function: strip_heater_metal
+      cross_section_heater_undercut:
+        function: strip_heater_metal_undercut
+      heater_taper_length: 5
+      heater_width: 2.5
+      length: 320
+      length_straight_input: 15
+      length_undercut: 30
+      length_undercut_spacing: 6
+      ohms_per_square: null
+      port_orientation1: 180
+      port_orientation2: 0
+      with_undercut: false
+    function_name: straight_heater_metal_undercut
+    info_version: 1
+    module: gdsfactory.components.straight_heater_metal
+    name: straight_heater_metal_u_6e8de97e
+    resistance: null
+  taper_ea91ec9c:
+    changed:
+      layer:
+      - 47
+      - 0
+      length: 5
+      width1: 11
+      width2: 2.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      layer:
+      - 47
+      - 0
+      length: 5
+      port: null
+      width1: 11
+      width2: 2.5
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.taper
+    name: taper_ea91ec9c
+    width1: 11
+    width2: 2.5
+info:
+  changed:
+    component: mzi_d275fe52
+  child:
+    changed:
+      length_x: null
+      splitter:
+        function: mmi2x2
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+    default:
+      bend:
+        function: bend_euler
+      combiner: null
+      cross_section:
+        function: cross_section
+      delta_length: 10
+      length_x: 0.1
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
+      splitter:
+        function: mmi1x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top: null
+      straight_y: null
+      with_splitter: true
+    full:
+      bend:
+        function: bend_euler
+      combiner: null
+      cross_section:
+        function: cross_section
+      delta_length: 10
+      length_x: null
+      length_y: 2
+      nbends: 2
+      port_e0_combiner: o3
+      port_e0_splitter: o3
+      port_e1_combiner: o2
+      port_e1_splitter: o2
+      splitter:
+        function: mmi2x2
+      straight:
+        function: straight
+      straight_x_bot: null
+      straight_x_top:
+        function: straight_heater_metal_undercut
+        with_undercut: false
+      straight_y: null
+      with_splitter: true
+    function_name: mzi
+    info_version: 1
+    module: gdsfactory.components.mzi
+    name: mzi_d275fe52
+  default:
+    component_name: null
+    cross_section:
+      function: cross_section
+    fiber_spacing: 50
+    gc_port_name: o1
+    get_input_label_text_loopback_function:
+      function: get_input_label_text_loopback
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
+    layer_label:
+    - 200
+    - 0
+    loopback_xspacing: 5
+    rotation: 90
+    select_ports:
+      function: select_ports
+      port_type: optical
+    straight:
+      function: straight
+    with_loopback: true
+  full:
+    component: mzi_d275fe52
+    component_name: null
+    cross_section:
+      function: cross_section
+    fiber_spacing: 50
+    gc_port_name: o1
+    get_input_label_text_loopback_function:
+      function: get_input_label_text_loopback
+    get_input_labels_function:
+      function: get_input_labels
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
+    layer_label:
+    - 200
+    - 0
+    loopback_xspacing: 5
+    rotation: 90
+    select_ports:
+      function: select_ports
+      port_type: optical
+    straight:
+      function: straight
+    with_loopback: true
+  function_name: add_grating_couplers_with_loopback_fiber_single
+  info_version: 1
+  module: gdsfactory.add_grating_couplers
+  name: mzi_d275fe52_add_gratin_45b84cde
+ports: {}
+version: 0.0.1
