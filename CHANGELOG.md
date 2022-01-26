@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.12.1
+
+- rename gdsfactory.components.array to gdsfactory.components.array_component
+- create `.gitpod.yml`
+
 ## 3.12.0
 
 - Consider only passed component args and kwargs when calculating hash for component name
