@@ -137,13 +137,7 @@ def clean_name(name: str) -> str:
 
 
 def clean_value(value: Any) -> str:
-    """returns more readable value (integer)
-    if number is < 1:
-        returns number units in nm (integer)
-
-    units are in um by default. Therefore when we multiply by 1e3 we get nm.
-    """
-
+    """returns a readable string representation."""
     if isinstance(value, int):
         value = str(value)
     elif isinstance(value, (float, np.float64)):
