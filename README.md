@@ -30,7 +30,6 @@ It also can output components settings (that you can use for measurement and dat
 
 ![](https://i.imgur.com/XbhWJDz.png)
 
-
 For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
 
 IPKISS is quite slow when working with large layouts, so in 2019 I stopped using it.
@@ -42,7 +41,6 @@ The metrics for the benchmark were:
 1. Fast
 2. Easy to use
 3. Maintained / Documented / Popular
-
 
 PHIDL was the outstanding winner thanks to its speed, code beauty and easy of use, and is written on top of gdspy (which came second), so you can also leverage all the goodies from gdspy.
 
@@ -93,7 +91,6 @@ How can you learn more?
 
 gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
 
-
 ## Installation
 
 First, you need to install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
@@ -111,7 +108,6 @@ gf tool install
 ```
 
 Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install gdspy` with `conda install -c conda-forge gdspy`
-
 
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
@@ -163,7 +159,6 @@ After installing it you should be able to `import gdsfactory as gf` from a pytho
 - run gdsfactory/samples on your IDE (Spyder, PyCharm, VSCode)
 - play with [UBCpdk docs](https://gdsfactory.github.io/ubc/) and [code](https://github.com/gdsfactory/ubc)
 
-
 ## Plugins
 
 We try to keep gdsfactory core with minimum dependencies.
@@ -186,7 +181,6 @@ For simulating Sparameters using FDTD.
 
 Open source FDTD / mode simulator. Requires you to run
 
-
 ```
 mamba install pymeep=*=mpi_mpich_*
 ```
@@ -200,7 +194,6 @@ mamba install pymeep
 ```
 
 Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install` with `conda install -c conda-forge`
-
 
 ### tidy3d
 
@@ -251,7 +244,6 @@ Open source heroes:
 - Adam McCaughan (NIST): for phidl
 - Alex Tait (Queens University): for lytest
 - Thomas Ferreira de Lima (NEC): for `pip install klayout`
-
 
 ## Links
 
