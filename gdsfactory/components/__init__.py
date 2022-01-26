@@ -1,6 +1,6 @@
 from gdsfactory.components.add_fidutials import add_fidutials
 from gdsfactory.components.align import add_frame, align_wafer
-from gdsfactory.components.array import array
+from gdsfactory.components.array_component import array
 from gdsfactory.components.array_with_fanout import (
     array_with_fanout,
     array_with_fanout_2d,

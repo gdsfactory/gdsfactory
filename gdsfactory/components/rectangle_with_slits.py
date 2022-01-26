@@ -5,7 +5,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.array import array
+from gdsfactory.components.array_component import array
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.types import Float2, Layer
 

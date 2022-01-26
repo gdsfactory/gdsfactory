@@ -2,7 +2,7 @@ from typing import Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.array import array
+from gdsfactory.components.array_component import array
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
