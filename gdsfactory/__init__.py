@@ -21,7 +21,6 @@ isort:skip_file
 
 from functools import partial
 from toolz import compose
-from phidl import quickplot as plot
 from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
@@ -116,7 +115,6 @@ __all__ = [
     "pack",
     "path",
     "partial",
-    "plot",
     "port",
     "read",
     "routing",
