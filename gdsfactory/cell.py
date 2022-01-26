@@ -4,6 +4,7 @@ INFO_VERSION
 1: original metadata format
 
 """
+import copy
 import functools
 import hashlib
 import inspect
@@ -131,9 +132,10 @@ def cell_without_validator(func):
             for p in sig.parameters.values()
             if not p.default == inspect._empty
         }
-        full = default.copy()
+        changed = copy.deepcopy(args_as_kwargs)
+        default = copy.deepcopy(default)
+        full = copy.deepcopy(default)
         full.update(**args_as_kwargs)
-        changed = args_as_kwargs
 
         named_args_list = [
             f"{key}={clean_value(args_as_kwargs[key])}"
