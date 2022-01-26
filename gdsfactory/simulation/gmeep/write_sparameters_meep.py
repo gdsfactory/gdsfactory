@@ -252,10 +252,9 @@ def write_sparameters_meep(
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
-            resolution=20,
             **settings,
         )
-        sim_dict["sim"].plot2D()
+        sim_dict["sim"].plot2D(plot_eps_flag=True)
         plt.show()
         return
 
@@ -454,22 +453,9 @@ def write_sparameters_meep(
 
 
 if __name__ == "__main__":
+    c0 = gf.components.straight(length=2)
+    p = 2
+    c = gf.add_padding_container(c0, default=0, top=p, bottom=p)
 
-    c = gf.components.bend_circular(radius=2)
-    c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
-    c = gf.components.mmi1x2()
-    c = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gf.components.mmi1x2()
-    c = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gf.components.mmi1x2(
-        width=0.5,
-        width_taper=1.0,
-        length_taper=3,
-        length_mmi=5.5,
-        width_mmi=6,
-        gap_mmi=2,
-    )
-    c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gf.components.coupler_full(length=20, gap=0.2, dw=0)
-    c2 = gf.add_padding(c.copy(), default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gf.components.crossing()
+    write_sparameters_meep(c, run=False)
+    plt.show()
