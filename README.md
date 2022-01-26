@@ -173,6 +173,10 @@ pip install gdsfactory[full]
 
 For (3D rendering and STL export)
 
+```
+mamba install trimesh triangle -y
+```
+
 ### Lumerical FDTD
 
 For simulating Sparameters using FDTD.
