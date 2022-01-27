@@ -281,11 +281,11 @@ class ComponentReference(DeviceReference):
         return SizeInfo(self.bbox)
 
     def pprint(self) -> None:
-        """Prints component info."""
+        """Pretty print component info."""
         print(OmegaConf.to_yaml(self.info))
 
     def pprint_ports(self) -> None:
-        """Prints component netlists."""
+        """Pretty print component ports."""
         ports_list = self.get_ports_list()
         for port in ports_list:
             print(port)
@@ -298,7 +298,7 @@ class ComponentReference(DeviceReference):
         rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> Tuple[ndarray, int]:
-        # Apply GDS-type transformations to a port (x_ref)
+        """Apply GDS-type transformation to a port (x_ref)"""
         new_point = np.array(point)
         new_orientation = orientation
 
@@ -321,7 +321,7 @@ class ComponentReference(DeviceReference):
         rotation: Optional[int] = None,
         x_reflection: bool = False,
     ) -> ndarray:
-        # Apply GDS-type transformations to a port (x_ref)
+        """Apply GDS-type transformation to a point"""
         new_point = np.array(point)
 
         if x_reflection:
@@ -339,7 +339,7 @@ class ComponentReference(DeviceReference):
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Moves the DeviceReference from the origin point to the destination.
+        """Move the DeviceReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
 
@@ -401,7 +401,7 @@ class ComponentReference(DeviceReference):
         angle: int = 45,
         center: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
-        """Returns rotated ComponentReference
+        """Return rotated ComponentReference
 
         Args:
             angle: in degrees
@@ -482,10 +482,10 @@ class ComponentReference(DeviceReference):
     def connect(
         self, port: Union[str, Port], destination: Port, overlap: float = 0.0
     ) -> "ComponentReference":
-        """Returns Component reference where port_name connects to a destination
+        """Return Component reference where a port or port_name connects to a destination
 
         Args:
-            port: origin port name
+            port: origin port or port_name
             destination: destination port
             overlap: how deep does the port go inside
 
@@ -520,7 +520,7 @@ class ComponentReference(DeviceReference):
         return self
 
     def get_ports_list(self, **kwargs) -> List[Port]:
-        """Returns a list of ports.
+        """Return a list of ports.
 
         Args:
             layer: port GDS layer
@@ -534,7 +534,7 @@ class ComponentReference(DeviceReference):
         return list(select_ports(self.ports, **kwargs).values())
 
     def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
-        """Returns a list of ports.
+        """Return a dict of ports.
 
         Args:
             layer: port GDS layer
@@ -549,11 +549,11 @@ class ComponentReference(DeviceReference):
 
     @property
     def ports_layer(self) -> Dict[str, str]:
-        """Returns a mapping from layer0_layer1_E0: portName"""
+        """Return a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
 
     def port_by_orientation_cw(self, key: str, **kwargs):
-        """Returns port by indexing them clockwise"""
+        """Return port by indexing them clockwise"""
         m = map_ports_to_orientation_cw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -561,7 +561,7 @@ class ComponentReference(DeviceReference):
         return self.ports[key2]
 
     def port_by_orientation_ccw(self, key: str, **kwargs):
-        """Returns port by indexing them clockwise"""
+        """Return port by indexing them clockwise"""
         m = map_ports_to_orientation_ccw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -573,7 +573,7 @@ class ComponentReference(DeviceReference):
             port.snap_to_grid(nm=nm)
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Returns xdistance from east to west ports
+        """Return xdistance from east to west ports
 
         Args:
             kwargs: orientation, port_type, layer
@@ -590,7 +590,7 @@ class ComponentReference(DeviceReference):
 
 
 class Component(Device):
-    """extends phidl.Device
+    """Extend phidl.Device
 
     Allow name to be set like Component('arc') or Component(name = 'arc')
 
@@ -639,9 +639,14 @@ class Component(Device):
         self.changelog = changelog
 
     def unlock(self):
+        """I reccommend doing this only if you know what you are doing."""
         self._locked = False
 
     def lock(self):
+        """Makes sure components can't add new elements or move existing ones.
+        Components lock automatically when going into the CACHE to ensure one
+        component does not change others
+        """
         self._locked = True
 
     @classmethod
@@ -818,7 +823,8 @@ class Component(Device):
             position:
             port_id: name of the port
             rotation: in degrees
-            h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
+            h_mirror: horizontal mirror using y axis (x, 1) (1, 0).
+                This is the most common mirror.
             v_mirror: vertical mirror using x axis (1, y) (0, y)
         """
         _ref = ComponentReference(self)
@@ -891,9 +897,10 @@ class Component(Device):
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
-        """Can be called to copy an existing port like add_port(port = existing_port) or
-        to create a new port add_port(myname, mymidpoint, mywidth, myorientation).
-        Can also be called to copy an existing port
+        """Add port to component.
+        You can copy an existing port like add_port(port = existing_port) or
+        create a new port add_port(myname, mymidpoint, mywidth, myorientation).
+        You can also copy an existing port
         with a new name add_port(port = existing_port, name = new_name)
 
         Args:
@@ -1146,7 +1153,10 @@ class Component(Device):
 
             plot(self)
         elif plotter == "holoviews":
-            import holoviews as hv
+            try:
+                import holoviews as hv
+            except ImportError:
+                print("you need to `pip install holoviews`")
 
             hv.extension("bokeh")
             return self.ploth(**kwargs)
@@ -1291,7 +1301,9 @@ class Component(Device):
             gdsdir: directory for the GDS file. Defaults to /tmp/
             unit: unit size for objects in library. 1um by default.
             precision: for object dimensions in the library (m). 1nm by default.
-            timestamp: Defaults to 2019-10-25. If None uses current time.
+            timestamp: Defaults to 2019-10-25 for consistent hash.
+                If None uses current time.
+            logging: disable GDS path logging, for example for showing it in klayout.
 
         """
         gdsdir = pathlib.Path(gdsdir)
@@ -1345,7 +1357,7 @@ class Component(Device):
         ignore_components_prefix: Optional[List[str]] = None,
         ignore_functions_prefix: Optional[List[str]] = None,
     ) -> DictConfig:
-        """Returns a DictConfig representation of the compoment.
+        """Returna DictConfig Component representation.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting
