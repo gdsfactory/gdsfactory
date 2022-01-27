@@ -218,13 +218,26 @@ LAYER_STACK = get_layer_stack_generic()
 @pydantic.dataclasses.dataclass
 class Section:
     """
+
     Args:
-        width: of the section
-        offset: center to center
+        width: of the section (um)
+        offset: center offset
         layer:
-        ports: optional name of the ports
-        name: optional section name
-        port_types:
+        ports: Optional port names
+        name: Optional Section name
+        port_types: optical, electrical, ...
+
+    .. code::
+
+          0   offset
+          |<-------------->|
+          |              _____
+          |             |     |
+          |             |layer|
+          |             |_____|
+          |              <---->
+                         width
+
     """
 
     width: float

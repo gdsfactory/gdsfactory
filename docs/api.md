@@ -4,6 +4,7 @@
 
 ```{eval-rst}
 .. autoclass:: gdsfactory.component.Component
+   :members:
 ```
 
 ```{eval-rst}
