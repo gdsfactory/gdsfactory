@@ -6,6 +6,7 @@ import meep as mp
 import numpy as np
 import pandas as pd
 import pydantic
+from tqdm import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
@@ -58,7 +59,7 @@ def find_neff_vs_width(
     for mode_number in range(1, nmodes + 1):
         neff[mode_number] = []
 
-    for wg_width in width:
+    for wg_width in tqdm(width):
         mode_solver = partial(mode_solver, wg_width=wg_width, nmodes=nmodes, **kwargs)
         modes = find_modes(mode_solver, wavelength=wavelength, parity=parity)
         for mode_number in range(1, nmodes + 1):
