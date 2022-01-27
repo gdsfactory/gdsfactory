@@ -2,8 +2,6 @@ from typing import Optional, Tuple
 
 import matplotlib.colors
 import shapely
-from trimesh.creation import extrude_polygon
-from trimesh.scene import Scene
 
 from gdsfactory.component import Component
 from gdsfactory.layers import LayerSet
@@ -16,8 +14,8 @@ def to_3d(
     layer_set: LayerSet,
     layer_stack: LayerStack = LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
-) -> Scene:
-    """Return the Component 3D trimesh Scene.
+):
+    """Return Component 3D trimesh Scene.
 
     Args:
         component:
@@ -26,6 +24,12 @@ def to_3d(
         exclude_layers: layers to exclude
 
     """
+    try:
+        from trimesh.creation import extrude_polygon
+        from trimesh.scene import Scene
+    except ImportError:
+        print("you need to `pip install trimesh`")
+
     scene = Scene()
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
