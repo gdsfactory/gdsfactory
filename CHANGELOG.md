@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.12.6
+
+- make trimesh an optional dependency by moving imports inside function
+
 ## 3.12.3
 
 - fix docker container gdsfactory:latest
