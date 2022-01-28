@@ -141,8 +141,10 @@ def write_sparameters_meep(
     lazy_parallelism: bool = False,
     run: bool = True,
     dispersive: bool = False,
+    xmargin: float = 0,
+    ymargin: float = 0,
     xmargin_left: float = 0,
-    xmargin_rigth: float = 0,
+    xmargin_right: float = 0,
     ymargin_top: float = 0,
     ymargin_bot: float = 0,
     **settings,
@@ -227,8 +229,10 @@ def write_sparameters_meep(
             perform the simulations with different sources in parallel
         run: runs simulation, if False, only plots simulation
         dispersive: use dispersive models for materials (requires higher resolution)
+        xmargin: left and right distance from component to PML.
         xmargin_left: west distance from component to PML.
-        xmargin_rigth: east distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: top and bottom distance from component to PML.
         ymargin_top: north distance from component to PML.
         ymargin_bot: south distance from component to PML.
 
@@ -258,6 +262,12 @@ def write_sparameters_meep(
 
     port_symmetries = port_symmetries or {}
 
+    xmargin_left = xmargin_left or xmargin
+    xmargin_right = xmargin_right or xmargin
+
+    ymargin_top = ymargin_top or ymargin
+    ymargin_bot = ymargin_bot or ymargin
+
     sim_settings = dict(
         resolution=resolution,
         port_symmetries=port_symmetries,
@@ -271,7 +281,7 @@ def write_sparameters_meep(
         ymargin_top=ymargin_top,
         ymargin_bot=ymargin_bot,
         xmargin_left=xmargin_left,
-        xmargin_rigth=xmargin_rigth,
+        xmargin_right=xmargin_right,
         **settings,
     )
 
@@ -298,7 +308,7 @@ def write_sparameters_meep(
         top=ymargin_top,
         bottom=ymargin_bot,
         left=xmargin_left,
-        right=xmargin_rigth,
+        right=xmargin_right,
     )
 
     if not run:
@@ -511,12 +521,12 @@ def write_sparameters_meep(
         return df
 
 
-write_sparameters_meep_east_west = gf.partial(
+write_sparameters_meep_lr = gf.partial(
     write_sparameters_meep, ymargin_top=3, ymargin_bot=3
 )
 
-write_sparameters_meep_west_north = gf.partial(
-    write_sparameters_meep, ymargin_bot=3, xmargin_rigth=3
+write_sparameters_meep_lt = gf.partial(
+    write_sparameters_meep, ymargin_bot=3, xmargin_right=3
 )
 
 if __name__ == "__main__":
@@ -525,5 +535,5 @@ if __name__ == "__main__":
     # c = gf.add_padding_container(c0, default=0, top=p, bottom=p)
     # write_sparameters_meep(c, run=False)
 
-    write_sparameters_meep_east_west(c, run=False)
+    write_sparameters_meep_lr(c, run=False)
     plt.show()
