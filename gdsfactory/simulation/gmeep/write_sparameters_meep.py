@@ -12,6 +12,7 @@ import numpy as np
 import pandas as pd
 import pydantic
 from omegaconf import OmegaConf
+from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -448,7 +449,7 @@ def write_sparameters_meep(
             comm.send(sp, dest=0, tag=11)
 
     else:
-        for n in range(num_sims):
+        for n in tqdm(range(num_sims)):
             sp.update(
                 sparameter_calculation(
                     n,
