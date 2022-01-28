@@ -66,7 +66,7 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        dispersive: whether to use dispersive models for materials (requires higher resolution)
+        dispersive: use dispersive material models (requires higher resolution)
 
     Keyword Args:
         settings: other parameters for sim object (resolution, symmetries, etc.)
@@ -82,9 +82,7 @@ def get_simulation(
         import gdsfactory.simulation.meep as gm
 
         c = gf.components.bend_circular()
-        margin = 2
-        cm = gm.add_monitors(c)
-        gf.show(cm)
+        gm.write_sparameters_meep(c, run=False)
 
     """
 
