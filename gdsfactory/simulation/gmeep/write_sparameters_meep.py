@@ -140,6 +140,10 @@ def write_sparameters_meep(
     lazy_parallelism: bool = False,
     run: bool = True,
     dispersive: bool = False,
+    padding_west: float = 0,
+    padding_east: float = 0,
+    padding_north: float = 0,
+    padding_south: float = 0,
     **settings,
 ) -> pd.DataFrame:
     """Compute Sparameters and writes them to a CSV filepath.
@@ -185,6 +189,10 @@ def write_sparameters_meep(
             perform the simulations with different sources in parallel
         run: runs simulation, if False, only plots simulation
         dispersive: use dispersive models for materials (requires higher resolution)
+        padding_west: west distance from component to PML.
+        padding_east: east distance from component to PML.
+        padding_north: north distance from component to PML.
+        padding_south: south distance from component to PML.
 
     keyword Args:
         extend_ports_length: to extend ports beyond the PML
@@ -222,6 +230,10 @@ def write_sparameters_meep(
         port_monitor_offset=port_monitor_offset,
         port_source_offset=port_source_offset,
         dispersive=dispersive,
+        padding_north=padding_north,
+        padding_south=padding_south,
+        padding_west=padding_west,
+        padding_east=padding_east,
         **settings,
     )
 
@@ -241,6 +253,15 @@ def write_sparameters_meep(
     # filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
     # logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
     # return filepath_sim_settings
+
+    component = gf.add_padding_container(
+        component,
+        default=0,
+        top=padding_north,
+        bottom=padding_south,
+        left=padding_west,
+        right=padding_east,
+    )
 
     if not run:
         sim_dict = get_simulation(
@@ -452,10 +473,19 @@ def write_sparameters_meep(
         return df
 
 
-if __name__ == "__main__":
-    c0 = gf.components.straight(length=2)
-    p = 2
-    c = gf.add_padding_container(c0, default=0, top=p, bottom=p)
+write_sparameters_meep_east_west = gf.partial(
+    write_sparameters_meep, padding_north=3, padding_south=3
+)
 
-    write_sparameters_meep(c, run=False)
+write_sparameters_meep_west_north = gf.partial(
+    write_sparameters_meep, padding_south=3, padding_east=3
+)
+
+if __name__ == "__main__":
+    c = gf.components.straight(length=2)
+    # p = 2
+    # c = gf.add_padding_container(c0, default=0, top=p, bottom=p)
+    # write_sparameters_meep(c, run=False)
+
+    write_sparameters_meep_east_west(c, run=False)
     plt.show()
