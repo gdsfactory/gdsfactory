@@ -19,10 +19,10 @@ mp.verbosity(0)
 def get_simulation(
     component: Component,
     resolution: int = 20,
-    extend_ports_length: Optional[float] = 4.0,
+    extend_ports_length: Optional[float] = 10.0,
     layer_stack: LayerStack = LAYER_STACK,
-    t_clad_top: float = 3.0,
-    t_clad_bot: float = 3.0,
+    zmargin_top: float = 3.0,
+    zmargin_bot: float = 3.0,
     tpml: float = 1.5,
     clad_material: str = "SiO2",
     is_3d: bool = False,
@@ -39,20 +39,55 @@ def get_simulation(
     dispersive: bool = False,
     **settings,
 ) -> Dict[str, Any]:
-    """Returns Simulation dict from gdsfactory.component
+    r"""Returns Simulation dict from gdsfactory Component
 
     based on meep directional coupler example
     https://meep.readthedocs.io/en/latest/Python_Tutorials/GDSII_Import/
 
     https://support.lumerical.com/hc/en-us/articles/360042095873-Metamaterial-S-parameter-extraction
 
+    .. code::
+
+         top view
+              ________________________________
+             |                               |
+             | xmargin_left                  | port_extension
+             |<------>          port_margin ||<-->
+          ___|___________          _________||___
+             |           \        /          |
+             |            \      /           |
+             |             ======            |
+             |            /      \           |
+          ___|___________/        \__________|___
+             |   |                 <-------->|
+             |   |ymargin_bot   xmargin_right|
+             |   |                           |
+             |___|___________________________|
+
+        side view
+              ________________________________
+             |                     |         |
+             |                     |         |
+             |                   zmargin_top |
+             |ymargin              |         |
+             |<---> _____         _|___      |
+             |     |     |       |     |     |
+             |     |     |       |     |     |
+             |     |_____|       |_____|     |
+             |       |                       |
+             |       |                       |
+             |       |zmargin_bot            |
+             |       |                       |
+             |_______|_______________________|
+
+
     Args:
         component: gf.Component
         resolution: in pixels/um (20: for coarse, 120: for fine)
         extend_ports_length: to extend ports beyond the PML
         layer_stack: Dict of layer number (int, int) to thickness (um)
-        t_clad_top: thickness for cladding above core
-        t_clad_bot: thickness for cladding below core
+        zmargin_top: thickness for cladding above core
+        zmargin_bot: thickness for cladding below core
         tpml: PML thickness (um)
         clad_material: material for cladding
         is_3d: if True runs in 3D
@@ -145,7 +180,7 @@ def get_simulation(
     ]
 
     t_core = max(layers_thickness)
-    cell_thickness = tpml + t_clad_bot + t_core + t_clad_top + tpml if is_3d else 0
+    cell_thickness = tpml + zmargin_bot + t_core + zmargin_top + tpml if is_3d else 0
 
     cell_size = mp.Vector3(
         component.xsize + 2 * tpml,
