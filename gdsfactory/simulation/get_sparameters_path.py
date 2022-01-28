@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from gdsfactory.config import CONFIG
+from gdsfactory.config import CONF
 from gdsfactory.name import clean_value
 from gdsfactory.tech import LAYER, LAYER_STACK
 from gdsfactory.types import ComponentOrFactory
@@ -13,7 +13,7 @@ from gdsfactory.types import ComponentOrFactory
 
 def _get_sparameters_path(
     component: ComponentOrFactory,
-    dirpath: Path = CONFIG["sparameters"],
+    dirpath: Path = CONF["sparameters_path"],
     **kwargs,
 ) -> Path:
     """Return Sparameters CSV filepath.
