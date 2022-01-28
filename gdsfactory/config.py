@@ -56,6 +56,7 @@ logger.add(sink=logpath)
 default_config = io.StringIO(
     """
 plotter: matplotlib
+sparameters_path: ${oc.env:HOME}/.gdsfactory/sparameters/generic
 """
 )
 
@@ -63,7 +64,6 @@ plotter: matplotlib
 class Paths:
     module = module_path
     repo = repo_path
-    sparameters = repo_path / "sparameters"
     results_tidy3d = home / ".tidy3d"
     klayout = module / "klayout"
     klayout_tech = klayout / "tech"
@@ -217,6 +217,7 @@ if __name__ == "__main__":
     # print_config("gdslib")
     # print(CONFIG["git_hash"])
     # print(CONFIG["sparameters"])
-    print(CONFIG)
+    # print(CONFIG)
+    print(CONF["sparameters_path"])
     # print_config()
     # write_tech("tech.json")
