@@ -2,8 +2,7 @@
 
 ## 3.12.9
 
-- sparameters_path loaded from config that can be dynamically changed. Defaults to $HOME/.gdsfactory/sparameters/generic
-- sparameters_path uses environment variables
+- fix tests
 
 ## 3.12.8
 

@@ -84,7 +84,6 @@ def read_config(
 
 CONF = read_config()
 PATH = Paths()
-sparameters_path = CONF.sparameters_path
 
 
 CONFIG = dict(
@@ -116,6 +115,7 @@ else:
 # CONFIG["custom_components"] = TECH.custom_components
 CONFIG["gdslib"] = repo_path / "gdslib"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
+sparameters_path = CONFIG["sparameters"]
 
 CONFIG["build_directory"] = build_directory
 CONFIG["gds_directory"] = build_directory / "devices"
