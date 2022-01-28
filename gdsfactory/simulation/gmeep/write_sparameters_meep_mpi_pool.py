@@ -170,6 +170,15 @@ def write_sparameters_meep_mpi_pool(
     return filepaths
 
 
+write_sparameters_meep_mpi_pool_east_west = gf.partial(
+    write_sparameters_meep_mpi_pool, padding_north=3, padding_south=3
+)
+
+write_sparameters_meep_mpi_pool_west_north = gf.partial(
+    write_sparameters_meep_mpi_pool, padding_south=3, padding_east=3
+)
+
+
 if __name__ == "__main__":
 
     # Multicore pools example

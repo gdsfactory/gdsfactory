@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 3.12.7
+
+- add Optional nslab to gm.modes.get_mode_solver_rib
+- add `padding_north`, `padding_west`, `padding_east`, `padding_south`
+- add tqdm progress bar to meep sims
+
 ## 3.12.6
 
 - make trimesh an optional dependency by moving imports inside function
