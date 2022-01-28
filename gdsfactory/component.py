@@ -955,6 +955,12 @@ class Component(Device):
         return p
 
     def add_ports(self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""):
+        """Add a list or dict of ports, you can include a prefix to add to the new port names.
+
+        Args:
+            ports: list or dict of ports
+            prefix: to prepend to each port name
+        """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
             name = f"{prefix}{port.name}" if prefix else port.name
@@ -971,7 +977,14 @@ class Component(Device):
         invert_selection: bool = False,
         recursive: bool = True,
     ) -> Device:
-        """Remove a list of layers."""
+        """Remove a list of layers.
+
+        Args:
+            layers: list of layers to remove.
+            include_labels: remove labels on those layers.
+            invert_selection: removes all layers except layers specified.
+            recursive: operate on the cells included in this cell.
+        """
         layers = [_parse_layer(layer) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
         all_D += [self]

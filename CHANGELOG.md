@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.12.8
+
+- rename `padding_north`, `padding_west`, `padding_east`, `padding_south` -> `ymargin_top`, `xmargin_left`, `xmargin_rigth`, `ymargin_bot` for consitency of the meep plugin with the Lumerical plugin.
+
+
 ## 3.12.7
 
 - add Optional nslab to gm.modes.get_mode_solver_rib
