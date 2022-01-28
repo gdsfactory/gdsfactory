@@ -84,6 +84,7 @@ def read_config(
 
 CONF = read_config()
 PATH = Paths()
+sparameters_path = CONF.sparameters_path
 
 
 CONFIG = dict(

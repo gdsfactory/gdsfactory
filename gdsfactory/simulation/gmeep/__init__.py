@@ -21,7 +21,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi_pool import (
     write_sparameters_meep_mpi_pool_lt,
 )
 
-logger.info(f"Found Meep {mp.__version__!r} installed at {mp.__path__!r}")
+logger.info(f"Meep {mp.__version__!r} installed at {mp.__path__!r}")
 
 __all__ = [
     "get_simulation",
