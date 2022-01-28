@@ -47,7 +47,8 @@ def plot_imbalance2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -
     y1 = df[port1].values
     y2 = df[port2].values
     imbalance = y1 / y2
-    plt.plot(df.wavelength_nm, 100 * abs(imbalance))
+    x = df["wavelengths"] * 1e3
+    plt.plot(x, 100 * abs(imbalance))
     plt.xlabel("wavelength (nm)")
     plt.ylabel("imbalance (%)")
     plt.grid()
@@ -57,13 +58,14 @@ def plot_loss2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -> Non
     """Plots imbalance in % for 2x2 coupler"""
     y1 = df[port1].values
     y2 = df[port2].values
-    plt.plot(df.wavelength_nm, abs(10 * np.log10(y1 ** 2 + y2 ** 2)))
-    plt.xlabel("wavelength")
+    x = df["wavelengths"] * 1e3
+    plt.plot(x, abs(10 * np.log10(y1 ** 2 + y2 ** 2)))
+    plt.xlabel("wavelength (nm)")
     plt.ylabel("excess loss (dB)")
 
 
-plot_loss1x2 = gf.partial(plot_loss2x2, port1="S13m", port2="S12m")
-plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="S13m", port2="S12m")
+plot_loss1x2 = gf.partial(plot_loss2x2, port1="s13m", port2="s12m")
+plot_imbalance1x2 = gf.partial(plot_imbalance2x2, port1="s13m", port2="s12m")
 
 
 if __name__ == "__main__":
