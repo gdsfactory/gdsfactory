@@ -8,12 +8,16 @@ from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     write_sparameters_meep,
     write_sparameters_meep_east_west,
+    write_sparameters_meep_west_north,
 )
 from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import (
     write_sparameters_meep_mpi,
+    write_sparameters_meep_mpi_east_west,
+    write_sparameters_meep_mpi_west_north,
 )
 from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi_pool import (
     write_sparameters_meep_mpi_pool,
+    write_sparameters_meep_mpi_pool_west_north,
 )
 
 logger.info(f"Found Meep {mp.__version__!r} installed at {mp.__path__!r}")
@@ -23,8 +27,13 @@ __all__ = [
     "get_sparameters_data_meep",
     "write_sparameters_meep",
     "write_sparameters_meep_east_west",
+    "write_sparameters_meep_west_north",
     "write_sparameters_meep_mpi",
+    "write_sparameters_meep_mpi_east_west",
+    "write_sparameters_meep_mpi_west_north",
     "write_sparameters_meep_mpi_pool",
+    "write_sparameters_meep_mpi_pool_east_west",
+    "write_sparameters_meep_mpi_pool_west_north",
     "plot",
     "port_symmetries",
 ]
