@@ -9,11 +9,11 @@ def test_find_modes_dispersion():
     modes = find_mode_dispersion(mode_solver=ms, resolution=10)
     m1 = modes
 
-    # print(m1.neff)
-    # print(m1.ng)
+    # print(f"neff1 = {m1.neff}")
+    # print(f"ng1 = {m1.ng}")
 
-    neff1 = 2.3294606863357443
-    ng1 = 4.112495445787479
+    neff1 = 2.3502667681404428
+    ng1 = 4.119391400983421
 
     assert np.isclose(m1.neff, neff1), (m1.neff, neff1)
     assert np.isclose(m1.ng, ng1), (m1.ng, ng1)
