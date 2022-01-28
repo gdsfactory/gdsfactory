@@ -170,12 +170,12 @@ def write_sparameters_meep_mpi_pool(
     return filepaths
 
 
-write_sparameters_meep_mpi_pool_east_west = gf.partial(
+write_sparameters_meep_mpi_pool_lr = gf.partial(
     write_sparameters_meep_mpi_pool, ymargin_top=3, ymargin_bot=3
 )
 
-write_sparameters_meep_mpi_pool_west_north = gf.partial(
-    write_sparameters_meep_mpi_pool, ymargin_bot=3, xmargin_rigth=3
+write_sparameters_meep_mpi_pool_lt = gf.partial(
+    write_sparameters_meep_mpi_pool, ymargin_bot=3, xmargin_right=3
 )
 
 

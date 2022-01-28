@@ -157,12 +157,12 @@ def write_sparameters_meep_mpi(
     return filepath
 
 
-write_sparameters_meep_mpi_east_west = gf.partial(
+write_sparameters_meep_mpi_lr = gf.partial(
     write_sparameters_meep_mpi, ymargin_top=3, ymargin_bot=3
 )
 
-write_sparameters_meep_mpi_west_north = gf.partial(
-    write_sparameters_meep_mpi, ymargin_bot=3, xmargin_rigth=3
+write_sparameters_meep_mpi_lt = gf.partial(
+    write_sparameters_meep_mpi, ymargin_bot=3, xmargin_right=3
 )
 
 
