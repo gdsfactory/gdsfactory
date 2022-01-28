@@ -56,8 +56,8 @@ def write_sparameters_meep_mpi_pool(
         overwrite: overwrites stored simulation results.
         dispersive: use dispersive models for materials (requires higher resolution)
         extend_ports_length: to extend ports beyond the PML
-        t_clad_top: thickness for cladding above core
-        t_clad_bot: thickness for cladding below core
+        zmargin_top: thickness for cladding above core
+        zmargin_bot: thickness for cladding below core
         tpml: PML thickness (um)
         clad_material: material for cladding
         is_3d: if True runs in 3D
@@ -171,11 +171,11 @@ def write_sparameters_meep_mpi_pool(
 
 
 write_sparameters_meep_mpi_pool_east_west = gf.partial(
-    write_sparameters_meep_mpi_pool, padding_north=3, padding_south=3
+    write_sparameters_meep_mpi_pool, ymargin_top=3, ymargin_bot=3
 )
 
 write_sparameters_meep_mpi_pool_west_north = gf.partial(
-    write_sparameters_meep_mpi_pool, padding_south=3, padding_east=3
+    write_sparameters_meep_mpi_pool, ymargin_bot=3, xmargin_rigth=3
 )
 
 
