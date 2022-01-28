@@ -218,8 +218,8 @@ def write_sparameters_meep(
         dirpath: directory to store Sparameters
         layer_stack: LayerStack class
         port_margin: margin on each side of the port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        port_source_offset: offset between source GDS port and source MEEP port
+        port_monitor_offset: offset between monitor Component port and monitor MEEP port
+        port_source_offset: offset between source Component port and source MEEP port
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv
         overwrite: overwrites stored simulation results.
@@ -237,22 +237,22 @@ def write_sparameters_meep(
         ymargin_bot: south distance from component to PML.
 
     keyword Args:
-        extend_ports_length: to extend ports beyond the PML
-        zmargin_top: thickness for cladding above core
-        zmargin_bot: thickness for cladding below core
-        tpml: PML thickness (um)
-        clad_material: material for cladding
+        extend_ports_length: to extend ports beyond the PML (um).
+        zmargin_top: thickness for cladding above core (um).
+        zmargin_bot: thickness for cladding below core (um)
+        tpml: PML thickness (um).
+        clad_material: material for cladding.
         is_3d: if True runs in 3D
-        wl_min: wavelength min (um)
-        wl_max: wavelength max (um)
+        wl_min: wavelength min (um).
+        wl_max: wavelength max (um).
         wl_steps: wavelength steps
         dfcen: delta frequency
         port_source_name: input port name
         port_field_monitor_name:
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before
-        port_source_offset: offset between source GDS port and source MEEP port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        port_margin: margin on each side of the port (um).
+        distance_source_to_monitors: in (um).
+        port_source_offset: offset between source Component port and source MEEP port
+        port_monitor_offset: offset between monitor Component port and monitor MEEP port
 
     Returns:
         sparameters in a pandas Dataframe (wavelengths, s11a, s12m, ...)
