@@ -157,6 +157,15 @@ def write_sparameters_meep_mpi(
     return filepath
 
 
+write_sparameters_meep_mpi_east_west = gf.partial(
+    write_sparameters_meep_mpi, padding_north=3, padding_south=3
+)
+
+write_sparameters_meep_mpi_west_north = gf.partial(
+    write_sparameters_meep_mpi, padding_south=3, padding_east=3
+)
+
+
 if __name__ == "__main__":
     c1 = gf.c.straight(length=5)
     p = 3
