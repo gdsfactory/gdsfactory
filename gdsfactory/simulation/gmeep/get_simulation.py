@@ -19,7 +19,7 @@ mp.verbosity(0)
 def get_simulation(
     component: Component,
     resolution: int = 20,
-    extend_ports_length: Optional[float] = 4.0,
+    extend_ports_length: Optional[float] = 10.0,
     layer_stack: LayerStack = LAYER_STACK,
     zmargin_top: float = 3.0,
     zmargin_bot: float = 3.0,
