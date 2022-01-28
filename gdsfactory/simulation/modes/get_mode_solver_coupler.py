@@ -25,6 +25,7 @@ def get_mode_solver_coupler(
     slab_thickness: float = 0.0,
     ncore: float = 3.47,
     nclad: float = 1.44,
+    nslab: Optional[float] = None,
     ymargin: float = 2.0,
     sz: float = 2.0,
     resolution: int = 32,
@@ -43,6 +44,7 @@ def get_mode_solver_coupler(
         slab_thickness: thickness for the waveguide slab
         ncore: core material refractive index
         nclad: clad material refractive index
+        nslab: Optional slab material refractive index. Defaults to ncore.
         ymargin: margin in y.
         sz: simulation region thickness (um)
         resolution: resolution (pixels/um)
@@ -77,6 +79,7 @@ def get_mode_solver_coupler(
     gaps = gaps or (gap,)
     material_core = mp.Medium(index=ncore)
     material_clad = mp.Medium(index=nclad)
+    material_slab = mp.Medium(index=nslab or ncore)
 
     # Define the computational cell.  We'll make x the propagation direction.
     # the other cell sizes should be big enough so that the boundaries are
@@ -85,14 +88,7 @@ def get_mode_solver_coupler(
     sy = np.sum(wg_widths) + np.sum(gaps) + 2 * ymargin
     geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
-    # define the 2D blocks for the strip and substrate
-    geometry = [
-        mp.Block(
-            size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
-            material=material_core,
-            center=mp.Vector3(z=slab_thickness / 2),
-        ),
-    ]
+    geometry = []
 
     y = -sy / 2 + ymargin
 
@@ -130,6 +126,15 @@ def get_mode_solver_coupler(
             )
 
         y += gaps[i] + wg_width
+
+    # define the 2D blocks for the strip and substrate
+    geometry += [
+        mp.Block(
+            size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
+            material=material_slab,
+            center=mp.Vector3(z=slab_thickness / 2),
+        ),
+    ]
 
     # The k (i.e. beta, i.e. propagation constant) points to look at, in
     # units of 2*pi/um.  We'll look at num_k points from k_min to k_max.
@@ -179,6 +184,7 @@ if __name__ == "__main__":
 
     m = get_mode_solver_coupler(
         slab_thickness=90e-3,
+        nslab=2,
         gap=0.5,
         wg_width=1,
         resolution=64,
@@ -200,4 +206,5 @@ if __name__ == "__main__":
             m.info["sz"] / 2,
         ],
     )
+    plt.colorbar()
     plt.show()
