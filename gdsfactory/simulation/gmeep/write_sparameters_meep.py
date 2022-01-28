@@ -141,13 +141,15 @@ def write_sparameters_meep(
     lazy_parallelism: bool = False,
     run: bool = True,
     dispersive: bool = False,
-    padding_west: float = 0,
-    padding_east: float = 0,
-    padding_north: float = 0,
-    padding_south: float = 0,
+    xmargin: float = 0,
+    ymargin: float = 0,
+    xmargin_left: float = 0,
+    xmargin_right: float = 0,
+    ymargin_top: float = 0,
+    ymargin_bot: float = 0,
     **settings,
 ) -> pd.DataFrame:
-    """Compute Sparameters and writes them to a CSV filepath.
+    r"""Compute Sparameters and writes them to a CSV filepath.
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
@@ -171,6 +173,43 @@ def write_sparameters_meep(
 
     TODO: enable other port naming conventions, such as (in0, in1, out0, out1)
 
+
+    .. code::
+
+         top view
+              ________________________________
+             |                               |
+             | xmargin_left                  | port_extension
+             |<------>          port_margin ||<-->
+          ___|___________          _________||___
+             |           \        /          |
+             |            \      /           |
+             |             ======            |
+             |            /      \           |
+          ___|___________/        \__________|___
+             |   |                 <-------->|
+             |   |ymargin_bot   xmargin_right|
+             |   |                           |
+             |___|___________________________|
+
+        side view
+              ________________________________
+             |                     |         |
+             |                     |         |
+             |                   zmargin_top |
+             |ymargin              |         |
+             |<---> _____         _|___      |
+             |     |     |       |     |     |
+             |     |     |       |     |     |
+             |     |_____|       |_____|     |
+             |       |                       |
+             |       |                       |
+             |       |zmargin_bot            |
+             |       |                       |
+             |_______|_______________________|
+
+
+
     Args:
         component: to simulate.
         resolution: in pixels/um (20: for coarse, 120: for fine)
@@ -179,8 +218,8 @@ def write_sparameters_meep(
         dirpath: directory to store Sparameters
         layer_stack: LayerStack class
         port_margin: margin on each side of the port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        port_source_offset: offset between source GDS port and source MEEP port
+        port_monitor_offset: offset between monitor Component port and monitor MEEP port
+        port_source_offset: offset between source Component port and source MEEP port
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv
         overwrite: overwrites stored simulation results.
@@ -190,28 +229,30 @@ def write_sparameters_meep(
             perform the simulations with different sources in parallel
         run: runs simulation, if False, only plots simulation
         dispersive: use dispersive models for materials (requires higher resolution)
-        padding_west: west distance from component to PML.
-        padding_east: east distance from component to PML.
-        padding_north: north distance from component to PML.
-        padding_south: south distance from component to PML.
+        xmargin: left and right distance from component to PML.
+        xmargin_left: west distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: top and bottom distance from component to PML.
+        ymargin_top: north distance from component to PML.
+        ymargin_bot: south distance from component to PML.
 
     keyword Args:
-        extend_ports_length: to extend ports beyond the PML
-        t_clad_top: thickness for cladding above core
-        t_clad_bot: thickness for cladding below core
-        tpml: PML thickness (um)
-        clad_material: material for cladding
+        extend_ports_length: to extend ports beyond the PML (um).
+        zmargin_top: thickness for cladding above core (um).
+        zmargin_bot: thickness for cladding below core (um)
+        tpml: PML thickness (um).
+        clad_material: material for cladding.
         is_3d: if True runs in 3D
-        wl_min: wavelength min (um)
-        wl_max: wavelength max (um)
+        wl_min: wavelength min (um).
+        wl_max: wavelength max (um).
         wl_steps: wavelength steps
         dfcen: delta frequency
         port_source_name: input port name
         port_field_monitor_name:
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before
-        port_source_offset: offset between source GDS port and source MEEP port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        port_margin: margin on each side of the port (um).
+        distance_source_to_monitors: in (um).
+        port_source_offset: offset between source Component port and source MEEP port
+        port_monitor_offset: offset between monitor Component port and monitor MEEP port
 
     Returns:
         sparameters in a pandas Dataframe (wavelengths, s11a, s12m, ...)
@@ -220,6 +261,12 @@ def write_sparameters_meep(
     """
 
     port_symmetries = port_symmetries or {}
+
+    xmargin_left = xmargin_left or xmargin
+    xmargin_right = xmargin_right or xmargin
+
+    ymargin_top = ymargin_top or ymargin
+    ymargin_bot = ymargin_bot or ymargin
 
     sim_settings = dict(
         resolution=resolution,
@@ -231,10 +278,10 @@ def write_sparameters_meep(
         port_monitor_offset=port_monitor_offset,
         port_source_offset=port_source_offset,
         dispersive=dispersive,
-        padding_north=padding_north,
-        padding_south=padding_south,
-        padding_west=padding_west,
-        padding_east=padding_east,
+        ymargin_top=ymargin_top,
+        ymargin_bot=ymargin_bot,
+        xmargin_left=xmargin_left,
+        xmargin_right=xmargin_right,
         **settings,
     )
 
@@ -258,10 +305,10 @@ def write_sparameters_meep(
     component = gf.add_padding_container(
         component,
         default=0,
-        top=padding_north,
-        bottom=padding_south,
-        left=padding_west,
-        right=padding_east,
+        top=ymargin_top,
+        bottom=ymargin_bot,
+        left=xmargin_left,
+        right=xmargin_right,
     )
 
     if not run:
@@ -474,12 +521,12 @@ def write_sparameters_meep(
         return df
 
 
-write_sparameters_meep_east_west = gf.partial(
-    write_sparameters_meep, padding_north=3, padding_south=3
+write_sparameters_meep_lr = gf.partial(
+    write_sparameters_meep, ymargin_top=3, ymargin_bot=3
 )
 
-write_sparameters_meep_west_north = gf.partial(
-    write_sparameters_meep, padding_south=3, padding_east=3
+write_sparameters_meep_lt = gf.partial(
+    write_sparameters_meep, ymargin_bot=3, xmargin_right=3
 )
 
 if __name__ == "__main__":
@@ -488,5 +535,5 @@ if __name__ == "__main__":
     # c = gf.add_padding_container(c0, default=0, top=p, bottom=p)
     # write_sparameters_meep(c, run=False)
 
-    write_sparameters_meep_east_west(c, run=False)
+    write_sparameters_meep_lr(c, run=False)
     plt.show()
