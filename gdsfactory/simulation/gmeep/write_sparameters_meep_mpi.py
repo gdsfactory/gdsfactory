@@ -13,7 +13,7 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import logger, sparameters_path
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
@@ -22,15 +22,17 @@ from gdsfactory.tech import LAYER_STACK, LayerStack
 
 ncores = multiprocessing.cpu_count()
 
+temp_dir_default = Path(sparameters_path) / "temp"
+
 
 @pydantic.validate_arguments
 def write_sparameters_meep_mpi(
     component: Component,
     cores: int = ncores,
     filepath: Optional[Path] = None,
-    dirpath: Path = CONFIG["sparameters"],
+    dirpath: Path = sparameters_path,
     layer_stack: LayerStack = LAYER_STACK,
-    temp_dir: Path = CONFIG["sparameters"] / "temp",
+    temp_dir: Path = temp_dir_default,
     temp_file_str: str = "write_sparameters_meep_mpi",
     overwrite: bool = False,
     wait_to_finish: bool = True,
