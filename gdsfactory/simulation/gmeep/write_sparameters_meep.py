@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import CONFIG, logger
+from gdsfactory.config import logger, sparameters_path
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
@@ -130,7 +130,7 @@ def write_sparameters_meep(
     wl_min: float = 1.5,
     wl_max: float = 1.6,
     wl_steps: int = 50,
-    dirpath: Path = CONFIG["sparameters"],
+    dirpath: Path = sparameters_path,
     layer_stack: LayerStack = LAYER_STACK,
     port_margin: float = 2,
     port_monitor_offset: float = -0.1,
