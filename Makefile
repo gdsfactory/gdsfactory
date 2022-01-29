@@ -130,5 +130,7 @@ codestyle:
 doc:
 	python docs/write_components_doc.py
 
+git-rm-merged:
+	git branch -D `git branch --merged | grep -v \* | xargs`
 
 .PHONY: gdsdiff build conda
