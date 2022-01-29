@@ -29,7 +29,7 @@ RUN conda init bash
 RUN mamba install gdspy -y
 RUN mamba install pymeep=*=mpi_mpich_* -y
 
-RUN pip install gdsfactory[full] triangle
+RUN pip install gdsfactory[full] triangle jupyterlab-git
 # COPY requirements.txt /opt/app/requirements.txt
 # COPY requirements_dev.txt /opt/app/requirements_dev.txt
 # WORKDIR /opt/app
