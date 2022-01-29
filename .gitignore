@@ -31,6 +31,7 @@ develop-eggs
 .installed.cfg
 lib/
 lib64
+docs/notebooks/playground_repo
 __pycache__
 .mypy_cache/
 .pyre/
