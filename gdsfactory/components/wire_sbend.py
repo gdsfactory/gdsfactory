@@ -8,9 +8,9 @@ def wire_sbend(dx: float = 20.0, dy: float = 10.0, **kwargs) -> Component:
     """Sbend corner with manhattan wires
 
     Args:
-        dx: length
-        dy: height
-        **kwargs: cross_section settings
+        dx: xsize
+        dy: ysize
+        kwargs: cross_section settings
     """
     sx = wire_straight(length=dx / 2, **kwargs)
     sy = wire_straight(length=dy, **kwargs)
