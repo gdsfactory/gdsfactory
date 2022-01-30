@@ -40,6 +40,7 @@ from gdsfactory.port import (
 from gdsfactory.snap import snap_to_grid
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
+Axis = Literal["x", "y"]
 
 
 class MutabilityError(ValueError):
@@ -195,7 +196,7 @@ class ComponentReference(DeviceReference):
 
     @property
     def bbox(self):
-        """Returns the bounding box of the DeviceReference.
+        """Return the bounding box of the DeviceReference.
         it snaps to 3 decimals in um (0.001um = 1nm precission)
         """
         bbox = self.get_bounding_box()
@@ -671,7 +672,7 @@ class Component(Device):
 
     @property
     def bbox(self):
-        """Returns the bounding box of the DeviceReference.
+        """Return the bounding box of the DeviceReference.
         it snaps to 3 decimals in um (0.001um = 1nm precission)
         """
         bbox = self.get_bounding_box()
@@ -681,11 +682,11 @@ class Component(Device):
 
     @property
     def ports_layer(self) -> Dict[str, str]:
-        """Returns a mapping from layer0_layer1_E0: portName"""
+        """Return a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
 
     def port_by_orientation_cw(self, key: str, **kwargs):
-        """Returns port by indexing them clockwise"""
+        """Return port by indexing them clockwise"""
         m = map_ports_to_orientation_cw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -693,7 +694,7 @@ class Component(Device):
         return self.ports[key2]
 
     def port_by_orientation_ccw(self, key: str, **kwargs):
-        """Returns port by indexing them clockwise"""
+        """Return port by indexing them clockwise"""
         m = map_ports_to_orientation_ccw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -701,7 +702,7 @@ class Component(Device):
         return self.ports[key2]
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Returns xdistance from east to west ports
+        """Return xdistance from east to west ports
 
         Args:
             kwargs: orientation, port_type, layer
@@ -711,7 +712,7 @@ class Component(Device):
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Returns ydistance from east to west ports"""
+        """Return ydistance from east to west ports"""
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
@@ -767,7 +768,7 @@ class Component(Device):
         write_dot(G, filepath)
 
     def get_netlist(self, full_settings: bool = False) -> Any:
-        """Returns netlist dict(instances, placements, connections, ports)
+        """Return netlist dict(instances, placements, connections, ports)
 
         instances = {instances}
         placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
@@ -787,18 +788,18 @@ class Component(Device):
             port.assert_on_grid(nm=nm)
 
     def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
-        """Returns a dict of ports.
+        """Return a dict of ports.
 
-        Args:
+        Keyword Args:
             layer: port GDS layer
             prefix: for example "E" for east, "W" for west ...
         """
         return select_ports(self.ports, **kwargs)
 
     def get_ports_list(self, **kwargs) -> List[Port]:
-        """Returns a list of ports.
+        """Return list of ports.
 
-        Args:
+        Keyword Args:
             layer: port GDS layer
             prefix: with in port name
             orientation: in degrees
@@ -977,7 +978,7 @@ class Component(Device):
         invert_selection: bool = False,
         recursive: bool = True,
     ) -> Device:
-        """Remove a list of layers.
+        """Remove a list of layers and returns a new Component.
 
         Args:
             layers: list of layers to remove.
@@ -1022,7 +1023,7 @@ class Component(Device):
         self,
         layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
     ) -> Device:
-        """Extract polygons from a Component.
+        """Extract polygons from a Component and returns a new Component.
         adapted from phidl.geometry.
         """
         from gdsfactory.name import clean_value
@@ -1063,24 +1064,31 @@ class Component(Device):
             setting, self.info.full.get(setting, self.info_child.get(setting))
         )
 
+    def is_unlocked(self) -> None:
+        """Raises error if Component is locked"""
+        if self._locked:
+            raise MutabilityError(
+                f"You cannot modify locked Component {self.name!r}. "
+                "You need to make a copy of this Component or create a new Component "
+                "and add a reference to it. "
+                "Changing a component after creating it can be dangerous "
+                "as it will affect all of its instances. "
+                "You can unlock it (at your own risk) by calling `unlock()`"
+            )
+
     def add(self, element) -> None:
-        """
-        Add a new element or list of elements to this Component
+        """Add a new element or list of elements to this Component
 
         Args:
             element : `PolygonSet`, `CellReference`, `CellArray` or iterable
             The element or iterable of elements to be inserted in this
             cell.
 
+        Raises:
+            MutabilityError: if component is locked.
+
         """
-        if self._locked:
-            raise MutabilityError(
-                f"Error Adding element to locked Component {self.name!r}. "
-                "You need to make a copy of this Component or create a new one."
-                "Changing a component after creating it can be dangerous "
-                "as it will affect all of its instances. "
-                "You can unlock it (at your own risk) by calling `unlock()`"
-            )
+        self.is_unlocked()
         super().add(element)
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
@@ -1439,12 +1447,15 @@ class Component(Device):
                  8   7
 
         """
+        self.is_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
+        self.is_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
+        self.is_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -1468,14 +1479,22 @@ class Component(Device):
                 S0   S1
 
         """
+        self.is_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(
         self,
         origin: Float2 = (0, 0),
         destination: Optional[Float2] = None,
-        axis: Optional[str] = None,
+        axis: Optional[Axis] = None,
     ) -> Device:
+        """Return new Component with a moved reference to the original component.
+
+        Args:
+            origin: of component
+            destination:
+            axis: x or y axis
+        """
         from gdsfactory.functions import move
 
         return move(component=self, origin=origin, destination=destination, axis=axis)
@@ -1485,12 +1504,18 @@ class Component(Device):
         p1: Float2 = (0, 1),
         p2: Float2 = (0, 0),
     ) -> Device:
+        """Return new Component with a mirrored reference.
+
+        Args:
+            p1: first point to define mirror axis
+            p2: second point to define mirror axis
+        """
         from gdsfactory.functions import mirror
 
         return mirror(component=self, p1=p1, p2=p2)
 
     def rotate(self, angle: int = 90) -> Device:
-        """Returns a new component with a rotated reference to the original component
+        """Return a new component with a rotated reference to the original component
 
         Args:
             angle: in degrees
@@ -1500,7 +1525,7 @@ class Component(Device):
         return rotate(component=self, angle=angle)
 
     def add_padding(self, **kwargs) -> Device:
-        """Returns component with padding
+        """Return component with padding
 
         Keyword Args:
             component
@@ -1589,7 +1614,7 @@ def clean_key(key):
 
 
 def clean_value_json(value: Any) -> Any:
-    """Returns a is JSON serializable"""
+    """Return a is JSON serializable"""
     if isinstance(value, CrossSection):
         value = value.info
         # value = clean_dict(value.to_dict())
