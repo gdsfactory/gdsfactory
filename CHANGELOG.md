@@ -4,6 +4,9 @@
 
 - meep plugin write_sparameters_meep_mpi overwrite removes old file for an actual overwrite
 - ensure write_sparameters_meep `**kwargs` are valid simmulation settings
+- fix component lattice mutability issue
+- add `Component.is_unlocked` that raises MutabilityError when calling auto_rename_ports over a locked component
+
 
 ## 3.12.9
 
