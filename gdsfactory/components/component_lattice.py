@@ -75,12 +75,10 @@ def get_sequence_cross(
             d2 = dist(b, wgs, straights_end)
             total_dist += abs(d1) + abs(d2)
 
-            """
             # The equality cases are very important:
             # if one straight needs to cross, then even if the other one is
             # already at the right place, it must swap to allow the other one
             # to cross
-            """
 
             if d1 >= 0 and d2 <= 0 and not (d1 == 0 and d2 == 0):
                 wgs = swap(wgs, i, i + 1)
@@ -145,9 +143,9 @@ def component_lattice(
     name: str = "lattice",
 ) -> Component:
     """
-    Returns a lattice Component of N inputs and outputs with components at given locations
-    Columns must have components with the same x spacing between ports input/output ports
-    Lines must have components with the same y spacing between input and output ports
+    Return a lattice Component of N inputs and outputs
+    Columns must have components with the same x spacing between input/output ports
+    Lines must have components with the same y spacing between input/output ports
 
     Lattice example:
 
@@ -185,7 +183,8 @@ def component_lattice(
     y_spacing = None
     for component in components.values():
         component = gf.call_if_func(component)
-        component.auto_rename_ports_orientation()
+        # component = component.copy()
+        # component.auto_rename_ports_orientation()
 
         for direction in ["W", "E"]:
             ports_dir = get_ports_facing(component.ports, direction)
@@ -229,7 +228,11 @@ def component_lattice(
 
                 nb_inputs = components_to_nb_input_ports[c]
                 skip = nb_inputs - 1
-                _cmp = components[c].ref((x, y), port_id="oW{}".format(skip))
+
+                ports_cw = components[c].get_ports_list(clockwise=True)
+                _cmp = components[c].ref((x, y), port_id=ports_cw[skip].name)
+
+                # _cmp = components[c].ref((x, y), port_id="oW{}".format(skip))
                 component.add(_cmp)
 
                 if i == 0:
@@ -256,7 +259,11 @@ def component_lattice(
 def parse_lattice(
     lattice: str, components: Dict[str, Component]
 ) -> Tuple[Dict[int, List[str]], Dict[int, float64]]:
-    """extract each column"""
+    """Extract each column.
+
+    Args:
+        lattice:
+    """
     lines = lattice.replace(" ", "").split("\n")
     columns = {}
     columns_to_length = {}
@@ -270,8 +277,13 @@ def parse_lattice(
                 columns[i].append(c)
                 if c in components.keys():
                     cmp = components[c]
-                    # columns_to_length[i] = cmp.ports["o2"].x - cmp.ports["o1"].x
-                    columns_to_length[i] = cmp.ports["oE0"].x - cmp.ports["oW0"].x
+                    pcw = cmp.get_ports_list(clockwise=True)
+                    pccw = cmp.get_ports_list(clockwise=False)
+
+                    # columns_to_length[i] = cmp.ports["oE0"].x - cmp.ports["oW0"].x
+                    columns_to_length[i] = (
+                        cmp.ports[pccw[0].name].x - cmp.ports[pcw[0].name].x
+                    )
 
                 i += 1
 
