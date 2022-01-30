@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from meep import mpb
 from pydantic import BaseModel
+from scipy.interpolate import RectBivariateSpline
 
 
 @dataclasses.dataclass
@@ -24,6 +25,65 @@ class Mode:
 
     def __repr__(self):
         return f"Mode{self.mode_number}"
+
+    def grid_interp(self):
+        """
+        Creates new attributes with scipy.interpolate.RectBivariateSpline objects that can be used to interpolate the field on a new regular grid
+
+        Args:
+            y_grid (np.array): y values where to evaluate, in increasing array
+            z_grid (np.array): z values where to evaluate, in increasing array
+        """
+
+        self.Ex_grid_interp = lambda y_arr, z_arr: RectBivariateSpline(
+            self.y, self.z, np.real(self.E[:, :, 0, 0])
+        )(y_arr, z_arr, grid=True).T + (
+            1j
+            * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, 0]))(
+                y_arr, z_arr, grid=True
+            ).T
+        )
+        self.Ey_grid_interp = lambda y_arr, z_arr: RectBivariateSpline(
+            self.y, self.z, np.real(self.E[:, :, 0, 1])
+        )(y_arr, z_arr, grid=True).T + (
+            1j
+            * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, 1]))(
+                y_arr, z_arr, grid=True
+            ).T
+        )
+        self.Ez_grid_interp = lambda y_arr, z_arr: RectBivariateSpline(
+            self.y, self.z, np.real(self.E[:, :, 0, 2])
+        )(y_arr, z_arr, grid=True).T + (
+            1j
+            * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, 2]))(
+                y_arr, z_arr, grid=True
+            ).T
+        )
+        self.Hx_grid_interp = lambda y_arr, z_arr: RectBivariateSpline(
+            self.y, self.z, np.real(self.H[:, :, 0, 0])
+        )(y_arr, z_arr, grid=True).T + (
+            1j
+            * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, 0]))(
+                y_arr, z_arr, grid=True
+            ).T
+        )
+        self.Hy_grid_interp = lambda y_arr, z_arr: RectBivariateSpline(
+            self.y, self.z, np.real(self.H[:, :, 0, 1])
+        )(y_arr, z_arr, grid=True).T + (
+            1j
+            * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, 1]))(
+                y_arr, z_arr, grid=True
+            ).T
+        )
+        self.Hz_grid_interp = lambda y_arr, z_arr: RectBivariateSpline(
+            self.y, self.z, np.real(self.H[:, :, 0, 2])
+        )(y_arr, z_arr, grid=True).T + (
+            1j
+            * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, 2]))(
+                y_arr, z_arr, grid=True
+            ).T
+        )
+        return 1
 
     def plot_eps(
         self,
@@ -381,6 +441,30 @@ if __name__ == "__main__":
     import gdsfactory.simulation.modes as gm
 
     m = gm.find_modes()
-    m[1].plot_e_all(operation=np.abs)
-    m[1].plot_h_all(operation=np.abs)
+    # m[1].plot_e_all(operation=np.abs)
+    # plt.show()
+    # m[1].plot_h_all(operation=np.abs)
     # w = Waveguide()
+
+    ys = np.linspace(-1, 1, 2000)
+    zs = np.linspace(-1, 1, 2000)
+    m[1].grid_interp()
+
+    Ex_interp = m[1].Ex_grid_interp(ys, zs)
+
+    plt.figure(figsize=(10, 8), dpi=100)
+
+    plt.subplot(1, 2, 1)
+    plt.title("As calculated")
+    m[1].plot_ex(show=False, operation=np.abs, scale=False)
+
+    plt.subplot(1, 2, 2)
+    plt.title("Interp")
+    plt.imshow(
+        np.abs(Ex_interp),
+        aspect="auto",
+        extent=[np.min(ys), np.max(ys), np.min(zs), np.max(zs)],
+    )
+    plt.colorbar()
+
+    plt.show()
