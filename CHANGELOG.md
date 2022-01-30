@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 3.12.11
+
+- meep plugin write_sparameters_meep_mpi overwrite removes old file for an actual overwrite
+- ensure write_sparameters_meep `**kwargs` are valid simmulation settings
+
 ## 3.12.9
 
 - fix tests

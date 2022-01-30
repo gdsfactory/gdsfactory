@@ -5,10 +5,12 @@ import pathlib
 import shutil
 import time
 from pathlib import Path
+from pprint import pprint
 from typing import Dict, List
 
 import numpy as np
 import pydantic
+from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger, sparameters_path
@@ -94,7 +96,7 @@ def write_sparameters_meep_mpi_pool(
         )
         if filepath.exists():
             job.update(**kwargs)
-            if job.get("overwrite", False):
+            if job.get("overwrite", kwargs.get("overwrite", False)):
                 pathlib.Path.unlink(filepath)
                 logger.info(
                     f"Simulation {filepath!r} found and overwrite is True. "
@@ -128,7 +130,7 @@ def write_sparameters_meep_mpi_pool(
 
     i = 0
     # For each pool
-    for j in range(num_pools):
+    for j in tqdm(range(num_pools)):
         filepaths = []
 
         # For each job in the pool
@@ -140,6 +142,8 @@ def write_sparameters_meep_mpi_pool(
 
             # Obtain current job
             simulations_settings = jobs[i]
+
+            pprint(simulations_settings)
 
             filepath = write_sparameters_meep_mpi(
                 cores=cores_per_run,
@@ -182,50 +186,19 @@ write_sparameters_meep_mpi_pool_lt = gf.partial(
 
 
 if __name__ == "__main__":
-
-    # Multicore pools example
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
-
-    c2 = gf.c.straight(length=4)
-    p = 3
-    c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
-
-    c1_dict = {
-        "component": c1,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": Path("c1_dict.csv"),
-    }
-    c2_dict = {
-        "component": c2,
-        "run": True,
-        "overwrite": False,
-        "lazy_parallelism": True,
-        "filepath": Path("c2_dict.csv"),
-    }
-    c3_dict = {
-        "component": c2,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "resolution": 40,
-        "port_source_offset": 0.3,
-        "filepath": Path("c3_dict.csv"),
-    }
-
-    # jobs
     jobs = [
-        c1_dict,
-        c2_dict,
-        c3_dict,
+        {
+            "component": gf.c.straight(length=i),
+            "run": True,
+            "overwrite": True,
+            "lazy_parallelism": False,
+            "ymargin": 3,
+        }
+        for i in range(1, 4)
     ]
 
     filepaths = write_sparameters_meep_mpi_pool(
         jobs=jobs,
         cores_per_run=4,
-        total_cores=10,
-        delete_temp_files=False,
+        total_cores=8,
     )
