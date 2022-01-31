@@ -30,7 +30,7 @@ cells:
     name: bend_euler_3cfca9b9
     radius: 5
     radius_min: 4.543
-  component_sequence_d377cad6:
+  component_sequence_fecfde12:
     changed:
       sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
       symbol_to_component:
@@ -39,11 +39,11 @@ cells:
         - o1
         - o2
         A:
-        - taper_0p5_to_3_l36
+        - taper_from_csv
         - o1
         - o2
         B:
-        - taper_0p5_to_3_l36
+        - taper_from_csv
         - o2
         - o1
         C:
@@ -75,11 +75,11 @@ cells:
         - o1
         - o2
         A:
-        - taper_0p5_to_3_l36
+        - taper_from_csv
         - o1
         - o2
         B:
-        - taper_0p5_to_3_l36
+        - taper_from_csv
         - o2
         - o1
         C:
@@ -97,7 +97,7 @@ cells:
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_d377cad6
+    name: component_sequence_fecfde12
   straight:
     changed: {}
     default:
@@ -118,25 +118,57 @@ cells:
     module: gdsfactory.components.straight
     name: straight
     width: 0.5
-  taper_0p5_to_3_l36:
+  taper_from_csv:
     changed: {}
-    default: {}
-    full: {}
-    function_name: taper_0p5_to_3_l36
+    default:
+      cladding_offset: 3
+      filepath: taper_strip_0p5_3_36.csv
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+    full:
+      cladding_offset: 3
+      filepath: taper_strip_0p5_3_36.csv
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+    function_name: taper_from_csv
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36
-  taper_0p5_to_3_l36_cutb_8d365e01:
+    name: taper_from_csv
+  taper_from_csv_cutback__5abf47c8:
     changed:
       mirror: true
     child:
       changed: {}
-      default: {}
-      full: {}
-      function_name: taper_0p5_to_3_l36
+      default:
+        cladding_offset: 3
+        filepath: taper_strip_0p5_3_36.csv
+        layer:
+        - 1
+        - 0
+        layer_cladding:
+        - 111
+        - 0
+      full:
+        cladding_offset: 3
+        filepath: taper_strip_0p5_3_36.csv
+        layer:
+        - 1
+        - 0
+        layer_cladding:
+        - 111
+        - 0
+      function_name: taper_from_csv
       info_version: 1
       module: gdsfactory.components.taper_from_csv
-      name: taper_0p5_to_3_l36
+      name: taper_from_csv
     components: 88
     default:
       bend180:
@@ -144,7 +176,8 @@ cells:
         function: bend_euler
       cols: 4
       component:
-        function: taper_0p5_to_3_l36
+        filepath: taper_strip_0p5_3_36.csv
+        function: taper_from_csv
       mirror: false
       port1: o1
       port2: o2
@@ -159,7 +192,8 @@ cells:
         function: bend_euler
       cols: 4
       component:
-        function: taper_0p5_to_3_l36
+        filepath: taper_strip_0p5_3_36.csv
+        function: taper_from_csv
       mirror: true
       port1: o1
       port2: o2
@@ -171,18 +205,34 @@ cells:
     function_name: cutback_component
     info_version: 1
     module: gdsfactory.components.cutback_component
-    name: taper_0p5_to_3_l36_cutb_8d365e01
+    name: taper_from_csv_cutback__5abf47c8
 info:
   changed:
     mirror: true
   child:
     changed: {}
-    default: {}
-    full: {}
-    function_name: taper_0p5_to_3_l36
+    default:
+      cladding_offset: 3
+      filepath: taper_strip_0p5_3_36.csv
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+    full:
+      cladding_offset: 3
+      filepath: taper_strip_0p5_3_36.csv
+      layer:
+      - 1
+      - 0
+      layer_cladding:
+      - 111
+      - 0
+    function_name: taper_from_csv
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36
+    name: taper_from_csv
   components: 88
   default:
     bend180:
@@ -190,7 +240,8 @@ info:
       function: bend_euler
     cols: 4
     component:
-      function: taper_0p5_to_3_l36
+      filepath: taper_strip_0p5_3_36.csv
+      function: taper_from_csv
     mirror: false
     port1: o1
     port2: o2
@@ -205,7 +256,8 @@ info:
       function: bend_euler
     cols: 4
     component:
-      function: taper_0p5_to_3_l36
+      filepath: taper_strip_0p5_3_36.csv
+      function: taper_from_csv
     mirror: true
     port1: o1
     port2: o2
@@ -217,7 +269,7 @@ info:
   function_name: cutback_component
   info_version: 1
   module: gdsfactory.components.cutback_component
-  name: taper_0p5_to_3_l36_cutb_8d365e01
+  name: taper_from_csv_cutback__5abf47c8
 ports:
   o1:
     layer:

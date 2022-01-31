@@ -66,11 +66,11 @@ def mzi_arm(
     sequence = "bLB-BRb"
     c = component_sequence(sequence=sequence, symbol_to_component=symbol_to_component)
 
-    # Add any electrical ports from aliases
-
+    # Add any electrical ports from references
     for ref_name, ref in c.aliases.items():
         c.add_ports(ref.get_ports_list(port_type="electrical"), prefix=ref_name)
 
+    c.unlock()
     c.auto_rename_ports()
     c.info.length_x = float(length_x)
     c.info.length_xsize = straight_x.get_ports_xsize()
