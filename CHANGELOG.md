@@ -6,6 +6,7 @@
 - ensure write_sparameters_meep `**kwargs` are valid simmulation settings
 - fix component lattice mutability issue
 - add `Component.is_unlocked` that raises MutabilityError
+- rename component_lattice components to symbol_to_component
 
 
 ## 3.12.9
