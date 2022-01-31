@@ -166,14 +166,16 @@ def add_ports_from_markers_center(
         y = p.y
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
-            warnings.warn(f"skipping port with min_pin_area_um2 {dx * dy}")
+            warnings.warn(
+                f"skipping port at ({x}, {y}) with min_pin_area_um2 {dx * dy}"
+            )
             continue
 
         if max_pin_area_um2 and dx * dy > max_pin_area_um2:
             continue
 
         if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
-            warnings.warn("skipping square port with no clear orientation")
+            warnings.warn(f"skipping square port at ({x}, {y})")
             continue
 
         pxmax = p.xmax
