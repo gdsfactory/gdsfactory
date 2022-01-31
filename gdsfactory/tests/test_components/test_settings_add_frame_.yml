@@ -21,12 +21,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.align
     name: add_frame
-  compass_1634c468:
+  compass_0c2ee789:
     changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
       size:
       - 44
       - 10
@@ -51,13 +47,9 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_1634c468
-  compass_eae46794:
+    name: compass_0c2ee789
+  compass_d40ce24f:
     changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
       size:
       - 10
       - 34
@@ -82,13 +74,10 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_eae46794
-  rectangle_0b48cd3f:
+    name: compass_d40ce24f
+  rectangle_adb79d85:
     changed:
       centered: true
-      layer:
-      - 1
-      - 0
       size:
       - 10
       - 34
@@ -113,13 +102,10 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_0b48cd3f
-  rectangle_95e5d332:
+    name: rectangle_adb79d85
+  rectangle_b6e0d688:
     changed:
       centered: true
-      layer:
-      - 1
-      - 0
       size:
       - 44
       - 10
@@ -144,7 +130,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_95e5d332
+    name: rectangle_b6e0d688
 info:
   changed: {}
   default:

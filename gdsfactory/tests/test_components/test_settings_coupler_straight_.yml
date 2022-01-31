@@ -15,9 +15,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.coupler_straight
     name: coupler_straight
-  straight_5b6c3269:
-    changed:
-      length: 10
+  straight:
+    changed: {}
     default:
       cross_section:
         function: cross_section
@@ -34,7 +33,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_5b6c3269
+    name: straight
     width: 0.5
 info:
   changed: {}

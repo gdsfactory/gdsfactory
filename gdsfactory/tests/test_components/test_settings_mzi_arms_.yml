@@ -57,50 +57,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-  mzi_arm_74064cef:
+  mzi_arm_bc203dcc:
     changed:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 0.1
-    length_xsize: 0.1
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_74064cef
-  mzi_arm_f85ac2e9:
-    changed:
-      bend:
-        function: bend_euler
-      length_x: 0.1
       length_y_left: 5.8
       length_y_right: 5.8
       straight_x:
@@ -134,7 +92,41 @@ cells:
     length_x: 0.1
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_f85ac2e9
+    name: mzi_arm_bc203dcc
+  mzi_arm_f84ea993:
+    changed:
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
+    default:
+      bend:
+        function: bend_euler
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight:
+        function: straight
+      straight_x: null
+      straight_y: null
+    full:
+      bend:
+        function: bend_euler
+      length_x: 0.1
+      length_y_left: 0.8
+      length_y_right: 0.8
+      straight:
+        function: straight
+      straight_x:
+        function: straight
+      straight_y:
+        function: straight
+    function_name: mzi_arm
+    info_version: 1
+    length_x: 0.1
+    length_xsize: 0.1
+    module: gdsfactory.components.mzi_arm
+    name: mzi_arm_f84ea993
   mzi_arms:
     changed: {}
     default:

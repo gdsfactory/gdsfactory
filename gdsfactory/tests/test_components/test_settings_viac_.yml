@@ -1,9 +1,6 @@
 cells:
-  via_3db94f98:
-    changed:
-      layer:
-      - 40
-      - 0
+  via:
+    changed: {}
     default:
       cladding_offset: 0
       enclosure: 1
@@ -34,7 +31,7 @@ cells:
     function_name: via
     info_version: 1
     module: gdsfactory.components.via
-    name: via_3db94f98
+    name: via
     size:
     - 0.7
     - 0.7
@@ -42,10 +39,7 @@ cells:
     - 2
     - 2
 info:
-  changed:
-    layer:
-    - 40
-    - 0
+  changed: {}
   default:
     cladding_offset: 0
     enclosure: 1
@@ -76,7 +70,7 @@ info:
   function_name: via
   info_version: 1
   module: gdsfactory.components.via
-  name: via_3db94f98
+  name: via
   size:
   - 0.7
   - 0.7

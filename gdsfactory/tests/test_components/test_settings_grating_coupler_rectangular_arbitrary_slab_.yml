@@ -30,11 +30,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_14a57bc5
-  compass_ae46bf3c:
+  compass_d53556e1:
     changed:
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 0.5
@@ -60,7 +57,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ae46bf3c
+    name: compass_d53556e1
   grating_coupler_rectang_c148e9a3:
     changed: {}
     default:
@@ -149,38 +146,6 @@ cells:
     name: grating_coupler_rectang_c148e9a3
     polarization: te
     wavelength: 1.55
-  rectangle_14fb5f60:
-    changed:
-      centered: true
-      layer:
-      - 1
-      - 0
-      port_type: null
-      size:
-      - 0.5
-      - 11
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: true
-      layer:
-      - 1
-      - 0
-      port_type: null
-      size:
-      - 0.5
-      - 11
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_14fb5f60
   rectangle_a3e44e0a:
     changed:
       centered: true
@@ -213,14 +178,42 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_a3e44e0a
-  taper_strip_to_ridge_2502810c:
+  rectangle_c4cbcb00:
+    changed:
+      centered: true
+      port_type: null
+      size:
+      - 0.5
+      - 11
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: true
+      layer:
+      - 1
+      - 0
+      port_type: null
+      size:
+      - 0.5
+      - 11
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_c4cbcb00
+  taper_strip_to_ridge_f04fdfe4:
     changed:
       layer_slab:
       - 2
       - 0
       length: 150
       w_slab2: 15
-      width1: 0.5
       width2: 11
     default:
       cladding_offset: 3
@@ -258,7 +251,7 @@ cells:
     info_version: 1
     length: 150
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_2502810c
+    name: taper_strip_to_ridge_f04fdfe4
 info:
   changed: {}
   default:

@@ -1,96 +1,72 @@
 connections:
-  bend_euler_4725f0ef_225p125_204p875,o1: straight_ab370e58_135p0_200p0,o2
-  bend_euler_4725f0ef_225p125_204p875,o2: straight_95cf111d_230p0_380p0,o1
-  bend_euler_4725f0ef_234p875_555p125,o1: straight_95cf111d_230p0_380p0,o2
-  bend_euler_4725f0ef_234p875_555p125,o2: straight_99672b3b_365p0_560p0,o1
-  bend_euler_4725f0ef_234p875_584p875,o1: straight_99672b3b_365p0_580p0,o2
-  bend_euler_4725f0ef_234p875_584p875,o2: bend_euler_4725f0ef_234p875_595p125,o1
-  bend_euler_4725f0ef_234p875_595p125,o2: straight_b28806b6_545p0_600p0,o1
-  bend_euler_4725f0ef_255p125_4p875,o1: straight_3bc3129a_150p0_0p0,o2
-  bend_euler_4725f0ef_255p125_4p875,o2: straight_95cf111d_260p0_180p0,o1
-  bend_euler_4725f0ef_264p875_355p125,o1: straight_95cf111d_260p0_180p0,o2
-  bend_euler_4725f0ef_264p875_355p125,o2: straight_99672b3b_395p0_360p0,o1
-  bend_euler_4725f0ef_264p875_384p875,o1: straight_99672b3b_395p0_380p0,o2
-  bend_euler_4725f0ef_264p875_384p875,o2: bend_euler_4725f0ef_264p875_395p125,o1
-  bend_euler_4725f0ef_264p875_395p125,o2: straight_7b1e3316_560p0_400p0,o1
-  bend_euler_4725f0ef_495p125_564p875,o1: straight_99672b3b_365p0_560p0,o2
-  bend_euler_4725f0ef_495p125_564p875,o2: bend_euler_4725f0ef_495p125_575p125,o1
-  bend_euler_4725f0ef_495p125_575p125,o2: straight_99672b3b_365p0_580p0,o1
-  bend_euler_4725f0ef_525p125_364p875,o1: straight_99672b3b_395p0_360p0,o2
-  bend_euler_4725f0ef_525p125_364p875,o2: bend_euler_4725f0ef_525p125_375p125,o1
-  bend_euler_4725f0ef_525p125_375p125,o2: straight_99672b3b_395p0_380p0,o1
+  bend_euler_2e0a66fe_225p125_204p875,o1: straight_80b7924a_135p0_200p0,o2
+  bend_euler_2e0a66fe_225p125_204p875,o2: straight_aa7b6441_230p0_380p0,o1
+  bend_euler_2e0a66fe_234p875_555p125,o1: straight_aa7b6441_230p0_380p0,o2
+  bend_euler_2e0a66fe_234p875_555p125,o2: straight_1a88079a_365p0_560p0,o1
+  bend_euler_2e0a66fe_234p875_584p875,o1: straight_1a88079a_365p0_580p0,o2
+  bend_euler_2e0a66fe_234p875_584p875,o2: bend_euler_2e0a66fe_234p875_595p125,o1
+  bend_euler_2e0a66fe_234p875_595p125,o2: straight_76c7a705_545p0_600p0,o1
+  bend_euler_2e0a66fe_255p125_4p875,o1: straight_730b39a8_150p0_0p0,o2
+  bend_euler_2e0a66fe_255p125_4p875,o2: straight_aa7b6441_260p0_180p0,o1
+  bend_euler_2e0a66fe_264p875_355p125,o1: straight_aa7b6441_260p0_180p0,o2
+  bend_euler_2e0a66fe_264p875_355p125,o2: straight_1a88079a_395p0_360p0,o1
+  bend_euler_2e0a66fe_264p875_384p875,o1: straight_1a88079a_395p0_380p0,o2
+  bend_euler_2e0a66fe_264p875_384p875,o2: bend_euler_2e0a66fe_264p875_395p125,o1
+  bend_euler_2e0a66fe_264p875_395p125,o2: straight_e3b83c00_560p0_400p0,o1
+  bend_euler_2e0a66fe_495p125_564p875,o1: straight_1a88079a_365p0_560p0,o2
+  bend_euler_2e0a66fe_495p125_564p875,o2: bend_euler_2e0a66fe_495p125_575p125,o1
+  bend_euler_2e0a66fe_495p125_575p125,o2: straight_1a88079a_365p0_580p0,o1
+  bend_euler_2e0a66fe_525p125_364p875,o1: straight_1a88079a_395p0_360p0,o2
+  bend_euler_2e0a66fe_525p125_364p875,o2: bend_euler_2e0a66fe_525p125_375p125,o1
+  bend_euler_2e0a66fe_525p125_375p125,o2: straight_1a88079a_395p0_380p0,o1
 instances:
-  bend_euler_4725f0ef_225p125_204p875:
+  bend_euler_2e0a66fe_225p125_204p875:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_234p875_555p125:
+  bend_euler_2e0a66fe_234p875_555p125:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_234p875_584p875:
+  bend_euler_2e0a66fe_234p875_584p875:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_234p875_595p125:
+  bend_euler_2e0a66fe_234p875_595p125:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_255p125_4p875:
+  bend_euler_2e0a66fe_255p125_4p875:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_264p875_355p125:
+  bend_euler_2e0a66fe_264p875_355p125:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_264p875_384p875:
+  bend_euler_2e0a66fe_264p875_384p875:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_264p875_395p125:
+  bend_euler_2e0a66fe_264p875_395p125:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_495p125_564p875:
+  bend_euler_2e0a66fe_495p125_564p875:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_495p125_575p125:
+  bend_euler_2e0a66fe_495p125_575p125:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_525p125_364p875:
+  bend_euler_2e0a66fe_525p125_364p875:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
-  bend_euler_4725f0ef_525p125_375p125:
+  bend_euler_2e0a66fe_525p125_375p125:
     component: bend_euler
     settings:
-      cross_section:
-        function: cross_section
       radius: 10
   bl:
     component: pad
@@ -98,75 +74,55 @@ instances:
   br:
     component: pad
     settings: {}
-  straight_3bc3129a_150p0_0p0:
+  straight_1a88079a_365p0_560p0:
     component: straight
     settings:
-      cross_section:
-        function: cross_section
+      length: 250
+      radius: 10
+  straight_1a88079a_365p0_580p0:
+    component: straight
+    settings:
+      length: 250
+      radius: 10
+  straight_1a88079a_395p0_360p0:
+    component: straight
+    settings:
+      length: 250
+      radius: 10
+  straight_1a88079a_395p0_380p0:
+    component: straight
+    settings:
+      length: 250
+      radius: 10
+  straight_730b39a8_150p0_0p0:
+    component: straight
+    settings:
       length: 200
       radius: 10
-  straight_7b1e3316_560p0_400p0:
+  straight_76c7a705_545p0_600p0:
     component: straight
     settings:
-      cross_section:
-        function: cross_section
-      length: 580
+      length: 610
       radius: 10
-  straight_95cf111d_230p0_380p0:
+  straight_80b7924a_135p0_200p0:
     component: straight
     settings:
-      cross_section:
-        function: cross_section
-      length: 340
-      radius: 10
-  straight_95cf111d_260p0_180p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 340
-      radius: 10
-  straight_99672b3b_365p0_560p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 250
-      radius: 10
-  straight_99672b3b_365p0_580p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 250
-      radius: 10
-  straight_99672b3b_395p0_360p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 250
-      radius: 10
-  straight_99672b3b_395p0_380p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 250
-      radius: 10
-  straight_ab370e58_135p0_200p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
       length: 170
       radius: 10
-  straight_b28806b6_545p0_600p0:
+  straight_aa7b6441_230p0_380p0:
     component: straight
     settings:
-      cross_section:
-        function: cross_section
-      length: 610
+      length: 340
+      radius: 10
+  straight_aa7b6441_260p0_180p0:
+    component: straight
+    settings:
+      length: 340
+      radius: 10
+  straight_e3b83c00_560p0_400p0:
+    component: straight
+    settings:
+      length: 580
       radius: 10
   tl:
     component: pad
@@ -176,62 +132,62 @@ instances:
     settings: {}
 name: sample_path_length_matching
 placements:
-  bend_euler_4725f0ef_225p125_204p875:
+  bend_euler_2e0a66fe_225p125_204p875:
     mirror: false
     rotation: 0
     x: 220.0
     y: 200.0
-  bend_euler_4725f0ef_234p875_555p125:
+  bend_euler_2e0a66fe_234p875_555p125:
     mirror: true
     rotation: 90
     x: 230.0
     y: 550.0
-  bend_euler_4725f0ef_234p875_584p875:
+  bend_euler_2e0a66fe_234p875_584p875:
     mirror: true
     rotation: 180
     x: 240.0
     y: 580.0
-  bend_euler_4725f0ef_234p875_595p125:
+  bend_euler_2e0a66fe_234p875_595p125:
     mirror: true
     rotation: 90
     x: 230.0
     y: 590.0
-  bend_euler_4725f0ef_255p125_4p875:
+  bend_euler_2e0a66fe_255p125_4p875:
     mirror: false
     rotation: 0
     x: 250.0
     y: 0.0
-  bend_euler_4725f0ef_264p875_355p125:
+  bend_euler_2e0a66fe_264p875_355p125:
     mirror: true
     rotation: 90
     x: 260.0
     y: 350.0
-  bend_euler_4725f0ef_264p875_384p875:
+  bend_euler_2e0a66fe_264p875_384p875:
     mirror: true
     rotation: 180
     x: 270.0
     y: 380.0
-  bend_euler_4725f0ef_264p875_395p125:
+  bend_euler_2e0a66fe_264p875_395p125:
     mirror: true
     rotation: 90
     x: 260.0
     y: 390.0
-  bend_euler_4725f0ef_495p125_564p875:
+  bend_euler_2e0a66fe_495p125_564p875:
     mirror: false
     rotation: 0
     x: 490.0
     y: 560.0
-  bend_euler_4725f0ef_495p125_575p125:
+  bend_euler_2e0a66fe_495p125_575p125:
     mirror: false
     rotation: 90
     x: 500.0
     y: 570.0
-  bend_euler_4725f0ef_525p125_364p875:
+  bend_euler_2e0a66fe_525p125_364p875:
     mirror: false
     rotation: 0
     x: 520.0
     y: 360.0
-  bend_euler_4725f0ef_525p125_375p125:
+  bend_euler_2e0a66fe_525p125_375p125:
     mirror: false
     rotation: 90
     x: 530.0
@@ -246,56 +202,56 @@ placements:
     rotation: 0
     x: 900.0
     y: 400.0
-  straight_3bc3129a_150p0_0p0:
-    mirror: false
-    rotation: 0
-    x: 50.0
-    y: 0.0
-  straight_7b1e3316_560p0_400p0:
-    mirror: false
-    rotation: 0
-    x: 270.0
-    y: 400.0
-  straight_95cf111d_230p0_380p0:
-    mirror: false
-    rotation: 90
-    x: 230.0
-    y: 210.0
-  straight_95cf111d_260p0_180p0:
-    mirror: false
-    rotation: 90
-    x: 260.0
-    y: 10.0
-  straight_99672b3b_365p0_560p0:
+  straight_1a88079a_365p0_560p0:
     mirror: false
     rotation: 0
     x: 240.0
     y: 560.0
-  straight_99672b3b_365p0_580p0:
+  straight_1a88079a_365p0_580p0:
     mirror: false
     rotation: 180
     x: 490.0
     y: 580.0
-  straight_99672b3b_395p0_360p0:
+  straight_1a88079a_395p0_360p0:
     mirror: false
     rotation: 0
     x: 270.0
     y: 360.0
-  straight_99672b3b_395p0_380p0:
+  straight_1a88079a_395p0_380p0:
     mirror: false
     rotation: 180
     x: 520.0
     y: 380.0
-  straight_ab370e58_135p0_200p0:
+  straight_730b39a8_150p0_0p0:
     mirror: false
     rotation: 0
     x: 50.0
-    y: 200.0
-  straight_b28806b6_545p0_600p0:
+    y: 0.0
+  straight_76c7a705_545p0_600p0:
     mirror: false
     rotation: 0
     x: 240.0
     y: 600.0
+  straight_80b7924a_135p0_200p0:
+    mirror: false
+    rotation: 0
+    x: 50.0
+    y: 200.0
+  straight_aa7b6441_230p0_380p0:
+    mirror: false
+    rotation: 90
+    x: 230.0
+    y: 210.0
+  straight_aa7b6441_260p0_180p0:
+    mirror: false
+    rotation: 90
+    x: 260.0
+    y: 10.0
+  straight_e3b83c00_560p0_400p0:
+    mirror: false
+    rotation: 0
+    x: 270.0
+    y: 400.0
   tl:
     mirror: false
     rotation: 0

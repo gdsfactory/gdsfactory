@@ -1,5 +1,5 @@
 cells:
-  straight_e57a8330:
+  straight_d9d77473:
     changed:
       cross_section:
         function: cross_section
@@ -13,7 +13,6 @@ cells:
         - electrical
         - electrical
         width: 10
-      length: 10
       with_cladding_box: false
     default:
       cross_section:
@@ -41,7 +40,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_e57a8330
+    name: straight_d9d77473
     width: 10
   wire_corner:
     changed: {}

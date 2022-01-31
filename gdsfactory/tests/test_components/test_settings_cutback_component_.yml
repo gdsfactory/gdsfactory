@@ -30,12 +30,12 @@ cells:
     name: bend_euler_3cfca9b9
     radius: 5
     radius_min: 4.543
-  component_sequence_2956f7b0:
+  component_sequence_09c12bb3:
     changed:
       sequence: ABABABABDABABABABCABABABABDABABABABCABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
       symbol_to_component:
         '-':
-        - straight_5b6c3269
+        - straight
         - o1
         - o2
         A:
@@ -55,7 +55,7 @@ cells:
         - o1
         - o2
         _:
-        - straight_5b6c3269
+        - straight
         - o2
         - o1
     default:
@@ -71,7 +71,7 @@ cells:
       start_orientation: 0
       symbol_to_component:
         '-':
-        - straight_5b6c3269
+        - straight
         - o1
         - o2
         A:
@@ -91,16 +91,15 @@ cells:
         - o1
         - o2
         _:
-        - straight_5b6c3269
+        - straight
         - o2
         - o1
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_2956f7b0
-  straight_5b6c3269:
-    changed:
-      length: 10
+    name: component_sequence_09c12bb3
+  straight:
+    changed: {}
     default:
       cross_section:
         function: cross_section
@@ -117,7 +116,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_5b6c3269
+    name: straight
     width: 0.5
   taper_0p5_to_3_l36:
     changed: {}

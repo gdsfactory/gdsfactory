@@ -391,7 +391,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_f8ff546d
-  contact_16d0347b:
+  contact_41680d71:
     changed:
       layers:
       - - 47
@@ -401,18 +401,8 @@ cells:
       - - 49
         - 0
       size:
-      - 10
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      - 150
+      - 150
     default:
       layer_port: null
       layers:
@@ -445,8 +435,8 @@ cells:
       - - 49
         - 0
       size:
-      - 10
-      - 10
+      - 150
+      - 150
       vias:
       - enclosure: 2
         function: via
@@ -463,11 +453,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_16d0347b
+    name: contact_41680d71
     size:
-    - 10
-    - 10
-  contact_84c67b1a:
+    - 150
+    - 150
+  contact_8f0662dd:
     changed:
       layers:
       - - 47
@@ -479,16 +469,6 @@ cells:
       size:
       - 30
       - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
     default:
       layer_port: null
       layers:
@@ -539,11 +519,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_84c67b1a
+    name: contact_8f0662dd
     size:
     - 30
     - 10
-  contact_87aeec60:
+  contact_f6d43dc5:
     changed:
       layers:
       - - 47
@@ -553,18 +533,8 @@ cells:
       - - 49
         - 0
       size:
-      - 150
-      - 150
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      - 10
+      - 10
     default:
       layer_port: null
       layers:
@@ -597,8 +567,8 @@ cells:
       - - 49
         - 0
       size:
-      - 150
-      - 150
+      - 10
+      - 10
       vias:
       - enclosure: 2
         function: via
@@ -615,10 +585,10 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_87aeec60
+    name: contact_f6d43dc5
     size:
-    - 150
-    - 150
+    - 10
+    - 10
   via_cutback:
     changed: {}
     default:
