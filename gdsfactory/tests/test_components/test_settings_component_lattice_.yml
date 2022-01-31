@@ -363,91 +363,91 @@ info:
   module: gdsfactory.components.component_lattice
   name: component_lattice
 ports:
-  '0':
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -40
-    name: '0'
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  '1':
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: '1'
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  '2':
+  o1:
     layer:
     - 1
     - 0
     midpoint:
     - 0
     - -120
-    name: '2'
+    name: o1
     orientation: 180
     port_type: optical
     width: 0.5
-  '3':
+  o2:
     layer:
     - 1
     - 0
     midpoint:
     - 0
     - -80
-    name: '3'
+    name: o2
     orientation: 180
     port_type: optical
     width: 0.5
-  '4':
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - -40
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o4
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o5:
     layer:
     - 1
     - 0
     midpoint:
     - 280
     - 0
-    name: '4'
+    name: o5
     orientation: 0
     port_type: optical
     width: 0.5
-  '5':
+  o6:
     layer:
     - 1
     - 0
     midpoint:
     - 280
     - -40
-    name: '5'
+    name: o6
     orientation: 0
     port_type: optical
     width: 0.5
-  '6':
+  o7:
     layer:
     - 1
     - 0
     midpoint:
     - 280
     - -80
-    name: '6'
+    name: o7
     orientation: 0
     port_type: optical
     width: 0.5
-  '7':
+  o8:
     layer:
     - 1
     - 0
     midpoint:
     - 280
     - -120
-    name: '7'
+    name: o8
     orientation: 0
     port_type: optical
     width: 0.5
