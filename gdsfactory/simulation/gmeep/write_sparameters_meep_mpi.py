@@ -121,7 +121,7 @@ def write_sparameters_meep_mpi(
         logger.info(f"Simulation {filepath!r} already exists")
         return filepath
 
-    if overwrite:
+    if filepath.exists() and overwrite:
         filepath.unlink()
 
     # Save the component object to simulation for later retrieval
