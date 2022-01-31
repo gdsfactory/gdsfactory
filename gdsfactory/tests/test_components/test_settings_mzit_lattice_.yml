@@ -186,7 +186,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzit
     name: mzit_f7e2e81d
-  mzit_lattice_d41d8cd9:
+  mzit_lattice:
     changed: {}
     default:
       coupler_gaps:
@@ -213,7 +213,7 @@ cells:
     function_name: mzit_lattice
     info_version: 1
     module: gdsfactory.components.mzit_lattice
-    name: mzit_lattice_d41d8cd9
+    name: mzit_lattice
   straight_0832c2df:
     changed:
       length: 1
@@ -501,7 +501,7 @@ info:
   function_name: mzit_lattice
   info_version: 1
   module: gdsfactory.components.mzit_lattice
-  name: mzit_lattice_d41d8cd9
+  name: mzit_lattice
 ports:
   o1:
     layer:

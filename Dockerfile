@@ -1,4 +1,5 @@
-FROM jupyter/base-notebook
+FROM jupyter/base-notebook:python-3.8.8
+# FROM jupyter/base-notebook
 # FROM continuumio/miniconda3
 
 # expose klive and jupyter notebook ports
@@ -11,6 +12,7 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # Common useful utilities
     git \
+    htop \
     neovim
 
 USER jovyan
@@ -22,14 +24,12 @@ RUN conda init bash
 # USER ${NB_UID}
 # RUN apt update
 # RUN apt install gcc
-
-RUN conda install -c conda-forge gdspy -y
-RUN conda install -c conda-forge triangle -y
 # RUN conda install -c conda-forge pymeep -y
-RUN conda install -c conda-forge pymeep=*=mpi_mpich_*
-RUN conda install -c conda-forge mpi4py -y
-RUN pip install gdsfactory[full]
 
+RUN mamba install gdspy -y
+RUN mamba install pymeep=*=mpi_mpich_* -y
+
+RUN pip install gdsfactory[full] triangle
 # COPY requirements.txt /opt/app/requirements.txt
 # COPY requirements_dev.txt /opt/app/requirements_dev.txt
 # WORKDIR /opt/app

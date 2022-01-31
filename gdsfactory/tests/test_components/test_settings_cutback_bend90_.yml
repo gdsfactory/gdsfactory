@@ -1,5 +1,5 @@
 cells:
-  bend_euler_d41d8cd9:
+  bend_euler:
     changed: {}
     default:
       angle: 90
@@ -24,10 +24,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_d41d8cd9
+    name: bend_euler
     radius: 10
     radius_min: 7.061
-  cutback_bend90_d41d8cd9:
+  cutback_bend90:
     changed: {}
     default:
       bend90:
@@ -51,7 +51,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.cutback_bend
     n_bends: 144
-    name: cutback_bend90_d41d8cd9
+    name: cutback_bend90
   straight_49d3caf3:
     changed:
       length: 30
@@ -122,7 +122,7 @@ info:
   info_version: 1
   module: gdsfactory.components.cutback_bend
   n_bends: 144
-  name: cutback_bend90_d41d8cd9
+  name: cutback_bend90
 ports:
   o1:
     layer:

@@ -11,6 +11,7 @@ from gdsfactory.add_pins import add_pin_square_inside
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports
+from gdsfactory.simulation import lumerical
 from gdsfactory.tech import LayerLevel, LayerStack
 from gdsfactory.types import Layer
 
@@ -160,7 +161,7 @@ LAYER_STACK = get_layer_stack_fab_c()
 SPARAMETERS_PATH = pathlib.Path.home() / "fabc"
 
 write_sparameters_lumerical = gf.partial(
-    sim.write_sparameters_lumerical,
+    lumerical.write_sparameters_lumerical,
     layer_stack=LAYER_STACK,
     dirpath=SPARAMETERS_PATH,
 )
@@ -171,8 +172,8 @@ plot_sparameters = gf.partial(
     write_sparameters_function=write_sparameters_lumerical,
 )
 
-read_sparameters_pandas = gf.partial(
-    sim.read_sparameters_pandas,
+get_sparameters_path_lumerical = gf.partial(
+    sim.get_sparameters_data_lumerical,
     layer_stack=LAYER_STACK,
     dirpath=SPARAMETERS_PATH,
 )

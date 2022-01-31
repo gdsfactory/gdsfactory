@@ -30,7 +30,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_f2a0af54
-  nxn_d41d8cd9:
+  nxn:
     changed: {}
     default:
       east: 4
@@ -59,7 +59,7 @@ cells:
     function_name: nxn
     info_version: 1
     module: gdsfactory.components.nxn
-    name: nxn_d41d8cd9
+    name: nxn
   rectangle_48d69079:
     changed:
       layer:
@@ -119,7 +119,7 @@ info:
   function_name: nxn
   info_version: 1
   module: gdsfactory.components.nxn
-  name: nxn_d41d8cd9
+  name: nxn
 ports:
   o1:
     layer:

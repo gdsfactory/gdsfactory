@@ -9,7 +9,7 @@
  <autorun>true</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
- <show-in-menu>false</show-in-menu>
+ <show-in-menu>true</show-in-menu>
  <group-name/>
  <menu-path/>
  <interpreter>python</interpreter>

@@ -11,18 +11,18 @@ def get_install_requires_dev():
         return [line.strip() for line in f.readlines() if not line.startswith("-")]
 
 
-def get_install_requires_pip():
-    with open("requirements_pip.txt", "r") as f:
+def get_install_requires_full():
+    with open("requirements_full.txt", "r") as f:
         return [line.strip() for line in f.readlines() if not line.startswith("-")]
 
 
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="3.10.9",
+    version="3.12.10",
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
-    description="python libraries to generate GDS layouts",
+    description="python library to generate GDS layouts",
     packages=find_packages(),
     include_package_data=True,
     install_requires=get_install_requires(),
@@ -33,13 +33,13 @@ setup(
         gf=gdsfactory.gf:gf
     """,
     extras_require={
-        "full": list(set(get_install_requires() + get_install_requires_dev())),
+        "full": list(set(get_install_requires() + get_install_requires_full())),
         "basic": get_install_requires(),
-        "pip": list(
+        "dev": list(
             set(
                 get_install_requires()
                 + get_install_requires_dev()
-                + get_install_requires_pip()
+                + get_install_requires_full()
             )
         ),
     },

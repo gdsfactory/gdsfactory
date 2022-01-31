@@ -1,5 +1,5 @@
 cells:
-  taper_d41d8cd9:
+  taper:
     changed: {}
     default:
       cross_section:
@@ -21,7 +21,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper_d41d8cd9
+    name: taper
     width1: 0.5
     width2: 0.5
 info:
@@ -46,7 +46,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.taper
-  name: taper_d41d8cd9
+  name: taper
   width1: 0.5
   width2: 0.5
 ports:

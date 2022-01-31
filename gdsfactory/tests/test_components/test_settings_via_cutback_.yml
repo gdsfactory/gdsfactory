@@ -619,7 +619,7 @@ cells:
     size:
     - 150
     - 150
-  via_cutback_d41d8cd9:
+  via_cutback:
     changed: {}
     default:
       layer1:
@@ -700,7 +700,7 @@ cells:
     function_name: via_cutback
     info_version: 1
     module: gdsfactory.components.via_cutback
-    name: via_cutback_d41d8cd9
+    name: via_cutback
 info:
   changed: {}
   default:
@@ -782,6 +782,6 @@ info:
   function_name: via_cutback
   info_version: 1
   module: gdsfactory.components.via_cutback
-  name: via_cutback_d41d8cd9
+  name: via_cutback
 ports: {}
 version: 0.0.1

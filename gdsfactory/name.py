@@ -137,13 +137,7 @@ def clean_name(name: str) -> str:
 
 
 def clean_value(value: Any) -> str:
-    """returns more readable value (integer)
-    if number is < 1:
-        returns number units in nm (integer)
-
-    units are in um by default. Therefore when we multiply by 1e3 we get nm.
-    """
-
+    """returns a readable string representation."""
     if isinstance(value, int):
         value = str(value)
     elif isinstance(value, (float, np.float64)):
@@ -163,6 +157,17 @@ def clean_value(value: Any) -> str:
         value = clean_name(value.name)
     elif isinstance(value, str):
         value = value.strip()
+    elif (
+        isinstance(value, dict)
+        and len(value) > 0
+        and not isinstance(list(value.keys())[0], str)
+    ):
+        value = [
+            f"{clean_value(key)}={clean_value(value[key])}"
+            for key in sorted(value.keys())
+        ]
+        value = "_".join(value)
+
     elif isinstance(value, dict):
         value = dict2name(**value)
         # value = [f"{k}={v!r}" for k, v in value.items()]
@@ -195,7 +200,7 @@ def clean_value(value: Any) -> str:
     return str(value)
 
 
-def test_clean_value() -> None:
+def testclean_value_json() -> None:
     assert clean_value(0.5) == "500n"
     assert clean_value(5) == "5"
     assert clean_value(5.0) == "5"
@@ -208,7 +213,7 @@ def test_clean_name() -> None:
 
 if __name__ == "__main__":
     # test_cell()
-    test_clean_value()
+    testclean_value_json()
     import gdsfactory as gf
 
     # print(clean_value(gf.components.straight))
