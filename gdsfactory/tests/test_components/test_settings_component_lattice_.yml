@@ -131,8 +131,7 @@ cells:
         function: crossing45
       direction: top
     full:
-      crossing45:
-        function: crossing45
+      crossing45: crossing45
       direction: top
     function_name: compensation_path
     info_version: 1
@@ -414,7 +413,7 @@ ports:
     - 0
     midpoint:
     - 280
-    - -40
+    - 0
     name: '4'
     orientation: 0
     port_type: optical
@@ -425,7 +424,7 @@ ports:
     - 0
     midpoint:
     - 280
-    - 0
+    - -40
     name: '5'
     orientation: 0
     port_type: optical
@@ -436,7 +435,7 @@ ports:
     - 0
     midpoint:
     - 280
-    - -120
+    - -80
     name: '6'
     orientation: 0
     port_type: optical
@@ -447,7 +446,7 @@ ports:
     - 0
     midpoint:
     - 280
-    - -80
+    - -120
     name: '7'
     orientation: 0
     port_type: optical
