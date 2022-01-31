@@ -258,6 +258,7 @@ def component_lattice(
             j += 1
         x += L
 
+    component.auto_rename_ports()
     return component
 
 
