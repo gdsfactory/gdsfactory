@@ -17,6 +17,7 @@ def fanout_component(
     pitch: Tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
     sort_ports: bool = True,
+    auto_rename_ports: bool = True,
     **kwargs,
 ) -> Component:
     """Returns component with Sbend fanout routes.
@@ -61,6 +62,8 @@ def fanout_component(
         if port.name not in port_names:
             c.add_port(port.name, port=port)
 
+    if auto_rename_ports:
+        c.auto_rename_ports()
     return c
 
 
