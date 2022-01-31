@@ -25,6 +25,7 @@ from typing import Optional
 from lytest.kdb_xor import GeometryDifference, run_xor
 
 from gdsfactory.component import Component
+from gdsfactory.config import logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 
 cwd = pathlib.Path.cwd()
@@ -81,7 +82,7 @@ def difftest(
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference as error:
         print()
-        print(error)
+        logger.error(error)
         diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
