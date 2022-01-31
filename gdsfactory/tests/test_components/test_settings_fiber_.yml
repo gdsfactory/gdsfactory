@@ -1,9 +1,6 @@
 cells:
-  circle_72737e6a:
+  circle_212e6ad7:
     changed:
-      layer:
-      - 1
-      - 0
       radius: 5
     default:
       angle_resolution: 2.5
@@ -20,7 +17,7 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_72737e6a
+    name: circle_212e6ad7
   circle_e248ff5e:
     changed:
       layer:

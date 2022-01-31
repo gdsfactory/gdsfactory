@@ -1,14 +1,6 @@
 cells:
-  bend_euler_e146b96b:
-    changed:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
+  bend_euler:
+    changed: {}
     default:
       angle: 90
       cross_section:
@@ -32,7 +24,7 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_e146b96b
+    name: bend_euler
     radius: 10
     radius_min: 7.061
   bend_straight_bend:
@@ -61,11 +53,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.bend_euler
     name: bend_straight_bend
-  straight_457f2252:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 10
+  straight:
+    changed: {}
     default:
       cross_section:
         function: cross_section
@@ -82,7 +71,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_457f2252
+    name: straight
     width: 0.5
 info:
   changed: {}

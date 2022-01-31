@@ -5,9 +5,9 @@ connections:
   bend_euler_7f403255_33p138_4p262,o2: straight_325d35db_38p0_11p4,o1
   bend_euler_d48fbab9_30p112_16p512,o1: bend_euler_d48fbab9_30p112_6p288,o2
   bend_euler_d48fbab9_30p112_16p512,o2: taper_5ef18b11_22p5_21p4,o1
-  bend_euler_d48fbab9_30p112_6p288,o1: taper_35742b85_22p5_1p4,o2
-  coupler_8eaa93fc_5p0_0p4,o3: taper_35742b85_22p5_1p4,o1
-  coupler_8eaa93fc_5p0_0p4,o4: taper_497b9706_22p5_m0p6,o1
+  bend_euler_d48fbab9_30p112_6p288,o1: taper_c63e501a_22p5_1p4,o2
+  coupler_8eaa93fc_5p0_0p4,o3: taper_c63e501a_22p5_1p4,o1
+  coupler_8eaa93fc_5p0_0p4,o4: taper_8a817cb1_22p5_m0p6,o1
   coupler_cb43455d_1p5_22p4,o3: taper_feb4a44d_16p5_23p4,o2
   coupler_cb43455d_1p5_22p4,o4: taper_95acb109_16p5_21p4,o2
   straight_0832c2df_19p5_21p4,o1: taper_5ef18b11_22p5_21p4,o2
@@ -15,7 +15,7 @@ connections:
   straight_dab38390_19p5_23p4,o1: taper_85794c73_22p5_23p4,o2
   straight_dab38390_19p5_23p4,o2: taper_feb4a44d_16p5_23p4,o1
   straight_e8243227_26p5_23p4,o2: taper_85794c73_22p5_23p4,o1
-  straight_e8243227_26p5_m0p6,o1: taper_497b9706_22p5_m0p6,o2
+  straight_e8243227_26p5_m0p6,o1: taper_8a817cb1_22p5_m0p6,o2
 instances:
   bend_euler_7f403255_33p138_18p538:
     component: bend_euler
@@ -140,26 +140,6 @@ instances:
       npoints: 2
       width: 0.55
       with_cladding_box: true
-  taper_35742b85_22p5_1p4:
-    component: taper
-    settings:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.5
-      width2: 0.45
-      with_cladding_box: true
-  taper_497b9706_22p5_m0p6:
-    component: taper
-    settings:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.5
-      width2: 0.55
-      with_cladding_box: true
   taper_5ef18b11_22p5_21p4:
     component: taper
     settings:
@@ -180,6 +160,16 @@ instances:
       width1: 0.55
       width2: 0.45
       with_cladding_box: true
+  taper_8a817cb1_22p5_m0p6:
+    component: taper
+    settings:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.5
+      width2: 0.55
+      with_cladding_box: true
   taper_95acb109_16p5_21p4:
     component: taper
     settings:
@@ -189,6 +179,16 @@ instances:
       port: null
       width1: 0.55
       width2: 0.5
+      with_cladding_box: true
+  taper_c63e501a_22p5_1p4:
+    component: taper
+    settings:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.5
+      width2: 0.45
       with_cladding_box: true
   taper_feb4a44d_16p5_23p4:
     component: taper
@@ -257,16 +257,6 @@ placements:
     rotation: 0
     x: 25.0
     y: -0.6
-  taper_35742b85_22p5_1p4:
-    mirror: false
-    rotation: 0
-    x: 20.0
-    y: 1.4
-  taper_497b9706_22p5_m0p6:
-    mirror: false
-    rotation: 0
-    x: 20.0
-    y: -0.6
   taper_5ef18b11_22p5_21p4:
     mirror: false
     rotation: 180
@@ -277,11 +267,21 @@ placements:
     rotation: 180
     x: 25.0
     y: 23.4
+  taper_8a817cb1_22p5_m0p6:
+    mirror: false
+    rotation: 0
+    x: 20.0
+    y: -0.6
   taper_95acb109_16p5_21p4:
     mirror: false
     rotation: 180
     x: 19.0
     y: 21.4
+  taper_c63e501a_22p5_1p4:
+    mirror: false
+    rotation: 0
+    x: 20.0
+    y: 1.4
   taper_feb4a44d_16p5_23p4:
     mirror: false
     rotation: 180

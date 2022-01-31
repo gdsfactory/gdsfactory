@@ -273,62 +273,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight_e8243227
     width: 0.55
-  taper_35742b85:
-    changed:
-      length: 5
-      width1: 0.5
-      width2: 0.45
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.5
-      width2: 0.45
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.taper
-    name: taper_35742b85
-    width1: 0.5
-    width2: 0.45
-  taper_497b9706:
-    changed:
-      length: 5
-      width1: 0.5
-      width2: 0.55
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      port: null
-      width1: 0.5
-      width2: 0.55
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.taper
-    name: taper_497b9706
-    width1: 0.5
-    width2: 0.55
   taper_5ef18b11:
     changed:
       length: 5
@@ -385,6 +329,33 @@ cells:
     name: taper_85794c73
     width1: 0.55
     width2: 0.45
+  taper_8a817cb1:
+    changed:
+      length: 5
+      width2: 0.55
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.5
+      width2: 0.55
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.taper
+    name: taper_8a817cb1
+    width1: 0.5
+    width2: 0.55
   taper_95acb109:
     changed:
       length: 5
@@ -413,6 +384,33 @@ cells:
     name: taper_95acb109
     width1: 0.55
     width2: 0.5
+  taper_c63e501a:
+    changed:
+      length: 5
+      width2: 0.45
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      port: null
+      width1: 0.5
+      width2: null
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 5
+      port: null
+      width1: 0.5
+      width2: 0.45
+      with_cladding_box: true
+    function_name: taper
+    info_version: 1
+    length: 5
+    module: gdsfactory.components.taper
+    name: taper_c63e501a
+    width1: 0.5
+    width2: 0.45
   taper_feb4a44d:
     changed:
       length: 5

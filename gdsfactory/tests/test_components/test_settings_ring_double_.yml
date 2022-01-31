@@ -1,10 +1,6 @@
 cells:
-  coupler_ring_884bafc4:
+  coupler_ring_1f8e1c06:
     changed:
-      bend: null
-      cross_section:
-        function: cross_section
-      gap: 0.2
       length_x: 0.01
       radius: 10
     default:
@@ -34,7 +30,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_884bafc4
+    name: coupler_ring_1f8e1c06
   ring_double:
     changed: {}
     default:
@@ -65,10 +61,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_double
     name: ring_double
-  straight_5743d35a:
+  straight_c138f2c4:
     changed:
-      cross_section:
-        function: cross_section
       length: 0.01
     default:
       cross_section:
@@ -86,7 +80,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_5743d35a
+    name: straight_c138f2c4
     width: 0.5
 info:
   changed: {}

@@ -1,10 +1,9 @@
 cells:
-  compass_6ffda32f:
+  compass_a0b38c11:
     changed:
       layer:
       - 49
       - 0
-      port_inclusion: 0
       size:
       - 100
       - 100
@@ -29,7 +28,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_6ffda32f
+    name: compass_a0b38c11
   pad:
     changed: {}
     default:

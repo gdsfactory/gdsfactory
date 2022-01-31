@@ -1,8 +1,6 @@
 cells:
-  bend_euler_1da190e0:
-    changed:
-      cross_section:
-        function: cross_section
+  bend_euler:
+    changed: {}
     default:
       angle: 90
       cross_section:
@@ -26,7 +24,7 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_1da190e0
+    name: bend_euler
     radius: 10
     radius_min: 7.061
   mmi1x2_28584457:
@@ -94,10 +92,8 @@ cells:
     module: gdsfactory.components.mmi1x2
     name: mmi1x2_52b0d64a
   sample_docstring: {}
-  straight_466a3c74:
+  straight_3aa6a47c:
     changed:
-      cross_section:
-        function: cross_section
       length: 19.99
     default:
       cross_section:
@@ -115,12 +111,10 @@ cells:
     info_version: 1
     length: 19.99
     module: gdsfactory.components.straight
-    name: straight_466a3c74
+    name: straight_3aa6a47c
     width: 0.5
-  straight_5743d35a:
+  straight_c138f2c4:
     changed:
-      cross_section:
-        function: cross_section
       length: 0.01
     default:
       cross_section:
@@ -138,12 +132,10 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_5743d35a
+    name: straight_c138f2c4
     width: 0.5
-  straight_b649c633:
+  straight_d0ae2c31:
     changed:
-      cross_section:
-        function: cross_section
       length: 18.75
     default:
       cross_section:
@@ -161,7 +153,7 @@ cells:
     info_version: 1
     length: 18.75
     module: gdsfactory.components.straight
-    name: straight_b649c633
+    name: straight_d0ae2c31
     width: 0.5
 info:
   name: sample_docstring

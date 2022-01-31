@@ -1,10 +1,6 @@
 cells:
-  compass_85d33a91:
+  compass_6df08d23:
     changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
       size:
       - 1300
       - 2600
@@ -29,7 +25,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_85d33a91
+    name: compass_6df08d23
   rectangle_6df08d23:
     changed:
       size:

@@ -59,19 +59,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_ef690c07
-  contact_slot_9a3dc57d:
-    changed:
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      via:
-        enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
+  contact_slot:
+    changed: {}
     default:
       enclosure: 1
       layer_offsets:
@@ -123,23 +112,12 @@ cells:
     function_name: contact_slot
     info_version: 1
     module: gdsfactory.components.contact_slot
-    name: contact_slot_9a3dc57d
+    name: contact_slot
     size:
     - 11
     - 11
 info:
-  changed:
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    via:
-      enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
+  changed: {}
   default:
     enclosure: 1
     layer_offsets:
@@ -191,7 +169,7 @@ info:
   function_name: contact_slot
   info_version: 1
   module: gdsfactory.components.contact_slot
-  name: contact_slot_9a3dc57d
+  name: contact_slot
   size:
   - 11
   - 11
