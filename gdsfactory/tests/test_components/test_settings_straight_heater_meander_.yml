@@ -24,7 +24,7 @@ cells:
       - 2
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
+    module: gdsfactory.components.array_component
     name: array_d995c19f
   bend_euler_a519ff2d:
     changed:
@@ -350,7 +350,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_dbc1e874
     width: 0.5
-  straight_heater_meander_d41d8cd9:
+  straight_heater_meander:
     changed: {}
     default:
       contact:
@@ -425,7 +425,7 @@ cells:
     function_name: straight_heater_meander
     info_version: 1
     module: gdsfactory.components.straight_heater_meander
-    name: straight_heater_meander_d41d8cd9
+    name: straight_heater_meander
   taper_d31ba445:
     changed:
       cross_section:
@@ -539,7 +539,7 @@ info:
   function_name: straight_heater_meander
   info_version: 1
   module: gdsfactory.components.straight_heater_meander
-  name: straight_heater_meander_d41d8cd9
+  name: straight_heater_meander
 ports:
   e1:
     layer:

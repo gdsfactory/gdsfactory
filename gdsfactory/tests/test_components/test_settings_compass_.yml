@@ -1,5 +1,5 @@
 cells:
-  compass_d41d8cd9:
+  compass:
     changed: {}
     default:
       layer:
@@ -22,7 +22,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_d41d8cd9
+    name: compass
 info:
   changed: {}
   default:
@@ -46,7 +46,7 @@ info:
   function_name: compass
   info_version: 1
   module: gdsfactory.components.compass
-  name: compass_d41d8cd9
+  name: compass
 ports:
   e1:
     layer:

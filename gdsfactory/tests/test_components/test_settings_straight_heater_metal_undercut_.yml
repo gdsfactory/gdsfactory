@@ -281,7 +281,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_e3f148d8
     width: 0.5
-  straight_heater_metal_u_d6f135fa:
+  straight_heater_metal_undercut:
     changed: {}
     default:
       contact:
@@ -354,7 +354,7 @@ cells:
     function_name: straight_heater_metal_undercut
     info_version: 1
     module: gdsfactory.components.straight_heater_metal
-    name: straight_heater_metal_u_d6f135fa
+    name: straight_heater_metal_undercut
     resistance: null
   taper_ea91ec9c:
     changed:
@@ -463,7 +463,7 @@ info:
   function_name: straight_heater_metal_undercut
   info_version: 1
   module: gdsfactory.components.straight_heater_metal
-  name: straight_heater_metal_u_d6f135fa
+  name: straight_heater_metal_undercut
   resistance: null
 ports:
   e1:

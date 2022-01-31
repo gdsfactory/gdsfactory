@@ -1,5 +1,6 @@
 import pathlib
 import tempfile
+from typing import Optional
 
 import meep as mp
 import numpy as np
@@ -19,9 +20,10 @@ def get_mode_solver_rib(
     slab_thickness: float = 0.0,
     ncore: float = 3.47,
     nclad: float = 1.44,
+    nslab: Optional[float] = None,
     sy: float = 2.0,
     sz: float = 2.0,
-    res: int = 32,
+    resolution: int = 32,
     nmodes: int = 4,
     sidewall_angle: float = None,
     # sidewall_taper: int = 1,
@@ -34,9 +36,10 @@ def get_mode_solver_rib(
         slab_thickness: thickness for the waveguide slab
         ncore: core material refractive index
         nclad: clad material refractive index
+        nslab: Optional slab material refractive index. Defaults to ncore.
         sy: simulation region width (um)
         sz: simulation region height (um)
-        res: resolution (pixels/um)
+        resolution: resolution (pixels/um)
         nmodes: number of modes
         sidewall_angle: waveguide sidewall angle (radians),
             tapers from wg_width at top of slab, upwards, to top of waveguide
@@ -64,19 +67,15 @@ def get_mode_solver_rib(
     """
     material_core = mp.Medium(index=ncore)
     material_clad = mp.Medium(index=nclad)
+    material_slab = mp.Medium(index=nslab or ncore)
 
     # Define the computational cell.  We'll make x the propagation direction.
     # the other cell sizes should be big enough so that the boundaries are
     # far away from the mode field.
     geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
-    geometry = [
-        mp.Block(
-            size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
-            material=material_core,
-            center=mp.Vector3(z=slab_thickness / 2),
-        ),
-    ]
+    geometry = []
+
     # define the 2d blocks for the strip and substrate
     if sidewall_angle:
         geometry.append(
@@ -114,6 +113,14 @@ def get_mode_solver_rib(
         # ),
         # )
 
+    geometry += [
+        mp.Block(
+            size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
+            material=material_slab,
+            center=mp.Vector3(z=slab_thickness / 2),
+        ),
+    ]
+
     # The k (i.e. beta, i.e. propagation constant) points to look at, in
     # units of 2*pi/um.  We'll look at num_k points from k_min to k_max.
     num_k = 9
@@ -132,7 +139,7 @@ def get_mode_solver_rib(
         geometry_lattice=geometry_lattice,
         geometry=geometry,
         k_points=k_points,
-        resolution=res,
+        resolution=resolution,
         num_bands=nmodes,
         default_material=material_clad,
         filename_prefix=str(filename_prefix),
@@ -146,7 +153,7 @@ def get_mode_solver_rib(
         nclad=nclad,
         sy=sy,
         sz=sz,
-        res=res,
+        resolution=resolution,
         nmodes=nmodes,
     )
     return mode_solver
@@ -156,7 +163,7 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     m = get_mode_solver_rib(
-        slab_thickness=0.09, res=64, sidewall_angle=10 * (np.pi / 180)
+        slab_thickness=0.09, resolution=64, sidewall_angle=10 * (np.pi / 180), nslab=2
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
@@ -174,4 +181,5 @@ if __name__ == "__main__":
             m.info["sz"] / 2,
         ],
     )
+    plt.colorbar()
     plt.show()

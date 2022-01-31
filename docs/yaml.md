@@ -1,8 +1,8 @@
 # YAML
 
-You can define components, circuits and masks in YAML syntax.
+You can define components, netlists (for circuits) and masks in YAML syntax.
 
-## Component
+## Netlist
 
 
 ```{eval-rst}

@@ -1,7 +1,7 @@
 import copy as python_copy
 
 import gdspy
-from phidl.device_layout import CellArray, Device, DeviceReference
+from phidl.device_layout import CellArray, DeviceReference
 
 from gdsfactory.cell import avoid_duplicated_cells
 from gdsfactory.component import Component, ComponentReference
@@ -9,7 +9,7 @@ from gdsfactory.component import Component, ComponentReference
 
 def copy(
     D: Component, prefix: str = "", suffix: str = "_copy", cache: bool = True
-) -> Device:
+) -> Component:
     """returns a deep copy of a Component.
     based on phidl.geometry with CellArray support
     """

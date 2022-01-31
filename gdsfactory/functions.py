@@ -1,4 +1,4 @@
-"""All functions return a component so they are easy to pipe and compose.
+"""All functions return a Component so you can easily pipe or compose them.
 
 There are two types of functions:
 
@@ -48,9 +48,9 @@ def add_text(
 
     Args:
         component:
-        text_offset: relative to component size info anchor. Defaults to center.
-        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
-        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
+        text: text string.
+        text_offset: relative to component anchor. Defaults to center (cc).
+        text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
         text_factory: function to add text labels.
     """
     component = component() if callable(component) else component
@@ -81,8 +81,7 @@ def add_texts(
 
     keyword Args:
         text_offset: relative to component size info anchor. Defaults to center.
-        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
-        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
+        text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
         text_factory: function to add text labels.
     """
     return [
@@ -144,7 +143,7 @@ def move(
     destination=None,
     axis: Optional[str] = None,
 ) -> Component:
-    """Returns a container that contains a reference to the original component."""
+    """Return container that contains a reference to the original component."""
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)

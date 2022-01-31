@@ -25,7 +25,7 @@ instances:
       w0: 0.5
       w1: 0.45
       w2: 0.55
-name: mzit_lattice_d41d8cd9
+name: mzit_lattice
 placements:
   mzit_f7e2e81d_19p138_11p4:
     mirror: false

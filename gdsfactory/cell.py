@@ -1,13 +1,9 @@
-"""
-INFO_VERSION
-
-1: original metadata format
-
-"""
+"""cell decorator"""
+import copy
 import functools
 import hashlib
 import inspect
-from typing import Callable, Dict
+from typing import Callable, Dict, Tuple
 
 import omegaconf
 import toolz
@@ -51,7 +47,7 @@ class CellReturnTypeError(ValueError):
 
 
 def clear_cache() -> None:
-    """Clears the component CACHE."""
+    """Clears Component CACHE."""
     global CACHE
     global CACHE_IMPORTED_CELLS
     CACHE = {}
@@ -76,45 +72,16 @@ def get_source_code(func: Callable) -> str:
 
 
 def cell_without_validator(func):
+    """Decorator for Component functions.
+
+    Similar to cell decorator, this one does not validate_arguments using
+    type annotations
+
+    I recommend using @cell instead
+    """
+
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-        """Decorator for Component functions.
-
-        similar to cell decorator, this one does not validate_arguments using
-        type annotations
-
-        kwargs:
-            autoname: if True renames component based on args and kwargs
-            name (str): Optional (ignored when autoname=True)
-            cache (bool): get component from the cache if it already exists.
-              Useful in jupyter notebook, so you don't have to clear the cache
-            info: updates component.info dict
-            prefix: name_prefix, defaults to function name
-            max_name_length: truncates name beyond some characters (32) with a hash
-            decorator: function to run over the component
-
-        Implements a cache so that if a component has already been build
-        it will return the component from the cache.
-        This avoids 2 exact cells that are not references of the same cell
-        You can always over-ride this with `cache = False`.
-
-        .. plot::
-          :include-source:
-
-          import gdsfactory as gf
-
-          @gf.cell
-          def rectangle(size=(4,2), layer=0)->gf.Component:
-              c = gf.Component()
-              w, h = size
-              points = [[w, h], [w, 0], [0, 0], [0, h]]
-              c.add_polygon(points, layer=layer)
-              return c
-
-          c = rectangle(layer=(1,0))
-          c.plot()
-
-        """
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
@@ -124,20 +91,27 @@ def cell_without_validator(func):
 
         sig = inspect.signature(func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), args))
-        args_as_kwargs.update(**kwargs)
-        args_as_kwargs_string_list = [
-            f"{key}={clean_value(args_as_kwargs[key])}"
-            for key in sorted(args_as_kwargs.keys())
+        args_as_kwargs.update(**copy.deepcopy(kwargs))
+
+        default = {
+            p.name: p.default
+            for p in sig.parameters.values()
+            if not p.default == inspect._empty
+        }
+        changed = args_as_kwargs
+        default = default
+        full = copy.deepcopy(default)
+        full.update(**args_as_kwargs)
+
+        named_args_list = [
+            f"{key}={clean_value(changed[key])}" for key in sorted(changed.keys())
         ]
+        named_args_string = "_".join(named_args_list)
+        named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+        name_signature = (
+            clean_name(f"{prefix}_{named_args_hash}") if named_args_list else prefix
+        )
 
-        arguments = "_".join(args_as_kwargs_string_list)
-        arguments_hash = hashlib.md5(arguments.encode()).hexdigest()[:8]
-
-        # for key in sorted(args_as_kwargs.keys()):
-        #     print(f"{key}={clean_value(args_as_kwargs[key])}")
-        # print(arguments)
-
-        name_signature = clean_name(f"{prefix}_{arguments_hash}")
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)
         name = get_name_short(name, max_name_length=max_name_length)
@@ -190,22 +164,9 @@ def cell_without_validator(func):
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
 
-            default = {
-                p.name: p.default
-                for p in sig.parameters.values()
-                if not p.default == inspect._empty
-            }
-            full = default.copy()
-            full.update(**args_as_kwargs)
-            changed = args_as_kwargs.copy()
-
-            clean_dict(full)
-            clean_dict(default)
-            clean_dict(changed)
-
-            component.info.changed = changed
-            component.info.default = default
-            component.info.full = full
+            component.info.changed = clean_dict(changed)
+            component.info.default = clean_dict(default)
+            component.info.full = clean_dict(full)
 
             component.info.update(**info)
 
@@ -238,18 +199,59 @@ def cell_without_validator(func):
 
 
 def cell(func, *args, **kwargs):
-    """Validates type annotations with pydantic"""
+    """Decorator for Component functions.
+    Wraps cell_without_validator Validates type annotations with pydantic.
+
+    Implements a cache so that if a component has already been build
+    it will return the component from the cache directly.
+    This avoids 2 exact cells that are not references of the same cell
+    You can always over-ride this with `cache = False`.
+
+    When decorate your functions with @cell you get:
+
+    - CACHE: avoids creating duplicated cells.
+    - name: gives Components a unique name based on parameters.
+    - adds Component.info with default, changed and full component settings.
+
+    Keyword Args:
+        autoname (bool): if True renames component based on args and kwargs
+        name (str): Optional (ignored when autoname=True)
+        cache (bool): returns component from the cache if it already exists.
+            if False creates a new component
+            by default True avoids having duplicated cells with the same name
+        info: updates component.info dict
+        prefix: name_prefix, defaults to function name
+        max_name_length: truncates name beyond some characters (32) with a hash
+        decorator: function to run over the component
+
+
+    .. plot::
+      :include-source:
+
+      import gdsfactory as gf
+
+      @gf.cell
+      def rectangle(size=(4,2), layer=0)->gf.Component:
+          c = gf.Component()
+          w, h = size
+          points = [[w, h], [w, 0], [0, 0], [0, h]]
+          c.add_polygon(points, layer=layer)
+          return c
+
+      c = rectangle(layer=(1,0))
+      c.plot()
+    """
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 
 
 @cell
-def wg(length: int = 3, width: float = 0.5) -> Component:
+def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
     from gdsfactory.component import Component
 
     c = Component("straight")
+    width = 0.5
     w = width / 2
-    layer = (1, 0)
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
     c.add_port(name="o1", midpoint=[0, 0], width=width, orientation=180, layer=layer)
     c.add_port(name="o2", midpoint=[length, 0], width=width, orientation=0, layer=layer)
@@ -297,6 +299,18 @@ def test_names() -> None:
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
 
+    c1name = wg(length=3).name
+    c2name = wg(length=3.0).name
+    assert c1name == c2name
+
+    # c1name = wg(length=3).name
+    # c2name = wg(length=3.0).name
+    # c3name = wg().name
+    # assert c1name == c2name == c3name
+
+    c = wg(length=3.1)
+    assert c.info.changed.length == 3.1
+
 
 @cell
 def straight_with_pins(**kwargs):
@@ -311,9 +325,14 @@ def straight_with_pins(**kwargs):
 
 if __name__ == "__main__":
     # test_names()
+    # c = wg(layer=(1, 0))
+    # print(c.info.changed)
 
-    import gdsfactory as gf
-
-    c = gf.c.straight()
+    # import gdsfactory as gf
+    # c = gf.c.straight()
     # c = gf.c.straight()
     # print(c.name)
+
+    print(wg(length=3).name)
+    print(wg(length=3.0).name)
+    print(wg().name)

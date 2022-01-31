@@ -304,7 +304,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.straight_pin
     name: straight_pin_5f3c3d8d
-  taper_strip_to_ridge_d41d8cd9:
+  taper_strip_to_ridge:
     changed: {}
     default:
       cladding_offset: 3
@@ -342,7 +342,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_d41d8cd9
+    name: taper_strip_to_ridge
 info:
   changed:
     cross_section:

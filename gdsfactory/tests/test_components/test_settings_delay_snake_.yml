@@ -29,7 +29,7 @@ cells:
     name: bend_euler_a96febb9
     radius: 10
     radius_min: 7.061
-  delay_snake_d41d8cd9:
+  delay_snake:
     changed: {}
     default:
       L0: 5
@@ -60,7 +60,7 @@ cells:
     function_name: delay_snake
     info_version: 1
     module: gdsfactory.components.delay_snake
-    name: delay_snake_d41d8cd9
+    name: delay_snake
   straight_0bb8b569:
     changed:
       cross_section:
@@ -192,7 +192,7 @@ info:
   function_name: delay_snake
   info_version: 1
   module: gdsfactory.components.delay_snake
-  name: delay_snake_d41d8cd9
+  name: delay_snake
 ports:
   o1:
     layer:

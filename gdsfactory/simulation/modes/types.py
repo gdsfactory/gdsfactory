@@ -349,7 +349,7 @@ class Waveguide:
         nclad: float = 1.44
         sy: float
         sz: float
-        res: int
+        resolution: int
         nmodes: int
         modes: Dict[Mode]
 
@@ -362,7 +362,7 @@ class Waveguide:
     nclad: float = 1.44
     sy: float = 2.0
     sz: float = 2.0
-    res: int = 32
+    resolution: int = 32
     nmodes: int = 4
     modes: Optional[Dict[int, Mode]] = None
 

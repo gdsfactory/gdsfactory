@@ -1,5 +1,82 @@
 # CHANGELOG
 
+## 3.12.9
+
+- fix tests
+
+## 3.12.8
+
+- rename `padding_north`, `padding_west`, `padding_east`, `padding_south` -> `ymargin_top`, `xmargin_left`, `xmargin_right`, `ymargin_bot` for consistency of the meep plugin with the Lumerical plugin.
+- add `write_sparameters_meep_lr` with left and right ports and `write_sparameters_meep_mpi_lt` with left and top ports
+- add xmargin and ymargin to write_sparameters_meep
+
+
+## 3.12.7
+
+- add Optional nslab to gm.modes.get_mode_solver_rib
+- add `padding_north`, `padding_west`, `padding_east`, `padding_south`
+- add tqdm progress bar to meep sims
+
+## 3.12.6
+
+- make trimesh an optional dependency by moving imports inside function
+
+## 3.12.3
+
+- fix docker container gdsfactory:latest
+- leverage meep plot flag to avoid initializing the structure
+- recommend to install triangle with mamba, and the rest of the dependencies with pip
+
+## 3.12.1
+
+- rename gdsfactory.components.array to gdsfactory.components.array_component
+- create `.gitpod.yml`
+
+## 3.12.0
+
+- Consider only passed component args and kwargs when calculating hash for component name
+- replace `_clean_value` by `clean_value_json`
+- delete `tech.Library` as it's not being used. You can just use a dict of functions instead
+
+## 3.11.5
+
+- move rectpack import inside pack function
+- create `pip install[dev]` just for developers, and reduce the dependencies for `pip install[full]`
+- recommend installing gdspy and meep with mamba (faster than conda)
+- rename w1 as width1 and w2 as width2 in find_neff_vs_width
+
+
+## 3.11.4
+
+- Remove numpy.typing from snap.py to be compatible with minimum version of numpy
+
+## 3.11.3
+
+- rename `res` to `resolution` in simulation.modes to be consistent with simulation.gmeep
+
+## 3.11.2
+
+- add plugins to notebooks and coverage
+
+## 3.11.0
+
+- get_sparameters_path filepath based on component_name + simulation_settings hash
+- move gdsfactory.simulation.write_sparameters_lumerical to gdsfactory.simulation.lumerical.write_sparameters_lumerical
+- Sparameters are all lowercase (both for meep and lumerical plugins)
+
+## 3.10.12
+
+- write_sparameters_lumerical allows passing material refractive index or any material in Lumerical's material database
+
+## 3.10.11
+
+- improve docs
+
+## 3.10.10
+
+- cell name with no parameters passed only includes prefix [PR](https://github.com/gdsfactory/gdsfactory/pull/158)
+- write_sparameters_meep can exploit symmetries [PR](https://github.com/gdsfactory/gdsfactory/pull/157)
+
 ## 3.10.9
 
 - add tests for `write_sparameters_meep_mpi` and  `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
@@ -1156,7 +1233,7 @@ from pydantic import validate_arguments
 - get_netlist() returns a dict. Removed recursive option as it is not consistent with the new netlist extractor in pp/get_netlist.py. Added name to netlist.
   - fixed get_netlist() placements (using origin of the reference instead of x, y which refer to the center). Now we can go back and forth from component -> netlist -> component
   - If there is a label at the same XY as the reference it gets the name from that label, the issue was that we need to add the labels after defining connections in component_from_yaml
-- ListConfig iterates as a list in \_clean_value
+- ListConfig iterates as a list in \clean_value_json
 - test component.get_netlist() -> YAML-> pp.component_from_yaml(YAML) = component (both for settings_changed and full_settings)
 - add pp.testing with difftest(component) function for boolean GDS testing.
 - improved placer documentation and comments in pp/samples/mask/does.yml
