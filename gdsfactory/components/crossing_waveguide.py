@@ -222,8 +222,8 @@ def crossing45(
     crossing = crossing() if callable(crossing) else crossing
 
     c = Component()
-    x = crossing.ref(rotation=45)
-    c.add(x)
+    x = c << crossing
+    x.rotate(45)
 
     # Add bends
     p_e = x.ports["o3"].midpoint
@@ -269,7 +269,6 @@ def crossing45(
         c.absorb(cmp_ref)
 
     c.info.bezier_length = bend.info.length
-    c.info.crossing = crossing.info
     c.info.min_bend_radius = b_br.info.min_bend_radius
 
     c.bezier = bend
@@ -370,9 +369,7 @@ def compensation_path(
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
     c = Component()
-    crossing0 = crossing45.crossing.ref()
-    c.add(crossing0)
-
+    crossing0 = c << crossing45.crossing
     sbend_left = sbend.ref(
         position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror
     )
@@ -426,6 +423,6 @@ if __name__ == "__main__":
     # c = crossing_from_taper()
     # c.pprint()
     # c = crossing_etched()
-    # c = compensation_path()
-    c = crossing45(port_spacing=40)
+    c = compensation_path()
+    # c = crossing45(port_spacing=40)
     c.show()
