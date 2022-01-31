@@ -1,12 +1,14 @@
 # CHANGELOG
 
-## 3.12.11
+## 3.13.0
 
+- Consider only changed component args and kwargs when calculating hash for component name
 - meep plugin write_sparameters_meep_mpi overwrite removes old file for an actual overwrite
 - ensure write_sparameters_meep `**kwargs` are valid simmulation settings
 - fix component lattice mutability issue
 - add `Component.is_unlocked` that raises MutabilityError
 - rename component_lattice components to symbol_to_component
+- raise error when trying to add two ports with the same name
 
 
 ## 3.12.9
