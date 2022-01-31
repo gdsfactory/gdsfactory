@@ -370,6 +370,7 @@ def compensation_path(
 
     c = Component()
     crossing0 = c << crossing45.crossing
+
     sbend_left = sbend.ref(
         position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror
     )
