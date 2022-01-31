@@ -175,10 +175,11 @@ def component_lattice(
       c.plot()
 
     """
+    x = crossing45(port_spacing=40)
     symbol_to_component = symbol_to_component or {
         "C": gf.routing.fanout2x2(component=coupler(), port_spacing=40.0),
-        "X": crossing45(port_spacing=40.0),
-        "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
+        "X": x,
+        "-": compensation_path(x),
     }
 
     # Find y spacing and check that all components have same y spacing

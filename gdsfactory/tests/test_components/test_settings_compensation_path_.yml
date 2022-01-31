@@ -67,8 +67,7 @@ cells:
         function: crossing45
       direction: top
     full:
-      crossing45:
-        function: crossing45
+      crossing45: crossing45
       direction: top
     function_name: compensation_path
     info_version: 1
@@ -155,8 +154,7 @@ info:
       function: crossing45
     direction: top
   full:
-    crossing45:
-      function: crossing45
+    crossing45: crossing45
     direction: top
   function_name: compensation_path
   info_version: 1

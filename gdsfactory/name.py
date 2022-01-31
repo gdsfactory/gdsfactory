@@ -1,5 +1,6 @@
 """Define names, clean values for names.
 """
+import copy
 import functools
 import hashlib
 import inspect
@@ -162,6 +163,7 @@ def clean_value(value: Any) -> str:
         and len(value) > 0
         and not isinstance(list(value.keys())[0], str)
     ):
+        value = copy.deepcopy(value)
         value = [
             f"{clean_value(key)}={clean_value(value[key])}"
             for key in sorted(value.keys())
@@ -169,8 +171,8 @@ def clean_value(value: Any) -> str:
         value = "_".join(value)
 
     elif isinstance(value, dict):
+        value = copy.deepcopy(value)
         value = dict2name(**value)
-        # value = [f"{k}={v!r}" for k, v in value.items()]
     elif isinstance(value, Port):
         value = f"{value.name}_{value.width}_{value.x}_{value.y}"
     elif isinstance(value, PathPhidl):
@@ -213,8 +215,8 @@ def test_clean_name() -> None:
 
 if __name__ == "__main__":
     # test_cell()
-    testclean_value_json()
-    import gdsfactory as gf
+    # testclean_value_json()
+    # import gdsfactory as gf
 
     # print(clean_value(gf.components.straight))
     # c = gf.components.straight(polarization="TMeraer")
@@ -222,8 +224,8 @@ if __name__ == "__main__":
     # print(clean_value(11.001))
     # layers_cladding = (gf.LAYER.WGCLAD, gf.LAYER.NO_TILE_SI)
     # layers_cladding = (gf.LAYER.WGCLAD,)
-    c = gf.components.straight(length=10)
-    c = gf.components.straight(length=10)
+    # c = gf.components.straight(length=10)
+    # c = gf.components.straight(length=10)
 
     # print(c.name)
     # print(c)
@@ -236,3 +238,11 @@ if __name__ == "__main__":
     # print(clean_value([1, 2.4324324, 3]))
     # print(clean_value((0.001, 24)))
     # print(clean_value({"a": 1, "b": 2}))
+    import gdsfactory as gf
+
+    d = {
+        "X": gf.c.crossing45(port_spacing=40.0),
+        "-": gf.c.compensation_path(crossing45=gf.c.crossing45(port_spacing=40.0)),
+    }
+    d2 = clean_value(d)
+    print(d2)
