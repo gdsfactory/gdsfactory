@@ -182,7 +182,6 @@ def component_lattice(
     }
 
     # Find y spacing and check that all components have same y spacing
-
     y_spacing = None
     for component in symbol_to_component.values():
         component = gf.call_if_func(component)
@@ -251,8 +250,9 @@ def component_lattice(
                         component.add_port(gen_tmp_port_name(), port=_p)
 
             else:
+                symbols = list(symbol_to_component.keys())
                 raise ValueError(
-                    f"symbol {c} not in symbol_to_component dict {symbol_to_component.keys()}"
+                    f"symbol {c!r} not in symbol_to_component dict {symbols}"
                 )
 
             j += 1
@@ -305,5 +305,5 @@ if __name__ == "__main__":
     # c= gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0)
     # c= crossing45(port_spacing=40.0)
     # c = compensation_path(crossing45=crossing45(port_spacing=40.0))
-    c.pprint()
+    c.pprint_ports()
     c.show()
