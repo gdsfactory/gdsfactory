@@ -1,13 +1,6 @@
 cells:
-  compass_896ae020:
-    changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
+  compass:
+    changed: {}
     default:
       layer:
       - 1
@@ -29,7 +22,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_896ae020
+    name: compass
   rectangle:
     changed: {}
     default:

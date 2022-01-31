@@ -26,11 +26,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.array_component
     name: array_05d1b8c2
-  compass_ad4aadff:
+  compass_9714634f:
     changed:
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 100
@@ -56,13 +53,9 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ad4aadff
-  rectangle_2fbcbfd8:
+    name: compass_9714634f
+  rectangle_9714634f:
     changed:
-      centered: false
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 100
@@ -88,7 +81,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_2fbcbfd8
+    name: rectangle_9714634f
   rectangle_with_slits:
     changed: {}
     default:

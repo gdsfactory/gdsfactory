@@ -1,72 +1,4 @@
 cells:
-  bezier_01cb3c8e:
-    changed:
-      control_points:
-      - - 0
-        - 0
-      - - 20
-        - 0
-      - - 20
-        - 17.5
-      - - 40
-        - 17.5
-      end_angle: 0
-      layer:
-      - 1
-      - 0
-      npoints: 101
-      start_angle: 0
-      width: 0.5
-    default:
-      control_points:
-      - - 0
-        - 0
-      - - 5
-        - 0
-      - - 5
-        - 2
-      - - 10
-        - 2
-      end_angle: null
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 201
-      spike_length: 0
-      start_angle: null
-      width: 0.5
-      with_manhattan_facing_angles: true
-    end_angle: 0.503
-    full:
-      control_points:
-      - - 0
-        - 0
-      - - 20
-        - 0
-      - - 20
-        - 17.5
-      - - 40
-        - 17.5
-      end_angle: 0
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 101
-      spike_length: 0
-      start_angle: 0
-      width: 0.5
-      with_manhattan_facing_angles: true
-    function_name: bezier
-    info_version: 1
-    length: 44.891
-    min_bend_radius: 22.662
-    module: gdsfactory.components.bezier
-    name: bezier_01cb3c8e
-    start_angle: 0.503
   bezier_87e8511e:
     changed:
       control_points:
@@ -128,21 +60,84 @@ cells:
     module: gdsfactory.components.bezier
     name: bezier_87e8511e
     start_angle: 0.301
-  compensation_path_b9f50572:
+  bezier_d7e697a9:
     changed:
-      crossing45: crossing45_f9b93bcb
+      control_points:
+      - - 0
+        - 0
+      - - 20
+        - 0
+      - - 20
+        - 17.5
+      - - 40
+        - 17.5
+      end_angle: 0
+      npoints: 101
+      start_angle: 0
+    default:
+      control_points:
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
+      end_angle: null
+      grid: 0.001
+      layer:
+      - 1
+      - 0
+      name: null
+      npoints: 201
+      spike_length: 0
+      start_angle: null
+      width: 0.5
+      with_manhattan_facing_angles: true
+    end_angle: 0.503
+    full:
+      control_points:
+      - - 0
+        - 0
+      - - 20
+        - 0
+      - - 20
+        - 17.5
+      - - 40
+        - 17.5
+      end_angle: 0
+      grid: 0.001
+      layer:
+      - 1
+      - 0
+      name: null
+      npoints: 101
+      spike_length: 0
+      start_angle: 0
+      width: 0.5
+      with_manhattan_facing_angles: true
+    function_name: bezier
+    info_version: 1
+    length: 44.891
+    min_bend_radius: 22.662
+    module: gdsfactory.components.bezier
+    name: bezier_d7e697a9
+    start_angle: 0.503
+  compensation_path:
+    changed: {}
     default:
       crossing45:
         function: crossing45
       direction: top
     full:
-      crossing45: crossing45_f9b93bcb
+      crossing45: crossing45
       direction: top
     function_name: compensation_path
     info_version: 1
     min_bend_radius: 18.226
     module: gdsfactory.components.crossing_waveguide
-    name: compensation_path_b9f50572
+    name: compensation_path
     sbend:
       changed:
         control_points:
@@ -207,15 +202,13 @@ cells:
   component_lattice:
     changed: {}
     default:
-      components: null
       grid_per_unit: 1000
       lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-      name: lattice
+      symbol_to_component: null
     full:
-      components: null
       grid_per_unit: 1000
       lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-      name: lattice
+      symbol_to_component: null
     function_name: component_lattice
     info_version: 1
     module: gdsfactory.components.component_lattice
@@ -321,10 +314,9 @@ cells:
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing
-  crossing45_f9b93bcb:
+  crossing45:
     bezier_length: 42.085
-    changed:
-      port_spacing: 40
+    changed: {}
     crossing:
       changed: {}
       default:
@@ -355,19 +347,17 @@ cells:
     info_version: 1
     min_bend_radius: 44.312
     module: gdsfactory.components.crossing_waveguide
-    name: crossing45_f9b93bcb
+    name: crossing45
 info:
   changed: {}
   default:
-    components: null
     grid_per_unit: 1000
     lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-    name: lattice
+    symbol_to_component: null
   full:
-    components: null
     grid_per_unit: 1000
     lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-    name: lattice
+    symbol_to_component: null
   function_name: component_lattice
   info_version: 1
   module: gdsfactory.components.component_lattice

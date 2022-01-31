@@ -26,12 +26,11 @@ cells:
     info_version: 1
     module: gdsfactory.components.array_component
     name: array_dacd7306
-  compass_83a2e6d6:
+  compass_53d34c22:
     changed:
       layer:
       - 49
       - 0
-      port_type: electrical
       size:
       - 22
       - 7
@@ -56,7 +55,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_83a2e6d6
+    name: compass_53d34c22
   pad_gsg_short:
     changed: {}
     default:

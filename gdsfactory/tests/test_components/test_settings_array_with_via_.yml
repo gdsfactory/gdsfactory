@@ -83,37 +83,6 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_280a2d8b
-  compass_6ffda32f:
-    changed:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      size:
-      - 100
-      - 100
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 100
-      - 100
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_6ffda32f
   compass_8e661824:
     changed:
       layer:
@@ -144,6 +113,36 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_8e661824
+  compass_a0b38c11:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 100
+      - 100
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 100
+      - 100
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_a0b38c11
   compass_ef690c07:
     changed:
       layer:

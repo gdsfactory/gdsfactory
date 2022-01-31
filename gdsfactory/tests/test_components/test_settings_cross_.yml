@@ -1,10 +1,6 @@
 cells:
-  compass_bdc25def:
+  compass_88c59c1f:
     changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
       size:
       - 3
       - 10
@@ -29,7 +25,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_bdc25def
+    name: compass_88c59c1f
   cross:
     changed: {}
     default:
@@ -50,11 +46,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.cross
     name: cross
-  rectangle_0eb96b44:
+  rectangle_88c59c1f:
     changed:
-      layer:
-      - 1
-      - 0
       size:
       - 3
       - 10
@@ -79,7 +72,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_0eb96b44
+    name: rectangle_88c59c1f
 info:
   changed: {}
   default:

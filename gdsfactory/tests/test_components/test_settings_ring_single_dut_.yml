@@ -31,11 +31,8 @@ cells:
     name: bend_euler_98cb77bf
     radius: 5
     radius_min: 3.53
-  coupler_ring_6a2f750e:
-    changed:
-      gap: 0.2
-      length_x: 4
-      radius: 5
+  coupler_ring:
+    changed: {}
     default:
       bend: null
       bend_cross_section: null
@@ -63,10 +60,9 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_6a2f750e
-  straight_9fb198d1:
+    name: coupler_ring
+  straight_a96febb9:
     changed:
-      length: 10
       width: 0.5
     default:
       cross_section:
@@ -85,7 +81,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_9fb198d1
+    name: straight_a96febb9
     width: 0.5
   straight_d4fc336a:
     changed:

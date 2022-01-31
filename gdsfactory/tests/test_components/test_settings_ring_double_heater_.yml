@@ -89,7 +89,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_f639aa23
-  contact_6eee07f8:
+  contact_00c518be:
     changed:
       layers:
       - - 47
@@ -101,16 +101,6 @@ cells:
       size:
       - 4
       - 4
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
     default:
       layer_port: null
       layers:
@@ -161,18 +151,14 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_6eee07f8
+    name: contact_00c518be
     size:
     - 4
     - 4
-  coupler_ring_538ed52b:
+  coupler_ring_5779f456:
     changed:
-      bend: null
       bend_cross_section:
         function: strip_heater_metal
-      cross_section:
-        function: cross_section
-      gap: 0.2
       length_x: 0.01
       radius: 10
     default:
@@ -203,7 +189,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_538ed52b
+    name: coupler_ring_5779f456
   ring_double_heater:
     changed: {}
     default:
