@@ -5,6 +5,7 @@ before_script:
   - python -V # Print out python version for debugging
   - which python # Print out which python for debugging
   - pip install -r requirements.txt --upgrade
+  - pip install -r requirements_full.txt --upgrade
   - pip install -r requirements_pip.txt --upgrade
   - pip install -r requirements_dev.txt --upgrade
   - python setup.py develop
