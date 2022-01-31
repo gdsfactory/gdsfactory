@@ -118,7 +118,8 @@ def cell_without_validator(func):
         changed_arg_set = set(passed_args_list).difference(default_args_list)
         changed_arg_list = sorted(changed_arg_set)
 
-        # if any args were different from default, append a hash of those args. else, keep only the base name
+        # if any args were different from default, append a hash of those args.
+        # else, keep only the base name
         if changed_arg_list:
             named_args_string = "_".join(changed_arg_list)
             named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
