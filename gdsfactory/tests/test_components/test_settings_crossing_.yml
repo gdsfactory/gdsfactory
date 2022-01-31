@@ -1,5 +1,5 @@
 cells:
-  crossing_d41d8cd9:
+  crossing:
     changed: {}
     default:
       arm:
@@ -10,7 +10,7 @@ cells:
     function_name: crossing
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
-    name: crossing_d41d8cd9
+    name: crossing
 info:
   changed: {}
   default:
@@ -22,7 +22,7 @@ info:
   function_name: crossing
   info_version: 1
   module: gdsfactory.components.crossing_waveguide
-  name: crossing_d41d8cd9
+  name: crossing
 ports:
   o1:
     layer:

@@ -3,7 +3,6 @@ from typing import Optional, Tuple
 
 import matplotlib.colors
 import shapely
-from trimesh.creation import extrude_polygon
 
 from gdsfactory.component import Component
 from gdsfactory.layers import LayerSet
@@ -28,6 +27,8 @@ def to_stl(
         exclude_layers: layers to exclude
 
     """
+    from trimesh.creation import extrude_polygon
+
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     filepath = pathlib.Path(filepath)

@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_ellipti_8fb40385:
+  grating_coupler_ellipti_6e4a1333:
     changed: {}
     child:
       changed:
@@ -99,7 +99,7 @@ cells:
     function_name: grating_coupler_loss_fiber_single
     info_version: 1
     module: gdsfactory.components.grating_coupler_loss_fiber_single
-    name: grating_coupler_ellipti_8fb40385
+    name: grating_coupler_ellipti_6e4a1333
   grating_coupler_ellipti_b632d295:
     changed:
       polarization: te
@@ -446,6 +446,6 @@ info:
   function_name: grating_coupler_loss_fiber_single
   info_version: 1
   module: gdsfactory.components.grating_coupler_loss_fiber_single
-  name: grating_coupler_ellipti_8fb40385
+  name: grating_coupler_ellipti_6e4a1333
 ports: {}
 version: 0.0.1

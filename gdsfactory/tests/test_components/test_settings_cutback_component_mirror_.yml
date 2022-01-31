@@ -30,7 +30,7 @@ cells:
     name: bend_euler_3cfca9b9
     radius: 5
     radius_min: 4.543
-  component_sequence_fca54a36:
+  component_sequence_c72a7644:
     changed:
       sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
       symbol_to_component:
@@ -39,11 +39,11 @@ cells:
         - o1
         - o2
         A:
-        - taper_0p5_to_3_l36_d41d8cd9
+        - taper_0p5_to_3_l36
         - o1
         - o2
         B:
-        - taper_0p5_to_3_l36_d41d8cd9
+        - taper_0p5_to_3_l36
         - o2
         - o1
         C:
@@ -75,11 +75,11 @@ cells:
         - o1
         - o2
         A:
-        - taper_0p5_to_3_l36_d41d8cd9
+        - taper_0p5_to_3_l36
         - o1
         - o2
         B:
-        - taper_0p5_to_3_l36_d41d8cd9
+        - taper_0p5_to_3_l36
         - o2
         - o1
         C:
@@ -97,7 +97,7 @@ cells:
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_fca54a36
+    name: component_sequence_c72a7644
   straight_5b6c3269:
     changed:
       length: 10
@@ -119,15 +119,15 @@ cells:
     module: gdsfactory.components.straight
     name: straight_5b6c3269
     width: 0.5
-  taper_0p5_to_3_l36_d41d8cd9:
+  taper_0p5_to_3_l36:
     changed: {}
     default: {}
     full: {}
     function_name: taper_0p5_to_3_l36
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_d41d8cd9
-  taper_0p5_to_3_l36_d41d_90451f5f:
+    name: taper_0p5_to_3_l36
+  taper_0p5_to_3_l36_cutb_8d365e01:
     changed:
       mirror: true
     child:
@@ -137,7 +137,7 @@ cells:
       function_name: taper_0p5_to_3_l36
       info_version: 1
       module: gdsfactory.components.taper_from_csv
-      name: taper_0p5_to_3_l36_d41d8cd9
+      name: taper_0p5_to_3_l36
     components: 88
     default:
       bend180:
@@ -172,7 +172,7 @@ cells:
     function_name: cutback_component
     info_version: 1
     module: gdsfactory.components.cutback_component
-    name: taper_0p5_to_3_l36_d41d_90451f5f
+    name: taper_0p5_to_3_l36_cutb_8d365e01
 info:
   changed:
     mirror: true
@@ -183,7 +183,7 @@ info:
     function_name: taper_0p5_to_3_l36
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_0p5_to_3_l36_d41d8cd9
+    name: taper_0p5_to_3_l36
   components: 88
   default:
     bend180:
@@ -218,7 +218,7 @@ info:
   function_name: cutback_component
   info_version: 1
   module: gdsfactory.components.cutback_component
-  name: taper_0p5_to_3_l36_d41d_90451f5f
+  name: taper_0p5_to_3_l36_cutb_8d365e01
 ports:
   o1:
     layer:

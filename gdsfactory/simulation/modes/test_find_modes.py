@@ -6,14 +6,14 @@ from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 
 def test_find_modes():
     ms = get_mode_solver_rib(wg_width=0.45)
-    modes = find_modes(mode_solver=ms)
+    modes = find_modes(mode_solver=ms, resolution=20)
     m1 = modes[1]
     m2 = modes[2]
     # print(m1.neff)
     # print(m2.neff)
 
-    neff1 = 2.329468837266023
-    neff2 = 1.7128271512313074
+    neff1 = 2.350275927453941
+    neff2 = 1.7468029738974873
 
     assert np.isclose(m1.neff, neff1), (m1.neff, neff1)
     assert np.isclose(m2.neff, neff2), (m2.neff, neff2)
