@@ -244,10 +244,10 @@ def add_ports_from_markers_center(
             )
 
     ports = sort_ports_clockwise(ports)
-    component_ports = list(component.ports.keys())
 
     for port_name, port in ports.items():
         if port_name in component.ports:
+            component_ports = list(component.ports.keys())
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
@@ -300,14 +300,21 @@ def add_ports_from_labels(
         elif y < yc:  # south
             orientation = 270
 
-        component.add_port(
-            name=port_name,
-            midpoint=(x, y),
-            width=port_width,
-            orientation=orientation,
-            port_type=port_type,
-            layer=port_layer,
-        )
+        if port_name in component.ports:
+            component_ports = list(component.ports.keys())
+            raise ValueError(
+                f"port {port_name!r} already in {component_ports}. "
+                "You can pass a port_name_prefix to add it with a different name."
+            )
+        else:
+            component.add_port(
+                name=port_name,
+                midpoint=(x, y),
+                width=port_width,
+                orientation=orientation,
+                port_type=port_type,
+                layer=port_layer,
+            )
     return component
 
 

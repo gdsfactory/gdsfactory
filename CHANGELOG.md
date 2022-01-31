@@ -8,7 +8,8 @@
 - fix component lattice mutability issue
 - add `Component.is_unlocked` that raises MutabilityError
 - rename component_lattice components to symbol_to_component
-- raise error when trying to add two ports with the same name
+- raise error when trying to add two ports with the same name in `gf.add_ports.add_ports_from_markers_center`
+- difftest adds failed test to logger.error
 
 
 ## 3.12.9
