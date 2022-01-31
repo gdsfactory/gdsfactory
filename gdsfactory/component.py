@@ -1447,12 +1447,15 @@ class Component(Device):
                  8   7
 
         """
+        self.is_unlocked()
         auto_rename_ports(self, **kwargs)
 
     def auto_rename_ports_counter_clockwise(self, **kwargs) -> None:
+        self.is_unlocked()
         auto_rename_ports_counter_clockwise(self, **kwargs)
 
     def auto_rename_ports_layer_orientation(self, **kwargs) -> None:
+        self.is_unlocked()
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
@@ -1476,6 +1479,7 @@ class Component(Device):
                 S0   S1
 
         """
+        self.is_unlocked()
         auto_rename_ports_orientation(self, **kwargs)
 
     def move(
