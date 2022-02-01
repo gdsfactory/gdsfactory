@@ -119,7 +119,7 @@ gf tool install
 Or you can install the development version if you plan to [contribute](https://gdsfactory.readthedocs.io/en/latest/contribution.html) to gdsfactory:
 
 ```
-git clone https://github.com/gdsfactory/gdsfactory.git
+git clone https://github.com/gdsfactory/gdsfactory.git --shallow-exclude=gh-pages
 cd gdsfactory
 make install
 ```
@@ -127,16 +127,13 @@ make install
 To summarize: There are 2 methods to install gdsfactory
 
 1. For users, `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
-2. For developers, git clone it from [GitHub](https://pypi.org/project/gdsfactory/) to your computer and link the library to your python
+2. For developers, git clone it from [GitHub](https://github.com/gdsfactory/gdsfactory/) to your computer and link the library to your python with `make install`
 
-```
-git clone https://github.com/gdsfactory/gdsfactory.git
-cd gdsfactory
-make install
-```
 
-for updating 1. you need to `pip install gdsfactory --upgrade` to install the latest release available.
-for updating 2. you need to `git pull` from GitHub the latest changes
+for updating:
+
+1. Users need to `pip install gdsfactory --upgrade` to install the latest release available.
+2. Developers need to `git pull` from GitHub to get the latest changes.
 
 After installing it you should be able to `import gdsfactory as gf` from a python script.
 
