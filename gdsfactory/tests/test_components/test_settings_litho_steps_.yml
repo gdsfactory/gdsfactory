@@ -1,5 +1,32 @@
 cells:
-  compass_343ff3fe:
+  compass_102e71e5:
+    changed:
+      size:
+      - 4
+      - 50
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 50
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_102e71e5
+  compass_7e8c907a:
     changed:
       size:
       - 16
@@ -25,11 +52,11 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_343ff3fe
-  compass_5dbd19b0:
+    name: compass_7e8c907a
+  compass_96ab200c:
     changed:
       size:
-      - 4
+      - 2
       - 50
     default:
       layer:
@@ -47,67 +74,13 @@ cells:
       port_inclusion: 0
       port_type: electrical
       size:
-      - 4
-      - 50
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_5dbd19b0
-  compass_689ac5ed:
-    changed:
-      size:
-      - 1
-      - 50
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
       - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 1
       - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_689ac5ed
-  compass_86a8dcf6:
-    changed:
-      size:
-      - 10
-      - 50
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 10
-      - 50
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_86a8dcf6
-  compass_aa265452:
+    name: compass_96ab200c
+  compass_9edff4b5:
     changed:
       size:
       - 8
@@ -133,11 +106,11 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_aa265452
-  compass_b7fab762:
+    name: compass_9edff4b5
+  compass_b0a9db07:
     changed:
       size:
-      - 2
+      - 10
       - 50
     default:
       layer:
@@ -155,12 +128,39 @@ cells:
       port_inclusion: 0
       port_type: electrical
       size:
-      - 2
+      - 10
       - 50
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_b7fab762
+    name: compass_b0a9db07
+  compass_fd06ce5b:
+    changed:
+      size:
+      - 1
+      - 50
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 1
+      - 50
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_fd06ce5b
   litho_steps:
     changed: {}
     default:
@@ -191,7 +191,34 @@ cells:
     info_version: 1
     module: gdsfactory.components.litho_steps
     name: litho_steps
-  rectangle_343ff3fe:
+  rectangle_102e71e5:
+    changed:
+      size:
+      - 4
+      - 50
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 50
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_102e71e5
+  rectangle_7e8c907a:
     changed:
       size:
       - 16
@@ -217,11 +244,11 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_343ff3fe
-  rectangle_5dbd19b0:
+    name: rectangle_7e8c907a
+  rectangle_96ab200c:
     changed:
       size:
-      - 4
+      - 2
       - 50
     default:
       centered: false
@@ -239,67 +266,13 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 50
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_5dbd19b0
-  rectangle_689ac5ed:
-    changed:
-      size:
-      - 1
-      - 50
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
       - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 1
       - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_689ac5ed
-  rectangle_86a8dcf6:
-    changed:
-      size:
-      - 10
-      - 50
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 50
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_86a8dcf6
-  rectangle_aa265452:
+    name: rectangle_96ab200c
+  rectangle_9edff4b5:
     changed:
       size:
       - 8
@@ -325,11 +298,11 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_aa265452
-  rectangle_b7fab762:
+    name: rectangle_9edff4b5
+  rectangle_b0a9db07:
     changed:
       size:
-      - 2
+      - 10
       - 50
     default:
       centered: false
@@ -347,13 +320,40 @@ cells:
       - 0
       port_type: electrical
       size:
-      - 2
+      - 10
       - 50
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_b7fab762
-  text_7ec79399:
+    name: rectangle_b0a9db07
+  rectangle_fd06ce5b:
+    changed:
+      size:
+      - 1
+      - 50
+    default:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      centered: false
+      layer:
+      - 1
+      - 0
+      port_type: electrical
+      size:
+      - 1
+      - 50
+    function_name: rectangle
+    info_version: 1
+    module: gdsfactory.components.rectangle
+    name: rectangle_fd06ce5b
+  text_2a934bd1:
     changed:
       justify: center
       layer:
@@ -384,7 +384,7 @@ cells:
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_7ec79399
+    name: text_2a934bd1
 info:
   changed: {}
   default:

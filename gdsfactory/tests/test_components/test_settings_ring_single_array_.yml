@@ -59,7 +59,41 @@ cells:
     name: bend_euler_2e0a66fe
     radius: 10
     radius_min: 7.061
-  coupler_ring_a7946fc0:
+  coupler_ring_44049f35:
+    changed:
+      bend:
+        function: bend_euler
+      length_x: 10
+    default:
+      bend: null
+      bend_cross_section: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend:
+        function: bend_euler
+      bend_cross_section: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 10
+      radius: 5
+    function_name: coupler_ring
+    info_version: 1
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_44049f35
+  coupler_ring_50a0fda3:
     changed:
       bend:
         function: bend_euler
@@ -93,41 +127,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_a7946fc0
-  coupler_ring_fc464cd9:
-    changed:
-      bend:
-        function: bend_euler
-      length_x: 10
-    default:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend:
-        function: bend_euler
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 10
-      radius: 5
-    function_name: coupler_ring
-    info_version: 1
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring_fc464cd9
+    name: coupler_ring_50a0fda3
   ring_single_a371eccc:
     changed:
       length_x: 10
@@ -243,27 +243,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight
     width: 0.5
-  straight_1469c185:
-    changed:
-      length: 0.6
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.6
-    module: gdsfactory.components.straight
-    name: straight_1469c185
-    width: 0.5
   straight_870620aa:
     changed:
       length: 20
@@ -305,6 +284,27 @@ cells:
     length: 5
     module: gdsfactory.components.straight
     name: straight_b3dac65b
+    width: 0.5
+  straight_c1e7b81b:
+    changed:
+      length: 0.6
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.6
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.6
+    module: gdsfactory.components.straight
+    name: straight_c1e7b81b
     width: 0.5
 info:
   changed: {}

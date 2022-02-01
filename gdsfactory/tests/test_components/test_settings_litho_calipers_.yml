@@ -1,5 +1,5 @@
 cells:
-  compass_229ba6f2:
+  compass_0d5fe397:
     changed:
       layer:
       - 2
@@ -28,8 +28,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_229ba6f2
-  compass_408b547b:
+    name: compass_0d5fe397
+  compass_b841579c:
     changed:
       size:
       - 2
@@ -55,7 +55,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_408b547b
+    name: compass_b841579c
   litho_calipers:
     changed: {}
     default:
@@ -90,7 +90,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.litho_calipers
     name: litho_calipers
-  rectangle_229ba6f2:
+  rectangle_0d5fe397:
     changed:
       layer:
       - 2
@@ -119,8 +119,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_229ba6f2
-  rectangle_408b547b:
+    name: rectangle_0d5fe397
+  rectangle_b841579c:
     changed:
       size:
       - 2
@@ -146,7 +146,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_408b547b
+    name: rectangle_b841579c
 info:
   changed: {}
   default:

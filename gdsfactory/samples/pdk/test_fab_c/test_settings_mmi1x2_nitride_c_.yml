@@ -1,5 +1,5 @@
 cells:
-  mmi1x2_6c65a522:
+  mmi1x2_5349d18e:
     changed:
       cross_section:
         function: cross_section
@@ -50,7 +50,7 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_6c65a522
+    name: mmi1x2_5349d18e
 info:
   changed:
     cross_section:
@@ -102,7 +102,7 @@ info:
   function_name: mmi1x2
   info_version: 1
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_6c65a522
+  name: mmi1x2_5349d18e
 ports:
   o1:
     layer:

@@ -1,5 +1,5 @@
 cells:
-  compass_88c59c1f:
+  compass_bd043ca6:
     changed:
       size:
       - 3
@@ -25,7 +25,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_88c59c1f
+    name: compass_bd043ca6
   cross:
     changed: {}
     default:
@@ -46,7 +46,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.cross
     name: cross
-  rectangle_88c59c1f:
+  rectangle_bd043ca6:
     changed:
       size:
       - 3
@@ -72,7 +72,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_88c59c1f
+    name: rectangle_bd043ca6
 info:
   changed: {}
   default:

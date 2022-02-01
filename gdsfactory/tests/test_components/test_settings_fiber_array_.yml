@@ -18,7 +18,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_212e6ad7
-  circle_e248ff5e:
+  circle_26bb5ae5:
     changed:
       layer:
       - 111
@@ -39,7 +39,7 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_e248ff5e
+    name: circle_26bb5ae5
   fiber_array:
     changed: {}
     default:

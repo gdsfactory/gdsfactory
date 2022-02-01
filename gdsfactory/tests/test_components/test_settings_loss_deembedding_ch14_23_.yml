@@ -27,7 +27,7 @@ cells:
     name: bend_euler
     radius: 10
     radius_min: 7.061
-  circle_602e85fd:
+  circle_925ccccf:
     changed:
       layer:
       - 203
@@ -48,7 +48,7 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_602e85fd
+    name: circle_925ccccf
   grating_coupler_ellipti_db285fcb:
     changed:
       taper_angle: 35

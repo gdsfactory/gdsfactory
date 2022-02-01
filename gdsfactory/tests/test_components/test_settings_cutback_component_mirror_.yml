@@ -30,7 +30,7 @@ cells:
     name: bend_euler_3cfca9b9
     radius: 5
     radius_min: 4.543
-  component_sequence_fecfde12:
+  component_sequence_22355b45:
     changed:
       sequence: ABABABABCABABABABDABABABABCABABABABDABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
       symbol_to_component:
@@ -97,7 +97,7 @@ cells:
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_fecfde12
+    name: component_sequence_22355b45
   straight:
     changed: {}
     default:

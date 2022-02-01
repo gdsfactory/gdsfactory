@@ -27,7 +27,38 @@ cells:
     name: bend_euler
     radius: 10
     radius_min: 7.061
-  coupler_02a30dd4:
+  coupler_13a9f38a:
+    changed:
+      gap: 0.3
+    default:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
+      dx: 10
+      dy: 5
+      gap: 0.236
+      length: 20
+    full:
+      coupler_straight:
+        function: coupler_straight
+      coupler_symmetric:
+        function: coupler_symmetric
+      cross_section:
+        function: cross_section
+      dx: 10
+      dy: 5
+      gap: 0.3
+      length: 20
+    function_name: coupler
+    info_version: 1
+    length: 10.305
+    min_bend_radius: 9.568
+    module: gdsfactory.components.coupler
+    name: coupler_13a9f38a
+  coupler_464e3181:
     changed:
       gap: 0.2
       length: 10
@@ -58,39 +89,8 @@ cells:
     length: 10.319
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
-    name: coupler_02a30dd4
-  coupler_137172d8:
-    changed:
-      gap: 0.3
-    default:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.236
-      length: 20
-    full:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.3
-      length: 20
-    function_name: coupler
-    info_version: 1
-    length: 10.305
-    min_bend_radius: 9.568
-    module: gdsfactory.components.coupler
-    name: coupler_137172d8
-  mzi_46538a5e:
+    name: coupler_464e3181
+  mzi_06d9b324:
     changed:
       combiner:
         function: coupler
@@ -156,7 +156,7 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_46538a5e
+    name: mzi_06d9b324
   mzi_lattice:
     changed: {}
     default:
@@ -205,7 +205,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi_lattice
     name: mzi_lattice
-  straight_76a4ed9f:
+  straight_5b70f7d2:
     changed:
       length: 0.09
     default:
@@ -224,9 +224,9 @@ cells:
     info_version: 1
     length: 0.09
     module: gdsfactory.components.straight
-    name: straight_76a4ed9f
+    name: straight_5b70f7d2
     width: 0.5
-  straight_8c093820:
+  straight_6870e926:
     changed:
       length: 0.1
     default:
@@ -245,9 +245,9 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_8c093820
+    name: straight_6870e926
     width: 0.5
-  straight_9a224667:
+  straight_7507751b:
     changed:
       length: 1.95
     default:
@@ -266,7 +266,28 @@ cells:
     info_version: 1
     length: 1.95
     module: gdsfactory.components.straight
-    name: straight_9a224667
+    name: straight_7507751b
+    width: 0.5
+  straight_a19a2684:
+    changed:
+      length: 7.05
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 7.05
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 7.05
+    module: gdsfactory.components.straight
+    name: straight_a19a2684
     width: 0.5
   straight_a4be237b:
     changed:
@@ -289,28 +310,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_a4be237b
     width: 0.5
-  straight_c00fd70e:
-    changed:
-      length: 7.05
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 7.05
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 7.05
-    module: gdsfactory.components.straight
-    name: straight_c00fd70e
-    width: 0.5
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -329,7 +329,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
   straight_fba69bc3:
     changed:

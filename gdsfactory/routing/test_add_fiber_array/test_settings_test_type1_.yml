@@ -57,7 +57,7 @@ cells:
     name: bend_euler_2630f5fb
     radius: 10
     radius_min: 7.061
-  circle_602e85fd:
+  circle_925ccccf:
     changed:
       layer:
       - 203
@@ -78,8 +78,8 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_602e85fd
-  coupler_70441075:
+    name: circle_925ccccf
+  coupler_bcc4a0b5:
     changed:
       gap: 0.2
       length: 5
@@ -110,10 +110,10 @@ cells:
     length: 10.319
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
-    name: coupler_70441075
-  coupler_70441075_add_fi_49620dbe:
+    name: coupler_bcc4a0b5
+  coupler_bcc4a0b5_add_fi_15615773:
     changed:
-      component: coupler_70441075
+      component: coupler_bcc4a0b5
       optical_routing_type: 1
     child:
       changed:
@@ -146,7 +146,7 @@ cells:
       length: 10.319
       min_bend_radius: 9.387
       module: gdsfactory.components.coupler
-      name: coupler_70441075
+      name: coupler_bcc4a0b5
     default:
       bend:
         function: bend_euler
@@ -172,7 +172,7 @@ cells:
     full:
       bend:
         function: bend_euler
-      component: coupler_70441075
+      component: coupler_bcc4a0b5
       component_name: null
       cross_section:
         function: cross_section
@@ -196,7 +196,7 @@ cells:
     function_name: add_fiber_array
     info_version: 1
     module: gdsfactory.routing.add_fiber_array
-    name: coupler_70441075_add_fi_49620dbe
+    name: coupler_bcc4a0b5_add_fi_15615773
   grating_coupler_ellipti_db285fcb:
     changed:
       taper_angle: 35
@@ -299,7 +299,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_28680a03
     width: 0.5
-  straight_33871118:
+  straight_2dd0f66c:
     changed:
       length: 6.25
     default:
@@ -318,9 +318,30 @@ cells:
     info_version: 1
     length: 6.25
     module: gdsfactory.components.straight
-    name: straight_33871118
+    name: straight_2dd0f66c
     width: 0.5
-  straight_53bdf814:
+  straight_471dcf32:
+    changed:
+      length: 12.25
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 12.25
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 12.25
+    module: gdsfactory.components.straight
+    name: straight_471dcf32
+    width: 0.5
+  straight_66a04034:
     changed:
       auto_widen: true
       length: 0.5
@@ -341,30 +362,9 @@ cells:
     info_version: 1
     length: 0.5
     module: gdsfactory.components.straight
-    name: straight_53bdf814
+    name: straight_66a04034
     width: 0.5
-  straight_5656be49:
-    changed:
-      length: 43.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 43.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 43.5
-    module: gdsfactory.components.straight
-    name: straight_5656be49
-    width: 0.5
-  straight_831943ee:
+  straight_764e0e0e:
     changed:
       length: 35.552
     default:
@@ -383,7 +383,7 @@ cells:
     info_version: 1
     length: 35.552
     module: gdsfactory.components.straight
-    name: straight_831943ee
+    name: straight_764e0e0e
     width: 0.5
   straight_870620aa:
     changed:
@@ -406,27 +406,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight_870620aa
     width: 0.5
-  straight_aee55669:
-    changed:
-      length: 12.25
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 12.25
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 12.25
-    module: gdsfactory.components.straight
-    name: straight_aee55669
-    width: 0.5
   straight_b1688d7b:
     changed:
       length: 17
@@ -447,6 +426,27 @@ cells:
     length: 17
     module: gdsfactory.components.straight
     name: straight_b1688d7b
+    width: 0.5
+  straight_b81889b2:
+    changed:
+      length: 43.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 43.5
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 43.5
+    module: gdsfactory.components.straight
+    name: straight_b81889b2
     width: 0.5
   straight_cb6e01c9:
     changed:
@@ -492,7 +492,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_d0db4c52
     width: 0.5
-  straight_e04fd69e:
+  straight_e791237d:
     changed:
       auto_widen: true
       length: 5.5
@@ -513,7 +513,7 @@ cells:
     info_version: 1
     length: 5.5
     module: gdsfactory.components.straight
-    name: straight_e04fd69e
+    name: straight_e791237d
     width: 0.5
   straight_f0fa08f8:
     changed:
@@ -538,7 +538,7 @@ cells:
     width: 0.5
 info:
   changed:
-    component: coupler_70441075
+    component: coupler_bcc4a0b5
     optical_routing_type: 1
   child:
     changed:
@@ -571,7 +571,7 @@ info:
     length: 10.319
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
-    name: coupler_70441075
+    name: coupler_bcc4a0b5
   default:
     bend:
       function: bend_euler
@@ -597,7 +597,7 @@ info:
   full:
     bend:
       function: bend_euler
-    component: coupler_70441075
+    component: coupler_bcc4a0b5
     component_name: null
     cross_section:
       function: cross_section
@@ -621,7 +621,7 @@ info:
   function_name: add_fiber_array
   info_version: 1
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_70441075_add_fi_49620dbe
+  name: coupler_bcc4a0b5_add_fi_15615773
 ports:
   vertical_te_00:
     layer:

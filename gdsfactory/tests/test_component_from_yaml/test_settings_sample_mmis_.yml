@@ -31,39 +31,7 @@ cells:
     name: bend_euler
     radius: 10
     radius_min: 7.061
-  mmi1x2_41793ed4:
-    changed:
-      length_mmi: 5
-      width_mmi: 4.5
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_41793ed4
-  mmi1x2_5ad5950d:
+  mmi1x2_25023716:
     changed:
       length_mmi: 10
       width_mmi: 4.5
@@ -94,8 +62,40 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_5ad5950d
-  straight_94fc1711:
+    name: mmi1x2_25023716
+  mmi1x2_63d4efba:
+    changed:
+      length_mmi: 5
+      width_mmi: 4.5
+    default:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 4.5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info_version: 1
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_63d4efba
+  straight_7a57a71b:
     changed:
       length: 102.51
     default:
@@ -114,9 +114,9 @@ cells:
     info_version: 1
     length: 102.51
     module: gdsfactory.components.straight
-    name: straight_94fc1711
+    name: straight_7a57a71b
     width: 0.5
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -135,9 +135,9 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
-  straight_f5e73eb6:
+  straight_e4b574c8:
     changed:
       length: 79.375
     default:
@@ -156,7 +156,7 @@ cells:
     info_version: 1
     length: 79.375
     module: gdsfactory.components.straight
-    name: straight_f5e73eb6
+    name: straight_e4b574c8
     width: 0.5
 info:
   description: just a demo on adding metadata

@@ -1,10 +1,10 @@
 connections:
-  bend_euler_67p115_m5p5,o1: straight_3aa6a47c_51p995_m0p625,o2
-  bend_euler_67p115_m5p5,o2: straight_d0ae2c31_71p99_m20p0,o1
-  bend_euler_76p865_m34p5,o1: straight_d0ae2c31_71p99_m20p0,o2
-  bend_euler_76p865_m34p5,o2: straight_c138f2c4_81p995_m39p375,o1
-  mmi_bot,o1: straight_c138f2c4_81p995_m39p375,o2
-  mmi_top,o3: straight_3aa6a47c_51p995_m0p625,o1
+  bend_euler_67p115_m5p5,o1: straight_775184d2_51p995_m0p625,o2
+  bend_euler_67p115_m5p5,o2: straight_720ba455_71p99_m20p0,o1
+  bend_euler_76p865_m34p5,o1: straight_720ba455_71p99_m20p0,o2
+  bend_euler_76p865_m34p5,o2: straight_c49ce9c6_81p995_m39p375,o1
+  mmi_bot,o1: straight_c49ce9c6_81p995_m39p375,o2
+  mmi_top,o3: straight_775184d2_51p995_m0p625,o1
 instances:
   bend_euler_67p115_m5p5:
     component: bend_euler
@@ -56,7 +56,15 @@ instances:
       width_mmi: 6
       width_taper: 1
       with_cladding_box: true
-  straight_3aa6a47c_51p995_m0p625:
+  straight_720ba455_71p99_m20p0:
+    component: straight
+    settings:
+      cross_section:
+        function: cross_section
+      length: 18.75
+      npoints: 2
+      with_cladding_box: true
+  straight_775184d2_51p995_m0p625:
     component: straight
     settings:
       cross_section:
@@ -64,20 +72,12 @@ instances:
       length: 19.99
       npoints: 2
       with_cladding_box: true
-  straight_c138f2c4_81p995_m39p375:
+  straight_c49ce9c6_81p995_m39p375:
     component: straight
     settings:
       cross_section:
         function: cross_section
       length: 0.01
-      npoints: 2
-      with_cladding_box: true
-  straight_d0ae2c31_71p99_m20p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 18.75
       npoints: 2
       with_cladding_box: true
 name: sample_docstring
@@ -102,19 +102,19 @@ placements:
     rotation: 0
     x: 21.0
     y: 0.0
-  straight_3aa6a47c_51p995_m0p625:
-    mirror: false
-    rotation: 0
-    x: 42.0
-    y: -0.625
-  straight_c138f2c4_81p995_m39p375:
-    mirror: false
-    rotation: 0
-    x: 81.99
-    y: -39.375
-  straight_d0ae2c31_71p99_m20p0:
+  straight_720ba455_71p99_m20p0:
     mirror: false
     rotation: 270
     x: 71.99
     y: -10.625
+  straight_775184d2_51p995_m0p625:
+    mirror: false
+    rotation: 0
+    x: 42.0
+    y: -0.625
+  straight_c49ce9c6_81p995_m39p375:
+    mirror: false
+    rotation: 0
+    x: 81.99
+    y: -39.375
 ports: {}

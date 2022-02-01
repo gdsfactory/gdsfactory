@@ -1,6 +1,8 @@
+import copy
 import datetime
 import functools
 import hashlib
+import inspect
 import itertools
 import pathlib
 import tempfile
@@ -1614,10 +1616,12 @@ def clean_key(key):
 
 
 def clean_value_json(value: Any) -> Any:
-    """Return a is JSON serializable"""
+    """Return JSON serializable object."""
     if isinstance(value, CrossSection):
-        value = value.info
-        # value = clean_dict(value.to_dict())
+        # value = value.info
+        value = value.to_dict()
+        value = copy.deepcopy(value)
+        value = clean_dict(value)
     if isinstance(value, float) and int(value) == value:
         value = int(value)
     elif isinstance(value, (np.int64, np.int32)):
@@ -1632,18 +1636,18 @@ def clean_value_json(value: Any) -> Any:
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
         ]
-    # elif (
-    #     callable(value) and hasattr(value, "__name__") and hasattr(value, "__module__")
-    # ):
-    #     value = dict(function=value.__name__, module=value.__module__)
     elif callable(value) and hasattr(value, "__name__"):
         value = dict(function=value.__name__)
     elif callable(value) and isinstance(value, functools.partial):
-        v = value.keywords.copy()
-        v.update(function=value.func.__name__)
-        value = clean_value_json(v)
+        sig = inspect.signature(value.func)
+        args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
+        args_as_kwargs.update(**value.keywords)
+        clean_dict(args_as_kwargs)
+        args_as_kwargs.pop("function", None)
+        value = dict(function=value.func.__name__, **args_as_kwargs)
     elif isinstance(value, dict):
-        clean_dict(value)
+        value = copy.deepcopy(value)
+        value = clean_dict(value)
     elif isinstance(value, DictConfig):
         clean_dict(value)
     elif isinstance(value, PathPhidl):
