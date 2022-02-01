@@ -60,7 +60,7 @@ get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
 get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
 
 
-def test_get_sparameters_path() -> None:
+def test_get_sparameters_path(test: bool = True) -> None:
     import gdsfactory as gf
 
     layer_to_thickness_sample = {
@@ -72,10 +72,10 @@ def test_get_sparameters_path() -> None:
         LAYER.SLAB90: "si",
     }
 
-    name1 = "straight_713b8220"
-    name2 = "straight_cf5c9898_713b8220"
-    name3 = "straight_cf5c9898_5f6ae1fd"
-    name4 = "straight_2031115e"
+    name1 = "straight_d6c50235"
+    name2 = "straight_75fbe695_d6c50235"
+    name3 = "straight_75fbe695_181e701b"
+    name4 = "straight_eb75434e"
 
     c = gf.components.straight()
     p = get_sparameters_path_lumerical(
@@ -83,8 +83,10 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == name1, p.stem
-    # print(f"name1 = {p.stem!r}")
+    if test:
+        assert p.stem == name1, p.stem
+    else:
+        print(f"name1 = {p.stem!r}")
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path_lumerical(
@@ -92,13 +94,18 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == name2, p.stem
-    # print(f"name2 = {p.stem!r}")
+    if test:
+        assert p.stem == name2, p.stem
+    else:
+        print(f"name2 = {p.stem!r}")
 
     c = gf.components.straight(layer=LAYER.SLAB90)
     p = get_sparameters_path_meep(c, layer_stack=LAYER_STACK)
-    assert p.stem == name3, p.stem
-    # print(f"name3 = {p.stem!r}")
+
+    if test:
+        assert p.stem == name3, p.stem
+    else:
+        print(f"name3 = {p.stem!r}")
 
     c = gf.components.straight()
     p = get_sparameters_path_meep(
@@ -106,8 +113,10 @@ def test_get_sparameters_path() -> None:
         layer_to_thickness=layer_to_thickness_sample,
         layer_to_material=layer_to_material_sample,
     )
-    assert p.stem == name4, p.stem
-    # print(f"name4 = {p.stem!r}")
+    if test:
+        assert p.stem == name4, p.stem
+    else:
+        print(f"name4 = {p.stem!r}")
 
 
 if __name__ == "__main__":
@@ -116,4 +125,4 @@ if __name__ == "__main__":
     # p = get_sparameters_path(c)
     # print(p)
 
-    test_get_sparameters_path()
+    test_get_sparameters_path(test=False)

@@ -17,7 +17,10 @@ from gdsfactory.config import logger, sparameters_path
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
-from gdsfactory.simulation.gmeep.write_sparameters_meep import remove_simulation_kwargs
+from gdsfactory.simulation.gmeep.write_sparameters_meep import (
+    remove_simulation_kwargs,
+    settings_write_sparameters_meep,
+)
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 ncores = multiprocessing.cpu_count()
@@ -102,6 +105,10 @@ def write_sparameters_meep_mpi(
         filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
             where `a` is the angle in radians and `m` the module
     """
+    for setting in kwargs.keys():
+        if setting not in settings_write_sparameters_meep:
+            raise ValueError(f"{setting} not in {settings_write_sparameters_meep}")
+
     settings = remove_simulation_kwargs(kwargs)
     filepath = filepath or get_sparameters_path(
         component=component,
@@ -113,6 +120,9 @@ def write_sparameters_meep_mpi(
     if filepath.exists() and not overwrite:
         logger.info(f"Simulation {filepath!r} already exists")
         return filepath
+
+    if filepath.exists() and overwrite:
+        filepath.unlink()
 
     # Save the component object to simulation for later retrieval
     temp_dir.mkdir(exist_ok=True, parents=True)
@@ -169,20 +179,14 @@ write_sparameters_meep_mpi_lt = gf.partial(
 
 
 if __name__ == "__main__":
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
-
-    instance_dict = {
-        "component": c1,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": "instance_dict.csv",
-    }
-
-    proc = write_sparameters_meep_mpi(
-        instance=instance_dict,
+    c1 = gf.c.straight(length=10)
+    filepath = write_sparameters_meep_mpi(
+        component=c1,
+        ymargin=3,
         cores=3,
-        verbosity=True,
+        run=True,
+        overwrite=True,
+        # lazy_parallelism=True,
+        lazy_parallelism=False,
+        # filepath="instance_dict.csv",
     )

@@ -1,73 +1,5 @@
 cells:
-  bezier_01cb3c8e:
-    changed:
-      control_points:
-      - - 0
-        - 0
-      - - 20
-        - 0
-      - - 20
-        - 17.5
-      - - 40
-        - 17.5
-      end_angle: 0
-      layer:
-      - 1
-      - 0
-      npoints: 101
-      start_angle: 0
-      width: 0.5
-    default:
-      control_points:
-      - - 0
-        - 0
-      - - 5
-        - 0
-      - - 5
-        - 2
-      - - 10
-        - 2
-      end_angle: null
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 201
-      spike_length: 0
-      start_angle: null
-      width: 0.5
-      with_manhattan_facing_angles: true
-    end_angle: 0.503
-    full:
-      control_points:
-      - - 0
-        - 0
-      - - 20
-        - 0
-      - - 20
-        - 17.5
-      - - 40
-        - 17.5
-      end_angle: 0
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 101
-      spike_length: 0
-      start_angle: 0
-      width: 0.5
-      with_manhattan_facing_angles: true
-    function_name: bezier
-    info_version: 1
-    length: 44.891
-    min_bend_radius: 22.662
-    module: gdsfactory.components.bezier
-    name: bezier_01cb3c8e
-    start_angle: 0.503
-  bezier_87e8511e:
+  bezier_328fe8a5:
     changed:
       control_points:
       - - 0
@@ -126,23 +58,87 @@ cells:
     length: 42.087
     min_bend_radius: 18.226
     module: gdsfactory.components.bezier
-    name: bezier_87e8511e
+    name: bezier_328fe8a5
     start_angle: 0.301
-  compensation_path_b9f50572:
+  bezier_540d75dd:
     changed:
-      crossing45: crossing45_f9b93bcb
+      control_points:
+      - - 0
+        - 0
+      - - 20
+        - 0
+      - - 20
+        - 17.5
+      - - 40
+        - 17.5
+      end_angle: 0
+      npoints: 101
+      start_angle: 0
+    default:
+      control_points:
+      - - 0
+        - 0
+      - - 5
+        - 0
+      - - 5
+        - 2
+      - - 10
+        - 2
+      end_angle: null
+      grid: 0.001
+      layer:
+      - 1
+      - 0
+      name: null
+      npoints: 201
+      spike_length: 0
+      start_angle: null
+      width: 0.5
+      with_manhattan_facing_angles: true
+    end_angle: 0.503
+    full:
+      control_points:
+      - - 0
+        - 0
+      - - 20
+        - 0
+      - - 20
+        - 17.5
+      - - 40
+        - 17.5
+      end_angle: 0
+      grid: 0.001
+      layer:
+      - 1
+      - 0
+      name: null
+      npoints: 101
+      spike_length: 0
+      start_angle: 0
+      width: 0.5
+      with_manhattan_facing_angles: true
+    function_name: bezier
+    info_version: 1
+    length: 44.891
+    min_bend_radius: 22.662
+    module: gdsfactory.components.bezier
+    name: bezier_540d75dd
+    start_angle: 0.503
+  compensation_path_bf5c418b:
+    changed:
+      crossing45: crossing45
     default:
       crossing45:
         function: crossing45
       direction: top
     full:
-      crossing45: crossing45_f9b93bcb
+      crossing45: crossing45
       direction: top
     function_name: compensation_path
     info_version: 1
     min_bend_radius: 18.226
     module: gdsfactory.components.crossing_waveguide
-    name: compensation_path_b9f50572
+    name: compensation_path_bf5c418b
     sbend:
       changed:
         control_points:
@@ -202,20 +198,18 @@ cells:
       length: 42.087
       min_bend_radius: 18.226
       module: gdsfactory.components.bezier
-      name: bezier_87e8511e
+      name: bezier_328fe8a5
       start_angle: 0.301
   component_lattice:
     changed: {}
     default:
-      components: null
       grid_per_unit: 1000
       lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-      name: lattice
+      symbol_to_component: null
     full:
-      components: null
       grid_per_unit: 1000
       lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-      name: lattice
+      symbol_to_component: null
     function_name: component_lattice
     info_version: 1
     module: gdsfactory.components.component_lattice
@@ -321,22 +315,9 @@ cells:
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing
-  crossing45_f9b93bcb:
+  crossing45:
     bezier_length: 42.085
-    changed:
-      port_spacing: 40
-    crossing:
-      changed: {}
-      default:
-        arm:
-          function: crossing_arm
-      full:
-        arm:
-          function: crossing_arm
-      function_name: crossing
-      info_version: 1
-      module: gdsfactory.components.crossing_waveguide
-      name: crossing
+    changed: {}
     default:
       alpha: 0.08
       crossing:
@@ -355,109 +336,107 @@ cells:
     info_version: 1
     min_bend_radius: 44.312
     module: gdsfactory.components.crossing_waveguide
-    name: crossing45_f9b93bcb
+    name: crossing45
 info:
   changed: {}
   default:
-    components: null
     grid_per_unit: 1000
     lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-    name: lattice
+    symbol_to_component: null
   full:
-    components: null
     grid_per_unit: 1000
     lattice: "\n        C-X\n        CXX\n        CXX\n        C-X\n        "
-    name: lattice
+    symbol_to_component: null
   function_name: component_lattice
   info_version: 1
   module: gdsfactory.components.component_lattice
   name: component_lattice
 ports:
-  '0':
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -40
-    name: '0'
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  '1':
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: '1'
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  '2':
+  o1:
     layer:
     - 1
     - 0
     midpoint:
     - 0
     - -120
-    name: '2'
+    name: o1
     orientation: 180
     port_type: optical
     width: 0.5
-  '3':
+  o2:
     layer:
     - 1
     - 0
     midpoint:
     - 0
     - -80
-    name: '3'
+    name: o2
     orientation: 180
     port_type: optical
     width: 0.5
-  '4':
+  o3:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - -40
+    name: o3
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o4:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 0
+    - 0
+    name: o4
+    orientation: 180
+    port_type: optical
+    width: 0.5
+  o5:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 280
+    - 0
+    name: o5
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o6:
     layer:
     - 1
     - 0
     midpoint:
     - 280
     - -40
-    name: '4'
+    name: o6
     orientation: 0
     port_type: optical
     width: 0.5
-  '5':
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 280
-    - 0
-    name: '5'
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  '6':
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 280
-    - -120
-    name: '6'
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  '7':
+  o7:
     layer:
     - 1
     - 0
     midpoint:
     - 280
     - -80
-    name: '7'
+    name: o7
+    orientation: 0
+    port_type: optical
+    width: 0.5
+  o8:
+    layer:
+    - 1
+    - 0
+    midpoint:
+    - 280
+    - -120
+    name: o8
     orientation: 0
     port_type: optical
     width: 0.5

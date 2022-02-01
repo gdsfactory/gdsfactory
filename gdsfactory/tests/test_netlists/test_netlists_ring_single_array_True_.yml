@@ -1,22 +1,7 @@
 connections:
-  ring_single_245fa0a7_30p0_10p65,o1: straight_b3dac65b_7p5_0p0,o2
   ring_single_a371eccc_m5p0_5p65,o2: straight_b3dac65b_7p5_0p0,o1
+  ring_single_fdbd008a_30p0_10p65,o1: straight_b3dac65b_7p5_0p0,o2
 instances:
-  ring_single_245fa0a7_30p0_10p65:
-    component: ring_single
-    settings:
-      bend:
-        function: bend_euler
-      coupler_ring:
-        function: coupler_ring
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 20
-      length_y: 0.6
-      radius: 10
-      straight:
-        function: straight
   ring_single_a371eccc_m5p0_5p65:
     component: ring_single
     settings:
@@ -32,6 +17,21 @@ instances:
       radius: 5
       straight:
         function: straight
+  ring_single_fdbd008a_30p0_10p65:
+    component: ring_single
+    settings:
+      bend:
+        function: bend_euler
+      coupler_ring:
+        function: coupler_ring
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 20
+      length_y: 0.6
+      radius: 10
+      straight:
+        function: straight
   straight_b3dac65b_7p5_0p0:
     component: straight
     settings:
@@ -42,15 +42,15 @@ instances:
       with_cladding_box: true
 name: ring_single_array
 placements:
-  ring_single_245fa0a7_30p0_10p65:
-    mirror: false
-    rotation: 0
-    x: 40.0
-    y: 0.0
   ring_single_a371eccc_m5p0_5p65:
     mirror: false
     rotation: 0
     x: 0.0
+    y: 0.0
+  ring_single_fdbd008a_30p0_10p65:
+    mirror: false
+    rotation: 0
+    x: 40.0
     y: 0.0
   straight_b3dac65b_7p5_0p0:
     mirror: false
@@ -59,4 +59,4 @@ placements:
     y: 0.0
 ports:
   o1: ring_single_a371eccc_m5p0_5p65,o1
-  o2: ring_single_245fa0a7_30p0_10p65,o2
+  o2: ring_single_fdbd008a_30p0_10p65,o2

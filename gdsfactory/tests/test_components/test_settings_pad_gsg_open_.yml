@@ -1,5 +1,5 @@
 cells:
-  array_dacd7306:
+  array_e601a645:
     changed:
       columns: 1
       component: pad
@@ -25,13 +25,12 @@ cells:
     function_name: array
     info_version: 1
     module: gdsfactory.components.array_component
-    name: array_dacd7306
-  compass_83a2e6d6:
+    name: array_e601a645
+  compass_a76759a7:
     changed:
       layer:
       - 49
       - 0
-      port_type: electrical
       size:
       - 22
       - 7
@@ -56,7 +55,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_83a2e6d6
+    name: compass_a76759a7
   pad_gsg_short_a5a92d3b:
     changed:
       short: false
@@ -98,7 +97,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.pad_gsg
     name: pad_gsg_short_a5a92d3b
-  rectangle_53d34c22:
+  rectangle_a76759a7:
     changed:
       layer:
       - 49
@@ -127,58 +126,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_53d34c22
-  route_quad_6af5ef5d:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1: e3
-      port2: e1_2_1
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1: e3
-      port2: e1_2_1
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_6af5ef5d
-  route_quad_6fe3da35:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1: e2
-      port2: e1_3_1
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1: e2
-      port2: e1_3_1
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_6fe3da35
-  route_quad_98332987:
+    name: rectangle_a76759a7
+  route_quad_3bbd1238:
     changed:
       layer:
       - 49
@@ -202,7 +151,57 @@ cells:
     function_name: route_quad
     info_version: 1
     module: gdsfactory.routing.route_quad
-    name: route_quad_98332987
+    name: route_quad_3bbd1238
+  route_quad_c109855f:
+    changed:
+      layer:
+      - 49
+      - 0
+      port1: e2
+      port2: e1_3_1
+    default:
+      layer:
+      - 31
+      - 0
+      width1: null
+      width2: null
+    full:
+      layer:
+      - 49
+      - 0
+      port1: e2
+      port2: e1_3_1
+      width1: null
+      width2: null
+    function_name: route_quad
+    info_version: 1
+    module: gdsfactory.routing.route_quad
+    name: route_quad_c109855f
+  route_quad_f132c2d2:
+    changed:
+      layer:
+      - 49
+      - 0
+      port1: e3
+      port2: e1_2_1
+    default:
+      layer:
+      - 31
+      - 0
+      width1: null
+      width2: null
+    full:
+      layer:
+      - 49
+      - 0
+      port1: e3
+      port2: e1_2_1
+      width1: null
+      width2: null
+    function_name: route_quad
+    info_version: 1
+    module: gdsfactory.routing.route_quad
+    name: route_quad_f132c2d2
 info:
   changed:
     short: false

@@ -1,22 +1,19 @@
 connections: {}
 instances:
-  mzit_f7e2e81d_19p138_11p4:
+  mzit_5c28f5cb_19p138_11p4:
     component: mzit
     settings:
-      coupler_gap1: 0.2
-      coupler_gap2: 0.3
       coupler_length1: 10
       coupler_length2: 20
-      delta_length: 10
 name: mzit_lattice
 placements:
-  mzit_f7e2e81d_19p138_11p4:
+  mzit_5c28f5cb_19p138_11p4:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
 ports:
-  o1: mzit_f7e2e81d_19p138_11p4,o1
-  o2: mzit_f7e2e81d_19p138_11p4,o2
-  o3: mzit_f7e2e81d_19p138_11p4,o3
-  o4: mzit_f7e2e81d_19p138_11p4,o4
+  o1: mzit_5c28f5cb_19p138_11p4,o1
+  o2: mzit_5c28f5cb_19p138_11p4,o2
+  o3: mzit_5c28f5cb_19p138_11p4,o3
+  o4: mzit_5c28f5cb_19p138_11p4,o4

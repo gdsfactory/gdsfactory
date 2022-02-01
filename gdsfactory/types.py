@@ -43,6 +43,7 @@ Anchor = Literal[
     "center",
     "cc",
 ]
+Axis = Literal["x", "y"]
 
 NSEW = Literal["N", "S", "E", "W"]
 

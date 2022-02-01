@@ -1,6 +1,7 @@
-""" adiabatic tapers from CSV files
+"""Adiabatic tapers from CSV files
 """
 import pathlib
+from functools import partial
 from pathlib import Path
 from typing import Tuple
 
@@ -10,12 +11,12 @@ import pandas as pd
 import gdsfactory as gf
 from gdsfactory.component import Component
 
-data_path = pathlib.Path(__file__).parent / "csv_data"
+data = pathlib.Path(__file__).parent / "csv_data"
 
 
 @gf.cell
 def taper_from_csv(
-    filepath: Path = data_path / "taper_strip_0p5_3_36.csv",
+    filepath: Path = data / "taper_strip_0p5_3_36.csv",
     layer: Tuple[int, int] = (1, 0),
     layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
     cladding_offset: float = 3.0,
@@ -57,44 +58,16 @@ def taper_from_csv(
     return c
 
 
-@gf.cell
-def taper_0p5_to_3_l36(**kwargs) -> Component:
-    filepath = data_path / "taper_strip_0p5_3_36.csv"
-    return taper_from_csv(filepath=filepath, **kwargs)
-
-
-@gf.cell
-def taper_w10_l100(**kwargs):
-    filepath = data_path / "taper_strip_0p5_10_100.csv"
-    return taper_from_csv(filepath=filepath, **kwargs)
-
-
-@gf.cell
-def taper_w10_l150(**kwargs):
-    filepath = data_path / "taper_strip_0p5_10_150.csv"
-    return taper_from_csv(filepath=filepath, **kwargs)
-
-
-@gf.cell
-def taper_w10_l200(**kwargs):
-    filepath = data_path / "taper_strip_0p5_10_200.csv"
-    return taper_from_csv(filepath=filepath, **kwargs)
-
-
-@gf.cell
-def taper_w11_l200(**kwargs):
-    filepath = data_path / "taper_strip_0p5_11_200.csv"
-    return taper_from_csv(filepath=filepath, **kwargs)
-
-
-@gf.cell
-def taper_w12_l200(**kwargs):
-    filepath = data_path / "taper_strip_0p5_12_200.csv"
-    return taper_from_csv(filepath=filepath, **kwargs)
+taper_0p5_to_3_l36 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_3_36.csv")
+taper_w10_l100 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_100.csv")
+taper_w10_l150 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_150.csv")
+taper_w10_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_10_200.csv")
+taper_w11_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_11_200.csv")
+taper_w12_l200 = partial(taper_from_csv, filepath=data / "taper_strip_0p5_12_200.csv")
 
 
 if __name__ == "__main__":
-    c = taper_0p5_to_3_l36()
-    # c = taper_w10_l100()
+    # c = taper_0p5_to_3_l36()
+    c = taper_w10_l100()
     # c = taper_w11_l200()
     c.show()

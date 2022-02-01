@@ -1,41 +1,9 @@
 cells:
-  compass_205010ac:
-    changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_205010ac
-  compass_c14e0736:
+  compass_0d5fe397:
     changed:
       layer:
       - 2
       - 0
-      port_type: electrical
       size:
       - 2
       - 5
@@ -60,7 +28,34 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c14e0736
+    name: compass_0d5fe397
+  compass_b841579c:
+    changed:
+      size:
+      - 2
+      - 5
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 2
+      - 5
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_b841579c
   litho_calipers:
     changed: {}
     default:
@@ -95,7 +90,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.litho_calipers
     name: litho_calipers
-  rectangle_229ba6f2:
+  rectangle_0d5fe397:
     changed:
       layer:
       - 2
@@ -124,12 +119,9 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_229ba6f2
-  rectangle_92db19f8:
+    name: rectangle_0d5fe397
+  rectangle_b841579c:
     changed:
-      layer:
-      - 1
-      - 0
       size:
       - 2
       - 5
@@ -154,7 +146,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_92db19f8
+    name: rectangle_b841579c
 info:
   changed: {}
   default:

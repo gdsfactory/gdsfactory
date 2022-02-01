@@ -1,5 +1,5 @@
 cells:
-  circle_602e85fd:
+  circle_925ccccf:
     changed:
       layer:
       - 203
@@ -20,10 +20,9 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_602e85fd
-  grating_coupler_ellipti_b632d295:
+    name: circle_925ccccf
+  grating_coupler_ellipti_db285fcb:
     changed:
-      polarization: te
       taper_angle: 35
     default:
       end_straight_length: 0.2
@@ -76,13 +75,12 @@ cells:
     function_name: grating_coupler_elliptical_trenches
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_b632d295
+    name: grating_coupler_ellipti_db285fcb
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
 info:
   changed:
-    polarization: te
     taper_angle: 35
   default:
     end_straight_length: 0.2
@@ -135,7 +133,7 @@ info:
   function_name: grating_coupler_elliptical_trenches
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical_trenches
-  name: grating_coupler_ellipti_b632d295
+  name: grating_coupler_ellipti_db285fcb
   period: 0.6759999999999999
   polarization: te
   wavelength: 1.53

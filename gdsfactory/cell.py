@@ -99,18 +99,37 @@ def cell_without_validator(func):
             if not p.default == inspect._empty
         }
         changed = args_as_kwargs
-        default = default
         full = copy.deepcopy(default)
         full.update(**args_as_kwargs)
 
-        named_args_list = [
-            f"{key}={clean_value(changed[key])}" for key in sorted(changed.keys())
+        default2 = copy.deepcopy(default)
+        changed2 = copy.deepcopy(changed)
+
+        # list of default args as strings
+        default_args_list = [
+            f"{key}={clean_value(default2[key])}" for key in sorted(default.keys())
         ]
-        named_args_string = "_".join(named_args_list)
-        named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
-        name_signature = (
-            clean_name(f"{prefix}_{named_args_hash}") if named_args_list else prefix
-        )
+        # list of explicitly passed args as strings
+        passed_args_list = [
+            f"{key}={clean_value(changed2[key])}" for key in sorted(changed.keys())
+        ]
+
+        # get only the args which are explicitly passed and different from defaults
+        changed_arg_set = set(passed_args_list).difference(default_args_list)
+        changed_arg_list = sorted(changed_arg_set)
+
+        # if any args were different from default, append a hash of those args.
+        # else, keep only the base name
+        if changed_arg_list:
+            named_args_string = "_".join(changed_arg_list)
+            named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+            name_signature = clean_name(f"{prefix}_{named_args_hash}")
+        else:
+            name_signature = prefix
+
+        # filter the changed dictionary to only keep entries which have truly changed
+        changed_arg_names = [carg.split("=")[0] for carg in changed_arg_list]
+        changed = {k: changed[k] for k in changed_arg_names}
 
         name = name or name_signature
         decorator = kwargs.pop("decorator", None)

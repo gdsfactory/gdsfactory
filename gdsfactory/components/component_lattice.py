@@ -75,12 +75,10 @@ def get_sequence_cross(
             d2 = dist(b, wgs, straights_end)
             total_dist += abs(d1) + abs(d2)
 
-            """
             # The equality cases are very important:
             # if one straight needs to cross, then even if the other one is
             # already at the right place, it must swap to allow the other one
             # to cross
-            """
 
             if d1 >= 0 and d2 <= 0 and not (d1 == 0 and d2 == 0):
                 wgs = swap(wgs, i, i + 1)
@@ -140,14 +138,17 @@ def component_lattice(
         CXX
         C-X
         """,
-    components: Dict[str, Component] = None,
+    symbol_to_component: Dict[str, Component] = None,
     grid_per_unit: int = 1000,
-    name: str = "lattice",
 ) -> Component:
-    """
-    Returns a lattice Component of N inputs and outputs with components at given locations
-    Columns must have components with the same x spacing between ports input/output ports
-    Lines must have components with the same y spacing between input and output ports
+    """Return a lattice Component of N inputs and outputs
+    Columns must have components with the same x spacing between input/output ports
+    Lines must have components with the same y spacing between input/output ports
+
+    Args:
+        lattice: ASCII map with character:
+        symbol_to_component:
+        grid_per_unit:
 
     Lattice example:
 
@@ -165,27 +166,28 @@ def component_lattice(
       from gdsfactory.components.crossing_waveguide import crossing45
       from gdsfactory.components.crossing_waveguide import compensation_path
 
-      components =  {
+      symbol_to_component =  {
             "C": gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0),
             "X": crossing45(port_spacing=40.0),
             "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
       }
-      c = gf.components.component_lattice(components=components)
+      c = gf.components.component_lattice(symbol_to_component=symbol_to_component)
       c.plot()
 
     """
-    components = components or {
+    x = crossing45(port_spacing=40)
+    symbol_to_component = symbol_to_component or {
         "C": gf.routing.fanout2x2(component=coupler(), port_spacing=40.0),
-        "X": crossing45(port_spacing=40.0),
-        "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
+        "X": x,
+        "-": compensation_path(x),
     }
 
     # Find y spacing and check that all components have same y spacing
-
     y_spacing = None
-    for component in components.values():
+    for component in symbol_to_component.values():
         component = gf.call_if_func(component)
-        component.auto_rename_ports_orientation()
+        # component = component.copy()
+        # component.auto_rename_ports_orientation()
 
         for direction in ["W", "E"]:
             ports_dir = get_ports_facing(component.ports, direction)
@@ -202,14 +204,16 @@ def component_lattice(
                     )
 
     a = y_spacing
-    columns, columns_to_length = parse_lattice(lattice, components)
+    columns, columns_to_length = parse_lattice(lattice, symbol_to_component)
     keys = sorted(columns.keys())
 
     components_to_nb_input_ports = {}
-    for c in components.keys():
-        components_to_nb_input_ports[c] = len(get_ports_facing(components[c], "W"))
+    for c in symbol_to_component.keys():
+        components_to_nb_input_ports[c] = len(
+            get_ports_facing(symbol_to_component[c], "W")
+        )
 
-    component = gf.Component(name)
+    component = gf.Component()
     x = 0
     for i in keys:
         col = columns[i]
@@ -223,13 +227,17 @@ def component_lattice(
                 skip = 0
                 continue
 
-            if c in components.keys():
+            if c in symbol_to_component.keys():
                 # Compute the number of ports to skip: They will already be
                 # connected since they belong to this component
 
                 nb_inputs = components_to_nb_input_ports[c]
                 skip = nb_inputs - 1
-                _cmp = components[c].ref((x, y), port_id="oW{}".format(skip))
+
+                ports_cw = symbol_to_component[c].get_ports_list(clockwise=True)
+                _cmp = symbol_to_component[c].ref((x, y), port_id=ports_cw[skip].name)
+
+                # _cmp = symbol_to_component[c].ref((x, y), port_id="oW{}".format(skip))
                 component.add(_cmp)
 
                 if i == 0:
@@ -243,20 +251,26 @@ def component_lattice(
                         component.add_port(gen_tmp_port_name(), port=_p)
 
             else:
+                symbols = list(symbol_to_component.keys())
                 raise ValueError(
-                    f"symbol {c} not in components dict {components.keys()}"
+                    f"symbol {c!r} not in symbol_to_component dict {symbols}"
                 )
 
             j += 1
         x += L
 
+    component.auto_rename_ports()
     return component
 
 
 def parse_lattice(
-    lattice: str, components: Dict[str, Component]
+    lattice: str, symbol_to_component: Dict[str, Component]
 ) -> Tuple[Dict[int, List[str]], Dict[int, float64]]:
-    """extract each column"""
+    """Extract each column.
+
+    Args:
+        lattice:
+    """
     lines = lattice.replace(" ", "").split("\n")
     columns = {}
     columns_to_length = {}
@@ -268,10 +282,15 @@ def parse_lattice(
                     columns[i] = []
 
                 columns[i].append(c)
-                if c in components.keys():
-                    cmp = components[c]
-                    # columns_to_length[i] = cmp.ports["o2"].x - cmp.ports["o1"].x
-                    columns_to_length[i] = cmp.ports["oE0"].x - cmp.ports["oW0"].x
+                if c in symbol_to_component.keys():
+                    cmp = symbol_to_component[c]
+                    pcw = cmp.get_ports_list(clockwise=True)
+                    pccw = cmp.get_ports_list(clockwise=False)
+
+                    # columns_to_length[i] = cmp.ports["oE0"].x - cmp.ports["oW0"].x
+                    columns_to_length[i] = (
+                        cmp.ports[pccw[0].name].x - cmp.ports[pcw[0].name].x
+                    )
 
                 i += 1
 
@@ -284,9 +303,9 @@ if __name__ == "__main__":
         "X": crossing45(port_spacing=40.0),
         "-": compensation_path(crossing45=crossing45(port_spacing=40.0)),
     }
-    c = gf.components.component_lattice(components=components_dict)
+    c = gf.components.component_lattice(symbol_to_component=components_dict)
     # c= gf.routing.fanout2x2(component=gf.components.coupler(), port_spacing=40.0)
     # c= crossing45(port_spacing=40.0)
     # c = compensation_path(crossing45=crossing45(port_spacing=40.0))
-    c.pprint()
+    c.pprint_ports()
     c.show()

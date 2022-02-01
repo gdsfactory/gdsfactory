@@ -1,5 +1,5 @@
 cells:
-  bend_euler_40e83c11:
+  bend_euler_3463ad1a:
     changed:
       cross_section:
         function: cross_section
@@ -44,10 +44,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_40e83c11
+    name: bend_euler_3463ad1a
     radius: 10
     radius_min: 7.061
-  mmi1x2_6c65a522:
+  mmi1x2_5349d18e:
     changed:
       cross_section:
         function: cross_section
@@ -98,8 +98,8 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_6c65a522
-  mzi_e7ad0424:
+    name: mmi1x2_5349d18e
+  mzi_4121b99a:
     changed:
       bend:
         cross_section:
@@ -244,8 +244,8 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_e7ad0424
-  straight_387e668b:
+    name: mzi_4121b99a
+  straight_420aeeed:
     changed:
       cross_section:
         function: cross_section
@@ -284,9 +284,9 @@ cells:
     info_version: 1
     length: 7
     module: gdsfactory.components.straight
-    name: straight_387e668b
+    name: straight_420aeeed
     width: 1
-  straight_4c537e1c:
+  straight_5ec13676:
     changed:
       cross_section:
         function: cross_section
@@ -325,9 +325,9 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_4c537e1c
+    name: straight_5ec13676
     width: 1
-  straight_8bcc53df:
+  straight_906c8992:
     changed:
       cross_section:
         function: cross_section
@@ -366,9 +366,9 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_8bcc53df
+    name: straight_906c8992
     width: 1
-  straight_af934e5c:
+  straight_aace3d93:
     changed:
       cross_section:
         function: cross_section
@@ -407,9 +407,9 @@ cells:
     info_version: 1
     length: 0.09
     module: gdsfactory.components.straight
-    name: straight_af934e5c
+    name: straight_aace3d93
     width: 1
-  straight_cef8998d:
+  straight_c79f112e:
     changed:
       cross_section:
         function: cross_section
@@ -448,7 +448,7 @@ cells:
     info_version: 1
     length: 2
     module: gdsfactory.components.straight
-    name: straight_cef8998d
+    name: straight_c79f112e
     width: 1
 info:
   changed:
@@ -595,7 +595,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi_e7ad0424
+  name: mzi_4121b99a
 ports:
   o1:
     layer:
