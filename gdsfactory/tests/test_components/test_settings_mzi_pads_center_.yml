@@ -23,7 +23,7 @@ cells:
       - 150
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
+    module: gdsfactory.components.array_component
     name: array_5a86ab1d
   bend_euler_1da190e0:
     changed:
@@ -262,7 +262,7 @@ cells:
     size:
     - 11
     - 11
-  mmi1x2_d41d8cd9:
+  mmi1x2:
     changed: {}
     default:
       cross_section:
@@ -291,7 +291,7 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_d41d8cd9
+    name: mmi1x2
   mzi_8a744511:
     changed:
       cross_section:
@@ -357,7 +357,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi
     name: mzi_8a744511
-  mzi_pads_center_d41d8cd9:
+  mzi_pads_center:
     changed: {}
     default:
       cross_section:
@@ -440,7 +440,7 @@ cells:
     function_name: mzi_pads_center
     info_version: 1
     module: gdsfactory.components.mzi_pads_center
-    name: mzi_pads_center_d41d8cd9
+    name: mzi_pads_center
   straight_07d3e839:
     changed:
       cross_section:
@@ -1164,7 +1164,7 @@ info:
   function_name: mzi_pads_center
   info_version: 1
   module: gdsfactory.components.mzi_pads_center
-  name: mzi_pads_center_d41d8cd9
+  name: mzi_pads_center
 ports:
   e1:
     layer:

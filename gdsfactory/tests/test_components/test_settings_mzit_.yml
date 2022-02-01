@@ -129,7 +129,7 @@ cells:
     min_bend_radius: 28.187
     module: gdsfactory.components.coupler
     name: coupler_cb43455d
-  mzit_d41d8cd9:
+  mzit:
     changed: {}
     default:
       Ls: 1
@@ -180,7 +180,7 @@ cells:
     function_name: mzit
     info_version: 1
     module: gdsfactory.components.mzit
-    name: mzit_d41d8cd9
+    name: mzit
   straight_0832c2df:
     changed:
       length: 1
@@ -492,7 +492,7 @@ info:
   function_name: mzit
   info_version: 1
   module: gdsfactory.components.mzit
-  name: mzit_d41d8cd9
+  name: mzit
 ports:
   o1:
     layer:

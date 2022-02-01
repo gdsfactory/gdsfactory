@@ -30,7 +30,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_bdc25def
-  cross_d41d8cd9:
+  cross:
     changed: {}
     default:
       layer:
@@ -49,7 +49,7 @@ cells:
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
-    name: cross_d41d8cd9
+    name: cross
   rectangle_0eb96b44:
     changed:
       layer:
@@ -99,6 +99,6 @@ info:
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross
-  name: cross_d41d8cd9
+  name: cross
 ports: {}
 version: 0.0.1

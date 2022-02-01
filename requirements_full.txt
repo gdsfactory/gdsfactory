@@ -1,0 +1,7 @@
+bokeh~=2.2.3
+holoviews~=1.14.6
+ipympl
+klayout~=0.27.5
+pyglet
+tidy3d
+trimesh==3.9.42

@@ -8,7 +8,7 @@ instances:
       coupler_length1: 10
       coupler_length2: 20
       delta_length: 10
-name: mzit_lattice_d41d8cd9
+name: mzit_lattice
 placements:
   mzit_f7e2e81d_19p138_11p4:
     mirror: false

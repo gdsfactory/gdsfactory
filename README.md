@@ -1,18 +1,18 @@
-# gdsfactory 3.10.9
+# gdsfactory 3.12.10
 
 ![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)
-[![](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
-[![](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
-![](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
-![](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
-[![](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
-[![](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
-[![](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![pypi](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
+[![issues](https://img.shields.io/github/issues/gdsfactory/gdsfactory)](https://github.com/gdsfactory/gdsfactory/issues)
+![forks](https://img.shields.io/github/forks/gdsfactory/gdsfactory)
+![Stars](https://img.shields.io/github/stars/gdsfactory/gdsfactory)
+[![MIT](https://img.shields.io/github/license/gdsfactory/gdsfactory)](https://choosealicense.com/licenses/mit/)
+[![codecov](https://img.shields.io/codecov/c/github/gdsfactory/gdsfactory)](https://codecov.io/gh/gdsfactory/gdsfactory/tree/master/gdsfactory)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
-gdsfactory is an [EDA (electronics design automation)](https://en.wikipedia.org/wiki/Electronic_design_automation) tool to Layout Integrated Circuits.
-
+[gdsfactory](https://gdsfactory.github.io/gdsfactory/) is an EDA (electronics design automation) tool to Layout Integrated Circuits.
 It is build on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and klayout to provide you with functions to build your GDSII components, PDKs and masks for different foundries.
 
 You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
@@ -30,8 +30,6 @@ It also can output components settings (that you can use for measurement and dat
 
 ![](https://i.imgur.com/XbhWJDz.png)
 
-## Documentation
-
 For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
 
 IPKISS is quite slow when working with large layouts, so in 2019 I stopped using it.
@@ -43,7 +41,6 @@ The metrics for the benchmark were:
 1. Fast
 2. Easy to use
 3. Maintained / Documented / Popular
-
 
 PHIDL was the outstanding winner thanks to its speed, code beauty and easy of use, and is written on top of gdspy (which came second), so you can also leverage all the goodies from gdspy.
 
@@ -94,32 +91,28 @@ How can you learn more?
 
 gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
 
-Once you are familiar with python, you can also:
-
-- [read online docs](https://gdsfactory.github.io/gdsfactory/)
-- run gdsfactory/samples
-- run [docs/notebooks](https://gdsfactory.readthedocs.io/en/latest/notebooks.html)
-
 ## Installation
 
 First, you need to install [klayout](https://www.klayout.de/) to visualize the GDS files that you create.
 
-gdsfactory works for python>=3.7 in Windows, MacOs and Linux.
+gdsfactory works for python versions 3.7, 3.8 and 3.9 in Windows, MacOs and Linux.
 [Github](https://github.com/gdsfactory/gdsfactory/actions) runs all the tests at least once a day for different versions of python (3.7, 3.8, 3.9)
 
-If you are on Windows, I recommend you install gdsfactory with Anaconda3 or Miniconda3.
+If you are on Windows, I recommend you install gdspy with Anaconda3, Miniconda3 or [mamba](https://github.com/conda-forge/miniforge#mambaforge) (faster conda alternative) and `pip` for gdsfactory.
+I also recommend you install the gdsfactory link to klayout `gf tool install`
 
 ```
-conda install -c conda-forge gdspy
-conda install -c conda-forge triangle
+mamba install gdspy triangle -y
 pip install gdsfactory[full]
 gf tool install
 ```
 
+Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install gdspy` with `conda install -c conda-forge gdspy -y`
+
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
 ```
-pip install gdsfactory[pip]
+pip install gdsfactory[full] triangle
 gf tool install
 ```
 
@@ -158,6 +151,14 @@ After installing it you should be able to `import gdsfactory as gf` from a pytho
   - tests:
 - docs/notebooks: jupyter-notebooks based tutorial
 
+## Documentation
+
+- Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
+- [read online docs](https://gdsfactory.github.io/gdsfactory/)
+- [download the code](https://github.com/gdsfactory/gdsfactory)
+- run gdsfactory/samples on your IDE (Spyder, PyCharm, VSCode)
+- play with [UBCpdk docs](https://gdsfactory.github.io/ubc/) and [code](https://github.com/gdsfactory/ubc)
+
 ## Plugins
 
 We try to keep gdsfactory core with minimum dependencies.
@@ -172,11 +173,31 @@ pip install gdsfactory[full]
 
 For (3D rendering and STL export)
 
+```
+mamba install trimesh triangle -y
+```
+
+### Lumerical FDTD
+
+For simulating Sparameters using FDTD.
+
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run `conda install -c conda-forge pymeep` (or `conda install -c conda-forge pymeep=*=mpi_mpich_*` for parallel execution).
+Open source FDTD / mode simulator. Requires you to run
 
-Also for parallel execution you can install `conda install mpi4py -y`
+```
+mamba install pymeep=*=mpi_mpich_* -y
+```
+
+for parallel execution (recommended)
+
+or for single core
+
+```
+mamba install pymeep -y
+```
+
+Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install` with `conda install -c conda-forge`
 
 ### tidy3d
 
@@ -228,12 +249,12 @@ Open source heroes:
 - Alex Tait (Queens University): for lytest
 - Thomas Ferreira de Lima (NEC): for `pip install klayout`
 
-
 ## Links
 
 - [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://gdsfactory.github.io/gdsfactory/)
-- [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
 - [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
+- [miniforge install instructions](https://github.com/conda-forge/miniforge#mambaforge)
+- [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
 - [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)

@@ -114,7 +114,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_dbe34808
     width: 0.4
-  verniers_d41d8cd9:
+  verniers:
     changed: {}
     default:
       gap: 0.1
@@ -143,7 +143,7 @@ cells:
     function_name: verniers
     info_version: 1
     module: gdsfactory.components.verniers
-    name: verniers_d41d8cd9
+    name: verniers
 info:
   changed: {}
   default:
@@ -173,6 +173,6 @@ info:
   function_name: verniers
   info_version: 1
   module: gdsfactory.components.verniers
-  name: verniers_d41d8cd9
+  name: verniers
 ports: {}
 version: 0.0.1

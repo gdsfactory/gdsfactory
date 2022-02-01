@@ -1,13 +1,12 @@
 -e .
 click
-gdspy~=1.6.11
-ipympl
+gdspy==1.6.11
 jsondiff
 loguru
 lytest==0.0.20
 matplotlib~=3.5.1
 networkx==2.6.3
-numpy
+numpy>=1.20.0
 omegaconf==2.1.1
 pandas
 phidl==1.6.0
@@ -15,7 +14,7 @@ picwriter==0.5
 pydantic==1.9.0
 Pyqtree==1.0.0
 pytest==6.2.5
-pytest-regressions==2.3.0
+pytest-regressions==2.3.1
 qrcode==7.3.1
 rectpack==0.2.2
 scikit-image
@@ -23,6 +22,6 @@ scipy
 semantic_version
 Shapely~=1.8.0
 toolz==0.11.2
-trimesh==3.9.42
+tqdm
 typing_extensions
 xmltodict==0.12.0

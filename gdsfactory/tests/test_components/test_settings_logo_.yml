@@ -1,5 +1,5 @@
 cells:
-  logo_d41d8cd9:
+  logo:
     changed: {}
     default:
       text: GDSFACTORY
@@ -8,7 +8,7 @@ cells:
     function_name: logo
     info_version: 1
     module: gdsfactory.components.logo
-    name: logo_d41d8cd9
+    name: logo
   text_0f9ea51c:
     changed:
       layer:
@@ -328,6 +328,6 @@ info:
   function_name: logo
   info_version: 1
   module: gdsfactory.components.logo
-  name: logo_d41d8cd9
+  name: logo
 ports: {}
 version: 0.0.1

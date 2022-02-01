@@ -2,7 +2,6 @@
 
 To create a component you need to extrude the path with a cross-section.
 
-Based on phidl.device_layout.CrossSection
 """
 from functools import partial
 from typing import Optional, Tuple
@@ -19,20 +18,15 @@ Floats = Tuple[float, ...]
 
 
 class CrossSection(CrossSectionPhidl):
-    """Add port_types to phidl cross_section
+    """Extend phidl.device_layout.CrossSection with port_types.
 
-    .. code::
-
-
-          0   offset
-          |<-------------->|
-          |              _____
-          |             |     |
-          |             |layer|
-          |             |_____|
-          |              <---->
-                         width
-
+    Args:
+        sections: list of sections
+        ports:
+        port_types:
+        aliases:
+        info:
+        name:
 
     """
 
@@ -54,18 +48,30 @@ class CrossSection(CrossSectionPhidl):
         port_types: Tuple[str, str] = ("optical", "optical"),
         hidden: bool = False,
     ):
-        """Adds a cross-sectional element to the CrossSection.  If ports are
-        specified, when creating a Device with the extrude() command there be
-        have Ports at the ends.
+        """Adds a cross-sectional element to the CrossSection. If ports are
+        specified, when creating a Component with the gf.path.extrude() command
+        it will add Ports at the ends.
 
         Args:
-            width: Width of the segment
+            width: width of the segment (um)
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
-            ports: port names at the ends of the cross-section
-            name: Name of the cross-sectional element for later access
+            ports: Optional port names at the ends of the cross-section
+            name: Optional Name of the cross-sectional element for later access
             port_types: electrical, optical ...
             hidden: if True does not draw polygons for CrossSection
+
+        .. code::
+
+              0   offset
+              |<-------------->|
+              |              _____
+              |             |     |
+              |             |layer|
+              |             |_____|
+              |              <---->
+                             width
+
         """
         if isinstance(width, (float, int)) and (width <= 0):
             raise ValueError("CrossSection.add(): widths must be >0")
@@ -103,7 +109,7 @@ class CrossSection(CrossSectionPhidl):
         return self
 
     def copy(self):
-        """Returns a copy of the CrossSection"""
+        """Return a copy of the CrossSection"""
         X = CrossSection()
         X.info = self.info.copy()
         X.sections = list(self.sections)
@@ -118,7 +124,7 @@ class CrossSection(CrossSectionPhidl):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes CrossSection is always valid"""
+        """pydantic checks CrossSection valid type"""
         assert isinstance(
             v, CrossSection
         ), f"TypeError, Got {type(v)}, expecting CrossSection"
@@ -133,10 +139,6 @@ class CrossSection(CrossSectionPhidl):
         d["aliases"] = x.aliases
         d["info"] = x.info
         return d
-
-    # @property
-    # def name(self):
-    #     return "_".join([str(i) for i in self.to_dict()["sections"]])
 
     def get_name(self):
         return self.name or "_".join([str(i) for i in self.to_dict()["sections"]])
@@ -161,7 +163,7 @@ def cross_section(
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
 ) -> CrossSection:
-    """Returns CrossSection.
+    """Return CrossSection.
 
     Args:
         width: main of the waveguide
@@ -174,7 +176,7 @@ def cross_section(
         cladding_offset: offset for layers_cladding
         layers_cladding:
         sections: Sections(width, offset, layer, ports)
-        port_names: for input and output (1, 2),
+        port_names: for input and output ('o1', 'o2')
         port_types: for input and output (electrical, optical, vertical_te ...)
         min_length: 10e-3 for routing
         start_straight_length: for routing
@@ -370,7 +372,8 @@ def pn(
         layer: ridge llayer
         layer_slab: slab layer
         gap_low_doping: from waveguide center to low doping
-        gap_medium_doping: from waveguide center to medium doping. None removes medium doping
+        gap_medium_doping: from waveguide center to medium doping.
+            None removes medium doping
         gap_high_doping: from waveguide center to high doping. None removes high doping
         width_doping:
         width_slab:
@@ -476,7 +479,7 @@ def strip_heater_metal_undercut(
         trench_gap: from waveguide edge to trench edge
         layer_heater:
         layer_trench:
-        **kwargs: for cross_section
+        kwargs: cross_section settings
 
 
     .. code::
@@ -643,17 +646,17 @@ def rib_heater_doped(
     .. code::
 
 
-                                     |<------width------>|
-                                      ____________________  heater_gap                slab_gap
-                                     |                   |<----------->|               <-->
-         ___ ________________________|                   |____________________________|___
-        |   |            |                 undoped Si                  |              |   |
-        |   |layer_heater|                 intrinsic region            |layer_heater  |   |
-        |___|____________|_____________________________________________|______________|___|
-                                                                        <------------>
-                                                                         heater_width
-        <--------------------------------------------------------------------------------->
-                                         slab_width
+                                    |<------width------>|
+                                     ____________________  heater_gap           slab_gap
+                                    |                   |<----------->|             <-->
+         ___ _______________________|                   |__________________________|___
+        |   |            |                undoped Si                  |            |   |
+        |   |layer_heater|                intrinsic region            |layer_heater|   |
+        |___|____________|____________________________________________|____________|___|
+                                                                       <---------->
+                                                                        heater_width
+        <------------------------------------------------------------------------------>
+                                        slab_width
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
@@ -727,19 +730,19 @@ def rib_heater_doped_contact(
 
     .. code::
 
-                                    |<------width------>|
-       slab_gap                      ____________________  contact_gap     contact width
-       <-->                         |                   |<------------->|<----------------->
-                                    |                   |  heater_gap |
-                                    |                   |<----------->|
-        ___ ________________________|                   |____________________________ ______
-       |   |            |                 undoped Si                  |              |      |
-       |   |layer_heater|                 intrinsic region            |layer_heater  |      |
-       |___|____________|_____________________________________________|______________|______|
-                                                                       <------------>
-                                                                        heater_width
-       <--------------------------------------------------------------------------------->
-                                         slab_width
+                                   |<----width------>|
+       slab_gap                     __________________ contact_gap     contact width
+       <-->                        |                 |<------------>|<--------------->
+                                   |                 | heater_gap |
+                                   |                 |<---------->|
+        ___ _______________________|                 |___________________________ ____
+       |   |            |              undoped Si                 |              |    |
+       |   |layer_heater|              intrinsic region           |layer_heater  |    |
+       |___|____________|_________________________________________|______________|____|
+                                                                   <------------>
+                                                                    heater_width
+       <------------------------------------------------------------------------------>
+                                       slab_width
 
     """
     if with_bot_heater and with_top_heater:

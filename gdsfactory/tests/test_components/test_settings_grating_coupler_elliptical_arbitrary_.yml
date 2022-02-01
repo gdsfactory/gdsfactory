@@ -21,7 +21,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.circle
     name: circle_602e85fd
-  grating_coupler_ellipti_b7f99df1:
+  grating_coupler_ellipti_4a0b5da2:
     changed: {}
     default:
       fiber_angle: 15
@@ -112,7 +112,7 @@ cells:
     function_name: grating_coupler_elliptical_arbitrary
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_arbitrary
-    name: grating_coupler_ellipti_b7f99df1
+    name: grating_coupler_ellipti_4a0b5da2
     polarization: te
     wavelength: 1.554
 info:
@@ -206,7 +206,7 @@ info:
   function_name: grating_coupler_elliptical_arbitrary
   info_version: 1
   module: gdsfactory.components.grating_coupler_elliptical_arbitrary
-  name: grating_coupler_ellipti_b7f99df1
+  name: grating_coupler_ellipti_4a0b5da2
   polarization: te
   wavelength: 1.554
 ports:

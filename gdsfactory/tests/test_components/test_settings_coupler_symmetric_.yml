@@ -1,5 +1,5 @@
 cells:
-  coupler_symmetric_d41d8cd9:
+  coupler_symmetric:
     changed: {}
     default:
       bend:
@@ -22,7 +22,7 @@ cells:
     length: 10.315
     min_bend_radius: 9.447
     module: gdsfactory.components.coupler_symmetric
-    name: coupler_symmetric_d41d8cd9
+    name: coupler_symmetric
 info:
   changed: {}
   default:
@@ -46,7 +46,7 @@ info:
   length: 10.315
   min_bend_radius: 9.447
   module: gdsfactory.components.coupler_symmetric
-  name: coupler_symmetric_d41d8cd9
+  name: coupler_symmetric
 ports:
   o1:
     layer:

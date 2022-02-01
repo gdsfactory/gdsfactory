@@ -24,7 +24,7 @@ cells:
       - 20
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
+    module: gdsfactory.components.array_component
     name: array_05d1b8c2
   compass_ad4aadff:
     changed:
@@ -89,7 +89,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.rectangle
     name: rectangle_2fbcbfd8
-  rectangle_with_slits_d41d8cd9:
+  rectangle_with_slits:
     changed: {}
     default:
       centered: false
@@ -132,7 +132,7 @@ cells:
     function_name: rectangle_with_slits
     info_version: 1
     module: gdsfactory.components.rectangle_with_slits
-    name: rectangle_with_slits_d41d8cd9
+    name: rectangle_with_slits
 info:
   changed: {}
   default:
@@ -176,6 +176,6 @@ info:
   function_name: rectangle_with_slits
   info_version: 1
   module: gdsfactory.components.rectangle_with_slits
-  name: rectangle_with_slits_d41d8cd9
+  name: rectangle_with_slits
 ports: {}
 version: 0.0.1
