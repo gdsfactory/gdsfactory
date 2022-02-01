@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.0.1
+
+- [Mode field profile interpolation + overlap integrals](https://github.com/gdsfactory/gdsfactory/pull/170)
+- [Properly serialize transitions](https://github.com/gdsfactory/gdsfactory/pull/171)
+
 ## 4.0.0
 
 - Consider only changed component args and kwargs when calculating hash for component name
