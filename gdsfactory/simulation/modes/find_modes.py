@@ -92,28 +92,33 @@ def find_modes(
     neff = np.array(k) * wavelength
     ng = 1 / np.array(vg)
 
-    modes = {
-        i: Mode(
+    modes = {}
+    for index, i in enumerate(range(mode_number, mode_number + nmodes)):
+
+        Ei = mode_solver.get_efield(i)
+        Hi = mode_solver.get_hfield(i)
+        y_num = np.shape(Ei[:, :, 0, 0])[0]
+        z_num = np.shape(Ei[:, :, 0, 0])[1]
+
+        modes[i] = Mode(
             mode_number=i,
             neff=neff[index],
             wavelength=wavelength,
             ng=ng,
-            E=mode_solver.get_efield(i),
-            H=mode_solver.get_hfield(i),
+            E=Ei,
+            H=Hi,
             eps=mode_solver.get_epsilon().T,
             y=np.linspace(
-                -1 * mode_solver.info["sy"] / 2,
-                mode_solver.info["sy"] / 2,
-                int(mode_solver.info["sy"] * mode_solver.info["resolution"]),
+                -1 * mode_solver.info["sy"] / 2.0,
+                mode_solver.info["sy"] / 2.0,
+                y_num,
             ),
             z=np.linspace(
-                -1 * mode_solver.info["sz"] / 2,
-                mode_solver.info["sz"] / 2,
-                int(mode_solver.info["sz"] * mode_solver.info["resolution"]),
+                -1 * mode_solver.info["sz"] / 2.0,
+                mode_solver.info["sz"] / 2.0,
+                z_num,
             ),
         )
-        for index, i in enumerate(range(mode_number, mode_number + nmodes))
-    }
 
     return modes
 
@@ -121,6 +126,14 @@ def find_modes(
 if __name__ == "__main__":
     ms = get_mode_solver_rib(wg_width=0.5)
     m = find_modes(mode_solver=ms)
+
+    print(m)
+
+    m1 = m[1]
+
+    print(np.shape(m1.y))
+    print(np.shape(m1.z))
+    print(np.shape(m1.E[:, :, 0, 1]))
 
     # tol: float = 1e-6
     # wavelength: float = 1.55
