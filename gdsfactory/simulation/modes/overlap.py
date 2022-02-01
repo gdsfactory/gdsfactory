@@ -1,5 +1,6 @@
 import numpy as np
 
+import gdsfactory.simulation.modes as gm
 from gdsfactory.simulation.modes.types import Mode
 
 
@@ -67,15 +68,13 @@ def test_innerprod_trapz():
     """Checks that overlaps are taken properly"""
 
     m = gm.find_modes()
-
     overlap = innerprod_trapz(m[1], m[1])
 
     # Check if value changed
-    assert np.isclose(np.real(overlap), 0.148, atol=1e-4)
+    assert np.isclose(np.real(overlap), 0.148, atol=1e-2)
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.modes as gm
 
     m = gm.find_modes()
     print(innerprod_trapz(m[1], m[1]))
