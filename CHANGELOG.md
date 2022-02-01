@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.2
+
+- move triangle into requirements_dev.txt. Now that there is wheels for python3.9 and 3.10 you can manage the dependency with pip.
+
 ## 4.0.1
 
 - [Mode field profile interpolation + overlap integrals](https://github.com/gdsfactory/gdsfactory/pull/170)

@@ -34,4 +34,3 @@ python:
    - requirements: requirements.txt
    - requirements: requirements_dev.txt
    - requirements: requirements_full.txt
-   - requirements: requirements_pip.txt
