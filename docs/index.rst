@@ -8,6 +8,7 @@ Gdsfactory
    README
    notebooks
    component_intro
+   api
    routing
    yaml
    components

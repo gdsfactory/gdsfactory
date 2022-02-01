@@ -6,7 +6,7 @@ from gdsfactory.types import ComponentFactoryDict
 autodoc_type_aliases = {ComponentFactoryDict: "ComponentFactoryDict"}
 
 project = "gdsfactory"
-release = "3.10.9"
+release = "3.12.10"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
@@ -46,7 +46,6 @@ exclude_patterns = [
     "**.ipynb_checkpoints",
     "build",
     "extra",
-    "notebooks/plugins/tidy3d/01_tidy3d.ipynb",
     "notebooks/plugins/*",
 ]
 

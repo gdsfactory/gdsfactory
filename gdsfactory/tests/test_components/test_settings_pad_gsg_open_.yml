@@ -1,8 +1,8 @@
 cells:
-  array_62d6385d:
+  array_dacd7306:
     changed:
       columns: 1
-      component: pad_d41d8cd9
+      component: pad
       rows: 3
       spacing:
       - 0
@@ -17,15 +17,15 @@ cells:
       - 150
     full:
       columns: 1
-      component: pad_d41d8cd9
+      component: pad
       rows: 3
       spacing:
       - 0
       - 150
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
-    name: array_62d6385d
+    module: gdsfactory.components.array_component
+    name: array_dacd7306
   compass_83a2e6d6:
     changed:
       layer:

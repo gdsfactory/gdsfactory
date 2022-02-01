@@ -1,5 +1,5 @@
 cells:
-  text_rectangular_d41d8cd9:
+  text_rectangular:
     changed: {}
     default:
       font:
@@ -28,7 +28,7 @@ cells:
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_d41d8cd9
+    name: text_rectangular
 info:
   changed: {}
   default:
@@ -58,6 +58,6 @@ info:
   function_name: text_rectangular
   info_version: 1
   module: gdsfactory.components.text_rectangular
-  name: text_rectangular_d41d8cd9
+  name: text_rectangular
 ports: {}
 version: 0.0.1

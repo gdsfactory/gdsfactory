@@ -1,5 +1,5 @@
 cells:
-  disk_d41d8cd9:
+  disk:
     changed: {}
     default:
       direction: EAST
@@ -26,7 +26,7 @@ cells:
     function_name: disk
     info_version: 1
     module: gdsfactory.components.disk
-    name: disk_d41d8cd9
+    name: disk
 info:
   changed: {}
   default:
@@ -54,7 +54,7 @@ info:
   function_name: disk
   info_version: 1
   module: gdsfactory.components.disk
-  name: disk_d41d8cd9
+  name: disk
 ports:
   o1:
     layer:

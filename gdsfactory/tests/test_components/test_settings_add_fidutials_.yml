@@ -30,7 +30,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_bdc25def
-  cross_d41d8cd9:
+  cross:
     changed: {}
     default:
       layer:
@@ -49,8 +49,8 @@ cells:
     function_name: cross
     info_version: 1
     module: gdsfactory.components.cross
-    name: cross_d41d8cd9
-  pad_array_d41d8cd9:
+    name: cross
+  pad_array:
     changed: {}
     default:
       columns: 6
@@ -73,11 +73,11 @@ cells:
     function_name: pad_array
     info_version: 1
     module: gdsfactory.components.pad
-    name: pad_array_d41d8cd9
+    name: pad_array
     size:
     - 100
     - 100
-  pad_array_d41d8cd9_add__b5d50dcd:
+  pad_array_add_fidutials:
     changed: {}
     child:
       changed: {}
@@ -102,7 +102,7 @@ cells:
       function_name: pad_array
       info_version: 1
       module: gdsfactory.components.pad
-      name: pad_array_d41d8cd9
+      name: pad_array
       size:
       - 100
       - 100
@@ -129,7 +129,7 @@ cells:
     function_name: add_fidutials
     info_version: 1
     module: gdsfactory.components.add_fidutials
-    name: pad_array_d41d8cd9_add__b5d50dcd
+    name: pad_array_add_fidutials
   rectangle_0eb96b44:
     changed:
       layer:
@@ -185,7 +185,7 @@ info:
     function_name: pad_array
     info_version: 1
     module: gdsfactory.components.pad
-    name: pad_array_d41d8cd9
+    name: pad_array
     size:
     - 100
     - 100
@@ -212,7 +212,7 @@ info:
   function_name: add_fidutials
   info_version: 1
   module: gdsfactory.components.add_fidutials
-  name: pad_array_d41d8cd9_add__b5d50dcd
+  name: pad_array_add_fidutials
 ports:
   e11:
     layer:

@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.add_pins import add_outline, add_pins
 from gdsfactory.cross_section import strip
 from gdsfactory.difftest import difftest
-from gdsfactory.tech import Library
 
 WIDTH = 2
 LAYER = (30, 0)
@@ -32,8 +31,7 @@ bend_euler = gf.partial(gf.components.bend_euler, decorator=decorator)
 straight = gf.partial(gf.components.straight, decorator=decorator)
 mzi = gf.partial(gf.components.mzi, splitter=mmi1x2, bend=bend_euler, straight=straight)
 
-LIBRARY = Library(name="fab_a")
-LIBRARY.register([mmi2x2, mmi1x2, mzi])
+factory = dict(mmi2x2=mmi2x2, mmi1x2=mmi1x2, mzi=mzi)
 
 
 if __name__ == "__main__":

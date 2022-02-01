@@ -31,7 +31,7 @@ cells:
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
     name: coupler_3e9f9e6a
-  dbr_d41d8cd9:
+  dbr:
     changed: {}
     default:
       l1: 0.159
@@ -52,8 +52,8 @@ cells:
     function_name: dbr
     info_version: 1
     module: gdsfactory.components.dbr
-    name: dbr_d41d8cd9
-  dbr_d41d8cd9_cavity_d41d8cd9:
+    name: dbr
+  dbr_cavity:
     changed: {}
     child:
       changed: {}
@@ -76,7 +76,7 @@ cells:
       function_name: dbr
       info_version: 1
       module: gdsfactory.components.dbr
-      name: dbr_d41d8cd9
+      name: dbr
     default:
       component:
         function: dbr
@@ -94,7 +94,7 @@ cells:
     function_name: cavity
     info_version: 1
     module: gdsfactory.components.cavity
-    name: dbr_d41d8cd9_cavity_d41d8cd9
+    name: dbr_cavity
 info:
   changed: {}
   child:
@@ -118,7 +118,7 @@ info:
     function_name: dbr
     info_version: 1
     module: gdsfactory.components.dbr
-    name: dbr_d41d8cd9
+    name: dbr
   default:
     component:
       function: dbr
@@ -136,7 +136,7 @@ info:
   function_name: cavity
   info_version: 1
   module: gdsfactory.components.cavity
-  name: dbr_d41d8cd9_cavity_d41d8cd9
+  name: dbr_cavity
 ports:
   o1:
     layer:

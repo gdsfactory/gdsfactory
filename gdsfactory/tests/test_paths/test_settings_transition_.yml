@@ -65,14 +65,14 @@ cells:
     length: 29.452
     module: gdsfactory.path
     name: extrude_c61f54b8
-  transition_d41d8cd9:
+  transition:
     changed: {}
     default: {}
     full: {}
     function_name: transition
     info_version: 1
     module: gdsfactory.tests.test_paths
-    name: transition_d41d8cd9
+    name: transition
 info:
   changed: {}
   default: {}
@@ -80,6 +80,6 @@ info:
   function_name: transition
   info_version: 1
   module: gdsfactory.tests.test_paths
-  name: transition_d41d8cd9
+  name: transition
 ports: {}
 version: 0.0.1
