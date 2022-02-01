@@ -1,5 +1,5 @@
 cells:
-  extrude_ca2fda7d:
+  extrude_8de17bbb:
     changed:
       cross_section:
         aliases:
@@ -39,8 +39,8 @@ cells:
         port_types:
         - optical
         ports:
-        - o2
         - o1
+        - o2
         sections:
         - hidden: false
           layer:
@@ -118,8 +118,8 @@ cells:
         port_types:
         - optical
         ports:
-        - o2
         - o1
+        - o2
         sections:
         - hidden: false
           layer:
@@ -160,7 +160,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.path
-    name: extrude_ca2fda7d
+    name: extrude_8de17bbb
   taper_cross_section_f1747efd:
     changed:
       linear: true
