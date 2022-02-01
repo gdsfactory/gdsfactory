@@ -427,7 +427,7 @@ cells:
     size:
     - 10
     - 10
-  extrude_d66e7f03:
+  extrude_1256186e:
     changed:
       cross_section:
         aliases:
@@ -467,8 +467,8 @@ cells:
         port_types:
         - optical
         ports:
-        - o2
         - o1
+        - o2
         sections:
         - hidden: false
           layer:
@@ -546,8 +546,8 @@ cells:
         port_types:
         - optical
         ports:
-        - o2
         - o1
+        - o2
         sections:
         - hidden: false
           layer:
@@ -588,7 +588,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.path
-    name: extrude_d66e7f03
+    name: extrude_1256186e
   straight_37297705:
     changed:
       cross_section:
