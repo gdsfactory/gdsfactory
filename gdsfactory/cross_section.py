@@ -113,7 +113,7 @@ class CrossSection(CrossSectionPhidl):
         X = CrossSection()
         X.info = self.info.copy()
         X.sections = list(self.sections)
-        X.ports = tuple(self.ports)
+        X.ports = tuple(sorted(list(self.ports)))
         X.aliases = dict(self.aliases)
         X.port_types = tuple(self.port_types)
         return X
