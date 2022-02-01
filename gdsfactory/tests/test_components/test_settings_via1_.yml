@@ -1,5 +1,5 @@
 cells:
-  via_0b2d8623:
+  via_ebd8e362:
     changed:
       enclosure: 2
       layer:
@@ -35,7 +35,7 @@ cells:
     function_name: via
     info_version: 1
     module: gdsfactory.components.via
-    name: via_0b2d8623
+    name: via_ebd8e362
     size:
     - 0.7
     - 0.7
@@ -78,7 +78,7 @@ info:
   function_name: via
   info_version: 1
   module: gdsfactory.components.via
-  name: via_0b2d8623
+  name: via_ebd8e362
   size:
   - 0.7
   - 0.7

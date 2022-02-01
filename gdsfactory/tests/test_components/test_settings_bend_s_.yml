@@ -1,20 +1,7 @@
 cells:
-  bezier_2ee69c51:
+  bezier_55a6d777:
     changed:
-      control_points:
-      - - 0
-        - 0
-      - - 5
-        - 0
-      - - 5
-        - 2
-      - - 10
-        - 2
-      layer:
-      - 1
-      - 0
       npoints: 99
-      width: 0.5
     default:
       control_points:
       - - 0
@@ -63,26 +50,13 @@ cells:
     length: 10.278
     min_bend_radius: 9.959
     module: gdsfactory.components.bezier
-    name: bezier_2ee69c51
+    name: bezier_55a6d777
     start_angle: 0.235
-  bezier_2ee69c51_bend_s:
+  bezier_55a6d777_bend_s:
     changed: {}
     child:
       changed:
-        control_points:
-        - - 0
-          - 0
-        - - 5
-          - 0
-        - - 5
-          - 2
-        - - 10
-          - 2
-        layer:
-        - 1
-        - 0
         npoints: 99
-        width: 0.5
       default:
         control_points:
         - - 0
@@ -131,7 +105,7 @@ cells:
       length: 10.278
       min_bend_radius: 9.959
       module: gdsfactory.components.bezier
-      name: bezier_2ee69c51
+      name: bezier_55a6d777
       start_angle: 0.235
     default:
       cross_section:
@@ -155,26 +129,13 @@ cells:
     length: 10.278
     min_bend_radius: 9.959
     module: gdsfactory.components.bend_s
-    name: bezier_2ee69c51_bend_s
+    name: bezier_55a6d777_bend_s
     start_angle: 0.235
 info:
   changed: {}
   child:
     changed:
-      control_points:
-      - - 0
-        - 0
-      - - 5
-        - 0
-      - - 5
-        - 2
-      - - 10
-        - 2
-      layer:
-      - 1
-      - 0
       npoints: 99
-      width: 0.5
     default:
       control_points:
       - - 0
@@ -223,7 +184,7 @@ info:
     length: 10.278
     min_bend_radius: 9.959
     module: gdsfactory.components.bezier
-    name: bezier_2ee69c51
+    name: bezier_55a6d777
     start_angle: 0.235
   default:
     cross_section:
@@ -247,7 +208,7 @@ info:
   length: 10.278
   min_bend_radius: 9.959
   module: gdsfactory.components.bend_s
-  name: bezier_2ee69c51_bend_s
+  name: bezier_55a6d777_bend_s
   start_angle: 0.235
 ports:
   o1:

@@ -1,8 +1,8 @@
 cells:
-  array_05d1b8c2:
+  array_2030fc32:
     changed:
       columns: 4
-      component: rectangle_dc798a8d
+      component: rectangle_b3809cf3
       rows: 9
       spacing:
       - 20
@@ -17,7 +17,7 @@ cells:
       - 150
     full:
       columns: 4
-      component: rectangle_dc798a8d
+      component: rectangle_b3809cf3
       rows: 9
       spacing:
       - 20
@@ -25,12 +25,9 @@ cells:
     function_name: array
     info_version: 1
     module: gdsfactory.components.array_component
-    name: array_05d1b8c2
-  compass_ad4aadff:
+    name: array_2030fc32
+  compass_c5baf54c:
     changed:
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 100
@@ -56,13 +53,9 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_ad4aadff
-  rectangle_2fbcbfd8:
+    name: compass_c5baf54c
+  rectangle_c5baf54c:
     changed:
-      centered: false
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 100
@@ -88,7 +81,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_2fbcbfd8
+    name: rectangle_c5baf54c
   rectangle_with_slits:
     changed: {}
     default:

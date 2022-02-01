@@ -39,7 +39,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.die
     name: die
-  text_cc38bd78:
+  text_3ca55ae2:
     changed:
       layer:
       - 99
@@ -69,7 +69,7 @@ cells:
     function_name: text
     info_version: 1
     module: gdsfactory.components.text
-    name: text_cc38bd78
+    name: text_3ca55ae2
 info:
   changed: {}
   default:

@@ -1,10 +1,6 @@
 cells:
-  compass_f2a0af54:
+  compass_011cc456:
     changed:
-      layer:
-      - 1
-      - 0
-      port_type: electrical
       size:
       - 8
       - 8
@@ -29,7 +25,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_f2a0af54
+    name: compass_011cc456
   nxn:
     changed: {}
     default:
@@ -60,11 +56,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.nxn
     name: nxn
-  rectangle_48d69079:
+  rectangle_011cc456:
     changed:
-      layer:
-      - 1
-      - 0
       size:
       - 8
       - 8
@@ -89,7 +82,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_48d69079
+    name: rectangle_011cc456
 info:
   changed: {}
   default:

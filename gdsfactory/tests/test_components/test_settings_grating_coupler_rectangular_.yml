@@ -1,9 +1,6 @@
 cells:
-  compass_fa26bb75:
+  compass_cd59cd6b:
     changed:
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 0.375
@@ -29,7 +26,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_fa26bb75
+    name: compass_cd59cd6b
   grating_coupler_rectangular:
     changed: {}
     default:
@@ -76,11 +73,8 @@ cells:
     name: grating_coupler_rectangular
     polarization: te
     wavelength: 1.55
-  rectangle_fa26bb75:
+  rectangle_cd59cd6b:
     changed:
-      layer:
-      - 1
-      - 0
       port_type: null
       size:
       - 0.375
@@ -106,14 +100,13 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_fa26bb75
-  taper_211ef0b5:
+    name: rectangle_cd59cd6b
+  taper_395da726:
     changed:
       layer:
       - 1
       - 0
       length: 150
-      width1: 0.5
       width2: 11
     default:
       cross_section:
@@ -138,7 +131,7 @@ cells:
     info_version: 1
     length: 150
     module: gdsfactory.components.taper
-    name: taper_211ef0b5
+    name: taper_395da726
     width1: 0.5
     width2: 11
 info:

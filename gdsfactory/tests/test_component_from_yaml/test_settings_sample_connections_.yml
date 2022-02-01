@@ -1,6 +1,6 @@
 cells:
   sample_connections: {}
-  straight_b8776d87:
+  straight_1a5e6830:
     changed:
       length: 0.5
     default:
@@ -19,7 +19,7 @@ cells:
     info_version: 1
     length: 0.5
     module: gdsfactory.components.straight
-    name: straight_b8776d87
+    name: straight_1a5e6830
     width: 0.5
   straight_e15cfb47:
     changed:

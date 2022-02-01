@@ -1,12 +1,12 @@
 connections:
-  bend_euler_1da190e0_120p135_5p5,o1: straight_c96c7cf4_63p755_0p625,o2
-  bend_euler_1da190e0_120p135_5p5,o2: straight_c8d42def_125p01_50p312,o1
-  bend_euler_1da190e0_120p135_95p125,o1: straight_c8d42def_125p01_50p312,o2
-  bend_euler_1da190e0_120p135_95p125,o2: straight_5743d35a_115p005_100p0,o1
-  mmi_long,o1: straight_5743d35a_115p005_100p0,o2
-  mmi_short,o2: straight_c96c7cf4_63p755_0p625,o1
+  bend_euler_120p135_5p5,o1: straight_7a57a71b_63p755_0p625,o2
+  bend_euler_120p135_5p5,o2: straight_e4b574c8_125p01_50p312,o1
+  bend_euler_120p135_95p125,o1: straight_e4b574c8_125p01_50p312,o2
+  bend_euler_120p135_95p125,o2: straight_c49ce9c6_115p005_100p0,o1
+  mmi_long,o1: straight_c49ce9c6_115p005_100p0,o2
+  mmi_short,o2: straight_7a57a71b_63p755_0p625,o1
 instances:
-  bend_euler_1da190e0_120p135_5p5:
+  bend_euler_120p135_5p5:
     component: bend_euler
     settings:
       angle: 90
@@ -17,7 +17,7 @@ instances:
       p: 0.5
       with_arc_floorplan: true
       with_cladding_box: true
-  bend_euler_1da190e0_120p135_95p125:
+  bend_euler_120p135_95p125:
     component: bend_euler
     settings:
       angle: 90
@@ -56,23 +56,7 @@ instances:
       width_mmi: 4.5
       width_taper: 1
       with_cladding_box: true
-  straight_5743d35a_115p005_100p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-  straight_c8d42def_125p01_50p312:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 79.375
-      npoints: 2
-      with_cladding_box: true
-  straight_c96c7cf4_63p755_0p625:
+  straight_7a57a71b_63p755_0p625:
     component: straight
     settings:
       cross_section:
@@ -80,14 +64,30 @@ instances:
       length: 102.51
       npoints: 2
       with_cladding_box: true
+  straight_c49ce9c6_115p005_100p0:
+    component: straight
+    settings:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+  straight_e4b574c8_125p01_50p312:
+    component: straight
+    settings:
+      cross_section:
+        function: cross_section
+      length: 79.375
+      npoints: 2
+      with_cladding_box: true
 name: Unnamed_a491ff8b
 placements:
-  bend_euler_1da190e0_120p135_5p5:
+  bend_euler_120p135_5p5:
     mirror: false
     rotation: 0
     x: 115.01
     y: 0.625
-  bend_euler_1da190e0_120p135_95p125:
+  bend_euler_120p135_95p125:
     mirror: false
     rotation: 90
     x: 125.01
@@ -102,21 +102,21 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_5743d35a_115p005_100p0:
-    mirror: false
-    rotation: 180
-    x: 115.01
-    y: 100.0
-  straight_c8d42def_125p01_50p312:
-    mirror: false
-    rotation: 90
-    x: 125.01
-    y: 10.625
-  straight_c96c7cf4_63p755_0p625:
+  straight_7a57a71b_63p755_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
+  straight_c49ce9c6_115p005_100p0:
+    mirror: false
+    rotation: 180
+    x: 115.01
+    y: 100.0
+  straight_e4b574c8_125p01_50p312:
+    mirror: false
+    rotation: 90
+    x: 125.01
+    y: 10.625
 ports:
   o1: mmi_short,o1
   o2: mmi_long,o2

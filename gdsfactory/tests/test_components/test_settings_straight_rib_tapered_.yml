@@ -1,5 +1,5 @@
 cells:
-  straight_59648496:
+  straight_9b75572a:
     changed:
       cross_section:
         cladding_offset: 0
@@ -31,9 +31,9 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_59648496
+    name: straight_9b75572a
     width: 0.5
-  straight_59648496_exten_0c897020:
+  straight_9b75572a_exten_c7ec24a3:
     changed:
       component:
         cross_section:
@@ -81,7 +81,7 @@ cells:
       info_version: 1
       length: 10
       module: gdsfactory.components.straight
-      name: straight_59648496
+      name: straight_9b75572a
       width: 0.5
     default:
       centered: false
@@ -117,7 +117,7 @@ cells:
     function_name: extend_ports
     info_version: 1
     module: gdsfactory.components.extension
-    name: straight_59648496_exten_0c897020
+    name: straight_9b75572a_exten_c7ec24a3
 info:
   changed:
     component:
@@ -166,7 +166,7 @@ info:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_59648496
+    name: straight_9b75572a
     width: 0.5
   default:
     centered: false
@@ -202,7 +202,7 @@ info:
   function_name: extend_ports
   info_version: 1
   module: gdsfactory.components.extension
-  name: straight_59648496_exten_0c897020
+  name: straight_9b75572a_exten_c7ec24a3
 ports:
   o1:
     layer:

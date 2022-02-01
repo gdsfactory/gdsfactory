@@ -158,7 +158,7 @@ if __name__ == "__main__":
     c = splitter_tree(
         noutputs=2 ** 2,
         # bend_length=30,
-        # bend_s=None,
+        bend_s=None,
     )
     c.show()
     # print(len(c.ports))
