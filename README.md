@@ -102,7 +102,7 @@ If you are on Windows, I recommend you install gdspy with Anaconda3, Miniconda3 
 I also recommend you install the gdsfactory link to klayout `gf tool install`
 
 ```
-mamba install gdspy triangle -y
+mamba install gdspy -y
 pip install gdsfactory[full]
 gf tool install
 ```
@@ -112,7 +112,7 @@ Mamba is a faster alternative to conda, if you don't want to install mamba, you 
 For Linux and MacOs you can also install gdsfactory without Anaconda3:
 
 ```
-pip install gdsfactory[full] triangle
+pip install gdsfactory[full]
 gf tool install
 ```
 
@@ -174,7 +174,7 @@ pip install gdsfactory[full]
 For (3D rendering and STL export)
 
 ```
-mamba install trimesh triangle -y
+pip install trimesh
 ```
 
 ### Lumerical FDTD
