@@ -39,8 +39,6 @@ def innerprod_trapz(
     yint = np.linspace(ymin, ymax, trapz_num_y)
     zint = np.linspace(zmin, zmax, trapz_num_z)
 
-    print()
-
     mode1_Ey_interp = mode1.Ey_grid_interp(yint, zint)
     mode1_Ez_interp = mode1.Ez_grid_interp(yint, zint)
     mode1_Hy_interp = mode1.Hy_grid_interp(yint, zint)
@@ -65,9 +63,21 @@ def innerprod_trapz(
     return 0.25 * integral
 
 
+def test_innerprod_trapz():
+    """Checks that overlaps are taken properly"""
+
+    m = gm.find_modes()
+
+    overlap = innerprod_trapz(m[1], m[1])
+
+    # Check if value changed
+    assert np.isclose(np.real(overlap), 0.148, atol=1e-4)
+
+
 if __name__ == "__main__":
     import gdsfactory.simulation.modes as gm
 
     m = gm.find_modes()
-
     print(innerprod_trapz(m[1], m[1]))
+
+    test_innerprod_trapz()
