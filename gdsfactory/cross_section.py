@@ -138,6 +138,8 @@ class CrossSection(CrossSectionPhidl):
         d["port_types"] = x.port_types
         d["aliases"] = x.aliases
         d["info"] = x.info
+        if hasattr(self, "cross_sections"):
+            d["cross_sections"] = [x.to_dict() for x in self.cross_sections]
         return d
 
     def get_name(self):
