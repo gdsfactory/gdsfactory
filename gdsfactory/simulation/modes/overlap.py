@@ -38,6 +38,9 @@ def innerprod_trapz(
     # Form vector components
     yint = np.linspace(ymin, ymax, trapz_num_y)
     zint = np.linspace(zmin, zmax, trapz_num_z)
+
+    print()
+
     mode1_Ey_interp = mode1.Ey_grid_interp(yint, zint)
     mode1_Ez_interp = mode1.Ez_grid_interp(yint, zint)
     mode1_Hy_interp = mode1.Hy_grid_interp(yint, zint)

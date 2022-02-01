@@ -464,22 +464,50 @@ if __name__ == "__main__":
     # m[1].plot_h_all(operation=np.abs)
     # w = Waveguide()
 
-    ys = np.linspace(-1, 1, 2000)
-    zs = np.linspace(-1, 1, 2000)
+    ys = np.linspace(-3, 3, 2000)
+    zs = np.linspace(-1.5, 1.5, 2000)
     m[1].grid_interp()
 
     Ex_interp = m[1].Ex_grid_interp(ys, zs)
+    Ey_interp = m[1].Ey_grid_interp(ys, zs)
+    Ez_interp = m[1].Ez_grid_interp(ys, zs)
 
     plt.figure(figsize=(10, 8), dpi=100)
 
-    plt.subplot(1, 2, 1)
+    plt.subplot(3, 2, 1)
     plt.title("As calculated")
     m[1].plot_ex(show=False, operation=np.abs, scale=False)
 
-    plt.subplot(1, 2, 2)
+    plt.subplot(3, 2, 2)
     plt.title("Interp")
     plt.imshow(
         np.abs(Ex_interp).T,
+        aspect="auto",
+        extent=[np.min(ys), np.max(ys), np.min(zs), np.max(zs)],
+    )
+    plt.colorbar()
+
+    plt.subplot(3, 2, 3)
+    plt.title("As calculated")
+    m[1].plot_ey(show=False, operation=np.abs, scale=False)
+
+    plt.subplot(3, 2, 4)
+    plt.title("Interp")
+    plt.imshow(
+        np.abs(Ey_interp).T,
+        aspect="auto",
+        extent=[np.min(ys), np.max(ys), np.min(zs), np.max(zs)],
+    )
+    plt.colorbar()
+
+    plt.subplot(3, 2, 5)
+    plt.title("As calculated")
+    m[1].plot_ez(show=False, operation=np.abs, scale=False)
+
+    plt.subplot(3, 2, 6)
+    plt.title("Interp")
+    plt.imshow(
+        np.abs(Ez_interp).T,
         aspect="auto",
         extent=[np.min(ys), np.max(ys), np.min(zs), np.max(zs)],
     )
