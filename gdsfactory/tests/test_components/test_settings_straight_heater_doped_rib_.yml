@@ -1,8 +1,38 @@
 cells:
-  compass_018d2943:
+  compass_01ef3f1c:
     changed:
       layer:
-      - 3
+      - 41
+      - 0
+      size:
+      - 310
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 41
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 310
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_01ef3f1c
+  compass_27f93906:
+    changed:
+      layer:
+      - 41
       - 0
       size:
       - 10
@@ -18,7 +48,7 @@ cells:
       - 2
     full:
       layer:
-      - 3
+      - 41
       - 0
       port_inclusion: 0
       port_type: electrical
@@ -28,8 +58,98 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_018d2943
-  compass_44af43f4:
+    name: compass_27f93906
+  compass_342f16e4:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_342f16e4
+  compass_3e08739f:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 10
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 10
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_3e08739f
+  compass_743f285f:
+    changed:
+      layer:
+      - 45
+      - 0
+      size:
+      - 310
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 45
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 310
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_743f285f
+  compass_8c68905a:
     changed:
       layer:
       - 24
@@ -58,11 +178,11 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_44af43f4
-  compass_5903820c:
+    name: compass_8c68905a
+  compass_9dede8ef:
     changed:
       layer:
-      - 49
+      - 3
       - 0
       size:
       - 10
@@ -78,7 +198,7 @@ cells:
       - 2
     full:
       layer:
-      - 49
+      - 3
       - 0
       port_inclusion: 0
       port_type: electrical
@@ -88,38 +208,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_5903820c
-  compass_67c6df50:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_67c6df50
-  compass_70bcd629:
+    name: compass_9dede8ef
+  compass_a9fd9f7a:
     changed:
       layer:
       - 49
@@ -148,119 +238,12 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_70bcd629
-  compass_a7656554:
+    name: compass_a9fd9f7a
+  contact_16df2ed1:
     changed:
-      layer:
-      - 41
-      - 0
       size:
       - 310
       - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 310
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_a7656554
-  compass_cfeb36a5:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 310
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 310
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_cfeb36a5
-  compass_e429d7e7:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 10
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 10
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_e429d7e7
-  contact_016afa8d:
-    changed:
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 310
-      - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
     default:
       layer_port: null
       layers:
@@ -311,32 +294,15 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_016afa8d
+    name: contact_16df2ed1
     size:
     - 310
     - 10
-  contact_32dac979:
+  contact_b5c6cc96:
     changed:
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
       size:
       - 10
       - 10
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
     default:
       layer_port: null
       layers:
@@ -387,11 +353,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_32dac979
+    name: contact_b5c6cc96
     size:
     - 10
     - 10
-  contact_ef2ac9d0:
+  contact_ee5fd2ac:
     changed:
       layers:
       - - 3
@@ -457,13 +423,83 @@ cells:
     - 41
     - 0
     module: gdsfactory.components.contact
-    name: contact_ef2ac9d0
+    name: contact_ee5fd2ac
     size:
     - 10
     - 10
-  extrude_c3ae1f05:
+  extrude_1256186e:
     changed:
-      cross_section: {}
+      cross_section:
+        aliases:
+          _default:
+            hidden: false
+            layer:
+            - 1
+            - 0
+            name: _default
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - o1
+            - o2
+            width:
+              function: sine
+          slab:
+            hidden: false
+            layer:
+            - 3
+            - 0
+            name: slab
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - o1
+        - o2
+        sections:
+        - hidden: false
+          layer:
+          - 1
+          - 0
+          name: _default
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - o1
+          - o2
+          width:
+            function: sine
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
       p: path_df9f9721565520dc57f5cb1446179439
     default:
       cross_section: null
@@ -472,7 +508,77 @@ cells:
       width: null
       widths: null
     full:
-      cross_section: {}
+      cross_section:
+        aliases:
+          _default:
+            hidden: false
+            layer:
+            - 1
+            - 0
+            name: _default
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - o1
+            - o2
+            width:
+              function: sine
+          slab:
+            hidden: false
+            layer:
+            - 3
+            - 0
+            name: slab
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - o1
+        - o2
+        sections:
+        - hidden: false
+          layer:
+          - 1
+          - 0
+          name: _default
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - o1
+          - o2
+          width:
+            function: sine
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
       layer: null
       p: path_df9f9721565520dc57f5cb1446179439
       simplify: null
@@ -482,8 +588,8 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.path
-    name: extrude_c3ae1f05
-  straight_8d718ae9:
+    name: extrude_1256186e
+  straight_37297705:
     changed:
       cross_section:
         function: rib_heater_doped
@@ -510,7 +616,7 @@ cells:
     info_version: 1
     length: 300
     module: gdsfactory.components.straight
-    name: straight_8d718ae9
+    name: straight_37297705
     width: 0.5
   straight_heater_doped_rib:
     changed: {}
@@ -638,12 +744,8 @@ cells:
     info_version: 1
     module: gdsfactory.components.straight_heater_doped_rib
     name: straight_heater_doped_rib
-  taper_cross_section_3652c7ff:
+  taper_cross_section_71a7e441:
     changed:
-      cross_section1:
-        function: cross_section
-        sections:
-        - slab
       cross_section2:
         function: rib_heater_doped
         heater_gap: 0.8
@@ -681,7 +783,7 @@ cells:
     function_name: taper_cross_section
     info_version: 1
     module: gdsfactory.components.taper_cross_section
-    name: taper_cross_section_3652c7ff
+    name: taper_cross_section_71a7e441
 info:
   changed: {}
   default:

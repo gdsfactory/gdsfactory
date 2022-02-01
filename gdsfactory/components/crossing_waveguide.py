@@ -222,17 +222,17 @@ def crossing45(
     crossing = crossing() if callable(crossing) else crossing
 
     c = Component()
-    _crossing = crossing.ref(rotation=45)
-    c.add(_crossing)
+    x = c << crossing
+    x.rotate(45)
 
     # Add bends
-    p_e = _crossing.ports["o3"].midpoint
-    p_w = _crossing.ports["o1"].midpoint
-    p_n = _crossing.ports["o2"].midpoint
-    p_s = _crossing.ports["o4"].midpoint
+    p_e = x.ports["o3"].midpoint
+    p_w = x.ports["o1"].midpoint
+    p_n = x.ports["o2"].midpoint
+    p_s = x.ports["o4"].midpoint
 
     # Flatten the crossing - not an SRef anymore
-    c.absorb(_crossing)
+    c.absorb(x)
     dx = dx or port_spacing
     dy = port_spacing / 2
 
@@ -269,18 +269,16 @@ def crossing45(
         c.absorb(cmp_ref)
 
     c.info.bezier_length = bend.info.length
-    c.info.crossing = crossing.info
     c.info.min_bend_radius = b_br.info.min_bend_radius
 
     c.bezier = bend
     c.crossing = crossing
 
-    c.add_port("o1", port=b_br.ports["o2"])
-    c.add_port("o2", port=b_tr.ports["o2"])
-    c.add_port("o3", port=b_bl.ports["o2"])
-    c.add_port("o4", port=b_tl.ports["o2"])
+    c.add_port("o1", port=b_bl.ports["o2"])
+    c.add_port("o2", port=b_tl.ports["o2"])
+    c.add_port("o3", port=b_tr.ports["o2"])
+    c.add_port("o4", port=b_br.ports["o2"])
     c.snap_ports_to_grid()
-    c.auto_rename_ports()
     return c
 
 
@@ -370,9 +368,8 @@ def compensation_path(
 
     sbend = bezier(control_points=get_control_pts(x0, y_bend))
 
-    component = Component()
-    crossing0 = crossing45.crossing.ref()
-    component.add(crossing0)
+    c = Component()
+    crossing0 = c << crossing45.crossing
 
     sbend_left = sbend.ref(
         position=crossing0.ports["o1"], port_id="o2", v_mirror=v_mirror
@@ -381,15 +378,15 @@ def compensation_path(
         position=crossing0.ports["o3"], port_id="o2", h_mirror=True, v_mirror=v_mirror
     )
 
-    component.add(sbend_left)
-    component.add(sbend_right)
+    c.add(sbend_left)
+    c.add(sbend_right)
 
-    component.add_port("o1", port=sbend_left.ports["o1"])
-    component.add_port("o2", port=sbend_right.ports["o1"])
+    c.add_port("o1", port=sbend_left.ports["o1"])
+    c.add_port("o2", port=sbend_right.ports["o1"])
 
-    component.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    component.info.sbend = sbend.info
-    return component
+    c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
+    c.info.sbend = sbend.info
+    return c
 
 
 def _demo():
@@ -421,7 +418,6 @@ def _demo():
 if __name__ == "__main__":
     # c = compensation_path()
     # c = crossing()
-    # c = crossing45(port_spacing=40)
     # print(c.ports["E1"].y - c.ports['o2'].y)
     # print(c.get_ports_array())
     # _demo()
@@ -429,4 +425,5 @@ if __name__ == "__main__":
     # c.pprint()
     # c = crossing_etched()
     c = compensation_path()
+    # c = crossing45(port_spacing=40)
     c.show()

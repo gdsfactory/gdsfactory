@@ -1,7 +1,84 @@
 cells:
-  extrude_1ac1c90c:
+  extrude_49367db1:
     changed:
-      cross_section: {}
+      cross_section:
+        aliases:
+          etch:
+            hidden: false
+            layer: 3
+            name: etch
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 3.5
+          wg:
+            hidden: false
+            layer: 2
+            name: wg
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - in1
+            - out1
+            width: 1
+          wg2:
+            hidden: false
+            layer: 1
+            name: wg2
+            offset: 5
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 3
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - in1
+        - out1
+        sections:
+        - hidden: false
+          layer: 2
+          name: wg
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - in1
+          - out1
+          width: 1
+        - hidden: false
+          layer: 3
+          name: etch
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 3.5
+        - hidden: false
+          layer: 1
+          name: wg2
+          offset: 5
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 3
       p: path_d275aaf04a29c0536924c88e46512f29
     default:
       cross_section: null
@@ -10,7 +87,84 @@ cells:
       width: null
       widths: null
     full:
-      cross_section: {}
+      cross_section:
+        aliases:
+          etch:
+            hidden: false
+            layer: 3
+            name: etch
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 3.5
+          wg:
+            hidden: false
+            layer: 2
+            name: wg
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - in1
+            - out1
+            width: 1
+          wg2:
+            hidden: false
+            layer: 1
+            name: wg2
+            offset: 5
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 3
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - in1
+        - out1
+        sections:
+        - hidden: false
+          layer: 2
+          name: wg
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - in1
+          - out1
+          width: 1
+        - hidden: false
+          layer: 3
+          name: etch
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 3.5
+        - hidden: false
+          layer: 1
+          name: wg2
+          offset: 5
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 3
       layer: null
       p: path_d275aaf04a29c0536924c88e46512f29
       simplify: null
@@ -20,32 +174,99 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.path
-    name: extrude_1ac1c90c
-  extrude_bdcc3302:
+    name: extrude_49367db1
+  extrude_4b36d6e9:
     changed:
-      cross_section: {}
-      p: path_d275aaf04a29c0536924c88e46512f29
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section: {}
-      layer: null
-      p: path_d275aaf04a29c0536924c88e46512f29
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 5
-    module: gdsfactory.path
-    name: extrude_bdcc3302
-  extrude_c61f54b8:
-    changed:
-      cross_section: {}
+      cross_section:
+        aliases:
+          etch:
+            hidden: false
+            layer: 3
+            name: etch
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+          wg:
+            hidden: false
+            layer: 2
+            name: wg
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - in1
+            - out1
+            width:
+              function: sine
+          wg2:
+            hidden: false
+            layer: 1
+            name: wg2
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - in1
+        - out1
+        sections:
+        - hidden: false
+          layer: 2
+          name: wg
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - in1
+          - out1
+          width:
+            function: sine
+        - hidden: false
+          layer: 3
+          name: etch
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
+        - hidden: false
+          layer: 1
+          name: wg2
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
       p: path_9d4e7574f0f651972e1f0c1247df2061
     default:
       cross_section: null
@@ -54,7 +275,96 @@ cells:
       width: null
       widths: null
     full:
-      cross_section: {}
+      cross_section:
+        aliases:
+          etch:
+            hidden: false
+            layer: 3
+            name: etch
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+          wg:
+            hidden: false
+            layer: 2
+            name: wg
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - in1
+            - out1
+            width:
+              function: sine
+          wg2:
+            hidden: false
+            layer: 1
+            name: wg2
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - in1
+        - out1
+        sections:
+        - hidden: false
+          layer: 2
+          name: wg
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - in1
+          - out1
+          width:
+            function: sine
+        - hidden: false
+          layer: 3
+          name: etch
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
+        - hidden: false
+          layer: 1
+          name: wg2
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
       layer: null
       p: path_9d4e7574f0f651972e1f0c1247df2061
       simplify: null
@@ -64,7 +374,183 @@ cells:
     info_version: 1
     length: 29.452
     module: gdsfactory.path
-    name: extrude_c61f54b8
+    name: extrude_4b36d6e9
+  extrude_a53c4651:
+    changed:
+      cross_section:
+        aliases:
+          etch:
+            hidden: false
+            layer: 3
+            name: etch
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 2.2
+          wg:
+            hidden: false
+            layer: 2
+            name: wg
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - in1
+            - out1
+            width: 1.2
+          wg2:
+            hidden: false
+            layer: 1
+            name: wg2
+            offset: 3
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 1.1
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - in1
+        - out1
+        sections:
+        - hidden: false
+          layer: 2
+          name: wg
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - in1
+          - out1
+          width: 1.2
+        - hidden: false
+          layer: 3
+          name: etch
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 2.2
+        - hidden: false
+          layer: 1
+          name: wg2
+          offset: 3
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 1.1
+      p: path_d275aaf04a29c0536924c88e46512f29
+    default:
+      cross_section: null
+      layer: null
+      simplify: null
+      width: null
+      widths: null
+    full:
+      cross_section:
+        aliases:
+          etch:
+            hidden: false
+            layer: 3
+            name: etch
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 2.2
+          wg:
+            hidden: false
+            layer: 2
+            name: wg
+            offset: 0
+            port_types:
+            - optical
+            - optical
+            ports:
+            - in1
+            - out1
+            width: 1.2
+          wg2:
+            hidden: false
+            layer: 1
+            name: wg2
+            offset: 3
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width: 1.1
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - in1
+        - out1
+        sections:
+        - hidden: false
+          layer: 2
+          name: wg
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - in1
+          - out1
+          width: 1.2
+        - hidden: false
+          layer: 3
+          name: etch
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 2.2
+        - hidden: false
+          layer: 1
+          name: wg2
+          offset: 3
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 1.1
+      layer: null
+      p: path_d275aaf04a29c0536924c88e46512f29
+      simplify: null
+      width: null
+      widths: null
+    function_name: extrude
+    info_version: 1
+    length: 5
+    module: gdsfactory.path
+    name: extrude_a53c4651
   transition:
     changed: {}
     default: {}

@@ -5,10 +5,12 @@ import pathlib
 import shutil
 import time
 from pathlib import Path
+from pprint import pprint
 from typing import Dict, List
 
 import numpy as np
 import pydantic
+from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger, sparameters_path
@@ -37,12 +39,12 @@ def write_sparameters_meep_mpi_pool(
     layer_stack: LayerStack = LAYER_STACK,
     **kwargs,
 ) -> List[Path]:
-    """Write Sparameters and returns the filepaths
+    """Write Sparameters and returns the filepaths.
     Given a list of write_sparameters_meep keyword arguments (the "jobs"),
-        launches them in different cores
-    Each simulation is assigned "cores_per_run" cores
-    A total of "total_cores" is assumed, if cores_per_run * len(jobs) > total_cores
-    then the overflow will run sequentially (not in parallel)
+    launches them in different cores
+    where each simulation runs with "cores_per_run" cores
+    If there are more simulations than cores each batch runs sequentially
+
 
     Args
         jobs: list of Dicts containing the simulation settings for each job.
@@ -94,7 +96,7 @@ def write_sparameters_meep_mpi_pool(
         )
         if filepath.exists():
             job.update(**kwargs)
-            if job.get("overwrite", False):
+            if job.get("overwrite", kwargs.get("overwrite", False)):
                 pathlib.Path.unlink(filepath)
                 logger.info(
                     f"Simulation {filepath!r} found and overwrite is True. "
@@ -110,36 +112,30 @@ def write_sparameters_meep_mpi_pool(
             logger.info(f"Simulation {filepath!r} not found. Adding it to the queue")
             jobs_to_run.append(job)
 
-    # Update jobs
     jobs = jobs_to_run
 
-    # Setup pools
-    num_pools = int(np.ceil(cores_per_run * len(jobs) / total_cores))
-    jobs_per_pool = int(np.floor(total_cores / cores_per_run))
+    batches = int(np.ceil(cores_per_run * len(jobs) / total_cores))
+    jobs_per_batch = int(np.floor(total_cores / cores_per_run))
     njobs = len(jobs)
-
-    logger.info(f"Running parallel simulations over {njobs} jobs")
-    logger.info(
-        f"Using a total of {total_cores} cores with {cores_per_run} cores per job"
-    )
-    logger.info(
-        f"Tasks split amongst {num_pools} pools with up to {jobs_per_pool} jobs each."
-    )
+    logger.info(f"Running {njobs} simulations")
+    logger.info(f"total_cores = {total_cores} with cores_per_run = {cores_per_run}")
+    logger.info(f"Running {batches} batches with up to {jobs_per_batch} jobs each.")
 
     i = 0
-    # For each pool
-    for j in range(num_pools):
+    # For each batch in the pool
+    for j in tqdm(range(batches)):
         filepaths = []
 
-        # For each job in the pool
-        for k in range(jobs_per_pool):
-            # Flag to catch non full pools
+        # For each job in the batch
+        for k in range(jobs_per_batch):
             if i >= njobs:
                 continue
-            logger.info(f"Task {k} of pool {j} is job {i}")
+            logger.info(f"Task {k} of batch {j} is job {i}")
 
             # Obtain current job
             simulations_settings = jobs[i]
+
+            pprint(simulations_settings)
 
             filepath = write_sparameters_meep_mpi(
                 cores=cores_per_run,
@@ -153,7 +149,7 @@ def write_sparameters_meep_mpi_pool(
             # Increment task number
             i += 1
 
-        # Wait for pool to end
+        # Wait for batch to end
         done = False
         num_pool_jobs = len(filepaths)
         while not done:
@@ -182,50 +178,19 @@ write_sparameters_meep_mpi_pool_lt = gf.partial(
 
 
 if __name__ == "__main__":
-
-    # Multicore pools example
-    c1 = gf.c.straight(length=5)
-    p = 3
-    c1 = gf.add_padding_container(c1, default=0, top=p, bottom=p)
-
-    c2 = gf.c.straight(length=4)
-    p = 3
-    c2 = gf.add_padding_container(c2, default=0, top=p, bottom=p)
-
-    c1_dict = {
-        "component": c1,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "filepath": Path("c1_dict.csv"),
-    }
-    c2_dict = {
-        "component": c2,
-        "run": True,
-        "overwrite": False,
-        "lazy_parallelism": True,
-        "filepath": Path("c2_dict.csv"),
-    }
-    c3_dict = {
-        "component": c2,
-        "run": True,
-        "overwrite": True,
-        "lazy_parallelism": True,
-        "resolution": 40,
-        "port_source_offset": 0.3,
-        "filepath": Path("c3_dict.csv"),
-    }
-
-    # jobs
     jobs = [
-        c1_dict,
-        c2_dict,
-        c3_dict,
+        {
+            "component": gf.c.straight(length=i),
+            "run": True,
+            "overwrite": True,
+            "lazy_parallelism": False,
+            "ymargin": 3,
+        }
+        for i in range(1, 4)
     ]
 
     filepaths = write_sparameters_meep_mpi_pool(
         jobs=jobs,
         cores_per_run=4,
-        total_cores=10,
-        delete_temp_files=False,
+        total_cores=8,
     )

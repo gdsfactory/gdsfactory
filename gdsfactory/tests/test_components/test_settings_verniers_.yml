@@ -1,74 +1,5 @@
 cells:
-  straight_000ced35:
-    changed:
-      length: 100
-      width: 0.3
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 100
-      npoints: 2
-      width: 0.3
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 100
-    module: gdsfactory.components.straight
-    name: straight_000ced35
-    width: 0.3
-  straight_1d5ce988:
-    changed:
-      length: 100
-      width: 0.2
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 100
-      npoints: 2
-      width: 0.2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 100
-    module: gdsfactory.components.straight
-    name: straight_1d5ce988
-    width: 0.2
-  straight_7bc6fbea:
-    changed:
-      length: 100
-      width: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 100
-      npoints: 2
-      width: 0.5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 100
-    module: gdsfactory.components.straight
-    name: straight_7bc6fbea
-    width: 0.5
-  straight_daeefb16:
+  straight_259e29a2:
     changed:
       length: 100
       width: 0.1
@@ -89,9 +20,55 @@ cells:
     info_version: 1
     length: 100
     module: gdsfactory.components.straight
-    name: straight_daeefb16
+    name: straight_259e29a2
     width: 0.1
-  straight_dbe34808:
+  straight_50783ad4:
+    changed:
+      length: 100
+      width: 0.3
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 100
+      npoints: 2
+      width: 0.3
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 100
+    module: gdsfactory.components.straight
+    name: straight_50783ad4
+    width: 0.3
+  straight_805c819f:
+    changed:
+      length: 100
+      width: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 100
+      npoints: 2
+      width: 0.5
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 100
+    module: gdsfactory.components.straight
+    name: straight_805c819f
+    width: 0.5
+  straight_8a05f37d:
     changed:
       length: 100
       width: 0.4
@@ -112,8 +89,31 @@ cells:
     info_version: 1
     length: 100
     module: gdsfactory.components.straight
-    name: straight_dbe34808
+    name: straight_8a05f37d
     width: 0.4
+  straight_b44e9212:
+    changed:
+      length: 100
+      width: 0.2
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 100
+      npoints: 2
+      width: 0.2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 100
+    module: gdsfactory.components.straight
+    name: straight_b44e9212
+    width: 0.2
   verniers:
     changed: {}
     default:

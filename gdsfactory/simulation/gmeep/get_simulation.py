@@ -1,4 +1,5 @@
 """Returns simulation from component."""
+import inspect
 import warnings
 from typing import Any, Dict, Optional
 
@@ -13,6 +14,9 @@ from gdsfactory.simulation.gmeep.get_material import get_material
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 mp.verbosity(0)
+
+sig = inspect.signature(mp.Simulation)
+settings_meep = set(sig.parameters.keys())
 
 
 @pydantic.validate_arguments
@@ -120,6 +124,10 @@ def get_simulation(
         gm.write_sparameters_meep(c, run=False)
 
     """
+
+    for setting in settings.keys():
+        if setting not in settings_meep:
+            raise ValueError(f"{setting} not in {settings_meep}")
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
@@ -304,40 +312,23 @@ def get_simulation(
     )
 
 
+sig = inspect.signature(get_simulation)
+settings_get_simulation = set(sig.parameters.keys()).union(settings_meep)
+
+
 if __name__ == "__main__":
-    # c = gf.components.straight(length=2)
-    # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-
-    # c = gf.components.mmi1x2()
-    # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-
-    # c = gf.components.bend_circular(radius=2)
-    # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
-
     c = gf.components.straight(length=2, width=0.5)
-    c2 = gf.add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
-
     sim_dict = get_simulation(
-        c2,
-        is_3d=True,
+        c,
+        is_3d=False,
         # resolution=50,
         # port_source_offset=-0.1,
         # port_field_monitor_offset=-0.1,
         # port_margin=2.5,
     )
-    sim = sim_dict["sim"]
-    sim.init_sim()
-
     # sim.plot3D()
     # sim.plot2D()  # plot top view (is_3D needs to be False)
     # Plot monitor cross-section (is_3D needs to be True)
-    from gdsfactory.simulation.gmeep.plot_xsection import plot_xsection
-
-    plot_xsection(
-        sim,
-        center=sim_dict["monitors"]["o1"].regions[0].center,
-        size=sim_dict["monitors"]["o1"].regions[0].size,
-    )
 
     # sim.init_sim()
     # eps_data = sim.get_epsilon()
@@ -345,3 +336,5 @@ if __name__ == "__main__":
     # from mayavi import mlab
     # s = mlab.contour3d(eps_data, colormap="YlGnBu")
     # mlab.show()
+
+    print(settings_get_simulation)

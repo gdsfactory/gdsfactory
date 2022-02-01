@@ -1,10 +1,10 @@
-import warnings
 from functools import partial
 from typing import Optional, Tuple
 
 import numpy as np
 
 from gdsfactory.component import Component
+from gdsfactory.config import logger
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import Layer
@@ -166,14 +166,14 @@ def add_ports_from_markers_center(
         y = p.y
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
-            warnings.warn(f"skipping port with min_pin_area_um2 {dx * dy}")
+            logger.debug(f"skipping port at ({x}, {y}) with min_pin_area_um2 {dx * dy}")
             continue
 
         if max_pin_area_um2 and dx * dy > max_pin_area_um2:
             continue
 
         if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
-            warnings.warn("skipping square port with no clear orientation")
+            logger.debug(f"skipping square port at ({x}, {y})")
             continue
 
         pxmax = p.xmax
@@ -246,7 +246,14 @@ def add_ports_from_markers_center(
     ports = sort_ports_clockwise(ports)
 
     for port_name, port in ports.items():
-        if port_name not in component.ports:
+        if port_name in component.ports:
+            component_ports = list(component.ports.keys())
+            raise ValueError(
+                f"port {port_name!r} already in {component_ports}. "
+                "You can pass a port_name_prefix to add it with a different name."
+            )
+
+        else:
             component.add_port(name=port_name, port=port)
     if auto_rename_ports:
         component.auto_rename_ports()
@@ -293,14 +300,21 @@ def add_ports_from_labels(
         elif y < yc:  # south
             orientation = 270
 
-        component.add_port(
-            name=port_name,
-            midpoint=(x, y),
-            width=port_width,
-            orientation=orientation,
-            port_type=port_type,
-            layer=port_layer,
-        )
+        if port_name in component.ports:
+            component_ports = list(component.ports.keys())
+            raise ValueError(
+                f"port {port_name!r} already in {component_ports}. "
+                "You can pass a port_name_prefix to add it with a different name."
+            )
+        else:
+            component.add_port(
+                name=port_name,
+                midpoint=(x, y),
+                width=port_width,
+                orientation=orientation,
+                port_type=port_type,
+                layer=port_layer,
+            )
     return component
 
 

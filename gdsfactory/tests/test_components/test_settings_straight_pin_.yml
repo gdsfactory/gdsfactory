@@ -1,35 +1,5 @@
 cells:
-  compass_23f1de76:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_23f1de76
-  compass_2d2aeb66:
+  compass_106d863e:
     changed:
       layer:
       - 45
@@ -58,8 +28,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_2d2aeb66
-  compass_4369a919:
+    name: compass_106d863e
+  compass_3fb3549b:
     changed:
       layer:
       - 41
@@ -88,8 +58,38 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_4369a919
-  compass_cd64a6d4:
+    name: compass_3fb3549b
+  compass_4f070c5b:
+    changed:
+      layer:
+      - 49
+      - 0
+      size:
+      - 480
+      - 10
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 49
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 480
+      - 10
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_4f070c5b
+  compass_8cc1d700:
     changed:
       layer:
       - 3
@@ -118,8 +118,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_cd64a6d4
-  contact_e2c9b8f6:
+    name: compass_8cc1d700
+  contact_a69541f2:
     changed:
       layers:
       - - 3
@@ -203,11 +203,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_e2c9b8f6
+    name: contact_a69541f2
     size:
     - 480
     - 10
-  straight_fec761a3:
+  straight_9f3c9a08:
     changed:
       cross_section:
         function: pin
@@ -228,7 +228,7 @@ cells:
     info_version: 1
     length: 480
     module: gdsfactory.components.straight
-    name: straight_fec761a3
+    name: straight_9f3c9a08
     width: 0.5
   straight_pin:
     changed: {}

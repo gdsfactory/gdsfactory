@@ -18,6 +18,7 @@ from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import (
     Anchor,
+    Axis,
     ComponentFactory,
     ComponentOrFactory,
     Float2,
@@ -31,7 +32,7 @@ cache = lru_cache(maxsize=None)
 
 
 def add_port(component: Component, **kwargs) -> Component:
-    """Returns Component with a new port."""
+    """Return Component with a new port."""
     component.add_port(**kwargs)
     return component
 
@@ -44,7 +45,7 @@ def add_text(
     text_anchor: Anchor = "cc",
     text_factory: ComponentFactory = text_rectangular_multi_layer,
 ) -> Component:
-    """Returns component inside a new component with text geometry.
+    """Return component inside a new component with text geometry.
 
     Args:
         component:
@@ -72,7 +73,7 @@ def add_texts(
     index0: int = 0,
     **kwargs,
 ) -> List[Component]:
-    """Returns a list of Component with text labels.
+    """Return a list of Component with text labels.
 
     Args:
         components: list of components
@@ -95,7 +96,7 @@ def rotate(
     component: ComponentOrFactory,
     angle: int = 90,
 ) -> Component:
-    """Returns rotated component inside a new component.
+    """Return rotated component inside a new component.
 
     Most times you just need to place a reference and rotate it.
     This rotate function just encapsulates the rotated reference into a new component.
@@ -121,7 +122,7 @@ rotate180 = partial(rotate, angle=180)
 
 @cell
 def mirror(component: Component, p1: Float2 = (0, 1), p2: Float2 = (0, 0)) -> Component:
-    """Returns mirrored component inside a new component.
+    """Return new Component with a mirrored reference.
 
     Args:
         p1: first point to define mirror axis
@@ -141,9 +142,15 @@ def move(
     component: Component,
     origin=(0, 0),
     destination=None,
-    axis: Optional[str] = None,
+    axis: Optional[Axis] = None,
 ) -> Component:
-    """Return container that contains a reference to the original component."""
+    """Return new Component with a moved reference to the original component.
+
+    Args:
+        origin: of component
+        destination:
+        axis: x or y axis
+    """
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
@@ -154,7 +161,7 @@ def move(
 
 
 def move_port_to_zero(component: Component, port_name: str = "o1"):
-    """Returns a container that contains a reference to the original component.
+    """Return a container that contains a reference to the original component.
     where the new component has port_name in (0, 0)
     """
     if port_name not in component.ports:
@@ -165,7 +172,7 @@ def move_port_to_zero(component: Component, port_name: str = "o1"):
 
 
 def update_info(component: Component, **kwargs) -> Component:
-    """Returns Component with updated info."""
+    """Return Component with updated info."""
     component.info.update(**kwargs)
     return component
 

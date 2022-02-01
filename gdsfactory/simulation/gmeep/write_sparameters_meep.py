@@ -1,5 +1,6 @@
 """Compute and write Sparameters using Meep."""
 
+import inspect
 import multiprocessing
 import pathlib
 import re
@@ -20,7 +21,10 @@ from gdsfactory.config import logger, sparameters_path
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
-from gdsfactory.simulation.gmeep.get_simulation import get_simulation
+from gdsfactory.simulation.gmeep.get_simulation import (
+    get_simulation,
+    settings_get_simulation,
+)
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import PortSymmetries
 
@@ -259,6 +263,9 @@ def write_sparameters_meep(
             where `a` is the angle in radians and `m` the module
 
     """
+    for setting in settings.keys():
+        if setting not in settings_get_simulation:
+            raise ValueError(f"{setting} not in {settings_get_simulation}")
 
     port_symmetries = port_symmetries or {}
 
@@ -527,6 +534,11 @@ write_sparameters_meep_lr = gf.partial(
 
 write_sparameters_meep_lt = gf.partial(
     write_sparameters_meep, ymargin_bot=3, xmargin_right=3
+)
+
+sig = inspect.signature(write_sparameters_meep)
+settings_write_sparameters_meep = set(sig.parameters.keys()).union(
+    settings_get_simulation
 )
 
 if __name__ == "__main__":

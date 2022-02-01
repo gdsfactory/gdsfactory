@@ -1,9 +1,35 @@
 cells:
-  bend_euler_0c3469c8:
-    changed:
-      auto_widen: true
+  bend_euler:
+    changed: {}
+    default:
+      angle: 90
       cross_section:
         function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    dy: 10
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info_version: 1
+    length: 16.637
+    module: gdsfactory.components.bend_euler
+    name: bend_euler
+    radius: 10
+    radius_min: 7.061
+  bend_euler_2630f5fb:
+    changed:
+      auto_widen: true
     default:
       angle: 90
       cross_section:
@@ -28,40 +54,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_0c3469c8
+    name: bend_euler_2630f5fb
     radius: 10
     radius_min: 7.061
-  bend_euler_1da190e0:
-    changed:
-      cross_section:
-        function: cross_section
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_1da190e0
-    radius: 10
-    radius_min: 7.061
-  circle_602e85fd:
+  circle_925ccccf:
     changed:
       layer:
       - 203
@@ -82,38 +78,8 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_602e85fd
-  compass_164fc476:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_164fc476
-  compass_280a2d8b:
+    name: circle_925ccccf
+  compass_0570d255:
     changed:
       layer:
       - 45
@@ -142,8 +108,38 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_280a2d8b
-  compass_8e661824:
+    name: compass_0570d255
+  compass_5fa76f9c:
+    changed:
+      layer:
+      - 47
+      - 0
+      size:
+      - 11
+      - 11
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 47
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 11
+      - 11
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_5fa76f9c
+  compass_aa9c3262:
     changed:
       layer:
       - 49
@@ -172,21 +168,21 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_8e661824
-  component_sequence_e4dca69b:
+    name: compass_aa9c3262
+  component_sequence_49cb6528:
     changed:
       sequence: -UHUHUHUHUHUHUHUH-
       symbol_to_component:
         '-':
-        - straight_b0b74a72
+        - straight_b73ad70b
         - o1
         - o2
         H:
-        - straight_e3f148d8
+        - straight_3fe7bc16
         - o1
         - o2
         U:
-        - straight_32174f25
+        - straight_9496f45c
         - o1
         - o2
     default:
@@ -202,22 +198,22 @@ cells:
       start_orientation: 0
       symbol_to_component:
         '-':
-        - straight_b0b74a72
+        - straight_b73ad70b
         - o1
         - o2
         H:
-        - straight_e3f148d8
+        - straight_3fe7bc16
         - o1
         - o2
         U:
-        - straight_32174f25
+        - straight_9496f45c
         - o1
         - o2
     function_name: component_sequence
     info_version: 1
     module: gdsfactory.components.component_sequence
-    name: component_sequence_e4dca69b
-  contact_46068602:
+    name: component_sequence_49cb6528
+  contact_02e7e014:
     changed:
       layers:
       - - 47
@@ -225,16 +221,6 @@ cells:
       - - 45
         - 0
       - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
         - 0
     default:
       layer_port: null
@@ -286,13 +272,12 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_46068602
+    name: contact_02e7e014
     size:
     - 11
     - 11
-  grating_coupler_ellipti_b632d295:
+  grating_coupler_ellipti_db285fcb:
     changed:
-      polarization: te
       taper_angle: 35
     default:
       end_straight_length: 0.2
@@ -345,7 +330,7 @@ cells:
     function_name: grating_coupler_elliptical_trenches
     info_version: 1
     module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_b632d295
+    name: grating_coupler_ellipti_db285fcb
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
@@ -377,7 +362,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_d275fe52:
+  mzi_15f399ec:
     changed:
       length_x: null
       splitter:
@@ -434,10 +419,10 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_d275fe52
-  mzi_d275fe52_add_fiber__542edc06:
+    name: mzi_15f399ec
+  mzi_15f399ec_add_fiber__6ace91e9:
     changed:
-      component: mzi_d275fe52
+      component: mzi_15f399ec
     child:
       changed:
         length_x: null
@@ -495,7 +480,7 @@ cells:
       function_name: mzi
       info_version: 1
       module: gdsfactory.components.mzi
-      name: mzi_d275fe52
+      name: mzi_15f399ec
     default:
       bend:
         function: bend_euler
@@ -521,7 +506,7 @@ cells:
     full:
       bend:
         function: bend_euler
-      component: mzi_d275fe52
+      component: mzi_15f399ec
       component_name: null
       cross_section:
         function: cross_section
@@ -544,80 +529,9 @@ cells:
     function_name: add_fiber_array
     info_version: 1
     module: gdsfactory.routing.add_fiber_array
-    name: mzi_d275fe52_add_fiber__542edc06
-  straight_06b7497a:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 43.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 43.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 43.5
-    module: gdsfactory.components.straight
-    name: straight_06b7497a
-    width: 0.5
-  straight_15a9c8d1:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 2
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 2
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 2
-    module: gdsfactory.components.straight
-    name: straight_15a9c8d1
-    width: 0.5
-  straight_18ee7f79:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 375.42
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 375.42
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 375.42
-    module: gdsfactory.components.straight
-    name: straight_18ee7f79
-    width: 0.5
-  straight_1da190e0:
-    changed:
-      cross_section:
-        function: cross_section
+    name: mzi_15f399ec_add_fiber__6ace91e9
+  straight:
+    changed: {}
     default:
       cross_section:
         function: cross_section
@@ -634,390 +548,10 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_1da190e0
+    name: straight
     width: 0.5
-  straight_26b9e310:
+  straight_0723ff82:
     changed:
-      cross_section:
-        function: cross_section
-      length: 27.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 27.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 27.01
-    module: gdsfactory.components.straight
-    name: straight_26b9e310
-    width: 0.5
-  straight_30cdd8a6:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 57.975
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 57.975
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 57.975
-    module: gdsfactory.components.straight
-    name: straight_30cdd8a6
-    width: 0.5
-  straight_32174f25:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 30
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 30
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 30
-    module: gdsfactory.components.straight
-    name: straight_32174f25
-    width: 0.5
-  straight_336f2b64:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 140.51
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 140.51
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 140.51
-    module: gdsfactory.components.straight
-    name: straight_336f2b64
-    width: 0.5
-  straight_367e51dc:
-    changed:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 1.75
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 1.75
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 1.75
-    module: gdsfactory.components.straight
-    name: straight_367e51dc
-    width: 0.5
-  straight_5743d35a:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_5743d35a
-    width: 0.5
-  straight_59affde8:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 19.51
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 19.51
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 19.51
-    module: gdsfactory.components.straight
-    name: straight_59affde8
-    width: 0.5
-  straight_6c7d4024:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 15.25
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 15.25
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 15.25
-    module: gdsfactory.components.straight
-    name: straight_6c7d4024
-    width: 0.5
-  straight_763e1ea3:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 35.552
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 35.552
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 35.552
-    module: gdsfactory.components.straight
-    name: straight_763e1ea3
-    width: 0.5
-  straight_7a1490a4:
-    changed:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 0.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.5
-    module: gdsfactory.components.straight
-    name: straight_7a1490a4
-    width: 0.5
-  straight_8b49dbde:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 136.25
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 136.25
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 136.25
-    module: gdsfactory.components.straight
-    name: straight_8b49dbde
-    width: 0.5
-  straight_8c790a0a:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 51.975
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 51.975
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 51.975
-    module: gdsfactory.components.straight
-    name: straight_8c790a0a
-    width: 0.5
-  straight_ac80ac01:
-    changed:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 361.16
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 361.16
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 361.16
-    module: gdsfactory.components.straight
-    name: straight_ac80ac01
-    width: 0.5
-  straight_b0b74a72:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 16
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_metal
-      heater_width: 2.5
-      length: 16
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 16
-    module: gdsfactory.components.straight
-    name: straight_b0b74a72
-    width: 0.5
-  straight_bc29f1fe:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 17
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 17
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 17
-    module: gdsfactory.components.straight
-    name: straight_bc29f1fe
-    width: 0.5
-  straight_bd3b506b:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 45.62
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 45.62
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 45.62
-    module: gdsfactory.components.straight
-    name: straight_bd3b506b
-    width: 0.5
-  straight_c7b35a9f:
-    changed:
-      cross_section:
-        function: cross_section
       length: 11
     default:
       cross_section:
@@ -1035,84 +569,11 @@ cells:
     info_version: 1
     length: 11
     module: gdsfactory.components.straight
-    name: straight_c7b35a9f
+    name: straight_0723ff82
     width: 0.5
-  straight_ca7e7c8f:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 488
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 488
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 488
-    module: gdsfactory.components.straight
-    name: straight_ca7e7c8f
-    width: 0.5
-  straight_cd61840b:
-    changed:
-      cross_section:
-        function: cross_section
-      length: 7
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 7
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 7
-    module: gdsfactory.components.straight
-    name: straight_cd61840b
-    width: 0.5
-  straight_d336f4e4:
+  straight_0d50a8c6:
     changed:
       auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 357
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 357
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 357
-    module: gdsfactory.components.straight
-    name: straight_d336f4e4
-    width: 0.5
-  straight_e388ea45:
-    changed:
-      auto_widen: true
-      cross_section:
-        function: cross_section
       length: 363
     default:
       cross_section:
@@ -1131,9 +592,32 @@ cells:
     info_version: 1
     length: 363
     module: gdsfactory.components.straight
-    name: straight_e388ea45
+    name: straight_0d50a8c6
     width: 0.5
-  straight_e3f148d8:
+  straight_34c5e31c:
+    changed:
+      auto_widen: true
+      length: 367.16
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: true
+      cross_section:
+        function: cross_section
+      length: 367.16
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 367.16
+    module: gdsfactory.components.straight
+    name: straight_34c5e31c
+    width: 0.5
+  straight_3fe7bc16:
     changed:
       cross_section:
         function: strip_heater_metal
@@ -1156,14 +640,12 @@ cells:
     info_version: 1
     length: 6
     module: gdsfactory.components.straight
-    name: straight_e3f148d8
+    name: straight_3fe7bc16
     width: 0.5
-  straight_ecae7989:
+  straight_43dd4652:
     changed:
       auto_widen: true
-      cross_section:
-        function: cross_section
-      length: 367.16
+      length: 361.16
     default:
       cross_section:
         function: cross_section
@@ -1174,19 +656,451 @@ cells:
       auto_widen: true
       cross_section:
         function: cross_section
-      length: 367.16
+      length: 361.16
       npoints: 2
       with_cladding_box: true
     function_name: straight
     info_version: 1
-    length: 367.16
+    length: 361.16
     module: gdsfactory.components.straight
-    name: straight_ecae7989
+    name: straight_43dd4652
     width: 0.5
-  straight_fe273143:
+  straight_5c4ff448:
     changed:
+      length: 375.42
+    default:
       cross_section:
         function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 375.42
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 375.42
+    module: gdsfactory.components.straight
+    name: straight_5c4ff448
+    width: 0.5
+  straight_66a04034:
+    changed:
+      auto_widen: true
+      length: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: true
+      cross_section:
+        function: cross_section
+      length: 0.5
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.5
+    module: gdsfactory.components.straight
+    name: straight_66a04034
+    width: 0.5
+  straight_67d50770:
+    changed:
+      length: 57.975
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 57.975
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 57.975
+    module: gdsfactory.components.straight
+    name: straight_67d50770
+    width: 0.5
+  straight_764e0e0e:
+    changed:
+      length: 35.552
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 35.552
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 35.552
+    module: gdsfactory.components.straight
+    name: straight_764e0e0e
+    width: 0.5
+  straight_83634e83:
+    changed:
+      auto_widen: true
+      length: 357
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: true
+      cross_section:
+        function: cross_section
+      length: 357
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 357
+    module: gdsfactory.components.straight
+    name: straight_83634e83
+    width: 0.5
+  straight_8adab4e9:
+    changed:
+      length: 19.51
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 19.51
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 19.51
+    module: gdsfactory.components.straight
+    name: straight_8adab4e9
+    width: 0.5
+  straight_9496f45c:
+    changed:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 30
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 30
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 30
+    module: gdsfactory.components.straight
+    name: straight_9496f45c
+    width: 0.5
+  straight_a4be237b:
+    changed:
+      length: 7
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 7
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 7
+    module: gdsfactory.components.straight
+    name: straight_a4be237b
+    width: 0.5
+  straight_a72098b6:
+    changed:
+      length: 27.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 27.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 27.01
+    module: gdsfactory.components.straight
+    name: straight_a72098b6
+    width: 0.5
+  straight_ae278c9e:
+    changed:
+      length: 51.975
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 51.975
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 51.975
+    module: gdsfactory.components.straight
+    name: straight_ae278c9e
+    width: 0.5
+  straight_b1688d7b:
+    changed:
+      length: 17
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 17
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 17
+    module: gdsfactory.components.straight
+    name: straight_b1688d7b
+    width: 0.5
+  straight_b73ad70b:
+    changed:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 16
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_metal
+      heater_width: 2.5
+      length: 16
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 16
+    module: gdsfactory.components.straight
+    name: straight_b73ad70b
+    width: 0.5
+  straight_b81889b2:
+    changed:
+      length: 43.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 43.5
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 43.5
+    module: gdsfactory.components.straight
+    name: straight_b81889b2
+    width: 0.5
+  straight_c34a854f:
+    changed:
+      length: 15.25
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 15.25
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 15.25
+    module: gdsfactory.components.straight
+    name: straight_c34a854f
+    width: 0.5
+  straight_c49ce9c6:
+    changed:
+      length: 0.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.01
+    module: gdsfactory.components.straight
+    name: straight_c49ce9c6
+    width: 0.5
+  straight_c8c6f318:
+    changed:
+      auto_widen: true
+      length: 1.75
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: true
+      cross_section:
+        function: cross_section
+      length: 1.75
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 1.75
+    module: gdsfactory.components.straight
+    name: straight_c8c6f318
+    width: 0.5
+  straight_c903521c:
+    changed:
+      length: 136.25
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 136.25
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 136.25
+    module: gdsfactory.components.straight
+    name: straight_c903521c
+    width: 0.5
+  straight_e7366ec0:
+    changed:
+      length: 140.51
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 140.51
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 140.51
+    module: gdsfactory.components.straight
+    name: straight_e7366ec0
+    width: 0.5
+  straight_ea4b467a:
+    changed:
+      length: 45.62
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 45.62
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 45.62
+    module: gdsfactory.components.straight
+    name: straight_ea4b467a
+    width: 0.5
+  straight_f0fa08f8:
+    changed:
+      length: 488
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 488
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 488
+    module: gdsfactory.components.straight
+    name: straight_f0fa08f8
+    width: 0.5
+  straight_f4f54b88:
+    changed:
       length: 22.01
     default:
       cross_section:
@@ -1204,7 +1118,28 @@ cells:
     info_version: 1
     length: 22.01
     module: gdsfactory.components.straight
-    name: straight_fe273143
+    name: straight_f4f54b88
+    width: 0.5
+  straight_fba69bc3:
+    changed:
+      length: 2
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 2
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 2
+    module: gdsfactory.components.straight
+    name: straight_fba69bc3
     width: 0.5
   straight_heater_metal_u_6e8de97e:
     changed:
@@ -1282,7 +1217,7 @@ cells:
     module: gdsfactory.components.straight_heater_metal
     name: straight_heater_metal_u_6e8de97e
     resistance: null
-  taper_ea91ec9c:
+  taper_13d39a01:
     changed:
       layer:
       - 47
@@ -1313,12 +1248,12 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.taper
-    name: taper_ea91ec9c
+    name: taper_13d39a01
     width1: 11
     width2: 2.5
 info:
   changed:
-    component: mzi_d275fe52
+    component: mzi_15f399ec
   child:
     changed:
       length_x: null
@@ -1376,7 +1311,7 @@ info:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_d275fe52
+    name: mzi_15f399ec
   default:
     bend:
       function: bend_euler
@@ -1402,7 +1337,7 @@ info:
   full:
     bend:
       function: bend_euler
-    component: mzi_d275fe52
+    component: mzi_15f399ec
     component_name: null
     cross_section:
       function: cross_section
@@ -1425,7 +1360,7 @@ info:
   function_name: add_fiber_array
   info_version: 1
   module: gdsfactory.routing.add_fiber_array
-  name: mzi_d275fe52_add_fiber__542edc06
+  name: mzi_15f399ec_add_fiber__6ace91e9
 ports:
   e1:
     layer:
