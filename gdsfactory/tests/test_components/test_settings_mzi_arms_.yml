@@ -57,7 +57,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi1x2
     name: mmi1x2
-  mzi_arm_bc203dcc:
+  mzi_arm_1256dbdd:
     changed:
       length_y_left: 5.8
       length_y_right: 5.8
@@ -92,8 +92,8 @@ cells:
     length_x: 0.1
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_bc203dcc
-  mzi_arm_f84ea993:
+    name: mzi_arm_1256dbdd
+  mzi_arm_a74c0db8:
     changed:
       straight_x:
         function: straight
@@ -126,7 +126,7 @@ cells:
     length_x: 0.1
     length_xsize: 0.1
     module: gdsfactory.components.mzi_arm
-    name: mzi_arm_f84ea993
+    name: mzi_arm_a74c0db8
   mzi_arms:
     changed: {}
     default:
@@ -165,7 +165,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mzi_arms
     name: mzi_arms
-  straight_10336aac:
+  straight_38ffaba0:
     changed:
       length: 5.8
     default:
@@ -184,9 +184,9 @@ cells:
     info_version: 1
     length: 5.8
     module: gdsfactory.components.straight
-    name: straight_10336aac
+    name: straight_38ffaba0
     width: 0.5
-  straight_8c093820:
+  straight_6870e926:
     changed:
       length: 0.1
     default:
@@ -205,9 +205,9 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_8c093820
+    name: straight_6870e926
     width: 0.5
-  straight_b75caec8:
+  straight_e3da20dd:
     changed:
       length: 0.8
     default:
@@ -226,7 +226,7 @@ cells:
     info_version: 1
     length: 0.8
     module: gdsfactory.components.straight
-    name: straight_b75caec8
+    name: straight_e3da20dd
     width: 0.5
 info:
   changed: {}

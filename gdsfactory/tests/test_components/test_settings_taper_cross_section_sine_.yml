@@ -1,7 +1,77 @@
 cells:
-  extrude_96406c1e:
+  extrude_d8a78e1f:
     changed:
-      cross_section: {}
+      cross_section:
+        aliases:
+          _default:
+            hidden: false
+            layer:
+            - 1
+            - 0
+            name: _default
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - o1
+            - o2
+            width:
+              function: sine
+          slab:
+            hidden: false
+            layer:
+            - 3
+            - 0
+            name: slab
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - o2
+        - o1
+        sections:
+        - hidden: false
+          layer:
+          - 1
+          - 0
+          name: _default
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - o1
+          - o2
+          width:
+            function: sine
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
       p: path_ed76b77e33fcc87170ee125e6372cc8f
     default:
       cross_section: null
@@ -10,7 +80,77 @@ cells:
       width: null
       widths: null
     full:
-      cross_section: {}
+      cross_section:
+        aliases:
+          _default:
+            hidden: false
+            layer:
+            - 1
+            - 0
+            name: _default
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - o1
+            - o2
+            width:
+              function: sine
+          slab:
+            hidden: false
+            layer:
+            - 3
+            - 0
+            name: slab
+            offset:
+              function: sine
+            port_types:
+            - optical
+            - optical
+            ports:
+            - null
+            - null
+            width:
+              function: sine
+        info: {}
+        port_types:
+        - optical
+        ports:
+        - o2
+        - o1
+        sections:
+        - hidden: false
+          layer:
+          - 1
+          - 0
+          name: _default
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - o1
+          - o2
+          width:
+            function: sine
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset:
+            function: sine
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width:
+            function: sine
       layer: null
       p: path_ed76b77e33fcc87170ee125e6372cc8f
       simplify: null
@@ -20,7 +160,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.path
-    name: extrude_96406c1e
+    name: extrude_d8a78e1f
   taper_cross_section_f6e3006a:
     changed:
       npoints: 101

@@ -10,6 +10,7 @@
 - rename component_lattice components to symbol_to_component
 - raise error when trying to add two ports with the same name in `gf.add_ports.add_ports_from_markers_center`
 - difftest adds failed test to logger.error
+- clean_value calls clean_value_json
 
 
 ## 3.12.9

@@ -1,5 +1,5 @@
 cells:
-  bend_euler_40e83c11:
+  bend_euler_3463ad1a:
     changed:
       cross_section:
         function: cross_section
@@ -44,7 +44,7 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_40e83c11
+    name: bend_euler_3463ad1a
     radius: 10
     radius_min: 7.061
 info:
@@ -92,7 +92,7 @@ info:
   info_version: 1
   length: 16.637
   module: gdsfactory.components.bend_euler
-  name: bend_euler_40e83c11
+  name: bend_euler_3463ad1a
   radius: 10
   radius_min: 7.061
 ports:

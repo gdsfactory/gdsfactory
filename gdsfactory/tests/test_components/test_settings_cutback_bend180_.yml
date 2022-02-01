@@ -55,30 +55,7 @@ cells:
     module: gdsfactory.components.cutback_bend
     n_bends: 82
     name: cutback_bend180
-  straight_03933fc3:
-    changed:
-      length: 40.656
-      width: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 40.656
-      npoints: 2
-      width: 0.5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 40.656
-    module: gdsfactory.components.straight
-    name: straight_03933fc3
-    width: 0.5
-  straight_ffad5cea:
+  straight_3855ab9a:
     changed:
       length: 5
       width: 0.5
@@ -99,7 +76,30 @@ cells:
     info_version: 1
     length: 5
     module: gdsfactory.components.straight
-    name: straight_ffad5cea
+    name: straight_3855ab9a
+    width: 0.5
+  straight_a8effbbc:
+    changed:
+      length: 40.656
+      width: 0.5
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 40.656
+      npoints: 2
+      width: 0.5
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 40.656
+    module: gdsfactory.components.straight
+    name: straight_a8effbbc
     width: 0.5
 info:
   changed: {}

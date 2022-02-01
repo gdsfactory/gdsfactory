@@ -27,7 +27,7 @@ cells:
     name: bend_euler
     radius: 10
     radius_min: 7.061
-  bezier_19eb54b0:
+  bezier_0f875e22:
     changed:
       control_points:
       - - 0
@@ -87,9 +87,9 @@ cells:
     length: 91.103
     min_bend_radius: 129.147
     module: gdsfactory.components.bezier
-    name: bezier_19eb54b0
+    name: bezier_0f875e22
     start_angle: 0.155
-  bezier_19eb54b0_bend_s_c9943693:
+  bezier_0f875e22_bend_s_d9870dad:
     changed:
       size:
       - 90
@@ -154,7 +154,7 @@ cells:
       length: 91.103
       min_bend_radius: 129.147
       module: gdsfactory.components.bezier
-      name: bezier_19eb54b0
+      name: bezier_0f875e22
       start_angle: 0.155
     default:
       cross_section:
@@ -178,7 +178,7 @@ cells:
     length: 91.103
     min_bend_radius: 129.147
     module: gdsfactory.components.bend_s
-    name: bezier_19eb54b0_bend_s_c9943693
+    name: bezier_0f875e22_bend_s_d9870dad
     start_angle: 0.155
   mmi1x2:
     changed: {}
@@ -276,7 +276,7 @@ cells:
         length: 91.103
         min_bend_radius: 129.147
         module: gdsfactory.components.bezier
-        name: bezier_19eb54b0
+        name: bezier_0f875e22
         start_angle: 0.155
       default:
         cross_section:
@@ -300,7 +300,7 @@ cells:
       length: 91.103
       min_bend_radius: 129.147
       module: gdsfactory.components.bend_s
-      name: bezier_19eb54b0_bend_s_c9943693
+      name: bezier_0f875e22_bend_s_d9870dad
       start_angle: 0.155
     changed: {}
     default:
@@ -331,28 +331,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.splitter_tree
     name: splitter_tree
-  straight_c138f2c4:
-    changed:
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_c138f2c4
-    width: 0.5
-  straight_d03a81da:
+  straight_a0061144:
     changed:
       length: 44.49
     default:
@@ -371,9 +350,9 @@ cells:
     info_version: 1
     length: 44.49
     module: gdsfactory.components.straight
-    name: straight_d03a81da
+    name: straight_a0061144
     width: 0.5
-  straight_dc1c4f5d:
+  straight_c1fd458a:
     changed:
       length: 4.375
     default:
@@ -392,7 +371,28 @@ cells:
     info_version: 1
     length: 4.375
     module: gdsfactory.components.straight
-    name: straight_dc1c4f5d
+    name: straight_c1fd458a
+    width: 0.5
+  straight_c49ce9c6:
+    changed:
+      length: 0.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.01
+    module: gdsfactory.components.straight
+    name: straight_c49ce9c6
     width: 0.5
 info:
   bend_s:
@@ -460,7 +460,7 @@ info:
       length: 91.103
       min_bend_radius: 129.147
       module: gdsfactory.components.bezier
-      name: bezier_19eb54b0
+      name: bezier_0f875e22
       start_angle: 0.155
     default:
       cross_section:
@@ -484,7 +484,7 @@ info:
     length: 91.103
     min_bend_radius: 129.147
     module: gdsfactory.components.bend_s
-    name: bezier_19eb54b0_bend_s_c9943693
+    name: bezier_0f875e22_bend_s_d9870dad
     start_angle: 0.155
   changed: {}
   default:

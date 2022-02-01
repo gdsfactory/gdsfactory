@@ -1,5 +1,5 @@
 cells:
-  coupler_ring_1f8e1c06:
+  coupler_ring_cd892edd:
     changed:
       length_x: 0.01
       radius: 10
@@ -30,7 +30,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_1f8e1c06
+    name: coupler_ring_cd892edd
   ring_double:
     changed: {}
     default:
@@ -61,7 +61,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_double
     name: ring_double
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -80,7 +80,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
 info:
   changed: {}

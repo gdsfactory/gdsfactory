@@ -1,5 +1,5 @@
 cells:
-  bend_euler_6dcba006:
+  bend_euler_93d83bb0:
     changed:
       cross_section:
         function: strip_heater_metal
@@ -28,40 +28,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_6dcba006
+    name: bend_euler_93d83bb0
     radius: 10
     radius_min: 7.061
-  compass_52724fdf:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 4
-      - 4
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 4
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_52724fdf
-  compass_c920c7aa:
+  compass_0f060968:
     changed:
       layer:
       - 45
@@ -90,8 +60,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c920c7aa
-  compass_f639aa23:
+    name: compass_0f060968
+  compass_4b89a55a:
     changed:
       layer:
       - 49
@@ -120,8 +90,38 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_f639aa23
-  contact_00c518be:
+    name: compass_4b89a55a
+  compass_e9fd1346:
+    changed:
+      layer:
+      - 47
+      - 0
+      size:
+      - 4
+      - 4
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 47
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 4
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_e9fd1346
+  contact_f6c435f1:
     changed:
       layers:
       - - 47
@@ -183,11 +183,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_00c518be
+    name: contact_f6c435f1
     size:
     - 4
     - 4
-  coupler_ring_c97f91c7:
+  coupler_ring_4ad3cb8d:
     changed:
       bend:
         function: bend_euler
@@ -223,7 +223,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_c97f91c7
+    name: coupler_ring_4ad3cb8d
   ring_single_heater:
     changed: {}
     default:
@@ -312,30 +312,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single_heater
     name: ring_single_heater
-  straight_5844ea34:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      length: 0.6
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_metal
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.6
-    module: gdsfactory.components.straight
-    name: straight_5844ea34
-    width: 0.5
-  straight_c075a8bf:
+  straight_1a39e145:
     changed:
       cross_section:
         function: strip_heater_metal
@@ -356,7 +333,30 @@ cells:
     info_version: 1
     length: 4
     module: gdsfactory.components.straight
-    name: straight_c075a8bf
+    name: straight_1a39e145
+    width: 0.5
+  straight_baf9a54b:
+    changed:
+      cross_section:
+        function: strip_heater_metal
+      length: 0.6
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: strip_heater_metal
+      length: 0.6
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.6
+    module: gdsfactory.components.straight
+    name: straight_baf9a54b
     width: 0.5
 info:
   changed: {}

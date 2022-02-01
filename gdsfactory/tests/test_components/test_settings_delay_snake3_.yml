@@ -73,7 +73,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_392568a6
     width: 0.5
-  straight_65092a02:
+  straight_cffd869c:
     changed:
       length: 504.788
     default:
@@ -92,7 +92,7 @@ cells:
     info_version: 1
     length: 504.788
     module: gdsfactory.components.straight
-    name: straight_65092a02
+    name: straight_cffd869c
     width: 0.5
 info:
   changed: {}

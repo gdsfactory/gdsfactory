@@ -29,7 +29,7 @@ cells:
     name: bend_euler_2e0a66fe
     radius: 10
     radius_min: 7.061
-  coupler_ring_354ce3d3:
+  coupler_ring_3363c15c:
     changed:
       bend:
         function: bend_euler
@@ -62,7 +62,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_354ce3d3
+    name: coupler_ring_3363c15c
   ring_single:
     changed: {}
     default:
@@ -95,7 +95,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_single
     name: ring_single
-  straight_1469c185:
+  straight_c1e7b81b:
     changed:
       length: 0.6
     default:
@@ -114,7 +114,7 @@ cells:
     info_version: 1
     length: 0.6
     module: gdsfactory.components.straight
-    name: straight_1469c185
+    name: straight_c1e7b81b
     width: 0.5
   straight_defbc978:
     changed:

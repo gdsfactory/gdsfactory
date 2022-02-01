@@ -1,5 +1,5 @@
 cells:
-  compass_93ceba3b:
+  compass_30e133a7:
     changed:
       layer:
       - 100
@@ -28,7 +28,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_93ceba3b
+    name: compass_30e133a7
   dicing_lane:
     changed: {}
     default:
@@ -61,7 +61,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.dicing_lane
     name: dicing_lane
-  rectangle_93ceba3b:
+  rectangle_30e133a7:
     changed:
       layer:
       - 100
@@ -90,8 +90,8 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_93ceba3b
-  triangle_0196de93:
+    name: rectangle_30e133a7
+  triangle_335b4d41:
     changed:
       layer:
       - 49
@@ -116,7 +116,7 @@ cells:
     function_name: triangle
     info_version: 1
     module: gdsfactory.components.triangle
-    name: triangle_0196de93
+    name: triangle_335b4d41
 info:
   changed: {}
   default:

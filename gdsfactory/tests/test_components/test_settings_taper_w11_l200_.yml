@@ -1,5 +1,5 @@
 cells:
-  taper_from_csv_151cbee0:
+  taper_from_csv_7fc5bca1:
     changed:
       filepath: taper_strip_0p5_11_200.csv
     default:
@@ -23,7 +23,7 @@ cells:
     function_name: taper_from_csv
     info_version: 1
     module: gdsfactory.components.taper_from_csv
-    name: taper_from_csv_151cbee0
+    name: taper_from_csv_7fc5bca1
 info:
   changed:
     filepath: taper_strip_0p5_11_200.csv
@@ -48,7 +48,7 @@ info:
   function_name: taper_from_csv
   info_version: 1
   module: gdsfactory.components.taper_from_csv
-  name: taper_from_csv_151cbee0
+  name: taper_from_csv_7fc5bca1
 ports:
   o1:
     layer:

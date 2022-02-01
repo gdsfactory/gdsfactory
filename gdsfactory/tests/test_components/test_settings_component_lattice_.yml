@@ -1,5 +1,5 @@
 cells:
-  bezier_87e8511e:
+  bezier_328fe8a5:
     changed:
       control_points:
       - - 0
@@ -58,9 +58,9 @@ cells:
     length: 42.087
     min_bend_radius: 18.226
     module: gdsfactory.components.bezier
-    name: bezier_87e8511e
+    name: bezier_328fe8a5
     start_angle: 0.301
-  bezier_d7e697a9:
+  bezier_540d75dd:
     changed:
       control_points:
       - - 0
@@ -122,10 +122,11 @@ cells:
     length: 44.891
     min_bend_radius: 22.662
     module: gdsfactory.components.bezier
-    name: bezier_d7e697a9
+    name: bezier_540d75dd
     start_angle: 0.503
-  compensation_path:
-    changed: {}
+  compensation_path_bf5c418b:
+    changed:
+      crossing45: crossing45
     default:
       crossing45:
         function: crossing45
@@ -137,7 +138,7 @@ cells:
     info_version: 1
     min_bend_radius: 18.226
     module: gdsfactory.components.crossing_waveguide
-    name: compensation_path
+    name: compensation_path_bf5c418b
     sbend:
       changed:
         control_points:
@@ -197,7 +198,7 @@ cells:
       length: 42.087
       min_bend_radius: 18.226
       module: gdsfactory.components.bezier
-      name: bezier_87e8511e
+      name: bezier_328fe8a5
       start_angle: 0.301
   component_lattice:
     changed: {}

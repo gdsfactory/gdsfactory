@@ -1,10 +1,10 @@
 connections:
-  bend_euler_2e0a66fe_5p125_16p425,o1: straight_1469c185_10p0_11p0,o1
+  bend_euler_2e0a66fe_5p125_16p425,o1: straight_c1e7b81b_10p0_11p0,o1
   bend_euler_2e0a66fe_5p125_16p425,o2: straight_defbc978_m2p0_21p3,o1
   bend_euler_2e0a66fe_m9p125_16p425,o1: straight_defbc978_m2p0_21p3,o2
-  bend_euler_2e0a66fe_m9p125_16p425,o2: straight_1469c185_m14p0_11p0,o2
-  coupler_ring_354ce3d3_m2p0_5p225,o2: straight_1469c185_m14p0_11p0,o1
-  coupler_ring_354ce3d3_m2p0_5p225,o3: straight_1469c185_10p0_11p0,o2
+  bend_euler_2e0a66fe_m9p125_16p425,o2: straight_c1e7b81b_m14p0_11p0,o2
+  coupler_ring_3363c15c_m2p0_5p225,o2: straight_c1e7b81b_m14p0_11p0,o1
+  coupler_ring_3363c15c_m2p0_5p225,o3: straight_c1e7b81b_10p0_11p0,o2
 instances:
   bend_euler_2e0a66fe_5p125_16p425:
     component: bend_euler
@@ -14,17 +14,17 @@ instances:
     component: bend_euler
     settings:
       radius: 10
-  coupler_ring_354ce3d3_m2p0_5p225:
+  coupler_ring_3363c15c_m2p0_5p225:
     component: coupler_ring
     settings:
       bend:
         function: bend_euler
       radius: 10
-  straight_1469c185_10p0_11p0:
+  straight_c1e7b81b_10p0_11p0:
     component: straight
     settings:
       length: 0.6
-  straight_1469c185_m14p0_11p0:
+  straight_c1e7b81b_m14p0_11p0:
     component: straight
     settings:
       length: 0.6
@@ -44,17 +44,17 @@ placements:
     rotation: 180
     x: -4.0
     y: 21.3
-  coupler_ring_354ce3d3_m2p0_5p225:
+  coupler_ring_3363c15c_m2p0_5p225:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_1469c185_10p0_11p0:
+  straight_c1e7b81b_10p0_11p0:
     mirror: false
     rotation: 270
     x: 10.0
     y: 11.3
-  straight_1469c185_m14p0_11p0:
+  straight_c1e7b81b_m14p0_11p0:
     mirror: false
     rotation: 90
     x: -14.0
@@ -65,5 +65,5 @@ placements:
     x: 0.0
     y: 21.3
 ports:
-  o1: coupler_ring_354ce3d3_m2p0_5p225,o1
-  o2: coupler_ring_354ce3d3_m2p0_5p225,o4
+  o1: coupler_ring_3363c15c_m2p0_5p225,o1
+  o2: coupler_ring_3363c15c_m2p0_5p225,o4

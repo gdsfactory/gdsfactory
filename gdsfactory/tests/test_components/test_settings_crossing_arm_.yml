@@ -33,7 +33,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
     name: crossing_arm
-  ellipse_0ee24967:
+  ellipse_2698e856:
     changed:
       layer:
       - 2
@@ -60,7 +60,7 @@ cells:
     function_name: ellipse
     info_version: 1
     module: gdsfactory.components.ellipse
-    name: ellipse_0ee24967
+    name: ellipse_2698e856
 info:
   changed: {}
   default:

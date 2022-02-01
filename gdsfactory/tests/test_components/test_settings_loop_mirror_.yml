@@ -43,7 +43,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.loop_mirror
     name: loop_mirror
-  straight_2ad9f88b:
+  straight_46e50542:
     changed:
       length: 1.26
     default:
@@ -62,9 +62,9 @@ cells:
     info_version: 1
     length: 1.26
     module: gdsfactory.components.straight
-    name: straight_2ad9f88b
+    name: straight_46e50542
     width: 0.5
-  straight_51104ba3:
+  straight_9bfabe31:
     changed:
       length: 20.02
     default:
@@ -83,9 +83,9 @@ cells:
     info_version: 1
     length: 20.02
     module: gdsfactory.components.straight
-    name: straight_51104ba3
+    name: straight_9bfabe31
     width: 0.5
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -104,7 +104,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
 info:
   changed: {}

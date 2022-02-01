@@ -90,7 +90,7 @@ def transition():
 
     # Create the second CrossSection that we want to transition to
     X2 = gf.CrossSection()
-    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in2", "out2"))
+    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in1", "out1"))
     X2.add(width=3.5, offset=0, layer=3, name="etch")
     X2.add(width=3, offset=5, layer=1, name="wg2")
 
@@ -111,11 +111,11 @@ def transition():
     # wg_trans.pprint()
 
     wg1_ref = c << wg1
-    wg2_ref = c << wg2
     wgt_ref = c << wg_trans
+    wgt_ref.connect("in1", wg1_ref.ports["out1"])
 
-    wgt_ref.connect("in2", wg1_ref.ports["out1"])
-    wg2_ref.connect("in2", wgt_ref.ports["out1"])
+    wg2_ref = c << wg2
+    wg2_ref.connect("in1", wgt_ref.ports["out1"])
     return c
 
 
