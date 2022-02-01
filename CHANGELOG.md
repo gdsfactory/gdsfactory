@@ -1,16 +1,16 @@
 # CHANGELOG
 
-## 3.13.0
+## 4.0.0
 
 - Consider only changed component args and kwargs when calculating hash for component name
 - meep plugin write_sparameters_meep_mpi overwrite removes old file for an actual overwrite
-- ensure write_sparameters_meep `**kwargs` are valid simmulation settings
+- ensure write_sparameters_meep `**kwargs` are valid simulation settings
 - fix component lattice mutability issue
-- add `Component.is_unlocked` that raises MutabilityError
+- add `Component.is_unlocked()` that raises MutabilityError
 - rename component_lattice components to symbol_to_component
 - raise error when trying to add two ports with the same name in `gf.add_ports.add_ports_from_markers_center`
 - difftest adds failed test to logger.error
-- clean_value calls clean_value_json
+- clean_value calls clean_value_json, so we only need to maintain one function serializing settings and name
 
 
 ## 3.12.9

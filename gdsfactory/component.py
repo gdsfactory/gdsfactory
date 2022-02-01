@@ -488,9 +488,9 @@ class ComponentReference(DeviceReference):
         """Return Component reference where a port or port_name connects to a destination
 
         Args:
-            port: origin port or port_name
-            destination: destination port
-            overlap: how deep does the port go inside
+            port: origin (port or port_name) to connect.
+            destination: destination port.
+            overlap: how deep does the port go inside.
 
         Returns:
             ComponentReference
@@ -525,7 +525,7 @@ class ComponentReference(DeviceReference):
     def get_ports_list(self, **kwargs) -> List[Port]:
         """Return a list of ports.
 
-        Args:
+        Keyword Args:
             layer: port GDS layer
             prefix: port name prefix
             orientation: in degrees
@@ -539,7 +539,7 @@ class ComponentReference(DeviceReference):
     def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
         """Return a dict of ports.
 
-        Args:
+        Keyword Args:
             layer: port GDS layer
             prefix: port name prefix
             orientation: in degrees
@@ -578,7 +578,7 @@ class ComponentReference(DeviceReference):
     def get_ports_xsize(self, **kwargs) -> float:
         """Return xdistance from east to west ports
 
-        Args:
+        Keyword Args:
             kwargs: orientation, port_type, layer
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
@@ -642,7 +642,7 @@ class Component(Device):
         self.changelog = changelog
 
     def unlock(self):
-        """I reccommend doing this only if you know what you are doing."""
+        """I recommend doing this only if you know what you are doing."""
         self._locked = False
 
     def lock(self):
@@ -675,7 +675,7 @@ class Component(Device):
     @property
     def bbox(self):
         """Return the bounding box of the DeviceReference.
-        it snaps to 3 decimals in um (0.001um = 1nm precission)
+        it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
         bbox = self.get_bounding_box()
         if bbox is None:
@@ -706,15 +706,29 @@ class Component(Device):
     def get_ports_xsize(self, **kwargs) -> float:
         """Return xdistance from east to west ports
 
-        Args:
-            kwargs: orientation, port_type, layer
+        Keyword Args:
+            layer: port GDS layer
+            prefix: with in port name
+            orientation: in degrees
+            width:
+            layers_excluded: List of layers to exclude
+            port_type: optical, electrical, ...
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Return ydistance from east to west ports"""
+        """Return ydistance from east to west ports
+
+        Keyword Args:
+            layer: port GDS layer
+            prefix: with in port name
+            orientation: in degrees
+            width:
+            layers_excluded: List of layers to exclude
+            port_type: optical, electrical, ...
+        """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
@@ -1285,8 +1299,8 @@ class Component(Device):
     ) -> None:
         """Show component in klayout.
 
-        show_subports = True adds pins in a component copy (only used for display)
-        so the original component remains as it was
+        show_subports = True adds pins to a component copy (only used for display)
+        so the original component remains intact.
 
         Args:
             show_ports: shows component with port markers and labels
@@ -1380,7 +1394,7 @@ class Component(Device):
         ignore_components_prefix: Optional[List[str]] = None,
         ignore_functions_prefix: Optional[List[str]] = None,
     ) -> DictConfig:
-        """Returna DictConfig Component representation.
+        """Return DictConfig Component representation.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting
@@ -1429,7 +1443,7 @@ class Component(Device):
         return OmegaConf.create(d)
 
     def auto_rename_ports(self, **kwargs) -> None:
-        """Renames ports by orientation NSEW (north, south, east, west).
+        """Rename ports by orientation NSEW (north, south, east, west).
 
         Keyword Args:
             function: to rename ports
@@ -1461,7 +1475,7 @@ class Component(Device):
         auto_rename_ports_layer_orientation(self, **kwargs)
 
     def auto_rename_ports_orientation(self, **kwargs) -> None:
-        """Renames ports by orientation NSEW (north, south, east, west).
+        """Rename ports by orientation NSEW (north, south, east, west).
 
         Keyword Args:
             function: to rename ports
@@ -1495,7 +1509,7 @@ class Component(Device):
         Args:
             origin: of component
             destination:
-            axis: x or y axis
+            axis: x or y
         """
         from gdsfactory.functions import move
 
@@ -1757,7 +1771,7 @@ if __name__ == "__main__":
     hv.extension("bokeh")
     output_file("plot.html")
 
-    c = gf.components.rectangle(size=(10, 3), layer=(0, 0))
+    c = gf.components.rectangle(size=(4, 2), layer=(0, 0))
     # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
     # c.show()
     p = c.ploth()
