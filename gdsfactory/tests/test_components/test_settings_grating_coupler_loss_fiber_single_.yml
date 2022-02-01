@@ -1,5 +1,5 @@
 cells:
-  circle_602e85fd:
+  circle_925ccccf:
     changed:
       layer:
       - 203
@@ -20,7 +20,7 @@ cells:
     function_name: circle
     info_version: 1
     module: gdsfactory.components.circle
-    name: circle_602e85fd
+    name: circle_925ccccf
   grating_coupler_ellipti_1460ca4e:
     changed: {}
     child:
@@ -177,29 +177,6 @@ cells:
     module: gdsfactory.components.straight
     name: straight
     width: 0.5
-  straight_3e20c129:
-    changed:
-      auto_widen: false
-      length: 91.4
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      auto_widen: false
-      cross_section:
-        function: cross_section
-      length: 91.4
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 91.4
-    module: gdsfactory.components.straight
-    name: straight_3e20c129
-    width: 0.5
   straight_add_fiber_sing_20d1f7a6:
     changed:
       component: straight
@@ -310,6 +287,29 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_fiber_single
     name: straight_add_fiber_sing_20d1f7a6
+  straight_b81edde8:
+    changed:
+      auto_widen: false
+      length: 91.4
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 91.4
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 91.4
+    module: gdsfactory.components.straight
+    name: straight_b81edde8
+    width: 0.5
   straight_move_5f0356c3:
     changed:
       component: straight

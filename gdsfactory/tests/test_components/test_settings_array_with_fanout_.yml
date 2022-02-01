@@ -67,7 +67,7 @@ cells:
     name: bend_euler_212e6ad7
     radius: 5
     radius_min: 3.53
-  compass_a0b38c11:
+  compass_7a93663b:
     changed:
       layer:
       - 49
@@ -96,7 +96,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_a0b38c11
+    name: compass_7a93663b
   pad:
     changed: {}
     default:

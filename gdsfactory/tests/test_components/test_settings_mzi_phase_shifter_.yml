@@ -128,7 +128,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight
     width: 0.5
-  straight_76a4ed9f:
+  straight_5b70f7d2:
     changed:
       length: 0.09
     default:
@@ -147,7 +147,7 @@ cells:
     info_version: 1
     length: 0.09
     module: gdsfactory.components.straight
-    name: straight_76a4ed9f
+    name: straight_5b70f7d2
     width: 0.5
   straight_a4be237b:
     changed:
@@ -170,7 +170,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_a4be237b
     width: 0.5
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -189,7 +189,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
   straight_fba69bc3:
     changed:

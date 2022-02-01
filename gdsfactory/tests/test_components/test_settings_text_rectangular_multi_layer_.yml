@@ -29,10 +29,10 @@ cells:
     info_version: 1
     module: gdsfactory.components.text_rectangular
     name: text_rectangular
-  text_rectangular_b665fe57:
+  text_rectangular_1728a687:
     changed:
       layer:
-      - 45
+      - 49
       - 0
     default:
       font:
@@ -51,7 +51,7 @@ cells:
         function: rectangular_font
       justify: left
       layer:
-      - 45
+      - 49
       - 0
       position:
       - 0
@@ -61,8 +61,8 @@ cells:
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_b665fe57
-  text_rectangular_e73c7b_56e35f25:
+    name: text_rectangular_1728a687
+  text_rectangular_1728a6_2f9cb8aa:
     changed:
       factory:
         function: text_rectangular
@@ -108,7 +108,7 @@ cells:
       function_name: text_rectangular
       info_version: 1
       module: gdsfactory.components.text_rectangular
-      name: text_rectangular_e73c7be4
+      name: text_rectangular_1728a687
     default:
       factory:
         function: cross
@@ -133,11 +133,11 @@ cells:
     function_name: copy_layers
     info_version: 1
     module: gdsfactory.components.copy_layers
-    name: text_rectangular_e73c7b_56e35f25
-  text_rectangular_e73c7be4:
+    name: text_rectangular_1728a6_2f9cb8aa
+  text_rectangular_820a0b5f:
     changed:
       layer:
-      - 49
+      - 45
       - 0
     default:
       font:
@@ -156,7 +156,7 @@ cells:
         function: rectangular_font
       justify: left
       layer:
-      - 49
+      - 45
       - 0
       position:
       - 0
@@ -166,8 +166,8 @@ cells:
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_e73c7be4
-  text_rectangular_e9647926:
+    name: text_rectangular_820a0b5f
+  text_rectangular_87c94e73:
     changed:
       layer:
       - 41
@@ -199,7 +199,7 @@ cells:
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_e9647926
+    name: text_rectangular_87c94e73
 info:
   changed:
     factory:
@@ -246,7 +246,7 @@ info:
     function_name: text_rectangular
     info_version: 1
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_e73c7be4
+    name: text_rectangular_1728a687
   default:
     factory:
       function: cross
@@ -271,6 +271,6 @@ info:
   function_name: copy_layers
   info_version: 1
   module: gdsfactory.components.copy_layers
-  name: text_rectangular_e73c7b_56e35f25
+  name: text_rectangular_1728a6_2f9cb8aa
 ports: {}
 version: 0.0.1

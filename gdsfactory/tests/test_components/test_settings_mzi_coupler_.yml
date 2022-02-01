@@ -57,7 +57,7 @@ cells:
     min_bend_radius: 9.451
     module: gdsfactory.components.coupler
     name: coupler
-  mzi_f7725ac0:
+  mzi_1fc24805:
     changed:
       combiner:
         function: coupler
@@ -115,8 +115,8 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_f7725ac0
-  straight_76a4ed9f:
+    name: mzi_1fc24805
+  straight_5b70f7d2:
     changed:
       length: 0.09
     default:
@@ -135,9 +135,9 @@ cells:
     info_version: 1
     length: 0.09
     module: gdsfactory.components.straight
-    name: straight_76a4ed9f
+    name: straight_5b70f7d2
     width: 0.5
-  straight_8c093820:
+  straight_6870e926:
     changed:
       length: 0.1
     default:
@@ -156,7 +156,7 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_8c093820
+    name: straight_6870e926
     width: 0.5
   straight_a4be237b:
     changed:
@@ -179,7 +179,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_a4be237b
     width: 0.5
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -198,7 +198,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
   straight_fba69bc3:
     changed:
@@ -279,7 +279,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi_f7725ac0
+  name: mzi_1fc24805
 ports:
   o1:
     layer:

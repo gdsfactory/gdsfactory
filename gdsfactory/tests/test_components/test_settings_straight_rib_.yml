@@ -1,5 +1,5 @@
 cells:
-  straight_59648496:
+  straight_9b75572a:
     changed:
       cross_section:
         cladding_offset: 0
@@ -31,7 +31,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.straight
-    name: straight_59648496
+    name: straight_9b75572a
     width: 0.5
 info:
   changed:
@@ -65,7 +65,7 @@ info:
   info_version: 1
   length: 10
   module: gdsfactory.components.straight
-  name: straight_59648496
+  name: straight_9b75572a
   width: 0.5
 ports:
   o1:

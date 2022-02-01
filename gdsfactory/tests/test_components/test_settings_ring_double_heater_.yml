@@ -1,35 +1,5 @@
 cells:
-  compass_52724fdf:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 4
-      - 4
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 4
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_52724fdf
-  compass_c920c7aa:
+  compass_0f060968:
     changed:
       layer:
       - 45
@@ -58,8 +28,8 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c920c7aa
-  compass_f639aa23:
+    name: compass_0f060968
+  compass_4b89a55a:
     changed:
       layer:
       - 49
@@ -88,8 +58,38 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_f639aa23
-  contact_00c518be:
+    name: compass_4b89a55a
+  compass_e9fd1346:
+    changed:
+      layer:
+      - 47
+      - 0
+      size:
+      - 4
+      - 4
+    default:
+      layer:
+      - 1
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 2
+    full:
+      layer:
+      - 47
+      - 0
+      port_inclusion: 0
+      port_type: electrical
+      size:
+      - 4
+      - 4
+    function_name: compass
+    info_version: 1
+    module: gdsfactory.components.compass
+    name: compass_e9fd1346
+  contact_f6c435f1:
     changed:
       layers:
       - - 47
@@ -151,11 +151,11 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.contact
-    name: contact_00c518be
+    name: contact_f6c435f1
     size:
     - 4
     - 4
-  coupler_ring_5779f456:
+  coupler_ring_b1bf2a47:
     changed:
       bend_cross_section:
         function: strip_heater_metal
@@ -189,7 +189,7 @@ cells:
     function_name: coupler_ring
     info_version: 1
     module: gdsfactory.components.coupler_ring
-    name: coupler_ring_5779f456
+    name: coupler_ring_b1bf2a47
   ring_double_heater:
     changed: {}
     default:
@@ -276,7 +276,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.ring_double_heater
     name: ring_double_heater
-  straight_ffdb2b22:
+  straight_c6165933:
     changed:
       cross_section:
         function: strip_heater_metal
@@ -297,7 +297,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_ffdb2b22
+    name: straight_c6165933
     width: 0.5
 info:
   changed: {}

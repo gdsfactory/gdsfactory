@@ -1,6 +1,6 @@
 cells:
   mirror_x: {}
-  mmi1x2_41793ed4:
+  mmi1x2_63d4efba:
     changed:
       length_mmi: 5
       width_mmi: 4.5
@@ -31,7 +31,7 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_41793ed4
+    name: mmi1x2_63d4efba
 info:
   name: mirror_x
 ports:

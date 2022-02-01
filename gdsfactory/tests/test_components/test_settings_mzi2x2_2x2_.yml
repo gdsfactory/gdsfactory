@@ -55,7 +55,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.mmi2x2
     name: mmi2x2
-  mzi_86aea49b:
+  mzi_d46c281f:
     changed:
       combiner:
         function: mmi2x2
@@ -113,8 +113,8 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_86aea49b
-  straight_76a4ed9f:
+    name: mzi_d46c281f
+  straight_5b70f7d2:
     changed:
       length: 0.09
     default:
@@ -133,9 +133,9 @@ cells:
     info_version: 1
     length: 0.09
     module: gdsfactory.components.straight
-    name: straight_76a4ed9f
+    name: straight_5b70f7d2
     width: 0.5
-  straight_8c093820:
+  straight_6870e926:
     changed:
       length: 0.1
     default:
@@ -154,7 +154,7 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_8c093820
+    name: straight_6870e926
     width: 0.5
   straight_a4be237b:
     changed:
@@ -177,7 +177,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_a4be237b
     width: 0.5
-  straight_c138f2c4:
+  straight_c49ce9c6:
     changed:
       length: 0.01
     default:
@@ -196,7 +196,7 @@ cells:
     info_version: 1
     length: 0.01
     module: gdsfactory.components.straight
-    name: straight_c138f2c4
+    name: straight_c49ce9c6
     width: 0.5
   straight_fba69bc3:
     changed:
@@ -277,7 +277,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi_86aea49b
+  name: mzi_d46c281f
 ports:
   o1:
     layer:

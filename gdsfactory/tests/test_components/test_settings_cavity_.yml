@@ -1,5 +1,5 @@
 cells:
-  coupler_3e9f9e6a:
+  coupler_4e842e54:
     changed:
       gap: 0.2
       length: 0.1
@@ -30,7 +30,7 @@ cells:
     length: 10.319
     min_bend_radius: 9.387
     module: gdsfactory.components.coupler
-    name: coupler_3e9f9e6a
+    name: coupler_4e842e54
   dbr:
     changed: {}
     default:

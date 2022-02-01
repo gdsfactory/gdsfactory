@@ -1,5 +1,5 @@
 cells:
-  bend_euler_4196e3b7:
+  bend_euler_3cac7503:
     changed:
       cross_section:
         function: cross_section
@@ -44,10 +44,10 @@ cells:
     info_version: 1
     length: 16.637
     module: gdsfactory.components.bend_euler
-    name: bend_euler_4196e3b7
+    name: bend_euler_3cac7503
     radius: 10
     radius_min: 7.061
-  mmi1x2_4e81d408:
+  mmi1x2_9e32c934:
     changed:
       cross_section:
         function: cross_section
@@ -97,8 +97,8 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_4e81d408
-  mzi_ab885bdb:
+    name: mmi1x2_9e32c934
+  mzi_d235e57a:
     changed:
       bend:
         cross_section:
@@ -241,131 +241,8 @@ cells:
     function_name: mzi
     info_version: 1
     module: gdsfactory.components.mzi
-    name: mzi_ab885bdb
-  straight_65276dc9:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_65276dc9
-    width: 0.9
-  straight_79ad5022:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 2
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 2
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 2
-    module: gdsfactory.components.straight
-    name: straight_79ad5022
-    width: 0.9
-  straight_9d5365bf:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.09
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 0.9
-      decorator:
-        function: add_pins
-      length: 0.09
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.09
-    module: gdsfactory.components.straight
-    name: straight_9d5365bf
-    width: 0.9
-  straight_b96a1fbe:
+    name: mzi_d235e57a
+  straight_0783d17e:
     changed:
       cross_section:
         function: cross_section
@@ -404,9 +281,9 @@ cells:
     info_version: 1
     length: 0.1
     module: gdsfactory.components.straight
-    name: straight_b96a1fbe
+    name: straight_0783d17e
     width: 0.9
-  straight_d2d623c6:
+  straight_3acb644d:
     changed:
       cross_section:
         function: cross_section
@@ -445,7 +322,130 @@ cells:
     info_version: 1
     length: 7
     module: gdsfactory.components.straight
-    name: straight_d2d623c6
+    name: straight_3acb644d
+    width: 0.9
+  straight_3eae2dce:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      length: 2
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      length: 2
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 2
+    module: gdsfactory.components.straight
+    name: straight_3eae2dce
+    width: 0.9
+  straight_439cc7ac:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      length: 0.01
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.01
+    module: gdsfactory.components.straight
+    name: straight_439cc7ac
+    width: 0.9
+  straight_bf2b54ca:
+    changed:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      length: 0.09
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      length: 0.09
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info_version: 1
+    length: 0.09
+    module: gdsfactory.components.straight
+    name: straight_bf2b54ca
     width: 0.9
 info:
   changed:
@@ -590,7 +590,7 @@ info:
   function_name: mzi
   info_version: 1
   module: gdsfactory.components.mzi
-  name: mzi_ab885bdb
+  name: mzi_d235e57a
 ports:
   o1:
     layer:

@@ -1,5 +1,5 @@
 cells:
-  compass_c614e90d:
+  compass_011cc456:
     changed:
       size:
       - 8
@@ -25,7 +25,7 @@ cells:
     function_name: compass
     info_version: 1
     module: gdsfactory.components.compass
-    name: compass_c614e90d
+    name: compass_011cc456
   nxn:
     changed: {}
     default:
@@ -56,7 +56,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.nxn
     name: nxn
-  rectangle_c614e90d:
+  rectangle_011cc456:
     changed:
       size:
       - 8
@@ -82,7 +82,7 @@ cells:
     function_name: rectangle
     info_version: 1
     module: gdsfactory.components.rectangle
-    name: rectangle_c614e90d
+    name: rectangle_011cc456
 info:
   changed: {}
   default:
