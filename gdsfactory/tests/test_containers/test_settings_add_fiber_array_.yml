@@ -349,7 +349,7 @@ cells:
     period: 0.6759999999999999
     polarization: te
     wavelength: 1.53
-  mmi2x2_d41d8cd9:
+  mmi2x2:
     changed: {}
     default:
       cross_section:
@@ -376,7 +376,7 @@ cells:
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
-    name: mmi2x2_d41d8cd9
+    name: mmi2x2
   mzi_d275fe52:
     changed:
       length_x: null

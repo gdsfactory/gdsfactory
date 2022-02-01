@@ -46,7 +46,7 @@ instances:
       cross_section:
         function: cross_section
       length: 0.6
-name: ring_single_d41d8cd9
+name: ring_single
 placements:
   bend_euler_4725f0ef_5p125_16p425:
     mirror: false

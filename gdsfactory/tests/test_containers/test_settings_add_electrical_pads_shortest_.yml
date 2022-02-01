@@ -267,7 +267,7 @@ cells:
     size:
     - 11
     - 11
-  mmi2x2_d41d8cd9:
+  mmi2x2:
     changed: {}
     default:
       cross_section:
@@ -294,7 +294,7 @@ cells:
     function_name: mmi2x2
     info_version: 1
     module: gdsfactory.components.mmi2x2
-    name: mmi2x2_d41d8cd9
+    name: mmi2x2
   mzi_d275fe52:
     changed:
       length_x: null
@@ -441,7 +441,7 @@ cells:
     info_version: 1
     module: gdsfactory.routing.add_electrical_pads_shortest
     name: mzi_d275fe52_add_electr_62814515
-  pad_d41d8cd9:
+  pad:
     changed: {}
     default:
       cladding_offsets: null
@@ -469,7 +469,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad_d41d8cd9
+    name: pad
     size:
     - 100
     - 100

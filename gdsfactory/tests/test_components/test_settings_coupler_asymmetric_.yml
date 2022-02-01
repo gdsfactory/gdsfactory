@@ -1,5 +1,5 @@
 cells:
-  coupler_asymmetric_d41d8cd9:
+  coupler_asymmetric:
     changed: {}
     default:
       bend:
@@ -24,7 +24,7 @@ cells:
     function_name: coupler_asymmetric
     info_version: 1
     module: gdsfactory.components.coupler_asymmetric
-    name: coupler_asymmetric_d41d8cd9
+    name: coupler_asymmetric
 info:
   changed: {}
   default:
@@ -50,7 +50,7 @@ info:
   function_name: coupler_asymmetric
   info_version: 1
   module: gdsfactory.components.coupler_asymmetric
-  name: coupler_asymmetric_d41d8cd9
+  name: coupler_asymmetric
 ports:
   o1:
     layer:

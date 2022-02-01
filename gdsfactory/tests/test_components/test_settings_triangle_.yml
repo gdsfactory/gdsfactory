@@ -1,5 +1,5 @@
 cells:
-  triangle_d41d8cd9:
+  triangle:
     changed: {}
     default:
       layer:
@@ -20,7 +20,7 @@ cells:
     function_name: triangle
     info_version: 1
     module: gdsfactory.components.triangle
-    name: triangle_d41d8cd9
+    name: triangle
 info:
   changed: {}
   default:
@@ -42,6 +42,6 @@ info:
   function_name: triangle
   info_version: 1
   module: gdsfactory.components.triangle
-  name: triangle_d41d8cd9
+  name: triangle
 ports: {}
 version: 0.0.1

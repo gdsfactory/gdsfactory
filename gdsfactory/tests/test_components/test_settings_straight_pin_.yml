@@ -230,7 +230,7 @@ cells:
     module: gdsfactory.components.straight
     name: straight_fec761a3
     width: 0.5
-  straight_pin_d41d8cd9:
+  straight_pin:
     changed: {}
     default:
       contact:
@@ -301,8 +301,8 @@ cells:
     function_name: straight_pin
     info_version: 1
     module: gdsfactory.components.straight_pin
-    name: straight_pin_d41d8cd9
-  taper_strip_to_ridge_d41d8cd9:
+    name: straight_pin
+  taper_strip_to_ridge:
     changed: {}
     default:
       cladding_offset: 3
@@ -340,7 +340,7 @@ cells:
     info_version: 1
     length: 10
     module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_d41d8cd9
+    name: taper_strip_to_ridge
 info:
   changed: {}
   default:
@@ -412,7 +412,7 @@ info:
   function_name: straight_pin
   info_version: 1
   module: gdsfactory.components.straight_pin
-  name: straight_pin_d41d8cd9
+  name: straight_pin
 ports:
   bot_e1:
     layer:

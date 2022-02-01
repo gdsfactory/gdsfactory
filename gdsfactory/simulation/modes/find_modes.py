@@ -37,9 +37,9 @@ def find_modes(
     Args:
         mode_solver: function that returns mpb.ModeSolver
         tol: tolerance when finding modes
-        wavelength: wavelength
+        wavelength: wavelength in um.
         mode_number: mode order of the first mode
-        paririty: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     Keyword Args:
         wg_width: wg_width (um)
@@ -49,8 +49,8 @@ def find_modes(
         nclad: clad material refractive index
         sy: simulation region width (um)
         sz: simulation region height (um)
-        res: resolution (pixels/um)
-        nmodes: number of modes
+        resolution: resolution (pixels/um)
+        nmodes: number of modes to compute.
 
     Returns: Dict[mode_number, Mode]
 

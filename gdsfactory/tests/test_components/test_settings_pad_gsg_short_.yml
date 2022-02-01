@@ -1,8 +1,8 @@
 cells:
-  array_62d6385d:
+  array_dacd7306:
     changed:
       columns: 1
-      component: pad_d41d8cd9
+      component: pad
       rows: 3
       spacing:
       - 0
@@ -17,15 +17,15 @@ cells:
       - 150
     full:
       columns: 1
-      component: pad_d41d8cd9
+      component: pad
       rows: 3
       spacing:
       - 0
       - 150
     function_name: array
     info_version: 1
-    module: gdsfactory.components.array
-    name: array_62d6385d
+    module: gdsfactory.components.array_component
+    name: array_dacd7306
   compass_83a2e6d6:
     changed:
       layer:
@@ -57,7 +57,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_83a2e6d6
-  pad_gsg_short_d41d8cd9:
+  pad_gsg_short:
     changed: {}
     default:
       contact:
@@ -96,7 +96,7 @@ cells:
     function_name: pad_gsg_short
     info_version: 1
     module: gdsfactory.components.pad_gsg
-    name: pad_gsg_short_d41d8cd9
+    name: pad_gsg_short
   rectangle_53d34c22:
     changed:
       layer:
@@ -241,6 +241,6 @@ info:
   function_name: pad_gsg_short
   info_version: 1
   module: gdsfactory.components.pad_gsg
-  name: pad_gsg_short_d41d8cd9
+  name: pad_gsg_short
 ports: {}
 version: 0.0.1

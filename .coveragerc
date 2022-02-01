@@ -10,6 +10,10 @@ omit =
     *.bak
     gdsfactory/build.py
     gdsfactory/install.py
+    gdsfactory/simulation/*
+    gdsfactory/klayout/*
+    fixme/*
+    docs/*
 
 [report]
 exclude_lines =

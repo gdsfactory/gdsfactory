@@ -1,5 +1,5 @@
 cells:
-  mmi1x2_d41d8cd9:
+  mmi1x2:
     changed: {}
     default:
       cross_section:
@@ -28,8 +28,8 @@ cells:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_d41d8cd9
-  mmi1x2_d41d8cd9_extend__3decf889:
+    name: mmi1x2
+  mmi1x2_extend_ports:
     changed: {}
     child:
       changed: {}
@@ -60,7 +60,7 @@ cells:
       function_name: mmi1x2
       info_version: 1
       module: gdsfactory.components.mmi1x2
-      name: mmi1x2_d41d8cd9
+      name: mmi1x2
     default:
       centered: false
       component:
@@ -86,7 +86,7 @@ cells:
     function_name: extend_ports
     info_version: 1
     module: gdsfactory.components.extension
-    name: mmi1x2_d41d8cd9_extend__3decf889
+    name: mmi1x2_extend_ports
 info:
   changed: {}
   child:
@@ -118,7 +118,7 @@ info:
     function_name: mmi1x2
     info_version: 1
     module: gdsfactory.components.mmi1x2
-    name: mmi1x2_d41d8cd9
+    name: mmi1x2
   default:
     centered: false
     component:
@@ -144,7 +144,7 @@ info:
   function_name: extend_ports
   info_version: 1
   module: gdsfactory.components.extension
-  name: mmi1x2_d41d8cd9_extend__3decf889
+  name: mmi1x2_extend_ports
 ports:
   o1:
     layer:

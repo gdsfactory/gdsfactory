@@ -28,6 +28,9 @@ def import_gds(
 
     Adapted from phidl/geometry.py
 
+    if any cell names are found on the component CACHE we append a $ with a
+    number to the name
+
     Args:
         gdspath: path of GDS file.
         cellname: cell of the name to import (None) imports top cell.

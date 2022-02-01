@@ -1,5 +1,5 @@
 cells:
-  coupler_straight_d41d8cd9:
+  coupler_straight:
     changed: {}
     default:
       gap: 0.27
@@ -14,7 +14,7 @@ cells:
     function_name: coupler_straight
     info_version: 1
     module: gdsfactory.components.coupler_straight
-    name: coupler_straight_d41d8cd9
+    name: coupler_straight
   straight_5b6c3269:
     changed:
       length: 10
@@ -51,7 +51,7 @@ info:
   function_name: coupler_straight
   info_version: 1
   module: gdsfactory.components.coupler_straight
-  name: coupler_straight_d41d8cd9
+  name: coupler_straight
 ports:
   o1:
     layer:

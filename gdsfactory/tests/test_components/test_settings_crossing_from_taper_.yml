@@ -1,5 +1,5 @@
 cells:
-  crossing_from_taper_d41d8cd9:
+  crossing_from_taper:
     changed: {}
     default:
       taper:
@@ -10,7 +10,7 @@ cells:
     function_name: crossing_from_taper
     info_version: 1
     module: gdsfactory.components.crossing_waveguide
-    name: crossing_from_taper_d41d8cd9
+    name: crossing_from_taper
 info:
   changed: {}
   default:
@@ -22,7 +22,7 @@ info:
   function_name: crossing_from_taper
   info_version: 1
   module: gdsfactory.components.crossing_waveguide
-  name: crossing_from_taper_d41d8cd9
+  name: crossing_from_taper
 ports:
   o1:
     layer:

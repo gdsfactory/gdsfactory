@@ -1,5 +1,5 @@
 cells:
-  array_with_fanout_d41d8cd9:
+  array_with_fanout:
     changed: {}
     default:
       bend:
@@ -36,7 +36,7 @@ cells:
     function_name: array_with_fanout
     info_version: 1
     module: gdsfactory.components.array_with_fanout
-    name: array_with_fanout_d41d8cd9
+    name: array_with_fanout
   bend_euler_a519ff2d:
     changed:
       cross_section:
@@ -100,7 +100,7 @@ cells:
     info_version: 1
     module: gdsfactory.components.compass
     name: compass_6ffda32f
-  pad_d41d8cd9:
+  pad:
     changed: {}
     default:
       cladding_offsets: null
@@ -128,7 +128,7 @@ cells:
     - 49
     - 0
     module: gdsfactory.components.pad
-    name: pad_d41d8cd9
+    name: pad
     size:
     - 100
     - 100
@@ -307,7 +307,7 @@ info:
   function_name: array_with_fanout
   info_version: 1
   module: gdsfactory.components.array_with_fanout
-  name: array_with_fanout_d41d8cd9
+  name: array_with_fanout
 ports:
   o1:
     layer:

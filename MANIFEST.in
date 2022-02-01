@@ -5,8 +5,8 @@ recursive-include gdsfactory/samples/*
 global-include *.csv
 global-include *.yaml
 include requirements.txt
+include requirements_full.txt
 include requirements_dev.txt
-include requirements_pip.txt
 include gdsfactory/klayout/pymacros/klive.lym
 include gdsfactory/klayout/drc/generic.lydrc
 include gdsfactory/klayout/tech/generic.layerstack

@@ -1,11 +1,8 @@
 import pathlib
-from dataclasses import asdict, field
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from dataclasses import asdict
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import pydantic
-from phidl.device_layout import Device as Component
-
-from gdsfactory.name import clean_value, get_name_short
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -221,13 +218,26 @@ LAYER_STACK = get_layer_stack_generic()
 @pydantic.dataclasses.dataclass
 class Section:
     """
+
     Args:
-        width: of the section
-        offset: center to center
+        width: of the section (um)
+        offset: center offset
         layer:
-        ports: optional name of the ports
-        name: optional section name
-        port_types:
+        ports: Optional port names
+        name: Optional Section name
+        port_types: optical, electrical, ...
+
+    .. code::
+
+          0   offset
+          |<-------------->|
+          |              _____
+          |             |     |
+          |             |layer|
+          |             |_____|
+          |              <---->
+                         width
+
     """
 
     width: float
@@ -273,7 +283,7 @@ class SimulationSettings:
         wavelength_points: 500
         simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
         simulation_temperature: in kelvin (default = 300)
-        frequency_dependendent_profile: computes mode profiles for different wavelengths
+        frequency_dependent_profile: computes mode profiles for different wavelengths
         field_profile_samples: number of wavelengths to compute field profile
 
     """
@@ -290,7 +300,7 @@ class SimulationSettings:
     wavelength_points: int = 500
     simulation_time: float = 10e-12
     simulation_temperature: float = 300
-    frequency_dependendent_profile: bool = True
+    frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
 
     mode_index: int = 0
@@ -313,96 +323,6 @@ def assert_callable(function):
 
 
 @pydantic.dataclasses.dataclass
-class Library:
-    """Stores component factories for testing purposes.
-
-    Args:
-        name: of the factory
-        factory: component name to function dict
-        post_init: Optional function to run over component
-
-    """
-
-    name: str
-    factory: Dict[str, Callable] = field(default_factory=make_empty_dict)
-    post_init: Optional[Callable[[], None]] = None
-
-    def __str__(self):
-        return self.name
-
-    def __repr__(self):
-        return self.name
-
-    def get_component_names(self):
-        return list(self.factory.keys())
-
-    def register(
-        self,
-        function_or_function_list: Optional[
-            Union[List[Callable[[], None]], Callable[[], None]]
-        ] = None,
-        **kwargs,
-    ) -> None:
-        """Registers component_factory function or functions into the factory."""
-        function_or_function_list = function_or_function_list or []
-
-        if not hasattr(function_or_function_list, "__iter__"):
-            function = function_or_function_list
-            assert_callable(function)
-            self.factory[function.__name__] = function
-
-        else:
-            for function in function_or_function_list:
-                assert_callable(function)
-                self.factory[get_name_short(clean_value(function))] = function
-
-        for function_name, function in kwargs.items():
-            assert_callable(function)
-            self.factory[function_name] = function
-
-    def get_component(
-        self,
-        component: Union[str, Dict],
-        **settings,
-    ) -> Component:
-        """Returns Component from library.
-        Takes default settings from self.settings
-        settings can be overwriten with kwargs
-        runs any post_init functions over the component before it returns it.
-
-        Priority (from lower to higher)
-        - default in dataclass
-        - component in case it's a dic
-        - **settings
-
-        Args:
-            component:
-            **settings
-        """
-        if isinstance(component, str):
-            component = component
-            component_settings = {}
-        elif isinstance(component, dict):
-            component_settings = component.copy()
-            if "component" not in component_settings:
-                raise ValueError(f"{component} is missing `component` key")
-
-            component = component_settings.pop("component")
-        else:
-            raise ValueError(
-                f"{component} needs to be a string or dict, got {type(component)}"
-            )
-
-        if component not in self.factory:
-            raise ValueError(f"{component} not in {list(self.factory.keys())}")
-        component = self.factory[component](**settings)
-        if self.post_init and not hasattr(component, "_initialized"):
-            self.post_init(component)
-            component._initialized = True
-        return component
-
-
-@pydantic.dataclasses.dataclass
 class Tech:
     name: str = "generic"
     layer: LayerMap = LAYER
@@ -418,7 +338,6 @@ class Tech:
 
 
 TECH = Tech()
-LIBRARY = Library("generic_components")
 
 if __name__ == "__main__":
     import gdsfactory as gf
