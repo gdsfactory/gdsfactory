@@ -3,15 +3,15 @@
 ## 4.0.0
 
 - Consider only changed component args and kwargs when calculating hash for component name
-- meep plugin write_sparameters_meep_mpi overwrite removes old file for an actual overwrite
-- ensure write_sparameters_meep `**kwargs` are valid simulation settings
-- fix component lattice mutability issue
+- meep plugin write_sparameters_meep_mpi deletes old file when overwrite=True
+- ensure write_sparameters_meep `**kwargs` have valid simulation settings
+- fix component lattice mutability
+- Component.auto_rename_ports() raises MutabilityError if component is locked
 - add `Component.is_unlocked()` that raises MutabilityError
-- rename component_lattice components to symbol_to_component
-- raise error when trying to add two ports with the same name in `gf.add_ports.add_ports_from_markers_center`
-- difftest adds failed test to logger.error
-- clean_value calls clean_value_json, so we only need to maintain one function serializing settings and name
-
+- rename component_lattice `components` to `symbol_to_component`
+- raise error when trying to add two ports with the same name in `gf.add_ports.add_ports_from_markers_center`. Before it was just ignoring ports if it already had a port with the same name, so it was hard to debug.
+- difftest adds failed test to logger.error, to clearly see test_errors and to log test error traces
+- clean_value calls clean_value_json, so we only need to maintain one function to serialize both settings and name
 
 ## 3.12.9
 
