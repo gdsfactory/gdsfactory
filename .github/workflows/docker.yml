@@ -7,8 +7,7 @@ on:
   push:
     branches: [master]
     tags: [v*]
-
-workflow_dispatch:        # Un comment line if you also want to trigger action manually
+  workflow_dispatch:
 
 jobs:
   docker:
