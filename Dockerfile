@@ -10,9 +10,9 @@ EXPOSE 8888
 USER root
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
-    # Common useful utilities
     git \
     htop \
+    make \
     neovim
 
 USER jovyan
