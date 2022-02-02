@@ -62,7 +62,6 @@ from gdsfactory import write_cells
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
 from gdsfactory.add_padding import (
-    add_padding,
     add_padding_container,
     get_padding_points,
 )
@@ -87,7 +86,6 @@ __all__ = [
     "Port",
     "TECH",
     "add_grating_couplers",
-    "add_padding",
     "add_padding_container",
     "add_pins",
     "add_pins_to_references",

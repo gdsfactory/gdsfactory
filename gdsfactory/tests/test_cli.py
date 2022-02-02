@@ -4,7 +4,7 @@ from gdsfactory import __version__
 from gdsfactory.gf import gf
 
 
-def test_gf_version() -> None:
+def test_cli() -> None:
     """checks that the CLI returns the correct version"""
     runner = CliRunner()
     result = runner.invoke(gf, ["--version"])
@@ -16,4 +16,4 @@ def test_gf_version() -> None:
 
 
 if __name__ == "__main__":
-    test_gf_version()
+    test_cli()
