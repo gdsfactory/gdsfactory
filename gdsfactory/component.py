@@ -1296,6 +1296,7 @@ class Component(Device):
         self,
         show_ports: bool = True,
         show_subports: bool = False,
+        clear_cache: bool = True,
     ) -> None:
         """Show component in klayout.
 
@@ -1305,6 +1306,7 @@ class Component(Device):
         Args:
             show_ports: shows component with port markers and labels
             show_subports: add ports markers and labels to component references
+            clear_cache: if True, clears the cache after showing the component
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -1320,7 +1322,7 @@ class Component(Device):
         else:
             component = self
 
-        show(component)
+        show(component, clear_cache=clear_cache)
 
     def write_gds(
         self,
