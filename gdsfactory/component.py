@@ -1296,7 +1296,6 @@ class Component(Device):
         self,
         show_ports: bool = True,
         show_subports: bool = False,
-        clear_cache: bool = True,
     ) -> None:
         """Show component in klayout.
 
@@ -1306,7 +1305,6 @@ class Component(Device):
         Args:
             show_ports: shows component with port markers and labels
             show_subports: add ports markers and labels to component references
-            clear_cache: if True, clears the cache after showing the component
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -1322,7 +1320,7 @@ class Component(Device):
         else:
             component = self
 
-        show(component, clear_cache=clear_cache)
+        show(component)
 
     def write_gds(
         self,
@@ -1347,7 +1345,7 @@ class Component(Device):
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
                 "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily)
                 "error": throw a ValueError when attempting to write a gds with duplicate cells
-                "overwrite": overwite all duplicate cells with one of the duplicates, without warning
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning
                 None: do not try to resolve (at your own risk!)
 
         """
@@ -1382,7 +1380,7 @@ class Component(Device):
                 pass
             else:
                 raise ValueError(
-                    f"Not a recognized option for on_duplicate_cell: {on_duplicate_cell}"
+                    f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
         all_cells = [self] + list(cells)
