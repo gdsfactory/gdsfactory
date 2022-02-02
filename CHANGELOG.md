@@ -5,7 +5,6 @@
 - modify the write_gds() function to fix the checking of duplicate cell names (recursively), and it also gives an option to choose how to handle duplicate cell names on write. It changes the default behavior to warn and overwrite duplicates, rather than throw an error. [PR](https://github.com/gdsfactory/gdsfactory/pull/174)
 - remove clear_cache in `show()`. Intermediate clearing of cache can cause errors in final gds export, by leaving two versions of the same cell lingering within subcells created before/after cache clearing.
 - remove clear_cache in some of the tests
-- remove `gf.add_padding` as it's available through `Component.add_padding()`
 
 
 ## 4.0.3
