@@ -12,7 +12,6 @@ def test_metadata_export_partial():
 
 
 def test_metadata_export_function():
-    gf.clear_cache()
     c = gf.c.mzi()
     d = c.to_dict_config()
     assert d.info.full.straight.function == "straight"
