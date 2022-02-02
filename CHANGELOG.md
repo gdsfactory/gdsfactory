@@ -6,6 +6,7 @@
 - remove clear_cache in `show()`. Intermediate clearing of cache can cause errors in final gds export, by leaving two versions of the same cell lingering within subcells created before/after cache clearing.
 - remove clear_cache in some of the tests
 
+
 ## 4.0.3
 
 - add `safe_cell_names` flag to gf.read.import_gds, append hash to imported cell names to avoid duplicated cell names.
