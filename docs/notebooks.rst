@@ -7,6 +7,7 @@ Tutorial
    :titlesonly:
    :caption: Contents:
 
+   notebooks/00__git.ipynb
    notebooks/00__python_intro.ipynb
    notebooks/00_geometry.ipynb
    notebooks/01_references.ipynb
