@@ -11,7 +11,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.tidy3d.materials import get_material
+from gdsfactory.simulation.tidy3d.materials import get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 MATERIAL_NAME_TO_TIDY3D = {
@@ -103,13 +103,15 @@ def get_simulation(
     component_ref.x = 0
     component_ref.y = 0
 
-    structures = [
-        td.Box(
-            material=get_material(name=clad_material),
+    clad = td.Structure(
+        geometry=td.Box(
             size=(td.inf, td.inf, td.inf),
             center=(0, 0, 0),
-        )
-    ]
+        ),
+        medium=get_medium(name=clad_material),
+    )
+
+    structures = [clad]
     layers_thickness = [
         layer_to_thickness[layer]
         for layer in component.get_layers()
@@ -126,19 +128,23 @@ def get_simulation(
 
     for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
-            height = layer_to_thickness[layer]
+            thickness = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            z_cent = zmin + height / 2
+            z_cent = zmin + thickness / 2
+            zmax = zmin + thickness
             material_name = MATERIAL_NAME_TO_TIDY3D[layer_to_material[layer]]
-            material = get_material(name=material_name)
+            material = get_medium(name=material_name)
 
-            geometry = td.GdsSlab(
-                material=material,
+            poly = td.PolySlab.from_gds(
                 gds_cell=component_extended_ref,
                 gds_layer=layer[0],
                 gds_dtype=layer[1],
-                z_cent=z_cent,
-                z_size=height,
+                axis=2,
+                slab_bounds=(zmin, zmax),
+            )
+            geometry = td.Structure(
+                geometry=poly,
+                material=material,
             )
             structures.append(geometry)
 
@@ -262,11 +268,11 @@ def plot_materials(
 
 if __name__ == "__main__":
     c = gf.components.mmi1x2()
-    c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    c = gf.add_padding_container(c, default=0, bottom=2, top=2, layers=[(100, 0)])
 
-    # c = gf.add_padding(c, default=0, bottom=2, right=2, layers=[(100, 0)])
+    # c = gf.add_padding_container(c, default=0, bottom=2, right=2, layers=[(100, 0)])
 
-    # c = gf.add_padding(c, default=0, bottom=2, top=2, layers=[(100, 0)])
+    # c = gf.add_padding_container(c, default=0, bottom=2, top=2, layers=[(100, 0)])
     # c = gf.components.straight(length=2)
 
     c = gf.components.bend_circular(radius=2)
