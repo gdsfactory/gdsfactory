@@ -8,7 +8,6 @@ import numpy as np
 from scipy.interpolate import griddata
 
 import gdsfactory as gf
-from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.gmeep.get_port_eigenmode import get_port_2Dx_eigenmode
@@ -201,7 +200,8 @@ def compare_mpb_lumerical(plot=False):
 
     # MEEP calculation
     c = straight(length=2, width=0.45)
-    c = add_padding(c.copy(), default=0, bottom=4, top=4, layers=[(100, 0)])
+    c = c.copy()
+    c = c.add_padding(default=0, bottom=4, top=4, layers=[(100, 0)])
 
     sim_dict = get_simulation(
         c,

@@ -60,7 +60,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
-    c = gf.add_padding(c)
+    c = gf.add_padding_container(c)
     c << fill_rectangle(
         c,
         fill_layers=((2, 0),),
