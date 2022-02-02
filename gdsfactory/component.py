@@ -1349,7 +1349,7 @@ class Component(Device):
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
-        cells = self.get_dependencies()
+        cells = self.get_dependencies(recursive=True)
         cell_names = [cell.name for cell in list(cells)]
         cell_names_unique = set(cell_names)
 
