@@ -8,6 +8,8 @@ on:
     branches: [master]
     tags: [v*]
 
+workflow_dispatch:        # Un comment line if you also want to trigger action manually
+
 jobs:
   docker:
     runs-on: ubuntu-latest
