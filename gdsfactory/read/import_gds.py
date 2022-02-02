@@ -7,9 +7,10 @@ import numpy as np
 from omegaconf import OmegaConf
 from phidl.device_layout import CellArray, DeviceReference
 
-from gdsfactory.cell import CACHE, CACHE_IMPORTED_CELLS, avoid_duplicated_cells
+from gdsfactory.cell import CACHE
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
+from gdsfactory.name import get_name_short
 from gdsfactory.snap import snap_to_grid
 
 
@@ -22,6 +23,7 @@ def import_gds(
     name: Optional[str] = None,
     decorator: Optional[Callable] = None,
     gdsdir: Optional[Union[str, Path]] = None,
+    safe_cell_names: bool = False,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -39,9 +41,12 @@ def import_gds(
         name: Optional name. Over-rides the default imported name.
         decorator: function to apply over the imported gds.
         gdsdir: optional GDS directory.
+        safe_cell_names: append file hash to imported cell names to avoid
+            duplicated cell names.
         kwargs: settings for the imported component (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
+    gdshash = gdspy.gdsii_hash(gdspath)
     if not gdspath.exists():
         raise FileNotFoundError(f"No file {gdspath!r} found")
 
@@ -67,7 +72,7 @@ def import_gds(
         )
 
     if name:
-        if name in CACHE or name in CACHE_IMPORTED_CELLS:
+        if name in CACHE:
             raise ValueError(
                 f"name = {name!r} already on cache. "
                 "Please, choose a different name or set name = None. "
@@ -82,7 +87,11 @@ def import_gds(
         for layer_in_gds, polys in polygons.items():
             component.add_polygon(polys, layer=layer_in_gds)
 
-        component = avoid_duplicated_cells(component)
+        component.name = (
+            get_name_short(f"{component.name}_{gdshash}")
+            if safe_cell_names
+            else get_name_short(component.name)
+        )
 
     else:
         D_list = []
@@ -105,7 +114,11 @@ def import_gds(
                 )
                 label_ref.anchor = label.anchor
 
-            D = avoid_duplicated_cells(D)
+            D.name = (
+                get_name_short(f"{D.name}_{gdshash}")
+                if safe_cell_names
+                else get_name_short(D.name)
+            )
             D.unlock()
 
             cell_to_device.update({c: D})
