@@ -10,7 +10,7 @@ def test_import_first():
     gdspath1 = c1.write_gds("extra/mzi.gds")
 
     gf.clear_cache()
-    mzi1 = gf.import_gds(gdspath1)  # IMPORT
+    mzi1 = gf.import_gds(gdspath1, safe_cell_names=True)  # IMPORT
     c1 = gf.c.mzi_arms()  # BUILD
 
     c2 = gf.grid([mzi1, c1])
@@ -25,7 +25,7 @@ def test_build_first():
 
     gf.clear_cache()
     c1 = gf.c.mzi_arms()  # BUILD
-    mzi1 = gf.import_gds(gdspath1)  # IMPORT
+    mzi1 = gf.import_gds(gdspath1, safe_cell_names=True)  # IMPORT
 
     c2 = gf.grid([mzi1, c1])
     gdspath2 = c2.write_gds("extra/mzi2.gds")
@@ -61,9 +61,9 @@ def test_import_thrice():
 
 
 if __name__ == "__main__":
-    test_import_twice()
+    # test_import_twice()
     # test_build_first()
-    # test_import_first()
+    test_import_first()
 
     # gf.clear_cache()
     # c0 << gf.c.mzi_arms()
