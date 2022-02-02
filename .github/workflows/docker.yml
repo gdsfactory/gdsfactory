@@ -29,4 +29,4 @@ jobs:
         with:
           push: true
           tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:4.0.6
-          file: Dockerfile-dev
+          file: Dockerfile.dev
