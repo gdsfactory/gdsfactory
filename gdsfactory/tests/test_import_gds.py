@@ -16,7 +16,6 @@ def test_import_gds_snap_to_grid() -> None:
 def test_import_gds_hierarchy() -> gf.Component:
     c0 = gf.components.mzi_arms()
     gdspath = c0.write_gds()
-    gf.clear_cache()
 
     c = import_gds(gdspath)
     assert len(c.get_dependencies()) == 3, len(c.get_dependencies())
@@ -30,7 +29,6 @@ def test_import_ports() -> gf.Component:
     gdspath = c0.write_gds()
     c0x1 = c0.ports["o1"].x
     c0x2 = c0.ports["o2"].x
-    gf.clear_cache()
 
     c1 = import_gds(gdspath, decorator=add_ports_from_markers_inside)
     c1x1 = c1.ports["o1"].x

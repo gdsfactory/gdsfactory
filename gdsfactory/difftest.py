@@ -85,7 +85,7 @@ def difftest(
         logger.error(error)
         diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
         diff.write_gds(diff_file)
-        diff.show(show_ports=False, clear_cache=False)
+        diff.show(show_ports=False)
         print(
             "\n"
             + f"`{filename}` changed from reference {ref_file}\n"

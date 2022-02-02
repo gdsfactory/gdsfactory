@@ -30,7 +30,7 @@ def test_duplicated_cells_error():
     c3 << c2
 
     with pytest.raises(ValueError):
-        c3.write_gds("rectangles.gds")
+        c3.write_gds("rectangles.gds", on_duplicate_cell="error")
 
 
 if __name__ == "__main__":
