@@ -55,7 +55,7 @@ def bend_port(
 
     b.connect(port_name1_bend, ref.ports[port_name])
 
-    s = c << gf.c.straight(
+    s = c << gf.components.straight(
         length=extension_length, cross_section=cross_section, **kwargs
     )
     straight_ports = s.get_ports_list()
@@ -71,8 +71,8 @@ def bend_port(
 
 
 if __name__ == "__main__":
-    # c = gf.c.straight_pin()
-    # c = gf.c.straight_heater_metal()
+    # c = gf.components.straight_pin()
+    # c = gf.components.straight_heater_metal()
     # c = bend_port(component=c, port_name="e1")
-    c = bend_port(component=gf.c.mzi_phase_shifter)
+    c = bend_port(component=gf.components.mzi_phase_shifter)
     c.show()

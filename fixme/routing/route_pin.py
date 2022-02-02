@@ -12,8 +12,8 @@ if __name__ == "__main__":
     c = gf.Component()
 
     length = 50
-    s1 = c << gf.c.straight_pin(length=length)
-    s2 = c << gf.c.straight_pin(length=length)
+    s1 = c << gf.components.straight_pin(length=length)
+    s2 = c << gf.components.straight_pin(length=length)
 
     s2.move((100, 50))
 

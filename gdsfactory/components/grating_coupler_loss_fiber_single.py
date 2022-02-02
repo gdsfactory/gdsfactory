@@ -35,7 +35,7 @@ def grating_coupler_loss_fiber_single(
     )
 
     c << gf.routing.add_fiber_single(
-        component=gf.c.straight(cross_section=cross_section),
+        component=gf.components.straight(cross_section=cross_section),
         grating_coupler=grating_coupler,
         cross_section=cross_section,
         with_loopback=False,

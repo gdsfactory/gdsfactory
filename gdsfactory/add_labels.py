@@ -174,7 +174,7 @@ def add_labels(
 
 
 if __name__ == "__main__":
-    c = gf.c.mzi_phase_shifter()
+    c = gf.components.mzi_phase_shifter()
     # add_labels_ports(c, c.get_ports_list(port_type="electrical"), prefix="pad_")
     # from gdsfactory.tests.test_labels import test_add_labels_electrical
     # c = test_add_labels_optical()

@@ -6,11 +6,11 @@ from gdsfactory import geometry
 
 def test_import_first():
     c1 = gf.Component("parent")
-    c1 << gf.c.mzi_arms()
+    c1 << gf.components.mzi_arms()
     gdspath1 = c1.write_gds("extra/mzi.gds")
 
     mzi1 = gf.import_gds(gdspath1, safe_cell_names=True)  # IMPORT
-    c1 = gf.c.mzi_arms()  # BUILD
+    c1 = gf.components.mzi_arms()  # BUILD
 
     c2 = gf.grid([mzi1, c1])
     gdspath2 = c2.write_gds("extra/mzi2.gds")
@@ -19,10 +19,10 @@ def test_import_first():
 
 def test_build_first():
     c1 = gf.Component("parent")
-    c1 << gf.c.mzi_arms()
+    c1 << gf.components.mzi_arms()
     gdspath1 = c1.write_gds("extra/mzi.gds")
 
-    c1 = gf.c.mzi_arms()  # BUILD
+    c1 = gf.components.mzi_arms()  # BUILD
     mzi1 = gf.import_gds(gdspath1, safe_cell_names=True)  # IMPORT
 
     c2 = gf.grid([mzi1, c1])
@@ -32,7 +32,7 @@ def test_build_first():
 
 def test_import_twice():
     c0 = gf.Component("parent")
-    c0 << gf.c.mzi_arms()
+    c0 << gf.components.mzi_arms()
     gdspath1 = c0.write_gds("extra/mzi.gds")
 
     c1 = gf.import_gds(gdspath1)  # IMPORT
@@ -46,7 +46,7 @@ def test_import_twice():
 
 def test_import_thrice():
     c0 = gf.Component("parent")
-    c0 << gf.c.mzi_arms()
+    c0 << gf.components.mzi_arms()
     gdspath1 = c0.write_gds("extra/mzi.gds")
 
     c = gf.Component()
@@ -65,12 +65,12 @@ if __name__ == "__main__":
     test_import_thrice()
 
     # gf.clear_cache()
-    # c0 << gf.c.mzi_arms()
+    # c0 << gf.components.mzi_arms()
 
     # gdspath1 = c0.write_gds("extra/mmi.gds")
 
     # c = gf.Component("parent")
-    # c0 = gf.c.mmi1x2()
+    # c0 = gf.components.mmi1x2()
     # gdspath1 = "extra/mmi.gds"
     # c1 = gf.import_gds(gdspath1)  # IMPORT
     # c2 = gf.import_gds(gdspath1)  # IMPORT

@@ -44,7 +44,7 @@ def straight_pin(
         taper = taper() if callable(taper) else taper
         length -= 2 * taper.get_ports_xsize()
 
-    wg = c << gf.c.straight(
+    wg = c << gf.components.straight(
         cross_section=cross_section,
         length=length,
         **kwargs,
