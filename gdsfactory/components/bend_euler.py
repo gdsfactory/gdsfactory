@@ -180,7 +180,7 @@ def _compare_bend_euler90():
     c = gf.Component()
     radius = 10
     b1 = bend_euler(radius=radius)
-    b2 = gf.c.bend_circular(radius=radius)
+    b2 = gf.components.bend_circular(radius=radius)
 
     print(b1.info.length)
     print(b2.info.length)

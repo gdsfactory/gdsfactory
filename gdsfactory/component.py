@@ -1764,8 +1764,8 @@ def test_bbox_reference():
     import gdsfactory as gf
 
     c = gf.Component("component_with_offgrid_polygons")
-    c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    c2 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2.xmin = c1.xmax
 
     assert c2.xsize == 2e-3
@@ -1775,7 +1775,7 @@ def test_bbox_reference():
 def test_bbox_component():
     import gdsfactory as gf
 
-    c = gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c = gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     assert c.xsize == 2e-3
 
 
@@ -1798,19 +1798,19 @@ if __name__ == "__main__":
     show(p)
 
     # c = gf.Component("component_with_offgrid_polygons")
-    # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    # c2 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    # c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    # c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     # c2.xmin = c1.xmax
     # c.show()
 
     # c = gf.Component("component_with_offgrid_polygons")
-    # c1 = c << gf.c.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
-    # c2 = c << gf.c.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
+    # c1 = c << gf.components.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
+    # c2 = c << gf.components.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
     # print(c1.xmax)
     # c2.xmin = c1.xmax
     # c.show()
 
-    # c2 = gf.c.mzi()
+    # c2 = gf.components.mzi()
     # c2.show(show_subports=True)
     # c2.write_gds_with_metadata("a.gds")
     # print(c)

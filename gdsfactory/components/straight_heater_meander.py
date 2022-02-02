@@ -53,20 +53,20 @@ def straight_heater_meander(
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
-    straight = gf.c.straight(
+    straight = gf.components.straight(
         length=straight_length - 2 * taper_length, cross_section=cross_section1
     )
 
     taper = gf.partial(
-        gf.c.taper_cross_section_linear,
+        gf.components.taper_cross_section_linear,
         cross_section1=cross_section1,
         cross_section2=cross_section2,
         length=taper_length,
     )
 
-    straight_with_tapers = gf.c.extend_ports(straight, extension_factory=taper)
+    straight_with_tapers = gf.components.extend_ports(straight, extension_factory=taper)
 
-    straight_array = c << gf.c.array(
+    straight_array = c << gf.components.array(
         straight_with_tapers, spacing=(0, spacing), columns=1, rows=rows
     )
 
@@ -87,8 +87,12 @@ def straight_heater_meander(
         )
         c.add(route.references)
 
-    straight1 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
-    straight2 = c << gf.c.straight(length=extension_length, cross_section=cross_section)
+    straight1 = c << gf.components.straight(
+        length=extension_length, cross_section=cross_section
+    )
+    straight2 = c << gf.components.straight(
+        length=extension_length, cross_section=cross_section
+    )
     straight1.connect("o2", straight_array.ports["o1_1_1"])
     straight2.connect("o1", straight_array.ports[f"o2_{rows}_1"])
 
@@ -100,7 +104,7 @@ def straight_heater_meander(
             gf.cross_section.cross_section, width=heater_width, layer=layer_heater
         )
 
-        heater = c << gf.c.straight(
+        heater = c << gf.components.straight(
             length=straight_length,
             cross_section=heater_cross_section,
         )
@@ -125,7 +129,7 @@ def straight_heater_meander(
         )
 
         if heater_taper_length:
-            taper = gf.c.taper(
+            taper = gf.components.taper(
                 cross_section=heater_cross_section,
                 width1=contactw.ports["e1"].width,
                 width2=heater_width,
@@ -151,7 +155,7 @@ if __name__ == "__main__":
     # p2 = gf.Port(midpoint=(0, spacing), orientation=0)
     # route = gf.routing.get_route(p1, p2)
     # straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
-    # straight_array = c << gf.c.array(spacing=(0, spacing), columns=1, rows=rows)
+    # straight_array = c << gf.components.array(spacing=(0, spacing), columns=1, rows=rows)
 
     # for row in range(1, rows, 2):
     #     route = gf.routing.get_route(

@@ -353,7 +353,7 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     c = gf.components.mzi_phase_shifter()
     c = add_grating_couplers_with_loopback_fiber_single(component=c, rotation=0)
-    # c = gf.c.spiral_inner_io()
+    # c = gf.components.spiral_inner_io()
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 

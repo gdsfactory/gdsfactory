@@ -246,8 +246,8 @@ if __name__ == "__main__":
     # cc.show()
 
     c = gf.Component()
-    p1 = c << gf.c.pad_array270()
-    p2 = c << gf.c.pad_array90()
+    p1 = c << gf.components.pad_array270()
+    p2 = c << gf.components.pad_array90()
 
     p1.movex(300)
     p1.movey(300)

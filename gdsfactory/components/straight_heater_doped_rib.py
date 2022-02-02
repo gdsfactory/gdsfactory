@@ -107,7 +107,7 @@ def straight_heater_doped_rib(
         )
         length -= taper.get_ports_xsize() * 2
 
-    wg = c << gf.c.straight(
+    wg = c << gf.components.straight(
         cross_section=cross_section_heater,
         length=snap_to_grid(length),
     )

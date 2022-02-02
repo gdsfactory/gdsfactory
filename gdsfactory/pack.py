@@ -272,7 +272,7 @@ if __name__ == "__main__":
         [gf.components.triangle(x=i) for i in range(1, 10)],
         spacing=20.0,
         max_size=(100, 100),
-        text=gf.partial(gf.c.text, justify="center"),
+        text=gf.partial(gf.components.text, justify="center"),
         text_prefix="R",
         name_prefix="demo",
         text_anchor="nc",

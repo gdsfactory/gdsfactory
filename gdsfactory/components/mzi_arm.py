@@ -80,6 +80,6 @@ def mzi_arm(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = mzi_arm(straight_x=gf.c.straight_heater_metal)
+    c = mzi_arm(straight_x=gf.components.straight_heater_metal)
     c.pprint_ports()
     c.show()

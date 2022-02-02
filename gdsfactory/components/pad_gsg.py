@@ -30,7 +30,7 @@ def pad_gsg_short(
         pad_spacing: in um
     """
     c = gf.Component()
-    sig = gf.c.rectangle(size=size, layer=layer_metal).ref()
+    sig = gf.components.rectangle(size=size, layer=layer_metal).ref()
 
     gnd_top = c << contact(size=size)
     sig = contact(size=size)
@@ -44,7 +44,7 @@ def pad_gsg_short(
     gnd_top.movex(-metal_spacing)
     gnd_bot.movex(-metal_spacing)
 
-    pads = c << gf.c.array(pad(), columns=1, rows=3, spacing=(0, pad_spacing))
+    pads = c << gf.components.array(pad(), columns=1, rows=3, spacing=(0, pad_spacing))
     pads.xmin = sig.xmax + 50
     pads.y = 0
 
