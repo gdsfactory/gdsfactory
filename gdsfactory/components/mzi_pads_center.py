@@ -71,7 +71,7 @@ def mzi_pads_center(
             raise ValueError(f"port {port_name!r} not in {port_names}")
 
     m = c << mzi_ps
-    pads = c << gf.c.array(component=pad, columns=3, rows=1)
+    pads = c << gf.components.array(component=pad, columns=3, rows=1)
     pads.x = m.x
     pads.y = m.y
 
@@ -79,7 +79,7 @@ def mzi_pads_center(
         m.ports[mzi_sig_bot],
         pads.ports[pad_sig_bot],
         cross_section=cross_section_metal,
-        bend=gf.c.wire_corner,
+        bend=gf.components.wire_corner,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         width=metal_route_width,
@@ -90,7 +90,7 @@ def mzi_pads_center(
         m.ports[mzi_gnd_bot],
         pads.ports[pad_gnd_bot],
         cross_section=cross_section_metal,
-        bend=gf.c.wire_corner,
+        bend=gf.components.wire_corner,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         width=metal_route_width,
@@ -100,7 +100,7 @@ def mzi_pads_center(
         m.ports[mzi_gnd_top],
         pads.ports[pad_gnd_top],
         cross_section=cross_section_metal,
-        bend=gf.c.wire_corner,
+        bend=gf.components.wire_corner,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         width=metal_route_width,
@@ -111,7 +111,7 @@ def mzi_pads_center(
         m.ports[mzi_sig_top],
         pads.ports[pad_sig_top],
         cross_section=cross_section_metal,
-        bend=gf.c.wire_corner,
+        bend=gf.components.wire_corner,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         width=metal_route_width,

@@ -21,9 +21,9 @@ def test_partial_function_with_kwargs():
 
 
 def test_partial_function_without_kwargs():
-    r1 = gf.partial(gf.c.rectangle, size=(4, 2))
-    r2 = gf.partial(gf.c.rectangle, size=(4, 2))
-    r3 = gf.partial(gf.c.rectangle, (4, 2))
+    r1 = gf.partial(gf.components.rectangle, size=(4, 2))
+    r2 = gf.partial(gf.components.rectangle, size=(4, 2))
+    r3 = gf.partial(gf.components.rectangle, (4, 2))
 
     c1 = r1()
     c2 = r2()

@@ -171,7 +171,7 @@ def write_sparameters_lumerical(
     sim_settings.update(**settings)
     ss = SimulationSettings(**sim_settings)
 
-    component_extended = gf.c.extend_ports(
+    component_extended = gf.components.extend_ports(
         component, length=ss.distance_source_to_monitors
     )
 

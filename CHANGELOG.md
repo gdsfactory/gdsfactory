@@ -393,14 +393,14 @@
 - add kwarg `auto_rename_ports=True` to `add_ports_from_markers_center`
 - mzi length_x is optional and defaults to straight_x_bot/top defaults
 - change mzi_phase_shifter straight_x = None, to match phase shifter footprint
-- replace gf.c.mzi_phase_shifter_90_90 with gf.c.mzi_phase_shifter_top_heater_metal
+- replace gf.components.mzi_phase_shifter_90_90 with gf.components.mzi_phase_shifter_top_heater_metal
 
 ## 3.8.1
 
 - add `gf.components.mzi` as a more robust implementation for the MZI
 - rename `gf.components.mzi` to `gf.components.mzi_arms`
 - expose `toolz.compose` as `gf.compose`
-- add `gf.c.mzi1x2`, `mzi1x2_2x2`, `mzi_coupler`
+- add `gf.components.mzi1x2`, `mzi1x2_2x2`, `mzi_coupler`
 
 ## 3.8.0
 

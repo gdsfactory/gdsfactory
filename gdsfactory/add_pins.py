@@ -435,7 +435,7 @@ def add_pins_to_references(
 
 
 def test_add_pins() -> None:
-    c1 = gf.c.straight(length=2)
+    c1 = gf.components.straight(length=2)
     c2 = add_pins_container(component=c1)
 
     p1 = len(c1.get_polygons())
@@ -449,7 +449,7 @@ if __name__ == "__main__":
     # c = test_add_pins()
     # c.show()
 
-    # c = gf.c.straight(length=2)
+    # c = gf.components.straight(length=2)
     # c = add_pins_container(component=c)
 
     # c.show(show_ports_suborts=True)
@@ -460,9 +460,9 @@ if __name__ == "__main__":
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
 
-    # c1 = gf.c.straight_heater_metal(length=2)
+    # c1 = gf.components.straight_heater_metal(length=2)
     # c2 = add_pins_to_references(c1)
-    c = gf.c.ring_single()
+    c = gf.components.ring_single()
     # cc = add_pins_to_references(component=c)
     # cc.show(show_ports=False)
     c.show(show_subports=True)

@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 def test_port_by_orientation() -> gf.Component:
-    c = gf.c.nxn(west=1, north=2, east=3, south=4)
+    c = gf.components.nxn(west=1, north=2, east=3, south=4)
     p = c.port_by_orientation_cw(key="W0")
     assert p.name == "o1"
     return c
@@ -10,7 +10,7 @@ def test_port_by_orientation() -> gf.Component:
 
 def test_port_by_orientation_ref() -> gf.Component:
     c = gf.Component()
-    nxn = gf.c.nxn(west=1, north=2, east=3, south=4)
+    nxn = gf.components.nxn(west=1, north=2, east=3, south=4)
     ref = c << nxn
     ref.rotate(+90)
     c.add_ports(ref.ports)
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # p = ref.port_by_orientation_cw(key="W0")
     # c.show()
 
-    c = gf.c.nxn(west=1, north=2, east=3, south=4)
+    c = gf.components.nxn(west=1, north=2, east=3, south=4)
     p = c.port_by_orientation_cw(key="W0")
     c.pprint_ports()
     c.show()

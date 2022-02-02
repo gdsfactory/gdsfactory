@@ -51,7 +51,7 @@ def get_bundle_from_steps(
 
         c = gf.Component("get_route_from_steps_sample")
         w = gf.components.array(
-            gf.partial(gf.c.straight, layer=(2, 0)),
+            gf.partial(gf.components.straight, layer=(2, 0)),
             rows=3,
             columns=1,
             spacing=(0, 50),
@@ -155,7 +155,7 @@ def _demo():
     c = gf.Component("get_route_from_steps_sample")
 
     w = gf.components.array(
-        gf.partial(gf.c.straight, layer=(2, 0)),
+        gf.partial(gf.components.straight, layer=(2, 0)),
         rows=3,
         columns=1,
         spacing=(0, 50),
@@ -183,10 +183,13 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.Component("pads_bundle_steps")
-    pt = c << gf.c.pad_array(
-        gf.partial(gf.c.pad, size=(30, 30)), orientation=270, columns=3, spacing=(50, 0)
+    pt = c << gf.components.pad_array(
+        gf.partial(gf.components.pad, size=(30, 30)),
+        orientation=270,
+        columns=3,
+        spacing=(50, 0),
     )
-    pb = c << gf.c.pad_array(orientation=90, columns=3)
+    pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((300, 500))
 
     routes = gf.routing.get_bundle_from_steps_electrical(

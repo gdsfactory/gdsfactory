@@ -63,8 +63,8 @@ def route_quad(
 
 if __name__ == "__main__":
     c = gf.Component()
-    mzi = c << gf.c.mzi_phase_shifter()
-    pads = c << gf.c.array(component=gf.c.pad, columns=3)
+    mzi = c << gf.components.mzi_phase_shifter()
+    pads = c << gf.components.array(component=gf.components.pad, columns=3)
     pads.ymin = mzi.ymax + 30
 
     pads.movex(-pads.size_info.sc[0])

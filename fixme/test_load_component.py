@@ -19,7 +19,7 @@ def test_load_component_settings(data_regression: DataRegressionFixture) -> None
 
 def test_load_component_with_settings():
     """Ensures we can load it from GDS + YAML and get the same component settings"""
-    c1 = gf.c.straight(length=1.234)
+    c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
     c2 = gf.import_gds(gdspath)
@@ -31,7 +31,7 @@ def test_load_component_with_settings():
 
 
 def _write_gds():
-    c = gf.c.straight(length=1.234)
+    c = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c.write_gds_with_metadata(gdspath)
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     # test_load_component_settings()
     test_load_component_with_settings()
 
-    # c1 = gf.c.straight()
+    # c1 = gf.components.straight()
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
 
     # c2 = gf.import_gds(gdspath)

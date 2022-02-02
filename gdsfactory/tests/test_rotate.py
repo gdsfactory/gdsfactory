@@ -2,10 +2,10 @@ import gdsfactory as gf
 
 
 def test_rotate():
-    c1 = gf.c.straight()
+    c1 = gf.components.straight()
     c1r = c1.rotate()
 
-    c2 = gf.c.straight()
+    c2 = gf.components.straight()
     c2r = c2.rotate()
 
     assert c1.uid == c2.uid
@@ -13,10 +13,10 @@ def test_rotate():
 
 
 if __name__ == "__main__":
-    c1 = gf.c.straight()
+    c1 = gf.components.straight()
     c1r = c1.rotate()
 
-    c2 = gf.c.straight()
+    c2 = gf.components.straight()
     c2r = c2.rotate()
 
     assert c1.uid == c2.uid

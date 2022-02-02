@@ -295,7 +295,7 @@ def straight_with_pins(**kwargs):
     import gdsfactory as gf
 
     c = gf.Component()
-    ref = c << gf.c.straight()
+    ref = c << gf.components.straight()
     c.add_ports(ref.ports)
     gf.add_pins(c)
     return c
@@ -307,8 +307,8 @@ if __name__ == "__main__":
     # print(c.info.changed)
 
     # import gdsfactory as gf
-    # c = gf.c.straight()
-    # c = gf.c.straight()
+    # c = gf.components.straight()
+    # c = gf.components.straight()
     # print(c.name)
 
     print(wg(length=3).name)
