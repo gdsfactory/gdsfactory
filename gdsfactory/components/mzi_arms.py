@@ -156,21 +156,21 @@ if __name__ == "__main__":
     # print(delta_length)
     # c = mzi_arms(delta_length=delta_length, with_splitter=False)
     # c.pprint_netlist()
-    mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
+    mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
     c = mzi_arms(delta_length=10, combiner=mmi2x2)
     c.show()
 
     def bend_s(length: float = 10, **kwargs):
-        return gf.c.bend_s(size=(length, 10), **kwargs)
+        return gf.components.bend_s(size=(length, 10), **kwargs)
 
     # c = mzi_arms(
     #     delta_length=50,
     #     # straight_x_top=bend_s,
     #     # straight_x_bot=gf.compose(gf.functions.mirror, bend_s),
-    #     # straight_x_top=gf.c.straight_heater_meander,
-    #     # straight_x_bot=gf.c.straight_heater_meander,
-    #     # straight_x_top=gf.c.straight_heater_metal,
-    #     # straight_x_bot=gf.c.straight_heater_metal,
+    #     # straight_x_top=gf.components.straight_heater_meander,
+    #     # straight_x_bot=gf.components.straight_heater_meander,
+    #     # straight_x_top=gf.components.straight_heater_metal,
+    #     # straight_x_bot=gf.components.straight_heater_metal,
     #     # length_x=300,
     #     # delta_yright=-20,
     #     # length_x_bot=300,

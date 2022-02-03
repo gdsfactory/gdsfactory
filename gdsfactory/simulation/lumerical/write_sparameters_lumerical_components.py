@@ -1,23 +1,25 @@
 """Write Sparameters with for different components."""
 from typing import Optional
 
+from tqdm import tqdm
+
 from gdsfactory.simulation.lumerical.write_sparameters_lumerical import (
     write_sparameters_lumerical,
 )
-from gdsfactory.types import ComponentFactoryDict
+from gdsfactory.types import ComponentOrFactory, List
 
 
-def write_sparameters_components_lumerical(
-    factory: ComponentFactoryDict,
+def write_sparameters_lumerical_components(
+    components: List[ComponentOrFactory],
     run: bool = False,
     session: Optional[object] = None,
     **kwargs,
 ) -> None:
-    """Writes component Sparameters using Lumerical FDTD.
+    """Writes Sparameters for a list of components using Lumerical FDTD.
 
     Args:
-        factory: dict of component functions to simulate.
-        run: if False, does not run and prompts you to review each simulation
+        factory: list of component or component functions to simulate.
+        run: if False, does not run and prompts you to review each simulation.
         session: lumapi.FDTD() Lumerical FDTD session
 
     Keyword Args:
@@ -28,18 +30,18 @@ def write_sparameters_components_lumerical(
     session = session or lumapi.FDTD()
     need_review = []
 
-    for component_name in factory.keys():
-        component = factory[component_name]()
+    for component in tqdm(components):
+        component = component() if callable(component) else component
         write_sparameters_lumerical(component, run=run, session=session, **kwargs)
         if not run:
             response = input(
-                f"does the simulation for {component_name} look good? (y/n)"
+                f"does the simulation for {component.name} look good? (y/n)"
             )
             if response.upper()[0] == "N":
-                need_review.append(component_name)
+                need_review.append(component.name)
 
 
 if __name__ == "__main__":
     from gdsfactory.components import _factory_passives
 
-    write_sparameters_components_lumerical(factory=_factory_passives)
+    write_sparameters_lumerical_components(factory=_factory_passives.values())

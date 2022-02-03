@@ -153,7 +153,7 @@ def extend_ports(
                 extension_component = extension_factory()
             else:
                 extension_component = gf.partial(
-                    gf.c.straight,
+                    gf.components.straight,
                     length=length,
                     width=port.width,
                     cross_section=cross_section_extension,
@@ -196,7 +196,7 @@ def test_extend_ports() -> Component:
     p = len(c3.polygons)
     assert p == 4, p
 
-    c4 = extend_ports(gf.c.cross(port_type="optical"))
+    c4 = extend_ports(gf.components.cross(port_type="optical"))
     p = len(c4.polygons)
     assert p == 4, p
 
@@ -208,13 +208,13 @@ __all__ = ["extend_ports", "extend_port"]
 
 if __name__ == "__main__":
     # c = extend_ports()
-    # c = extend_ports(gf.c.mzi_phase_shifter_top_heater_metal)
+    # c = extend_ports(gf.components.mzi_phase_shifter_top_heater_metal)
     c = test_extend_ports()
 
-    # c = extend_ports(gf.c.cross(port_type="optical"))
+    # c = extend_ports(gf.components.cross(port_type="optical"))
     c.show()
 
-    # c = gf.c.bend_circular()
+    # c = gf.components.bend_circular()
     # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
     # ce.show()
 

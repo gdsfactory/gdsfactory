@@ -105,12 +105,14 @@ def test_get_bundle_from_waypoints_staggered(
 ):
 
     c = gf.Component()
-    r = c << gf.c.array(component=gf.c.straight, rows=2, columns=1, spacing=(0, 20))
+    r = c << gf.components.array(
+        component=gf.components.straight, rows=2, columns=1, spacing=(0, 20)
+    )
     r.movex(60)
     r.movey(40)
 
-    lt = c << gf.c.straight(length=15)
-    lb = c << gf.c.straight(length=5)
+    lt = c << gf.components.straight(length=15)
+    lb = c << gf.components.straight(length=5)
     lt.movey(5)
 
     ports1 = lt.get_ports_list(orientation=0) + lb.get_ports_list(orientation=0)

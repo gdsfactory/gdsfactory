@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 4.0.7
+
+- add progress bar to write_sparameters_lumerical_components
+
+## 4.0.4
+
+- modify the write_gds() function to fix the checking of duplicate cell names (recursively), and it also gives an option to choose how to handle duplicate cell names on write. It changes the default behavior to warn and overwrite duplicates, rather than throw an error. [PR](https://github.com/gdsfactory/gdsfactory/pull/174)
+- remove clear_cache in `show()`. Intermediate clearing of cache can cause errors in final gds export, by leaving two versions of the same cell lingering within subcells created before/after cache clearing.
+- remove clear_cache in some of the tests
+
+
+## 4.0.3
+
+- add `safe_cell_names` flag to gf.read.import_gds, append hash to imported cell names to avoid duplicated cell names.
+
 ## 4.0.2
 
 - move triangle into requirements_dev.txt. Now that there is wheels for python3.9 and 3.10 you can manage the dependency with pip.
@@ -31,7 +46,6 @@
 - rename `padding_north`, `padding_west`, `padding_east`, `padding_south` -> `ymargin_top`, `xmargin_left`, `xmargin_right`, `ymargin_bot` for consistency of the meep plugin with the Lumerical plugin.
 - add `write_sparameters_meep_lr` with left and right ports and `write_sparameters_meep_mpi_lt` with left and top ports
 - add xmargin and ymargin to write_sparameters_meep
-
 
 ## 3.12.7
 
@@ -67,7 +81,6 @@
 - recommend installing gdspy and meep with mamba (faster than conda)
 - rename w1 as width1 and w2 as width2 in find_neff_vs_width
 
-
 ## 3.11.4
 
 - Remove numpy.typing from snap.py to be compatible with minimum version of numpy
@@ -101,13 +114,13 @@
 
 ## 3.10.9
 
-- add tests for `write_sparameters_meep_mpi` and  `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
+- add tests for `write_sparameters_meep_mpi` and `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
 - `write_sparameters_meep_mpi` has `wait_to_finish` flag
 
 ## 3.10.8
 
 - improve meep simulation interface documentation and functions
-- expose new `write_sparameters_meep_mpi` and  `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
+- expose new `write_sparameters_meep_mpi` and `write_sparameters_meep_mpi_pool` in `gdsfactory.simulation.gmeep` module
 - `get_sparameters_path` can also accept a layer_stack
 
 ## 3.10.7
@@ -144,8 +157,8 @@
 
 - You can set up the default plotter from the gdsfactory config `gf.CONF.plotter = 'matplotlib'`
 - [PR 142](https://github.com/gdsfactory/gdsfactory/pull/142)
-    * dispersive flag to meep simulations
-    * fixed bug where adding a layer would throw an error if "visible" or "transparent" were undefined in the .lyp file
+  - dispersive flag to meep simulations
+  - fixed bug where adding a layer would throw an error if "visible" or "transparent" were undefined in the .lyp file
 - remove p_start (starting period) from grating_coupler_elliptical
 
 ## 3.10.0
@@ -384,14 +397,14 @@
 - add kwarg `auto_rename_ports=True` to `add_ports_from_markers_center`
 - mzi length_x is optional and defaults to straight_x_bot/top defaults
 - change mzi_phase_shifter straight_x = None, to match phase shifter footprint
-- replace gf.c.mzi_phase_shifter_90_90 with gf.c.mzi_phase_shifter_top_heater_metal
+- replace gf.components.mzi_phase_shifter_90_90 with gf.components.mzi_phase_shifter_top_heater_metal
 
 ## 3.8.1
 
 - add `gf.components.mzi` as a more robust implementation for the MZI
 - rename `gf.components.mzi` to `gf.components.mzi_arms`
 - expose `toolz.compose` as `gf.compose`
-- add `gf.c.mzi1x2`, `mzi1x2_2x2`, `mzi_coupler`
+- add `gf.components.mzi1x2`, `mzi1x2_2x2`, `mzi_coupler`
 
 ## 3.8.0
 

@@ -12,10 +12,10 @@ def test_cutback_phase(
     """Modulator sections connected by bends"""
     # Define sub components
     bend180 = gf.components.bend_circular180(radius=bend_radius)
-    pm_wg = gf.c.straight_pin(length=straight_length, taper=None)
+    pm_wg = gf.components.straight_pin(length=straight_length, taper=None)
     wg_short = straight(length=1.0)
     wg_short2 = straight(length=2.0)
-    wg_heater = gf.c.straight_pin(length=10.0, taper=None)
+    wg_heater = gf.components.straight_pin(length=10.0, taper=None)
     taper = taper_strip_to_ridge()
 
     # Define a map between symbols and (component, input port, output port)

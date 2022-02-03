@@ -46,8 +46,8 @@ def spiral_te(width: float = 0.5, length: int = 20e3) -> Component:
         width: waveguide width um
         length: um
     """
-    c = gf.c.spiral_inner_io(width=width, length=length)
-    ce = gf.c.extend_ports(c)
+    c = gf.components.spiral_inner_io(width=width, length=length)
+    ce = gf.components.extend_ports(c)
     cc = add_grating_couplers_with_loopback_fiber_array(
         component=ce,
         grating_coupler=gf.components.grating_coupler_elliptical_te,
@@ -66,8 +66,10 @@ def spiral_tm(width=0.5, length=20e3):
         width: waveguide width um
         length: um
     """
-    c = gf.c.spiral_inner_io(width=width, length=length, waveguide_spacing=10, N=5)
-    ce = gf.c.extend_ports(c)
+    c = gf.components.spiral_inner_io(
+        width=width, length=length, waveguide_spacing=10, N=5
+    )
+    ce = gf.components.extend_ports(c)
     cc = add_grating_couplers_with_loopback_fiber_array(
         component=ce,
         grating_coupler=gf.components.grating_coupler_elliptical_tm,

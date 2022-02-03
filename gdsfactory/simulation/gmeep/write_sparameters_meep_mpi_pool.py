@@ -180,7 +180,7 @@ write_sparameters_meep_mpi_pool_lt = gf.partial(
 if __name__ == "__main__":
     jobs = [
         {
-            "component": gf.c.straight(length=i),
+            "component": gf.components.straight(length=i),
             "run": True,
             "overwrite": True,
             "lazy_parallelism": False,

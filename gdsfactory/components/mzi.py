@@ -178,8 +178,8 @@ if __name__ == "__main__":
     # print(delta_length)
     # c = mzi(delta_length=delta_length, with_splitter=False)
     # c.pprint_netlist()
-    # mmi2x2 = gf.partial(gf.c.mmi2x2, width_mmi=5, gap_mmi=2)
-    # c = mzi(delta_length=10, combiner=gf.c.mmi1x2, splitter=mmi2x2)
+    # mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
+    # c = mzi(delta_length=10, combiner=gf.components.mmi1x2, splitter=mmi2x2)
 
     # c = mzi1x2_2x2()
     # c = mzi_coupler(length_x=5)
@@ -190,10 +190,10 @@ if __name__ == "__main__":
 
     c = mzi(
         delta_length=100,
-        straight_x_top=gf.c.straight_heater_meander,
-        # straight_x_bot=gf.c.straight_heater_meander,
-        # straight_x_top=gf.c.straight_heater_metal,
-        # straight_x_bot=gf.c.straight_heater_metal,
+        straight_x_top=gf.components.straight_heater_meander,
+        # straight_x_bot=gf.components.straight_heater_meander,
+        # straight_x_top=gf.components.straight_heater_metal,
+        # straight_x_bot=gf.components.straight_heater_metal,
         # length_x=None,
         length_x=None,
         # length_y=1.8,

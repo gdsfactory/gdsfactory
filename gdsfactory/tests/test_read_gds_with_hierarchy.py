@@ -23,7 +23,7 @@ def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None
 
 def test_read_gds_equivalent2():
     """Ensures we can load it from GDS + YAML and get the same component settings"""
-    c1 = gf.c.mzi()
+    c1 = gf.components.mzi()
     c2 = gf.import_gds(gdspath)
 
     d1 = c1.to_dict()
@@ -56,14 +56,14 @@ def test_mix_cells_from_gds_and_from_function2():
     with @cell decorator
     """
     c = gf.Component("test_mix_cells_from_gds_and_from_function")
-    c << gf.c.mzi()
+    c << gf.components.mzi()
     c << gf.import_gds(gdspath)
     c.write_gds()
     c.show()
 
 
 def _write():
-    c1 = gf.c.mzi()
+    c1 = gf.components.mzi()
     c1.name = "mzi_gds"
     c1.write_gds_with_metadata(gdspath=gdspath)
     c1.show()
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     # test_read_gds_with_settings2()
     # test_read_gds_equivalent2()
 
-    # c1 = gf.c.mzi()
+    # c1 = gf.components.mzi()
     # c2 = gf.import_gds(gdspath)
     # d1 = c1.to_dict_config()
     # d2 = c2.to_dict_config()

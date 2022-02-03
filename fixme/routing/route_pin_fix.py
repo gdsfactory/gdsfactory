@@ -21,8 +21,8 @@ if __name__ == "__main__":
     c = gf.Component()
 
     length = 50
-    s1 = c << gf.c.straight(length=length)
-    s2 = c << gf.c.straight(length=length)
+    s1 = c << gf.components.straight(length=length)
+    s2 = c << gf.components.straight(length=length)
 
     xs_pin = gf.partial(gf.cross_section.pin, contact_width=3)
 
