@@ -2,6 +2,7 @@
 import warnings
 from typing import Optional
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pydantic
@@ -10,6 +11,7 @@ import tidy3d as td
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
+from gdsfactory.config import logger
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.tidy3d.materials import get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
@@ -28,14 +30,17 @@ def get_simulation(
     n_modes: int = 2,
     port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
-    zmargin: float = 1.0,
     thickness_pml: float = 1.0,
+    xmargin: float = 1.0,
+    ymargin: float = 1.0,
+    zmargin: float = 1.0,
     clad_material: str = "SiO2",
     port_source_name: str = "o1",
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
-    mesh_step: float = 40e-3,
+    resolution: float = 50,
     wavelength: float = 1.55,
+    plot_modes: bool = False,
 ) -> td.Simulation:
     """Returns Simulation object from gdsfactory.component
 
@@ -54,7 +59,7 @@ def get_simulation(
         port_source_name: input port name
         port_margin: margin on each side of the port
         distance_source_to_monitors: in (um) source goes before monitors
-        mesh_step: in all directions
+        resolution: grid_size=3*[1/resolution]
         wavelength: in (um)
 
     You can visualize the simulation with gdsfactory
@@ -121,8 +126,8 @@ def get_simulation(
     t_core = max(layers_thickness)
     cell_thickness = thickness_pml + t_core + thickness_pml + 2 * zmargin
     sim_size = [
-        component_ref.xsize + 2 * thickness_pml,
-        component_ref.ysize + 2 * thickness_pml,
+        component_ref.xsize + 2 * thickness_pml + xmargin,
+        component_ref.ysize + 2 * thickness_pml + ymargin,
         cell_thickness,
     ]
 
@@ -133,20 +138,23 @@ def get_simulation(
             z_cent = zmin + thickness / 2
             zmax = zmin + thickness
             material_name = MATERIAL_NAME_TO_TIDY3D[layer_to_material[layer]]
-            material = get_medium(name=material_name)
+            medium = get_medium(name=material_name)
+            logger.debug(f"Add {layer}, thickness = {thickness}, z = {z_cent}")
 
-            poly = td.PolySlab.from_gds(
-                gds_cell=component_extended_ref,
-                gds_layer=layer[0],
-                gds_dtype=layer[1],
-                axis=2,
-                slab_bounds=(zmin, zmax),
-            )
-            geometry = td.Structure(
-                geometry=poly,
-                material=material,
-            )
-            structures.append(geometry)
+            for polygon_index in range(len(component_extended.get_polygons())):
+                poly = td.PolySlab.from_gds(
+                    gds_cell=component_extended_ref,
+                    gds_layer=layer[0],
+                    gds_dtype=layer[1],
+                    axis=2,
+                    slab_bounds=(zmin, zmax),
+                    polygon_index=polygon_index,
+                )
+                geometry = td.Structure(
+                    geometry=poly,
+                    medium=medium,
+                )
+                structures.append(geometry)
 
     # Add source
     port = component_ref.ports[port_source_name]
@@ -156,17 +164,18 @@ def get_simulation(
     size_y = width * abs(np.cos(angle * np.pi / 180))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
-    size_z = cell_thickness - 2 * thickness_pml
-    size = [size_x, size_y, size_z]
-    center = port.center.tolist() + [0]  # (x, y, z=0)
+    size_z = cell_thickness - 2 * zmargin
+
+    source_size = [size_x, size_y, size_z]
+    source_center = port.center.tolist() + [0]  # (x, y, z=0)
     freq0 = td.constants.C_0 / wavelength
     fwidth = freq0 / 10
 
     msource = td.ModeSource(
-        size=size,
-        center=center,
-        source_time=td.GaussianPulse(frequency=freq0, fwidth=fwidth),
-        direction="forward",
+        size=source_size,
+        center=source_center,
+        source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
+        direction="+",
     )
 
     # Add port monitors
@@ -190,29 +199,55 @@ def get_simulation(
         center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
         monitors[port_name] = td.ModeMonitor(
-            center=[port.x, port.y, t_core / 2],
+            center=center,
             size=size,
             freqs=[freq0],
-            Nmodes=1,
+            mode_spec=td.ModeSpec(num_modes=1),
             name=port.name,
         )
 
-    domain_monitor = td.FreqMonitor(
-        center=[0, 0, z_cent], size=[sim_size[0], sim_size[1], 0], freqs=[freq0]
+    domain_monitor = td.FieldMonitor(
+        center=[0, 0, z_cent],
+        size=[sim_size[0], sim_size[1], 0],
+        freqs=[freq0],
+        name="field",
     )
 
     sim = td.Simulation(
         size=sim_size,
-        mesh_step=mesh_step,
+        grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[msource],
         monitors=[domain_monitor] + list(monitors.values()),
         run_time=20 / fwidth,
-        pml_layers=[12, 12, 12],
+        pml_layers=3 * [td.PML()],
     )
-    # set the modes
-    sim.compute_modes(msource, Nmodes=n_modes)
-    sim.set_mode(msource, mode_ind=mode_index)
+
+    if plot_modes:
+        src_plane = td.Box(center=source_center, size=source_size)
+        ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
+        mode_spec = td.ModeSpec(num_modes=3)
+        modes = ms.solve(mode_spec=mode_spec)
+
+        print(
+            "Effective index of computed modes: ",
+            ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
+        )
+
+        fig, axs = plt.subplots(3, 2, figsize=(12, 12))
+        for mode_ind in range(3):
+            abs(modes[mode_ind].field_data.Ey).plot(
+                x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
+            )
+            abs(modes[mode_ind].field_data.Ez).plot(
+                x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
+            )
+            axs[mode_ind, 0].set_aspect("equal")
+            axs[mode_ind, 1].set_aspect("equal")
+        plt.show()
+    # else:
+    #     sim.compute_modes(msource, Nmodes=n_modes)
+    #     sim.set_mode(msource, mode_ind=mode_index)
     return sim
 
 
@@ -267,19 +302,19 @@ def plot_materials(
 
 
 if __name__ == "__main__":
-    c = gf.components.mmi1x2()
-    c = gf.add_padding_container(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-
-    # c = gf.add_padding_container(c, default=0, bottom=2, right=2, layers=[(100, 0)])
-
+    # c = gf.components.mmi1x2()
     # c = gf.add_padding_container(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-    # c = gf.components.straight(length=2)
-
     c = gf.components.bend_circular(radius=2)
 
-    sim = get_simulation(c)
-    # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
-    # sim.viz_eps_2D(normal="z", position=0, ax=ax1)
-    # sim.viz_eps_2D(normal="x", ax=ax2, source_alpha=1)
-    # ax2.set_xlim([-3, 3])
-    plot_simulation(sim)
+    plot_modes = True
+    plot_modes = False
+    sim = get_simulation(c, plot_modes=plot_modes)
+    # plot_simulation(sim)
+
+    fig = plt.figure(figsize=(11, 4))
+    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax2 = fig.add_subplot(gs[0, 1])
+    sim.plot(z=0.0, ax=ax1)
+    sim.plot(y=0.0, ax=ax2)
+    plt.show()
