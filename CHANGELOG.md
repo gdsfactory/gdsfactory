@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.7
+
+- add progress bar to write_sparameters_lumerical_components
+
 ## 4.0.4
 
 - modify the write_gds() function to fix the checking of duplicate cell names (recursively), and it also gives an option to choose how to handle duplicate cell names on write. It changes the default behavior to warn and overwrite duplicates, rather than throw an error. [PR](https://github.com/gdsfactory/gdsfactory/pull/174)
