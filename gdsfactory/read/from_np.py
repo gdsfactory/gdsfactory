@@ -58,9 +58,9 @@ def from_np(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c1 = gf.c.straight()
-    c1 = gf.c.bend_circular()
-    c1 = gf.c.ring_single()
+    c1 = gf.components.straight()
+    c1 = gf.components.bend_circular()
+    c1 = gf.components.ring_single()
     img = gf.export.to_np(c1)
     c2 = from_np(img)
     c2.show()

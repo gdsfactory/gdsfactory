@@ -87,7 +87,7 @@ if __name__ == "__main__":
             width=metal_width,
             separation=metal_spacing,
             cross_section=cross_section,
-            bend=gf.c.wire_corner,
+            bend=gf.components.wire_corner,
             radius=0.1,
         )
 

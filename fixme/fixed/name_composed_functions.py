@@ -8,14 +8,20 @@ import toolz
 import gdsfactory as gf
 
 
-extend_ports1 = gf.partial(gf.c.extend_ports, length=1)
-extend_ports2 = gf.partial(gf.c.extend_ports, length=10)
+extend_ports1 = gf.partial(gf.components.extend_ports, length=1)
+extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
 
 
-straigth_extended1 = toolz.compose(extend_ports1, gf.partial(gf.c.straight, width=0.5))
+straigth_extended1 = toolz.compose(
+    extend_ports1, gf.partial(gf.components.straight, width=0.5)
+)
 
-straigth_extended2 = toolz.compose(extend_ports2, gf.partial(gf.c.straight, width=0.9))
-straigth_extended3 = toolz.compose(extend_ports2, gf.partial(gf.c.straight, width=0.5))
+straigth_extended2 = toolz.compose(
+    extend_ports2, gf.partial(gf.components.straight, width=0.9)
+)
+straigth_extended3 = toolz.compose(
+    extend_ports2, gf.partial(gf.components.straight, width=0.5)
+)
 
 
 def test_compose1():

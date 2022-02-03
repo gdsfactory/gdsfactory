@@ -2,19 +2,15 @@ import pathlib
 from typing import Union
 
 from gdsfactory import klive
-from gdsfactory.cell import clear_cache as clear_cache_function
 from gdsfactory.component import Component
 from gdsfactory.config import logger
 
 
-def show(
-    component: Union[Component, str, pathlib.Path], clear_cache: bool = True, **kwargs
-) -> None:
+def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
     """Write GDS and show Component in klayout
 
     Args:
         component
-        clear_cache: clear_cache after showing the component
 
     Keyword Args:
         gdspath: GDS file path to write to.
@@ -42,5 +38,3 @@ def show(
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
         )
-    if clear_cache:
-        clear_cache_function()

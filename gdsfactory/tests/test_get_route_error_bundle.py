@@ -9,7 +9,7 @@ def test_route_error_bundle():
     c = gf.Component("get_route_from_steps_sample")
 
     w = gf.components.array(
-        gf.partial(gf.c.straight, layer=(2, 0)),
+        gf.partial(gf.components.straight, layer=(2, 0)),
         rows=3,
         columns=1,
         spacing=(0, 50),

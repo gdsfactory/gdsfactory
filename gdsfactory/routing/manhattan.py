@@ -516,7 +516,7 @@ def get_route_error(
     port1 = gf.Port(name="p1", midpoint=points[0], width=width)
     port2 = gf.Port(name="p2", midpoint=points[1], width=width)
 
-    point_marker = gf.c.rectangle(
+    point_marker = gf.components.rectangle(
         size=(width * 2, width * 2), centered=True, layer=layer_marker
     )
     point_markers = [point_marker.ref(position=point) for point in points] + [ref]
@@ -997,14 +997,14 @@ if __name__ == "__main__":
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
     # c = _demo_manhattan_fail()
-    # c = gf.c.straight()
+    # c = gf.components.straight()
     # c = gf.routing.add_fiber_array(c)
-    # c = gf.c.delay_snake()
+    # c = gf.components.delay_snake()
     # c.show()
 
     c = gf.Component("pads_route_from_steps")
-    pt = c << gf.c.pad_array(orientation=270, columns=3)
-    pb = c << gf.c.pad_array(orientation=90, columns=3)
+    pt = c << gf.components.pad_array(orientation=270, columns=3)
+    pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((100, 200))
     route = gf.routing.get_route_from_steps(
         pt.ports["e11"],

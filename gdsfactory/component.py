@@ -1330,6 +1330,7 @@ class Component(Device):
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
+        on_duplicate_cell: Optional[str] = "warn",
     ) -> Path:
         """Write component to GDS and returns gdspath
 
@@ -1341,6 +1342,11 @@ class Component(Device):
             timestamp: Defaults to 2019-10-25 for consistent hash.
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in klayout.
+            on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
+                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily)
+                "error": throw a ValueError when attempting to write a gds with duplicate cells
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning
+                None: do not try to resolve (at your own risk!)
 
         """
         gdsdir = pathlib.Path(gdsdir)
@@ -1349,7 +1355,7 @@ class Component(Device):
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
 
-        cells = self.get_dependencies()
+        cells = self.get_dependencies(recursive=True)
         cell_names = [cell.name for cell in list(cells)]
         cell_names_unique = set(cell_names)
 
@@ -1357,13 +1363,27 @@ class Component(Device):
             for cell_name in cell_names_unique:
                 cell_names.remove(cell_name)
 
-            cell_names_duplicated = "\n".join(set(cell_names))
-            raise ValueError(
-                f"Duplicated cell names in {self.name}:\n{cell_names_duplicated}"
-            )
+            if on_duplicate_cell == "error":
+                cell_names_duplicated = "\n".join(set(cell_names))
+                raise ValueError(
+                    f"Duplicated cell names in {self.name}:\n{cell_names_duplicated}"
+                )
+            elif on_duplicate_cell in {"warn", "overwrite"}:
+                if on_duplicate_cell == "warn":
+                    cell_names_duplicated = "\n".join(set(cell_names))
+                    warnings.warn(
+                        f"Duplicated cell names in {self.name}:\n{cell_names_duplicated}"
+                    )
+                cells_dict = {cell.name: cell for cell in cells}
+                cells = cells_dict.values()
+            elif on_duplicate_cell is None:
+                pass
+            else:
+                raise ValueError(
+                    f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
+                )
 
-        referenced_cells = list(self.get_dependencies(recursive=True))
-        all_cells = [self] + referenced_cells
+        all_cells = [self] + list(cells)
 
         no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
@@ -1744,8 +1764,8 @@ def test_bbox_reference():
     import gdsfactory as gf
 
     c = gf.Component("component_with_offgrid_polygons")
-    c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    c2 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     c2.xmin = c1.xmax
 
     assert c2.xsize == 2e-3
@@ -1755,7 +1775,7 @@ def test_bbox_reference():
 def test_bbox_component():
     import gdsfactory as gf
 
-    c = gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    c = gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     assert c.xsize == 2e-3
 
 
@@ -1778,19 +1798,19 @@ if __name__ == "__main__":
     show(p)
 
     # c = gf.Component("component_with_offgrid_polygons")
-    # c1 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
-    # c2 = c << gf.c.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    # c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
+    # c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     # c2.xmin = c1.xmax
     # c.show()
 
     # c = gf.Component("component_with_offgrid_polygons")
-    # c1 = c << gf.c.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
-    # c2 = c << gf.c.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
+    # c1 = c << gf.components.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
+    # c2 = c << gf.components.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
     # print(c1.xmax)
     # c2.xmin = c1.xmax
     # c.show()
 
-    # c2 = gf.c.mzi()
+    # c2 = gf.components.mzi()
     # c2.show(show_subports=True)
     # c2.write_gds_with_metadata("a.gds")
     # print(c)

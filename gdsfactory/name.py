@@ -172,8 +172,10 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     d = {
-        "X": gf.c.crossing45(port_spacing=40.0),
-        "-": gf.c.compensation_path(crossing45=gf.c.crossing45(port_spacing=40.0)),
+        "X": gf.components.crossing45(port_spacing=40.0),
+        "-": gf.components.compensation_path(
+            crossing45=gf.components.crossing45(port_spacing=40.0)
+        ),
     }
     d2 = clean_value(d)
     print(d2)

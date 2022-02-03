@@ -5,7 +5,7 @@ import gdsfactory as gf
 def rectangles(widths: gf.types.Floats) -> gf.Component:
     c = gf.Component()
     for width in widths:
-        c << gf.c.rectangle(size=(width, width))
+        c << gf.components.rectangle(size=(width, width))
 
     c.distribute()
     return c

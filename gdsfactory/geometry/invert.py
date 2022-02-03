@@ -51,7 +51,7 @@ def invert(
     gds_layer, gds_datatype = pg._parse_layer(layer)
 
     # Build the rectangle around the Component D
-    R = gf.c.rectangle(
+    R = gf.components.rectangle(
         size=(Temp.xsize + 2 * border, Temp.ysize + 2 * border), centered=True
     )
     R.center = Temp.center

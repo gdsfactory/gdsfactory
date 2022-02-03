@@ -36,7 +36,7 @@ if __name__ == "__main__":
     route = gf.routing.get_route_from_waypoints(
         [(0, 0), (300, 0), (300, 300), (-600, 300), (-600, -300)],
         cross_section=xs_pin_m1,
-        bend=gf.partial(gf.c.bend_euler, cross_section=xs_pin),
+        bend=gf.partial(gf.components.bend_euler, cross_section=xs_pin),
         taper=taper_pin,
         radius=30,
     )

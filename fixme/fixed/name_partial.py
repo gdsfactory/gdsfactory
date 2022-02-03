@@ -9,7 +9,7 @@ def straight_with_padding(padding: float = 3.0) -> gf.Component:
     Args:
         default: default padding on all sides
     """
-    c = gf.c.straight()
+    c = gf.components.straight()
     c.add_padding(default=padding)  # add padding to original cell
     return c
 
@@ -18,7 +18,7 @@ def straight_with_padding(padding: float = 3.0) -> gf.Component:
 def straight_with_padding_container(padding: float = 3.0) -> gf.Component:
     """Solution1: create new component (container)"""
     c = gf.Component()
-    component = gf.c.straight()
+    component = gf.components.straight()
     c << component
     c.add_padding(default=padding)
     c.copy_child_info(component)
@@ -32,7 +32,7 @@ def straight_with_padding_copy(padding: float = 3.0) -> gf.Component:
     Args:
         default: default padding on all sides
     """
-    c = gf.c.straight()
+    c = gf.components.straight()
     c = c.copy()
     c.add_padding(default=padding)  # add padding to original cell
     return c
