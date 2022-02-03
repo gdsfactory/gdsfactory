@@ -68,7 +68,7 @@ def difftest(
     if not ref_file.exists():
         component.write_gds(gdspath=ref_file)
         raise AssertionError(
-            f"Reference GDS file for {test_name} did not exist. Writing to {ref_file}"
+            f"Reference GDS file for {test_name!r} did not exist. Writing to {ref_file!r}"
         )
 
     if filecmp.cmp(ref_file, run_file, shallow=False):
