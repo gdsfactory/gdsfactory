@@ -2,7 +2,6 @@
 
 import concurrent.futures
 import hashlib
-import json
 import pathlib
 from typing import Awaitable, Optional
 
@@ -16,33 +15,30 @@ _executor = concurrent.futures.ThreadPoolExecutor()
 
 def _export_simulation(
     sim: td.Simulation,
-    task_name: Optional[str] = None,
+    task_name: str,
     folder_name: str = "default",
-    draft: bool = False,
 ) -> int:
-    """Exports simulation to web and returns task_id.
+    """Export simulation to web and return task_id.
 
     Args:
         sim: simulation object
         task_name:
         folder_name: Server folder to hold the task.
-        draft: If ``True``, the project will be submitted but not run.
-            It can then be visualized in the web UI and run from there when needed.
 
     """
-    project = web.new_project(
-        sim.export(), task_name=task_name, folder_name=folder_name, draft=draft
+    job = web.Job(
+        simulation=sim,
+        task_name=task_name,
+        folder_name=folder_name,
     )
-    task_id = project["taskId"]
+    task_id = job.task_id
     logger.info(f"submitting {task_id}")
     return task_id
 
 
 def get_sim_hash(sim: td.Simulation) -> str:
     """Returns simulation hash as the unique ID."""
-    sim_str = json.dumps(sim.export())
-    sim_hash = hashlib.md5(sim_str.encode()).hexdigest()
-    return sim_hash
+    return hashlib.md5(str(sim).encode()).hexdigest()
 
 
 def load_results(
@@ -85,12 +81,11 @@ def run_simulation(
         sim = run_simulation(sim).result()
 
     """
-    td.logging_level("error")
     sim_hash = get_sim_hash(sim)
     sim_path = dirpath / f"{sim_hash}.hdf5"
     logger.info(f"running simulation {sim_hash}")
 
-    hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_last_projects()}
+    hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_tasks()}
     target = PATH.results_tidy3d / f"{sim_hash}.hdf5"
 
     # Try from local storage
