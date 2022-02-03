@@ -47,7 +47,7 @@ def straight_heater_metal_undercut(
 
     length_straight_input = (length - n * period) / 2
 
-    s_si = gf.c.straight(
+    s_si = gf.components.straight(
         cross_section=cross_section_heater,
         length=length_straight_input,
         heater_width=heater_width,
@@ -56,13 +56,13 @@ def straight_heater_metal_undercut(
     cross_section_undercut = (
         cross_section_heater_undercut if with_undercut else cross_section_heater
     )
-    s_uc = gf.c.straight(
+    s_uc = gf.components.straight(
         cross_section=cross_section_undercut,
         length=length_undercut,
         heater_width=heater_width,
         **kwargs,
     )
-    s_spacing = gf.c.straight(
+    s_spacing = gf.components.straight(
         cross_section=cross_section_heater,
         length=length_undercut_spacing,
         heater_width=heater_width,
@@ -103,7 +103,7 @@ def straight_heater_metal_undercut(
         )
         if heater_taper_length:
             x = cross_section_heater()
-            taper = gf.c.taper(
+            taper = gf.components.taper(
                 width1=contactw.ports["e1"].width,
                 width2=heater_width,
                 length=heater_taper_length,

@@ -171,7 +171,7 @@ def write_sparameters_lumerical(
     sim_settings.update(**settings)
     ss = SimulationSettings(**sim_settings)
 
-    component_extended = gf.c.extend_ports(
+    component_extended = gf.components.extend_ports(
         component, length=ss.distance_source_to_monitors
     )
 
@@ -193,7 +193,7 @@ def write_sparameters_lumerical(
         dirpath=dirpath,
         layer_to_material=layer_to_material,
         layer_to_thickness=layer_to_thickness,
-        # material_name_to_lumerical=material_name_to_lumerical,
+        material_name_to_lumerical=material_name_to_lumerical,
         **settings,
     )
     filepath = filepath_csv.with_suffix(".dat")

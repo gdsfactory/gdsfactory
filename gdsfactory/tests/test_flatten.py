@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 def test_flatten():
-    c1 = gf.c.mzi()
+    c1 = gf.components.mzi()
     c2 = c1.flatten()
 
     assert len(c1.references) > 0, f"{len(c1.references)}"
@@ -11,7 +11,7 @@ def test_flatten():
 
 
 if __name__ == "__main__":
-    c1 = gf.c.mzi()
+    c1 = gf.components.mzi()
     c2 = c1.flatten(single_layer=(2, 0))
 
     assert len(c1.references) > 0, f"{len(c1.references)}"

@@ -105,7 +105,7 @@ def component_sequence(
 
         # Each character in the sequence represents a component
         s = "AB-H-H-H-H-BA"
-        c = gf.c.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
+        c = gf.components.component_sequence(sequence=s, symbol_to_component=symbol_to_component)
         c.plot()
 
     """

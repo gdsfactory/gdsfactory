@@ -110,7 +110,7 @@ if __name__ == "__main__":
 
     c = mmi1x2(layer=(2, 0))
     ports = c.get_ports_list(port_type="optical")
-    c2 = gf.c.extend_ports(c)
+    c2 = gf.components.extend_ports(c)
     port_orientations = [p.orientation for p in ports]
 
     for i, port in enumerate(ports):

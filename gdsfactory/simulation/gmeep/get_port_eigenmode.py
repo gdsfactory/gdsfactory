@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 
-from gdsfactory import add_padding
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.modes.types import Mode
@@ -163,7 +162,8 @@ def get_port_2Dx_eigenmode(
 
 if __name__ == "__main__":
     c = straight(length=2, width=0.5)
-    c = add_padding(c.copy(), default=0, bottom=3, top=3, layers=[(100, 0)])
+    c = c.copy()
+    c.add_padding(default=0, bottom=3, top=3, layers=[(100, 0)])
 
     sim_dict = get_simulation(
         c,

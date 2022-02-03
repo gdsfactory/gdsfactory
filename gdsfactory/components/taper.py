@@ -21,7 +21,7 @@ def taper(
 ) -> Component:
     """Linear taper.
 
-    Deprecated, use gf.c.taper_cross_section instead
+    Deprecated, use gf.components.taper_cross_section instead
 
     Args:
         length:
@@ -101,7 +101,7 @@ def taper_strip_to_ridge(
 ) -> Component:
     r"""Linear taper from strip to rib
 
-    Deprecated, use gf.c.taper_cross_section instead
+    Deprecated, use gf.components.taper_cross_section instead
 
     Args:
         length:
@@ -226,8 +226,8 @@ if __name__ == "__main__":
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     # c = taper()
-    c = gf.c.taper_strip_to_ridge(width1=1, width2=2)
-    # c = gf.c.taper_strip_to_ridge(width1=1, width2=2)
-    # c = gf.c.extend_ports(c)
+    c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
+    # c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
+    # c = gf.components.extend_ports(c)
     # c = taper_strip_to_ridge_trenches()
     c.show()

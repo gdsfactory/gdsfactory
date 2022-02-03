@@ -23,7 +23,7 @@ if __name__ == "__main__":
         ports2=ports2,
         cross_section=gf.cross_section.metal1,
         width=5,
-        bend=gf.c.wire_corner,
+        bend=gf.components.wire_corner,
     )
     for route in routes:
         c.add(route.references)
