@@ -251,53 +251,39 @@ def get_simulation(
     return sim
 
 
-def plot_simulation(
-    sim: td.Simulation,
-    normal1: str = "z",
-    normal2: str = "x",
-    position1: float = 0.0,
-    position2: float = 0.0,
-):
+def plot_simulation(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
     """Returns figure with two axis of the Simulation.
 
     Args:
         sim: simulation object
-        normal1: {'x', 'y', 'z'} Axis normal to the cross-section plane.
-        normal2: {'x', 'y', 'z'} Axis normal to the cross-section plane.
-        position1: Position offset along the normal axis.
-        position2: Position offset along the normal axis.
-
+        z:
+        y:
     """
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
-    sim.viz_eps_2D(normal=normal1, position=position1, ax=ax1)
-    sim.viz_eps_2D(normal=normal2, position=position2, ax=ax2, source_alpha=1)
-    plt.show()
+
+    fig = plt.figure(figsize=(11, 4))
+    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax2 = fig.add_subplot(gs[0, 1])
+    sim.plot(z=z, ax=ax1)
+    sim.plot(y=y, ax=ax2)
     return fig
 
 
-def plot_materials(
-    sim: td.Simulation,
-    normal1: str = "z",
-    normal2: str = "x",
-    position1: float = 0.0,
-    position2: float = 0.0,
-):
+def plot_structures(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
     """Returns figure with two axis of the Simulation.
 
     Args:
         sim: simulation object
-        normal1: {'x', 'y', 'z'} Axis normal to the cross-section plane.
-        normal2: {'x', 'y', 'z'} Axis normal to the cross-section plane.
-        position1: Position offset along the normal axis.
-        position2: Position offset along the normal axis.
+        z:
+        y:
 
     """
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 4))
-    sim.viz_mat_2D(normal=normal1, position=position1, ax=ax1)
-    sim.viz_mat_2D(
-        normal=normal2, position=position2, ax=ax2, source_alpha=1, legend=True
-    )
-    plt.show()
+    fig = plt.figure(figsize=(11, 4))
+    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax2 = fig.add_subplot(gs[0, 1])
+    sim.plot(z=z, ax=ax1)
+    sim.plot(y=y, ax=ax2)
     return fig
 
 
