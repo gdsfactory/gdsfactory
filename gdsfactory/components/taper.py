@@ -45,8 +45,12 @@ def taper(
 
     y1 = width1 / 2
     y2 = width2 / 2
-    x1 = cross_section(width=width1, **kwargs)
-    x2 = cross_section(width=width2, **kwargs)
+
+    kwargs.update(width=width1)
+    x1 = cross_section(**kwargs)
+
+    kwargs.update(width=width2)
+    x2 = cross_section(**kwargs)
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
