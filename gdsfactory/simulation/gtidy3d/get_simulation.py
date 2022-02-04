@@ -165,6 +165,8 @@ def get_simulation(
         cell_thickness,
     ]
 
+    layer_to_polygons = component_extended.get_polygons(by_spec=True)
+
     for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
             thickness = layer_to_thickness[layer]
@@ -175,7 +177,8 @@ def get_simulation(
             medium = get_medium(name=material_name)
             logger.debug(f"Add {layer}, thickness = {thickness}, z = {z_cent}")
 
-            for polygon_index in range(len(component_extended.get_polygons())):
+            npolygons = len(layer_to_polygons[layer])
+            for polygon_index in range(npolygons):
                 poly = td.PolySlab.from_gds(
                     gds_cell=component_extended_ref,
                     gds_layer=layer[0],
@@ -320,8 +323,8 @@ def plot_structures(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
 
 if __name__ == "__main__":
     # c = gf.components.mmi1x2()
-    # c = gf.add_padding_container(c, default=0, bottom=2, top=2, layers=[(100, 0)])
-    c = gf.components.bend_circular(radius=2)
+    # c = gf.components.bend_circular(radius=2)
+    c = gf.components.crossing()
 
     plot_modes = True
     plot_modes = False
