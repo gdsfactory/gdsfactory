@@ -5,7 +5,7 @@ import multiprocessing
 import pathlib
 import re
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import matplotlib.pyplot as plt
 import meep as mp
@@ -359,7 +359,7 @@ def write_sparameters_meep(
         n,
         component: Component,
         port_symmetries: Optional[PortSymmetries] = port_symmetries,
-        monitor_indices: Tuple = monitor_indices,
+        monitor_indices: List[str] = monitor_indices,
         wl_min: float = wl_min,
         wl_max: float = wl_max,
         wl_steps: int = wl_steps,
@@ -368,6 +368,7 @@ def write_sparameters_meep(
         dispersive: bool = dispersive,
         **settings,
     ) -> Dict:
+        """Return Sparameter dict."""
 
         sim_dict = get_simulation(
             component=component,

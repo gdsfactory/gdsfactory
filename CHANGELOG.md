@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.0.8
+
+- Explicit port serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/178)
+- difftest should fail when there is no regression reference [PR](https://github.com/gdsfactory/gdsfactory/pull/177)
+- add Sparameters calculation in tidy3d plugin
+
 ## 4.0.7
 
 - add progress bar to write_sparameters_lumerical_components

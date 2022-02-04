@@ -7,6 +7,9 @@ from meep import mpb
 from pydantic import BaseModel
 from scipy.interpolate import RectBivariateSpline
 
+# cmap_default = 'viridis'
+cmap_default = "RdBu"
+
 
 @dataclasses.dataclass
 class Mode:
@@ -127,12 +130,13 @@ class Mode:
 
     def plot_e(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
     ):
+        """ """
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         Eabs = np.sqrt(
             np.multiply(E[:, :, 0, 2], E[:, :, 0, 2])
@@ -159,7 +163,7 @@ class Mode:
 
     def plot_ex(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -187,7 +191,7 @@ class Mode:
 
     def plot_ey(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -215,7 +219,7 @@ class Mode:
 
     def plot_ez(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -243,7 +247,7 @@ class Mode:
 
     def plot_e_all(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -272,7 +276,7 @@ class Mode:
 
     def plot_h(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -304,7 +308,7 @@ class Mode:
 
     def plot_hx(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -332,7 +336,7 @@ class Mode:
 
     def plot_hy(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -360,7 +364,7 @@ class Mode:
 
     def plot_hz(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
@@ -388,7 +392,7 @@ class Mode:
 
     def plot_h_all(
         self,
-        cmap: str = "viridis",
+        cmap: str = cmap_default,
         origin="lower",
         logscale: bool = False,
         show: bool = True,
