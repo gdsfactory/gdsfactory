@@ -34,8 +34,6 @@ def taper(
 
     """
     x = cross_section(**kwargs)
-    x1 = cross_section(width=width1, **kwargs)
-    x2 = cross_section(width=width2, **kwargs)
 
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -47,6 +45,8 @@ def taper(
 
     y1 = width1 / 2
     y2 = width2 / 2
+    x1 = cross_section(width=width1, **kwargs)
+    x2 = cross_section(width=width2, **kwargs)
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
