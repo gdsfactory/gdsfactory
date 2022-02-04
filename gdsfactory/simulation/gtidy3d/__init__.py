@@ -4,7 +4,6 @@
 """
 
 from gdsfactory.simulation.gtidy3d import materials
-from gdsfactory.simulation.gtidy3d.get_coupling import get_coupling
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation, plot_simulation
 from gdsfactory.simulation.gtidy3d.get_sparameters import get_sparameters
@@ -12,7 +11,6 @@ from gdsfactory.simulation.gtidy3d.get_sparameters import get_sparameters
 __version__ = "0.0.1"
 __all__ = [
     "plot_simulation",
-    "get_coupling",
     "get_sparameters",
     "get_simulation",
     "get_results",

@@ -42,10 +42,45 @@ def get_simulation(
     wavelength: float = 1.55,
     plot_modes: bool = False,
 ) -> td.Simulation:
-    """Returns Simulation object from gdsfactory.component
+    r"""Returns Simulation object from gdsfactory.component
 
     based on GDS example
     https://simulation.cloud/docs/html/examples/ParameterScan.html
+
+    .. code::
+
+         top view
+              ________________________________
+             |                               |
+             | xmargin                       | port_extension
+             |<------>          port_margin ||<-->
+          ___|___________          _________||___
+             |           \        /          |
+             |            \      /           |
+             |             ======            |
+             |            /      \           |
+          ___|___________/        \__________|___
+             |   |                 <-------->|
+             |   |ymargin       xmargin      |
+             |   |                           |
+             |___|___________________________|
+
+        side view
+              ________________________________
+             |                     |         |
+             |                     |         |
+             |                   zmargin     |
+             |ymargin              |         |
+             |<---> _____         _|___      |
+             |     |     |       |     |     |
+             |     |     |       |     |     |
+             |     |_____|       |_____|     |
+             |       |                       |
+             |       |                       |
+             |       |zmargin                |
+             |       |                       |
+             |_______|_______________________|
+
 
     Args:
         component: gf.Component
@@ -61,8 +96,7 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before monitors
         resolution: grid_size=3*[1/resolution]
         wavelength: in (um)
-
-    You can visualize the simulation with gdsfactory
+        plot_modes: plot source modes.
 
 
     .. code::
@@ -244,10 +278,7 @@ def get_simulation(
             )
             axs[mode_ind, 0].set_aspect("equal")
             axs[mode_ind, 1].set_aspect("equal")
-        plt.show()
-    # else:
-    #     sim.compute_modes(msource, Nmodes=n_modes)
-    #     sim.set_mode(msource, mode_ind=mode_index)
+        # plt.show()
     return sim
 
 
