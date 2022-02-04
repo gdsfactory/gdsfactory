@@ -1,9 +1,8 @@
 import meep as mp
 
 from gdsfactory.config import logger
-from gdsfactory.simulation import plot
+from gdsfactory.simulation import plot, port_symmetries
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_data_meep
-from gdsfactory.simulation.gmeep import port_symmetries
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
 from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     write_sparameters_meep,
