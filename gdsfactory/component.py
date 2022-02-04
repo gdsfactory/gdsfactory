@@ -1656,7 +1656,10 @@ def clean_value_json(value: Any) -> Any:
         value = value.to_dict()
         value = copy.deepcopy(value)
         value = clean_dict(value)
-    if isinstance(value, float) and int(value) == value:
+    elif isinstance(value, Port):
+        value = copy.deepcopy(value.settings)
+        value = clean_dict(value)
+    elif isinstance(value, float) and int(value) == value:
         value = int(value)
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
