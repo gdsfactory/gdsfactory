@@ -34,6 +34,8 @@ def taper(
 
     """
     x = cross_section(**kwargs)
+    x1 = cross_section(width=width1, **kwargs)
+    x2 = cross_section(width=width2, **kwargs)
 
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -57,7 +59,7 @@ def taper(
         width=width1,
         orientation=180,
         layer=layer,
-        cross_section=x,
+        cross_section=x1,
     )
     c.add_port(
         name="o2",
@@ -65,7 +67,7 @@ def taper(
         width=width2,
         orientation=0,
         layer=layer,
-        cross_section=x,
+        cross_section=x2,
     )
 
     if with_cladding_box and x.info["layers_cladding"]:

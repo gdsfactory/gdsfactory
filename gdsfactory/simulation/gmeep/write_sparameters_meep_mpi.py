@@ -104,6 +104,11 @@ def write_sparameters_meep_mpi(
     Returns:
         filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
             where `a` is the angle in radians and `m` the module
+
+
+    TODO:
+        write stdout to  file
+        check stderror to kill in case
     """
     for setting in kwargs.keys():
         if setting not in settings_write_sparameters_meep:
