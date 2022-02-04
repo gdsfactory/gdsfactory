@@ -71,7 +71,7 @@ def get_results(
 ) -> Awaitable[td.SimulationData]:
     """Return a SimulationData from simulation.
 
-    Works in Pool of threads.
+    Works with Pool of threads.
     Each thread can run in paralell and only becomes blocking when you ask
     for the result
 
@@ -118,6 +118,6 @@ if __name__ == "__main__":
 
     component = gf.components.straight(length=3)
     sim = gt.get_simulation(component=component)
-    r = get_results(sim=sim).result()
+    r = sim_data = get_results(sim=sim).result()
 
     # test_simulation_hash()

@@ -192,7 +192,9 @@ if __name__ == "__main__":
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
-    cmap = "viridis"
+    # cmap = 'viridis'
+    # cmap = "RdBu"
+    cmap = "binary"
     origin = "lower"
     plt.imshow(
         eps.T ** 0.5,
