@@ -13,7 +13,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.tidy3d.materials import get_medium
+from gdsfactory.simulation.gtidy3d.materials import get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 MATERIAL_NAME_TO_TIDY3D = {
@@ -69,11 +69,11 @@ def get_simulation(
 
         import matplotlib.pyplot as plt
         import gdsfactory as gf
-        import gdsfactory.simulation.tidy3d as gm
+        import gdsfactory.simulation.tidy3d as sim
 
         c = gf.components.bend_circular()
-        sim = gm.get_simulation(c)
-        gm.plot_simulation(sim)
+        sim = sim.get_simulation(c)
+        sim.plot_simulation()
 
     """
     layer_to_thickness = layer_stack.get_layer_to_thickness()
