@@ -25,7 +25,7 @@ def get_mode_solver_rib(
     sz: float = 2.0,
     resolution: int = 32,
     nmodes: int = 4,
-    sidewall_angle: float = None,
+    sidewall_angle: Optional[float] = None,
     # sidewall_taper: int = 1,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
@@ -46,8 +46,6 @@ def get_mode_solver_rib(
 
     ::
 
-        . = origin
-
           __________________________
           |
           |
@@ -58,7 +56,7 @@ def get_mode_solver_rib(
         sz|_____|           |_______|
           |                         | wg_thickness
           |slab_thickness           |
-          |___________._____________|
+          |_________________________|
           |
           |
           |__________________________
@@ -167,7 +165,9 @@ if __name__ == "__main__":
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
-    cmap = "viridis"
+    # cmap = 'viridis'
+    # cmap = "RdBu"
+    cmap = "binary"
     origin = "lower"
     plt.imshow(
         eps.T ** 0.5,
