@@ -1,14 +1,14 @@
 import numpy as np
 import tidy3d as td
 
-from gdsfactory.simulation.tidy3d.get_sparameters import get_sparameters
+from gdsfactory.simulation.gtidy3d.get_sparameters import get_sparameters
 
 
 def get_coupling(sim: td.Simulation) -> np.ndarray:
     """Adapted from tidy3d examples
     https://simulation.cloud/docs/html/examples/ParameterScan.html
 
-    Computes the transmission  and efficiency of a 2x2 coupler
+    Computes the transmission and coupling of a 2x2 coupler
     """
     S = get_sparameters(sim)
     split_ratio_top = S[0, 1] / (S[0, 1] + S[1, 1])
