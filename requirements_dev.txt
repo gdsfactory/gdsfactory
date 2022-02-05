@@ -12,7 +12,7 @@ pur
 pydocstyle
 pytest-cov
 recommonmark
-sphinx==4.3.2
+sphinx==4.4.0
 sphinx-autodoc-typehints
 sphinx-click
 sphinx-markdown-tables

@@ -13,7 +13,7 @@ phidl==1.6.0
 picwriter==0.5
 pydantic==1.9.0
 Pyqtree==1.0.0
-pytest==6.2.5
+pytest==7.0.0
 pytest-regressions==2.3.1
 qrcode==7.3.1
 rectpack==0.2.2
