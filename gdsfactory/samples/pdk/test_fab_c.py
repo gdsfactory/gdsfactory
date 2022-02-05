@@ -1,6 +1,24 @@
-"""Test all the components in fab_c."""
+"""Test all the components in fab_c.
 
+In gdsfactory we use gdslib as a place to store the GDS files.
+
+For your PDK i recommend that you store the store the reference GDS files on
+the same repo as you store the code. See code below
+
+```
 import pathlib
+
+dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")
+
+def test_gds(component_name: str) -> None:
+    component = factory[component_name]()
+    test_name = f"fabc_{component_name}"
+    difftest(component, test_name=test_name, dirpath=dirpath)
+
+```
+
+"""
+
 
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
@@ -9,7 +27,6 @@ from gdsfactory.difftest import difftest
 from gdsfactory.samples.pdk.fab_c import factory
 
 component_names = list(factory.keys())
-dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")
 
 
 @pytest.fixture(params=component_names, scope="function")
@@ -22,7 +39,7 @@ def test_gds(component_name: str) -> None:
     Runs XOR and computes the area."""
     component = factory[component_name]()
     test_name = f"fabc_{component_name}"
-    difftest(component, test_name=test_name, dirpath=dirpath)
+    difftest(component, test_name=test_name)
 
 
 def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
