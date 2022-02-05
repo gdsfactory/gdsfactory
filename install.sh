@@ -1,4 +1,4 @@
 #!/bin/sh
 
-pip install -e .[dev]
+pip install -e .[dev] --upgrade
 pre-commit install
