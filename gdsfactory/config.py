@@ -114,6 +114,7 @@ else:
 
 # CONFIG["custom_components"] = TECH.custom_components
 CONFIG["gdslib"] = repo_path / "gdslib"
+CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
 sparameters_path = CONFIG["sparameters"]
 

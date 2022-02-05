@@ -25,17 +25,15 @@ from typing import Optional
 from lytest.kdb_xor import GeometryDifference, run_xor
 
 from gdsfactory.component import Component
-from gdsfactory.config import logger
+from gdsfactory.config import CONFIG, logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
-
-cwd = pathlib.Path.cwd()
 
 
 def difftest(
     component: Component,
     test_name: Optional[str] = None,
     xor: bool = False,
-    dirpath: pathlib.Path = cwd,
+    dirpath: pathlib.Path = CONFIG["gdsdiff"],
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
     Runs an XOR over a component and makes boolean comparison with a GDS reference.
