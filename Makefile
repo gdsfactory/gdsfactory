@@ -29,7 +29,7 @@ gds:
 	python gdsfactory/components/straight.py
 
 gdslib:
-	git clone https://github.com/gdsfactory/gdslib.git
+	git clone https://github.com/gdsfactory/gdslib.git -b data
 
 test:
 	flake8
