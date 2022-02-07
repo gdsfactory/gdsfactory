@@ -5,14 +5,18 @@ from gdsfactory.simulation.gtidy3d.get_results import get_results
 
 
 def test_results_local(data_regression) -> None:
+    """Loads local results"""
 
     component = gf.components.straight(length=3)
     sim = gt.get_simulation(component=component)
 
     # dirpath = pathlib.Path(__file__).parent
     dirpath = CONFIG["sparameters"]
+
     r = get_results(sim=sim, dirpath=dirpath).result()
-    data_regression.check(r.monitor_data)
+
+    if data_regression:
+        data_regression.check(r.monitor_data)
 
 
 if __name__ == "__main__":

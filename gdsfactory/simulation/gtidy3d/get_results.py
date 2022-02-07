@@ -97,5 +97,3 @@ if __name__ == "__main__":
     component = gf.components.straight(length=3)
     sim = gt.get_simulation(component=component)
     r = sim_data = get_results(sim=sim).result()
-
-    # test_simulation_hash()
