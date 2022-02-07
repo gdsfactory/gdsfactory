@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.0.12
+
+- improve tidy3d plugin
+    - add xmargin_left, xmargin_right, ymargin_bot, ymargin_top
+    - plot_simulation_xy and plot_simulation_yz
+
 ## 4.0.8
 
 - Explicit port serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/178)

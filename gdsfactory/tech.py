@@ -162,7 +162,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
         ),
         slab90=LayerLevel(
             layer=LAYER.SLAB90,
-            thickness=150e-3,
+            thickness=90e-3,
             zmin=0.0,
             material="si",
         ),
