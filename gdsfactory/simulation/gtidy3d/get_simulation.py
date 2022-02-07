@@ -188,28 +188,38 @@ def get_simulation(
         if layer in layer_to_thickness and layer in layer_to_material:
             thickness = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            z_cent = zmin + thickness / 2
             zmax = zmin + thickness
-            material_name = MATERIAL_NAME_TO_TIDY3D[layer_to_material[layer]]
-            medium = get_medium(name=material_name)
-            logger.debug(f"Add {layer}, thickness = {thickness}, z = {z_cent}")
-
-            npolygons = len(layer_to_polygons[layer])
-            for polygon_index in range(npolygons):
-                poly = td.PolySlab.from_gds(
-                    gds_cell=component_extended,
-                    gds_layer=layer[0],
-                    gds_dtype=layer[1],
-                    axis=2,
-                    slab_bounds=(zmin, zmax),
-                    polygon_index=polygon_index,
+            if (
+                layer in layer_to_material
+                and layer_to_material[layer] in MATERIAL_NAME_TO_TIDY3D
+            ):
+                material_name = MATERIAL_NAME_TO_TIDY3D[layer_to_material[layer]]
+                medium = get_medium(name=material_name)
+                logger.debug(
+                    f"Add {layer}, thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
                 )
-                geometry = td.Structure(
-                    geometry=poly,
-                    medium=medium,
-                )
-                structures.append(geometry)
 
+                npolygons = len(layer_to_polygons[layer])
+                for polygon_index in range(npolygons):
+                    poly = td.PolySlab.from_gds(
+                        gds_cell=component_extended,
+                        gds_layer=layer[0],
+                        gds_dtype=layer[1],
+                        axis=2,
+                        slab_bounds=(zmin, zmax),
+                        polygon_index=polygon_index,
+                    )
+                    geometry = td.Structure(
+                        geometry=poly,
+                        medium=medium,
+                    )
+                    structures.append(geometry)
+            elif layer not in layer_to_material:
+                logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
+            elif layer_to_material[layer] not in MATERIAL_NAME_TO_TIDY3D:
+                logger.debug(
+                    f"material {layer_to_material[layer]} not in {MATERIAL_NAME_TO_TIDY3D.keys()}"
+                )
     # Add source
     port = component_ref.ports[port_source_name]
     angle = port.orientation
@@ -261,7 +271,7 @@ def get_simulation(
         )
 
     domain_monitor = td.FieldMonitor(
-        center=[0, 0, z_cent],
+        center=[0, 0, (zmax + zmin) / 2],
         size=[sim_size[0], sim_size[1], 0],
         freqs=[freq0],
         name="field",
@@ -302,7 +312,7 @@ def get_simulation(
     return sim
 
 
-def plot_simulation(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
+def plot_simulation_yz(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
     """Returns figure with two axis of the Simulation.
 
     Args:
@@ -320,31 +330,35 @@ def plot_simulation(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
     return fig
 
 
-def plot_structures(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
+def plot_simulation_xz(sim: td.Simulation, x: float = 0.0, z: float = 0.0):
     """Returns figure with two axis of the Simulation.
 
     Args:
         sim: simulation object
+        x:
         z:
-        y:
-
     """
+
     fig = plt.figure(figsize=(11, 4))
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
     sim.plot(z=z, ax=ax1)
-    sim.plot(y=y, ax=ax2)
+    sim.plot(x=x, ax=ax2)
     return fig
+
+
+plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
-    c = gf.components.crossing()
+    # c = gf.components.crossing()
+    c = gf.c.straight_rib()
 
-    plot_modes = True
     plot_modes = False
+    plot_modes = True
     sim = get_simulation(c, plot_modes=plot_modes)
     # plot_simulation(sim)
 
@@ -353,5 +367,5 @@ if __name__ == "__main__":
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
     sim.plot(z=0.0, ax=ax1)
-    sim.plot(y=0.0, ax=ax2)
+    sim.plot(x=0.0, ax=ax2)
     plt.show()
