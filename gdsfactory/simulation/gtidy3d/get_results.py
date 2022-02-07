@@ -2,7 +2,6 @@
 
 import concurrent.futures
 import hashlib
-import pathlib
 from typing import Awaitable
 
 import tidy3d as td
@@ -69,7 +68,7 @@ def get_results(
     dirpath=PATH.results_tidy3d,
     overwrite: bool = True,
 ) -> Awaitable[td.SimulationData]:
-    """Return a SimulationData from simulation.
+    """Return a SimulationData from Simulation.
 
     Works with Pool of threads.
     Each thread can run in paralell and only becomes blocking when you ask
@@ -90,27 +89,6 @@ def get_results(
 
     """
     return _executor.submit(_get_results, sim, dirpath, overwrite)
-
-
-def test_simulation_hash():
-    import gdsfactory.simulation.gtidy3d as gt
-
-    component = gf.components.straight(length=3)
-    sim = gt.get_simulation(component=component)
-    sim_hash = get_sim_hash(sim)
-    # print(f"assert hash == {sim_hash!r}")
-    assert sim_hash == "5cf1811250c66398ff88c62f509ae7aa"
-
-
-def test_monitor_data_local(data_regression) -> None:
-    import gdsfactory.simulation.gtidy3d as gt
-
-    component = gf.components.straight(length=3)
-    sim = gt.get_simulation(component=component)
-
-    dirpath = pathlib.Path(__file__).parent / "tests"
-    r = get_results(sim=sim, dirpath=dirpath).result()
-    data_regression.check(r.monitor_data)
 
 
 if __name__ == "__main__":

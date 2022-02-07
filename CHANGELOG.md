@@ -5,6 +5,8 @@
 - improve tidy3d plugin
     - add xmargin_left, xmargin_right, ymargin_bot, ymargin_top
     - plot_simulation_xy and plot_simulation_yz
+    - fix materials
+    - add tests
 
 ## 4.0.8
 
