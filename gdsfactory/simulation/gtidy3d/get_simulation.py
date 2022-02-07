@@ -31,8 +31,12 @@ def get_simulation(
     port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
-    xmargin: float = 1.0,
-    ymargin: float = 1.0,
+    xmargin: float = 0,
+    ymargin: float = 0,
+    xmargin_left: float = 0,
+    xmargin_right: float = 0,
+    ymargin_top: float = 0,
+    ymargin_bot: float = 0,
     zmargin: float = 1.0,
     clad_material: str = "SiO2",
     port_source_name: str = "o1",
@@ -52,7 +56,7 @@ def get_simulation(
          top view
               ________________________________
              |                               |
-             | xmargin                       | port_extension
+             | xmargin_left                  | port_extension
              |<------>          port_margin ||<-->
           ___|___________          _________||___
              |           \        /          |
@@ -61,7 +65,7 @@ def get_simulation(
              |            /      \           |
           ___|___________/        \__________|___
              |   |                 <-------->|
-             |   |ymargin       xmargin      |
+             |   |ymargin_bot   xmargin_right|
              |   |                           |
              |___|___________________________|
 
@@ -69,15 +73,15 @@ def get_simulation(
               ________________________________
              |                     |         |
              |                     |         |
-             |                   zmargin     |
-             |ymargin              |         |
+             |                   zmargin_top |
+             |xmargin_left         |         |
              |<---> _____         _|___      |
              |     |     |       |     |     |
              |     |     |       |     |     |
              |     |_____|       |_____|     |
              |       |                       |
              |       |                       |
-             |       |zmargin                |
+             |       |zmargin_bot            |
              |       |                       |
              |_______|_______________________|
 
@@ -97,17 +101,23 @@ def get_simulation(
         resolution: grid_size=3*[1/resolution]
         wavelength: in (um)
         plot_modes: plot source modes.
+        xmargin: left and right distance from component to PML.
+        xmargin_left: west distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: top and bottom distance from component to PML.
+        ymargin_top: north distance from component to PML.
+        ymargin_bot: south distance from component to PML.
 
 
     .. code::
 
         import matplotlib.pyplot as plt
         import gdsfactory as gf
-        import gdsfactory.simulation.tidy3d as sim
+        import gdsfactory.simulation.tidy3d as gt
 
         c = gf.components.bend_circular()
-        sim = sim.get_simulation(c)
-        sim.plot_simulation()
+        sim = gt.get_simulation(c)
+        gt.plot_simulation(sim)
 
     """
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -126,9 +136,17 @@ def get_simulation(
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
 
+    component_padding = gf.add_padding_container(
+        component,
+        default=0,
+        top=ymargin_top,
+        bottom=ymargin_bot,
+        left=xmargin_left,
+        right=xmargin_right,
+    )
     component_extended = (
         gf.components.extension.extend_ports(
-            component=component, length=port_extension, centered=True
+            component=component_padding, length=port_extension, centered=True
         )
         if port_extension
         else component
@@ -136,9 +154,8 @@ def get_simulation(
 
     gf.show(component_extended)
     component_extended.flatten()
-    component_extended_ref = component_extended.ref()
 
-    component_ref = component.ref()
+    component_ref = component_padding.ref()
     component_ref.x = 0
     component_ref.y = 0
 
@@ -160,8 +177,8 @@ def get_simulation(
     t_core = max(layers_thickness)
     cell_thickness = thickness_pml + t_core + thickness_pml + 2 * zmargin
     sim_size = [
-        component_ref.xsize + 2 * thickness_pml + xmargin,
-        component_ref.ysize + 2 * thickness_pml + ymargin,
+        component_ref.xsize + 2 * thickness_pml,
+        component_ref.ysize + 2 * thickness_pml,
         cell_thickness,
     ]
 
@@ -180,7 +197,7 @@ def get_simulation(
             npolygons = len(layer_to_polygons[layer])
             for polygon_index in range(npolygons):
                 poly = td.PolySlab.from_gds(
-                    gds_cell=component_extended_ref,
+                    gds_cell=component_extended,
                     gds_layer=layer[0],
                     gds_dtype=layer[1],
                     axis=2,
