@@ -201,7 +201,7 @@ def write_sparameters_meep(
              |                     |         |
              |                     |         |
              |                   zmargin_top |
-             |ymargin              |         |
+             |xmargin_left         |         |
              |<---> _____         _|___      |
              |     |     |       |     |     |
              |     |     |       |     |     |
