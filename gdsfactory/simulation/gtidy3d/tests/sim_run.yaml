@@ -171,11 +171,17 @@ structures:
         - 1.0000000200408773e+20
         type: Box
     medium:
-        conductivity: 0.0
-        frequency_range: null
+        eps_inf: 1.0
+        frequency_range:
+        - 169259246959034.88
+        - 1208994621135963.5
         name: null
-        permittivity: 2.1025
-        type: Medium
+        poles:
+        -   -   imag: -1.823105111824081e+16
+                real: -75963372399806.36
+            -   imag: 1.0209565875622414e+16
+                real: 0.0
+        type: PoleResidue
     name: null
     type: Structure
 -   geometry:
@@ -199,11 +205,17 @@ structures:
         -   - -1.5
             - -0.25
     medium:
-        conductivity: 0.0
-        frequency_range: null
+        eps_inf: 1.0
+        frequency_range:
+        - 21413747041496.2
+        - 249827048817455.7
         name: null
-        permittivity: 12.1104
-        type: Medium
+        poles:
+        -   -   imag: 6241549589084091.0
+                real: 0.0
+            -   imag: -3.3254308736142404e+16
+                real: 0.0
+        type: PoleResidue
     name: null
     type: Structure
 -   geometry:
@@ -227,11 +239,17 @@ structures:
         -   - 1.5
             - 0.25
     medium:
-        conductivity: 0.0
-        frequency_range: null
+        eps_inf: 1.0
+        frequency_range:
+        - 21413747041496.2
+        - 249827048817455.7
         name: null
-        permittivity: 12.1104
-        type: Medium
+        poles:
+        -   -   imag: 6241549589084091.0
+                real: 0.0
+            -   imag: -3.3254308736142404e+16
+                real: 0.0
+        type: PoleResidue
     name: null
     type: Structure
 -   geometry:
@@ -255,11 +273,17 @@ structures:
         -   - -1.5
             - 0.25
     medium:
-        conductivity: 0.0
-        frequency_range: null
+        eps_inf: 1.0
+        frequency_range:
+        - 21413747041496.2
+        - 249827048817455.7
         name: null
-        permittivity: 12.1104
-        type: Medium
+        poles:
+        -   -   imag: 6241549589084091.0
+                real: 0.0
+            -   imag: -3.3254308736142404e+16
+                real: 0.0
+        type: PoleResidue
     name: null
     type: Structure
 subpixel: true

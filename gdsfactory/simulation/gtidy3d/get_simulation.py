@@ -38,7 +38,7 @@ def get_simulation(
     ymargin_top: float = 0,
     ymargin_bot: float = 0,
     zmargin: float = 1.0,
-    clad_material: str = "SiO2",
+    clad_material: str = "sio2",
     port_source_name: str = "o1",
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
