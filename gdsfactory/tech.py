@@ -268,7 +268,8 @@ class Section:
 
 @pydantic.dataclasses.dataclass
 class SimulationSettings:
-    """
+    """Lumerical FDTD simulation_settings
+
     Args:
         background_material: for the background
         port_margin: on both sides of the port width (um)
