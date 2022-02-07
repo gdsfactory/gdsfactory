@@ -77,7 +77,6 @@ def get_sparameters(
 
     Args:
         component: to simulate.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
         port_symmetries: Dict to specify port symmetries, to save number of simulations
 
     Keyword Args:
@@ -126,6 +125,8 @@ def get_sparameters(
         Args:
             n: port_index
             component:
+            port_symmetries:
+            monitor_indices:
 
         """
         sim = get_simulation(
