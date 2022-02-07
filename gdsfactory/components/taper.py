@@ -225,6 +225,18 @@ def taper_strip_to_ridge_trenches(
 
 taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab=gf.LAYER.SLAB150)
 
+# taper StripCband to NitrideCband
+taper_sc_nc = gf.partial(
+    taper_strip_to_ridge,
+    layer_wg=gf.LAYER.WG,
+    layer_slab=gf.LAYER.WGN,
+    length=20.0,
+    width1=0.5,
+    width2=0.15,
+    w_slab1=0.15,
+    w_slab2=1.0,
+)
+
 
 if __name__ == "__main__":
     # c = taper(width2=1)
@@ -232,8 +244,9 @@ if __name__ == "__main__":
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     # c = taper()
-    c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
+    # c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
     # c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
     # c = gf.components.extend_ports(c)
     # c = taper_strip_to_ridge_trenches()
+    c = taper_sc_nc()
     c.show()
