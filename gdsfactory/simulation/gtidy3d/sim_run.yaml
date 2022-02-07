@@ -171,17 +171,11 @@ structures:
         - 1.0000000200408773e+20
         type: Box
     medium:
-        eps_inf: 1.0
-        frequency_range:
-        - 169259246959034.88
-        - 1208994621135963.5
+        conductivity: 0.0
+        frequency_range: null
         name: null
-        poles:
-        -   -   imag: -1.823105111824081e+16
-                real: -75963372399806.36
-            -   imag: 1.0209565875622414e+16
-                real: 0.0
-        type: PoleResidue
+        permittivity: 2.1025
+        type: Medium
     name: null
     type: Structure
 -   geometry:

@@ -5,7 +5,7 @@ from tidy3d.material_library import material_library
 
 MATERIAL_NAME_TO_MEDIUM = {
     "si": material_library["cSi"]["Li1993_293K"],
-    "cSi": material_library["cSi"]["Li1993_293K"],
+    "csi": material_library["cSi"]["Li1993_293K"],
     "sio2": material_library["SiO2"]["Horiba"],
     "sin": material_library["Si3N4"]["Horiba"],
 }
@@ -34,28 +34,26 @@ def get_medium(name: str, n: Optional[float] = None) -> td.Medium:
         n: optional index
 
     """
-    if name not in material_library:
-        materials = list(material_library.keys())
-        raise ValueError(f"{name!r} not in {materials}")
 
-    # FIXME: need to remove this.
+    name = name.lower()
+
     if n:
         m = td.Medium(permittivity=n ** 2)
 
-    elif name == "SiO2":
+    elif name == "sio2":
         m = td.Medium(permittivity=1.45 ** 2)
-    # elif name in ["cSi", "si"]:
-    #     m = td.Medium(permittivity=3.48 ** 2)
-    elif name in ["SiN", "Si3N4"]:
-        m = td.Medium(permittivity=2.0 ** 2)
+    elif name in ["csi", "si"]:
+        m = td.Medium(permittivity=3.48 ** 2)
 
+    elif name in ["sin", "si3n4"]:
+        m = td.Medium(permittivity=2.0 ** 2)
     elif name in MATERIAL_NAME_TO_MEDIUM:
         m = MATERIAL_NAME_TO_MEDIUM[name]
 
     else:
-        raise ValueError(
-            f"not implemetned material {name!r} in {MATERIAL_NAME_TO_MEDIUM.keys()}"
-        )
+        materials = list(MATERIAL_NAME_TO_MEDIUM.keys())
+
+        raise ValueError(f"Material {name!r} not in {materials}")
 
     return m
 
