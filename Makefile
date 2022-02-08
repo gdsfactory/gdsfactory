@@ -3,7 +3,7 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-install: gdslib mamba
+install: gdslib
 	bash install.sh
 
 mamba:
