@@ -3,17 +3,11 @@ help:
 	@echo 'make test:             Run tests with pytest'
 	@echo 'make test-force:       Rebuilds regression test'
 
-install: gdslib
+install: gdslib mamba
 	bash install.sh
 
-meep-serial:
-	mamba install pymeep -y
-
-meep-conda-serial:
-	conda install -c conda-forge pymeep
-
-meep:
-	mamba install pymeep=*=mpi_mpich_* -y
+mamba:
+	mamba install pymeep=*=mpi_mpich_* gdspy -y
 
 update:
 	pur
