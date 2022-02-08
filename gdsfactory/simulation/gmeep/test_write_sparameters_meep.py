@@ -91,7 +91,7 @@ def test_sparameters_straight_mpi(dataframe_regression):
         dataframe_regression.check(df)
 
 
-def test_sparameters_straight_mpi_pool(dataframe_regression):
+def test_sparameters_straight_batch(dataframe_regression):
     """Checks Sparameters for a straight waveguide using an MPI pool"""
 
     components = []
@@ -101,7 +101,7 @@ def test_sparameters_straight_mpi_pool(dataframe_regression):
         c = gf.add_padding_container(c, default=0, top=p, bottom=p)
         components.append(c)
 
-    filepaths = gm.write_sparameters_meep_mpi_pool(
+    filepaths = gm.write_sparameters_meep_batch(
         [{"component": c, "overwrite": True} for c in components],
     )
 
@@ -126,6 +126,6 @@ def test_sparameters_straight_mpi_pool(dataframe_regression):
 if __name__ == "__main__":
     # test_sparameters_straight(None)
     # test_sparameters_straight_symmetric(False)
-    test_sparameters_straight_mpi_pool(None)
+    test_sparameters_straight_batch(None)
     # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)

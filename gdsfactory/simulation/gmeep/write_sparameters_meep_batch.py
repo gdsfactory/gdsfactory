@@ -29,7 +29,7 @@ temp_dir_default = Path(sparameters_path) / "temp"
 
 
 @pydantic.validate_arguments
-def write_sparameters_meep_mpi_pool(
+def write_sparameters_meep_batch(
     jobs: List[Dict],
     cores_per_run: int = 2,
     total_cores: int = 4,
@@ -39,9 +39,9 @@ def write_sparameters_meep_mpi_pool(
     layer_stack: LayerStack = LAYER_STACK,
     **kwargs,
 ) -> List[Path]:
-    """Write Sparameters and returns the filepaths.
+    """Write Sparameters for a batch of jobs using MPI and returns results filepaths.
     Given a list of write_sparameters_meep keyword arguments (the "jobs"),
-    launches them in different cores
+    launches them in different cores using MPI
     where each simulation runs with "cores_per_run" cores
     If there are more simulations than cores each batch runs sequentially
 
@@ -168,12 +168,12 @@ def write_sparameters_meep_mpi_pool(
     return filepaths
 
 
-write_sparameters_meep_mpi_pool_lr = gf.partial(
-    write_sparameters_meep_mpi_pool, ymargin_top=3, ymargin_bot=3
+write_sparameters_meep_batch_lr = gf.partial(
+    write_sparameters_meep_batch, ymargin_top=3, ymargin_bot=3
 )
 
-write_sparameters_meep_mpi_pool_lt = gf.partial(
-    write_sparameters_meep_mpi_pool, ymargin_bot=3, xmargin_right=3
+write_sparameters_meep_batch_lt = gf.partial(
+    write_sparameters_meep_batch, ymargin_bot=3, xmargin_right=3
 )
 
 
@@ -189,7 +189,7 @@ if __name__ == "__main__":
         for i in range(1, 4)
     ]
 
-    filepaths = write_sparameters_meep_mpi_pool(
+    filepaths = write_sparameters_meep_batch(
         jobs=jobs,
         cores_per_run=4,
         total_cores=8,
