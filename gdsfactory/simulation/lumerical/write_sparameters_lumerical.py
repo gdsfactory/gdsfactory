@@ -201,7 +201,7 @@ def write_sparameters_lumerical(
     filepath = filepath_csv.with_suffix(".dat")
     filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
-    fspdir = filepath.with_suffix("_s-parametersweep")
+    fspdir = filepath.parent / f"{filepath.stem}_s-parametersweep"
 
     if run and filepath_csv.exists() and not overwrite:
         logger.info(f"Reading Sparameters from {filepath_csv}")
