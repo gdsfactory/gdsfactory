@@ -22,7 +22,7 @@ def get_ports(line: str) -> Tuple[str, str]:
     return port1, port2
 
 
-def _read_sparameters_file(
+def read_sparameters_file(
     filepath, numports: int
 ) -> Tuple[Tuple[str, ...], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect export file.
@@ -128,7 +128,7 @@ def read_sparameters_lumerical(
         filepath.exists()
     ), f"Sparameters for {component.name} not found in {filepath}"
     assert numports > 1, f"number of ports = {numports} and needs to be > 1"
-    return _read_sparameters_file(filepath=filepath, numports=numports)
+    return read_sparameters_file(filepath=filepath, numports=numports)
 
 
 if __name__ == "__main__":

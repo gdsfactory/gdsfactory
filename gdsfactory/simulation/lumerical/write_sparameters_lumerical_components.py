@@ -11,7 +11,7 @@ from gdsfactory.types import ComponentOrFactory, List
 
 def write_sparameters_lumerical_components(
     components: List[ComponentOrFactory],
-    run: bool = False,
+    run: bool = True,
     session: Optional[object] = None,
     **kwargs,
 ) -> None:
@@ -19,8 +19,8 @@ def write_sparameters_lumerical_components(
 
     Args:
         factory: list of component or component functions to simulate.
-        run: if False, does not run and prompts you to review each simulation.
-        session: lumapi.FDTD() Lumerical FDTD session
+        run: if False, prompts you to review each simulation.
+        session: Optional Lumerical FDTD session. Creates lumapi.FDTD() if None.
 
     Keyword Args:
         simulation settings

@@ -46,7 +46,7 @@ exclude_patterns = [
     "**.ipynb_checkpoints",
     "build",
     "extra",
-    "notebooks/plugins/*",
+    # "notebooks/plugins/*",
 ]
 
 napoleon_use_param = True
