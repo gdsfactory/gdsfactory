@@ -14,14 +14,18 @@ jobs:
       - name: Cancel Workflow Action
         uses: styfle/cancel-workflow-action@0.9.1
       - uses: actions/checkout@v2
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+      - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: 3.9
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: anaconda-client-env
       - name: Install dependencies
         run: |
           pip install .[dev]
           sudo apt install pandoc
+          make meep
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         with:

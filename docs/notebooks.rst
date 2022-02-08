@@ -24,5 +24,4 @@ Tutorial
    notebooks/06_component_circuit_mask.ipynb
    notebooks/06_mask.ipynb
    notebooks/07_yaml_component.ipynb
-   notebooks/09_plugins.ipynb
    notebooks/common_mistakes.ipynb

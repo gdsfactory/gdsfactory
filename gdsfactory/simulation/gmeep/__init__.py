@@ -9,15 +9,15 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     write_sparameters_meep_lr,
     write_sparameters_meep_lt,
 )
+from gdsfactory.simulation.gmeep.write_sparameters_meep_batch import (
+    write_sparameters_meep_batch,
+    write_sparameters_meep_batch_lr,
+    write_sparameters_meep_batch_lt,
+)
 from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import (
     write_sparameters_meep_mpi,
     write_sparameters_meep_mpi_lr,
     write_sparameters_meep_mpi_lt,
-)
-from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi_pool import (
-    write_sparameters_meep_mpi_pool,
-    write_sparameters_meep_mpi_pool_lr,
-    write_sparameters_meep_mpi_pool_lt,
 )
 
 logger.info(f"Meep {mp.__version__!r} installed at {mp.__path__!r}")
@@ -31,9 +31,9 @@ __all__ = [
     "write_sparameters_meep_mpi",
     "write_sparameters_meep_mpi_lr",
     "write_sparameters_meep_mpi_lt",
-    "write_sparameters_meep_mpi_pool",
-    "write_sparameters_meep_mpi_pool_lr",
-    "write_sparameters_meep_mpi_pool_lt",
+    "write_sparameters_meep_batch",
+    "write_sparameters_meep_batch_lr",
+    "write_sparameters_meep_batch_lt",
     "plot",
     "port_symmetries",
 ]

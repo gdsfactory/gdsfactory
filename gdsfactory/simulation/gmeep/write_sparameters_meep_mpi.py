@@ -69,9 +69,8 @@ def write_sparameters_meep_mpi(
         wait_to_finish:
 
     Keyword Args:
-        resolution: in pixels/um (20: for coarse, 120: for fine)
+        resolution: in pixels/um (30: for coarse, 100: for fine)
         port_symmetries: Dict to specify port symmetries, to save number of simulations
-        source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
         layer_stack: LayerStack class
         port_margin: margin on each side of the port
@@ -83,6 +82,12 @@ def write_sparameters_meep_mpi(
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
             perform the simulations with different sources in parallel
         dispersive: use dispersive models for materials (requires higher resolution)
+        xmargin: left and right distance from component to PML.
+        xmargin_left: west distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: top and bottom distance from component to PML.
+        ymargin_top: north distance from component to PML.
+        ymargin_bot: south distance from component to PML.
         extend_ports_length: to extend ports beyond the PML
         layer_stack: Dict of layer number (int, int) to thickness (um)
         zmargin_top: thickness for cladding above core
@@ -160,14 +165,16 @@ def write_sparameters_meep_mpi(
     logger.info(command)
     logger.info(str(filepath))
 
-    subprocess.Popen(
+    with subprocess.Popen(
         shlex.split(command),
-        shell=False,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-    )
-    if wait_to_finish:
+    ) as proc:
+        logger.info(proc.stdout.read().decode())
+        logger.error(proc.stderr.read().decode())
+
+    if wait_to_finish and not proc.stderr:
         while not filepath.exists():
             time.sleep(1)
 
@@ -184,10 +191,10 @@ write_sparameters_meep_mpi_lt = gf.partial(
 
 
 if __name__ == "__main__":
-    c1 = gf.components.straight(length=10)
+    c1 = gf.components.straight(length=2.1)
     filepath = write_sparameters_meep_mpi(
         component=c1,
-        ymargin=3,
+        # ymargin=3,
         cores=3,
         run=True,
         overwrite=True,

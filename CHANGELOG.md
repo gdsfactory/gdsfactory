@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.0.13
+
+- rename write_sparameters_meep_mpi_pool to write_sparameters_meep_batch
+- redirect write_sparameters_meep_mpi stderr and stdout to logger
+- if stderr write_sparameters_meep_mpi does not wait for the results
+
 ## 4.0.12
 
 - improve tidy3d plugin
