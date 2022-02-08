@@ -88,6 +88,7 @@ def read_sparameters_lumerical(
     filepath: Optional[str] = None,
     numports: Optional[int] = None,
     dirpath: Path = gf.CONFIG["sparameters"],
+    **kwargs,
 ) -> Tuple[List[str], np.array, np.ndarray]:
     r"""Returns Sparameters from Lumerical interconnect .DAT file.
 
@@ -97,6 +98,9 @@ def read_sparameters_lumerical(
         filepath:
         numports: number of ports
         dirpath: path where to look for the Sparameters
+
+    Keyword Args:
+        simulation_settings
 
     Returns:
         port_names: list of port labels
@@ -114,15 +118,9 @@ def read_sparameters_lumerical(
     if filepath and numports is None:
         raise ValueError("You need to define numports")
 
-    filepath = (
-        filepath
-        or get_sparameters_path(
-            component=component,
-            dirpath=dirpath,
-            layer_to_material=layer_stack.get_layer_to_material(),
-            layer_to_thickness=layer_stack.get_layer_to_thickness(),
-        ).with_suffix(".dat")
-    )
+    filepath = filepath or get_sparameters_path(
+        component=component, dirpath=dirpath, layer_stack=layer_stack, **kwargs
+    ).with_suffix(".dat")
     numports = numports or len(component.ports)
     assert (
         filepath.exists()
@@ -132,4 +130,4 @@ def read_sparameters_lumerical(
 
 
 if __name__ == "__main__":
-    r = read_sparameters_lumerical(gf.components.mmi2x2())
+    r = read_sparameters_lumerical(gf.components.mmi1x2())

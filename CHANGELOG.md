@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.17
+
+- pass layer_stack to read_sparameters_lumerical, so that it reads the same file as write_sparameters_lumerical
+
 ## 4.0.14
 
 - add delete_fsp_files kwarg to write_sparameters_lumerical
