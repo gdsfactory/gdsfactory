@@ -1,6 +1,7 @@
 """Write Sparameters with Lumerical FDTD."""
 
 import dataclasses
+import shutil
 import time
 from pathlib import Path
 from typing import Dict, Optional, Union
@@ -447,7 +448,11 @@ def write_sparameters_lumerical(
         sim_settings.update(compute_time_seconds=end - start)
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         if delete_fsp_files and fspdir.exists():
-            fspdir.rmdir()
+            shutil.rmtree(fspdir)
+            logger.info(
+                f"deleting simulation files in {fspdir}. "
+                "To keep them, use delete_fsp_files=False flag"
+            )
 
         return df
 
