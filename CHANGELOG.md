@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.13
+
+- rename write_sparameters_meep_mpi_pool to write_sparameters_meep_batch
+
 ## 4.0.12
 
 - improve tidy3d plugin
