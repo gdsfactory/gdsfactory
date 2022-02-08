@@ -7,7 +7,7 @@ Gdsfactory
 
    README
    notebooks
-   notebooks-plugins
+   plugins
    component_intro
    api
    routing
