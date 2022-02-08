@@ -18,19 +18,17 @@ from gdsfactory.simulation.modes.find_mode_dispersion import find_mode_dispersio
 
 PATH.modes = pathlib.Path.cwd() / "data"
 
-width0 = 0.465
-thickness0 = 0.215
-
-delta_width = 10e-3
-delta_thickness = 5e-3
+nm = 1e-3
+width0 = 465 * nm
+thickness0 = 215 * nm
 
 
 @pydantic.validate_arguments
 def find_neff_ng_dw_dh(
     width: float = width0,
     thickness: float = thickness0,
-    delta_width: float = 30e-3,
-    delta_thickness: float = 20e-3,
+    delta_width: float = 30 * nm,
+    delta_thickness: float = 20 * nm,
     wavelength: float = 1.55,
     steps: int = 11,
     mode_number: int = 1,
