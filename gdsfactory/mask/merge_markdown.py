@@ -1,4 +1,3 @@
-import dataclasses
 import os
 from glob import glob
 from pathlib import Path
@@ -18,7 +17,7 @@ def merge_markdown(
     """
     logger.info("Merging Markdown files:")
     configpath = mdpath.with_suffix(".yml")
-    tech = dataclasses.asdict(TECH)
+    tech = dict(TECH)
     tech.pop("library", "")
 
     with open(configpath, "w") as f:

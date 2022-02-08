@@ -1,5 +1,6 @@
 import hashlib
 import pathlib
+from copy import deepcopy
 from functools import partial
 from pathlib import Path
 
@@ -68,12 +69,12 @@ def test_get_sparameters_path(test: bool = True) -> None:
     import gdsfactory as gf
 
     nm = 1e-3
-    layer_stack2 = LAYER_STACK.copy()
+    layer_stack2 = deepcopy(LAYER_STACK)
     layer_stack2["core"].thickness = 230 * nm
 
-    name1 = "straight_1f90b7ca"
+    name1 = "straight_c2feac9a"
     name2 = "straight_c1eb2e62"
-    name3 = "straight_c752dd0a"
+    name3 = "straight_324095f6"
 
     c = gf.components.straight()
 
@@ -92,11 +93,11 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.components.mmi1x2()
-    p = get_sparameters_path_lumerical(c)
-    print(p)
+    # c = gf.components.mmi1x2()
+    # p = get_sparameters_path_lumerical(c)
+    # print(p)
 
-    # test_get_sparameters_path(test=False)
-    # test_get_sparameters_path(test=True)
+    test_get_sparameters_path(test=False)
+    test_get_sparameters_path(test=True)
