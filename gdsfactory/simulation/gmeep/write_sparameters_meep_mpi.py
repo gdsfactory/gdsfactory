@@ -165,14 +165,16 @@ def write_sparameters_meep_mpi(
     logger.info(command)
     logger.info(str(filepath))
 
-    subprocess.Popen(
+    with subprocess.Popen(
         shlex.split(command),
-        shell=False,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-    )
-    if wait_to_finish:
+    ) as proc:
+        logger.info(proc.stdout.read().decode())
+        logger.error(proc.stderr.read().decode())
+
+    if wait_to_finish and not proc.stderr:
         while not filepath.exists():
             time.sleep(1)
 
@@ -192,7 +194,7 @@ if __name__ == "__main__":
     c1 = gf.components.straight(length=2.1)
     filepath = write_sparameters_meep_mpi(
         component=c1,
-        ymargin=3,
+        # ymargin=3,
         cores=3,
         run=True,
         overwrite=True,
