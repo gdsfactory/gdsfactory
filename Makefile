@@ -9,6 +9,9 @@ install: gdslib
 mamba:
 	mamba install pymeep=*=mpi_mpich_* gdspy -y
 
+meep:
+	mamba install pymeep=*=mpi_mpich_* -y
+
 update:
 	pur
 	pur -r requirements_dev.txt
