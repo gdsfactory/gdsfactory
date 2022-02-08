@@ -1,6 +1,4 @@
 """Write Sparameters with Lumerical FDTD."""
-
-import dataclasses
 import shutil
 import time
 from pathlib import Path
@@ -30,13 +28,6 @@ run=False returns the simulation session for you to debug and make sure it is co
 
 To compute the Sparameters you need to pass run=True
 """
-
-MATERIAL_NAME_TO_LUMERICAL = {
-    "si": "Si (Silicon) - Palik",
-    "sio2": "SiO2 (Glass) - Palik",
-    "sin": "Si3N4 (Silicon Nitride) - Phillip",
-}
-# translate from material names in LayerStack to lumerical's database
 
 
 def write_sparameters_lumerical(
@@ -86,8 +77,9 @@ def write_sparameters_lumerical(
         dirpath: where to store the Sparameters
         layer_stack: layer_stack
         simulation_settings: dataclass with all simulation_settings
-        material_name_to_lumerical: material alias to lumerical material database name
+        material_name_to_lumerical: alias to lumerical material's database name
             or refractive index.
+            translate material name in LayerStack to lumerical's database name.
         delete_fsp_files: deletes lumerical fsp files after simulation
 
     Keyword Args:
@@ -115,12 +107,12 @@ def write_sparameters_lumerical(
              |                               |
              | xmargin                       | port_extension
              |<------>          port_margin ||<-->
-          ___|___________          _________||___
+          o2_|___________          _________||_o3
              |           \        /          |
              |            \      /           |
              |             ======            |
              |            /      \           |
-          ___|___________/        \__________|___
+          o1_|___________/        \__________|_o4
              |   |                           |
              |   |ymargin                    |
              |   |                           |
@@ -150,15 +142,11 @@ def write_sparameters_lumerical(
 
     """
     component = component() if callable(component) else component
-    sim_settings = dataclasses.asdict(simulation_settings)
+    sim_settings = dict(simulation_settings)
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     layer_to_material = layer_stack.get_layer_to_material()
-
-    material_name_to_lumerical_new = material_name_to_lumerical or {}
-    material_name_to_lumerical = MATERIAL_NAME_TO_LUMERICAL.copy()
-    material_name_to_lumerical.update(**material_name_to_lumerical_new)
 
     if hasattr(component.info, "simulation_settings"):
         sim_settings.update(component.info.simulation_settings)
@@ -194,9 +182,7 @@ def write_sparameters_lumerical(
     filepath_csv = get_sparameters_path(
         component=component,
         dirpath=dirpath,
-        layer_to_material=layer_to_material,
-        layer_to_thickness=layer_to_thickness,
-        material_name_to_lumerical=material_name_to_lumerical,
+        layer_stack=layer_stack,
         **settings,
     )
     filepath = filepath_csv.with_suffix(".dat")
@@ -248,7 +234,6 @@ def write_sparameters_lumerical(
         simulation_settings=sim_settings,
         component=component.to_dict(),
         version=__version__,
-        material_name_to_lumerical=material_name_to_lumerical,
     )
 
     logger.info(
@@ -289,6 +274,10 @@ def write_sparameters_lumerical(
     )
 
     material = ss.background_material
+    material_name_to_lumerical_new = material_name_to_lumerical or {}
+    material_name_to_lumerical = ss.material_name_to_lumerical.copy()
+    material_name_to_lumerical.update(**material_name_to_lumerical_new)
+
     if material not in material_name_to_lumerical:
         raise ValueError(
             f"{material!r} not in {list(material_name_to_lumerical.keys())}"
@@ -514,9 +503,7 @@ def _sample_convergence_wavelength():
 if __name__ == "__main__":
     # component = gf.components.straight(length=2.5)
     component = gf.components.mmi1x2()
-    r = write_sparameters_lumerical(
-        component=component, mesh_accuracy=1, wavelength_points=200, run=False
-    )
+    r = write_sparameters_lumerical(component=component)
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
     # print(r)
