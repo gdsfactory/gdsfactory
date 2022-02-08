@@ -1192,10 +1192,11 @@ class Component(Device):
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
+
+                hv.extension("bokeh")
             except ImportError:
                 print("you need to `pip install holoviews`")
 
-            hv.extension("bokeh")
             return self.ploth(**kwargs)
 
         elif plotter == "qt":
