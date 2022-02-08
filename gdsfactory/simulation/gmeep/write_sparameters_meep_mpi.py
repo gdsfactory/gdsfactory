@@ -184,7 +184,7 @@ write_sparameters_meep_mpi_lt = gf.partial(
 
 
 if __name__ == "__main__":
-    c1 = gf.components.straight(length=10)
+    c1 = gf.components.straight(length=2.1)
     filepath = write_sparameters_meep_mpi(
         component=c1,
         ymargin=3,
