@@ -130,7 +130,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 def write_sparameters_meep(
     component: Component,
     port_symmetries: Optional[PortSymmetries] = None,
-    resolution: int = 20,
+    resolution: int = 30,
     wl_min: float = 1.5,
     wl_max: float = 1.6,
     wl_steps: int = 50,
@@ -185,12 +185,12 @@ def write_sparameters_meep(
              |                               |
              | xmargin_left                  | port_extension
              |<------>          port_margin ||<-->
-          ___|___________          _________||___
+          o2_|___________          _________||_o3
              |           \        /          |
              |            \      /           |
              |             ======            |
              |            /      \           |
-          ___|___________/        \__________|___
+          o1_|___________/        \__________|_o4
              |   |                 <-------->|
              |   |ymargin_bot   xmargin_right|
              |   |                           |
@@ -216,9 +216,8 @@ def write_sparameters_meep(
 
     Args:
         component: to simulate.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
+        resolution: in pixels/um (30: for coarse, 100: for fine)
         port_symmetries: Dict to specify port symmetries, to save number of simulations
-        source_ports: list of port string names to use as sources
         dirpath: directory to store Sparameters
         layer_stack: LayerStack class
         port_margin: margin on each side of the port
