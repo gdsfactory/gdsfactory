@@ -24,7 +24,7 @@ ports:
 info:
   length: 10
   width: 0.5
-  name: straight_cf5c9898
+  name: straight_75fbe695
   module: gdsfactory.components.straight
   function_name: straight
   info_version: 1
@@ -48,10 +48,10 @@ info:
     - 3
     - 0
 cells:
-  straight_cf5c9898:
+  straight_75fbe695:
     length: 10
     width: 0.5
-    name: straight_cf5c9898
+    name: straight_75fbe695
     module: gdsfactory.components.straight
     function_name: straight
     info_version: 1
