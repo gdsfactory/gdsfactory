@@ -1,8 +1,8 @@
 import pathlib
-from dataclasses import asdict
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import pydantic
+from pydantic import BaseModel
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
@@ -88,8 +88,7 @@ PORT_LAYER_TO_TYPE = {
 PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 
 
-@pydantic.dataclasses.dataclass
-class LayerLevel:
+class LayerLevel(BaseModel):
     """Layer For 3D LayerStack.
 
     Args:
@@ -135,7 +134,7 @@ class LayerStack(dict):
         }
 
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
-        return {level_name: asdict(level) for level_name, level in self.items()}
+        return {level_name: dict(level) for level_name, level in self.items()}
 
 
 def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStack:
@@ -215,8 +214,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
 LAYER_STACK = get_layer_stack_generic()
 
 
-@pydantic.dataclasses.dataclass
-class Section:
+class Section(BaseModel):
     """
 
     Args:
@@ -266,8 +264,7 @@ class Section:
         )
 
 
-@pydantic.dataclasses.dataclass
-class SimulationSettings:
+class SimulationSettings(BaseModel):
     """Lumerical FDTD simulation_settings
 
     Args:
@@ -303,14 +300,12 @@ class SimulationSettings:
     simulation_temperature: float = 300
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
-
-    mode_index: int = 0
-    n_modes: int = 2
-    thickness_pml: float = 1.0
-    port_source_name: str = "o1"
     distance_source_to_monitors: float = 0.2
-    mesh_step: float = 40e-3
-    wavelength: float = 1.55
+    material_name_to_lumerical = {
+        "si": "Si (Silicon) - Palik",
+        "sio2": "SiO2 (Glass) - Palik",
+        "sin": "Si3N4 (Silicon Nitride) - Phillip",
+    }
 
 
 SIMULATION_SETTINGS = SimulationSettings()
@@ -323,8 +318,7 @@ def assert_callable(function):
         )
 
 
-@pydantic.dataclasses.dataclass
-class Tech:
+class Tech(BaseModel):
     name: str = "generic"
     layer: LayerMap = LAYER
 
@@ -333,9 +327,6 @@ class Tech:
     fiber_input_to_output_spacing: float = 200.0
     layer_label: Layer = LAYER.LABEL
     metal_spacing: float = 10.0
-
-    sparameters_path: str = str(module_path / "gdslib" / "sparameters")
-    simulation_settings: SimulationSettings = SIMULATION_SETTINGS
 
 
 TECH = Tech()
