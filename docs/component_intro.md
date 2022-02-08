@@ -1,3 +1,4 @@
+# Workflow
 
 you'll need to keep 3 windows open:
 
@@ -11,7 +12,6 @@ Make sure you also ran `gf tool install` from the terminal to install the `gdsfa
 
 ![windows](https://i.imgur.com/YcwGI0M.png)
 
-# Workflow
 
 ## Layers
 
