@@ -21,7 +21,11 @@ jobs:
           channels: conda-forge,defaults
           channel-priority: true
           activate-environment: anaconda-client-env
-      - name: Install dependencies
+      - name: Add conda to system path
+        run: |
+          echo $CONDA/bin >> $GITHUB_PATH
+      - name: Installing the library
+        shell: bash -l {0}
         run: |
           pip install .[dev]
           sudo apt install pandoc
