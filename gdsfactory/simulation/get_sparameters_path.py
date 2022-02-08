@@ -74,7 +74,7 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
     name1 = "straight_d6c50235"
     name2 = "straight_75fbe695_d6c50235"
-    name3 = "straight_75fbe695_181e701b"
+    name3 = "straight_75fbe695_6907cda4"
     name4 = "straight_eb75434e"
 
     c = gf.components.straight()
@@ -125,4 +125,4 @@ if __name__ == "__main__":
     # p = get_sparameters_path(c)
     # print(p)
 
-    test_get_sparameters_path(test=False)
+    test_get_sparameters_path(test=True)

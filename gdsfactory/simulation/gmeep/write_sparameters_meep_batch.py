@@ -57,9 +57,27 @@ def write_sparameters_meep_batch(
         layer_stack:
 
     keyword Args:
-        overwrite: overwrites stored simulation results.
+        resolution: in pixels/um (30: for coarse, 100: for fine)
+        port_symmetries: Dict to specify port symmetries, to save number of simulations
+        dirpath: directory to store Sparameters
+        layer_stack: LayerStack class
+        port_margin: margin on each side of the port
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        port_source_offset: offset between source GDS port and source MEEP port
+        filepath: to store pandas Dataframe with Sparameters in CSV format.
+        animate: saves a MP4 images of the simulation for inspection, and also
+            outputs during computation. The name of the file is the source index
+        lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
+            perform the simulations with different sources in parallel
         dispersive: use dispersive models for materials (requires higher resolution)
+        xmargin: left and right distance from component to PML.
+        xmargin_left: west distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: top and bottom distance from component to PML.
+        ymargin_top: north distance from component to PML.
+        ymargin_bot: south distance from component to PML.
         extend_ports_length: to extend ports beyond the PML
+        layer_stack: Dict of layer number (int, int) to thickness (um)
         zmargin_top: thickness for cladding above core
         zmargin_bot: thickness for cladding below core
         tpml: PML thickness (um)
