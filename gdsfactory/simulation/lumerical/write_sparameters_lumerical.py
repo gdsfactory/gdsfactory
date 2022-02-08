@@ -47,6 +47,7 @@ def write_sparameters_lumerical(
     layer_stack: LayerStack = LAYER_STACK,
     simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
     material_name_to_lumerical: Optional[Dict[str, Union[str, float]]] = None,
+    delete_fsp_files: bool = True,
     **settings,
 ) -> pd.DataFrame:
     r"""Returns and writes component Sparameters using Lumerical FDTD.
@@ -86,6 +87,7 @@ def write_sparameters_lumerical(
         simulation_settings: dataclass with all simulation_settings
         material_name_to_lumerical: material alias to lumerical material database name
             or refractive index.
+        delete_fsp_files: deletes lumerical fsp files after simulation
 
     Keyword Args:
         background_material: for the background
@@ -199,6 +201,7 @@ def write_sparameters_lumerical(
     filepath = filepath_csv.with_suffix(".dat")
     filepath_sim_settings = filepath.with_suffix(".yml")
     filepath_fsp = filepath.with_suffix(".fsp")
+    fspdir = filepath.with_suffix("_s-parametersweep")
 
     if run and filepath_csv.exists() and not overwrite:
         logger.info(f"Reading Sparameters from {filepath_csv}")
@@ -443,6 +446,9 @@ def write_sparameters_lumerical(
         df.to_csv(filepath_csv, index=False)
         sim_settings.update(compute_time_seconds=end - start)
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
+        if delete_fsp_files and fspdir.exists():
+            fspdir.rmdir()
+
         return df
 
     filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))

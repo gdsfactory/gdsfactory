@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.14
+
+- add delete_fsp_files kwarg to write_sparameters_lumerical
+
 ## 4.0.13
 
 - rename write_sparameters_meep_mpi_pool to write_sparameters_meep_batch
