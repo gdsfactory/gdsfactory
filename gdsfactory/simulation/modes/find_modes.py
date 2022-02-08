@@ -5,12 +5,13 @@ which are the modes whose frequency falls under the light line --
 that is, frequency < beta / 1.45, where 1.45 is the SiO2 index.
 
 Since there's no special lengthscale here, you can just
-use microns.  In general, if you use units of x, the frequencies
-output are equivalent to x/lambda# so here, the freqeuncies will be
+use microns. In general, if you use units of x, the frequencies
+output are equivalent to x/lambda# so here, the frequencies will be
 output as um/lambda, e.g. 1.5um would correspond to the frequency
 1/1.5 = 0.6667.
 
 """
+from functools import partial
 from typing import Dict
 
 import meep as mp
@@ -18,6 +19,7 @@ import numpy as np
 from meep import mpb
 
 from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
+from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
 
@@ -32,7 +34,7 @@ def find_modes(
     parity=mp.NO_PARITY,
     **kwargs
 ) -> Dict[int, Mode]:
-    """Computes effective index and group index for a mode.
+    """Computes mode effective and group index.
 
     Args:
         mode_solver: function that returns mpb.ModeSolver
@@ -121,6 +123,9 @@ def find_modes(
         )
 
     return modes
+
+
+find_modes_coupler = partial(find_modes, mode_solver=get_mode_solver_coupler)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@
 - rename write_sparameters_meep_mpi_pool to write_sparameters_meep_batch
 - redirect write_sparameters_meep_mpi stderr and stdout to logger
 - if stderr write_sparameters_meep_mpi does not wait for the results
+- add gf.simulation.modes.find_modes_coupler
 
 ## 4.0.12
 
