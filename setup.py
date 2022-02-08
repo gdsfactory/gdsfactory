@@ -19,7 +19,7 @@ def get_install_requires_full():
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="4.0.16",
+    version="4.0.17",
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",
