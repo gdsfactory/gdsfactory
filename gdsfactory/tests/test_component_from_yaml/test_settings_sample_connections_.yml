@@ -1,48 +1,5 @@
-cells:
-  sample_connections: {}
-  straight_1a5e6830:
-    changed:
-      length: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.5
-    module: gdsfactory.components.straight
-    name: straight_1a5e6830
-    width: 0.5
-  straight_e15cfb47:
-    changed:
-      length: 1
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 1
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 1
-    module: gdsfactory.components.straight
-    name: straight_e15cfb47
-    width: 0.5
-info:
-  name: sample_connections
-ports: {}
+info: {}
+settings_changed: {}
+settings_default: {}
+settings_full: {}
 version: 0.0.1

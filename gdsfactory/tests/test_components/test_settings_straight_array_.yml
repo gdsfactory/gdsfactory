@@ -1,143 +1,17 @@
-cells:
-  straight:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight
-    width: 0.5
-  straight_array:
-    changed: {}
-    default:
-      n: 4
-      spacing: 4
-      straigth:
-        function: straight
-    full:
-      n: 4
-      spacing: 4
-      straigth:
-        function: straight
-    function_name: straight_array
-    info_version: 1
-    module: gdsfactory.components.straight_array
-    name: straight_array
 info:
-  changed: {}
-  default:
-    n: 4
-    spacing: 4
-    straigth:
-      function: straight
-  full:
-    n: 4
-    spacing: 4
-    straigth:
-      function: straight
   function_name: straight_array
   info_version: 1
   module: gdsfactory.components.straight_array
   name: straight_array
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 4.5
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 9
-    name: o3
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 13.5
-    name: o4
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o5:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 13.5
-    name: o5
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o6:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 9
-    name: o6
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o7:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 4.5
-    name: o7
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o8:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o8
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  n: 4
+  spacing: 4
+  straigth:
+    function: straight
+settings_full:
+  n: 4
+  spacing: 4
+  straigth:
+    function: straight
 version: 0.0.1

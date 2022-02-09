@@ -1,78 +1,5 @@
-cells:
-  via_fd13653e:
-    changed:
-      layer:
-      - 43
-      - 0
-    default:
-      cladding_offset: 0
-      enclosure: 1
-      layer:
-      - 40
-      - 0
-      layers_cladding: null
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-    enclosure: 1
-    full:
-      cladding_offset: 0
-      enclosure: 1
-      layer:
-      - 43
-      - 0
-      layers_cladding: null
-      size:
-      - 0.7
-      - 0.7
-      spacing:
-      - 2
-      - 2
-    function_name: via
-    info_version: 1
-    module: gdsfactory.components.via
-    name: via_fd13653e
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2
-    - 2
 info:
-  changed:
-    layer:
-    - 43
-    - 0
-  default:
-    cladding_offset: 0
-    enclosure: 1
-    layer:
-    - 40
-    - 0
-    layers_cladding: null
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2
-    - 2
-  enclosure: 1
-  full:
-    cladding_offset: 0
-    enclosure: 1
-    layer:
-    - 43
-    - 0
-    layers_cladding: null
-    size:
-    - 0.7
-    - 0.7
-    spacing:
-    - 2
-    - 2
+  enclosure: 1.0
   function_name: via
   info_version: 1
   module: gdsfactory.components.via
@@ -81,7 +8,36 @@ info:
   - 0.7
   - 0.7
   spacing:
+  - 2.0
+  - 2.0
+settings_changed:
+  layer:
+  - 43
+  - 0
+settings_default:
+  cladding_offset: 0
+  enclosure: 1
+  layer:
+  - 40
+  - 0
+  layers_cladding: null
+  size:
+  - 0.7
+  - 0.7
+  spacing:
   - 2
   - 2
-ports: {}
+settings_full:
+  cladding_offset: 0
+  enclosure: 1
+  layer:
+  - 43
+  - 0
+  layers_cladding: null
+  size:
+  - 0.7
+  - 0.7
+  spacing:
+  - 2
+  - 2
 version: 0.0.1

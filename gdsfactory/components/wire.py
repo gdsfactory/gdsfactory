@@ -53,5 +53,8 @@ if __name__ == "__main__":
 
     # c = wire_straight()
     c = wire_corner()
-    c.show(show_ports=True)
-    c.pprint_ports()
+    # c.show(show_ports=True)
+    # c.pprint_ports()
+    c.pprint()
+
+    # print(yaml.dump(c.to_dict()))

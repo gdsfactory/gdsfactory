@@ -1,157 +1,23 @@
-cells:
-  add_frame:
-    changed: {}
-    default:
-      component:
-        function: rectangle
-      layer:
-      - 1
-      - 0
-      spacing: 10
-      width: 10
-    full:
-      component:
-        function: rectangle
-      layer:
-      - 1
-      - 0
-      spacing: 10
-      width: 10
-    function_name: add_frame
-    info_version: 1
-    module: gdsfactory.components.align
-    name: add_frame
-  compass_b09a8674:
-    changed:
-      size:
-      - 10
-      - 34
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 10
-      - 34
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_b09a8674
-  compass_b3a87156:
-    changed:
-      size:
-      - 44
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 44
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_b3a87156
-  rectangle_e5e2408e:
-    changed:
-      centered: true
-      size:
-      - 10
-      - 34
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: true
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 10
-      - 34
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_e5e2408e
-  rectangle_e97c2782:
-    changed:
-      centered: true
-      size:
-      - 44
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: true
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 44
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_e97c2782
 info:
-  changed: {}
-  default:
-    component:
-      function: rectangle
-    layer:
-    - 1
-    - 0
-    spacing: 10
-    width: 10
-  full:
-    component:
-      function: rectangle
-    layer:
-    - 1
-    - 0
-    spacing: 10
-    width: 10
   function_name: add_frame
   info_version: 1
   module: gdsfactory.components.align
   name: add_frame
-ports: {}
+settings_changed: {}
+settings_default:
+  component:
+    function: rectangle
+  layer:
+  - 1
+  - 0
+  spacing: 10
+  width: 10
+settings_full:
+  component:
+    function: rectangle
+  layer:
+  - 1
+  - 0
+  spacing: 10
+  width: 10
 version: 0.0.1

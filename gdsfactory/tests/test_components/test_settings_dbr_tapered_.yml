@@ -1,109 +1,43 @@
-cells:
-  dbr_tapered:
-    changed: {}
-    default:
-      dc: 0.5
-      direction: EAST
-      fin_size:
-      - 0.2
-      - 0.05
-      fins: false
-      length: 10
-      period: 0.85
-      port:
-      - 0
-      - 0
-      taper_length: 20
-      w1: 0.4
-      w2: 1
-      waveguide_template:
-        function: strip
-      waveguide_template_dbr: null
-    full:
-      dc: 0.5
-      direction: EAST
-      fin_size:
-      - 0.2
-      - 0.05
-      fins: false
-      length: 10
-      period: 0.85
-      port:
-      - 0
-      - 0
-      taper_length: 20
-      w1: 0.4
-      w2: 1
-      waveguide_template:
-        function: strip
-      waveguide_template_dbr: null
-    function_name: dbr_tapered
-    info_version: 1
-    module: gdsfactory.components.dbr_tapered
-    name: dbr_tapered
 info:
-  changed: {}
-  default:
-    dc: 0.5
-    direction: EAST
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    length: 10
-    period: 0.85
-    port:
-    - 0
-    - 0
-    taper_length: 20
-    w1: 0.4
-    w2: 1
-    waveguide_template:
-      function: strip
-    waveguide_template_dbr: null
-  full:
-    dc: 0.5
-    direction: EAST
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    length: 10
-    period: 0.85
-    port:
-    - 0
-    - 0
-    taper_length: 20
-    w1: 0.4
-    w2: 1
-    waveguide_template:
-      function: strip
-    waveguide_template_dbr: null
   function_name: dbr_tapered
   info_version: 1
   module: gdsfactory.components.dbr_tapered
   name: dbr_tapered
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 50
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
+settings_changed: {}
+settings_default:
+  dc: 0.5
+  direction: EAST
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  length: 10
+  period: 0.85
+  port:
+  - 0
+  - 0
+  taper_length: 20
+  w1: 0.4
+  w2: 1
+  waveguide_template:
+    function: strip
+  waveguide_template_dbr: null
+settings_full:
+  dc: 0.5
+  direction: EAST
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  length: 10
+  period: 0.85
+  port:
+  - 0
+  - 0
+  taper_length: 20
+  w1: 0.4
+  w2: 1
+  waveguide_template:
+    function: strip
+  waveguide_template_dbr: null
 version: 0.0.1

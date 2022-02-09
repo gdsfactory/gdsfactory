@@ -1,185 +1,35 @@
-cells:
-  compass_0d5fe397:
-    changed:
-      layer:
-      - 2
-      - 0
-      size:
-      - 2
-      - 5
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 2
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_0d5fe397
-  compass_b841579c:
-    changed:
-      size:
-      - 2
-      - 5
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_b841579c
-  litho_calipers:
-    changed: {}
-    default:
-      layer1:
-      - 1
-      - 0
-      layer2:
-      - 2
-      - 0
-      notch_size:
-      - 2
-      - 5
-      notch_spacing: 2
-      num_notches: 11
-      offset_per_notch: 0.1
-      row_spacing: 0
-    full:
-      layer1:
-      - 1
-      - 0
-      layer2:
-      - 2
-      - 0
-      notch_size:
-      - 2
-      - 5
-      notch_spacing: 2
-      num_notches: 11
-      offset_per_notch: 0.1
-      row_spacing: 0
-    function_name: litho_calipers
-    info_version: 1
-    module: gdsfactory.components.litho_calipers
-    name: litho_calipers
-  rectangle_0d5fe397:
-    changed:
-      layer:
-      - 2
-      - 0
-      size:
-      - 2
-      - 5
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_0d5fe397
-  rectangle_b841579c:
-    changed:
-      size:
-      - 2
-      - 5
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 2
-      - 5
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_b841579c
 info:
-  changed: {}
-  default:
-    layer1:
-    - 1
-    - 0
-    layer2:
-    - 2
-    - 0
-    notch_size:
-    - 2
-    - 5
-    notch_spacing: 2
-    num_notches: 11
-    offset_per_notch: 0.1
-    row_spacing: 0
-  full:
-    layer1:
-    - 1
-    - 0
-    layer2:
-    - 2
-    - 0
-    notch_size:
-    - 2
-    - 5
-    notch_spacing: 2
-    num_notches: 11
-    offset_per_notch: 0.1
-    row_spacing: 0
   function_name: litho_calipers
   info_version: 1
   module: gdsfactory.components.litho_calipers
   name: litho_calipers
-ports: {}
+settings_changed: {}
+settings_default:
+  layer1:
+  - 1
+  - 0
+  layer2:
+  - 2
+  - 0
+  notch_size:
+  - 2
+  - 5
+  notch_spacing: 2
+  num_notches: 11
+  offset_per_notch: 0.1
+  row_spacing: 0
+settings_full:
+  layer1:
+  - 1
+  - 0
+  layer2:
+  - 2
+  - 0
+  notch_size:
+  - 2
+  - 5
+  notch_spacing: 2
+  num_notches: 11
+  offset_per_notch: 0.1
+  row_spacing: 0
 version: 0.0.1

@@ -1,174 +1,45 @@
-cells:
-  array_2030fc32:
-    changed:
-      columns: 4
-      component: rectangle_b3809cf3
-      rows: 9
-      spacing:
-      - 20
-      - 20
-    default:
-      columns: 6
-      component:
-        function: straight
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 4
-      component: rectangle_b3809cf3
-      rows: 9
-      spacing:
-      - 20
-      - 20
-    function_name: array
-    info_version: 1
-    module: gdsfactory.components.array_component
-    name: array_2030fc32
-  compass_c5baf54c:
-    changed:
-      port_type: null
-      size:
-      - 100
-      - 200
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: null
-      size:
-      - 100
-      - 200
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_c5baf54c
-  rectangle_c5baf54c:
-    changed:
-      port_type: null
-      size:
-      - 100
-      - 200
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: null
-      size:
-      - 100
-      - 200
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_c5baf54c
-  rectangle_with_slits:
-    changed: {}
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      layer_slit:
-      - 2
-      - 0
-      port_type: null
-      size:
-      - 100
-      - 200
-      slit_enclosure: 10
-      slit_size:
-      - 1
-      - 1
-      slit_spacing:
-      - 20
-      - 20
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      layer_slit:
-      - 2
-      - 0
-      port_type: null
-      size:
-      - 100
-      - 200
-      slit_enclosure: 10
-      slit_size:
-      - 1
-      - 1
-      slit_spacing:
-      - 20
-      - 20
-    function_name: rectangle_with_slits
-    info_version: 1
-    module: gdsfactory.components.rectangle_with_slits
-    name: rectangle_with_slits
 info:
-  changed: {}
-  default:
-    centered: false
-    layer:
-    - 1
-    - 0
-    layer_slit:
-    - 2
-    - 0
-    port_type: null
-    size:
-    - 100
-    - 200
-    slit_enclosure: 10
-    slit_size:
-    - 1
-    - 1
-    slit_spacing:
-    - 20
-    - 20
-  full:
-    centered: false
-    layer:
-    - 1
-    - 0
-    layer_slit:
-    - 2
-    - 0
-    port_type: null
-    size:
-    - 100
-    - 200
-    slit_enclosure: 10
-    slit_size:
-    - 1
-    - 1
-    slit_spacing:
-    - 20
-    - 20
   function_name: rectangle_with_slits
   info_version: 1
   module: gdsfactory.components.rectangle_with_slits
   name: rectangle_with_slits
-ports: {}
+settings_changed: {}
+settings_default:
+  centered: false
+  layer:
+  - 1
+  - 0
+  layer_slit:
+  - 2
+  - 0
+  port_type: null
+  size:
+  - 100
+  - 200
+  slit_enclosure: 10
+  slit_size:
+  - 1
+  - 1
+  slit_spacing:
+  - 20
+  - 20
+settings_full:
+  centered: false
+  layer:
+  - 1
+  - 0
+  layer_slit:
+  - 2
+  - 0
+  port_type: null
+  size:
+  - 100
+  - 200
+  slit_enclosure: 10
+  slit_size:
+  - 1
+  - 1
+  slit_spacing:
+  - 20
+  - 20
 version: 0.0.1

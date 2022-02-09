@@ -1,81 +1,29 @@
-cells:
-  disk:
-    changed: {}
-    default:
-      direction: EAST
-      gap: 0.2
-      parity: 1
-      port:
-      - 0
-      - 0
-      radius: 10
-      waveguide_template:
-        function: strip
-      wrap_angle_deg: 180
-    full:
-      direction: EAST
-      gap: 0.2
-      parity: 1
-      port:
-      - 0
-      - 0
-      radius: 10
-      waveguide_template:
-        function: strip
-      wrap_angle_deg: 180
-    function_name: disk
-    info_version: 1
-    module: gdsfactory.components.disk
-    name: disk
 info:
-  changed: {}
-  default:
-    direction: EAST
-    gap: 0.2
-    parity: 1
-    port:
-    - 0
-    - 0
-    radius: 10
-    waveguide_template:
-      function: strip
-    wrap_angle_deg: 180
-  full:
-    direction: EAST
-    gap: 0.2
-    parity: 1
-    port:
-    - 0
-    - 0
-    radius: 10
-    waveguide_template:
-      function: strip
-    wrap_angle_deg: 180
   function_name: disk
   info_version: 1
   module: gdsfactory.components.disk
   name: disk
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 41.8
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  direction: EAST
+  gap: 0.2
+  parity: 1
+  port:
+  - 0
+  - 0
+  radius: 10
+  waveguide_template:
+    function: strip
+  wrap_angle_deg: 180
+settings_full:
+  direction: EAST
+  gap: 0.2
+  parity: 1
+  port:
+  - 0
+  - 0
+  radius: 10
+  waveguide_template:
+    function: strip
+  wrap_angle_deg: 180
 version: 0.0.1

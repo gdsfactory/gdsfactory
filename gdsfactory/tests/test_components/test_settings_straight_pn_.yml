@@ -1,531 +1,75 @@
-cells:
-  compass_106d863e:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_106d863e
-  compass_3fb3549b:
-    changed:
-      layer:
-      - 41
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 41
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_3fb3549b
-  compass_4f070c5b:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_4f070c5b
-  compass_8cc1d700:
-    changed:
-      layer:
-      - 3
-      - 0
-      size:
-      - 480
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 3
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 480
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_8cc1d700
-  contact_a69541f2:
-    changed:
-      layers:
-      - - 3
-        - 0
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 480
-      - 10
-      vias:
-      - function: via
-        layer:
-        - 40
-        - 0
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 3
-        - 0
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 480
-      - 10
-      vias:
-      - function: via
-        layer:
-        - 40
-        - 0
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_a69541f2
-    size:
-    - 480
-    - 10
-  straight_61941bd7:
-    changed:
-      cross_section:
-        function: pn
-      length: 480
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: pn
-      length: 480
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 480
-    module: gdsfactory.components.straight
-    name: straight_61941bd7
-    width: 0.5
-  straight_pin_b5110479:
-    changed:
-      cross_section:
-        function: pn
-    default:
-      contact:
-        function: contact
-        layers:
-        - - 3
-          - 0
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - function: via
-          layer:
-          - 40
-          - 0
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      contact_spacing: 2
-      contact_width: 10
-      cross_section:
-        function: pin
-      length: 500
-      taper:
-        function: taper_strip_to_ridge
-    full:
-      contact:
-        function: contact
-        layers:
-        - - 3
-          - 0
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - function: via
-          layer:
-          - 40
-          - 0
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      contact_spacing: 2
-      contact_width: 10
-      cross_section:
-        function: pn
-      length: 500
-      taper:
-        function: taper_strip_to_ridge
-    function_name: straight_pin
-    info_version: 1
-    module: gdsfactory.components.straight_pin
-    name: straight_pin_b5110479
-  taper_strip_to_ridge:
-    changed: {}
-    default:
-      cladding_offset: 3
-      cross_section:
-        function: cross_section
-      layer_slab:
-      - 3
-      - 0
-      layer_wg:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 10
-      w_slab1: 0.15
-      w_slab2: 6
-      width1: 0.5
-      width2: 0.5
-    full:
-      cladding_offset: 3
-      cross_section:
-        function: cross_section
-      layer_slab:
-      - 3
-      - 0
-      layer_wg:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 10
-      w_slab1: 0.15
-      w_slab2: 6
-      width1: 0.5
-      width2: 0.5
-    function_name: taper_strip_to_ridge
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_strip_to_ridge
 info:
-  changed:
-    cross_section:
-      function: pn
-  default:
-    contact:
-      function: contact
-      layers:
-      - - 3
-        - 0
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - function: via
-        layer:
-        - 40
-        - 0
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    contact_spacing: 2
-    contact_width: 10
-    cross_section:
-      function: pin
-    length: 500
-    taper:
-      function: taper_strip_to_ridge
-  full:
-    contact:
-      function: contact
-      layers:
-      - - 3
-        - 0
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - function: via
-        layer:
-        - 40
-        - 0
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    contact_spacing: 2
-    contact_width: 10
-    cross_section:
-      function: pn
-    length: 500
-    taper:
-      function: taper_strip_to_ridge
   function_name: straight_pin
   info_version: 1
   module: gdsfactory.components.straight_pin
   name: straight_pin_b5110479
-ports:
-  bot_e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - -6
-    name: bot_e1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  bot_e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 240
-    - -1
-    name: bot_e2
-    orientation: 90
-    port_type: electrical
-    width: 480
-  bot_e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 480
-    - -6
-    name: bot_e3
-    orientation: 0
-    port_type: electrical
-    width: 10
-  bot_e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 240
-    - -11
-    name: bot_e4
-    orientation: 270
-    port_type: electrical
-    width: 480
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -10
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 490
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  top_e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 6
-    name: top_e1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  top_e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 240
-    - 11
-    name: top_e2
-    orientation: 90
-    port_type: electrical
-    width: 480
-  top_e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 480
-    - 6
-    name: top_e3
-    orientation: 0
-    port_type: electrical
-    width: 10
-  top_e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 240
-    - 1
-    name: top_e4
-    orientation: 270
-    port_type: electrical
-    width: 480
+settings_changed:
+  cross_section:
+    function: pn
+settings_default:
+  contact:
+    function: contact
+    layers:
+    - - 3
+      - 0
+    - - 41
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+    vias:
+    - function: via
+      layer:
+      - 40
+      - 0
+    - enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
+    - function: via
+      layer:
+      - 43
+      - 0
+  contact_spacing: 2
+  contact_width: 10
+  cross_section:
+    function: pin
+  length: 500
+  taper:
+    function: taper_strip_to_ridge
+settings_full:
+  contact:
+    function: contact
+    layers:
+    - - 3
+      - 0
+    - - 41
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+    vias:
+    - function: via
+      layer:
+      - 40
+      - 0
+    - enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
+    - function: via
+      layer:
+      - 43
+      - 0
+  contact_spacing: 2
+  contact_width: 10
+  cross_section:
+    function: pn
+  length: 500
+  taper:
+    function: taper_strip_to_ridge
 version: 0.0.1

@@ -1,105 +1,19 @@
-cells:
-  array_with_via_2d:
-    changed: {}
-    default:
-      columns: 3
-      rows: 2
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 3
-      rows: 2
-      spacing:
-      - 150
-      - 150
-    function_name: array_with_via_2d
-    info_version: 1
-    module: gdsfactory.components.array_with_via
-    name: array_with_via_2d
 info:
-  changed: {}
-  default:
-    columns: 3
-    rows: 2
-    spacing:
-    - 150
-    - 150
-  full:
-    columns: 3
-    rows: 2
-    spacing:
-    - 150
-    - 150
   function_name: array_with_via_2d
   info_version: 1
   module: gdsfactory.components.array_with_via
   name: array_with_via_2d
-ports:
-  e0_1_1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -65.5
-    - 0
-    name: e0_1_1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  e0_2_1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -65.5
-    - 150
-    name: e0_2_1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  e1_1_1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -65.5
-    - 10
-    name: e1_1_1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  e1_2_1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -65.5
-    - 160
-    name: e1_2_1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  e2_1_1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -65.5
-    - 20
-    name: e2_1_1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  e2_2_1:
-    layer:
-    - 45
-    - 0
-    midpoint:
-    - -65.5
-    - 170
-    name: e2_2_1
-    orientation: 180
-    port_type: electrical
-    width: 10
+settings_changed: {}
+settings_default:
+  columns: 3
+  rows: 2
+  spacing:
+  - 150
+  - 150
+settings_full:
+  columns: 3
+  rows: 2
+  spacing:
+  - 150
+  - 150
 version: 0.0.1

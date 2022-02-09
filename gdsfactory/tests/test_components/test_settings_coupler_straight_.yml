@@ -1,99 +1,17 @@
-cells:
-  coupler_straight:
-    changed: {}
-    default:
-      gap: 0.27
-      length: 10
-      straight:
-        function: straight
-    full:
-      gap: 0.27
-      length: 10
-      straight:
-        function: straight
-    function_name: coupler_straight
-    info_version: 1
-    module: gdsfactory.components.coupler_straight
-    name: coupler_straight
-  straight:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight
-    width: 0.5
 info:
-  changed: {}
-  default:
-    gap: 0.27
-    length: 10
-    straight:
-      function: straight
-  full:
-    gap: 0.27
-    length: 10
-    straight:
-      function: straight
   function_name: coupler_straight
   info_version: 1
   module: gdsfactory.components.coupler_straight
   name: coupler_straight
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0.77
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0.77
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  gap: 0.27
+  length: 10
+  straight:
+    function: straight
+settings_full:
+  gap: 0.27
+  length: 10
+  straight:
+    function: straight
 version: 0.0.1
