@@ -333,6 +333,9 @@ TECH = Tech()
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.component import clean_value_json
+
+    d = clean_value_json(SIMULATION_SETTINGS)
 
     def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
         return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
