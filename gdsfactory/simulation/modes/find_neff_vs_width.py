@@ -1,5 +1,4 @@
 import pathlib
-from functools import partial
 
 import matplotlib.pyplot as plt
 import meep as mp
@@ -8,9 +7,7 @@ import pandas as pd
 import pydantic
 from tqdm import tqdm
 
-from gdsfactory.simulation.modes.find_modes import find_modes
-from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.modes.types import ModeSolverFactory
+from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 from gdsfactory.types import Optional, PathType
 
 
@@ -19,7 +16,6 @@ def find_neff_vs_width(
     width1: float = 0.2,
     width2: float = 1.0,
     steps: int = 12,
-    mode_solver: ModeSolverFactory = get_mode_solver_rib,
     nmodes: int = 4,
     wavelength: float = 1.55,
     parity=mp.NO_PARITY,
@@ -33,7 +29,6 @@ def find_neff_vs_width(
         width1: starting waveguide width.
         width2: end waveguide width.
         steps: number of points.
-        mode_solver: function that returns mpb.ModeSolver
         nmodes: number of modes to compute.
         wavelength: wavelength in um.
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
@@ -60,8 +55,13 @@ def find_neff_vs_width(
         neff[mode_number] = []
 
     for wg_width in tqdm(width):
-        mode_solver = partial(mode_solver, wg_width=wg_width, nmodes=nmodes, **kwargs)
-        modes = find_modes(mode_solver, wavelength=wavelength, parity=parity)
+        modes = find_modes_waveguide(
+            wavelength=wavelength,
+            parity=parity,
+            nmodes=nmodes,
+            wg_width=wg_width,
+            **kwargs
+        )
         for mode_number in range(1, nmodes + 1):
             mode = modes[mode_number]
             neff[mode_number].append(mode.neff)
@@ -91,26 +91,3 @@ if __name__ == "__main__":
     df = find_neff_vs_width(steps=3, filepath="neff_vs_width.csv")
     plot_neff_vs_width(df)
     plt.show()
-
-    # width1: float = 0.5
-    # width2: float = 1.0
-    # steps: int = 3
-    # mode_solver = get_mode_solver_rib
-    # nmodes: int = 4
-    # wavelength: float = 1.55
-    # parity = mp.NO_PARITY
-    # width = np.linspace(width1, width2, steps)
-
-    # neff = {}
-
-    # for mode_number in range(1, nmodes + 1):
-    #     neff[mode_number] = []
-
-    # for wg_width in width:
-    #     mode_solver = partial(mode_solver, wg_width=wg_width, nmodes=nmodes)
-    #     modes = find_modes(mode_solver, wavelength=wavelength, parity=parity)
-    #     for mode_number in range(1, nmodes + 1):
-    #         mode = modes[mode_number]
-    #         neff[mode_number].append(mode.neff)
-
-    # s = WidthSweep(width=list(width), neff=neff)
