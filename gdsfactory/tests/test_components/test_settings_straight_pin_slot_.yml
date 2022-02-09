@@ -1,89 +1,92 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    contact:
+      function: contact
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    contact_slab:
+      function: contact_slot
+      layers:
+      - - 41
+        - 0
+      via:
+        function: via
+        layer:
+        - 40
+        - 0
+    contact_slab_bot: null
+    contact_slab_spacing: 2
+    contact_slab_top: null
+    contact_slab_width: null
+    contact_spacing: 3
+    contact_width: 10
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
+  full:
+    contact:
+      function: contact
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    contact_slab:
+      function: contact_slot
+      layers:
+      - - 41
+        - 0
+      via:
+        function: via
+        layer:
+        - 40
+        - 0
+    contact_slab_bot: null
+    contact_slab_spacing: 2
+    contact_slab_top: null
+    contact_slab_width: null
+    contact_spacing: 3
+    contact_width: 10
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
   function_name: straight_pin_slot
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_pin_slot
   name: straight_pin_slot
-settings_changed: {}
-settings_default:
-  contact:
-    function: contact
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  contact_slab:
-    function: contact_slot
-    layers:
-    - - 41
-      - 0
-    via:
-      function: via
-      layer:
-      - 40
-      - 0
-  contact_slab_bot: null
-  contact_slab_spacing: 2
-  contact_slab_top: null
-  contact_slab_width: null
-  contact_spacing: 3
-  contact_width: 10
-  cross_section:
-    function: pin
-  length: 500
-  taper:
-    function: taper_strip_to_ridge
-settings_full:
-  contact:
-    function: contact
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  contact_slab:
-    function: contact_slot
-    layers:
-    - - 41
-      - 0
-    via:
-      function: via
-      layer:
-      - 40
-      - 0
-  contact_slab_bot: null
-  contact_slab_spacing: 2
-  contact_slab_top: null
-  contact_slab_width: null
-  contact_spacing: 3
-  contact_width: 10
-  cross_section:
-    function: pin
-  length: 500
-  taper:
-    function: taper_strip_to_ridge
 version: 0.0.1

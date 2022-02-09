@@ -1,17 +1,20 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    gap: 0.27
+    length: 10
+    straight:
+      function: straight
+  full:
+    gap: 0.27
+    length: 10
+    straight:
+      function: straight
   function_name: coupler_straight
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler_straight
   name: coupler_straight
-settings_changed: {}
-settings_default:
-  gap: 0.27
-  length: 10
-  straight:
-    function: straight
-settings_full:
-  gap: 0.27
-  length: 10
-  straight:
-    function: straight
 version: 0.0.1

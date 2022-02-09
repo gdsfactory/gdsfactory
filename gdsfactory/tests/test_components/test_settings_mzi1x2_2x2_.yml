@@ -1,56 +1,59 @@
-info:
+info: {}
+settings:
+  changed:
+    combiner:
+      function: mmi2x2
+    port_e0_combiner: o4
+    port_e1_combiner: o3
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    combiner: null
+    cross_section:
+      function: cross_section
+    delta_length: 10
+    length_x: 0.1
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  full:
+    bend:
+      function: bend_euler
+    combiner:
+      function: mmi2x2
+    cross_section:
+      function: cross_section
+    delta_length: 10
+    length_x: 0.1
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o4
+    port_e0_splitter: o3
+    port_e1_combiner: o3
+    port_e1_splitter: o2
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
   function_name: mzi
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mzi
   name: mzi_a62d3423
-settings_changed:
-  combiner:
-    function: mmi2x2
-  port_e0_combiner: o4
-  port_e1_combiner: o3
-settings_default:
-  bend:
-    function: bend_euler
-  combiner: null
-  cross_section:
-    function: cross_section
-  delta_length: 10
-  length_x: 0.1
-  length_y: 2
-  nbends: 2
-  port_e0_combiner: o3
-  port_e0_splitter: o3
-  port_e1_combiner: o2
-  port_e1_splitter: o2
-  splitter:
-    function: mmi1x2
-  straight:
-    function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
-  with_splitter: true
-settings_full:
-  bend:
-    function: bend_euler
-  combiner:
-    function: mmi2x2
-  cross_section:
-    function: cross_section
-  delta_length: 10
-  length_x: 0.1
-  length_y: 2
-  nbends: 2
-  port_e0_combiner: o4
-  port_e0_splitter: o3
-  port_e1_combiner: o3
-  port_e1_splitter: o2
-  splitter:
-    function: mmi1x2
-  straight:
-    function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
-  with_splitter: true
 version: 0.0.1

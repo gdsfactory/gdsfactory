@@ -1,23 +1,26 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 1
+    - 0
+    x: 10
+    xtop: 0
+    y: 20
+    ybot: 0
+  full:
+    layer:
+    - 1
+    - 0
+    x: 10
+    xtop: 0
+    y: 20
+    ybot: 0
   function_name: triangle
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.triangle
   name: triangle
-settings_changed: {}
-settings_default:
-  layer:
-  - 1
-  - 0
-  x: 10
-  xtop: 0
-  y: 20
-  ybot: 0
-settings_full:
-  layer:
-  - 1
-  - 0
-  x: 10
-  xtop: 0
-  y: 20
-  ybot: 0
 version: 0.0.1

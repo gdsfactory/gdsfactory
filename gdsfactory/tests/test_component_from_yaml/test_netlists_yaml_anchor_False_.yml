@@ -1,15 +1,11 @@
 connections: {}
 instances:
   mmi_long:
-    component: mmi1x2
-    settings:
-      length_mmi: 10
-      width_mmi: 4.5
+    component: mmi1x2_25023716
+    settings: {}
   mmi_short:
-    component: mmi1x2
-    settings:
-      length_mmi: 5
-      width_mmi: 4.5
+    component: mmi1x2_63d4efba
+    settings: {}
 name: yaml_anchor
 placements:
   mmi_long:

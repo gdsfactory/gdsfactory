@@ -258,7 +258,7 @@
 
 ## 3.9.19
 
-- add `Component.get_setting()` which looks inside info, info.full and child_info
+- add `Component.get_setting()` which looks inside info, settings.full and child_info
 - add `gf.function.add_settings_label` decorator
 
 ## 3.9.18
@@ -398,7 +398,7 @@
 
 ## 3.8.10
 
-- get_netlist works even with cells that have have no info.full or info.changed (not properly decorated with cell decorator)
+- get_netlist works even with cells that have have no settings.full or info.changed (not properly decorated with cell decorator)
 
 ## 3.8.9
 

@@ -25,7 +25,9 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     bend_ref = bend.ref()
     bend_ref.connect("o1", port1)
     return Route(
-        references=[bend_ref], length=bend.info_child["length"], ports=(port1, port2)
+        references=[bend_ref],
+        length=bend.settings_child["length"],
+        ports=(port1, port2),
     )
 
 

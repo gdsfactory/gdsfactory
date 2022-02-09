@@ -52,7 +52,7 @@ def delay_snake2(
 
     bend180 = bend180(cross_section=cross_section, **kwargs)
 
-    delta_length = (length - length0 - n * bend180.info.length) / (n + 1)
+    delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
     length1 = delta_length - length0
     assert (
         length1 > 0
@@ -85,9 +85,9 @@ def test_delay_snake2_length() -> Component:
     n = 6
     c = delay_snake2(n=n, length=length, layer=(2, 0))
     length_measured = (
-        c.aliases[")1"].parent.info.length * n
-        + c.aliases["-1"].parent.info.length * n
-        + c.aliases["_1"].parent.info.length
+        c.aliases[")1"].parent.info["length"] * n
+        + c.aliases["-1"].parent.info["length"] * n
+        + c.aliases["_1"].parent.info["length"]
     )
     assert np.isclose(
         length, length_measured

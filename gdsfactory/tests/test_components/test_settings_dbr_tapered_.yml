@@ -1,43 +1,46 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    dc: 0.5
+    direction: EAST
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    length: 10
+    period: 0.85
+    port:
+    - 0
+    - 0
+    taper_length: 20
+    w1: 0.4
+    w2: 1
+    waveguide_template:
+      function: strip
+    waveguide_template_dbr: null
+  full:
+    dc: 0.5
+    direction: EAST
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    length: 10
+    period: 0.85
+    port:
+    - 0
+    - 0
+    taper_length: 20
+    w1: 0.4
+    w2: 1
+    waveguide_template:
+      function: strip
+    waveguide_template_dbr: null
   function_name: dbr_tapered
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.dbr_tapered
   name: dbr_tapered
-settings_changed: {}
-settings_default:
-  dc: 0.5
-  direction: EAST
-  fin_size:
-  - 0.2
-  - 0.05
-  fins: false
-  length: 10
-  period: 0.85
-  port:
-  - 0
-  - 0
-  taper_length: 20
-  w1: 0.4
-  w2: 1
-  waveguide_template:
-    function: strip
-  waveguide_template_dbr: null
-settings_full:
-  dc: 0.5
-  direction: EAST
-  fin_size:
-  - 0.2
-  - 0.05
-  fins: false
-  length: 10
-  period: 0.85
-  port:
-  - 0
-  - 0
-  taper_length: 20
-  w1: 0.4
-  w2: 1
-  waveguide_template:
-    function: strip
-  waveguide_template_dbr: null
 version: 0.0.1

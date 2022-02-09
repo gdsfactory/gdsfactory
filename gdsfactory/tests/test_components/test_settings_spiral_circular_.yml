@@ -1,26 +1,30 @@
 info:
-  function_name: spiral_circular
-  info_version: 1
   length: 1694.813
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 1
+    - 0
+    length: 1000
+    min_bend_radius: 5
+    points: 1000
+    spacing: 3
+    wg_width: 0.5
+  full:
+    layer:
+    - 1
+    - 0
+    length: 1000
+    min_bend_radius: 5
+    points: 1000
+    spacing: 3
+    wg_width: 0.5
+  function_name: spiral_circular
+  info:
+    length: 1694.813
+  info_version: 2
   module: gdsfactory.components.spiral_circular
   name: spiral_circular
-settings_changed: {}
-settings_default:
-  layer:
-  - 1
-  - 0
-  length: 1000
-  min_bend_radius: 5
-  points: 1000
-  spacing: 3
-  wg_width: 0.5
-settings_full:
-  layer:
-  - 1
-  - 0
-  length: 1000
-  min_bend_radius: 5
-  points: 1000
-  spacing: 3
-  wg_width: 0.5
 version: 0.0.1

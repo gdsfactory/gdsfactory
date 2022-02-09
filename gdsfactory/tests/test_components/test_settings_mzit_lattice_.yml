@@ -1,29 +1,32 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+    mzi:
+      function: mzit
+  full:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+    mzi:
+      function: mzit
   function_name: mzit_lattice
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mzit_lattice
   name: mzit_lattice
-settings_changed: {}
-settings_default:
-  coupler_gaps:
-  - 0.2
-  - 0.3
-  coupler_lengths:
-  - 10
-  - 20
-  delta_lengths:
-  - 10
-  mzi:
-    function: mzit
-settings_full:
-  coupler_gaps:
-  - 0.2
-  - 0.3
-  coupler_lengths:
-  - 10
-  - 20
-  delta_lengths:
-  - 10
-  mzi:
-    function: mzit
 version: 0.0.1

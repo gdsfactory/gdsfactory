@@ -21,53 +21,41 @@ connections:
   bend_euler_2e0a66fe_525p125_375p125,o2: straight_1a88079a_395p0_380p0,o1
 instances:
   bend_euler_2e0a66fe_225p125_204p875:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_234p875_555p125:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_234p875_584p875:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_234p875_595p125:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_255p125_4p875:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_264p875_355p125:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_264p875_384p875:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_264p875_395p125:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_495p125_564p875:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_495p125_575p125:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_525p125_364p875:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_525p125_375p125:
-    component: bend_euler
-    settings:
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bl:
     component: pad
     settings: {}
@@ -75,55 +63,35 @@ instances:
     component: pad
     settings: {}
   straight_1a88079a_365p0_560p0:
-    component: straight
-    settings:
-      length: 250
-      radius: 10
+    component: straight_1a88079a
+    settings: {}
   straight_1a88079a_365p0_580p0:
-    component: straight
-    settings:
-      length: 250
-      radius: 10
+    component: straight_1a88079a
+    settings: {}
   straight_1a88079a_395p0_360p0:
-    component: straight
-    settings:
-      length: 250
-      radius: 10
+    component: straight_1a88079a
+    settings: {}
   straight_1a88079a_395p0_380p0:
-    component: straight
-    settings:
-      length: 250
-      radius: 10
+    component: straight_1a88079a
+    settings: {}
   straight_730b39a8_150p0_0p0:
-    component: straight
-    settings:
-      length: 200
-      radius: 10
+    component: straight_730b39a8
+    settings: {}
   straight_76c7a705_545p0_600p0:
-    component: straight
-    settings:
-      length: 610
-      radius: 10
+    component: straight_76c7a705
+    settings: {}
   straight_80b7924a_135p0_200p0:
-    component: straight
-    settings:
-      length: 170
-      radius: 10
+    component: straight_80b7924a
+    settings: {}
   straight_aa7b6441_230p0_380p0:
-    component: straight
-    settings:
-      length: 340
-      radius: 10
+    component: straight_aa7b6441
+    settings: {}
   straight_aa7b6441_260p0_180p0:
-    component: straight
-    settings:
-      length: 340
-      radius: 10
+    component: straight_aa7b6441
+    settings: {}
   straight_e3b83c00_560p0_400p0:
-    component: straight
-    settings:
-      length: 580
-      radius: 10
+    component: straight_e3b83c00
+    settings: {}
   tl:
     component: pad
     settings: {}

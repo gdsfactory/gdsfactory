@@ -3,17 +3,17 @@ import copy
 import functools
 import hashlib
 import inspect
-from typing import Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import toolz
-from pydantic import validate_arguments
+from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_short
 from gdsfactory.serialization import clean_dict
 
 CACHE: Dict[str, Component] = {}
-INFO_VERSION = 1
+INFO_VERSION = 2
 
 
 class CellReturnTypeError(ValueError):
@@ -41,6 +41,21 @@ def get_source_code(func: Callable) -> str:
     else:
         raise ValueError(f"{func!r} needs to be callable")
     return source
+
+
+class Settings(BaseModel):
+    name: str
+    module: str
+    function_name: str
+
+    info: Dict[str, Any]
+    info_version: int = INFO_VERSION
+
+    full: Dict[str, Any]
+    changed: Dict[str, Any]
+    default: Dict[str, Any]
+
+    child: Optional[Dict[str, Any]] = None
 
 
 def cell_without_validator(func):
@@ -129,6 +144,9 @@ def cell_without_validator(func):
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
 
             component = func(*args, **kwargs)
+            child_settings = (
+                component.child.settings if hasattr(component, "child") else None
+            )
 
             if not isinstance(component, Component):
                 raise CellReturnTypeError(
@@ -136,12 +154,8 @@ def cell_without_validator(func):
                     "make sure that functions with @cell decorator return a Component",
                 )
 
-            if (
-                component.get_child_name
-                and hasattr(component, "info_child")
-                and hasattr(component.info_child, "name")
-            ):
-                component_name = f"{component.info_child.name}_{name}"
+            if child_settings and component.get_child_name:
+                component_name = f"{child_settings.name}_{name}"
                 component_name = get_name_short(
                     component_name, max_name_length=max_name_length
                 )
@@ -150,15 +164,18 @@ def cell_without_validator(func):
 
             if autoname:
                 component.name = component_name
-            component.info.name = component_name
-            component.info.module = func.__module__
-            component.info.function_name = func.__name__
-            component.info.info_version = INFO_VERSION
-            component.info.update(**info)
 
-            component.settings_changed = clean_dict(changed)
-            component.settings_default = clean_dict(default)
-            component.settings_full = clean_dict(full)
+            component.info.update(**info)
+            component.settings = Settings(
+                name=component_name,
+                module=func.__module__,
+                function_name=func.__name__,
+                changed=clean_dict(changed),
+                default=clean_dict(default),
+                full=clean_dict(full),
+                info=component.info,
+                child=child_settings,
+            )
 
             if decorator:
                 if not callable(decorator):
@@ -232,6 +249,34 @@ def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     c.add_polygon([(0, -w), (length, -w), (length, w), (0, w)], layer=layer)
     c.add_port(name="o1", midpoint=[0, 0], width=width, orientation=180, layer=layer)
     c.add_port(name="o2", midpoint=[length, 0], width=width, orientation=0, layer=layer)
+    return c
+
+
+@cell
+def wg2(wg1=wg) -> Component:
+    """Dummy component for testing."""
+    from gdsfactory.component import Component
+
+    c = Component("straight")
+    w = wg1()
+    w1 = c << w
+    w1.rotate(90)
+    c.copy_child_info(w)
+    c.add_ports(w1.ports)
+    return c
+
+
+@cell
+def wg3(wg1=wg2) -> Component:
+    """Dummy component for testing."""
+    from gdsfactory.component import Component
+
+    c = Component("straight")
+    w = wg1()
+    w1 = c << w
+    w1.rotate(90)
+    c.copy_child_info(w)
+    c.add_ports(w1.ports)
     return c
 
 
@@ -310,6 +355,9 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     # print(c.name)
 
-    print(wg(length=3).name)
-    print(wg(length=3.0).name)
-    print(wg().name)
+    c = wg3()
+    print(c.name)
+
+    # print(wg(length=3).name)
+    # print(wg(length=3.0).name)
+    # print(wg().name)

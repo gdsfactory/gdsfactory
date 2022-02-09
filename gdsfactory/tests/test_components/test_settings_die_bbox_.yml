@@ -1,128 +1,12 @@
-cells:
-  compass_5992b8ec:
-    changed:
-      size:
-      - 1300
-      - 2600
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 1300
-      - 2600
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_5992b8ec
-  rectangle_5992b8ec:
-    changed:
-      size:
-      - 1300
-      - 2600
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 1300
-      - 2600
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_5992b8ec
-  rectangle_5992b8ec_die_bbox:
-    changed: {}
-    child:
-      changed:
-        size:
-        - 1300
-        - 2600
-      default:
-        centered: false
-        layer:
-        - 1
-        - 0
-        port_type: electrical
-        size:
-        - 4
-        - 2
-      full:
-        centered: false
-        layer:
-        - 1
-        - 0
-        port_type: electrical
-        size:
-        - 1300
-        - 2600
-      function_name: rectangle
-      info_version: 1
-      module: gdsfactory.components.rectangle
-      name: rectangle_5992b8ec
-    default:
-      component:
-        function: rectangle
-        size:
-        - 1300
-        - 2600
-      die_name: null
-      layer:
-      - 49
-      - 0
-      padding: 10
-      street_length: 1000
-      street_width: 100
-      text_anchor: sw
-      text_size: 100
-    full:
-      component:
-        function: rectangle
-        size:
-        - 1300
-        - 2600
-      die_name: null
-      layer:
-      - 49
-      - 0
-      padding: 10
-      street_length: 1000
-      street_width: 100
-      text_anchor: sw
-      text_size: 100
-    function_name: die_bbox
-    info_version: 1
-    module: gdsfactory.components.die_bbox
-    name: rectangle_5992b8ec_die_bbox
-info:
+info: {}
+settings:
   changed: {}
   child:
     changed:
       size:
       - 1300
       - 2600
+    child: null
     default:
       centered: false
       layer:
@@ -142,7 +26,8 @@ info:
       - 1300
       - 2600
     function_name: rectangle
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.rectangle
     name: rectangle_5992b8ec
   default:
@@ -176,8 +61,8 @@ info:
     text_anchor: sw
     text_size: 100
   function_name: die_bbox
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.die_bbox
   name: rectangle_5992b8ec_die_bbox
-ports: {}
 version: 0.0.1

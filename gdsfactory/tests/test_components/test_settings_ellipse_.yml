@@ -1,23 +1,26 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radii:
+    - 10
+    - 5
+  full:
+    angle_resolution: 2.5
+    layer:
+    - 1
+    - 0
+    radii:
+    - 10
+    - 5
   function_name: ellipse
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.ellipse
   name: ellipse
-settings_changed: {}
-settings_default:
-  angle_resolution: 2.5
-  layer:
-  - 1
-  - 0
-  radii:
-  - 10
-  - 5
-settings_full:
-  angle_resolution: 2.5
-  layer:
-  - 1
-  - 0
-  radii:
-  - 10
-  - 5
 version: 0.0.1

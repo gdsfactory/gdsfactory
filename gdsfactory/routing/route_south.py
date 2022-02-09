@@ -66,7 +66,7 @@ def route_south(
     references = []
     lengths = []
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
-    dy = abs(bend90.info.dy)
+    dy = abs(bend90.info["dy"])
 
     # Handle empty list gracefully
     if not optical_ports:

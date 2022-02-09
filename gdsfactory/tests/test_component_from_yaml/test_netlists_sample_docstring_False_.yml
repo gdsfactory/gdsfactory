@@ -13,27 +13,20 @@ instances:
     component: bend_euler
     settings: {}
   mmi_bot:
-    component: mmi1x2
-    settings:
-      length_mmi: 11
-      width_mmi: 5
+    component: mmi1x2_52b0d64a
+    settings: {}
   mmi_top:
-    component: mmi1x2
-    settings:
-      length_mmi: 22
-      width_mmi: 6
+    component: mmi1x2_28584457
+    settings: {}
   straight_720ba455_71p99_m20p0:
-    component: straight
-    settings:
-      length: 18.75
+    component: straight_720ba455
+    settings: {}
   straight_775184d2_51p995_m0p625:
-    component: straight
-    settings:
-      length: 19.99
+    component: straight_775184d2
+    settings: {}
   straight_c49ce9c6_81p995_m39p375:
-    component: straight
-    settings:
-      length: 0.01
+    component: straight_c49ce9c6
+    settings: {}
 name: sample_docstring
 placements:
   bend_euler_67p115_m5p5:

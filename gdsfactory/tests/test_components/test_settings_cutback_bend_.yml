@@ -1,24 +1,28 @@
 info:
-  function_name: cutback_bend
-  info_version: 1
-  module: gdsfactory.components.cutback_bend
   n_bends: 68
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90:
+      function: bend_euler
+    columns: 5
+    rows: 6
+    straight:
+      function: straight
+    straight_length: 5
+  full:
+    bend90:
+      function: bend_euler
+    columns: 5
+    rows: 6
+    straight:
+      function: straight
+    straight_length: 5
+  function_name: cutback_bend
+  info:
+    n_bends: 68
+  info_version: 2
+  module: gdsfactory.components.cutback_bend
   name: cutback_bend
-settings_changed: {}
-settings_default:
-  bend90:
-    function: bend_euler
-  columns: 5
-  rows: 6
-  straight:
-    function: straight
-  straight_length: 5
-settings_full:
-  bend90:
-    function: bend_euler
-  columns: 5
-  rows: 6
-  straight:
-    function: straight
-  straight_length: 5
 version: 0.0.1

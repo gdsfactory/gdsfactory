@@ -13,7 +13,7 @@ def straight_with_pins(**kwargs):
 def test_metadata_export_pdk():
     c = gf.components.mzi(straight=straight_with_pins)
     d = c.to_dict()
-    assert d.info.full.straight.function == "straight_with_pins"
+    assert d.settings.full.straight.function == "straight_with_pins"
 
 
 if __name__ == "__main__":
@@ -21,9 +21,9 @@ if __name__ == "__main__":
 
     c = gf.components.mzi(straight=straight_with_pins)
     d = c.to_dict()
-    print(d.info.full.straight)
+    print(d.settings.full.straight)
 
-    # df = d.info.full
+    # df = d.settings.full
     # sf = df.straight
     # print(sf)
 

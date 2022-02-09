@@ -50,7 +50,7 @@ def clean_value_json(value: Any) -> Any:
         value = int(value)
     elif isinstance(value, np.ndarray):
         value = np.round(value, 3)
-        value = orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY)
+        value = orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY).decode()
     elif isinstance(value, np.float64):
         value = float(value)
     elif type(value) in [int, float, str, bool]:

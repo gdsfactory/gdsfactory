@@ -1,17 +1,20 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90:
+      function: bend_euler
+    component:
+      function: mmi1x2
+  full:
+    bend90:
+      function: bend_euler
+    component:
+      function: mmi1x2
   function_name: loop_mirror
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.loop_mirror
   name: loop_mirror
-settings_changed: {}
-settings_default:
-  bend90:
-    function: bend_euler
-  component:
-    function: mmi1x2
-settings_full:
-  bend90:
-    function: bend_euler
-  component:
-    function: mmi1x2
 version: 0.0.1

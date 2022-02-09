@@ -1,17 +1,20 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    n: 4
+    spacing: 4
+    straigth:
+      function: straight
+  full:
+    n: 4
+    spacing: 4
+    straigth:
+      function: straight
   function_name: straight_array
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_array
   name: straight_array
-settings_changed: {}
-settings_default:
-  n: 4
-  spacing: 4
-  straigth:
-    function: straight
-settings_full:
-  n: 4
-  spacing: 4
-  straigth:
-    function: straight
 version: 0.0.1

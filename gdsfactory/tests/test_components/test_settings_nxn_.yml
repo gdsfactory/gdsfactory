@@ -1,31 +1,34 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    east: 4
+    layer:
+    - 1
+    - 0
+    north: 0
+    south: 0
+    west: 1
+    wg_margin: 1
+    wg_width: 0.5
+    xsize: 8
+    ysize: 8
+  full:
+    east: 4
+    layer:
+    - 1
+    - 0
+    north: 0
+    south: 0
+    west: 1
+    wg_margin: 1
+    wg_width: 0.5
+    xsize: 8
+    ysize: 8
   function_name: nxn
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.nxn
   name: nxn
-settings_changed: {}
-settings_default:
-  east: 4
-  layer:
-  - 1
-  - 0
-  north: 0
-  south: 0
-  west: 1
-  wg_margin: 1
-  wg_width: 0.5
-  xsize: 8
-  ysize: 8
-settings_full:
-  east: 4
-  layer:
-  - 1
-  - 0
-  north: 0
-  south: 0
-  west: 1
-  wg_margin: 1
-  wg_width: 0.5
-  xsize: 8
-  ysize: 8
 version: 0.0.1
