@@ -1,41 +1,44 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    contact:
+      function: rectangle
+      layer:
+      - 49
+      - 0
+    layer_metal:
+    - 49
+    - 0
+    metal_spacing: 5
+    pad:
+      function: pad
+    pad_spacing: 150
+    short: true
+    size:
+    - 22
+    - 7
+  full:
+    contact:
+      function: rectangle
+      layer:
+      - 49
+      - 0
+    layer_metal:
+    - 49
+    - 0
+    metal_spacing: 5
+    pad:
+      function: pad
+    pad_spacing: 150
+    short: true
+    size:
+    - 22
+    - 7
   function_name: pad_gsg_short
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.pad_gsg
   name: pad_gsg_short
-settings_changed: {}
-settings_default:
-  contact:
-    function: rectangle
-    layer:
-    - 49
-    - 0
-  layer_metal:
-  - 49
-  - 0
-  metal_spacing: 5
-  pad:
-    function: pad
-  pad_spacing: 150
-  short: true
-  size:
-  - 22
-  - 7
-settings_full:
-  contact:
-    function: rectangle
-    layer:
-    - 49
-    - 0
-  layer_metal:
-  - 49
-  - 0
-  metal_spacing: 5
-  pad:
-    function: pad
-  pad_spacing: 150
-  short: true
-  size:
-  - 22
-  - 7
 version: 0.0.1

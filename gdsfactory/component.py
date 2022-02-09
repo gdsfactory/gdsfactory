@@ -356,15 +356,15 @@ class Component(Device):
         for port in ports_list:
             print(port)
 
-    @property
-    def settings_child(self) -> Dict[str, Any]:
-        """Returns settings from child if any, otherwise returns its settings"""
-        settings = dict(self.settings)
+    # @property
+    # def settings_child(self) -> Dict[str, Any]:
+    #     """Returns settings from child if any, otherwise returns its settings"""
+    #     settings = dict(self.settings)
 
-        while settings.get("child"):
-            settings = settings.get("child")
+    #     while settings.get("child"):
+    #         settings = settings.get("child")
 
-        return settings
+    #     return settings
 
     def add_port(
         self,
@@ -541,8 +541,10 @@ class Component(Device):
         return SizeInfo(self.bbox)
 
     def get_setting(self, setting: str) -> Union[str, int, float]:
-        return self.info.get(
-            setting, self.settings.full.get(setting, self.settings.child.get(setting))
+        return (
+            self.info.get(setting)
+            or self.settings.full.get(setting)
+            or self.settings_child.get(setting)
         )
 
     def is_unlocked(self) -> None:
