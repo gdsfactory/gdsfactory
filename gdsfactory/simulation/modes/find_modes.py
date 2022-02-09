@@ -42,6 +42,7 @@ def find_modes(
         wavelength: wavelength in um.
         mode_number: mode order of the first mode
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        kwargs: waveguide settings.
 
     Keyword Args:
         wg_width: wg_width (um)
@@ -55,7 +56,6 @@ def find_modes(
         nmodes: number of modes to compute.
 
     Returns: Dict[mode_number, Mode]
-
 
     compute mode_number lowest frequencies as a function of k. Also display
     "parities", i.e. whether the mode is symmetric or anti_symmetric
@@ -89,14 +89,14 @@ def find_modes(
         mpb.display_group_velocities,
     )
     enable_print()
-    vg = mode_solver.compute_group_velocities()
-    vg = vg[0]
     neff = np.array(k) * wavelength
-    ng = 1 / np.array(vg)
+
+    # vg = mode_solver.compute_group_velocities()
+    # vg = vg[0]
+    # ng = 1 / np.array(vg)
 
     modes = {}
     for index, i in enumerate(range(mode_number, mode_number + nmodes)):
-
         Ei = mode_solver.get_efield(i)
         Hi = mode_solver.get_hfield(i)
         y_num = np.shape(Ei[:, :, 0, 0])[0]
@@ -106,7 +106,6 @@ def find_modes(
             mode_number=i,
             neff=neff[index],
             wavelength=wavelength,
-            ng=ng,
             E=Ei,
             H=Hi,
             eps=mode_solver.get_epsilon().T,
