@@ -6,11 +6,8 @@ import numpy as np
 import pandas as pd
 import pydantic
 
-import gdsfactory as gf
-from gdsfactory.simulation.modes.find_modes import find_modes as find_modes_function
-from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
-from gdsfactory.simulation.modes.types import ModeSolverFactory
-from gdsfactory.types import Callable, Optional, PathType
+from gdsfactory.simulation.modes.find_modes import find_modes_coupler
+from gdsfactory.types import Optional, PathType
 
 
 def coupling_length(
@@ -36,12 +33,7 @@ def coupling_length(
 
 @pydantic.validate_arguments
 def find_coupling(
-    gap: float = 0.2,
-    mode_solver: ModeSolverFactory = get_mode_solver_coupler,
-    find_modes: Callable = find_modes_function,
-    power_ratio: float = 1.0,
-    wavelength: float = 1.55,
-    **kwargs
+    gap: float = 0.2, power_ratio: float = 1.0, wavelength: float = 1.55, **kwargs
 ) -> float:
     """
     Returns the coupling length (um) of the directional coupler
@@ -49,8 +41,6 @@ def find_coupling(
 
     Args:
         gap: in um
-        mode_solver: function to get the mode solver
-        find_modes: function to find the modes
         power_ratio: p2/p1, where 1 means 100% power transfer
         wavelength: in um
 
@@ -58,11 +48,7 @@ def find_coupling(
         nmodes: number of modes
         parity: for symmetries
     """
-    modes = find_modes(
-        mode_solver=gf.partial(mode_solver, gaps=(gap,)),
-        wavelength=wavelength,
-        **kwargs
-    )
+    modes = find_modes_coupler(gaps=(gap,), wavelength=wavelength, **kwargs)
     ne = modes[1].neff
     no = modes[2].neff
 
@@ -76,8 +62,6 @@ def find_coupling_vs_gap(
     gap1: float = 0.2,
     gap2: float = 0.4,
     steps: int = 12,
-    mode_solver: ModeSolverFactory = get_mode_solver_coupler,
-    find_modes: Callable = find_modes_function,
     nmodes: int = 4,
     wavelength: float = 1.55,
     parity=mp.NO_PARITY,
@@ -85,20 +69,34 @@ def find_coupling_vs_gap(
     overwrite: bool = False,
     **kwargs
 ) -> pd.DataFrame:
-    """
-    Returns coupling vs gap
+    """Returns coupling vs gap pandas DataFrame.
 
     Args:
-        gap1:
-        gap2:
-        steps:
-        mode_solver:
-        find_modes:
-        nmodes:
-        wavelength:
+        gap1: starting gap
+        gap2: end gap
+        steps: numbe of steps
+        nmodes: number of modes
+        wavelength: wavelength (um)
         parity:
-        filepath:
-        overwrite:
+        filepath: optional filepath to cache results on disk.
+        overwrite: overwrites results even if found on disk.
+
+    Keyword Args:
+        wg_width: wg_width (um) for the symmetric case.
+        gap: for the case of only two waveguides.
+        wg_widths: list or tuple of waveguide widths.
+        gaps: list or tuple of waveguide gaps.
+        wg_thickness: wg height (um)
+        slab_thickness: thickness for the waveguide slab
+        ncore: core material refractive index
+        nclad: clad material refractive index
+        nslab: Optional slab material refractive index. Defaults to ncore.
+        ymargin: margin in y.
+        sz: simulation region thickness (um)
+        resolution: resolution (pixels/um)
+        nmodes: number of modes
+        sidewall_angles: waveguide sidewall angle (radians),
+            tapers from wg_width at top of slab, upwards, to top of waveguide
     """
     if filepath and not overwrite and pathlib.Path(filepath).exists():
         return pd.read_csv(filepath)
@@ -109,7 +107,7 @@ def find_coupling_vs_gap(
     gap_to_modes = {}
 
     for gap in gaps:
-        modes = find_modes(mode_solver=gf.partial(mode_solver, gaps=(gap,)))
+        modes = find_modes_coupler(gaps=(gap,), **kwargs)
         ne.append(modes[1].neff)
         no.append(modes[2].neff)
         gap_to_modes[gap] = modes

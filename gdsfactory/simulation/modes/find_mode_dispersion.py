@@ -3,7 +3,7 @@
 from functools import partial
 
 from gdsfactory.simulation.gmeep.get_material import get_index
-from gdsfactory.simulation.modes.find_modes import find_modes
+from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 from gdsfactory.simulation.modes.types import Mode
 
 
@@ -48,9 +48,9 @@ def find_mode_dispersion(
     ncore = partial(get_index, name=core)
     nclad = partial(get_index, name=clad)
 
-    m0 = find_modes(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
-    mc = find_modes(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
-    m1 = find_modes(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
+    m0 = find_modes_waveguide(wavelength=w0, ncore=ncore(w0), nclad=nclad(w0), **kwargs)
+    mc = find_modes_waveguide(wavelength=wc, ncore=ncore(wc), nclad=nclad(wc), **kwargs)
+    m1 = find_modes_waveguide(wavelength=w1, ncore=ncore(w1), nclad=nclad(w1), **kwargs)
 
     n0 = m0[mode_number].neff
     nc = mc[mode_number].neff
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     # print(get_index(name="Si"))
     # ngs = []
     # for wavelength_step in [0.001, 0.01]:
-    #     neff, ng = find_modes_dispersion(
+    #     neff, ng = find_modes_waveguide_dispersion(
     #         wg_width=0.45, wg_thickness=0.22, wavelength_step=wavelength_step
     #     )
     #     ngs.append(ng)

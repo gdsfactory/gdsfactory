@@ -36,8 +36,8 @@ def get_mode_solver_coupler(
     """Returns a mode_solver simulation.
 
     Args:
-        wg_width: wg_width (um)
-        gap:
+        wg_width: wg_width (um) for the symmetric case.
+        gap: for the case of only two waveguides.
         wg_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
         wg_thickness: wg height (um)
@@ -71,8 +71,6 @@ def get_mode_solver_coupler(
           |____________________________________________________
           <--------------------------------------------------->
                                    sy
-
-
 
     """
     wg_widths = wg_widths or (wg_width, wg_width)
