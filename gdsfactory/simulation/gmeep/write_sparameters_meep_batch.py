@@ -181,7 +181,8 @@ def write_sparameters_meep_batch(
             else:
                 time.sleep(1)
 
-    if delete_temp_files:
+    temp_dir = pathlib.Path(temp_dir)
+    if temp_dir.exists() and delete_temp_files:
         shutil.rmtree(temp_dir)
     return filepaths
 
