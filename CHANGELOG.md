@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.0.18
+
+- improve gdsfactory.simulation.modes
+    - replace dataclass with pydantic.BaseModel
+
 ## 4.0.17
 
 - pass layer_stack to read_sparameters_lumerical, so that it reads the same file as write_sparameters_lumerical
