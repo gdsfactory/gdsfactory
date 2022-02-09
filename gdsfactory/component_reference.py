@@ -1,7 +1,6 @@
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
-from dotmap import DotMap
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from phidl.device_layout import Device, DeviceReference
 
@@ -232,7 +231,7 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
-    def settings_child(self) -> DotMap:
+    def settings_child(self) -> Dict[str, Any]:
         return self.parent.settings_child
 
     @property

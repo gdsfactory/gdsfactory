@@ -1,10 +1,11 @@
 # CHANGELOG
 
-## 4.0.19
+## 4.1.0
 
 - difftest copy run_file to ref_file if prompt = Y (before it was just deleting it)
-- replace omegaconf.DictConfig by DotMap
-- serialize with orjson
+- Component.info is just now a regular dict (no more DictConfig)
+- move Component.info.{changed, full, default} to Component.settings
+- serialize with numpy arrays with orjson
 
 ## 4.0.18
 
