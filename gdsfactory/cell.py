@@ -9,8 +9,9 @@ import omegaconf
 import toolz
 from pydantic import validate_arguments
 
-from gdsfactory.component import Component, clean_dict
+from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_short
+from gdsfactory.serialization import clean_value_json
 
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 1
@@ -155,9 +156,9 @@ def cell_without_validator(func):
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
 
-            component.info.changed = clean_dict(changed)
-            component.info.default = clean_dict(default)
-            component.info.full = clean_dict(full)
+            component.info.changed = clean_value_json(changed)
+            component.info.default = clean_value_json(default)
+            component.info.full = clean_value_json(full)
 
             component.info.update(**info)
 
