@@ -102,7 +102,7 @@ class Port(PortPhidl):
         Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
-        parent = self.parent.name if self.parent else None
+        parent = self.parent.parent.name if self.parent else None
         cross_section = dict(self.cross_section) if self.cross_section else None
         return dict(
             name=self.name,

@@ -1,70 +1,74 @@
 info:
+  resistance: null
+settings:
+  changed: {}
+  child: null
+  default:
+    layer_offsets:
+    - 0
+    - 0.2
+    layers:
+    - - 3
+      - 0
+    - - 24
+      - 0
+    ohms_per_square: null
+    pad:
+      function: contact
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      size:
+      - 80
+      - 80
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    pad_pitch: 100
+    width: 10
+  full:
+    layer_offsets:
+    - 0
+    - 0.2
+    layers:
+    - - 3
+      - 0
+    - - 24
+      - 0
+    ohms_per_square: null
+    pad:
+      function: contact
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      size:
+      - 80
+      - 80
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    pad_pitch: 100
+    width: 10
   function_name: resistance_sheet
-  info_version: 1
+  info:
+    resistance: null
+  info_version: 2
   module: gdsfactory.components.resistance_sheet
   name: resistance_sheet
-  resistance: null
-settings_changed: {}
-settings_default:
-  layer_offsets:
-  - 0
-  - 0.2
-  layers:
-  - - 3
-    - 0
-  - - 24
-    - 0
-  ohms_per_square: null
-  pad:
-    function: contact
-    layers:
-    - - 3
-      - 0
-    - - 24
-      - 0
-    - - 41
-      - 0
-    size:
-    - 80
-    - 80
-    vias:
-    - null
-    - null
-    - function: via
-      layer:
-      - 40
-      - 0
-  pad_pitch: 100
-  width: 10
-settings_full:
-  layer_offsets:
-  - 0
-  - 0.2
-  layers:
-  - - 3
-    - 0
-  - - 24
-    - 0
-  ohms_per_square: null
-  pad:
-    function: contact
-    layers:
-    - - 3
-      - 0
-    - - 24
-      - 0
-    - - 41
-      - 0
-    size:
-    - 80
-    - 80
-    vias:
-    - null
-    - null
-    - function: via
-      layer:
-      - 40
-      - 0
-  pad_pitch: 100
-  width: 10
 version: 0.0.1
