@@ -1,9 +1,14 @@
 # TODO
 
+- serializer
 - fix FIXMEs
 - add example on how to customize visualization of a component
 - remove kwargs from most components as a way to customize cross_sections to get more clear error messages
 - klayout placer north, west does not work well with rotations
+
+Lumerical:
+
+- batch mode or run with more cores
 
 Maybe:
 
