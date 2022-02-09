@@ -4,6 +4,7 @@
 
 - improve gdsfactory.simulation.modes
     - replace dataclass with pydantic.BaseModel
+    - add pickle based file cache to speed up mode calculation
 
 ## 4.0.17
 

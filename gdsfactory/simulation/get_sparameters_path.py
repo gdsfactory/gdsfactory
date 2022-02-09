@@ -12,6 +12,14 @@ from gdsfactory.tech import LAYER_STACK
 from gdsfactory.types import ComponentOrFactory
 
 
+def get_kwargs_hash(**kwargs) -> str:
+    """Returns kwargs parameters hash."""
+    kwargs_list = [f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())]
+    kwargs_string = "_".join(kwargs_list)
+    kwargs_hash = hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
+    return kwargs_hash
+
+
 def _get_sparameters_path(
     component: ComponentOrFactory,
     dirpath: Path = sparameters_path,
@@ -35,11 +43,7 @@ def _get_sparameters_path(
         else dirpath
     )
     dirpath.mkdir(exist_ok=True, parents=True)
-
-    kwargs_list = [f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())]
-    kwargs_string = "_".join(kwargs_list)
-    kwargs_hash = hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
-    return dirpath / f"{component.name}_{kwargs_hash}.csv"
+    return dirpath / f"{component.name}_{get_kwargs_hash(kwargs)}.csv"
 
 
 def _get_sparameters_data(**kwargs) -> pd.DataFrame:
