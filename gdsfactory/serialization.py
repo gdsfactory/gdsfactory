@@ -7,7 +7,6 @@ import numpy as np
 import orjson
 import pydantic
 import toolz
-from dotmap import DotMap
 from omegaconf.dictconfig import DictConfig
 from omegaconf.listconfig import ListConfig
 from phidl.device_layout import Path as PathPhidl
@@ -20,9 +19,7 @@ from gdsfactory.port import Port
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary keys recursively."""
     for k, v in d.items():
-        if isinstance(v, DotMap):
-            d[k] = dict(v)
-        elif isinstance(v, dict):
+        if isinstance(v, dict):
             d[k] = clean_dict(v)
         else:
             d[k] = clean_value_json(v)
@@ -69,8 +66,6 @@ def clean_value_json(value: Any) -> Any:
         args_as_kwargs.pop("function", None)
         value = dict(function=value.func.__name__, **args_as_kwargs)
 
-    elif isinstance(value, DotMap):
-        value = dict(value)
     elif isinstance(value, CrossSection):
         # value = value.info
         value = value.to_dict()

@@ -1,155 +1,13 @@
-cells:
-  bezier_328fe8a5:
-    changed:
-      control_points:
-      - - 0
-        - 0
-      - - 18
-        - 0
-      - - 18
-        - 18.869
-      - - 36
-        - 18.869
-    default:
-      control_points:
-      - - 0
-        - 0
-      - - 5
-        - 0
-      - - 5
-        - 2
-      - - 10
-        - 2
-      end_angle: null
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 201
-      spike_length: 0
-      start_angle: null
-      width: 0.5
-      with_manhattan_facing_angles: true
+info:
+  min_bend_radius: 18.226
+  sbend:
     end_angle: 0.301
-    full:
-      control_points:
-      - - 0
-        - 0
-      - - 18
-        - 0
-      - - 18
-        - 18.869
-      - - 36
-        - 18.869
-      end_angle: null
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 201
-      spike_length: 0
-      start_angle: null
-      width: 0.5
-      with_manhattan_facing_angles: true
-    function_name: bezier
-    info_version: 1
     length: 42.087
     min_bend_radius: 18.226
-    module: gdsfactory.components.bezier
-    name: bezier_328fe8a5
     start_angle: 0.301
-  compensation_path:
-    changed: {}
-    default:
-      crossing45:
-        function: crossing45
-      direction: top
-    full:
-      crossing45:
-        function: crossing45
-      direction: top
-    function_name: compensation_path
-    info_version: 1
-    min_bend_radius: 18.226
-    module: gdsfactory.components.crossing_waveguide
-    name: compensation_path
-    sbend:
-      changed:
-        control_points:
-        - - 0
-          - 0
-        - - 18
-          - 0
-        - - 18
-          - 18.869
-        - - 36
-          - 18.869
-      default:
-        control_points:
-        - - 0
-          - 0
-        - - 5
-          - 0
-        - - 5
-          - 2
-        - - 10
-          - 2
-        end_angle: null
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: null
-        npoints: 201
-        spike_length: 0
-        start_angle: null
-        width: 0.5
-        with_manhattan_facing_angles: true
-      end_angle: 0.301
-      full:
-        control_points:
-        - - 0
-          - 0
-        - - 18
-          - 0
-        - - 18
-          - 18.869
-        - - 36
-          - 18.869
-        end_angle: null
-        grid: 0.001
-        layer:
-        - 1
-        - 0
-        name: null
-        npoints: 201
-        spike_length: 0
-        start_angle: null
-        width: 0.5
-        with_manhattan_facing_angles: true
-      function_name: bezier
-      info_version: 1
-      length: 42.087
-      min_bend_radius: 18.226
-      module: gdsfactory.components.bezier
-      name: bezier_328fe8a5
-      start_angle: 0.301
-  crossing:
-    changed: {}
-    default:
-      arm:
-        function: crossing_arm
-    full:
-      arm:
-        function: crossing_arm
-    function_name: crossing
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing
-info:
+settings:
   changed: {}
+  child: null
   default:
     crossing45:
       function: crossing45
@@ -159,92 +17,14 @@ info:
       function: crossing45
     direction: top
   function_name: compensation_path
-  info_version: 1
-  min_bend_radius: 18.226
+  info:
+    min_bend_radius: 18.226
+    sbend:
+      end_angle: 0.301
+      length: 42.087
+      min_bend_radius: 18.226
+      start_angle: 0.301
+  info_version: 2
   module: gdsfactory.components.crossing_waveguide
   name: compensation_path
-  sbend:
-    changed:
-      control_points:
-      - - 0
-        - 0
-      - - 18
-        - 0
-      - - 18
-        - 18.869
-      - - 36
-        - 18.869
-    default:
-      control_points:
-      - - 0
-        - 0
-      - - 5
-        - 0
-      - - 5
-        - 2
-      - - 10
-        - 2
-      end_angle: null
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 201
-      spike_length: 0
-      start_angle: null
-      width: 0.5
-      with_manhattan_facing_angles: true
-    end_angle: 0.301
-    full:
-      control_points:
-      - - 0
-        - 0
-      - - 18
-        - 0
-      - - 18
-        - 18.869
-      - - 36
-        - 18.869
-      end_angle: null
-      grid: 0.001
-      layer:
-      - 1
-      - 0
-      name: null
-      npoints: 201
-      spike_length: 0
-      start_angle: null
-      width: 0.5
-      with_manhattan_facing_angles: true
-    function_name: bezier
-    info_version: 1
-    length: 42.087
-    min_bend_radius: 18.226
-    module: gdsfactory.components.bezier
-    name: bezier_328fe8a5
-    start_angle: 0.301
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -40
-    - -18.869
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 40
-    - -18.868999999999996
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1
