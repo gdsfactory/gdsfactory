@@ -68,16 +68,18 @@ class Component(Device):
 
 
     Properties:
-        info: includes
-            full: full list of settings that create the function
-            changed: changed settings
-            default: includes the default signature of the component
+        info: dictionary that includes
             - derived properties
             - external metadata (test_protocol, docs, ...)
             - simulation_settings
             - function_name
             - name: for the component
 
+        settings:
+            full: full settings passed to the function to create component
+            changed: changed settings
+            default: default component settings
+            child: dict info from the children, if any
 
     """
 
@@ -96,7 +98,7 @@ class Component(Device):
             name += "_" + self.uid
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
-        self.name = name  # overwrie PHIDL's incremental naming convention
+        self.name = name  # overwrite PHIDL's incremental naming convention
         self.info = {}
 
         self.settings = {}
@@ -505,7 +507,7 @@ class Component(Device):
         layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
     ) -> Device:
         """Extract polygons from a Component and returns a new Component.
-        adapted from phidl.geometry.
+        Adapted from phidl.geometry.
         """
         from gdsfactory.name import clean_value
 
@@ -527,8 +529,8 @@ class Component(Device):
         return copy(self, prefix=prefix, suffix=suffix, cache=cache)
 
     def copy_child_info(self, component: "Component") -> None:
-        """Copy info from another component.
-        so hierarchical components propagate child cells info.
+        """Copy info from child component into parent.
+        Parent components can access child cells settings.
         """
         self.get_child_name = True
         self.child = component
@@ -536,9 +538,7 @@ class Component(Device):
     @property
     def size_info(self) -> SizeInfo:
         """size info of the component"""
-        # if self.__size_info__ == None:
-        # self.__size_info__  = SizeInfo(self.bbox)
-        return SizeInfo(self.bbox)  # self.__size_info__
+        return SizeInfo(self.bbox)
 
     def get_setting(self, setting: str) -> Union[str, int, float]:
         return self.info.get(
@@ -594,22 +594,22 @@ class Component(Device):
         component_flat.name = f"{self.name}_flat"
         return component_flat
 
-    def add_ref(self, D: Device, alias: Optional[str] = None) -> "ComponentReference":
-        """Takes a Component and adds it as a ComponentReference to the current
+    def add_ref(
+        self, component: Device, alias: Optional[str] = None
+    ) -> "ComponentReference":
+        """Add  a ComponentReference to the current
         Device."""
-        if not isinstance(D, Component) and not isinstance(D, Device):
-            raise TypeError(
-                f"Component.add_ref() type = {type(D)} needs to be a Component."
-            )
-        ref = ComponentReference(D)  # Create a ComponentReference (CellReference)
-        self.add(ref)  # Add ComponentReference (CellReference) to Device (Cell)
+        if not isinstance(component, Device):
+            raise TypeError(f"type = {type(Component)} needs to be a Component.")
+        ref = ComponentReference(component)
+        self.add(ref)
 
         if alias is not None:
             self.aliases[alias] = ref
         return ref
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
-        """returns a set of (layer, datatype)
+        """Return a set of (layer, datatype)
 
         .. code ::
 

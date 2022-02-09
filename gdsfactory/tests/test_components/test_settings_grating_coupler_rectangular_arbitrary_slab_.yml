@@ -1,89 +1,94 @@
 info:
+  polarization: te
+  wavelength: 1.55
+settings:
+  changed: {}
+  child: null
+  default:
+    gaps:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    length_taper: 150
+    polarization: te
+    slab_offset: 2
+    taper:
+      function: taper_strip_to_ridge
+      layer_slab:
+      - 2
+      - 0
+    wavelength: 1.55
+    wg_width: 0.5
+    width_grating: 11
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+  full:
+    gaps:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    length_taper: 150
+    polarization: te
+    slab_offset: 2
+    taper:
+      function: taper_strip_to_ridge
+      layer_slab:
+      - 2
+      - 0
+    wavelength: 1.55
+    wg_width: 0.5
+    width_grating: 11
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
   function_name: grating_coupler_rectangular_arbitrary_slab
-  info_version: 1
+  info:
+    polarization: te
+    wavelength: 1.55
+  info_version: 2
   module: gdsfactory.components.grating_coupler_rectangular_arbitrary_slab
   name: grating_coupler_rectang_c148e9a3
-  polarization: te
-  wavelength: 1.55
-settings_changed: {}
-settings_default:
-  gaps:
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  length_taper: 150
-  polarization: te
-  slab_offset: 2
-  taper:
-    function: taper_strip_to_ridge
-    layer_slab:
-    - 2
-    - 0
-  wavelength: 1.55
-  wg_width: 0.5
-  width_grating: 11
-  widths:
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-settings_full:
-  gaps:
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  - 0.2
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  length_taper: 150
-  polarization: te
-  slab_offset: 2
-  taper:
-    function: taper_strip_to_ridge
-    layer_slab:
-    - 2
-    - 0
-  wavelength: 1.55
-  wg_width: 0.5
-  width_grating: 11
-  widths:
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
 version: 0.0.1

@@ -385,7 +385,7 @@ def compensation_path(
     c.add_port("o2", port=sbend_right.ports["o1"])
 
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    c.info.sbend = sbend.info
+    c.info["sbend"] = sbend.info
     return c
 
 

@@ -1,6 +1,5 @@
 -e .
 click
-dotmap
 gdspy==1.6.11
 jsondiff
 loguru

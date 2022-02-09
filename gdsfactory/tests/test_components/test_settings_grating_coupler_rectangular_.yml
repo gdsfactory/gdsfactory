@@ -1,47 +1,52 @@
 info:
+  polarization: te
+  wavelength: 1.55
+settings:
+  changed: {}
+  child: null
+  default:
+    fill_factor: 0.5
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    length_taper: 150
+    n_periods: 20
+    period: 0.75
+    polarization: te
+    slab_offset: 1
+    slab_xmin: -1
+    taper:
+      function: taper
+    wavelength: 1.55
+    wg_width: 0.5
+    width_grating: 11
+  full:
+    fill_factor: 0.5
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    length_taper: 150
+    n_periods: 20
+    period: 0.75
+    polarization: te
+    slab_offset: 1
+    slab_xmin: -1
+    taper:
+      function: taper
+    wavelength: 1.55
+    wg_width: 0.5
+    width_grating: 11
   function_name: grating_coupler_rectangular
-  info_version: 1
+  info:
+    polarization: te
+    wavelength: 1.55
+  info_version: 2
   module: gdsfactory.components.grating_coupler_rectangular
   name: grating_coupler_rectangular
-  polarization: te
-  wavelength: 1.55
-settings_changed: {}
-settings_default:
-  fill_factor: 0.5
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  length_taper: 150
-  n_periods: 20
-  period: 0.75
-  polarization: te
-  slab_offset: 1
-  slab_xmin: -1
-  taper:
-    function: taper
-  wavelength: 1.55
-  wg_width: 0.5
-  width_grating: 11
-settings_full:
-  fill_factor: 0.5
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  length_taper: 150
-  n_periods: 20
-  period: 0.75
-  polarization: te
-  slab_offset: 1
-  slab_xmin: -1
-  taper:
-    function: taper
-  wavelength: 1.55
-  wg_width: 0.5
-  width_grating: 11
 version: 0.0.1
