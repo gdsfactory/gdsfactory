@@ -66,7 +66,7 @@ def innerprod_trapz(
 
 def test_innerprod_trapz():
     """Checks that overlaps are taken properly"""
-    m = gm.find_modes()
+    m = gm.find_modes_waveguide()
     overlap = innerprod_trapz(m[1], m[1])
 
     # Check if value changed
@@ -75,7 +75,7 @@ def test_innerprod_trapz():
 
 if __name__ == "__main__":
 
-    m = gm.find_modes()
+    m = gm.find_modes_waveguide()
     print(innerprod_trapz(m[1], m[1]))
 
     # test_innerprod_trapz()

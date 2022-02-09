@@ -1,17 +1,16 @@
-"""Given a `gm.get_mode_solver_` object, repeats the mode simulation with increasing hyperparameter value (`sy`, `sz`, and `resolution`) until the change in output is below some tolerance. Output the results of `find_modes` and the smallest hyperparameters that allowed convergence.
+"""Given a find_modes_waveguide function repeats the mode simulation with increasing hyperparameter value (`sy`, `sz`, and `resolution`) until the change in output is below some tolerance.
+Output the results of `find_modes_waveguide` and the smallest hyperparameters that allowed convergence.
 """
 from typing import Dict, Tuple
 
 import meep as mp
 import numpy as np
 
-from gdsfactory.simulation.modes.find_modes import find_modes
-from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
+from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
+from gdsfactory.simulation.modes.types import Mode
 
 
 def neff_domain_convergence_test(
-    mode_solver: ModeSolverOrFactory = get_mode_solver_rib,
     tol: float = 1e-6,
     wavelength: float = 1.55,
     mode_number: int = 1,
@@ -21,11 +20,10 @@ def neff_domain_convergence_test(
     stdout: bool = False,
     **kwargs
 ) -> Tuple[Dict[int, Mode], float, float, int]:
-    """Repeats a find_modes on a mode_solver, increasing hyperparameters sy, sz, and resolution
+    """Repeats a find_modes_waveguide increasing hyperparameters sy, sz, and resolution
     until results are no longer affected by the choice (according to conv_tol).
 
     Args:
-        mode_solver: function that returns mpb.ModeSolver
         tol: tolerance when finding modes
         wavelength: wavelength
         mode_number: mode order of the first mode
@@ -45,7 +43,6 @@ def neff_domain_convergence_test(
         sz: INITIAL simulation region height (um)
         resolution: INITIAL resolution (pixels/um)
         nmodes: number of modes
-        mode_solver: function that returns mpb.ModeSolver,
         tol: tolerance when finding modes,
         wavelength: wavelength,
         mode_number: mode order of the first mode,
@@ -58,8 +55,7 @@ def neff_domain_convergence_test(
     resolution = kwargs.get("resolution", 32)
 
     # Initial solve
-    mode_solver = mode_solver(**kwargs) if callable(mode_solver) else mode_solver
-    init_mode = find_modes(mode_solver=mode_solver, **kwargs)[mode_number]
+    init_mode = find_modes_waveguide(**kwargs)[mode_number]
 
     # Increment the hyperparameters, and check tolerance
     # Domain size
@@ -76,9 +72,9 @@ def neff_domain_convergence_test(
         cur_sy = iter * rel_conv_step * sy + sy
         cur_sz = iter * rel_conv_step * sz + sz
         # Compute new modes
-        incr_mode = find_modes(
-            mode_solver=mode_solver, parity=mp.NO_PARITY, sy=cur_sy, sz=cur_sz
-        )[mode_number]
+        incr_mode = find_modes_waveguide(parity=mp.NO_PARITY, sy=cur_sy, sz=cur_sz)[
+            mode_number
+        ]
         # Compute tolerance
         cur_tol = abs(init_mode.neff - incr_mode.neff) / min(
             init_mode.neff, incr_mode.neff
@@ -105,8 +101,7 @@ def neff_domain_convergence_test(
         # Increment hyperparameters
         cur_res = int(iter * rel_conv_step * resolution + resolution)
         # Compute new modes
-        incr_mode = find_modes(
-            mode_solver=mode_solver,
+        incr_mode = find_modes_waveguide(
             parity=mp.NO_PARITY,
             sy=cur_sy,
             sz=cur_sz,
@@ -124,7 +119,6 @@ def neff_domain_convergence_test(
 
 
 def neff_resolution_convergence_test(
-    mode_solver: ModeSolverOrFactory = get_mode_solver_rib,
     tol: float = 1e-6,
     wavelength: float = 1.55,
     mode_number: int = 1,
@@ -134,11 +128,10 @@ def neff_resolution_convergence_test(
     stdout: bool = False,
     **kwargs
 ) -> Tuple[Dict[int, Mode], float, float, int]:
-    """Repeats a find_modes on a mode_solver, increasing hyperparameter resolution
+    """Repeats a find_modes_waveguide on a mode_solver, increasing hyperparameter resolution
     until results are no longer affected by the choice (according to conv_tol).
 
     Args:
-        mode_solver: function that returns mpb.ModeSolver
         tol: tolerance when finding modes
         wavelength: wavelength
         mode_number: mode order of the first mode
@@ -158,7 +151,6 @@ def neff_resolution_convergence_test(
         sz: INITIAL simulation region height (um)
         resolution: INITIAL resolution (pixels/um)
         nmodes: number of modes
-        mode_solver: function that returns mpb.ModeSolver,
         tol: tolerance when finding modes,
         wavelength: wavelength,
         mode_number: mode order of the first mode,
@@ -171,8 +163,7 @@ def neff_resolution_convergence_test(
     resolution = kwargs.get("resolution", 32)
 
     # Initial solve
-    mode_solver = mode_solver(**kwargs) if callable(mode_solver) else mode_solver
-    init_mode = find_modes(mode_solver=mode_solver, **kwargs)[mode_number]
+    init_mode = find_modes_waveguide(**kwargs)[mode_number]
 
     # Increment the hyperparameters, and check tolerance
     # Domain size
@@ -189,9 +180,9 @@ def neff_resolution_convergence_test(
         cur_sy = iter * rel_conv_step * sy + sy
         cur_sz = iter * rel_conv_step * sz + sz
         # Compute new modes
-        incr_mode = find_modes(
-            mode_solver=mode_solver, parity=mp.NO_PARITY, sy=cur_sy, sz=cur_sz
-        )[mode_number]
+        incr_mode = find_modes_waveguide(parity=mp.NO_PARITY, sy=cur_sy, sz=cur_sz)[
+            mode_number
+        ]
         # Compute tolerance
         cur_tol = abs(init_mode.neff - incr_mode.neff) / min(
             init_mode.neff, incr_mode.neff
@@ -218,8 +209,7 @@ def neff_resolution_convergence_test(
         # Increment hyperparameters
         cur_res = int(iter * rel_conv_step * resolution + resolution)
         # Compute new modes
-        incr_mode = find_modes(
-            mode_solver=mode_solver,
+        incr_mode = find_modes_waveguide(
             parity=mp.NO_PARITY,
             sy=cur_sy,
             sz=cur_sz,
@@ -237,16 +227,6 @@ def neff_resolution_convergence_test(
 
 
 if __name__ == "__main__":
-    mode_solver = get_mode_solver_rib(
-        wg_width=0.4,
-        ncore=2,
-        nclad=1.44,
-        wg_thickness=0.4,
-        resolution=16,
-        sy=2,
-        sz=2,
-        nmodes=4,
+    result = neff_domain_convergence_test(
+        stdout=True, resolution=16, sy=2, sz=2, nmodes=4
     )
-    # result = neff_convergence_test(
-    #     mode_solver, stdout=True, resolution=16, sy=2, sz=2, nmodes=4
-    # )
