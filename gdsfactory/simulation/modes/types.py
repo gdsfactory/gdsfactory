@@ -1,4 +1,3 @@
-import dataclasses
 from typing import Callable, Dict, List, Optional, Union
 
 import matplotlib.pyplot as plt
@@ -11,8 +10,28 @@ from scipy.interpolate import RectBivariateSpline
 cmap_default = "RdBu"
 
 
-@dataclasses.dataclass
-class Mode:
+class TypedArray(np.ndarray):
+    """based on https://github.com/samuelcolvin/pydantic/issues/380"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_type
+
+    @classmethod
+    def validate_type(cls, val):
+        return np.array(val, dtype=cls.inner_type)
+
+
+class ArrayMeta(type):
+    def __getitem__(self, t):
+        return type("Array", (TypedArray,), {"inner_type": t})
+
+
+class Array(np.ndarray, metaclass=ArrayMeta):
+    pass
+
+
+class Mode(BaseModel):
     mode_number: int
     wavelength: float
     neff: float
@@ -20,18 +39,19 @@ class Mode:
     fraction_te: Optional[float] = None
     fraction_tm: Optional[float] = None
     effective_area: Optional[float] = None
-    E: Optional[np.ndarray] = None
-    H: Optional[np.ndarray] = None
-    eps: Optional[np.ndarray] = None
-    y: Optional[np.ndarray] = None
-    z: Optional[np.ndarray] = None
+    E: Optional[Array[float]] = None
+    H: Optional[Array[float]] = None
+    eps: Optional[Array[float]] = None
+    y: Optional[Array[float]] = None
+    z: Optional[Array[float]] = None
 
     def __repr__(self):
         return f"Mode{self.mode_number}"
 
     def grid_interp(self):
         """
-        Creates new attributes with scipy.interpolate.RectBivariateSpline objects that can be used to interpolate the field on a new regular grid
+        Creates new attributes with scipy.interpolate.RectBivariateSpline objects
+        that can be used to interpolate the field on a new regular grid
 
         Args:
             y_grid (np.array): y values where to evaluate, in increasing array
@@ -136,7 +156,7 @@ class Mode:
         show: bool = True,
         scale: bool = False,
     ):
-        """ """
+        """Plot Electric field module."""
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         Eabs = np.sqrt(
             np.multiply(E[:, :, 0, 2], E[:, :, 0, 2])
@@ -420,21 +440,20 @@ class Mode:
         plt.show()
 
 
-@dataclasses.dataclass
-class Waveguide:
-    """
+class Waveguide(BaseModel):
+    """Waveguide Model.
+
     Args:
-        wg_width: float
-        wg_thickness: float
-        slab_thickness: float
-        ncore: float = 3.47
-        nclad: float = 1.44
+        wg_width: um
+        wg_thickness: um
+        slab_thickness: um
+        ncore: core refractive index.
+        nclad: cladding refractive index.
         sy: float
         sz: float
         resolution: int
         nmodes: int
         modes: Dict[Mode]
-
     """
 
     wg_width: float = 0.45
