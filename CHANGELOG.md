@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.0.19
+
+- difftest copy run_file to ref_file if prompt = Y (before it was just deleting it)
+
 ## 4.0.18
 
 - improve gdsfactory.simulation.modes
