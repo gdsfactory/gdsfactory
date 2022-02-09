@@ -5,6 +5,8 @@
 - improve gdsfactory.simulation.modes
     - replace dataclass with pydantic.BaseModel
     - add pickle based file cache to speed up mode calculation
+    - find_modes_waveguide and find_modes_coupler do not need to pass mode_solver
+    - add single_waveguide kwarg to find_modes_waveguide and find_modes_coupler
 
 ## 4.0.17
 

@@ -24,23 +24,25 @@ from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
 from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
 from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
+from gdsfactory.simulation.modes.types import Mode
 from gdsfactory.types import PathType
 
 mpb.Verbosity(0)
 
 
-def find_modes(
-    mode_solver: ModeSolverOrFactory = get_mode_solver_rib,
+def find_modes_waveguide(
     tol: float = 1e-6,
     wavelength: float = 1.55,
     mode_number: int = 1,
     parity=mp.NO_PARITY,
     dirpath: Optional[PathType] = CONFIG["modes"],
     overwrite: bool = False,
+    single_waveguide: bool = True,
     **kwargs,
 ) -> Dict[int, Mode]:
     """Computes mode effective and group index for a rectangular waveguide.
+
+    single_waveguide=True
 
     ::
 
@@ -60,6 +62,28 @@ def find_modes(
           |__________________________
           <------------------------>
                         sy
+
+    single_waveguide=False
+
+    ::
+
+          _____________________________________________________
+          |
+          |
+          |         widths[0]                 widths[1]
+          |     <---------->     gaps[0]    <---------->
+          |      ___________ <-------------> ___________      _
+          |     |           |               |           |     |
+        sz|_____|  ncore    |_______________|           |_____|
+          |                                                   | wg_thickness
+          |slab_thickness        nslab                        |
+          |___________________________________________________|
+          |
+          |<--->                                         <--->
+          |ymargin               nclad                   ymargin
+          |____________________________________________________
+          <--------------------------------------------------->
+                                   sy
 
     Args:
         mode_solver: function that returns mpb.ModeSolver
@@ -82,6 +106,23 @@ def find_modes(
         resolution: resolution (pixels/um)
         nmodes: number of modes to compute.
 
+    Keyword Args:
+        wg_width: wg_width (um) for the symmetric case.
+        gap: for the case of only two waveguides.
+        wg_widths: list or tuple of waveguide widths.
+        gaps: list or tuple of waveguide gaps.
+        wg_thickness: wg height (um)
+        slab_thickness: thickness for the waveguide slab
+        ncore: core material refractive index
+        nclad: clad material refractive index
+        nslab: Optional slab material refractive index. Defaults to ncore.
+        ymargin: margin in y.
+        sz: simulation region thickness (um)
+        resolution: resolution (pixels/um)
+        nmodes: number of modes
+        sidewall_angles: waveguide sidewall angle (radians),
+            tapers from wg_width at top of slab, upwards, to top of waveguide
+
     Returns: Dict[mode_number, Mode]
 
     compute mode_number lowest frequencies as a function of k. Also display
@@ -96,11 +137,20 @@ def find_modes(
     can do that using the find_k function:
     """
     modes = {}
-    mode_solver = mode_solver(**kwargs) if callable(mode_solver) else mode_solver
+    mode_solver = (
+        get_mode_solver_rib(**kwargs)
+        if single_waveguide
+        else get_mode_solver_coupler(**kwargs)
+    )
     nmodes = mode_solver.nmodes
     omega = 1 / wavelength
 
-    h = get_kwargs_hash(wavelength=wavelength, parity=parity, **kwargs)
+    h = get_kwargs_hash(
+        wavelength=wavelength,
+        parity=parity,
+        single_waveguide=single_waveguide,
+        **kwargs,
+    )
 
     if dirpath:
         dirpath = pathlib.Path(dirpath)
@@ -168,12 +218,12 @@ def find_modes(
     return modes
 
 
-find_modes_coupler = partial(find_modes, mode_solver=get_mode_solver_coupler)
+find_modes_coupler = partial(find_modes_waveguide, single_waveguide=False)
 
 
 if __name__ == "__main__":
     ms = get_mode_solver_rib(wg_width=0.5)
-    m = find_modes(mode_solver=ms)
+    m = find_modes_waveguide(mode_solver=ms)
     print(m)
 
     m1 = m[1]
