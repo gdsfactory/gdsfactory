@@ -1,39 +1,19 @@
-cells:
-  qrcode:
-    changed: {}
-    default:
-      data: mask01
-      layer:
-      - 1
-      - 0
-      psize: 1
-    full:
-      data: mask01
-      layer:
-      - 1
-      - 0
-      psize: 1
-    function_name: qrcode
-    info_version: 1
-    module: gdsfactory.components.version_stamp
-    name: qrcode
 info:
-  changed: {}
-  default:
-    data: mask01
-    layer:
-    - 1
-    - 0
-    psize: 1
-  full:
-    data: mask01
-    layer:
-    - 1
-    - 0
-    psize: 1
   function_name: qrcode
   info_version: 1
   module: gdsfactory.components.version_stamp
   name: qrcode
-ports: {}
+settings_changed: {}
+settings_default:
+  data: mask01
+  layer:
+  - 1
+  - 0
+  psize: 1
+settings_full:
+  data: mask01
+  layer:
+  - 1
+  - 0
+  psize: 1
 version: 0.0.1

@@ -1,39 +1,19 @@
-cells:
-  circle:
-    changed: {}
-    default:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-    full:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-    function_name: circle
-    info_version: 1
-    module: gdsfactory.components.circle
-    name: circle
 info:
-  changed: {}
-  default:
-    angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
-    radius: 10
-  full:
-    angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
-    radius: 10
   function_name: circle
   info_version: 1
   module: gdsfactory.components.circle
   name: circle
-ports: {}
+settings_changed: {}
+settings_default:
+  angle_resolution: 2.5
+  layer:
+  - 1
+  - 0
+  radius: 10
+settings_full:
+  angle_resolution: 2.5
+  layer:
+  - 1
+  - 0
+  radius: 10
 version: 0.0.1

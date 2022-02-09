@@ -1,85 +1,31 @@
-cells:
-  taper_strip_to_ridge_trenches:
-    changed: {}
-    default:
-      layer_wg:
-      - 1
-      - 0
-      length: 10
-      slab_offset: 3
-      trench_layer:
-      - 3
-      - 0
-      trench_offset: 0.1
-      trench_width: 2
-      width: 0.5
-    full:
-      layer_wg:
-      - 1
-      - 0
-      length: 10
-      slab_offset: 3
-      trench_layer:
-      - 3
-      - 0
-      trench_offset: 0.1
-      trench_width: 2
-      width: 0.5
-    function_name: taper_strip_to_ridge_trenches
-    info_version: 1
-    module: gdsfactory.components.taper
-    name: taper_strip_to_ridge_trenches
 info:
-  changed: {}
-  default:
-    layer_wg:
-    - 1
-    - 0
-    length: 10
-    slab_offset: 3
-    trench_layer:
-    - 3
-    - 0
-    trench_offset: 0.1
-    trench_width: 2
-    width: 0.5
-  full:
-    layer_wg:
-    - 1
-    - 0
-    length: 10
-    slab_offset: 3
-    trench_layer:
-    - 3
-    - 0
-    trench_offset: 0.1
-    trench_width: 2
-    width: 0.5
   function_name: taper_strip_to_ridge_trenches
   info_version: 1
   module: gdsfactory.components.taper
   name: taper_strip_to_ridge_trenches
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  layer_wg:
+  - 1
+  - 0
+  length: 10
+  slab_offset: 3
+  trench_layer:
+  - 3
+  - 0
+  trench_offset: 0.1
+  trench_width: 2
+  width: 0.5
+settings_full:
+  layer_wg:
+  - 1
+  - 0
+  length: 10
+  slab_offset: 3
+  trench_layer:
+  - 3
+  - 0
+  trench_offset: 0.1
+  trench_width: 2
+  width: 0.5
 version: 0.0.1

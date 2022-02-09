@@ -11,9 +11,10 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 import gdspy
 import networkx as nx
 import numpy as np
+import yaml
+from dotmap import DotMap
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
-from omegaconf.dictconfig import DictConfig
 from phidl.device_layout import Device, DeviceReference, _parse_layer
 from typing_extensions import Literal
 
@@ -31,7 +32,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from gdsfactory.serialization import clean_dict
+from gdsfactory.serialization import clean_dict, clean_value_json
 from gdsfactory.snap import snap_to_grid
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
@@ -269,16 +270,12 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
-    def info_child(self) -> DictConfig:
+    def info_child(self) -> DotMap:
         return self.parent.info_child
 
     @property
     def size_info(self) -> SizeInfo:
         return SizeInfo(self.bbox)
-
-    def pprint(self) -> None:
-        """Pretty print component info."""
-        print(OmegaConf.to_yaml(self.info))
 
     def pprint_ports(self) -> None:
         """Pretty print component ports."""
@@ -628,7 +625,11 @@ class Component(Device):
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
-        self.info = DictConfig(self.info)
+        self.info = DotMap()
+
+        self.settings_changed = {}
+        self.settings_default = {}
+        self.settings_full = {}
         self._locked = False
         self.get_child_name = False
         self.version = version
@@ -874,7 +875,8 @@ class Component(Device):
 
     def pprint(self) -> None:
         """Prints component info."""
-        print(OmegaConf.to_yaml(self.info))
+        # print(OmegaConf.to_yaml(self.to_dict()))
+        print(yaml.dump(self.to_dict()))
 
     def pprint_ports(self) -> None:
         """Prints component netlists."""
@@ -883,7 +885,7 @@ class Component(Device):
             print(port)
 
     @property
-    def info_child(self) -> DictConfig:
+    def info_child(self) -> DotMap:
         """Returns info from child if any, otherwise returns its info"""
         info = self.info
         info.name = self.name
@@ -1058,7 +1060,7 @@ class Component(Device):
         """Copy info from another component.
         so hierarchical components propagate child cells info.
         """
-        self.info.child = component.info
+        self.child_info = component.to_dict()
         self.get_child_name = True
 
     @property
@@ -1403,43 +1405,40 @@ class Component(Device):
         logger.info(f"Write YAML metadata to {metadata}")
         return gdspath
 
-    def to_dict_config(
+    def to_dict(
         self,
         ignore_components_prefix: Optional[List[str]] = None,
         ignore_functions_prefix: Optional[List[str]] = None,
-    ) -> DictConfig:
-        """Return DictConfig Component representation.
+    ) -> Dict[str, Any]:
+        """Return Dict representation
 
         Args:
             ignore_components_prefix: for components to ignore when exporting
             ignore_functions_prefix: for functions to ignore when exporting
         """
-        d = DictConfig({})
-        ports = {port.name: port.settings for port in self.get_ports_list()}
-        cells = recurse_structures(
-            self,
-            ignore_functions_prefix=ignore_functions_prefix,
-            ignore_components_prefix=ignore_components_prefix,
-        )
-        clean_dict(ports)
-        clean_dict(cells)
+        d = {}
+        # ports = {port.name: port.to_dict() for port in self.get_ports_list()}
+        # cells = recurse_structures(
+        #     self,
+        #     ignore_functions_prefix=ignore_functions_prefix,
+        #     ignore_components_prefix=ignore_components_prefix,
+        # )
+        # d["ports"] = ports
+        # d["cells"] = cells
 
-        d.ports = ports
-        d.info = self.info
-        d.cells = cells
-        d.version = self.version
-        d.info.name = self.name
+        d["info"] = dict(self.info)
+        d["version"] = self.version
+        d["settings_full"] = self.settings_full
+        d["settings_default"] = self.settings_default
+        d["settings_changed"] = self.settings_changed
         return d
-
-    def to_dict(self) -> Dict[str, Any]:
-        return OmegaConf.to_container(self.to_dict_config())
 
     def to_yaml(self) -> str:
         return OmegaConf.to_yaml(self.to_dict())
 
-    def to_dict_polygons(self) -> DictConfig:
+    def to_dict_polygons(self) -> DotMap:
         """Returns a dict representation of the flattened component."""
-        d = DictConfig({})
+        d = DotMap()
         polygons = {}
         layer_to_polygons = self.get_polygons(by_spec=True)
 
@@ -1454,7 +1453,7 @@ class Component(Device):
         d.info = self.info
         d.polygons = polygons
         d.ports = ports
-        return OmegaConf.create(d)
+        return d
 
     def auto_rename_ports(self, **kwargs) -> None:
         """Rename ports by orientation NSEW (north, south, east, west).
@@ -1596,7 +1595,7 @@ def recurse_structures(
     structure: Component,
     ignore_components_prefix: Optional[List[str]] = None,
     ignore_functions_prefix: Optional[List[str]] = None,
-) -> DictConfig:
+) -> Dict[str, Any]:
     """Recurse over structures"""
 
     ignore_functions_prefix = ignore_functions_prefix or []
@@ -1606,14 +1605,14 @@ def recurse_structures(
         hasattr(structure, "function_name")
         and structure.function_name in ignore_functions_prefix
     ):
-        return DictConfig({})
+        return {}
 
     if hasattr(structure, "name") and any(
         [structure.name.startswith(i) for i in ignore_components_prefix]
     ):
-        return DictConfig({})
+        return {}
 
-    output = {structure.name: structure.info}
+    output = {structure.name: clean_value_json(structure.info)}
     for element in structure.references:
         if (
             isinstance(element, ComponentReference)

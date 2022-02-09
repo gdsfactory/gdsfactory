@@ -18,7 +18,7 @@ from phidl.path import smooth as smooth_phidl
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Transition
 from gdsfactory.types import (
     Coordinates,
     CrossSectionOrFactory,
@@ -72,7 +72,7 @@ def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
     width_type: str = "sine",
-) -> CrossSection:
+) -> Transition:
     """Creates a CrossSection that smoothly transitions between two input
     CrossSections. Only cross-sectional elements that have the `name` (as in
     X.add(..., name = 'wg') ) parameter specified in both input CrosSections
@@ -92,7 +92,7 @@ def transition(
 
     X1 = cross_section1
     X2 = cross_section2
-    Xtrans = CrossSection()
+    Xtrans = Transition(cross_section1=X1, cross_section2=X2)
 
     if not X1.aliases or not X2.aliases:
         raise ValueError(
@@ -155,7 +155,6 @@ def transition(
                 hidden=hidden,
             )
 
-    Xtrans.cross_sections = (X1, X2)
     Xtrans.name = f"trans_{width_type}_{X1.get_name()}_{X2.get_name()}"
     return Xtrans
 

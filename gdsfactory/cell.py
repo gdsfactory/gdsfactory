@@ -5,13 +5,12 @@ import hashlib
 import inspect
 from typing import Callable, Dict, Tuple
 
-import omegaconf
 import toolz
 from pydantic import validate_arguments
 
 from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_short
-from gdsfactory.serialization import clean_value_json
+from gdsfactory.serialization import clean_dict
 
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 1
@@ -58,7 +57,7 @@ def cell_without_validator(func):
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
-        info = kwargs.pop("info", omegaconf.DictConfig({}))
+        info = kwargs.pop("info", {})
         prefix = kwargs.pop("prefix", func.__name__)
         max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
 
@@ -155,12 +154,11 @@ def cell_without_validator(func):
             component.info.module = func.__module__
             component.info.function_name = func.__name__
             component.info.info_version = INFO_VERSION
-
-            component.info.changed = clean_value_json(changed)
-            component.info.default = clean_value_json(default)
-            component.info.full = clean_value_json(full)
-
             component.info.update(**info)
+
+            component.settings_changed = clean_dict(changed)
+            component.settings_default = clean_dict(default)
+            component.settings_full = clean_dict(full)
 
             if decorator:
                 if not callable(decorator):

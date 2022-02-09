@@ -1,73 +1,25 @@
-cells:
-  taper_parabolic:
-    changed: {}
-    default:
-      exp: 0.5
-      layer:
-      - 1
-      - 0
-      length: 20
-      npoints: 100
-      width1: 0.5
-      width2: 5
-    full:
-      exp: 0.5
-      layer:
-      - 1
-      - 0
-      length: 20
-      npoints: 100
-      width1: 0.5
-      width2: 5
-    function_name: taper_parabolic
-    info_version: 1
-    module: gdsfactory.components.taper_parabolic
-    name: taper_parabolic
 info:
-  changed: {}
-  default:
-    exp: 0.5
-    layer:
-    - 1
-    - 0
-    length: 20
-    npoints: 100
-    width1: 0.5
-    width2: 5
-  full:
-    exp: 0.5
-    layer:
-    - 1
-    - 0
-    length: 20
-    npoints: 100
-    width1: 0.5
-    width2: 5
   function_name: taper_parabolic
   info_version: 1
   module: gdsfactory.components.taper_parabolic
   name: taper_parabolic
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 20
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 5
+settings_changed: {}
+settings_default:
+  exp: 0.5
+  layer:
+  - 1
+  - 0
+  length: 20
+  npoints: 100
+  width1: 0.5
+  width2: 5
+settings_full:
+  exp: 0.5
+  layer:
+  - 1
+  - 0
+  length: 20
+  npoints: 100
+  width1: 0.5
+  width2: 5
 version: 0.0.1

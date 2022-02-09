@@ -1,137 +1,17 @@
-cells:
-  bend_euler:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler
-    radius: 10
-    radius_min: 7.061
-  loop_mirror:
-    changed: {}
-    default:
-      bend90:
-        function: bend_euler
-      component:
-        function: mmi1x2
-    full:
-      bend90:
-        function: bend_euler
-      component:
-        function: mmi1x2
-    function_name: loop_mirror
-    info_version: 1
-    module: gdsfactory.components.loop_mirror
-    name: loop_mirror
-  straight_46e50542:
-    changed:
-      length: 1.26
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 1.26
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 1.26
-    module: gdsfactory.components.straight
-    name: straight_46e50542
-    width: 0.5
-  straight_9bfabe31:
-    changed:
-      length: 20.02
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 20.02
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 20.02
-    module: gdsfactory.components.straight
-    name: straight_9bfabe31
-    width: 0.5
-  straight_c49ce9c6:
-    changed:
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_c49ce9c6
-    width: 0.5
 info:
-  changed: {}
-  default:
-    bend90:
-      function: bend_euler
-    component:
-      function: mmi1x2
-  full:
-    bend90:
-      function: bend_euler
-    component:
-      function: mmi1x2
   function_name: loop_mirror
   info_version: 1
   module: gdsfactory.components.loop_mirror
   name: loop_mirror
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -12.75
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  bend90:
+    function: bend_euler
+  component:
+    function: mmi1x2
+settings_full:
+  bend90:
+    function: bend_euler
+  component:
+    function: mmi1x2
 version: 0.0.1

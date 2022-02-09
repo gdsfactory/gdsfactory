@@ -1,105 +1,19 @@
-cells:
-  array_with_fanout_2d:
-    changed: {}
-    default:
-      columns: 3
-      pitch: 150
-      pitch_x: null
-      pitch_y: null
-      rows: 2
-    full:
-      columns: 3
-      pitch: 150
-      pitch_x: null
-      pitch_y: null
-      rows: 2
-    function_name: array_with_fanout_2d
-    info_version: 1
-    module: gdsfactory.components.array_with_fanout
-    name: array_with_fanout_2d
 info:
-  changed: {}
-  default:
-    columns: 3
-    pitch: 150
-    pitch_x: null
-    pitch_y: null
-    rows: 2
-  full:
-    columns: 3
-    pitch: 150
-    pitch_x: null
-    pitch_y: null
-    rows: 2
   function_name: array_with_fanout_2d
   info_version: 1
   module: gdsfactory.components.array_with_fanout
   name: array_with_fanout_2d
-ports:
-  o1_1_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -45
-    - -80
-    name: o1_1_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o1_2_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -45
-    - 70
-    name: o1_2_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2_1_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -45
-    - -70
-    name: o2_1_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2_2_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -45
-    - 80
-    name: o2_2_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3_1_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -45
-    - -60
-    name: o3_1_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3_2_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -45
-    - 90
-    name: o3_2_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  columns: 3
+  pitch: 150
+  pitch_x: null
+  pitch_y: null
+  rows: 2
+settings_full:
+  columns: 3
+  pitch: 150
+  pitch_x: null
+  pitch_y: null
+  rows: 2
 version: 0.0.1

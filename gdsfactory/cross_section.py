@@ -4,10 +4,10 @@ To create a component you need to extrude the path with a cross-section.
 
 """
 from functools import partial
-from typing import Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple, Union
 
 import pydantic
-from phidl.device_layout import CrossSection as CrossSectionPhidl
+from pydantic import BaseModel
 
 from gdsfactory.tech import TECH, Section
 
@@ -17,7 +17,7 @@ Layers = Tuple[Layer, ...]
 Floats = Tuple[float, ...]
 
 
-class CrossSection(CrossSectionPhidl):
+class CrossSection(BaseModel):
     """Extend phidl.device_layout.CrossSection with port_types.
 
     Args:
@@ -26,17 +26,14 @@ class CrossSection(CrossSectionPhidl):
         port_types:
         aliases:
         info:
-        name:
-
     """
 
-    def __init__(self):
-        self.sections = []
-        self.ports = set()
-        self.port_types = set()
-        self.aliases = {}
-        self.info = {}
-        self.name = None
+    sections: List[Section] = []
+    ports: Set[str] = set()
+    port_types: Set[str] = set()
+    info: Dict[str, Union[float, str, int]] = {}
+    aliases: Dict[str, Section] = {}
+    name: Optional[str] = None
 
     def add(
         self,
@@ -144,6 +141,26 @@ class CrossSection(CrossSectionPhidl):
 
     def get_name(self):
         return self.name or "_".join([str(i) for i in self.to_dict()["sections"]])
+
+    def __getitem__(self, key: str) -> "CrossSection":
+        """Allows access to Sections by name like X['etch2'].
+
+        Args:
+            key: Section name to access within the CrossSection.
+        """
+        try:
+            return self.aliases[key]
+        except:
+            raise ValueError(
+                f"Section {key!r} does not exists in {self.aliases.keys()}"
+            )
+
+
+class Transition(CrossSection):
+    cross_section1: CrossSection
+    cross_section2: CrossSection
+    width_type: str = "sine"
+    name: Optional[str] = None
 
 
 @pydantic.validate_arguments

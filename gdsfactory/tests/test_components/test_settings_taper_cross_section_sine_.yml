@@ -1,611 +1,84 @@
-cells:
-  extrude_a7e83413:
-    changed:
-      cross_section:
-        aliases:
-          _default:
-            hidden: false
-            layer:
-            - 1
-            - 0
-            name: _default
-            offset:
-              function: sine
-            port_types:
-            - optical
-            - optical
-            ports:
-            - o1
-            - o2
-            width:
-              function: sine
-          slab:
-            hidden: false
-            layer:
-            - 3
-            - 0
-            name: slab
-            offset:
-              function: sine
-            port_types:
-            - optical
-            - optical
-            ports:
-            - null
-            - null
-            width:
-              function: sine
-        cross_sections:
-        - aliases:
-            _default:
-              hidden: false
-              layer:
-              - 1
-              - 0
-              name: _default
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - o1
-              - o2
-              width: 0.5
-            slab:
-              hidden: false
-              layer:
-              - 3
-              - 0
-              name: slab
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - null
-              - null
-              width: 0.2
-          info:
-            auto_widen: false
-            auto_widen_minimum_length: 200
-            cladding_offset: 3
-            end_straight_length: 0.01
-            layer:
-            - 1
-            - 0
-            layers_cladding: null
-            min_length: 0.01
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10
-            sections:
-            - slab
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10
-            width: 0.5
-            width_wide: null
-          port_types:
-          - optical
-          ports:
-          - o1
-          - o2
-          sections:
-          - hidden: false
-            layer:
-            - 1
-            - 0
-            name: _default
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - o1
-            - o2
-            width: 0.5
-          - hidden: false
-            layer:
-            - 3
-            - 0
-            name: slab
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - null
-            - null
-            width: 0.2
-        - aliases:
-            _default:
-              hidden: false
-              layer:
-              - 1
-              - 0
-              name: _default
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - o1
-              - o2
-              width: 0.5
-            slab:
-              hidden: false
-              layer:
-              - 3
-              - 0
-              name: slab
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - null
-              - null
-              width: 6
-          info:
-            auto_widen: false
-            auto_widen_minimum_length: 200
-            cladding_offset: 0
-            end_straight_length: 0.01
-            layer:
-            - 1
-            - 0
-            layers_cladding:
-            - - 3
-              - 0
-            min_length: 0.01
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10
-            sections:
-            - slab
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10
-            width: 0.5
-            width_wide: null
-          port_types:
-          - optical
-          ports:
-          - o1
-          - o2
-          sections:
-          - hidden: false
-            layer:
-            - 1
-            - 0
-            name: _default
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - o1
-            - o2
-            width: 0.5
-          - hidden: false
-            layer:
-            - 3
-            - 0
-            name: slab
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - null
-            - null
-            width: 6
-        info: {}
-        port_types:
-        - optical
-        ports:
-        - o1
-        - o2
-        sections:
-        - hidden: false
-          layer:
-          - 1
-          - 0
-          name: _default
-          offset:
-            function: sine
-          port_types:
-          - optical
-          - optical
-          ports:
-          - o1
-          - o2
-          width:
-            function: sine
-        - hidden: false
-          layer:
-          - 3
-          - 0
-          name: slab
-          offset:
-            function: sine
-          port_types:
-          - optical
-          - optical
-          ports:
-          - null
-          - null
-          width:
-            function: sine
-      p: path_ed76b77e33fcc87170ee125e6372cc8f
-    default:
-      cross_section: null
-      layer: null
-      simplify: null
-      width: null
-      widths: null
-    full:
-      cross_section:
-        aliases:
-          _default:
-            hidden: false
-            layer:
-            - 1
-            - 0
-            name: _default
-            offset:
-              function: sine
-            port_types:
-            - optical
-            - optical
-            ports:
-            - o1
-            - o2
-            width:
-              function: sine
-          slab:
-            hidden: false
-            layer:
-            - 3
-            - 0
-            name: slab
-            offset:
-              function: sine
-            port_types:
-            - optical
-            - optical
-            ports:
-            - null
-            - null
-            width:
-              function: sine
-        cross_sections:
-        - aliases:
-            _default:
-              hidden: false
-              layer:
-              - 1
-              - 0
-              name: _default
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - o1
-              - o2
-              width: 0.5
-            slab:
-              hidden: false
-              layer:
-              - 3
-              - 0
-              name: slab
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - null
-              - null
-              width: 0.2
-          info:
-            auto_widen: false
-            auto_widen_minimum_length: 200
-            cladding_offset: 3
-            end_straight_length: 0.01
-            layer:
-            - 1
-            - 0
-            layers_cladding: null
-            min_length: 0.01
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10
-            sections:
-            - slab
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10
-            width: 0.5
-            width_wide: null
-          port_types:
-          - optical
-          ports:
-          - o1
-          - o2
-          sections:
-          - hidden: false
-            layer:
-            - 1
-            - 0
-            name: _default
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - o1
-            - o2
-            width: 0.5
-          - hidden: false
-            layer:
-            - 3
-            - 0
-            name: slab
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - null
-            - null
-            width: 0.2
-        - aliases:
-            _default:
-              hidden: false
-              layer:
-              - 1
-              - 0
-              name: _default
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - o1
-              - o2
-              width: 0.5
-            slab:
-              hidden: false
-              layer:
-              - 3
-              - 0
-              name: slab
-              offset: 0
-              port_types:
-              - optical
-              - optical
-              ports:
-              - null
-              - null
-              width: 6
-          info:
-            auto_widen: false
-            auto_widen_minimum_length: 200
-            cladding_offset: 0
-            end_straight_length: 0.01
-            layer:
-            - 1
-            - 0
-            layers_cladding:
-            - - 3
-              - 0
-            min_length: 0.01
-            port_names:
-            - o1
-            - o2
-            port_types:
-            - optical
-            - optical
-            radius: 10
-            sections:
-            - slab
-            snap_to_grid: null
-            start_straight_length: 0.01
-            taper_length: 10
-            width: 0.5
-            width_wide: null
-          port_types:
-          - optical
-          ports:
-          - o1
-          - o2
-          sections:
-          - hidden: false
-            layer:
-            - 1
-            - 0
-            name: _default
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - o1
-            - o2
-            width: 0.5
-          - hidden: false
-            layer:
-            - 3
-            - 0
-            name: slab
-            offset: 0
-            port_types:
-            - optical
-            - optical
-            ports:
-            - null
-            - null
-            width: 6
-        info: {}
-        port_types:
-        - optical
-        ports:
-        - o1
-        - o2
-        sections:
-        - hidden: false
-          layer:
-          - 1
-          - 0
-          name: _default
-          offset:
-            function: sine
-          port_types:
-          - optical
-          - optical
-          ports:
-          - o1
-          - o2
-          width:
-            function: sine
-        - hidden: false
-          layer:
-          - 3
-          - 0
-          name: slab
-          offset:
-            function: sine
-          port_types:
-          - optical
-          - optical
-          ports:
-          - null
-          - null
-          width:
-            function: sine
-      layer: null
-      p: path_ed76b77e33fcc87170ee125e6372cc8f
-      simplify: null
-      width: null
-      widths: null
-    function_name: extrude
-    info_version: 1
-    length: 10
-    module: gdsfactory.path
-    name: extrude_a7e83413
-  taper_cross_section_f6e3006a:
-    changed:
-      npoints: 101
-    default:
-      cross_section1:
-        function: cross_section
-        sections:
-        - slab
-      cross_section2:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-      length: 10
-      linear: false
-      npoints: 100
-    full:
-      cross_section1:
-        function: cross_section
-        sections:
-        - slab
-      cross_section2:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-      length: 10
-      linear: false
-      npoints: 101
-    function_name: taper_cross_section
-    info_version: 1
-    module: gdsfactory.components.taper_cross_section
-    name: taper_cross_section_f6e3006a
 info:
-  changed:
-    npoints: 101
-  default:
-    cross_section1:
-      function: cross_section
-      sections:
-      - slab
-    cross_section2:
-      cladding_offset: 0
-      function: cross_section
-      layers_cladding:
-      - - 3
-        - 0
-      sections:
-      - slab
-    length: 10
-    linear: false
-    npoints: 100
-  full:
-    cross_section1:
-      function: cross_section
-      sections:
-      - slab
-    cross_section2:
-      cladding_offset: 0
-      function: cross_section
-      layers_cladding:
-      - - 3
-        - 0
-      sections:
-      - slab
-    length: 10
-    linear: false
-    npoints: 101
   function_name: taper_cross_section
   info_version: 1
   module: gdsfactory.components.taper_cross_section
   name: taper_cross_section_f6e3006a
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed:
+  npoints: 101
+settings_default:
+  cross_section1:
+    function: cross_section
+    sections:
+    - layer:
+      - 3
+      - 0
+      name: slab
+      offset: 0
+      port_types:
+      - optical
+      - optical
+      ports:
+      - null
+      - null
+      width: 0.2
+  cross_section2:
+    cladding_offset: 0
+    function: cross_section
+    layers_cladding:
+    - - 3
+      - 0
+    sections:
+    - layer:
+      - 3
+      - 0
+      name: slab
+      offset: 0
+      port_types:
+      - optical
+      - optical
+      ports:
+      - null
+      - null
+      width: 6.0
+  length: 10
+  linear: false
+  npoints: 100
+settings_full:
+  cross_section1:
+    function: cross_section
+    sections:
+    - layer:
+      - 3
+      - 0
+      name: slab
+      offset: 0
+      port_types:
+      - optical
+      - optical
+      ports:
+      - null
+      - null
+      width: 0.2
+  cross_section2:
+    cladding_offset: 0
+    function: cross_section
+    layers_cladding:
+    - - 3
+      - 0
+    sections:
+    - layer:
+      - 3
+      - 0
+      name: slab
+      offset: 0
+      port_types:
+      - optical
+      - optical
+      ports:
+      - null
+      - null
+      width: 6.0
+  length: 10
+  linear: false
+  npoints: 101
 version: 0.0.1

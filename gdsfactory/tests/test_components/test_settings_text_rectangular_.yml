@@ -1,63 +1,31 @@
-cells:
-  text_rectangular:
-    changed: {}
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular
 info:
-  changed: {}
-  default:
-    font:
-      function: rectangular_font
-    justify: left
-    layer:
-    - 1
-    - 0
-    position:
-    - 0
-    - 0
-    size: 10
-    text: abcd
-  full:
-    font:
-      function: rectangular_font
-    justify: left
-    layer:
-    - 1
-    - 0
-    position:
-    - 0
-    - 0
-    size: 10
-    text: abcd
   function_name: text_rectangular
   info_version: 1
   module: gdsfactory.components.text_rectangular
   name: text_rectangular
-ports: {}
+settings_changed: {}
+settings_default:
+  font:
+    function: rectangular_font
+  justify: left
+  layer:
+  - 1
+  - 0
+  position:
+  - 0
+  - 0
+  size: 10
+  text: abcd
+settings_full:
+  font:
+    function: rectangular_font
+  justify: left
+  layer:
+  - 1
+  - 0
+  position:
+  - 0
+  - 0
+  size: 10
+  text: abcd
 version: 0.0.1

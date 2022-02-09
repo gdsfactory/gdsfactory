@@ -31,7 +31,7 @@ import csv
 import functools
 from copy import deepcopy
 from functools import partial
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 import phidl.geometry as pg
@@ -58,7 +58,7 @@ class PortOrientationError(ValueError):
 
 class Port(PortPhidl):
     """Ports are useful to connect Components with each other.
-    Extends phidl port with layer
+    Extends phidl port with layer and cross_section
 
     Args:
         name: we name ports according to orientation starting from bottom, left
@@ -68,6 +68,8 @@ class Port(PortPhidl):
         parent: parent component (component to which this port belong to)
         layer: (1, 0)
         port_type: str (optical, electrical, vertical_te, vertical_tm)
+        parent: Component that port belongs to
+        cross_section:
 
     """
 
@@ -99,6 +101,19 @@ class Port(PortPhidl):
             raise ValueError("[PHIDL] Port creation error: width must be >=0")
         Port._next_uid += 1
 
+    def to_dict(self) -> Dict[str, Any]:
+        parent = self.parent.name if self.parent else None
+        cross_section = dict(self.cross_section) if self.cross_section else None
+        return dict(
+            name=self.name,
+            midpoint=tuple(np.round(self.midpoint, 3)),
+            orientation=int(self.orientation),
+            layer=self.layer,
+            port_type=self.port_type,
+            parent=parent,
+            cross_section=cross_section,
+        )
+
     def __repr__(self) -> str:
         return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
 
@@ -119,6 +134,7 @@ class Port(PortPhidl):
 
     @property
     def settings(self):
+        """TODO! delete this. Use to_dict instead"""
         return dict(
             name=self.name,
             midpoint=self.midpoint,
@@ -845,5 +861,5 @@ if __name__ == "__main__":
     # pprint(m)
     # c.show()
     # print(p0)
-    p0 = c.get_ports_list(orientation=90, clockwise=False)[0]
+    p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
     print(p0)

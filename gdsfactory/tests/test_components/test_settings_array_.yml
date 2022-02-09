@@ -1,179 +1,23 @@
-cells:
-  array:
-    changed: {}
-    default:
-      columns: 6
-      component:
-        function: straight
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 6
-      component:
-        function: straight
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    function_name: array
-    info_version: 1
-    module: gdsfactory.components.array_component
-    name: array
 info:
-  changed: {}
-  default:
-    columns: 6
-    component:
-      function: straight
-    rows: 1
-    spacing:
-    - 150
-    - 150
-  full:
-    columns: 6
-    component:
-      function: straight
-    rows: 1
-    spacing:
-    - 150
-    - 150
   function_name: array
   info_version: 1
   module: gdsfactory.components.array_component
   name: array
-ports:
-  o1_1_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1_1_1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o1_1_2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 150
-    - 0
-    name: o1_1_2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o1_1_3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 300
-    - 0
-    name: o1_1_3
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o1_1_4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 450
-    - 0
-    name: o1_1_4
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o1_1_5:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 600
-    - 0
-    name: o1_1_5
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o1_1_6:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 750
-    - 0
-    name: o1_1_6
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2_1_1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2_1_1
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o2_1_2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 160
-    - 0
-    name: o2_1_2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o2_1_3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 310
-    - 0
-    name: o2_1_3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o2_1_4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 460
-    - 0
-    name: o2_1_4
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o2_1_5:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 610
-    - 0
-    name: o2_1_5
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o2_1_6:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 760
-    - 0
-    name: o2_1_6
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  columns: 6
+  component:
+    function: straight
+  rows: 1
+  spacing:
+  - 150
+  - 150
+settings_full:
+  columns: 6
+  component:
+    function: straight
+  rows: 1
+  spacing:
+  - 150
+  - 150
 version: 0.0.1

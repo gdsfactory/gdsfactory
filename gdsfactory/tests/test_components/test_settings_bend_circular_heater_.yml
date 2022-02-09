@@ -1,83 +1,30 @@
-cells:
-  bend_circular_heater:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      heater_to_wg_distance: 1.2
-      heater_width: 0.5
-      layer_heater:
-      - 47
-      - 0
-      npoints: 720
-      radius: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      heater_to_wg_distance: 1.2
-      heater_width: 0.5
-      layer_heater:
-      - 47
-      - 0
-      npoints: 720
-      radius: 10
-    function_name: bend_circular_heater
-    info_version: 1
-    length: 15.708
-    module: gdsfactory.components.bend_circular_heater
-    name: bend_circular_heater
 info:
-  changed: {}
-  default:
-    angle: 90
-    cross_section:
-      function: cross_section
-    heater_to_wg_distance: 1.2
-    heater_width: 0.5
-    layer_heater:
-    - 47
-    - 0
-    npoints: 720
-    radius: 10
-  full:
-    angle: 90
-    cross_section:
-      function: cross_section
-    heater_to_wg_distance: 1.2
-    heater_width: 0.5
-    layer_heater:
-    - 47
-    - 0
-    npoints: 720
-    radius: 10
   function_name: bend_circular_heater
   info_version: 1
   length: 15.708
   module: gdsfactory.components.bend_circular_heater
   name: bend_circular_heater
-ports:
-  in:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 6.123233995736766e-16
-    - 0
-    name: in
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  out:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 10
-    name: out
-    orientation: 90
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  angle: 90
+  cross_section:
+    function: cross_section
+  heater_to_wg_distance: 1.2
+  heater_width: 0.5
+  layer_heater:
+  - 47
+  - 0
+  npoints: 720
+  radius: 10
+settings_full:
+  angle: 90
+  cross_section:
+    function: cross_section
+  heater_to_wg_distance: 1.2
+  heater_width: 0.5
+  layer_heater:
+  - 47
+  - 0
+  npoints: 720
+  radius: 10
 version: 0.0.1

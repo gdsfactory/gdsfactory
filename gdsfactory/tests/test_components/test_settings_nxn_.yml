@@ -1,172 +1,31 @@
-cells:
-  compass_011cc456:
-    changed:
-      size:
-      - 8
-      - 8
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 8
-      - 8
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_011cc456
-  nxn:
-    changed: {}
-    default:
-      east: 4
-      layer:
-      - 1
-      - 0
-      north: 0
-      south: 0
-      west: 1
-      wg_margin: 1
-      wg_width: 0.5
-      xsize: 8
-      ysize: 8
-    full:
-      east: 4
-      layer:
-      - 1
-      - 0
-      north: 0
-      south: 0
-      west: 1
-      wg_margin: 1
-      wg_width: 0.5
-      xsize: 8
-      ysize: 8
-    function_name: nxn
-    info_version: 1
-    module: gdsfactory.components.nxn
-    name: nxn
-  rectangle_011cc456:
-    changed:
-      size:
-      - 8
-      - 8
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 8
-      - 8
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_011cc456
 info:
-  changed: {}
-  default:
-    east: 4
-    layer:
-    - 1
-    - 0
-    north: 0
-    south: 0
-    west: 1
-    wg_margin: 1
-    wg_width: 0.5
-    xsize: 8
-    ysize: 8
-  full:
-    east: 4
-    layer:
-    - 1
-    - 0
-    north: 0
-    south: 0
-    west: 1
-    wg_margin: 1
-    wg_width: 0.5
-    xsize: 8
-    ysize: 8
   function_name: nxn
   info_version: 1
   module: gdsfactory.components.nxn
   name: nxn
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 4
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 8
-    - 6.75
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 8
-    - 4.917
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 8
-    - 3.083
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o5:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 8
-    - 1.25
-    name: o5
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  east: 4
+  layer:
+  - 1
+  - 0
+  north: 0
+  south: 0
+  west: 1
+  wg_margin: 1
+  wg_width: 0.5
+  xsize: 8
+  ysize: 8
+settings_full:
+  east: 4
+  layer:
+  - 1
+  - 0
+  north: 0
+  south: 0
+  west: 1
+  wg_margin: 1
+  wg_width: 0.5
+  xsize: 8
+  ysize: 8
 version: 0.0.1
