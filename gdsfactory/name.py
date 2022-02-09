@@ -128,7 +128,7 @@ def clean_name(name: str) -> str:
 
 
 def clean_value(value: Any) -> str:
-    from gdsfactory.component import clean_value_json
+    from gdsfactory.serialization import clean_value_json
 
     return str(clean_value_json(value))
 
