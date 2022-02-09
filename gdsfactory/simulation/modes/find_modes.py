@@ -1,5 +1,4 @@
-"""
-Compute modes of a rectangular Si strip waveguide on top of oxide.
+"""Compute modes of a rectangular Si strip waveguide on top of oxide.
 Note that you should only pay attention, here, to the guided modes,
 which are the modes whose frequency falls under the light line --
 that is, frequency < beta / 1.45, where 1.45 is the SiO2 index.
@@ -11,30 +10,80 @@ output as um/lambda, e.g. 1.5um would correspond to the frequency
 1/1.5 = 0.6667.
 
 """
+import pathlib
+import pickle
 from functools import partial
-from typing import Dict
+from typing import Dict, Optional
 
 import meep as mp
 import numpy as np
 from meep import mpb
 
+from gdsfactory.config import CONFIG
+from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
 from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
 from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
-from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
+from gdsfactory.simulation.modes.types import Mode
+from gdsfactory.types import PathType
 
 mpb.Verbosity(0)
 
 
-def find_modes(
-    mode_solver: ModeSolverOrFactory = get_mode_solver_rib,
+def find_modes_waveguide(
     tol: float = 1e-6,
     wavelength: float = 1.55,
     mode_number: int = 1,
     parity=mp.NO_PARITY,
-    **kwargs
+    dirpath: Optional[PathType] = CONFIG["modes"],
+    overwrite: bool = False,
+    single_waveguide: bool = True,
+    **kwargs,
 ) -> Dict[int, Mode]:
-    """Computes mode effective and group index.
+    """Computes mode effective and group index for a rectangular waveguide.
+
+    single_waveguide=True
+
+    ::
+
+          __________________________
+          |
+          |
+          |         width
+          |     <---------->
+          |      ___________   _ _ _
+          |     |           |       |
+        sz|_____|  ncore    |_______|
+          |                         | wg_thickness
+          |slab_thickness    nslab  |
+          |_________________________|
+          |
+          |        nclad
+          |__________________________
+          <------------------------>
+                        sy
+
+    single_waveguide=False
+
+    ::
+
+          _____________________________________________________
+          |
+          |
+          |         widths[0]                 widths[1]
+          |     <---------->     gaps[0]    <---------->
+          |      ___________ <-------------> ___________      _
+          |     |           |               |           |     |
+        sz|_____|  ncore    |_______________|           |_____|
+          |                                                   | wg_thickness
+          |slab_thickness        nslab                        |
+          |___________________________________________________|
+          |
+          |<--->                                         <--->
+          |ymargin               nclad                   ymargin
+          |____________________________________________________
+          <--------------------------------------------------->
+                                   sy
 
     Args:
         mode_solver: function that returns mpb.ModeSolver
@@ -42,6 +91,9 @@ def find_modes(
         wavelength: wavelength in um.
         mode_number: mode order of the first mode
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        dirpath: directory path to cache modes. None disables the file cache.
+        overwrite: forces
+        kwargs: waveguide settings.
 
     Keyword Args:
         wg_width: wg_width (um)
@@ -54,8 +106,24 @@ def find_modes(
         resolution: resolution (pixels/um)
         nmodes: number of modes to compute.
 
-    Returns: Dict[mode_number, Mode]
+    Keyword Args:
+        wg_width: wg_width (um) for the symmetric case.
+        gap: for the case of only two waveguides.
+        wg_widths: list or tuple of waveguide widths.
+        gaps: list or tuple of waveguide gaps.
+        wg_thickness: wg height (um)
+        slab_thickness: thickness for the waveguide slab
+        ncore: core material refractive index
+        nclad: clad material refractive index
+        nslab: Optional slab material refractive index. Defaults to ncore.
+        ymargin: margin in y.
+        sz: simulation region thickness (um)
+        resolution: resolution (pixels/um)
+        nmodes: number of modes
+        sidewall_angles: waveguide sidewall angle (radians),
+            tapers from wg_width at top of slab, upwards, to top of waveguide
 
+    Returns: Dict[mode_number, Mode]
 
     compute mode_number lowest frequencies as a function of k. Also display
     "parities", i.e. whether the mode is symmetric or anti_symmetric
@@ -63,14 +131,38 @@ def find_modes(
     mode_solver.run(mpb.display_yparities, mpb.display_zparities)
 
     Above, we outputed the dispersion relation: frequency (omega) as a
-    function of wavevector kx (beta).  Alternatively, you can compute
+    function of wavevector kx (beta). Alternatively, you can compute
     beta for a given omega -- for example, you might want to find the
-    modes and wavevectors at a fixed wavelength of 1.55 microns.  You
+    modes and wavevectors at a fixed wavelength of 1.55 microns. You
     can do that using the find_k function:
     """
-    mode_solver = mode_solver(**kwargs) if callable(mode_solver) else mode_solver
+    modes = {}
+    mode_solver = (
+        get_mode_solver_rib(**kwargs)
+        if single_waveguide
+        else get_mode_solver_coupler(**kwargs)
+    )
     nmodes = mode_solver.nmodes
     omega = 1 / wavelength
+
+    h = get_kwargs_hash(
+        wavelength=wavelength,
+        parity=parity,
+        single_waveguide=single_waveguide,
+        **kwargs,
+    )
+
+    if dirpath:
+        dirpath = pathlib.Path(dirpath)
+        dirpath.mkdir(exist_ok=True, parents=True)
+        filepath = dirpath / f"{h}_{mode_number}.pkl"
+
+        if filepath.exists() and not overwrite:
+            for index, i in enumerate(range(mode_number, mode_number + nmodes)):
+                filepath = dirpath / f"{h}_{index}.pkl"
+                mode = pickle.loads(filepath.read_bytes())
+                modes[i] = mode
+            return modes
 
     # Output the x component of the Poynting vector for mode_number bands at omega
     disable_print()
@@ -89,14 +181,13 @@ def find_modes(
         mpb.display_group_velocities,
     )
     enable_print()
-    vg = mode_solver.compute_group_velocities()
-    vg = vg[0]
     neff = np.array(k) * wavelength
-    ng = 1 / np.array(vg)
 
-    modes = {}
+    # vg = mode_solver.compute_group_velocities()
+    # vg = vg[0]
+    # ng = 1 / np.array(vg)
+
     for index, i in enumerate(range(mode_number, mode_number + nmodes)):
-
         Ei = mode_solver.get_efield(i)
         Hi = mode_solver.get_hfield(i)
         y_num = np.shape(Ei[:, :, 0, 0])[0]
@@ -106,7 +197,6 @@ def find_modes(
             mode_number=i,
             neff=neff[index],
             wavelength=wavelength,
-            ng=ng,
             E=Ei,
             H=Hi,
             eps=mode_solver.get_epsilon().T,
@@ -121,17 +211,19 @@ def find_modes(
                 z_num,
             ),
         )
+        if dirpath:
+            filepath = dirpath / f"{h}_{index}.pkl"
+            filepath.write_bytes(pickle.dumps(modes[i]))
 
     return modes
 
 
-find_modes_coupler = partial(find_modes, mode_solver=get_mode_solver_coupler)
+find_modes_coupler = partial(find_modes_waveguide, single_waveguide=False)
 
 
 if __name__ == "__main__":
     ms = get_mode_solver_rib(wg_width=0.5)
-    m = find_modes(mode_solver=ms)
-
+    m = find_modes_waveguide(mode_solver=ms)
     print(m)
 
     m1 = m[1]

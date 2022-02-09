@@ -11,7 +11,7 @@ import gdsfactory as gf
 from gdsfactory.components import straight
 from gdsfactory.simulation.gmeep import get_simulation
 from gdsfactory.simulation.gmeep.get_port_eigenmode import get_port_2Dx_eigenmode
-from gdsfactory.simulation.modes import find_modes, get_mode_solver_rib
+from gdsfactory.simulation.modes import find_modes_waveguide, get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode
 
 
@@ -91,7 +91,7 @@ def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
 
 def MPB_eigenmode():
     ms = get_mode_solver_rib(wg_width=0.45, sy=6, sz=6)
-    modes = find_modes(mode_solver=ms, res=50)
+    modes = find_modes_waveguide(mode_solver=ms, res=50)
     m1_MPB = modes[1]
     m2_MPB = modes[2]
     return m1_MPB, m2_MPB
@@ -119,7 +119,7 @@ def compare_mpb_lumerical(plot=False):
     Same namespace run does not work
     # MPB mode
     # ms = get_mode_solver_rib(wg_width=0.5)
-    # modes = find_modes(mode_solver=ms, res=50)
+    # modes = find_modes_waveguide(mode_solver=ms, res=50)
     # m1_MPB = modes[1]
 
     separate namespace run does not work either
@@ -229,7 +229,7 @@ def compare_mpb_lumerical(plot=False):
         # M1, E-field
         plt.figure(figsize=(10, 8), dpi=100)
         plt.suptitle(
-            "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
+            "MEEP get_eigenmode / MPB find_modes_waveguide / Lumerical (manual)",
             y=1.05,
             fontsize=18,
         )
@@ -267,7 +267,7 @@ def compare_mpb_lumerical(plot=False):
         # M1, H-field
         plt.figure(figsize=(10, 8), dpi=100)
         plt.suptitle(
-            "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
+            "MEEP get_eigenmode / MPB find_modes_waveguide / Lumerical (manual)",
             y=1.05,
             fontsize=18,
         )
