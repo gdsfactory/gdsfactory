@@ -2,7 +2,5 @@ info:
   description: just a demo on adding metadata
   polarization: te
   wavelength: 1.55
-settings_changed: {}
-settings_default: {}
-settings_full: {}
+settings: {}
 version: 0.0.1

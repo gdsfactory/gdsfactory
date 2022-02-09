@@ -1,44 +1,7 @@
-cells:
-  die_bbox_frame:
-    changed: {}
-    child: {}
-    default:
-      bbox:
-      - - -1
-        - -1
-      - - 3
-        - 4
-      die_name: null
-      layer:
-      - 49
-      - 0
-      padding: 10
-      street_length: 1000
-      street_width: 100
-      text_anchor: sw
-      text_size: 100
-    full:
-      bbox:
-      - - -1
-        - -1
-      - - 3
-        - 4
-      die_name: null
-      layer:
-      - 49
-      - 0
-      padding: 10
-      street_length: 1000
-      street_width: 100
-      text_anchor: sw
-      text_size: 100
-    function_name: die_bbox_frame
-    info_version: 1
-    module: gdsfactory.components.die_bbox_frame
-    name: die_bbox_frame
-info:
+info: {}
+settings:
   changed: {}
-  child: {}
+  child: null
   default:
     bbox:
     - - -1
@@ -70,8 +33,8 @@ info:
     text_anchor: sw
     text_size: 100
   function_name: die_bbox_frame
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.die_bbox_frame
   name: die_bbox_frame
-ports: {}
 version: 0.0.1

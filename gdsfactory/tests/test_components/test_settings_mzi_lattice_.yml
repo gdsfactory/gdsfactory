@@ -1,49 +1,52 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+    mzi:
+      combiner:
+        function: coupler
+      function: mzi
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter:
+        function: coupler
+    splitter:
+      function: coupler
+  full:
+    coupler_gaps:
+    - 0.2
+    - 0.3
+    coupler_lengths:
+    - 10
+    - 20
+    delta_lengths:
+    - 10
+    mzi:
+      combiner:
+        function: coupler
+      function: mzi
+      port_e0_combiner: o4
+      port_e0_splitter: o4
+      port_e1_combiner: o3
+      port_e1_splitter: o3
+      splitter:
+        function: coupler
+    splitter:
+      function: coupler
   function_name: mzi_lattice
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mzi_lattice
   name: mzi_lattice
-settings_changed: {}
-settings_default:
-  coupler_gaps:
-  - 0.2
-  - 0.3
-  coupler_lengths:
-  - 10
-  - 20
-  delta_lengths:
-  - 10
-  mzi:
-    combiner:
-      function: coupler
-    function: mzi
-    port_e0_combiner: o4
-    port_e0_splitter: o4
-    port_e1_combiner: o3
-    port_e1_splitter: o3
-    splitter:
-      function: coupler
-  splitter:
-    function: coupler
-settings_full:
-  coupler_gaps:
-  - 0.2
-  - 0.3
-  coupler_lengths:
-  - 10
-  - 20
-  delta_lengths:
-  - 10
-  mzi:
-    combiner:
-      function: coupler
-    function: mzi
-    port_e0_combiner: o4
-    port_e0_splitter: o4
-    port_e1_combiner: o3
-    port_e1_splitter: o3
-    splitter:
-      function: coupler
-  splitter:
-    function: coupler
 version: 0.0.1

@@ -80,7 +80,7 @@ def add_frame(
     cref = c.add_ref(component)
     cref.move(-c.size_info.center)
     y = (
-        max([component.size_info.height, component.size_info.width]) / 2
+        max([component.size_info.height, component.size_info["width"]]) / 2
         + spacing
         + width / 2
     )

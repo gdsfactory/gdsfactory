@@ -1,10 +1,14 @@
 info:
-  function_name: test_path
-  info_version: 1
   length: 107.699
+settings:
+  changed: {}
+  child: null
+  default: {}
+  full: {}
+  function_name: test_path
+  info:
+    length: 107.699
+  info_version: 2
   module: gdsfactory.tests.test_paths
   name: test_path
-settings_changed: {}
-settings_default: {}
-settings_full: {}
 version: 0.0.1

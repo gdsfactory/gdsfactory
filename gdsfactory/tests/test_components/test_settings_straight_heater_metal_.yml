@@ -1,77 +1,81 @@
 info:
+  resistance: null
+settings:
+  changed:
+    with_undercut: false
+  child: null
+  default:
+    contact:
+      function: contact
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    cross_section_heater:
+      function: strip_heater_metal
+    cross_section_heater_undercut:
+      function: strip_heater_metal_undercut
+    heater_taper_length: 5
+    heater_width: 2.5
+    length: 320
+    length_straight_input: 15
+    length_undercut: 30
+    length_undercut_spacing: 6
+    ohms_per_square: null
+    port_orientation1: 180
+    port_orientation2: 0
+    with_undercut: true
+  full:
+    contact:
+      function: contact
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    cross_section_heater:
+      function: strip_heater_metal
+    cross_section_heater_undercut:
+      function: strip_heater_metal_undercut
+    heater_taper_length: 5
+    heater_width: 2.5
+    length: 320
+    length_straight_input: 15
+    length_undercut: 30
+    length_undercut_spacing: 6
+    ohms_per_square: null
+    port_orientation1: 180
+    port_orientation2: 0
+    with_undercut: false
   function_name: straight_heater_metal_undercut
-  info_version: 1
+  info:
+    resistance: null
+  info_version: 2
   module: gdsfactory.components.straight_heater_metal
   name: straight_heater_metal_u_6e8de97e
-  resistance: null
-settings_changed:
-  with_undercut: false
-settings_default:
-  contact:
-    function: contact
-    layers:
-    - - 47
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  cross_section_heater:
-    function: strip_heater_metal
-  cross_section_heater_undercut:
-    function: strip_heater_metal_undercut
-  heater_taper_length: 5
-  heater_width: 2.5
-  length: 320
-  length_straight_input: 15
-  length_undercut: 30
-  length_undercut_spacing: 6
-  ohms_per_square: null
-  port_orientation1: 180
-  port_orientation2: 0
-  with_undercut: true
-settings_full:
-  contact:
-    function: contact
-    layers:
-    - - 47
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  cross_section_heater:
-    function: strip_heater_metal
-  cross_section_heater_undercut:
-    function: strip_heater_metal_undercut
-  heater_taper_length: 5
-  heater_width: 2.5
-  length: 320
-  length_straight_input: 15
-  length_undercut: 30
-  length_undercut_spacing: 6
-  ohms_per_square: null
-  port_orientation1: 180
-  port_orientation2: 0
-  with_undercut: false
 version: 0.0.1

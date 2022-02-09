@@ -1,17 +1,20 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 1
+    - 0
+    size: 1
+  full:
+    layer:
+    - 1
+    - 0
+    size: 1
   function_name: pixel
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.version_stamp
   name: pixel
-settings_changed: {}
-settings_default:
-  layer:
-  - 1
-  - 0
-  size: 1
-settings_full:
-  layer:
-  - 1
-  - 0
-  size: 1
 version: 0.0.1

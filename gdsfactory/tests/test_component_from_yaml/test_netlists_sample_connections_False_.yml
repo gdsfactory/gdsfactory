@@ -2,13 +2,11 @@ connections:
   wgn,o2: wgw,o1
 instances:
   wgn:
-    component: straight
-    settings:
-      length: 0.5
+    component: straight_1a5e6830
+    settings: {}
   wgw:
-    component: straight
-    settings:
-      length: 1
+    component: straight_e15cfb47
+    settings: {}
 name: sample_connections
 placements:
   wgn:

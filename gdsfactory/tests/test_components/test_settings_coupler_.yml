@@ -1,31 +1,36 @@
 info:
-  function_name: coupler
-  info_version: 1
   length: 10.314
   min_bend_radius: 9.451
+settings:
+  changed: {}
+  child: null
+  default:
+    coupler_straight:
+      function: coupler_straight
+    coupler_symmetric:
+      function: coupler_symmetric
+    cross_section:
+      function: cross_section
+    dx: 10
+    dy: 5
+    gap: 0.236
+    length: 20
+  full:
+    coupler_straight:
+      function: coupler_straight
+    coupler_symmetric:
+      function: coupler_symmetric
+    cross_section:
+      function: cross_section
+    dx: 10
+    dy: 5
+    gap: 0.236
+    length: 20
+  function_name: coupler
+  info:
+    length: 10.314
+    min_bend_radius: 9.451
+  info_version: 2
   module: gdsfactory.components.coupler
   name: coupler
-settings_changed: {}
-settings_default:
-  coupler_straight:
-    function: coupler_straight
-  coupler_symmetric:
-    function: coupler_symmetric
-  cross_section:
-    function: cross_section
-  dx: 10
-  dy: 5
-  gap: 0.236
-  length: 20
-settings_full:
-  coupler_straight:
-    function: coupler_straight
-  coupler_symmetric:
-    function: coupler_symmetric
-  cross_section:
-    function: cross_section
-  dx: 10
-  dy: 5
-  gap: 0.236
-  length: 20
 version: 0.0.1

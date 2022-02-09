@@ -1,55 +1,58 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    columns: 3
+    component:
+      function: pad
+    contact:
+      function: contact
+    contact_dy: 0
+    cross_section:
+      function: cross_section
+      layer:
+      - 45
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
+    port_offset: null
+    port_orientation: 180
+    spacing: 150
+    straight_length: 60
+    via_spacing: 10
+  full:
+    columns: 3
+    component:
+      function: pad
+    contact:
+      function: contact
+    contact_dy: 0
+    cross_section:
+      function: cross_section
+      layer:
+      - 45
+      - 0
+      port_names:
+      - e1
+      - e2
+      port_types:
+      - electrical
+      - electrical
+      width: 10
+    port_offset: null
+    port_orientation: 180
+    spacing: 150
+    straight_length: 60
+    via_spacing: 10
   function_name: array_with_via
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.array_with_via
   name: array_with_via
-settings_changed: {}
-settings_default:
-  columns: 3
-  component:
-    function: pad
-  contact:
-    function: contact
-  contact_dy: 0
-  cross_section:
-    function: cross_section
-    layer:
-    - 45
-    - 0
-    port_names:
-    - e1
-    - e2
-    port_types:
-    - electrical
-    - electrical
-    width: 10
-  port_offset: null
-  port_orientation: 180
-  spacing: 150
-  straight_length: 60
-  via_spacing: 10
-settings_full:
-  columns: 3
-  component:
-    function: pad
-  contact:
-    function: contact
-  contact_dy: 0
-  cross_section:
-    function: cross_section
-    layer:
-    - 45
-    - 0
-    port_names:
-    - e1
-    - e2
-    port_types:
-    - electrical
-    - electrical
-    width: 10
-  port_offset: null
-  port_orientation: 180
-  spacing: 150
-  straight_length: 60
-  via_spacing: 10
 version: 0.0.1

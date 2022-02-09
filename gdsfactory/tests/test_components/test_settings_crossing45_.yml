@@ -1,23 +1,28 @@
 info:
   bezier_length: 42.085
-  function_name: crossing45
-  info_version: 1
   min_bend_radius: 44.312
+settings:
+  changed: {}
+  child: null
+  default:
+    alpha: 0.08
+    crossing:
+      function: crossing
+    dx: null
+    npoints: 101
+    port_spacing: 40
+  full:
+    alpha: 0.08
+    crossing:
+      function: crossing
+    dx: null
+    npoints: 101
+    port_spacing: 40
+  function_name: crossing45
+  info:
+    bezier_length: 42.085
+    min_bend_radius: 44.312
+  info_version: 2
   module: gdsfactory.components.crossing_waveguide
   name: crossing45
-settings_changed: {}
-settings_default:
-  alpha: 0.08
-  crossing:
-    function: crossing
-  dx: null
-  npoints: 101
-  port_spacing: 40
-settings_full:
-  alpha: 0.08
-  crossing:
-    function: crossing
-  dx: null
-  npoints: 101
-  port_spacing: 40
 version: 0.0.1

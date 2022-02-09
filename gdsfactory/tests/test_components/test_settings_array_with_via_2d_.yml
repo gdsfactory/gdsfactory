@@ -1,19 +1,22 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    columns: 3
+    rows: 2
+    spacing:
+    - 150
+    - 150
+  full:
+    columns: 3
+    rows: 2
+    spacing:
+    - 150
+    - 150
   function_name: array_with_via_2d
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.array_with_via
   name: array_with_via_2d
-settings_changed: {}
-settings_default:
-  columns: 3
-  rows: 2
-  spacing:
-  - 150
-  - 150
-settings_full:
-  columns: 3
-  rows: 2
-  spacing:
-  - 150
-  - 150
 version: 0.0.1

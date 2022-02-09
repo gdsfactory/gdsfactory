@@ -68,8 +68,8 @@ def coupler_symmetric(
 
     c.add_port("o3", port=top_bend.ports["o2"])
     c.add_port("o4", port=bottom_bend.ports["o2"])
-    c.info.length = bend_component.info.length
-    c.info.min_bend_radius = bend_component.info.min_bend_radius
+    c.info["length"] = bend_component.info["length"]
+    c.info["min_bend_radius"] = bend_component.info["min_bend_radius"]
     return c
 
 
@@ -80,4 +80,4 @@ if __name__ == "__main__":
 
     for dyi in [2, 3, 4, 5]:
         c = coupler_symmetric(gap=0.2, width=0.5, dy=dyi, dx=10.0, layer=(2, 0))
-        print(f"dy={dyi}, min_bend_radius = {c.info.min_bend_radius}")
+        print(f"dy={dyi}, min_bend_radius = {c.info['min_bend_radius']}")

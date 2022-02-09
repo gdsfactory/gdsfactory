@@ -1,25 +1,28 @@
-info:
+info: {}
+settings:
+  changed:
+    bend:
+      function: bend_circular
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    bend_cross_section: null
+    cross_section:
+      function: cross_section
+    gap: 0.2
+    radius: 10
+  full:
+    bend:
+      function: bend_circular
+    bend_cross_section: null
+    cross_section:
+      function: cross_section
+    gap: 0.2
+    radius: 10
   function_name: coupler90
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler90
   name: coupler90_528aa9f7
-settings_changed:
-  bend:
-    function: bend_circular
-settings_default:
-  bend:
-    function: bend_euler
-  bend_cross_section: null
-  cross_section:
-    function: cross_section
-  gap: 0.2
-  radius: 10
-settings_full:
-  bend:
-    function: bend_circular
-  bend_cross_section: null
-  cross_section:
-    function: cross_section
-  gap: 0.2
-  radius: 10
 version: 0.0.1

@@ -1,41 +1,46 @@
 info:
-  function_name: straight
-  info_version: 1
   length: 10.0
+  width: 1.0
+settings:
+  changed:
+    cross_section:
+      function: cross_section
+      layer:
+      - 34
+      - 0
+      layers_cladding:
+      - - 36
+        - 0
+      width: 1
+    decorator:
+      function: add_pins
+  child: null
+  default:
+    cross_section:
+      function: cross_section
+    length: 10
+    npoints: 2
+    with_cladding_box: true
+  full:
+    cross_section:
+      function: cross_section
+      layer:
+      - 34
+      - 0
+      layers_cladding:
+      - - 36
+        - 0
+      width: 1
+    decorator:
+      function: add_pins
+    length: 10
+    npoints: 2
+    with_cladding_box: true
+  function_name: straight
+  info:
+    length: 10.0
+    width: 1.0
+  info_version: 2
   module: gdsfactory.components.straight
   name: straight_3463ad1a
-  width: 1.0
-settings_changed:
-  cross_section:
-    function: cross_section
-    layer:
-    - 34
-    - 0
-    layers_cladding:
-    - - 36
-      - 0
-    width: 1
-  decorator:
-    function: add_pins
-settings_default:
-  cross_section:
-    function: cross_section
-  length: 10
-  npoints: 2
-  with_cladding_box: true
-settings_full:
-  cross_section:
-    function: cross_section
-    layer:
-    - 34
-    - 0
-    layers_cladding:
-    - - 36
-      - 0
-    width: 1
-  decorator:
-    function: add_pins
-  length: 10
-  npoints: 2
-  with_cladding_box: true
 version: 0.0.1

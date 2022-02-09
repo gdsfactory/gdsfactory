@@ -151,8 +151,8 @@ def grating_coupler_elliptical(
     period = a1 + x1
 
     c = gf.Component()
-    c.info.polarization = polarization
-    c.info.wavelength = wavelength
+    c.info["polarization"] = polarization
+    c.info["wavelength"] = wavelength
 
     # Make the taper
     p = taper_length / period

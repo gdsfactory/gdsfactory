@@ -1,68 +1,13 @@
-cells:
-  compass_7a93663b:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 100
-      - 100
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 100
-      - 100
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_7a93663b
-  pad:
-    changed: {}
-    default:
-      cladding_offsets: null
-      layer:
-      - 49
-      - 0
-      layers_cladding: null
-      port_inclusion: 0
-      size:
-      - 100
-      - 100
-    full:
-      cladding_offsets: null
-      layer:
-      - 49
-      - 0
-      layers_cladding: null
-      port_inclusion: 0
-      size:
-      - 100
-      - 100
-    function_name: pad
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.pad
-    name: pad
-    size:
-    - 100
-    - 100
 info:
+  layer:
+  - 49
+  - 0
+  size:
+  - 100.0
+  - 100.0
+settings:
   changed: {}
+  child: null
   default:
     cladding_offsets: null
     layer:
@@ -84,69 +29,14 @@ info:
     - 100
     - 100
   function_name: pad
-  info_version: 1
-  layer:
-  - 49
-  - 0
+  info:
+    layer:
+    - 49
+    - 0
+    size:
+    - 100.0
+    - 100.0
+  info_version: 2
   module: gdsfactory.components.pad
   name: pad
-  size:
-  - 100
-  - 100
-ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -50
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 100
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 50
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 100
-  e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 50
-    - 0
-    name: e3
-    orientation: 0
-    port_type: electrical
-    width: 100
-  e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - -50
-    name: e4
-    orientation: 270
-    port_type: electrical
-    width: 100
-  pad:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: pad
-    orientation: 0
-    port_type: vertical_dc
-    width: 1
 version: 0.0.1

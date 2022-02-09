@@ -1,31 +1,34 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    bend: null
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    radius: 10
+    straight:
+      function: straight
+  full:
+    bend: null
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    radius: 10
+    straight:
+      function: straight
   function_name: ring_double
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.ring_double
   name: ring_double
-settings_changed: {}
-settings_default:
-  bend: null
-  coupler_ring:
-    function: coupler_ring
-  cross_section:
-    function: cross_section
-  gap: 0.2
-  length_x: 0.01
-  length_y: 0.01
-  radius: 10
-  straight:
-    function: straight
-settings_full:
-  bend: null
-  coupler_ring:
-    function: coupler_ring
-  cross_section:
-    function: cross_section
-  gap: 0.2
-  length_x: 0.01
-  length_y: 0.01
-  radius: 10
-  straight:
-    function: straight
 version: 0.0.1

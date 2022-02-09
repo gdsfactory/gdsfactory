@@ -1,31 +1,34 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section:
+      function: cross_section
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10
+    taper:
+      function: taper
+    width: 0.5
+    width_mmi: 2.5
+    width_taper: 1
+    with_cladding_box: true
+  full:
+    cross_section:
+      function: cross_section
+    gap_mmi: 0.25
+    length_mmi: 5.5
+    length_taper: 10
+    taper:
+      function: taper
+    width: 0.5
+    width_mmi: 2.5
+    width_taper: 1
+    with_cladding_box: true
   function_name: mmi1x2
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mmi1x2
   name: mmi1x2
-settings_changed: {}
-settings_default:
-  cross_section:
-    function: cross_section
-  gap_mmi: 0.25
-  length_mmi: 5.5
-  length_taper: 10
-  taper:
-    function: taper
-  width: 0.5
-  width_mmi: 2.5
-  width_taper: 1
-  with_cladding_box: true
-settings_full:
-  cross_section:
-    function: cross_section
-  gap_mmi: 0.25
-  length_mmi: 5.5
-  length_taper: 10
-  taper:
-    function: taper
-  width: 0.5
-  width_mmi: 2.5
-  width_taper: 1
-  with_cladding_box: true
 version: 0.0.1

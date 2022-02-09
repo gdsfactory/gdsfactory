@@ -1,25 +1,28 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
+    input_port_indexes:
+    - 0
+    - 1
+    pitch: 127
+  full:
+    grating_coupler:
+      function: grating_coupler_elliptical_trenches
+      polarization: te
+      taper_angle: 35
+    input_port_indexes:
+    - 0
+    - 1
+    pitch: 127
   function_name: loss_deembedding_ch14_23
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.grating_coupler_loss
   name: loss_deembedding_ch14_23
-settings_changed: {}
-settings_default:
-  grating_coupler:
-    function: grating_coupler_elliptical_trenches
-    polarization: te
-    taper_angle: 35
-  input_port_indexes:
-  - 0
-  - 1
-  pitch: 127
-settings_full:
-  grating_coupler:
-    function: grating_coupler_elliptical_trenches
-    polarization: te
-    taper_angle: 35
-  input_port_indexes:
-  - 0
-  - 1
-  pitch: 127
 version: 0.0.1

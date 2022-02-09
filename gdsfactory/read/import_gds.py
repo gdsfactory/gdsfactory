@@ -195,7 +195,6 @@ def import_gds(
 
     component.info.update(**kwargs)
     component.name = name
-    component.info.name = name
 
     if decorator:
         component_new = decorator(component)

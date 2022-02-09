@@ -1,145 +1,148 @@
-info:
+info: {}
+settings:
+  changed:
+    bend:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      function: bend_euler
+    cross_section:
+      function: cross_section
+      layer:
+      - 34
+      - 0
+      layers_cladding:
+      - - 36
+        - 0
+      width: 0.9
+    decorator:
+      function: add_pins
+    splitter:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      function: mmi1x2
+      width: 0.9
+    straight:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      function: straight
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    combiner: null
+    cross_section:
+      function: cross_section
+    delta_length: 10
+    length_x: 0.1
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter:
+      function: mmi1x2
+    straight:
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
+  full:
+    bend:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      function: bend_euler
+    combiner: null
+    cross_section:
+      function: cross_section
+      layer:
+      - 34
+      - 0
+      layers_cladding:
+      - - 36
+        - 0
+      width: 0.9
+    decorator:
+      function: add_pins
+    delta_length: 10
+    length_x: 0.1
+    length_y: 2
+    nbends: 2
+    port_e0_combiner: o3
+    port_e0_splitter: o3
+    port_e1_combiner: o2
+    port_e1_splitter: o2
+    splitter:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      function: mmi1x2
+      width: 0.9
+    straight:
+      cross_section:
+        function: cross_section
+        layer:
+        - 34
+        - 0
+        layers_cladding:
+        - - 36
+          - 0
+        width: 0.9
+      decorator:
+        function: add_pins
+      function: straight
+    straight_x_bot: null
+    straight_x_top: null
+    straight_y: null
+    with_splitter: true
   function_name: mzi
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mzi
   name: mzi_d235e57a
-settings_changed:
-  bend:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
-    decorator:
-      function: add_pins
-    function: bend_euler
-  cross_section:
-    function: cross_section
-    layer:
-    - 34
-    - 0
-    layers_cladding:
-    - - 36
-      - 0
-    width: 0.9
-  decorator:
-    function: add_pins
-  splitter:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
-    decorator:
-      function: add_pins
-    function: mmi1x2
-    width: 0.9
-  straight:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
-    decorator:
-      function: add_pins
-    function: straight
-settings_default:
-  bend:
-    function: bend_euler
-  combiner: null
-  cross_section:
-    function: cross_section
-  delta_length: 10
-  length_x: 0.1
-  length_y: 2
-  nbends: 2
-  port_e0_combiner: o3
-  port_e0_splitter: o3
-  port_e1_combiner: o2
-  port_e1_splitter: o2
-  splitter:
-    function: mmi1x2
-  straight:
-    function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
-  with_splitter: true
-settings_full:
-  bend:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
-    decorator:
-      function: add_pins
-    function: bend_euler
-  combiner: null
-  cross_section:
-    function: cross_section
-    layer:
-    - 34
-    - 0
-    layers_cladding:
-    - - 36
-      - 0
-    width: 0.9
-  decorator:
-    function: add_pins
-  delta_length: 10
-  length_x: 0.1
-  length_y: 2
-  nbends: 2
-  port_e0_combiner: o3
-  port_e0_splitter: o3
-  port_e1_combiner: o2
-  port_e1_splitter: o2
-  splitter:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
-    decorator:
-      function: add_pins
-    function: mmi1x2
-    width: 0.9
-  straight:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 0.9
-    decorator:
-      function: add_pins
-    function: straight
-  straight_x_bot: null
-  straight_x_top: null
-  straight_y: null
-  with_splitter: true
 version: 0.0.1

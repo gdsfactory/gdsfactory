@@ -1,23 +1,29 @@
 info:
   dy: 0.0
-  function_name: bend_circular
-  info_version: 1
   length: 31.416
+  radius: 10.0
+settings:
+  changed:
+    angle: 180
+  child: null
+  default:
+    angle: 90
+    cross_section:
+      function: cross_section
+    npoints: 720
+    with_cladding_box: true
+  full:
+    angle: 180
+    cross_section:
+      function: cross_section
+    npoints: 720
+    with_cladding_box: true
+  function_name: bend_circular
+  info:
+    dy: 0.0
+    length: 31.416
+    radius: 10.0
+  info_version: 2
   module: gdsfactory.components.bend_circular
   name: bend_circular_8d359e58
-  radius: 10.0
-settings_changed:
-  angle: 180
-settings_default:
-  angle: 90
-  cross_section:
-    function: cross_section
-  npoints: 720
-  with_cladding_box: true
-settings_full:
-  angle: 180
-  cross_section:
-    function: cross_section
-  npoints: 720
-  with_cladding_box: true
 version: 0.0.1

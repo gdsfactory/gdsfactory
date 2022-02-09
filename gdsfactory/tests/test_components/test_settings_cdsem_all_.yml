@@ -1,55 +1,58 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    bend90:
+      function: bend_circular
+    cross_section:
+      function: cross_section
+    dense_lines_gap: 0.3
+    dense_lines_labels:
+    - DL
+    - DM
+    - DH
+    dense_lines_width: 0.3
+    dense_lines_width_difference: 0.02
+    straight:
+      function: straight
+    text:
+      function: text_rectangular
+      size: 1
+    widths:
+    - 0.4
+    - 0.45
+    - 0.5
+    - 0.6
+    - 0.8
+    - 1
+  full:
+    bend90:
+      function: bend_circular
+    cross_section:
+      function: cross_section
+    dense_lines_gap: 0.3
+    dense_lines_labels:
+    - DL
+    - DM
+    - DH
+    dense_lines_width: 0.3
+    dense_lines_width_difference: 0.02
+    straight:
+      function: straight
+    text:
+      function: text_rectangular
+      size: 1
+    widths:
+    - 0.4
+    - 0.45
+    - 0.5
+    - 0.6
+    - 0.8
+    - 1
   function_name: cdsem_all
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.cdsem_all
   name: cdsem_all
-settings_changed: {}
-settings_default:
-  bend90:
-    function: bend_circular
-  cross_section:
-    function: cross_section
-  dense_lines_gap: 0.3
-  dense_lines_labels:
-  - DL
-  - DM
-  - DH
-  dense_lines_width: 0.3
-  dense_lines_width_difference: 0.02
-  straight:
-    function: straight
-  text:
-    function: text_rectangular
-    size: 1
-  widths:
-  - 0.4
-  - 0.45
-  - 0.5
-  - 0.6
-  - 0.8
-  - 1
-settings_full:
-  bend90:
-    function: bend_circular
-  cross_section:
-    function: cross_section
-  dense_lines_gap: 0.3
-  dense_lines_labels:
-  - DL
-  - DM
-  - DH
-  dense_lines_width: 0.3
-  dense_lines_width_difference: 0.02
-  straight:
-    function: straight
-  text:
-    function: text_rectangular
-    size: 1
-  widths:
-  - 0.4
-  - 0.45
-  - 0.5
-  - 0.6
-  - 0.8
-  - 1
 version: 0.0.1

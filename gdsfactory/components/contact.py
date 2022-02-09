@@ -41,8 +41,8 @@ def contact(
 
     c = Component()
     c.height = height
-    c.info.size = (float(size[0]), float(size[1]))
-    c.info.layer = layer_port
+    c.info["size"] = (float(size[0]), float(size[1]))
+    c.info["layer"] = layer_port
 
     for layer in layers:
         ref = c << compass(size=(width, height), layer=layer)

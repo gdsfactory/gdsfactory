@@ -1,77 +1,80 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    contact:
+      function: contact
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    cross_section:
+      function: cross_section
+    extension_length: 15
+    heater_taper_length: 10
+    heater_width: 2.5
+    layer_heater:
+    - 47
+    - 0
+    length: 300
+    port_orientation1: 180
+    port_orientation2: 0
+    radius: 5
+    spacing: 2
+    straight_width: 0.9
+    taper_length: 10
+  full:
+    contact:
+      function: contact
+      layers:
+      - - 47
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    cross_section:
+      function: cross_section
+    extension_length: 15
+    heater_taper_length: 10
+    heater_width: 2.5
+    layer_heater:
+    - 47
+    - 0
+    length: 300
+    port_orientation1: 180
+    port_orientation2: 0
+    radius: 5
+    spacing: 2
+    straight_width: 0.9
+    taper_length: 10
   function_name: straight_heater_meander
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_heater_meander
   name: straight_heater_meander
-settings_changed: {}
-settings_default:
-  contact:
-    function: contact
-    layers:
-    - - 47
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  cross_section:
-    function: cross_section
-  extension_length: 15
-  heater_taper_length: 10
-  heater_width: 2.5
-  layer_heater:
-  - 47
-  - 0
-  length: 300
-  port_orientation1: 180
-  port_orientation2: 0
-  radius: 5
-  spacing: 2
-  straight_width: 0.9
-  taper_length: 10
-settings_full:
-  contact:
-    function: contact
-    layers:
-    - - 47
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  cross_section:
-    function: cross_section
-  extension_length: 15
-  heater_taper_length: 10
-  heater_width: 2.5
-  layer_heater:
-  - 47
-  - 0
-  length: 300
-  port_orientation1: 180
-  port_orientation2: 0
-  radius: 5
-  spacing: 2
-  straight_width: 0.9
-  taper_length: 10
 version: 0.0.1

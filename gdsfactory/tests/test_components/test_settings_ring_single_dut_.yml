@@ -1,206 +1,10 @@
-cells:
-  bend_euler_ad3c06b6:
-    changed:
-      radius: 5
-      width: 0.5
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 5
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 5
-      width: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 8.318
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_ad3c06b6
-    radius: 5
-    radius_min: 3.53
-  coupler_ring:
-    changed: {}
-    default:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    function_name: coupler_ring
-    info_version: 1
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring
-  straight_d4cb55ff:
-    changed:
-      length: 4
-      width: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 4
-      npoints: 2
-      width: 0.5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 4
-    module: gdsfactory.components.straight
-    name: straight_d4cb55ff
-    width: 0.5
-  straight_d6e1c0cf:
-    changed:
-      width: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      width: 0.5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_d6e1c0cf
-    width: 0.5
-  taper_2e9853cc:
-    changed:
-      width2: 3
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: 3
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_2e9853cc
-    width1: 0.5
-    width2: 3
-  taper_2e9853cc_ring_single_dut:
-    changed: {}
-    child:
-      changed:
-        width2: 3
-      default:
-        cross_section:
-          function: cross_section
-        length: 10
-        port: null
-        width1: 0.5
-        width2: null
-        with_cladding_box: true
-      full:
-        cross_section:
-          function: cross_section
-        length: 10
-        port: null
-        width1: 0.5
-        width2: 3
-        with_cladding_box: true
-      function_name: taper
-      info_version: 1
-      length: 10
-      module: gdsfactory.components.taper
-      name: taper_2e9853cc
-      width1: 0.5
-      width2: 3
-    default:
-      bend:
-        function: bend_euler
-      component:
-        function: taper
-        width2: 3
-      coupler:
-        function: coupler_ring
-      gap: 0.2
-      length_x: 4
-      length_y: 0
-      radius: 5
-      straight:
-        function: straight
-      wg_width: 0.5
-      with_component: true
-    full:
-      bend:
-        function: bend_euler
-      component:
-        function: taper
-        width2: 3
-      coupler:
-        function: coupler_ring
-      gap: 0.2
-      length_x: 4
-      length_y: 0
-      radius: 5
-      straight:
-        function: straight
-      wg_width: 0.5
-      with_component: true
-    function_name: ring_single_dut
-    info_version: 1
-    module: gdsfactory.components.ring_single_dut
-    name: taper_2e9853cc_ring_single_dut
-info:
+info: {}
+settings:
   changed: {}
   child:
     changed:
       width2: 3
+    child: null
     default:
       cross_section:
         function: cross_section
@@ -218,12 +22,13 @@ info:
       width2: 3
       with_cladding_box: true
     function_name: taper
-    info_version: 1
-    length: 10
+    info:
+      length: 10.0
+      width1: 0.5
+      width2: 3.0
+    info_version: 2
     module: gdsfactory.components.taper
     name: taper_2e9853cc
-    width1: 0.5
-    width2: 3
   default:
     bend:
       function: bend_euler
@@ -257,30 +62,8 @@ info:
     wg_width: 0.5
     with_component: true
   function_name: ring_single_dut
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.ring_single_dut
   name: taper_2e9853cc_ring_single_dut
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -9
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 5
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

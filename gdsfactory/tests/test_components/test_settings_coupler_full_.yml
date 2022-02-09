@@ -1,31 +1,34 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    angle: 0.5235987755982988
+    direction: EAST
+    dw: 0.1
+    gap: 0.5
+    length: 40
+    parity: 1
+    port:
+    - 0
+    - 0
+    waveguide_template:
+      function: strip
+  full:
+    angle: 0.5235987755982988
+    direction: EAST
+    dw: 0.1
+    gap: 0.5
+    length: 40
+    parity: 1
+    port:
+    - 0
+    - 0
+    waveguide_template:
+      function: strip
   function_name: coupler_full
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler_full
   name: coupler_full
-settings_changed: {}
-settings_default:
-  angle: 0.5235987755982988
-  direction: EAST
-  dw: 0.1
-  gap: 0.5
-  length: 40
-  parity: 1
-  port:
-  - 0
-  - 0
-  waveguide_template:
-    function: strip
-settings_full:
-  angle: 0.5235987755982988
-  direction: EAST
-  dw: 0.1
-  gap: 0.5
-  length: 40
-  parity: 1
-  port:
-  - 0
-  - 0
-  waveguide_template:
-    function: strip
 version: 0.0.1

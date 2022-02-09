@@ -105,10 +105,10 @@ def bezier(
     length = gf.snap.snap_to_grid(path_length(path_points))
     min_bend_radius = gf.snap.snap_to_grid(1 / max(np.abs(curv)))
 
-    c.info.start_angle = gf.snap.snap_to_grid(angles[0])
-    c.info.end_angle = gf.snap.snap_to_grid(angles[-2])
-    c.info.length = length
-    c.info.min_bend_radius = min_bend_radius
+    c.info["start_angle"] = gf.snap.snap_to_grid(angles[0])
+    c.info["end_angle"] = gf.snap.snap_to_grid(angles[-2])
+    c.info["length"] = length
+    c.info["min_bend_radius"] = min_bend_radius
     return c
 
 

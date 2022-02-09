@@ -1,162 +1,9 @@
-cells:
-  compass_bd043ca6:
-    changed:
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_bd043ca6
-  cross:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    full:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross
-  pad_array:
-    changed: {}
-    default:
-      columns: 6
-      orientation: 270
-      pad:
-        function: pad
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 6
-      orientation: 270
-      pad:
-        function: pad
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    function_name: pad_array
-    info_version: 1
-    module: gdsfactory.components.pad
-    name: pad_array
-    size:
-    - 100
-    - 100
-  pad_array_add_fidutials:
-    changed: {}
-    child:
-      changed: {}
-      default:
-        columns: 6
-        orientation: 270
-        pad:
-          function: pad
-        rows: 1
-        spacing:
-        - 150
-        - 150
-      full:
-        columns: 6
-        orientation: 270
-        pad:
-          function: pad
-        rows: 1
-        spacing:
-        - 150
-        - 150
-      function_name: pad_array
-      info_version: 1
-      module: gdsfactory.components.pad
-      name: pad_array
-      size:
-      - 100
-      - 100
-    default:
-      bottom: null
-      component:
-        function: pad_array
-      gap: 50
-      left:
-        function: cross
-      right:
-        function: cross
-      top: null
-    full:
-      bottom: null
-      component:
-        function: pad_array
-      gap: 50
-      left:
-        function: cross
-      right:
-        function: cross
-      top: null
-    function_name: add_fidutials
-    info_version: 1
-    module: gdsfactory.components.add_fidutials
-    name: pad_array_add_fidutials
-  rectangle_bd043ca6:
-    changed:
-      size:
-      - 3
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_bd043ca6
-info:
+info: {}
+settings:
   changed: {}
   child:
     changed: {}
+    child: null
     default:
       columns: 6
       orientation: 270
@@ -176,12 +23,13 @@ info:
       - 150
       - 150
     function_name: pad_array
-    info_version: 1
+    info:
+      size:
+      - 100
+      - 100
+    info_version: 2
     module: gdsfactory.components.pad
     name: pad_array
-    size:
-    - 100
-    - 100
   default:
     bottom: null
     component:
@@ -203,74 +51,8 @@ info:
       function: cross
     top: null
   function_name: add_fidutials
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.add_fidutials
   name: pad_array_add_fidutials
-ports:
-  e11:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: e11
-    orientation: 270
-    port_type: electrical
-    width: 100
-  e12:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 150
-    - 0
-    name: e12
-    orientation: 270
-    port_type: electrical
-    width: 100
-  e13:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 300
-    - 0
-    name: e13
-    orientation: 270
-    port_type: electrical
-    width: 100
-  e14:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 450
-    - 0
-    name: e14
-    orientation: 270
-    port_type: electrical
-    width: 100
-  e15:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 600
-    - 0
-    name: e15
-    orientation: 270
-    port_type: electrical
-    width: 100
-  e16:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 750
-    - 0
-    name: e16
-    orientation: 270
-    port_type: electrical
-    width: 100
 version: 0.0.1

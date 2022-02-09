@@ -1,28 +1,32 @@
 info:
-  function_name: cutback_bend90
-  info_version: 1
-  module: gdsfactory.components.cutback_bend
   n_bends: 144
+settings:
+  changed:
+    bend90:
+      function: bend_circular
+  child: null
+  default:
+    bend90:
+      function: bend_euler
+    columns: 6
+    rows: 6
+    spacing: 5
+    straight:
+      function: straight
+    straight_length: 5
+  full:
+    bend90:
+      function: bend_circular
+    columns: 6
+    rows: 6
+    spacing: 5
+    straight:
+      function: straight
+    straight_length: 5
+  function_name: cutback_bend90
+  info:
+    n_bends: 144
+  info_version: 2
+  module: gdsfactory.components.cutback_bend
   name: cutback_bend90_d1ad1beb
-settings_changed:
-  bend90:
-    function: bend_circular
-settings_default:
-  bend90:
-    function: bend_euler
-  columns: 6
-  rows: 6
-  spacing: 5
-  straight:
-    function: straight
-  straight_length: 5
-settings_full:
-  bend90:
-    function: bend_circular
-  columns: 6
-  rows: 6
-  spacing: 5
-  straight:
-    function: straight
-  straight_length: 5
 version: 0.0.1

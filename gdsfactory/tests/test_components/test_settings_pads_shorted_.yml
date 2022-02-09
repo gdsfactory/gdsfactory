@@ -1,25 +1,28 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    columns: 8
+    layer_metal:
+    - 49
+    - 0
+    metal_width: 10
+    pad:
+      function: pad
+    pad_spacing: 150
+  full:
+    columns: 8
+    layer_metal:
+    - 49
+    - 0
+    metal_width: 10
+    pad:
+      function: pad
+    pad_spacing: 150
   function_name: pads_shorted
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.pads_shorted
   name: pads_shorted
-settings_changed: {}
-settings_default:
-  columns: 8
-  layer_metal:
-  - 49
-  - 0
-  metal_width: 10
-  pad:
-    function: pad
-  pad_spacing: 150
-settings_full:
-  columns: 8
-  layer_metal:
-  - 49
-  - 0
-  metal_width: 10
-  pad:
-    function: pad
-  pad_spacing: 150
 version: 0.0.1

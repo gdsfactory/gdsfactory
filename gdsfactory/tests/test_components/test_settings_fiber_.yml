@@ -1,25 +1,28 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
+  full:
+    cladding_diameter: 125
+    core_diameter: 10
+    layer_cladding:
+    - 111
+    - 0
+    layer_core:
+    - 1
+    - 0
   function_name: fiber
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.fiber
   name: fiber
-settings_changed: {}
-settings_default:
-  cladding_diameter: 125
-  core_diameter: 10
-  layer_cladding:
-  - 111
-  - 0
-  layer_core:
-  - 1
-  - 0
-settings_full:
-  cladding_diameter: 125
-  core_diameter: 10
-  layer_cladding:
-  - 111
-  - 0
-  layer_core:
-  - 1
-  - 0
 version: 0.0.1

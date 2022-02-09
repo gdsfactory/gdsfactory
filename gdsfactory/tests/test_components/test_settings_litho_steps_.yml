@@ -1,31 +1,34 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    height: 100
+    layer:
+    - 1
+    - 0
+    line_spacing: 10
+    line_widths:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+  full:
+    height: 100
+    layer:
+    - 1
+    - 0
+    line_spacing: 10
+    line_widths:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
   function_name: litho_steps
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.litho_steps
   name: litho_steps
-settings_changed: {}
-settings_default:
-  height: 100
-  layer:
-  - 1
-  - 0
-  line_spacing: 10
-  line_widths:
-  - 1
-  - 2
-  - 4
-  - 8
-  - 16
-settings_full:
-  height: 100
-  layer:
-  - 1
-  - 0
-  line_spacing: 10
-  line_widths:
-  - 1
-  - 2
-  - 4
-  - 8
-  - 16
 version: 0.0.1

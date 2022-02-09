@@ -1,53 +1,56 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    Ls: 1
+    bend90:
+      function: bend_euler
+    bend_radius: 10
+    coupler1:
+      function: coupler
+    coupler2:
+      function: coupler
+    coupler_gap1: 0.2
+    coupler_gap2: 0.3
+    coupler_length1: 5
+    coupler_length2: 10
+    delta_length: 10
+    dy: 2
+    straight:
+      function: straight
+    taper:
+      function: taper
+    taper_length: 5
+    w0: 0.5
+    w1: 0.45
+    w2: 0.55
+  full:
+    Ls: 1
+    bend90:
+      function: bend_euler
+    bend_radius: 10
+    coupler1:
+      function: coupler
+    coupler2:
+      function: coupler
+    coupler_gap1: 0.2
+    coupler_gap2: 0.3
+    coupler_length1: 5
+    coupler_length2: 10
+    delta_length: 10
+    dy: 2
+    straight:
+      function: straight
+    taper:
+      function: taper
+    taper_length: 5
+    w0: 0.5
+    w1: 0.45
+    w2: 0.55
   function_name: mzit
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mzit
   name: mzit
-settings_changed: {}
-settings_default:
-  Ls: 1
-  bend90:
-    function: bend_euler
-  bend_radius: 10
-  coupler1:
-    function: coupler
-  coupler2:
-    function: coupler
-  coupler_gap1: 0.2
-  coupler_gap2: 0.3
-  coupler_length1: 5
-  coupler_length2: 10
-  delta_length: 10
-  dy: 2
-  straight:
-    function: straight
-  taper:
-    function: taper
-  taper_length: 5
-  w0: 0.5
-  w1: 0.45
-  w2: 0.55
-settings_full:
-  Ls: 1
-  bend90:
-    function: bend_euler
-  bend_radius: 10
-  coupler1:
-    function: coupler
-  coupler2:
-    function: coupler
-  coupler_gap1: 0.2
-  coupler_gap2: 0.3
-  coupler_length1: 5
-  coupler_length2: 10
-  delta_length: 10
-  dy: 2
-  straight:
-    function: straight
-  taper:
-    function: taper
-  taper_length: 5
-  w0: 0.5
-  w1: 0.45
-  w2: 0.55
 version: 0.0.1

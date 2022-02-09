@@ -32,7 +32,7 @@ def bend_port(
         bend: factory for the bend
         angle: for the bend
         extension_length: for the straight after the bend
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
 
     """
     c = gf.Component()
@@ -74,5 +74,6 @@ if __name__ == "__main__":
     # c = gf.components.straight_pin()
     # c = gf.components.straight_heater_metal()
     # c = bend_port(component=c, port_name="e1")
-    c = bend_port(component=gf.components.mzi_phase_shifter)
+    # c = bend_port(component=gf.components.mzi_phase_shifter)
+    c = bend_port()
     c.show()

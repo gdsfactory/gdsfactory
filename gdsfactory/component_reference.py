@@ -232,8 +232,8 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
-    def info_child(self) -> DotMap:
-        return self.parent.info_child
+    def settings_child(self) -> DotMap:
+        return self.parent.settings_child
 
     @property
     def size_info(self) -> SizeInfo:
