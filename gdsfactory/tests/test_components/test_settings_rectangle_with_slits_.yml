@@ -1,45 +1,48 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    centered: false
+    layer:
+    - 1
+    - 0
+    layer_slit:
+    - 2
+    - 0
+    port_type: null
+    size:
+    - 100
+    - 200
+    slit_enclosure: 10
+    slit_size:
+    - 1
+    - 1
+    slit_spacing:
+    - 20
+    - 20
+  full:
+    centered: false
+    layer:
+    - 1
+    - 0
+    layer_slit:
+    - 2
+    - 0
+    port_type: null
+    size:
+    - 100
+    - 200
+    slit_enclosure: 10
+    slit_size:
+    - 1
+    - 1
+    slit_spacing:
+    - 20
+    - 20
   function_name: rectangle_with_slits
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.rectangle_with_slits
   name: rectangle_with_slits
-settings_changed: {}
-settings_default:
-  centered: false
-  layer:
-  - 1
-  - 0
-  layer_slit:
-  - 2
-  - 0
-  port_type: null
-  size:
-  - 100
-  - 200
-  slit_enclosure: 10
-  slit_size:
-  - 1
-  - 1
-  slit_spacing:
-  - 20
-  - 20
-settings_full:
-  centered: false
-  layer:
-  - 1
-  - 0
-  layer_slit:
-  - 2
-  - 0
-  port_type: null
-  size:
-  - 100
-  - 200
-  slit_enclosure: 10
-  slit_size:
-  - 1
-  - 1
-  slit_spacing:
-  - 20
-  - 20
 version: 0.0.1

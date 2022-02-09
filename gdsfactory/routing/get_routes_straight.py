@@ -24,7 +24,7 @@ def get_routes_straight(
     references = [straight.ref() for port in ports]
     references = [ref.connect("o1", port) for port, ref in zip(ports, references)]
     ports = [ref.ports["o2"] for i, ref in enumerate(references)]
-    lengths = [straight.info.length] * len(ports)
+    lengths = [straight.info["length"]] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
 
 

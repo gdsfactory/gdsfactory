@@ -73,7 +73,7 @@ def cutback_bend(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
     )
-    c.info.n_bends = rows * columns * 2 + columns * 2 - 2
+    c.info["n_bends"] = rows * columns * 2 + columns * 2 - 2
     return c
 
 
@@ -123,7 +123,7 @@ def cutback_bend90(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info.n_bends = rows * columns * 4
+    c.info["n_bends"] = rows * columns * 4
     return c
 
 
@@ -154,7 +154,7 @@ def staircase(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info.n_bends = 2 * rows
+    c.info["n_bends"] = 2 * rows
     return c
 
 
@@ -181,7 +181,7 @@ def cutback_bend180(
 
     straightx = straight(length=straight_length, width=bend180.ports["o1"].width)
     wg_vertical = straight(
-        length=2 * bend180.size_info.width + straight_length + spacing,
+        length=2 * bend180.size_info["width"] + straight_length + spacing,
         width=bend180.ports["o1"].width,
     )
 
@@ -206,7 +206,7 @@ def cutback_bend180(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info.n_bends = rows * columns * 2 + columns * 2 - 2
+    c.info["n_bends"] = rows * columns * 2 + columns * 2 - 2
     return c
 
 

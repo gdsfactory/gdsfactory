@@ -1,61 +1,66 @@
 info:
+  polarization: te
+  wavelength: 1.55
+settings:
+  changed: {}
+  child: null
+  default:
+    cladding_offset: 2
+    direction: EAST
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    fill_factor: 0.7
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+    layer_slab: null
+    length: 30
+    period: 1
+    polarization: te
+    port:
+    - 0
+    - 0
+    taper_angle: 30
+    taper_length: 10
+    teeth_list: null
+    wavelength: 1.55
+    wg_width: 0.5
+  full:
+    cladding_offset: 2
+    direction: EAST
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    fill_factor: 0.7
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+    layer_slab: null
+    length: 30
+    period: 1
+    polarization: te
+    port:
+    - 0
+    - 0
+    taper_angle: 30
+    taper_length: 10
+    teeth_list: null
+    wavelength: 1.55
+    wg_width: 0.5
   function_name: grating_coupler_circular
-  info_version: 1
+  info:
+    polarization: te
+    wavelength: 1.55
+  info_version: 2
   module: gdsfactory.components.grating_coupler_circular
   name: grating_coupler_circular
-  polarization: te
-  wavelength: 1.55
-settings_changed: {}
-settings_default:
-  cladding_offset: 2
-  direction: EAST
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  fill_factor: 0.7
-  layer:
-  - 1
-  - 0
-  layer_cladding:
-  - 111
-  - 0
-  layer_slab: null
-  length: 30
-  period: 1
-  polarization: te
-  port:
-  - 0
-  - 0
-  taper_angle: 30
-  taper_length: 10
-  teeth_list: null
-  wavelength: 1.55
-  wg_width: 0.5
-settings_full:
-  cladding_offset: 2
-  direction: EAST
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  fill_factor: 0.7
-  layer:
-  - 1
-  - 0
-  layer_cladding:
-  - 111
-  - 0
-  layer_slab: null
-  length: 30
-  period: 1
-  polarization: te
-  port:
-  - 0
-  - 0
-  taper_angle: 30
-  taper_length: 10
-  teeth_list: null
-  wavelength: 1.55
-  wg_width: 0.5
 version: 0.0.1

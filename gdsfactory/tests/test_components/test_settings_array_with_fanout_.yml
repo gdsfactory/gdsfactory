@@ -1,39 +1,42 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    bend_port_name1: null
+    bend_port_name2: null
+    columns: 3
+    component:
+      function: pad
+    component_port_name: e4
+    cross_section:
+      function: cross_section
+    end_straight_length: 40
+    pitch: 150
+    radius: 5
+    start_straight_length: 5
+    waveguide_pitch: 10
+  full:
+    bend:
+      function: bend_euler
+    bend_port_name1: null
+    bend_port_name2: null
+    columns: 3
+    component:
+      function: pad
+    component_port_name: e4
+    cross_section:
+      function: cross_section
+    end_straight_length: 40
+    pitch: 150
+    radius: 5
+    start_straight_length: 5
+    waveguide_pitch: 10
   function_name: array_with_fanout
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.array_with_fanout
   name: array_with_fanout
-settings_changed: {}
-settings_default:
-  bend:
-    function: bend_euler
-  bend_port_name1: null
-  bend_port_name2: null
-  columns: 3
-  component:
-    function: pad
-  component_port_name: e4
-  cross_section:
-    function: cross_section
-  end_straight_length: 40
-  pitch: 150
-  radius: 5
-  start_straight_length: 5
-  waveguide_pitch: 10
-settings_full:
-  bend:
-    function: bend_euler
-  bend_port_name1: null
-  bend_port_name2: null
-  columns: 3
-  component:
-    function: pad
-  component_port_name: e4
-  cross_section:
-    function: cross_section
-  end_straight_length: 40
-  pitch: 150
-  radius: 5
-  start_straight_length: 5
-  waveguide_pitch: 10
 version: 0.0.1

@@ -1,35 +1,38 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    direction: EAST
+    dw: 0.1
+    input_wg_sep: 3
+    length1: 20
+    length2: 50
+    length3: 30
+    output_wg_sep: 3
+    port:
+    - 0
+    - 0
+    waveguide_template:
+      function: strip
+    wg_sep: 1
+  full:
+    direction: EAST
+    dw: 0.1
+    input_wg_sep: 3
+    length1: 20
+    length2: 50
+    length3: 30
+    output_wg_sep: 3
+    port:
+    - 0
+    - 0
+    waveguide_template:
+      function: strip
+    wg_sep: 1
   function_name: coupler_adiabatic
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler_adiabatic
   name: coupler_adiabatic
-settings_changed: {}
-settings_default:
-  direction: EAST
-  dw: 0.1
-  input_wg_sep: 3
-  length1: 20
-  length2: 50
-  length3: 30
-  output_wg_sep: 3
-  port:
-  - 0
-  - 0
-  waveguide_template:
-    function: strip
-  wg_sep: 1
-settings_full:
-  direction: EAST
-  dw: 0.1
-  input_wg_sep: 3
-  length1: 20
-  length2: 50
-  length3: 30
-  output_wg_sep: 3
-  port:
-  - 0
-  - 0
-  waveguide_template:
-    function: strip
-  wg_sep: 1
 version: 0.0.1

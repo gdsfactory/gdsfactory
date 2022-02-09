@@ -1,23 +1,26 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 49
+    - 0
+    size:
+    - 10
+    - 20
+    width: 1
+  full:
+    layer:
+    - 49
+    - 0
+    size:
+    - 10
+    - 20
+    width: 1
   function_name: C
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.C
   name: C
-settings_changed: {}
-settings_default:
-  layer:
-  - 49
-  - 0
-  size:
-  - 10
-  - 20
-  width: 1
-settings_full:
-  layer:
-  - 49
-  - 0
-  size:
-  - 10
-  - 20
-  width: 1
 version: 0.0.1

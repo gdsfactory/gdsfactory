@@ -1,206 +1,5 @@
-cells:
-  text_rectangular:
-    changed: {}
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular
-  text_rectangular_1728a687:
-    changed:
-      layer:
-      - 49
-      - 0
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 49
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_1728a687
-  text_rectangular_1728a6_2f9cb8aa:
-    changed:
-      factory:
-        function: text_rectangular
-        text: abcd
-      layers:
-      - - 1
-        - 0
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-    child:
-      changed:
-        layer:
-        - 49
-        - 0
-      default:
-        font:
-          function: rectangular_font
-        justify: left
-        layer:
-        - 1
-        - 0
-        position:
-        - 0
-        - 0
-        size: 10
-        text: abcd
-      full:
-        font:
-          function: rectangular_font
-        justify: left
-        layer:
-        - 49
-        - 0
-        position:
-        - 0
-        - 0
-        size: 10
-        text: abcd
-      function_name: text_rectangular
-      info_version: 1
-      module: gdsfactory.components.text_rectangular
-      name: text_rectangular_1728a687
-    default:
-      factory:
-        function: cross
-      layers:
-      - - 1
-        - 0
-      - - 2
-        - 0
-    full:
-      factory:
-        function: text_rectangular
-        text: abcd
-      layers:
-      - - 1
-        - 0
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-    function_name: copy_layers
-    info_version: 1
-    module: gdsfactory.components.copy_layers
-    name: text_rectangular_1728a6_2f9cb8aa
-  text_rectangular_820a0b5f:
-    changed:
-      layer:
-      - 45
-      - 0
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 45
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_820a0b5f
-  text_rectangular_87c94e73:
-    changed:
-      layer:
-      - 41
-      - 0
-    default:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 1
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      font:
-        function: rectangular_font
-      justify: left
-      layer:
-      - 41
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: text_rectangular
-    info_version: 1
-    module: gdsfactory.components.text_rectangular
-    name: text_rectangular_87c94e73
-info:
+info: {}
+settings:
   changed:
     factory:
       function: text_rectangular
@@ -219,6 +18,7 @@ info:
       layer:
       - 49
       - 0
+    child: null
     default:
       font:
         function: rectangular_font
@@ -244,7 +44,8 @@ info:
       size: 10
       text: abcd
     function_name: text_rectangular
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.text_rectangular
     name: text_rectangular_1728a687
   default:
@@ -269,8 +70,8 @@ info:
     - - 49
       - 0
   function_name: copy_layers
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.copy_layers
   name: text_rectangular_1728a6_2f9cb8aa
-ports: {}
 version: 0.0.1

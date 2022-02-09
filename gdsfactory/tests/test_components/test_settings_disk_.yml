@@ -1,29 +1,32 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    direction: EAST
+    gap: 0.2
+    parity: 1
+    port:
+    - 0
+    - 0
+    radius: 10
+    waveguide_template:
+      function: strip
+    wrap_angle_deg: 180
+  full:
+    direction: EAST
+    gap: 0.2
+    parity: 1
+    port:
+    - 0
+    - 0
+    radius: 10
+    waveguide_template:
+      function: strip
+    wrap_angle_deg: 180
   function_name: disk
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.disk
   name: disk
-settings_changed: {}
-settings_default:
-  direction: EAST
-  gap: 0.2
-  parity: 1
-  port:
-  - 0
-  - 0
-  radius: 10
-  waveguide_template:
-    function: strip
-  wrap_angle_deg: 180
-settings_full:
-  direction: EAST
-  gap: 0.2
-  parity: 1
-  port:
-  - 0
-  - 0
-  radius: 10
-  waveguide_template:
-    function: strip
-  wrap_angle_deg: 180
 version: 0.0.1

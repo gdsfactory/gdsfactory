@@ -35,7 +35,7 @@ def add_electrical_pads_shortest(
     ports = list(ports.values())
 
     pad = pad(**kwargs) if callable(pad) else pad
-    pad_port_spacing += pad.info_child.full["size"][0] / 2
+    pad_port_spacing += pad.settings_child.full["size"][0] / 2
 
     for port in ports:
         p = c << pad

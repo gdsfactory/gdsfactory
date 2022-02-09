@@ -12,7 +12,6 @@ import gdspy
 import networkx as nx
 import numpy as np
 import yaml
-from dotmap import DotMap
 from numpy import int64
 from omegaconf import OmegaConf
 from phidl.device_layout import Device, _parse_layer
@@ -98,11 +97,9 @@ class Component(Device):
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrie PHIDL's incremental naming convention
-        self.info = DotMap()
+        self.info = {}
 
-        self.settings_changed = {}
-        self.settings_default = {}
-        self.settings_full = {}
+        self.settings = {}
         self._locked = False
         self.get_child_name = False
         self.version = version
@@ -358,15 +355,14 @@ class Component(Device):
             print(port)
 
     @property
-    def info_child(self) -> DotMap:
-        """Returns info from child if any, otherwise returns its info"""
-        info = self.info
-        info.name = self.name
+    def settings_child(self) -> Dict[str, Any]:
+        """Returns settings from child if any, otherwise returns its settings"""
+        settings = dict(self.settings)
 
-        while info.get("child"):
-            info = info.get("child")
+        while settings.get("child"):
+            settings = settings.get("child")
 
-        return info
+        return settings
 
     def add_port(
         self,
@@ -534,8 +530,8 @@ class Component(Device):
         """Copy info from another component.
         so hierarchical components propagate child cells info.
         """
-        self.child_info = component.to_dict()
         self.get_child_name = True
+        self.child = component
 
     @property
     def size_info(self) -> SizeInfo:
@@ -546,7 +542,7 @@ class Component(Device):
 
     def get_setting(self, setting: str) -> Union[str, int, float]:
         return self.info.get(
-            setting, self.info.full.get(setting, self.info_child.get(setting))
+            setting, self.settings.full.get(setting, self.settings.child.get(setting))
         )
 
     def is_unlocked(self) -> None:
@@ -902,17 +898,15 @@ class Component(Device):
 
         d["info"] = dict(self.info)
         d["version"] = self.version
-        d["settings_full"] = self.settings_full
-        d["settings_default"] = self.settings_default
-        d["settings_changed"] = self.settings_changed
+        d["settings"] = dict(self.settings)
         return d
 
     def to_yaml(self) -> str:
         return OmegaConf.to_yaml(self.to_dict())
 
-    def to_dict_polygons(self) -> DotMap:
+    def to_dict_polygons(self) -> Dict[str, Any]:
         """Returns a dict representation of the flattened component."""
-        d = DotMap()
+        d = {}
         polygons = {}
         layer_to_polygons = self.get_polygons(by_spec=True)
 
@@ -1212,4 +1206,4 @@ if __name__ == "__main__":
     # c2.write_gds_with_metadata("a.gds")
     # print(c)
     # c = Component()
-    # print(c.info_child.name)
+    # print(c.settings_child.name)

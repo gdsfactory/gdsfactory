@@ -148,9 +148,9 @@ def pack_horizontal(
                 raise e
 
             if align_x == "W":
-                x += c.size_info.width + margin_x
+                x += c.size_info["width"] + margin_x
             else:
-                x += -c.size_info.width - margin_x
+                x += -c.size_info["width"] - margin_x
 
         if align_y == "S":
             y += row_to_height[row] + margin_y
@@ -179,7 +179,7 @@ def pack_vertical(
 
     returns a list of cell references
     """
-    widths = [c.size_info.width for c in cells]
+    widths = [c.size_info["width"] for c in cells]
     col_ids = col_ids or [0] * len(cells)
 
     if len(cells) != len(col_ids):

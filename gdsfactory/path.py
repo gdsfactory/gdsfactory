@@ -332,7 +332,7 @@ def extrude(
     # c.info.path = p.info
     # c.info.cross_section = cross_section.info
 
-    c.info.length = float(np.round(p.length(), 3))
+    c.info["length"] = float(np.round(p.length(), 3))
     return c
 
 

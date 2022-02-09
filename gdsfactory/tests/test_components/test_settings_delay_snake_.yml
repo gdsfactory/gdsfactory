@@ -1,33 +1,36 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    L0: 5
+    bend:
+      function: bend_euler
+    n: 2
+    straight:
+      function: straight
+    taper:
+      function: taper
+    taper_length: 10
+    total_length: 1600
+    wg_width: 0.5
+    wg_width_wide: 2
+  full:
+    L0: 5
+    bend:
+      function: bend_euler
+    n: 2
+    straight:
+      function: straight
+    taper:
+      function: taper
+    taper_length: 10
+    total_length: 1600
+    wg_width: 0.5
+    wg_width_wide: 2
   function_name: delay_snake
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.delay_snake
   name: delay_snake
-settings_changed: {}
-settings_default:
-  L0: 5
-  bend:
-    function: bend_euler
-  n: 2
-  straight:
-    function: straight
-  taper:
-    function: taper
-  taper_length: 10
-  total_length: 1600
-  wg_width: 0.5
-  wg_width_wide: 2
-settings_full:
-  L0: 5
-  bend:
-    function: bend_euler
-  n: 2
-  straight:
-    function: straight
-  taper:
-    function: taper
-  taper_length: 10
-  total_length: 1600
-  wg_width: 0.5
-  wg_width_wide: 2
 version: 0.0.1

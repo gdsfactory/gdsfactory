@@ -1,51 +1,54 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    angle: 0.5235987755982988
+    contradc_wgt: null
+    dc: 0.5
+    direction: EAST
+    dw_bot: null
+    dw_top: null
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    gap: 0.5
+    input_bot: false
+    length: 30
+    period: 0.22
+    port_midpoint:
+    - 0
+    - 0
+    waveguide_template:
+      function: strip
+    width_bot: 0.75
+    width_top: 2
+  full:
+    angle: 0.5235987755982988
+    contradc_wgt: null
+    dc: 0.5
+    direction: EAST
+    dw_bot: null
+    dw_top: null
+    fin_size:
+    - 0.2
+    - 0.05
+    fins: false
+    gap: 0.5
+    input_bot: false
+    length: 30
+    period: 0.22
+    port_midpoint:
+    - 0
+    - 0
+    waveguide_template:
+      function: strip
+    width_bot: 0.75
+    width_top: 2
   function_name: cdc
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.cdc
   name: cdc
-settings_changed: {}
-settings_default:
-  angle: 0.5235987755982988
-  contradc_wgt: null
-  dc: 0.5
-  direction: EAST
-  dw_bot: null
-  dw_top: null
-  fin_size:
-  - 0.2
-  - 0.05
-  fins: false
-  gap: 0.5
-  input_bot: false
-  length: 30
-  period: 0.22
-  port_midpoint:
-  - 0
-  - 0
-  waveguide_template:
-    function: strip
-  width_bot: 0.75
-  width_top: 2
-settings_full:
-  angle: 0.5235987755982988
-  contradc_wgt: null
-  dc: 0.5
-  direction: EAST
-  dw_bot: null
-  dw_top: null
-  fin_size:
-  - 0.2
-  - 0.05
-  fins: false
-  gap: 0.5
-  input_bot: false
-  length: 30
-  period: 0.22
-  port_midpoint:
-  - 0
-  - 0
-  waveguide_template:
-    function: strip
-  width_bot: 0.75
-  width_top: 2
 version: 0.0.1

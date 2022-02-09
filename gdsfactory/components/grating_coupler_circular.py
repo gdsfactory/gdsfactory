@@ -102,8 +102,8 @@ def grating_coupler_circular(
     )
 
     c = gf.read.from_picwriter(c)
-    c.info.polarization = polarization
-    c.info.wavelength = wavelength
+    c.info["polarization"] = polarization
+    c.info["wavelength"] = wavelength
     x = np.round(c.center[0] + taper_length / 2, 3)
 
     if fiber_marker_layer:

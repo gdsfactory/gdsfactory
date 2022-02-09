@@ -35,8 +35,8 @@ def hline(
         port_type=port_type,
     )
 
-    c.info.width = float(width)
-    c.info.length = float(length)
+    c.info["width"] = float(width)
+    c.info["length"] = float(length)
     return c
 
 

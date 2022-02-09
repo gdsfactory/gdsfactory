@@ -1,35 +1,38 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    bbox:
+    - - -1
+      - -1
+    - - 3
+      - 4
+    padding: 10
+    seal:
+      function: contact
+    width: 10
+    with_east: true
+    with_north: true
+    with_south: true
+    with_west: true
+  full:
+    bbox:
+    - - -1
+      - -1
+    - - 3
+      - 4
+    padding: 10
+    seal:
+      function: contact
+    width: 10
+    with_east: true
+    with_north: true
+    with_south: true
+    with_west: true
   function_name: seal_ring
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.seal_ring
   name: seal_ring
-settings_changed: {}
-settings_default:
-  bbox:
-  - - -1
-    - -1
-  - - 3
-    - 4
-  padding: 10
-  seal:
-    function: contact
-  width: 10
-  with_east: true
-  with_north: true
-  with_south: true
-  with_west: true
-settings_full:
-  bbox:
-  - - -1
-    - -1
-  - - 3
-    - 4
-  padding: 10
-  seal:
-    function: contact
-  width: 10
-  with_east: true
-  with_north: true
-  with_south: true
-  with_west: true
 version: 0.0.1

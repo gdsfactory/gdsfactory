@@ -1,73 +1,76 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    contact:
+      function: contact
+      layers:
+      - - 3
+        - 0
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - function: via
+        layer:
+        - 40
+        - 0
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    contact_spacing: 2
+    contact_width: 10
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
+  full:
+    contact:
+      function: contact
+      layers:
+      - - 3
+        - 0
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - function: via
+        layer:
+        - 40
+        - 0
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    contact_spacing: 2
+    contact_width: 10
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
   function_name: straight_pin
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_pin
   name: straight_pin
-settings_changed: {}
-settings_default:
-  contact:
-    function: contact
-    layers:
-    - - 3
-      - 0
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - function: via
-      layer:
-      - 40
-      - 0
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  contact_spacing: 2
-  contact_width: 10
-  cross_section:
-    function: pin
-  length: 500
-  taper:
-    function: taper_strip_to_ridge
-settings_full:
-  contact:
-    function: contact
-    layers:
-    - - 3
-      - 0
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - function: via
-      layer:
-      - 40
-      - 0
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  contact_spacing: 2
-  contact_width: 10
-  cross_section:
-    function: pin
-  length: 500
-  taper:
-    function: taper_strip_to_ridge
 version: 0.0.1

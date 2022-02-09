@@ -1,21 +1,24 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    grating_coupler:
+      function: grating_coupler_circular
+    n: 6
+    pitch: 127
+    port_name: o1
+    rotation: 0
+  full:
+    grating_coupler:
+      function: grating_coupler_circular
+    n: 6
+    pitch: 127
+    port_name: o1
+    rotation: 0
   function_name: grating_coupler_array
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.grating_coupler_array
   name: grating_coupler_array
-settings_changed: {}
-settings_default:
-  grating_coupler:
-    function: grating_coupler_circular
-  n: 6
-  pitch: 127
-  port_name: o1
-  rotation: 0
-settings_full:
-  grating_coupler:
-    function: grating_coupler_circular
-  n: 6
-  pitch: 127
-  port_name: o1
-  rotation: 0
 version: 0.0.1

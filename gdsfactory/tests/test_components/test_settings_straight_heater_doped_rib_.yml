@@ -1,149 +1,152 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    contact:
+      function: contact
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    contact_gap: 0
+    contact_metal:
+      function: contact
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    contact_metal_size:
+    - 10
+    - 10
+    contact_size:
+    - 10
+    - 10
+    cross_section:
+      function: cross_section
+      sections:
+      - layer:
+        - 3
+        - 0
+        name: slab
+        offset: 0
+        port_types:
+        - optical
+        - optical
+        ports:
+        - null
+        - null
+        width: 0.2
+    cross_section_heater:
+      function: rib_heater_doped
+    heater_gap: 0.8
+    heater_width: 2
+    length: 320
+    nsections: 3
+    taper:
+      function: taper_cross_section
+    width: 0.5
+    with_bot_contact: true
+    with_taper1: true
+    with_taper2: true
+    with_top_contact: true
+  full:
+    contact:
+      function: contact
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
+    contact_gap: 0
+    contact_metal:
+      function: contact
+      layers:
+      - - 41
+        - 0
+      - - 45
+        - 0
+      - - 49
+        - 0
+      vias:
+      - enclosure: 2
+        function: via
+        layer:
+        - 44
+        - 0
+      - function: via
+        layer:
+        - 43
+        - 0
+    contact_metal_size:
+    - 10
+    - 10
+    contact_size:
+    - 10
+    - 10
+    cross_section:
+      function: cross_section
+      sections:
+      - layer:
+        - 3
+        - 0
+        name: slab
+        offset: 0
+        port_types:
+        - optical
+        - optical
+        ports:
+        - null
+        - null
+        width: 0.2
+    cross_section_heater:
+      function: rib_heater_doped
+    heater_gap: 0.8
+    heater_width: 2
+    length: 320
+    nsections: 3
+    taper:
+      function: taper_cross_section
+    width: 0.5
+    with_bot_contact: true
+    with_taper1: true
+    with_taper2: true
+    with_top_contact: true
   function_name: straight_heater_doped_rib
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
   name: straight_heater_doped_rib
-settings_changed: {}
-settings_default:
-  contact:
-    function: contact
-    layers:
-    - - 3
-      - 0
-    - - 24
-      - 0
-    - - 41
-      - 0
-    vias:
-    - null
-    - null
-    - function: via
-      layer:
-      - 40
-      - 0
-  contact_gap: 0
-  contact_metal:
-    function: contact
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  contact_metal_size:
-  - 10
-  - 10
-  contact_size:
-  - 10
-  - 10
-  cross_section:
-    function: cross_section
-    sections:
-    - layer:
-      - 3
-      - 0
-      name: slab
-      offset: 0
-      port_types:
-      - optical
-      - optical
-      ports:
-      - null
-      - null
-      width: 0.2
-  cross_section_heater:
-    function: rib_heater_doped
-  heater_gap: 0.8
-  heater_width: 2
-  length: 320
-  nsections: 3
-  taper:
-    function: taper_cross_section
-  width: 0.5
-  with_bot_contact: true
-  with_taper1: true
-  with_taper2: true
-  with_top_contact: true
-settings_full:
-  contact:
-    function: contact
-    layers:
-    - - 3
-      - 0
-    - - 24
-      - 0
-    - - 41
-      - 0
-    vias:
-    - null
-    - null
-    - function: via
-      layer:
-      - 40
-      - 0
-  contact_gap: 0
-  contact_metal:
-    function: contact
-    layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
-    vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
-    - function: via
-      layer:
-      - 43
-      - 0
-  contact_metal_size:
-  - 10
-  - 10
-  contact_size:
-  - 10
-  - 10
-  cross_section:
-    function: cross_section
-    sections:
-    - layer:
-      - 3
-      - 0
-      name: slab
-      offset: 0
-      port_types:
-      - optical
-      - optical
-      ports:
-      - null
-      - null
-      width: 0.2
-  cross_section_heater:
-    function: rib_heater_doped
-  heater_gap: 0.8
-  heater_width: 2
-  length: 320
-  nsections: 3
-  taper:
-    function: taper_cross_section
-  width: 0.5
-  with_bot_contact: true
-  with_taper1: true
-  with_taper2: true
-  with_top_contact: true
 version: 0.0.1

@@ -1,46 +1,50 @@
 info:
-  function_name: spiral_inner_io
-  info_version: 1
   length: 11584.394
+settings:
+  changed: {}
+  child: null
+  default:
+    N: 6
+    bend180_function:
+      angle: 180
+      function: bend_euler
+    bend90_function:
+      function: bend_euler
+    cross_section:
+      function: cross_section
+    cross_section_bend: null
+    grating_spacing: 127
+    length: null
+    straight:
+      function: straight
+    waveguide_spacing: 3
+    x_straight_inner_left: 50
+    x_straight_inner_right: 150
+    y_straight_inner_bottom: 10
+    y_straight_inner_top: 50
+  full:
+    N: 6
+    bend180_function:
+      angle: 180
+      function: bend_euler
+    bend90_function:
+      function: bend_euler
+    cross_section:
+      function: cross_section
+    cross_section_bend: null
+    grating_spacing: 127
+    length: null
+    straight:
+      function: straight
+    waveguide_spacing: 3
+    x_straight_inner_left: 50
+    x_straight_inner_right: 150
+    y_straight_inner_bottom: 10
+    y_straight_inner_top: 50
+  function_name: spiral_inner_io
+  info:
+    length: 11584.394
+  info_version: 2
   module: gdsfactory.components.spiral_inner_io
   name: spiral_inner_io
-settings_changed: {}
-settings_default:
-  N: 6
-  bend180_function:
-    angle: 180
-    function: bend_euler
-  bend90_function:
-    function: bend_euler
-  cross_section:
-    function: cross_section
-  cross_section_bend: null
-  grating_spacing: 127
-  length: null
-  straight:
-    function: straight
-  waveguide_spacing: 3
-  x_straight_inner_left: 50
-  x_straight_inner_right: 150
-  y_straight_inner_bottom: 10
-  y_straight_inner_top: 50
-settings_full:
-  N: 6
-  bend180_function:
-    angle: 180
-    function: bend_euler
-  bend90_function:
-    function: bend_euler
-  cross_section:
-    function: cross_section
-  cross_section_bend: null
-  grating_spacing: 127
-  length: null
-  straight:
-    function: straight
-  waveguide_spacing: 3
-  x_straight_inner_left: 50
-  x_straight_inner_right: 150
-  y_straight_inner_bottom: 10
-  y_straight_inner_top: 50
 version: 0.0.1

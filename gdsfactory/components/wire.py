@@ -45,7 +45,7 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
         layer=layer,
         port_type="electrical",
     )
-    c.info.length = width
+    c.info["length"] = width
     return c
 
 

@@ -96,8 +96,8 @@ def grating_coupler_rectangular(
 
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
-    c.info.polarization = polarization
-    c.info.wavelength = wavelength
+    c.info["polarization"] = polarization
+    c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)
 
     if layer_slab:

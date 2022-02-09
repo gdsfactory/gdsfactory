@@ -45,10 +45,10 @@ def bend_s(
     bend_ref = c << bend
     c.add_ports(bend_ref.ports)
     c.copy_child_info(bend)
-    c.info.start_angle = bend.info.start_angle
-    c.info.end_angle = bend.info.end_angle
-    c.info.length = bend.info.length
-    c.info.min_bend_radius = bend.info.min_bend_radius
+    c.info["start_angle"] = bend.info["start_angle"]
+    c.info["end_angle"] = bend.info["end_angle"]
+    c.info["length"] = bend.info["length"]
+    c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

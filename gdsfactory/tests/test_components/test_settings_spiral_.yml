@@ -1,47 +1,50 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    cladding_offset: 3
+    direction: WEST
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+    length: 10000
+    parity: 1
+    port:
+    - 0
+    - 0
+    port_spacing: 500
+    radius: 10
+    spacing: null
+    waveguide_template:
+      function: strip
+    wg_width: 0.5
+  full:
+    cladding_offset: 3
+    direction: WEST
+    layer:
+    - 1
+    - 0
+    layer_cladding:
+    - 111
+    - 0
+    length: 10000
+    parity: 1
+    port:
+    - 0
+    - 0
+    port_spacing: 500
+    radius: 10
+    spacing: null
+    waveguide_template:
+      function: strip
+    wg_width: 0.5
   function_name: spiral
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.spiral
   name: spiral
-settings_changed: {}
-settings_default:
-  cladding_offset: 3
-  direction: WEST
-  layer:
-  - 1
-  - 0
-  layer_cladding:
-  - 111
-  - 0
-  length: 10000
-  parity: 1
-  port:
-  - 0
-  - 0
-  port_spacing: 500
-  radius: 10
-  spacing: null
-  waveguide_template:
-    function: strip
-  wg_width: 0.5
-settings_full:
-  cladding_offset: 3
-  direction: WEST
-  layer:
-  - 1
-  - 0
-  layer_cladding:
-  - 111
-  - 0
-  length: 10000
-  parity: 1
-  port:
-  - 0
-  - 0
-  port_spacing: 500
-  radius: 10
-  spacing: null
-  waveguide_template:
-    function: strip
-  wg_width: 0.5
 version: 0.0.1

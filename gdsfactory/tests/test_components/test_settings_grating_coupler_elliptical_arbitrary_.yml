@@ -1,95 +1,100 @@
 info:
+  polarization: te
+  wavelength: 1.554
+settings:
+  changed: {}
+  child: null
+  default:
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    gaps:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    nclad: 1.443
+    neff: 2.638
+    polarization: te
+    slab_xmin: -3
+    spiked: true
+    taper_angle: 60
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+  full:
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    gaps:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    nclad: 1.443
+    neff: 2.638
+    polarization: te
+    slab_xmin: -3
+    spiked: true
+    taper_angle: 60
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+    widths:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
   function_name: grating_coupler_elliptical_arbitrary
-  info_version: 1
+  info:
+    polarization: te
+    wavelength: 1.554
+  info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical_arbitrary
   name: grating_coupler_ellipti_4a0b5da2
-  polarization: te
-  wavelength: 1.554
-settings_changed: {}
-settings_default:
-  fiber_angle: 15
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  gaps:
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  nclad: 1.443
-  neff: 2.638
-  polarization: te
-  slab_xmin: -3
-  spiked: true
-  taper_angle: 60
-  taper_length: 16.6
-  wavelength: 1.554
-  wg_width: 0.5
-  widths:
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-settings_full:
-  fiber_angle: 15
-  fiber_marker_layer:
-  - 203
-  - 0
-  fiber_marker_width: 11
-  gaps:
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  - 0.1
-  layer:
-  - 1
-  - 0
-  layer_slab:
-  - 2
-  - 0
-  nclad: 1.443
-  neff: 2.638
-  polarization: te
-  slab_xmin: -3
-  spiked: true
-  taper_angle: 60
-  taper_length: 16.6
-  wavelength: 1.554
-  wg_width: 0.5
-  widths:
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
 version: 0.0.1

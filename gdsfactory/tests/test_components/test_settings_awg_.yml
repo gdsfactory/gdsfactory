@@ -1,23 +1,26 @@
-info:
+info: {}
+settings:
+  changed: {}
+  child: null
+  default:
+    arms: 10
+    fpr_spacing: 50
+    free_propagation_region_input_function:
+      function: free_propagation_region_input
+    free_propagation_region_output_function:
+      function: free_propagation_region_output
+    outputs: 3
+  full:
+    arms: 10
+    fpr_spacing: 50
+    free_propagation_region_input_function:
+      function: free_propagation_region_input
+    free_propagation_region_output_function:
+      function: free_propagation_region_output
+    outputs: 3
   function_name: awg
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.awg
   name: awg
-settings_changed: {}
-settings_default:
-  arms: 10
-  fpr_spacing: 50
-  free_propagation_region_input_function:
-    function: free_propagation_region_input
-  free_propagation_region_output_function:
-    function: free_propagation_region_output
-  outputs: 3
-settings_full:
-  arms: 10
-  fpr_spacing: 50
-  free_propagation_region_input_function:
-    function: free_propagation_region_input
-  free_propagation_region_output_function:
-    function: free_propagation_region_output
-  outputs: 3
 version: 0.0.1

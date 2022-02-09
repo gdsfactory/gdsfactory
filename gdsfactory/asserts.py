@@ -8,7 +8,7 @@ def grating_coupler(gc: Component) -> None:
     assert hasattr(
         gc.info, "polarization"
     ), f"{gc.name} does not have polarization attribute"
-    assert gc.info.polarization in [
+    assert gc.info["polarization"] in [
         "te",
         "tm",
     ], f"{gc.name} polarization  should be 'te' or 'tm'"
@@ -16,7 +16,7 @@ def grating_coupler(gc: Component) -> None:
         gc.info, "wavelength"
     ), f"{gc.name} wavelength does not have wavelength attribute"
     assert (
-        0.5 < gc.info.wavelength < 5.0
+        0.5 < gc.info["wavelength"] < 5.0
     ), f"{gc.name} wavelength {gc.wavelength} should be in um"
     if "o1" not in gc.ports:
         print(f"grating_coupler {gc.name} should have a o1 port. It has {gc.ports}")
