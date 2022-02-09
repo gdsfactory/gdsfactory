@@ -35,7 +35,6 @@ if __name__ == "__main__":
 
     # test_metadata_export_partial()
     # from gdsfactory.cell import clean_name
-    # from gdsfactory.component import clean_dict
     # import inspect
 
     # straight_wide = gf.partial(gf.components.straight, width=2)
@@ -45,7 +44,6 @@ if __name__ == "__main__":
     # sig = inspect.signature(func)
     # default = {p.name: p.default for p in sig.parameters.values()}
     # full = default.copy()
-    # clean_dict(full)
 
     # straight_wide = gf.partial(gf.components.straight, width=2)
 

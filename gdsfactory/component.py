@@ -1,8 +1,5 @@
-import copy
 import datetime
-import functools
 import hashlib
-import inspect
 import itertools
 import pathlib
 import tempfile
@@ -14,19 +11,14 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 import gdspy
 import networkx as nx
 import numpy as np
-import toolz
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from omegaconf import OmegaConf
 from omegaconf.dictconfig import DictConfig
-from omegaconf.listconfig import ListConfig
-from phidl.device_layout import Device, DeviceReference
-from phidl.device_layout import Path as PathPhidl
-from phidl.device_layout import _parse_layer
+from phidl.device_layout import Device, DeviceReference, _parse_layer
 from typing_extensions import Literal
 
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.hash_points import hash_points
 from gdsfactory.layers import LAYER_SET, LayerPhidl, LayerSet
 from gdsfactory.port import (
     Port,
@@ -39,6 +31,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
+from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
@@ -1629,79 +1622,6 @@ def recurse_structures(
             output.update(recurse_structures(element.ref_cell))
 
     return output
-
-
-def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
-    """Cleans dictionary keys recursively."""
-    for k, v in d.items():
-        if isinstance(v, dict):
-            d[k] = clean_dict(v)
-        else:
-            d[k] = clean_value_json(v)
-    return d
-
-
-def clean_key(key):
-    if isinstance(key, tuple):
-        key = key[0]
-    else:
-        key = str(key)
-
-    return key
-
-
-def clean_value_json(value: Any) -> Any:
-    """Return JSON serializable object."""
-    if isinstance(value, CrossSection):
-        # value = value.info
-        value = value.to_dict()
-        value = copy.deepcopy(value)
-        value = clean_dict(value)
-    elif isinstance(value, Port):
-        value = copy.deepcopy(value.settings)
-        value = clean_dict(value)
-    elif isinstance(value, float) and int(value) == value:
-        value = int(value)
-    elif isinstance(value, (np.int64, np.int32)):
-        value = int(value)
-    elif isinstance(value, np.ndarray):
-        value = [clean_value_json(i) for i in value]
-    elif isinstance(value, np.float64):
-        value = float(value)
-    elif type(value) in [int, float, str, bool]:
-        pass
-    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
-        value = [clean_value_json(value.first)] + [
-            clean_value_json(func) for func in value.funcs
-        ]
-    elif callable(value) and hasattr(value, "__name__"):
-        value = dict(function=value.__name__)
-    elif callable(value) and isinstance(value, functools.partial):
-        sig = inspect.signature(value.func)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
-        args_as_kwargs.update(**value.keywords)
-        clean_dict(args_as_kwargs)
-        args_as_kwargs.pop("function", None)
-        value = dict(function=value.func.__name__, **args_as_kwargs)
-    elif isinstance(value, dict):
-        value = copy.deepcopy(value)
-        value = clean_dict(value)
-    elif isinstance(value, DictConfig):
-        clean_dict(value)
-    elif isinstance(value, PathPhidl):
-        value = f"path_{hash_points(value.points)}"
-    elif isinstance(value, (tuple, list, ListConfig)):
-        value = [clean_value_json(i) for i in value]
-    elif value is None:
-        value = None
-    elif hasattr(value, "name"):
-        value = value.name
-    elif hasattr(value, "get_name"):
-        value = value.get_name()
-    else:
-        value = str(value)
-
-    return value
 
 
 def test_same_uid() -> None:
