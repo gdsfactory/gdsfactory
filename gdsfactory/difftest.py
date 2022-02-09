@@ -20,6 +20,7 @@ class GdsRegressionFixture(FileRegressionFixture):
 """
 import filecmp
 import pathlib
+import shutil
 from typing import Optional
 
 from lytest.kdb_xor import GeometryDifference, run_xor
@@ -100,6 +101,7 @@ def difftest(
             if val.upper().startswith("Y"):
                 print(f"rm {ref_file}")
                 ref_file.unlink()
+                shutil.copy(run_file, ref_file)
             raise
         except OSError as exc:
             raise GeometryDifference(
