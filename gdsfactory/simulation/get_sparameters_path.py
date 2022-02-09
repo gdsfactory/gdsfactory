@@ -43,7 +43,7 @@ def _get_sparameters_path(
         else dirpath
     )
     dirpath.mkdir(exist_ok=True, parents=True)
-    return dirpath / f"{component.name}_{get_kwargs_hash(kwargs)}.csv"
+    return dirpath / f"{component.name}_{get_kwargs_hash(**kwargs)}.csv"
 
 
 def _get_sparameters_data(**kwargs) -> pd.DataFrame:
