@@ -1,5 +1,4 @@
-"""
-Compute modes of a rectangular Si strip waveguide on top of oxide.
+"""Compute modes of a rectangular Si strip waveguide on top of oxide.
 Note that you should only pay attention, here, to the guided modes,
 which are the modes whose frequency falls under the light line --
 that is, frequency < beta / 1.45, where 1.45 is the SiO2 index.
@@ -11,17 +10,22 @@ output as um/lambda, e.g. 1.5um would correspond to the frequency
 1/1.5 = 0.6667.
 
 """
+import pathlib
+import pickle
 from functools import partial
-from typing import Dict
+from typing import Dict, Optional
 
 import meep as mp
 import numpy as np
 from meep import mpb
 
+from gdsfactory.config import CONFIG
+from gdsfactory.simulation.get_sparameters_path import get_kwargs_hash
 from gdsfactory.simulation.modes.disable_print import disable_print, enable_print
 from gdsfactory.simulation.modes.get_mode_solver_coupler import get_mode_solver_coupler
 from gdsfactory.simulation.modes.get_mode_solver_rib import get_mode_solver_rib
 from gdsfactory.simulation.modes.types import Mode, ModeSolverOrFactory
+from gdsfactory.types import PathType
 
 mpb.Verbosity(0)
 
@@ -32,9 +36,30 @@ def find_modes(
     wavelength: float = 1.55,
     mode_number: int = 1,
     parity=mp.NO_PARITY,
-    **kwargs
+    dirpath: Optional[PathType] = CONFIG["modes"],
+    overwrite: bool = False,
+    **kwargs,
 ) -> Dict[int, Mode]:
-    """Computes mode effective and group index.
+    """Computes mode effective and group index for a rectangular waveguide.
+
+    ::
+
+          __________________________
+          |
+          |
+          |         width
+          |     <---------->
+          |      ___________   _ _ _
+          |     |           |       |
+        sz|_____|  ncore    |_______|
+          |                         | wg_thickness
+          |slab_thickness    nslab  |
+          |_________________________|
+          |
+          |        nclad
+          |__________________________
+          <------------------------>
+                        sy
 
     Args:
         mode_solver: function that returns mpb.ModeSolver
@@ -42,6 +67,8 @@ def find_modes(
         wavelength: wavelength in um.
         mode_number: mode order of the first mode
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
+        dirpath: directory path to cache modes. None disables the file cache.
+        overwrite: forces
         kwargs: waveguide settings.
 
     Keyword Args:
@@ -63,14 +90,29 @@ def find_modes(
     mode_solver.run(mpb.display_yparities, mpb.display_zparities)
 
     Above, we outputed the dispersion relation: frequency (omega) as a
-    function of wavevector kx (beta).  Alternatively, you can compute
+    function of wavevector kx (beta). Alternatively, you can compute
     beta for a given omega -- for example, you might want to find the
-    modes and wavevectors at a fixed wavelength of 1.55 microns.  You
+    modes and wavevectors at a fixed wavelength of 1.55 microns. You
     can do that using the find_k function:
     """
+    modes = {}
     mode_solver = mode_solver(**kwargs) if callable(mode_solver) else mode_solver
     nmodes = mode_solver.nmodes
     omega = 1 / wavelength
+
+    h = get_kwargs_hash(wavelength=wavelength, parity=parity, **kwargs)
+
+    if dirpath:
+        dirpath = pathlib.Path(dirpath)
+        dirpath.mkdir(exist_ok=True, parents=True)
+        filepath = dirpath / f"{h}_{mode_number}.pkl"
+
+        if filepath.exists() and not overwrite:
+            for index, i in enumerate(range(mode_number, mode_number + nmodes)):
+                filepath = dirpath / f"{h}_{index}.pkl"
+                mode = pickle.loads(filepath.read_bytes())
+                modes[i] = mode
+            return modes
 
     # Output the x component of the Poynting vector for mode_number bands at omega
     disable_print()
@@ -95,7 +137,6 @@ def find_modes(
     # vg = vg[0]
     # ng = 1 / np.array(vg)
 
-    modes = {}
     for index, i in enumerate(range(mode_number, mode_number + nmodes)):
         Ei = mode_solver.get_efield(i)
         Hi = mode_solver.get_hfield(i)
@@ -120,6 +161,9 @@ def find_modes(
                 z_num,
             ),
         )
+        if dirpath:
+            filepath = dirpath / f"{h}_{index}.pkl"
+            filepath.write_bytes(pickle.dumps(modes[i]))
 
     return modes
 
@@ -130,7 +174,6 @@ find_modes_coupler = partial(find_modes, mode_solver=get_mode_solver_coupler)
 if __name__ == "__main__":
     ms = get_mode_solver_rib(wg_width=0.5)
     m = find_modes(mode_solver=ms)
-
     print(m)
 
     m1 = m[1]

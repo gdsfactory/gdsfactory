@@ -14,22 +14,22 @@ def innerprod_trapz(
     trapz_num_y: int = 2000,
     trapz_num_z: int = 2000,
 ):
-    """
-    Compute the inner product <1|2> of two modes as 1/4*int(E1* x H2 + E2 x H1*)_x dydz
+    """Compute the inner product of two modes as 1/4*int(E1* x H2 + E2 x H1*)_x dydz
     with int double integral over y,z, x cross product, and _x x-projection
-
     Uses simple trapz numerical integration
 
-    Note that <1|1> != 1 with this definition, but you can compute that to normalize other quantities
+    Note that <1|1> != 1 with this definition,
+    but you can compute that to normalize other quantities
 
     Args:
-        mode1, mode2 (Mode): Mode objects
-        ymin (float) : lower y integration bound
-        ymax (float) : upper y integration bound
-        zmin (float) : lower z integration bound
-        zmax (float) : upper z integration bound
-        trapz_num_y (int): number of points to resample the mode in y for integration
-        trapz_num_z (int): number of points to resample the mode in z for integration
+        mode1: Mode object
+        mode2: Mode object
+        ymin: lower y integration bound
+        ymax: upper y integration bound
+        zmin: lower z integration bound
+        zmax: upper z integration bound
+        trapz_num_y: number of points to resample the mode in y for integration
+        trapz_num_z: number of points to resample the mode in z for integration
     """
 
     # Interpolate mode data
@@ -66,7 +66,6 @@ def innerprod_trapz(
 
 def test_innerprod_trapz():
     """Checks that overlaps are taken properly"""
-
     m = gm.find_modes()
     overlap = innerprod_trapz(m[1], m[1])
 
@@ -79,4 +78,4 @@ if __name__ == "__main__":
     m = gm.find_modes()
     print(innerprod_trapz(m[1], m[1]))
 
-    test_innerprod_trapz()
+    # test_innerprod_trapz()
