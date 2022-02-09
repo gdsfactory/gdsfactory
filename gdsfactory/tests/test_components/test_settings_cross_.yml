@@ -1,97 +1,21 @@
-cells:
-  compass_bd043ca6:
-    changed:
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_bd043ca6
-  cross:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    full:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross
-  rectangle_bd043ca6:
-    changed:
-      size:
-      - 3
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_bd043ca6
 info:
-  changed: {}
-  default:
-    layer:
-    - 1
-    - 0
-    length: 10
-    port_type: null
-    width: 3
-  full:
-    layer:
-    - 1
-    - 0
-    length: 10
-    port_type: null
-    width: 3
   function_name: cross
   info_version: 1
   module: gdsfactory.components.cross
   name: cross
-ports: {}
+settings_changed: {}
+settings_default:
+  layer:
+  - 1
+  - 0
+  length: 10
+  port_type: null
+  width: 3
+settings_full:
+  layer:
+  - 1
+  - 0
+  length: 10
+  port_type: null
+  width: 3
 version: 0.0.1

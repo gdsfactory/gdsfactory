@@ -1,494 +1,89 @@
-cells:
-  bend_euler_93d83bb0:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      radius: 10
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: strip_heater_metal
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_93d83bb0
-    radius: 10
-    radius_min: 7.061
-  compass_0f060968:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 4
-      - 4
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 4
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_0f060968
-  compass_4b89a55a:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 4
-      - 4
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 4
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_4b89a55a
-  compass_e9fd1346:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 4
-      - 4
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 4
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_e9fd1346
-  contact_f6c435f1:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 4
-      - 4
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 4
-      - 4
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_f6c435f1
-    size:
-    - 4
-    - 4
-  coupler_ring_4ad3cb8d:
-    changed:
-      bend:
-        function: bend_euler
-      bend_cross_section:
-        function: strip_heater_metal
-      radius: 10
-    default:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend:
-        function: bend_euler
-      bend_cross_section:
-        function: strip_heater_metal
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 10
-    function_name: coupler_ring
-    info_version: 1
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring_4ad3cb8d
-  ring_single_heater:
-    changed: {}
-    default:
-      bend:
-        function: bend_euler
-      contact:
-        function: contact
-        layers:
-        - - 47
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        size:
-        - 4
-        - 4
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      contact_offset:
-      - 0
-      - 0
-      coupler_ring:
-        function: coupler_ring
-      cross_section:
-        function: cross_section
-      cross_section_heater:
-        function: strip_heater_metal
-      gap: 0.2
-      length_x: 4
-      length_y: 0.6
-      port_orientation: 90
-      radius: 10
-      straight:
-        function: straight
-    full:
-      bend:
-        function: bend_euler
-      contact:
-        function: contact
-        layers:
-        - - 47
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        size:
-        - 4
-        - 4
-        vias:
-        - enclosure: 2
-          function: via
-          layer:
-          - 44
-          - 0
-        - function: via
-          layer:
-          - 43
-          - 0
-      contact_offset:
-      - 0
-      - 0
-      coupler_ring:
-        function: coupler_ring
-      cross_section:
-        function: cross_section
-      cross_section_heater:
-        function: strip_heater_metal
-      gap: 0.2
-      length_x: 4
-      length_y: 0.6
-      port_orientation: 90
-      radius: 10
-      straight:
-        function: straight
-    function_name: ring_single_heater
-    info_version: 1
-    module: gdsfactory.components.ring_single_heater
-    name: ring_single_heater
-  straight_1a39e145:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      length: 4
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_metal
-      length: 4
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 4
-    module: gdsfactory.components.straight
-    name: straight_1a39e145
-    width: 0.5
-  straight_baf9a54b:
-    changed:
-      cross_section:
-        function: strip_heater_metal
-      length: 0.6
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: strip_heater_metal
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.6
-    module: gdsfactory.components.straight
-    name: straight_baf9a54b
-    width: 0.5
 info:
-  changed: {}
-  default:
-    bend:
-      function: bend_euler
-    contact:
-      function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 4
-      - 4
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    contact_offset:
-    - 0
-    - 0
-    coupler_ring:
-      function: coupler_ring
-    cross_section:
-      function: cross_section
-    cross_section_heater:
-      function: strip_heater_metal
-    gap: 0.2
-    length_x: 4
-    length_y: 0.6
-    port_orientation: 90
-    radius: 10
-    straight:
-      function: straight
-  full:
-    bend:
-      function: bend_euler
-    contact:
-      function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 4
-      - 4
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    contact_offset:
-    - 0
-    - 0
-    coupler_ring:
-      function: coupler_ring
-    cross_section:
-      function: cross_section
-    cross_section_heater:
-      function: strip_heater_metal
-    gap: 0.2
-    length_x: 4
-    length_y: 0.6
-    port_orientation: 90
-    radius: 10
-    straight:
-      function: straight
   function_name: ring_single_heater
   info_version: 1
   module: gdsfactory.components.ring_single_heater
   name: ring_single_heater
-ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -6
-    - 2
-    name: e1
-    orientation: 90
-    port_type: electrical
-    width: 4
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 2
-    - 2
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 4
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -14
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  bend:
+    function: bend_euler
+  contact:
+    function: contact
+    layers:
+    - - 47
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+    size:
+    - 4
+    - 4
+    vias:
+    - enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
+    - function: via
+      layer:
+      - 43
+      - 0
+  contact_offset:
+  - 0
+  - 0
+  coupler_ring:
+    function: coupler_ring
+  cross_section:
+    function: cross_section
+  cross_section_heater:
+    function: strip_heater_metal
+  gap: 0.2
+  length_x: 4
+  length_y: 0.6
+  port_orientation: 90
+  radius: 10
+  straight:
+    function: straight
+settings_full:
+  bend:
+    function: bend_euler
+  contact:
+    function: contact
+    layers:
+    - - 47
+      - 0
+    - - 45
+      - 0
+    - - 49
+      - 0
+    size:
+    - 4
+    - 4
+    vias:
+    - enclosure: 2
+      function: via
+      layer:
+      - 44
+      - 0
+    - function: via
+      layer:
+      - 43
+      - 0
+  contact_offset:
+  - 0
+  - 0
+  coupler_ring:
+    function: coupler_ring
+  cross_section:
+    function: cross_section
+  cross_section_heater:
+    function: strip_heater_metal
+  gap: 0.2
+  length_x: 4
+  length_y: 0.6
+  port_orientation: 90
+  radius: 10
+  straight:
+    function: straight
 version: 0.0.1

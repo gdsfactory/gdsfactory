@@ -1,71 +1,13 @@
-cells:
-  crossing:
-    changed: {}
-    default:
-      arm:
-        function: crossing_arm
-    full:
-      arm:
-        function: crossing_arm
-    function_name: crossing
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing
 info:
-  changed: {}
-  default:
-    arm:
-      function: crossing_arm
-  full:
-    arm:
-      function: crossing_arm
   function_name: crossing
   info_version: 1
   module: gdsfactory.components.crossing_waveguide
   name: crossing
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -4
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 2.4492935982947064e-16
-    - 4
-    name: o2
-    orientation: 90
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 4
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -2.4492935982947064e-16
-    - -4
-    name: o4
-    orientation: 270
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  arm:
+    function: crossing_arm
+settings_full:
+  arm:
+    function: crossing_arm
 version: 0.0.1

@@ -1,105 +1,41 @@
-cells:
-  straight_3463ad1a:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_3463ad1a
-    width: 1
 info:
-  changed:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 1
-    decorator:
-      function: add_pins
-  default:
-    cross_section:
-      function: cross_section
-    length: 10
-    npoints: 2
-    with_cladding_box: true
-  full:
-    cross_section:
-      function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
-        - 0
-      width: 1
-    decorator:
-      function: add_pins
-    length: 10
-    npoints: 2
-    with_cladding_box: true
   function_name: straight
   info_version: 1
-  length: 10
+  length: 10.0
   module: gdsfactory.components.straight
   name: straight_3463ad1a
-  width: 1
-ports:
-  o1:
+  width: 1.0
+settings_changed:
+  cross_section:
+    function: cross_section
     layer:
     - 34
     - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
+    layers_cladding:
+    - - 36
+      - 0
     width: 1
-  o2:
+  decorator:
+    function: add_pins
+settings_default:
+  cross_section:
+    function: cross_section
+  length: 10
+  npoints: 2
+  with_cladding_box: true
+settings_full:
+  cross_section:
+    function: cross_section
     layer:
     - 34
     - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
+    layers_cladding:
+    - - 36
+      - 0
     width: 1
+  decorator:
+    function: add_pins
+  length: 10
+  npoints: 2
+  with_cladding_box: true
 version: 0.0.1

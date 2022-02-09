@@ -1,102 +1,45 @@
-cells:
-  contact_with_offset:
-    changed: {}
-    default:
-      layers:
-      - - 25
-        - 0
-      - - 41
-        - 0
-      offsets: null
-      port_orientation: 180
-      sizes:
-      - - 10
-        - 10
-      - - 10
-        - 10
-      vias:
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
-    full:
-      layers:
-      - - 25
-        - 0
-      - - 41
-        - 0
-      offsets: null
-      port_orientation: 180
-      sizes:
-      - - 10
-        - 10
-      - - 10
-        - 10
-      vias:
-      - null
-      - function: via
-        layer:
-        - 40
-        - 0
-    function_name: contact_with_offset
-    info_version: 1
-    module: gdsfactory.components.contact_with_offset
-    name: contact_with_offset
 info:
-  changed: {}
-  default:
-    layers:
-    - - 25
-      - 0
-    - - 41
-      - 0
-    offsets: null
-    port_orientation: 180
-    sizes:
-    - - 10
-      - 10
-    - - 10
-      - 10
-    vias:
-    - null
-    - function: via
-      layer:
-      - 40
-      - 0
-  full:
-    layers:
-    - - 25
-      - 0
-    - - 41
-      - 0
-    offsets: null
-    port_orientation: 180
-    sizes:
-    - - 10
-      - 10
-    - - 10
-      - 10
-    vias:
-    - null
-    - function: via
-      layer:
-      - 40
-      - 0
   function_name: contact_with_offset
   info_version: 1
   module: gdsfactory.components.contact_with_offset
   name: contact_with_offset
-ports:
-  e1:
-    layer:
-    - 1
+settings_changed: {}
+settings_default:
+  layers:
+  - - 25
     - 0
-    midpoint:
+  - - 41
     - 0
+  offsets: null
+  port_orientation: 180
+  sizes:
+  - - 10
     - 10
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 10
+  - - 10
+    - 10
+  vias:
+  - null
+  - function: via
+    layer:
+    - 40
+    - 0
+settings_full:
+  layers:
+  - - 25
+    - 0
+  - - 41
+    - 0
+  offsets: null
+  port_orientation: 180
+  sizes:
+  - - 10
+    - 10
+  - - 10
+    - 10
+  vias:
+  - null
+  - function: via
+    layer:
+    - 40
+    - 0
 version: 0.0.1

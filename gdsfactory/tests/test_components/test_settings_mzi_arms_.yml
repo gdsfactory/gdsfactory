@@ -1,292 +1,39 @@
-cells:
-  bend_euler:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler
-    radius: 10
-    radius_min: 7.061
-  mmi1x2:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2
-  mzi_arm_1256dbdd:
-    changed:
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 5.8
-      length_y_right: 5.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 0.1
-    length_xsize: 0.1
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_1256dbdd
-  mzi_arm_a74c0db8:
-    changed:
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    default:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x: null
-      straight_y: null
-    full:
-      bend:
-        function: bend_euler
-      length_x: 0.1
-      length_y_left: 0.8
-      length_y_right: 0.8
-      straight:
-        function: straight
-      straight_x:
-        function: straight
-      straight_y:
-        function: straight
-    function_name: mzi_arm
-    info_version: 1
-    length_x: 0.1
-    length_xsize: 0.1
-    module: gdsfactory.components.mzi_arm
-    name: mzi_arm_a74c0db8
-  mzi_arms:
-    changed: {}
-    default:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      delta_yright: 0
-      length_x: 0.1
-      length_y: 0.8
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    full:
-      bend:
-        function: bend_euler
-      combiner: null
-      delta_length: 10
-      delta_yright: 0
-      length_x: 0.1
-      length_y: 0.8
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
-      straight_x_bot: null
-      straight_x_top: null
-      straight_y: null
-      with_splitter: true
-    function_name: mzi_arms
-    info_version: 1
-    module: gdsfactory.components.mzi_arms
-    name: mzi_arms
-  straight_38ffaba0:
-    changed:
-      length: 5.8
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5.8
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 5.8
-    module: gdsfactory.components.straight
-    name: straight_38ffaba0
-    width: 0.5
-  straight_6870e926:
-    changed:
-      length: 0.1
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.1
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.1
-    module: gdsfactory.components.straight
-    name: straight_6870e926
-    width: 0.5
-  straight_e3da20dd:
-    changed:
-      length: 0.8
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.8
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.8
-    module: gdsfactory.components.straight
-    name: straight_e3da20dd
-    width: 0.5
 info:
-  changed: {}
-  default:
-    bend:
-      function: bend_euler
-    combiner: null
-    delta_length: 10
-    delta_yright: 0
-    length_x: 0.1
-    length_y: 0.8
-    splitter:
-      function: mmi1x2
-    straight:
-      function: straight
-    straight_x_bot: null
-    straight_x_top: null
-    straight_y: null
-    with_splitter: true
-  full:
-    bend:
-      function: bend_euler
-    combiner: null
-    delta_length: 10
-    delta_yright: 0
-    length_x: 0.1
-    length_y: 0.8
-    splitter:
-      function: mmi1x2
-    straight:
-      function: straight
-    straight_x_bot: null
-    straight_x_top: null
-    straight_y: null
-    with_splitter: true
   function_name: mzi_arms
   info_version: 1
   module: gdsfactory.components.mzi_arms
   name: mzi_arms
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -12.75
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 78.35
-    - 1.7763568394002505e-15
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  bend:
+    function: bend_euler
+  combiner: null
+  delta_length: 10
+  delta_yright: 0
+  length_x: 0.1
+  length_y: 0.8
+  splitter:
+    function: mmi1x2
+  straight:
+    function: straight
+  straight_x_bot: null
+  straight_x_top: null
+  straight_y: null
+  with_splitter: true
+settings_full:
+  bend:
+    function: bend_euler
+  combiner: null
+  delta_length: 10
+  delta_yright: 0
+  length_x: 0.1
+  length_y: 0.8
+  splitter:
+    function: mmi1x2
+  straight:
+    function: straight
+  straight_x_bot: null
+  straight_x_top: null
+  straight_y: null
+  with_splitter: true
 version: 0.0.1

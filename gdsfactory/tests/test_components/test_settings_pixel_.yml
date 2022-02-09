@@ -1,35 +1,17 @@
-cells:
-  pixel:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      size: 1
-    full:
-      layer:
-      - 1
-      - 0
-      size: 1
-    function_name: pixel
-    info_version: 1
-    module: gdsfactory.components.version_stamp
-    name: pixel
 info:
-  changed: {}
-  default:
-    layer:
-    - 1
-    - 0
-    size: 1
-  full:
-    layer:
-    - 1
-    - 0
-    size: 1
   function_name: pixel
   info_version: 1
   module: gdsfactory.components.version_stamp
   name: pixel
-ports: {}
+settings_changed: {}
+settings_default:
+  layer:
+  - 1
+  - 0
+  size: 1
+settings_full:
+  layer:
+  - 1
+  - 0
+  size: 1
 version: 0.0.1

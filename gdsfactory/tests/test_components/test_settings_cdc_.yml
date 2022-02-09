@@ -1,147 +1,51 @@
-cells:
-  cdc:
-    changed: {}
-    default:
-      angle: 0.5235987755982988
-      contradc_wgt: null
-      dc: 0.5
-      direction: EAST
-      dw_bot: null
-      dw_top: null
-      fin_size:
-      - 0.2
-      - 0.05
-      fins: false
-      gap: 0.5
-      input_bot: false
-      length: 30
-      period: 0.22
-      port_midpoint:
-      - 0
-      - 0
-      waveguide_template:
-        function: strip
-      width_bot: 0.75
-      width_top: 2
-    full:
-      angle: 0.5235987755982988
-      contradc_wgt: null
-      dc: 0.5
-      direction: EAST
-      dw_bot: null
-      dw_top: null
-      fin_size:
-      - 0.2
-      - 0.05
-      fins: false
-      gap: 0.5
-      input_bot: false
-      length: 30
-      period: 0.22
-      port_midpoint:
-      - 0
-      - 0
-      waveguide_template:
-        function: strip
-      width_bot: 0.75
-      width_top: 2
-    function_name: cdc
-    info_version: 1
-    module: gdsfactory.components.cdc
-    name: cdc
 info:
-  changed: {}
-  default:
-    angle: 0.5235987755982988
-    contradc_wgt: null
-    dc: 0.5
-    direction: EAST
-    dw_bot: null
-    dw_top: null
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    gap: 0.5
-    input_bot: false
-    length: 30
-    period: 0.22
-    port_midpoint:
-    - 0
-    - 0
-    waveguide_template:
-      function: strip
-    width_bot: 0.75
-    width_top: 2
-  full:
-    angle: 0.5235987755982988
-    contradc_wgt: null
-    dc: 0.5
-    direction: EAST
-    dw_bot: null
-    dw_top: null
-    fin_size:
-    - 0.2
-    - 0.05
-    fins: false
-    gap: 0.5
-    input_bot: false
-    length: 30
-    period: 0.22
-    port_midpoint:
-    - 0
-    - 0
-    waveguide_template:
-      function: strip
-    width_bot: 0.75
-    width_top: 2
   function_name: cdc
   info_version: 1
   module: gdsfactory.components.cdc
   name: cdc
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -7.234
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 50
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 50
-    - -7.234
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
+settings_changed: {}
+settings_default:
+  angle: 0.5235987755982988
+  contradc_wgt: null
+  dc: 0.5
+  direction: EAST
+  dw_bot: null
+  dw_top: null
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  gap: 0.5
+  input_bot: false
+  length: 30
+  period: 0.22
+  port_midpoint:
+  - 0
+  - 0
+  waveguide_template:
+    function: strip
+  width_bot: 0.75
+  width_top: 2
+settings_full:
+  angle: 0.5235987755982988
+  contradc_wgt: null
+  dc: 0.5
+  direction: EAST
+  dw_bot: null
+  dw_top: null
+  fin_size:
+  - 0.2
+  - 0.05
+  fins: false
+  gap: 0.5
+  input_bot: false
+  length: 30
+  period: 0.22
+  port_midpoint:
+  - 0
+  - 0
+  waveguide_template:
+    function: strip
+  width_bot: 0.75
+  width_top: 2
 version: 0.0.1

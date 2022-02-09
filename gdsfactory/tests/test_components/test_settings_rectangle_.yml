@@ -1,119 +1,25 @@
-cells:
-  compass:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass
-  rectangle:
-    changed: {}
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle
 info:
-  changed: {}
-  default:
-    centered: false
-    layer:
-    - 1
-    - 0
-    port_type: electrical
-    size:
-    - 4
-    - 2
-  full:
-    centered: false
-    layer:
-    - 1
-    - 0
-    port_type: electrical
-    size:
-    - 4
-    - 2
   function_name: rectangle
   info_version: 1
   module: gdsfactory.components.rectangle
   name: rectangle
-ports:
-  e1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 1
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 2
-  e2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 2
-    - 2
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 4
-  e3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 4
-    - 1
-    name: e3
-    orientation: 0
-    port_type: electrical
-    width: 2
-  e4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 2
-    - 0
-    name: e4
-    orientation: 270
-    port_type: electrical
-    width: 4
+settings_changed: {}
+settings_default:
+  centered: false
+  layer:
+  - 1
+  - 0
+  port_type: electrical
+  size:
+  - 4
+  - 2
+settings_full:
+  centered: false
+  layer:
+  - 1
+  - 0
+  port_type: electrical
+  size:
+  - 4
+  - 2
 version: 0.0.1

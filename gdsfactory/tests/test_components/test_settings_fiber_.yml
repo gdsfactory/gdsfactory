@@ -1,103 +1,25 @@
-cells:
-  circle_212e6ad7:
-    changed:
-      radius: 5
-    default:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-    full:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 5
-    function_name: circle
-    info_version: 1
-    module: gdsfactory.components.circle
-    name: circle_212e6ad7
-  circle_26bb5ae5:
-    changed:
-      layer:
-      - 111
-      - 0
-      radius: 62.5
-    default:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-    full:
-      angle_resolution: 2.5
-      layer:
-      - 111
-      - 0
-      radius: 62.5
-    function_name: circle
-    info_version: 1
-    module: gdsfactory.components.circle
-    name: circle_26bb5ae5
-  fiber:
-    changed: {}
-    default:
-      cladding_diameter: 125
-      core_diameter: 10
-      layer_cladding:
-      - 111
-      - 0
-      layer_core:
-      - 1
-      - 0
-    full:
-      cladding_diameter: 125
-      core_diameter: 10
-      layer_cladding:
-      - 111
-      - 0
-      layer_core:
-      - 1
-      - 0
-    function_name: fiber
-    info_version: 1
-    module: gdsfactory.components.fiber
-    name: fiber
 info:
-  changed: {}
-  default:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding:
-    - 111
-    - 0
-    layer_core:
-    - 1
-    - 0
-  full:
-    cladding_diameter: 125
-    core_diameter: 10
-    layer_cladding:
-    - 111
-    - 0
-    layer_core:
-    - 1
-    - 0
   function_name: fiber
   info_version: 1
   module: gdsfactory.components.fiber
   name: fiber
-ports:
-  F0:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: F0
-    orientation: 0
-    port_type: optical
-    width: 10
+settings_changed: {}
+settings_default:
+  cladding_diameter: 125
+  core_diameter: 10
+  layer_cladding:
+  - 111
+  - 0
+  layer_core:
+  - 1
+  - 0
+settings_full:
+  cladding_diameter: 125
+  core_diameter: 10
+  layer_cladding:
+  - 111
+  - 0
+  layer_core:
+  - 1
+  - 0
 version: 0.0.1

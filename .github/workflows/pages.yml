@@ -29,7 +29,7 @@ jobs:
         run: |
           pip install .[dev]
           sudo apt install pandoc
-          make meep
+          make gdslib meep
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         with:

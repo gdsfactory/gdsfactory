@@ -1,153 +1,33 @@
-cells:
-  compass_30e133a7:
-    changed:
-      layer:
-      - 100
-      - 0
-      size:
-      - 50
-      - 300
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 100
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 50
-      - 300
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_30e133a7
-  dicing_lane:
-    changed: {}
-    default:
-      layer_dicing:
-      - 100
-      - 0
-      marker:
-        function: triangle
-        layer:
-        - 49
-        - 0
-        xtop: 2
-      size:
-      - 50
-      - 300
-    full:
-      layer_dicing:
-      - 100
-      - 0
-      marker:
-        function: triangle
-        layer:
-        - 49
-        - 0
-        xtop: 2
-      size:
-      - 50
-      - 300
-    function_name: dicing_lane
-    info_version: 1
-    module: gdsfactory.components.dicing_lane
-    name: dicing_lane
-  rectangle_30e133a7:
-    changed:
-      layer:
-      - 100
-      - 0
-      size:
-      - 50
-      - 300
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 100
-      - 0
-      port_type: electrical
-      size:
-      - 50
-      - 300
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_30e133a7
-  triangle_335b4d41:
-    changed:
-      layer:
-      - 49
-      - 0
-      xtop: 2
-    default:
-      layer:
-      - 1
-      - 0
-      x: 10
-      xtop: 0
-      y: 20
-      ybot: 0
-    full:
-      layer:
-      - 49
-      - 0
-      x: 10
-      xtop: 2
-      y: 20
-      ybot: 0
-    function_name: triangle
-    info_version: 1
-    module: gdsfactory.components.triangle
-    name: triangle_335b4d41
 info:
-  changed: {}
-  default:
-    layer_dicing:
-    - 100
-    - 0
-    marker:
-      function: triangle
-      layer:
-      - 49
-      - 0
-      xtop: 2
-    size:
-    - 50
-    - 300
-  full:
-    layer_dicing:
-    - 100
-    - 0
-    marker:
-      function: triangle
-      layer:
-      - 49
-      - 0
-      xtop: 2
-    size:
-    - 50
-    - 300
   function_name: dicing_lane
   info_version: 1
   module: gdsfactory.components.dicing_lane
   name: dicing_lane
-ports: {}
+settings_changed: {}
+settings_default:
+  layer_dicing:
+  - 100
+  - 0
+  marker:
+    function: triangle
+    layer:
+    - 49
+    - 0
+    xtop: 2
+  size:
+  - 50
+  - 300
+settings_full:
+  layer_dicing:
+  - 100
+  - 0
+  marker:
+    function: triangle
+    layer:
+    - 49
+    - 0
+    xtop: 2
+  size:
+  - 50
+  - 300
 version: 0.0.1

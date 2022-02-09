@@ -1,43 +1,10 @@
-cells:
-  rename:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: rename
-    info_version: 1
-    length: 15.708
-    module: gdsfactory.tests.test_paths
-    name: rename
 info:
-  changed: {}
-  default: {}
-  full: {}
   function_name: rename
   info_version: 1
   length: 15.708
   module: gdsfactory.tests.test_paths
   name: rename
-ports:
-  in:
-    layer:
-    - 0
-    - 0
-    midpoint:
-    - 6.123233995736766e-16
-    - 0
-    name: in
-    orientation: 180
-    port_type: optical
-    width: 1
-  out:
-    layer:
-    - 0
-    - 0
-    midpoint:
-    - 10
-    - 10
-    name: out
-    orientation: 90
-    port_type: optical
-    width: 1
+settings_changed: {}
+settings_default: {}
+settings_full: {}
 version: 0.0.1

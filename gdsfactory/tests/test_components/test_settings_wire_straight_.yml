@@ -1,111 +1,44 @@
-cells:
-  straight_22f074f5:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-      with_cladding_box: false
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-      length: 10
-      npoints: 2
-      with_cladding_box: false
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_22f074f5
-    width: 10
 info:
-  changed:
-    cross_section:
-      function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
-    with_cladding_box: false
-  default:
-    cross_section:
-      function: cross_section
-    length: 10
-    npoints: 2
-    with_cladding_box: true
-  full:
-    cross_section:
-      function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
-    length: 10
-    npoints: 2
-    with_cladding_box: false
   function_name: straight
   info_version: 1
-  length: 10
+  length: 10.0
   module: gdsfactory.components.straight
   name: straight_22f074f5
-  width: 10
-ports:
-  e1:
+  width: 10.0
+settings_changed:
+  cross_section:
+    function: cross_section
     layer:
     - 49
     - 0
-    midpoint:
-    - 0
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
+    port_names:
+    - e1
+    - e2
+    port_types:
+    - electrical
+    - electrical
     width: 10
-  e2:
+  with_cladding_box: false
+settings_default:
+  cross_section:
+    function: cross_section
+  length: 10
+  npoints: 2
+  with_cladding_box: true
+settings_full:
+  cross_section:
+    function: cross_section
     layer:
     - 49
     - 0
-    midpoint:
-    - 10
-    - 0
-    name: e2
-    orientation: 0
-    port_type: electrical
+    port_names:
+    - e1
+    - e2
+    port_types:
+    - electrical
+    - electrical
     width: 10
+  length: 10
+  npoints: 2
+  with_cladding_box: false
 version: 0.0.1

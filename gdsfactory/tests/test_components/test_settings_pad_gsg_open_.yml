@@ -1,367 +1,42 @@
-cells:
-  array_e601a645:
-    changed:
-      columns: 1
-      component: pad
-      rows: 3
-      spacing:
-      - 0
-      - 150
-    default:
-      columns: 6
-      component:
-        function: straight
-      rows: 1
-      spacing:
-      - 150
-      - 150
-    full:
-      columns: 1
-      component: pad
-      rows: 3
-      spacing:
-      - 0
-      - 150
-    function_name: array
-    info_version: 1
-    module: gdsfactory.components.array_component
-    name: array_e601a645
-  compass_a76759a7:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 22
-      - 7
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 22
-      - 7
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_a76759a7
-  pad_gsg_short_a5a92d3b:
-    changed:
-      short: false
-    default:
-      contact:
-        function: rectangle
-        layer:
-        - 49
-        - 0
-      layer_metal:
-      - 49
-      - 0
-      metal_spacing: 5
-      pad:
-        function: pad
-      pad_spacing: 150
-      short: true
-      size:
-      - 22
-      - 7
-    full:
-      contact:
-        function: rectangle
-        layer:
-        - 49
-        - 0
-      layer_metal:
-      - 49
-      - 0
-      metal_spacing: 5
-      pad:
-        function: pad
-      pad_spacing: 150
-      short: false
-      size:
-      - 22
-      - 7
-    function_name: pad_gsg_short
-    info_version: 1
-    module: gdsfactory.components.pad_gsg
-    name: pad_gsg_short_a5a92d3b
-  rectangle_a76759a7:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 22
-      - 7
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 49
-      - 0
-      port_type: electrical
-      size:
-      - 22
-      - 7
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_a76759a7
-  route_quad_139150fe:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 6
-        - -7
-        name: e4
-        orientation: 270
-        port_type: electrical
-        width: 22
-      port2:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 72
-        - -150
-        name: e1_1_1
-        orientation: 180
-        port_type: electrical
-        width: 100
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 6
-        - -7
-        name: e4
-        orientation: 270
-        port_type: electrical
-        width: 22
-      port2:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 72
-        - -150
-        name: e1_1_1
-        orientation: 180
-        port_type: electrical
-        width: 100
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_139150fe
-  route_quad_33d8fe20:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 6
-        - 14
-        name: e2
-        orientation: 90
-        port_type: electrical
-        width: 22
-      port2:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 72
-        - 150
-        name: e1_3_1
-        orientation: 180
-        port_type: electrical
-        width: 100
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 6
-        - 14
-        name: e2
-        orientation: 90
-        port_type: electrical
-        width: 22
-      port2:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 72
-        - 150
-        name: e1_3_1
-        orientation: 180
-        port_type: electrical
-        width: 100
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_33d8fe20
-  route_quad_f385d08b:
-    changed:
-      layer:
-      - 49
-      - 0
-      port1:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 22
-        - 3.5
-        name: e3
-        orientation: 0
-        port_type: electrical
-        width: 7
-      port2:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 72
-        - 0
-        name: e1_2_1
-        orientation: 180
-        port_type: electrical
-        width: 100
-    default:
-      layer:
-      - 31
-      - 0
-      width1: null
-      width2: null
-    full:
-      layer:
-      - 49
-      - 0
-      port1:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 22
-        - 3.5
-        name: e3
-        orientation: 0
-        port_type: electrical
-        width: 7
-      port2:
-        layer:
-        - 49
-        - 0
-        midpoint:
-        - 72
-        - 0
-        name: e1_2_1
-        orientation: 180
-        port_type: electrical
-        width: 100
-      width1: null
-      width2: null
-    function_name: route_quad
-    info_version: 1
-    module: gdsfactory.routing.route_quad
-    name: route_quad_f385d08b
 info:
-  changed:
-    short: false
-  default:
-    contact:
-      function: rectangle
-      layer:
-      - 49
-      - 0
-    layer_metal:
-    - 49
-    - 0
-    metal_spacing: 5
-    pad:
-      function: pad
-    pad_spacing: 150
-    short: true
-    size:
-    - 22
-    - 7
-  full:
-    contact:
-      function: rectangle
-      layer:
-      - 49
-      - 0
-    layer_metal:
-    - 49
-    - 0
-    metal_spacing: 5
-    pad:
-      function: pad
-    pad_spacing: 150
-    short: false
-    size:
-    - 22
-    - 7
   function_name: pad_gsg_short
   info_version: 1
   module: gdsfactory.components.pad_gsg
   name: pad_gsg_short_a5a92d3b
-ports: {}
+settings_changed:
+  short: false
+settings_default:
+  contact:
+    function: rectangle
+    layer:
+    - 49
+    - 0
+  layer_metal:
+  - 49
+  - 0
+  metal_spacing: 5
+  pad:
+    function: pad
+  pad_spacing: 150
+  short: true
+  size:
+  - 22
+  - 7
+settings_full:
+  contact:
+    function: rectangle
+    layer:
+    - 49
+    - 0
+  layer_metal:
+  - 49
+  - 0
+  metal_spacing: 5
+  pad:
+    function: pad
+  pad_spacing: 150
+  short: false
+  size:
+  - 22
+  - 7
 version: 0.0.1

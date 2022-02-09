@@ -83,8 +83,8 @@ if __name__ == "__main__":
 
     # c1 = gf.components.mzi()
     # c2 = gf.import_gds(gdspath)
-    # d1 = c1.to_dict_config()
-    # d2 = c2.to_dict_config()
+    # d1 = c1.to_dict()
+    # d2 = c2.to_dict()
     # dd1 = c1.to_dict()
     # dd2 = c2.to_dict()
     # dd1["info"].pop("name")

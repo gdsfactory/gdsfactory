@@ -1,21 +1,10 @@
-cells:
-  test_path:
-    changed: {}
-    default: {}
-    full: {}
-    function_name: test_path
-    info_version: 1
-    length: 107.699
-    module: gdsfactory.tests.test_paths
-    name: test_path
 info:
-  changed: {}
-  default: {}
-  full: {}
   function_name: test_path
   info_version: 1
   length: 107.699
   module: gdsfactory.tests.test_paths
   name: test_path
-ports: {}
+settings_changed: {}
+settings_default: {}
+settings_full: {}
 version: 0.0.1
