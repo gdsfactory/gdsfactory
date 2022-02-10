@@ -13,7 +13,7 @@ import networkx as nx
 import numpy as np
 import yaml
 from numpy import int64
-from omegaconf import OmegaConf
+from omegaconf import DictConfig, OmegaConf
 from phidl.device_layout import Device, _parse_layer
 from typing_extensions import Literal
 
@@ -365,6 +365,10 @@ class Component(Device):
             settings = settings.get("child")
 
         return settings
+
+    @property
+    def metadata(self) -> DictConfig:
+        return DictConfig(dict(self.settings))
 
     def add_port(
         self,

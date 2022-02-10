@@ -1,10 +1,10 @@
 ports:
   o1:
     name: o1
-    midpoint:
-    - 0
-    - 0
     width: 0.5
+    midpoint:
+    - 0.0
+    - 0.0
     orientation: 180
     layer:
     - 3
@@ -12,49 +12,33 @@ ports:
     port_type: optical
   o2:
     name: o2
-    midpoint:
-    - 10
-    - 0
     width: 0.5
+    midpoint:
+    - 10.0
+    - 0.0
     orientation: 0
     layer:
     - 3
     - 0
     port_type: optical
-info:
-  length: 10
-  width: 0.5
-  name: straight_75fbe695
-  module: gdsfactory.components.straight
-  function_name: straight
-  info_version: 1
-  changed:
-    layer:
-    - 3
-    - 0
-  default:
-    length: 10
-    npoints: 2
-    with_cladding_box: true
-    cross_section:
-      function: cross_section
-  full:
-    length: 10
-    npoints: 2
-    with_cladding_box: true
-    cross_section:
-      function: cross_section
-    layer:
-    - 3
-    - 0
 cells:
   straight_75fbe695:
-    length: 10
-    width: 0.5
     name: straight_75fbe695
     module: gdsfactory.components.straight
     function_name: straight
-    info_version: 1
+    info:
+      length: 10.0
+      width: 0.5
+    info_version: 2
+    full:
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
+      layer:
+      - 3
+      - 0
     changed:
       layer:
       - 3
@@ -65,13 +49,33 @@ cells:
       with_cladding_box: true
       cross_section:
         function: cross_section
-    full:
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
-      layer:
-      - 3
-      - 0
+    child: null
 version: 0.0.1
+settings:
+  name: straight_75fbe695
+  module: gdsfactory.components.straight
+  function_name: straight
+  info:
+    length: 10.0
+    width: 0.5
+  info_version: 2
+  full:
+    length: 10
+    npoints: 2
+    with_cladding_box: true
+    cross_section:
+      function: cross_section
+    layer:
+    - 3
+    - 0
+  changed:
+    layer:
+    - 3
+    - 0
+  default:
+    length: 10
+    npoints: 2
+    with_cladding_box: true
+    cross_section:
+      function: cross_section
+  child: null
