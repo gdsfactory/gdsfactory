@@ -1,45 +1,6 @@
-cells:
-  taper_strip_to_ridge:
-    changed: {}
-    default:
-      cladding_offset: 3
-      cross_section:
-        function: cross_section
-      layer_slab:
-      - 3
-      - 0
-      layer_wg:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 10
-      w_slab1: 0.15
-      w_slab2: 6
-      width1: 0.5
-      width2: 0.5
-    full:
-      cladding_offset: 3
-      cross_section:
-        function: cross_section
-      layer_slab:
-      - 3
-      - 0
-      layer_wg:
-      - 1
-      - 0
-      layers_cladding: null
-      length: 10
-      w_slab1: 0.15
-      w_slab2: 6
-      width1: 0.5
-      width2: 0.5
-    function_name: taper_strip_to_ridge
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_strip_to_ridge
-info:
+settings:
   changed: {}
+  child: null
   default:
     cladding_offset: 3
     cross_section:
@@ -73,31 +34,9 @@ info:
     width1: 0.5
     width2: 0.5
   function_name: taper_strip_to_ridge
-  info_version: 1
-  length: 10
+  info:
+    length: 10.0
+  info_version: 2
   module: gdsfactory.components.taper
   name: taper_strip_to_ridge
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 3
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 6
 version: 0.0.1

@@ -1,124 +1,4 @@
-cells:
-  straight_9b75572a:
-    changed:
-      cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
-        - - 3
-          - 0
-        sections:
-        - slab
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight_9b75572a
-    width: 0.5
-  straight_9b75572a_exten_c7ec24a3:
-    changed:
-      component:
-        cross_section:
-          cladding_offset: 0
-          function: cross_section
-          layers_cladding:
-          - - 3
-            - 0
-          sections:
-          - slab
-        function: straight
-      extension_factory:
-        function: taper_strip_to_ridge
-      port1: o2
-      port2: o1
-    child:
-      changed:
-        cross_section:
-          cladding_offset: 0
-          function: cross_section
-          layers_cladding:
-          - - 3
-            - 0
-          sections:
-          - slab
-      default:
-        cross_section:
-          function: cross_section
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      full:
-        cross_section:
-          cladding_offset: 0
-          function: cross_section
-          layers_cladding:
-          - - 3
-            - 0
-          sections:
-          - slab
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      function_name: straight
-      info_version: 1
-      length: 10
-      module: gdsfactory.components.straight
-      name: straight_9b75572a
-      width: 0.5
-    default:
-      centered: false
-      component:
-        function: mmi1x2
-      cross_section: null
-      extension_factory: null
-      length: 5
-      port1: null
-      port2: null
-      port_names: null
-      port_type: optical
-    full:
-      centered: false
-      component:
-        cross_section:
-          cladding_offset: 0
-          function: cross_section
-          layers_cladding:
-          - - 3
-            - 0
-          sections:
-          - slab
-        function: straight
-      cross_section: null
-      extension_factory:
-        function: taper_strip_to_ridge
-      length: 5
-      port1: o2
-      port2: o1
-      port_names: null
-      port_type: optical
-    function_name: extend_ports
-    info_version: 1
-    module: gdsfactory.components.extension
-    name: straight_9b75572a_exten_c7ec24a3
-info:
+settings:
   changed:
     component:
       cross_section:
@@ -128,7 +8,18 @@ info:
         - - 3
           - 0
         sections:
-        - slab
+        - layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 6.0
       function: straight
     extension_factory:
       function: taper_strip_to_ridge
@@ -143,7 +34,19 @@ info:
         - - 3
           - 0
         sections:
-        - slab
+        - layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 6.0
+    child: null
     default:
       cross_section:
         function: cross_section
@@ -158,16 +61,28 @@ info:
         - - 3
           - 0
         sections:
-        - slab
+        - layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 6.0
       length: 10
       npoints: 2
       with_cladding_box: true
     function_name: straight
-    info_version: 1
-    length: 10
+    info:
+      length: 10.0
+      width: 0.5
+    info_version: 2
     module: gdsfactory.components.straight
-    name: straight_9b75572a
-    width: 0.5
+    name: straight_4d2ecf14
   default:
     centered: false
     component:
@@ -189,7 +104,18 @@ info:
         - - 3
           - 0
         sections:
-        - slab
+        - layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_types:
+          - optical
+          - optical
+          ports:
+          - null
+          - null
+          width: 6.0
       function: straight
     cross_section: null
     extension_factory:
@@ -200,30 +126,8 @@ info:
     port_names: null
     port_type: optical
   function_name: extend_ports
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.extension
-  name: straight_9b75572a_exten_c7ec24a3
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -10
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 20
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
+  name: straight_4d2ecf14_exten_2a310c80
 version: 0.0.1

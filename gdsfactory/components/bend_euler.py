@@ -62,10 +62,10 @@ def bend_euler(
     )
     ref = c << extrude(p, x)
     c.add_ports(ref.ports)
-    c.info.length = snap_to_grid(p.length())
-    c.info.dy = abs(float(p.points[0][0] - p.points[-1][0]))
-    c.info.radius_min = float(snap_to_grid(p.info["Rmin"]))
-    c.info.radius = float(radius)
+    c.info["length"] = snap_to_grid(p.length())
+    c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
+    c.info["radius_min"] = float(snap_to_grid(p.info["Rmin"]))
+    c.info["radius"] = float(radius)
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
@@ -182,8 +182,8 @@ def _compare_bend_euler90():
     b1 = bend_euler(radius=radius)
     b2 = gf.components.bend_circular(radius=radius)
 
-    print(b1.info.length)
-    print(b2.info.length)
+    print(b1.info["length"])
+    print(b2.info["length"])
 
     c << b1
     c << b2

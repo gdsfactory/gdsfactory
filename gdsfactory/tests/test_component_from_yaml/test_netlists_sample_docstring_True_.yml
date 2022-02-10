@@ -8,78 +8,25 @@ connections:
 instances:
   bend_euler_67p115_m5p5:
     component: bend_euler
-    settings:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
+    settings: {}
   bend_euler_76p865_m34p5:
     component: bend_euler
-    settings:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
+    settings: {}
   mmi_bot:
-    component: mmi1x2
-    settings:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 11
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 5
-      width_taper: 1
-      with_cladding_box: true
+    component: mmi1x2_52b0d64a
+    settings: {}
   mmi_top:
-    component: mmi1x2
-    settings:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 22
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 6
-      width_taper: 1
-      with_cladding_box: true
+    component: mmi1x2_28584457
+    settings: {}
   straight_720ba455_71p99_m20p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 18.75
-      npoints: 2
-      with_cladding_box: true
+    component: straight_720ba455
+    settings: {}
   straight_775184d2_51p995_m0p625:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 19.99
-      npoints: 2
-      with_cladding_box: true
+    component: straight_775184d2
+    settings: {}
   straight_c49ce9c6_81p995_m39p375:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
+    component: straight_c49ce9c6
+    settings: {}
 name: sample_docstring
 placements:
   bend_euler_67p115_m5p5:

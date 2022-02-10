@@ -1,89 +1,6 @@
-cells:
-  coupler_ring_cd892edd:
-    changed:
-      length_x: 0.01
-      radius: 10
-    default:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 0.01
-      radius: 10
-    function_name: coupler_ring
-    info_version: 1
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring_cd892edd
-  ring_double:
-    changed: {}
-    default:
-      bend: null
-      coupler_ring:
-        function: coupler_ring
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 0.01
-      length_y: 0.01
-      radius: 10
-      straight:
-        function: straight
-    full:
-      bend: null
-      coupler_ring:
-        function: coupler_ring
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 0.01
-      length_y: 0.01
-      radius: 10
-      straight:
-        function: straight
-    function_name: ring_double
-    info_version: 1
-    module: gdsfactory.components.ring_double
-    name: ring_double
-  straight_c49ce9c6:
-    changed:
-      length: 0.01
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 0.01
-    module: gdsfactory.components.straight
-    name: straight_c49ce9c6
-    width: 0.5
-info:
+settings:
   changed: {}
+  child: null
   default:
     bend: null
     coupler_ring:
@@ -109,52 +26,8 @@ info:
     straight:
       function: straight
   function_name: ring_double
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.ring_double
   name: ring_double
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -10.01
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -10.009999999999998
-    - 21.409999999999997
-    name: o3
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10.000000000000002
-    - 21.409999999999997
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

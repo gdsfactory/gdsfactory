@@ -128,7 +128,9 @@ def add_fiber_single(
 
     component = component() if callable(component) else component
 
-    component_name = component_name or component.info_child.get("name", component.name)
+    component_name = component_name or component.metadata_child.get(
+        "name", component.name
+    )
 
     gc = (
         grating_coupler[0]
@@ -292,6 +294,7 @@ if __name__ == "__main__":
         # grating_coupler=[gf.components.grating_coupler_te, gf.components.grating_coupler_tm],
     )
     cc.show()
+    cc.pprint()
 
     # c = gf.components.straight(length=20)
     # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)

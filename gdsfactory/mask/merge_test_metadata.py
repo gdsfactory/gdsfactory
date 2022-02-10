@@ -61,7 +61,7 @@ def merge_test_metadata(
     labels_path = Path(labels_path)
 
     if not labels_path.exists():
-        raise FileNotFoundError(f"missing CSV labels {labels_path}")
+        raise FileNotFoundError(f"missing CSV labels {labels_path!r}")
 
     labels_list = parse_csv_data(labels_path)
     cells_metadata = mask_metadata.get("cells", {})
@@ -75,8 +75,8 @@ def merge_test_metadata(
             test_metadata[cell] = cells_metadata[cell]
             test_metadata[cell].label = dict(x=float(x), y=float(y), text=label)
         else:
-            logger.error(f"missing cell metadata for {cell}")
-            warnings.warn(f"missing cell metadata for {cell}")
+            logger.error(f"missing cell metadata for {cell!r}")
+            warnings.warn(f"missing cell metadata for {cell!r}")
 
     return test_metadata
 

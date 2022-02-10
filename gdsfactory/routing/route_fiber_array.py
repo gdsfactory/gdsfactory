@@ -163,12 +163,12 @@ def route_fiber_array(
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
 
-    dy = abs(bend90.info.dy)
+    dy = abs(bend90.info["dy"])
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
 
-    dy = bend90.info.dy
+    dy = bend90.info["dy"]
     delta_gr_min = 2 * dy + 1
 
     offset = (N - 1) * fiber_spacing / 2.0
@@ -432,7 +432,7 @@ def route_fiber_array(
         p0 = port0.position
         p1 = port1.position
 
-        dy = bend90.info.dy
+        dy = bend90.info["dy"]
         dx = max(2 * dy, fiber_spacing / 2)
 
         gc_east = max([gci.size_info.east for gci in grating_couplers])

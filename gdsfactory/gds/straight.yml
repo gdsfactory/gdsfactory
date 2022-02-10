@@ -1,10 +1,10 @@
 ports:
   o1:
     name: o1
-    midpoint:
-    - 0
-    - 0
     width: 0.5
+    midpoint:
+    - 0.0
+    - 0.0
     orientation: 180
     layer:
     - 1
@@ -12,44 +12,30 @@ ports:
     port_type: optical
   o2:
     name: o2
+    width: 0.5
     midpoint:
     - 1.234
-    - 0
-    width: 0.5
+    - 0.0
     orientation: 0
     layer:
     - 1
     - 0
     port_type: optical
-info:
-  length: 1.234
-  width: 0.5
-  name: straight_0a6c91fb
-  module: gdsfactory.components.straight
-  function_name: straight
-  info_version: 1
-  changed:
-    length: 1.234
-  default:
-    length: 10
-    npoints: 2
-    with_cladding_box: true
-    cross_section:
-      function: cross_section
-  full:
-    length: 1.234
-    npoints: 2
-    with_cladding_box: true
-    cross_section:
-      function: cross_section
 cells:
-  straight_0a6c91fb:
-    length: 1.234
-    width: 0.5
-    name: straight_0a6c91fb
+  straight_189d2d09:
+    name: straight_189d2d09
     module: gdsfactory.components.straight
     function_name: straight
-    info_version: 1
+    info:
+      length: 1.234
+      width: 0.5
+    info_version: 2
+    full:
+      length: 1.234
+      npoints: 2
+      with_cladding_box: true
+      cross_section:
+        function: cross_section
     changed:
       length: 1.234
     default:
@@ -58,10 +44,31 @@ cells:
       with_cladding_box: true
       cross_section:
         function: cross_section
-    full:
-      length: 1.234
-      npoints: 2
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
-version: 1
+    child: null
+info:
+  length: 1.234
+  width: 0.5
+version: 0.0.1
+settings:
+  name: straight_189d2d09
+  module: gdsfactory.components.straight
+  function_name: straight
+  info:
+    length: 1.234
+    width: 0.5
+  info_version: 2
+  full:
+    length: 1.234
+    npoints: 2
+    with_cladding_box: true
+    cross_section:
+      function: cross_section
+  changed:
+    length: 1.234
+  default:
+    length: 10
+    npoints: 2
+    with_cladding_box: true
+    cross_section:
+      function: cross_section
+  child: null

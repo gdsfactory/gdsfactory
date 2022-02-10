@@ -1,39 +1,6 @@
-cells:
-  wire_corner:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
-    function_name: wire_corner
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.wire
-    name: wire_corner
-info:
+settings:
   changed: {}
+  child: null
   default:
     cross_section:
       function: cross_section
@@ -61,31 +28,9 @@ info:
       - electrical
       width: 10
   function_name: wire_corner
-  info_version: 1
-  length: 10
+  info:
+    length: 10.0
+  info_version: 2
   module: gdsfactory.components.wire
   name: wire_corner
-ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -5
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 10
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 5
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 10
 version: 0.0.1

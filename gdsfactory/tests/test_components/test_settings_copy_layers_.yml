@@ -1,213 +1,11 @@
-cells:
-  compass_2a00f02d:
-    changed:
-      layer:
-      - 2
-      - 0
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 2
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_2a00f02d
-  compass_bd043ca6:
-    changed:
-      size:
-      - 3
-      - 10
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_bd043ca6
-  cross:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    full:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross
-  cross_2976c617:
-    changed:
-      layer:
-      - 2
-      - 0
-    default:
-      layer:
-      - 1
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    full:
-      layer:
-      - 2
-      - 0
-      length: 10
-      port_type: null
-      width: 3
-    function_name: cross
-    info_version: 1
-    module: gdsfactory.components.cross
-    name: cross_2976c617
-  cross_2976c617_copy_layers:
-    changed: {}
-    child:
-      changed:
-        layer:
-        - 2
-        - 0
-      default:
-        layer:
-        - 1
-        - 0
-        length: 10
-        port_type: null
-        width: 3
-      full:
-        layer:
-        - 2
-        - 0
-        length: 10
-        port_type: null
-        width: 3
-      function_name: cross
-      info_version: 1
-      module: gdsfactory.components.cross
-      name: cross_2976c617
-    default:
-      factory:
-        function: cross
-      layers:
-      - - 1
-        - 0
-      - - 2
-        - 0
-    full:
-      factory:
-        function: cross
-      layers:
-      - - 1
-        - 0
-      - - 2
-        - 0
-    function_name: copy_layers
-    info_version: 1
-    module: gdsfactory.components.copy_layers
-    name: cross_2976c617_copy_layers
-  rectangle_2a00f02d:
-    changed:
-      layer:
-      - 2
-      - 0
-      size:
-      - 3
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 2
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_2a00f02d
-  rectangle_bd043ca6:
-    changed:
-      size:
-      - 3
-      - 10
-    default:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      centered: false
-      layer:
-      - 1
-      - 0
-      port_type: electrical
-      size:
-      - 3
-      - 10
-    function_name: rectangle
-    info_version: 1
-    module: gdsfactory.components.rectangle
-    name: rectangle_bd043ca6
-info:
+settings:
   changed: {}
   child:
     changed:
       layer:
       - 2
       - 0
+    child: null
     default:
       layer:
       - 1
@@ -223,9 +21,10 @@ info:
       port_type: null
       width: 3
     function_name: cross
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.cross
-    name: cross_2976c617
+    name: cross_be0fe91f
   default:
     factory:
       function: cross
@@ -243,8 +42,8 @@ info:
     - - 2
       - 0
   function_name: copy_layers
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.copy_layers
-  name: cross_2976c617_copy_layers
-ports: {}
+  name: cross_be0fe91f_copy_layers
 version: 0.0.1

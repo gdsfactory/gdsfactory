@@ -1,28 +1,6 @@
-cells:
-  triangle:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      x: 10
-      xtop: 0
-      y: 20
-      ybot: 0
-    full:
-      layer:
-      - 1
-      - 0
-      x: 10
-      xtop: 0
-      y: 20
-      ybot: 0
-    function_name: triangle
-    info_version: 1
-    module: gdsfactory.components.triangle
-    name: triangle
-info:
+settings:
   changed: {}
+  child: null
   default:
     layer:
     - 1
@@ -40,8 +18,8 @@ info:
     y: 20
     ybot: 0
   function_name: triangle
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.triangle
   name: triangle
-ports: {}
 version: 0.0.1

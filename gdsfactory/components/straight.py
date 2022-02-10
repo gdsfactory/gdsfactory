@@ -30,8 +30,9 @@ def straight(
     path = gf.path.extrude(p, x)
     ref = c << path
     c.add_ports(ref.ports)
-    c.info.length = gf.snap.snap_to_grid(length)
-    c.info.width = float(x.info["width"])
+    c.info["length"] = gf.snap.snap_to_grid(length)
+    c.info["width"] = float(x.info["width"])
+
     if length > 0 and with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]
         cladding_offset = x.info["cladding_offset"]

@@ -18,7 +18,7 @@ from phidl.path import smooth as smooth_phidl
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Transition
 from gdsfactory.types import (
     Coordinates,
     CrossSectionOrFactory,
@@ -35,8 +35,12 @@ class Path(PathPhidl):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes Path is always valid"""
+        """check Path has the correct type."""
+        assert isinstance(v, PathPhidl), f"TypeError, Got {type(v)}, expecting Path"
         return v
+
+    def to_dict(self):
+        return self.hash_geometry()
 
 
 def _sinusoidal_transition(y1, y2):
@@ -72,7 +76,7 @@ def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
     width_type: str = "sine",
-) -> CrossSection:
+) -> Transition:
     """Creates a CrossSection that smoothly transitions between two input
     CrossSections. Only cross-sectional elements that have the `name` (as in
     X.add(..., name = 'wg') ) parameter specified in both input CrosSections
@@ -92,7 +96,8 @@ def transition(
 
     X1 = cross_section1
     X2 = cross_section2
-    Xtrans = CrossSection()
+    name = f"trans_{width_type}_{X1.get_name()}_{X2.get_name()}"
+    Xtrans = Transition(cross_section1=X1, cross_section2=X2, name=name)
 
     if not X1.aliases or not X2.aliases:
         raise ValueError(
@@ -155,8 +160,6 @@ def transition(
                 hidden=hidden,
             )
 
-    Xtrans.cross_sections = (X1, X2)
-    Xtrans.name = f"trans_{width_type}_{X1.get_name()}_{X2.get_name()}"
     return Xtrans
 
 
@@ -170,9 +173,7 @@ def extrude(
     simplify: Optional[float] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
-
     A path can be extruded using any CrossSection returning a Component
-
     The CrossSection defines the layer numbers, widths and offsetts
 
     adapted from phidl.path
@@ -332,8 +333,7 @@ def extrude(
     # clean_dict(cross_section.info)
     # c.info.path = p.info
     # c.info.cross_section = cross_section.info
-
-    c.info.length = float(np.round(p.length(), 3))
+    c.info["length"] = float(np.round(p.length(), 3))
     return c
 
 

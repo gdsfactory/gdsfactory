@@ -1,36 +1,6 @@
-cells:
-  coupler_full:
-    changed: {}
-    default:
-      angle: 0.5235987755982988
-      direction: EAST
-      dw: 0.1
-      gap: 0.5
-      length: 40
-      parity: 1
-      port:
-      - 0
-      - 0
-      waveguide_template:
-        function: strip
-    full:
-      angle: 0.5235987755982988
-      direction: EAST
-      dw: 0.1
-      gap: 0.5
-      length: 40
-      parity: 1
-      port:
-      - 0
-      - 0
-      waveguide_template:
-        function: strip
-    function_name: coupler_full
-    info_version: 1
-    module: gdsfactory.components.coupler_full
-    name: coupler_full
-info:
+settings:
   changed: {}
+  child: null
   default:
     angle: 0.5235987755982988
     direction: EAST
@@ -56,52 +26,8 @@ info:
     waveguide_template:
       function: strip
   function_name: coupler_full
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler_full
   name: coupler_full
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -6.359
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 60
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 60
-    - -6.359
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

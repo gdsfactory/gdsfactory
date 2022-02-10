@@ -8,78 +8,25 @@ connections:
 instances:
   bend_euler_120p135_5p5:
     component: bend_euler
-    settings:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
+    settings: {}
   bend_euler_120p135_95p125:
     component: bend_euler
-    settings:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
+    settings: {}
   mmi_long:
-    component: mmi1x2
-    settings:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 10
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
+    component: mmi1x2_25023716
+    settings: {}
   mmi_short:
-    component: mmi1x2
-    settings:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
+    component: mmi1x2_63d4efba
+    settings: {}
   straight_7a57a71b_63p755_0p625:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 102.51
-      npoints: 2
-      with_cladding_box: true
+    component: straight_7a57a71b
+    settings: {}
   straight_c49ce9c6_115p005_100p0:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
+    component: straight_c49ce9c6
+    settings: {}
   straight_e4b574c8_125p01_50p312:
-    component: straight
-    settings:
-      cross_section:
-        function: cross_section
-      length: 79.375
-      npoints: 2
-      with_cladding_box: true
+    component: straight_e4b574c8
+    settings: {}
 name: Unnamed_a491ff8b
 placements:
   bend_euler_120p135_5p5:

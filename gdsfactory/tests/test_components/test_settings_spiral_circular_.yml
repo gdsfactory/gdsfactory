@@ -1,31 +1,6 @@
-cells:
-  spiral_circular:
-    changed: {}
-    default:
-      layer:
-      - 1
-      - 0
-      length: 1000
-      min_bend_radius: 5
-      points: 1000
-      spacing: 3
-      wg_width: 0.5
-    full:
-      layer:
-      - 1
-      - 0
-      length: 1000
-      min_bend_radius: 5
-      points: 1000
-      spacing: 3
-      wg_width: 0.5
-    function_name: spiral_circular
-    info_version: 1
-    length: 1694.813
-    module: gdsfactory.components.spiral_circular
-    name: spiral_circular
-info:
+settings:
   changed: {}
+  child: null
   default:
     layer:
     - 1
@@ -45,31 +20,9 @@ info:
     spacing: 3
     wg_width: 0.5
   function_name: spiral_circular
-  info_version: 1
-  length: 1694.813
+  info:
+    length: 1694.813
+  info_version: 2
   module: gdsfactory.components.spiral_circular
   name: spiral_circular
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -52
-    - -40.5
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 40.53
-    - -40.5
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
 version: 0.0.1

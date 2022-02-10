@@ -57,7 +57,7 @@ def spiral_external_io(
     _bend180 = bend(angle=180, cross_section=cross_section, **kwargs)
     _bend90 = bend(angle=90, cross_section=cross_section, **kwargs)
 
-    bend_radius = _bend90.info.radius
+    bend_radius = _bend90.info["radius"]
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
 
@@ -128,12 +128,12 @@ def spiral_external_io(
     component.add_port("o1", port=route.ports[1])
 
     length = route.length
-    component.info.length = length
+    component.info["length"] = length
     return component
 
 
 if __name__ == "__main__":
     c = spiral_external_io(auto_widen=True, width_wide=2.0, length=10e3, N=15)
-    # print(c.info.length)
-    # print(c.info.length / 1e4, "cm")
+    # print(c.info['length'])
+    # print(c.info['length'] / 1e4, "cm")
     c.show(show_ports=True)

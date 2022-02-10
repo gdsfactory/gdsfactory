@@ -191,11 +191,10 @@ def import_gds(
                     port_type=port.port_type,
                 )
 
-        component.info = metadata.info
+        component.settings = OmegaConf.to_container(metadata.settings)
 
     component.info.update(**kwargs)
     component.name = name
-    component.info.name = name
 
     if decorator:
         component_new = decorator(component)

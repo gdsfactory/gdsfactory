@@ -1,18 +1,6 @@
-cells:
-  crossing_from_taper:
-    changed: {}
-    default:
-      taper:
-        function: <lambda>
-    full:
-      taper:
-        function: <lambda>
-    function_name: crossing_from_taper
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing_from_taper
-info:
+settings:
   changed: {}
+  child: null
   default:
     taper:
       function: <lambda>
@@ -20,52 +8,8 @@ info:
     taper:
       function: <lambda>
   function_name: crossing_from_taper
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.crossing_waveguide
   name: crossing_from_taper
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -3
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 4.440892098500626e-16
-    - 3
-    name: o2
-    orientation: 90
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 3
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -3
-    name: o4
-    orientation: 270
-    port_type: optical
-    width: 0.5
 version: 0.0.1

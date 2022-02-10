@@ -1,32 +1,6 @@
-cells:
-  text:
-    changed: {}
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text
-info:
+settings:
   changed: {}
+  child: null
   default:
     justify: left
     layer:
@@ -48,8 +22,8 @@ info:
     size: 10
     text: abcd
   function_name: text
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.text
   name: text
-ports: {}
 version: 0.0.1
