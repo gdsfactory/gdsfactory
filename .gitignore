@@ -10,6 +10,8 @@
 .pyre_configuration
 gdsfactory/klayout/tech/layers.py
 poetry.lock
+mask.csv
+mask.yml
 
 # Packages
 *.egg
