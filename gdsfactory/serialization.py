@@ -46,7 +46,7 @@ def clean_value_name(value: Any) -> str:
         args_as_kwargs.update(**value.keywords)
         clean_dict(args_as_kwargs)
         args_as_kwargs.pop("function", None)
-        value = dict(function=value.func.__qualname__, **args_as_kwargs)
+        value = dict(function=value.func.__name__, **args_as_kwargs)
         value = get_string(value)
     elif hasattr(value, "to_dict"):
         value = value.to_dict()
@@ -61,8 +61,8 @@ def clean_value_name(value: Any) -> str:
             clean_value_name(func) for func in value.funcs
         ]
         value = get_string(value)
-    elif callable(value) and hasattr(value, "__qualname__"):
-        value = value.__qualname__
+    elif callable(value) and hasattr(value, "__name__"):
+        value = value.__name__
     elif isinstance(value, PathPhidl):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):
@@ -97,7 +97,7 @@ def clean_value_json(value: Any) -> Any:
         args_as_kwargs.update(**value.keywords)
         clean_dict(args_as_kwargs)
         args_as_kwargs.pop("function", None)
-        value = dict(function=value.func.__qualname__, **args_as_kwargs)
+        value = dict(function=value.func.__name__, **args_as_kwargs)
     elif hasattr(value, "to_dict"):
         value = value.to_dict()
     elif isinstance(value, np.float64):
@@ -108,8 +108,8 @@ def clean_value_json(value: Any) -> Any:
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
         ]
-    elif callable(value) and hasattr(value, "__qualname__"):
-        value = dict(function=value.__qualname__)
+    elif callable(value) and hasattr(value, "__name__"):
+        value = dict(function=value.__name__)
     elif isinstance(value, PathPhidl):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):
