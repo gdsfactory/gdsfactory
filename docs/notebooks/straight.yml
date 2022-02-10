@@ -22,8 +22,8 @@ ports:
     - 0
     port_type: optical
 cells:
-  straight_75fbe695:
-    name: straight_75fbe695
+  straight_9ccf654b:
+    name: straight_9ccf654b
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -52,7 +52,7 @@ cells:
     child: null
 version: 0.0.1
 settings:
-  name: straight_75fbe695
+  name: straight_9ccf654b
   module: gdsfactory.components.straight
   function_name: straight
   info:
