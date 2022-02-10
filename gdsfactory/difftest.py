@@ -67,7 +67,7 @@ def difftest(
     if not ref_file.exists():
         component.write_gds(gdspath=ref_file)
         raise AssertionError(
-            f"Reference GDS file for {test_name!r} did not exist. Writing to {ref_file!r}"
+            f"Reference GDS file for {test_name!r} not found. Writing to {ref_file!r}"
         )
 
     if filecmp.cmp(ref_file, run_file, shallow=False):
@@ -81,32 +81,29 @@ def difftest(
     try:
         run_xor(str(ref_file), str(run_file), tolerance=1, verbose=False)
     except GeometryDifference as error:
-        print()
         logger.error(error)
         diff = gdsdiff(ref_file, run_file, name=test_name, xor=xor)
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
         print(
-            "\n"
-            + f"`{filename}` changed from reference {ref_file}\n"
-            + "You can check the differences in Klayout GUI\n"
-            + "For a detailed XOR you can run\n"
-            + f"gf gds diff --xor {ref_file} {run_file}\n"
+            f"\ngds_run {filename!r} changed from gds_ref {ref_file!r}\n"
+            "You can check the differences in Klayout GUI or run XOR with"
+            f"gf gds diff --xor {ref_file} {run_file}\n"
         )
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [y/n] "
+                "Would you like to save current GDS as the new reference? [y/N] "
             )
             if val.upper().startswith("Y"):
-                print(f"rm {ref_file}")
+                logger.info(f"deleting file {ref_file!r}")
                 ref_file.unlink()
                 shutil.copy(run_file, ref_file)
             raise
         except OSError as exc:
             raise GeometryDifference(
                 "\n"
-                + f"`{filename}` changed from reference {ref_file}\n"
+                + f"{filename!r} changed from reference {ref_file!r}\n"
                 + "To step over each error you can run `pytest -s`\n"
                 + "So you can check the differences in Klayout GUI\n"
             ) from exc

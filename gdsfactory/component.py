@@ -356,15 +356,15 @@ class Component(Device):
         for port in ports_list:
             print(port)
 
-    # @property
-    # def settings_child(self) -> Dict[str, Any]:
-    #     """Returns settings from child if any, otherwise returns its settings"""
-    #     settings = dict(self.settings)
+    @property
+    def settings_child(self) -> Dict[str, Any]:
+        """Returns settings from child if any, otherwise returns its settings"""
+        settings = dict(self.settings)
 
-    #     while settings.get("child"):
-    #         settings = settings.get("child")
+        while settings.get("child"):
+            settings = settings.get("child")
 
-    #     return settings
+        return settings
 
     def add_port(
         self,
@@ -1208,4 +1208,4 @@ if __name__ == "__main__":
     # c2.write_gds_with_metadata("a.gds")
     # print(c)
     # c = Component()
-    # print(c.settings_child.name)
+    # print(c.settings_child.get('name'))

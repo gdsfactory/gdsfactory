@@ -331,7 +331,7 @@ def test_names() -> None:
     # assert c1name == c2name == c3name
 
     c = wg(length=3.1)
-    assert c.info.changed.length == 3.1
+    assert c.settings.changed["length"] == 3.1
 
 
 @cell
@@ -346,7 +346,7 @@ def straight_with_pins(**kwargs):
 
 
 if __name__ == "__main__":
-    # test_names()
+    test_names()
     # c = wg(layer=(1, 0))
     # print(c.info.changed)
 
@@ -355,8 +355,8 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     # print(c.name)
 
-    c = wg3()
-    print(c.name)
+    # c = wg3()
+    # print(c.name)
 
     # print(wg(length=3).name)
     # print(wg(length=3.0).name)
