@@ -3,72 +3,27 @@ connections:
   bend_euler_2e0a66fe_5p125_16p425,o2: straight_defbc978_m2p0_21p3,o1
   bend_euler_2e0a66fe_m9p125_16p425,o1: straight_defbc978_m2p0_21p3,o2
   bend_euler_2e0a66fe_m9p125_16p425,o2: straight_c1e7b81b_m14p0_11p0,o2
-  coupler_ring_3363c15c_m2p0_5p225,o2: straight_c1e7b81b_m14p0_11p0,o1
-  coupler_ring_3363c15c_m2p0_5p225,o3: straight_c1e7b81b_10p0_11p0,o2
+  coupler_ring_354ce3d3_m2p0_5p225,o2: straight_c1e7b81b_m14p0_11p0,o1
+  coupler_ring_354ce3d3_m2p0_5p225,o3: straight_c1e7b81b_10p0_11p0,o2
 instances:
   bend_euler_2e0a66fe_5p125_16p425:
-    component: bend_euler
-    settings:
-      angle: 90
-      p: 0.5
-      with_arc_floorplan: true
-      npoints: 720
-      direction: ccw
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
-      radius: 10
+    component: bend_euler_2e0a66fe
+    settings: {}
   bend_euler_2e0a66fe_m9p125_16p425:
-    component: bend_euler
-    settings:
-      angle: 90
-      p: 0.5
-      with_arc_floorplan: true
-      npoints: 720
-      direction: ccw
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
-      radius: 10
-  coupler_ring_3363c15c_m2p0_5p225:
-    component: coupler_ring
-    settings:
-      gap: 0.2
-      radius: 10
-      length_x: 4
-      coupler90:
-        function: coupler90
-      bend:
-        function: bend_euler
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      bend_cross_section: null
+    component: bend_euler_2e0a66fe
+    settings: {}
+  coupler_ring_354ce3d3_m2p0_5p225:
+    component: coupler_ring_354ce3d3
+    settings: {}
   straight_c1e7b81b_10p0_11p0:
-    component: straight
-    settings:
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
+    component: straight_c1e7b81b
+    settings: {}
   straight_c1e7b81b_m14p0_11p0:
-    component: straight
-    settings:
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
+    component: straight_c1e7b81b
+    settings: {}
   straight_defbc978_m2p0_21p3:
-    component: straight
-    settings:
-      length: 4
-      npoints: 2
-      with_cladding_box: true
-      cross_section:
-        function: cross_section
+    component: straight_defbc978
+    settings: {}
 placements:
   bend_euler_2e0a66fe_5p125_16p425:
     x: 10.0
@@ -80,7 +35,7 @@ placements:
     'y': 21.3
     rotation: 180
     mirror: false
-  coupler_ring_3363c15c_m2p0_5p225:
+  coupler_ring_354ce3d3_m2p0_5p225:
     x: 0.0
     'y': 0.0
     rotation: 0
@@ -101,6 +56,6 @@ placements:
     rotation: 180
     mirror: false
 ports:
-  o2: coupler_ring_3363c15c_m2p0_5p225,o4
-  o1: coupler_ring_3363c15c_m2p0_5p225,o1
+  o2: coupler_ring_354ce3d3_m2p0_5p225,o4
+  o1: coupler_ring_354ce3d3_m2p0_5p225,o1
 name: ring_single
