@@ -50,6 +50,7 @@ exclude_patterns = [
 ]
 
 napoleon_use_param = True
+nbsphinx_timeout = 60
 
 source_suffix = {
     ".rst": "restructuredtext",
