@@ -39,7 +39,7 @@ def get_input_label_text(
         isinstance(wavelength, (int, float)) and 0.5 < wavelength < 5.0
     ), f"{wavelength} is Not valid. Make sure it's in um"
 
-    component_name = component_name or port.parent.settings_child.name
+    component_name = component_name or port.parent.settings_child.get("name")
 
     text = f"{label_prefix}_{polarization}_{int(wavelength*1e3)}_({prefix}{component_name})"
     if isinstance(gc_index, int):
