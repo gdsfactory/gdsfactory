@@ -29,15 +29,14 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }}  > $HOME/.tidy3d/auth.json
-          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
           pip install -e .[dev]
           sudo apt install pandoc
           make gdslib meep
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
         env:
-          TWINE_USERNAME: ${{ secrets.TIDY3D_EMAIL }}
-          TWINE_PASSWORD: ${{ secrets.TIDY3D_PASSWORD }}
+          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
+          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
         with:
           branch: master
           dir_docs: docs
