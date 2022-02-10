@@ -6,6 +6,8 @@
 - Component.info is just now a regular dict (no more DictConfig)
 - move Component.info.{changed, full, default} to Component.settings
 - serialize with numpy arrays with orjson
+- add Component.metadata and Component.metadata_child
+- reduce total test time from 50 to 25 seconds thanks to faster serialization
 
 ## 4.0.18
 

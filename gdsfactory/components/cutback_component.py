@@ -79,7 +79,7 @@ def cutback_component(
     c.copy_child_info(component)
     c.info["components"] = n
 
-    # c.info["parent_name"] = f"loopback_{component.settings_child.get('name')}_{n}"
+    # c.info["parent_name"] = f"loopback_{component.metadata_child.get('name')}_{n}"
     return c
 
 
