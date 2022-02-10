@@ -41,5 +41,5 @@ settings:
     - 2.0
   info_version: 2
   module: gdsfactory.components.via
-  name: via_fd13653e
+  name: via_acdc145d
 version: 0.0.1

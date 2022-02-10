@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     angle: 90
   full:
@@ -186,11 +186,11 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   function_name: rotate
   info: {}
   info_version: 2
   module: gdsfactory.functions
-  name: mzi_15f399ec_rotate_cdab15f8
+  name: mzi_ab45cb05_rotate_c09cae54
 version: 0.0.1

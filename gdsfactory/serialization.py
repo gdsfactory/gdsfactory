@@ -145,6 +145,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.c.straight()
-    d = clean_value_name(c.ports)
-    # d = clean_value_name(c.get_ports_list())
+    d = clean_value_json(c.ports)
+    # d = clean_value_json(c.get_ports_list())
     print(d, type(d))
