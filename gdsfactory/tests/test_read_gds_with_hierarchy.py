@@ -30,22 +30,19 @@ def test_read_gds_equivalent2():
     d2 = c2.to_dict()
 
     # we change the name, so there is no cache conflicts
-    d1["info"].pop("name")
-    d2["info"].pop("name")
 
-    d1.pop("cells")
-    d2.pop("cells")
-    d1.pop("ports")
-    d2.pop("ports")
+    # d1.pop("cells")
+    # d2.pop("cells")
+    # d1.pop("ports")
+    # d2.pop("ports")
     # c1.pprint()
     # c2.pprint()
 
     d = jsondiff.diff(d1, d2)
 
-    from pprint import pprint
-
+    # from pprint import pprint
     # pprint(d1)
-    pprint(d2)
+    # pprint(d2)
     # pprint(d)
     assert len(d) == 0, d
 

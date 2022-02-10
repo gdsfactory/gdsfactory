@@ -31,7 +31,7 @@ def merge_yaml(
         logger.debug(f"merging {filename}")
         metadata = OmegaConf.load(filename)
         metadata = OmegaConf.to_container(metadata)
-        cells.update(metadata.get("cells"))
+        cells.update(metadata.get("cells", {}))
 
     metadata = dict(
         json_version=json_version,

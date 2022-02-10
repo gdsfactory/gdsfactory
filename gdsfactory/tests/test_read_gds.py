@@ -29,11 +29,7 @@ def test_read_gds_equivalent():
     c2 = gf.import_gds(gdspath)
     d1 = c1.to_dict()
     d2 = c2.to_dict()
-    d1["info"].pop("name")
-    d2["info"].pop("name")
-
     d = jsondiff.diff(d1, d2)
-    d.pop("cells")
 
     # pprint(d1)
     # pprint(d2)
@@ -80,13 +76,9 @@ if __name__ == "__main__":
 
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
-
     c2 = gf.import_gds(gdspath)
     d1 = c1.to_dict()
     d2 = c2.to_dict()
-    d1["info"].pop("name")
-    d2["info"].pop("name")
 
     d = jsondiff.diff(d1, d2)
-    d.pop("cells")
     assert len(d) == 0, d
