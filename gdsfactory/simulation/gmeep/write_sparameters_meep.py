@@ -7,7 +7,6 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import pandas as pd
@@ -330,7 +329,6 @@ def write_sparameters_meep(
             **settings,
         )
         sim_dict["sim"].plot2D(plot_eps_flag=True)
-        plt.show()
         return
 
     if filepath.exists() and not overwrite:
@@ -543,9 +541,7 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 
 if __name__ == "__main__":
     c = gf.components.straight(length=2)
-    # p = 2
-    # c = gf.add_padding_container(c0, default=0, top=p, bottom=p)
-    # write_sparameters_meep(c, run=False)
-
     write_sparameters_meep_lr(c, run=False)
-    plt.show()
+
+    # import matplotlib.pyplot as plt
+    # plt.show()
