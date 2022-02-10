@@ -181,7 +181,7 @@ def cutback_bend180(
 
     straightx = straight(length=straight_length, width=bend180.ports["o1"].width)
     wg_vertical = straight(
-        length=2 * bend180.size_info["width"] + straight_length + spacing,
+        length=2 * bend180.size_info.width + straight_length + spacing,
         width=bend180.ports["o1"].width,
     )
 

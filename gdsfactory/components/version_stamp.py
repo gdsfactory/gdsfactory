@@ -64,7 +64,7 @@ def version_stamp(
         c.add(q)
         c.absorb(q)
 
-        x = q.size_info["width"] * 0.5 + 10
+        x = q.size_info.width * 0.5 + 10
 
     else:
         x = 0

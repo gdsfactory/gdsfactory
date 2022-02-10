@@ -39,6 +39,7 @@ from numpy import ndarray
 from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 
 Layer = Tuple[int, int]
@@ -102,12 +103,14 @@ class Port(PortPhidl):
         Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
-        return dict(
-            name=self.name,
-            midpoint=tuple(np.round(self.midpoint, 3)),
-            orientation=int(self.orientation),
-            layer=self.layer,
-            port_type=self.port_type,
+        return clean_value_json(
+            dict(
+                name=self.name,
+                midpoint=tuple(np.round(self.midpoint, 3)),
+                orientation=int(self.orientation),
+                layer=self.layer,
+                port_type=self.port_type,
+            )
         )
 
     def __repr__(self) -> str:
@@ -859,3 +862,4 @@ if __name__ == "__main__":
     # print(p0)
     p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
     print(p0)
+    print(type(p0.to_dict()["midpoint"][0]))

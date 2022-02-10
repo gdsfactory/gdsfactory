@@ -35,8 +35,12 @@ class Path(PathPhidl):
 
     @classmethod
     def validate(cls, v):
-        """pydantic assumes Path is always valid"""
+        """check Path has the correct type."""
+        assert isinstance(v, PathPhidl), f"TypeError, Got {type(v)}, expecting Path"
         return v
+
+    def to_dict(self):
+        return self.hash_geometry()
 
 
 def _sinusoidal_transition(y1, y2):
