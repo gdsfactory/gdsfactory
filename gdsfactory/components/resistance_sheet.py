@@ -33,7 +33,7 @@ def resistance_sheet(
     c = Component()
 
     pad = pad()
-    length = pad_pitch - pad.info.get("size")[0]
+    length = pad_pitch - pad.get_setting("size")[0]
 
     pad1 = c << pad
     pad2 = c << pad
@@ -57,3 +57,8 @@ def resistance_sheet(
 if __name__ == "__main__":
     c = resistance_sheet(width=40)
     c.show()
+
+    # import gdsfactory as gf
+    # sweep_resistance = list(map(resistance_sheet, (5, 10, 80)))
+    # c = gf.grid(sweep_resistance)
+    # c.show()
