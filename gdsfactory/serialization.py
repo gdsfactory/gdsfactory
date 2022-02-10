@@ -66,7 +66,7 @@ def clean_value_name(value: Any) -> str:
     elif isinstance(value, PathPhidl):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):
-        value = str(value)
+        value = value.stem
     elif isinstance(value, dict):
         d = copy.deepcopy(value)
         for k, v in d.items():
@@ -113,7 +113,7 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, PathPhidl):
         value = value.hash_geometry()
     elif isinstance(value, pathlib.Path):
-        value = str(value)
+        value = value.stem
     elif isinstance(value, dict):
         value = copy.deepcopy(value)
         value = clean_dict(value)

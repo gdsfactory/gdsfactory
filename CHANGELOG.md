@@ -5,6 +5,7 @@
 - difftest copy run_file to ref_file if prompt = Y (before it was just deleting it)
 - Component.info is just now a regular dict (no more DictConfig)
 - move Component.info.{changed, full, default} to Component.settings
+- Component.metadata is a DictConfig property
 - serialize with numpy arrays with orjson
 - add Component.metadata and Component.metadata_child
 - reduce total test time from 50 to 25 seconds thanks to faster serialization
