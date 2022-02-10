@@ -27,7 +27,7 @@ jobs:
       - name: Installing the library
         shell: bash -l {0}
         run: |
-          pip install .[dev]
+          pip install -e .[dev]
           sudo apt install pandoc
           make gdslib meep
       - name: Running the Sphinx to gh-pages Action
