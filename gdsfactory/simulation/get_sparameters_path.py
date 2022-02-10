@@ -76,9 +76,9 @@ def test_get_sparameters_path(test: bool = True) -> None:
     layer_stack2 = deepcopy(LAYER_STACK)
     layer_stack2["core"].thickness = 230 * nm
 
-    name1 = "straight_c2feac9a"
-    name2 = "straight_c1eb2e62"
-    name3 = "straight_324095f6"
+    name1 = "straight_6637a3d3"
+    name2 = "straight_98818a59"
+    name3 = "straight_91432e2d"
 
     c = gf.components.straight()
 

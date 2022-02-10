@@ -96,7 +96,8 @@ def transition(
 
     X1 = cross_section1
     X2 = cross_section2
-    Xtrans = Transition(cross_section1=X1, cross_section2=X2)
+    name = f"trans_{width_type}_{X1.get_name()}_{X2.get_name()}"
+    Xtrans = Transition(cross_section1=X1, cross_section2=X2, name=name)
 
     if not X1.aliases or not X2.aliases:
         raise ValueError(
@@ -159,7 +160,6 @@ def transition(
                 hidden=hidden,
             )
 
-    Xtrans.name = f"trans_{width_type}_{X1.get_name()}_{X2.get_name()}"
     return Xtrans
 
 
@@ -173,9 +173,7 @@ def extrude(
     simplify: Optional[float] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
-
     A path can be extruded using any CrossSection returning a Component
-
     The CrossSection defines the layer numbers, widths and offsetts
 
     adapted from phidl.path
@@ -335,7 +333,6 @@ def extrude(
     # clean_dict(cross_section.info)
     # c.info.path = p.info
     # c.info.cross_section = cross_section.info
-
     c.info["length"] = float(np.round(p.length(), 3))
     return c
 

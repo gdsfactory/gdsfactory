@@ -889,8 +889,8 @@ class Component(Device):
         Args:
             ignore_components_prefix: for components to ignore when exporting
             ignore_functions_prefix: for functions to ignore when exporting
-            with_cells: write cells recursively
-            with_ports: write port information
+            with_cells: write cells recursively.
+            with_ports: write port information dict.
         """
         d = {}
         if with_ports:
