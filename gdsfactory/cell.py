@@ -9,8 +9,8 @@ import toolz
 from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, clean_value, get_name_short
-from gdsfactory.serialization import clean_dict
+from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
+from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Component] = {}
 INFO_VERSION = 2
@@ -94,11 +94,11 @@ def cell_without_validator(func):
 
         # list of default args as strings
         default_args_list = [
-            f"{key}={clean_value(default2[key])}" for key in sorted(default.keys())
+            f"{key}={clean_value_name(default2[key])}" for key in sorted(default.keys())
         ]
         # list of explicitly passed args as strings
         passed_args_list = [
-            f"{key}={clean_value(changed2[key])}" for key in sorted(changed.keys())
+            f"{key}={clean_value_name(changed2[key])}" for key in sorted(changed.keys())
         ]
 
         # get only the args which are explicitly passed and different from defaults

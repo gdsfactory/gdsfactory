@@ -156,5 +156,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_bcc4a0b5_add_fi_b9ab8983
+  name: coupler_bcc4a0b5_add_fi_d41479ec
 version: 0.0.1

@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     port_name: null
     port_type: optical
@@ -190,7 +190,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     port_name: null
     port_type: optical
@@ -202,5 +202,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_termination
-  name: mzi_15f399ec_add_termin_27f38090
+  name: mzi_ab45cb05_add_termin_ebcd1d92
 version: 0.0.1
