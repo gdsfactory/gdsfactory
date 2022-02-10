@@ -110,9 +110,8 @@ def test_fanout_ports() -> Component:
 
 
 if __name__ == "__main__":
-    c2 = test_fanout_ports()
-    c2.auto_rename_ports()
-    c2.show()
+    c = test_fanout_ports()
+    c.show()
 
     # c =gf.components.coupler(gap=1.0)
     # c = gf.components.nxn(west=4)

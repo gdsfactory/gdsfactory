@@ -1,36 +1,6 @@
-cells:
-  crossing_etched:
-    changed: {}
-    default:
-      L: 3.4
-      layer_slab:
-      - 2
-      - 0
-      layer_wg:
-      - 1
-      - 0
-      r1: 3
-      r2: 1.1
-      w: 1.2
-      width: 0.5
-    full:
-      L: 3.4
-      layer_slab:
-      - 2
-      - 0
-      layer_wg:
-      - 1
-      - 0
-      r1: 3
-      r2: 1.1
-      w: 1.2
-      width: 0.5
-    function_name: crossing_etched
-    info_version: 1
-    module: gdsfactory.components.crossing_waveguide
-    name: crossing_etched
-info:
+settings:
   changed: {}
+  child: null
   default:
     L: 3.4
     layer_slab:
@@ -56,52 +26,8 @@ info:
     w: 1.2
     width: 0.5
   function_name: crossing_etched
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.crossing_waveguide
   name: crossing_etched
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -4
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 4
-    name: o2
-    orientation: 90
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 4
-    - 0
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -4
-    name: o4
-    orientation: 270
-    port_type: optical
-    width: 0.5
 version: 0.0.1

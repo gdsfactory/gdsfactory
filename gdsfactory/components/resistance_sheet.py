@@ -33,7 +33,7 @@ def resistance_sheet(
     c = Component()
 
     pad = pad()
-    length = pad_pitch - pad.info_child.size[0]
+    length = pad_pitch - pad.get_setting("size")[0]
 
     pad1 = c << pad
     pad2 = c << pad
@@ -47,9 +47,7 @@ def resistance_sheet(
     pad1.connect("e3", r0.ports["e1"])
     pad2.connect("e1", r0.ports["e3"])
 
-    c.info_child.resistance = (
-        ohms_per_square * width * length if ohms_per_square else None
-    )
+    c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else None
 
     c.add_port("pad1", port_type="vertical_dc", midpoint=pad1.center)
     c.add_port("pad2", port_type="vertical_dc", midpoint=pad2.center)
@@ -59,3 +57,8 @@ def resistance_sheet(
 if __name__ == "__main__":
     c = resistance_sheet(width=40)
     c.show()
+
+    # import gdsfactory as gf
+    # sweep_resistance = list(map(resistance_sheet, (5, 10, 80)))
+    # c = gf.grid(sweep_resistance)
+    # c.show()

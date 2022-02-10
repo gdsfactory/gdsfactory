@@ -1,77 +1,6 @@
-cells:
-  die:
-    changed: {}
-    default:
-      bbox_layer:
-      - 99
-      - 0
-      die_name: chip99
-      draw_corners: false
-      draw_dicing_lane: false
-      layer:
-      - 99
-      - 0
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text_location: SW
-      text_size: 100
-    full:
-      bbox_layer:
-      - 99
-      - 0
-      die_name: chip99
-      draw_corners: false
-      draw_dicing_lane: false
-      layer:
-      - 99
-      - 0
-      size:
-      - 10000
-      - 10000
-      street_length: 1000
-      street_width: 100
-      text_location: SW
-      text_size: 100
-    function_name: die
-    info_version: 1
-    module: gdsfactory.components.die
-    name: die
-  text_3ca55ae2:
-    changed:
-      layer:
-      - 99
-      - 0
-      size: 100
-      text: chip99
-    default:
-      justify: left
-      layer:
-      - 66
-      - 0
-      position:
-      - 0
-      - 0
-      size: 10
-      text: abcd
-    full:
-      justify: left
-      layer:
-      - 99
-      - 0
-      position:
-      - 0
-      - 0
-      size: 100
-      text: chip99
-    function_name: text
-    info_version: 1
-    module: gdsfactory.components.text
-    name: text_3ca55ae2
-info:
+settings:
   changed: {}
+  child: null
   default:
     bbox_layer:
     - 99
@@ -83,8 +12,8 @@ info:
     - 99
     - 0
     size:
-    - 10000
-    - 10000
+    - 10000.0
+    - 10000.0
     street_length: 1000
     street_width: 100
     text_location: SW
@@ -100,15 +29,15 @@ info:
     - 99
     - 0
     size:
-    - 10000
-    - 10000
+    - 10000.0
+    - 10000.0
     street_length: 1000
     street_width: 100
     text_location: SW
     text_size: 100
   function_name: die
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.die
   name: die
-ports: {}
 version: 0.0.1

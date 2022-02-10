@@ -12,7 +12,6 @@ straigth_extended1 = toolz.compose(
 straigth_extended2 = toolz.compose(
     extend_ports2, gf.partial(gf.components.straight, width=0.9)
 )
-
 straigth_extended3 = toolz.compose(
     extend_ports2, gf.partial(gf.components.straight, width=0.5)
 )

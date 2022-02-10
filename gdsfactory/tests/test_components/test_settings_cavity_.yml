@@ -1,104 +1,8 @@
-cells:
-  coupler_4e842e54:
-    changed:
-      gap: 0.2
-      length: 0.1
-    default:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.236
-      length: 20
-    full:
-      coupler_straight:
-        function: coupler_straight
-      coupler_symmetric:
-        function: coupler_symmetric
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.2
-      length: 0.1
-    function_name: coupler
-    info_version: 1
-    length: 10.319
-    min_bend_radius: 9.387
-    module: gdsfactory.components.coupler
-    name: coupler_4e842e54
-  dbr:
-    changed: {}
-    default:
-      l1: 0.159
-      l2: 0.159
-      n: 10
-      straight:
-        function: straight
-      w1: 0.475
-      w2: 0.525
-    full:
-      l1: 0.159
-      l2: 0.159
-      n: 10
-      straight:
-        function: straight
-      w1: 0.475
-      w2: 0.525
-    function_name: dbr
-    info_version: 1
-    module: gdsfactory.components.dbr
-    name: dbr
-  dbr_cavity:
-    changed: {}
-    child:
-      changed: {}
-      default:
-        l1: 0.159
-        l2: 0.159
-        n: 10
-        straight:
-          function: straight
-        w1: 0.475
-        w2: 0.525
-      full:
-        l1: 0.159
-        l2: 0.159
-        n: 10
-        straight:
-          function: straight
-        w1: 0.475
-        w2: 0.525
-      function_name: dbr
-      info_version: 1
-      module: gdsfactory.components.dbr
-      name: dbr
-    default:
-      component:
-        function: dbr
-      coupler:
-        function: coupler
-      gap: 0.2
-      length: 0.1
-    full:
-      component:
-        function: dbr
-      coupler:
-        function: coupler
-      gap: 0.2
-      length: 0.1
-    function_name: cavity
-    info_version: 1
-    module: gdsfactory.components.cavity
-    name: dbr_cavity
-info:
+settings:
   changed: {}
   child:
     changed: {}
+    child: null
     default:
       l1: 0.159
       l2: 0.159
@@ -116,7 +20,8 @@ info:
       w1: 0.475
       w2: 0.525
     function_name: dbr
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.dbr
     name: dbr
   default:
@@ -134,30 +39,8 @@ info:
     gap: 0.2
     length: 0.1
   function_name: cavity
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.cavity
   name: dbr_cavity
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -10
-    - -2.15
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10.1
-    - -2.1500000000000004
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

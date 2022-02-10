@@ -1,10 +1,8 @@
 connections: {}
 instances:
   mzit_5c28f5cb_19p138_11p4:
-    component: mzit
-    settings:
-      coupler_length1: 10
-      coupler_length2: 20
+    component: mzit_5c28f5cb
+    settings: {}
 name: mzit_lattice
 placements:
   mzit_5c28f5cb_19p138_11p4:

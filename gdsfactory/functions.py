@@ -220,10 +220,11 @@ if __name__ == "__main__":
         length_mmi=10,
         decorator=gf.partial(add_settings_label, settings=["name", "length_mmi"]),
     )
-    c.show()
+    # c.show()
 
-    # cr = c.rotate()
-    # cr.show()
+    cr = c.rotate()
+    cr.pprint()
+    cr.show()
 
     # cm = move(c, destination=(20, 20))
     # cm.show()

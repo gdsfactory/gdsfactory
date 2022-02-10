@@ -1,30 +1,6 @@
-cells:
-  coupler_symmetric:
-    changed: {}
-    default:
-      bend:
-        function: bend_s
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.234
-    full:
-      bend:
-        function: bend_s
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.234
-    function_name: coupler_symmetric
-    info_version: 1
-    length: 10.315
-    min_bend_radius: 9.447
-    module: gdsfactory.components.coupler_symmetric
-    name: coupler_symmetric
-info:
+settings:
   changed: {}
+  child: null
   default:
     bend:
       function: bend_s
@@ -42,54 +18,10 @@ info:
     dy: 5
     gap: 0.234
   function_name: coupler_symmetric
-  info_version: 1
-  length: 10.315
-  min_bend_radius: 9.447
+  info:
+    length: 10.315
+    min_bend_radius: 9.447
+  info_version: 2
   module: gdsfactory.components.coupler_symmetric
   name: coupler_symmetric
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - -0.3669999999999999
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0.367
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 2.5
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - -2.5
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

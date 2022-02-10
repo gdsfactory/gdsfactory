@@ -34,8 +34,7 @@ test:
 
 test-force:
 	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
-	rm -rf gds_ref
-	rm -rf gdsfactory/tests/test_components.gds
+	rm -rf gdslib/gds/gds_ref
 	rm -rf gdsfactory/samples/pdk/test_fab_c.gds
 	pytest --force-regen
 

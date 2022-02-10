@@ -1,80 +1,6 @@
-cells:
-  bend_euler:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler
-    radius: 10
-    radius_min: 7.061
-  cutback_bend:
-    changed: {}
-    default:
-      bend90:
-        function: bend_euler
-      columns: 5
-      rows: 6
-      straight:
-        function: straight
-      straight_length: 5
-    full:
-      bend90:
-        function: bend_euler
-      columns: 5
-      rows: 6
-      straight:
-        function: straight
-      straight_length: 5
-    function_name: cutback_bend
-    info_version: 1
-    module: gdsfactory.components.cutback_bend
-    n_bends: 68
-    name: cutback_bend
-  straight_3855ab9a:
-    changed:
-      length: 5
-      width: 0.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 5
-      npoints: 2
-      width: 0.5
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 5
-    module: gdsfactory.components.straight
-    name: straight_3855ab9a
-    width: 0.5
-info:
+settings:
   changed: {}
+  child: null
   default:
     bend90:
       function: bend_euler
@@ -92,31 +18,9 @@ info:
       function: straight
     straight_length: 5
   function_name: cutback_bend
-  info_version: 1
+  info:
+    n_bends: 68
+  info_version: 2
   module: gdsfactory.components.cutback_bend
-  n_bends: 68
   name: cutback_bend
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 270
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -250
-    - 150
-    name: o2
-    orientation: 90
-    port_type: optical
-    width: 0.5
 version: 0.0.1

@@ -114,7 +114,7 @@ def straight_heater_metal_undercut(
             taper1.connect("o1", contact_west.ports["e3"])
             taper2.connect("o1", contact_east.ports["e1"])
 
-    c.info.resistance = (
+    c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else None
     )
     return c

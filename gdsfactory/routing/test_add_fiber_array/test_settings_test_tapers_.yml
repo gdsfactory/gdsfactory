@@ -1,425 +1,144 @@
-cells:
-  bend_euler:
-    changed: {}
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 10
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 16.637
-    module: gdsfactory.components.bend_euler
-    name: bend_euler
-    radius: 10
-    radius_min: 7.061
-  circle_925ccccf:
-    changed:
-      layer:
-      - 203
-      - 0
-      radius: 5.5
-    default:
-      angle_resolution: 2.5
-      layer:
-      - 1
-      - 0
-      radius: 10
-    full:
-      angle_resolution: 2.5
-      layer:
-      - 203
-      - 0
-      radius: 5.5
-    function_name: circle
-    info_version: 1
-    module: gdsfactory.components.circle
-    name: circle_925ccccf
-  grating_coupler_ellipti_db285fcb:
-    changed:
-      taper_angle: 35
-    default:
-      end_straight_length: 0.2
-      fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
-      fiber_marker_width: 11
-      grating_line_width: 0.343
-      layer:
-      - 1
-      - 0
-      layer_trench:
-      - 2
-      - 0
-      n_periods: 30
-      ncladding: 1.443
-      neff: 2.638
-      p_start: 26
-      polarization: te
-      taper_angle: 30
-      taper_length: 16.6
-      trenches_extra_angle: 9
-      wavelength: 1.53
-      wg_width: 0.5
-    full:
-      end_straight_length: 0.2
-      fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
-      fiber_marker_width: 11
-      grating_line_width: 0.343
-      layer:
-      - 1
-      - 0
-      layer_trench:
-      - 2
-      - 0
-      n_periods: 30
-      ncladding: 1.443
-      neff: 2.638
-      p_start: 26
-      polarization: te
-      taper_angle: 35
-      taper_length: 16.6
-      trenches_extra_angle: 9
-      wavelength: 1.53
-      wg_width: 0.5
-    function_name: grating_coupler_elliptical_trenches
-    info_version: 1
-    module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_db285fcb
-    period: 0.6759999999999999
-    polarization: te
-    wavelength: 1.53
-  straight_0d8c15db:
-    changed:
-      length: 18.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 18.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 18.5
-    module: gdsfactory.components.straight
-    name: straight_0d8c15db
-    width: 0.5
-  straight_373b1ebb:
-    changed:
-      length: 20
-      width: 2
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 20
-      npoints: 2
-      width: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 20
-    module: gdsfactory.components.straight
-    name: straight_373b1ebb
-    width: 2
-  straight_373b1ebb_add_f_0217bd04:
-    changed:
-      component: straight_373b1ebb_add_t_9b5da3e4
-      optical_routing_type: 0
-    child:
-      changed:
-        component: straight_373b1ebb
-      child:
-        changed:
-          length: 20
-          width: 2
-        default:
-          cross_section:
-            function: cross_section
-          length: 10
-          npoints: 2
-          with_cladding_box: true
-        full:
-          cross_section:
-            function: cross_section
-          length: 20
-          npoints: 2
-          width: 2
-          with_cladding_box: true
-        function_name: straight
-        info_version: 1
-        length: 20
-        module: gdsfactory.components.straight
-        name: straight_373b1ebb
-        width: 2
-      default:
-        select_ports:
-          function: select_ports
-          port_type: optical
-        taper:
-          function: taper
-        taper_port_name1: o1
-        taper_port_name2: o2
-      full:
-        component: straight_373b1ebb
-        select_ports:
-          function: select_ports
-          port_type: optical
-        taper:
-          function: taper
-        taper_port_name1: o1
-        taper_port_name2: o2
-      function_name: add_tapers
-      info_version: 1
-      module: gdsfactory.add_tapers
-      name: straight_373b1ebb_add_t_9b5da3e4
-    default:
-      bend:
-        function: bend_euler
-      component_name: null
-      cross_section:
-        function: cross_section
-      gc_port_labels: null
-      gc_port_name: o1
-      get_input_labels_function:
-        function: get_input_labels
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-      layer_label:
-      - 66
-      - 0
-      select_ports:
-        function: select_ports
-        port_type: optical
-      straight:
-        function: straight
-    full:
-      bend:
-        function: bend_euler
-      component: straight_373b1ebb_add_t_9b5da3e4
-      component_name: null
-      cross_section:
-        function: cross_section
-      gc_port_labels: null
-      gc_port_name: o1
-      get_input_labels_function:
-        function: get_input_labels
-      grating_coupler:
-        function: grating_coupler_elliptical_trenches
-        polarization: te
-        taper_angle: 35
-      layer_label:
-      - 66
-      - 0
-      optical_routing_type: 0
-      select_ports:
-        function: select_ports
-        port_type: optical
-      straight:
-        function: straight
-    function_name: add_fiber_array
-    info_version: 1
-    module: gdsfactory.routing.add_fiber_array
-    name: straight_373b1ebb_add_f_0217bd04
-  straight_373b1ebb_add_t_9b5da3e4:
-    changed:
-      component: straight_373b1ebb
-    child:
-      changed:
-        length: 20
-        width: 2
-      default:
-        cross_section:
-          function: cross_section
-        length: 10
-        npoints: 2
-        with_cladding_box: true
-      full:
-        cross_section:
-          function: cross_section
-        length: 20
-        npoints: 2
-        width: 2
-        with_cladding_box: true
-      function_name: straight
-      info_version: 1
-      length: 20
-      module: gdsfactory.components.straight
-      name: straight_373b1ebb
-      width: 2
-    default:
-      select_ports:
-        function: select_ports
-        port_type: optical
-      taper:
-        function: taper
-      taper_port_name1: o1
-      taper_port_name2: o2
-    full:
-      component: straight_373b1ebb
-      select_ports:
-        function: select_ports
-        port_type: optical
-      taper:
-        function: taper
-      taper_port_name1: o1
-      taper_port_name2: o2
-    function_name: add_tapers
-    info_version: 1
-    module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_9b5da3e4
-  straight_52c0fe19:
-    changed:
-      length: 234
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 234
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 234
-    module: gdsfactory.components.straight
-    name: straight_52c0fe19
-    width: 0.5
-  straight_764e0e0e:
-    changed:
-      length: 35.552
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 35.552
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 35.552
-    module: gdsfactory.components.straight
-    name: straight_764e0e0e
-    width: 0.5
-  straight_b81889b2:
-    changed:
-      length: 43.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 43.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 43.5
-    module: gdsfactory.components.straight
-    name: straight_b81889b2
-    width: 0.5
-  straight_c17e8a1a:
-    changed:
-      length: 33.5
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 33.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 33.5
-    module: gdsfactory.components.straight
-    name: straight_c17e8a1a
-    width: 0.5
-  taper_bea08b71:
-    changed:
-      width2: 2
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: null
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      port: null
-      width1: 0.5
-      width2: 2
-      with_cladding_box: true
-    function_name: taper
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.taper
-    name: taper_bea08b71
-    width1: 0.5
-    width2: 2
-info:
+settings:
   changed:
-    component: straight_373b1ebb_add_t_9b5da3e4
+    component:
+      settings:
+        changed:
+          component:
+            settings:
+              changed:
+                length: 20
+                width: 2
+              child: null
+              default:
+                cross_section:
+                  function: cross_section
+                length: 10
+                npoints: 2
+                with_cladding_box: true
+              full:
+                cross_section:
+                  function: cross_section
+                length: 20
+                npoints: 2
+                width: 2
+                with_cladding_box: true
+              function_name: straight
+              info:
+                length: 20.0
+                width: 2.0
+              info_version: 2
+              module: gdsfactory.components.straight
+              name: straight_373b1ebb
+            version: 0.0.1
+        child:
+          changed:
+            length: 20
+            width: 2
+          child: null
+          default:
+            cross_section:
+              function: cross_section
+            length: 10
+            npoints: 2
+            with_cladding_box: true
+          full:
+            cross_section:
+              function: cross_section
+            length: 20
+            npoints: 2
+            width: 2
+            with_cladding_box: true
+          function_name: straight
+          info:
+            length: 20.0
+            width: 2.0
+          info_version: 2
+          module: gdsfactory.components.straight
+          name: straight_373b1ebb
+        default:
+          select_ports:
+            function: select_ports
+            port_type: optical
+          taper:
+            function: taper
+          taper_port_name1: o1
+          taper_port_name2: o2
+        full:
+          component:
+            settings:
+              changed:
+                length: 20
+                width: 2
+              child: null
+              default:
+                cross_section:
+                  function: cross_section
+                length: 10
+                npoints: 2
+                with_cladding_box: true
+              full:
+                cross_section:
+                  function: cross_section
+                length: 20
+                npoints: 2
+                width: 2
+                with_cladding_box: true
+              function_name: straight
+              info:
+                length: 20.0
+                width: 2.0
+              info_version: 2
+              module: gdsfactory.components.straight
+              name: straight_373b1ebb
+            version: 0.0.1
+          select_ports:
+            function: select_ports
+            port_type: optical
+          taper:
+            function: taper
+          taper_port_name1: o1
+          taper_port_name2: o2
+        function_name: add_tapers
+        info: {}
+        info_version: 2
+        module: gdsfactory.add_tapers
+        name: straight_373b1ebb_add_t_0a9d6ce4
+      version: 0.0.1
     optical_routing_type: 0
   child:
     changed:
-      component: straight_373b1ebb
+      component:
+        settings:
+          changed:
+            length: 20
+            width: 2
+          child: null
+          default:
+            cross_section:
+              function: cross_section
+            length: 10
+            npoints: 2
+            with_cladding_box: true
+          full:
+            cross_section:
+              function: cross_section
+            length: 20
+            npoints: 2
+            width: 2
+            with_cladding_box: true
+          function_name: straight
+          info:
+            length: 20.0
+            width: 2.0
+          info_version: 2
+          module: gdsfactory.components.straight
+          name: straight_373b1ebb
+        version: 0.0.1
     child:
       changed:
         length: 20
         width: 2
+      child: null
       default:
         cross_section:
           function: cross_section
@@ -434,11 +153,12 @@ info:
         width: 2
         with_cladding_box: true
       function_name: straight
-      info_version: 1
-      length: 20
+      info:
+        length: 20.0
+        width: 2.0
+      info_version: 2
       module: gdsfactory.components.straight
       name: straight_373b1ebb
-      width: 2
     default:
       select_ports:
         function: select_ports
@@ -448,7 +168,33 @@ info:
       taper_port_name1: o1
       taper_port_name2: o2
     full:
-      component: straight_373b1ebb
+      component:
+        settings:
+          changed:
+            length: 20
+            width: 2
+          child: null
+          default:
+            cross_section:
+              function: cross_section
+            length: 10
+            npoints: 2
+            with_cladding_box: true
+          full:
+            cross_section:
+              function: cross_section
+            length: 20
+            npoints: 2
+            width: 2
+            with_cladding_box: true
+          function_name: straight
+          info:
+            length: 20.0
+            width: 2.0
+          info_version: 2
+          module: gdsfactory.components.straight
+          name: straight_373b1ebb
+        version: 0.0.1
       select_ports:
         function: select_ports
         port_type: optical
@@ -457,9 +203,10 @@ info:
       taper_port_name1: o1
       taper_port_name2: o2
     function_name: add_tapers
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_9b5da3e4
+    name: straight_373b1ebb_add_t_0a9d6ce4
   default:
     bend:
       function: bend_euler
@@ -485,7 +232,110 @@ info:
   full:
     bend:
       function: bend_euler
-    component: straight_373b1ebb_add_t_9b5da3e4
+    component:
+      settings:
+        changed:
+          component:
+            settings:
+              changed:
+                length: 20
+                width: 2
+              child: null
+              default:
+                cross_section:
+                  function: cross_section
+                length: 10
+                npoints: 2
+                with_cladding_box: true
+              full:
+                cross_section:
+                  function: cross_section
+                length: 20
+                npoints: 2
+                width: 2
+                with_cladding_box: true
+              function_name: straight
+              info:
+                length: 20.0
+                width: 2.0
+              info_version: 2
+              module: gdsfactory.components.straight
+              name: straight_373b1ebb
+            version: 0.0.1
+        child:
+          changed:
+            length: 20
+            width: 2
+          child: null
+          default:
+            cross_section:
+              function: cross_section
+            length: 10
+            npoints: 2
+            with_cladding_box: true
+          full:
+            cross_section:
+              function: cross_section
+            length: 20
+            npoints: 2
+            width: 2
+            with_cladding_box: true
+          function_name: straight
+          info:
+            length: 20.0
+            width: 2.0
+          info_version: 2
+          module: gdsfactory.components.straight
+          name: straight_373b1ebb
+        default:
+          select_ports:
+            function: select_ports
+            port_type: optical
+          taper:
+            function: taper
+          taper_port_name1: o1
+          taper_port_name2: o2
+        full:
+          component:
+            settings:
+              changed:
+                length: 20
+                width: 2
+              child: null
+              default:
+                cross_section:
+                  function: cross_section
+                length: 10
+                npoints: 2
+                with_cladding_box: true
+              full:
+                cross_section:
+                  function: cross_section
+                length: 20
+                npoints: 2
+                width: 2
+                with_cladding_box: true
+              function_name: straight
+              info:
+                length: 20.0
+                width: 2.0
+              info_version: 2
+              module: gdsfactory.components.straight
+              name: straight_373b1ebb
+            version: 0.0.1
+          select_ports:
+            function: select_ports
+            port_type: optical
+          taper:
+            function: taper
+          taper_port_name1: o1
+          taper_port_name2: o2
+        function_name: add_tapers
+        info: {}
+        info_version: 2
+        module: gdsfactory.add_tapers
+        name: straight_373b1ebb_add_t_0a9d6ce4
+      version: 0.0.1
     component_name: null
     cross_section:
       function: cross_section
@@ -507,30 +357,8 @@ info:
     straight:
       function: straight
   function_name: add_fiber_array
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_f_0217bd04
-ports:
-  vertical_te_00:
-    layer:
-    - 203
-    - 0
-    midpoint:
-    - -53.50000000000001
-    - -54.769
-    name: vertical_te_00
-    orientation: 270
-    port_type: vertical_te
-    width: 11
-  vertical_te_01:
-    layer:
-    - 203
-    - 0
-    midpoint:
-    - 73.5
-    - -54.769
-    name: vertical_te_01
-    orientation: 270
-    port_type: vertical_te
-    width: 11
+  name: straight_373b1ebb_add_t_f76033d2
 version: 0.0.1

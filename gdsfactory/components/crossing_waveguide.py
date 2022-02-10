@@ -268,8 +268,8 @@ def crossing45(
         c.add(cmp_ref)
         c.absorb(cmp_ref)
 
-    c.info.bezier_length = bend.info.length
-    c.info.min_bend_radius = b_br.info.min_bend_radius
+    c.info["bezier_length"] = bend.info["length"]
+    c.info["min_bend_radius"] = b_br.info["min_bend_radius"]
 
     c.bezier = bend
     c.crossing = crossing
@@ -320,7 +320,7 @@ def compensation_path(
     """
     # Get total path length taken by the bends
     crossing45 = crossing45() if callable(crossing45) else crossing45
-    bezier_length = crossing45.info.bezier_length
+    bezier_length = crossing45.info["bezier_length"]
     length = 2 * bezier_length
 
     # Find a bezier S-bend with half this length, but with a fixed length
@@ -385,7 +385,7 @@ def compensation_path(
     c.add_port("o2", port=sbend_right.ports["o1"])
 
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
-    c.info.sbend = sbend.info
+    c.info["sbend"] = sbend.info
     return c
 
 

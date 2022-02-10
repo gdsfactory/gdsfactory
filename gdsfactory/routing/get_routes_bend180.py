@@ -34,7 +34,7 @@ def get_routes_bend180(
     references = [bend.ref() for port in ports]
     references = [ref.connect(bend_port1, port) for port, ref in zip(ports, references)]
     ports = [ref.ports[bend_port2] for i, ref in enumerate(references)]
-    lengths = [bend.info.length] * len(ports)
+    lengths = [bend.info["length"]] * len(ports)
     return Routes(references=references, ports=ports, lengths=lengths)
 
 

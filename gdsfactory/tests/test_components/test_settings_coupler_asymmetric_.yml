@@ -1,32 +1,6 @@
-cells:
-  coupler_asymmetric:
-    changed: {}
-    default:
-      bend:
-        function: bend_s
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.234
-      straight:
-        function: straight
-    full:
-      bend:
-        function: bend_s
-      cross_section:
-        function: cross_section
-      dx: 10
-      dy: 5
-      gap: 0.234
-      straight:
-        function: straight
-    function_name: coupler_asymmetric
-    info_version: 1
-    module: gdsfactory.components.coupler_asymmetric
-    name: coupler_asymmetric
-info:
+settings:
   changed: {}
+  child: null
   default:
     bend:
       function: bend_s
@@ -48,41 +22,8 @@ info:
     straight:
       function: straight
   function_name: coupler_asymmetric
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler_asymmetric
   name: coupler_asymmetric
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1.234
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0.367
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - -4.633
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

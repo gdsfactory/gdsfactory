@@ -50,7 +50,8 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 
 
 if __name__ == "__main__":
-    # c = test_type1()
+    c = test_type1()
+    c.pprint()
     # c = test_type2()
-    c = test_tapers()
+    # c = test_tapers()
     c.show()

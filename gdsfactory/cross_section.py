@@ -4,10 +4,10 @@ To create a component you need to extrude the path with a cross-section.
 
 """
 from functools import partial
-from typing import Optional, Tuple
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 import pydantic
-from phidl.device_layout import CrossSection as CrossSectionPhidl
+from pydantic import BaseModel
 
 from gdsfactory.tech import TECH, Section
 
@@ -17,7 +17,7 @@ Layers = Tuple[Layer, ...]
 Floats = Tuple[float, ...]
 
 
-class CrossSection(CrossSectionPhidl):
+class CrossSection(BaseModel):
     """Extend phidl.device_layout.CrossSection with port_types.
 
     Args:
@@ -26,17 +26,14 @@ class CrossSection(CrossSectionPhidl):
         port_types:
         aliases:
         info:
-        name:
-
     """
 
-    def __init__(self):
-        self.sections = []
-        self.ports = set()
-        self.port_types = set()
-        self.aliases = {}
-        self.info = {}
-        self.name = None
+    sections: List[Section] = []
+    ports: Set[str] = set()
+    port_types: Set[str] = set()
+    info: Dict[str, Any] = {}
+    aliases: Dict[str, Section] = {}
+    name: Optional[str] = None
 
     def add(
         self,
@@ -145,6 +142,26 @@ class CrossSection(CrossSectionPhidl):
     def get_name(self):
         return self.name or "_".join([str(i) for i in self.to_dict()["sections"]])
 
+    def __getitem__(self, key: str) -> "CrossSection":
+        """Allows access to Sections by name like X['etch2'].
+
+        Args:
+            key: Section name to access within the CrossSection.
+        """
+        try:
+            return self.aliases[key]
+        except:
+            raise ValueError(
+                f"Section {key!r} does not exists in {self.aliases.keys()}"
+            )
+
+
+class Transition(CrossSection):
+    cross_section1: CrossSection
+    cross_section2: CrossSection
+    width_type: str = "sine"
+    name: Optional[str] = None
+
 
 @pydantic.validate_arguments
 def cross_section(
@@ -185,8 +202,26 @@ def cross_section(
         end_straight_length: for routing
         snap_to_grid: can snap points to grid when extruding the path
     """
+    info = dict(
+        width=width,
+        layer=layer,
+        width_wide=width_wide,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
+        taper_length=taper_length,
+        radius=radius,
+        cladding_offset=cladding_offset,
+        layers_cladding=layers_cladding,
+        sections=sections,
+        min_length=min_length,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        snap_to_grid=snap_to_grid,
+        port_types=port_types,
+        port_names=port_names,
+    )
 
-    x = CrossSection()
+    x = CrossSection(info=info)
     x.add(
         width=width,
         offset=0,
@@ -217,24 +252,6 @@ def cross_section(
                 name=section.name,
             )
 
-    x.info = dict(
-        width=width,
-        layer=layer,
-        width_wide=width_wide,
-        auto_widen=auto_widen,
-        auto_widen_minimum_length=auto_widen_minimum_length,
-        taper_length=taper_length,
-        radius=radius,
-        cladding_offset=cladding_offset,
-        layers_cladding=layers_cladding,
-        sections=sections,
-        min_length=min_length,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        snap_to_grid=snap_to_grid,
-        port_types=port_types,
-        port_names=port_names,
-    )
     return x
 
 
@@ -341,6 +358,7 @@ def pin(
         layer_via=layer_via,
         via_width=via_width,
         via_offsets=via_offsets,
+        **kwargs,
     )
     x.info.update(**info)
     x.info.update(**kwargs)
@@ -915,7 +933,6 @@ if __name__ == "__main__":
 
     # print(x1.to_dict())
     # print(x1.name)
-
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)

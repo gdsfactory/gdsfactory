@@ -1,69 +1,25 @@
-cells:
-  C:
-    changed: {}
-    default:
-      layer:
-      - 49
-      - 0
-      size:
-      - 10
-      - 20
-      width: 1
-    full:
-      layer:
-      - 49
-      - 0
-      size:
-      - 10
-      - 20
-      width: 1
-    function_name: C
-    info_version: 1
-    module: gdsfactory.components.C
-    name: C
-info:
+settings:
   changed: {}
+  child: null
   default:
     layer:
     - 49
     - 0
     size:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     width: 1
   full:
     layer:
     - 49
     - 0
     size:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     width: 1
   function_name: C
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.C
   name: C
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 20
-    name: o1
-    orientation: 0
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 10
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
 version: 0.0.1
