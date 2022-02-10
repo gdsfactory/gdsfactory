@@ -357,14 +357,18 @@ class Component(Device):
             print(port)
 
     @property
-    def settings_child(self) -> Dict[str, Any]:
-        """Returns settings from child if any, otherwise returns its settings"""
+    def metadata_child(self) -> DictConfig:
+        """Returns metadata from child if any,
+        Otherwise returns component own metadata
+        Great to access the children metadata at the bottom
+        of the hierarchy.
+        """
         settings = dict(self.settings)
 
         while settings.get("child"):
             settings = settings.get("child")
 
-        return settings
+        return DictConfig(dict(settings))
 
     @property
     def metadata(self) -> DictConfig:
@@ -548,7 +552,7 @@ class Component(Device):
         return (
             self.info.get(setting)
             or self.settings.full.get(setting)
-            or self.settings_child.get(setting)
+            or self.metadata_child.get(setting)
         )
 
     def is_unlocked(self) -> None:
@@ -1227,4 +1231,4 @@ if __name__ == "__main__":
     # c2.write_gds_with_metadata("a.gds")
     # print(c)
     # c = Component()
-    # print(c.settings_child.get('name'))
+    # print(c.metadata_child.get('name'))

@@ -128,7 +128,7 @@ def add_fiber_single(
 
     component = component() if callable(component) else component
 
-    component_name = component_name or component.settings_child.get(
+    component_name = component_name or component.metadata_child.get(
         "name", component.name
     )
 
