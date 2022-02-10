@@ -110,7 +110,7 @@ def add_fiber_array(
     if gc_port_name not in gc.ports:
         raise ValueError(f"gc_port_name={gc_port_name} not in {gc.ports.keys()}")
 
-    component_name = component_name or component.settings_child.get(
+    component_name = component_name or component.metadata_child.get(
         "name", component.name
     )
     component_new = Component()

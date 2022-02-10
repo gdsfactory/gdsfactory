@@ -241,8 +241,8 @@ class ComponentReference(DeviceReference):
         return self.parent.info
 
     @property
-    def settings_child(self) -> Dict[str, Any]:
-        return self.parent.settings_child
+    def metadata_child(self) -> Dict[str, Any]:
+        return self.parent.metadata_child
 
     @property
     def size_info(self) -> SizeInfo:
