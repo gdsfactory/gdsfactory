@@ -35,6 +35,9 @@ jobs:
           make gdslib meep
       - name: Running the Sphinx to gh-pages Action
         uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0-beta.2
+        env:
+          TWINE_USERNAME: ${{ secrets.TIDY3D_EMAIL }}
+          TWINE_PASSWORD: ${{ secrets.TIDY3D_PASSWORD }}
         with:
           branch: master
           dir_docs: docs
