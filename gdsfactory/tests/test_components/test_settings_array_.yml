@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -8,16 +7,16 @@ settings:
       function: straight
     rows: 1
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   full:
     columns: 6
     component:
       function: straight
     rows: 1
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   function_name: array
   info: {}
   info_version: 2

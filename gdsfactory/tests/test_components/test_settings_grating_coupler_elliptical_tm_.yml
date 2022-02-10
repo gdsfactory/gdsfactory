@@ -1,6 +1,3 @@
-info:
-  polarization: tm
-  wavelength: 1.554
 settings:
   changed:
     fiber_marker_layer:

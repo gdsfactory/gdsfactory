@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child:
@@ -14,8 +13,8 @@ settings:
       - 0
       port_type: electrical
       size:
-      - 4
-      - 2
+      - 4.0
+      - 2.0
     full:
       centered: false
       layer:

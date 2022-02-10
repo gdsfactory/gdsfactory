@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -10,8 +9,8 @@ settings:
     - 2
     - 0
     notch_size:
-    - 2
-    - 5
+    - 2.0
+    - 5.0
     notch_spacing: 2
     num_notches: 11
     offset_per_notch: 0.1
@@ -24,8 +23,8 @@ settings:
     - 2
     - 0
     notch_size:
-    - 2
-    - 5
+    - 2.0
+    - 5.0
     notch_spacing: 2
     num_notches: 11
     offset_per_notch: 0.1

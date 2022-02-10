@@ -30,7 +30,6 @@ def test_read_gds_equivalent2():
     d2 = c2.to_dict()
 
     # we change the name, so there is no cache conflicts
-
     # d1.pop("cells")
     # d2.pop("cells")
     # d1.pop("ports")
@@ -68,15 +67,14 @@ def _write():
 
 if __name__ == "__main__":
     # _write()
-    test_read_gds_equivalent2()
+    # test_read_gds_equivalent2()
 
     # c = test_read_gds_hash2()
     # c.show()
     # test_mix_cells_from_gds_and_from_function2()
 
-    # _write()
     # test_read_gds_with_settings2()
-    # test_read_gds_equivalent2()
+    test_read_gds_equivalent2()
 
     # c1 = gf.components.mzi()
     # c2 = gf.import_gds(gdspath)

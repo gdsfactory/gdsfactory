@@ -1,7 +1,41 @@
-info: {}
 settings:
   changed:
-    component: coupler_a078f3c8
+    component:
+      settings:
+        changed:
+          gap: 0.244
+          length: 5.67
+        child: null
+        default:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section:
+            function: cross_section
+          dx: 10
+          dy: 5
+          gap: 0.236
+          length: 20
+        full:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section:
+            function: cross_section
+          dx: 10
+          dy: 5
+          gap: 0.244
+          length: 5.67
+        function_name: coupler
+        info:
+          length: 10.313
+          min_bend_radius: 9.465
+        info_version: 2
+        module: gdsfactory.components.coupler
+        name: coupler_a078f3c8
+      version: 0.0.1
     optical_routing_type: 2
   child:
     changed:
@@ -62,7 +96,42 @@ settings:
   full:
     bend:
       function: bend_euler
-    component: coupler_a078f3c8
+    component:
+      settings:
+        changed:
+          gap: 0.244
+          length: 5.67
+        child: null
+        default:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section:
+            function: cross_section
+          dx: 10
+          dy: 5
+          gap: 0.236
+          length: 20
+        full:
+          coupler_straight:
+            function: coupler_straight
+          coupler_symmetric:
+            function: coupler_symmetric
+          cross_section:
+            function: cross_section
+          dx: 10
+          dy: 5
+          gap: 0.244
+          length: 5.67
+        function_name: coupler
+        info:
+          length: 10.313
+          min_bend_radius: 9.465
+        info_version: 2
+        module: gdsfactory.components.coupler
+        name: coupler_a078f3c8
+      version: 0.0.1
     component_name: null
     cross_section:
       function: cross_section
@@ -87,5 +156,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_a078f3c8_add_fi_fbc7ef6a
+  name: coupler_a078f3c8_add_fi_19ab6dd8
 version: 0.0.1

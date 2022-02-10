@@ -1,6 +1,7 @@
 ports:
   o1:
     name: o1
+    width: 0.5
     midpoint:
     - 0.0
     - 0.0
@@ -11,6 +12,7 @@ ports:
     port_type: optical
   o2:
     name: o2
+    width: 0.5
     midpoint:
     - 1.234
     - 0.0

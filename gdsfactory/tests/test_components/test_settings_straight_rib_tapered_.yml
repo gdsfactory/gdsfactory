@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed:
     component:
@@ -83,7 +82,7 @@ settings:
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_d2709b21
+    name: straight_322ea0f2
   default:
     centered: false
     component:
@@ -130,5 +129,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_d2709b21_exten_6ef0fa7d
+  name: straight_322ea0f2_exten_2aa819c1
 version: 0.0.1

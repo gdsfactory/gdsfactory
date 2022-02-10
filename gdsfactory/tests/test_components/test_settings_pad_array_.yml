@@ -1,7 +1,3 @@
-info:
-  size:
-  - 100
-  - 100
 settings:
   changed: {}
   child: null
@@ -12,8 +8,8 @@ settings:
       function: pad
     rows: 1
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   full:
     columns: 6
     orientation: 270
@@ -21,13 +17,13 @@ settings:
       function: pad
     rows: 1
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   function_name: pad_array
   info:
     size:
-    - 100
-    - 100
+    - 100.0
+    - 100.0
   info_version: 2
   module: gdsfactory.components.pad
   name: pad_array

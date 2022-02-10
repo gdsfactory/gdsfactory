@@ -1,13 +1,12 @@
-info: {}
 settings:
   changed: {}
   child: null
   default:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     die_name: null
     layer:
     - 49
@@ -19,10 +18,10 @@ settings:
     text_size: 100
   full:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     die_name: null
     layer:
     - 49
