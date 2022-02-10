@@ -47,5 +47,5 @@ settings:
     radius_min: 7.061
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_3463ad1a
+  name: bend_euler_831172ce
 version: 0.0.1

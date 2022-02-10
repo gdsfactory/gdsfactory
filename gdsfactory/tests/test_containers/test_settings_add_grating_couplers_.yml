@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     component_name: null
     gc_port_name: o1
@@ -198,7 +198,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     component_name: null
     gc_port_name: o1
@@ -218,5 +218,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_grating_couplers
-  name: mzi_15f399ec_add_gratin_a35e2cdc
+  name: mzi_ab45cb05_add_gratin_12fcb32d
 version: 0.0.1

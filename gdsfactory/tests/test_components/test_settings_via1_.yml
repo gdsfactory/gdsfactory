@@ -42,5 +42,5 @@ settings:
     - 2.0
   info_version: 2
   module: gdsfactory.components.via
-  name: via_ebd8e362
+  name: via_df374226
 version: 0.0.1

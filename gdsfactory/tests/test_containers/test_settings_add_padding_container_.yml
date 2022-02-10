@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     layers:
     - - 67
@@ -187,7 +187,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     layers:
     - - 67
@@ -196,5 +196,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_padding
-  name: mzi_15f399ec_add_paddin_70667183
+  name: mzi_ab45cb05_add_paddin_9e8d1933
 version: 0.0.1

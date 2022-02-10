@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     component:
       function: dbr
@@ -190,7 +190,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     coupler:
       function: coupler
@@ -200,5 +200,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.cavity
-  name: mzi_15f399ec_cavity_cdab15f8
+  name: mzi_ab45cb05_cavity_c09cae54
 version: 0.0.1

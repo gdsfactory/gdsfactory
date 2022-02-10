@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     layer:
     - 31
@@ -195,7 +195,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     layer:
     - 31
@@ -212,5 +212,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_15f399ec_add_electr_e45629d8
+  name: mzi_ab45cb05_add_electr_7c4a6b50
 version: 0.0.1

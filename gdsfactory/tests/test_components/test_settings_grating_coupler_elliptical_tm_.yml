@@ -66,5 +66,5 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_2e0a058f
+  name: grating_coupler_ellipti_1a99b9d7
 version: 0.0.1

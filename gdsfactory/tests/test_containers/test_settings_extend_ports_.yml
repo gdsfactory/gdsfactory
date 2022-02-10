@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     centered: false
     component:
@@ -195,7 +195,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     cross_section: null
     extension_factory: null
@@ -208,5 +208,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: mzi_15f399ec_extend_por_dae43a44
+  name: mzi_ab45cb05_extend_por_7a1ec396
 version: 0.0.1

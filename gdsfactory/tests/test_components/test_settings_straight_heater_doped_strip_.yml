@@ -165,5 +165,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_4e195e5a
+  name: straight_heater_doped_r_4652dd69
 version: 0.0.1

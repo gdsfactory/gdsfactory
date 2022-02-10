@@ -60,7 +60,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
   child:
     changed:
@@ -121,7 +121,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_15f399ec
+    name: mzi_ab45cb05
   default:
     bend:
       function: bend_euler
@@ -201,7 +201,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_15f399ec
+        name: mzi_ab45cb05
       version: 0.0.1
     coupler:
       function: coupler_ring
@@ -217,5 +217,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.ring_single_dut
-  name: mzi_15f399ec_ring_singl_a15fcab9
+  name: mzi_ab45cb05_ring_singl_b61934dc
 version: 0.0.1
