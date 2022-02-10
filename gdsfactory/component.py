@@ -842,13 +842,13 @@ class Component(Device):
             if on_duplicate_cell == "error":
                 cell_names_duplicated = "\n".join(set(cell_names))
                 raise ValueError(
-                    f"Duplicated cell names in {self.name}:\n{cell_names_duplicated}"
+                    f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
                 )
             elif on_duplicate_cell in {"warn", "overwrite"}:
                 if on_duplicate_cell == "warn":
                     cell_names_duplicated = "\n".join(set(cell_names))
                     warnings.warn(
-                        f"Duplicated cell names in {self.name}:\n{cell_names_duplicated}"
+                        f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
                     )
                 cells_dict = {cell.name: cell for cell in cells}
                 cells = cells_dict.values()
@@ -867,14 +867,14 @@ class Component(Device):
 
         if no_name_cells:
             warnings.warn(
-                f"Component {self.name} contains {len(no_name_cells)} Unnamed cells"
+                f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
 
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
         lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
         self.path = gdspath
         if logging:
-            logger.info(f"Write GDS to {gdspath}")
+            logger.info(f"Write GDS to {gdspath!r}")
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
@@ -882,7 +882,7 @@ class Component(Device):
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
-        logger.info(f"Write YAML metadata to {metadata}")
+        logger.info(f"Write YAML metadata to {metadata!r}")
         return gdspath
 
     def to_dict(
@@ -1199,16 +1199,15 @@ if __name__ == "__main__":
     # test_bbox_reference()
     # test_bbox_component()
 
-    import holoviews as hv
-    from bokeh.plotting import output_file
+    # import holoviews as hv
+    # from bokeh.plotting import output_file
+    # import gdsfactory as gf
+    # hv.extension("bokeh")
+    # output_file("plot.html")
 
-    import gdsfactory as gf
+    # c = gf.components.rectangle(size=(4, 2), layer=(0, 0))
+    # c.show()
 
-    hv.extension("bokeh")
-    output_file("plot.html")
-
-    c = gf.components.rectangle(size=(4, 2), layer=(0, 0))
-    c.show()
     # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
     # p = c.ploth()
     # show(p)
@@ -1232,3 +1231,20 @@ if __name__ == "__main__":
     # print(c)
     # c = Component()
     # print(c.metadata_child.get('name'))
+
+    import toolz
+
+    import gdsfactory as gf
+
+    ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
+    rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
+
+    @gf.cell
+    def mask(size=(1000, 1000)):
+        c = gf.Component()
+        c << gf.components.die(size=size)
+        c << rings
+        return c
+
+    m = mask()
+    gdspath = m.write_gds_with_metadata(gdspath="mask.gds")
