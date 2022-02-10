@@ -23,7 +23,7 @@ gdsfactory provides you with functions that you can use to:
 - add routes between components
 - ensure you can build complex systems by testing settings, ports and GDS geometry
 
-As input, gdsfactory needs you to write python or YAML code to describe your layouts.
+As input, you describe your layouts in python or YAML code.
 
 As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by CMOS foundries.
 It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). You can also easily adapt this metadata output files to your needs.
