@@ -28,8 +28,8 @@ jobs:
       - name: Install dependencies
         run: |
           mkdir -p $HOME/.tidy3d
-          echo ${{ secrets.TIDY3D_EMAIL }}  > $HOME/.tidy3d/email
-          echo ${{ secrets.TIDY3D_PASSWORD }} > $HOME/.tidy3d/passwd
+          echo ${{ secrets.TIDY3D_AUTH }}  > $HOME/.tidy3d/auth.json
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
           pip install -e .[dev]
           sudo apt install pandoc
           make gdslib meep
