@@ -1,10 +1,10 @@
 settings:
   changed:
-    filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_10_100.csv
+    filepath: taper_strip_0p5_10_100
   child: null
   default:
     cladding_offset: 3
-    filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_3_36.csv
+    filepath: taper_strip_0p5_3_36
     layer:
     - 1
     - 0
@@ -13,7 +13,7 @@ settings:
     - 0
   full:
     cladding_offset: 3
-    filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_10_100.csv
+    filepath: taper_strip_0p5_10_100
     layer:
     - 1
     - 0
@@ -24,5 +24,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.taper_from_csv
-  name: taper_from_csv_e7ea091a
+  name: taper_from_csv_d4e8fdfb
 version: 0.0.1
