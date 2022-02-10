@@ -191,7 +191,7 @@ def import_gds(
                     port_type=port.port_type,
                 )
 
-        component.settings = metadata.settings
+        component.settings = OmegaConf.to_container(metadata.settings)
 
     component.info.update(**kwargs)
     component.name = name

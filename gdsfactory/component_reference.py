@@ -151,6 +151,16 @@ class ComponentReference(DeviceReference):
     def __str__(self) -> str:
         return self.__repr__()
 
+    def to_dict(self):
+        d = self.parent.to_dict()
+        d.update(
+            origin=self.origin,
+            rotation=self.rotation,
+            magnification=self.magnification,
+            x_reflection=self.x_reflection,
+        )
+        return d
+
     @property
     def bbox(self):
         """Return the bounding box of the DeviceReference.

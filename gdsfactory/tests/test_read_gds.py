@@ -1,7 +1,6 @@
 # from pprint import pprint
 
 import jsondiff
-from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 
@@ -15,10 +14,10 @@ def test_read_gds_hash() -> gf.Component:
     return c
 
 
-def test_read_gds_with_settings(data_regression: DataRegressionFixture) -> None:
-    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
-    c = gf.import_gds(gdspath)
-    data_regression.check(c.to_dict())
+# def test_read_gds_with_settings(data_regression: DataRegressionFixture) -> None:
+#     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+#     c = gf.import_gds(gdspath)
+#     data_regression.check(c.to_dict())
 
 
 def test_read_gds_equivalent():
@@ -59,13 +58,10 @@ def _write():
 
 if __name__ == "__main__":
     # _write()
-    # test_read_gds_equivalent()
-    # c = test_read_gds_hash()
-    # test_mix_cells_from_gds_and_from_function()
 
-    # test_load_component_gds()
-    # test_read_gds_with_settings()
-    # test_read_gds_equivalent()
+    test_mix_cells_from_gds_and_from_function()
+    test_read_gds_equivalent()
+    test_read_gds_hash()
 
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
@@ -74,11 +70,11 @@ if __name__ == "__main__":
     # d = c2.to_dict()["cells"]
     # print(d)
 
-    c1 = gf.components.straight(length=1.234)
-    gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
-    c2 = gf.import_gds(gdspath)
-    d1 = c1.to_dict()
-    d2 = c2.to_dict()
+    # c1 = gf.components.straight(length=1.234)
+    # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
+    # c2 = gf.import_gds(gdspath)
+    # d1 = c1.to_dict()
+    # d2 = c2.to_dict()
 
-    d = jsondiff.diff(d1, d2)
-    assert len(d) == 0, d
+    # d = jsondiff.diff(d1, d2)
+    # assert len(d) == 0, d

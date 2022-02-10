@@ -4,7 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 
 """
 from functools import partial
-from typing import Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 import pydantic
 from pydantic import BaseModel
@@ -31,7 +31,7 @@ class CrossSection(BaseModel):
     sections: List[Section] = []
     ports: Set[str] = set()
     port_types: Set[str] = set()
-    info: Dict[str, Union[float, str, int]] = {}
+    info: Dict[str, Any] = {}
     aliases: Dict[str, Section] = {}
     name: Optional[str] = None
 
@@ -202,8 +202,26 @@ def cross_section(
         end_straight_length: for routing
         snap_to_grid: can snap points to grid when extruding the path
     """
+    info = dict(
+        width=width,
+        layer=layer,
+        width_wide=width_wide,
+        auto_widen=auto_widen,
+        auto_widen_minimum_length=auto_widen_minimum_length,
+        taper_length=taper_length,
+        radius=radius,
+        cladding_offset=cladding_offset,
+        layers_cladding=layers_cladding,
+        sections=sections,
+        min_length=min_length,
+        start_straight_length=start_straight_length,
+        end_straight_length=end_straight_length,
+        snap_to_grid=snap_to_grid,
+        port_types=port_types,
+        port_names=port_names,
+    )
 
-    x = CrossSection()
+    x = CrossSection(info=info)
     x.add(
         width=width,
         offset=0,
@@ -234,24 +252,6 @@ def cross_section(
                 name=section.name,
             )
 
-    x.info = dict(
-        width=width,
-        layer=layer,
-        width_wide=width_wide,
-        auto_widen=auto_widen,
-        auto_widen_minimum_length=auto_widen_minimum_length,
-        taper_length=taper_length,
-        radius=radius,
-        cladding_offset=cladding_offset,
-        layers_cladding=layers_cladding,
-        sections=sections,
-        min_length=min_length,
-        start_straight_length=start_straight_length,
-        end_straight_length=end_straight_length,
-        snap_to_grid=snap_to_grid,
-        port_types=port_types,
-        port_names=port_names,
-    )
     return x
 
 
@@ -358,6 +358,7 @@ def pin(
         layer_via=layer_via,
         via_width=via_width,
         via_offsets=via_offsets,
+        **kwargs,
     )
     x.info.update(**info)
     x.info.update(**kwargs)
