@@ -32,7 +32,7 @@ from gdsfactory.port import (
     map_ports_to_orientation_cw,
     select_ports,
 )
-from gdsfactory.serialization import clean_dict, clean_value_json
+from gdsfactory.serialization import clean_dict
 from gdsfactory.snap import snap_to_grid
 
 Plotter = Literal["holoviews", "matplotlib", "qt"]
@@ -873,7 +873,7 @@ class Component(Device):
         """Write component in GDS and metadata (component settings) in YAML"""
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
-        metadata.write_text(self.to_yaml())
+        metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
         logger.info(f"Write YAML metadata to {metadata}")
         return gdspath
 
@@ -881,30 +881,46 @@ class Component(Device):
         self,
         ignore_components_prefix: Optional[List[str]] = None,
         ignore_functions_prefix: Optional[List[str]] = None,
+        with_cells: bool = False,
+        with_ports: bool = False,
     ) -> Dict[str, Any]:
-        """Return Dict representation
+        """Return Dict representation of a component.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting
             ignore_functions_prefix: for functions to ignore when exporting
+            with_cells: write cells recursively
+            with_ports: write port information
         """
         d = {}
-        # ports = {port.name: port.to_dict() for port in self.get_ports_list()}
-        # cells = recurse_structures(
-        #     self,
-        #     ignore_functions_prefix=ignore_functions_prefix,
-        #     ignore_components_prefix=ignore_components_prefix,
-        # )
-        # d["ports"] = ports
-        # d["cells"] = cells
+        if with_ports:
+            ports = {port.name: port.to_dict() for port in self.get_ports_list()}
+            d["ports"] = ports
+
+        if with_cells:
+            cells = recurse_structures(
+                self,
+                ignore_functions_prefix=ignore_functions_prefix,
+                ignore_components_prefix=ignore_components_prefix,
+            )
+            d["cells"] = cells
 
         d["info"] = dict(self.info)
         d["version"] = self.version
         d["settings"] = dict(self.settings)
         return d
 
-    def to_yaml(self) -> str:
-        return OmegaConf.to_yaml(self.to_dict())
+    def to_yaml(self, **kwargs) -> str:
+        """Write Dict representation of a component in YAML format.
+
+        Args:
+            ignore_components_prefix: for components to ignore when exporting
+            ignore_functions_prefix: for functions to ignore when exporting
+            with_cells: write cells recursively
+            with_ports: write port information
+
+        """
+        return OmegaConf.to_yaml(self.to_dict(**kwargs))
 
     def to_dict_polygons(self) -> Dict[str, Any]:
         """Returns a dict representation of the flattened component."""
@@ -1062,7 +1078,7 @@ def _filter_polys(polygons, layers_excl):
 
 
 def recurse_structures(
-    structure: Component,
+    component: Component,
     ignore_components_prefix: Optional[List[str]] = None,
     ignore_functions_prefix: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
@@ -1072,23 +1088,23 @@ def recurse_structures(
     ignore_components_prefix = ignore_components_prefix or []
 
     if (
-        hasattr(structure, "function_name")
-        and structure.function_name in ignore_functions_prefix
+        hasattr(component, "function_name")
+        and component.function_name in ignore_functions_prefix
     ):
         return {}
 
-    if hasattr(structure, "name") and any(
-        [structure.name.startswith(i) for i in ignore_components_prefix]
+    if hasattr(component, "name") and any(
+        [component.name.startswith(i) for i in ignore_components_prefix]
     ):
         return {}
 
-    output = {structure.name: clean_value_json(structure.info)}
-    for element in structure.references:
+    output = {component.name: dict(component.settings)}
+    for reference in component.references:
         if (
-            isinstance(element, ComponentReference)
-            and element.ref_cell.name not in output
+            isinstance(reference, ComponentReference)
+            and reference.ref_cell.name not in output
         ):
-            output.update(recurse_structures(element.ref_cell))
+            output.update(recurse_structures(reference.ref_cell))
 
     return output
 

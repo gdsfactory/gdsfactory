@@ -24,9 +24,9 @@ def test_components_ports(
 
 if __name__ == "__main__":
     c = gf.import_gds(gdspaths[0], decorator=add_ports_from_markers_center)
-    # c = c.copy()
-    # add_ports_from_markers_center(c)
-    # c.auto_rename_ports()
+    c = c.copy()
+    add_ports_from_markers_center(c)
+    c.auto_rename_ports()
     print(c.ports.keys())
     print(c.name)
     c.show()

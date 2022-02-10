@@ -1,0 +1,35 @@
+info:
+  n_bends: 82
+settings:
+  changed:
+    bend180:
+      angle: 180
+      function: bend_circular
+  child: null
+  default:
+    bend180:
+      angle: 180
+      function: bend_euler
+    columns: 6
+    rows: 6
+    spacing: 3
+    straight:
+      function: straight
+    straight_length: 5
+  full:
+    bend180:
+      angle: 180
+      function: bend_circular
+    columns: 6
+    rows: 6
+    spacing: 3
+    straight:
+      function: straight
+    straight_length: 5
+  function_name: cutback_bend180
+  info:
+    n_bends: 82
+  info_version: 2
+  module: gdsfactory.components.cutback_bend
+  name: cutback_bend180_e755f4fb
+version: 0.0.1
