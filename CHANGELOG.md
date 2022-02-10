@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 4.1.0
+
+- difftest copy run_file to ref_file if prompt = Y (before it was just deleting it)
+- Component.info is just now a regular dict (no more DictConfig)
+- move Component.info.{changed, full, default} to Component.settings
+- Component.metadata is a DictConfig property
+- serialize with numpy arrays with orjson
+- add Component.metadata and Component.metadata_child
+- reduce total test time from 50 to 25 seconds thanks to faster serialization
+
 ## 4.0.18
 
 - improve gdsfactory.simulation.modes
@@ -252,7 +262,7 @@
 
 ## 3.9.19
 
-- add `Component.get_setting()` which looks inside info, info.full and child_info
+- add `Component.get_setting()` which looks inside info, settings.full and child_info
 - add `gf.function.add_settings_label` decorator
 
 ## 3.9.18
@@ -392,7 +402,7 @@
 
 ## 3.8.10
 
-- get_netlist works even with cells that have have no info.full or info.changed (not properly decorated with cell decorator)
+- get_netlist works even with cells that have have no settings.full or info.changed (not properly decorated with cell decorator)
 
 ## 3.8.9
 

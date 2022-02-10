@@ -71,7 +71,7 @@ def get_index(
 
     epsilon_matrix = medium.epsilon(1 / wavelength)
     epsilon11 = epsilon_matrix[0][0]
-    return epsilon11 ** 0.5
+    return float(epsilon11.real ** 0.5)
 
 
 def test_index():
@@ -84,4 +84,5 @@ def test_index():
 
 
 if __name__ == "__main__":
-    print(get_index(name="sin"))
+    n = get_index(name="sio2")
+    print(n, type(n))

@@ -1,35 +1,10 @@
-cells:
-  taper_from_csv_ba1cb547:
-    changed:
-      filepath: taper_strip_0p5_10_150.csv
-    default:
-      cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-    full:
-      cladding_offset: 3
-      filepath: taper_strip_0p5_10_150.csv
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-    function_name: taper_from_csv
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_from_csv_ba1cb547
-info:
+settings:
   changed:
-    filepath: taper_strip_0p5_10_150.csv
+    filepath: taper_strip_0p5_10_150
+  child: null
   default:
     cladding_offset: 3
-    filepath: taper_strip_0p5_3_36.csv
+    filepath: taper_strip_0p5_3_36
     layer:
     - 1
     - 0
@@ -38,7 +13,7 @@ info:
     - 0
   full:
     cladding_offset: 3
-    filepath: taper_strip_0p5_10_150.csv
+    filepath: taper_strip_0p5_10_150
     layer:
     - 1
     - 0
@@ -46,30 +21,8 @@ info:
     - 111
     - 0
   function_name: taper_from_csv
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.taper_from_csv
-  name: taper_from_csv_ba1cb547
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 150
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 10
+  name: taper_from_csv_04444c34
 version: 0.0.1

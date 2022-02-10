@@ -1,217 +1,11 @@
-cells:
-  bend_euler_3cfca9b9:
-    changed:
-      angle: 180
-      radius: 5
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    dy: 0
-    full:
-      angle: 180
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info_version: 1
-    length: 21.409
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_3cfca9b9
-    radius: 5
-    radius_min: 4.543
-  component_sequence_9646673c:
-    changed:
-      sequence: ABABABABDABABABABCABABABABDABABABABCABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
-      symbol_to_component:
-        '-':
-        - straight
-        - o1
-        - o2
-        A:
-        - taper_from_csv
-        - o1
-        - o2
-        B:
-        - taper_from_csv
-        - o2
-        - o1
-        C:
-        - bend_euler_3cfca9b9
-        - o2
-        - o1
-        D:
-        - bend_euler_3cfca9b9
-        - o1
-        - o2
-        _:
-        - straight
-        - o2
-        - o1
-    default:
-      port_name1: o1
-      port_name2: o2
-      ports_map: null
-      start_orientation: 0
-    full:
-      port_name1: o1
-      port_name2: o2
-      ports_map: null
-      sequence: ABABABABDABABABABCABABABABDABABABABCABABABAB-_ABABABABCABABABABDABABABABCABABABABDABABABAB
-      start_orientation: 0
-      symbol_to_component:
-        '-':
-        - straight
-        - o1
-        - o2
-        A:
-        - taper_from_csv
-        - o1
-        - o2
-        B:
-        - taper_from_csv
-        - o2
-        - o1
-        C:
-        - bend_euler_3cfca9b9
-        - o2
-        - o1
-        D:
-        - bend_euler_3cfca9b9
-        - o1
-        - o2
-        _:
-        - straight
-        - o2
-        - o1
-    function_name: component_sequence
-    info_version: 1
-    module: gdsfactory.components.component_sequence
-    name: component_sequence_9646673c
-  straight:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info_version: 1
-    length: 10
-    module: gdsfactory.components.straight
-    name: straight
-    width: 0.5
-  taper_from_csv:
-    changed: {}
-    default:
-      cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-    full:
-      cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
-      layer:
-      - 1
-      - 0
-      layer_cladding:
-      - 111
-      - 0
-    function_name: taper_from_csv
-    info_version: 1
-    module: gdsfactory.components.taper_from_csv
-    name: taper_from_csv
-  taper_from_csv_cutback_component:
-    changed: {}
-    child:
-      changed: {}
-      default:
-        cladding_offset: 3
-        filepath: taper_strip_0p5_3_36.csv
-        layer:
-        - 1
-        - 0
-        layer_cladding:
-        - 111
-        - 0
-      full:
-        cladding_offset: 3
-        filepath: taper_strip_0p5_3_36.csv
-        layer:
-        - 1
-        - 0
-        layer_cladding:
-        - 111
-        - 0
-      function_name: taper_from_csv
-      info_version: 1
-      module: gdsfactory.components.taper_from_csv
-      name: taper_from_csv
-    components: 88
-    default:
-      bend180:
-        angle: 180
-        function: bend_euler
-      cols: 4
-      component:
-        filepath: taper_strip_0p5_3_36.csv
-        function: taper_from_csv
-      mirror: false
-      port1: o1
-      port2: o2
-      radius: 5
-      rows: 5
-      straight:
-        function: straight
-      straight_length: null
-    full:
-      bend180:
-        angle: 180
-        function: bend_euler
-      cols: 4
-      component:
-        filepath: taper_strip_0p5_3_36.csv
-        function: taper_from_csv
-      mirror: false
-      port1: o1
-      port2: o2
-      radius: 5
-      rows: 5
-      straight:
-        function: straight
-      straight_length: null
-    function_name: cutback_component
-    info_version: 1
-    module: gdsfactory.components.cutback_component
-    name: taper_from_csv_cutback_component
-info:
+settings:
   changed: {}
   child:
     changed: {}
+    child: null
     default:
       cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: taper_strip_0p5_3_36
       layer:
       - 1
       - 0
@@ -220,7 +14,7 @@ info:
       - 0
     full:
       cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: taper_strip_0p5_3_36
       layer:
       - 1
       - 0
@@ -228,17 +22,17 @@ info:
       - 111
       - 0
     function_name: taper_from_csv
-    info_version: 1
+    info: {}
+    info_version: 2
     module: gdsfactory.components.taper_from_csv
     name: taper_from_csv
-  components: 88
   default:
     bend180:
       angle: 180
       function: bend_euler
     cols: 4
     component:
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: taper_strip_0p5_3_36
       function: taper_from_csv
     mirror: false
     port1: o1
@@ -254,7 +48,7 @@ info:
       function: bend_euler
     cols: 4
     component:
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: taper_strip_0p5_3_36
       function: taper_from_csv
     mirror: false
     port1: o1
@@ -265,30 +59,9 @@ info:
       function: straight
     straight_length: null
   function_name: cutback_component
-  info_version: 1
+  info:
+    components: 88
+  info_version: 2
   module: gdsfactory.components.cutback_component
   name: taper_from_csv_cutback_component
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 0
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 583.6799999999997
-    - 0
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

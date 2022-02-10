@@ -125,8 +125,8 @@ def grating_coupler_rectangular_arbitrary(
     xport = np.round((xi + length_taper) / 2, 3)
     port_type = f"vertical_{polarization.lower()}"
     c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
-    c.info.polarization = polarization
-    c.info.wavelength = wavelength
+    c.info["polarization"] = polarization
+    c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)
     return c
 

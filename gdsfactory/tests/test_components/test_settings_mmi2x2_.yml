@@ -1,34 +1,6 @@
-cells:
-  mmi2x2:
-    changed: {}
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-    function_name: mmi2x2
-    info_version: 1
-    module: gdsfactory.components.mmi2x2
-    name: mmi2x2
-info:
+settings:
   changed: {}
+  child: null
   default:
     cross_section:
       function: cross_section
@@ -52,52 +24,8 @@ info:
     width_mmi: 2.5
     width_taper: 1
   function_name: mmi2x2
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mmi2x2
   name: mmi2x2
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -12.75
-    - -0.625
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -12.75
-    - 0.625
-    name: o2
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 12.75
-    - 0.625
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 12.75
-    - -0.625
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

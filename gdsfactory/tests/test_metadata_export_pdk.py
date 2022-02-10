@@ -12,24 +12,21 @@ def straight_with_pins(**kwargs):
 
 def test_metadata_export_pdk():
     c = gf.components.mzi(straight=straight_with_pins)
-    d = c.to_dict_config()
-    assert d.info.full.straight.function == "straight_with_pins"
+    assert c.settings.full["straight"]["function"] == "straight_with_pins"
 
 
 if __name__ == "__main__":
     test_metadata_export_pdk()
 
     c = gf.components.mzi(straight=straight_with_pins)
-    d = c.to_dict_config()
-    print(d.info.full.straight)
+    print(c.settings.full["straight"])
 
-    # df = d.info.full
+    # df = d.settings.full
     # sf = df.straight
     # print(sf)
+    # import inspect
 
-    import inspect
-
-    func = straight_with_pins
-    sig = inspect.signature(func)
-    default = {p.name: p.default for p in sig.parameters.values()}
-    full = default.copy()
+    # func = straight_with_pins
+    # sig = inspect.signature(func)
+    # default = {p.name: p.default for p in sig.parameters.values()}
+    # full = default.copy()

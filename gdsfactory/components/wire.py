@@ -45,7 +45,7 @@ def wire_corner(cross_section: CrossSectionFactory = metal3, **kwargs) -> Compon
         layer=layer,
         port_type="electrical",
     )
-    c.info.length = width
+    c.info["length"] = width
     return c
 
 
@@ -53,5 +53,8 @@ if __name__ == "__main__":
 
     # c = wire_straight()
     c = wire_corner()
-    c.show(show_ports=True)
-    c.pprint_ports()
+    # c.show(show_ports=True)
+    # c.pprint_ports()
+    c.pprint()
+
+    # print(yaml.dump(c.to_dict()))

@@ -1,36 +1,6 @@
-cells:
-  coupler_ring:
-    changed: {}
-    default:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    function_name: coupler_ring
-    info_version: 1
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring
-info:
+settings:
   changed: {}
+  child: null
   default:
     bend: null
     bend_cross_section: null
@@ -56,52 +26,8 @@ info:
     length_x: 4
     radius: 5
   function_name: coupler_ring
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.coupler_ring
   name: coupler_ring
-ports:
-  o1:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -9
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 0.5
-  o2:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - -9
-    - 5.7
-    name: o2
-    orientation: 90
-    port_type: optical
-    width: 0.5
-  o3:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 5
-    - 5.7
-    name: o3
-    orientation: 90
-    port_type: optical
-    width: 0.5
-  o4:
-    layer:
-    - 1
-    - 0
-    midpoint:
-    - 5
-    - 0
-    name: o4
-    orientation: 0
-    port_type: optical
-    width: 0.5
 version: 0.0.1

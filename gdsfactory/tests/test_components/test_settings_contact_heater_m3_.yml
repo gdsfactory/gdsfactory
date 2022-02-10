@@ -1,158 +1,4 @@
-cells:
-  compass_0570d255:
-    changed:
-      layer:
-      - 45
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 45
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_0570d255
-  compass_5fa76f9c:
-    changed:
-      layer:
-      - 47
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 47
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_5fa76f9c
-  compass_aa9c3262:
-    changed:
-      layer:
-      - 49
-      - 0
-      size:
-      - 11
-      - 11
-    default:
-      layer:
-      - 1
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 4
-      - 2
-    full:
-      layer:
-      - 49
-      - 0
-      port_inclusion: 0
-      port_type: electrical
-      size:
-      - 11
-      - 11
-    function_name: compass
-    info_version: 1
-    module: gdsfactory.components.compass
-    name: compass_aa9c3262
-  contact_02e7e014:
-    changed:
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-    default:
-      layer_port: null
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    full:
-      layer_port: null
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 11
-      - 11
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
-    function_name: contact
-    info_version: 1
-    layer:
-    - 49
-    - 0
-    module: gdsfactory.components.contact
-    name: contact_02e7e014
-    size:
-    - 11
-    - 11
-info:
+settings:
   changed:
     layers:
     - - 47
@@ -161,6 +7,7 @@ info:
       - 0
     - - 49
       - 0
+  child: null
   default:
     layer_port: null
     layers:
@@ -171,8 +18,8 @@ info:
     - - 49
       - 0
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
     vias:
     - enclosure: 2
       function: via
@@ -193,8 +40,8 @@ info:
     - - 49
       - 0
     size:
-    - 11
-    - 11
+    - 11.0
+    - 11.0
     vias:
     - enclosure: 2
       function: via
@@ -206,58 +53,14 @@ info:
       - 43
       - 0
   function_name: contact
-  info_version: 1
-  layer:
-  - 49
-  - 0
+  info:
+    layer:
+    - 49
+    - 0
+    size:
+    - 11.0
+    - 11.0
+  info_version: 2
   module: gdsfactory.components.contact
-  name: contact_02e7e014
-  size:
-  - 11
-  - 11
-ports:
-  e1:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - -5.5
-    - 0
-    name: e1
-    orientation: 180
-    port_type: electrical
-    width: 11
-  e2:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - 5.5
-    name: e2
-    orientation: 90
-    port_type: electrical
-    width: 11
-  e3:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 5.5
-    - 0
-    name: e3
-    orientation: 0
-    port_type: electrical
-    width: 11
-  e4:
-    layer:
-    - 49
-    - 0
-    midpoint:
-    - 0
-    - -5.5
-    name: e4
-    orientation: 270
-    port_type: electrical
-    width: 11
+  name: contact_bae24d69
 version: 0.0.1

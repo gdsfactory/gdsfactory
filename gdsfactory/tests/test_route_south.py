@@ -15,7 +15,7 @@ def test_route_south(
     lengths = {}
     for i, reference in enumerate(references):
         c.add(reference)
-        route_length = reference.parent.info.length
+        route_length = reference.parent.info["length"]
         lengths[i] = float(route_length)
     if check:
         data_regression.check(lengths)

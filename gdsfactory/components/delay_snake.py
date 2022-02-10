@@ -52,7 +52,7 @@ def delay_snake(
     """
     epsilon = 0.1
     bend90 = bend(width=wg_width, **kwargs)
-    dy = bend90.info.dy
+    dy = bend90.info["dy"]
     DL = (total_length + L0 - n * (pi * dy + epsilon)) / (2 * n + 1)
     L2 = DL - L0
     assert (

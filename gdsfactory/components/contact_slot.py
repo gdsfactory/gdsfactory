@@ -77,7 +77,7 @@ def contact_slot(
     layer_port = layer_port or layers[-1]
 
     c = Component()
-    c.info.size = (float(size[0]), float(size[1]))
+    c.info["size"] = (float(size[0]), float(size[1]))
 
     layer_offsetsx = layer_offsetsx or layer_offsets
     layer_offsetsy = layer_offsetsy or layer_offsets

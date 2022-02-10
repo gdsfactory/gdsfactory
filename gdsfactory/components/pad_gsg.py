@@ -17,7 +17,7 @@ def pad_gsg_short(
     short: bool = True,
     pad: ComponentFactory = pad_function,
     pad_spacing: float = 150,
-):
+) -> gf.Component:
     """Returns high speed GSG pads for calibrating the RF probes.
 
     Args:
@@ -44,7 +44,7 @@ def pad_gsg_short(
     gnd_top.movex(-metal_spacing)
     gnd_bot.movex(-metal_spacing)
 
-    pads = c << gf.components.array(pad(), columns=1, rows=3, spacing=(0, pad_spacing))
+    pads = c << gf.components.array(pad, columns=1, rows=3, spacing=(0, pad_spacing))
     pads.xmin = sig.xmax + 50
     pads.y = 0
 

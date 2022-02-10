@@ -1,57 +1,4 @@
-cells:
-  mmi1x2_5349d18e:
-    changed:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-      width: 1
-      width_mmi: 3
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-        layer:
-        - 34
-        - 0
-        layers_cladding:
-        - - 36
-          - 0
-        width: 1
-      decorator:
-        function: add_pins
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 1
-      width_mmi: 3
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info_version: 1
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_5349d18e
-info:
+settings:
   changed:
     cross_section:
       function: cross_section
@@ -66,6 +13,7 @@ info:
       function: add_pins
     width: 1
     width_mmi: 3
+  child: null
   default:
     cross_section:
       function: cross_section
@@ -100,41 +48,8 @@ info:
     width_taper: 1
     with_cladding_box: true
   function_name: mmi1x2
-  info_version: 1
+  info: {}
+  info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_5349d18e
-ports:
-  o1:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - -12.75
-    - 0
-    name: o1
-    orientation: 180
-    port_type: optical
-    width: 1
-  o2:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 12.75
-    - 0.625
-    name: o2
-    orientation: 0
-    port_type: optical
-    width: 1
-  o3:
-    layer:
-    - 34
-    - 0
-    midpoint:
-    - 12.75
-    - -0.625
-    name: o3
-    orientation: 0
-    port_type: optical
-    width: 1
+  name: mmi1x2_c68072dc
 version: 0.0.1

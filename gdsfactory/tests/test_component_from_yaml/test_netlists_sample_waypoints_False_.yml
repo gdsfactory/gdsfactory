@@ -17,91 +17,62 @@ connections:
   bend_euler_107bf6b2_m95p125_554p875,o2: straight_bda70908_m100p0_780p0,o1
 instances:
   b:
-    component: pad_array
-    settings:
-      orientation: 90
+    component: pad_array_b84950ef
+    settings: {}
   bend_euler_107bf6b2_154p875_145p125:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_395p125_304p875:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_395p125_395p125:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_4p875_295p125:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_545p125_154p875:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_545p125_545p125:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_m245p125_404p875:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   bend_euler_107bf6b2_m95p125_554p875:
-    component: bend_euler
-    settings:
-      auto_widen: false
+    component: bend_euler_107bf6b2
+    settings: {}
   straight_152c11f4_200p0_300p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 380
+    component: straight_152c11f4
+    settings: {}
   straight_152c11f4_350p0_150p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 380
+    component: straight_152c11f4
+    settings: {}
   straight_152c11f4_550p0_350p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 380
+    component: straight_152c11f4
+    settings: {}
   straight_1efce1c9_0p0_145p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 290
+    component: straight_1efce1c9
+    settings: {}
   straight_2b932af0_400p0_350p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 80
+    component: straight_2b932af0
+    settings: {}
   straight_a01b1c4b_150p0_70p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 140
+    component: straight_a01b1c4b
+    settings: {}
   straight_a9485c4a_m250p0_705p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 590
+    component: straight_a9485c4a
+    settings: {}
   straight_b2910871_225p0_550p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 630
+    component: straight_b2910871
+    settings: {}
   straight_b2910871_75p0_400p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 630
+    component: straight_b2910871
+    settings: {}
   straight_bda70908_m100p0_780p0:
-    component: straight
-    settings:
-      auto_widen: false
-      length: 440
+    component: straight_bda70908
+    settings: {}
   t:
     component: pad_array
     settings: {}

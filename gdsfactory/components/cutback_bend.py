@@ -25,7 +25,7 @@ def cutback_bend(
     columns: int = 5,
     straight: ComponentFactory = straight_function,
     **kwargs
-):
+) -> Component:
     """Deprecated! use cutback_bend90 instead,
     which has smaller footprint
 
@@ -73,7 +73,7 @@ def cutback_bend(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=90
     )
-    c.info.n_bends = rows * columns * 2 + columns * 2 - 2
+    c.info["n_bends"] = rows * columns * 2 + columns * 2 - 2
     return c
 
 
@@ -123,7 +123,7 @@ def cutback_bend90(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info.n_bends = rows * columns * 4
+    c.info["n_bends"] = rows * columns * 4
     return c
 
 
@@ -154,7 +154,7 @@ def staircase(
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info.n_bends = 2 * rows
+    c.info["n_bends"] = 2 * rows
     return c
 
 
@@ -202,11 +202,10 @@ def cutback_bend180(
             s += "C-D-" * rows + "|"
     s = s[:-1]
 
-    # Create the component from the sequence
     c = component_sequence(
         sequence=s, symbol_to_component=symbol_to_component, start_orientation=0
     )
-    c.info.n_bends = rows * columns * 2 + columns * 2 - 2
+    c.info["n_bends"] = rows * columns * 2 + columns * 2 - 2
     return c
 
 
@@ -214,7 +213,7 @@ cutback_bend180circular = gf.partial(cutback_bend180, bend180=bend_circular180)
 cutback_bend90circular = gf.partial(cutback_bend90, bend90=bend_circular)
 
 if __name__ == "__main__":
-    c = cutback_bend()
+    # c = cutback_bend()
     # c = cutback_bend90()
     # c = cutback_bend_circular(rows=7, columns=4, radius=5) #62
     # c = cutback_bend_circular(rows=14, columns=4) #118
@@ -222,6 +221,6 @@ if __name__ == "__main__":
     # c = cutback_bend180(rows=3, columns=1)
     # c = cutback_bend(rows=3, columns=2)
     # c = cutback_bend90(rows=3, columns=2)
-    # c = cutback_bend180(rows=2, columns=2)
+    c = cutback_bend180(rows=2, columns=2)
     # c = cutback_bend(rows=3, columns=2)
     c.show()

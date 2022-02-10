@@ -1,30 +1,8 @@
 connections: {}
 instances:
   mzit_5c28f5cb_19p138_11p4:
-    component: mzit
-    settings:
-      Ls: 1
-      bend90:
-        function: bend_euler
-      bend_radius: 10
-      coupler1:
-        function: coupler
-      coupler2:
-        function: coupler
-      coupler_gap1: 0.2
-      coupler_gap2: 0.3
-      coupler_length1: 10
-      coupler_length2: 20
-      delta_length: 10
-      dy: 2
-      straight:
-        function: straight
-      taper:
-        function: taper
-      taper_length: 5
-      w0: 0.5
-      w1: 0.45
-      w2: 0.55
+    component: mzit_5c28f5cb
+    settings: {}
 name: mzit_lattice
 placements:
   mzit_5c28f5cb_19p138_11p4:

@@ -3,18 +3,14 @@ connections:
   ring_single_fdbd008a_30p0_10p65,o1: straight_b3dac65b_7p5_0p0,o2
 instances:
   ring_single_a371eccc_m5p0_5p65:
-    component: ring_single
-    settings:
-      length_x: 10
-      radius: 5
+    component: ring_single_a371eccc
+    settings: {}
   ring_single_fdbd008a_30p0_10p65:
-    component: ring_single
-    settings:
-      length_x: 20
+    component: ring_single_fdbd008a
+    settings: {}
   straight_b3dac65b_7p5_0p0:
-    component: straight
-    settings:
-      length: 5
+    component: straight_b3dac65b
+    settings: {}
 name: ring_single_array
 placements:
   ring_single_a371eccc_m5p0_5p65:

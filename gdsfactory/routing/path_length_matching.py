@@ -216,7 +216,7 @@ def path_length_matched_points_add_waypoints(
     # Get the points for the segment we need to modify
     bend90 = bend(cross_section=cross_section, **kwargs)
 
-    a = margin + bend90.info.dy
+    a = margin + bend90.info["dy"]
     if modify_segment_i < 0:
         modify_segment_i = modify_segment_i + N + 1
     list_new_waypoints = []

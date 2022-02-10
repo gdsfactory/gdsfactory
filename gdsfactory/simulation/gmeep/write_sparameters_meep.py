@@ -184,7 +184,7 @@ def write_sparameters_meep(
               ________________________________
              |                               |
              | xmargin_left                  | port_extension
-             |<------>          port_margin ||<-->
+             |<--------->       port_margin ||<-->
           o2_|___________          _________||_o3
              |           \        /          |
              |            \      /           |

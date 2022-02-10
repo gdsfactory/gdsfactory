@@ -37,7 +37,7 @@ def delay_snake3(
                  | length0   |
 
                  >---------\
-                            \bend180.info.length
+                            \bend180.info['length']
                             /
        |-------------------/
        |
@@ -52,7 +52,7 @@ def delay_snake3(
         n = n // 2 * 2
     bend180 = bend180(cross_section=cross_section, **kwargs)
 
-    delta_length = (length - length0 - n * bend180.info.length) / (n + 1)
+    delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
     assert (
         delta_length > 0
     ), "Snake is too short: either reduce length0, increase the total length,\
@@ -86,7 +86,8 @@ def test_delay_snake3_length() -> Component:
         length=length,
     )
     length_measured = (
-        c.aliases[")1"].parent.info.length * 2 + c.aliases["-1"].parent.info.length * 3
+        c.aliases[")1"].parent.info["length"] * 2
+        + c.aliases["-1"].parent.info["length"] * 3
     )
     assert np.isclose(
         length, length_measured
