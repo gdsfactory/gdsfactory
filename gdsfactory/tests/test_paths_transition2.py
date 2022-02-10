@@ -35,15 +35,31 @@ def test_transition_ports():
     xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
     path = gf.path.straight(length=5)
     c = gf.path.extrude(path, xt)
-    assert c.ports["o1"].cross_section.info["width"] == width1
-    assert c.ports["o2"].cross_section.info["width"] == width2
+    assert c.ports["o1"].cross_section.cross_section1.info["width"] == width1
+    assert c.ports["o2"].cross_section.cross_section2.info["width"] == width2
 
 
 if __name__ == "__main__":
     # test_transition_ports()
-    # x1 = gf.cross_section.strip(width=0.5)
-    # x2 = gf.cross_section.strip(width=1.0)
-    # xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
+
+    width1 = 0.5
+    width2 = 1.0
+    x1 = gf.cross_section.strip(width=0.5)
+    x2 = gf.cross_section.strip(width=1.0)
+
     # path = gf.path.straight(length=5)
-    # c = gf.path.extrude(path, xt)
-    test_transition_ports()
+    # c = gf.path.extrude(path, x1)
+    # assert c.ports["o1"].cross_section.info["width"] == width1, c.ports[
+    #     "o1"
+    # ].cross_section.info["width"]
+    # assert c.ports["o2"].cross_section.info["width"] == width1, c.ports[
+    #     "o2"
+    # ].cross_section.info["width"]
+
+    xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
+    path = gf.path.straight(length=5)
+    c = gf.path.extrude(path, xt)
+    assert c.ports["o1"].cross_section.cross_section1.info["width"] == width1
+    assert c.ports["o2"].cross_section.cross_section2.info["width"] == width2
+
+    # test_transition_ports()
