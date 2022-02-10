@@ -70,8 +70,7 @@ def dict2name(prefix: str = "", **kwargs) -> str:
 
 def assert_first_letters_are_different(**kwargs):
     """Assert that the first letters for each key are different.
-
-    Avoids name collisions of different args that start with the same first letter.
+    Avoids different args that start with the same first letter getting the same hash.
     """
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
     if not len(set(first_letters)) == len(first_letters):
