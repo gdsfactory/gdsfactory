@@ -144,8 +144,8 @@ def cell_without_validator(func):
             ), f"{func} got decorated with @cell! @cell decorator is only for functions"
 
             component = func(*args, **kwargs)
-            child_settings = (
-                component.child.settings if hasattr(component, "child") else None
+            metadata_child = (
+                dict(component.child.settings) if hasattr(component, "child") else None
             )
 
             if not isinstance(component, Component):
@@ -154,8 +154,8 @@ def cell_without_validator(func):
                     "make sure that functions with @cell decorator return a Component",
                 )
 
-            if child_settings and component.get_child_name:
-                component_name = f"{child_settings.name}_{name}"
+            if metadata_child and component.get_child_name:
+                component_name = f"{metadata_child['name']}_{name}"
                 component_name = get_name_short(
                     component_name, max_name_length=max_name_length
                 )
@@ -174,7 +174,7 @@ def cell_without_validator(func):
                 default=clean_dict(default),
                 full=clean_dict(full),
                 info=component.info,
-                child=child_settings,
+                child=metadata_child,
             )
 
             if decorator:
@@ -345,8 +345,17 @@ def straight_with_pins(**kwargs):
     return c
 
 
+def test_import_gds_settings():
+    """Sometimes it fails for files imported from GDS"""
+    import gdsfactory as gf
+
+    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    c = gf.import_gds(gdspath)
+    assert gf.routing.add_fiber_single(c)
+
+
 if __name__ == "__main__":
-    test_names()
+    # test_names()
     # c = wg(layer=(1, 0))
     # print(c.info.changed)
 
@@ -361,3 +370,10 @@ if __name__ == "__main__":
     # print(wg(length=3).name)
     # print(wg(length=3.0).name)
     # print(wg().name)
+
+    import gdsfactory as gf
+
+    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    c = gf.import_gds(gdspath)
+    c3 = gf.routing.add_fiber_single(c)
+    c3.show()

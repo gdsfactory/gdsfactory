@@ -19,10 +19,7 @@ def merge_metadata(
 ) -> DictConfig:
     """Merges all mask metadata and returns test metadata
     This function works well only when you define the mask in YAML
-    Exports a YAML file with only the cells information that have a valid test and measurement label
-
-    For the cells that need to be measure we add test labels
-
+    Exports YAML file with only components with a measurement label
     This is the automatic version of write_labels combined with merge_test_metadata
 
     .. code::
@@ -48,10 +45,6 @@ def merge_metadata(
     labels_path = write_labels(
         gdspath=gdspath, prefix=labels_prefix, layer_label=layer_label
     )
-
-    # jsonpath = gdspath.with_suffix(".yml")
-    # merge_json(doe_directory=doe_directory, jsonpath=jsonpath, **kwargs)
-
     mask_metadata = merge_yaml(doe_directory=doe_directory, yaml_path=yaml_path)
     merge_markdown(reports_directory=doe_directory, mdpath=mdpath)
     tm = merge_test_metadata(
@@ -59,7 +52,6 @@ def merge_metadata(
         mask_metadata=mask_metadata,
         labels_path=labels_path,
     )
-
     test_metadata_path.write_text(OmegaConf.to_yaml(tm))
     return tm
 
