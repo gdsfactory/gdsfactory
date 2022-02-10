@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -9,11 +8,11 @@ settings:
     - 0
     line_spacing: 10
     line_widths:
-    - 1
-    - 2
-    - 4
-    - 8
-    - 16
+    - 1.0
+    - 2.0
+    - 4.0
+    - 8.0
+    - 16.0
   full:
     height: 100
     layer:
@@ -21,11 +20,11 @@ settings:
     - 0
     line_spacing: 10
     line_widths:
-    - 1
-    - 2
-    - 4
-    - 8
-    - 16
+    - 1.0
+    - 2.0
+    - 4.0
+    - 8.0
+    - 16.0
   function_name: litho_steps
   info: {}
   info_version: 2

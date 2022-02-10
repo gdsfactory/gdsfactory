@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -7,16 +6,16 @@ settings:
     - 49
     - 0
     size:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     width: 1
   full:
     layer:
     - 49
     - 0
     size:
-    - 10
-    - 20
+    - 10.0
+    - 20.0
     width: 1
   function_name: C
   info: {}

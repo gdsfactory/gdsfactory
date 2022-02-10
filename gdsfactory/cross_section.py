@@ -932,7 +932,6 @@ if __name__ == "__main__":
 
     # print(x1.to_dict())
     # print(x1.name)
-
     # c = gf.path.component(P, strip(width=2, layer=LAYER.WG, cladding_offset=3))
     # c = gf.add_pins(c)
     # c << gf.components.bend_euler(radius=10)

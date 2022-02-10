@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -9,8 +8,8 @@ settings:
     - 0
     port_type: electrical
     size:
-    - 4
-    - 2
+    - 4.0
+    - 2.0
   full:
     centered: false
     layer:
@@ -18,8 +17,8 @@ settings:
     - 0
     port_type: electrical
     size:
-    - 4
-    - 2
+    - 4.0
+    - 2.0
   function_name: rectangle
   info: {}
   info_version: 2

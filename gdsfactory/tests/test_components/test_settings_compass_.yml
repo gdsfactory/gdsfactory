@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -9,8 +8,8 @@ settings:
     port_inclusion: 0
     port_type: electrical
     size:
-    - 4
-    - 2
+    - 4.0
+    - 2.0
   full:
     layer:
     - 1
@@ -18,8 +17,8 @@ settings:
     port_inclusion: 0
     port_type: electrical
     size:
-    - 4
-    - 2
+    - 4.0
+    - 2.0
   function_name: compass
   info: {}
   info_version: 2

@@ -1,13 +1,12 @@
-info: {}
 settings:
   changed: {}
   child: null
   default:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     bottom: 0
     layer:
     - 1
@@ -17,10 +16,10 @@ settings:
     top: 0
   full:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     bottom: 0
     layer:
     - 1

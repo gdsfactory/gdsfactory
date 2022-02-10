@@ -106,6 +106,7 @@ class Port(PortPhidl):
         return clean_value_json(
             dict(
                 name=self.name,
+                width=self.width,
                 midpoint=tuple(np.round(self.midpoint, 3)),
                 orientation=int(self.orientation),
                 layer=self.layer,

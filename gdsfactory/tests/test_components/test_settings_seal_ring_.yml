@@ -1,13 +1,12 @@
-info: {}
 settings:
   changed: {}
   child: null
   default:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     padding: 10
     seal:
       function: contact
@@ -18,10 +17,10 @@ settings:
     with_west: true
   full:
     bbox:
-    - - -1
-      - -1
-    - - 3
-      - 4
+    - - -1.0
+      - -1.0
+    - - 3.0
+      - 4.0
     padding: 10
     seal:
       function: contact

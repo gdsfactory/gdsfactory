@@ -905,7 +905,6 @@ class Component(Device):
             )
             d["cells"] = cells
 
-        d["info"] = dict(self.info)
         d["version"] = self.version
         d["settings"] = dict(self.settings)
         return d

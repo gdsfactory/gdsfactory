@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -6,14 +5,14 @@ settings:
     columns: 3
     rows: 2
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   full:
     columns: 3
     rows: 2
     spacing:
-    - 150
-    - 150
+    - 150.0
+    - 150.0
   function_name: array_with_via_2d
   info: {}
   info_version: 2
