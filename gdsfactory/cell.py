@@ -48,7 +48,7 @@ class Settings(BaseModel):
     module: str
     function_name: str
 
-    info: Dict[str, Any]
+    info: Dict[str, Any]  # derived properties (length, resistance)
     info_version: int = INFO_VERSION
 
     full: Dict[str, Any]

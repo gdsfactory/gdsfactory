@@ -1,5 +1,3 @@
-info:
-  components: 88
 settings:
   changed:
     mirror: true
@@ -8,7 +6,7 @@ settings:
     child: null
     default:
       cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_3_36.csv
       layer:
       - 1
       - 0
@@ -17,7 +15,7 @@ settings:
       - 0
     full:
       cladding_offset: 3
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_3_36.csv
       layer:
       - 1
       - 0
@@ -35,7 +33,7 @@ settings:
       function: bend_euler
     cols: 4
     component:
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_3_36.csv
       function: taper_from_csv
     mirror: false
     port1: o1
@@ -51,7 +49,7 @@ settings:
       function: bend_euler
     cols: 4
     component:
-      filepath: taper_strip_0p5_3_36.csv
+      filepath: /home/jmatres/gdsfactory/gdsfactory/components/csv_data/taper_strip_0p5_3_36.csv
       function: taper_from_csv
     mirror: true
     port1: o1

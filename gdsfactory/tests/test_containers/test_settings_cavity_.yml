@@ -1,7 +1,67 @@
-info: {}
 settings:
   changed:
-    component: mzi_15f399ec
+    component:
+      settings:
+        changed:
+          length_x: null
+          splitter:
+            function: mmi2x2
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+        child: null
+        default:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: 0.1
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi1x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top: null
+          straight_y: null
+          with_splitter: true
+        full:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: null
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi2x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+          straight_y: null
+          with_splitter: true
+        function_name: mzi
+        info: {}
+        info_version: 2
+        module: gdsfactory.components.mzi
+        name: mzi_15f399ec
+      version: 0.0.1
   child:
     changed:
       length_x: null
@@ -70,7 +130,68 @@ settings:
     gap: 0.2
     length: 0.1
   full:
-    component: mzi_15f399ec
+    component:
+      settings:
+        changed:
+          length_x: null
+          splitter:
+            function: mmi2x2
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+        child: null
+        default:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: 0.1
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi1x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top: null
+          straight_y: null
+          with_splitter: true
+        full:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: null
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi2x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+          straight_y: null
+          with_splitter: true
+        function_name: mzi
+        info: {}
+        info_version: 2
+        module: gdsfactory.components.mzi
+        name: mzi_15f399ec
+      version: 0.0.1
     coupler:
       function: coupler
     gap: 0.2
@@ -79,5 +200,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.cavity
-  name: mzi_15f399ec_cavity_3310a856
+  name: mzi_15f399ec_cavity_cdab15f8
 version: 0.0.1

@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -12,12 +11,12 @@ settings:
     - 0
     port_type: null
     size:
-    - 100
-    - 200
+    - 100.0
+    - 200.0
     slit_enclosure: 10
     slit_size:
-    - 1
-    - 1
+    - 1.0
+    - 1.0
     slit_spacing:
     - 20
     - 20
@@ -31,12 +30,12 @@ settings:
     - 0
     port_type: null
     size:
-    - 100
-    - 200
+    - 100.0
+    - 200.0
     slit_enclosure: 10
     slit_size:
-    - 1
-    - 1
+    - 1.0
+    - 1.0
     slit_spacing:
     - 20
     - 20

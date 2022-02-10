@@ -1,13 +1,12 @@
-info: {}
 settings:
   changed: {}
   child: null
   default:
     list_of_dicts:
-    - length_x: 10
-      radius: 5
-    - length_x: 20
-      radius: 10
+    - length_x: 10.0
+      radius: 5.0
+    - length_x: 20.0
+      radius: 10.0
     ring_function:
       function: ring_single
     spacing: 5
@@ -15,10 +14,10 @@ settings:
       function: straight
   full:
     list_of_dicts:
-    - length_x: 10
-      radius: 5
-    - length_x: 20
-      radius: 10
+    - length_x: 10.0
+      radius: 5.0
+    - length_x: 20.0
+      radius: 10.0
     ring_function:
       function: ring_single
     spacing: 5

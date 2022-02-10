@@ -1,10 +1,131 @@
-info: {}
 settings:
   changed:
-    component: mzi_15f399ec
+    component:
+      settings:
+        changed:
+          length_x: null
+          splitter:
+            function: mmi2x2
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+        child: null
+        default:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: 0.1
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi1x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top: null
+          straight_y: null
+          with_splitter: true
+        full:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: null
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi2x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+          straight_y: null
+          with_splitter: true
+        function_name: mzi
+        info: {}
+        info_version: 2
+        module: gdsfactory.components.mzi
+        name: mzi_15f399ec
+      version: 0.0.1
   child:
     changed:
-      component: mzi_15f399ec
+      component:
+        settings:
+          changed:
+            length_x: null
+            splitter:
+              function: mmi2x2
+            straight_x_top:
+              function: straight_heater_metal_undercut
+              with_undercut: false
+          child: null
+          default:
+            bend:
+              function: bend_euler
+            combiner: null
+            cross_section:
+              function: cross_section
+            delta_length: 10
+            length_x: 0.1
+            length_y: 2
+            nbends: 2
+            port_e0_combiner: o3
+            port_e0_splitter: o3
+            port_e1_combiner: o2
+            port_e1_splitter: o2
+            splitter:
+              function: mmi1x2
+            straight:
+              function: straight
+            straight_x_bot: null
+            straight_x_top: null
+            straight_y: null
+            with_splitter: true
+          full:
+            bend:
+              function: bend_euler
+            combiner: null
+            cross_section:
+              function: cross_section
+            delta_length: 10
+            length_x: null
+            length_y: 2
+            nbends: 2
+            port_e0_combiner: o3
+            port_e0_splitter: o3
+            port_e1_combiner: o2
+            port_e1_splitter: o2
+            splitter:
+              function: mmi2x2
+            straight:
+              function: straight
+            straight_x_bot: null
+            straight_x_top:
+              function: straight_heater_metal_undercut
+              with_undercut: false
+            straight_y: null
+            with_splitter: true
+          function_name: mzi
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.mzi
+          name: mzi_15f399ec
+        version: 0.0.1
       origin: '[12.75,0.625]'
     child:
       changed:
@@ -74,14 +195,75 @@ settings:
       - 0
     full:
       axis: null
-      component: mzi_15f399ec
+      component:
+        settings:
+          changed:
+            length_x: null
+            splitter:
+              function: mmi2x2
+            straight_x_top:
+              function: straight_heater_metal_undercut
+              with_undercut: false
+          child: null
+          default:
+            bend:
+              function: bend_euler
+            combiner: null
+            cross_section:
+              function: cross_section
+            delta_length: 10
+            length_x: 0.1
+            length_y: 2
+            nbends: 2
+            port_e0_combiner: o3
+            port_e0_splitter: o3
+            port_e1_combiner: o2
+            port_e1_splitter: o2
+            splitter:
+              function: mmi1x2
+            straight:
+              function: straight
+            straight_x_bot: null
+            straight_x_top: null
+            straight_y: null
+            with_splitter: true
+          full:
+            bend:
+              function: bend_euler
+            combiner: null
+            cross_section:
+              function: cross_section
+            delta_length: 10
+            length_x: null
+            length_y: 2
+            nbends: 2
+            port_e0_combiner: o3
+            port_e0_splitter: o3
+            port_e1_combiner: o2
+            port_e1_splitter: o2
+            splitter:
+              function: mmi2x2
+            straight:
+              function: straight
+            straight_x_bot: null
+            straight_x_top:
+              function: straight_heater_metal_undercut
+              with_undercut: false
+            straight_y: null
+            with_splitter: true
+          function_name: mzi
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.mzi
+          name: mzi_15f399ec
+        version: 0.0.1
       destination: null
       origin: '[12.75,0.625]'
     function_name: move
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_15f399ec_move_2ec0fc3b
+    name: mzi_15f399ec_move_74aa5717
   default:
     bend:
       function: bend_circular
@@ -116,7 +298,68 @@ settings:
   full:
     bend:
       function: bend_circular
-    component: mzi_15f399ec
+    component:
+      settings:
+        changed:
+          length_x: null
+          splitter:
+            function: mmi2x2
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+        child: null
+        default:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: 0.1
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi1x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top: null
+          straight_y: null
+          with_splitter: true
+        full:
+          bend:
+            function: bend_euler
+          combiner: null
+          cross_section:
+            function: cross_section
+          delta_length: 10
+          length_x: null
+          length_y: 2
+          nbends: 2
+          port_e0_combiner: o3
+          port_e0_splitter: o3
+          port_e1_combiner: o2
+          port_e1_splitter: o2
+          splitter:
+            function: mmi2x2
+          straight:
+            function: straight
+          straight_x_bot: null
+          straight_x_top:
+            function: straight_heater_metal_undercut
+            with_undercut: false
+          straight_y: null
+          with_splitter: true
+        function_name: mzi
+        info: {}
+        info_version: 2
+        module: gdsfactory.components.mzi
+        name: mzi_15f399ec
+      version: 0.0.1
     component_name: null
     cross_section:
       function: cross_section
@@ -149,5 +392,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_15f399ec_move_2ec0f_c34898ed
+  name: mzi_15f399ec_move_74aa5_71587a21
 version: 0.0.1

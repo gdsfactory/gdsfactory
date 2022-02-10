@@ -1,4 +1,3 @@
-info: {}
 settings:
   changed: {}
   child: null
@@ -40,11 +39,11 @@ settings:
         - 43
         - 0
     contact_metal_size:
-    - 10
-    - 10
+    - 10.0
+    - 10.0
     contact_size:
-    - 10
-    - 10
+    - 10.0
+    - 10.0
     cross_section:
       function: cross_section
       sections:
@@ -111,11 +110,11 @@ settings:
         - 43
         - 0
     contact_metal_size:
-    - 10
-    - 10
+    - 10.0
+    - 10.0
     contact_size:
-    - 10
-    - 10
+    - 10.0
+    - 10.0
     cross_section:
       function: cross_section
       sections:

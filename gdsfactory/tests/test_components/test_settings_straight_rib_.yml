@@ -1,6 +1,3 @@
-info:
-  length: 10.0
-  width: 0.5
 settings:
   changed:
     cross_section:
@@ -58,5 +55,5 @@ settings:
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_d2709b21
+  name: straight_322ea0f2
 version: 0.0.1

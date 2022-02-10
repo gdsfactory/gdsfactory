@@ -1,11 +1,3 @@
-info:
-  enclosure: 1.0
-  size:
-  - 0.7
-  - 0.7
-  spacing:
-  - 2.0
-  - 2.0
 settings:
   changed: {}
   child: null
@@ -20,8 +12,8 @@ settings:
     - 0.7
     - 0.7
     spacing:
-    - 2
-    - 2
+    - 2.0
+    - 2.0
   full:
     cladding_offset: 0
     enclosure: 1
@@ -33,8 +25,8 @@ settings:
     - 0.7
     - 0.7
     spacing:
-    - 2
-    - 2
+    - 2.0
+    - 2.0
   function_name: via
   info:
     enclosure: 1.0
