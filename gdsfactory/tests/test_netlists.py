@@ -1,5 +1,3 @@
-import itertools as it
-
 import jsondiff
 import pytest
 from omegaconf import OmegaConf
@@ -31,12 +29,9 @@ circuit_names_test = circuit_names - {
 }  # set of component names
 
 
-@pytest.mark.parametrize(
-    "component_type,full_settings", it.product(circuit_names_test, [True, False])
-)
+@pytest.mark.parametrize("component_type", circuit_names_test)
 def test_netlists(
     component_type: str,
-    full_settings: bool,
     data_regression: DataRegressionFixture,
     check: bool = True,
     component_factory=factory,
@@ -48,14 +43,14 @@ def test_netlists(
     Component -> netlist -> Component -> netlist
     """
     c = component_factory[component_type]()
-    n = c.get_netlist(full_settings=full_settings)
+    n = c.get_netlist()
     if check:
         data_regression.check(OmegaConf.to_container(n))
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str, component_factory=component_factory)
-    n2 = c2.get_netlist(full_settings=full_settings)
+    n2 = c2.get_netlist()
 
     d = jsondiff.diff(n, n2)
     # print(yaml_str)
@@ -95,20 +90,11 @@ if __name__ == "__main__":
     # component_type = "ring_double"
     component_type = "ring_single"
     c1 = factory[component_type]()
-    full_settings = True
-    n = c1.get_netlist(full_settings=full_settings)
+    n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)
-    n2 = c2.get_netlist(full_settings=full_settings)
+    n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     print(d)
     gf.show(c2)
-
-    # test_netlists(
-    #     component_type="mzi",
-    #     # component_type="ring_single",
-    #     full_settings=True,
-    #     data_regression=None,
-    #     check=False,
-    # )
