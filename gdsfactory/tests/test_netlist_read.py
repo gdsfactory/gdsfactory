@@ -16,21 +16,11 @@ def test_netlist_read() -> Component:
     return c
 
 
-def test_netlist_read_full() -> Component:
-    filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
-    c = gf.read.from_yaml(filepath)
-
-    assert len(c.get_dependencies()) == 5, len(c.get_dependencies())
-    return c
-
-
 def regenerate_regression_test():
     c = gf.components.mzi()
-    filepath = gf.CONFIG["netlists"] / "mzi_full.yml"
-    c.write_netlist(filepath, full_settings=True)
 
     filepath = gf.CONFIG["netlists"] / "mzi.yml"
-    c.write_netlist(filepath, full_settings=False)
+    c.write_netlist(filepath)
 
 
 if __name__ == "__main__":
