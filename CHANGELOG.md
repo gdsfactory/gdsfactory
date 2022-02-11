@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.1.4
+
+- improve gdsfactory/samples tutorial
+
 ## 4.1.3
 
 - fix netlist tests

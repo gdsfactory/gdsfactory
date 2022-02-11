@@ -4,12 +4,10 @@ We create a function which returns a gf.Component.
 
 Lets build straight crossing out of a vertical and horizonal arm
 
-- Create a component using component_factory function. You should the cell decorator to define the name automatically and uniquely.
+- Create a component using a function with the cell decorator to define the name automatically and uniquely.
 - Define the polygons in the component
 - Add ports to the component so you can connect it with other components
 """
-
-from phidl import quickplot as plot
 
 import gdsfactory as gf
 from gdsfactory import LAYER
@@ -24,7 +22,15 @@ def test_crossing_arm(
     taper_width: float = 1.2,
     taper_length: float = 3.4,
 ) -> Component:
-    """crossing arm"""
+    """Returns a crossing arm.
+
+    Args:
+        wg_width:
+        r1:
+        r2:
+        taper_width:
+        taper_length:
+    """
     c = gf.Component()
     c << gf.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
 
@@ -56,4 +62,3 @@ def test_crossing_arm(
 if __name__ == "__main__":
     c = test_crossing_arm()
     c.show()
-    plot(c)
