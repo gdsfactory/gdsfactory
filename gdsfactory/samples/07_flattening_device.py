@@ -5,8 +5,8 @@
 Sometimes you want to remove cell structure from a Component while keeping all
 of the shapes/polygons intact and in place.
 
-The Component.flatten() method keeps all the
-polygons in c, but removes all the underlying references it's attached to.
+The Component.flatten() method returns a new flatten Component with all the
+polygons inside the Component, and removes all the underlying references.
 Also, if you specify the `single_layer` argument it will move all of the
 polygons to that single layer.
 
@@ -25,8 +25,9 @@ def test_flatten_device() -> Component:
 
     assert len(c.references) == 3
     c2 = c.flatten()
+    # c2 = c.flatten(single_layer=(34, 0))
     assert len(c2.references) == 0
-    return c
+    return c2
 
 
 if __name__ == "__main__":

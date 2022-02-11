@@ -1,4 +1,5 @@
-"""You add pins in a pin layer to clearly see the component ports."""
+"""You can add pins in a pin layer to clearly see the component ports.
+"""
 
 import gdsfactory as gf
 
@@ -14,6 +15,7 @@ def straight_sample(length=5, width=1):
 
 
 if __name__ == "__main__":
-    wg = straight_sample()
-    gf.add_pins(wg)
-    wg.show()
+    wg = straight_sample(decorator=gf.add_pins)
+
+    # By default show adds pins, so you don't need it to show_ports
+    wg.show(show_ports=False)

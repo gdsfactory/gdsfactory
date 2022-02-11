@@ -1,4 +1,4 @@
-"""when you add references you have to make sure they have unique names.
+"""When you create components you have to make sure they have unique names.
 
 the cell decorator gives unique names to components that depend on their parameters
 """
@@ -13,12 +13,10 @@ from gdsfactory.component import Component
 @gf.cell
 def straight(width: Union[float, int] = 10, height: int = 1) -> Component:
     """Returns straight with automatic name."""
-    wg = gf.Component("straight")
+    wg = gf.Component("ThisNameWillBeOverwriten")
     wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
-    wg.add_port(name="wgport1", midpoint=[0, height / 2], width=height, orientation=180)
-    wg.add_port(
-        name="wgport2", midpoint=[width, height / 2], width=height, orientation=0
-    )
+    wg.add_port(name="o1", midpoint=[0, height / 2], width=height, orientation=180)
+    wg.add_port(name="o2", midpoint=[width, height / 2], width=height, orientation=0)
     return wg
 
 
