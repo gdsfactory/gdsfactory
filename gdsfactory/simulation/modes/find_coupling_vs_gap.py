@@ -5,6 +5,7 @@ import meep as mp
 import numpy as np
 import pandas as pd
 import pydantic
+from tqdm import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_coupler
 from gdsfactory.types import Optional, PathType
@@ -106,7 +107,7 @@ def find_coupling_vs_gap(
     no = []
     gap_to_modes = {}
 
-    for gap in gaps:
+    for gap in tqdm(gaps):
         modes = find_modes_coupler(gaps=(gap,), **kwargs)
         ne.append(modes[1].neff)
         no.append(modes[2].neff)
