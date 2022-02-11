@@ -98,7 +98,9 @@ def get_netlist(
         )
 
         settings = (
-            c.info.get("full", {}) if full_settings else c.info.get("changed", {})
+            c.metadata.get("full", {})
+            if full_settings
+            else c.metadata.get("changed", {})
         )
         instances[reference_name] = dict(
             component=getattr(c.info, "function_name", c.name),
