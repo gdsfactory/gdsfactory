@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.1.3
+
+- fix netlist tests
+
 ## 4.1.2
 
 - fix netlist export
