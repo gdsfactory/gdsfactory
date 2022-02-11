@@ -6,6 +6,7 @@ Gdsfactory
    :maxdepth: 3
 
    README
+   git
    notebooks
    plugins
    component_intro
