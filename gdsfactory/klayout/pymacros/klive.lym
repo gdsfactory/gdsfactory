@@ -20,7 +20,7 @@ import re
 import json
 import sys
 import tempfile
-import pathlib
+import os
 
 is_python3 = sys.version_info.major==3
 
@@ -66,9 +66,13 @@ class MyServer(pya.QTcpServer):
             current_view = window.current_view()
             previous_view = current_view.box() if current_view else None
 
-            temp = pathlib.Path(tempfile.TemporaryDirectory().name)
-            temp.mkdir(exist_ok=True)
-            filepath_layers = temp / 'klayout_layers.lyp'
+            # temp = pathlib.Path(tempfile.TemporaryDirectory().name)
+            # temp.mkdir(exist_ok=True)
+            # filepath_layers = temp / 'klayout_layers.lyp'
+
+            temp = tempfile.TemporaryDirectory().name
+            filepath_layers = os.path.join(temp, 'klayout_layers.lyp')
+            os.makedirs(temp, exist_ok=True)
 
             if current_view:
                 current_view.save_layer_props(str(filepath_layers))
