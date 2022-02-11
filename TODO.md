@@ -8,9 +8,16 @@
 
 ## Plugins
 
+add:
+
+- sax
+- simphony
+- sipann
+
 Modes
 
 - include mode overlap examples
+- include modesolverpy
 
 Meep
 
