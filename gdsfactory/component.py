@@ -235,9 +235,9 @@ class Component(Device):
         """Return YAML netlist."""
         return OmegaConf.to_yaml(self.get_netlist())
 
-    def write_netlist(self, filepath: str, full_settings: bool = False) -> None:
+    def write_netlist(self, filepath: str) -> None:
         """Write netlist in YAML"""
-        netlist = self.get_netlist(full_settings=full_settings)
+        netlist = self.get_netlist()
         OmegaConf.save(netlist, filepath)
 
     def write_netlist_dot(self, filepath: Optional[str] = None) -> None:
@@ -249,20 +249,17 @@ class Component(Device):
         G = self.plot_netlist()
         write_dot(G, filepath)
 
-    def get_netlist(self, full_settings: bool = False) -> Any:
+    def get_netlist(self) -> Any:
         """Return netlist dict(instances, placements, connections, ports)
 
         instances = {instances}
         placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
         connections = {instance_name_src_x_y,portName: instance_name_dst_x_y,portName}
         ports: {portName: instace_name,portName}
-
-        Args:
-            full_settings: exports all info, when false only settings_changed
         """
         from gdsfactory.get_netlist import get_netlist
 
-        return get_netlist(component=self, full_settings=full_settings)
+        return get_netlist(component=self)
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""

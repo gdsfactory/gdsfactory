@@ -1,0 +1,686 @@
+connections:
+  bend_euler_107bf6b2_154p875_145p125,o1: straight_a01b1c4b_150p0_70p0,o2
+  bend_euler_107bf6b2_154p875_145p125,o2: straight_152c11f4_350p0_150p0,o1
+  bend_euler_107bf6b2_395p125_304p875,o1: straight_152c11f4_200p0_300p0,o2
+  bend_euler_107bf6b2_395p125_304p875,o2: straight_2b932af0_400p0_350p0,o1
+  bend_euler_107bf6b2_395p125_395p125,o1: straight_2b932af0_400p0_350p0,o2
+  bend_euler_107bf6b2_395p125_395p125,o2: straight_b2910871_75p0_400p0,o1
+  bend_euler_107bf6b2_4p875_295p125,o1: straight_1efce1c9_0p0_145p0,o2
+  bend_euler_107bf6b2_4p875_295p125,o2: straight_152c11f4_200p0_300p0,o1
+  bend_euler_107bf6b2_545p125_154p875,o1: straight_152c11f4_350p0_150p0,o2
+  bend_euler_107bf6b2_545p125_154p875,o2: straight_152c11f4_550p0_350p0,o1
+  bend_euler_107bf6b2_545p125_545p125,o1: straight_152c11f4_550p0_350p0,o2
+  bend_euler_107bf6b2_545p125_545p125,o2: straight_b2910871_225p0_550p0,o1
+  bend_euler_107bf6b2_m245p125_404p875,o1: straight_b2910871_75p0_400p0,o2
+  bend_euler_107bf6b2_m245p125_404p875,o2: straight_a9485c4a_m250p0_705p0,o1
+  bend_euler_107bf6b2_m95p125_554p875,o1: straight_b2910871_225p0_550p0,o2
+  bend_euler_107bf6b2_m95p125_554p875,o2: straight_bda70908_m100p0_780p0,o1
+instances:
+  b:
+    changed:
+      orientation: 90
+    child: null
+    default:
+      columns: 6
+      orientation: 270
+      pad:
+        function: pad
+      rows: 1
+      spacing:
+      - 150.0
+      - 150.0
+    full:
+      columns: 6
+      orientation: 90
+      pad:
+        function: pad
+      rows: 1
+      spacing:
+      - 150.0
+      - 150.0
+    function_name: pad_array
+    info:
+      size:
+      - 100.0
+      - 100.0
+    info_version: 2
+    module: gdsfactory.components.pad
+    name: pad_array_b84950ef
+  bend_euler_107bf6b2_154p875_145p125:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_395p125_304p875:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_395p125_395p125:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_4p875_295p125:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_545p125_154p875:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_545p125_545p125:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_m245p125_404p875:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  bend_euler_107bf6b2_m95p125_554p875:
+    changed:
+      auto_widen: false
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler_107bf6b2
+  straight_152c11f4_200p0_300p0:
+    changed:
+      auto_widen: false
+      length: 380
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 380
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 380.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_152c11f4
+  straight_152c11f4_350p0_150p0:
+    changed:
+      auto_widen: false
+      length: 380
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 380
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 380.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_152c11f4
+  straight_152c11f4_550p0_350p0:
+    changed:
+      auto_widen: false
+      length: 380
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 380
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 380.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_152c11f4
+  straight_1efce1c9_0p0_145p0:
+    changed:
+      auto_widen: false
+      length: 290
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 290
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 290.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_1efce1c9
+  straight_2b932af0_400p0_350p0:
+    changed:
+      auto_widen: false
+      length: 80
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 80
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 80.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_2b932af0
+  straight_a01b1c4b_150p0_70p0:
+    changed:
+      auto_widen: false
+      length: 140
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 140
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 140.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_a01b1c4b
+  straight_a9485c4a_m250p0_705p0:
+    changed:
+      auto_widen: false
+      length: 590
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 590
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 590.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_a9485c4a
+  straight_b2910871_225p0_550p0:
+    changed:
+      auto_widen: false
+      length: 630
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 630
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 630.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_b2910871
+  straight_b2910871_75p0_400p0:
+    changed:
+      auto_widen: false
+      length: 630
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 630
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 630.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_b2910871
+  straight_bda70908_m100p0_780p0:
+    changed:
+      auto_widen: false
+      length: 440
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      auto_widen: false
+      cross_section:
+        function: cross_section
+      length: 440
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 440.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_bda70908
+  t:
+    changed: {}
+    child: null
+    default:
+      columns: 6
+      orientation: 270
+      pad:
+        function: pad
+      rows: 1
+      spacing:
+      - 150.0
+      - 150.0
+    full:
+      columns: 6
+      orientation: 270
+      pad:
+        function: pad
+      rows: 1
+      spacing:
+      - 150.0
+      - 150.0
+    function_name: pad_array
+    info:
+      size:
+      - 100.0
+      - 100.0
+    info_version: 2
+    module: gdsfactory.components.pad
+    name: pad_array
+name: sample_waypoints
+placements:
+  b:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  bend_euler_107bf6b2_154p875_145p125:
+    mirror: true
+    rotation: 90
+    x: 150.0
+    y: 140.0
+  bend_euler_107bf6b2_395p125_304p875:
+    mirror: false
+    rotation: 0
+    x: 390.0
+    y: 300.0
+  bend_euler_107bf6b2_395p125_395p125:
+    mirror: false
+    rotation: 90
+    x: 400.0
+    y: 390.0
+  bend_euler_107bf6b2_4p875_295p125:
+    mirror: true
+    rotation: 90
+    x: 0.0
+    y: 290.0
+  bend_euler_107bf6b2_545p125_154p875:
+    mirror: false
+    rotation: 0
+    x: 540.0
+    y: 150.0
+  bend_euler_107bf6b2_545p125_545p125:
+    mirror: false
+    rotation: 90
+    x: 550.0
+    y: 540.0
+  bend_euler_107bf6b2_m245p125_404p875:
+    mirror: true
+    rotation: 180
+    x: -240.0
+    y: 400.0
+  bend_euler_107bf6b2_m95p125_554p875:
+    mirror: true
+    rotation: 180
+    x: -90.0
+    y: 550.0
+  straight_152c11f4_200p0_300p0:
+    mirror: false
+    rotation: 0
+    x: 10.0
+    y: 300.0
+  straight_152c11f4_350p0_150p0:
+    mirror: false
+    rotation: 0
+    x: 160.0
+    y: 150.0
+  straight_152c11f4_550p0_350p0:
+    mirror: false
+    rotation: 90
+    x: 550.0
+    y: 160.0
+  straight_1efce1c9_0p0_145p0:
+    mirror: false
+    rotation: 90
+    x: 0.0
+    y: 0.0
+  straight_2b932af0_400p0_350p0:
+    mirror: false
+    rotation: 90
+    x: 400.0
+    y: 310.0
+  straight_a01b1c4b_150p0_70p0:
+    mirror: false
+    rotation: 90
+    x: 150.0
+    y: 0.0
+  straight_a9485c4a_m250p0_705p0:
+    mirror: false
+    rotation: 90
+    x: -250.0
+    y: 410.0
+  straight_b2910871_225p0_550p0:
+    mirror: false
+    rotation: 180
+    x: 540.0
+    y: 550.0
+  straight_b2910871_75p0_400p0:
+    mirror: false
+    rotation: 180
+    x: 390.0
+    y: 400.0
+  straight_bda70908_m100p0_780p0:
+    mirror: false
+    rotation: 90
+    x: -100.0
+    y: 560.0
+  t:
+    mirror: false
+    rotation: 0
+    x: -250.0
+    y: 1000.0
+ports: {}

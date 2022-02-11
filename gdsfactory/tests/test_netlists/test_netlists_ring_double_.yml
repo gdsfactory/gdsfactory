@@ -1,0 +1,147 @@
+connections:
+  coupler_ring_cd892edd_m0p005_16p185,o2: straight_c49ce9c6_10p0_10p705,o2
+  coupler_ring_cd892edd_m0p005_16p185,o3: straight_c49ce9c6_m10p01_10p705,o2
+  coupler_ring_cd892edd_m0p005_5p225,o2: straight_c49ce9c6_m10p01_10p705,o1
+  coupler_ring_cd892edd_m0p005_5p225,o3: straight_c49ce9c6_10p0_10p705,o1
+instances:
+  coupler_ring_cd892edd_m0p005_16p185:
+    changed:
+      length_x: 0.01
+      radius: 10
+    child: null
+    default:
+      bend: null
+      bend_cross_section: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: null
+      bend_cross_section: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 0.01
+      radius: 10
+    function_name: coupler_ring
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_cd892edd
+  coupler_ring_cd892edd_m0p005_5p225:
+    changed:
+      length_x: 0.01
+      radius: 10
+    child: null
+    default:
+      bend: null
+      bend_cross_section: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 4
+      radius: 5
+    full:
+      bend: null
+      bend_cross_section: null
+      coupler90:
+        function: coupler90
+      coupler_straight:
+        function: coupler_straight
+      cross_section:
+        function: cross_section
+      gap: 0.2
+      length_x: 0.01
+      radius: 10
+    function_name: coupler_ring
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.coupler_ring
+    name: coupler_ring_cd892edd
+  straight_c49ce9c6_10p0_10p705:
+    changed:
+      length: 0.01
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 0.01
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_c49ce9c6
+  straight_c49ce9c6_m10p01_10p705:
+    changed:
+      length: 0.01
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 0.01
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_c49ce9c6
+name: ring_double
+placements:
+  coupler_ring_cd892edd_m0p005_16p185:
+    mirror: false
+    rotation: 180
+    x: -0.01
+    y: 21.41
+  coupler_ring_cd892edd_m0p005_5p225:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+  straight_c49ce9c6_10p0_10p705:
+    mirror: false
+    rotation: 90
+    x: 10.0
+    y: 10.7
+  straight_c49ce9c6_m10p01_10p705:
+    mirror: false
+    rotation: 90
+    x: -10.01
+    y: 10.7
+ports:
+  o1: coupler_ring_cd892edd_m0p005_5p225,o1
+  o2: coupler_ring_cd892edd_m0p005_5p225,o4
+  o3: coupler_ring_cd892edd_m0p005_16p185,o4
+  o4: coupler_ring_cd892edd_m0p005_16p185,o1
