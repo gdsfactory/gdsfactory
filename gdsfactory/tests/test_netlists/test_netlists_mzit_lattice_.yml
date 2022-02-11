@@ -1,0 +1,70 @@
+connections: {}
+instances:
+  mzit_5c28f5cb_19p138_11p4:
+    changed:
+      coupler_length1: 10
+      coupler_length2: 20
+    child: null
+    default:
+      Ls: 1
+      bend90:
+        function: bend_euler
+      bend_radius: 10
+      coupler1:
+        function: coupler
+      coupler2:
+        function: coupler
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
+      coupler_length1: 5
+      coupler_length2: 10
+      delta_length: 10
+      dy: 2
+      straight:
+        function: straight
+      taper:
+        function: taper
+      taper_length: 5
+      w0: 0.5
+      w1: 0.45
+      w2: 0.55
+    full:
+      Ls: 1
+      bend90:
+        function: bend_euler
+      bend_radius: 10
+      coupler1:
+        function: coupler
+      coupler2:
+        function: coupler
+      coupler_gap1: 0.2
+      coupler_gap2: 0.3
+      coupler_length1: 10
+      coupler_length2: 20
+      delta_length: 10
+      dy: 2
+      straight:
+        function: straight
+      taper:
+        function: taper
+      taper_length: 5
+      w0: 0.5
+      w1: 0.45
+      w2: 0.55
+    function_name: mzit
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.mzit
+    name: mzit_5c28f5cb
+name: mzit_lattice
+placements:
+  mzit_5c28f5cb_19p138_11p4:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports:
+  o1: mzit_5c28f5cb_19p138_11p4,o1
+  o2: mzit_5c28f5cb_19p138_11p4,o2
+  o3: mzit_5c28f5cb_19p138_11p4,o3
+  o4: mzit_5c28f5cb_19p138_11p4,o4
