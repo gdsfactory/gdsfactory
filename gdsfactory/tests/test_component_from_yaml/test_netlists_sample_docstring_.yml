@@ -1,0 +1,243 @@
+connections:
+  bend_euler_67p115_m5p5,o1: straight_775184d2_51p995_m0p625,o2
+  bend_euler_67p115_m5p5,o2: straight_720ba455_71p99_m20p0,o1
+  bend_euler_76p865_m34p5,o1: straight_720ba455_71p99_m20p0,o2
+  bend_euler_76p865_m34p5,o2: straight_c49ce9c6_81p995_m39p375,o1
+  mmi_bot,o1: straight_c49ce9c6_81p995_m39p375,o2
+  mmi_top,o3: straight_775184d2_51p995_m0p625,o1
+instances:
+  bend_euler_67p115_m5p5:
+    changed: {}
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler
+  bend_euler_76p865_m34p5:
+    changed: {}
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      direction: ccw
+      npoints: 720
+      p: 0.5
+      with_arc_floorplan: true
+      with_cladding_box: true
+    function_name: bend_euler
+    info:
+      dy: 10.0
+      length: 16.637
+      radius: 10.0
+      radius_min: 7.061
+    info_version: 2
+    module: gdsfactory.components.bend_euler
+    name: bend_euler
+  mmi_bot:
+    changed:
+      length_mmi: 11
+      width_mmi: 5
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 11
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 5
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_52b0d64a
+  mmi_top:
+    changed:
+      length_mmi: 22
+      width_mmi: 6
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 5.5
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 2.5
+      width_taper: 1
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      gap_mmi: 0.25
+      length_mmi: 22
+      length_taper: 10
+      taper:
+        function: taper
+      width: 0.5
+      width_mmi: 6
+      width_taper: 1
+      with_cladding_box: true
+    function_name: mmi1x2
+    info: {}
+    info_version: 2
+    module: gdsfactory.components.mmi1x2
+    name: mmi1x2_28584457
+  straight_720ba455_71p99_m20p0:
+    changed:
+      length: 18.75
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 18.75
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 18.75
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_720ba455
+  straight_775184d2_51p995_m0p625:
+    changed:
+      length: 19.99
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 19.99
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 19.99
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_775184d2
+  straight_c49ce9c6_81p995_m39p375:
+    changed:
+      length: 0.01
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 0.01
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 0.01
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight_c49ce9c6
+name: sample_docstring
+placements:
+  bend_euler_67p115_m5p5:
+    mirror: true
+    rotation: 0
+    x: 61.99
+    y: -0.625
+  bend_euler_76p865_m34p5:
+    mirror: false
+    rotation: 270
+    x: 71.99
+    y: -29.375
+  mmi_bot:
+    mirror: false
+    rotation: 0
+    x: 97.5
+    y: -39.375
+  mmi_top:
+    mirror: false
+    rotation: 0
+    x: 21.0
+    y: 0.0
+  straight_720ba455_71p99_m20p0:
+    mirror: false
+    rotation: 270
+    x: 71.99
+    y: -10.625
+  straight_775184d2_51p995_m0p625:
+    mirror: false
+    rotation: 0
+    x: 42.0
+    y: -0.625
+  straight_c49ce9c6_81p995_m39p375:
+    mirror: false
+    rotation: 0
+    x: 81.99
+    y: -39.375
+ports: {}

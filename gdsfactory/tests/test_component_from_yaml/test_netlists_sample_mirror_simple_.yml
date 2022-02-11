@@ -1,0 +1,61 @@
+connections:
+  b,o1: s,o2
+instances:
+  b:
+    changed: {}
+    child: null
+    default:
+      angle: 90
+      cross_section:
+        function: cross_section
+      npoints: 720
+      with_cladding_box: true
+    full:
+      angle: 90
+      cross_section:
+        function: cross_section
+      npoints: 720
+      with_cladding_box: true
+    function_name: bend_circular
+    info:
+      dy: 10.0
+      length: 15.708
+      radius: 10.0
+    info_version: 2
+    module: gdsfactory.components.bend_circular
+    name: bend_circular
+  s:
+    changed: {}
+    child: null
+    default:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    full:
+      cross_section:
+        function: cross_section
+      length: 10
+      npoints: 2
+      with_cladding_box: true
+    function_name: straight
+    info:
+      length: 10.0
+      width: 0.5
+    info_version: 2
+    module: gdsfactory.components.straight
+    name: straight
+name: sample_mirror_simple
+placements:
+  b:
+    mirror: true
+    rotation: 0
+    x: 10.0
+    y: 0.0
+  s:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}
