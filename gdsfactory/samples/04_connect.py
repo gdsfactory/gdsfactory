@@ -2,7 +2,7 @@
 
 # Connecting devices with connect()
 
-The connect command allows you to connect DeviceReference ports together like
+The connect command allows you to connect ComponentReference ports together like
 Lego blocks.
 
 There is an optional parameter called ``overlap`` which is

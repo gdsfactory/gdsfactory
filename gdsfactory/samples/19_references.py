@@ -1,6 +1,7 @@
 import gdsfactory as gf
 
 yaml = """
+name: mmis
 
 instances:
     mmi1:

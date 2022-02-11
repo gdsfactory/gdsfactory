@@ -1,4 +1,4 @@
-"""You can a component with a fiber array."""
+"""You can route all component optical ports to a fiber array."""
 
 import gdsfactory as gf
 from gdsfactory.component import Component

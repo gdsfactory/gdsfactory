@@ -18,5 +18,4 @@ if __name__ == "__main__":
     t6 = D << gf.components.text("6")
 
     D.distribute(direction="x", spacing=3)
-
-    gf.show(D)
+    D.show()
