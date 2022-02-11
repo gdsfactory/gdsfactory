@@ -6,7 +6,7 @@ from gdsfactory.types import ComponentFactoryDict
 autodoc_type_aliases = {ComponentFactoryDict: "ComponentFactoryDict"}
 
 project = "gdsfactory"
-release = "4.1.1"
+release = "4.1.2"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
