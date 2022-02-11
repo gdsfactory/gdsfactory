@@ -130,7 +130,7 @@ To summarize: There are 2 methods to install gdsfactory
 2. For developers, git clone it from [GitHub](https://github.com/gdsfactory/gdsfactory/) to your computer and link the library to your python with `make install`
 
 
-for updating:
+For updating:
 
 1. Users need to `pip install gdsfactory --upgrade` to install the latest release available.
 2. Developers need to `git pull` from GitHub to get the latest changes.
