@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.1.2
+
+- fix netlist export
+
 ## 4.1.0
 
 - difftest copy run_file to ref_file if prompt = Y (before it was just deleting it)
