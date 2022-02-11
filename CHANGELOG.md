@@ -3,6 +3,7 @@
 ## 4.1.4
 
 - improve gdsfactory/samples tutorial
+- make klive python2 compatible again
 
 ## 4.1.3
 
