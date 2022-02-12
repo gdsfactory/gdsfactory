@@ -47,9 +47,12 @@ def plot_model(
     ports = {ports[0] for ports in sdict.keys()}
     ports2 = ports2 or ports
 
+    if port1 not in ports:
+        raise ValueError(f"port1 {port1!r} not in {list(ports)}")
+
     for port in ports2:
         if port not in ports:
-            raise ValueError(f"port {port!r} not in {ports}")
+            raise ValueError(f"port2 {port!r} not in {list(ports)}")
 
     fig = fig or plt.subplot()
     ax = fig.axes
@@ -63,7 +66,8 @@ def plot_model(
                 y = np.abs(sdict[(port1, port2)])
                 y = 20 * np.log10(y) if logscale else y
                 ylabel = "|S (dB)|" if logscale else "|S|"
-            ax.plot(wavelengths * 1e9, y, label=f"{port1}->{port2}")
+            ax.plot(wavelengths * 1e9, y, label=port2)
+    ax.set_title(port1)
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylabel(ylabel)
     plt.legend()
@@ -73,5 +77,5 @@ def plot_model(
 if __name__ == "__main__":
     import sax
 
-    plot_model(sax.models.straight, phase=True, port1="in0")
+    plot_model(sax.models.straight, phase=True, port1="in2")
     plt.show()
