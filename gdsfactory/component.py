@@ -734,7 +734,7 @@ class Component(Device):
             plots_to_overlay.append(
                 hv.Polygons(polygon, label=str(layer.name)).opts(
                     data_aspect=1,
-                    frame_height=200,
+                    frame_width=500,
                     fill_alpha=layer.alpha,
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
@@ -750,7 +750,7 @@ class Component(Device):
             plots_to_overlay.append(
                 hv.Polygons(polygon, label=name).opts(
                     data_aspect=1,
-                    frame_height=200,
+                    frame_width=500,
                     fill_alpha=0,
                     ylim=(b[1], b[3]),
                     xlim=(b[0], b[2]),
