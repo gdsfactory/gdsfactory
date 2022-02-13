@@ -3,7 +3,7 @@ holoviews~=1.14.6
 ipympl
 klayout~=0.27.5
 pyglet
-sax==0.6.1
+sax==0.6.2
 tidy3d-beta==1.0.0
 triangle
 trimesh==3.9.42

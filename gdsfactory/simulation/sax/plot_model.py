@@ -18,17 +18,16 @@ def plot_model(
     wl_steps: int = 2000,
     phase: bool = False,
 ) -> None:
-    """Plot Sparameters for a model
+    """Plot Model Sparameters
 
     Args:
-        model: simphony model
-        port1: input pin name
-        pins: list of pins
+        model: function that returns SDict
+        port1: input port name
+        ports2: list of ports
         wl_min: wavelength min (um)
         wl_max: wavelength max (um)
-        wl_steps: number of steps
-        logscale:
-        fig: figure
+        wl_steps: number of wavelength steps
+        logscale: plots in dB.
         phase: plots phase instead of magnitude
 
     .. plot::
@@ -37,7 +36,7 @@ def plot_model(
         import gdsfactory.simulation.sax as gs
         import matplotlib.pyplot as plt
 
-        gs.plot_model(sax.models.pic.straight, phase=True, port1="in0")
+        gs.plot_model(gs.models.straight, phase=True, port1="o1")
         plt.show()
     """
 

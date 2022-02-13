@@ -233,7 +233,7 @@ gdsfactory top contributors:
 - Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer
 - Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive)
 - Troy Tamas (Rockley): get_route_from_steps, component_from_yaml (schematic capture)
-- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://sax.readthedocs.io/en/latest/)
+- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://flaport.github.io/sax)
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Biladieu (Princeton): Meep FDTD write Sparameters
 - Thomas Dorch (Freedom Photonics): for Meep's material database access and MPB sidewall angles
@@ -251,10 +251,9 @@ Open source heroes:
 - [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://gdsfactory.github.io/gdsfactory/)
 - [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
 - [miniforge install instructions](https://github.com/conda-forge/miniforge#mambaforge)
-- [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
+- [SAX](https://flaport.github.io/sax,): separate package for circuit simulations
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
 - [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
-- [picwriter](https://github.com/DerekK88/PICwriter)
 - [docs follow MyST syntax](https://myst-parser.readthedocs.io/en/latest/syntax/optional.html)
 - [versions follow semantic versioning](https://semver.org/)

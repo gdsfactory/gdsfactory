@@ -21,6 +21,11 @@ def straight(
         ng: group index
         length: um
         loss: in dB/um
+
+    .. code::
+
+        o1 -------------- o2
+                length
     """
     dwl = wl - wl0
     dneff_dwl = (ng - neff) / wl0
@@ -37,7 +42,22 @@ def straight(
 
 
 def coupler(*, coupling: float = 0.5) -> SDict:
-    """Simple coupler model for a single wavelength."""
+    r"""Simple coupler model for a single wavelength.
+
+    Args:
+        coupler: coupling coefficient
+
+    .. code::
+
+         o2 ________                           ______o3
+                    \                         /
+                     \        length         /
+                      ======================= gap
+                     /                       \
+            ________/                         \_______
+         o1                                          o4
+
+    """
     kappa = coupling ** 0.5
     tau = (1 - coupling) ** 0.5
     sdict = reciprocal(

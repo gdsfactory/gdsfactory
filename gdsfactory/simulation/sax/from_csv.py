@@ -16,7 +16,7 @@ def from_csv(
     xunits: float = 1,
     prefix: str = "s",
 ) -> SDict:
-    """loads Sparameters from a CSV file
+    """Returns SDict from Sparameters from a CSV file
     Returns interpolated Sdict over wavelength
 
     Args:
