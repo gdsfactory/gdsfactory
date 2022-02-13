@@ -129,7 +129,6 @@ To summarize: There are 2 methods to install gdsfactory
 1. For users, `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
 2. For developers, git clone it from [GitHub](https://github.com/gdsfactory/gdsfactory/) to your computer and link the library to your python with `make install`
 
-
 For updating:
 
 1. Users need to `pip install gdsfactory --upgrade` to install the latest release available.
@@ -180,21 +179,19 @@ For simulating Sparameters using FDTD.
 
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run
+Open source FDTD / mode simulations. Requires you to run.
 
 ```
 mamba install pymeep=*=mpi_mpich_* -y
 ```
 
-for parallel execution (recommended)
+Works only on Mac, Linux or windows [WSL](https://docs.microsoft.com/en-us/windows/wsl/)
 
-or for single core
+### SAX
 
-```
-mamba install pymeep -y
-```
+Circuit simulations with optimization capabilities. You can install sax with `pip install sax`
 
-Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install` with `conda install -c conda-forge`
+Works only on Mac, Linux or windows [WSL](https://docs.microsoft.com/en-us/windows/wsl/)
 
 ### tidy3d
 
