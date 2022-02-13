@@ -9,8 +9,13 @@ install: gdslib
 mamba:
 	mamba install pymeep=*=mpi_mpich_* gdspy -y
 
+plugins: meep sax
+
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
+
+sax:
+	pip install sax
 
 update:
 	pur
@@ -44,15 +49,11 @@ test-meep:
 test-plugins:
 	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical
 
-retest:
-	echo 'Regenerating component metadata for regression test. Make sure there are not any unwanted regressions because this will overwrite them'
-	pytest --lf --force-regen
+test-notebooks:
+	py.test --nbval notebooks
 
 diff:
 	python gdsfactory/merge_cells.py
-
-test-notebooks:
-	py.test --nbval notebooks
 
 cov:
 	pytest --cov=gdsfactory
