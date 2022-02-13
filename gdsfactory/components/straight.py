@@ -21,7 +21,13 @@ def straight(
         npoints: number of points
         with_cladding_box: box in layers_cladding to avoid DRC sharp edges
         cross_section:
-        **kwargs: cross_section settings
+        kwargs: cross_section settings
+
+    .. code::
+
+        o1 -------------- o2
+                length
+
     """
     p = gf.path.straight(length=length, npoints=npoints)
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
