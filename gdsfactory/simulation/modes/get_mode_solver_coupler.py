@@ -31,7 +31,6 @@ def get_mode_solver_coupler(
     resolution: int = 32,
     nmodes: int = 4,
     sidewall_angles: Union[Tuple[float, ...], float] = None,
-    # sidewall_taper: int = 1,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
 
@@ -110,7 +109,6 @@ def get_mode_solver_coupler(
                     sidewall_angle=sidewall_angles
                     if len(np.unique(sidewall_angles)) == 1
                     else sidewall_angles[i],
-                    # axis=mp.Vector3(z=sidewall_taper),
                     material=material_core,
                 )
             )

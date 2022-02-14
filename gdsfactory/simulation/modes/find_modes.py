@@ -35,7 +35,7 @@ def find_modes_waveguide(
     wavelength: float = 1.55,
     mode_number: int = 1,
     parity=mp.NO_PARITY,
-    dirpath: Optional[PathType] = CONFIG["modes"],
+    cache: Optional[PathType] = CONFIG["modes"],
     overwrite: bool = False,
     single_waveguide: bool = True,
     **kwargs,
@@ -91,7 +91,7 @@ def find_modes_waveguide(
         wavelength: wavelength in um.
         mode_number: mode order of the first mode
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
-        dirpath: directory path to cache modes. None disables the file cache.
+        cache: directory path to cache modes. None disables the file cache.
         overwrite: forces
         kwargs: waveguide settings.
 
@@ -152,14 +152,14 @@ def find_modes_waveguide(
         **kwargs,
     )
 
-    if dirpath:
-        dirpath = pathlib.Path(dirpath)
-        dirpath.mkdir(exist_ok=True, parents=True)
-        filepath = dirpath / f"{h}_{mode_number}.pkl"
+    if cache:
+        cache = pathlib.Path(cache)
+        cache.mkdir(exist_ok=True, parents=True)
+        filepath = cache / f"{h}_{mode_number}.pkl"
 
         if filepath.exists() and not overwrite:
             for index, i in enumerate(range(mode_number, mode_number + nmodes)):
-                filepath = dirpath / f"{h}_{index}.pkl"
+                filepath = cache / f"{h}_{index}.pkl"
                 mode = pickle.loads(filepath.read_bytes())
                 modes[i] = mode
             return modes
@@ -211,8 +211,8 @@ def find_modes_waveguide(
                 z_num,
             ),
         )
-        if dirpath:
-            filepath = dirpath / f"{h}_{index}.pkl"
+        if cache:
+            filepath = cache / f"{h}_{index}.pkl"
             filepath.write_bytes(pickle.dumps(modes[i]))
 
     return modes
