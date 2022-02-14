@@ -4,13 +4,25 @@ from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 
 
 def test_find_modes_waveguide():
-    modes = find_modes_waveguide(wg_width=0.45, resolution=20, dirpath=None)
+    modes = find_modes_waveguide(wg_width=0.45, resolution=20, cache=None)
     m1 = modes[1]
     m2 = modes[2]
 
     # neff1 = 2.3815558509779744
-    neff1 = 2.3305697149498634
     # neff2 = 1.7749644180250004
+
+    neff1 = 2.3305697149498634
+    neff2 = 1.7019323288562744
+
+    assert np.isclose(m1.neff, neff1), m1.neff
+    assert np.isclose(m2.neff, neff2), m2.neff
+
+    # Using cache
+    modes = find_modes_waveguide(wg_width=0.45, resolution=20)
+    m1 = modes[1]
+    m2 = modes[2]
+
+    neff1 = 2.3305697149498634
     neff2 = 1.7019323288562744
 
     assert np.isclose(m1.neff, neff1), m1.neff

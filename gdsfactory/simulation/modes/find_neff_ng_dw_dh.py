@@ -59,7 +59,7 @@ def find_neff_ng_dw_dh(
         plot: if True plots mode
         logscale: plots in logscale
         plotH: plot magnetic field
-        dirpath: path to save the modes
+        cache: path to save the modes
         polarization: prefix when saving the modes
         paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
 
@@ -119,8 +119,8 @@ def plot_neff_ng_dw_dh(
         df = pd.read_csv(filepath)
     else:
         df = find_neff_ng_dw_dh(wavelength=wavelength, **kwargs)
-        dirpath = filepath.parent
-        dirpath.mkdir(exist_ok=True, parents=True)
+        cache = filepath.parent
+        cache.mkdir(exist_ok=True, parents=True)
         df.to_csv(filepath)
 
     dws = df.dw.values
