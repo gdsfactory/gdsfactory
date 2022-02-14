@@ -1128,8 +1128,7 @@ def test_same_uid() -> None:
     r1 = c.references[0].parent
     r2 = c.references[1].parent
 
-    print(r1.uid, r2.uid)
-    print(r1 == r2)
+    assert r1.uid == r2.uid, f"{r1.uid} must equal {r2.uid}"
 
 
 def test_netlist_simple() -> None:
@@ -1153,13 +1152,6 @@ def test_netlist_complex() -> None:
     netlist = c.get_netlist()
     # print(netlist.pretty())
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
-
-
-def test_netlist_plot() -> None:
-    import gdsfactory as gf
-
-    c = gf.components.mzi()
-    c.plot_netlist()
 
 
 def test_extract():
