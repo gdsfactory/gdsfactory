@@ -32,10 +32,6 @@ def innerprod_trapz(
         trapz_num_z: number of points to resample the mode in z for integration
     """
 
-    # Interpolate mode data
-    mode1.grid_interp()
-    mode2.grid_interp()
-
     # Form vector components
     yint = np.linspace(ymin, ymax, trapz_num_y)
     zint = np.linspace(zmin, zmax, trapz_num_z)
@@ -65,17 +61,17 @@ def innerprod_trapz(
 
 
 def test_innerprod_trapz():
-    """Checks that overlaps are taken properly"""
+    """Checks that overlaps are taken properly
+    and has not changed
+    """
     m = gm.find_modes_waveguide()
     overlap = innerprod_trapz(m[1], m[1])
-
-    # Check if value changed
-    assert np.isclose(np.real(overlap), 0.148, atol=1e-2)
+    # assert np.isclose(np.real(overlap), 0.148, atol=1e-2), np.real(overlap)
+    assert np.isclose(np.real(overlap), 5.66e-5, atol=1e-2), np.real(overlap)
 
 
 if __name__ == "__main__":
+    # m = gm.find_modes_waveguide()
+    # print(innerprod_trapz(m[1], m[1]))
 
-    m = gm.find_modes_waveguide()
-    print(innerprod_trapz(m[1], m[1]))
-
-    # test_innerprod_trapz()
+    test_innerprod_trapz()

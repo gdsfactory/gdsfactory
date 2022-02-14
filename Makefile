@@ -47,7 +47,7 @@ test-meep:
 	pytest gdsfactory/simulation/gmeep
 
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony
 
 test-notebooks:
 	py.test --nbval notebooks

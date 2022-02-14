@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.2.0
+
+- add gdsfactory.simulation.simphony circuit simulation plugin
+- fix gdsfactory.modes.overlap test
+
 ## 4.1.5
 
 - add gdsfactory.simulation.sax circuit simulation plugin
@@ -7,7 +12,7 @@
 ## 4.1.4
 
 - improve gdsfactory/samples tutorial
-- make klive python2 compatible again
+- make klive python2 compatible
 
 ## 4.1.3
 
