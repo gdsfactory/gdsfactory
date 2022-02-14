@@ -31,30 +31,15 @@ def coupler(
                                                    H
                dx                                 dx
             |------|                           |------|
-         W1 ________                           _______E1       _ _
+          2 ________                           _______ 4       _ _
                     \                         /           |     |
                      \        length         /            |    _|_V
                       ======================= gap         | dy
                      /                       \            |
             ________/                         \_______    |
-         W0                                           E0
+          1                                            3
 
 
-    .. plot::
-        :include-source:
-
-        import gdsfactory as gf
-
-        c = gf.components.coupler(gap=0.2, length=10)
-        c.plot()
-
-    .. plot::
-        :include-source:
-
-        import gdslib as gl
-
-        c = gl.components.coupler()
-        gl.plot_model(c)
 
     """
 
@@ -80,10 +65,19 @@ def coupler(
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-
-    from gdsfactory.simulation.simphony.plot_model import plot_model
+    import numpy as np
 
     c = coupler()
-    print(c)
-    plot_model(c)
+    wavelength = np.linspace(1500, 1600, 500)
+    k = c.predict((1, 4), wavelength)
+    t = c.predict((1, 3), wavelength)
+
+    plt.figure(figsize=(15, 5))
+    plt.subplot(121)
+    plt.plot(wavelength, np.abs(k) ** 2, label="k")
+    plt.plot(wavelength, np.abs(t) ** 2, label="t")
+    plt.xlabel("Wavelength (nm)")
+    plt.ylabel("Magnitude Squared")
+    plt.title(r"Crossover at $\lambda \approx 1550nm$")
+    plt.legend()
     plt.show()

@@ -23,35 +23,22 @@ def coupler_ring(
 
     .. code::
 
-           N0            N1
-           |             |
-            \           /
-             \         /
-           ---=========---
-        W0    length_x    E0
-
+        pin naming in sipann
 
             2 \           / 4
                \         /
                 ---------
             1---------------3
 
-    .. plot::
-        :include-source:
+        for simphony/gdsfactory
 
-        import gdsfactory as gf
+           o2            o3
+           |             |
+            \           /
+             \         /
+           ---=========---
+        o1    length_x    o4
 
-        c = gf.components.coupler_ring()
-        c.plot()
-
-
-    .. plot::
-        :include-source:
-
-        import gdslib as gl
-
-        m = gl.components.coupler_ring()
-        gl.plot_model(m)
 
     """
 
@@ -76,10 +63,17 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
     import numpy as np
 
-    import gdslib as gl
-
     c = coupler_ring()
-    print(c)
-    wavelengths = np.linspace(1.5, 1.6) * 1e-6
-    gl.simphony.plot_model(c, wavelengths=wavelengths)
+    wavelength = np.linspace(1500, 1600, 500)
+    k = c.predict((1, 4), wavelength)
+    t = c.predict((1, 3), wavelength)
+
+    plt.figure(figsize=(15, 5))
+    plt.subplot(121)
+    plt.plot(wavelength, np.abs(k) ** 2, label="k")
+    plt.plot(wavelength, np.abs(t) ** 2, label="t")
+    plt.xlabel("Wavelength (nm)")
+    plt.ylabel("Magnitude Squared")
+    plt.title(r"Crossover at $\lambda \approx 1550nm$")
+    plt.legend()
     plt.show()
