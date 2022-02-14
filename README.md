@@ -129,7 +129,6 @@ To summarize: There are 2 methods to install gdsfactory
 1. For users, `pip install gdsfactory` will download it from [PyPi (python package index)](https://pypi.org/project/gdsfactory/)
 2. For developers, git clone it from [GitHub](https://github.com/gdsfactory/gdsfactory/) to your computer and link the library to your python with `make install`
 
-
 For updating:
 
 1. Users need to `pip install gdsfactory --upgrade` to install the latest release available.
@@ -180,21 +179,19 @@ For simulating Sparameters using FDTD.
 
 ### meep / mpb
 
-Open source FDTD / mode simulator. Requires you to run
+Open source FDTD / mode simulations. Requires you to run.
 
 ```
 mamba install pymeep=*=mpi_mpich_* -y
 ```
 
-for parallel execution (recommended)
+Works only on Mac, Linux or windows [WSL](https://docs.microsoft.com/en-us/windows/wsl/)
 
-or for single core
+### SAX
 
-```
-mamba install pymeep -y
-```
+Circuit simulations with optimization capabilities. You can install sax with `pip install sax`
 
-Mamba is a faster alternative to conda, if you don't want to install mamba, you can also replace `mamba install` with `conda install -c conda-forge`
+Works only on Mac, Linux or windows [WSL](https://docs.microsoft.com/en-us/windows/wsl/)
 
 ### tidy3d
 
@@ -233,7 +230,7 @@ gdsfactory top contributors:
 - Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer
 - Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive)
 - Troy Tamas (Rockley): get_route_from_steps, component_from_yaml (schematic capture)
-- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://sax.readthedocs.io/en/latest/)
+- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://flaport.github.io/sax)
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Biladieu (Princeton): Meep FDTD write Sparameters
 - Thomas Dorch (Freedom Photonics): for Meep's material database access and MPB sidewall angles
@@ -251,10 +248,9 @@ Open source heroes:
 - [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://gdsfactory.github.io/gdsfactory/)
 - [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
 - [miniforge install instructions](https://github.com/conda-forge/miniforge#mambaforge)
-- [gdslib](https://github.com/gdsfactory/gdslib): separate package for component circuit models (based on Sparameters).
+- [SAX](https://flaport.github.io/sax,): separate package for circuit simulations
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
 - [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
-- [picwriter](https://github.com/DerekK88/PICwriter)
 - [docs follow MyST syntax](https://myst-parser.readthedocs.io/en/latest/syntax/optional.html)
 - [versions follow semantic versioning](https://semver.org/)

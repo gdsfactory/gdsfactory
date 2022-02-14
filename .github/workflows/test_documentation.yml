@@ -29,7 +29,7 @@ jobs:
         run: |
           pip install -e .[dev]
           sudo apt install pandoc
-          make gdslib meep
+          make gdslib plugins
       - name: Test documentation
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
