@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.1
+
+- center gdsfactory.simulation.modes at z=0
+
 ## 4.2.0
 
 - add gdsfactory.simulation.simphony circuit simulation plugin
