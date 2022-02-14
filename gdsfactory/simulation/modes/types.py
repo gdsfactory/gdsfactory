@@ -32,6 +32,24 @@ class Array(np.ndarray, metaclass=ArrayMeta):
 
 
 class Mode(BaseModel):
+    """Mode object.
+
+    Args:
+        mode_number:
+        wavelength: um
+        neff: effective index
+        ng: group index
+        fraction_te:
+        fraction_tm:
+        effective_area:
+        E:
+        H:
+        eps:
+        y:
+        z:
+
+    """
+
     mode_number: int
     wavelength: float
     neff: float
@@ -48,7 +66,7 @@ class Mode(BaseModel):
     def __repr__(self):
         return f"Mode{self.mode_number}"
 
-    def grid_interp(self):
+    def E_grid_interp(self, y_arr, z_arr, index):
         """
         Creates new attributes with scipy.interpolate.RectBivariateSpline objects
         that can be used to interpolate the field on a new regular grid
@@ -56,75 +74,65 @@ class Mode(BaseModel):
         Args:
             y_grid (np.array): y values where to evaluate, in increasing array
             z_grid (np.array): z values where to evaluate, in increasing array
+            index: 0: x, 1: y, 2: z
         """
 
-        self.Ex_grid_interp = lambda y_arr, z_arr: np.flip(
-            RectBivariateSpline(self.y, self.z, np.real(self.E[:, :, 0, 0]))(
+        if index not in [0, 1, 2]:
+            raise ValueError(f"index = {index} needs to be (0: x, 1: y, 2: z)")
+
+        return np.flip(
+            RectBivariateSpline(self.y, self.z, np.real(self.E[:, :, 0, index]))(
                 y_arr, z_arr, grid=True
             )
             + (
                 1j
-                * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, 0]))(
+                * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, index]))(
                     y_arr, z_arr, grid=True
                 )
             )
         )
-        self.Ey_grid_interp = lambda y_arr, z_arr: np.flip(
-            RectBivariateSpline(self.y, self.z, np.real(self.E[:, :, 0, 1]))(
+
+    def Ex_grid_interp(self, y_arr, z_arr):
+        return self.E_grid_interp(y_arr=y_arr, z_arr=z_arr, index=0)
+
+    def Ey_grid_interp(self, y_arr, z_arr):
+        return self.E_grid_interp(y_arr=y_arr, z_arr=z_arr, index=1)
+
+    def Ez_grid_interp(self, y_arr, z_arr):
+        return self.E_grid_interp(y_arr=y_arr, z_arr=z_arr, index=2)
+
+    def H_grid_interp(self, y_arr, z_arr, index=0):
+        """
+        Creates new attributes with scipy.interpolate.RectBivariateSpline objects
+        that can be used to interpolate the field on a new regular grid
+
+        Args:
+            y_grid (np.array): y values where to evaluate, in increasing array
+            z_grid (np.array): z values where to evaluate, in increasing array
+            index: 0: x, 1: y, 2: z
+        """
+        if index not in [0, 1, 2]:
+            raise ValueError(f"index = {index} needs to be (0: x, 1: y, 2: z)")
+        return np.flip(
+            RectBivariateSpline(self.y, self.z, np.real(self.H[:, :, 0, index]))(
                 y_arr, z_arr, grid=True
             )
             + (
                 1j
-                * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, 1]))(
+                * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, index]))(
                     y_arr, z_arr, grid=True
                 )
             )
         )
-        self.Ez_grid_interp = lambda y_arr, z_arr: np.flip(
-            RectBivariateSpline(self.y, self.z, np.real(self.E[:, :, 0, 2]))(
-                y_arr, z_arr, grid=True
-            )
-            + (
-                1j
-                * RectBivariateSpline(self.y, self.z, np.imag(self.E[:, :, 0, 2]))(
-                    y_arr, z_arr, grid=True
-                )
-            )
-        )
-        self.Hx_grid_interp = lambda y_arr, z_arr: np.flip(
-            RectBivariateSpline(self.y, self.z, np.real(self.H[:, :, 0, 0]))(
-                y_arr, z_arr, grid=True
-            )
-            + (
-                1j
-                * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, 0]))(
-                    y_arr, z_arr, grid=True
-                )
-            )
-        )
-        self.Hy_grid_interp = lambda y_arr, z_arr: np.flip(
-            RectBivariateSpline(self.y, self.z, np.real(self.H[:, :, 0, 1]))(
-                y_arr, z_arr, grid=True
-            )
-            + (
-                1j
-                * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, 1]))(
-                    y_arr, z_arr, grid=True
-                )
-            )
-        )
-        self.Hz_grid_interp = lambda y_arr, z_arr: np.flip(
-            RectBivariateSpline(self.y, self.z, np.real(self.H[:, :, 0, 2]))(
-                y_arr, z_arr, grid=True
-            )
-            + (
-                1j
-                * RectBivariateSpline(self.y, self.z, np.imag(self.H[:, :, 0, 2]))(
-                    y_arr, z_arr, grid=True
-                )
-            )
-        )
-        return 1
+
+    def Hx_grid_interp(self, y_arr, z_arr):
+        return self.H_grid_interp(y_arr=y_arr, z_arr=z_arr, index=0)
+
+    def Hy_grid_interp(self, y_arr, z_arr):
+        return self.H_grid_interp(y_arr=y_arr, z_arr=z_arr, index=1)
+
+    def Hz_grid_interp(self, y_arr, z_arr):
+        return self.H_grid_interp(y_arr=y_arr, z_arr=z_arr, index=2)
 
     def plot_eps(
         self,
