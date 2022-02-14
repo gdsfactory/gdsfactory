@@ -121,8 +121,8 @@ def find_coupling_vs_gap(
     df = pd.DataFrame(dict(gap=gaps, ne=ne, no=no, lc=lc))
     if filepath:
         filepath = pathlib.Path(filepath)
-        dirpath = filepath.parent
-        dirpath.mkdir(exist_ok=True, parents=True)
+        cache = filepath.parent
+        cache.mkdir(exist_ok=True, parents=True)
         df.to_csv(filepath, index=False)
     return df
 

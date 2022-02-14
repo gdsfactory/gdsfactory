@@ -36,7 +36,7 @@ def find_mode_dispersion(
         plot: if True plots mode
         logscale: plots in logscale
         plotH: plot magnetic field
-        dirpath: path to save the modes
+        cache: path to save the modes
         polarization: prefix when saving the modes
         paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
 

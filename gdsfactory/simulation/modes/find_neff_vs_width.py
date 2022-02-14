@@ -70,8 +70,8 @@ def find_neff_vs_width(
     df["width"] = width
     if filepath:
         filepath = pathlib.Path(filepath)
-        dirpath = filepath.parent
-        dirpath.mkdir(exist_ok=True, parents=True)
+        cache = filepath.parent
+        cache.mkdir(exist_ok=True, parents=True)
         df.to_csv(filepath, index=False)
     return df
 
