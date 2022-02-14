@@ -34,9 +34,16 @@ def bend_circular(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulation.simphony.plot_model import plot_model
-
     c = bend_circular()
-    wavelengths = np.linspace(1.5, 1.6) * 1e-6
-    plot_model(c, wavelengths=wavelengths)
+
+    wavelength = np.linspace(1500, 1600, 500)
+    t = c.predict(wavelength)
+
+    plt.figure(figsize=(15, 5))
+    plt.subplot(121)
+    plt.plot(wavelength, np.angle(t), label="t")
+    plt.xlabel("Wavelength (nm)")
+    plt.ylabel("Phase (rad)")
+    plt.title(r"Transmission at $\lambda \approx 1550nm$")
+    plt.legend()
     plt.show()

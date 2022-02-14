@@ -26,7 +26,7 @@ def bend_euler(
 
     """
     c = gf.c.bend_euler(radius=radius, **kwargs)
-    length = c.length * 1e3
+    length = c.info["length"] * 1e3
     angle = np.deg2rad(angle)
     width = width * 1e3
     thickness = thickness * 1e3
@@ -37,9 +37,15 @@ def bend_euler(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulation.simphony.plot_model import plot_model
-
     c = bend_euler()
-    wavelengths = np.linspace(1.5, 1.6) * 1e-6
-    plot_model(c, wavelengths=wavelengths)
+    wavelength = np.linspace(1500, 1600, 500)
+    t = c.predict(wavelength)
+
+    plt.figure(figsize=(15, 5))
+    plt.subplot(121)
+    plt.plot(wavelength, np.angle(t), label="t")
+    plt.xlabel("Wavelength (nm)")
+    plt.ylabel("Phase (rad)")
+    plt.title(r"Transmission at $\lambda \approx 1550nm$")
+    plt.legend()
     plt.show()

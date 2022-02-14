@@ -6,13 +6,6 @@ from scipy.constants import speed_of_light
 from simphony.elements import Model
 
 
-def get_sparameters(c, wavelengths=None):
-    if wavelengths is None:
-        wavelengths = c.wavelengths
-    f = speed_of_light / wavelengths
-    return c.s_parameters(freq=f)
-
-
 def plot_model(
     model: Model,
     pin_in: str = "o1",
