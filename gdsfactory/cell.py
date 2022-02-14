@@ -139,9 +139,11 @@ def cell_without_validator(func):
             return CACHE[name]
         else:
             # print(f"BUILD {name} {func.__name__}({arguments})")
-            assert callable(
-                func
-            ), f"{func!r} got decorated with @cell! @cell decorator is only for functions"
+
+            if not callable(func):
+                raise ValueError(
+                    f"{func!r} is not callable! @cell decorator is only for functions"
+                )
 
             component = func(*args, **kwargs)
             metadata_child = (
