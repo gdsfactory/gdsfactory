@@ -1085,7 +1085,13 @@ def recurse_structures(
     ignore_components_prefix: Optional[List[str]] = None,
     ignore_functions_prefix: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
-    """Recurse over structures"""
+    """Recurse component and its components recursively.
+
+    Args:
+        component: component to recurse.
+        ignore_components_prefix: list of prefix to ingore
+        ignore_functions_prefix: list of prefix to ingore
+    """
 
     ignore_functions_prefix = ignore_functions_prefix or []
     ignore_components_prefix = ignore_components_prefix or []
