@@ -43,7 +43,7 @@ def import_gds(
         gdsdir: optional GDS directory.
         safe_cell_names: append file hash to imported cell names to avoid
             duplicated cell names.
-        kwargs: settings for the imported component (polarization, wavelength ...).
+        kwargs: extra info for the imported component (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     gdshash = gdspy.gdsii_hash(gdspath)
