@@ -33,3 +33,4 @@ Plugins
    notebooks/plugins/meep/001_meep_sparameters.ipynb
    notebooks/plugins/tidy3d/00_tidy3d.ipynb
    notebooks/plugins/sax/sax.ipynb
+   notebooks/plugins/simphony/01_components.ipynb

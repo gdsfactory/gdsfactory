@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.0
+
+- add gdsfactory.simulation.simphony circuit simulation plugin
+
 ## 4.1.5
 
 - add gdsfactory.simulation.sax circuit simulation plugin

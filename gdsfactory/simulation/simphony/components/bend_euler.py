@@ -26,8 +26,8 @@ def bend_euler(
         kwargs: geometrical args that this model ignores
 
     """
-    c = gf.c.bend_euler(radius=radius, **kwargs)
-    length = c.info.length * 1e3
+    c = gf.c.bend_euler(radius=radius, angle=angle)
+    length = c.info["length"] * 1e3
     angle = np.deg2rad(angle)
     width = width * 1e3
     thickness = thickness * 1e3

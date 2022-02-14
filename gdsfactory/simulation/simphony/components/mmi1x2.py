@@ -45,13 +45,13 @@ def mmi1x2(**kwargs):
     .. plot::
         :include-source:
 
-        import gdsfactory.simulation simphony as gs
+        import gdsfactory.simulation.simphony as gs
         import gdsfactory.simulation.simphony.components as gc
 
         c = gc.mmi1x2()
         gs.plot_model(c)
     """
-    return model_from_gdsfactory(gf.c.mmi1x2, **kwargs)
+    return model_from_gdsfactory(gf.components.mmi1x2)
 
 
 if __name__ == "__main__":
