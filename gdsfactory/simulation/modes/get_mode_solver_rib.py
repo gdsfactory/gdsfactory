@@ -26,7 +26,6 @@ def get_mode_solver_rib(
     resolution: int = 32,
     nmodes: int = 4,
     sidewall_angle: Optional[float] = None,
-    # sidewall_taper: int = 1,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
 
@@ -88,7 +87,6 @@ def get_mode_solver_rib(
                 center=mp.Vector3(z=0),
                 # If only 1 angle is specified, use it for all waveguides
                 sidewall_angle=sidewall_angle,
-                # axis=mp.Vector3(z=sidewall_taper),
                 material=material_core,
             )
         )
@@ -100,14 +98,6 @@ def get_mode_solver_rib(
                 center=mp.Vector3(z=0),
             )
         )
-        # uncomment this for not oxide cladded waveguides
-        # geometry.append(
-        # mp.Block(
-        #     size=mp.Vector3(mp.inf, mp.inf, 0.5 * (sz - wg_thickness)),
-        #     center=mp.Vector3(z=0.25 * (sz + wg_thickness)),
-        #     material=material_clad,
-        # ),
-        # )
 
     geometry += [
         mp.Block(
