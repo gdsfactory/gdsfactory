@@ -222,21 +222,19 @@ find_modes_coupler = partial(find_modes_waveguide, single_waveguide=False)
 
 
 if __name__ == "__main__":
-    ms = get_mode_solver_rib(wg_width=0.5)
-    m = find_modes_waveguide(mode_solver=ms)
+    m = find_modes_waveguide(wg_width=0.5)
     print(m)
 
     m1 = m[1]
 
-    print(np.shape(m1.y))
-    print(np.shape(m1.z))
-    print(np.shape(m1.E[:, :, 0, 1]))
+    # print(np.shape(m1.y))
+    # print(np.shape(m1.z))
+    # print(np.shape(m1.E[:, :, 0, 1]))
 
     # tol: float = 1e-6
     # wavelength: float = 1.55
     # mode_number: int = 1
     # parity = mp.NO_PARITY
-
     # mode_solver = get_mode_solver_rib()
     # nmodes = mode_solver.nmodes
     # omega = 1 / wavelength
