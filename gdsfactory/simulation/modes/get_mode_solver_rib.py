@@ -79,15 +79,13 @@ def get_mode_solver_rib(
         geometry.append(
             mp.Prism(
                 vertices=[
-                    mp.Vector3(y=-wg_width / 2, z=slab_thickness),
-                    mp.Vector3(y=wg_width / 2, z=slab_thickness),
-                    mp.Vector3(x=1, y=wg_width / 2, z=slab_thickness),
-                    mp.Vector3(x=1, y=-wg_width / 2, z=slab_thickness),
+                    mp.Vector3(y=-wg_width / 2, z=0),
+                    mp.Vector3(y=wg_width / 2, z=0),
+                    mp.Vector3(x=1, y=wg_width / 2, z=0),
+                    mp.Vector3(x=1, y=-wg_width / 2, z=0),
                 ],
                 height=wg_thickness - slab_thickness,
-                center=mp.Vector3(
-                    z=slab_thickness + (wg_thickness - slab_thickness) / 2,
-                ),
+                center=mp.Vector3(z=0),
                 # If only 1 angle is specified, use it for all waveguides
                 sidewall_angle=sidewall_angle,
                 # axis=mp.Vector3(z=sidewall_taper),
@@ -99,7 +97,7 @@ def get_mode_solver_rib(
             mp.Block(
                 size=mp.Vector3(mp.inf, wg_width, wg_thickness),
                 material=material_core,
-                center=mp.Vector3(z=wg_thickness / 2),
+                center=mp.Vector3(z=0),
             )
         )
         # uncomment this for not oxide cladded waveguides
@@ -115,7 +113,7 @@ def get_mode_solver_rib(
         mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
             material=material_slab,
-            center=mp.Vector3(z=slab_thickness / 2),
+            center=mp.Vector3(z=-(wg_thickness + slab_thickness) / 2),
         ),
     ]
 
