@@ -11,10 +11,10 @@ def test_find_modes_waveguide_dispersion():
     # print(f"ng1 = {m1.ng}")
 
     # neff1 = 2.3948
-    neff1 = 2.344238
-
     # ng1 = 4.23194
-    ng1 = 4.226678
+
+    neff1 = 2.362907833437435
+    ng1 = 4.202169359808116
 
     assert np.isclose(m1.neff, neff1), (m1.neff, neff1)
     assert np.isclose(m1.ng, ng1), (m1.ng, ng1)
