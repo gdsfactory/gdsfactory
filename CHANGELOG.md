@@ -3,6 +3,7 @@
 ## 4.2.1
 
 - center gdsfactory.simulation.modes at z=0
+- rename dirpath to cache for gdsfactory.simulation.modes
 
 ## 4.2.0
 
