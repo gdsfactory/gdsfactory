@@ -130,7 +130,7 @@ def cell_without_validator(func):
             for key in kwargs.keys():
                 if key not in sig.parameters.keys():
                     raise TypeError(
-                        f"{func.__name__}() got invalid argument `{key}`\n"
+                        f"{func.__name__!r}() got invalid argument {key!r}\n"
                         f"valid arguments are {list(sig.parameters.keys())}"
                     )
 
@@ -141,7 +141,7 @@ def cell_without_validator(func):
             # print(f"BUILD {name} {func.__name__}({arguments})")
             assert callable(
                 func
-            ), f"{func} got decorated with @cell! @cell decorator is only for functions"
+            ), f"{func!r} got decorated with @cell! @cell decorator is only for functions"
 
             component = func(*args, **kwargs)
             metadata_child = (
@@ -150,7 +150,7 @@ def cell_without_validator(func):
 
             if not isinstance(component, Component):
                 raise CellReturnTypeError(
-                    f"function `{func.__name__}` return type = `{type(component)}`",
+                    f"function {func.__name__!r} return type = {type(component)}",
                     "make sure that functions with @cell decorator return a Component",
                 )
 
