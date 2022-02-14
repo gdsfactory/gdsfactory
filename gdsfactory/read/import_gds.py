@@ -193,7 +193,6 @@ def import_gds(
 
         component.settings = OmegaConf.to_container(metadata.settings)
 
-    component.info.update(**kwargs)
     component.name = name
 
     if decorator:
@@ -201,6 +200,7 @@ def import_gds(
         component = component_new or component
     if flatten:
         component.flatten()
+    component.info.update(**kwargs)
     component.lock()
     return component
 
