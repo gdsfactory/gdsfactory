@@ -3,6 +3,7 @@
 ## 4.2.0
 
 - add gdsfactory.simulation.simphony circuit simulation plugin
+- fix gdsfactory.modes.overlap test
 
 ## 4.1.5
 
