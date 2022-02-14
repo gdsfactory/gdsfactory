@@ -40,8 +40,10 @@ def get_mode_solver_rib(
         sz: simulation region height (um)
         resolution: resolution (pixels/um)
         nmodes: number of modes
-        sidewall_angle: waveguide sidewall angle (radians),
+        sidewall_angle: waveguide sidewall angle (degrees),
             tapers from wg_width at top of slab, upwards, to top of waveguide
+            with respect to the normal.
+            a sidewall_angle = 10, will have 80 degrees with respect to the substrate
 
     ::
 
@@ -72,8 +74,6 @@ def get_mode_solver_rib(
     geometry_lattice = mp.Lattice(size=mp.Vector3(0, sy, sz))
 
     geometry = []
-
-    # define the 2d blocks for the strip and substrate
     if sidewall_angle:
         geometry.append(
             mp.Prism(
@@ -85,8 +85,7 @@ def get_mode_solver_rib(
                 ],
                 height=wg_thickness - slab_thickness,
                 center=mp.Vector3(z=0),
-                # If only 1 angle is specified, use it for all waveguides
-                sidewall_angle=sidewall_angle,
+                sidewall_angle=np.deg2rad(sidewall_angle),
                 material=material_core,
             )
         )
@@ -103,7 +102,7 @@ def get_mode_solver_rib(
         mp.Block(
             size=mp.Vector3(mp.inf, mp.inf, slab_thickness),
             material=material_slab,
-            center=mp.Vector3(z=-(wg_thickness + slab_thickness) / 2),
+            center=mp.Vector3(z=-slab_thickness / 2),
         ),
     ]
 
@@ -149,7 +148,11 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     m = get_mode_solver_rib(
-        slab_thickness=0.09, resolution=64, sidewall_angle=10 * (np.pi / 180), nslab=2
+        slab_thickness=0.25,
+        # slab_thickness=0.,
+        wg_thickness=0.5,
+        resolution=64,
+        nslab=2,
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()

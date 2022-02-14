@@ -4,6 +4,7 @@
 
 - center gdsfactory.simulation.modes at z=0
 - rename dirpath to cache for gdsfactory.simulation.modes
+- change sidewall_angle from radians to degrees
 
 ## 4.2.0
 
