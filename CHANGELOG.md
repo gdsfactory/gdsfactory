@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.2.1
+
+- center gdsfactory.simulation.modes at z=0
+- rename dirpath to cache for gdsfactory.simulation.modes
+- change sidewall_angle from radians to degrees
+
 ## 4.2.0
 
 - add gdsfactory.simulation.simphony circuit simulation plugin

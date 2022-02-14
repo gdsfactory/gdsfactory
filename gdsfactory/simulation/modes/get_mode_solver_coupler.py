@@ -31,7 +31,6 @@ def get_mode_solver_coupler(
     resolution: int = 32,
     nmodes: int = 4,
     sidewall_angles: Union[Tuple[float, ...], float] = None,
-    # sidewall_taper: int = 1,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
 
@@ -49,8 +48,9 @@ def get_mode_solver_coupler(
         sz: simulation region thickness (um)
         resolution: resolution (pixels/um)
         nmodes: number of modes
-        sidewall_angles: waveguide sidewall angle (radians),
+        sidewall_angles: waveguide sidewall angle (degrees),
             tapers from wg_width at top of slab, upwards, to top of waveguide
+            a sidewall_angle = 10, will have 80 degrees with respect to the substrate
 
     ::
 
@@ -107,10 +107,9 @@ def get_mode_solver_coupler(
                         z=slab_thickness + (wg_thickness - slab_thickness) / 2,
                     ),
                     # If only 1 angle is specified, use it for all waveguides
-                    sidewall_angle=sidewall_angles
+                    sidewall_angle=np.deg2rad(sidewall_angles)
                     if len(np.unique(sidewall_angles)) == 1
-                    else sidewall_angles[i],
-                    # axis=mp.Vector3(z=sidewall_taper),
+                    else np.deg2rad(sidewall_angles[i]),
                     material=material_core,
                 )
             )
@@ -186,7 +185,7 @@ if __name__ == "__main__":
         gap=0.5,
         wg_width=1,
         resolution=64,
-        sidewall_angles=(10.0 * (np.pi / 180), 20.0 * (np.pi / 180)),
+        sidewall_angles=(10.0, 20.0),
     )
     m.init_params(p=mp.NO_PARITY, reset_fields=False)
     eps = m.get_epsilon()
