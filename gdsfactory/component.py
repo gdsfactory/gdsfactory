@@ -604,8 +604,7 @@ class Component(Device):
     def add_ref(
         self, component: Device, alias: Optional[str] = None
     ) -> "ComponentReference":
-        """Add  a ComponentReference to the current
-        Device."""
+        """Add ComponentReference to the current Component."""
         if not isinstance(component, Device):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
@@ -728,7 +727,7 @@ class Component(Device):
                 layer = layer_set.get_from_tuple(layer)
             except ValueError:
                 layers = list(layer_set._layers.keys())
-                warnings.warn(f"{layer} not defined in {layers}")
+                warnings.warn(f"{layer!r} not defined in {layers}")
                 layer = LayerPhidl(gds_layer=layer[0], gds_datatype=layer[1])
 
             plots_to_overlay.append(
@@ -871,7 +870,7 @@ class Component(Device):
         lib.write_gds(gdspath, cells=all_cells, timestamp=timestamp)
         self.path = gdspath
         if logging:
-            logger.info(f"Write GDS to {gdspath!r}")
+            logger.info(f"Write GDS to {str(gdspath)!r}")
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
@@ -879,7 +878,7 @@ class Component(Device):
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
-        logger.info(f"Write YAML metadata to {metadata!r}")
+        logger.info(f"Write YAML metadata to {str(metadata)!r}")
         return gdspath
 
     def to_dict(
