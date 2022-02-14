@@ -29,7 +29,6 @@ def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2")
 
     c.elements["gci"].pins[gpi] = "o1"
     c.elements["gco"].pins[gpi] = "o2"
-
     return c
 
 
@@ -51,15 +50,16 @@ def add_gc_siepic(circuit, gc=siepic.ebeam_gc_te1550):
     # c.elements["circuit"].pins["output"] = "output_circuit"
     c.elements["gci"].pins["n2"] = "o1"
     c.elements["gco"].pins["n2"] = "o2"
-
     return c
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     from gdsfactory.simulation.simphony.components.mzi import mzi
     from gdsfactory.simulation.simphony.plot_circuit import plot_circuit
 
     c1 = mzi()
     c2 = add_gc(c1)
-    print(c2.name)
     plot_circuit(c2)
+    plt.show()

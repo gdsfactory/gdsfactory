@@ -16,7 +16,6 @@ def mmi2x2(**kwargs):
         layer:
         layers_cladding:
         cladding_offset
-        tech: technology dataclass
 
     .. code::
 
@@ -53,7 +52,7 @@ def mmi2x2(**kwargs):
         c = gc.mmi2x2()
         gs.plot_model(c)
     """
-    m = model_from_gdsfactory(gf.c.mmi2x2, **kwargs)
+    m = model_from_gdsfactory(gf.components.mmi2x2)
     return m
 
 

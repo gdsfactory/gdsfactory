@@ -10,7 +10,7 @@ from .ring_double import ring_double
 from .ring_single import ring_single
 from .straight import straight
 
-component_factory = dict(
+model_factory = dict(
     bend_circular=bend_circular,
     bend_euler=bend_euler,
     coupler_ring=coupler_ring,
@@ -24,6 +24,6 @@ component_factory = dict(
 circuit_factory = dict(mzi=mzi, ring_double=ring_double, ring_single=ring_single)
 
 
-component_names = list(component_factory.keys())
+component_names = list(model_factory.keys())
 circuit_names = list(circuit_factory.keys())
 __all__ = component_names + circuit_names
