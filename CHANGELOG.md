@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.2
+
+- add gf.components.delay_snake_sbend
+
 ## 4.2.1
 
 - center gdsfactory.simulation.modes at z=0
