@@ -46,7 +46,10 @@ def clean_value_name(value: Any) -> str:
         args_as_kwargs.update(**value.keywords)
         clean_dict(args_as_kwargs)
         args_as_kwargs.pop("function", None)
-        value = dict(function=value.func.__name__, **args_as_kwargs)
+        func = value.func
+        while hasattr(func, "func"):
+            func = func.func
+        value = dict(function=func.__name__, **args_as_kwargs)
         value = get_string(value)
     elif hasattr(value, "to_dict"):
         value = value.to_dict()
@@ -97,7 +100,11 @@ def clean_value_json(value: Any) -> Any:
         args_as_kwargs.update(**value.keywords)
         clean_dict(args_as_kwargs)
         args_as_kwargs.pop("function", None)
-        value = dict(function=value.func.__name__, **args_as_kwargs)
+
+        func = value.func
+        while hasattr(func, "func"):
+            func = func.func
+        value = dict(function=func.__name__, **args_as_kwargs)
     elif hasattr(value, "to_dict"):
         value = value.to_dict()
     elif isinstance(value, np.float64):
