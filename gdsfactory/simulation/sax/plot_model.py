@@ -4,9 +4,11 @@ from typing import Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
+from pydantic import validate_arguments
 from sax.typing_ import Model
 
 
+@validate_arguments
 def plot_model(
     sdict: Model,
     port1: str = "o1",
@@ -70,6 +72,7 @@ def plot_model(
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylabel(ylabel)
     plt.legend()
+    plt.show()
     return ax
 
 
