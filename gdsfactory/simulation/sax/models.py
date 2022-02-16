@@ -14,7 +14,9 @@ def straight(
     length: float = 10.0,
     loss: float = 0.0,
 ) -> SDict:
-    """dispersive straight waveguide model.
+    """Dispersive straight waveguide model.
+
+    based on sax.models
 
     Args:
         wl: wavelength
@@ -46,6 +48,8 @@ def straight(
 def attenuator(*, loss: float = 0.0) -> SDict:
     """attenuator model.
 
+    based on sax.models
+
     Args:
         loss: in dB
 
@@ -74,12 +78,15 @@ def grating_coupler(
 ) -> SDict:
     """grating_coupler model.
 
+    equation adapted from photontorch grating coupler
+    https://github.com/flaport/photontorch/blob/master/photontorch/components/gratingcouplers.py
+
     Args:
         wl0: center wavelength
         loss: in dB
         reflection: from waveguide side.
         reflection_fiber: from fiber side.
-        bandwidth: 1dB bandwidth (um)
+        bandwidth: 3dB bandwidth (um)
 
     .. code::
 
@@ -92,8 +99,9 @@ def grating_coupler(
             o1  ______________|
 
     """
+
     amplitude = jnp.asarray(10 ** (-loss / 20), dtype=complex)
-    sigma = bandwidth / 2 * jnp.sqrt(10 / (2 * jnp.log(10)))
+    sigma = bandwidth / (2 * jnp.sqrt(2 * jnp.log(2)))
     transmission = amplitude * jnp.exp(-((wl - wl0) ** 2) / (2 * sigma ** 2))
     sdict = reciprocal(
         {
@@ -106,8 +114,73 @@ def grating_coupler(
     return sdict
 
 
-def coupler(*, coupling: float = 0.5) -> SDict:
+def coupler(
+    *,
+    wl: float = 1.55,
+    wl0: float = 1.55,
+    length: float = 0.0,
+    coupling0: float = 0.2,
+    dk1: float = 1.2435,
+    dk2: float = 5.3022,
+    dn: float = 0.02,
+    dn1: float = 0.1169,
+    dn2: float = 0.4821,
+) -> SDict:
+    r"""Dispersive coupler model.
+
+    equations adapted from photontorch.
+    https://github.com/flaport/photontorch/blob/master/photontorch/components/directionalcouplers.py
+
+    kappa = coupling0 + coupling
+
+    Args:
+        coupling0: bend region power coupling coefficient from FDTD simulations.
+        dk1: first derivative of coupling0 vs wavelength.
+        dk2: second derivative of coupling vs wavelength.
+        dn: effective index difference between even and odd mode solver simulations.
+        dn1: first derivative of effective index difference vs wavelength.
+        dn2: second derivative of effective index difference vs wavelength.
+
+    .. code::
+
+          coupling0/2        coupling        coupling0/2
+        <-------------><--------------------><---------->
+         o2 ________                           _______o3
+                    \                         /
+                     \        length         /
+                      ======================= gap
+                     /                       \
+            ________/                         \________
+         o1                                           o4
+
+                      ------------------------> K (coupled power)
+                     /
+                    / K
+           -----------------------------------> T = 1 - K (transmitted power)
+    """
+
+    dwl = wl - wl0
+    dn = dn + dn1 * dwl + 0.5 * dn2 * dwl ** 2
+    kappa0 = coupling0 + dk1 * dwl + 0.5 * dk2 * dwl ** 2
+    kappa1 = jnp.pi * dn / wl
+
+    tau = jnp.cos(kappa0 + kappa1 * length)
+    kappa = -jnp.sin(kappa0 + kappa1 * length)
+    sdict = reciprocal(
+        {
+            ("o1", "o4"): tau,
+            ("o1", "o3"): 1j * kappa,
+            ("o2", "o4"): 1j * kappa,
+            ("o2", "o3"): tau,
+        }
+    )
+    return sdict
+
+
+def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
     r"""coupler model for a single wavelength.
+
+    based on sax.models
 
     Args:
         coupling: power coupling coefficient.
@@ -122,7 +195,6 @@ def coupler(*, coupling: float = 0.5) -> SDict:
             ________/                         \_______
          o1                                          o4
 
-                   ---------------------------> 1 - coupling
     """
     kappa = coupling ** 0.5
     tau = (1 - coupling) ** 0.5

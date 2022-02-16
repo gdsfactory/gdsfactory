@@ -6,7 +6,7 @@ There are two types of functions:
 - containers: return a new component
 
 """
-from functools import lru_cache, partial
+from functools import lru_cache
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -15,6 +15,7 @@ from pydantic import validate_arguments
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
+from gdsfactory.functools_ import partial
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import (
     Anchor,

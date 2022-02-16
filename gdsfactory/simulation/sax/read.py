@@ -3,13 +3,14 @@ import pandas as pd
 from sax.typing_ import Float, SDict
 from scipy.interpolate import interp1d
 
+import gdsfactory as gf
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path_lumerical
 from gdsfactory.types import PathType
 
 wl_cband = np.linspace(1.500, 1.600, 128)
 
 
-def from_csv(
+def sdict_from_csv(
     filepath: PathType,
     wl: Float = wl_cband,
     xkey: str = "wavelengths",
@@ -20,11 +21,10 @@ def from_csv(
     Returns interpolated Sdict over wavelength
 
     Args:
-        filepath:
-        wavelength: wavelength to interpolate (um)
-        xkey: key for wavelengths in file
+        filepath: CSV FDTD simulation results path.
+        wl: wavelength to interpolate (um)
+        xkey: key for wavelengths in file.
         xunits: x units in um from the loaded file (um).
-            1e3 for lumerical, 1 for meep
         prefix: for the sparameters column names in file
     """
     df = pd.read_csv(filepath)
@@ -59,9 +59,21 @@ def demo_mmi_lumerical_csv():
     from plot_model import plot_model
 
     filepath = get_sparameters_path_lumerical(gf.c.mmi1x2)
-    mmi = partial(from_csv, filepath=filepath, xkey="wavelengths")
+    mmi = partial(sdict_from_csv, filepath=filepath, xkey="wavelengths")
     plot_model(mmi)
     plt.show()
+
+
+def sdict_from_component_lumerical(component, **kwargs):
+    filepath = get_sparameters_path_lumerical(component=component, **kwargs)
+    return partial(sdict_from_csv, filepath=filepath)
+
+
+mmi1x2 = gf.partial(sdict_from_component_lumerical, component=gf.components.mmi1x2)
+mmi2x2 = gf.partial(sdict_from_component_lumerical, component=gf.components.mmi2x2)
+
+# gc = gf.partial(sdict_from_csv, filepath=sparameters_path / "gc2dte" / "gc1550.csv")
+# TODO: write dat to csv converter
 
 
 if __name__ == "__main__":
@@ -78,7 +90,7 @@ if __name__ == "__main__":
     # plt.show()
 
     filepath = get_sparameters_path_lumerical(gf.c.mmi1x2)
-    mmi = partial(from_csv, filepath=filepath, xkey="wavelengths")
+    mmi = partial(sdict_from_csv, filepath=filepath, xkey="wavelengths")
     plot_model(mmi)
     plt.show()
 

@@ -20,7 +20,7 @@ def plot_model(
     wl_steps: int = 2000,
     phase: bool = False,
 ) -> None:
-    """Plot Model Sparameters
+    """Plot Model Sparameters Magnitude.
 
     Args:
         model: function that returns SDict
@@ -29,7 +29,7 @@ def plot_model(
         wl_min: wavelength min (um)
         wl_max: wavelength max (um)
         wl_steps: number of wavelength steps
-        logscale: plots in dB.
+        logscale: plots in dB logarithmic scale.
         phase: plots phase instead of magnitude
 
     .. plot::
