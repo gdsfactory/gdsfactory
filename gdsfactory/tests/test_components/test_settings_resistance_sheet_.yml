@@ -13,9 +13,23 @@ settings:
     ohms_per_square: null
     pad:
       function: contact
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
       size:
       - 80
       - 80
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
     pad_pitch: 100
     width: 10
   full:
@@ -30,9 +44,23 @@ settings:
     ohms_per_square: null
     pad:
       function: contact
+      layers:
+      - - 3
+        - 0
+      - - 24
+        - 0
+      - - 41
+        - 0
       size:
       - 80
       - 80
+      vias:
+      - null
+      - null
+      - function: via
+        layer:
+        - 40
+        - 0
     pad_pitch: 100
     width: 10
   function_name: resistance_sheet

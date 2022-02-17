@@ -19,12 +19,12 @@ isort:skip_file
 """
 
 
+from functools import partial
 from toolz import compose
 from phidl import quickplot as plot
 from phidl.device_layout import Group, Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
-from gdsfactory.functools_ import partial
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import CONFIG, CONF, call_if_func
 from gdsfactory.port import Port
