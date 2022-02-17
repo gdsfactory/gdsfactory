@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.3
+
+- better notebook doc
+
 ## 4.2.2
 
 - add gf.components.delay_snake_sbend
