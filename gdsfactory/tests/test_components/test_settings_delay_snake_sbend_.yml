@@ -1,0 +1,38 @@
+settings:
+  changed: {}
+  child: null
+  default:
+    bend:
+      function: bend_euler
+    length: 100
+    length1: 0
+    length4: 0
+    print_min_bend_radius: false
+    radius: 5
+    sbend:
+      function: bend_s
+    sbend_xsize: 100
+    straight:
+      function: straight
+    waveguide_spacing: 5
+  full:
+    bend:
+      function: bend_euler
+    length: 100
+    length1: 0
+    length4: 0
+    print_min_bend_radius: false
+    radius: 5
+    sbend:
+      function: bend_s
+    sbend_xsize: 100
+    straight:
+      function: straight
+    waveguide_spacing: 5
+  function_name: delay_snake_sbend
+  info:
+    min_bend_radius: 364.774
+  info_version: 2
+  module: gdsfactory.components.delay_snake_sbend
+  name: delay_snake_sbend
+version: 0.0.1

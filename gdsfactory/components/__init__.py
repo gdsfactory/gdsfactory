@@ -63,8 +63,9 @@ from gdsfactory.components.cutback_component import (
 from gdsfactory.components.dbr import dbr
 from gdsfactory.components.dbr_tapered import dbr_tapered
 from gdsfactory.components.delay_snake import delay_snake
-from gdsfactory.components.delay_snake2 import delay_snake2, test_delay_snake2_length
-from gdsfactory.components.delay_snake3 import delay_snake3, test_delay_snake3_length
+from gdsfactory.components.delay_snake2 import delay_snake2
+from gdsfactory.components.delay_snake3 import delay_snake3
+from gdsfactory.components.delay_snake_sbend import delay_snake_sbend
 from gdsfactory.components.dicing_lane import dicing_lane
 from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import die_bbox
@@ -280,6 +281,7 @@ factory = dict(
     delay_snake=delay_snake,
     delay_snake2=delay_snake2,
     delay_snake3=delay_snake3,
+    delay_snake_sbend=delay_snake_sbend,
     die=die,
     die_bbox=die_bbox,
     die_bbox_frame=die_bbox_frame,
@@ -594,8 +596,6 @@ __all__ = [
     "taper_w10_l200",
     "taper_w11_l200",
     "taper_w12_l200",
-    "test_delay_snake2_length",
-    "test_delay_snake3_length",
     "test_ports",
     "test_splitter_tree_ports",
     "test_splitter_tree_ports_no_sbend",

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 4.2.2
+
+- add gf.components.delay_snake_sbend
+- rename gf.simulation.sax.from_csv to read
+- rename gf.simulation.sax.models.coupler to coupler_single_wavelength
+- add more models to sax: grating_coupler, coupler (dispersive)
+- gf.partial propagates docstring
+
 ## 4.2.1
 
 - center gdsfactory.simulation.modes at z=0

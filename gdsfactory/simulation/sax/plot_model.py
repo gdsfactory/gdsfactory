@@ -4,9 +4,11 @@ from typing import Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
+from pydantic import validate_arguments
 from sax.typing_ import Model
 
 
+@validate_arguments
 def plot_model(
     sdict: Model,
     port1: str = "o1",
@@ -18,7 +20,7 @@ def plot_model(
     wl_steps: int = 2000,
     phase: bool = False,
 ) -> None:
-    """Plot Model Sparameters
+    """Plot Model Sparameters Magnitude.
 
     Args:
         model: function that returns SDict
@@ -27,7 +29,7 @@ def plot_model(
         wl_min: wavelength min (um)
         wl_max: wavelength max (um)
         wl_steps: number of wavelength steps
-        logscale: plots in dB.
+        logscale: plots in dB logarithmic scale.
         phase: plots phase instead of magnitude
 
     .. plot::
@@ -70,6 +72,7 @@ def plot_model(
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylabel(ylabel)
     plt.legend()
+    plt.show()
     return ax
 
 

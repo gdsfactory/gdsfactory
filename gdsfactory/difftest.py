@@ -86,7 +86,7 @@ def difftest(
         diff.write_gds(diff_file)
         diff.show(show_ports=False)
         print(
-            f"\ngds_run {filename!r} changed from gds_ref {ref_file!r}\n"
+            f"\ngds_run {filename!r} changed from gds_ref {str(ref_file)!r}\n"
             "You can check the differences in Klayout GUI or run XOR with"
             f"gf gds diff --xor {ref_file} {run_file}\n"
         )
@@ -96,16 +96,16 @@ def difftest(
                 "Would you like to save current GDS as the new reference? [y/N] "
             )
             if val.upper().startswith("Y"):
-                logger.info(f"deleting file {ref_file!r}")
+                logger.info(f"deleting file {str(ref_file)!r}")
                 ref_file.unlink()
                 shutil.copy(run_file, ref_file)
             raise
         except OSError as exc:
             raise GeometryDifference(
                 "\n"
-                + f"{filename!r} changed from reference {ref_file!r}\n"
-                + "To step over each error you can run `pytest -s`\n"
-                + "So you can check the differences in Klayout GUI\n"
+                f"{filename!r} changed from reference {str(ref_file)!r}\n"
+                "To step over each error you can run `pytest -s`\n"
+                "So you can check the differences in Klayout GUI\n"
             ) from exc
 
 
