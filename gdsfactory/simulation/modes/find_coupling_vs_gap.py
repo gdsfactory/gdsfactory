@@ -105,20 +105,21 @@ def find_coupling_vs_gap(
     gaps = np.linspace(gap1, gap2, steps)
     ne = []
     no = []
-    gap_to_modes = {}
+    dn = []
+    lc = []
 
     for gap in tqdm(gaps):
         modes = find_modes_coupler(gaps=(gap,), **kwargs)
-        ne.append(modes[1].neff)
-        no.append(modes[2].neff)
-        gap_to_modes[gap] = modes
+        n1 = modes[1].neff
+        n2 = modes[2].neff
+        coupling = coupling_length(n1, n2)
 
-    lc = [
-        coupling_length(neff1=neff1, neff2=neff2)
-        for gap, neff1, neff2 in zip(gaps, ne, no)
-    ]
+        ne.append(n1)
+        no.append(n2)
+        dn.append(n1 - n2)
+        lc.append(coupling)
 
-    df = pd.DataFrame(dict(gap=gaps, ne=ne, no=no, lc=lc))
+    df = pd.DataFrame(dict(gap=gaps, ne=ne, no=no, lc=lc, dn=dn))
     if filepath:
         filepath = pathlib.Path(filepath)
         cache = filepath.parent

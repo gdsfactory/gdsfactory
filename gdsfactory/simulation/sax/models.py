@@ -2,6 +2,8 @@ import jax.numpy as jnp
 from sax.typing_ import SDict
 from sax.utils import reciprocal
 
+nm = 1e-3
+
 
 def straight(
     *,
@@ -10,9 +12,11 @@ def straight(
     neff: float = 2.34,
     ng: float = 3.4,
     length: float = 10.0,
-    loss: float = 0.0
+    loss: float = 0.0,
 ) -> SDict:
-    """Simple straight waveguide model.
+    """Dispersive straight waveguide model.
+
+    based on sax.models
 
     Args:
         wl: wavelength
@@ -41,11 +45,145 @@ def straight(
     return sdict
 
 
-def coupler(*, coupling: float = 0.5) -> SDict:
-    r"""Simple coupler model for a single wavelength.
+def attenuator(*, loss: float = 0.0) -> SDict:
+    """attenuator model.
+
+    based on sax.models
 
     Args:
-        coupler: coupling coefficient
+        loss: in dB
+
+    .. code::
+
+        o1 -------------- o2
+                loss
+    """
+    transmission = jnp.asarray(10 ** (-loss / 20), dtype=complex)
+    sdict = reciprocal(
+        {
+            ("o1", "o2"): transmission,
+        }
+    )
+    return sdict
+
+
+def grating_coupler(
+    *,
+    wl: float = 1.55,
+    wl0: float = 1.55,
+    loss: float = 0.0,
+    reflection: float = 0.0,
+    reflection_fiber: float = 0.0,
+    bandwidth: float = 40 * nm,
+) -> SDict:
+    """grating_coupler model.
+
+    equation adapted from photontorch grating coupler
+    https://github.com/flaport/photontorch/blob/master/photontorch/components/gratingcouplers.py
+
+    Args:
+        wl0: center wavelength
+        loss: in dB
+        reflection: from waveguide side.
+        reflection_fiber: from fiber side.
+        bandwidth: 3dB bandwidth (um)
+
+    .. code::
+
+                      fiber o2
+
+                   /  /  /  /
+                  /  /  /  /
+
+                _|-|_|-|_|-|___
+            o1  ______________|
+
+    """
+
+    amplitude = jnp.asarray(10 ** (-loss / 20), dtype=complex)
+    sigma = bandwidth / (2 * jnp.sqrt(2 * jnp.log(2)))
+    transmission = amplitude * jnp.exp(-((wl - wl0) ** 2) / (2 * sigma ** 2))
+    sdict = reciprocal(
+        {
+            ("o1", "o1"): reflection * jnp.ones_like(transmission),
+            ("o1", "o2"): transmission,
+            ("o2", "o1"): transmission,
+            ("o2", "o2"): reflection_fiber * jnp.ones_like(transmission),
+        }
+    )
+    return sdict
+
+
+def coupler(
+    *,
+    wl: float = 1.55,
+    wl0: float = 1.55,
+    length: float = 0.0,
+    coupling0: float = 0.2,
+    dk1: float = 1.2435,
+    dk2: float = 5.3022,
+    dn: float = 0.02,
+    dn1: float = 0.1169,
+    dn2: float = 0.4821,
+) -> SDict:
+    r"""Dispersive coupler model.
+
+    equations adapted from photontorch.
+    https://github.com/flaport/photontorch/blob/master/photontorch/components/directionalcouplers.py
+
+    kappa = coupling0 + coupling
+
+    Args:
+        coupling0: bend region power coupling coefficient from FDTD simulations.
+        dk1: first derivative of coupling0 vs wavelength.
+        dk2: second derivative of coupling vs wavelength.
+        dn: effective index difference between even and odd mode solver simulations.
+        dn1: first derivative of effective index difference vs wavelength.
+        dn2: second derivative of effective index difference vs wavelength.
+
+    .. code::
+
+          coupling0/2        coupling        coupling0/2
+        <-------------><--------------------><---------->
+         o2 ________                           _______o3
+                    \                         /
+                     \        length         /
+                      ======================= gap
+                     /                       \
+            ________/                         \________
+         o1                                           o4
+
+                      ------------------------> K (coupled power)
+                     /
+                    / K
+           -----------------------------------> T = 1 - K (transmitted power)
+    """
+
+    dwl = wl - wl0
+    dn = dn + dn1 * dwl + 0.5 * dn2 * dwl ** 2
+    kappa0 = coupling0 + dk1 * dwl + 0.5 * dk2 * dwl ** 2
+    kappa1 = jnp.pi * dn / wl
+
+    tau = jnp.cos(kappa0 + kappa1 * length)
+    kappa = -jnp.sin(kappa0 + kappa1 * length)
+    sdict = reciprocal(
+        {
+            ("o1", "o4"): tau,
+            ("o1", "o3"): 1j * kappa,
+            ("o2", "o4"): 1j * kappa,
+            ("o2", "o3"): tau,
+        }
+    )
+    return sdict
+
+
+def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
+    r"""coupler model for a single wavelength.
+
+    based on sax.models
+
+    Args:
+        coupling: power coupling coefficient.
 
     .. code::
 
@@ -69,3 +207,10 @@ def coupler(*, coupling: float = 0.5) -> SDict:
         }
     )
     return sdict
+
+
+if __name__ == "__main__":
+    import gdsfactory.simulation.sax as gs
+
+    gs.plot_model(grating_coupler)
+    # gs.plot_model(coupler)
