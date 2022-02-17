@@ -12,13 +12,27 @@ def partial(func, *args, **kwargs):
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.serialization import clean_value_json
 
-    c1 = gf.partial(gf.c.straight, length=1)
-    c2 = gf.partial(c1, length=2)
-    c3 = gf.partial(c2, length=3)
+    # from gdsfactory.serialization import clean_value_json
+    # from gdsfactory.serialization import clean_value_name
 
-    print(c3.func.func.func.__name__)
-    print(clean_value_json(c1))
-    print(clean_value_json(c2))
-    print(clean_value_json(c3))
+    c1 = _partial(gf.c.straight, length=1)
+    c2 = _partial(c1, length=2)
+    c3 = _partial(c2, length=3)
+
+    # print(clean_value_json(c1))
+    # print(clean_value_json(c2))
+    # print(clean_value_json(c3))
+
+    # print(clean_value_name(c1))
+    # print(clean_value_name(c2))
+    # print(clean_value_name(c3))
+
+    c1a = _partial(gf.c.straight, length=1)
+    c1b = partial(gf.c.straight, length=1)
+
+    c4 = gf.c.mzi(straight=c1a)
+    c5 = gf.c.mzi(straight=c1b)
+
+    print(c4.name)
+    print(c5.name)
