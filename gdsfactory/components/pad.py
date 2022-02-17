@@ -86,6 +86,9 @@ def pad_array(
 pad_array90 = partial(pad_array, orientation=90)
 pad_array270 = partial(pad_array, orientation=270)
 
+pad_array0 = partial(pad_array, orientation=0, columns=1, rows=3)
+pad_array180 = partial(pad_array, orientation=180, columns=1, rows=3)
+
 
 if __name__ == "__main__":
     # c = pad()
@@ -93,7 +96,8 @@ if __name__ == "__main__":
     # print(c.ports)
     # c = pad(width=10, height=10)
     # print(c.ports.keys())
-    c = pad_array90()
+    # c = pad_array90()
+    c = pad_array0()
     # c = pad_array270()
     # c.pprint_ports()
     # c = pad_array_2d(cols=2, rows=3, port_names=("e2",))

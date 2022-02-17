@@ -141,7 +141,14 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
-from gdsfactory.components.pad import pad, pad_array, pad_array90, pad_array270
+from gdsfactory.components.pad import (
+    pad,
+    pad_array,
+    pad_array0,
+    pad_array90,
+    pad_array180,
+    pad_array270,
+)
 from gdsfactory.components.pad_gsg import pad_gsg_open, pad_gsg_short
 from gdsfactory.components.pads_shorted import pads_shorted
 from gdsfactory.components.ramp import ramp
@@ -553,7 +560,9 @@ __all__ = [
     "cdsem_all",
     "pad",
     "pad_array",
+    "pad_array0",
     "pad_array90",
+    "pad_array180",
     "pad_array270",
     "pads_shorted",
     "pixel",
