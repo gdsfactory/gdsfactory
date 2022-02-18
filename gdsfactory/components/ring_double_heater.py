@@ -108,3 +108,4 @@ if __name__ == "__main__":
 
     c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
     c.show(show_subports=False)
+    c.pprint()
