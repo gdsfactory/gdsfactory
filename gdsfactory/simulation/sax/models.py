@@ -134,10 +134,10 @@ def coupler(
     kappa = coupling0 + coupling
 
     Args:
-        coupling0: bend region power coupling coefficient from FDTD simulations.
+        coupling0: bend region coupling coefficient from FDTD simulations.
         dk1: first derivative of coupling0 vs wavelength.
         dk2: second derivative of coupling vs wavelength.
-        dn: effective index difference between even and odd mode solver simulations.
+        dn: effective index difference between even and odd modes.
         dn1: first derivative of effective index difference vs wavelength.
         dn2: second derivative of effective index difference vs wavelength.
 
