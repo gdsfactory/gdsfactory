@@ -1,4 +1,4 @@
-""" Useful functions for plotting. """
+"""Useful plot functions."""
 
 from typing import Tuple
 
@@ -23,23 +23,21 @@ def plot_model(
     """Plot Model Sparameters Magnitude.
 
     Args:
-        model: function that returns SDict
-        port1: input port name
-        ports2: list of ports
-        wl_min: wavelength min (um)
-        wl_max: wavelength max (um)
-        wl_steps: number of wavelength steps
+        model: function that returns SDict.
+        port1: input port name.
+        ports2: list of ports.
+        wl_min: wavelength min (um).
+        wl_max: wavelength max (um).
+        wl_steps: number of wavelength steps.
         logscale: plots in dB logarithmic scale.
-        phase: plots phase instead of magnitude
+        phase: plot phase instead of magnitude.
 
     .. plot::
         :include-source:
 
         import gdsfactory.simulation.sax as gs
-        import matplotlib.pyplot as plt
 
         gs.plot_model(gs.models.straight, phase=True, port1="o1")
-        plt.show()
     """
 
     wavelengths = np.linspace(wl_min, wl_max, wl_steps)
@@ -80,4 +78,3 @@ if __name__ == "__main__":
     import sax
 
     plot_model(sax.models.straight, phase=True, port1="in2")
-    plt.show()
