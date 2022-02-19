@@ -82,12 +82,12 @@ def get_sparameters(
         port_extension: extend ports beyond the PML
         layer_stack: contains layer numbers (int, int) to thickness, zmin
         thickness_pml: PML thickness (um)
-        xmargin: east/west distance from component to PML.
-        xmargin_left: west distance from component to PML.
-        xmargin_right: east distance from component to PML.
-        ymargin: north/south distance from component to PML.
-        ymargin_top: north distance from component to PML.
-        ymargin_bot: south distance from component to PML.
+        xmargin: left/right distance from component to PML.
+        xmargin_left: left distance from component to PML.
+        xmargin_right: right distance from component to PML.
+        ymargin: left/right distance from component to PML.
+        ymargin_top: top distance from component to PML.
+        ymargin_bot: bottom distance from component to PML.
         zmargin: thickness for cladding above and below core
         clad_material: material for cladding
         port_source_name: input port name
