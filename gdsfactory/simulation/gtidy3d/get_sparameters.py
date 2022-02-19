@@ -192,4 +192,5 @@ if __name__ == "__main__":
 
     c = gf.components.straight(length=2)
     s = get_sparameters(c)
-    print(s)
+    t = s["s12m"]
+    print(f"Transmission = {t}")
