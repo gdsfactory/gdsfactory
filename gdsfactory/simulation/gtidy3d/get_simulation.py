@@ -1,6 +1,6 @@
 """Returns tidy3d simulation from gdsfactory Component."""
 import warnings
-from typing import Optional
+from typing import Dict, Optional, Union
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -13,13 +13,17 @@ from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.gtidy3d.materials import get_medium
+from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
+# FIXME: enable using materials from database
 MATERIAL_NAME_TO_TIDY3D = {
-    "si": "cSi",
-    "sio2": "SiO2",
-    "sin": "Si3N4",
+    "si": 3.47,
+    "sio2": 1.44,
+    "sin": 2.0,
+    # "si": "cSi",
+    # "sio2": "SiO2",
+    # "sin": "Si3N4",
 }
 
 
@@ -44,6 +48,7 @@ def get_simulation(
     wavelength: float = 1.55,
     plot_modes: bool = False,
     num_modes: int = 2,
+    material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -157,15 +162,17 @@ def get_simulation(
     component_ref.x = 0
     component_ref.y = 0
 
+    clad_material_name = material_name_to_tidy3d[clad_material]
     clad = td.Structure(
         geometry=td.Box(
             size=(td.inf, td.inf, td.inf),
             center=(0, 0, 0),
         ),
-        medium=get_medium(name=clad_material),
+        medium=get_medium(name=clad_material_name),
     )
-
     structures = [clad]
+    structures = []
+
     layers_thickness = [
         layer_to_thickness[layer]
         for layer in component.get_layers()
@@ -187,12 +194,13 @@ def get_simulation(
             zmax = zmin + thickness
             if (
                 layer in layer_to_material
-                and layer_to_material[layer] in MATERIAL_NAME_TO_TIDY3D
+                and layer_to_material[layer] in material_name_to_tidy3d
             ):
-                material_name = MATERIAL_NAME_TO_TIDY3D[layer_to_material[layer]]
+                material_name = material_name_to_tidy3d[layer_to_material[layer]]
                 medium = get_medium(name=material_name)
                 logger.debug(
-                    f"Add {layer}, thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
+                    f"Add {layer}, {material_name!r}, index = {get_index(name=material_name):.3f}, "
+                    f"thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
                 )
 
                 polygons = td.PolySlab.from_gds(
@@ -211,9 +219,9 @@ def get_simulation(
                     structures.append(geometry)
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
-            elif layer_to_material[layer] not in MATERIAL_NAME_TO_TIDY3D:
+            elif layer_to_material[layer] not in material_name_to_tidy3d:
                 logger.debug(
-                    f"material {layer_to_material[layer]} not in {MATERIAL_NAME_TO_TIDY3D.keys()}"
+                    f"material {layer_to_material[layer]} not in {material_name_to_tidy3d.keys()}"
                 )
     # Add source
     port = component_ref.ports[port_source_name]
@@ -319,8 +327,8 @@ def plot_simulation_yz(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
-    sim.plot(z=z, ax=ax1)
-    sim.plot(y=y, ax=ax2)
+    sim.plot_eps(z=z, ax=ax1)
+    sim.plot_eps(y=y, ax=ax2)
     return fig
 
 
@@ -336,8 +344,8 @@ def plot_simulation_xz(sim: td.Simulation, x: float = 0.0, z: float = 0.0):
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
-    sim.plot(z=z, ax=ax1)
-    sim.plot(x=x, ax=ax2)
+    sim.plot_eps(z=z, ax=ax1)
+    sim.plot_eps(x=x, ax=ax2)
     return fig
 
 
@@ -348,7 +356,8 @@ if __name__ == "__main__":
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
-    c = gf.c.straight_rib()
+    # c = gf.c.straight_rib()
+    c = gf.c.straight()
 
     sim = get_simulation(c, plot_modes=True)
     # plot_simulation(sim)

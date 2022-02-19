@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.4
+
+- tidy3d plugin improvements
+
 ## [4.2.3](https://github.com/gdsfactory/gdsfactory/pull/190)
 
 - better notebook doc
