@@ -182,8 +182,6 @@ def get_simulation(
         cell_thickness,
     ]
 
-    layer_to_polygons = component_extended.get_polygons(by_spec=True)
-
     for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
             thickness = layer_to_thickness[layer]
@@ -199,21 +197,20 @@ def get_simulation(
                     f"Add {layer}, thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
                 )
 
-                npolygons = len(layer_to_polygons[layer])
-                for polygon_index in range(npolygons):
-                    poly = td.PolySlab.from_gds(
-                        gds_cell=component_extended,
-                        gds_layer=layer[0],
-                        gds_dtype=layer[1],
-                        axis=2,
-                        slab_bounds=(zmin, zmax),
-                        polygon_index=polygon_index,
-                    )
+                polygons = td.PolySlab.from_gds(
+                    gds_cell=component_extended,
+                    gds_layer=layer[0],
+                    gds_dtype=layer[1],
+                    axis=2,
+                    slab_bounds=(zmin, zmax),
+                )
+
+                for polygon in polygons:
                     geometry = td.Structure(
-                        geometry=poly,
+                        geometry=polygon,
                         medium=medium,
                     )
-                    structures.append(geometry)
+                structures.append(geometry)
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
             elif layer_to_material[layer] not in MATERIAL_NAME_TO_TIDY3D:
@@ -320,7 +317,6 @@ def plot_simulation_yz(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
         z:
         y:
     """
-
     fig = plt.figure(figsize=(11, 4))
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
@@ -338,7 +334,6 @@ def plot_simulation_xz(sim: td.Simulation, x: float = 0.0, z: float = 0.0):
         x:
         z:
     """
-
     fig = plt.figure(figsize=(11, 4))
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
