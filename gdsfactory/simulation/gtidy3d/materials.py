@@ -49,7 +49,7 @@ def get_index(
         name=name,
         material_name_to_medium=material_name_to_medium,
     )
-    n, k = td.Medium.eps_complex_to_nk(eps_complex)
+    n, _ = td.Medium.eps_complex_to_nk(eps_complex)
     return n
 
 

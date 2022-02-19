@@ -3,6 +3,7 @@
 ## 4.2.3
 
 - better notebook doc
+- update tidy3d plugin to latest version 1.0.1
 
 ## 4.2.2
 
