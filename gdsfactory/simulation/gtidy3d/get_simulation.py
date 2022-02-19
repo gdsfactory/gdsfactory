@@ -26,8 +26,6 @@ MATERIAL_NAME_TO_TIDY3D = {
 @pydantic.validate_arguments
 def get_simulation(
     component: Component,
-    mode_index: int = 0,
-    n_modes: int = 2,
     port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
@@ -45,6 +43,7 @@ def get_simulation(
     resolution: float = 50,
     wavelength: float = 1.55,
     plot_modes: bool = False,
+    num_modes: int = 2,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -88,12 +87,16 @@ def get_simulation(
 
     Args:
         component: gf.Component
-        mode_index: mode index
-        n_modes: number of modes
         port_extension: extend ports beyond the PML
         layer_stack: contains layer numbers (int, int) to thickness, zmin
-        zmargin: thickness for cladding above and below core
         thickness_pml: PML thickness (um)
+        xmargin: east/west distance from component to PML.
+        xmargin_left: west distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: north/south distance from component to PML.
+        ymargin_top: north distance from component to PML.
+        ymargin_bot: south distance from component to PML.
+        zmargin: thickness for cladding above and below core
         clad_material: material for cladding
         port_source_name: input port name
         port_margin: margin on each side of the port
@@ -101,12 +104,7 @@ def get_simulation(
         resolution: grid_size=3*[1/resolution]
         wavelength: in (um)
         plot_modes: plot source modes.
-        xmargin: left and right distance from component to PML.
-        xmargin_left: west distance from component to PML.
-        xmargin_right: east distance from component to PML.
-        ymargin: top and bottom distance from component to PML.
-        ymargin_top: north distance from component to PML.
-        ymargin_bot: south distance from component to PML.
+        num_modes: number of modes to plot
 
 
     .. code::
@@ -139,10 +137,10 @@ def get_simulation(
     component_padding = gf.add_padding_container(
         component,
         default=0,
-        top=ymargin_top,
-        bottom=ymargin_bot,
-        left=xmargin_left,
-        right=xmargin_right,
+        top=ymargin or ymargin_top,
+        bottom=ymargin or ymargin_bot,
+        left=xmargin or xmargin_left,
+        right=xmargin or xmargin_right,
     )
     component_extended = (
         gf.components.extension.extend_ports(
@@ -210,7 +208,7 @@ def get_simulation(
                         geometry=polygon,
                         medium=medium,
                     )
-                structures.append(geometry)
+                    structures.append(geometry)
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
             elif layer_to_material[layer] not in MATERIAL_NAME_TO_TIDY3D:
@@ -287,7 +285,7 @@ def get_simulation(
     if plot_modes:
         src_plane = td.Box(center=source_center, size=source_size)
         ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
-        mode_spec = td.ModeSpec(num_modes=3)
+        mode_spec = td.ModeSpec(num_modes=num_modes)
         modes = ms.solve(mode_spec=mode_spec)
 
         print(
@@ -295,8 +293,8 @@ def get_simulation(
             ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
         )
 
-        fig, axs = plt.subplots(3, 2, figsize=(12, 12))
-        for mode_ind in range(3):
+        fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        for mode_ind in range(num_modes):
             abs(modes[mode_ind].field_data.Ey).plot(
                 x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
             )
@@ -352,9 +350,7 @@ if __name__ == "__main__":
     # c = gf.components.crossing()
     c = gf.c.straight_rib()
 
-    plot_modes = False
-    plot_modes = True
-    sim = get_simulation(c, plot_modes=plot_modes)
+    sim = get_simulation(c, plot_modes=True)
     # plot_simulation(sim)
 
     fig = plt.figure(figsize=(11, 4))

@@ -17,7 +17,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     Args:
         port_index: index of port
         ports: component_ref.ports
-        sim_data:
+        sim_data: simulation data
     """
     if f"o{port_index}" not in ports:
         raise ValueError(
@@ -28,22 +28,22 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     # Direction of port (pointing away from the simulation)
     # Figure out if that is exiting the simulation or not
     # depending on the port orientation (assuming it's near PMLs)
-    if ports[f"o{port_index}"].orientation == 0:  # east
+
+    orientation = ports[f"o{port_index}"].orientation
+    if orientation == 0:  # east
         direction_inp = "-"
         direction_out = "+"
-    elif ports[f"o{port_index}"].orientation == 90:  # north
+    elif orientation == 90:  # north
         direction_inp = "-"
         direction_out = "+"
-    elif ports[f"o{port_index}"].orientation == 180:  # west
+    elif orientation == 180:  # west
         direction_inp = "+"
         direction_out = "-"
-    elif ports[f"o{port_index}"].orientation == 270:  # south
+    elif orientation == 270:  # south
         direction_inp = "+"
         direction_out = "-"
     else:
-        ValueError(
-            "Port orientation {ports[port_index].orientation} is not 0, 90, 180, or 270 degrees!"
-        )
+        ValueError("Port orientation = {orientation} is not 0, 90, 180, or 270 degrees")
 
     coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(
         direction=direction_inp
@@ -57,8 +57,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
 def get_sparameters(
     component: Component, port_symmetries: Optional[PortSymmetries] = None, **kwargs
 ) -> pd.DataFrame:
-    """
-    Get full sparameter matrix
+    """Get full sparameter matrix from a gdsfactory Component.
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
@@ -80,12 +79,16 @@ def get_sparameters(
         port_symmetries: Dict to specify port symmetries, to save number of simulations
 
     Keyword Args:
-        mode_index: mode index
-        n_modes: number of modes
         port_extension: extend ports beyond the PML
         layer_stack: contains layer numbers (int, int) to thickness, zmin
-        zmargin: thickness for cladding above and below core
         thickness_pml: PML thickness (um)
+        xmargin: east/west distance from component to PML.
+        xmargin_left: west distance from component to PML.
+        xmargin_right: east distance from component to PML.
+        ymargin: north/south distance from component to PML.
+        ymargin_top: north distance from component to PML.
+        ymargin_bot: south distance from component to PML.
+        zmargin: thickness for cladding above and below core
         clad_material: material for cladding
         port_source_name: input port name
         port_margin: margin on each side of the port
@@ -93,6 +96,7 @@ def get_sparameters(
         resolution: grid_size=3*[1/resolution]
         wavelength: in (um)
         plot_modes: plot source modes.
+        num_modes: number of modes to plot
 
     """
 

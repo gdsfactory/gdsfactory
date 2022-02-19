@@ -38,7 +38,7 @@ def _get_results(
     """
     task_name = sim_hash = get_sim_hash(sim)
     sim_path = dirpath / f"{sim_hash}.hdf5"
-    logger.info(f"running simulation {sim_hash}")
+    logger.info(f"running simulation {sim_hash!r}")
 
     hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_tasks()}
     filepath = dirpath / f"{sim_hash}.hdf5"
