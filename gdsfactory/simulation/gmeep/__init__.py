@@ -4,6 +4,11 @@ from gdsfactory.config import logger
 from gdsfactory.simulation import plot, port_symmetries
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_data_meep
 from gdsfactory.simulation.gmeep.get_simulation import get_simulation
+from gdsfactory.simulation.gmeep.write_sparameters_grating import (
+    write_sparameters_grating,
+    write_sparameters_grating_batch,
+    write_sparameters_grating_mpi,
+)
 from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     write_sparameters_meep,
     write_sparameters_meep_lr,
@@ -34,6 +39,9 @@ __all__ = [
     "write_sparameters_meep_batch",
     "write_sparameters_meep_batch_lr",
     "write_sparameters_meep_batch_lt",
+    "write_sparameters_grating",
+    "write_sparameters_grating_mpi",
+    "write_sparameters_grating_batch",
     "plot",
     "port_symmetries",
 ]
