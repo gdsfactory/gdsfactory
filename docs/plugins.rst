@@ -31,6 +31,7 @@ Plugins
    notebooks/plugins/mpb/001_mpb_waveguide.ipynb
    notebooks/plugins/lumerical/1_fdtd_sparameters.ipynb
    notebooks/plugins/meep/001_meep_sparameters.ipynb
+   notebooks/plugins/meep/002_gratings.ipynb
    notebooks/plugins/tidy3d/00_tidy3d.ipynb
    notebooks/plugins/sax/sax.ipynb
    notebooks/plugins/simphony/01_components.ipynb

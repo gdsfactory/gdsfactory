@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.5
+
+- add gf.simulation.gmeep.write_sparameters_grating
+
 ## 4.2.4
 
 - tidy3d plugin improvements
