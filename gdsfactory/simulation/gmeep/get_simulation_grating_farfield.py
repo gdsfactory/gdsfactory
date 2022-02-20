@@ -1,10 +1,10 @@
-"""SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
+"""FIXME: needs some work
 
-MFD:
-
-- 10.4 for Cband
-- 9.2 for Oband
-
+- figure out get_farfield outputs
+- add tutorial in docs/notebooks/plugins/meep/002_gratings.ipynb
+- add filecache
+- benchmark with lumerical and tidy3d
+- add tests
 
 """
 from typing import Any, Dict, Optional
@@ -119,6 +119,7 @@ def get_simulation_grating_farfield(
     fiber_angle = np.radians(fiber_angle_deg)
 
     y_offset = 0
+    x_offset = 0
 
     # Minimally-parametrized computational cell
     # Could be further optimized
@@ -290,6 +291,18 @@ def get_simulation_grating_farfield(
         dimensions=2,
         eps_averaging=True,
     )
+
+    offset_vector = mp.Vector3(x_offset, y_offset)
+    nearfield = sim.add_near2far(
+        fcen,
+        0,
+        1,
+        mp.Near2FarRegion(
+            mp.Vector3(x_offset, 0.5 * sz - pml_thickness + y_offset) - offset_vector,
+            size=mp.Vector3(sxy - 2 * pml_thickness, 0),
+        ),
+    )
+
     waveguide_monitor = sim.add_mode_monitor(
         freqs, waveguide_monitor_port, yee_grid=True
     )
@@ -309,7 +322,48 @@ def get_simulation_grating_farfield(
         field_monitor_point=field_monitor_point,
         initialized=False,
         settings=settings,
+        nearfield=nearfield,
     )
+
+
+def get_farfield(wavelength: float = 1.55, **kwargs):
+    """
+    FIXME: figure out outputs
+
+    based on
+    http://www.simpetus.com/projects.html#meep_outcoupler
+    """
+    sim_dict = get_simulation_grating_farfield(**kwargs)
+
+    sim = sim_dict["sim"]
+    sim.run(until=400)
+
+    fcen = 1 / wavelength
+    r = 1000 / fcen  # 1000 wavelengths out from the source
+    npts = 1000  # number of points in [0,2*pi) range of angles
+
+    farfield_angles = []
+    farfield_power = []
+
+    nearfield = sim["nearfield"]
+    for n in range(npts):
+        ff = sim.get_farfield(
+            nearfield,
+            mp.Vector3(r * np.cos(np.pi * (n / npts)), r * np.sin(np.pi * (n / npts))),
+        )
+        farfield_angles.append(
+            np.angle(np.cos(np.pi * (n / npts)) + 1j * np.sin(np.pi * (n / npts)))
+        )
+        farfield_power.append(ff)
+
+    farfield_angles = np.array(farfield_angles)
+    farfield_power = np.array(farfield_power)
+
+    # Waveguide
+    res_waveguide = sim.get_eigenmode_coefficients(
+        sim_dict["waveguide_monitor"], [1], eig_parity=mp.ODD_Z, direction=mp.X
+    )
+    return res_waveguide
 
 
 def get_port_1D_eigenmode(
@@ -402,12 +456,13 @@ def plot(sim):
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    # sim_dict = get_GC_simulation(fiber_xposition=5, fiber_angle_deg=15)
-    # # plot(sim_dict["sim"])
-    # # plt.show()
-    # plt.figure()
+    sim_dict = get_simulation_grating_farfield(fiber_xposition=1, fiber_angle_deg=15)
+
+    # plot(sim_dict["sim"])
+    # plt.show()
+
     # results = {}
-    # for angle in [10, 15]:  # np.linspace(0,360,72):
+    # for angle in [10]:
     #     print(angle)
     #     (
     #         x_waveguide,
@@ -423,44 +478,53 @@ if __name__ == "__main__":
     #             mp.Vector3(xs_fiber[i], y_fiber, 0), mp.Ez
     #         )
     #     plt.plot(xs_fiber, np.abs(Ez_fiber))
-    # # Ez_waveguide = np.zeros(len(ys_waveguide), dtype=np.complex128)
-    # # for i in range(len(ys_waveguide)):
-    # #     Ez_waveguide[i] = eigenmode_waveguide.amplitude(
-    # #                 mp.Vector3(x_waveguide, ys_waveguide[i], 0), mp.Ez
-    # #             )
-    # # plt.plot(ys_waveguide, np.abs(Ez_waveguide))
-    # # plt.xlabel('y (um)')
-    # # plt.ylabel('Ez (a.u.)')
-    # # plt.savefig('waveguide.png')
-    # # plt.figure()
-    # # Ez_fiber = np.zeros(len(xs_fiber), dtype=np.complex128)
-    # # for i in range(len(xs_fiber)):
-    # #     Ez_fiber[i] = eigenmode_fiber.amplitude(
-    # #                 mp.Vector3(xs_fiber[i], y_fiber, 0), mp.Ez
-    # #             )
-    # # plt.plot(xs_fiber, np.abs(Ez_fiber))
+
     # plt.xlabel("x (um)")
     # plt.ylabel("Ez (a.u.)")
     # plt.savefig("fiber.png")
-    # M1, E-field
+
+    # # M1, E-field
     # plt.figure(figsize=(10, 8), dpi=100)
     # plt.suptitle(
     #     "MEEP get_eigenmode / MPB find_modes / Lumerical (manual)",
     #     y=1.05,
     #     fontsize=18,
     # )
-    # plt.subplot(2, 2, 1)
-    # mode_waveguide.plot_ez(show=False, operation=np.abs, scale=False)
-    # plt.subplot(2, 2, 2)
-    # mode_fiber.plot_ez(show=False, operation=np.abs, scale=False)
-    # plt.subplot(2, 2, 3)
-    # mode_waveguide.plot_hz(show=False, operation=np.abs, scale=False)
-    # plt.subplot(2, 2, 4)
-    # mode_fiber.plot_hz(show=False, operation=np.abs, scale=False)
-    # plt.tight_layout()
     # plt.show()
-    # fire.Fire(fiber)
 
-    sim_dict = get_simulation_grating_farfield(fiber_xposition=1, fiber_angle_deg=15)
-    plot(sim_dict["sim"])
+    wavelength = 1.55
+    settings = dict()
+    sim_dict = get_simulation_grating_farfield(**settings)
+
+    sim = sim_dict["sim"]
+    sim.run(until=100)
+    # sim.run(until=400)
+
+    fcen = 1 / wavelength
+    r = 1000 / fcen  # 1000 wavelengths out from the source
+    npts = 1000  # number of points in [0,2*pi) range of angles
+
+    farfield_angles = []
+    farfield_power = []
+
+    nearfield = sim["nearfield"]
+    for n in range(npts):
+        ff = sim.get_farfield(
+            nearfield,
+            mp.Vector3(r * np.cos(np.pi * (n / npts)), r * np.sin(np.pi * (n / npts))),
+        )
+        farfield_angles.append(
+            np.angle(np.cos(np.pi * (n / npts)) + 1j * np.sin(np.pi * (n / npts)))
+        )
+        farfield_power.append(ff)
+
+    farfield_angles = np.array(farfield_angles)
+    farfield_power = np.array(farfield_power)
+
+    # Waveguide
+    res_waveguide = sim.get_eigenmode_coefficients(
+        sim_dict["waveguide_monitor"], [1], eig_parity=mp.ODD_Z, direction=mp.X
+    )
+    print(res_waveguide)
+    plt.plot(farfield_power)
     plt.show()
