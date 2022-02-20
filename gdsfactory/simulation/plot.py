@@ -40,6 +40,7 @@ def plot_sparameters(
     plt.legend()
     plt.xlabel("wavelength (nm)")
     plt.ylabel("|S| (dB)") if logscale else plt.ylabel("|S|")
+    plt.show()
 
 
 def plot_imbalance2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -> None:
