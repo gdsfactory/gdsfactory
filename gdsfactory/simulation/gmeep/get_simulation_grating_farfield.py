@@ -5,11 +5,6 @@ MFD:
 - 10.4 for Cband
 - 9.2 for Oband
 
-TODO:
-
-- verify with lumerical sims
-- get Sparameters
-- enable mpi run from python
 
 """
 from typing import Any, Dict, Optional
@@ -31,40 +26,61 @@ def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
 def get_simulation_grating_farfield(
     period: float = 0.66,
     fill_factor: float = 0.5,
+    n_periods: int = 30,
     widths: Optional[Floats] = None,
     gaps: Optional[Floats] = None,
+    etch_depth: float = 70 * nm,
     fiber_angle_deg: float = 20.0,
     fiber_xposition: float = 1.0,
     fiber_core_diameter: float = 10.4,
     fiber_numerical_aperture: float = 0.14,
     fiber_nclad: float = nSiO2,
-    res: int = 64,  # pixels/um
     ncore: float = nSi,
     nclad: float = nSiO2,
     nsubstrate: float = nSi,
-    n_periods: int = 30,
+    pml_thickness: float = 1,
     box_thickness: float = 2.0,
     clad_thickness: float = 2.0,
     core_thickness: float = 220 * nm,
-    etch_depth: float = 70 * nm,
+    resolution: int = 64,  # pixels/um
     wavelength_min: float = 1.5,
     wavelength_max: float = 1.6,
     wavelength_points: int = 50,
-    dtaper: float = 1,
-    # **settings,
 ) -> Dict[str, Any]:
-    """Returns simulation results from grating coupler with fiber.
+    """Returns grating coupler far field simulation
     na**2 = ncore**2 - nclad**2
     ncore = sqrt(na**2 + ncore**2)
 
     Args:
-        period: grating coupler period
-        fill_factor:
-        widths: overrides n_periods period and fill_factor
-        gaps: overrides n_periods period and fill_factor
-        fiber_angle_deg: angle fiber in degrees
-        decay_by: 1e-9
+        period: fiber grating period
+        fill_factor: fraction of the grating period filled with the grating material.
+        n_periods: number of periods
+        widths: Optional list of widths. Overrides period, fill_factor, n_periods
+        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods
+        etch_depth: grating etch depth
+        fiber_angle_deg: fiber angle in degrees
+        fiber_xposition: xposition
+        fiber_core_diameter: fiber diameter
+        fiber_numerical_aperture: NA
+        fiber_nclad: fiber cladding index.
+        ncore: fiber index core.
+        nclad: top cladding index.
+        nbox: box index bottom.
+        nsubstrate: index substrate.
+        pml_thickness: pml_thickness (um)
+        substrate_thickness: substrate_thickness (um)
+        box_thickness: thickness for bottom cladding (um)
+        core_thickness: core_thickness (um)
+        top_clad_thickness: thickness of the top cladding.
+        air_gap_thickness: air gap thickness.
+        resolution: resolution pixels/um
+        wavelength_min: min wavelength (um)
+        wavelength_max: max wavelength (um)
+        wavelength_points: wavelength points.
 
+
+    Some paraemeters are different from get_simulation_grating_fiber
+        fiber_thickness: fiber_thickness
     """
     wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
     wavelength = np.mean(wavelengths)
@@ -80,7 +96,7 @@ def get_simulation_grating_farfield(
         fiber_core_diameter=fiber_core_diameter,
         fiber_numerical_aperture=fiber_core_diameter,
         fiber_nclad=fiber_nclad,
-        res=res,
+        resolution=resolution,
         ncore=ncore,
         nclad=nclad,
         nsubstrate=nsubstrate,
@@ -91,13 +107,9 @@ def get_simulation_grating_farfield(
         wavelength_min=wavelength_min,
         wavelength_max=wavelength_max,
         wavelength_points=wavelength_points,
-        dtaper=dtaper,
         widths=widths,
         gaps=gaps,
     )
-    # settings_string = clean_value_name(settings)
-    # settings_hash = hashlib.md5(settings_string.encode()).hexdigest()[:8]
-
     length_grating = np.sum(widths) + np.sum(gaps)
 
     substrate_thickness = 1.0
@@ -110,17 +122,21 @@ def get_simulation_grating_farfield(
 
     # Minimally-parametrized computational cell
     # Could be further optimized
-    dpml = 1
 
     # X-domain
     dbufferx = 0.5
-    if length_grating + dtaper < 3 * fiber_core_diameter:
-        sxy = 3 * fiber_core_diameter + 2 * dbufferx + 2 * dpml
+    if length_grating < 3 * fiber_core_diameter:
+        sxy = 3 * fiber_core_diameter + 2 * dbufferx + 2 * pml_thickness
     else:  # Fiber probably to the left
-        sxy = 3 / 2 * fiber_core_diameter + length_grating / 2 + 2 * dbufferx + 2 * dpml
+        sxy = (
+            3 / 2 * fiber_core_diameter
+            + length_grating / 2
+            + 2 * dbufferx
+            + 2 * pml_thickness
+        )
 
     # Useful reference points
-    cell_edge_left = -sxy / 2 + dbufferx + dpml
+    cell_edge_left = -sxy / 2 + dbufferx + pml_thickness
     grating_start = -fiber_xposition
 
     # Y-domain (using z notation from 3D legacy code)
@@ -131,7 +147,7 @@ def get_simulation_grating_farfield(
         + core_thickness
         + hair
         + substrate_thickness
-        + 2 * dpml
+        + 2 * pml_thickness
     )
 
     # Initialize domain x-z plane simulation
@@ -140,16 +156,16 @@ def get_simulation_grating_farfield(
     # Ports (position, sizes, directions)
     fiber_offset_from_angle = (clad_thickness + core_thickness) * np.tan(fiber_angle)
     fiber_port_center = mp.Vector3(
-        (0.5 * sz - dpml + y_offset - 1) * np.sin(fiber_angle)
+        (0.5 * sz - pml_thickness + y_offset - 1) * np.sin(fiber_angle)
         + cell_edge_left
         + 3 / 2 * fiber_core_diameter
         - fiber_offset_from_angle,
-        0.5 * sz - dpml + y_offset - 1,
+        0.5 * sz - pml_thickness + y_offset - 1,
     )
     fiber_port_size = mp.Vector3(3 * fiber_core_diameter, 0, 0)
     # fiber_port_direction = mp.Vector3(y=-1).rotate(mp.Vector3(z=1), -1 * fiber_angle)
 
-    waveguide_port_center = mp.Vector3(-sxy / 4)  # grating_start - dtaper, 0)
+    waveguide_port_center = mp.Vector3(-sxy / 4)
     waveguide_port_size = mp.Vector3(0, 2 * clad_thickness - 0.2)
     waveguide_port_direction = mp.X
 
@@ -230,15 +246,15 @@ def get_simulation_grating_farfield(
             material=mp.Medium(index=nsubstrate),
             center=mp.Vector3(
                 0,
-                -0.5 * (core_thickness + substrate_thickness + dpml + dbuffery)
+                -0.5 * (core_thickness + substrate_thickness + pml_thickness + dbuffery)
                 - box_thickness,
             ),
-            size=mp.Vector3(mp.inf, substrate_thickness + dpml + dbuffery),
+            size=mp.Vector3(mp.inf, substrate_thickness + pml_thickness + dbuffery),
         )
     )
 
     # PMLs
-    boundary_layers = [mp.PML(dpml)]
+    boundary_layers = [mp.PML(pml_thickness)]
 
     # mode frequency
     fcen = 1 / wavelength
@@ -266,7 +282,7 @@ def get_simulation_grating_farfield(
     )
 
     sim = mp.Simulation(
-        resolution=res,
+        resolution=resolution,
         cell_size=cell_size,
         boundary_layers=boundary_layers,
         geometry=geometry,
@@ -298,14 +314,15 @@ def get_simulation_grating_farfield(
 
 def get_port_1D_eigenmode(
     sim_dict,
-    band_num=1,
-    fiber_angle_deg=15,
+    band_num: int = 1,
+    fiber_angle_deg: float = 15,
 ):
     """
 
     Args:
         sim_dict: simulation dict
         band_num: band number to solve for
+        fiber_angle_deg
 
     Returns:
         Mode object compatible with /modes plugin
