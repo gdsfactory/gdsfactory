@@ -210,7 +210,7 @@ class Mode(BaseModel):
             vmin=-1 if scale else ex.min(),
             vmax=1 if scale else ex.max(),
         )
-        plt.title("{}($E_x$)".format(operation))
+        plt.title("$E_x$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -238,7 +238,7 @@ class Mode(BaseModel):
             vmin=-1 if scale else ey.min(),
             vmax=1 if scale else ey.max(),
         )
-        plt.title("{}($E_y$)".format(operation))
+        plt.title("$E_y$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -266,7 +266,7 @@ class Mode(BaseModel):
             vmin=-1 if scale else ez.min(),
             vmax=1 if scale else ez.max(),
         )
-        plt.title("{}($E_z$)".format(operation))
+        plt.title("$E_z$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -355,7 +355,7 @@ class Mode(BaseModel):
             vmin=-1 if scale else hx.min(),
             vmax=1 if scale else hx.max(),
         )
-        plt.title("{}($H_x$)".format(operation))
+        plt.title("$H_x$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -383,7 +383,7 @@ class Mode(BaseModel):
             vmin=-1 if scale else hy.min(),
             vmax=1 if scale else hy.max(),
         )
-        plt.title("{}($H_y$)".format(operation))
+        plt.title("$H_y$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
@@ -411,7 +411,7 @@ class Mode(BaseModel):
             vmin=0 if scale else hz.min(),
             vmax=1 if scale else hz.max(),
         )
-        plt.title("{}($H_z$)".format(operation))
+        plt.title("$H_z$")
         plt.ylabel("z-axis")
         plt.xlabel("y-axis")
         plt.colorbar()
