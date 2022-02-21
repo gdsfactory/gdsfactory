@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.6
+
+- rename gen_loopback() function to add_loopback in gdsfactory.add_loopback
+
 ## 4.2.5
 
 - add gf.simulation.gmeep.write_sparameters_grating
