@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 4.2.6
+## [4.2.6](https://github.com/gdsfactory/gdsfactory/pull/196)
 
 - rename gen_loopback() function to add_loopback in gdsfactory.add_loopback
 
