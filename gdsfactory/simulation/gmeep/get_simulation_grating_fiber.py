@@ -58,6 +58,7 @@ def get_simulation_grating_fiber(
     fiber_port_y_offset_from_air: float = 1,
     waveguide_port_x_offset_from_grating_start: float = 10,
     fiber_port_x_size: Optional[float] = None,
+    xmargin: float = 10.0,
 ) -> Dict[str, Any]:
     r"""Returns simulation results from grating coupler with fiber.
     na**2 = ncore**2 - nclad**2
@@ -94,6 +95,7 @@ def get_simulation_grating_fiber(
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
         waveguide_port_x_offset_from_grating_start:
         fiber_port_x_size:
+        xmargin: margin from PML to grating end
 
 
     .. code::
@@ -110,16 +112,19 @@ def get_simulation_grating_fiber(
                                     |
                    nclad            | top_clad_thickness
                 _   _   _      _ _ _| _ _ _ _ _ _  _
-          nwg _| |_| |_| |____      |              _
-                              |     |               |
-                 nslab        |     |wg_thickness   | slab_thickness
-                ______________|_ _ _|_ _ _ _ _ _ _ _|
+          nwg _| |_| |_| |__________|              _
+                                    |               |
+                 nslab              |wg_thickness   | slab_thickness
+                ______________ _ _ _|_ _ _ _ _ _ _ _|
                                     |
                  nbox               |box_thickness
                 ______________ _ _ _|_ _ _ _ _ _ _ _
                                     |
                  nsubstrate         |substrate_thickness
                 ______________ _ _ _|
+
+    |--------------------|<-------->
+                            xmargin
 
     """
     wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
@@ -186,13 +191,13 @@ def get_simulation_grating_fiber(
         + fiber_port_y_offset_from_air
     )
     fiber_port_x_offset_from_angle = np.abs(fiber_port_y * np.tan(fiber_angle))
+    length_grating = np.sum(widths) + np.sum(gaps)
     sxy = (
-        3.5 * fiber_core_diameter
+        2 * xmargin
         + 2 * pml_thickness
         + 2 * fiber_port_x_offset_from_angle
+        + length_grating
     )
-
-    # length_grating = np.sum(widths) + np.sum(gaps)
 
     # Materials from indices
     slab_material = mp.Medium(index=nslab)
@@ -363,7 +368,7 @@ def get_simulation_grating_fiber(
         mp.Block(
             material=wg_material,
             center=mp.Vector3(
-                -x / 2,
+                -sxy / 2,
                 -sz / 2
                 + (
                     +pml_thickness
@@ -373,7 +378,7 @@ def get_simulation_grating_fiber(
                     - etch_depth / 2
                 ),
             ),
-            size=mp.Vector3(x, etch_depth),
+            size=mp.Vector3(sxy, etch_depth),
         )
     )
 
@@ -572,6 +577,6 @@ if __name__ == "__main__":
         # simulation parameters
         resolution=50,
     )
-    # plot(sim_dict["sim"], eps_parameters=eps_parameters)
-    plot(sim_dict["sim"])
+    plot(sim_dict["sim"], eps_parameters=eps_parameters)
+    # plot(sim_dict["sim"])
     plt.show()
