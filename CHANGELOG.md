@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.2.7
+
+- fix meep grating_coupler (draw teeth instead of etch)
+- add triangle2 and triangle4 to components
+
 ## [4.2.6](https://github.com/gdsfactory/gdsfactory/pull/196)
 
 - rename gen_loopback() function to add_loopback in gdsfactory.add_loopback
