@@ -132,6 +132,7 @@ def plot_coupling_vs_gap(df: pd.DataFrame, **kwargs):
     plt.plot(df.gap, df.lc, ".-")
     plt.ylabel("100% coupling length (um)")
     plt.xlabel("gap (um)")
+    plt.show()
 
 
 if __name__ == "__main__":
