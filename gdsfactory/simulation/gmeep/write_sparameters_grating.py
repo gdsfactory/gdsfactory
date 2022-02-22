@@ -14,13 +14,14 @@ import subprocess
 import time
 from typing import Dict, Optional, Tuple
 
+import matplotlib.pyplot as plt
 import meep as mp
 import numpy as np
 import omegaconf
 import pandas as pd
 
 from gdsfactory.config import logger, sparameters_path
-from gdsfactory.serialization import clean_value_name
+from gdsfactory.serialization import clean_value_json, clean_value_name
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
@@ -94,6 +95,7 @@ def write_sparameters_grating(
     """
     mp.verbosity(verbosity)
 
+    settings = clean_value_json(settings)
     settings_string = clean_value_name(settings)
     settings_hash = hashlib.md5(settings_string.encode()).hexdigest()[:8]
 
@@ -117,6 +119,7 @@ def write_sparameters_grating(
     if plot or plot_contour:
         eps_parameters = dict(contour=True) if plot_contour else None
         sim.plot2D(eps_parameters=eps_parameters)
+        plt.show()
         return
 
     termination = []
