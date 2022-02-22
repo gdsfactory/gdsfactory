@@ -219,7 +219,7 @@ from gdsfactory.components.text_rectangular import (
     text_rectangular,
     text_rectangular_multi_layer,
 )
-from gdsfactory.components.triangle import triangle
+from gdsfactory.components.triangle import triangle, triangle2, triangle4
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
@@ -610,6 +610,8 @@ __all__ = [
     "test_splitter_tree_ports_no_sbend",
     "text",
     "triangle",
+    "triangle2",
+    "triangle4",
     "verniers",
     "version_stamp",
     "via",

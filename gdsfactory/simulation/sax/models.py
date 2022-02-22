@@ -134,6 +134,9 @@ def coupler(
     kappa = coupling0 + coupling
 
     Args:
+        wl: wavelength (um).
+        wl0: center wavelength (um).
+        length: coupling length (um).
         coupling0: bend region coupling coefficient from FDTD simulations.
         dk1: first derivative of coupling0 vs wavelength.
         dk2: second derivative of coupling vs wavelength.
@@ -148,7 +151,7 @@ def coupler(
          o2 ________                           _______o3
                     \                         /
                      \        length         /
-                      ======================= gap
+                      =======================
                      /                       \
             ________/                         \________
          o1                                           o4
@@ -190,7 +193,7 @@ def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
          o2 ________                           ______o3
                     \                         /
                      \        length         /
-                      ======================= gap
+                      =======================
                      /                       \
             ________/                         \_______
          o1                                          o4
