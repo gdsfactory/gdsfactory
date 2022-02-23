@@ -4,6 +4,11 @@
 
 - fix meep grating_coupler (draw teeth instead of etch)
 - add triangle2 and triangle4 to components
+- tidy3d.plot_simulation_xy accepts wavelength to plot permitivity
+- tidy3d.get_simulation accepts wavelength_min, wavelength_max, wavelength_steps
+- tidy3d.get_simulation accepts wavelength_min, wavelength_max, wavelength_steps
+- tidy3d.get_sparameters returns Sparameters dataframe wavelength_min, wavelength_max, wavelength_steps
+- rename meep.write_sparameters wl_min to wavelength_start, wl_max to wavelength_stop and wl_steps to wavelength_points
 
 ## [4.2.6](https://github.com/gdsfactory/gdsfactory/pull/196)
 

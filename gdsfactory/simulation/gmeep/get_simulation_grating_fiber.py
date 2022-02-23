@@ -51,8 +51,8 @@ def get_simulation_grating_fiber(
     air_gap_thickness: float = 1.0,
     fiber_thickness: float = 2.0,
     resolution: int = 64,  # pixels/um
-    wavelength_min: float = 1.4,
-    wavelength_max: float = 1.7,
+    wavelength_start: float = 1.4,
+    wavelength_stop: float = 1.7,
     wavelength_points: int = 150,
     eps_averaging: bool = False,
     fiber_port_y_offset_from_air: float = 1,
@@ -88,8 +88,8 @@ def get_simulation_grating_fiber(
         air_gap_thickness: air gap thickness.
         fiber_thickness: fiber_thickness
         resolution: resolution pixels/um
-        wavelength_min: min wavelength (um)
-        wavelength_max: max wavelength (um)
+        wavelength_start: min wavelength (um)
+        wavelength_stop: max wavelength (um)
         wavelength_points: wavelength points.
         eps_averaging: epsilon averaging.
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
@@ -127,7 +127,7 @@ def get_simulation_grating_fiber(
                             xmargin
 
     """
-    wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
+    wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     wavelength = np.mean(wavelengths)
     freqs = 1 / wavelengths
     widths = widths or n_periods * [period * fill_factor]
@@ -156,8 +156,8 @@ def get_simulation_grating_fiber(
         air_gap_thickness=air_gap_thickness,
         fiber_thickness=fiber_thickness,
         resolution=resolution,
-        wavelength_min=wavelength_min,
-        wavelength_max=wavelength_max,
+        wavelength_start=wavelength_start,
+        wavelength_stop=wavelength_stop,
         wavelength_points=wavelength_points,
         eps_averaging=eps_averaging,
         fiber_port_y_offset_from_air=fiber_port_y_offset_from_air,
@@ -396,7 +396,7 @@ def get_simulation_grating_fiber(
 
     # mode frequency
     fcen = 1 / wavelength
-    fwidth = 0.2 * fcen  # (wavelength_max - wavelength_min)
+    fwidth = 0.2 * fcen
 
     # Waveguide source
     sources_directions = [mp.X]
