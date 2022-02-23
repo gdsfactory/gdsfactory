@@ -67,7 +67,7 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
     return td.constants.C_0 / freqs.values
 
 
-def get_sparameters(
+def write_sparameters(
     component: Component,
     port_symmetries: Optional[PortSymmetries] = None,
     dirpath: PathType = sparameters_path,
@@ -221,11 +221,11 @@ def get_sparameters(
     return df
 
 
-get_sparameters_1x1 = gf.partial(
-    get_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
+write_sparameters_1x1 = gf.partial(
+    write_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
 )
-get_sparameters_crossing = gf.partial(
-    get_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
+write_sparameters_crossing = gf.partial(
+    write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
 )
 
 
@@ -233,6 +233,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
-    df = get_sparameters_1x1(c)
+    df = write_sparameters_1x1(c)
     t = df.s12m
     print(f"Transmission = {t}")
