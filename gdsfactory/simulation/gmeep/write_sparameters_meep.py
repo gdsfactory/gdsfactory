@@ -130,9 +130,9 @@ def write_sparameters_meep(
     component: Component,
     port_symmetries: Optional[PortSymmetries] = None,
     resolution: int = 30,
-    wl_min: float = 1.5,
-    wl_max: float = 1.6,
-    wl_steps: int = 50,
+    wavelength_start: float = 1.5,
+    wavelength_stop: float = 1.6,
+    wavelength_points: int = 50,
     dirpath: PathType = sparameters_path,
     layer_stack: LayerStack = LAYER_STACK,
     port_margin: float = 2,
@@ -245,9 +245,9 @@ def write_sparameters_meep(
         tpml: PML thickness (um).
         clad_material: material for cladding.
         is_3d: if True runs in 3D
-        wl_min: wavelength min (um).
-        wl_max: wavelength max (um).
-        wl_steps: wavelength steps
+        wavelength_start: wavelength min (um).
+        wavelength_stop: wavelength max (um).
+        wavelength_points: wavelength steps
         dfcen: delta frequency
         port_source_name: input port name
         port_field_monitor_name:
@@ -276,9 +276,9 @@ def write_sparameters_meep(
     sim_settings = dict(
         resolution=resolution,
         port_symmetries=port_symmetries,
-        wl_min=wl_min,
-        wl_max=wl_max,
-        wl_steps=wl_steps,
+        wavelength_start=wavelength_start,
+        wavelength_stop=wavelength_stop,
+        wavelength_points=wavelength_points,
         port_margin=port_margin,
         port_monitor_offset=port_monitor_offset,
         port_source_offset=port_source_offset,
@@ -319,9 +319,9 @@ def write_sparameters_meep(
     if not run:
         sim_dict = get_simulation(
             component=component,
-            wl_min=wl_min,
-            wl_max=wl_max,
-            wl_steps=wl_steps,
+            wavelength_start=wavelength_start,
+            wavelength_stop=wavelength_stop,
+            wavelength_points=wavelength_points,
             layer_stack=layer_stack,
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
@@ -357,9 +357,9 @@ def write_sparameters_meep(
         component: Component,
         port_symmetries: Optional[PortSymmetries] = port_symmetries,
         monitor_indices: List[str] = monitor_indices,
-        wl_min: float = wl_min,
-        wl_max: float = wl_max,
-        wl_steps: int = wl_steps,
+        wavelength_start: float = wavelength_start,
+        wavelength_stop: float = wavelength_stop,
+        wavelength_points: int = wavelength_points,
         dirpath: Path = dirpath,
         animate: bool = animate,
         dispersive: bool = dispersive,
@@ -371,9 +371,9 @@ def write_sparameters_meep(
             component=component,
             port_source_name=f"o{monitor_indices[n]}",
             resolution=resolution,
-            wl_min=wl_min,
-            wl_max=wl_max,
-            wl_steps=wl_steps,
+            wavelength_start=wavelength_start,
+            wavelength_stop=wavelength_stop,
+            wavelength_points=wavelength_points,
             port_margin=port_margin,
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
@@ -476,9 +476,9 @@ def write_sparameters_meep(
             n,
             component=component,
             port_symmetries=port_symmetries,
-            wl_min=wl_min,
-            wl_max=wl_max,
-            wl_steps=wl_steps,
+            wavelength_start=wavelength_start,
+            wavelength_stop=wavelength_stop,
+            wavelength_points=wavelength_points,
             animate=animate,
             monitor_indices=monitor_indices,
             **settings,
@@ -490,7 +490,9 @@ def write_sparameters_meep(
                 sp.update(data)
 
             df = pd.DataFrame(sp)
-            df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
+            df["wavelengths"] = np.linspace(
+                wavelength_start, wavelength_stop, wavelength_points
+            )
             df["freqs"] = 1 / df["wavelengths"]
             df.to_csv(filepath, index=False)
             logger.info(f"Write simulation results to {filepath!r}")
@@ -507,16 +509,18 @@ def write_sparameters_meep(
                     n,
                     component=component,
                     port_symmetries=port_symmetries,
-                    wl_min=wl_min,
-                    wl_max=wl_max,
-                    wl_steps=wl_steps,
+                    wavelength_start=wavelength_start,
+                    wavelength_stop=wavelength_stop,
+                    wavelength_points=wavelength_points,
                     animate=animate,
                     monitor_indices=monitor_indices,
                     **settings,
                 )
             )
         df = pd.DataFrame(sp)
-        df["wavelengths"] = np.linspace(wl_min, wl_max, wl_steps)
+        df["wavelengths"] = np.linspace(
+            wavelength_start, wavelength_stop, wavelength_points
+        )
         df["freqs"] = 1 / df["wavelengths"]
         df.to_csv(filepath, index=False)
 
