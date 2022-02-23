@@ -42,6 +42,7 @@ def get_simulation(
     clad_material: str = "sio2",
     port_source_name: str = "o1",
     port_margin: float = 0.5,
+    port_source_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
     resolution: float = 50,
     wavelength_start: float = 1.50,
@@ -107,6 +108,8 @@ def get_simulation(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
+        port_source_offset: fixes mode solver issue of two poly_slabs not intersecting correctly.
+            positive moves source inside, negative moves source backward.
         resolution: grid_size=3*[1/resolution].
         wavelength_start: in (um).
         wavelength_stop: in (um).
@@ -239,6 +242,11 @@ def get_simulation(
     source_size = [size_x, size_y, size_z]
     source_center = port.center.tolist() + [0]  # (x, y, z=0)
 
+    xy_shifted = move_polar_rad_copy(
+        np.array(port.center), angle=angle * np.pi / 180, length=port_source_offset
+    )
+    source_center_offset = xy_shifted.tolist() + [0]  # (x, y, z=0)
+
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     freqs = td.constants.C_0 / wavelengths
     freq0 = td.constants.C_0 / np.mean(wavelengths)
@@ -297,7 +305,7 @@ def get_simulation(
     )
 
     if plot_modes:
-        src_plane = td.Box(center=source_center, size=source_size)
+        src_plane = td.Box(center=source_center_offset, size=source_size)
         ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
         mode_spec = td.ModeSpec(num_modes=num_modes)
         modes = ms.solve(mode_spec=mode_spec)
@@ -390,7 +398,7 @@ if __name__ == "__main__":
     # c = gf.c.straight_rib()
 
     c = gf.c.straight()
-    sim = get_simulation(c, plot_modes=False)
+    sim = get_simulation(c, plot_modes=True)
 
     # plot_simulation_yz(sim, wavelength=1.55)
     # plot_simulation(sim)
