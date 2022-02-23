@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 4.2.7
+## [4.2.7](https://github.com/gdsfactory/gdsfactory/pull/197)
 
 - fix meep grating_coupler (draw teeth instead of etch)
 - add triangle2 and triangle4 to components
