@@ -44,7 +44,9 @@ def get_simulation(
     port_margin: float = 0.5,
     distance_source_to_monitors: float = 0.2,
     resolution: float = 50,
-    wavelength: float = 1.55,
+    wavelength_start: float = 1.50,
+    wavelength_stop: float = 1.60,
+    wavelength_points: int = 50,
     plot_modes: bool = False,
     num_modes: int = 2,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
@@ -90,25 +92,27 @@ def get_simulation(
 
 
     Args:
-        component: gf.Component
-        port_extension: extend ports beyond the PML
-        layer_stack: contains layer numbers (int, int) to thickness, zmin
-        thickness_pml: PML thickness (um)
+        component: gdsfactory Component.
+        port_extension: extend ports beyond the PML.
+        layer_stack: contains layer numbers (int, int) to thickness, zmin.
+        thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
         xmargin_right: right distance from component to PML.
         ymargin: left/right distance from component to PML.
         ymargin_top: top distance from component to PML.
         ymargin_bot: bottom distance from component to PML.
-        zmargin: thickness for cladding above and below core
-        clad_material: material for cladding
-        port_source_name: input port name
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before monitors
-        resolution: grid_size=3*[1/resolution]
-        wavelength: in (um)
+        zmargin: thickness for cladding above and below core.
+        clad_material: material for cladding.
+        port_source_name: input port name.
+        port_margin: margin on each side of the port.
+        distance_source_to_monitors: in (um) source goes before monitors.
+        resolution: grid_size=3*[1/resolution].
+        wavelength_start: in (um).
+        wavelength_stop: in (um).
+        wavelength_points: number of wavelengths.
         plot_modes: plot source modes.
-        num_modes: number of modes to plot
+        num_modes: number of modes to plot.
 
 
     .. code::
@@ -234,7 +238,10 @@ def get_simulation(
 
     source_size = [size_x, size_y, size_z]
     source_center = port.center.tolist() + [0]  # (x, y, z=0)
-    freq0 = td.constants.C_0 / wavelength
+
+    wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
+    freqs = td.constants.C_0 / wavelengths
+    freq0 = td.constants.C_0 / np.mean(wavelengths)
     fwidth = freq0 / 10
 
     msource = td.ModeSource(
@@ -267,7 +274,7 @@ def get_simulation(
         monitors[port_name] = td.ModeMonitor(
             center=center,
             size=size,
-            freqs=[freq0],
+            freqs=freqs,
             mode_spec=td.ModeSpec(num_modes=1),
             name=port.name,
         )

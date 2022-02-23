@@ -30,9 +30,9 @@ def get_simulation(
     tpml: float = 1.5,
     clad_material: str = "SiO2",
     is_3d: bool = False,
-    wl_min: float = 1.5,
-    wl_max: float = 1.6,
-    wl_steps: int = 50,
+    wavelength_start: float = 1.5,
+    wavelength_stop: float = 1.6,
+    wavelength_points: int = 50,
     dfcen: float = 0.2,
     port_source_name: str = "o1",
     port_field_monitor_name: str = "o2",
@@ -95,9 +95,9 @@ def get_simulation(
         tpml: PML thickness (um)
         clad_material: material for cladding
         is_3d: if True runs in 3D
-        wl_min: wavelength min (um)
-        wl_max: wavelength max (um)
-        wl_steps: wavelength steps
+        wavelength_start: wavelength min (um)
+        wavelength_stop: wavelength max (um)
+        wavelength_points: wavelength steps
         dfcen: delta frequency
         port_source_name: input port name
         port_field_monitor_name:
@@ -138,7 +138,7 @@ def get_simulation(
     component_ref.x = 0
     component_ref.y = 0
 
-    wavelengths = np.linspace(wl_min, wl_max, wl_steps)
+    wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     port_names = list(component_ref.ports.keys())
 
     if port_source_name not in port_names:
