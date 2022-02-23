@@ -218,8 +218,8 @@ def write_sparameters(
     df = pd.DataFrame(sp)
     df.to_csv(filepath, index=False)
     filepath_sim_settings.write_text(OmegaConf.to_yaml(kwargs))
-    logger.info(f"Write simulation results to {filepath!r}")
-    logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
+    logger.info(f"Write simulation results to {str(filepath)!r}")
+    logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return df
 
 
