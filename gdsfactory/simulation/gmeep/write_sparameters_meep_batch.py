@@ -83,9 +83,9 @@ def write_sparameters_meep_batch(
         tpml: PML thickness (um)
         clad_material: material for cladding
         is_3d: if True runs in 3D
-        wl_min: wavelength min (um)
-        wl_max: wavelength max (um)
-        wl_steps: wavelength steps
+        wavelength_start: wavelength min (um)
+        wavelength_stop: wavelength max (um)
+        wavelength_points: wavelength steps
         dfcen: delta frequency
         port_source_name: input port name
         port_field_monitor_name:
