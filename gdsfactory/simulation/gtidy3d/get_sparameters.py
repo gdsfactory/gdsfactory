@@ -5,6 +5,8 @@ import pandas as pd
 import tidy3d as td
 from tqdm import tqdm
 
+import gdsfactory as gf
+from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
 from gdsfactory.types import Component, Optional, PortSymmetries
@@ -51,7 +53,13 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(
         direction=direction_out
     )
-    return coeff_inp, coeff_out
+    return coeff_inp.values.flatten(), coeff_out.values.flatten()
+
+
+def get_wavelengths(port_index, sim_data: td.SimulationData):
+    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction="+")
+    freqs = coeff_inp.f
+    return td.constants.C_0 / freqs.values
 
 
 def get_sparameters(
@@ -79,22 +87,24 @@ def get_sparameters(
         port_symmetries: Dict to specify port symmetries, to save number of simulations
 
     Keyword Args:
-        port_extension: extend ports beyond the PML
+        port_extension: extend ports beyond the PML.
         layer_stack: contains layer numbers (int, int) to thickness, zmin
-        thickness_pml: PML thickness (um)
+        thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
         xmargin_right: right distance from component to PML.
         ymargin: left/right distance from component to PML.
         ymargin_top: top distance from component to PML.
         ymargin_bot: bottom distance from component to PML.
-        zmargin: thickness for cladding above and below core
-        clad_material: material for cladding
-        port_source_name: input port name
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before monitors
-        resolution: grid_size=3*[1/resolution]
-        wavelength: in (um)
+        zmargin: thickness for cladding above and below core.
+        clad_material: material for cladding.
+        port_source_name: input port name.
+        port_margin: margin on each side of the port.
+        distance_source_to_monitors: in (um) source goes before monitors.
+        resolution: grid_size=3*[1/resolution].
+        wavelength_start: in (um).
+        wavelength_stop: in (um).
+        wavelength_points: in (um).
         plot_modes: plot source modes.
         num_modes: number of modes to plot
 
@@ -172,6 +182,7 @@ def get_sparameters(
                     sp[f"{value}m"] = sp[f"{key}m"]
                     sp[f"{value}a"] = sp[f"{key}a"]
 
+        sp["wavelengths"] = get_wavelengths(port_index=monitor_index, sim_data=sim_data)
         return sp
 
     for n in tqdm(range(num_sims)):
@@ -184,13 +195,21 @@ def get_sparameters(
                 **kwargs,
             )
         )
-    return sp
+    return pd.DataFrame(sp)
+
+
+get_sparameters_1x1 = gf.partial(
+    get_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
+)
+get_sparameters_crossing = gf.partial(
+    get_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
+)
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2)
-    s = get_sparameters(c)
-    t = s["s12m"]
+    c = gf.components.straight()
+    df = get_sparameters(c)
+    t = df.s12m
     print(f"Transmission = {t}")
