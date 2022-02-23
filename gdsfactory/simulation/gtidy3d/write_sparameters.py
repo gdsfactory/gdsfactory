@@ -1,4 +1,5 @@
 import re
+import time
 
 import numpy as np
 import pandas as pd
@@ -12,9 +13,9 @@ from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
 )
-from gdsfactory.simulation.gtidy3d.get_results import get_results
+from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
-from gdsfactory.types import Component, Optional, PathType, PortSymmetries
+from gdsfactory.types import Component, List, Optional, PathType, PortSymmetries
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationData):
@@ -112,7 +113,7 @@ def write_sparameters(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        resolution: grid_size=3*[1/resolution].
+        resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: in (um).
@@ -166,7 +167,8 @@ def write_sparameters(
         sim = get_simulation(
             component, port_source_name=f"o{monitor_indices[n]}", **kwargs
         )
-        sim_data = get_results(sim).result()
+        sim_data = get_results(sim)
+        sim_data = sim_data.result()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             monitor_indices[n], component_ref.ports, sim_data
         )
@@ -205,22 +207,45 @@ def write_sparameters(
         sp["wavelengths"] = get_wavelengths(port_index=monitor_index, sim_data=sim_data)
         return sp
 
-    for n in tqdm(range(num_sims)):
-        sp.update(
-            get_sparameter(
-                n,
-                component=component,
-                port_symmetries=port_symmetries,
-                monitor_indices=monitor_indices,
-                **kwargs,
-            )
+    start = time.time()
+
+    # Compute each Sparameter on a separate thread
+    sparameters = [
+        _executor.submit(
+            get_sparameter, n, component, port_symmetries, monitor_indices, **kwargs
         )
+        for n in range(num_sims)
+    ]
+
+    for sparameter in tqdm(sparameters):
+        sp.update(sparameter.result())
+
+    end = time.time()
     df = pd.DataFrame(sp)
     df.to_csv(filepath, index=False)
+    kwargs.update(compute_time_seconds=end - start)
+    kwargs.update(compute_time_minutes=(end - start) / 60)
     filepath_sim_settings.write_text(OmegaConf.to_yaml(kwargs))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return df
+
+
+def write_sparameters_batch(
+    components: List[Component], **kwargs
+) -> List[pd.DataFrame]:
+    """Returns Sparameters for a list of components
+    runs batch of component simulations in paralell.
+
+    Args:
+        components: list of components
+
+    """
+    sp = [
+        _executor.submit(write_sparameters, component, **kwargs)
+        for component in components
+    ]
+    return [spi.result() for spi in sp]
 
 
 write_sparameters_1x1 = gf.partial(
@@ -230,11 +255,15 @@ write_sparameters_crossing = gf.partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
 )
 
+write_sparameters_batch_1x1 = gf.partial(
+    write_sparameters_batch, port_symmetries=port_symmetries.port_symmetries_1x1
+)
+
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight()
-    df = write_sparameters_1x1(c)
-    t = df.s12m
-    print(f"Transmission = {t}")
+    c = gf.components.straight(length=2.1)
+    df = write_sparameters(c)
+    # t = df.s12m
+    # print(f"Transmission = {t}")

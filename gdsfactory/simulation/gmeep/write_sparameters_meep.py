@@ -4,6 +4,7 @@ import inspect
 import multiprocessing
 import pathlib
 import re
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -350,6 +351,7 @@ def write_sparameters_meep(
 
     # Create S-parameter storage object
     sp = {}
+    start = time.time()
 
     @pydantic.validate_arguments
     def sparameter_calculation(
@@ -524,6 +526,9 @@ def write_sparameters_meep(
         df["freqs"] = 1 / df["wavelengths"]
         df.to_csv(filepath, index=False)
 
+        end = time.time()
+        sim_settings.update(compute_time_seconds=end - start)
+        sim_settings.update(compute_time_minutes=(end - start) / 60)
         logger.info(f"Write simulation results to {filepath!r}")
         filepath_sim_settings.write_text(OmegaConf.to_yaml(sim_settings))
         logger.info(f"Write simulation settings to {filepath_sim_settings!r}")

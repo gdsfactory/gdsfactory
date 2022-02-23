@@ -435,6 +435,7 @@ def write_sparameters_lumerical(
         end = time.time()
         df.to_csv(filepath_csv, index=False)
         sim_settings.update(compute_time_seconds=end - start)
+        sim_settings.update(compute_time_minutes=(end - start) / 60)
         filepath_sim_settings.write_text(omegaconf.OmegaConf.to_yaml(sim_settings))
         if delete_fsp_files and fspdir.exists():
             shutil.rmtree(fspdir)
