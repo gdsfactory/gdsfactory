@@ -15,9 +15,9 @@ def plot_model(
     ports2: Tuple[str, ...] = None,
     logscale: bool = True,
     fig=None,
-    wl_min: float = 1.5,
-    wl_max: float = 1.6,
-    wl_steps: int = 2000,
+    wavelength_start: float = 1.5,
+    wavelength_stop: float = 1.6,
+    wavelength_points: int = 2000,
     phase: bool = False,
 ) -> None:
     """Plot Model Sparameters Magnitude.
@@ -26,9 +26,9 @@ def plot_model(
         model: function that returns SDict.
         port1: input port name.
         ports2: list of ports.
-        wl_min: wavelength min (um).
-        wl_max: wavelength max (um).
-        wl_steps: number of wavelength steps.
+        wavelength_start: wavelength min (um).
+        wavelength_stop: wavelength max (um).
+        wavelength_points: number of wavelength steps.
         logscale: plots in dB logarithmic scale.
         phase: plot phase instead of magnitude.
 
@@ -40,7 +40,7 @@ def plot_model(
         gs.plot_model(gs.models.straight, phase=True, port1="o1")
     """
 
-    wavelengths = np.linspace(wl_min, wl_max, wl_steps)
+    wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     sdict = sdict(wl=wavelengths)
 
     ports = {ports[0] for ports in sdict.keys()}
