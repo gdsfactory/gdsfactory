@@ -30,6 +30,7 @@ jobs:
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }}  > $HOME/.tidy3d/auth.json
           pip install -e .[dev]
+          sudo apt get update
           sudo apt install pandoc
           make gdslib plugins
       - name: Running the Sphinx to gh-pages Action

@@ -16,7 +16,7 @@
 ![](https://i.imgur.com/v4wpHpg.png)
 
 [gdsfactory](https://gdsfactory.github.io/gdsfactory/) is an EDA (electronics design automation) tool to Layout Integrated Circuits.
-It is build on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and klayout to provide you with functions to build your GDSII components, PDKs and masks for different foundries.
+It is build on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and klayout and provides you with functions to build your GDSII components, PDKs and masks for different foundries.
 
 You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
