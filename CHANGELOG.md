@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.8
+
+- fix tidy3d materials. Si3N4 uses Luke2015 by default
+
 ## [4.2.7](https://github.com/gdsfactory/gdsfactory/pull/197)
 
 - fix meep grating_coupler (draw teeth instead of etch)
