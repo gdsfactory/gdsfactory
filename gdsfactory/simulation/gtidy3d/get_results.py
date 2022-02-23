@@ -41,7 +41,7 @@ def _get_results(
     logger.info(f"running simulation {sim_hash!r}")
 
     hash_to_id = {d["task_name"][:32]: d["task_id"] for d in web.get_tasks()}
-    filepath = dirpath / f"{sim_hash}.hdf5"
+    filepath = str(dirpath / f"{sim_hash}.hdf5")
     job = web.Job(simulation=sim, task_name=task_name)
 
     # Results in local storage
@@ -53,9 +53,7 @@ def _get_results(
     elif sim_hash in hash_to_id:
         task_id = hash_to_id[sim_hash]
         web.monitor(task_id)
-        sim_data = web.load(
-            task_id=task_id, path=str(filepath), replace_existing=overwrite
-        )
+        sim_data = web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
 
     # Run simulation if results not in local or server storage
     else:

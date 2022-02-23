@@ -224,7 +224,7 @@ def write_sparameters_meep(
         port_source_offset: offset between source Component port and source MEEP port
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv
-        overwrite: overwrites stored simulation results.
+        overwrite: overwrites stored Sparameter CSV results.
         animate: saves a MP4 images of the simulation for inspection, and also
             outputs during computation. The name of the file is the source index
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
