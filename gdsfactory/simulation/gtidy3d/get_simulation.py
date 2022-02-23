@@ -110,7 +110,7 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before monitors.
         port_source_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
-        resolution: grid_size=3*[1/resolution].
+        resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: number of wavelengths.
