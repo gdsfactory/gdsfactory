@@ -3,13 +3,18 @@ import re
 import numpy as np
 import pandas as pd
 import tidy3d as td
+from omegaconf import OmegaConf
 from tqdm import tqdm
 
 import gdsfactory as gf
+from gdsfactory.config import logger, sparameters_path
 from gdsfactory.simulation import port_symmetries
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_tidy3d as get_sparameters_path,
+)
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
-from gdsfactory.types import Component, Optional, PortSymmetries
+from gdsfactory.types import Component, Optional, PathType, PortSymmetries
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationData):
@@ -63,7 +68,10 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
 
 
 def get_sparameters(
-    component: Component, port_symmetries: Optional[PortSymmetries] = None, **kwargs
+    component: Component,
+    port_symmetries: Optional[PortSymmetries] = None,
+    dirpath: PathType = sparameters_path,
+    **kwargs,
 ) -> pd.DataFrame:
     """Get full sparameter matrix from a gdsfactory Component.
     Simulates each time using a different input port (by default, all of them)
@@ -85,6 +93,7 @@ def get_sparameters(
     Args:
         component: to simulate.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
+        dirpath: directory to store sparameters in CSV.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -109,6 +118,15 @@ def get_sparameters(
         num_modes: number of modes to plot
 
     """
+    filepath = get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        **kwargs,
+    )
+    filepath_sim_settings = filepath.with_suffix(".yml")
+    if filepath.exists():
+        logger.info(f"Simulation loaded from {filepath!r}")
+        return pd.read_csv(filepath)
 
     port_symmetries = port_symmetries or {}
     monitor_indices = []
@@ -195,7 +213,12 @@ def get_sparameters(
                 **kwargs,
             )
         )
-    return pd.DataFrame(sp)
+    df = pd.DataFrame(sp)
+    df.to_csv(filepath, index=False)
+    filepath_sim_settings.write_text(OmegaConf.to_yaml(kwargs))
+    logger.info(f"Write simulation results to {filepath!r}")
+    logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
+    return df
 
 
 get_sparameters_1x1 = gf.partial(
@@ -210,6 +233,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
-    df = get_sparameters(c)
+    df = get_sparameters_1x1(c)
     t = df.s12m
     print(f"Transmission = {t}")

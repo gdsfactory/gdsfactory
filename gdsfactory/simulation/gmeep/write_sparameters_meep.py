@@ -25,7 +25,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     settings_get_simulation,
 )
 from gdsfactory.tech import LAYER_STACK, LayerStack
-from gdsfactory.types import PortSymmetries
+from gdsfactory.types import PathType, PortSymmetries
 
 ncores = multiprocessing.cpu_count()
 
@@ -133,7 +133,7 @@ def write_sparameters_meep(
     wl_min: float = 1.5,
     wl_max: float = 1.6,
     wl_steps: int = 50,
-    dirpath: Path = sparameters_path,
+    dirpath: PathType = sparameters_path,
     layer_stack: LayerStack = LAYER_STACK,
     port_margin: float = 2,
     port_monitor_offset: float = -0.1,
