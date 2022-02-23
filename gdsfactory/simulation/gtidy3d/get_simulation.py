@@ -108,8 +108,8 @@ def get_simulation(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        port_source_offset: fixes mode solver issue of two poly_slabs not intersecting correctly.
-            positive moves source inside, negative moves source backward.
+        port_source_offset: mode solver workaround.
+            positive moves source forward, negative moves source backward.
         resolution: grid_size=3*[1/resolution].
         wavelength_start: in (um).
         wavelength_stop: in (um).
@@ -226,9 +226,8 @@ def get_simulation(
             elif layer not in layer_to_material:
                 logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
             elif layer_to_material[layer] not in material_name_to_tidy3d:
-                logger.debug(
-                    f"material {layer_to_material[layer]} not in {material_name_to_tidy3d.keys()}"
-                )
+                materials = list(material_name_to_tidy3d.keys())
+                logger.debug(f"material {layer_to_material[layer]} not in {materials}")
     # Add source
     port = component_ref.ports[port_source_name]
     angle = port.orientation
@@ -339,8 +338,8 @@ def plot_simulation_yz(
 
     Args:
         sim: simulation object
-        z:
-        y:
+        z: (um)
+        y: (um)
         wavelength: (um) for epsilon plot if None plot structures.
     """
     fig = plt.figure(figsize=(11, 4))
@@ -368,8 +367,8 @@ def plot_simulation_xz(
 
     Args:
         sim: simulation object
-        x:
-        z:
+        x: (um)
+        z: (um)
         wavelength: (um) for epsilon plot if None plot structures.
     """
     fig = plt.figure(figsize=(11, 4))
