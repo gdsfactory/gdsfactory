@@ -9,8 +9,8 @@ MATERIAL_NAME_TO_MEDIUM = {
     "si": material_library["cSi"]["Li1993_293K"],
     "csi": material_library["cSi"]["Li1993_293K"],
     "sio2": material_library["SiO2"]["Horiba"],
-    "sin": material_library["Si3N4"]["Horiba"],
-    "si3n4": material_library["Si3N4"]["Horiba"],
+    "sin": material_library["Si3N4"]["Luke2015"],
+    "si3n4": material_library["Si3N4"]["Luke2015"],
 }
 
 
