@@ -17,12 +17,12 @@ from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 MATERIAL_NAME_TO_TIDY3D = {
-    "si": 3.47,
-    "sio2": 1.44,
-    "sin": 2.0,
-    # "si": "cSi",
-    # "sio2": "SiO2",
-    # "sin": "Si3N4",
+    # "si": 3.47,
+    # "sio2": 1.44,
+    # "sin": 2.0,
+    "si": "cSi",
+    "sio2": "SiO2",
+    "sin": "Si3N4",
 }
 
 
