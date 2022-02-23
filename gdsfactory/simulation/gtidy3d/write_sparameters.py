@@ -71,6 +71,7 @@ def write_sparameters(
     component: Component,
     port_symmetries: Optional[PortSymmetries] = None,
     dirpath: PathType = sparameters_path,
+    overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
     """Get full sparameter matrix from a gdsfactory Component.
@@ -94,6 +95,7 @@ def write_sparameters(
         component: to simulate.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
         dirpath: directory to store sparameters in CSV.
+        overwrite: overwrites stored Sparameter CSV results.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
@@ -124,7 +126,7 @@ def write_sparameters(
         **kwargs,
     )
     filepath_sim_settings = filepath.with_suffix(".yml")
-    if filepath.exists():
+    if filepath.exists() and not overwrite:
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
 
