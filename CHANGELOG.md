@@ -9,6 +9,7 @@
 - tidy3d.get_simulation accepts wavelength_min, wavelength_max, wavelength_steps
 - tidy3d.get_sparameters returns Sparameters dataframe wavelength_min, wavelength_max, wavelength_steps
 - rename meep.write_sparameters wl_min to wavelength_start, wl_max to wavelength_stop and wl_steps to wavelength_points
+- add port_source_offset to tidy3d.get_simulation as a workaround for [tidy3d issue](https://github.com/gdsfactory/gdsfactory/issues/191)
 
 ## [4.2.6](https://github.com/gdsfactory/gdsfactory/pull/196)
 
