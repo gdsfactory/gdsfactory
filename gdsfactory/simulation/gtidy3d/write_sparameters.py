@@ -3,11 +3,18 @@ import re
 import numpy as np
 import pandas as pd
 import tidy3d as td
+from omegaconf import OmegaConf
 from tqdm import tqdm
 
+import gdsfactory as gf
+from gdsfactory.config import logger, sparameters_path
+from gdsfactory.simulation import port_symmetries
+from gdsfactory.simulation.get_sparameters_path import (
+    get_sparameters_path_tidy3d as get_sparameters_path,
+)
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
-from gdsfactory.types import Component, Optional, PortSymmetries
+from gdsfactory.types import Component, Optional, PathType, PortSymmetries
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationData):
@@ -51,11 +58,21 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(
         direction=direction_out
     )
-    return coeff_inp, coeff_out
+    return coeff_inp.values.flatten(), coeff_out.values.flatten()
 
 
-def get_sparameters(
-    component: Component, port_symmetries: Optional[PortSymmetries] = None, **kwargs
+def get_wavelengths(port_index, sim_data: td.SimulationData):
+    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction="+")
+    freqs = coeff_inp.f
+    return td.constants.C_0 / freqs.values
+
+
+def write_sparameters(
+    component: Component,
+    port_symmetries: Optional[PortSymmetries] = None,
+    dirpath: PathType = sparameters_path,
+    overwrite: bool = False,
+    **kwargs,
 ) -> pd.DataFrame:
     """Get full sparameter matrix from a gdsfactory Component.
     Simulates each time using a different input port (by default, all of them)
@@ -77,28 +94,41 @@ def get_sparameters(
     Args:
         component: to simulate.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
+        dirpath: directory to store sparameters in CSV.
+        overwrite: overwrites stored Sparameter CSV results.
 
     Keyword Args:
-        port_extension: extend ports beyond the PML
+        port_extension: extend ports beyond the PML.
         layer_stack: contains layer numbers (int, int) to thickness, zmin
-        thickness_pml: PML thickness (um)
+        thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
         xmargin_right: right distance from component to PML.
         ymargin: left/right distance from component to PML.
         ymargin_top: top distance from component to PML.
         ymargin_bot: bottom distance from component to PML.
-        zmargin: thickness for cladding above and below core
-        clad_material: material for cladding
-        port_source_name: input port name
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before monitors
-        resolution: grid_size=3*[1/resolution]
-        wavelength: in (um)
+        zmargin: thickness for cladding above and below core.
+        clad_material: material for cladding.
+        port_source_name: input port name.
+        port_margin: margin on each side of the port.
+        distance_source_to_monitors: in (um) source goes before monitors.
+        resolution: grid_size=3*[1/resolution].
+        wavelength_start: in (um).
+        wavelength_stop: in (um).
+        wavelength_points: in (um).
         plot_modes: plot source modes.
         num_modes: number of modes to plot
 
     """
+    filepath = get_sparameters_path(
+        component=component,
+        dirpath=dirpath,
+        **kwargs,
+    )
+    filepath_sim_settings = filepath.with_suffix(".yml")
+    if filepath.exists() and not overwrite:
+        logger.info(f"Simulation loaded from {filepath!r}")
+        return pd.read_csv(filepath)
 
     port_symmetries = port_symmetries or {}
     monitor_indices = []
@@ -172,6 +202,7 @@ def get_sparameters(
                     sp[f"{value}m"] = sp[f"{key}m"]
                     sp[f"{value}a"] = sp[f"{key}a"]
 
+        sp["wavelengths"] = get_wavelengths(port_index=monitor_index, sim_data=sim_data)
         return sp
 
     for n in tqdm(range(num_sims)):
@@ -184,13 +215,26 @@ def get_sparameters(
                 **kwargs,
             )
         )
-    return sp
+    df = pd.DataFrame(sp)
+    df.to_csv(filepath, index=False)
+    filepath_sim_settings.write_text(OmegaConf.to_yaml(kwargs))
+    logger.info(f"Write simulation results to {filepath!r}")
+    logger.info(f"Write simulation settings to {filepath_sim_settings!r}")
+    return df
+
+
+write_sparameters_1x1 = gf.partial(
+    write_sparameters, port_symmetries=port_symmetries.port_symmetries_1x1
+)
+write_sparameters_crossing = gf.partial(
+    write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
+)
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2)
-    s = get_sparameters(c)
-    t = s["s12m"]
+    c = gf.components.straight()
+    df = write_sparameters_1x1(c)
+    t = df.s12m
     print(f"Transmission = {t}")

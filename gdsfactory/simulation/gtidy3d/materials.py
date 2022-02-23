@@ -15,24 +15,26 @@ MATERIAL_NAME_TO_MEDIUM = {
 
 
 def get_epsilon(
-    name: Union[str, float],
+    name_or_index: Union[str, float],
     wavelength: float = 1.55,
     material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,
 ) -> ComplexNumber:
     """Return permittivity from material database.
 
     Args:
+        name_or_index: material name or refractive index.
         wavelength: wavelength (um)
-        name: material name or refractive index.
         material_name_to_medium:
     """
-    medium = get_medium(name=name, material_name_to_medium=material_name_to_medium)
+    medium = get_medium(
+        name_or_index=name_or_index, material_name_to_medium=material_name_to_medium
+    )
     frequency = td.C_0 / wavelength
     return medium.eps_model(frequency)
 
 
 def get_index(
-    name: Union[str, float],
+    name_or_index: Union[str, float],
     wavelength: float = 1.55,
     material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,
 ) -> float:
@@ -40,13 +42,13 @@ def get_index(
 
     Args:
         wavelength: wavelength (um)
-        name: material name or refractive index.
+        name_or_index: material name or refractive index.
         material_name_to_medium:
     """
 
     eps_complex = get_epsilon(
         wavelength=wavelength,
-        name=name,
+        name_or_index=name_or_index,
         material_name_to_medium=material_name_to_medium,
     )
     n, _ = td.Medium.eps_complex_to_nk(eps_complex)
@@ -54,38 +56,34 @@ def get_index(
 
 
 def get_medium(
-    name: Union[str, float],
+    name_or_index: Union[str, float],
     material_name_to_medium: Dict[str, PoleResidue] = MATERIAL_NAME_TO_MEDIUM,
 ) -> td.Medium:
     """Return Medium from materials database
 
     Args:
-        name: material name or refractive index.
+        name_or_index: material name or refractive index.
         material_name_to_medium:
     """
 
-    name = name.lower() if isinstance(name, str) else name
+    name_or_index = (
+        name_or_index.lower() if isinstance(name_or_index, str) else name_or_index
+    )
 
-    if not isinstance(name, str):
-        m = td.Medium(permittivity=name ** 2)
-    # elif name == "sio2":
-    #     m = td.Medium(permittivity=1.45 ** 2)
-    # elif name in ["csi", "si"]:
-    #     m = td.Medium(permittivity=3.48 ** 2)
-    # elif name in ["sin", "si3n4"]:
-    #     m = td.Medium(permittivity=2.0 ** 2)
-    elif name in material_name_to_medium:
-        m = material_name_to_medium[name]
+    if not isinstance(name_or_index, str):
+        m = td.Medium(permittivity=name_or_index ** 2)
+    elif name_or_index in material_name_to_medium:
+        m = material_name_to_medium[name_or_index]
     else:
         materials = list(material_name_to_medium.keys())
 
-        raise ValueError(f"Material {name!r} not in {materials}")
+        raise ValueError(f"Material {name_or_index!r} not in {materials}")
 
     return m
 
 
 if __name__ == "__main__":
-    # print(get_index(name="cSi"))
-    print(get_index(name=3.4))
-    # m = get_medium(name="SiO2")
+    # print(get_index(name_or_index="cSi"))
+    print(get_index(name_or_index=3.4))
+    # m = get_medium(name_or_index="SiO2")
     # m = td.Medium(permittivity=1.45 ** 2)

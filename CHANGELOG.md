@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 4.2.7
+
+- fix meep grating_coupler (draw teeth instead of etch)
+- add triangle2 and triangle4 to components
+- tidy3d.plot_simulation_xy accepts wavelength to plot permitivity
+- tidy3d.get_simulation accepts wavelength_min, wavelength_max, wavelength_steps
+- tidy3d.get_simulation accepts wavelength_min, wavelength_max, wavelength_steps
+- tidy3d.get_sparameters returns Sparameters dataframe wavelength_min, wavelength_max, wavelength_steps
+- rename meep.write_sparameters wl_min to wavelength_start, wl_max to wavelength_stop and wl_steps to wavelength_points
+- add port_source_offset to tidy3d.get_simulation as a workaround for [tidy3d issue](https://github.com/gdsfactory/gdsfactory/issues/191)
+
 ## [4.2.6](https://github.com/gdsfactory/gdsfactory/pull/196)
 
 - rename gen_loopback() function to add_loopback in gdsfactory.add_loopback
