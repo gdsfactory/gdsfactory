@@ -16,7 +16,6 @@ from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
-# FIXME: enable using materials from database
 MATERIAL_NAME_TO_TIDY3D = {
     "si": 3.47,
     "sio2": 1.44,
@@ -162,16 +161,15 @@ def get_simulation(
     component_ref.x = 0
     component_ref.y = 0
 
-    clad_material_name = material_name_to_tidy3d[clad_material]
+    clad_material_name_or_index = material_name_to_tidy3d[clad_material]
     clad = td.Structure(
         geometry=td.Box(
             size=(td.inf, td.inf, td.inf),
             center=(0, 0, 0),
         ),
-        medium=get_medium(name=clad_material_name),
+        medium=get_medium(name_or_index=clad_material_name_or_index),
     )
     structures = [clad]
-    structures = []
 
     layers_thickness = [
         layer_to_thickness[layer]
@@ -196,10 +194,11 @@ def get_simulation(
                 layer in layer_to_material
                 and layer_to_material[layer] in material_name_to_tidy3d
             ):
-                material_name = material_name_to_tidy3d[layer_to_material[layer]]
-                medium = get_medium(name=material_name)
+                name_or_index = material_name_to_tidy3d[layer_to_material[layer]]
+                medium = get_medium(name_or_index=name_or_index)
+                index = get_index(name_or_index=name_or_index)
                 logger.debug(
-                    f"Add {layer}, {material_name!r}, index = {get_index(name=material_name):.3f}, "
+                    f"Add {layer}, {name_or_index!r}, index = {index:.3f}, "
                     f"thickness = {thickness}, zmin = {zmin}, zmax = {zmax}"
                 )
 
@@ -311,41 +310,65 @@ def get_simulation(
             )
             axs[mode_ind, 0].set_aspect("equal")
             axs[mode_ind, 1].set_aspect("equal")
-        # plt.show()
+        plt.show()
     return sim
 
 
-def plot_simulation_yz(sim: td.Simulation, z: float = 0.0, y: float = 0.0):
+def plot_simulation_yz(
+    sim: td.Simulation,
+    z: float = 0.0,
+    y: float = 0.0,
+    wavelength: Optional[float] = 1.55,
+):
     """Returns figure with two axis of the Simulation.
 
     Args:
         sim: simulation object
         z:
         y:
+        wavelength: (um) for epsilon plot if None plot structures.
     """
     fig = plt.figure(figsize=(11, 4))
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
-    sim.plot_eps(z=z, ax=ax1)
-    sim.plot_eps(y=y, ax=ax2)
+    if wavelength:
+        freq = td.constants.C_0 / wavelength
+        sim.plot_eps(z=z, ax=ax1, freq=freq)
+        sim.plot_eps(y=y, ax=ax2, freq=freq)
+    else:
+        sim.plot(z=z, ax=ax1)
+        sim.plot(y=y, ax=ax2)
+    plt.show()
     return fig
 
 
-def plot_simulation_xz(sim: td.Simulation, x: float = 0.0, z: float = 0.0):
+def plot_simulation_xz(
+    sim: td.Simulation,
+    x: float = 0.0,
+    z: float = 0.0,
+    wavelength: Optional[float] = 1.55,
+):
     """Returns figure with two axis of the Simulation.
 
     Args:
         sim: simulation object
         x:
         z:
+        wavelength: (um) for epsilon plot if None plot structures.
     """
     fig = plt.figure(figsize=(11, 4))
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
-    sim.plot_eps(z=z, ax=ax1)
-    sim.plot_eps(x=x, ax=ax2)
+    if wavelength:
+        freq = td.constants.C_0 / wavelength
+        sim.plot_eps(z=z, ax=ax1, freq=freq)
+        sim.plot_eps(x=x, ax=ax2, freq=freq)
+    else:
+        sim.plot(z=z, ax=ax1)
+        sim.plot(x=x, ax=ax2)
+    plt.show()
     return fig
 
 
@@ -353,19 +376,21 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
+
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
+
     c = gf.c.straight()
+    sim = get_simulation(c, plot_modes=False)
 
-    sim = get_simulation(c, plot_modes=True)
+    # plot_simulation_yz(sim, wavelength=1.55)
     # plot_simulation(sim)
-
-    fig = plt.figure(figsize=(11, 4))
-    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    sim.plot(z=0.0, ax=ax1)
-    sim.plot(x=0.0, ax=ax2)
-    plt.show()
+    # fig = plt.figure(figsize=(11, 4))
+    # gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
+    # ax1 = fig.add_subplot(gs[0, 0])
+    # ax2 = fig.add_subplot(gs[0, 1])
+    # sim.plot(z=0.0, ax=ax1)
+    # sim.plot(x=0.0, ax=ax2)
+    # plt.show()
