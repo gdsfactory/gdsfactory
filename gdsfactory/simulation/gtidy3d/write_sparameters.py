@@ -113,7 +113,7 @@ def write_sparameters(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        resolution: grid_size=3*[1/resolution].
+        resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: in (um).
@@ -234,12 +234,18 @@ def write_sparameters(
 def write_sparameters_batch(
     components: List[Component], **kwargs
 ) -> List[pd.DataFrame]:
-    """Write Sparameters batch"""
+    """Returns Sparameters for a list of components
+    runs batch of component simulations in paralell.
+
+    Args:
+        components: list of components
+
+    """
     sp = [
         _executor.submit(write_sparameters, component, **kwargs)
         for component in components
     ]
-    return [sp.result()]
+    return [spi.result() for spi in sp]
 
 
 write_sparameters_1x1 = gf.partial(
@@ -247,6 +253,10 @@ write_sparameters_1x1 = gf.partial(
 )
 write_sparameters_crossing = gf.partial(
     write_sparameters, port_symmetries=port_symmetries.port_symmetries_crossing
+)
+
+write_sparameters_batch_1x1 = gf.partial(
+    write_sparameters_batch, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
 

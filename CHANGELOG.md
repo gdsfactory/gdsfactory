@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.2.9
+
+- thread each tidy3d.write_sparameters simulation, so they run in paralell
+- add tidy3d.write_sparameters_batch to run multiple sparameters simulations in paralell
+
 ## 4.2.8
 
 - fix tidy3d materials. Si3N4 uses Luke2015 by default

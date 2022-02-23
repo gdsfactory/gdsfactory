@@ -14,6 +14,8 @@ from gdsfactory.simulation.gtidy3d.get_simulation import (
 from gdsfactory.simulation.gtidy3d.write_sparameters import (
     write_sparameters,
     write_sparameters_1x1,
+    write_sparameters_batch,
+    write_sparameters_batch_1x1,
     write_sparameters_crossing,
 )
 
@@ -28,4 +30,6 @@ __all__ = [
     "write_sparameters",
     "write_sparameters_crossing",
     "write_sparameters_1x1",
+    "write_sparameters_batch",
+    "write_sparameters_batch_1x1",
 ]
