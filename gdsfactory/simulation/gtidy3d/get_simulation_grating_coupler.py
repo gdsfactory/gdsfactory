@@ -16,12 +16,12 @@ from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
 MATERIAL_NAME_TO_TIDY3D = {
-    # "si": 3.47,
-    # "sio2": 1.44,
-    # "sin": 2.0,
-    "si": "cSi",
-    "sio2": "SiO2",
-    "sin": "Si3N4",
+    "si": 3.47,
+    "sio2": 1.44,
+    "sin": 2.0,
+    # "si": "cSi",
+    # "sio2": "SiO2",
+    # "sin": "Si3N4",
 }
 
 
@@ -402,14 +402,14 @@ def get_simulation_grating_coupler(
 if __name__ == "__main__":
     import gdsfactory.simulation.gtidy3d as gt
 
-    c = gf.components.grating_coupler_elliptical_arbitrary(
-        widths=[0.343] * 25, gaps=[0.345] * 25
-    )
-    sim = get_simulation_grating_coupler(c, plot_modes=False)
+    # c = gf.components.grating_coupler_elliptical_arbitrary(
+    #     widths=[0.343] * 25, gaps=[0.345] * 25
+    # )
+    # sim = get_simulation_grating_coupler(c, plot_modes=False)
 
-    # c = gf.components.grating_coupler_elliptical_lumerical(fiber_angle_deg=-5) # inverse design grating
-    # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
-    # gt.plot_simulation(sim)  # make sure simulations looks good
+    c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
+    sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
+    gt.plot_simulation(sim)  # make sure simulations looks good
 
     sim_data = gt.get_results(sim).result()
     freq0 = td.constants.C_0 / 1.55
@@ -417,4 +417,7 @@ if __name__ == "__main__":
     sim_data.plot_field("full_domain_fields", "Ey", freq=freq0, z=0, ax=ax1)
     sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
     sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
+    flux = sim_data["flux"]
+    print(f"flux in waveguide / flux in = {float(flux.amps.values):.2f} ")
+
     plt.show()
