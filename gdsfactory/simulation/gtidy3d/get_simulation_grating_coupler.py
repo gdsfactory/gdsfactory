@@ -412,12 +412,15 @@ if __name__ == "__main__":
     gt.plot_simulation(sim)  # make sure simulations looks good
 
     sim_data = gt.get_results(sim).result()
-    freq0 = td.constants.C_0 / 1.55
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
-    sim_data.plot_field("full_domain_fields", "Ey", freq=freq0, z=0, ax=ax1)
-    sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
-    sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
-    flux = sim_data["flux"]
-    print(f"flux in waveguide / flux in = {float(flux.amps.values):.2f} ")
 
+    # freq0 = td.constants.C_0 / 1.55
+    # fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
+    # sim_data.plot_field("full_domain_fields", "Ey", freq=freq0, z=0, ax=ax1)
+    # sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
+    # sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
+
+    plt.figure()
+    flux = sim_data["flux"]
+    plt.plot(np.abs(flux.amps.values))
+    # print(f"flux in waveguide / flux in = {float(flux.amps.values):.2f} ")
     plt.show()
