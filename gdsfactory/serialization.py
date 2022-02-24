@@ -15,7 +15,7 @@ def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary keys recursively."""
     for k, v in d.items():
         if isinstance(v, dict):
-            d[k] = clean_dict(v)
+            d[k] = clean_dict(dict(v))
         else:
             d[k] = clean_value_json(v)
     return d
@@ -153,10 +153,10 @@ if __name__ == "__main__":
     # d = clean_value_json(c.get_ports_list())
     # print(d, type(d))
     # f = gf.partial(gf.c.straight, length=3)
-
-    f = gf.cross_section.strip
-    f = gf.cross_section.cross_section
-
+    # f = gf.cross_section.strip
+    # f = gf.cross_section.cross_section
     # d = clean_value_json(f)
-    d = clean_value_name(f)
+    # d = clean_value_name(f)
+
+    d = clean_value_json(dict(args=dict(layer_stack=gf.tech.LAYER_STACK)))
     print(f"{d!r}")
