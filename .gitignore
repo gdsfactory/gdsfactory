@@ -12,6 +12,7 @@ gdsfactory/klayout/tech/layers.py
 poetry.lock
 mask.csv
 mask.yml
+gdsfactory/simulation/gtidy3d/sim_run.yam
 
 # Packages
 *.egg

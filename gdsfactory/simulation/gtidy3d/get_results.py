@@ -63,25 +63,25 @@ def _get_results(
             logger.info(f"task_id {task_id!r} exists but unexpected error encountered.")
 
     # Run simulation if results not found in local or server storage
-    logger.info(f"sending task_id {task_id!r} to tidy3d server.")
+    logger.info(f"sending task_name {task_name!r} to tidy3d server.")
     return job.run(path=filepath)
 
 
 def get_results(
     sim: td.Simulation,
     dirpath=PATH.results_tidy3d,
-    overwrite: bool = False,
+    overwrite: bool = True,
 ) -> Awaitable[td.SimulationData]:
     """Return a SimulationData from Simulation.
 
     Works with Pool of threads.
     Each thread can run in paralell and only becomes blocking when you ask
-    for the result
+    for .result()
 
     Args:
         sim: Simulation
         dirpath: to store results locally
-        overwrite: overwrites the data even if path exists
+        overwrite: overwrites the data even if path exists. Keep True.
 
 
     .. code::
