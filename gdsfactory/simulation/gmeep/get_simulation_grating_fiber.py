@@ -454,8 +454,8 @@ def get_simulation_grating_fiber(
 
 def get_port_1D_eigenmode(
     sim_dict,
-    band_num=1,
-    fiber_angle_deg=15,
+    band_num: int = 1,
+    fiber_angle_deg: float = 15.0,
 ):
     """
 
