@@ -2,7 +2,6 @@
 import warnings
 from typing import Dict, Optional, Union
 
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import pydantic
@@ -27,7 +26,7 @@ MATERIAL_NAME_TO_TIDY3D = {
 
 
 @pydantic.validate_arguments
-def get_simulation(
+def get_simulation_grating_coupler(
     component: Component,
     port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
@@ -51,47 +50,62 @@ def get_simulation(
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
+    fiber_port_type: str = "vertical_te",
+    fiber_xoffset: float = 0,
+    fiber_z: float = 2,
+    fiber_mfd: float = 5.2,
+    fiber_angle_deg: float = 20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
-    based on GDS example
-    https://simulation.cloud/docs/html/examples/ParameterScan.html
+    injects a Gaussian beam from above and monitors the transmission into the waveguide.
+
+    based on grating coupler example
+    https://docs.simulation.cloud/projects/tidy3d/en/latest/notebooks/GratingCoupler.html
 
     .. code::
 
          top view
               ________________________________
              |                               |
-             | xmargin_left                  | port_extension
-             |<------>          port_margin ||<-->
-          ___|___________          _________||___
-             |           \        /          |
-             |            \      /           |
-             |             ======            |
-             |            /      \           |
-          ___|___________/        \__________|___
-             |   |                 <-------->|
+             | xmargin_left                  |
+             |<------>                       |
+             |           ________________    |
+             |          /   |  |  |  |  |    |
+             |         /    |  |  |  |  |    |
+             |=========     |  |  |  |  |    |
+             |         \    |  |  |  |  |    |
+             |   _ _ _ _\___|__|__|__|__| ___|
+             |   |                       <-->|
              |   |ymargin_bot   xmargin_right|
              |   |                           |
              |___|___________________________|
 
         side view
-              ________________________________
-             |                     |         |
-             |                     |         |
-             |                   zmargin_top |
-             |xmargin_left         |         |
-             |<---> _____         _|___      |
-             |     |     |       |     |     |
-             |     |     |       |     |     |
-             |     |_____|       |_____|     |
-             |       |                       |
-             |       |                       |
-             |       |zmargin_bot            |
-             |       |                       |
-             |_______|_______________________|
+                     waist_radius
+                 /     /  /     /       |
+                /     /  /     /        | fiber_thickness
+               /     /  /     /    _ _ _| _ _ _ _ _ _  _
+                                        |
+                                        | air_gap_thickness
+                                   _ _ _| _ _ _ _ _ _  _
+                                        |
+                       nclad            | top_clad_thickness
+                    _   _   _      _ _ _| _ _ _ _ _ _  _
+              nwg _| |_| |_| |__________|              _
+                                        |               |
+                     nslab              |wg_thickness   | slab_thickness
+                    ______________ _ _ _|_ _ _ _ _ _ _ _|
+                                        |
+                     nbox               |box_thickness
+                    ______________ _ _ _|_ _ _ _ _ _ _ _
+                                        |
+                     nsubstrate         |substrate_thickness
+                    ______________ _ _ _|
 
+        |--------------------|<-------->
+                                xmargin
 
     Args:
         component: gdsfactory Component.
@@ -144,7 +158,7 @@ def get_simulation(
         warnings.warn(
             f"port_source_name={port_source_name} not in {component.ports.keys()}"
         )
-        port_source = component.get_ports_list(port_type="optical")[0]
+        port_source = component.get_ports_list()[0]
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
 
@@ -231,7 +245,13 @@ def get_simulation(
             elif layer_to_material[layer] not in material_name_to_tidy3d:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
-    # Add source
+
+    wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
+    freqs = td.constants.C_0 / wavelengths
+    freq0 = td.constants.C_0 / np.mean(wavelengths)
+    fwidth = freq0 / 10
+
+    # Add input waveguide source
     port = component_ref.ports[port_source_name]
     angle = port.orientation
     width = port.width + 2 * port_margin
@@ -242,66 +262,87 @@ def get_simulation(
     size_z = cell_thickness - 2 * zmargin
 
     source_size = [size_x, size_y, size_z]
-    source_center = port.center.tolist() + [0]  # (x, y, z=0)
-
     xy_shifted = move_polar_rad_copy(
         np.array(port.center), angle=angle * np.pi / 180, length=port_source_offset
     )
     source_center_offset = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
-    wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
-    freqs = td.constants.C_0 / wavelengths
-    freq0 = td.constants.C_0 / np.mean(wavelengths)
-    fwidth = freq0 / 10
+    # Add waveguide port monitor
+    ports = sort_ports_x(
+        sort_ports_y(component_ref.get_ports_list(port_type="optical"))
+    )
+    ports = component_ref.get_ports_list(port_type=fiber_port_type)
+    assert len(ports) == 1, f"More than one optical found {ports}"
+    port = ports[0]
 
-    msource = td.ModeSource(
-        size=source_size,
-        center=source_center,
-        source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
-        direction="+",
+    port_name = port.name
+    angle = port.orientation
+    width = port.width + 2 * port_margin
+    size_x = width * abs(np.sin(angle * np.pi / 180))
+    size_y = width * abs(np.cos(angle * np.pi / 180))
+    size_x = 0 if size_x < 0.001 else size_x
+    size_y = 0 if size_y < 0.001 else size_y
+    size = (size_x, size_y, size_z)
+
+    # if monitor has a source move monitor inwards
+    length = -distance_source_to_monitors if port_name == port_source_name else 0
+    xy_shifted = move_polar_rad_copy(
+        np.array(port.center), angle=angle * np.pi / 180, length=length
+    )
+    center = xy_shifted.tolist() + [0]  # (x, y, z=0)
+
+    flux_monitor = td.ModeMonitor(
+        center=center,
+        size=size,
+        freqs=freqs,
+        mode_spec=td.ModeSpec(num_modes=1),
+        name="flux",
     )
 
-    # Add port monitors
-    monitors = {}
-    ports = sort_ports_x(sort_ports_y(component_ref.get_ports_list()))
-    for port in ports:
-        port_name = port.name
-        angle = port.orientation
-        width = port.width + 2 * port_margin
-        size_x = width * abs(np.sin(angle * np.pi / 180))
-        size_y = width * abs(np.cos(angle * np.pi / 180))
-        size_x = 0 if size_x < 0.001 else size_x
-        size_y = 0 if size_y < 0.001 else size_y
-        size = (size_x, size_y, size_z)
+    # Add fiber monitor
+    ports = component_ref.get_ports_list(port_type=fiber_port_type)
+    assert len(ports) == 1, f"More than one port_type={fiber_port_type!r} found {ports}"
+    fiber_port = ports[0]
 
-        # if monitor has a source move monitor inwards
-        length = -distance_source_to_monitors if port_name == port_source_name else 0
-        xy_shifted = move_polar_rad_copy(
-            np.array(port.center), angle=angle * np.pi / 180, length=length
-        )
-        center = xy_shifted.tolist() + [0]  # (x, y, z=0)
+    # inject Gaussian beam from above and monitors the transmission into the waveguide.
+    gaussian_beam = td.GaussianBeam(
+        size=(td.inf, td.inf, 0),
+        center=[fiber_port.x + fiber_xoffset, 0, fiber_z],
+        source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
+        angle_theta=np.deg2rad(fiber_angle_deg),
+        angle_phi=np.pi,
+        direction="-",
+        waist_radius=fiber_mfd / 2,
+        pol_angle=np.pi / 2,
+    )
 
-        monitors[port_name] = td.ModeMonitor(
-            center=center,
-            size=size,
-            freqs=freqs,
-            mode_spec=td.ModeSpec(num_modes=1),
-            name=port.name,
-        )
-
-    domain_monitor = td.FieldMonitor(
+    plane_monitor = td.FieldMonitor(
         center=[0, 0, (zmax + zmin) / 2],
         size=[sim_size[0], sim_size[1], 0],
         freqs=[freq0],
-        name="field",
+        name="full_domain_fields",
+    )
+
+    rad_monitor = td.FieldMonitor(
+        center=[0, 0, 0],
+        size=[td.inf, 0, td.inf],
+        freqs=[freq0],
+        name="radiated_fields",
+    )
+
+    near_field_monitor = td.FieldMonitor(
+        center=[0, 0, fiber_z],
+        size=[td.inf, td.inf, 0],
+        freqs=[freq0],
+        name="radiated_near_fields",
     )
 
     sim = td.Simulation(
         size=sim_size,
         grid_size=3 * [1 / resolution],
         structures=structures,
-        sources=[msource],
-        monitors=[domain_monitor] + list(monitors.values()),
+        sources=[gaussian_beam],
+        monitors=[plane_monitor, rad_monitor, flux_monitor, near_field_monitor],
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()],
     )
@@ -309,6 +350,7 @@ def get_simulation(
     if plot_modes:
         src_plane = td.Box(center=source_center_offset, size=source_size)
         ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
+
         mode_spec = td.ModeSpec(num_modes=num_modes)
         modes = ms.solve(mode_spec=mode_spec)
 
@@ -331,83 +373,17 @@ def get_simulation(
     return sim
 
 
-def plot_simulation_yz(
-    sim: td.Simulation,
-    z: float = 0.0,
-    y: float = 0.0,
-    wavelength: Optional[float] = 1.55,
-):
-    """Returns figure with two axis of the Simulation.
-
-    Args:
-        sim: simulation object
-        z: (um)
-        y: (um)
-        wavelength: (um) for epsilon plot if None plot structures.
-    """
-    fig = plt.figure(figsize=(11, 4))
-    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    if wavelength:
-        freq = td.constants.C_0 / wavelength
-        sim.plot_eps(z=z, ax=ax1, freq=freq)
-        sim.plot_eps(y=y, ax=ax2, freq=freq)
-    else:
-        sim.plot(z=z, ax=ax1)
-        sim.plot(y=y, ax=ax2)
-    plt.show()
-    return fig
-
-
-def plot_simulation_xz(
-    sim: td.Simulation,
-    x: float = 0.0,
-    z: float = 0.0,
-    wavelength: Optional[float] = 1.55,
-):
-    """Returns figure with two axis of the Simulation.
-
-    Args:
-        sim: simulation object
-        x: (um)
-        z: (um)
-        wavelength: (um) for epsilon plot if None plot structures.
-    """
-    fig = plt.figure(figsize=(11, 4))
-    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    if wavelength:
-        freq = td.constants.C_0 / wavelength
-        sim.plot_eps(z=z, ax=ax1, freq=freq)
-        sim.plot_eps(x=x, ax=ax2, freq=freq)
-    else:
-        sim.plot(z=z, ax=ax1)
-        sim.plot(x=x, ax=ax2)
-    plt.show()
-    return fig
-
-
-plot_simulation = plot_simulation_yz
-
-
 if __name__ == "__main__":
+    import gdsfactory.simulation.gtidy3d as gt
 
-    # c = gf.components.mmi1x2()
-    # c = gf.components.bend_circular(radius=2)
-    # c = gf.components.crossing()
-    # c = gf.c.straight_rib()
+    c = gf.components.grating_coupler_elliptical_lumerical()
+    sim = get_simulation_grating_coupler(c, plot_modes=False)
 
-    c = gf.c.straight()
-    sim = get_simulation(c, plot_modes=True)
+    # gt.plot_simulation(sim) # make sure simulations looks good
 
-    # plot_simulation_yz(sim, wavelength=1.55)
-    # plot_simulation(sim)
-    # fig = plt.figure(figsize=(11, 4))
-    # gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
-    # ax1 = fig.add_subplot(gs[0, 0])
-    # ax2 = fig.add_subplot(gs[0, 1])
-    # sim.plot(z=0.0, ax=ax1)
-    # sim.plot(x=0.0, ax=ax2)
-    # plt.show()
+    sim_data = gt.get_results(sim).result()
+    freq0 = td.constants.C_0 / 1.55
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
+    sim_data.plot_field("full_domain_fields", "Ey", freq=freq0, z=0, ax=ax1)
+    sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
+    sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
