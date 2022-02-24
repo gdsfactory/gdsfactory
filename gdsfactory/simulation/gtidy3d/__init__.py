@@ -3,7 +3,7 @@
 [tidy3D is a fast GPU based commercial FDTD solver](https://simulation.cloud/)
 """
 
-from gdsfactory.simulation.gtidy3d import materials
+from gdsfactory.simulation.gtidy3d import materials, utils
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import (
     get_simulation,
@@ -31,6 +31,7 @@ __all__ = [
     "get_simulation_grating_coupler",
     "get_results",
     "materials",
+    "utils",
     "write_sparameters",
     "write_sparameters_crossing",
     "write_sparameters_1x1",

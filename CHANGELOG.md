@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.2.11
+
+- tidy3d simulation plugin improvements
+    - add tidy3d.get_simulation_grating_coupler
+
 ## 4.2.10
 
 - tidy3d simulation plugin improvements
