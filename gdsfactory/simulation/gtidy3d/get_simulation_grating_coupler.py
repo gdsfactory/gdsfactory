@@ -402,14 +402,15 @@ def get_simulation_grating_coupler(
 if __name__ == "__main__":
     import gdsfactory.simulation.gtidy3d as gt
 
-    # c = gf.components.grating_coupler_elliptical_arbitrary(
-    #     widths=[0.343] * 25, gaps=[0.345] * 25
-    # )
-    # sim = get_simulation_grating_coupler(c, plot_modes=False)
+    c = gf.components.grating_coupler_elliptical_arbitrary(
+        widths=[0.343] * 25, gaps=[0.345] * 25
+    )
+    sim = get_simulation_grating_coupler(c, plot_modes=False)
 
-    c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
-    sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
-    gt.plot_simulation(sim)  # make sure simulations looks good
+    # c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
+    # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
+
+    # gt.plot_simulation(sim)  # make sure simulations looks good
 
     sim_data = gt.get_results(sim).result()
 
@@ -421,6 +422,9 @@ if __name__ == "__main__":
 
     plt.figure()
     flux = sim_data["flux"]
-    plt.plot(np.abs(flux.amps.values))
+    plt.plot(np.abs(flux.amps.values[0].flatten()), label="+")
+    plt.plot(np.abs(flux.amps.values[1].flatten()), label="-")
+    plt.legend()
+
     # print(f"flux in waveguide / flux in = {float(flux.amps.values):.2f} ")
     plt.show()
