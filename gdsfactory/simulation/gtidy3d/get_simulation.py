@@ -165,7 +165,7 @@ def get_simulation(
     )
 
     gf.show(component_extended)
-    component_extended.flatten()
+    component_extended = component_extended.flatten()
 
     component_ref = component_padding.ref()
     component_ref.x = 0
