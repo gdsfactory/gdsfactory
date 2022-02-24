@@ -28,7 +28,7 @@ MATERIAL_NAME_TO_TIDY3D = {
 @pydantic.validate_arguments
 def get_simulation_grating_coupler(
     component: Component,
-    port_extension: Optional[float] = 5.0,
+    port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
@@ -39,6 +39,9 @@ def get_simulation_grating_coupler(
     ymargin_bot: float = 0,
     zmargin: float = 1.0,
     clad_material: str = "sio2",
+    box_material: str = "sio2",
+    box_thickness: float = 2.0,
+    substrate_material: str = "si",
     port_source_name: str = "o1",
     port_margin: float = 0.5,
     port_source_offset: float = 0.1,
@@ -54,7 +57,7 @@ def get_simulation_grating_coupler(
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
     fiber_mfd: float = 5.2,
-    fiber_angle_deg: float = 20.0,
+    fiber_angle_deg: float = -20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
@@ -76,33 +79,35 @@ def get_simulation_grating_coupler(
              |         /    |  |  |  |  |    |
              |=========     |  |  |  |  |    |
              |         \    |  |  |  |  |    |
-             |   _ _ _ _\___|__|__|__|__| ___|
+             |   _ _ _ _\___|__|__|__|__|    |
              |   |                       <-->|
              |   |ymargin_bot   xmargin_right|
              |   |                           |
              |___|___________________________|
 
+
         side view
-                     waist_radius
-                 /     /  /     /       |
-                /     /  /     /        | fiber_thickness
-               /     /  /     /    _ _ _| _ _ _ _ _ _  _
+
+                         fiber_angle_deg < 0
+                        |  /
+                        | /
+                        |/
+                 /              /       |
+                /  fiber_mfd   /        |
+               /<------------>/    _ _ _| _ _ _ _ _ _ _
                                         |
-                                        | air_gap_thickness
-                                   _ _ _| _ _ _ _ _ _  _
+                   clad_material        | fiber_z
+                    _   _   _      _ _ _| _ _ _ _ _ _ _
+                  _| |_| |_| |__________|_ _ _ _ _ _ _
+                                        |              |
+        waveguide                       |wg_thickness  | slab_thickness
+              ____________________ _ _ _|_ _ _ _ _ _ _ |
                                         |
-                       nclad            | top_clad_thickness
-                    _   _   _      _ _ _| _ _ _ _ _ _  _
-              nwg _| |_| |_| |__________|              _
-                                        |               |
-                     nslab              |wg_thickness   | slab_thickness
-                    ______________ _ _ _|_ _ _ _ _ _ _ _|
+                   box_material         |box_thickness
+              ____________________ _ _ _|_ _ _ _ _ _ _
                                         |
-                     nbox               |box_thickness
-                    ______________ _ _ _|_ _ _ _ _ _ _ _
-                                        |
-                     nsubstrate         |substrate_thickness
-                    ______________ _ _ _|
+                 substrate_material     |substrate_thickness
+             _____________________ _ _ _|
 
         |--------------------|<-------->
                                 xmargin
@@ -179,21 +184,10 @@ def get_simulation_grating_coupler(
     )
 
     gf.show(component_extended)
-    component_extended.flatten()
-
+    component_extended = component_extended.flatten()
     component_ref = component_padding.ref()
     component_ref.x = 0
     component_ref.y = 0
-
-    clad_material_name_or_index = material_name_to_tidy3d[clad_material]
-    clad = td.Structure(
-        geometry=td.Box(
-            size=(td.inf, td.inf, td.inf),
-            center=(0, 0, 0),
-        ),
-        medium=get_medium(name_or_index=clad_material_name_or_index),
-    )
-    structures = [clad]
 
     layers_thickness = [
         layer_to_thickness[layer]
@@ -202,12 +196,44 @@ def get_simulation_grating_coupler(
     ]
 
     t_core = max(layers_thickness)
-    cell_thickness = thickness_pml + t_core + thickness_pml + 2 * zmargin
+    cell_thickness = (
+        thickness_pml + box_thickness + t_core + thickness_pml + 2 * zmargin
+    )
     sim_size = [
         component_ref.xsize + 2 * thickness_pml,
         component_ref.ysize + 2 * thickness_pml,
         cell_thickness,
     ]
+
+    clad_material_name_or_index = material_name_to_tidy3d[clad_material]
+    box_material_name_or_index = material_name_to_tidy3d[box_material]
+    substrate_material_name_or_index = material_name_to_tidy3d[substrate_material]
+
+    clad = td.Structure(
+        geometry=td.Box(
+            size=(td.inf, td.inf, cell_thickness / 2),
+            center=(0, 0, cell_thickness / 2),
+        ),
+        medium=get_medium(name_or_index=clad_material_name_or_index),
+    )
+    box = td.Structure(
+        geometry=td.Box(
+            size=(td.inf, td.inf, box_thickness),
+            center=(0, 0, -box_thickness / 2),
+        ),
+        medium=get_medium(name_or_index=box_material_name_or_index),
+    )
+
+    substrate_thickness = 10
+    substrate = td.Structure(
+        geometry=td.Box(
+            size=(td.inf, td.inf, substrate_thickness),
+            center=(0, 0, -box_thickness - substrate_thickness / 2),
+        ),
+        medium=get_medium(name_or_index=substrate_material_name_or_index),
+    )
+
+    structures = [substrate, box, clad]
 
     for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
@@ -376,10 +402,14 @@ def get_simulation_grating_coupler(
 if __name__ == "__main__":
     import gdsfactory.simulation.gtidy3d as gt
 
-    c = gf.components.grating_coupler_elliptical_lumerical()
+    c = gf.components.grating_coupler_elliptical_arbitrary(
+        widths=[0.343] * 25, gaps=[0.345] * 25
+    )
     sim = get_simulation_grating_coupler(c, plot_modes=False)
 
-    # gt.plot_simulation(sim) # make sure simulations looks good
+    # c = gf.components.grating_coupler_elliptical_lumerical(fiber_angle_deg=-5) # inverse design grating
+    # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
+    # gt.plot_simulation(sim)  # make sure simulations looks good
 
     sim_data = gt.get_results(sim).result()
     freq0 = td.constants.C_0 / 1.55
@@ -387,3 +417,4 @@ if __name__ == "__main__":
     sim_data.plot_field("full_domain_fields", "Ey", freq=freq0, z=0, ax=ax1)
     sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
     sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
+    plt.show()
