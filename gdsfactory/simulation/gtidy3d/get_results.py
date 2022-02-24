@@ -47,24 +47,25 @@ def _get_results(
     # Results in local storage
     if sim_path.exists():
         logger.info(f"{sim_path!r} found in local storage")
-        sim_data = td.SimulationData.from_file(filepath)
+        return td.SimulationData.from_file(filepath)
 
     # Results in server storage
-    elif sim_hash in hash_to_id:
+    if sim_hash in hash_to_id:
         task_id = hash_to_id[sim_hash]
         web.monitor(task_id)
-        sim_data = web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
+        try:
+            return web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
+        except BaseException:
+            pass
 
-    # Run simulation if results not in local or server storage
-    else:
-        sim_data = job.run(path=filepath)
-    return sim_data
+    # Run simulation if results not found in local or server storage
+    return job.run(path=filepath)
 
 
 def get_results(
     sim: td.Simulation,
     dirpath=PATH.results_tidy3d,
-    overwrite: bool = True,
+    overwrite: bool = False,
 ) -> Awaitable[td.SimulationData]:
     """Return a SimulationData from Simulation.
 
@@ -83,7 +84,8 @@ def get_results(
 
         component = gf.components.straight(length=3)
         sim = gt.get_simulation(component=component)
-        sim_data = gt.get_results(sim).result()
+        sim_data = gt.get_results(sim) # threaded
+        sim_data = sim_data.result() # waits for results
 
     """
     return _executor.submit(_get_results, sim, dirpath, overwrite)

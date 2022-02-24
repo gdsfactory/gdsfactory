@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.2.10
+
+- tidy3d simulation plugin improvements
+    * add run_time_ps to tidy3d plugin, increase by 10x previous default run_time_ps
+    * if a task was deleted it raises WebError exception, catch that in get results
+
 ## [4.2.9](https://github.com/gdsfactory/gdsfactory/pull/199)
 
 - thread each tidy3d.write_sparameters simulation, so they run in paralell
