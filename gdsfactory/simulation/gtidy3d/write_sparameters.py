@@ -9,6 +9,7 @@ from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger, sparameters_path
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
@@ -225,7 +226,8 @@ def write_sparameters(
     df.to_csv(filepath, index=False)
     kwargs.update(compute_time_seconds=end - start)
     kwargs.update(compute_time_minutes=(end - start) / 60)
-    filepath_sim_settings.write_text(OmegaConf.to_yaml(kwargs))
+
+    filepath_sim_settings.write_text(OmegaConf.to_yaml(clean_value_json(kwargs)))
     logger.info(f"Write simulation results to {str(filepath)!r}")
     logger.info(f"Write simulation settings to {str(filepath_sim_settings)!r}")
     return df
@@ -263,7 +265,10 @@ write_sparameters_batch_1x1 = gf.partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.straight(length=2.1)
-    df = write_sparameters(c)
+    # c = gf.components.straight(length=2.1)
+    # df = write_sparameters(c)
     # t = df.s12m
     # print(f"Transmission = {t}")
+
+    cs = [gf.c.straight(length=1.11 + i) for i in [1, 2]]
+    dfs = write_sparameters_batch_1x1(cs)
