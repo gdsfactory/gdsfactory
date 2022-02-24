@@ -28,7 +28,7 @@ MATERIAL_NAME_TO_TIDY3D = {
 @pydantic.validate_arguments
 def get_simulation_grating_coupler(
     component: Component,
-    port_extension: Optional[float] = 4.0,
+    port_extension: Optional[float] = 5.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
