@@ -232,7 +232,7 @@ gdsfactory top contributors:
 - Joaquin Matres (Google): maintainer
 - Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer
 - Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive)
-- Troy Tamas (Rockley): get_route_from_steps, component_from_yaml (schematic capture)
+- Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml)
 - Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://flaport.github.io/sax)
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Biladieu (Princeton): Meep FDTD write Sparameters
