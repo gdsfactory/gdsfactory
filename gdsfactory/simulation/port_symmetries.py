@@ -4,6 +4,8 @@ port_symmetries_1x1 = {
         "s21": ["s12"],
     }
 }
+
+
 port_symmetries_crossing = {
     "o1": {
         "s11": ["s22", "s33", "s44"],
