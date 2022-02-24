@@ -11,6 +11,9 @@ from gdsfactory.simulation.gtidy3d.get_simulation import (
     plot_simulation_xz,
     plot_simulation_yz,
 )
+from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
+    get_simulation_grating_coupler,
+)
 from gdsfactory.simulation.gtidy3d.write_sparameters import (
     write_sparameters,
     write_sparameters_1x1,
@@ -25,6 +28,7 @@ __all__ = [
     "plot_simulation_xz",
     "plot_simulation_yz",
     "get_simulation",
+    "get_simulation_grating_coupler",
     "get_results",
     "materials",
     "write_sparameters",
