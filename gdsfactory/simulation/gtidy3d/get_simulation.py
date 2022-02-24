@@ -50,6 +50,7 @@ def get_simulation(
     wavelength_points: int = 50,
     plot_modes: bool = False,
     num_modes: int = 2,
+    run_time_ps: float = 10.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
@@ -116,6 +117,8 @@ def get_simulation(
         wavelength_points: number of wavelengths.
         plot_modes: plot source modes.
         num_modes: number of modes to plot.
+        run_time_ps: make sure it's sufficient for the fields to decay.
+            defaults to 10ps and counts on the automatic shutoff to stop earlier if needed.
 
 
     .. code::
@@ -299,7 +302,7 @@ def get_simulation(
         structures=structures,
         sources=[msource],
         monitors=[domain_monitor] + list(monitors.values()),
-        run_time=20 / fwidth,
+        run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()],
     )
 
