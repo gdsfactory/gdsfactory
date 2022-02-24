@@ -6,6 +6,7 @@ from typing import Awaitable
 
 import tidy3d as td
 from tidy3d import web
+from tidy3d.log import WebError
 
 import gdsfactory as gf
 from gdsfactory.config import PATH, logger
@@ -53,12 +54,16 @@ def _get_results(
     if sim_hash in hash_to_id:
         task_id = hash_to_id[sim_hash]
         web.monitor(task_id)
+
         try:
             return web.load(task_id=task_id, path=filepath, replace_existing=overwrite)
-        except BaseException:
-            pass
+        except WebError:
+            logger.info(f"task_id {task_id!r} exists but no results found.")
+        except Exception:
+            logger.info(f"task_id {task_id!r} exists but unexpected error encountered.")
 
     # Run simulation if results not found in local or server storage
+    logger.info(f"sending task_id {task_id!r} to tidy3d server.")
     return job.run(path=filepath)
 
 
