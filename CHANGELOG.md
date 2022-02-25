@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.12
+
+- update tidy3d client to latest version 1.0.2
+
 ## 4.2.11
 
 - tidy3d simulation plugin improvements
