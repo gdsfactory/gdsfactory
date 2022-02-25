@@ -298,9 +298,10 @@ def get_simulation(
             name=port.name,
         )
 
+    zcenter = (zmax + zmin) / 2 if is_3d else 0
     domain_monitor = td.FieldMonitor(
-        center=[0, 0, (zmax + zmin) / 2],
-        size=[sim_size[0], sim_size[1], 0],
+        center=[0, 0, zcenter],
+        size=[sim_size[0], sim_size[1], 0] if is_3d else [td.inf, td.inf, 0],
         freqs=[freq0],
         name="field",
     )

@@ -265,10 +265,10 @@ write_sparameters_batch_1x1 = gf.partial(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.straight(length=2.1)
-    # df = write_sparameters(c)
-    # t = df.s12m
-    # print(f"Transmission = {t}")
+    c = gf.components.straight(length=2.1)
+    df = write_sparameters_1x1(c, is_3d=False)
+    t = df.s12m
+    print(f"Transmission = {t}")
 
-    cs = [gf.c.straight(length=1.11 + i) for i in [1, 2]]
-    dfs = write_sparameters_batch_1x1(cs)
+    # cs = [gf.c.straight(length=1.11 + i) for i in [1, 2]]
+    # dfs = write_sparameters_batch_1x1(cs)
