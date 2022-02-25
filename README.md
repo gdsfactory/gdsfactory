@@ -182,7 +182,13 @@ For simulating Sparameters using FDTD.
 
 ### meep / mpb
 
-Open source FDTD / mode simulations. Requires you to run.
+Open source FDTD / mode simulations. You to install meep and MPB with conda:
+
+```
+conda install -c conda-forge pymeep=*=mpi_mpich_* -y
+```
+
+or mamba (faster conda)
 
 ```
 mamba install pymeep=*=mpi_mpich_* -y
