@@ -150,6 +150,7 @@ def get_simulation_grating_coupler(
         fiber_mfd: fiber mode field diameter (um)
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
         material_name_to_tidy3d: dict of material stack materil name to tidy3d.
+        is_3d: if False collapses the Y direction for a 2D simulation.
 
 
     .. code::
@@ -411,18 +412,18 @@ def get_simulation_grating_coupler(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gtidy3d as gt
+    # import gdsfactory.simulation.gtidy3d as gt
 
     c = gf.components.grating_coupler_elliptical_arbitrary(
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
-    sim = get_simulation_grating_coupler(c, plot_modes=False)
+    sim = get_simulation_grating_coupler(c, plot_modes=False, is_3d=False)
 
     # c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
     # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
     # gt.plot_simulation(sim)  # make sure simulations looks good
 
-    sim_data = gt.get_results(sim).result()
+    # sim_data = gt.get_results(sim).result()
 
     # freq0 = td.constants.C_0 / 1.55
     # fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
@@ -430,11 +431,10 @@ if __name__ == "__main__":
     # sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
     # sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
 
-    plt.figure()
-    waveguide = sim_data["waveguide"]
-    plt.plot(np.abs(waveguide.amps.values[0].flatten()), label="+")
-    plt.plot(np.abs(waveguide.amps.values[1].flatten()), label="-")
-    plt.legend()
-
+    # plt.figure()
+    # waveguide = sim_data["waveguide"]
+    # plt.plot(np.abs(waveguide.amps.values[0].flatten()), label="+")
+    # plt.plot(np.abs(waveguide.amps.values[1].flatten()), label="-")
+    # plt.legend()
+    # plt.show()
     # print(f"waveguide in waveguide / waveguide in = {float(waveguide.amps.values):.2f} ")
-    plt.show()
