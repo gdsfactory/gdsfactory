@@ -58,6 +58,7 @@ def get_simulation_grating_coupler(
     fiber_mfd: float = 5.2,
     fiber_angle_deg: float = -20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
+    is_3d: bool = True,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 

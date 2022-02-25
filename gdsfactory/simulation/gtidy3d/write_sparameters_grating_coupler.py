@@ -23,9 +23,10 @@ def write_sparameters_grating_coupler(
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
-    """Get full sparameter matrix from a gdsfactory grating coupler.
-    Simulates each time using a different input port (by default, all of them)
-    unless you specify port_symmetries:
+    """Get sparameter matrix from a gdsfactory grating coupler.
+
+    TODO: Simulates each time using a different input port, right now it
+    only launches from fiber and measures field inside the waveguide.
 
     it assumes grating coupler waveguide port is facing to the left (west)
 
@@ -68,7 +69,6 @@ def write_sparameters_grating_coupler(
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
         material_name_to_tidy3d: dict of material stack materil name to tidy3d.
 
-
     """
     filepath = get_sparameters_path(
         component=component,
@@ -88,9 +88,15 @@ def write_sparameters_grating_coupler(
     direction_inp = "+"
     direction_out = "-"
 
-    monitor_entering = sim_data.monitor_data["flux"].amps.sel(direction=direction_inp)
-    monitor_exiting = sim_data.monitor_data["waveguide"].amps.sel(
-        direction=direction_out
+    monitor_entering = (
+        sim_data.monitor_data["waveguide"]
+        .amps.sel(direction=direction_inp)
+        .values.flatten()
+    )
+    monitor_exiting = (
+        sim_data.monitor_data["waveguide"]
+        .amps.sel(direction=direction_out)
+        .values.flatten()
     )
     r = monitor_exiting / monitor_entering
     ra = np.unwrap(np.angle(r))
@@ -139,11 +145,14 @@ def write_sparameters_grating_coupler_batch(
 
 
 if __name__ == "__main__":
+    import matplotlib.pyplot as plt
+
     import gdsfactory as gf
 
     c = gf.components.grating_coupler_elliptical_arbitrary(
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
     df = write_sparameters_grating_coupler(c)
-    t = df.s12m
-    print(f"Transmission = {t}")
+    # t = df.s12m
+    # print(f"Transmission = {t}")
+    plt.plot(df.wavelengths, df.s12m)
