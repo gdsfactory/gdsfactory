@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.2.13
+
+- gmeep simulation improvements:
+    - ymargin=3 by default
+    - add write_sparameters_meep_1x1 for reciprocal devices (port_symmetries1x1)
+    - add write_sparameters_meep_1x1_bend90 for 90degree bend simulations
+
 ## 4.2.12
 
 - update tidy3d client to latest version 1.0.2
