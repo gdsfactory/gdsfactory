@@ -206,8 +206,9 @@ def get_simulation(
     for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
             thickness = layer_to_thickness[layer]
-            zmin = layer_to_zmin[layer]
-            zmax = zmin + thickness
+            zmin = layer_to_zmin[layer] if is_3d else -td.inf
+            zmax = zmin + thickness if is_3d else td.inf
+
             if (
                 layer in layer_to_material
                 and layer_to_material[layer] in material_name_to_tidy3d
@@ -426,7 +427,7 @@ if __name__ == "__main__":
     # c = gf.c.straight_rib()
 
     c = gf.c.straight()
-    sim = get_simulation(c, plot_modes=False, is_3d=False)
+    sim = get_simulation(c, plot_modes=True, is_3d=False)
 
     filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
     filepath.write_text(sim.json())
