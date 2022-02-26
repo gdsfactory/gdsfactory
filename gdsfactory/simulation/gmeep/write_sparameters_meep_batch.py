@@ -14,6 +14,7 @@ from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger, sparameters_path
+from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
@@ -187,12 +188,16 @@ def write_sparameters_meep_batch(
     return filepaths
 
 
-write_sparameters_meep_batch_lr = gf.partial(
-    write_sparameters_meep_batch, ymargin_top=3, ymargin_bot=3
+write_sparameters_meep_batch_1x1 = gf.partial(
+    write_sparameters_meep_batch, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
-write_sparameters_meep_batch_lt = gf.partial(
-    write_sparameters_meep_batch, ymargin_bot=3, xmargin_right=3
+write_sparameters_meep_batch_1x1_bend90 = gf.partial(
+    write_sparameters_meep_batch,
+    port_symmetries=port_symmetries.port_symmetries_1x1,
+    ymargin=0,
+    ymargin_bot=3,
+    xmargin_right=3,
 )
 
 

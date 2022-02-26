@@ -18,6 +18,7 @@ from tqdm import tqdm
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger, sparameters_path
+from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
@@ -146,7 +147,7 @@ def write_sparameters_meep(
     run: bool = True,
     dispersive: bool = False,
     xmargin: float = 0,
-    ymargin: float = 0,
+    ymargin: float = 3,
     xmargin_left: float = 0,
     xmargin_right: float = 0,
     ymargin_top: float = 0,
@@ -535,12 +536,16 @@ def write_sparameters_meep(
         return df
 
 
-write_sparameters_meep_lr = gf.partial(
-    write_sparameters_meep, ymargin_top=3, ymargin_bot=3
+write_sparameters_meep_1x1 = gf.partial(
+    write_sparameters_meep, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
-write_sparameters_meep_lt = gf.partial(
-    write_sparameters_meep, ymargin_bot=3, xmargin_right=3
+write_sparameters_meep_1x1_bend90 = gf.partial(
+    write_sparameters_meep,
+    ymargin=0,
+    ymargin_bot=3,
+    xmargin_right=3,
+    port_symmetries=port_symmetries.port_symmetries_1x1,
 )
 
 sig = inspect.signature(write_sparameters_meep)
@@ -550,7 +555,7 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 
 if __name__ == "__main__":
     c = gf.components.straight(length=2)
-    write_sparameters_meep_lr(c, run=False)
+    write_sparameters_meep_1x1(c, run=False)
 
     # import matplotlib.pyplot as plt
     # plt.show()
