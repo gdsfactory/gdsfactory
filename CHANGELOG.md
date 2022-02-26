@@ -3,6 +3,7 @@
 ## 4.2.12
 
 - update tidy3d client to latest version 1.0.2
+- add `is_3d` to run simulations in 2D
 
 ## 4.2.11
 
