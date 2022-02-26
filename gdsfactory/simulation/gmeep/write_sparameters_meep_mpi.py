@@ -5,6 +5,7 @@ import pathlib
 import pickle
 import shlex
 import subprocess
+import sys
 import time
 from pathlib import Path
 from typing import Optional
@@ -14,6 +15,7 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger, sparameters_path
+from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
 )
@@ -162,6 +164,8 @@ def write_sparameters_meep_mpi(
     script_file_obj.close()
 
     command = f"mpirun -np {cores} python {script_file}"
+    print(command)
+    print(str(filepath))
     logger.info(command)
     logger.info(str(filepath))
 
@@ -171,22 +175,32 @@ def write_sparameters_meep_mpi(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     ) as proc:
-        logger.info(proc.stdout.read().decode())
-        logger.error(proc.stderr.read().decode())
+        print(proc.stdout.read().decode())
+        print(proc.stderr.read().decode())
+        sys.stdout.flush()
+        sys.stderr.flush()
 
     if wait_to_finish and not proc.stderr:
         while not filepath.exists():
+            print(proc.stdout.read().decode())
+            print(proc.stderr.read().decode())
+            sys.stdout.flush()
+            sys.stderr.flush()
             time.sleep(1)
 
     return filepath
 
 
-write_sparameters_meep_mpi_lr = gf.partial(
-    write_sparameters_meep_mpi, ymargin_top=3, ymargin_bot=3
+write_sparameters_meep_mpi_1x1 = gf.partial(
+    write_sparameters_meep_mpi, port_symmetries=port_symmetries.port_symmetries_1x1
 )
 
-write_sparameters_meep_mpi_lt = gf.partial(
-    write_sparameters_meep_mpi, ymargin_bot=3, xmargin_right=3
+write_sparameters_meep_mpi_1x1_bend90 = gf.partial(
+    write_sparameters_meep_mpi,
+    ymargin_bot=3,
+    ymargin=0,
+    xmargin_right=3,
+    port_symmetries=port_symmetries.port_symmetries_1x1,
 )
 
 
@@ -195,7 +209,7 @@ if __name__ == "__main__":
     filepath = write_sparameters_meep_mpi(
         component=c1,
         # ymargin=3,
-        cores=3,
+        cores=2,
         run=True,
         overwrite=True,
         # lazy_parallelism=True,
