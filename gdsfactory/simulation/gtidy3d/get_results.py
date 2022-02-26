@@ -47,7 +47,8 @@ def _get_results(
 
     # Results in local storage
     if sim_path.exists():
-        logger.info(f"{sim_path!r} found in local storage")
+        task_id = hash_to_id[sim_hash]
+        logger.info(f"{sim_path!r} for task_id {task_id!r} found in local storage")
         return td.SimulationData.from_file(filepath)
 
     # Results in server storage

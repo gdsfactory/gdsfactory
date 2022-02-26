@@ -3,6 +3,9 @@
 [tidy3D is a fast GPU based commercial FDTD solver](https://simulation.cloud/)
 """
 
+import tidy3d as td
+
+from gdsfactory.config import logger
 from gdsfactory.simulation.gtidy3d import materials, utils
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import (
@@ -38,3 +41,5 @@ __all__ = [
     "write_sparameters_batch",
     "write_sparameters_batch_1x1",
 ]
+
+logger.info(f"Tidy3d {td.__version__!r} installed at {td.__path__!r}")
