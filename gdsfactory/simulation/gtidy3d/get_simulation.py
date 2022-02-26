@@ -327,14 +327,29 @@ def get_simulation(
             ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
         )
 
-        fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        if is_3d:
+            fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        else:
+            fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
+
         for mode_ind in range(num_modes):
-            abs(modes[mode_ind].field_data.Ey).plot(
-                x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
-            )
-            abs(modes[mode_ind].field_data.Ez).plot(
-                x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
-            )
+            if is_3d:
+                abs(modes[mode_ind].field_data.Ey).plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
+                )
+                abs(modes[mode_ind].field_data.Ez).plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
+                )
+            else:
+                abs(modes[mode_ind].field_data.Ex).plot(ax=axs[mode_ind, 0])
+                abs(modes[mode_ind].field_data.Ey).plot(ax=axs[mode_ind, 1])
+                abs(modes[mode_ind].field_data.Ez).plot(ax=axs[mode_ind, 2])
+
+                axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
+                axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
+                axs[mode_ind, 2].set_title(f"|Ez|: mode_index={mode_ind}")
+
+        if is_3d:
             axs[mode_ind, 0].set_aspect("equal")
             axs[mode_ind, 1].set_aspect("equal")
         plt.show()
@@ -403,6 +418,7 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
+    import pathlib
 
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
@@ -411,8 +427,11 @@ if __name__ == "__main__":
 
     c = gf.c.straight()
     sim = get_simulation(c, plot_modes=False, is_3d=False)
-    plot_simulation(sim)
 
+    filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
+    filepath.write_text(sim.json())
+
+    # plot_simulation(sim)
     # sim.plotly(z=0)
     # plot_simulation_yz(sim, wavelength=1.55)
     # fig = plt.figure(figsize=(11, 4))
