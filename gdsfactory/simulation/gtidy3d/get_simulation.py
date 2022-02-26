@@ -52,6 +52,7 @@ def get_simulation(
     num_modes: int = 2,
     run_time_ps: float = 10.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
+    is_3d: bool = True,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -131,6 +132,8 @@ def get_simulation(
         sim = gt.get_simulation(c)
         gt.plot_simulation(sim)
 
+
+    FIXME: fix is_3d=False case
     """
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
@@ -188,7 +191,12 @@ def get_simulation(
     ]
 
     t_core = max(layers_thickness)
-    cell_thickness = thickness_pml + t_core + thickness_pml + 2 * zmargin
+    cell_thickness = (
+        thickness_pml + t_core + thickness_pml + 2 * zmargin
+        if is_3d
+        else 1 / resolution
+    )
+
     sim_size = [
         component_ref.xsize + 2 * thickness_pml,
         component_ref.ysize + 2 * thickness_pml,
@@ -231,6 +239,7 @@ def get_simulation(
             elif layer_to_material[layer] not in material_name_to_tidy3d:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
+
     # Add source
     port = component_ref.ports[port_source_name]
     angle = port.orientation
@@ -239,7 +248,7 @@ def get_simulation(
     size_y = width * abs(np.cos(angle * np.pi / 180))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
-    size_z = cell_thickness - 2 * zmargin
+    size_z = cell_thickness - 2 * zmargin if is_3d else td.inf
 
     source_size = [size_x, size_y, size_z]
     source_center = port.center.tolist() + [0]  # (x, y, z=0)
@@ -289,9 +298,10 @@ def get_simulation(
             name=port.name,
         )
 
+    zcenter = (zmax + zmin) / 2 if is_3d else 0
     domain_monitor = td.FieldMonitor(
-        center=[0, 0, (zmax + zmin) / 2],
-        size=[sim_size[0], sim_size[1], 0],
+        center=[0, 0, zcenter],
+        size=[sim_size[0], sim_size[1], 0] if is_3d else [td.inf, td.inf, 0],
         freqs=[freq0],
         name="field",
     )
@@ -303,7 +313,7 @@ def get_simulation(
         sources=[msource],
         monitors=[domain_monitor] + list(monitors.values()),
         run_time=20 * run_time_ps / fwidth,
-        pml_layers=3 * [td.PML()],
+        pml_layers=3 * [td.PML()] if is_3d else [td.PML(), td.PML(), None],
     )
 
     if plot_modes:
@@ -317,14 +327,29 @@ def get_simulation(
             ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
         )
 
-        fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        if is_3d:
+            fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        else:
+            fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
+
         for mode_ind in range(num_modes):
-            abs(modes[mode_ind].field_data.Ey).plot(
-                x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
-            )
-            abs(modes[mode_ind].field_data.Ez).plot(
-                x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
-            )
+            if is_3d:
+                abs(modes[mode_ind].field_data.Ey).plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
+                )
+                abs(modes[mode_ind].field_data.Ez).plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
+                )
+            else:
+                abs(modes[mode_ind].field_data.Ex).plot(ax=axs[mode_ind, 0])
+                abs(modes[mode_ind].field_data.Ey).plot(ax=axs[mode_ind, 1])
+                abs(modes[mode_ind].field_data.Ez).plot(ax=axs[mode_ind, 2])
+
+                axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
+                axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
+                axs[mode_ind, 2].set_title(f"|Ez|: mode_index={mode_ind}")
+
+        if is_3d:
             axs[mode_ind, 0].set_aspect("equal")
             axs[mode_ind, 1].set_aspect("equal")
         plt.show()
@@ -393,6 +418,7 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
+    import pathlib
 
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
@@ -400,10 +426,14 @@ if __name__ == "__main__":
     # c = gf.c.straight_rib()
 
     c = gf.c.straight()
-    sim = get_simulation(c, plot_modes=True)
+    sim = get_simulation(c, plot_modes=False, is_3d=False)
 
-    # plot_simulation_yz(sim, wavelength=1.55)
+    filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
+    filepath.write_text(sim.json())
+
     # plot_simulation(sim)
+    # sim.plotly(z=0)
+    # plot_simulation_yz(sim, wavelength=1.55)
     # fig = plt.figure(figsize=(11, 4))
     # gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     # ax1 = fig.add_subplot(gs[0, 0])

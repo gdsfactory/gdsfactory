@@ -11,7 +11,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
-from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 
@@ -42,9 +41,9 @@ def get_simulation_grating_coupler(
     box_material: str = "sio2",
     box_thickness: float = 2.0,
     substrate_material: str = "si",
-    port_source_name: str = "o1",
+    port_waveguide_name: str = "o1",
     port_margin: float = 0.5,
-    port_source_offset: float = 0.1,
+    port_waveguide_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
     resolution: float = 50,
     wavelength_start: float = 1.50,
@@ -53,12 +52,13 @@ def get_simulation_grating_coupler(
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
-    fiber_port_type: str = "vertical_te",
+    fiber_port_name: str = "vertical_te",
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
     fiber_mfd: float = 5.2,
     fiber_angle_deg: float = -20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
+    is_3d: bool = True,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -88,6 +88,10 @@ def get_simulation_grating_coupler(
 
         side view
 
+              fiber_xoffset
+                 |<--->|
+            fiber_port_name
+                 |
                          fiber_angle_deg < 0
                         |  /
                         | /
@@ -125,10 +129,12 @@ def get_simulation_grating_coupler(
         ymargin_bot: bottom distance from component to PML.
         zmargin: thickness for cladding above and below core.
         clad_material: material for cladding.
-        port_source_name: input port name.
+        box_material:
+        substrate_material:
+        port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        port_source_offset: mode solver workaround.
+        port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength_start: in (um).
@@ -138,6 +144,13 @@ def get_simulation_grating_coupler(
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and counts on the automatic shutoff to stop earlier if needed.
+        fiber_port_name:
+        fiber_xoffset: fiber center xoffset to fiber_port_name
+        fiber_z: fiber zoffset from grating zmax
+        fiber_mfd: fiber mode field diameter (um)
+        fiber_angle_deg: fiber_angle in degrees with respect to normal.
+        material_name_to_tidy3d: dict of material stack materil name to tidy3d.
+        is_3d: if False collapses the Y direction for a 2D simulation.
 
 
     .. code::
@@ -146,7 +159,9 @@ def get_simulation_grating_coupler(
         import gdsfactory as gf
         import gdsfactory.simulation.tidy3d as gt
 
-        c = gf.components.bend_circular()
+        c = gf.components.grating_coupler_elliptical_arbitrary(
+            widths=[0.343] * 25, gaps=[0.345] * 25
+        )
         sim = gt.get_simulation(c)
         gt.plot_simulation(sim)
 
@@ -159,13 +174,19 @@ def get_simulation_grating_coupler(
     assert isinstance(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
-    if port_source_name not in component.ports:
+
+    if port_waveguide_name not in component.ports:
         warnings.warn(
-            f"port_source_name={port_source_name} not in {component.ports.keys()}"
+            f"port_waveguide_name={port_waveguide_name} not in {component.ports.keys()}"
         )
-        port_source = component.get_ports_list()[0]
-        port_source_name = port_source.name
-        warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
+        port_waveguide = component.get_ports_list()[0]
+        port_waveguide_name = port_waveguide.name
+        warnings.warn(f"Selecting port_waveguide_name={port_waveguide_name} instead.")
+
+    if fiber_port_name not in component.ports:
+        raise ValueError(
+            f"fiber_port_name = {fiber_port_name!r} not in {component.ports.keys()}"
+        )
 
     component_padding = gf.add_padding_container(
         component,
@@ -277,8 +298,8 @@ def get_simulation_grating_coupler(
     freq0 = td.constants.C_0 / np.mean(wavelengths)
     fwidth = freq0 / 10
 
-    # Add input waveguide source
-    port = component_ref.ports[port_source_name]
+    # Add input waveguide port
+    port = component_ref.ports[port_waveguide_name]
     angle = port.orientation
     width = port.width + 2 * port_margin
     size_x = width * abs(np.sin(angle * np.pi / 180))
@@ -286,21 +307,14 @@ def get_simulation_grating_coupler(
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_z = cell_thickness - 2 * zmargin
-
-    source_size = [size_x, size_y, size_z]
+    waveguide_port_size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
-        np.array(port.center), angle=angle * np.pi / 180, length=port_source_offset
+        np.array(port.center), angle=angle * np.pi / 180, length=port_waveguide_offset
     )
-    source_center_offset = xy_shifted.tolist() + [0]  # (x, y, z=0)
+    waveguide_port_center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
     # Add waveguide port monitor
-    ports = sort_ports_x(
-        sort_ports_y(component_ref.get_ports_list(port_type="optical"))
-    )
-    ports = component_ref.get_ports_list(port_type=fiber_port_type)
-    assert len(ports) == 1, f"More than one optical found {ports}"
-    port = ports[0]
-
+    port = component_ref.ports[port_waveguide_name]
     port_name = port.name
     angle = port.orientation
     width = port.width + 2 * port_margin
@@ -311,24 +325,22 @@ def get_simulation_grating_coupler(
     size = (size_x, size_y, size_z)
 
     # if monitor has a source move monitor inwards
-    length = -distance_source_to_monitors if port_name == port_source_name else 0
+    length = -distance_source_to_monitors if port_name == port_waveguide_name else 0
     xy_shifted = move_polar_rad_copy(
         np.array(port.center), angle=angle * np.pi / 180, length=length
     )
     center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
-    flux_monitor = td.ModeMonitor(
+    waveguide_monitor = td.ModeMonitor(
         center=center,
         size=size,
         freqs=freqs,
         mode_spec=td.ModeSpec(num_modes=1),
-        name="flux",
+        name="waveguide",
     )
 
     # Add fiber monitor
-    ports = component_ref.get_ports_list(port_type=fiber_port_type)
-    assert len(ports) == 1, f"More than one port_type={fiber_port_type!r} found {ports}"
-    fiber_port = ports[0]
+    fiber_port = component_ref.ports[fiber_port_name]
 
     # inject Gaussian beam from above and monitors the transmission into the waveguide.
     gaussian_beam = td.GaussianBeam(
@@ -368,13 +380,13 @@ def get_simulation_grating_coupler(
         grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[gaussian_beam],
-        monitors=[plane_monitor, rad_monitor, flux_monitor, near_field_monitor],
+        monitors=[plane_monitor, rad_monitor, waveguide_monitor, near_field_monitor],
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()],
     )
 
     if plot_modes:
-        src_plane = td.Box(center=source_center_offset, size=source_size)
+        src_plane = td.Box(center=waveguide_port_center, size=waveguide_port_size)
         ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
 
         mode_spec = td.ModeSpec(num_modes=num_modes)
@@ -400,18 +412,18 @@ def get_simulation_grating_coupler(
 
 
 if __name__ == "__main__":
-    import gdsfactory.simulation.gtidy3d as gt
+    # import gdsfactory.simulation.gtidy3d as gt
 
-    # c = gf.components.grating_coupler_elliptical_arbitrary(
-    #     widths=[0.343] * 25, gaps=[0.345] * 25
-    # )
-    # sim = get_simulation_grating_coupler(c, plot_modes=False)
+    c = gf.components.grating_coupler_elliptical_arbitrary(
+        widths=[0.343] * 25, gaps=[0.345] * 25
+    )
+    sim = get_simulation_grating_coupler(c, plot_modes=False, is_3d=False)
 
-    c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
-    sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
-    gt.plot_simulation(sim)  # make sure simulations looks good
+    # c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
+    # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
+    # gt.plot_simulation(sim)  # make sure simulations looks good
 
-    sim_data = gt.get_results(sim).result()
+    # sim_data = gt.get_results(sim).result()
 
     # freq0 = td.constants.C_0 / 1.55
     # fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
@@ -419,8 +431,10 @@ if __name__ == "__main__":
     # sim_data.plot_field("radiated_near_fields", "Ey", freq=freq0, z=0, ax=ax2)
     # sim_data.plot_field("radiated_fields", "Ey", freq=freq0, y=0, ax=ax3)
 
-    plt.figure()
-    flux = sim_data["flux"]
-    plt.plot(np.abs(flux.amps.values))
-    # print(f"flux in waveguide / flux in = {float(flux.amps.values):.2f} ")
-    plt.show()
+    # plt.figure()
+    # waveguide = sim_data["waveguide"]
+    # plt.plot(np.abs(waveguide.amps.values[0].flatten()), label="+")
+    # plt.plot(np.abs(waveguide.amps.values[1].flatten()), label="-")
+    # plt.legend()
+    # plt.show()
+    # print(f"waveguide in waveguide / waveguide in = {float(waveguide.amps.values):.2f} ")
