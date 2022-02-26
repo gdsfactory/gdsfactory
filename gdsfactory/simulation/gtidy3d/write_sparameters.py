@@ -267,7 +267,7 @@ if __name__ == "__main__":
     import gdsfactory.simulation as sim
 
     c = gf.components.straight(length=2.1)
-    df = write_sparameters_1x1(c, is_3d=False)
+    df = write_sparameters_1x1(c, is_3d=False, overwrite=False)
     sim.plot.plot_sparameters(df)
 
     # t = df.s12m

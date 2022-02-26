@@ -16,7 +16,7 @@ def test_sparameters_straight(dataframe_regression):
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    df = gm.write_sparameters_meep(c, overwrite=True, resolution=RESOLUTION)
+    df = gm.write_sparameters_meep(c, ymargin=0, overwrite=True, resolution=RESOLUTION)
 
     # Check reasonable reflection/transmission
     assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
@@ -41,7 +41,11 @@ def test_sparameters_straight_symmetric(dataframe_regression):
         }
     }
     df = gm.write_sparameters_meep(
-        c, overwrite=True, resolution=RESOLUTION, port_symmetries=port_symmetries
+        c,
+        overwrite=True,
+        resolution=RESOLUTION,
+        port_symmetries=port_symmetries,
+        ymargin=0,
     )
 
     # Check reasonable reflection/transmission
@@ -66,7 +70,11 @@ def test_sparameters_crossing_symmetric(dataframe_regression):
         }
     }
     df = gm.write_sparameters_meep(
-        c, overwrite=True, resolution=RESOLUTION, port_symmetries=port_symmetries
+        c,
+        overwrite=True,
+        resolution=RESOLUTION,
+        port_symmetries=port_symmetries,
+        ymargin=0,
     )
 
     if dataframe_regression:
@@ -78,7 +86,7 @@ def test_sparameters_straight_mpi(dataframe_regression):
     c = gf.components.straight(length=2)
     p = 3
     c = gf.add_padding_container(c, default=0, top=p, bottom=p)
-    filepath = gm.write_sparameters_meep_mpi(c, overwrite=True)
+    filepath = gm.write_sparameters_meep_mpi(c, ymargin=0, overwrite=True)
     df = pd.read_csv(filepath)
 
     # Check reasonable reflection/transmission
