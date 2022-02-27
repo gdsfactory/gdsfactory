@@ -94,7 +94,7 @@ def grating_coupler_elliptical_lumerical(
         etch_depth=80e-9 # etch depth
         theta_fib_mat = 5 # Angle of the fiber mode in material
         theta_taper=30
-        efficiency=0.55
+        efficiency=0.55 # 5.2 dB
 
     Args:
         parameters: xinput, gap1, width1, gap2, width2 ...
