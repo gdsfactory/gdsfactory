@@ -2,6 +2,10 @@
 
 ## 4.2.13
 
+- fix `is_3d=False` case 2D sims for tidy3d write_sparameters_grating
+
+## 4.2.13
+
 - gmeep simulation improvements:
     - ymargin=3 by default
     - add write_sparameters_meep_1x1 for reciprocal devices (port_symmetries1x1)

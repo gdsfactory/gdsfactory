@@ -59,6 +59,7 @@ def get_simulation_grating_coupler(
     fiber_angle_deg: float = -20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
     is_3d: bool = True,
+    with_all_monitors: bool = False,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -359,12 +360,17 @@ def get_simulation_grating_coupler(
         name="radiated_near_fields",
     )
 
+    monitors = [waveguide_monitor]
+    monitors += (
+        [plane_monitor, rad_monitor, near_field_monitor] if with_all_monitors else []
+    )
+
     sim = td.Simulation(
         size=sim_size,
         grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[gaussian_beam],
-        monitors=[plane_monitor, rad_monitor, waveguide_monitor, near_field_monitor],
+        monitors=monitors,
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()] if is_3d else [td.PML(), None, td.PML()],
     )
@@ -411,16 +417,18 @@ def get_simulation_grating_coupler(
 
 
 if __name__ == "__main__":
-    # import gdsfactory.simulation.gtidy3d as gt
+    import gdsfactory.simulation.gtidy3d as gt
 
     c = gf.components.grating_coupler_elliptical_arbitrary(
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
-    sim = get_simulation_grating_coupler(c, plot_modes=True, is_3d=False)
+    sim = get_simulation_grating_coupler(
+        c, plot_modes=False, is_3d=False, fiber_angle_deg=-20
+    )
+    gt.plot_simulation(sim)  # make sure simulations looks good
 
     # c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
     # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
-    # gt.plot_simulation(sim)  # make sure simulations looks good
     # sim_data = gt.get_results(sim).result()
     # freq0 = td.constants.C_0 / 1.55
     # fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
