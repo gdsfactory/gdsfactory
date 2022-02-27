@@ -1,4 +1,5 @@
 import time
+from typing import Any, Dict
 
 import numpy as np
 import pandas as pd
@@ -24,11 +25,9 @@ def write_sparameters_grating_coupler(
     **kwargs,
 ) -> pd.DataFrame:
     """Get sparameter matrix from a gdsfactory grating coupler.
+    assumes grating coupler waveguide port is facing to the left (west)
 
-    TODO: Simulates each time using a different input port, right now it
-    only launches from fiber and measures field inside the waveguide.
-
-    it assumes grating coupler waveguide port is facing to the left (west)
+    TODO: add a fiber model (more realistic than a gaussian_beam)
 
     Args:
         component: grating coupler gdsfactory Component to simulate.
@@ -68,6 +67,8 @@ def write_sparameters_grating_coupler(
         fiber_mfd: fiber mode field diameter (um)
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
         material_name_to_tidy3d: dict of material stack materil name to tidy3d.
+        is_3d: True by default runs in 3D
+        with_all_monitors: stores all monitor fields
 
     """
     filepath = get_sparameters_path(
@@ -98,7 +99,7 @@ def write_sparameters_grating_coupler(
         .amps.sel(direction=direction_out)
         .values.flatten()
     )
-    r = monitor_exiting / monitor_entering
+    r = monitor_entering / monitor_exiting
     ra = np.unwrap(np.angle(r))
     rm = np.abs(r)
 
@@ -128,31 +129,43 @@ def write_sparameters_grating_coupler(
 
 
 def write_sparameters_grating_coupler_batch(
-    components: List[Component], **kwargs
+    jobs: List[Dict[str, Any]]
 ) -> List[pd.DataFrame]:
     """Returns Sparameters for a list of components
     runs batch of component simulations in paralell.
 
     Args:
-        components: list of components
+        jobs: list of kwargs for write_sparameters_grating_coupler
 
     """
-    sp = [
-        _executor.submit(write_sparameters_grating_coupler, component, **kwargs)
-        for component in components
-    ]
+    sp = [_executor.submit(write_sparameters_grating_coupler, **job) for job in jobs]
     return [spi.result() for spi in sp]
 
 
 if __name__ == "__main__":
-    import matplotlib.pyplot as plt
+    # import matplotlib.pyplot as plt
 
     import gdsfactory as gf
 
-    c = gf.components.grating_coupler_elliptical_arbitrary(
-        widths=[0.343] * 25, gaps=[0.345] * 25
+    # import gdsfactory.simulation as sim
+
+    c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
+    df = write_sparameters_grating_coupler(
+        c,
+        is_3d=False,
+        fiber_angle_deg=-5,
+        fiber_xoffset=+2,
     )
-    df = write_sparameters_grating_coupler(c)
+
+    # sim.plot.plot_sparameters(df)
+
+    # c = gf.components.grating_coupler_elliptical_arbitrary(
+    #     widths=[0.343] * 25,
+    #     gaps=[0.345] * 25,
+    # )
+    # df = write_sparameters_grating_coupler(c, is_3d=False)
     # t = df.s12m
     # print(f"Transmission = {t}")
-    plt.plot(df.wavelengths, df.s12m)
+
+    # plt.plot(df.wavelengths, df.s12m)
+    # plt.show()
