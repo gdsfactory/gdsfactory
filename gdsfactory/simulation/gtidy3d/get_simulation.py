@@ -15,6 +15,7 @@ from gdsfactory.config import logger
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.types import Float2
 
 MATERIAL_NAME_TO_TIDY3D = {
     "si": 3.47,
@@ -362,6 +363,7 @@ def plot_simulation_yz(
     z: float = 0.0,
     y: float = 0.0,
     wavelength: Optional[float] = 1.55,
+    figsize: Float2 = (11, 4),
 ):
     """Returns figure with two axis of the Simulation.
 
@@ -370,8 +372,9 @@ def plot_simulation_yz(
         z: (um)
         y: (um)
         wavelength: (um) for epsilon plot if None plot structures.
+        figsize: figure size
     """
-    fig = plt.figure(figsize=(11, 4))
+    fig = plt.figure(figsize=figsize)
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
@@ -391,6 +394,7 @@ def plot_simulation_xz(
     x: float = 0.0,
     z: float = 0.0,
     wavelength: Optional[float] = 1.55,
+    figsize: Float2 = (11, 4),
 ):
     """Returns figure with two axis of the Simulation.
 
@@ -399,8 +403,9 @@ def plot_simulation_xz(
         x: (um)
         z: (um)
         wavelength: (um) for epsilon plot if None plot structures.
+        figsize: figure size
     """
-    fig = plt.figure(figsize=(11, 4))
+    fig = plt.figure(figsize=figsize)
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
