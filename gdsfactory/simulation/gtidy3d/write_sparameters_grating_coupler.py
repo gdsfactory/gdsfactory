@@ -150,9 +150,11 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.grating_coupler_elliptical_arbitrary(
-        widths=[0.343] * 25, gaps=[0.345] * 25
+        widths=[0.343] * 25,
+        gaps=[0.345] * 25,
     )
-    df = write_sparameters_grating_coupler(c)
+    df = write_sparameters_grating_coupler(c, is_3d=False)
     # t = df.s12m
     # print(f"Transmission = {t}")
     plt.plot(df.wavelengths, df.s12m)
+    plt.show()
