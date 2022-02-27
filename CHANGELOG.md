@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.2.14
+
+- add with_all_monitors=False by default to avoid storing all fields when running gtidy3d.write_sparameters_grating_coupler
+
 ## 4.2.13
 
 - fix `is_3d=False` case 2D sims for tidy3d write_sparameters_grating
