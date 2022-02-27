@@ -220,9 +220,10 @@ def get_simulation_grating_coupler(
     cell_thickness = (
         thickness_pml + box_thickness + t_core + thickness_pml + 2 * zmargin
     )
+    sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 1 / resolution
     sim_size = [
         component_ref.xsize + 2 * thickness_pml,
-        component_ref.ysize + 2 * thickness_pml,
+        sim_ysize,
         cell_thickness,
     ]
 
@@ -306,6 +307,7 @@ def get_simulation_grating_coupler(
     size_y = width * abs(np.cos(angle * np.pi / 180))
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
+    size_y = size_y if is_3d else td.inf
     size_z = cell_thickness - 2 * zmargin
     waveguide_port_size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
@@ -313,27 +315,9 @@ def get_simulation_grating_coupler(
     )
     waveguide_port_center = xy_shifted.tolist() + [0]  # (x, y, z=0)
 
-    # Add waveguide port monitor
-    port = component_ref.ports[port_waveguide_name]
-    port_name = port.name
-    angle = port.orientation
-    width = port.width + 2 * port_margin
-    size_x = width * abs(np.sin(angle * np.pi / 180))
-    size_y = width * abs(np.cos(angle * np.pi / 180))
-    size_x = 0 if size_x < 0.001 else size_x
-    size_y = 0 if size_y < 0.001 else size_y
-    size = (size_x, size_y, size_z)
-
-    # if monitor has a source move monitor inwards
-    length = -distance_source_to_monitors if port_name == port_waveguide_name else 0
-    xy_shifted = move_polar_rad_copy(
-        np.array(port.center), angle=angle * np.pi / 180, length=length
-    )
-    center = xy_shifted.tolist() + [0]  # (x, y, z=0)
-
     waveguide_monitor = td.ModeMonitor(
-        center=center,
-        size=size,
+        center=waveguide_port_center,
+        size=waveguide_port_size,
         freqs=freqs,
         mode_spec=td.ModeSpec(num_modes=1),
         name="waveguide",
@@ -382,7 +366,7 @@ def get_simulation_grating_coupler(
         sources=[gaussian_beam],
         monitors=[plane_monitor, rad_monitor, waveguide_monitor, near_field_monitor],
         run_time=20 * run_time_ps / fwidth,
-        pml_layers=3 * [td.PML()],
+        pml_layers=3 * [td.PML()] if is_3d else [td.PML(), None, td.PML()],
     )
 
     if plot_modes:
@@ -397,14 +381,29 @@ def get_simulation_grating_coupler(
             ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
         )
 
-        fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        if is_3d:
+            fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+        else:
+            fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
+
         for mode_ind in range(num_modes):
-            abs(modes[mode_ind].field_data.Ey).plot(
-                x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
-            )
-            abs(modes[mode_ind].field_data.Ez).plot(
-                x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
-            )
+            if is_3d:
+                abs(modes[mode_ind].field_data.Ey).plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
+                )
+                abs(modes[mode_ind].field_data.Ez).plot(
+                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
+                )
+            else:
+                abs(modes[mode_ind].field_data.Ex).plot(ax=axs[mode_ind, 0])
+                abs(modes[mode_ind].field_data.Ey).plot(ax=axs[mode_ind, 1])
+                abs(modes[mode_ind].field_data.Ez).plot(ax=axs[mode_ind, 2])
+
+                axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
+                axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
+                axs[mode_ind, 2].set_title(f"|Ez|: mode_index={mode_ind}")
+
+        if is_3d:
             axs[mode_ind, 0].set_aspect("equal")
             axs[mode_ind, 1].set_aspect("equal")
         plt.show()
@@ -417,14 +416,12 @@ if __name__ == "__main__":
     c = gf.components.grating_coupler_elliptical_arbitrary(
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
-    sim = get_simulation_grating_coupler(c, plot_modes=False, is_3d=False)
+    sim = get_simulation_grating_coupler(c, plot_modes=True, is_3d=False)
 
     # c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
     # sim = get_simulation_grating_coupler(c, plot_modes=False, fiber_angle_deg=-5)
     # gt.plot_simulation(sim)  # make sure simulations looks good
-
     # sim_data = gt.get_results(sim).result()
-
     # freq0 = td.constants.C_0 / 1.55
     # fig, (ax1, ax2, ax3) = plt.subplots(3, 1, tight_layout=True, figsize=(14, 16))
     # sim_data.plot_field("full_domain_fields", "Ey", freq=freq0, z=0, ax=ax1)
