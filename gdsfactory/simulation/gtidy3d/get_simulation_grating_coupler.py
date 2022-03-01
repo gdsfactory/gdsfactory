@@ -4,7 +4,6 @@ from typing import Dict, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pydantic
 import tidy3d as td
 
 import gdsfactory as gf
@@ -24,7 +23,6 @@ MATERIAL_NAME_TO_TIDY3D = {
 }
 
 
-@pydantic.validate_arguments
 def get_simulation_grating_coupler(
     component: Component,
     port_extension: Optional[float] = 4.0,

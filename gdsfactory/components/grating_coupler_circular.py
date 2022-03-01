@@ -120,8 +120,6 @@ def grating_coupler_circular(
         orientation=0,
         layer=fiber_marker_layer,
     )
-
-    c.auto_rename_ports()
     return c
 
 
@@ -135,7 +133,30 @@ def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs
 
     Args:
         teeth_list: list of gaps and widths
-        kwargs: for grating_coupler_circular
+
+    Keyword Args:
+        taper_angle: taper flare angle in degrees
+        taper_length: Length of the taper before the grating coupler.
+        length: total grating coupler length.
+        period: Grating period.
+        fill_factor: (period-gap)/period.
+        port: Cartesian coordinate of the input port
+        layer: waveguide layer
+        layer_slab: slab layer for partial etched gratings
+        layer_cladding: for the cladding (using cladding_offset)
+        teeth_list: (gap, width) tuples to be used as the gap and teeth widths
+          for irregularly spaced gratings.
+          For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,
+          then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.
+          Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
+        direction: Direction that the component will point *towards*,
+          can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
+          OR an angle (float, in radians)
+        polarization: te or tm
+        wavelength: wavelength um
+        fiber_marker_width:
+        wg_width: for input waveguide
+        cladding_offset:
     """
     teeth_list = zip(teeth_list[::2], teeth_list[1::2])
     return grating_coupler_circular(teeth_list=list(teeth_list), **kwargs)
