@@ -4,7 +4,6 @@ from typing import Dict, Optional, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pydantic
 import tidy3d as td
 
 import gdsfactory as gf
@@ -24,7 +23,6 @@ MATERIAL_NAME_TO_TIDY3D = {
 }
 
 
-@pydantic.validate_arguments
 def get_simulation_grating_coupler(
     component: Component,
     port_extension: Optional[float] = 4.0,
@@ -46,9 +44,9 @@ def get_simulation_grating_coupler(
     port_waveguide_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
     resolution: float = 50,
-    wavelength_start: float = 1.50,
-    wavelength_stop: float = 1.60,
-    wavelength_points: int = 50,
+    wavelength_start: float = 1.20,
+    wavelength_stop: float = 1.80,
+    wavelength_points: int = 256,
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
@@ -234,7 +232,7 @@ def get_simulation_grating_coupler(
 
     clad = td.Structure(
         geometry=td.Box(
-            size=(td.inf, td.inf, cell_thickness / 2),
+            size=(td.inf, td.inf, cell_thickness),
             center=(0, 0, cell_thickness / 2),
         ),
         medium=get_medium(name_or_index=clad_material_name_or_index),
@@ -423,7 +421,10 @@ if __name__ == "__main__":
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
     sim = get_simulation_grating_coupler(
-        c, plot_modes=False, is_3d=False, fiber_angle_deg=-20
+        c,
+        plot_modes=False,
+        is_3d=False,
+        fiber_angle_deg=-20,
     )
     gt.plot_simulation(sim)  # make sure simulations looks good
 
