@@ -2,12 +2,12 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad_array
-from gdsfactory.types import ComponentFactory, Optional
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, Optional
 
 
 @cell
 def add_fidutials(
-    component: ComponentFactory = pad_array,
+    component: ComponentOrFactory = pad_array,
     gap: float = 50,
     left: Optional[ComponentFactory] = cross,
     right: Optional[ComponentFactory] = cross,
@@ -27,7 +27,7 @@ def add_fidutials(
 
     """
     c = Component()
-    component = component(**kwargs)
+    component = component(**kwargs) if callable(component) else component
     r = c << component
 
     if left:
