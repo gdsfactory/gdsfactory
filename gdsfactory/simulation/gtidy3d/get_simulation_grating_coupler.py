@@ -232,7 +232,7 @@ def get_simulation_grating_coupler(
 
     clad = td.Structure(
         geometry=td.Box(
-            size=(td.inf, td.inf, cell_thickness / 2),
+            size=(td.inf, td.inf, cell_thickness),
             center=(0, 0, cell_thickness / 2),
         ),
         medium=get_medium(name_or_index=clad_material_name_or_index),
@@ -421,7 +421,10 @@ if __name__ == "__main__":
         widths=[0.343] * 25, gaps=[0.345] * 25
     )
     sim = get_simulation_grating_coupler(
-        c, plot_modes=False, is_3d=False, fiber_angle_deg=-20
+        c,
+        plot_modes=False,
+        is_3d=False,
+        fiber_angle_deg=-20,
     )
     gt.plot_simulation(sim)  # make sure simulations looks good
 
