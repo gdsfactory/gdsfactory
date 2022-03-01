@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 4.2.16
+
+- grating_coupler_circular does not auto_rename_ports
+- tidy3d.write_sparameters_batch accepts kwargs for general simulations settings
+
+## 4.2.15
+
+- add sklearn notebook on fitting dispersive coupler model
+- add sklearn to requirements_full
+
 ## 4.2.14
 
 - add with_all_monitors=False by default to avoid storing all fields when running gtidy3d.write_sparameters_grating_coupler
