@@ -129,16 +129,20 @@ def write_sparameters_grating_coupler(
 
 
 def write_sparameters_grating_coupler_batch(
-    jobs: List[Dict[str, Any]]
+    jobs: List[Dict[str, Any]], **kwargs
 ) -> List[pd.DataFrame]:
     """Returns Sparameters for a list of components
     runs batch of component simulations in paralell.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler
+        kwargs: simulation settings
 
     """
-    sp = [_executor.submit(write_sparameters_grating_coupler, **job) for job in jobs]
+    sp = [
+        _executor.submit(write_sparameters_grating_coupler, **job, **kwargs)
+        for job in jobs
+    ]
     return [spi.result() for spi in sp]
 
 
