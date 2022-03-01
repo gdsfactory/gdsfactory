@@ -3,7 +3,9 @@
 ## 4.2.16
 
 - grating_coupler_circular does not auto_rename_ports
-- tidy3d.write_sparameters_batch accepts kwargs for general simulations settings
+- simulation.tidy3d.write_sparameters_batch accepts kwargs for general simulations settings
+- add simulation.tidy3d.utils print_tasks
+- increase grating_coupler simulation wavelengths from 1.2 to 1.8um
 
 ## 4.2.15
 
