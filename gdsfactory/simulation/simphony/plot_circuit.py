@@ -59,6 +59,7 @@ def plot_circuit(
     ax.set_ylabel(ylabel)
     ax.set_title(circuit.name)
     ax.legend()
+    plt.show()
     return ax
 
 
