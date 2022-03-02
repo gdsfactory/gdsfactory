@@ -163,7 +163,7 @@ def get_simulation(
             component=component_padding, length=port_extension, centered=True
         )
         if port_extension
-        else component
+        else component_padding
     )
 
     gf.show(component_extended)
@@ -363,7 +363,8 @@ def plot_simulation_yz(
     wavelength: Optional[float] = 1.55,
     figsize: Float2 = (11, 4),
 ):
-    """Returns figure with two axis of the Simulation.
+    """Returns Simulation visual representation.
+    returns two views for 3D component and one view for 2D
 
     Args:
         sim: simulation object
@@ -373,16 +374,35 @@ def plot_simulation_yz(
         figsize: figure size
     """
     fig = plt.figure(figsize=figsize)
-    gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax2 = fig.add_subplot(gs[0, 1])
-    if wavelength:
-        freq = td.constants.C_0 / wavelength
-        sim.plot_eps(z=z, ax=ax1, freq=freq)
-        sim.plot_eps(y=y, ax=ax2, freq=freq)
-    else:
-        sim.plot(z=z, ax=ax1)
-        sim.plot(y=y, ax=ax2)
+    if sim.size[2] > 0.1 and sim.size[1] > 0.1:
+        gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
+        ax1 = fig.add_subplot(gs[0, 0])
+        ax2 = fig.add_subplot(gs[0, 1])
+        if wavelength:
+            freq = td.constants.C_0 / wavelength
+            sim.plot_eps(z=z, ax=ax1, freq=freq)
+            sim.plot_eps(y=y, ax=ax2, freq=freq)
+        else:
+            sim.plot(z=z, ax=ax1)
+            sim.plot(y=y, ax=ax2)
+    elif sim.size[2] > 0.1:  # 2D grating sim_size_y = 0
+        gs = mpl.gridspec.GridSpec(1, 1, figure=fig, width_ratios=[1])
+        ax1 = fig.add_subplot(gs[0, 0])
+        if wavelength:
+            freq = td.constants.C_0 / wavelength
+            sim.plot_eps(y=y, ax=ax1, freq=freq)
+        else:
+            sim.plot(y=y, ax=ax1)
+
+    else:  # 2D planar component size_z = 0
+        gs = mpl.gridspec.GridSpec(1, 1, figure=fig, width_ratios=[1])
+        ax1 = fig.add_subplot(gs[0, 0])
+        if wavelength:
+            freq = td.constants.C_0 / wavelength
+            sim.plot_eps(z=z, ax=ax1, freq=freq)
+        else:
+            sim.plot(z=z, ax=ax1)
+
     plt.show()
     return fig
 
@@ -422,20 +442,20 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-    import pathlib
 
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    c = gf.c.straight()
-    sim = get_simulation(c, plot_modes=True, is_3d=False)
+    c = gf.c.straight(length=3)
+    sim = get_simulation(c, plot_modes=False, is_3d=False)
 
-    filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
-    filepath.write_text(sim.json())
+    plot_simulation(sim)
 
-    # plot_simulation(sim)
+    # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
+    # filepath.write_text(sim.json())
+
     # sim.plotly(z=0)
     # plot_simulation_yz(sim, wavelength=1.55)
     # fig = plt.figure(figsize=(11, 4))

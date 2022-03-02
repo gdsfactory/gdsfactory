@@ -336,6 +336,8 @@ def write_sparameters_meep(
     if filepath.exists() and not overwrite:
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
+    elif filepath.exists() and overwrite:
+        filepath.unlink()
 
     # Parse ports (default)
     monitor_indices = []

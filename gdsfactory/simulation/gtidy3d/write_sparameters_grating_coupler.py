@@ -84,6 +84,8 @@ def write_sparameters_grating_coupler(
     if filepath.exists() and not overwrite:
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
+    elif filepath.exists() and overwrite:
+        filepath.unlink()
 
     start = time.time()
     sim = get_simulation_grating_coupler(component, **kwargs)
