@@ -3,6 +3,8 @@ settings:
   child: null
   default:
     cladding_offset: 2
+    cross_section:
+      function: cross_section
     direction: EAST
     fiber_marker_layer:
     - 203
@@ -29,6 +31,8 @@ settings:
     wg_width: 0.5
   full:
     cladding_offset: 2
+    cross_section:
+      function: cross_section
     direction: EAST
     fiber_marker_layer:
     - 203

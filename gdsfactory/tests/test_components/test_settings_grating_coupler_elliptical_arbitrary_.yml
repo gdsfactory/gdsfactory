@@ -2,6 +2,8 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section:
+      function: cross_section
     fiber_angle: 15
     fiber_marker_layer:
     - 203
@@ -45,6 +47,8 @@ settings:
     - 0.5
     - 0.5
   full:
+    cross_section:
+      function: cross_section
     fiber_angle: 15
     fiber_marker_layer:
     - 203
