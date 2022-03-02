@@ -44,9 +44,10 @@ def get_simulation_grating_coupler(
     port_waveguide_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
     resolution: float = 50,
-    wavelength_start: float = 1.20,
-    wavelength_stop: float = 1.80,
-    wavelength_points: int = 256,
+    wavelength: Optional[float] = 1.55,
+    wavelength_start: float = 1.5,
+    wavelength_stop: float = 1.6,
+    wavelength_points: int = 50,
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
@@ -54,7 +55,7 @@ def get_simulation_grating_coupler(
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
     fiber_mfd: float = 5.2,
-    fiber_angle_deg: float = -20.0,
+    fiber_angle_deg: float = 20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
     is_3d: bool = True,
     with_all_monitors: bool = False,
@@ -91,7 +92,7 @@ def get_simulation_grating_coupler(
                  |<--->|
             fiber_port_name
                  |
-                         fiber_angle_deg < 0
+                         fiber_angle_deg > 0
                         |  /
                         | /
                         |/
@@ -100,18 +101,19 @@ def get_simulation_grating_coupler(
                /<------------>/    _ _ _| _ _ _ _ _ _ _
                                         |
                    clad_material        | fiber_z
-                    _   _   _      _ _ _| _ _ _ _ _ _ _
-                  _| |_| |_| |__________|_ _ _ _ _ _ _
-                                        |              |
-        waveguide                       |wg_thickness  | slab_thickness
-              ____________________ _ _ _|_ _ _ _ _ _ _ |
-                                        |
+                    _   _   _      _ _ _|_ _ _ _ _ _ _
+                   | | | | | |          ||wg_thickness
+                  _| |_| |_| |__________||___
+                                        || |
+        waveguide            |          || | slab_thickness
+              ____________________ _ _ _||_|_
+                             |          |
                    box_material         |box_thickness
-              ____________________ _ _ _|_ _ _ _ _ _ _
-                                        |
+              _______________|____ _ _ _|_ _ _ _ _ _ _
+                             |          |
                  substrate_material     |substrate_thickness
-             _____________________ _ _ _|
-
+             ________________|____ _ _ _|_ _ _ _ _ _ _
+                             |
         |--------------------|<-------->
                                 xmargin
 
@@ -130,12 +132,16 @@ def get_simulation_grating_coupler(
         clad_material: material for cladding.
         box_material:
         substrate_material:
+        box_thickness: (um)
+        substrate_thickness: (um)
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         resolution: in pixels/um (20: for coarse, 120: for fine)
+        wavelength: source center wavelength (um)
+            if None takes mean between wavelength_start, wavelength_stop
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: number of wavelengths.
@@ -294,8 +300,9 @@ def get_simulation_grating_coupler(
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
 
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
+    wavelength = wavelength or np.mean(wavelengths)
     freqs = td.constants.C_0 / wavelengths
-    freq0 = td.constants.C_0 / np.mean(wavelengths)
+    freq0 = td.constants.C_0 / wavelength
     fwidth = freq0 / 10
 
     # Add input waveguide port
@@ -330,7 +337,7 @@ def get_simulation_grating_coupler(
         size=(td.inf, td.inf, 0),
         center=[fiber_port.x + fiber_xoffset, 0, fiber_z],
         source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
-        angle_theta=np.deg2rad(fiber_angle_deg),
+        angle_theta=-np.deg2rad(fiber_angle_deg),
         angle_phi=np.pi,
         direction="-",
         waist_radius=fiber_mfd / 2,
@@ -424,7 +431,7 @@ if __name__ == "__main__":
         c,
         plot_modes=False,
         is_3d=False,
-        fiber_angle_deg=-20,
+        fiber_angle_deg=20,
     )
     gt.plot_simulation(sim)  # make sure simulations looks good
 
