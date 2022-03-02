@@ -133,8 +133,6 @@ def get_simulation(
         sim = gt.get_simulation(c)
         gt.plot_simulation(sim)
 
-
-    FIXME: fix is_3d=False case
     """
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
