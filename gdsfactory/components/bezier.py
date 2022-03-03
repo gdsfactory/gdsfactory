@@ -115,8 +115,8 @@ def bezier(
 def find_min_curv_bezier_control_points(
     start_point: ndarray,
     end_point: Coordinate,
-    start_angle: int,
-    end_angle: int,
+    start_angle: float,
+    end_angle: float,
     npoints: int = 201,
     alpha: float = 0.05,
     nb_pts: int = 2,

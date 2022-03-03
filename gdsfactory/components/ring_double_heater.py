@@ -25,7 +25,7 @@ def ring_double_heater(
     cross_section_heater: gf.types.CrossSectionFactory = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionFactory = strip,
     contact: gf.types.ComponentFactory = contact_heater_m3_mini,
-    port_orientation: int = 90,
+    port_orientation: float = 90,
     contact_offset: Float2 = (0, 0),
     **kwargs
 ) -> Component:

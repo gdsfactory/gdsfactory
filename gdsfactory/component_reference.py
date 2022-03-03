@@ -71,7 +71,7 @@ class SizeInfo:
 
 def _rotate_points(
     points: Coordinates,
-    angle: int = 45,
+    angle: float = 45.0,
     center: Coordinate = (
         0.0,
         0.0,
@@ -113,7 +113,7 @@ class ComponentReference(DeviceReference):
         self,
         component: Device,
         origin: Coordinate = (0, 0),
-        rotation: int = 0,
+        rotation: float = 0,
         magnification: None = None,
         x_reflection: bool = False,
         visual_label: str = "",
@@ -257,7 +257,7 @@ class ComponentReference(DeviceReference):
     def _transform_port(
         self,
         point: ndarray,
-        orientation: int,
+        orientation: float,
         origin: Coordinate = (0, 0),
         rotation: Optional[int] = None,
         x_reflection: bool = False,
@@ -362,7 +362,7 @@ class ComponentReference(DeviceReference):
 
     def rotate(
         self,
-        angle: int = 45,
+        angle: float = 45,
         center: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
         """Return rotated ComponentReference

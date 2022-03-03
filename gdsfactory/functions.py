@@ -95,7 +95,7 @@ def add_texts(
 @cell
 def rotate(
     component: ComponentOrFactory,
-    angle: int = 90,
+    angle: float = 90,
 ) -> Component:
     """Return rotated component inside a new component.
 

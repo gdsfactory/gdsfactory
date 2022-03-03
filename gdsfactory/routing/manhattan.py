@@ -50,7 +50,7 @@ def sign(x: float) -> int:
 
 def _get_unique_port_facing(
     ports: Dict[str, Port],
-    orientation: int = 0,
+    orientation: float = 0,
     layer: Tuple[int, int] = (1, 0),
 ) -> List[Port]:
     """Ensures there is only one port"""
@@ -74,7 +74,7 @@ def _get_unique_port_facing(
 
 def _get_bend_ports(
     bend: Component,
-    orientation: int = 0,
+    orientation: float = 0,
     layer: Tuple[int, int] = (1, 0),
 ) -> List[Port]:
     """Returns West and North facing ports for bend.
@@ -110,7 +110,7 @@ def _get_straight_ports(
 
 def gen_sref(
     structure: Component,
-    rotation_angle: int,
+    rotation_angle: float,
     x_reflection: bool,
     port_name: str,
     position: Coordinate,
