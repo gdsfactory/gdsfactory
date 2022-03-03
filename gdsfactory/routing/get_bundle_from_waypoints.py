@@ -172,9 +172,6 @@ def get_bundle_from_waypoints(
                 width2=x.info.get("width_wide"),
                 layer=ports1[0].layer,
             )
-        else:
-            # In this case the taper is a fixed cell
-            taper = taper
     else:
         taper = None
     connections = [
@@ -286,10 +283,7 @@ def _generate_manhattan_bundle_waypoints(
                 s2_dir = "u"
 
             raise ValueError(
-                "s1 / s2 should be h/v or v/h. Got \
-            {} {} {} {}".format(
-                    s1_dir, s2_dir, s1, s2
-                )
+                f"s1 / s2 should be h/v or v/h. Got {s1_dir} {s2_dir} {s1} {s2}"
             )
         return sv[0][0], sh[0][1]
 

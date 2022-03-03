@@ -27,7 +27,7 @@ def array_with_via(
     cross_section: Optional[CrossSectionFactory] = metal2,
     contact: ComponentFactory = contact_factory,
     contact_dy: float = 0,
-    port_orientation: int = 180,
+    port_orientation: float = 180,
     port_offset: Optional[Float2] = None,
     **kwargs,
 ) -> Component:

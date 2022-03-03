@@ -9,7 +9,7 @@ from gdsfactory.types import CrossSectionOrFactory
 
 @gf.cell
 def bend_circular(
-    angle: int = 90,
+    angle: float = 90.0,
     npoints: int = 720,
     with_cladding_box: bool = True,
     cross_section: CrossSectionOrFactory = strip,
@@ -70,13 +70,14 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    c = bend_circular(width=2, layer=gf.LAYER.M1)
+    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5)
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
-    c.pprint()
+    # c.pprint_ports()
+    print(c.ports["o2"].orientation)
     c.show()
 
-    c = bend_circular180()
-    c.plot("qt")
+    # c = bend_circular180()
+    # c.plot("qt")
 
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()

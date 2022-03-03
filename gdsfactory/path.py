@@ -337,7 +337,7 @@ def extrude(
     return c
 
 
-def arc(radius: float = 10.0, angle: int = 90, npoints: int = 720) -> Path:
+def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
     """Returns a radial arc.
 
     Args:
@@ -351,7 +351,7 @@ def arc(radius: float = 10.0, angle: int = 90, npoints: int = 720) -> Path:
 
 def euler(
     radius: float = 10,
-    angle: int = 90,
+    angle: float = 90,
     p: float = 0.5,
     use_eff: bool = False,
     npoints: int = 720,

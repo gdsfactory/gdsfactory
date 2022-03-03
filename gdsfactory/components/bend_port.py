@@ -15,7 +15,7 @@ def bend_port(
     port_name2_bend: Optional[str] = None,
     cross_section: CrossSectionFactory = gf.cross_section.metal3,
     bend: ComponentFactory = bend_circular,
-    angle: int = 180,
+    angle: float = 180,
     extension_length: Optional[float] = None,
     **kwargs,
 ):
