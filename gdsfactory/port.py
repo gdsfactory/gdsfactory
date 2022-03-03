@@ -108,7 +108,7 @@ class Port(PortPhidl):
                 name=self.name,
                 width=self.width,
                 midpoint=tuple(np.round(self.midpoint, 3)),
-                orientation=self.orientation,
+                orientation=int(self.orientation),
                 layer=self.layer,
                 port_type=self.port_type,
             )
