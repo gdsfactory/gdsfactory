@@ -1,3 +1,4 @@
+rem ensures conda is installed and installs gdsfactory package
 rem https://gist.github.com/nimaid/a7d6d793f2eba4020135208a57f5c532
 @echo off
 
@@ -39,10 +40,6 @@ exit /B 1
 echo Conda is already installed!
 goto END
 
-:END
-exit /B 0
-
-
 rem https://gist.github.com/maximlt/531419545b039fa33f8845e5bc92edd6
 call conda create -f environment.yml
 call conda activate gdsfactory
@@ -50,3 +47,6 @@ call conda activate gdsfactory
 git clone https://github.com/gdsfactory/gdslib.git -b data
 pre-commit install
 gf tool install
+
+:END
+exit /B 0
