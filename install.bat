@@ -38,7 +38,6 @@ exit /B 1
 
 :CONDAFOUND
 echo Conda is already installed!
-goto END
 
 rem https://gist.github.com/maximlt/531419545b039fa33f8845e5bc92edd6
 call conda create -f environment.yml
