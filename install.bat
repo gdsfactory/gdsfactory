@@ -30,11 +30,6 @@ if not exist "%MINICONDAPATH%\" (goto CONDAERROR)
 if errorlevel 1 goto CONDAERROR
 
 echo Miniconda3 has been installed!
-goto END
-
-:CONDAERROR
-echo Miniconda3 install failed!
-exit /B 1
 
 :CONDAFOUND
 echo Conda is already installed!
@@ -49,3 +44,7 @@ gf tool install
 
 :END
 exit /B 0
+
+:CONDAERROR
+echo Miniconda3 install failed!
+exit /B 1
