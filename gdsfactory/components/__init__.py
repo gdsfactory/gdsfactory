@@ -1,4 +1,4 @@
-from gdsfactory.components.add_fidutials import add_fidutials
+from gdsfactory.components.add_fidutials import add_fidutials, add_fidutials_offsets
 from gdsfactory.components.align import add_frame, align_wafer
 from gdsfactory.components.array_component import array
 from gdsfactory.components.array_with_fanout import (
@@ -455,6 +455,8 @@ __all__ = [
     "C",
     "L",
     "add_frame",
+    "add_fidutials",
+    "add_fidutials_offsets",
     "align",
     "align_wafer",
     "array",

@@ -20,7 +20,7 @@ def ring_single_heater(
     cross_section_heater: CrossSectionFactory = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionFactory = gf.cross_section.strip,
     contact: ComponentFactory = contact_heater_m3_mini,
-    port_orientation: int = 90,
+    port_orientation: float = 90,
     contact_offset: Float2 = (0, 0),
     **kwargs
 ) -> gf.Component:

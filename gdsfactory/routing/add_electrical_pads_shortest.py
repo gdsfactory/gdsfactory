@@ -12,7 +12,7 @@ def add_electrical_pads_shortest(
     pad: ComponentOrFactory = pad_function,
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,
-    port_orientation: int = 90,
+    port_orientation: float = 90,
     layer: gf.types.Layer = (31, 0),
     **kwargs,
 ) -> Component:
