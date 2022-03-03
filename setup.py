@@ -16,6 +16,10 @@ def get_install_requires_full():
         return [line.strip() for line in f.readlines() if not line.startswith("-")]
 
 
+with open("README.md") as f:
+    LONG_DESCRIPTION = f.read()
+
+
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
@@ -23,6 +27,8 @@ setup(
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
     install_requires=get_install_requires(),

@@ -56,11 +56,14 @@ def straight(
 
 if __name__ == "__main__":
     # c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2))
-
     # c = straight(cross_section=gf.partial(gf.cross_section.strip, width=2))
     # c = straight(cladding_offset=2.5)
     # c = straight(width=2.5)
-    c = straight(length=1)
+
+    from gdsfactory.cross_section import strip
+
+    strip2 = strip(layer=(2, 0))
+    c = straight(length=1, cross_section=strip2)
     c.assert_ports_on_grid()
     c.show()
     c.pprint()

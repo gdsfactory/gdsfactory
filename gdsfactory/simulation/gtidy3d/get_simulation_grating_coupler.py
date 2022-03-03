@@ -25,7 +25,7 @@ MATERIAL_NAME_TO_TIDY3D = {
 
 def get_simulation_grating_coupler(
     component: Component,
-    port_extension: Optional[float] = 4.0,
+    port_extension: Optional[float] = 15.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
@@ -44,6 +44,7 @@ def get_simulation_grating_coupler(
     port_waveguide_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
     resolution: float = 50,
+    wavelength: Optional[float] = 1.55,
     wavelength_start: float = 1.20,
     wavelength_stop: float = 1.80,
     wavelength_points: int = 256,
@@ -54,12 +55,12 @@ def get_simulation_grating_coupler(
     fiber_xoffset: float = 0,
     fiber_z: float = 2,
     fiber_mfd: float = 5.2,
-    fiber_angle_deg: float = -20.0,
+    fiber_angle_deg: float = 20.0,
     material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
     is_3d: bool = True,
     with_all_monitors: bool = False,
 ) -> td.Simulation:
-    r"""Returns Simulation object from gdsfactory.component
+    r"""Returns Simulation object from a gdsfactory grating coupler component
 
     injects a Gaussian beam from above and monitors the transmission into the waveguide.
 
@@ -91,7 +92,7 @@ def get_simulation_grating_coupler(
                  |<--->|
             fiber_port_name
                  |
-                         fiber_angle_deg < 0
+                         fiber_angle_deg > 0
                         |  /
                         | /
                         |/
@@ -100,18 +101,19 @@ def get_simulation_grating_coupler(
                /<------------>/    _ _ _| _ _ _ _ _ _ _
                                         |
                    clad_material        | fiber_z
-                    _   _   _      _ _ _| _ _ _ _ _ _ _
-                  _| |_| |_| |__________|_ _ _ _ _ _ _
-                                        |              |
-        waveguide                       |wg_thickness  | slab_thickness
-              ____________________ _ _ _|_ _ _ _ _ _ _ |
-                                        |
+                    _   _   _      _ _ _|_ _ _ _ _ _ _
+                   | | | | | |          ||wg_thickness
+                  _| |_| |_| |__________||___
+                                        || |
+        waveguide            |          || | slab_thickness
+              ____________________ _ _ _||_|_
+                             |          |
                    box_material         |box_thickness
-              ____________________ _ _ _|_ _ _ _ _ _ _
-                                        |
+              _______________|____ _ _ _|_ _ _ _ _ _ _
+                             |          |
                  substrate_material     |substrate_thickness
-             _____________________ _ _ _|
-
+             ________________|____ _ _ _|_ _ _ _ _ _ _
+                             |
         |--------------------|<-------->
                                 xmargin
 
@@ -130,12 +132,16 @@ def get_simulation_grating_coupler(
         clad_material: material for cladding.
         box_material:
         substrate_material:
+        box_thickness: (um)
+        substrate_thickness: (um)
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         resolution: in pixels/um (20: for coarse, 120: for fine)
+        wavelength: source center wavelength (um)
+            if None takes mean between wavelength_start, wavelength_stop
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: number of wavelengths.
@@ -148,9 +154,9 @@ def get_simulation_grating_coupler(
         fiber_z: fiber zoffset from grating zmax
         fiber_mfd: fiber mode field diameter (um)
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
+            Positive for west facing, Negative for east facing sources.
         material_name_to_tidy3d: dict of material stack materil name to tidy3d.
         is_3d: if False collapses the Y direction for a 2D simulation.
-
 
     .. code::
 
@@ -215,15 +221,16 @@ def get_simulation_grating_coupler(
         if layer in layer_to_thickness
     ]
 
-    t_core = max(layers_thickness)
-    cell_thickness = (
-        thickness_pml + box_thickness + t_core + thickness_pml + 2 * zmargin
+    wg_thickness = max(layers_thickness)
+    sim_xsize = component_ref.xsize + 2 * thickness_pml
+    sim_zsize = (
+        thickness_pml + box_thickness + wg_thickness + thickness_pml + 2 * zmargin
     )
     sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 1 / resolution
     sim_size = [
-        component_ref.xsize + 2 * thickness_pml,
+        sim_xsize,
         sim_ysize,
-        cell_thickness,
+        sim_zsize,
     ]
 
     clad_material_name_or_index = material_name_to_tidy3d[clad_material]
@@ -232,8 +239,8 @@ def get_simulation_grating_coupler(
 
     clad = td.Structure(
         geometry=td.Box(
-            size=(td.inf, td.inf, cell_thickness),
-            center=(0, 0, cell_thickness / 2),
+            size=(td.inf, td.inf, sim_zsize),
+            center=(0, 0, sim_zsize / 2),
         ),
         medium=get_medium(name_or_index=clad_material_name_or_index),
     )
@@ -307,7 +314,7 @@ def get_simulation_grating_coupler(
     size_x = 0 if size_x < 0.001 else size_x
     size_y = 0 if size_y < 0.001 else size_y
     size_y = size_y if is_3d else td.inf
-    size_z = cell_thickness - 2 * zmargin
+    size_z = wg_thickness + 2 * zmargin
     waveguide_port_size = [size_x, size_y, size_z]
     xy_shifted = move_polar_rad_copy(
         np.array(port.center), angle=angle * np.pi / 180, length=port_waveguide_offset
@@ -324,13 +331,19 @@ def get_simulation_grating_coupler(
 
     # Add fiber monitor
     fiber_port = component_ref.ports[fiber_port_name]
+    fiber_port_x = fiber_port.x + fiber_xoffset
+
+    assert -sim_size[0] / 2 < fiber_port_x < sim_size[0] / 2, (
+        f"component.ports[{fiber_port_name!r}] + (fiber_xoffset = {fiber_xoffset}). "
+        f"{fiber_port_x} needs to be between {-sim_size[0]/2} and {+sim_size[0]/2}"
+    )
 
     # inject Gaussian beam from above and monitors the transmission into the waveguide.
     gaussian_beam = td.GaussianBeam(
         size=(td.inf, td.inf, 0),
-        center=[fiber_port.x + fiber_xoffset, 0, fiber_z],
+        center=[fiber_port_x, 0, fiber_z],
         source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
-        angle_theta=np.deg2rad(fiber_angle_deg),
+        angle_theta=np.deg2rad(-fiber_angle_deg),
         angle_phi=np.pi,
         direction="-",
         waist_radius=fiber_mfd / 2,
@@ -424,7 +437,7 @@ if __name__ == "__main__":
         c,
         plot_modes=False,
         is_3d=False,
-        fiber_angle_deg=-20,
+        fiber_angle_deg=20,
     )
     gt.plot_simulation(sim)  # make sure simulations looks good
 
