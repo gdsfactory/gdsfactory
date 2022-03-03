@@ -44,13 +44,9 @@ exit /B 0
 
 
 rem https://gist.github.com/maximlt/531419545b039fa33f8845e5bc92edd6
-call conda create -n gdsfactory
+call conda create -f environment.yml
 call conda activate gdsfactory
 
 git clone https://github.com/gdsfactory/gdslib.git -b data
-conda install -c conda-forge gdspy
-pip install -r requirements.txt --upgrade
-pip install -r requirements_full.txt --upgrade
-pip install -r requirements_dev.txt --upgrade
 pre-commit install
 gf tool install
