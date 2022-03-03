@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 4.2.17
+## [4.2.17](https://github.com/gdsfactory/gdsfactory/pull/210)
 
 - tidy3d improvements:
     * change tidy3d grating_coupler angle positive to be positive for the most normal case (grating coupler waveguide facing west)
