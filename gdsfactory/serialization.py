@@ -82,15 +82,7 @@ def clean_value_name(value: Any) -> str:
                 d[k] = clean_value_name(v)
         value = get_string(value)
     else:
-        # if isinstance(value,_DefaultFloat):
-        #     print(value)
-        try:
-            value = get_string(value)
-        except Exception as e:
-            print("*"*20)
-            print(value)
-            print(isinstance(value,float))
-            print("*" * 20)
+        value = get_string(value)
     return value
 
 
