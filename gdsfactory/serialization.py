@@ -37,6 +37,9 @@ def clean_value_name(value: Any) -> str:
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
         value = str(value)
+    elif isinstance(value, float):
+        value = float(value)
+        value = str(value)
     elif isinstance(value, np.ndarray):
         value = np.round(value, 3)
         value = get_string(value)
@@ -79,7 +82,15 @@ def clean_value_name(value: Any) -> str:
                 d[k] = clean_value_name(v)
         value = get_string(value)
     else:
-        value = get_string(value)
+        # if isinstance(value,_DefaultFloat):
+        #     print(value)
+        try:
+            value = get_string(value)
+        except Exception as e:
+            print("*"*20)
+            print(value)
+            print(isinstance(value,float))
+            print("*" * 20)
     return value
 
 
@@ -91,6 +102,8 @@ def clean_value_json(value: Any) -> Any:
         value = int(value)
     elif isinstance(value, (np.int64, np.int32)):
         value = int(value)
+    elif isinstance(value, float):
+        value = float(value)
     elif isinstance(value, np.ndarray):
         value = np.round(value, 3)
         value = orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY).decode()
