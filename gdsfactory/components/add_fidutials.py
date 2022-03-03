@@ -2,7 +2,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad_array
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, Optional
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, Coordinates, Optional
 
 
 @cell
@@ -24,6 +24,7 @@ def add_fidutials(
         right: optional right fidutial.
         top: optional top fidutial.
         bottom: optional bottom fidutial.
+        kwargs: fidutial settings
 
     """
     c = Component()
@@ -51,6 +52,27 @@ def add_fidutials(
     return c
 
 
+@cell
+def add_fidutials_offsets(
+    component: ComponentOrFactory = pad_array,
+    fidutial: ComponentFactory = cross,
+    offsets: Coordinates = ((0, 100), (0, -100)),
+) -> Component:
+
+    c = Component()
+    component = component() if callable(component) else component
+    r = c << component
+    c.add_ports(r.ports)
+    c.copy_child_info(component)
+
+    for offset in offsets:
+        f = c << fidutial()
+        f.move(offset)
+
+    return c
+
+
 if __name__ == "__main__":
-    c = add_fidutials(top=cross)
+    # c = add_fidutials(top=cross)
+    c = add_fidutials_offsets()
     c.show()

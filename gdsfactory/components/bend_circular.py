@@ -70,13 +70,13 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    c = bend_circular(width=2, layer=gf.LAYER.M1)
+    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30)
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
-    c.pprint()
+    # c.pprint()
     c.show()
 
-    c = bend_circular180()
-    c.plot("qt")
+    # c = bend_circular180()
+    # c.plot("qt")
 
     # from phidl.quickplotter import quickplot2
     # c = bend_circular_trenches()

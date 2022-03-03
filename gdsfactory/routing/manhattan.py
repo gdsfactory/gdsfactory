@@ -269,9 +269,7 @@ def _generate_route_manhattan_points(
         count += 1
         if count > 40:
             raise AttributeError(
-                "Too many iterations for in {} -> out {}".format(
-                    input_port, output_port
-                )
+                f"Too many iterations for in {input_port} -> out {output_port}"
             )
         # not ready for final bend: go over possibilities
         sigp = np.sign(p[1])
