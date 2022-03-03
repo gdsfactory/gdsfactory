@@ -427,13 +427,8 @@ def route_ports_to_y(
             ]
             l_ports += [flipped(new_port)]
 
-        except Exception as e:
-            print("**************************")
-            print("Could not connect")
-            print(p)
-            print(new_port)
-            print("**************************")
-            raise e
+        except Exception:
+            raise ValueError(f"Could not connect {p} to \n {new_port}")
 
     x_optical_left = x0_left
     for p in west_ports:

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 4.3.0
+
+- tidy3d improvements:
+    - update to version 1.1.1
+- change port angle type annotation from int to float
+
 ## [4.2.17](https://github.com/gdsfactory/gdsfactory/pull/210)
 
 - tidy3d improvements:

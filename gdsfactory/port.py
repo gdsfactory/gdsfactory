@@ -81,7 +81,7 @@ class Port(PortPhidl):
         name: Optional[str] = None,
         midpoint: Tuple[float, float] = (0.0, 0.0),
         width: float = 0.5,
-        orientation: int = 0,
+        orientation: float = 0,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
         parent: Optional[object] = None,
@@ -139,7 +139,7 @@ class Port(PortPhidl):
             name=self.name,
             midpoint=self.midpoint,
             width=self.width,
-            orientation=float(self.orientation),
+            orientation=self.orientation,
             layer=self.layer,
             port_type=self.port_type,
         )
@@ -246,7 +246,7 @@ class Port(PortPhidl):
 def port_array(
     midpoint: Tuple[int, int] = (0, 0),
     width: float = 0.5,
-    orientation: int = 0,
+    orientation: float = 0,
     pitch: Tuple[int, int] = (10, 0),
     n: int = 2,
     **kwargs,

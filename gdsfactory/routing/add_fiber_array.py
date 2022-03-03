@@ -98,9 +98,9 @@ def add_fiber_array(
         gc = grating_coupler
     gc = gf.call_if_func(gc)
 
-    orientation = int(gc.ports[gc_port_name].orientation)
+    orientation = gc.ports[gc_port_name].orientation
 
-    if orientation != 180:
+    if int(orientation) != 180:
         warnings.warn(
             "add_fiber_array requires a grating coupler port facing west "
             f"(orientation = 180). "

@@ -51,7 +51,7 @@ def pad_array(
     spacing: Tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
-    orientation: int = 270,
+    orientation: float = 270,
 ) -> Component:
     """Returns 2D array of pads
 

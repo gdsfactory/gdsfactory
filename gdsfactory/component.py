@@ -379,7 +379,7 @@ class Component(Device):
             0.0,
         ),
         width: float = 1.0,
-        orientation: int = 45,
+        orientation: float = 45,
         port: Optional[Port] = None,
         layer: Tuple[int, int] = (1, 0),
         port_type: str = "optical",
@@ -1032,7 +1032,7 @@ class Component(Device):
 
         return mirror(component=self, p1=p1, p2=p2)
 
-    def rotate(self, angle: int = 90) -> Device:
+    def rotate(self, angle: float = 90) -> Device:
         """Return a new component with a rotated reference to the original component
 
         Args:
