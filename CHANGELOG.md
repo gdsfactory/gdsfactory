@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 4.2.17
+
+- tidy3d improvements:
+    * change tidy3d grating_coupler angle positive to be positive for the most normal case (grating coupler waveguide facing west)
+    * tidy3d plot simulations in 2D only shows one plot
+- add cross_section to grating_coupler waveguide ports
+
 ## [4.2.16](https://github.com/gdsfactory/gdsfactory/pull/209)
 
 - grating_coupler_circular does not auto_rename_ports

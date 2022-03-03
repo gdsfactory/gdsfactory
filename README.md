@@ -168,6 +168,8 @@ If you want to install gdsfactory together with all the plugins you can run
 pip install gdsfactory[full]
 ```
 
+Here are some of the plugins that you can use in gdsfactory:
+
 ### Trimesh
 
 For (3D rendering and STL export)
