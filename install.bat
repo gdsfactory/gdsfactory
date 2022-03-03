@@ -40,9 +40,17 @@ call conda activate gdsfactory
 call conda install -c conda-forge gdspy -y
 call pip install -e .[dev] --upgrade
 
-git clone https://github.com/gdsfactory/gdslib.git -b data
-pre-commit install
-gf tool install
+if exist "%ORIGDIR%\gdslib" (goto GDSLIB_INSTALL)
+call git clone https://github.com/gdsfactory/gdslib.git -b data
+
+:GDSLIB_INSTALL
+cd gdslib
+git pull
+cd ..
+
+
+call pre-commit install
+call gf tool install
 
 
 :END
