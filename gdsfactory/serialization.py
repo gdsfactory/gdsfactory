@@ -132,7 +132,7 @@ def clean_value_json(value: Any) -> Any:
     return value
 
     # elif isinstance(value, DictConfig):
-    #     clean_dict(value)
+    #     value = clean_dict(value)
     # elif isinstance(value, (tuple, list, ListConfig)):
     #     value = [clean_value_json(i) for i in value]
     # elif value is None:

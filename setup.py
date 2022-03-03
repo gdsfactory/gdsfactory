@@ -1,23 +1,22 @@
 from setuptools import find_packages, setup
 
+with open("requirements.txt") as f:
+    requirements = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
 
-def get_install_requires():
-    with open("requirements.txt", "r") as f:
-        return [line.strip() for line in f.readlines() if not line.startswith("-")]
+with open("requirements_dev.txt") as f:
+    requirements_dev = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
 
-
-def get_install_requires_dev():
-    with open("requirements_dev.txt", "r") as f:
-        return [line.strip() for line in f.readlines() if not line.startswith("-")]
-
-
-def get_install_requires_full():
-    with open("requirements_full.txt", "r") as f:
-        return [line.strip() for line in f.readlines() if not line.startswith("-")]
-
+with open("requirements_full.txt") as f:
+    requirements_full = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
 
 with open("README.md") as f:
-    LONG_DESCRIPTION = f.read()
+    long_description = f.read()
 
 
 setup(
@@ -27,11 +26,11 @@ setup(
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",
-    long_description=LONG_DESCRIPTION,
+    long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=get_install_requires(),
+    install_requires=requirements,
     python_requires=">=3.7",
     license="MIT",
     entry_points="""
@@ -39,14 +38,8 @@ setup(
         gf=gdsfactory.gf:gf
     """,
     extras_require={
-        "full": list(set(get_install_requires() + get_install_requires_full())),
-        "basic": get_install_requires(),
-        "dev": list(
-            set(
-                get_install_requires()
-                + get_install_requires_dev()
-                + get_install_requires_full()
-            )
-        ),
+        "full": list(set(requirements + requirements_full)),
+        "basic": requirements,
+        "dev": list(set(requirements + requirements_dev + requirements_full)),
     },
 )
