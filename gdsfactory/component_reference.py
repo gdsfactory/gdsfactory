@@ -261,7 +261,7 @@ class ComponentReference(DeviceReference):
         origin: Coordinate = (0, 0),
         rotation: Optional[int] = None,
         x_reflection: bool = False,
-    ) -> Tuple[ndarray, int]:
+    ) -> Tuple[ndarray, float]:
         """Apply GDS-type transformation to a port (x_ref)"""
         new_point = np.array(point)
         new_orientation = orientation
@@ -276,7 +276,7 @@ class ComponentReference(DeviceReference):
             new_point = new_point + np.array(origin)
         new_orientation = mod(new_orientation, 360)
 
-        return new_point, int(new_orientation)
+        return new_point, new_orientation
 
     def _transform_point(
         self,
@@ -373,7 +373,7 @@ class ComponentReference(DeviceReference):
         """
         if angle == 0:
             return self
-        if isinstance(center, str) or isinstance(center, int):
+        if isinstance(center, (int, str)):
             center = self.ports[center].position
 
         if isinstance(center, Port):
