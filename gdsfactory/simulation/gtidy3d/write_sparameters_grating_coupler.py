@@ -48,12 +48,16 @@ def write_sparameters_grating_coupler(
         clad_material: material for cladding.
         box_material:
         substrate_material:
+        box_thickness: (um)
+        substrate_thickness: (um)
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         resolution: in pixels/um (20: for coarse, 120: for fine)
+        wavelength: source center wavelength (um)
+            if None takes mean between wavelength_start, wavelength_stop
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: number of wavelengths.
@@ -80,6 +84,8 @@ def write_sparameters_grating_coupler(
     if filepath.exists() and not overwrite:
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
+    elif filepath.exists() and overwrite:
+        filepath.unlink()
 
     start = time.time()
     sim = get_simulation_grating_coupler(component, **kwargs)

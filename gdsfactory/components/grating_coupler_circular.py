@@ -7,7 +7,14 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import Coordinate, Coordinates, Floats, Layer
+from gdsfactory.cross_section import strip as xs_strip
+from gdsfactory.types import (
+    Coordinate,
+    Coordinates,
+    CrossSectionOrFactory,
+    Floats,
+    Layer,
+)
 
 
 @cell
@@ -29,6 +36,7 @@ def grating_coupler_circular(
     fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     wg_width: float = 0.5,
     cladding_offset: float = 2.0,
+    cross_section: CrossSectionOrFactory = xs_strip,
 ) -> Component:
     r"""Returns Grating coupler from Picwriter
 
@@ -80,6 +88,11 @@ def grating_coupler_circular(
                  <-->
                 taper_length
     """
+    x = (
+        cross_section(width=wg_width, cladding_offset=cladding_offset, layer=layer)
+        if callable(cross_section)
+        else cross_section
+    )
 
     c = pc.GratingCoupler(
         gf.call_if_func(
@@ -104,18 +117,20 @@ def grating_coupler_circular(
     c = gf.read.from_picwriter(c)
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
-    x = np.round(c.center[0] + taper_length / 2, 3)
+    c.ports["o1"].cross_section = x
+
+    fiber_xoffset = np.round(c.center[0] + taper_length / 2, 3)
 
     if fiber_marker_layer:
         circle = gf.components.circle(
             radius=fiber_marker_width / 2, layer=fiber_marker_layer
         )
         circle_ref = c.add_ref(circle)
-        circle_ref.movex(x)
+        circle_ref.movex(fiber_xoffset)
 
     c.add_port(
         name=f"vertical_{polarization.lower()}",
-        midpoint=[x, 0],
+        midpoint=[fiber_xoffset, 0],
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
@@ -165,7 +180,10 @@ def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs
 if __name__ == "__main__":
     # c = grating_coupler_circular_arbitrary(taper_length=30, layers_slab=((2,0), (3,0)))
     # c = grating_coupler_circular_arbitrary(taper_length=30, layer_slab=(2, 3))
-    c = grating_coupler_circular(layer_slab=(3, 0))
-    print(len(c.name))
-    print(c.ports)
+
+    c = grating_coupler_circular(layer=(3, 0))
+    c = gf.c.extend_ports(c)
+
+    # print(len(c.name))
+    # print(c.ports)
     c.show()

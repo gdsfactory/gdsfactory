@@ -152,13 +152,12 @@ def extend_ports(
             if extension_factory:
                 extension_component = extension_factory()
             else:
-                extension_component = gf.partial(
-                    gf.components.straight,
+                extension_component = gf.components.straight(
                     length=length,
                     width=port.width,
                     cross_section=cross_section_extension,
                     layer=port.layer,
-                )()
+                )
             port_labels = list(extension_component.ports.keys())
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
