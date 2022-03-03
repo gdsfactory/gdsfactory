@@ -56,7 +56,7 @@ class PathStraightModel(BaseModel):
 
 class PathEulerModel(BaseModel):
     radius: float = 10
-    angle: int = 90
+    angle: float = 90
     p: float = 0.5
     use_eff: bool = False
     npoints: int = 720
@@ -64,7 +64,7 @@ class PathEulerModel(BaseModel):
 
 class PathArcModel(BaseModel):
     radius: float = 10
-    angle: int = 90
+    angle: float = 90
     npoints: int = 720
 
 

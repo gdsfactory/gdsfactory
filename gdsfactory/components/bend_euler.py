@@ -10,7 +10,7 @@ from gdsfactory.types import CrossSectionOrFactory
 
 @gf.cell
 def bend_euler(
-    angle: int = 90,
+    angle: float = 90.0,
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int = 720,
@@ -108,7 +108,7 @@ def bend_euler_s(**kwargs) -> Component:
 @gf.cell
 def bend_straight_bend(
     straight_length: float = 10.0,
-    angle: int = 90,
+    angle: float = 90,
     p: float = 0.5,
     with_arc_floorplan: bool = True,
     npoints: int = 720,
