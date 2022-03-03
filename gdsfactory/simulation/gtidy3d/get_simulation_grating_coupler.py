@@ -25,7 +25,7 @@ MATERIAL_NAME_TO_TIDY3D = {
 
 def get_simulation_grating_coupler(
     component: Component,
-    port_extension: Optional[float] = 4.0,
+    port_extension: Optional[float] = 15.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
@@ -60,7 +60,7 @@ def get_simulation_grating_coupler(
     is_3d: bool = True,
     with_all_monitors: bool = False,
 ) -> td.Simulation:
-    r"""Returns Simulation object from gdsfactory.component
+    r"""Returns Simulation object from a gdsfactory grating coupler component
 
     injects a Gaussian beam from above and monitors the transmission into the waveguide.
 
