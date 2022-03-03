@@ -106,10 +106,10 @@ def get_bundle_from_waypoints(
         )
 
     for p in ports1:
-        p.angle = p.angle % 360
+        p.angle = int(p.angle) % 360
 
     for p in ports2:
-        p.angle = p.angle % 360
+        p.angle = int(p.angle) % 360
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation

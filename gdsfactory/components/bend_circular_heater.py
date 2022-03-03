@@ -10,7 +10,7 @@ from gdsfactory.types import CrossSectionFactory
 @gf.cell
 def bend_circular_heater(
     radius: float = 10,
-    angle: int = 90,
+    angle: float = 90,
     npoints: int = 720,
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,

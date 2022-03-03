@@ -15,7 +15,7 @@ def contact_with_offset(
     sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
     vias: Tuple[Optional[ComponentOrFactory], ...] = (None, viac),
     offsets: Optional[Tuple[float, ...]] = None,
-    port_orientation: int = 180,
+    port_orientation: float = 180,
 ) -> Component:
     """Rectangular layer transition with offset between layers
 
