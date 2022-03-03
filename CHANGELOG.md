@@ -4,6 +4,7 @@
 
 - tidy3d improvements:
     - update to version 1.1.1
+- remove casting port orientation to int
 
 ## [4.2.17](https://github.com/gdsfactory/gdsfactory/pull/210)
 

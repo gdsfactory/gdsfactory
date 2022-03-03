@@ -106,10 +106,10 @@ def get_bundle_from_waypoints(
         )
 
     for p in ports1:
-        p.angle = int(p.angle) % 360
+        p.angle = p.angle % 360
 
     for p in ports2:
-        p.angle = int(p.angle) % 360
+        p.angle = p.angle % 360
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
@@ -172,9 +172,6 @@ def get_bundle_from_waypoints(
                 width2=x.info.get("width_wide"),
                 layer=ports1[0].layer,
             )
-        else:
-            # In this case the taper is a fixed cell
-            taper = taper
     else:
         taper = None
     connections = [
@@ -286,10 +283,7 @@ def _generate_manhattan_bundle_waypoints(
                 s2_dir = "u"
 
             raise ValueError(
-                "s1 / s2 should be h/v or v/h. Got \
-            {} {} {} {}".format(
-                    s1_dir, s2_dir, s1, s2
-                )
+                f"s1 / s2 should be h/v or v/h. Got {s1_dir} {s2_dir} {s1} {s2}"
             )
         return sv[0][0], sh[0][1]
 
