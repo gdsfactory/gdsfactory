@@ -1,11 +1,15 @@
 -e .
+bokeh~=2.2.3
 click
 gdspy==1.6.11
+holoviews~=1.14.6
+ipympl
 jsondiff
+klayout~=0.27.5
 loguru
 lytest==0.0.20
 matplotlib~=3.5.1
-networkx==2.6.3
+networkx~=2.6.3
 numpy>=1.20.0
 omegaconf==2.1.1
 orjson
@@ -13,8 +17,9 @@ pandas
 phidl==1.6.0
 picwriter==0.5
 pydantic==1.9.0
+pyglet
 Pyqtree==1.0.0
-pytest==7.0.0
+pytest==7.0.1
 pytest-regressions==2.3.1
 qrcode==7.3.1
 rectpack==0.2.2
@@ -22,7 +27,11 @@ scikit-image
 scipy
 semantic_version
 Shapely
+sklearn
+tidy3d-beta==1.1.1
 toolz==0.11.2
 tqdm
+triangle
+trimesh==3.10.2
 typing_extensions
 xmltodict==0.12.0

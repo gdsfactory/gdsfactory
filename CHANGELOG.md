@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 4.3.1
+
+- gf.components.grating_coupler_circular improvements:
+    - rename teeth_list by a simpler widths and gaps separate arguments
+    - delete grating_coupler_circular_arbitrary as it's now unnecessary
+    - add bias_gap
+- gf.components.grating_coupler_elliptical improvements:
+    - add bias_gap
+- fix [serialization of ports](https://github.com/gdsfactory/gdsfactory/pull/212)
+- extend_ports works with cross_sections that do not have layer
+- `pip install gdsfactory` also installs most of the plugins
+    - `pip install gdsfactory[full]` only adds SIPANN (which depends on ternsorflow, which is a heavy dependency)
+
 ## 4.3.0
 
 - tidy3d improvements:
