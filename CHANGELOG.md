@@ -8,6 +8,8 @@
     - add bias_gap
 - gf.components.grating_coupler_elliptical improvements:
     - add bias_gap
+- fix [serialization of ports](https://github.com/gdsfactory/gdsfactory/pull/212)
+- extend_ports works with cross_sections that do not have layer
 
 ## 4.3.0
 
