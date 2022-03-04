@@ -20,7 +20,6 @@ sax:
 update:
 	pur
 	pur -r requirements_dev.txt
-	pur -r requirements_full.txt
 
 publish:
 	anaconda upload environment.yml
