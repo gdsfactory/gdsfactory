@@ -9,6 +9,15 @@ install: gdslib
 mamba:
 	mamba install pymeep=*=mpi_mpich_* gdspy -y
 
+patch: doc
+	bumpversion patch
+
+minor: doc
+	bumpversion minor
+
+major: doc
+	bumpversion major
+
 plugins: meep sax
 
 meep:
