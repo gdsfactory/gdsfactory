@@ -262,11 +262,10 @@ grating_coupler_elliptical_te = grating_coupler_elliptical
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_tm(taper_length=30)
     # c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
-    c = grating_coupler_elliptical(
-        layer_slab=gf.LAYER.SLAB150, taper_length=50, slab_xmin=-5
-    )
+    c = grating_coupler_elliptical(layer=(2, 0), taper_length=50, slab_xmin=-5)
     # print(c.polarization)
     # print(c.wavelength)
     # print(c.ports)
     # c.pprint()
+    c = gf.c.extend_ports(c)
     c.show()
