@@ -10,6 +10,8 @@
     - add bias_gap
 - fix [serialization of ports](https://github.com/gdsfactory/gdsfactory/pull/212)
 - extend_ports works with cross_sections that do not have layer
+- `pip install gdsfactory` also installs most of the plugins
+    - `pip install gdsfactory[full]` only adds SIPANN (which depends on ternsorflow, which is a heavy dependency)
 
 ## 4.3.0
 
