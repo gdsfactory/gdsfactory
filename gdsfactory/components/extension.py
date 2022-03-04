@@ -142,16 +142,16 @@ def extend_ports(
     for port in ports_all:
         port_name = port.name
         port = cref.ports[port_name]
-        cross_section_extension = (
-            cross_section
-            or port.cross_section
-            or cross_section_function(layer=port.layer, width=port.width)
-        )
 
         if port_name in ports_to_extend_names:
             if extension_factory:
                 extension_component = extension_factory()
             else:
+                cross_section_extension = (
+                    cross_section
+                    or port.cross_section
+                    or cross_section_function(layer=port.layer, width=port.width)
+                )
                 extension_component = gf.components.straight(
                     length=length,
                     width=port.width,
