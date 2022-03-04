@@ -197,7 +197,7 @@ bend_circular
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular(angle=90, npoints=720, with_cladding_box=True)
+  c = gf.components.bend_circular(angle=90.0, npoints=720, with_cladding_box=True)
   c.plot()
 
 
@@ -242,7 +242,7 @@ bend_euler
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler(angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c = gf.components.bend_euler(angle=90.0, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
   c.plot()
 
 
@@ -951,6 +951,21 @@ delay_snake3
 
 
 
+delay_snake_sbend
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.delay_snake_sbend
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.delay_snake_sbend(length=100.0, length1=0.0, length4=0.0, radius=5.0, waveguide_spacing=5.0, sbend_xsize=100.0, print_min_bend_radius=False)
+  c.plot()
+
+
+
 dicing_lane
 ----------------------------------------------------
 
@@ -1126,22 +1141,7 @@ grating_coupler_circular
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_circular(taper_angle=30.0, taper_length=10.0, length=30.0, period=1.0, fill_factor=0.7, port=(0.0, 0.0), layer=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), wg_width=0.5, cladding_offset=2.0)
-  c.plot()
-
-
-
-grating_coupler_circular_arbitrary
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.grating_coupler_circular_arbitrary
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.grating_coupler_circular_arbitrary(teeth_list=(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5))
+  c = gf.components.grating_coupler_circular(taper_angle=30.0, taper_length=10.0, length=30.0, period=1.0, fill_factor=0.7, n_periods=30, bias_gap=0, port=(0.0, 0.0), layer=(1, 0), layer_cladding=(111, 0), direction='EAST', polarization='te', wavelength=1.55, fiber_marker_width=11.0, fiber_marker_layer=(203, 0), wg_width=0.5, cladding_offset=2.0)
   c.plot()
 
 
@@ -1171,7 +1171,7 @@ grating_coupler_elliptical_arbitrary
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_elliptical_arbitrary(gaps=(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, taper_length=16.6, taper_angle=60.0, layer=(1, 0), wavelength=1.554, fiber_angle=15.0, neff=2.638, nclad=1.443, layer_slab=(2, 0), slab_xmin=-3.0, polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True)
+  c = gf.components.grating_coupler_elliptical_arbitrary(gaps=(0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, taper_length=16.6, taper_angle=60.0, layer=(1, 0), wavelength=1.554, fiber_angle=15.0, neff=2.638, nclad=1.443, layer_slab=(2, 0), slab_xmin=-3.0, polarization='te', fiber_marker_width=11.0, fiber_marker_layer=(203, 0), spiked=True, bias_gap=0)
   c.plot()
 
 
@@ -2401,7 +2401,7 @@ taper_0p5_to_3_l36
 
   import gdsfactory as gf
 
-  c = gf.components.taper_0p5_to_3_l36()
+  c = gf.components.taper_0p5_to_3_l36(layer=(1, 0), layer_cladding=(111, 0), cladding_offset=3.0)
   c.plot()
 
 
@@ -2506,7 +2506,7 @@ taper_w10_l100
 
   import gdsfactory as gf
 
-  c = gf.components.taper_w10_l100()
+  c = gf.components.taper_w10_l100(layer=(1, 0), layer_cladding=(111, 0), cladding_offset=3.0)
   c.plot()
 
 
@@ -2521,7 +2521,7 @@ taper_w10_l150
 
   import gdsfactory as gf
 
-  c = gf.components.taper_w10_l150()
+  c = gf.components.taper_w10_l150(layer=(1, 0), layer_cladding=(111, 0), cladding_offset=3.0)
   c.plot()
 
 
@@ -2536,7 +2536,7 @@ taper_w10_l200
 
   import gdsfactory as gf
 
-  c = gf.components.taper_w10_l200()
+  c = gf.components.taper_w10_l200(layer=(1, 0), layer_cladding=(111, 0), cladding_offset=3.0)
   c.plot()
 
 
@@ -2551,7 +2551,7 @@ taper_w11_l200
 
   import gdsfactory as gf
 
-  c = gf.components.taper_w11_l200()
+  c = gf.components.taper_w11_l200(layer=(1, 0), layer_cladding=(111, 0), cladding_offset=3.0)
   c.plot()
 
 
@@ -2566,7 +2566,7 @@ taper_w12_l200
 
   import gdsfactory as gf
 
-  c = gf.components.taper_w12_l200()
+  c = gf.components.taper_w12_l200(layer=(1, 0), layer_cladding=(111, 0), cladding_offset=3.0)
   c.plot()
 
 
@@ -2656,7 +2656,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='3.10.9', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='4.3.1', text_size=10)
   c.plot()
 
 
