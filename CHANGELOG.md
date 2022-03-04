@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 4.3.1
+
+- gf.components.grating_coupler_circular improvements:
+    - rename teeth_list by a simpler widths and gaps separate arguments
+    - delete grating_coupler_circular_arbitrary as it's now unnecessary
+    - add bias_gap
+- gf.components.grating_coupler_elliptical improvements:
+    - add bias_gap
+
 ## 4.3.0
 
 - tidy3d improvements:

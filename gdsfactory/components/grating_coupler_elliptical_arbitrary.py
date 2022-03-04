@@ -35,6 +35,7 @@ def grating_coupler_elliptical_arbitrary(
     fiber_marker_width: float = 11.0,
     fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     spiked: bool = True,
+    bias_gap: float = 0,
     cross_section: CrossSectionOrFactory = xs_strip,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -56,9 +57,12 @@ def grating_coupler_elliptical_arbitrary(
         layer_slab: Optional slab
         slab_xmin: where 0 is at the start of the taper
         polarization: te or tm
-        fiber_marker_width
-        fiber_marker_layer
-        spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
+        fiber_marker_width:
+        fiber_marker_layer: Optional marker
+        spiked: grating teeth have spikes to avoid drc errors.
+        bias_gap: etch gap (um).
+            Positive bias increases gap and reduces width to keep period constant.
+        cross_section: cross_section factory for waveguide port.
 
     https://en.wikipedia.org/wiki/Ellipse
     c = (a1 ** 2 - b1 ** 2) ** 0.5
@@ -94,8 +98,8 @@ def grating_coupler_elliptical_arbitrary(
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
 
-    gaps = gf.snap.snap_to_grid(gaps)
-    widths = gf.snap.snap_to_grid(widths)
+    gaps = gf.snap.snap_to_grid(np.array(gaps) + bias_gap)
+    widths = gf.snap.snap_to_grid(np.array(widths) - bias_gap)
 
     xi = taper_length
     for gap, width in zip(gaps, widths):
@@ -169,5 +173,5 @@ def grating_coupler_elliptical_arbitrary(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_elliptical_arbitrary(fiber_angle=8)
+    c = grating_coupler_elliptical_arbitrary(fiber_angle=8, bias_gap=-0.05)
     c.show()
