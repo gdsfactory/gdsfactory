@@ -2,6 +2,7 @@ settings:
   changed: {}
   child: null
   default:
+    bias_gap: 0
     cross_section:
       function: cross_section
     fiber_angle: 15
@@ -47,6 +48,7 @@ settings:
     - 0.5
     - 0.5
   full:
+    bias_gap: 0
     cross_section:
       function: cross_section
     fiber_angle: 15

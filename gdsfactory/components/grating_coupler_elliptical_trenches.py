@@ -46,8 +46,8 @@ def grating_coupler_elliptical_trenches(
         ncladding: cladding index
         layer: for the grating teeth
         layer_trench: for the trench
-        p_start:  first tooth
-        n_periods: number of periods
+        p_start: first tooth
+        n_periods: number of grating teeth.
         end_straight_length: at the end of
 
 
