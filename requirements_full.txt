@@ -1,11 +1,2 @@
-bokeh~=2.2.3
-holoviews~=1.14.6
-ipympl
-klayout~=0.27.5
-pyglet
 simphony==0.3.0
 SiPANN==1.3.1
-sklearn
-tidy3d-beta==1.1.1
-triangle
-trimesh==3.9.42
