@@ -8,13 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.cross_section import strip as xs_strip
-from gdsfactory.types import (
-    Coordinate,
-    Coordinates,
-    CrossSectionOrFactory,
-    Floats,
-    Layer,
-)
+from gdsfactory.types import Coordinate, CrossSectionOrFactory, Floats, Layer
 
 
 @cell
@@ -24,11 +18,14 @@ def grating_coupler_circular(
     length: float = 30.0,
     period: float = 1.0,
     fill_factor: float = 0.7,
+    n_periods: int = 30,
+    bias_gap: float = 0,
     port: Coordinate = (0.0, 0.0),
     layer: Layer = gf.LAYER.WG,
     layer_slab: Optional[Layer] = None,
     layer_cladding: Layer = gf.LAYER.WGCLAD,
-    teeth_list: Optional[Coordinates] = None,
+    gaps: Optional[Floats] = None,
+    widths: Optional[Floats] = None,
     direction: str = "EAST",
     polarization: str = "te",
     wavelength: float = 1.55,
@@ -38,31 +35,31 @@ def grating_coupler_circular(
     cladding_offset: float = 2.0,
     cross_section: CrossSectionOrFactory = xs_strip,
 ) -> Component:
-    r"""Returns Grating coupler from Picwriter
+    r"""Return circular Grating coupler.
 
     Args:
-        taper_angle: taper flare angle in degrees
+        taper_angle: taper flare angle in degrees.
         taper_length: Length of the taper before the grating coupler.
         length: total grating coupler length.
         period: Grating period.
         fill_factor: (period-gap)/period.
-        port: Cartesian coordinate of the input port
+        n_periods: number of grating teeth.
+        bias_gap: etch gap (um).
+            Positive bias increases gap and reduces width to keep period constant.
+        port: (x, y) for input port.
         layer: waveguide layer
         layer_slab: slab layer for partial etched gratings
         layer_cladding: for the cladding (using cladding_offset)
-        teeth_list: (gap, width) tuples to be used as the gap and teeth widths
-          for irregularly spaced gratings.
-          For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,
-          then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.
-          Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
+        gaps: optional gap list (um). Overrides period, fill_factor and n_periods.
+        widths: optional width list (um). Overrides period, fill_factor and n_periods.
         direction: Direction that the component will point *towards*,
-          can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
-          OR an angle (float, in radians)
-        polarization: te or tm
+          can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians)
+        polarization: te or tm.
         wavelength: wavelength um
-        fiber_marker_width:
-        wg_width: for input waveguide
-        cladding_offset:
+        fiber_marker_width: (um)
+        wg_width: input waveguide width (um).
+        cladding_offset: (um)
+        cross_section: for input waveguide port.
 
 
     .. code::
@@ -93,6 +90,14 @@ def grating_coupler_circular(
         if callable(cross_section)
         else cross_section
     )
+
+    widths = widths or n_periods * [period * fill_factor]
+    gaps = gaps or n_periods * [period * (1 - fill_factor)]
+
+    gaps = np.array(gaps) + bias_gap
+    widths = np.array(widths) - bias_gap
+
+    teeth_list = list(zip(gaps, widths))
 
     c = pc.GratingCoupler(
         gf.call_if_func(
@@ -138,52 +143,18 @@ def grating_coupler_circular(
     return c
 
 
-_gap_width = tuple([0.1] * 10 + [0.5] * 10)
-
-
-@cell
-def grating_coupler_circular_arbitrary(teeth_list: Floats = _gap_width, **kwargs):
-    """Returns grating coupler,
-    teeth list is on a single list that starts with gap, width, gap ...
-
-    Args:
-        teeth_list: list of gaps and widths
-
-    Keyword Args:
-        taper_angle: taper flare angle in degrees
-        taper_length: Length of the taper before the grating coupler.
-        length: total grating coupler length.
-        period: Grating period.
-        fill_factor: (period-gap)/period.
-        port: Cartesian coordinate of the input port
-        layer: waveguide layer
-        layer_slab: slab layer for partial etched gratings
-        layer_cladding: for the cladding (using cladding_offset)
-        teeth_list: (gap, width) tuples to be used as the gap and teeth widths
-          for irregularly spaced gratings.
-          For example, [(0.6, 0.2), (0.7, 0.3), ...] would be a gap of 0.6,
-          then a tooth of width 0.2, then gap of 0.7 and tooth of 0.3, and so on.
-          Overrides *period*, *dutycycle*, and *length*.  Defaults to None.
-        direction: Direction that the component will point *towards*,
-          can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
-          OR an angle (float, in radians)
-        polarization: te or tm
-        wavelength: wavelength um
-        fiber_marker_width:
-        wg_width: for input waveguide
-        cladding_offset:
-    """
-    teeth_list = zip(teeth_list[::2], teeth_list[1::2])
-    return grating_coupler_circular(teeth_list=list(teeth_list), **kwargs)
-
-
 if __name__ == "__main__":
-    # c = grating_coupler_circular_arbitrary(taper_length=30, layers_slab=((2,0), (3,0)))
-    # c = grating_coupler_circular_arbitrary(taper_length=30, layer_slab=(2, 3))
+    # c = grating_coupler_circular(layer=(1, 0), period=1, fill_factor=0.7, bias_gap=0.1)
+    c = grating_coupler_circular(
+        layer=(1, 0),
+        period=1,
+        fill_factor=0.7,
+        bias_gap=0.0,
+        widths=[0.2] * 3,
+        gaps=[0.5] * 3,
+    )
 
-    c = grating_coupler_circular(layer=(3, 0))
-    c = gf.c.extend_ports(c)
-
+    # c = gf.c.extend_ports(c)
     # print(len(c.name))
     # print(c.ports)
     c.show()
