@@ -9,7 +9,7 @@ klayout~=0.27.5
 loguru
 lytest==0.0.20
 matplotlib~=3.5.1
-networkx==2.7
+networkx~=2.6.3
 numpy>=1.20.0
 omegaconf==2.1.1
 orjson
