@@ -1,6 +1,9 @@
 """gdsfactory simphony circuit simulation plugin"""
 
-from simphony.tools import freq2wl, wl2freq
+try:
+    from simphony.tools import freq2wl, wl2freq
+except ImportError:
+    print("To install simphony plugin make sure you `pip install gdsfactory[full]`")
 
 import gdsfactory.simulation.simphony.components as components
 from gdsfactory.simulation.simphony.add_gc import add_gc
