@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 4.3.3
+
+- add dispersive flag in tidy3d get_simulation
+- write_sparameters_batch can accept list of kwargs
+
 ## [4.3.1](https://github.com/gdsfactory/gdsfactory/pull/213)
 
 - gf.components.grating_coupler_circular improvements:
