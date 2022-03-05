@@ -2,8 +2,12 @@
 
 ## 4.3.3
 
-- add dispersive flag in tidy3d get_simulation
-- write_sparameters_batch can accept list of kwargs
+- tidy3d improvements:
+    * add dispersive flag in tidy3d get_simulation
+    * write_sparameters_batch can accept list of kwargs
+    * write_sparameters accepts with_all_monitors: if True, includes field monitors which increase results file size.
+    * add test_write_sparameters
+    * run tidy3d tests on every push as part of test_plugins CI/CD
 
 ## [4.3.1](https://github.com/gdsfactory/gdsfactory/pull/213)
 
