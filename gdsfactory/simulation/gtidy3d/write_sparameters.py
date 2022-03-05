@@ -16,7 +16,15 @@ from gdsfactory.simulation.get_sparameters_path import (
 )
 from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
-from gdsfactory.types import Component, List, Optional, PathType, PortSymmetries
+from gdsfactory.types import (
+    Any,
+    Component,
+    Dict,
+    List,
+    Optional,
+    PathType,
+    PortSymmetries,
+)
 
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationData):
@@ -120,6 +128,15 @@ def write_sparameters(
         wavelength_points: in (um).
         plot_modes: plot source modes.
         num_modes: number of modes to plot
+        run_time_ps: make sure it's sufficient for the fields to decay.
+            defaults to 10ps and counts on automatic shutoff to stop earlier if needed.
+        dispersive: False uses constant refractive index materials.
+            True adds wavelength depending materials.
+            Dispersive materials require more computation.
+        material_name_to_tidy3d_index: not dispersive materials have a constant index.
+        material_name_to_tidy3d_name: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with tidy3d material database names.
+        is_3d: if False, does not consider Z dimension for faster simulations.
 
     """
     filepath = get_sparameters_path(
@@ -233,20 +250,16 @@ def write_sparameters(
     return df
 
 
-def write_sparameters_batch(
-    components: List[Component], **kwargs
-) -> List[pd.DataFrame]:
-    """Returns Sparameters for a list of components
-    runs batch of component simulations in paralell.
+def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[pd.DataFrame]:
+    """Returns Sparameters for a list of write_sparameters_grating_coupler
+    kwargs where it runs each simulation in paralell.
 
     Args:
-        components: list of components
+        jobs: list of kwargs for write_sparameters_grating_coupler
+        kwargs: simulation settings
 
     """
-    sp = [
-        _executor.submit(write_sparameters, component, **kwargs)
-        for component in components
-    ]
+    sp = [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
     return [spi.result() for spi in sp]
 
 
