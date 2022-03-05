@@ -61,6 +61,7 @@ def get_simulation(
     material_name_to_tidy3d_index: Dict[str, float] = MATERIAL_NAME_TO_TIDY3D_INDEX,
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
+    with_all_monitors: bool = False,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -135,6 +136,7 @@ def get_simulation(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
+        with_all_monitors: if True, includes field monitors which increase results file size.
 
     .. code::
 
@@ -323,13 +325,15 @@ def get_simulation(
         freqs=[freq0],
         name="field",
     )
+    monitors = list(monitors.values())
+    monitors += [domain_monitor] if with_all_monitors else []
 
     sim = td.Simulation(
         size=sim_size,
         grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[msource],
-        monitors=[domain_monitor] + list(monitors.values()),
+        monitors=monitors,
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()] if is_3d else [td.PML(), td.PML(), None],
     )
@@ -460,7 +464,6 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
