@@ -1,5 +1,6 @@
 # TODO
 
+- enable rich output?
 - more explicit Sparameter data format. Considers TE/TM modes.
 - add DVC for version control data on GCS, instead of relying gdslib second repo.
 - replace circular fiber marker by square
