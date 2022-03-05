@@ -55,8 +55,11 @@ test-force:
 test-meep:
 	pytest gdsfactory/simulation/gmeep
 
+test-tidy3d:
+	pytest gdsfactory/simulation/gtidy3d
+
 test-plugins:
-	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony
+	pytest gdsfactory/simulation/gmeep gdsfactory/simulation/modes gdsfactory/simulation/lumerical gdsfactory/simulation/simphony gdsfactory/simulation/gtidy3d
 
 test-notebooks:
 	py.test --nbval notebooks

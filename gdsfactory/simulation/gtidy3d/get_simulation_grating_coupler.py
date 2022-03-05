@@ -157,6 +157,7 @@ def get_simulation_grating_coupler(
             Positive for west facing, Negative for east facing sources.
         material_name_to_tidy3d: dict of material stack materil name to tidy3d.
         is_3d: if False collapses the Y direction for a 2D simulation.
+        with_all_monitors: if True, includes field monitors which increase results file size.
 
     .. code::
 

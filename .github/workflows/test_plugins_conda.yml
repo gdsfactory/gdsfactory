@@ -29,6 +29,11 @@ jobs:
         run: |
           make install
       - name: Test with pytest
+        env:
+          TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
+          TIDY3D_PASS: ${{ secrets.TIDY3D_PASSWORD }}
         run: |
+          mkdir -p $HOME/.tidy3d
+          echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
           make meep
           make test-plugins
