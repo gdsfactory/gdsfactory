@@ -137,10 +137,10 @@ def add_labels(
     gc: Optional[Component] = None,
     **kwargs,
 ) -> Component:
-    """Returns component with labels on some ports
+    """Returns component with labels on ports.
 
     Args:
-        component: to add labels to
+        component: to add labels to.
         get_label_function: function to get label
         layer_label: layer_label
         gc: Optional grating coupler

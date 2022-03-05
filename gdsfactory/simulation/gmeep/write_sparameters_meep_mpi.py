@@ -24,6 +24,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     settings_write_sparameters_meep,
 )
 from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.types import ComponentOrFactory
 
 ncores = multiprocessing.cpu_count()
 
@@ -32,7 +33,7 @@ temp_dir_default = Path(sparameters_path) / "temp"
 
 @pydantic.validate_arguments
 def write_sparameters_meep_mpi(
-    component: Component,
+    component: ComponentOrFactory,
     cores: int = ncores,
     filepath: Optional[Path] = None,
     dirpath: Path = sparameters_path,
@@ -48,6 +49,8 @@ def write_sparameters_meep_mpi(
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
+
+    checks stderror and kills MPI job if there is any stderror message
 
     port_symmetries = {"o1":
             {
@@ -112,14 +115,15 @@ def write_sparameters_meep_mpi(
         filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
             where `a` is the angle in radians and `m` the module
 
-
     TODO:
-        write stdout to  file
-        check stderror to kill in case
+        write stdout to file, maybe simulation logs too
     """
     for setting in kwargs.keys():
         if setting not in settings_write_sparameters_meep:
             raise ValueError(f"{setting} not in {settings_write_sparameters_meep}")
+
+    component = component() if callable(component) else component
+    assert isinstance(component, Component)
 
     settings = remove_simulation_kwargs(kwargs)
     filepath = filepath or get_sparameters_path(

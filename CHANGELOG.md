@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## 4.3.3
+## 4.3.4
+
+- tidy3d improvements:
+    - get_simulation and write_sparameters accepts componentOrFactory
+
+## [4.3.3](https://github.com/gdsfactory/gdsfactory/pull/214)
 
 - tidy3d improvements:
     * add dispersive flag in tidy3d get_simulation
