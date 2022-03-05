@@ -13,10 +13,10 @@ def test_simulation_hash() -> None:
     sim = gt.get_simulation(component=component)
     sim_hash = get_sim_hash(sim)
 
-    sim_hash_reference = "3ad9e452ce489b90f7d8bfaa9c2c81c3"
+    sim_hash_reference = "7d5a04317f955b10060b8fda01ee3cc5"
 
     # print(f"assert hash == {sim_hash!r}")
-    assert sim_hash == sim_hash_reference, f"sim_hash_reference != {sim_hash}"
+    assert sim_hash == sim_hash_reference, f"changed sim_hash_reference = {sim_hash!r}"
 
 
 def test_simulation(overwrite: bool = False) -> None:
@@ -38,10 +38,10 @@ def test_simulation(overwrite: bool = False) -> None:
 
 
 if __name__ == "__main__":
-    # test_simulation_hash()
+    test_simulation_hash()
     # test_simulation(overwrite=True)
 
-    test_simulation()
+    # test_simulation()
     # component = gf.components.straight(length=3)
     # sim = gt.get_simulation(component=component)
     # sim.to_file("sim_ref.yaml")

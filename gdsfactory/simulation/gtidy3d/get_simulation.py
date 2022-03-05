@@ -1,6 +1,6 @@
 """Returns tidy3d simulation from gdsfactory Component."""
 import warnings
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -17,13 +17,18 @@ from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import Float2
 
-MATERIAL_NAME_TO_TIDY3D = {
+# not dispersive materials have a constant index
+MATERIAL_NAME_TO_TIDY3D_INDEX = {
     "si": 3.47,
     "sio2": 1.44,
     "sin": 2.0,
-    # "si": "cSi",
-    # "sio2": "SiO2",
-    # "sin": "Si3N4",
+}
+
+# dispersive materials
+MATERIAL_NAME_TO_TIDY3D_NAME = {
+    "si": "cSi",
+    "sio2": "SiO2",
+    "sin": "Si3N4",
 }
 
 
@@ -52,8 +57,11 @@ def get_simulation(
     plot_modes: bool = False,
     num_modes: int = 2,
     run_time_ps: float = 10.0,
-    material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
+    dispersive: bool = False,
+    material_name_to_tidy3d_index: Dict[str, float] = MATERIAL_NAME_TO_TIDY3D_INDEX,
+    material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
+    with_all_monitors: bool = False,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -120,8 +128,15 @@ def get_simulation(
         plot_modes: plot source modes.
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
-            defaults to 10ps and counts on the automatic shutoff to stop earlier if needed.
-
+            defaults to 10ps and counts on automatic shutoff to stop earlier if needed.
+        dispersive: False uses constant refractive index materials.
+            True adds wavelength depending materials.
+            Dispersive materials require more computation.
+        material_name_to_tidy3d_index: not dispersive materials have a constant index.
+        material_name_to_tidy3d_name: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with tidy3d material database names.
+        is_3d: if False, does not consider Z dimension for faster simulations.
+        with_all_monitors: if True, includes field monitors which increase results file size.
 
     .. code::
 
@@ -138,6 +153,11 @@ def get_simulation(
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
+
+    if dispersive:
+        material_name_to_tidy3d = material_name_to_tidy3d_name
+    else:
+        material_name_to_tidy3d = material_name_to_tidy3d_index
 
     assert isinstance(
         component, Component
@@ -305,13 +325,15 @@ def get_simulation(
         freqs=[freq0],
         name="field",
     )
+    monitors = list(monitors.values())
+    monitors += [domain_monitor] if with_all_monitors else []
 
     sim = td.Simulation(
         size=sim_size,
         grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[msource],
-        monitors=[domain_monitor] + list(monitors.values()),
+        monitors=monitors,
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()] if is_3d else [td.PML(), td.PML(), None],
     )
@@ -442,7 +464,6 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-
     # c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
