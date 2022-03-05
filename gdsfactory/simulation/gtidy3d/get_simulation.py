@@ -15,7 +15,7 @@ from gdsfactory.config import logger
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
 from gdsfactory.tech import LAYER_STACK, LayerStack
-from gdsfactory.types import Float2
+from gdsfactory.types import ComponentOrFactory, Float2
 
 # not dispersive materials have a constant index
 MATERIAL_NAME_TO_TIDY3D_INDEX = {
@@ -34,7 +34,7 @@ MATERIAL_NAME_TO_TIDY3D_NAME = {
 
 @pydantic.validate_arguments
 def get_simulation(
-    component: Component,
+    component: ComponentOrFactory,
     port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
@@ -149,6 +149,9 @@ def get_simulation(
         gt.plot_simulation(sim)
 
     """
+    component = component() if callable(component) else component
+    assert isinstance(component, Component)
+
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
