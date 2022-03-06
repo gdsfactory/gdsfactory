@@ -1,6 +1,8 @@
 # CHANGELOG
 
-## [4.3.5]
+## [4.3.6]
+
+## [4.3.5](https://github.com/gdsfactory/gdsfactory/pull/216)
 
 - rename add_pin_square to add_pin_rectangle
 - add_pin_path to gf.add_pins
