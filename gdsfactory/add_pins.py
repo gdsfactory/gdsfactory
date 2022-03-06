@@ -11,6 +11,7 @@ They without modifying the cell name
 import json
 from typing import Callable, List, Optional, Tuple
 
+import gdspy
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
@@ -74,7 +75,7 @@ def add_pin_triangle(
         )
 
 
-def add_pin_square_inside(
+def add_pin_rectangle_inside(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -131,7 +132,7 @@ def add_pin_square_inside(
         )
 
 
-def add_pin_square_double(
+def add_pin_rectangle_double(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -203,7 +204,7 @@ def add_pin_square_double(
         )
 
 
-def add_pin_square(
+def add_pin_rectangle(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -264,6 +265,67 @@ def add_pin_square(
         )
 
 
+def add_pin_path(
+    component: Component,
+    port: Port,
+    pin_length: float = 0.1,
+    layer: Tuple[int, int] = LAYER.PORT,
+    layer_label: Optional[Tuple[int, int]] = LAYER.PORT,
+    port_margin: float = 0.0,
+) -> None:
+    """Add half out path pin to a component.
+
+    This port type is compatible with SiEPIC pdk.
+
+    Args:
+        component:
+        port: Port
+        pin_length: length of the pin marker for the port
+        layer: for the pin marker
+        layer_label: for the label
+        port_margin: margin to port edge
+
+
+    .. code::
+
+           _______________
+          |               |
+          |               |
+          |               |
+         |||              |
+         |||              |
+          |               |
+          |      __       |
+          |_______________|
+                 __
+
+    """
+    p = port
+    a = p.orientation
+    ca = np.cos(a * np.pi / 180)
+    sa = np.sin(a * np.pi / 180)
+    rot_mat = np.array([[ca, -sa], [sa, ca]])
+
+    d0 = np.array([+pin_length / 2, 0])
+    d1 = np.array([-pin_length / 2, 0])
+
+    p0 = p.position + _rotate(d0, rot_mat)
+    p1 = p.position + _rotate(d1, rot_mat)
+
+    points = [p0, p1]
+    path = gdspy.FlexPath(
+        points=points, width=p.width, layer=layer[0], datatype=layer[1]
+    )
+    component.add(path)
+
+    if layer_label:
+        component.add_label(
+            text=str(p.name),
+            position=p.midpoint,
+            layer=layer_label,
+        )
+
+
 def add_outline(
     component: Component,
     reference: Optional[ComponentReference] = None,
@@ -292,7 +354,7 @@ def add_outline(
 def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
-    function: Callable = add_pin_square_inside,
+    function: Callable = add_pin_rectangle_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
 ) -> None:

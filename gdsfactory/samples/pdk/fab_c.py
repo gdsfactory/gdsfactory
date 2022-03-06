@@ -7,7 +7,7 @@ import pydantic.dataclasses as dataclasses
 
 import gdsfactory as gf
 import gdsfactory.simulation as sim
-from gdsfactory.add_pins import add_pin_square_inside
+from gdsfactory.add_pins import add_pin_rectangle_inside
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports
@@ -52,7 +52,7 @@ def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
 
 def add_pins(
     component: Component,
-    function: Callable = add_pin_square_inside,
+    function: Callable = add_pin_rectangle_inside,
     pin_length: float = 0.5,
     port_layer: Layer = LAYER.PIN,
     **kwargs,
