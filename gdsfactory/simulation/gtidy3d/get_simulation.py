@@ -13,23 +13,14 @@ from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
-from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
+from gdsfactory.simulation.gtidy3d.materials import (
+    MATERIAL_NAME_TO_TIDY3D_INDEX,
+    MATERIAL_NAME_TO_TIDY3D_NAME,
+    get_index,
+    get_medium,
+)
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import ComponentOrFactory, Float2
-
-# not dispersive materials have a constant index
-MATERIAL_NAME_TO_TIDY3D_INDEX = {
-    "si": 3.47,
-    "sio2": 1.44,
-    "sin": 2.0,
-}
-
-# dispersive materials
-MATERIAL_NAME_TO_TIDY3D_NAME = {
-    "si": "cSi",
-    "sio2": "SiO2",
-    "sin": "Si3N4",
-}
 
 
 @pydantic.validate_arguments
