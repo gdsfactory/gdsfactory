@@ -74,7 +74,7 @@ def add_pin_triangle(
         )
 
 
-def add_pin_square_inside(
+def add_pin_rectangle_inside(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -131,7 +131,7 @@ def add_pin_square_inside(
         )
 
 
-def add_pin_square_double(
+def add_pin_rectangle_double(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -203,7 +203,7 @@ def add_pin_square_double(
         )
 
 
-def add_pin_square(
+def add_pin_rectangle(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
@@ -292,7 +292,7 @@ def add_outline(
 def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
-    function: Callable = add_pin_square_inside,
+    function: Callable = add_pin_rectangle_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
 ) -> None:
