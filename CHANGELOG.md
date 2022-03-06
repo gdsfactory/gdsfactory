@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [4.3.5]
+
+- rename add_pin_square to add_pin_rectangle
+
 ## [4.3.4](https://github.com/gdsfactory/gdsfactory/pull/215)
 
 - tidy3d improvements:
