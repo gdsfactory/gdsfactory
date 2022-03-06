@@ -19,6 +19,7 @@ from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
 from gdsfactory.types import (
     Any,
     Component,
+    ComponentOrFactory,
     Dict,
     List,
     Optional,
@@ -78,7 +79,7 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
 
 
 def write_sparameters(
-    component: Component,
+    component: ComponentOrFactory,
     port_symmetries: Optional[PortSymmetries] = None,
     dirpath: PathType = sparameters_path,
     overwrite: bool = False,
@@ -137,9 +138,10 @@ def write_sparameters(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
-        with_all_monitors: if True, includes field monitors which increase results file size.
+        with_all_monitors: True adds field monitor which increases results file size.
 
     """
+    component = component() if callable(component) else component
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,
@@ -181,6 +183,7 @@ def write_sparameters(
             component:
             port_symmetries:
             monitor_indices:
+            kwargs: simulation settings
 
         """
         sim = get_simulation(
@@ -280,8 +283,9 @@ if __name__ == "__main__":
     import gdsfactory as gf
     import gdsfactory.simulation as sim
 
-    c = gf.components.straight(length=2.1)
-    df = write_sparameters_1x1(c, is_3d=False, overwrite=False)
+    # c = gf.components.straight(length=2.1)
+    c = gf.components.mmi2x2()
+    df = write_sparameters(c, is_3d=False, overwrite=False)
     sim.plot.plot_sparameters(df)
 
     # t = df.s12m

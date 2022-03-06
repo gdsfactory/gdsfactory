@@ -13,6 +13,20 @@ MATERIAL_NAME_TO_MEDIUM = {
     "si3n4": material_library["Si3N4"]["Luke2015"],
 }
 
+# not dispersive materials have a constant index
+MATERIAL_NAME_TO_TIDY3D_INDEX = {
+    "si": 3.47,
+    "sio2": 1.44,
+    "sin": 2.0,
+}
+
+# dispersive materials
+MATERIAL_NAME_TO_TIDY3D_NAME = {
+    "si": "cSi",
+    "sio2": "SiO2",
+    "sin": "Si3N4",
+}
+
 
 def get_epsilon(
     name_or_index: Union[str, float],
