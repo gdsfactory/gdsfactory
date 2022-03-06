@@ -3,6 +3,7 @@
 ## [4.3.5]
 
 - rename add_pin_square to add_pin_rectangle
+- add_pin_path to gf.add_pins
 
 ## [4.3.4](https://github.com/gdsfactory/gdsfactory/pull/215)
 
