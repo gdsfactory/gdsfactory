@@ -13,6 +13,7 @@ import pydantic
 from tqdm import tqdm
 
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
@@ -103,11 +104,14 @@ def write_sparameters_meep_batch(
     # Parse jobs
     jobs_to_run = []
     for job in jobs:
+        component = job["component"]
+        component = component() if callable(component) else component
+        assert isinstance(component, Component)
         settings = remove_simulation_kwargs(kwargs)
         filepath = job.get(
             "filepath",
             get_sparameters_path(
-                component=job["component"],
+                component=component,
                 dirpath=dirpath,
                 layer_stack=layer_stack,
                 **settings,
