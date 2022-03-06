@@ -138,7 +138,7 @@ def write_sparameters(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
-        with_all_monitors: True includes field monitor which increases results file size.
+        with_all_monitors: True adds field monitor which increases results file size.
 
     """
     component = component() if callable(component) else component

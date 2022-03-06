@@ -1,6 +1,6 @@
 """Returns tidy3d simulation from gdsfactory Component."""
 import warnings
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,17 +10,13 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
-from gdsfactory.simulation.gtidy3d.materials import get_index, get_medium
+from gdsfactory.simulation.gtidy3d.materials import (
+    MATERIAL_NAME_TO_TIDY3D_INDEX,
+    MATERIAL_NAME_TO_TIDY3D_NAME,
+    get_index,
+    get_medium,
+)
 from gdsfactory.tech import LAYER_STACK, LayerStack
-
-MATERIAL_NAME_TO_TIDY3D = {
-    "si": 3.47,
-    "sio2": 1.44,
-    "sin": 2.0,
-    # "si": "cSi",
-    # "sio2": "SiO2",
-    # "sin": "Si3N4",
-}
 
 
 def get_simulation_grating_coupler(
@@ -56,7 +52,9 @@ def get_simulation_grating_coupler(
     fiber_z: float = 2,
     fiber_mfd: float = 5.2,
     fiber_angle_deg: float = 20.0,
-    material_name_to_tidy3d: Dict[str, Union[float, str]] = MATERIAL_NAME_TO_TIDY3D,
+    dispersive: bool = False,
+    material_name_to_tidy3d_index: Dict[str, float] = MATERIAL_NAME_TO_TIDY3D_INDEX,
+    material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
 ) -> td.Simulation:
@@ -148,14 +146,19 @@ def get_simulation_grating_coupler(
         plot_modes: plot source modes.
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
-            defaults to 10ps and counts on the automatic shutoff to stop earlier if needed.
+            defaults to 10ps and automatic shutoff stops earlier if needed.
         fiber_port_name:
         fiber_xoffset: fiber center xoffset to fiber_port_name
         fiber_z: fiber zoffset from grating zmax
         fiber_mfd: fiber mode field diameter (um)
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
             Positive for west facing, Negative for east facing sources.
-        material_name_to_tidy3d: dict of material stack materil name to tidy3d.
+        dispersive: False uses constant refractive index materials.
+            True adds wavelength depending materials.
+            Dispersive materials require more computation.
+        material_name_to_tidy3d_index: not dispersive materials have a constant index.
+        material_name_to_tidy3d_name: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False collapses the Y direction for a 2D simulation.
         with_all_monitors: if True, includes field monitors which increase results file size.
 
@@ -176,6 +179,11 @@ def get_simulation_grating_coupler(
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
+
+    if dispersive:
+        material_name_to_tidy3d = material_name_to_tidy3d_name
+    else:
+        material_name_to_tidy3d = material_name_to_tidy3d_index
 
     assert isinstance(
         component, Component
