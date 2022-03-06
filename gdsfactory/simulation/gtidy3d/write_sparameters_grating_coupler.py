@@ -70,7 +70,12 @@ def write_sparameters_grating_coupler(
         fiber_z: fiber zoffset from grating zmax
         fiber_mfd: fiber mode field diameter (um)
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
-        material_name_to_tidy3d: dict of material stack materil name to tidy3d.
+        dispersive: False uses constant refractive index materials.
+            True adds wavelength depending materials.
+            Dispersive materials require more computation.
+        material_name_to_tidy3d_index: not dispersive materials have a constant index.
+        material_name_to_tidy3d_name: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: True by default runs in 3D
         with_all_monitors: stores all monitor fields
 
@@ -141,7 +146,7 @@ def write_sparameters_grating_coupler_batch(
     jobs: List[Dict[str, Any]], **kwargs
 ) -> List[pd.DataFrame]:
     """Returns Sparameters for a list of write_sparameters_grating_coupler
-    kwargs where it runs each simulation in paralell.
+    settings where it simulation runs in paralell.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler
