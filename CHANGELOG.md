@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 4.3.4
+## [4.3.4](https://github.com/gdsfactory/gdsfactory/pull/215)
 
 - tidy3d improvements:
     - get_simulation and write_sparameters accepts componentOrFactory
