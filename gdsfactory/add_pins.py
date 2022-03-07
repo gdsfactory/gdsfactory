@@ -320,9 +320,7 @@ def add_pin_path(
 
     if layer_label:
         component.add_label(
-            text=str(p.name),
-            position=p.midpoint,
-            layer=layer_label,
+            text=str(p.name), position=p.midpoint, layer=layer_label, anchor="sw"
         )
 
 
@@ -513,7 +511,6 @@ if __name__ == "__main__":
 
     # c = gf.components.straight(length=2)
     # c = add_pins_container(component=c)
-
     # c.show(show_ports_suborts=True)
 
     # c2 = add_pins_container(component=c1)
