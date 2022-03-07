@@ -3,6 +3,7 @@
 ## [4.3.7]
 
 - add_pin_path now works with siepic
+- add add_pins_siepic in gf.add_pins
 
 ## [4.3.6](https://github.com/gdsfactory/gdsfactory/pull/217)
 

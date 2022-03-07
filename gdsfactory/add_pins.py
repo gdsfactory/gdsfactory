@@ -22,6 +22,8 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.tech import LAYER
 
+Layer = Tuple[int, int]
+
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
@@ -347,6 +349,46 @@ def add_outline(
         component = component.parent
     points = get_padding_points(component=c, default=0, **kwargs)
     component.add_polygon(points, layer=layer)
+
+
+def add_pins_siepic(
+    component: Component,
+    function: Callable = add_pin_path,
+    layer_pin: Layer = (1, 10),
+    bbox_layer: Optional[Layer] = (68, 0),
+    **kwargs,
+) -> Component:
+    """Add pins and device recognition layer.
+    Enables you to run SiEPIC verification tools:
+    To Run verification install SiEPIC-tools klayout package
+    then hit V shortcut in klayout to run verification
+
+    - ensure no disconnected pins
+    - netlist extraction
+
+    Args:
+        component: to add pins.
+        function: to add pin.
+        layer_pin: pin layer.
+        bbox_layer: bounding box layer for device recognition.
+
+    Keyword Args:
+        layer: select port GDS layer.
+        prefix: select ports with prefix with in port name.
+        orientation: select ports with orientation (degrees).
+        width: select_ports with width (um).
+        layers_excluded: List of layers to exclude.
+        port_type: optical, electrical, ...
+        clockwise: if True, sort ports clockwise, False: counter-clockwise
+    """
+
+    if bbox_layer:
+        component.add_padding(default=0, layers=(bbox_layer,))
+
+    for p in component.get_ports_list(**kwargs):
+        function(component=component, port=p, layer=layer_pin, layer_label=layer_pin)
+
+    return component
 
 
 def add_pins(
