@@ -8,6 +8,7 @@
 - klayout klive refresh does not maintain the position of the view any more
 - better netlist extraction
 - interface with Siepic tools? add ports as FlexPath
+- corners don't auto-taper for RF circuits
 
 ## Plugins
 
