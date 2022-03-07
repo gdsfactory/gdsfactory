@@ -98,6 +98,7 @@ def import_gds(
         cell_to_device = {}
         for c in gdsii_lib.cells.values():
             D = Component(name=c.name)
+            D.paths = c.paths
             D.polygons = c.polygons
             D.references = c.references
             D.name = c.name

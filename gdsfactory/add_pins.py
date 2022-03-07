@@ -314,7 +314,7 @@ def add_pin_path(
 
     points = [p0, p1]
     path = gdspy.FlexPath(
-        points=points, width=p.width, layer=layer[0], datatype=layer[1]
+        points=points, width=p.width, layer=layer[0], datatype=layer[1], gdsii_path=True
     )
     component.add(path)
 
