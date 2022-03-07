@@ -259,7 +259,7 @@ Open source heroes:
 - [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://gdsfactory.github.io/gdsfactory/)
 - [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
 - [miniforge install instructions](https://github.com/conda-forge/miniforge#mambaforge)
-- [SAX](https://flaport.github.io/sax,): separate package for circuit simulations
+- [SAX](https://flaport.github.io/sax): separate package for circuit simulations
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
 - [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
 - [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
