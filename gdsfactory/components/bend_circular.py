@@ -62,7 +62,6 @@ def bend_circular(
         for layer in layers_cladding or []:
             c.add_polygon(points, layer=layer)
 
-    c.absorb(ref)
     return c
 
 
