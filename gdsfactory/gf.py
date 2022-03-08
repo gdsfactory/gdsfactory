@@ -97,16 +97,19 @@ def write_cells(gdspath) -> None:
     write_cells_to_separate_gds(gdspath)
 
 
-@click.command(name="merge_gds_from_directory")
+@click.command(name="merge_gds")
 @click.argument("dirpath", required=False, default=None)
 @click.argument("gdspath", required=False, default=None)
-def merge_gds_from_directory(
+def merge_gds(
     dirpath: Optional[PathType] = None, gdspath: Optional[PathType] = None
 ) -> None:
     """Merges GDS cells from a directory into a single GDS."""
     dirpath = dirpath or pathlib.Path.cwd()
     gdspath = gdspath or pathlib.Path.cwd() / "merged.gds"
-    c = gdsfactory.read.gdsdir(dirpath=dirpath)
+
+    dirpath = pathlib.Path(dirpath)
+
+    c = gdsfactory.read.from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
     c.show()
 
@@ -232,7 +235,7 @@ mask.add_command(write_mask_labels)
 
 gds.add_command(layermap_to_dataclass)
 gds.add_command(write_cells)
-gds.add_command(merge_gds_from_directory)
+gds.add_command(merge_gds)
 gds.add_command(show)
 gds.add_command(diff)
 
