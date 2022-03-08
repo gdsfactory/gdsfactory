@@ -13,9 +13,9 @@ def load_gds(filepath: Union[Path, str]) -> Layout:
     filepath = str(filepath)
     layout = pya.Layout()
     try:
-        layout.read(filepath)
+        layout.read(str(filepath))
     except RuntimeError as e:
-        print(f"Error reading {filepath}")
+        print(f"Error reading {filepath!r}")
         raise e
     cell = layout.top_cell()
     cell.metadata = {}
