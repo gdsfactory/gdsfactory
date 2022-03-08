@@ -8,14 +8,15 @@ Based on phidl.path
 """
 
 from collections.abc import Iterable
-from typing import Optional
+from typing import Callable, Optional
 
 import numpy as np
-import phidl.path as path
+from phidl import path
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _simplify
 from phidl.path import smooth as smooth_phidl
 
+from gdsfactory.add_pins import add_pins_siepic
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Transition
@@ -171,6 +172,7 @@ def extrude(
     width: Optional[float] = None,
     widths: Optional[Float2] = None,
     simplify: Optional[float] = None,
+    add_pins: Optional[Callable] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
     A path can be extruded using any CrossSection returning a Component
@@ -187,6 +189,7 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm.
           All points that can be removed without changing the resulting
           polygon by more than the value listed here will be removed.
+        add_pins: optional function add pins.
     """
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -334,6 +337,9 @@ def extrude(
     # c.info.path = p.info
     # c.info.cross_section = cross_section.info
     c.info["length"] = float(np.round(p.length(), 3))
+
+    if add_pins:
+        c = add_pins(c)
     return c
 
 
@@ -450,52 +456,52 @@ def _demo():
 
 
 if __name__ == "__main__":
+    from gdsfactory.tech import LAYER
 
-    # P = euler(radius=10, use_eff=True)
-    # P = euler()
-    # P = Path()
-    # P.append(straight(length=5))
+    P = euler(radius=10, use_eff=True)
+    P = euler()
+    P = Path()
+    P.append(straight(length=5))
+
     # P.append(path.arc(radius=10, angle=90))
     # P.append(path.spiral())
 
     # Create a blank CrossSection
-    # X = CrossSection()
-    # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
+    X = CrossSection()
+    X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
 
     # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["HW1", "HE1"])
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
-
     # Combine the Path and the CrossSection
 
-    # c = extrude(P, X, simplify=5e-3)
-    # c = gf.add_pins(c)
+    c = extrude(P, X, simplify=5e-3, add_pins=add_pins_siepic)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # print(c.ports["in"].layer)
-    # c.show()
 
-    import gdsfactory as gf
+    c.show(show_ports=False)
 
-    X1 = gf.CrossSection()
-    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("o1", "o2"))
-    X1.add(width=2.2, offset=0, layer=3, name="etch")
-    X1.add(width=1.1, offset=3, layer=1, name="wg2")
+    # import gdsfactory as gf
+    # X1 = gf.CrossSection()
+    # X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("o1", "o2"))
+    # X1.add(width=2.2, offset=0, layer=3, name="etch")
+    # X1.add(width=1.1, offset=3, layer=1, name="wg2")
 
-    X2 = gf.CrossSection()
-    X2.add(width=1, offset=0, layer=2, name="wg", ports=("o1", "o2"))
-    X2.add(width=3.5, offset=0, layer=3, name="etch")
-    X2.add(width=3, offset=5, layer=1, name="wg2")
-    Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+    # X2 = gf.CrossSection()
+    # X2.add(width=1, offset=0, layer=2, name="wg", ports=("o1", "o2"))
+    # X2.add(width=3.5, offset=0, layer=3, name="etch")
+    # X2.add(width=3, offset=5, layer=1, name="wg2")
+    # Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
 
-    P1 = gf.path.straight(length=5)
-    wg1 = gf.path.extrude(P1, X1)
+    # P1 = gf.path.straight(length=5)
+    # wg1 = gf.path.extrude(P1, X1)
 
-    P3 = gf.path.straight(length=15, npoints=100)
-    straight_transition = gf.path.extrude(P3, Xtrans)
+    # P3 = gf.path.straight(length=15, npoints=100)
+    # straight_transition = gf.path.extrude(P3, Xtrans)
 
-    P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
-    wg_trans = gf.path.extrude(P4, Xtrans)
-    wg_trans.show()
+    # P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
+    # wg_trans = gf.path.extrude(P4, Xtrans)
+    # wg_trans.show()
 
     # import gdsfactory as gf
     # # Create our first CrossSection

@@ -69,6 +69,7 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
+
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
