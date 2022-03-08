@@ -356,6 +356,7 @@ def add_pins_siepic(
     function: Callable = add_pin_path,
     layer_pin: Layer = (1, 10),
     bbox_layer: Optional[Layer] = (68, 0),
+    padding: float = 0,
     **kwargs,
 ) -> Component:
     """Add pins and device recognition layer.
@@ -383,7 +384,7 @@ def add_pins_siepic(
     """
 
     if bbox_layer:
-        component.add_padding(default=0, layers=(bbox_layer,))
+        component.add_padding(default=padding, layers=(bbox_layer,))
 
     for p in component.get_ports_list(**kwargs):
         function(component=component, port=p, layer=layer_pin, layer_label=layer_pin)
