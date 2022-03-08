@@ -167,6 +167,7 @@ class Transition(CrossSection):
 def cross_section(
     width: float = 0.5,
     layer: Tuple[int, int] = (1, 0),
+    layer_bbox: Optional[Tuple[int, int]] = None,
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -187,6 +188,7 @@ def cross_section(
     Args:
         width: main of the waveguide
         layer: main layer
+        layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: taper to widen waveguides for lower loss
         auto_widen: taper to widen waveguides for lower loss
         auto_widen_minimum_length: minimum straight length for auto_widen
@@ -230,6 +232,14 @@ def cross_section(
         port_types=port_types,
         name="_default",
     )
+
+    if layer_bbox:
+        x.add(
+            width=width,
+            offset=0,
+            layer=layer_bbox,
+            name="bbox",
+        )
 
     sections = sections or []
     for section in sections:
