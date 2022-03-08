@@ -199,7 +199,7 @@ if __name__ == "__main__":
         # length_y=1.8,
         with_splitter=False,
     )
-    c.show()
+    c.show(show_ports=False)
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()
