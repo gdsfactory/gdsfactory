@@ -186,11 +186,9 @@ if __name__ == "__main__":
     # c = mzi2x2()
     # c.show()
 
-    import gdsfactory as gf
-
     c = mzi(
         delta_length=100,
-        straight_x_top=gf.components.straight_heater_meander,
+        # straight_x_top=gf.components.straight_heater_meander,
         # straight_x_bot=gf.components.straight_heater_meander,
         # straight_x_top=gf.components.straight_heater_metal,
         # straight_x_bot=gf.components.straight_heater_metal,

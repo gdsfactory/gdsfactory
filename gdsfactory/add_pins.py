@@ -355,11 +355,9 @@ def add_pins_siepic(
     component: Component,
     function: Callable = add_pin_path,
     layer_pin: Layer = (1, 10),
-    bbox_layer: Optional[Layer] = (68, 0),
-    padding: float = 0,
     **kwargs,
 ) -> Component:
-    """Add pins and device recognition layer.
+    """Add pins
     Enables you to run SiEPIC verification tools:
     To Run verification install SiEPIC-tools klayout package
     then hit V shortcut in klayout to run verification
@@ -371,7 +369,6 @@ def add_pins_siepic(
         component: to add pins.
         function: to add pin.
         layer_pin: pin layer.
-        bbox_layer: bounding box layer for device recognition.
 
     Keyword Args:
         layer: select port GDS layer.
@@ -383,13 +380,24 @@ def add_pins_siepic(
         clockwise: if True, sort ports clockwise, False: counter-clockwise
     """
 
-    if bbox_layer:
-        component.add_padding(default=padding, layers=(bbox_layer,))
-
     for p in component.get_ports_list(**kwargs):
         function(component=component, port=p, layer=layer_pin, layer_label=layer_pin)
 
     return component
+
+
+def add_bbox_siepic(
+    component: Component,
+    bbox_layer: Optional[Layer] = (68, 0),
+    padding: float = 0,
+) -> Component:
+    """Add bounding box device recognition layer."""
+    if bbox_layer:
+        component.add_padding(default=padding, layers=(bbox_layer,))
+    return component
+
+
+add_pins_bbox_siepic = gf.compose(add_pins_siepic, add_bbox_siepic)
 
 
 def add_pins(
