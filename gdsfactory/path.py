@@ -8,7 +8,7 @@ Based on phidl.path
 """
 
 from collections.abc import Iterable
-from typing import Callable, Optional
+from typing import Optional
 
 import numpy as np
 from phidl import path
@@ -16,7 +16,6 @@ from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _simplify
 from phidl.path import smooth as smooth_phidl
 
-from gdsfactory.add_pins import add_pins_siepic
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Transition
@@ -172,7 +171,6 @@ def extrude(
     width: Optional[float] = None,
     widths: Optional[Float2] = None,
     simplify: Optional[float] = None,
-    add_pins: Optional[Callable] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
     A path can be extruded using any CrossSection returning a Component
@@ -189,7 +187,6 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm.
           All points that can be removed without changing the resulting
           polygon by more than the value listed here will be removed.
-        add_pins: optional function add pins.
     """
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -338,8 +335,9 @@ def extrude(
     # c.info.cross_section = cross_section.info
     c.info["length"] = float(np.round(p.length(), 3))
 
-    if add_pins:
-        c = add_pins(c)
+    if cross_section.add_pins:
+        c = cross_section.add_pins(c)
+
     return c
 
 
@@ -474,7 +472,7 @@ if __name__ == "__main__":
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
     # Combine the Path and the CrossSection
 
-    c = extrude(P, X, simplify=5e-3, add_pins=add_pins_siepic)
+    c = extrude(P, X, simplify=5e-3)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # print(c.ports["in"].layer)
