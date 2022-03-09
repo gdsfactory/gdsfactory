@@ -243,8 +243,8 @@ gdsfactory top contributors:
 - Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml)
 - Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://flaport.github.io/sax)
 - Alec Hammond (Georgia Tech): Meep and MPB interface
-- Simon Biladieu (Princeton): Meep FDTD write Sparameters
-- Thomas Dorch (Freedom Photonics): for Meep's material database access and MPB sidewall angles
+- Simon Bilodeau (Princeton): Meep FDTD write Sparameters
+- Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path
 
 Open source heroes:
 

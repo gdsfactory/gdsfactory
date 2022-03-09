@@ -17,7 +17,7 @@ def straight(
     """Returns a Straight waveguide.
 
     Args:
-        length: straight length
+        length: straight length (um)
         npoints: number of points
         with_cladding_box: box in layers_cladding to avoid DRC sharp edges
         cross_section:
