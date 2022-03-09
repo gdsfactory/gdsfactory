@@ -280,7 +280,11 @@ def test_load_lyp():
     return lys
 
 
-LAYER_SET = load_lyp_generic()
+try:
+    LAYER_SET = load_lyp_generic()
+except Exception:
+    print(f"Error loading generic layermap in {layer_path!r}")
+
 
 if __name__ == "__main__":
     # print(LAYER_STACK.get_from_tuple((1, 0)))
