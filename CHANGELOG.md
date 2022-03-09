@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [4.3.7]
+## [4.3.7](https://github.com/gdsfactory/gdsfactory/pull/222)
 
 - add_pin_path now works with siepic
 - add add_pins_siepic in gf.add_pins
