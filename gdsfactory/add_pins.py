@@ -22,6 +22,8 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.tech import LAYER
 
+Layer = Tuple[int, int]
+
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
     return np.dot(m, v)
@@ -320,9 +322,7 @@ def add_pin_path(
 
     if layer_label:
         component.add_label(
-            text=str(p.name),
-            position=p.midpoint,
-            layer=layer_label,
+            text=str(p.name), position=p.midpoint, layer=layer_label, anchor="sw"
         )
 
 
@@ -349,6 +349,55 @@ def add_outline(
         component = component.parent
     points = get_padding_points(component=c, default=0, **kwargs)
     component.add_polygon(points, layer=layer)
+
+
+def add_pins_siepic(
+    component: Component,
+    function: Callable = add_pin_path,
+    layer_pin: Layer = (1, 10),
+    **kwargs,
+) -> Component:
+    """Add pins
+    Enables you to run SiEPIC verification tools:
+    To Run verification install SiEPIC-tools klayout package
+    then hit V shortcut in klayout to run verification
+
+    - ensure no disconnected pins
+    - netlist extraction
+
+    Args:
+        component: to add pins.
+        function: to add pin.
+        layer_pin: pin layer.
+
+    Keyword Args:
+        layer: select port GDS layer.
+        prefix: select ports with prefix with in port name.
+        orientation: select ports with orientation (degrees).
+        width: select_ports with width (um).
+        layers_excluded: List of layers to exclude.
+        port_type: optical, electrical, ...
+        clockwise: if True, sort ports clockwise, False: counter-clockwise
+    """
+
+    for p in component.get_ports_list(**kwargs):
+        function(component=component, port=p, layer=layer_pin, layer_label=layer_pin)
+
+    return component
+
+
+def add_bbox_siepic(
+    component: Component,
+    bbox_layer: Optional[Layer] = (68, 0),
+    padding: float = 0,
+) -> Component:
+    """Add bounding box device recognition layer."""
+    if bbox_layer:
+        component.add_padding(default=padding, layers=(bbox_layer,))
+    return component
+
+
+add_pins_bbox_siepic = gf.compose(add_pins_siepic, add_bbox_siepic)
 
 
 def add_pins(
@@ -513,7 +562,6 @@ if __name__ == "__main__":
 
     # c = gf.components.straight(length=2)
     # c = add_pins_container(component=c)
-
     # c.show(show_ports_suborts=True)
 
     # c2 = add_pins_container(component=c1)
