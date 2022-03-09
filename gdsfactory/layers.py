@@ -284,6 +284,7 @@ try:
     LAYER_SET = load_lyp_generic()
 except Exception:
     print(f"Error loading generic layermap in {layer_path!r}")
+    LAYER_SET = LayerSet()
 
 
 if __name__ == "__main__":
