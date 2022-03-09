@@ -1,8 +1,15 @@
 # CHANGELOG
 
+## [4.3.7]
+
+- add_pin_path now works with siepic
+- add add_pins_siepic in gf.add_pins
+- gf.path.extrude can also add pins
+- unpin `requirements.txt` [issue](https://github.com/gdsfactory/gdsfactory/issues/221)
+
 ## [4.3.6](https://github.com/gdsfactory/gdsfactory/pull/217)
 
-- add_pin_path works with siepic
+- add_pin_path fixes
 
 ## [4.3.5](https://github.com/gdsfactory/gdsfactory/pull/216)
 

@@ -198,9 +198,14 @@ if __name__ == "__main__":
     # c.pprint()
     # p = euler()
     # c = bend_straight_bend()
-    c = _compare_bend_euler90()
+    # c = _compare_bend_euler90()
 
-    c.show()
+    c = gf.Component()
+    b1 = c << bend_euler()
+    b2 = c << bend_euler()
+    b2.connect("o1", b1.ports["o2"])
+    c.show(show_ports=False)
+
     # _compare_bend_euler180()
     # import gdsfactory as gf
     # c = bend_euler(radius=10)

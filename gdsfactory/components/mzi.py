@@ -186,11 +186,9 @@ if __name__ == "__main__":
     # c = mzi2x2()
     # c.show()
 
-    import gdsfactory as gf
-
     c = mzi(
         delta_length=100,
-        straight_x_top=gf.components.straight_heater_meander,
+        # straight_x_top=gf.components.straight_heater_meander,
         # straight_x_bot=gf.components.straight_heater_meander,
         # straight_x_top=gf.components.straight_heater_metal,
         # straight_x_bot=gf.components.straight_heater_metal,
@@ -199,7 +197,7 @@ if __name__ == "__main__":
         # length_y=1.8,
         with_splitter=False,
     )
-    c.show()
+    c.show(show_ports=False)
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()
