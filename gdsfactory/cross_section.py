@@ -4,7 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 
 """
 from functools import partial
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
 import pydantic
 from pydantic import BaseModel
@@ -34,6 +34,7 @@ class CrossSection(BaseModel):
     info: Dict[str, Any] = {}
     aliases: Dict[str, Section] = {}
     name: Optional[str] = None
+    add_pins: Optional[Callable] = None
 
     def add(
         self,
@@ -122,9 +123,9 @@ class CrossSection(BaseModel):
     @classmethod
     def validate(cls, v):
         """pydantic checks CrossSection valid type"""
-        assert isinstance(
-            v, CrossSection
-        ), f"TypeError, Got {type(v)}, expecting CrossSection"
+        # assert isinstance(
+        #     v, CrossSection
+        # ), f"TypeError, Got {type(v)}, expecting CrossSection"
         return v
 
     def to_dict(self):
@@ -182,6 +183,7 @@ def cross_section(
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
+    add_pins: Optional[Callable] = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -203,6 +205,7 @@ def cross_section(
         start_straight_length: for routing
         end_straight_length: for routing
         snap_to_grid: can snap points to grid when extruding the path
+        add_pins: adds pins to each port.
     """
     info = dict(
         width=width,
@@ -223,7 +226,7 @@ def cross_section(
         port_names=port_names,
     )
 
-    x = CrossSection(info=info)
+    x = CrossSection(info=info, add_pins=add_pins)
     x.add(
         width=width,
         offset=0,
@@ -906,6 +909,7 @@ cross_section_factory = dict(
 
 if __name__ == "__main__":
     import gdsfactory as gf
+    from gdsfactory.add_pins import add_pins_siepic
 
     P = gf.path.straight()
     # P = gf.path.euler(radius=10, use_eff=True)
@@ -936,7 +940,7 @@ if __name__ == "__main__":
     # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["e1", "e2"])
     # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
 
-    X = rib_heater_doped(with_bot_heater=False)
+    X = rib_heater_doped(with_bot_heater=False, add_pins=add_pins_siepic)
     P = gf.path.straight(npoints=100, length=10)
 
     c = gf.path.extrude(P, X)
@@ -948,4 +952,4 @@ if __name__ == "__main__":
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # c.pprint_ports()
-    c.show()
+    c.show(show_ports=False)
