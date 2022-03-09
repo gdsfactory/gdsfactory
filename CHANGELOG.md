@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.3.8
+
+- move load_lyp_generic to try Except
+
 ## [4.3.7](https://github.com/gdsfactory/gdsfactory/pull/222)
 
 - add_pin_path now works with siepic
