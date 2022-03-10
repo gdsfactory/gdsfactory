@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentFactory
 
 
@@ -16,13 +16,12 @@ def mzit(
     w2: float = 0.55,
     dy: float = 2.0,
     delta_length: float = 10.0,
-    Ls: float = 1.0,
+    length: float = 1.0,
     coupler_length1: float = 5.0,
     coupler_length2: float = 10.0,
     coupler_gap1: float = 0.2,
     coupler_gap2: float = 0.3,
-    bend_radius: float = 10.0,
-    taper: ComponentFactory = taper,
+    taper: ComponentFactory = taper_function,
     taper_length: float = 5.0,
     bend90: ComponentFactory = bend_euler,
     straight: ComponentFactory = straight_function,
@@ -30,26 +29,26 @@ def mzit(
     coupler2: ComponentFactory = coupler_function,
     **kwargs,
 ) -> Component:
-    r"""Mzi tolerant to fab variations
-    based on Yufei Xing thesis http://photonics.intec.ugent.be/publications/PhD.asp?ID=250
+    r"""Mzi tolerant to fabrication variations.
+    based on Yufei Xing thesis
+    http://photonics.intec.ugent.be/publications/PhD.asp?ID=250
 
     Args:
-        w1: narrow wg_width
-        w2: wide wg_width
-        dy: port to port vertical spacing
-        delta_length: length difference between arms
-        Ls: shared length for w1 and w2
+        w1: narrow waveguide width (um).
+        w2: wide waveguide width (um).
+        dy: port to port vertical spacing.
+        delta_length: length difference between arms (um)
+        length: shared length for w1 and w2
         coupler_length1: length of coupler1
         coupler_length2: length of coupler2
         coupler_gap1: coupler1
         coupler_gap2: coupler2
-        bend_radius: 10.0
-        taper: taper library
-        taper_length:
-        bend90: bend_circular or library
-        straight: library
-        coupler1: coupler1 or library, can be None
-        coupler2: coupler2 or library
+        taper: taper function
+        taper_length: from w0 to w1
+        bend90: bend function
+        straight: function
+        coupler1: coupler1 function (optioonal)
+        coupler2: coupler2 function
         kwargs: cross_section settings
 
     .. code::
@@ -98,12 +97,10 @@ def mzit(
     t1.connect("o1", cp2.ports["o3"])
     b1t = c << bend90(
         width=w1,
-        radius=bend_radius,
         **kwargs,
     )
     b1b = c << bend90(
         width=w1,
-        radius=bend_radius,
         **kwargs,
     )
 
@@ -117,7 +114,7 @@ def mzit(
         **kwargs,
     )
     t3b.connect("o1", b1t.ports["o2"])
-    wgs2 = c << straight(width=w2, length=Ls, **kwargs)
+    wgs2 = c << straight(width=w2, length=length, **kwargs)
     wgs2.connect("o1", t3b.ports["o2"])
     t20i = c << taper(
         width1=w2,
@@ -146,12 +143,10 @@ def mzit(
 
     b2t = c << bend90(
         width=w2,
-        radius=bend_radius,
         **kwargs,
     )
     b2b = c << bend90(
         width=w2,
-        radius=bend_radius,
         **kwargs,
     )
 
@@ -171,7 +166,7 @@ def mzit(
         **kwargs,
     )
     t3t.connect("o1", wg2t.ports["o2"])
-    wgs1 = c << straight(width=w1, length=Ls, **kwargs)
+    wgs1 = c << straight(width=w1, length=length, **kwargs)
     wgs1.connect("o1", t3t.ports["o2"])
     t20o = c << taper(
         width1=w1,
