@@ -2,10 +2,8 @@ settings:
   changed: {}
   child: null
   default:
-    Ls: 1
     bend90:
       function: bend_euler
-    bend_radius: 10
     coupler1:
       function: coupler
     coupler2:
@@ -16,6 +14,7 @@ settings:
     coupler_length2: 10
     delta_length: 10
     dy: 2
+    length: 1
     straight:
       function: straight
     taper:
@@ -25,10 +24,8 @@ settings:
     w1: 0.45
     w2: 0.55
   full:
-    Ls: 1
     bend90:
       function: bend_euler
-    bend_radius: 10
     coupler1:
       function: coupler
     coupler2:
@@ -39,6 +36,7 @@ settings:
     coupler_length2: 10
     delta_length: 10
     dy: 2
+    length: 1
     straight:
       function: straight
     taper:
