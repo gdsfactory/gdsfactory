@@ -700,6 +700,8 @@ class Component(Device):
 
         try:
             import holoviews as hv
+
+            hv.extension("bokeh")
         except ImportError:
             print("you need to `pip install holoviews`")
 
