@@ -1,11 +1,11 @@
 connections:
-  bend_euler_4320041f_30p112_16p512,o1: bend_euler_4320041f_30p112_6p288,o2
-  bend_euler_4320041f_30p112_16p512,o2: taper_a8f0c5a3_22p5_21p4,o1
-  bend_euler_4320041f_30p112_6p288,o1: taper_1f59777d_22p5_1p4,o2
-  bend_euler_d805decb_33p138_18p538,o1: straight_714c2263_38p0_11p4,o2
-  bend_euler_d805decb_33p138_18p538,o2: straight_e1606af8_26p5_23p4,o1
-  bend_euler_d805decb_33p138_4p262,o1: straight_e1606af8_26p5_m0p6,o2
-  bend_euler_d805decb_33p138_4p262,o2: straight_714c2263_38p0_11p4,o1
+  bend_euler_d1578ff4_30p112_16p512,o1: bend_euler_d1578ff4_30p112_6p288,o2
+  bend_euler_d1578ff4_30p112_16p512,o2: taper_a8f0c5a3_22p5_21p4,o1
+  bend_euler_d1578ff4_30p112_6p288,o1: taper_1f59777d_22p5_1p4,o2
+  bend_euler_df359629_33p138_18p538,o1: straight_714c2263_38p0_11p4,o2
+  bend_euler_df359629_33p138_18p538,o2: straight_e1606af8_26p5_23p4,o1
+  bend_euler_df359629_33p138_4p262,o1: straight_e1606af8_26p5_m0p6,o2
+  bend_euler_df359629_33p138_4p262,o2: straight_714c2263_38p0_11p4,o1
   coupler_35cf121f_1p5_22p4,o3: taper_e53c3c15_16p5_23p4,o2
   coupler_35cf121f_1p5_22p4,o4: taper_64468ccd_16p5_21p4,o2
   coupler_a95c47ae_5p0_0p4,o3: taper_1f59777d_22p5_1p4,o1
@@ -17,9 +17,8 @@ connections:
   straight_e1606af8_26p5_23p4,o2: taper_5f48a32e_22p5_23p4,o1
   straight_e1606af8_26p5_m0p6,o1: taper_66f9ba3d_22p5_m0p6,o2
 instances:
-  bend_euler_4320041f_30p112_16p512:
+  bend_euler_d1578ff4_30p112_16p512:
     changed:
-      radius: 10
       width: 0.45
     child: null
     default:
@@ -38,7 +37,6 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10
       width: 0.45
       with_arc_floorplan: true
       with_cladding_box: true
@@ -50,10 +48,9 @@ instances:
       radius_min: 7.061
     info_version: 2
     module: gdsfactory.components.bend_euler
-    name: bend_euler_4320041f
-  bend_euler_4320041f_30p112_6p288:
+    name: bend_euler_d1578ff4
+  bend_euler_d1578ff4_30p112_6p288:
     changed:
-      radius: 10
       width: 0.45
     child: null
     default:
@@ -72,7 +69,6 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10
       width: 0.45
       with_arc_floorplan: true
       with_cladding_box: true
@@ -84,10 +80,9 @@ instances:
       radius_min: 7.061
     info_version: 2
     module: gdsfactory.components.bend_euler
-    name: bend_euler_4320041f
-  bend_euler_d805decb_33p138_18p538:
+    name: bend_euler_d1578ff4
+  bend_euler_df359629_33p138_18p538:
     changed:
-      radius: 10
       width: 0.55
     child: null
     default:
@@ -106,7 +101,6 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10
       width: 0.55
       with_arc_floorplan: true
       with_cladding_box: true
@@ -118,10 +112,9 @@ instances:
       radius_min: 7.061
     info_version: 2
     module: gdsfactory.components.bend_euler
-    name: bend_euler_d805decb
-  bend_euler_d805decb_33p138_4p262:
+    name: bend_euler_df359629
+  bend_euler_df359629_33p138_4p262:
     changed:
-      radius: 10
       width: 0.55
     child: null
     default:
@@ -140,7 +133,6 @@ instances:
       direction: ccw
       npoints: 720
       p: 0.5
-      radius: 10
       width: 0.55
       with_arc_floorplan: true
       with_cladding_box: true
@@ -152,7 +144,7 @@ instances:
       radius_min: 7.061
     info_version: 2
     module: gdsfactory.components.bend_euler
-    name: bend_euler_d805decb
+    name: bend_euler_df359629
   coupler_35cf121f_1p5_22p4:
     changed:
       dy: 2
@@ -528,22 +520,22 @@ instances:
     name: taper_e53c3c15
 name: mzit
 placements:
-  bend_euler_4320041f_30p112_16p512:
+  bend_euler_d1578ff4_30p112_16p512:
     mirror: false
     rotation: 90
     x: 35.0
     y: 11.4
-  bend_euler_4320041f_30p112_6p288:
+  bend_euler_d1578ff4_30p112_6p288:
     mirror: false
     rotation: 0
     x: 25.0
     y: 1.4
-  bend_euler_d805decb_33p138_18p538:
+  bend_euler_df359629_33p138_18p538:
     mirror: false
     rotation: 90
     x: 38.0
     y: 13.4
-  bend_euler_d805decb_33p138_4p262:
+  bend_euler_df359629_33p138_4p262:
     mirror: false
     rotation: 0
     x: 28.0
