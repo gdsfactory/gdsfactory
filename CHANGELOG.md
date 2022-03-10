@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [4.3.9]
+
+- add package data in setup.py
+- remove bend_radius from mzit
+
 ## 4.3.8
 
 - move load_lyp_generic to try Except
