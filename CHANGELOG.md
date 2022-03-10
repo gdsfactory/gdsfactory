@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [4.3.9]
+## [4.3.10]
 
 - add package data in setup.py
 - remove bend_radius from mzit
