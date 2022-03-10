@@ -42,4 +42,7 @@ setup(
         "basic": requirements,
         "dev": list(set(requirements + requirements_dev + requirements_full)),
     },
+    package_data={
+        "": ["*.gds", "*.yml", "*.lyp", "*.json"],
+    },
 )
