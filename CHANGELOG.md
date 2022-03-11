@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 4.4.0
+## [4.4.0](https://github.com/gdsfactory/gdsfactory/pull/227)
 
 - change siepic pin_length from 100nm to 10nm
 - absorb maintains labels
