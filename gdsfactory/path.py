@@ -335,8 +335,8 @@ def extrude(
     # c.info.cross_section = cross_section.info
     c.info["length"] = float(np.round(p.length(), 3))
 
-    if cross_section.add_pins:
-        c = cross_section.add_pins(c)
+    if cross_section.decorator:
+        c = cross_section.decorator(c) or c
 
     return c
 
