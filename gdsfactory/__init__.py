@@ -66,7 +66,7 @@ from gdsfactory.add_padding import (
     add_padding_container,
     get_padding_points,
 )
-from gdsfactory.add_pins import add_pins, add_pins_to_references
+from gdsfactory.add_pins import add_pins
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
@@ -90,7 +90,6 @@ __all__ = [
     "add_padding",
     "add_padding_container",
     "add_pins",
-    "add_pins_to_references",
     "add_ports",
     "add_tapers",
     "add_termination",
