@@ -54,7 +54,7 @@ class LayerMap:
     FLOORPLAN: Layer = (99, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
-    PORTE: Layer = (69, 0)
+    PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
     LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)

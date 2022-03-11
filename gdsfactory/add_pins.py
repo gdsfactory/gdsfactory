@@ -9,20 +9,23 @@ They without modifying the cell name
 
 """
 import json
+from functools import partial
 from typing import Callable, List, Optional, Tuple
 
 import gdspy
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
+from phidl.device_layout import Device as Component
+from phidl.device_layout import DeviceReference as ComponentReference
+from toolz import compose
 
-import gdsfactory as gf
-from gdsfactory.add_padding import get_padding_points
-from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 
 Layer = Tuple[int, int]
+nm = 1e-3
 
 
 def _rotate(v: ndarray, m: ndarray) -> ndarray:
@@ -270,10 +273,9 @@ def add_pin_rectangle(
 def add_pin_path(
     component: Component,
     port: Port,
-    pin_length: float = 0.1,
+    pin_length: float = 2 * nm,
     layer: Tuple[int, int] = LAYER.PORT,
-    layer_label: Optional[Tuple[int, int]] = LAYER.PORT,
-    port_margin: float = 0.0,
+    layer_label: Optional[Tuple[int, int]] = None,
 ) -> None:
     """Add half out path pin to a component.
 
@@ -283,9 +285,8 @@ def add_pin_path(
         component:
         port: Port
         pin_length: length of the pin marker for the port
-        layer: for the pin marker
-        layer_label: for the label
-        port_margin: margin to port edge
+        layer: for the pin marker.
+        layer_label: for the label. Defaults to layer.
 
 
     .. code::
@@ -302,6 +303,7 @@ def add_pin_path(
                  __
 
     """
+    layer_label = layer_label or layer
     p = port
     a = p.orientation
     ca = np.cos(a * np.pi / 180)
@@ -320,10 +322,9 @@ def add_pin_path(
     )
     component.add(path)
 
-    if layer_label:
-        component.add_label(
-            text=str(p.name), position=p.midpoint, layer=layer_label, anchor="sw"
-        )
+    component.add_label(
+        text=str(p.name), position=p.midpoint, layer=layer_label, anchor="sw"
+    )
 
 
 def add_outline(
@@ -344,6 +345,8 @@ def add_outline(
         right
         left
     """
+    from gdsfactory.add_padding import get_padding_points
+
     c = reference or component
     if hasattr(component, "parent"):
         component = component.parent
@@ -354,8 +357,9 @@ def add_outline(
 def add_pins_siepic(
     component: Component,
     function: Callable = add_pin_path,
-    layer_pin: Layer = (1, 10),
-    **kwargs,
+    port_type: str = "optical",
+    layer_pin: Layer = LAYER.PORT,
+    pin_length: float = 10 * nm,
 ) -> Component:
     """Add pins
     Enables you to run SiEPIC verification tools:
@@ -368,22 +372,23 @@ def add_pins_siepic(
     Args:
         component: to add pins.
         function: to add pin.
-        layer_pin: pin layer.
-
-    Keyword Args:
-        layer: select port GDS layer.
-        prefix: select ports with prefix with in port name.
-        orientation: select ports with orientation (degrees).
-        width: select_ports with width (um).
-        layers_excluded: List of layers to exclude.
         port_type: optical, electrical, ...
-        clockwise: if True, sort ports clockwise, False: counter-clockwise
+        layer_pin: pin layer.
+        pin_length: length of the pin marker for the port
+
+
     """
 
-    for p in component.get_ports_list(**kwargs):
-        function(component=component, port=p, layer=layer_pin, layer_label=layer_pin)
+    for p in component.get_ports_list(port_type=port_type):
+        function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
 
     return component
+
+
+add_pins_siepic_optical = add_pins_siepic
+add_pins_siepic_electrical = partial(
+    add_pins_siepic, port_type="electrical", layer_pin=LAYER.PORTE
+)
 
 
 def add_bbox_siepic(
@@ -397,7 +402,7 @@ def add_bbox_siepic(
     return component
 
 
-add_pins_bbox_siepic = gf.compose(add_pins_siepic, add_bbox_siepic)
+add_pins_bbox_siepic = compose(add_pins_siepic, add_bbox_siepic)
 
 
 def add_pins(
@@ -429,19 +434,7 @@ def add_pins(
         function(component=component, port=port, **kwargs)
 
 
-add_pins_triangle = gf.partial(add_pins, function=add_pin_triangle)
-
-
-@gf.cell
-def add_pins_container(
-    component: Component,
-    add_pins_function=add_pins_triangle,
-) -> Component:
-    c = Component()
-    ref = c << component
-    add_pins_function(component=c, reference=ref)
-    c.ref = ref
-    return c
+add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 
 
 def add_settings_label(
@@ -479,8 +472,8 @@ def add_instance_label(
         instance_name
         or f"{reference.parent.name},{int(reference.x)},{int(reference.y)}"
     )
-    x = gf.snap.snap_to_grid(reference.x)
-    y = gf.snap.snap_to_grid(reference.y)
+    x = snap_to_grid(reference.x)
+    y = snap_to_grid(reference.y)
 
     component.add_label(
         text=instance_name,
@@ -522,58 +515,18 @@ def add_pins_and_outline(
         add_instance_label_function(component=component, reference=reference)
 
 
-@gf.cell
-def add_pins_to_references(
-    component: Component,
-    function: Callable = add_pins_triangle,
-) -> Component:
-    """Add pins to Component references.
-
-    Args:
-        component: component to add pins to
-        references:
-        function: function to add pins
-    """
-    c = Component()
-    c.add_ref(component)
-
-    references = component.references
-
-    for reference in references:
-        function(component=c, reference=reference)
-
-    return c
-
-
-def test_add_pins() -> None:
-    c1 = gf.components.straight(length=2)
-    c2 = add_pins_container(component=c1)
-
-    p1 = len(c1.get_polygons())
-    p2 = len(c2.get_polygons())
-
-    assert p2 == p1 + 2
-    assert len(c2.polygons) == 2
-
-
 if __name__ == "__main__":
+    import gdsfactory as gf
+
     # c = test_add_pins()
     # c.show()
-
     # c = gf.components.straight(length=2)
-    # c = add_pins_container(component=c)
     # c.show(show_ports_suborts=True)
-
-    # c2 = add_pins_container(component=c1)
-
     # p1 = len(c1.get_polygons())
     # p2 = len(c2.get_polygons())
     # assert p2 == p1 + 2
-
     # c1 = gf.components.straight_heater_metal(length=2)
-    # c2 = add_pins_to_references(c1)
     c = gf.components.ring_single()
-    # cc = add_pins_to_references(component=c)
     # cc.show(show_ports=False)
     c.show(show_subports=True)
     c.show(show_ports=True)

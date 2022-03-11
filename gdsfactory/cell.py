@@ -6,13 +6,13 @@ import inspect
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import toolz
+from phidl.device_layout import Device
 from pydantic import BaseModel, validate_arguments
 
-from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
-CACHE: Dict[str, Component] = {}
+CACHE: Dict[str, Device] = {}
 INFO_VERSION = 2
 
 
@@ -151,7 +151,7 @@ def cell_without_validator(func):
                 dict(component.child.settings) if hasattr(component, "child") else None
             )
 
-            if not isinstance(component, Component):
+            if not isinstance(component, Device):
                 raise CellReturnTypeError(
                     f"function {func.__name__!r} return type = {type(component)}",
                     "make sure that functions with @cell decorator return a Component",
@@ -242,7 +242,7 @@ def cell(func, *args, **kwargs):
 
 
 @cell
-def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
+def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)):
     """Dummy component for testing."""
     from gdsfactory.component import Component
 
@@ -256,7 +256,7 @@ def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
 
 
 @cell
-def wg2(wg1=wg) -> Component:
+def wg2(wg1=wg):
     """Dummy component for testing."""
     from gdsfactory.component import Component
 
@@ -270,7 +270,7 @@ def wg2(wg1=wg) -> Component:
 
 
 @cell
-def wg3(wg1=wg2) -> Component:
+def wg3(wg1=wg2):
     """Dummy component for testing."""
     from gdsfactory.component import Component
 
@@ -289,8 +289,10 @@ def test_set_name() -> None:
 
 
 @cell
-def demo(length: int = 3, wg_width: float = 0.5) -> Component:
+def demo(length: int = 3, wg_width: float = 0.5):
     """Demo Dummy cell"""
+    from gdsfactory.component import Component
+
     c = Component()
     w = length
     h = wg_width

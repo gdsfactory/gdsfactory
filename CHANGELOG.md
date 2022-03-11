@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 4.4.0
+
+- change siepic pin_length from 100nm to 10nm
+- absorb maintains labels
+- rename add_pins to decorator in cross_section function and class
+- add add_pins_siepic_optical and add_pins_siepic_electrical
+- add PORTE: Layer = (1, 11)
+- remove add_pins_to_references and add_pins_container
+
 ## [4.3.10](https://github.com/gdsfactory/gdsfactory/pull/225)
 
 - add package data in setup.py
