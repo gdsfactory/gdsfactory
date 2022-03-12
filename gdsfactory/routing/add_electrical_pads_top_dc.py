@@ -3,9 +3,8 @@ from typing import Callable
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
-from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import select_ports_electrical
-from gdsfactory.routing.get_bundle import get_bundle
+from gdsfactory.routing.get_bundle import get_bundle_electrical
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.types import ComponentFactory, Float2
 
@@ -16,16 +15,18 @@ def add_electrical_pads_top_dc(
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentFactory = pad_array_function,
     select_ports: Callable = select_ports_electrical,
+    get_bundle_function: Callable = get_bundle_electrical,
     **kwargs,
 ) -> Component:
     """connects component electrical ports with pad array at the top
 
     Args:
-        component:
-        spacing: component to pad spacing
-        pad_array:
+        component: to connect to.
+        spacing: component to pad spacing.
+        pad_array: function for pad_array
         select_ports: function to select_ports
-        **kwargs: route settings
+        get_bundle_function: function to route bundle of ports
+        kwargs: route settings
     """
     c = Component()
 
@@ -45,7 +46,7 @@ def add_electrical_pads_top_dc(
     ports_component = sort_ports_x(ports_component)
     ports_pads = sort_ports_x(ports_pads)
 
-    routes = get_bundle(ports_component, ports_pads, bend=wire_corner, **kwargs)
+    routes = get_bundle_function(ports_component, ports_pads, **kwargs)
     for route in routes:
         c.add(route.references)
 
@@ -61,5 +62,5 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight_heater_metal(length=100.0)
-    cc = add_electrical_pads_top_dc(component=c, layer=(31, 0), width=10)
+    cc = add_electrical_pads_top_dc(component=c, width=10)
     cc.show()

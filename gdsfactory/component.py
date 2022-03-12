@@ -1074,15 +1074,16 @@ class Component(Device):
         """
         if reference not in self.references:
             raise ValueError(
-                """[PHIDL] Device.absorb() failed -
+                """[PHIDL] Component.absorb() failed -
                 the reference it was asked to absorb does not
-                exist in this Device. """
+                exist in this Component. """
             )
         ref_polygons = reference.get_polygons(by_spec=True)
         for (layer, polys) in ref_polygons.items():
             [self.add_polygon(points=p, layer=layer) for p in polys]
 
         self.add(reference.parent.labels)
+        self.add(reference.parent.paths)
         self.remove(reference)
         return self
 

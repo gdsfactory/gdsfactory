@@ -288,7 +288,7 @@ if __name__ == "__main__":
         component=c,
         auto_widen=False,
         with_loopback=True,
-        layer=(2, 0),
+        layer=(1, 0),
         zero_port="o2",
         loopback_xspacing=-50,
         # grating_coupler=[gf.components.grating_coupler_te, gf.components.grating_coupler_tm],
