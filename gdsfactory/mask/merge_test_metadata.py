@@ -1,9 +1,9 @@
 """Merge mask metadata with test labels to return test_metadata """
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.config import logger
 from gdsfactory.types import PathType
@@ -40,6 +40,8 @@ def merge_test_metadata(
     labels_path: PathType,
     mask_metadata: Dict[str, Any],
     labels_prefix: str = "opt",
+    get_cell_from_string=get_cell_from_label,
+    filepath: Optional[PathType] = None,
 ) -> DictConfig:
     """Returns a test metadata dict config of labeled cells
     by merging GDS labels in CSV and YAML mask metadata
@@ -48,6 +50,7 @@ def merge_test_metadata(
         labels_path: for test labels in CSV
         mask_metadata: dict with test metadata
         labels_prefix: only select labels with a text prefix
+        get_cell_from_string: returns label string
 
     .. code::
 
@@ -69,7 +72,7 @@ def merge_test_metadata(
     test_metadata = DictConfig({})
 
     for label, x, y in labels_list:
-        cell = get_cell_from_label(label)
+        cell = get_cell_from_string(label)
 
         if cell in cells_metadata:
             test_metadata[cell] = cells_metadata[cell]
@@ -78,12 +81,14 @@ def merge_test_metadata(
             logger.error(f"missing cell metadata for {cell!r}")
             warnings.warn(f"missing cell metadata for {cell!r}")
 
+    if filepath:
+        filepath = Path(filepath)
+        filepath.write_text(OmegaConf.to_yaml(test_metadata))
+
     return test_metadata
 
 
 if __name__ == "__main__":
-    from omegaconf import OmegaConf
-
     from gdsfactory import CONFIG
 
     labels_path = (
