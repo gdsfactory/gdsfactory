@@ -1981,7 +1981,7 @@ ring_single_dut
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_dut(wg_width=0.5, gap=0.2, length_x=4, radius=5, length_y=0, with_component=True)
+  c = gf.components.ring_single_dut(gap=0.2, length_x=4, length_y=0, radius=5.0, with_component=True, port_name='o1')
   c.plot()
 
 
@@ -2656,7 +2656,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='4.3.9', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='4.4.1', text_size=10)
   c.plot()
 
 
