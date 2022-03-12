@@ -9,6 +9,7 @@ from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 import pydantic
 from pydantic import BaseModel
 
+from gdsfactory.add_pins import add_pins_siepic_electrical, add_pins_siepic_optical
 from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
@@ -168,7 +169,7 @@ class Transition(CrossSection):
 def cross_section(
     width: float = 0.5,
     layer: Tuple[int, int] = (1, 0),
-    layer_bbox: Optional[Tuple[int, int]] = None,
+    layer_bbox: Optional[Tuple[int, int]] = (68, 0),
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -183,7 +184,7 @@ def cross_section(
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
-    decorator: Optional[Callable] = None,
+    decorator: Optional[Callable] = add_pins_siepic_optical,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -860,20 +861,15 @@ metal1 = partial(
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
+    decorator=add_pins_siepic_electrical,
 )
 metal2 = partial(
     metal1,
     layer=LAYER.M2,
-    width=10.0,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
 )
 metal3 = partial(
     metal1,
     layer=LAYER.M3,
-    width=10.0,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
 )
 
 

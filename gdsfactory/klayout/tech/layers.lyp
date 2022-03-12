@@ -732,23 +732,6 @@
   <source>67/0@1</source>
  </properties>
  <properties>
-  <frame-color>#004080</frame-color>
-  <fill-color>#004080</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>true</transparent>
-  <width>1</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>DEVREC 68/0</name>
-  <source>68/0@1</source>
- </properties>
- <properties>
   <frame-color>#000000</frame-color>
   <fill-color>#000000</fill-color>
   <frame-brightness>0</frame-brightness>
@@ -910,13 +893,47 @@
   <line-style/>
   <valid>true</valid>
   <visible>true</visible>
+  <transparent>true</transparent>
+  <width>1</width>
+  <marked>false</marked>
+  <xfill>false</xfill>
+  <animation>0</animation>
+  <name>DevRec</name>
+  <source>68/0@1</source>
+ </properties>
+ <properties>
+  <frame-color>#404040</frame-color>
+  <fill-color>#404040</fill-color>
+  <frame-brightness>0</frame-brightness>
+  <fill-brightness>0</fill-brightness>
+  <dither-pattern>I1</dither-pattern>
+  <line-style/>
+  <valid>true</valid>
+  <visible>true</visible>
+  <transparent>false</transparent>
+  <width/>
+  <marked>false</marked>
+  <xfill>false</xfill>
+  <animation>0</animation>
+  <name>PinRec</name>
+  <source>1/10@1</source>
+ </properties>
+ <properties>
+  <frame-color>#004080</frame-color>
+  <fill-color>#004080</fill-color>
+  <frame-brightness>0</frame-brightness>
+  <fill-brightness>0</fill-brightness>
+  <dither-pattern>I1</dither-pattern>
+  <line-style/>
+  <valid>true</valid>
+  <visible>true</visible>
   <transparent>false</transparent>
   <width>1</width>
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>PIN_ELECTRICAL 69/0</name>
-  <source>69/0@1</source>
+  <name>PinRecM</name>
+  <source>1/11@1</source>
  </properties>
  <properties>
   <frame-color/>
@@ -1376,23 +1393,6 @@
   <animation>0</animation>
   <name>ERROR_MARKER 207/0</name>
   <source>207/0@1</source>
- </properties>
- <properties>
-  <frame-color>#404040</frame-color>
-  <fill-color>#404040</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width/>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
-  <name>PIN 1/10</name>
-  <source>1/10@1</source>
  </properties>
  <properties>
   <frame-color>#808080</frame-color>
