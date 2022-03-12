@@ -39,10 +39,10 @@ settings:
     gap: 0.2
     length_x: 4
     length_y: 0
+    port_name: o1
     radius: 5
     straight:
       function: straight
-    wg_width: 0.5
     with_component: true
   full:
     bend:
@@ -55,10 +55,10 @@ settings:
     gap: 0.2
     length_x: 4
     length_y: 0
+    port_name: o1
     radius: 5
     straight:
       function: straight
-    wg_width: 0.5
     with_component: true
   function_name: ring_single_dut
   info: {}
