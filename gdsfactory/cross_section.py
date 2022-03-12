@@ -864,16 +864,10 @@ metal1 = partial(
 metal2 = partial(
     metal1,
     layer=LAYER.M2,
-    width=10.0,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
 )
 metal3 = partial(
     metal1,
     layer=LAYER.M3,
-    width=10.0,
-    port_names=port_names_electrical,
-    port_types=port_types_electrical,
 )
 
 
