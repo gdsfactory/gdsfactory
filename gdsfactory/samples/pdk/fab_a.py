@@ -27,6 +27,7 @@ mmi1x2 = gf.partial(
     width_mmi=3 * WIDTH,
     decorator=add_pins_siepic,
 )
+ring_single = gf.partial(gf.components.ring_single, cross_section=fab_a_metal)
 mzi = gf.partial(gf.components.mzi, cross_section=fab_a_metal, splitter=mmi1x2)
 gc = gf.partial(
     gf.components.grating_coupler_elliptical_te,
@@ -39,7 +40,8 @@ gc = gf.partial(
 if __name__ == "__main__":
 
     # c = gf.components.straight(length=20, cross_section=fab_a_metal)
-    c = mzi()
+    # c = mzi()
+    c = ring_single()
     wg_gc = gf.routing.add_fiber_array(
         component=c, grating_coupler=gc, cross_section=fab_a_metal
     )
