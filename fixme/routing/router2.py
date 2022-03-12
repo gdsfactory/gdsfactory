@@ -69,7 +69,7 @@ if __name__ == "__main__":
         c.add(routes_bend180.references)
 
         ports1 = ps.get_ports_list(port_type="electrical", orientation=180) + list(
-            routes_bend180.ports.values()
+            routes_bend180.ports
         )
         ports2 = pads.get_ports_list()
         ports1, ports2 = sort_ports(ports1, ports2)
@@ -78,7 +78,8 @@ if __name__ == "__main__":
         for port1, port2 in zip(ports1, ports2):
             c.add_label(position=port1.midpoint, text=port1.name)
             c.add_label(position=port2.midpoint, text=port1.name)
-        metal_routes = gf.routing.get_bundle(
+
+        metal_routes = gf.routing.get_bundle_electrical(
             ports1,
             ports2,
             width=metal_width,
