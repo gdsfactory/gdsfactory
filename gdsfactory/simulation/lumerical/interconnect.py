@@ -1,9 +1,7 @@
 from collections import OrderedDict
 from typing import Optional, Tuple
 
-import lumapi
 import numpy as np
-from lumapi import Lumerical
 from omegaconf import DictConfig
 
 c = 2.9979e8
@@ -11,7 +9,7 @@ pi = np.pi
 
 
 def add_interconnect_element(
-    inc: Lumerical,
+    inc: object,
     label: str,
     model: str,
     loc: Tuple[int, int] = (200.0, 200.0),
@@ -48,14 +46,15 @@ def add_interconnect_element(
 
 def send_to_interconnect(
     component,
-    session: Optional[Lumerical] = None,
+    session: Optional[object] = None,
     placements: dict = None,
     simulation_settings: OrderedDict = None,
     run: bool = True,
     drop_port_prefix: str = None,
     **settings
 ) -> None:
-    """
+    """Send component netlist to lumerical interconnect.
+
     Args:
         component: component from which to extract netlist
         session: Interconnect session
@@ -65,7 +64,9 @@ def send_to_interconnect(
         drop_port_prefix: if components are written with some prefix, drop up to and including
             the prefix character.  (i.e. "c1_input" -> "input")
     """
-    inc: Lumerical = session or lumapi.INTERCONNECT(hide=False)
+    import lumapi
+
+    inc = session or lumapi.INTERCONNECT(hide=False)
 
     inc.switchtolayout()
     inc.deleteall()
@@ -143,5 +144,3 @@ if __name__ == "__main__":
     )
 
     send_to_interconnect(c, simulation_settings=simulation_settings, run=False)
-
-    pass
