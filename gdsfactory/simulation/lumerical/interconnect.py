@@ -80,13 +80,12 @@ def send_to_interconnect(
     placements: DictConfig = netlist["placements"] if not placements else placements
 
     for i, instance in enumerate(instances):
-        model = instances[instance].model
-        # component_settings = instances[instance].settings
+        info = instances[instance].info
 
         add_interconnect_element(
             inc=inc,
             label=instance,
-            model=model,
+            model=info.model,
             loc=(placements[instance].x, placements[instance].y),
             rotation=placements[instance].rotation,
             # **component_settings
@@ -102,10 +101,10 @@ def send_to_interconnect(
 
         # EBeam ports are not named consistently between Klayout and Interconnect..
         # Best to use another
-        if hasattr(instances[element1]["info"], port1):
-            port1 = instances[element1]["info"][port1]
-        if hasattr(instances[element2]["info"], port2):
-            port2 = instances[element2]["info"][port2]
+        if hasattr(instances[element1].info, port1):
+            port1 = instances[element1].info[port1]
+        if hasattr(instances[element2].info, port2):
+            port2 = instances[element2].info[port2]
         inc.connect(element1, port1, element2, port2)
 
     if simulation_settings:
@@ -136,6 +135,8 @@ if __name__ == "__main__":
     gc3.connect(port="opt1", destination=s.ports["opt3"])
 
     c.show()
+
+    netlist = c.get_netlist()
 
     simulation_settings = OrderedDict(
         [
