@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.4.3
+
+- add port_name to ring_single_dut
+
 ## [4.4.2](https://github.com/gdsfactory/gdsfactory/pull/231)
 
 - Component.absorb keeps paths from absorbed reference
