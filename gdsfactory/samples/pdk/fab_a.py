@@ -1,6 +1,6 @@
-"""Lets for example customize the default gf.PDK
+"""Lets for example customize the default gdsfactory PDK
 
-Fab A is mostly defined using Metal layers in GDS layer (30, 0)
+Fab A is mostly defined using wide layers in GDS layer (1, 0)
 
 The metal layer traces are 2um wide
 
@@ -14,7 +14,7 @@ WIDTH = 2
 LAYER = (1, 0)
 
 fab_a_metal = gf.partial(
-    strip, width=WIDTH, layer=LAYER, layer_bbox=(68, 0), add_pins=add_pins_siepic
+    strip, width=WIDTH, layer=LAYER, layer_bbox=(68, 0), decorator=add_pins_siepic
 )
 
 straight = gf.partial(gf.components.straight, cross_section=fab_a_metal)
@@ -27,6 +27,7 @@ mmi1x2 = gf.partial(
     width_mmi=3 * WIDTH,
     decorator=add_pins_siepic,
 )
+ring_single = gf.partial(gf.components.ring_single, cross_section=fab_a_metal)
 mzi = gf.partial(gf.components.mzi, cross_section=fab_a_metal, splitter=mmi1x2)
 gc = gf.partial(
     gf.components.grating_coupler_elliptical_te,
@@ -39,7 +40,8 @@ gc = gf.partial(
 if __name__ == "__main__":
 
     # c = gf.components.straight(length=20, cross_section=fab_a_metal)
-    c = mzi()
+    # c = mzi()
+    c = ring_single()
     wg_gc = gf.routing.add_fiber_array(
         component=c, grating_coupler=gc, cross_section=fab_a_metal
     )
