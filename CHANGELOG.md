@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [4.4.2]
+
+- Component.absorb keeps paths from absorbed reference
+
 ## [4.4.0](https://github.com/gdsfactory/gdsfactory/pull/227)
 
 - change siepic pin_length from 100nm to 10nm
