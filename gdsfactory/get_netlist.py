@@ -96,6 +96,8 @@ def get_netlist(
         )
 
         instances[reference_name] = c.metadata
+        instances[reference_name]["info"] = c.info
+
         placements[reference_name] = dict(
             x=x,
             y=y,
