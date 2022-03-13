@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [4.4.4]
+
+- snap_to_grid straight waveguide length to reduce 1nm DRC snapping errors
+
 ## [4.4.3](https://github.com/gdsfactory/gdsfactory/pull/235)
 
 - document mask metadata merging
