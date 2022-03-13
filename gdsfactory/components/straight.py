@@ -3,6 +3,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionOrFactory
 
 
@@ -29,6 +30,7 @@ def straight(
                 length
 
     """
+    length = snap_to_grid(length)
     p = gf.path.straight(length=length, npoints=npoints)
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
 
@@ -36,7 +38,7 @@ def straight(
     path = gf.path.extrude(p, x)
     ref = c << path
     c.add_ports(ref.ports)
-    c.info["length"] = gf.snap.snap_to_grid(length)
+    c.info["length"] = length
     c.info["width"] = float(x.info["width"])
 
     if length > 0 and with_cladding_box and x.info["layers_cladding"]:
