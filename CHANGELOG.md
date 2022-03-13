@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 4.4.3
+
+- document mask metadata merging
 
 ## [4.4.2](https://github.com/gdsfactory/gdsfactory/pull/231)
 
