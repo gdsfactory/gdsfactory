@@ -1,6 +1,6 @@
 """Add labels to component ports."""
 
-from typing import Callable, Optional, Union
+from typing import Callable, Dict, List, Optional, Union
 
 import phidl.device_layout as pd
 
@@ -178,17 +178,18 @@ def add_siepic_labels(
     model: str = None,
     library: str = None,
     label_layer: Layer = (68, 0),
-    spice_params: dict = None,
+    spice_params: Union[Dict, List] = None,
     label_sep: float = 0.2,
 ) -> None:
     """
-
+    Adds labels to a component.
     Args:
         component: component
         model: name of component for SiEPIC label (defaults to component name)
         library: Lumerical Interconnect library for SiEPIC label
         label_layer: layer for writing SiEPIC labels
-        spice_params: spice parameters (in microns)
+        spice_params: spice parameters (in microns). Either pass in a dict with parameter, value pairs, or pass
+            in a list of values to extract from component info.
         label_sep: distance between labels
     """
     c = component
@@ -203,8 +204,11 @@ def add_siepic_labels(
     if spice_params:
         param_str = ""
         for param in spice_params:
-            dict_val = spice_params[param]
-            val = dict_val if dict_val is not None else c.metadata_child.info[param]
+            val = (
+                spice_params[param]
+                if isinstance(spice_params, dict)
+                else c.metadata_child.info[param]
+            )
             param_str += f"{param}={val:.3f}u "
         labels.append("Spice_param:" + param_str)
 
