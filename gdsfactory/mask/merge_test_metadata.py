@@ -1,22 +1,24 @@
 """Merge mask metadata with test labels to return test_metadata """
 import warnings
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 
 from gdsfactory.config import logger
 from gdsfactory.types import PathType
 
 
-def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
-    """Returns CSV labels."""
+def parse_csv_data(
+    csv_labels_path: Path, ignore_prefix: str = "METR_"
+) -> List[List[str]]:
+    """Returns CSV labels as a list of strings."""
     with open(csv_labels_path) as f:
         # Get all lines
         lines = [line.replace("\n", "") for line in f.readlines()]
 
         # Ignore labels for metrology structures
-        lines = [line for line in lines if not line.startswith("METR_")]
+        lines = [line for line in lines if not line.startswith(ignore_prefix)]
 
         # Split lines in fields
         lines = [line.split(",") for line in lines]
@@ -30,7 +32,11 @@ def parse_csv_data(csv_labels_path: Path) -> List[List[str]]:
 
 def get_cell_from_label(label: str) -> str:
     """get cell name from the label (cell_name is in parenthesis)"""
-    cell_name = label.split("(")[1].split(")")[0]
+    try:
+        cell_name = label.split("(")[1].split(")")[0]
+    except IndexError:
+        raise ValueError(f"{label!r} needs (cell name) between parenthesis")
+
     if cell_name.startswith("loopback"):
         cell_name = "_".join(cell_name.split("_")[1:])
     return cell_name
@@ -40,14 +46,18 @@ def merge_test_metadata(
     labels_path: PathType,
     mask_metadata: Dict[str, Any],
     labels_prefix: str = "opt",
+    get_cell_from_string=get_cell_from_label,
+    filepath: Optional[PathType] = None,
 ) -> DictConfig:
     """Returns a test metadata dict config of labeled cells
     by merging GDS labels in CSV and YAML mask metadata
 
     Args:
-        labels_path: for test labels in CSV
-        mask_metadata: dict with test metadata
-        labels_prefix: only select labels with a text prefix
+        labels_path: for test labels in CSV.
+        mask_metadata: dict with test metadata.
+        labels_prefix: only select labels with a text prefix.
+        get_cell_from_string: returns label string.
+        filepath: Optional path to write test metadata.
 
     .. code::
 
@@ -69,7 +79,7 @@ def merge_test_metadata(
     test_metadata = DictConfig({})
 
     for label, x, y in labels_list:
-        cell = get_cell_from_label(label)
+        cell = get_cell_from_string(label)
 
         if cell in cells_metadata:
             test_metadata[cell] = cells_metadata[cell]
@@ -78,18 +88,21 @@ def merge_test_metadata(
             logger.error(f"missing cell metadata for {cell!r}")
             warnings.warn(f"missing cell metadata for {cell!r}")
 
+    if filepath:
+        filepath = Path(filepath)
+        filepath.write_text(OmegaConf.to_yaml(test_metadata))
+
     return test_metadata
 
 
 if __name__ == "__main__":
-    from omegaconf import OmegaConf
+    # from gdsfactory import CONFIG
 
-    from gdsfactory import CONFIG
-
-    labels_path = (
-        CONFIG["samples_path"] / "mask_pack" / "build" / "mask" / "sample_mask.csv"
-    )
-    mask_metadata_path = labels_path.with_suffix(".yml")
-    mask_metadata = OmegaConf.load(mask_metadata_path)
-    d = merge_test_metadata(labels_path=labels_path, mask_metadata=mask_metadata)
-    print(d)
+    # labels_path = (
+    #     CONFIG["samples_path"] / "mask_pack" / "build" / "mask" / "sample_mask.csv"
+    # )
+    # mask_metadata_path = labels_path.with_suffix(".yml")
+    # mask_metadata = OmegaConf.load(mask_metadata_path)
+    # d = merge_test_metadata(labels_path=labels_path, mask_metadata=mask_metadata)
+    # print(d)
+    print(get_cell_from_label("opt_te1550_demo"))
