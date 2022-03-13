@@ -66,6 +66,7 @@ def bend_euler(
     c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
     c.info["radius_min"] = float(snap_to_grid(p.info["Rmin"]))
     c.info["radius"] = float(radius)
+    c.info["wg_width"] = x.info["width"]
 
     if with_cladding_box and x.info["layers_cladding"]:
         layers_cladding = x.info["layers_cladding"]

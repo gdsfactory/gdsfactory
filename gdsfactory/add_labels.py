@@ -173,6 +173,47 @@ def add_labels(
     return component
 
 
+def add_siepic_labels(
+    component: Component,
+    model: str = None,
+    library: str = None,
+    label_layer: Layer = (68, 0),
+    spice_params: dict = None,
+    label_sep: float = 0.2,
+) -> None:
+    """
+
+    Args:
+        component: component
+        model: name of component for SiEPIC label (defaults to component name)
+        library: Lumerical Interconnect library for SiEPIC label
+        label_layer: layer for writing SiEPIC labels
+        spice_params: spice parameters (in microns)
+        label_sep: distance between labels
+    """
+    c = component
+
+    labels = list()
+    if model:
+        labels.append(
+            f"Component={model}",
+        )
+    if library:
+        labels.append(f"Lumerical_INTERCONNECT_library={library}")
+    if spice_params:
+        param_str = ""
+        for param in spice_params:
+            dict_val = spice_params[param]
+            val = dict_val if dict_val is not None else c.metadata_child.info[param]
+            param_str += f"{param}={val:.3f}u "
+        labels.append("Spice_param:" + param_str)
+
+    for i, text in enumerate(labels):
+        c.add_label(
+            text=text, position=(0, i * label_sep), layer=label_layer, anchor="w"
+        )
+
+
 if __name__ == "__main__":
     c = gf.components.mzi_phase_shifter()
     # add_labels_ports(c, c.get_ports_list(port_type="electrical"), prefix="pad_")
