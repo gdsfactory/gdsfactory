@@ -136,10 +136,24 @@ def run_wavelength_sweep(
     extra_ona_props: dict = None,
     **kwargs,
 ):
+    """
+    Args:
+        component:
+        session:
+        port_in: specify the port in the Interconnect model to attach the ONA output to
+        ports_out: specify the ports in the Interconnect models to attach the ONA input to
+        wavelength_range:
+        n_points:
+        results:
+        extra_ona_props:
+        kwargs:
+
+    """
     import lumapi
 
     inc = session if session else lumapi.INTERCONNECT()
 
+    # Add Monte-Carlo params
     inc.addproperty("::Root Element", "MC_uniformity_thickness", "wafer", "Matrix")
     inc.addproperty("::Root Element", "MC_uniformity_width", "wafer", "Matrix")
     inc.addproperty("::Root Element", "MC_non_uniform", "wafer", "Number")
@@ -227,6 +241,7 @@ if __name__ == "__main__":
 
     gc1_netlist_instance_name = get_instance_name(component, gc1)
     gc2_netlist_instance_name = get_instance_name(component, gc2)
+
     ports_out = (
         (gc2_netlist_instance_name, "opt_fiber"),
         (gc1_netlist_instance_name, "opt_wg"),
