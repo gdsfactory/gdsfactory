@@ -17,7 +17,6 @@ def delay_snake_sbend(
     sbend: ComponentFactory = bend_s,
     sbend_xsize: float = 100.0,
     straight: ComponentFactory = straight_function,
-    print_min_bend_radius: bool = False,
     **kwargs,
 ) -> Component:
     r"""Return compact Snake with sbend in the middle.
@@ -33,7 +32,6 @@ def delay_snake_sbend(
           sbend:
           sbend_size:
           straight:
-          print_min_bend_radius: prints sbend min_bend_radius
           kwargs: cross_section settings
 
       .. code::
@@ -57,8 +55,6 @@ def delay_snake_sbend(
     c = Component()
     bend = bend(radius=(radius + waveguide_spacing) / 2, angle=180, **kwargs)
     sbend = sbend(size=(sbend_xsize, radius), **kwargs)
-    if print_min_bend_radius:
-        print(sbend.info["min_bend_radius"])
 
     b1 = c << bend
     b2 = c << bend
@@ -76,6 +72,7 @@ def delay_snake_sbend(
             f"length2 = {length2} < 0. You need to reduce length1 = {length1} "
             f"or length3 = {length3} or increase length = {length}"
         )
+
     straight1 = straight(length=length1, **kwargs)
     straight2 = straight(length=length2, **kwargs)
     straight3 = straight(length=length3, **kwargs)
