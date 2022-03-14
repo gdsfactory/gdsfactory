@@ -17,7 +17,18 @@ from gdsfactory.types import Optional, PathType
 def find_labels(
     gdspath: Path, layer_label: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
-    """finds labels and locations from a GDS file"""
+    """Return text label and locations iterator from a GDS file.
+
+    Args:
+        gdspath: for the gds
+        layer_label:
+        prefix:
+
+    Returns
+        string:
+        x: x position.
+        y: y position.
+    """
     import klayout.db as pya
 
     # Load the layout
@@ -50,7 +61,16 @@ def write_labels(
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load  GDS mask and extracts the labels and coordinates from a GDS file"""
+    """Load  GDS mask and extracts the labels and coordinates from a GDS file.
+    Returns CSV filepath
+
+    Args:
+        gdspath:
+        layer_label:
+        filepath: for CSV file. Defaults to gdspath with CSV
+        prefix: for the labels
+
+    """
     labels = list(find_labels(gdspath, layer_label=layer_label, prefix=prefix))
     gdspath = pathlib.Path(gdspath)
 
