@@ -58,6 +58,13 @@ def add_fidutials_offsets(
     fidutial: ComponentFactory = cross,
     offsets: Coordinates = ((0, 100), (0, -100)),
 ) -> Component:
+    """Returns new component with fidutials from a list of offsets.
+
+    Args:
+        component: add reference to component to the new Component
+        fidutial: function to return fidutial
+        offsets: list of offsets
+    """
 
     c = Component()
     component = component() if callable(component) else component
