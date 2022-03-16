@@ -145,4 +145,7 @@ doc:
 git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
 
+link:
+	ln -sf $(PWD)/gdsfactory/klayout/tech $(HOME)/.klayout/tech/generic
+
 .PHONY: gdsdiff build conda
