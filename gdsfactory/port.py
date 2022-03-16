@@ -386,6 +386,7 @@ def select_ports(
     ports: Dict[str, Port],
     layer: Optional[Tuple[int, int]] = None,
     prefix: Optional[str] = None,
+    suffix: Optional[str] = None,
     orientation: Optional[int] = None,
     width: Optional[float] = None,
     layers_excluded: Optional[Tuple[Tuple[int, int], ...]] = None,
@@ -398,6 +399,7 @@ def select_ports(
         ports: Dict[str, Port] a port dict {port name: port}
         layer: port GDS layer
         prefix: port name prefix
+        suffix: port name suffix
         orientation: in degrees
         width: port width
         layers_excluded: List of layers to exclude
@@ -420,6 +422,10 @@ def select_ports(
     if prefix:
         ports = {
             p_name: p for p_name, p in ports.items() if str(p_name).startswith(prefix)
+        }
+    if suffix:
+        ports = {
+            p_name: p for p_name, p in ports.items() if str(p_name).endswith(suffix)
         }
     if orientation is not None:
         ports = {
