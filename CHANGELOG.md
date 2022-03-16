@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [4.4.5]
+## [4.4.5](https://github.com/gdsfactory/gdsfactory/pull/238)
 
 - remove absorb from coupler ring and coupler90
 - [update interconnect plugin](https://github.com/gdsfactory/gdsfactory/pull/237)
