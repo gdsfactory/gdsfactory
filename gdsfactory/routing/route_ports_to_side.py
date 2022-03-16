@@ -114,6 +114,8 @@ def route_ports_to_x(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
+    dx_start: float = 0.0,
+    dy_start: float = 0.0,
     **routing_func_args,
 ) -> Tuple[List[Route], List[Port]]:
     """
@@ -168,16 +170,16 @@ def route_ports_to_x(
     y0_bottom -= extend_bottom
 
     if y0_top is None:
-        y0_top = max(ys) + a
+        y0_top = max(ys) + max(radius, dy_start)
     y0_top += extend_top
 
     if x == "west" and extension_length > 0:
         extension_length = -extension_length
 
     if x == "east":
-        x = max([p.x for p in list_ports]) + a
+        x = max([p.x for p in list_ports]) + max(radius, dx_start)
     elif x == "west":
-        x = min([p.x for p in list_ports]) - a
+        x = min([p.x for p in list_ports]) - max(radius, dx_start)
     elif isinstance(x, (float, int)):
         pass
     else:
