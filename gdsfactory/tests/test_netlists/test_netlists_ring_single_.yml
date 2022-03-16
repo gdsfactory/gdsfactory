@@ -35,6 +35,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      wg_width: 0.5
     info_version: 2
     module: gdsfactory.components.bend_euler
     name: bend_euler_2e0a66fe
@@ -67,6 +68,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      wg_width: 0.5
     info_version: 2
     module: gdsfactory.components.bend_euler
     name: bend_euler_2e0a66fe
