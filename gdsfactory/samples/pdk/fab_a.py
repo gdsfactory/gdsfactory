@@ -13,36 +13,39 @@ from gdsfactory.cross_section import strip
 WIDTH = 2
 LAYER = (1, 0)
 
-fab_a_metal = gf.partial(
-    strip, width=WIDTH, layer=LAYER, layer_bbox=(68, 0), decorator=add_pins_siepic
+
+add_pins = gf.partial(add_pins_siepic, pin_length=0.1)
+
+xs_strip = gf.partial(
+    strip, width=WIDTH, layer=LAYER, layer_bbox=(68, 0), decorator=add_pins
 )
 
-straight = gf.partial(gf.components.straight, cross_section=fab_a_metal)
-bend_euler = gf.partial(gf.components.bend_euler, cross_section=fab_a_metal)
+straight = gf.partial(gf.components.straight, cross_section=xs_strip)
+bend_euler = gf.partial(gf.components.bend_euler, cross_section=xs_strip)
 mmi1x2 = gf.partial(
     gf.components.mmi1x2,
-    cross_section=fab_a_metal,
+    cross_section=xs_strip,
     width=WIDTH,
     width_taper=WIDTH,
     width_mmi=3 * WIDTH,
-    decorator=add_pins_siepic,
+    decorator=add_pins,
 )
-ring_single = gf.partial(gf.components.ring_single, cross_section=fab_a_metal)
-mzi = gf.partial(gf.components.mzi, cross_section=fab_a_metal, splitter=mmi1x2)
+ring_single = gf.partial(gf.components.ring_single, cross_section=xs_strip)
+mzi = gf.partial(gf.components.mzi, cross_section=xs_strip, splitter=mmi1x2)
 gc = gf.partial(
     gf.components.grating_coupler_elliptical_te,
     layer=LAYER,
     wg_width=WIDTH,
-    decorator=add_pins_siepic,
+    decorator=add_pins,
 )
 
 
 if __name__ == "__main__":
 
-    # c = gf.components.straight(length=20, cross_section=fab_a_metal)
-    # c = mzi()
-    c = ring_single()
+    # c = gf.components.straight(length=20, cross_section=xs_strip)
+    c = mzi()
+    # c = ring_single()
     wg_gc = gf.routing.add_fiber_array(
-        component=c, grating_coupler=gc, cross_section=fab_a_metal
+        component=c, grating_coupler=gc, cross_section=xs_strip
     )
     wg_gc.show(show_ports=False)
