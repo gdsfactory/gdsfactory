@@ -62,9 +62,6 @@ def coupler90(
     pbw = bend_ref.ports["o1"]
     bend_ref.movey(pbw.midpoint[1] + gap + width)
 
-    c.absorb(wg_ref)
-    c.absorb(bend_ref)
-
     c.add_port("o1", port=wg_ref.ports["o1"])
     c.add_port("o4", port=wg_ref.ports["o2"])
     c.add_port("o2", port=bend_ref.ports["o1"])
