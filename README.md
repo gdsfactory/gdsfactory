@@ -92,7 +92,13 @@ What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
 
 How can you learn more?
 
-gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html), [youTube videos](https://www.youtube.com/c/anthonywritescode) and [courses](https://github.com/joamatab/practical-python) available online.
+gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many free online resources to learn:
+
+- [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)
+- [youTube videos](https://www.youtube.com/c/anthonywritescode)
+- courses
+    - [scientific computing](https://nbviewer.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-0-Scientific-Computing-with-Python.ipynb)
+    - [python](https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/01_Python.html)
 
 ## Installation
 

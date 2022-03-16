@@ -84,10 +84,6 @@ def coupler_ring(
     cbl.reflect(p1=(0, y), p2=(1, y))
     cbl.connect(port="o2", destination=cs.ports["o2"])
 
-    # c.absorb(cbl)
-    # c.absorb(cbr)
-    # c.absorb(cs)
-
     c.add_port("o1", port=cbl.ports["o3"])
     c.add_port("o2", port=cbl.ports["o4"])
     c.add_port("o3", port=cbr.ports["o3"])

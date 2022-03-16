@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [4.4.5]
+
+- remove absorb from coupler ring and coupler90
+- [update interconnect plugin](https://github.com/gdsfactory/gdsfactory/pull/237)
+- [add siepic labels to components](https://github.com/gdsfactory/gdsfactory/pull/234)
+
 ## [4.4.4](https://github.com/gdsfactory/gdsfactory/pull/236)
 
 - snap_to_grid straight waveguide length to reduce 1nm DRC snapping errors
