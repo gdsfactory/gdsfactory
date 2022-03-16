@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [4.4.6]
+
+- fix klive macro to maintain position and do not reload layers. Make sure you run `gf tool install` to update your macro after you update to the latest gdsfactory version.
+
 ## [4.4.5](https://github.com/gdsfactory/gdsfactory/pull/238)
 
 - remove absorb from coupler ring and coupler90
