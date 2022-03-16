@@ -38,6 +38,7 @@ def add_interconnect_element(
         flip_vert:
         flip_horiz:
         rotation:
+        extra_props:
 
     """
     props = OrderedDict(
@@ -61,6 +62,7 @@ def send_to_interconnect(
     placements: dict = None,
     simulation_settings: OrderedDict = None,
     drop_port_prefix: str = None,
+    component_distance_scaling: float = 1,
     **settings,
 ) -> object:
     """Send all components in netlist to Interconnect and make connections according to netlist.
@@ -70,9 +72,9 @@ def send_to_interconnect(
         session: Interconnect session
         placements: x,y pairs for where to place the components in the Interconnect GUI
         simulation_settings: global settings for Interconnect simulation
-        run: whether to run or return the Interconnect sesson
         drop_port_prefix: if components are written with some prefix, drop up to and including
             the prefix character.  (i.e. "c1_input" -> "input")
+        component_distance_scaling: scaling factor for component distances when laying out Interconnect schematic
     """
     import sys
 
@@ -99,7 +101,10 @@ def send_to_interconnect(
             session=inc,
             label=instance,
             model=info.model,
-            loc=(50 * placements[instance].x, 50 * placements[instance].y),
+            loc=(
+                component_distance_scaling * placements[instance].x,
+                component_distance_scaling * placements[instance].y,
+            ),
             rotation=placements[instance].rotation,
             extra_props=extra_props,
         )
@@ -109,8 +114,15 @@ def send_to_interconnect(
         element1, port1 = connections[connection].split(",")
 
         if drop_port_prefix:
-            port1 = port1[port1.index(drop_port_prefix) + 1 :]
-            port2 = port2[port2.index(drop_port_prefix) + 1 :]
+            # a bad way to autodetect which ports need to have prefixes dropped..
+            try:
+                port1 = port1[port1.index(drop_port_prefix) + 1 :]
+            except:
+                pass
+            try:
+                port2 = port2[port2.index(drop_port_prefix) + 1 :]
+            except:
+                pass
 
         # EBeam ports are not named consistently between Klayout and Interconnect..
         if hasattr(instances[element1].info, port1):
@@ -135,7 +147,7 @@ def run_wavelength_sweep(
     results: Tuple = ("transmission",),
     extra_ona_props: dict = None,
     **kwargs,
-):
+) -> dict:
     """
     Args:
         component:
@@ -198,10 +210,9 @@ def run_wavelength_sweep(
             port: inc.getresult(ona.name, f"input {i+1}/mode 1/{result}")
             for i, port in enumerate(ports_out)
         }
-    # df = pd.DataFrame.from_dict(data)
 
     # inc.close()
-    return data, session
+    return data
 
 
 if __name__ == "__main__":
@@ -246,7 +257,7 @@ if __name__ == "__main__":
         (gc2_netlist_instance_name, "opt_fiber"),
         (gc1_netlist_instance_name, "opt_wg"),
     )
-    results, session = run_wavelength_sweep(
+    results = run_wavelength_sweep(
         component=component,
         port_in=(gc1_netlist_instance_name, "opt_fiber"),
         ports_out=ports_out,
