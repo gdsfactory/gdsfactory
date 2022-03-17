@@ -257,6 +257,8 @@ def write_sparameters_meep(
         distance_source_to_monitors: in (um).
         port_source_offset: offset between source Component port and source MEEP port
         port_monitor_offset: offset between monitor Component port and monitor MEEP port
+        material_name_to_meep: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with meep material database names.
 
     Returns:
         sparameters in a pandas Dataframe (wavelengths, s11a, s12m, ...)
@@ -386,6 +388,7 @@ def write_sparameters_meep(
             port_monitor_offset=port_monitor_offset,
             port_source_offset=port_source_offset,
             dispersive=dispersive,
+            layer_stack=layer_stack,
             **settings,
         )
 
