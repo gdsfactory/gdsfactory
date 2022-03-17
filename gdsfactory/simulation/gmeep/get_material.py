@@ -4,10 +4,11 @@ import meep as mp
 import meep.materials as mat
 import numpy as np
 
-# Dictionary for materials with different names in Meep
+# map materials layer_stack name with Meep material database name
 MATERIAL_NAME_TO_MEEP = {
     "si": "Si",
     "sin": "Si3N4_NIR",
+    "sio2": "SiO2",
 }
 
 MATERIALS = [m for m in dir(mat) if not m.startswith("_")]
@@ -26,6 +27,8 @@ def get_material(
         wavelength: wavelength (um)
         dispersive: True for built-in Meep index model,
             False for simple, non-dispersive model
+        material_name_to_meep: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with meep material database names.
 
     Note:
         Using the built-in models can be problematic at low resolution.
@@ -35,20 +38,29 @@ def get_material(
     material_name_to_meep = MATERIAL_NAME_TO_MEEP.copy()
     material_name_to_meep.update(**material_name_to_meep_new)
 
-    materials_lower = [material.lower() for material in MATERIALS]
+    materials = [material.lower() for material in MATERIALS]
+    name = name.lower()
 
-    if name in MATERIAL_NAME_TO_MEEP.keys():
-        name = MATERIAL_NAME_TO_MEEP[name]
-    if name.lower() not in materials_lower:
-        raise ValueError(f"material, name = {name!r} not in {MATERIALS}")
-
-    name = MATERIALS[materials_lower.index(name.lower())]
-    medium = getattr(mat, name)
-
-    if dispersive:
-        return medium
+    if name in material_name_to_meep.keys():
+        name_or_index = material_name_to_meep[name]
     else:
-        return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
+        raise ValueError(
+            f"name = {name!r} not in material_name_to_meep {list(material_name_to_meep.keys())}"
+        )
+
+    if isinstance(name_or_index, str):
+        name = name_or_index.lower()
+        if name not in materials:
+            raise ValueError(f"material, name = {name!r} not in {MATERIALS}")
+        name = MATERIALS[materials.index(name)]
+        medium = getattr(mat, name)
+        if dispersive:
+            return medium
+        else:
+            return mp.Medium(epsilon=medium.epsilon(1 / wavelength)[0][0])
+    else:
+        index = name_or_index
+        return mp.Medium(epsilon=index ** 2)
 
 
 def get_index(
