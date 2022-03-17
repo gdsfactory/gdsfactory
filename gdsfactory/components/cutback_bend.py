@@ -35,6 +35,7 @@ def cutback_bend(
         rows:
         columns:
         straight: function for straight
+        kwargs: cross_section settings
 
     keyword args:
         cross_section:
@@ -51,10 +52,8 @@ def cutback_bend(
 
     """
 
-    bend90 = gf.call_if_func(bend90)
-    straightx = straight(
-        length=straight_length, width=bend90.ports["o1"].width, **kwargs
-    )
+    bend90 = bend90(**kwargs) if callable(bend90) else bend90
+    straightx = straight(length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -85,8 +84,17 @@ def cutback_bend90(
     columns: int = 6,
     spacing: int = 5,
     straight: ComponentFactory = straight_function,
+    **kwargs
 ) -> Component:
-    """
+    """Returns bend90 loss.
+
+    Args:
+        bend90:
+        straight_length:
+        rows:
+        columns:
+        straight: function for straight
+        kwargs: cross_section settings
 
     .. code::
 
@@ -94,14 +102,12 @@ def cutback_bend90(
         |_| |
 
     """
-    bend90 = gf.call_if_func(bend90)
-    straightx = straight(length=straight_length, width=bend90.ports["o1"].width)
+    bend90 = bend90(**kwargs) if callable(bend90) else bend90
+
+    straightx = straight(length=straight_length, **kwargs)
 
     straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-    straighty = straight(
-        length=straight_length,
-        width=bend90.ports["o1"].width,
-    )
+    straighty = straight(length=straight_length, **kwargs)
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (bend90, "o1", "o2"),
@@ -134,11 +140,23 @@ def staircase(
     length_h: float = 5.0,
     rows: int = 4,
     straight: ComponentFactory = straight_function,
+    **kwargs
 ) -> Component:
-    bend90 = gf.call_if_func(bend90)
+    """Returns staircase.
 
-    wgh = straight(length=length_h, width=bend90.ports["o1"].width)
-    wgv = straight(length=length_v, width=bend90.ports["o1"].width)
+    Args:
+        bend90:
+        straight_length:
+        rows:
+        columns:
+        straight: function for straight
+        kwargs: cross_section settings
+
+    """
+    bend90 = bend90(**kwargs) if callable(bend90) else bend90
+
+    wgh = straight(length=length_h, **kwargs)
+    wgv = straight(length=length_v, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -166,8 +184,18 @@ def cutback_bend180(
     columns: int = 6,
     spacing: int = 3,
     straight: ComponentFactory = straight_function,
+    **kwargs
 ) -> Component:
-    """
+    """Return cutback to measure u bend loss.
+
+    Args:
+        bend180:
+        straight_length:
+        rows:
+        columns:
+        spacing:
+        straight:
+        kwargs: cross_section settings
 
     .. code::
 
@@ -177,12 +205,11 @@ def cutback_bend180(
         _ this is a column
 
     """
-    bend180 = gf.call_if_func(bend180)
+    bend180 = bend180(**kwargs) if callable(bend180) else bend180
 
-    straightx = straight(length=straight_length, width=bend180.ports["o1"].width)
+    straightx = straight(length=straight_length, **kwargs)
     wg_vertical = straight(
-        length=2 * bend180.size_info.width + straight_length + spacing,
-        width=bend180.ports["o1"].width,
+        length=2 * bend180.size_info.width + straight_length + spacing, **kwargs
     )
 
     # Define a map between symbols and (component, input port, output port)
