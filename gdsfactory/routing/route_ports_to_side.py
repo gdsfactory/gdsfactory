@@ -114,6 +114,8 @@ def route_ports_to_x(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
+    dx_start: float = None,
+    dy_start: float = None,
     **routing_func_args,
 ) -> Tuple[List[Route], List[Port]]:
     """
@@ -141,7 +143,8 @@ def route_ports_to_x(
                     (bottom to top)
                 all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
-
+        dx_start: override minimum starting x distance
+        dx_start: override minimum starting y distance
     Returns:
         routes: list of routes
         ports: list of the new optical ports
@@ -168,16 +171,16 @@ def route_ports_to_x(
     y0_bottom -= extend_bottom
 
     if y0_top is None:
-        y0_top = max(ys) + a
+        y0_top = max(ys) + (max(radius, dy_start) if dy_start else a)
     y0_top += extend_top
 
     if x == "west" and extension_length > 0:
         extension_length = -extension_length
 
     if x == "east":
-        x = max([p.x for p in list_ports]) + a
+        x = max([p.x for p in list_ports]) + (max(radius, dx_start) if dx_start else a)
     elif x == "west":
-        x = min([p.x for p in list_ports]) - a
+        x = min([p.x for p in list_ports]) - (max(radius, dx_start) if dx_start else a)
     elif isinstance(x, (float, int)):
         pass
     else:
