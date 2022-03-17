@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.4.8
+
+- add cross_section settings to cutback_bend
+
 ## 4.4.7
 
 - add dx_start and dy_start to route ports to side [PR](https://github.com/gdsfactory/gdsfactory/pull/242/files) when using route_ports_to_side to route up and to the left/right, the minimum distance of the bottom route could not be less than the separation between routes. This adds options to override this behavior and use the larger of dx_start/dy_start and the radius instead.

@@ -36,6 +36,9 @@ settings:
     gap: 50
     left:
       function: cross
+    offset:
+    - 0
+    - 0
     right:
       function: cross
     top: null
@@ -46,6 +49,9 @@ settings:
     gap: 50
     left:
       function: cross
+    offset:
+    - 0
+    - 0
     right:
       function: cross
     top: null
