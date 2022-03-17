@@ -1,8 +1,12 @@
 # CHANGELOG
 
-## 4.4.8
+## 4.4.14
 
-- add cross_section settings to cutback_bend
+- add cross_section settings to cutback_bend [PR](https://github.com/gdsfactory/gdsfactory/pull/246)
+
+## 4.4.13
+
+- add [klayout SALT package](https://github.com/gdsfactory/gdsfactory/issues/240)
 
 ## 4.4.7
 
