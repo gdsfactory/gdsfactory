@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [4.4.7]
+
+- add dx_start and dy_start to route ports to side [PR](https://github.com/gdsfactory/gdsfactory/pull/242/files) when using route_ports_to_side to route up and to the left/right, the minimum distance of the bottom route could not be less than the separation between routes. This adds options to override this behavior and use the larger of dx_start/dy_start and the radius instead.
+- add suffix option to select ports [PR](https://github.com/gdsfactory/gdsfactory/pull/243)
+- Interconnect improvements [PR](https://github.com/gdsfactory/gdsfactory/pull/241)
+- fix gdsfactory meep interface, it works now with different layer stacks
+
 ## [4.4.6](https://github.com/gdsfactory/gdsfactory/pull/239)
 
 - fix klive macro to maintain position and do not reload layers. Make sure you run `gf tool install` to update your macro after you update to the latest gdsfactory version.

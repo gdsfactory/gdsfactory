@@ -1,11 +1,10 @@
 """Returns simulation from component."""
 import inspect
 import warnings
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 import meep as mp
 import numpy as np
-import pydantic
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -19,7 +18,6 @@ sig = inspect.signature(mp.Simulation)
 settings_meep = set(sig.parameters.keys())
 
 
-@pydantic.validate_arguments
 def get_simulation(
     component: Component,
     resolution: int = 30,
@@ -41,6 +39,7 @@ def get_simulation(
     port_source_offset: float = 0,
     port_monitor_offset: float = 0,
     dispersive: bool = False,
+    material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
     **settings,
 ) -> Dict[str, Any]:
     r"""Returns Simulation dict from gdsfactory Component
@@ -106,6 +105,8 @@ def get_simulation(
         port_source_offset: offset between source GDS port and source MEEP port
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port
         dispersive: use dispersive material models (requires higher resolution)
+        material_name_to_meep: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with meep material database names.
 
     Keyword Args:
         settings: other parameters for sim object (resolution, symmetries, etc.)
@@ -137,6 +138,8 @@ def get_simulation(
     component_ref = component.ref()
     component_ref.x = 0
     component_ref.y = 0
+
+    wavelength = (wavelength_start + wavelength_stop) / 2
 
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     port_names = list(component_ref.ports.keys())
@@ -187,6 +190,11 @@ def get_simulation(
         if layer in layer_to_thickness
     ]
 
+    assert (
+        len(layers_thickness) > 0
+    ), f"Component layers {component.layers} not in {layer_to_thickness.keys()}. "
+    "Did you passed the correct layer_stack?"
+
     t_core = max(layers_thickness)
     cell_thickness = tpml + zmargin_bot + t_core + zmargin_top + tpml if is_3d else 0
 
@@ -207,7 +215,12 @@ def get_simulation(
             for polygon in polygons:
                 vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
                 material_name = layer_to_material[layer]
-                material = get_material(name=material_name, dispersive=dispersive)
+                material = get_material(
+                    name=material_name,
+                    dispersive=dispersive,
+                    material_name_to_meep=material_name_to_meep,
+                    wavelength=wavelength,
+                )
                 geometry.append(
                     mp.Prism(
                         vertices=vertices,
@@ -269,7 +282,11 @@ def get_simulation(
         boundary_layers=[mp.PML(tpml)],
         sources=sources,
         geometry=geometry,
-        default_material=get_material(name=clad_material),
+        default_material=get_material(
+            name=clad_material,
+            material_name_to_meep=material_name_to_meep,
+            wavelength=wavelength,
+        ),
         resolution=resolution,
         **settings,
     )
