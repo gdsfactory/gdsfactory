@@ -73,7 +73,7 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     dest_folder = dest.parent
     dest_folder.mkdir(exist_ok=True, parents=True)
 
-    if dest.exists():
+    if dest.exists() or dest.is_symlink():
         print(f"removing {dest} already installed")
         if dest.is_dir():
             shutil.rmtree(dest)
