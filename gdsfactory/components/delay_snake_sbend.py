@@ -20,40 +20,43 @@ def delay_snake_sbend(
     **kwargs,
 ) -> Component:
     r"""Return compact Snake with sbend in the middle.
-      Input port faces west and output port faces east.
+    Input port faces west and output port faces east.
 
-      Args:
-          length: total length
-          length1: first straight section length
-          length3: third straight section length
-          radius: u bend radius
-          waveguide_spacing: waveguide pitch
-          bend:
-          sbend:
-          sbend_size:
-          straight:
-          kwargs: cross_section settings
+    Args:
+        length: total length
+        length1: first straight section length
+        length3: third straight section length
+        radius: u bend radius
+        waveguide_spacing: waveguide pitch
+        bend:
+        sbend:
+        sbend_size:
+        straight:
+        kwargs: cross_section settings
 
-      .. code::
-                       length1
-    <-------------------------------
-             length2    spacing    |
-              _______              |
-             |        \            |
-             |          \          | bend1 radius
-             |            \sbend   |
-        bend2|              \      |
-             |                \    |
-             |                  \__|
-             |
-             ---------------------->----------->
-                 length3              length4
+    .. code::
 
-      We adjust length2 and length3
+                         length1
+         <----------------------------
+               length2    spacing    |
+                _______              |
+               |        \            |
+               |          \          | bend1 radius
+               |            \sbend   |
+          bend2|              \      |
+               |                \    |
+               |                  \__|
+               |
+               ---------------------->----------->
+                   length3              length4
+
+        We adjust length2 and length3
     """
 
     c = Component()
-    bend = bend(radius=(radius + waveguide_spacing) / 2, angle=180, **kwargs)
+
+    bend180_radius = (radius + waveguide_spacing) / 2
+    bend = bend(radius=bend180_radius, angle=180, **kwargs)
     sbend = sbend(size=(sbend_xsize, radius), **kwargs)
 
     b1 = c << bend
@@ -96,6 +99,7 @@ def delay_snake_sbend(
     c.add_port("o2", port=s4.ports["o2"])
 
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
+    c.info["bend180_radius"] = bend180_radius
     return c
 
 
