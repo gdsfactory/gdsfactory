@@ -11,7 +11,7 @@
  <shortcut/>
  <show-in-menu>true</show-in-menu>
  <group-name/>
- <menu-path/>
+ <menu-path>gdsfactory</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>from __future__ import print_function
