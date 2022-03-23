@@ -203,6 +203,9 @@ def get_simulation(
         if layer in layer_to_thickness
     ]
 
+    if len(layer_to_thickness) < 1:
+        raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
+
     t_core = max(layers_thickness)
     cell_thickness = (
         thickness_pml + t_core + thickness_pml + 2 * zmargin
