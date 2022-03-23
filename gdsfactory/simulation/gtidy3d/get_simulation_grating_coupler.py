@@ -230,6 +230,9 @@ def get_simulation_grating_coupler(
         if layer in layer_to_thickness
     ]
 
+    if len(layer_to_thickness) < 1:
+        raise ValueError(f"{component.get_layers()} not in {layer_to_thickness.keys()}")
+
     wg_thickness = max(layers_thickness)
     sim_xsize = component_ref.xsize + 2 * thickness_pml
     sim_zsize = (

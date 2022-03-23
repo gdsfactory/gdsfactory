@@ -11,7 +11,7 @@
  <shortcut>Ctrl+Shift+D</shortcut>
  <show-in-menu>true</show-in-menu>
  <group-name/>
- <menu-path>soen_menu.drc.end</menu-path>
+ <menu-path>gdsfactory.drc</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>drc-dsl-xml</dsl-interpreter-name>
  <text># generic DRC
