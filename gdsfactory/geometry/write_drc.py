@@ -81,12 +81,11 @@ def write_layer_definition(layer_map: Dict[str, Layer]) -> str:
 
 
 def write_drc_deck(rules: List[str], layer_map: Dict[str, Layer]) -> str:
-    """Returns drc_rule_deck for klayou
+    """Returns drc_rule_deck for klayout.
 
     Args:
         rules: list of rules
         layer_map: layer definitions can be dict or dataclass
-
     """
     script = []
     script += write_layer_definition(layer_map=layer_map)
@@ -96,16 +95,18 @@ def write_drc_deck(rules: List[str], layer_map: Dict[str, Layer]) -> str:
 
 
 def write_drc_deck_macro(
-    name="generic",
+    name: str = "generic",
     filepath: Optional[PathType] = None,
     shortcut: str = "Ctrl+Shift+D",
     **kwargs,
 ) -> str:
-    """Write script for klayout rule deck
+    """Write klayout DRC macro.
+    You can customize the shortcut to run the DRC macro from the Klayout GUI.
 
     Args:
         name: drc rule deck name
         filepath: Optional macro path (defaults to .klayout/drc/name.lydrc)
+        shortcut: to run macro from klayout GUI
 
     Keyword Args:
         rules: list of rules
@@ -152,7 +153,7 @@ threads(3)
     filepath = filepath or get_klayout_path() / "drc" / f"{name}.lydrc"
     filepath = pathlib.Path(filepath)
     filepath.write_text(script)
-    logger.info(f"Wrote DRC deck to {filepath}")
+    logger.info(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
     return script
 
 
