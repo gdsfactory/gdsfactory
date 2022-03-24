@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.4.15
+
+- fix add_pins_siepic order [PR](https://github.com/gdsfactory/gdsfactory/pull/248)
+
 ## 4.4.14
 
 - add cross_section settings to cutback_bend [PR](https://github.com/gdsfactory/gdsfactory/pull/246)
