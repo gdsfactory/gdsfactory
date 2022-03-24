@@ -151,6 +151,8 @@ threads(3)
 </klayout-macro>
 """
     filepath = filepath or get_klayout_path() / "drc" / f"{name}.lydrc"
+    dirpath = filepath.parent
+    dirpath.mkdir(parents=True, exist_ok=True)
     filepath = pathlib.Path(filepath)
     filepath.write_text(script)
     logger.info(f"Wrote DRC deck to {str(filepath)!r} with shortcut {shortcut!r}")
