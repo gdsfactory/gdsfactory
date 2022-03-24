@@ -310,8 +310,8 @@ def add_pin_path(
     sa = np.sin(a * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
 
-    d0 = np.array([+pin_length / 2, 0])
-    d1 = np.array([-pin_length / 2, 0])
+    d0 = np.array([-pin_length / 2, 0])
+    d1 = np.array([+pin_length / 2, 0])
 
     p0 = p.position + _rotate(d0, rot_mat)
     p1 = p.position + _rotate(d1, rot_mat)
