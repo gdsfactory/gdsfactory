@@ -60,6 +60,36 @@ class Label(LabelPhidl):
         return v
 
 
+Float2 = Tuple[float, float]
+Float3 = Tuple[float, float, float]
+Floats = Tuple[float, ...]
+Strs = Tuple[str, ...]
+Int2 = Tuple[int, int]
+Int3 = Tuple[int, int, int]
+Ints = Tuple[int, ...]
+
+Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
+ComponentFactory = Callable[..., Component]
+ComponentFactoryDict = Dict[str, ComponentFactory]
+PathFactory = Callable[..., Path]
+PathType = Union[str, pathlib.Path]
+PathTypes = Tuple[PathType, ...]
+
+ComponentOrFactory = Union[ComponentFactory, Component]
+ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
+ComponentOrPath = Union[PathType, Component]
+ComponentOrReference = Union[Component, ComponentReference]
+NameToFunctionDict = Dict[str, ComponentFactory]
+Number = Union[float, int]
+Coordinate = Tuple[float, float]
+Coordinates = Tuple[Coordinate, ...]
+ComponentOrPath = Union[Component, PathType]
+CrossSectionFactory = Callable[..., CrossSection]
+CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
+PortSymmetries = Dict[str, Dict[str, List[str]]]
+
+
 class Route(BaseModel):
     references: List[ComponentReference]
     labels: Optional[List[Label]] = None
@@ -96,44 +126,21 @@ class RouteModel(BaseModel):
 
 
 class CircuitModel(BaseModel):
-    instances: Dict[str, ComponentModel]
     name: Optional[str] = None
-    placements: Optional[Dict[str, PlacementModel]] = None
-    connections: Optional[List[Dict[str, str]]] = None
-    routes: Optional[Dict[str, RouteModel]] = None
-    info: Optional[Dict[str, Any]] = None
+    info: Dict[str, Any] = {}
+    instances: Dict[str, ComponentModel] = {}
+    placements: Dict[str, PlacementModel] = {}
+    connections: List[Dict[str, str]] = []
+    routes: Dict[str, RouteModel] = {}
+    factory: Dict[str, ComponentFactory] = {}
+
+    def add_instance(self, name: str, component: str, **settings) -> None:
+        assert component in factory.keys()
+        component_model = ComponentModel(component=component, settings=settings)
+        self.instances[name] = component_model
 
 
-Float2 = Tuple[float, float]
-Float3 = Tuple[float, float, float]
-Floats = Tuple[float, ...]
-Strs = Tuple[str, ...]
-Int2 = Tuple[int, int]
-Int3 = Tuple[int, int, int]
-Ints = Tuple[int, ...]
-
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
 RouteFactory = Callable[..., Route]
-ComponentFactory = Callable[..., Component]
-ComponentFactoryDict = Dict[str, ComponentFactory]
-PathFactory = Callable[..., Path]
-PathType = Union[str, pathlib.Path]
-PathTypes = Tuple[PathType, ...]
-
-ComponentOrFactory = Union[ComponentFactory, Component]
-ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
-ComponentOrPath = Union[PathType, Component]
-ComponentOrReference = Union[Component, ComponentReference]
-NameToFunctionDict = Dict[str, ComponentFactory]
-Number = Union[float, int]
-Coordinate = Tuple[float, float]
-Coordinates = Tuple[Coordinate, ...]
-ComponentOrPath = Union[Component, PathType]
-CrossSectionFactory = Callable[..., CrossSection]
-CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-PortSymmetries = Dict[str, Dict[str, List[str]]]
-
 
 __all__ = (
     "ComponentFactory",
@@ -176,4 +183,8 @@ def write_schema(model: BaseModel = CircuitModel):
 
 
 if __name__ == "__main__":
-    write_schema()
+    from gdsfactory.components import factory
+
+    c = CircuitModel(factory=factory)
+    c.add_instance("mmi1", "mmi1x2", length=13.3)
+    # write_schema()
