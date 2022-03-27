@@ -114,6 +114,23 @@ def merge_gds(
     c.show()
 
 
+# netlist driven flow
+
+
+@click.group()
+def yaml() -> None:
+    """Commands for building components from YAML"""
+    pass
+
+
+@click.command()
+def ide() -> None:
+    """Opens YAML based IDE."""
+    os.chdir(CONFIG["module_path"] / "icyaml")
+    command = shlex.split("make debug")
+    subprocess.call(command)
+
+
 # MASKS
 
 
@@ -174,8 +191,6 @@ def write_mask_labels(gdspath: str, layer_label) -> None:
 
 
 # EXTRA
-
-
 @click.command()
 @click.argument("filename")
 def show(filename: str) -> None:
@@ -243,9 +258,12 @@ tool.add_command(config_get)
 tool.add_command(test)
 tool.add_command(install)
 
+yaml.add_command(ide)
+
 gf.add_command(gds)
 gf.add_command(tool)
 gf.add_command(mask)
+gf.add_command(yaml)
 
 
 if __name__ == "__main__":
