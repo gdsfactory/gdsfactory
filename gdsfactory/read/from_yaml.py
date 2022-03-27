@@ -423,6 +423,7 @@ def from_yaml(
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     cross_section_factory: Dict[str, CrossSectionFactory] = cross_section_factory,
     label_instance_function: Callable = add_instance_label,
+    cache: bool = False,
     **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML file or string.
@@ -433,6 +434,7 @@ def from_yaml(
         component_factory: dict of functions {factory_name: factory_function}
         routing_strategy: for links
         label_instance_function: to label each instance
+        cache: stores and retrieves components from the cache
         kwargs: cache, prefix, autoname ... to pass to all factories
 
     Returns:
@@ -520,7 +522,7 @@ def from_yaml(
         "name",
         f"Unnamed_{hashlib.md5(json.dumps(OmegaConf.to_container(conf)).encode()).hexdigest()[:8]}",
     )
-    if name in CACHE:
+    if cache and name in CACHE:
         return CACHE[name]
     else:
         c = Component(name)
