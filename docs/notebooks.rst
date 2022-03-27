@@ -10,7 +10,6 @@ Layout Tutorial
    notebooks/00_geometry.ipynb
    notebooks/01_references.ipynb
    notebooks/02_movement.ipynb
-   notebooks/02_pack.ipynb
    notebooks/03_cells_autoname_and_cache.ipynb
    notebooks/03_layers.ipynb
    notebooks/03_waveguides_paths_crossections.ipynb

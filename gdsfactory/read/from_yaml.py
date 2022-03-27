@@ -511,7 +511,8 @@ def from_yaml(
 
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
-        assert key in valid_top_level_keys, f"{key} not in {list(valid_top_level_keys)}"
+        if key not in valid_top_level_keys:
+            raise ValueError(f"{key} not in {list(valid_top_level_keys)}")
 
     instances = {}
     routes = {}
@@ -534,9 +535,10 @@ def from_yaml(
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component_type = instance_conf["component"]
-        assert (
-            component_type in component_factory
-        ), f"{component_type} not in {list(component_factory.keys())}"
+        if component_type not in component_factory:
+            raise ValueError(
+                f"{component_type} not in {list(component_factory.keys())}"
+            )
 
         settings = instance_conf.get("settings", {})
         settings = OmegaConf.to_container(settings, resolve=True) if settings else {}

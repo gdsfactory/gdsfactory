@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 4.5.0
+
+- `gf yaml ide` brings up dashboard to build YAML based circuits
+
 ## 4.4.15
 
 - fix add_pins_siepic order [PR](https://github.com/gdsfactory/gdsfactory/pull/248)
