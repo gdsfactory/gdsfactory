@@ -113,7 +113,7 @@ def validate_yaml(schema, yaml_text):
         if schema is not None:
             try:
                 jsonschema.validate(yaml_dict, schema)
-                c = from_yaml(yaml_text, cache=False)
+                c = from_yaml(yaml_text)
                 c.show()
                 return class_name + " is-valid", ""
             except ValueError as e:

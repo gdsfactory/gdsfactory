@@ -133,9 +133,10 @@ class CircuitModel(BaseModel):
     connections: List[Dict[str, str]] = []
     routes: Dict[str, RouteModel] = {}
     factory: Dict[str, ComponentFactory] = {}
+    module: str = "gdsfactory.components"
 
     def add_instance(self, name: str, component: str, **settings) -> None:
-        assert component in factory.keys()
+        assert component in self.factory.keys()
         component_model = ComponentModel(component=component, settings=settings)
         self.instances[name] = component_model
 
@@ -175,16 +176,18 @@ def write_schema(model: BaseModel = CircuitModel):
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    f1 = pathlib.Path(__file__).parent / "schema.yaml"
+    dirpath = pathlib.Path(__file__).parent / "icyaml" / "defaults"
+
+    f1 = dirpath / "schema.yaml"
     f1.write_text(OmegaConf.to_yaml(d))
 
-    f2 = pathlib.Path(__file__).parent / "schema.json"
+    f2 = dirpath / "schema.json"
     f2.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
 if __name__ == "__main__":
-    from gdsfactory.components import factory
+    # from gdsfactory.components import factory
+    # c = CircuitModel(factory=factory)
+    # c.add_instance("mmi1", "mmi1x2", length=13.3)
 
-    c = CircuitModel(factory=factory)
-    c.add_instance("mmi1", "mmi1x2", length=13.3)
-    # write_schema()
+    write_schema()
