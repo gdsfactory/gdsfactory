@@ -1,9 +1,18 @@
+"""read Sparameters from CSV file and return sax model.
+
+TODO: write dat to csv converter
+(from lumerical interconnect to SAX format and the other way around)
+"""
+
+from functools import partial
+
 import numpy as np
 import pandas as pd
 from sax.typing_ import Float, SDict
 from scipy.interpolate import interp1d
 
 import gdsfactory as gf
+from gdsfactory.config import sparameters_path
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path_lumerical
 from gdsfactory.types import PathType
 
@@ -72,26 +81,32 @@ def sdict_from_component_lumerical(component, **kwargs):
 mmi1x2 = gf.partial(sdict_from_component_lumerical, component=gf.components.mmi1x2)
 mmi2x2 = gf.partial(sdict_from_component_lumerical, component=gf.components.mmi2x2)
 
-# gc = gf.partial(sdict_from_csv, filepath=sparameters_path / "gc2dte" / "gc1550.csv")
-# TODO: write dat to csv converter
+grating_coupler_elliptical = gf.partial(
+    sdict_from_csv,
+    filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv",
+)
+
+
+model_factory = dict(
+    mmi1x2=mmi1x2, mmi2x2=mmi2x2, grating_coupler_elliptical=grating_coupler_elliptical
+)
 
 
 if __name__ == "__main__":
-    from functools import partial
 
     import matplotlib.pyplot as plt
     from plot_model import plot_model
-
-    import gdsfactory as gf
 
     # s = from_csv(filepath=filepath, wavelength=wl_cband, xunits=1e-3)
     # s21 = s[("o1", "o3")]
     # plt.plot(wl_cband, np.abs(s21) ** 2)
     # plt.show()
+    # filepath = get_sparameters_path_lumerical(gf.c.mmi1x2)
+    # mmi = partial(sdict_from_csv, filepath=filepath, xkey="wavelengths")
+    # plot_model(mmi)
+    # plt.show()
 
-    filepath = get_sparameters_path_lumerical(gf.c.mmi1x2)
-    mmi = partial(sdict_from_csv, filepath=filepath, xkey="wavelengths")
-    plot_model(mmi)
+    plot_model(grating_coupler_elliptical)
     plt.show()
 
     # model = partial(
