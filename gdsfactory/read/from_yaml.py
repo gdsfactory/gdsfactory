@@ -443,6 +443,7 @@ def from_yaml(
     .. code::
 
         valid properties:
+
         name: Optional Component name
         vars: Optional variables
         info: Optional component info

@@ -1,7 +1,8 @@
 title: NetlistModel
-description: "Netlist defined component.\n\nAttributes:\n    instances: name, component\
-  \ and settings\n    placements:\n    routes:\n    name: component model\n    info:\n\
-  \    settings:"
+description: "Netlist defined component.\n\nAttributes:\n    instances: dict of instances\
+  \ (name, settings, component).\n    placements: dict of placements.\n    routes:\
+  \ dict of routes.\n    name: component model\n    info: information (polarization,\
+  \ wavelength ...).\n    vars: input variables."
 type: object
 properties:
   instances:
@@ -36,9 +37,8 @@ properties:
   vars:
     title: Vars
     type: object
-  factory_import:
-    title: Factory Import
-    default: from gdsfactory.components import factory
+  pdk:
+    title: Pdk
     type: string
 required:
 - instances
