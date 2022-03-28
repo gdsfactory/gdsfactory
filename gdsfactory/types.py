@@ -132,9 +132,10 @@ class NetlistModel(BaseModel):
         instances: dict of instances (name, settings, component).
         placements: dict of placements.
         routes: dict of routes.
-        name: component model
+        name: component model.
         info: information (polarization, wavelength ...).
         vars: input variables.
+        pdk: pdk module name.
     """
 
     instances: Dict[str, ComponentModel]

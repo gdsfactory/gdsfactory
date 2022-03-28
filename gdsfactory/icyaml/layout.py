@@ -40,7 +40,7 @@ navbar = dbc.NavbarSimple(
 
 yaml_col = dbc.Col(
     [
-        html.H2("YAML", className="mt-3"),
+        html.H2("YAML Netlist", className="mt-3"),
         dbc.Textarea(
             id="yaml_text",
             className="form-control",
