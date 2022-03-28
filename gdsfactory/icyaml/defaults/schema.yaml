@@ -1,4 +1,7 @@
-title: CircuitModel
+title: NetlistModel
+description: "Netlist defined component.\n\nAttributes:\n    instances: name, component\
+  \ and settings\n    placements:\n    routes:\n    name: component model\n    info:\n\
+  \    settings:"
 type: object
 properties:
   instances:
@@ -6,9 +9,6 @@ properties:
     type: object
     additionalProperties:
       $ref: '#/definitions/ComponentModel'
-  name:
-    title: Name
-    type: string
   placements:
     title: Placements
     type: object
@@ -16,6 +16,7 @@ properties:
       $ref: '#/definitions/PlacementModel'
   connections:
     title: Connections
+    default: []
     type: array
     items:
       type: object
@@ -26,11 +27,23 @@ properties:
     type: object
     additionalProperties:
       $ref: '#/definitions/RouteModel'
+  name:
+    title: Name
+    type: string
   info:
     title: Info
     type: object
+  vars:
+    title: Vars
+    type: object
+  factory_import:
+    title: Factory Import
+    default: from gdsfactory.components import factory
+    type: string
 required:
 - instances
+- placements
+- routes
 definitions:
   ComponentModel:
     title: ComponentModel

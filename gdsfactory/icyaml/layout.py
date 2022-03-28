@@ -12,11 +12,10 @@ SCHEMA_REF_URL = "https://json-schema.org/draft/2019-09/json-schema-validation.h
 
 theme = dbc.themes.UNITED
 
-defaults_path = Path(__file__).parent.joinpath("defaults")
 
-
-with open(defaults_path.joinpath("default.yaml"), "r") as f:
-    default_yaml = f.read()
+dirpath = Path(__file__).parent.joinpath("defaults")
+schema_path = dirpath / "default.yaml"
+default_yaml = schema_path.read_text()
 
 navbar = dbc.NavbarSimple(
     [
@@ -47,7 +46,7 @@ yaml_col = dbc.Col(
             className="form-control",
             placeholder="Enter the YAML content here...",
             value=default_yaml,
-            rows=20,
+            rows=50,
             spellCheck=False,
             wrap="off",
             persistence=True,
@@ -55,8 +54,8 @@ yaml_col = dbc.Col(
         ),
         html.Div("", id="yaml_feedback", className="invalid-feedback"),
     ],
-    width=12,
-    xl=6,
+    # width=12,
+    # xl=6,
 )
 
 

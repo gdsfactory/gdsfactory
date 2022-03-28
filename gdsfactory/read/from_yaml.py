@@ -432,10 +432,10 @@ def from_yaml(
         yaml: YAML IO describing Component file or string (with newlines)
           (instances, placements, routes, ports, connections, names)
         component_factory: dict of functions {factory_name: factory_function}
-        routing_strategy: for links
-        label_instance_function: to label each instance
-        cache: stores and retrieves components from the cache
-        kwargs: cache, prefix, autoname ... to pass to all factories
+        routing_strategy: for each route.
+        label_instance_function: to label each instance.
+        cache: stores and retrieves components from the cache.
+        kwargs: prefix, autoname ... to pass to all factories.
 
     Returns:
         Component

@@ -2,6 +2,7 @@
 https://github.com/DrGFreeman/YAMLDash
 """
 
+import json
 import webbrowser
 from multiprocessing import cpu_count
 from pathlib import Path
@@ -11,10 +12,9 @@ import jsonschema
 import yaml
 from dash.dependencies import Input, Output
 
+from gdsfactory.config import logger
 from gdsfactory.icyaml.layout import layout, theme
 from gdsfactory.read.from_yaml import from_yaml
-
-ascii_title = "YAML IC"
 
 app = dash.Dash(
     __name__,
@@ -23,12 +23,12 @@ app = dash.Dash(
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
     ],
 )
-defaults_path = Path(__file__).parent.joinpath("defaults")
 
-with open(defaults_path.joinpath("schema.yaml"), "r") as f:
-    schema_text = f.read()
+dirpath = Path(__file__).parent.joinpath("defaults")
+schema_path = dirpath / "schema.json"
+schema_dict = json.loads(schema_path.read_text())
 
-schema_dict = yaml.safe_load(schema_text)
+logger.info(f"Loaded schema from {str(schema_path)!r}")
 
 wsgi_app = app.server
 app.title = "ICYAML- Interactive IC based YAML Validator"
@@ -41,8 +41,7 @@ def run_debug():
 
 
 def run():
-
-    print(ascii_title)
+    print("YAML IC")
     webbrowser.open("127.0.0.1:8080", new=2)
 
     try:
