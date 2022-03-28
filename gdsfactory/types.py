@@ -144,10 +144,9 @@ class NetlistModel(BaseModel):
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
     vars: Optional[Dict[str, Any]] = None
+    pdk: Optional[str] = None
 
-    factory_import: str = "from gdsfactory.components import factory"
     # factory: Dict[str, ComponentFactory] = {}
-
     # def add_instance(self, name: str, component: str, **settings) -> None:
     #     assert component in self.factory.keys()
     #     component_model = ComponentModel(component=component, settings=settings)
