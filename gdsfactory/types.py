@@ -125,20 +125,40 @@ class RouteModel(BaseModel):
     routing_strategy: Optional[str] = None
 
 
-class CircuitModel(BaseModel):
-    name: Optional[str] = None
-    info: Dict[str, Any] = {}
-    instances: Dict[str, ComponentModel] = {}
-    placements: Dict[str, PlacementModel] = {}
-    connections: List[Dict[str, str]] = []
-    routes: Dict[str, RouteModel] = {}
-    factory: Dict[str, ComponentFactory] = {}
-    module: str = "gdsfactory.components"
+class NetlistModel(BaseModel):
+    """Netlist defined component.
 
-    def add_instance(self, name: str, component: str, **settings) -> None:
-        assert component in self.factory.keys()
-        component_model = ComponentModel(component=component, settings=settings)
-        self.instances[name] = component_model
+    Attributes:
+        instances: name, component and settings
+        placements:
+        routes:
+        name: component model
+        info:
+        settings:
+    """
+
+    instances: Dict[str, ComponentModel]
+    placements: Dict[str, PlacementModel]
+    connections: List[Dict[str, str]] = []
+    routes: Dict[str, RouteModel]
+    name: Optional[str] = None
+    info: Optional[Dict[str, Any]] = None
+    settings: Optional[Dict[str, Any]] = None
+
+    factory_import: str = "from gdsfactory.components import factory"
+    # factory: Dict[str, ComponentFactory] = {}
+
+    # instances: Dict[str, ComponentModel]
+    # name: Optional[str] = None
+    # placements: Optional[Dict[str, PlacementModel]] = None
+    # connections: Optional[List[Dict[str, str]]] = None
+    # routes: Optional[Dict[str, RouteModel]] = None
+    # info: Optional[Dict[str, Any]] = None
+
+    # def add_instance(self, name: str, component: str, **settings) -> None:
+    #     assert component in self.factory.keys()
+    #     component_model = ComponentModel(component=component, settings=settings)
+    #     self.instances[name] = component_model
 
 
 RouteFactory = Callable[..., Route]
@@ -172,7 +192,7 @@ __all__ = (
 )
 
 
-def write_schema(model: BaseModel = CircuitModel):
+def write_schema(model: BaseModel = NetlistModel):
     s = model.schema_json()
     d = OmegaConf.create(s)
 
@@ -187,7 +207,7 @@ def write_schema(model: BaseModel = CircuitModel):
 
 if __name__ == "__main__":
     # from gdsfactory.components import factory
-    # c = CircuitModel(factory=factory)
+    # c = NetlistModel(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
 
     write_schema()
