@@ -129,12 +129,12 @@ class NetlistModel(BaseModel):
     """Netlist defined component.
 
     Attributes:
-        instances: name, component and settings
-        placements:
-        routes:
+        instances: dict of instances (name, settings, component).
+        placements: dict of placements.
+        routes: dict of routes.
         name: component model
-        info:
-        settings:
+        info: information (polarization, wavelength ...).
+        vars: input variables.
     """
 
     instances: Dict[str, ComponentModel]
@@ -143,17 +143,10 @@ class NetlistModel(BaseModel):
     routes: Dict[str, RouteModel]
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
-    settings: Optional[Dict[str, Any]] = None
+    vars: Optional[Dict[str, Any]] = None
 
     factory_import: str = "from gdsfactory.components import factory"
     # factory: Dict[str, ComponentFactory] = {}
-
-    # instances: Dict[str, ComponentModel]
-    # name: Optional[str] = None
-    # placements: Optional[Dict[str, PlacementModel]] = None
-    # connections: Optional[List[Dict[str, str]]] = None
-    # routes: Optional[Dict[str, RouteModel]] = None
-    # info: Optional[Dict[str, Any]] = None
 
     # def add_instance(self, name: str, component: str, **settings) -> None:
     #     assert component in self.factory.keys()
