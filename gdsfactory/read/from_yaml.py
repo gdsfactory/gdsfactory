@@ -49,6 +49,7 @@ routes:
 
 import functools
 import hashlib
+import importlib
 import io
 import json
 import pathlib
@@ -79,6 +80,7 @@ valid_top_level_keys = [
     "routes",
     "vars",
     "info",
+    "pdk",
 ]
 
 valid_anchor_point_keywords = [
@@ -533,7 +535,18 @@ def from_yaml(
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
+    pdk = conf.get("pdk")
     c.info = conf.get("info", omegaconf.DictConfig({}))
+
+    if pdk:
+        module = importlib.import_module(pdk)
+        component_factory = getattr(module, "component_factory")
+        cross_section_factory = getattr(module, "cross_section_factory")
+
+        if component_factory is None:
+            raise ValueError(f"'from {pdk} import component_factory' failed")
+        if cross_section_factory is None:
+            raise ValueError(f"'from {pdk} import cross_section_factory' failed")
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
@@ -773,6 +786,84 @@ def from_yaml(
     return c
 
 
+sample_pdk = """
+
+pdk: ubcpdk
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 100
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt2
+    o3: yr,opt3
+
+"""
+
+sample_pdk_mzi = """
+pdk: ubcpdk
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 0
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+        settings:
+          steps: [dx: 30, dy: -40, dx: 20]
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt2
+    o3: yr,opt3
+
+"""
+
+
 if __name__ == "__main__":
     # for k in factory.keys():
     #     print(k)
@@ -780,7 +871,7 @@ if __name__ == "__main__":
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
-    c = from_yaml(sample_mmis)
+    c = from_yaml(sample_pdk_mzi)
     c.show()
 
     # c = test_connections_regex()
