@@ -29,9 +29,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           make install
-          pip install pur
+          pip install pur flake8
           pur -r requirements.txt
-          pip install .[dev]
+          pip install -e .
       - name: Lint with flake8
         run: |
           flake8 .
