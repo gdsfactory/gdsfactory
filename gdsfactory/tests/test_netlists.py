@@ -88,6 +88,7 @@ if __name__ == "__main__":
     # component_type = "mzi"
     # component_type = "mzit"
     # component_type = "ring_double"
+
     component_type = "ring_single"
     c1 = factory[component_type]()
     n = c1.get_netlist()
