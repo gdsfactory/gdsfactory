@@ -27,6 +27,7 @@ jobs:
           echo $CONDA/bin >> $GITHUB_PATH
       - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           make install
       - name: Test with pytest
         env:
