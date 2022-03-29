@@ -7,204 +7,33 @@ connections:
   mmi_short,o2: straight_7a57a71b_63p755_0p625,o1
 instances:
   bend_euler_120p135_5p5:
-    changed: {}
-    child: null
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info:
-      dy: 10.0
-      length: 16.637
-      radius: 10.0
-      radius_min: 7.061
-      wg_width: 0.5
-    info_version: 2
-    module: gdsfactory.components.bend_euler
-    name: bend_euler
+    component: bend_euler
+    settings: {}
   bend_euler_120p135_95p125:
-    changed: {}
-    child: null
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info:
-      dy: 10.0
-      length: 16.637
-      radius: 10.0
-      radius_min: 7.061
-      wg_width: 0.5
-    info_version: 2
-    module: gdsfactory.components.bend_euler
-    name: bend_euler
+    component: bend_euler
+    settings: {}
   mmi_long:
-    changed:
+    component: mmi1x2
+    settings:
       length_mmi: 10
       width_mmi: 4.5
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 10
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_25023716
   mmi_short:
-    changed:
+    component: mmi1x2
+    settings:
       length_mmi: 5
       width_mmi: 4.5
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_63d4efba
   straight_7a57a71b_63p755_0p625:
-    changed:
+    component: straight
+    settings:
       length: 102.51
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 102.51
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 102.51
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_7a57a71b
   straight_c49ce9c6_115p005_100p0:
-    changed:
+    component: straight
+    settings:
       length: 0.01
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.01
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 0.01
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_c49ce9c6
   straight_e4b574c8_125p01_50p312:
-    changed:
+    component: straight
+    settings:
       length: 79.375
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 79.375
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 79.375
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_e4b574c8
 name: Unnamed_a491ff8b
 placements:
   bend_euler_120p135_5p5:

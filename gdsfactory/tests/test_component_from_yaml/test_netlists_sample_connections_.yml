@@ -2,51 +2,13 @@ connections:
   wgn,o2: wgw,o1
 instances:
   wgn:
-    changed:
+    component: straight
+    settings:
       length: 0.5
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.5
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 0.5
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_1a5e6830
   wgw:
-    changed:
+    component: straight
+    settings:
       length: 1
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 1
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 1.0
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_e15cfb47
 name: sample_connections
 placements:
   wgn:

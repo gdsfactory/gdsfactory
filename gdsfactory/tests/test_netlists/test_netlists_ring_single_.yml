@@ -7,176 +7,31 @@ connections:
   coupler_ring_354ce3d3_m2p0_5p225,o3: straight_c1e7b81b_10p0_11p0,o2
 instances:
   bend_euler_2e0a66fe_5p125_16p425:
-    changed:
+    component: bend_euler
+    settings:
       radius: 10
-    child: null
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info:
-      dy: 10.0
-      length: 16.637
-      radius: 10.0
-      radius_min: 7.061
-      wg_width: 0.5
-    info_version: 2
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_2e0a66fe
   bend_euler_2e0a66fe_m9p125_16p425:
-    changed:
+    component: bend_euler
+    settings:
       radius: 10
-    child: null
-    default:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      with_arc_floorplan: true
-      with_cladding_box: true
-    full:
-      angle: 90
-      cross_section:
-        function: cross_section
-      direction: ccw
-      npoints: 720
-      p: 0.5
-      radius: 10
-      with_arc_floorplan: true
-      with_cladding_box: true
-    function_name: bend_euler
-    info:
-      dy: 10.0
-      length: 16.637
-      radius: 10.0
-      radius_min: 7.061
-      wg_width: 0.5
-    info_version: 2
-    module: gdsfactory.components.bend_euler
-    name: bend_euler_2e0a66fe
   coupler_ring_354ce3d3_m2p0_5p225:
-    changed:
+    component: coupler_ring
+    settings:
       bend:
         function: bend_euler
       radius: 10
-    child: null
-    default:
-      bend: null
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 5
-    full:
-      bend:
-        function: bend_euler
-      bend_cross_section: null
-      coupler90:
-        function: coupler90
-      coupler_straight:
-        function: coupler_straight
-      cross_section:
-        function: cross_section
-      gap: 0.2
-      length_x: 4
-      radius: 10
-    function_name: coupler_ring
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.coupler_ring
-    name: coupler_ring_354ce3d3
   straight_c1e7b81b_10p0_11p0:
-    changed:
+    component: straight
+    settings:
       length: 0.6
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 0.6
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_c1e7b81b
   straight_c1e7b81b_m14p0_11p0:
-    changed:
+    component: straight
+    settings:
       length: 0.6
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 0.6
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 0.6
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_c1e7b81b
   straight_defbc978_m2p0_21p3:
-    changed:
+    component: straight
+    settings:
       length: 4
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      length: 10
-      npoints: 2
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      length: 4
-      npoints: 2
-      with_cladding_box: true
-    function_name: straight
-    info:
-      length: 4.0
-      width: 0.5
-    info_version: 2
-    module: gdsfactory.components.straight
-    name: straight_defbc978
 name: ring_single
 placements:
   bend_euler_2e0a66fe_5p125_16p425:

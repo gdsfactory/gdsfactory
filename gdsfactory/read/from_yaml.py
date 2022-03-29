@@ -573,6 +573,12 @@ def from_yaml(
                 raise ValueError(f"invalid type for cross_section={name_or_dict!r}")
             settings["cross_section"] = cross_section
 
+        # replace partial
+        for k, v in settings.items():
+            if isinstance(v, dict):
+                function_name = v.pop("function")
+                settings[k] = functools.partial(component_factory[function_name], **v)
+
         ci = component_factory[component_type](**settings)
         ref = c << ci
         instances[instance_name] = ref

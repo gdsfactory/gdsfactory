@@ -31,7 +31,7 @@ info:
 def test_components_ports() -> None:
     """Make sure the same component gets the same UID"""
     c1 = gf.read.from_yaml(mirror_port)
-    c2 = gf.read.from_yaml(mirror_port)
+    c2 = gf.read.from_yaml(mirror_port, cache=True)
     # print(c1.uid)
     # print(c2.uid)
     assert c1.uid == c2.uid
@@ -39,7 +39,7 @@ def test_components_ports() -> None:
 
 if __name__ == "__main__":
     c1 = gf.read.from_yaml(mirror_port)
-    c2 = gf.read.from_yaml(mirror_port)
+    c2 = gf.read.from_yaml(mirror_port, cache=True)
     print(c1.uid)
     print(c2.uid)
     assert c1.uid == c2.uid
