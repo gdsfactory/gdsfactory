@@ -2,7 +2,9 @@
 
 ## 4.5.0
 
-- `gf yaml ide` brings up dashboard to build YAML based circuits
+- `gf yaml ide` brings up dashboard to build YAML based circuits.
+- gf.read.from_yaml has `cache=False` by default.
+- revert get_netlist to version 4.0.17, add option `full_settings=False` back.
 
 ## 4.4.15
 

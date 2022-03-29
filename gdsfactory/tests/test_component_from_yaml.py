@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import jsondiff
 import numpy as np
 import pytest
@@ -489,8 +491,12 @@ def test_netlists(
     """Write netlists for hierarchical circuits.
     Checks that both netlists are the same
     jsondiff does a hierarchical diff
-
     Component -> netlist -> Component -> netlist
+
+    Args:
+        yaml_key: to test.
+        data_regression: for regression test.
+        check: False, skips test.
     """
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
@@ -503,7 +509,7 @@ def test_netlists(
     c2 = from_yaml(yaml_str)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
-    assert len(d) == 0, print(d)
+    assert len(d) == 0, pprint(d)
     return c2
 
 
@@ -541,9 +547,10 @@ if __name__ == "__main__":
     # c = test_connections_different_link_factory()
     # c = test_connections_waypoints()
     # c = test_docstring_sample()
+
     # c = test_settings("yaml_anchor", None, False)
-    # c = test_netlists("yaml_anchor", True, None, False)
-    # c = test_netlists("sample_waypoints", True, None, False)
+    # c = test_netlists("yaml_anchor", None, False)
+    # c = test_netlists("sample_waypoints", None, False)
     # c = from_yaml(sample_docstring)
     # c = from_yaml(sample_different_link_factory)
     # c = from_yaml(sample_mirror_simple)
@@ -556,5 +563,16 @@ if __name__ == "__main__":
     # c = from_yaml(sample_regex_connections)
     # c = from_yaml(sample_regex_connections_backwards)
 
-    c = test_netlists("sample_different_link_factory", None, check=False)
-    c.show()
+    # c = test_netlists("sample_different_link_factory", None, check=False)
+
+    yaml_key = "yaml_anchor"
+    yaml_string = yaml_strings[yaml_key]
+    c = from_yaml(yaml_string)
+    n = c.get_netlist()
+
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    print(yaml_str)
+    c2 = from_yaml(yaml_str)
+    n2 = c2.get_netlist()
+    d = jsondiff.diff(n, n2)
+    c2.show()
