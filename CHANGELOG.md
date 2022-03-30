@@ -5,6 +5,7 @@
 - `gf yaml ide` brings up dashboard to build YAML based circuits.
 - gf.read.from_yaml has `cache=False` by default.
 - revert get_netlist to version 4.0.17, add option `full_settings=False` back.
+- fix notebook examples for extruding cross_sections with variable width or offset. Increased default `npoints = 2` to `npoints = 40`
 
 ## 4.4.15
 

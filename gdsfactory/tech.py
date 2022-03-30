@@ -218,8 +218,7 @@ class Section(BaseModel):
     """
 
     Args:
-        width: of the section (um)
-        width_function: optional width function that is parameterized from 0 to 1.
+        width: of the section (um) or function that is parameterized from 0 to 1.
              the width at t==0 is the width at the beginning of the Path.
              the width at t==1 is the width at the end.
         offset: center offset
@@ -241,8 +240,7 @@ class Section(BaseModel):
 
     """
 
-    width: float
-    width_function: Optional[Callable] = None
+    width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     layer: Layer = (1, 0)
     ports: Tuple[Optional[str], Optional[str]] = (None, None)
