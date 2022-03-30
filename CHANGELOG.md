@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 4.5.0
+## [4.5.0](https://github.com/gdsfactory/gdsfactory/pull/252)
 
 - `gf yaml ide` brings up dashboard to build YAML based circuits.
 - gf.read.from_yaml has `cache=False` by default.
