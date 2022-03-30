@@ -1,73 +1,15 @@
 connections: {}
 instances:
   mmi_long:
-    changed:
+    component: mmi1x2
+    settings:
       length_mmi: 10
       width_mmi: 4.5
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 10
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_25023716
   mmi_short:
-    changed:
+    component: mmi1x2
+    settings:
       length_mmi: 5
       width_mmi: 4.5
-    child: null
-    default:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5.5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 2.5
-      width_taper: 1
-      with_cladding_box: true
-    full:
-      cross_section:
-        function: cross_section
-      gap_mmi: 0.25
-      length_mmi: 5
-      length_taper: 10
-      taper:
-        function: taper
-      width: 0.5
-      width_mmi: 4.5
-      width_taper: 1
-      with_cladding_box: true
-    function_name: mmi1x2
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mmi1x2
-    name: mmi1x2_63d4efba
 name: yaml_anchor
 placements:
   mmi_long:

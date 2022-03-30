@@ -42,6 +42,9 @@ class Path(PathPhidl):
     def to_dict(self):
         return self.hash_geometry()
 
+    def extrude(self, **kwargs):
+        return extrude(**kwargs)
+
 
 def _sinusoidal_transition(y1, y2):
     dy = y2 - y1
@@ -350,7 +353,9 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
         npoints: Number of points used per 360 degrees
 
     """
-    return path.arc(radius=radius, angle=angle, num_pts=npoints)
+    p = path.arc(radius=radius, angle=angle, num_pts=npoints)
+    p.extrude = extrude
+    return p
 
 
 def euler(
@@ -377,7 +382,9 @@ def euler(
         npoints: Number of points used per 360 degrees
 
     """
-    return path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
+    p = path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
+    p.extrude = extrude
+    return p
 
 
 def straight(length: float = 10.0, npoints: int = 2) -> Path:
@@ -391,7 +398,13 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
-    return path.straight(length=length, num_pts=npoints)
+    x = np.linspace(0, length, npoints)
+    y = x * 0
+    points = np.array((x, y)).T
+
+    p = Path()
+    p.append(points)
+    return p
 
 
 def smooth(
@@ -453,31 +466,76 @@ def _demo():
     c.show()
 
 
-if __name__ == "__main__":
-    from gdsfactory.tech import LAYER
+def _my_custom_width_fun(t):
+    # Note: Custom width/offset functions MUST be vectorizable--you must be able
+    # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
+    num_periods = 5
+    w = 3 + np.cos(2 * np.pi * t * num_periods)
+    return w
 
-    P = euler(radius=10, use_eff=True)
-    P = euler()
-    P = Path()
-    P.append(straight(length=5))
+
+def _demo_variable_width():
+    # Create the Path
+    P = straight(length=40, npoints=40)
+
+    # Create two cross-sections: one fixed width, one modulated by my_custom_offset_fun
+    X = CrossSection()
+    X.add(width=3, offset=-6, layer=(2, 0))
+    X.add(width=_my_custom_width_fun, offset=0, layer=(1, 0))
+
+    # Extrude the Path to create the Component
+    c = extrude(P, cross_section=X)
+    c.show()
+
+
+def _my_custom_offset_fun(t):
+    # Note: Custom width/offset functions MUST be vectorizable--you must be able
+    # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2, 0.3, 0.4])
+    num_periods = 3
+    w = 3 + np.cos(2 * np.pi * t * num_periods)
+    return w
+
+
+def _demo_variable_offset():
+    # Create the Path
+    P = straight(length=40, npoints=30)
+
+    # Create two cross-sections: one fixed offset, one modulated by my_custom_offset_fun
+    X = CrossSection()
+    X.add(width=1, offset=_my_custom_offset_fun, layer=(2, 0))
+    X.add(width=1, offset=0, layer=(1, 0))
+
+    # Extrude the Path to create the Component
+    c = extrude(P, cross_section=X)
+    c.show()
+
+
+if __name__ == "__main__":
+    _demo_variable_width()
+    # _demo_variable_offset()
+
+    # P = euler(radius=10, use_eff=True)
+    # P = euler()
+    # P = Path()
+    # P.append(straight(length=5))
 
     # P.append(path.arc(radius=10, angle=90))
     # P.append(path.spiral())
 
     # Create a blank CrossSection
-    X = CrossSection()
-    X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
+    # X = CrossSection()
+    # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["in", "out"])
 
     # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["HW1", "HE1"])
     # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
     # Combine the Path and the CrossSection
 
-    c = extrude(P, X, simplify=5e-3)
+    # c = extrude(P, X, simplify=5e-3)
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # print(c.ports["in"].layer)
 
-    c.show(show_ports=False)
+    # c.show(show_ports=False)
 
     # import gdsfactory as gf
     # X1 = gf.CrossSection()

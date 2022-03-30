@@ -1,5 +1,5 @@
 import pathlib
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple, Union
 
 import pydantic
 from pydantic import BaseModel
@@ -218,7 +218,9 @@ class Section(BaseModel):
     """
 
     Args:
-        width: of the section (um)
+        width: of the section (um) or function that is parameterized from 0 to 1.
+             the width at t==0 is the width at the beginning of the Path.
+             the width at t==1 is the width at the end.
         offset: center offset
         layer:
         ports: Optional port names
@@ -238,8 +240,8 @@ class Section(BaseModel):
 
     """
 
-    width: float
-    offset: float = 0
+    width: Union[float, Callable]
+    offset: Union[float, Callable] = 0
     layer: Layer = (1, 0)
     ports: Tuple[Optional[str], Optional[str]] = (None, None)
     name: Optional[str] = None
