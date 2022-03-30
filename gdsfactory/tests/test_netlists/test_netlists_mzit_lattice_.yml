@@ -1,59 +1,10 @@
 connections: {}
 instances:
   mzit_5c28f5cb_19p138_11p4:
-    changed:
+    component: mzit
+    settings:
       coupler_length1: 10
       coupler_length2: 20
-    child: null
-    default:
-      bend90:
-        function: bend_euler
-      coupler1:
-        function: coupler
-      coupler2:
-        function: coupler
-      coupler_gap1: 0.2
-      coupler_gap2: 0.3
-      coupler_length1: 5
-      coupler_length2: 10
-      delta_length: 10
-      dy: 2
-      length: 1
-      straight:
-        function: straight
-      taper:
-        function: taper
-      taper_length: 5
-      w0: 0.5
-      w1: 0.45
-      w2: 0.55
-    full:
-      bend90:
-        function: bend_euler
-      coupler1:
-        function: coupler
-      coupler2:
-        function: coupler
-      coupler_gap1: 0.2
-      coupler_gap2: 0.3
-      coupler_length1: 10
-      coupler_length2: 20
-      delta_length: 10
-      dy: 2
-      length: 1
-      straight:
-        function: straight
-      taper:
-        function: taper
-      taper_length: 5
-      w0: 0.5
-      w1: 0.45
-      w2: 0.55
-    function_name: mzit
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.mzit
-    name: mzit_5c28f5cb
 name: mzit_lattice
 placements:
   mzit_5c28f5cb_19p138_11p4:

@@ -62,6 +62,7 @@ def get_instance_name(
 
 def get_netlist(
     component: Component,
+    full_settings: bool = False,
     layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
     tolerance: int = 1,
 ) -> omegaconf.DictConfig:
@@ -69,9 +70,10 @@ def get_netlist(
     assumes that ports with same width, x, y are connected.
 
      Args:
-         component: to Extract netlist
-         layer_label: label to read instanceNames from (if any)
-         tolerance: tolerance in nm to consider two ports the same
+         component: to extract netlist.
+         full_settings: True returns all, false changed settings.
+         layer_label: label to read instanceNames from (if any).
+         tolerance: tolerance in nm to consider two ports the same.
 
      Returns:
          connections: Dict of Instance1Name,portName: Instace2Name,portName
@@ -94,9 +96,12 @@ def get_netlist(
         reference_name = get_instance_name(
             component, reference, layer_label=layer_label
         )
+        settings = c.settings.full if full_settings else c.settings.changed
 
-        instances[reference_name] = c.metadata
-        instances[reference_name]["info"] = c.info
+        instances[reference_name] = dict(
+            component=getattr(c.settings, "function_name", c.name),
+            settings=settings,
+        )
 
         placements[reference_name] = dict(
             x=x,

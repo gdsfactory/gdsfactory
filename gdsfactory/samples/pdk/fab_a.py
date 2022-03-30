@@ -40,12 +40,22 @@ gc = gf.partial(
 )
 
 
+class GenericPdk:
+    straight = straight
+    bend_euler = bend_euler
+    mmi1x2 = mmi1x2
+    ring_single = ring_single
+    mzi = mzi
+    gc = gc
+
+
 if __name__ == "__main__":
+    f = GenericPdk()
 
     # c = gf.components.straight(length=20, cross_section=xs_strip)
-    c = mzi()
+    # c = mzi()
     # c = ring_single()
-    wg_gc = gf.routing.add_fiber_array(
-        component=c, grating_coupler=gc, cross_section=xs_strip
-    )
-    wg_gc.show(show_ports=False)
+    # wg_gc = gf.routing.add_fiber_array(
+    #     component=c, grating_coupler=gc, cross_section=xs_strip
+    # )
+    # wg_gc.show(show_ports=False)

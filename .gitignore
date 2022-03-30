@@ -13,6 +13,7 @@ poetry.lock
 mask.csv
 mask.yml
 gdsfactory/simulation/gtidy3d/sim_run.yam
+gdsfactory/schema.yaml
 
 # Packages
 *.egg

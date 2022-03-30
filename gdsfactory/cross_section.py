@@ -4,7 +4,7 @@ To create a component you need to extrude the path with a cross-section.
 
 """
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple
+from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 
 import pydantic
 from pydantic import BaseModel
@@ -38,7 +38,7 @@ class CrossSection(BaseModel):
 
     def add(
         self,
-        width: float = 1,
+        width: Union[float, Callable] = 1,
         offset: float = 0,
         layer: Tuple[int, int] = (1, 0),
         ports: Tuple[Optional[str], Optional[str]] = (None, None),
@@ -51,7 +51,9 @@ class CrossSection(BaseModel):
         it will add Ports at the ends.
 
         Args:
-            width: width of the segment (um)
+            width: width of the segment (um) or function that is parameterized from 0 to 1.
+                 the width at t==0 is the width at the beginning of the Path.
+                 the width at t==1 is the width at the end.
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
             ports: Optional port names at the ends of the cross-section
