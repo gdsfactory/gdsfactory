@@ -39,6 +39,7 @@ class CrossSection(BaseModel):
     def add(
         self,
         width: float = 1,
+        width_function: Optional[Callable] = None,
         offset: float = 0,
         layer: Tuple[int, int] = (1, 0),
         ports: Tuple[Optional[str], Optional[str]] = (None, None),
@@ -52,6 +53,9 @@ class CrossSection(BaseModel):
 
         Args:
             width: width of the segment (um)
+            width_function: optional width function that is parameterized from 0 to 1.
+                 the width at t==0 is the width at the beginning of the Path.
+                 the width at t==1 is the width at the end.
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
             ports: Optional port names at the ends of the cross-section
@@ -99,6 +103,7 @@ class CrossSection(BaseModel):
             port_types=port_types,
             hidden=hidden,
             name=name,
+            width_function=width_function,
         )
 
         if name is not None:
