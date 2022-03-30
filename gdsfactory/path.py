@@ -154,7 +154,7 @@ def transition(
                 layer = X1[alias]["layer"]
 
             Xtrans.add(
-                width_function=width_fun,
+                width=width_fun,
                 offset=offset_fun,
                 layer=layer,
                 ports=(X2[alias]["ports"][0], X1[alias]["ports"][1]),
@@ -220,7 +220,6 @@ def extrude(
         ports = section["ports"]
         port_types = section["port_types"]
         hidden = section["hidden"]
-        width_function = section["width_function"]
 
         if isinstance(width, (int, float)) and isinstance(offset, (int, float)):
             xsection_points.append([width, offset])
@@ -247,13 +246,13 @@ def extrude(
             start_angle = p.start_angle
             end_angle = p.end_angle
 
-        if width_function:
+        if callable(width):
             # Compute lengths
             dx = np.diff(p.points[:, 0])
             dy = np.diff(p.points[:, 1])
             lengths = np.cumsum(np.sqrt(dx ** 2 + dy ** 2))
             lengths = np.concatenate([[0], lengths])
-            width = width_function(lengths / lengths[-1])
+            width = width(lengths / lengths[-1])
         else:
             pass
 
@@ -482,7 +481,7 @@ def _demo_variable_width():
     # Create two cross-sections: one fixed width, one modulated by my_custom_offset_fun
     X = CrossSection()
     X.add(width=3, offset=-6, layer=(2, 0))
-    X.add(width_function=_my_custom_width_fun, offset=0, layer=(1, 0))
+    X.add(width=_my_custom_width_fun, offset=0, layer=(1, 0))
 
     # Extrude the Path to create the Component
     c = extrude(P, cross_section=X)
@@ -499,7 +498,7 @@ def _my_custom_offset_fun(t):
 
 def _demo_variable_offset():
     # Create the Path
-    P = straight(length=40)
+    P = straight(length=40, npoints=30)
 
     # Create two cross-sections: one fixed offset, one modulated by my_custom_offset_fun
     X = CrossSection()
@@ -512,16 +511,8 @@ def _demo_variable_offset():
 
 
 if __name__ == "__main__":
-    P = straight(length=40)
-
-    # Create two cross-sections: one fixed offset, one modulated by my_custom_offset_fun
-    X = CrossSection()
-    X.add(width=1, offset=_my_custom_offset_fun, layer=(2, 0))
-    X.add(width=1, offset=0, layer=(1, 0))
-
-    # Extrude the Path to create the Component
-    c = extrude(P, cross_section=X)
-    c.show()
+    _demo_variable_width()
+    # _demo_variable_offset()
 
     # P = euler(radius=10, use_eff=True)
     # P = euler()
