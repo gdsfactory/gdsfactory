@@ -60,6 +60,36 @@ class Label(LabelPhidl):
         return v
 
 
+Float2 = Tuple[float, float]
+Float3 = Tuple[float, float, float]
+Floats = Tuple[float, ...]
+Strs = Tuple[str, ...]
+Int2 = Tuple[int, int]
+Int3 = Tuple[int, int, int]
+Ints = Tuple[int, ...]
+
+Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
+ComponentFactory = Callable[..., Component]
+ComponentFactoryDict = Dict[str, ComponentFactory]
+PathFactory = Callable[..., Path]
+PathType = Union[str, pathlib.Path]
+PathTypes = Tuple[PathType, ...]
+
+ComponentOrFactory = Union[ComponentFactory, Component]
+ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
+ComponentOrPath = Union[PathType, Component]
+ComponentOrReference = Union[Component, ComponentReference]
+NameToFunctionDict = Dict[str, ComponentFactory]
+Number = Union[float, int]
+Coordinate = Tuple[float, float]
+Coordinates = Tuple[Coordinate, ...]
+ComponentOrPath = Union[Component, PathType]
+CrossSectionFactory = Callable[..., CrossSection]
+CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
+PortSymmetries = Dict[str, Dict[str, List[str]]]
+
+
 class Route(BaseModel):
     references: List[ComponentReference]
     labels: Optional[List[Label]] = None
@@ -95,45 +125,36 @@ class RouteModel(BaseModel):
     routing_strategy: Optional[str] = None
 
 
-class CircuitModel(BaseModel):
+class NetlistModel(BaseModel):
+    """Netlist defined component.
+
+    Attributes:
+        instances: dict of instances (name, settings, component).
+        placements: dict of placements.
+        routes: dict of routes.
+        name: component model.
+        info: information (polarization, wavelength ...).
+        vars: input variables.
+        pdk: pdk module name.
+    """
+
     instances: Dict[str, ComponentModel]
+    placements: Dict[str, PlacementModel]
+    connections: List[Dict[str, str]] = []
+    routes: Dict[str, RouteModel]
     name: Optional[str] = None
-    placements: Optional[Dict[str, PlacementModel]] = None
-    connections: Optional[List[Dict[str, str]]] = None
-    routes: Optional[Dict[str, RouteModel]] = None
     info: Optional[Dict[str, Any]] = None
+    vars: Optional[Dict[str, Any]] = None
+    pdk: Optional[str] = None
+
+    # factory: Dict[str, ComponentFactory] = {}
+    # def add_instance(self, name: str, component: str, **settings) -> None:
+    #     assert component in self.factory.keys()
+    #     component_model = ComponentModel(component=component, settings=settings)
+    #     self.instances[name] = component_model
 
 
-Float2 = Tuple[float, float]
-Float3 = Tuple[float, float, float]
-Floats = Tuple[float, ...]
-Strs = Tuple[str, ...]
-Int2 = Tuple[int, int]
-Int3 = Tuple[int, int, int]
-Ints = Tuple[int, ...]
-
-Layer = Tuple[int, int]
-Layers = Tuple[Layer, ...]
 RouteFactory = Callable[..., Route]
-ComponentFactory = Callable[..., Component]
-ComponentFactoryDict = Dict[str, ComponentFactory]
-PathFactory = Callable[..., Path]
-PathType = Union[str, pathlib.Path]
-PathTypes = Tuple[PathType, ...]
-
-ComponentOrFactory = Union[ComponentFactory, Component]
-ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
-ComponentOrPath = Union[PathType, Component]
-ComponentOrReference = Union[Component, ComponentReference]
-NameToFunctionDict = Dict[str, ComponentFactory]
-Number = Union[float, int]
-Coordinate = Tuple[float, float]
-Coordinates = Tuple[Coordinate, ...]
-ComponentOrPath = Union[Component, PathType]
-CrossSectionFactory = Callable[..., CrossSection]
-CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
-PortSymmetries = Dict[str, Dict[str, List[str]]]
-
 
 __all__ = (
     "ComponentFactory",
@@ -164,16 +185,22 @@ __all__ = (
 )
 
 
-def write_schema(model: BaseModel = CircuitModel):
+def write_schema(model: BaseModel = NetlistModel):
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    f1 = pathlib.Path(__file__).parent / "schema.yaml"
+    dirpath = pathlib.Path(__file__).parent / "icyaml" / "defaults"
+
+    f1 = dirpath / "schema.yaml"
     f1.write_text(OmegaConf.to_yaml(d))
 
-    f2 = pathlib.Path(__file__).parent / "schema.json"
+    f2 = dirpath / "schema.json"
     f2.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
 if __name__ == "__main__":
+    # from gdsfactory.components import factory
+    # c = NetlistModel(factory=factory)
+    # c.add_instance("mmi1", "mmi1x2", length=13.3)
+
     write_schema()

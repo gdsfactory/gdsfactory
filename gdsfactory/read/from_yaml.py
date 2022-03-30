@@ -49,6 +49,7 @@ routes:
 
 import functools
 import hashlib
+import importlib
 import io
 import json
 import pathlib
@@ -79,6 +80,7 @@ valid_top_level_keys = [
     "routes",
     "vars",
     "info",
+    "pdk",
 ]
 
 valid_anchor_point_keywords = [
@@ -423,6 +425,7 @@ def from_yaml(
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     cross_section_factory: Dict[str, CrossSectionFactory] = cross_section_factory,
     label_instance_function: Callable = add_instance_label,
+    cache: bool = False,
     **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML file or string.
@@ -431,9 +434,10 @@ def from_yaml(
         yaml: YAML IO describing Component file or string (with newlines)
           (instances, placements, routes, ports, connections, names)
         component_factory: dict of functions {factory_name: factory_function}
-        routing_strategy: for links
-        label_instance_function: to label each instance
-        kwargs: cache, prefix, autoname ... to pass to all factories
+        routing_strategy: for each route.
+        label_instance_function: to label each instance.
+        cache: stores and retrieves components from the cache.
+        kwargs: prefix, autoname ... to pass to all factories.
 
     Returns:
         Component
@@ -441,6 +445,7 @@ def from_yaml(
     .. code::
 
         valid properties:
+
         name: Optional Component name
         vars: Optional variables
         info: Optional component info
@@ -511,7 +516,8 @@ def from_yaml(
 
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
-        assert key in valid_top_level_keys, f"{key} not in {list(valid_top_level_keys)}"
+        if key not in valid_top_level_keys:
+            raise ValueError(f"{key} not in {list(valid_top_level_keys)}")
 
     instances = {}
     routes = {}
@@ -519,7 +525,7 @@ def from_yaml(
         "name",
         f"Unnamed_{hashlib.md5(json.dumps(OmegaConf.to_container(conf)).encode()).hexdigest()[:8]}",
     )
-    if name in CACHE:
+    if cache and name in CACHE:
         return CACHE[name]
     else:
         c = Component(name)
@@ -529,14 +535,26 @@ def from_yaml(
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
+    pdk = conf.get("pdk")
     c.info = conf.get("info", omegaconf.DictConfig({}))
+
+    if pdk:
+        module = importlib.import_module(pdk)
+        component_factory = getattr(module, "component_factory")
+        cross_section_factory = getattr(module, "cross_section_factory")
+
+        if component_factory is None:
+            raise ValueError(f"'from {pdk} import component_factory' failed")
+        if cross_section_factory is None:
+            raise ValueError(f"'from {pdk} import cross_section_factory' failed")
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component_type = instance_conf["component"]
-        assert (
-            component_type in component_factory
-        ), f"{component_type} not in {list(component_factory.keys())}"
+        if component_type not in component_factory:
+            raise ValueError(
+                f"{component_type} not in {list(component_factory.keys())}"
+            )
 
         settings = instance_conf.get("settings", {})
         settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
@@ -554,6 +572,12 @@ def from_yaml(
             else:
                 raise ValueError(f"invalid type for cross_section={name_or_dict!r}")
             settings["cross_section"] = cross_section
+
+        # replace partial
+        for k, v in settings.items():
+            if isinstance(v, dict):
+                function_name = v.pop("function")
+                settings[k] = functools.partial(component_factory[function_name], **v)
 
         ci = component_factory[component_type](**settings)
         ref = c << ci
@@ -768,6 +792,146 @@ def from_yaml(
     return c
 
 
+sample_pdk = """
+
+pdk: ubcpdk
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 100
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt2
+    o3: yr,opt3
+
+"""
+
+sample_pdk_mzi = """
+name: mzi
+pdk: ubcpdk
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 0
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+        settings:
+          steps: [dx: 30, dy: -40, dx: 20]
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt2
+    o3: yr,opt3
+
+"""
+
+
+sample_pdk_mzi_vars = """
+name: mzi
+
+pdk: ubcpdk
+
+vars:
+   dy: -70
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 0
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+        settings:
+            cross_section: strip
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+        settings:
+          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          cross_section: strip
+
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt2
+    o3: yr,opt3
+
+"""
+
+
+sample_pdk_mzi_lattice = """
+pdk: ubcpdk
+
+instances:
+    mzi1:
+      component: mzi.icyaml
+
+    mzi2:
+      component: mzi.icyaml
+
+"""
+
+
 if __name__ == "__main__":
     # for k in factory.keys():
     #     print(k)
@@ -775,7 +939,10 @@ if __name__ == "__main__":
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
-    c = from_yaml(sample_mmis)
+    c = from_yaml(sample_pdk_mzi)
+
+    c2 = c.get_netlist()
+
     c.show()
 
     # c = test_connections_regex()
