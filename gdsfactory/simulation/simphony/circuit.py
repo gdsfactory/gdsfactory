@@ -30,7 +30,7 @@ def component_to_circuit(
     component_models = list(model_factory.keys())
 
     for name, metadata in instances.items():
-        component_type = metadata.function_name
+        component_type = metadata.component
 
         if component_type is None:
             continue
@@ -39,7 +39,7 @@ def component_to_circuit(
             raise ValueError(
                 f"Model for {component_type!r} not found in {component_models}"
             )
-        component_settings = OmegaConf.to_container(metadata.full)
+        component_settings = OmegaConf.to_container(metadata.settings)
         model_function = model_factory[component_type]
         model = model_function(**component_settings)
         assert isinstance(model, Model), f"model {model!r} is not a simphony Model"
