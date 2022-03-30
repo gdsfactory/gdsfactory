@@ -79,9 +79,9 @@ def validate_yaml(yaml_text, schema=schema_dict):
             c = from_yaml(yaml_text)
             c.show()
             return class_name + " is-valid", ""
-        except ValueError as e:
+        except (ValueError, ModuleNotFoundError) as e:
             return (class_name + " is-invalid", f"ValueError {e}")
         except jsonschema.exceptions.ValidationError as e:
-            return (class_name + " is-invalid", f"Schema ValidationError: {e}")
+            return (f"invalid {class_name}", f"Schema ValidationError: {e}")
     else:
         return class_name, ""

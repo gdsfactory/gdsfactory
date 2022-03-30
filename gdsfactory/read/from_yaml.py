@@ -832,6 +832,7 @@ ports:
 """
 
 sample_pdk_mzi = """
+name: mzi
 pdk: ubcpdk
 
 info:
@@ -870,6 +871,67 @@ ports:
 """
 
 
+sample_pdk_mzi_vars = """
+name: mzi
+
+pdk: ubcpdk
+
+vars:
+   dy: -70
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 0
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+        settings:
+            cross_section: strip
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+        settings:
+          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          cross_section: strip
+
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt2
+    o3: yr,opt3
+
+"""
+
+
+sample_pdk_mzi_lattice = """
+pdk: ubcpdk
+
+instances:
+    mzi1:
+      component: mzi.icyaml
+
+    mzi2:
+      component: mzi.icyaml
+
+"""
+
+
 if __name__ == "__main__":
     # for k in factory.keys():
     #     print(k)
@@ -878,6 +940,9 @@ if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
     c = from_yaml(sample_pdk_mzi)
+
+    c2 = c.get_netlist()
+
     c.show()
 
     # c = test_connections_regex()
