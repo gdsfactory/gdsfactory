@@ -31,10 +31,10 @@ def sdict_from_csv(
 
     Args:
         filepath: CSV FDTD simulation results path.
-        wl: wavelength to interpolate (um)
+        wl: wavelength to interpolate (um).
         xkey: key for wavelengths in file.
         xunits: x units in um from the loaded file (um).
-        prefix: for the sparameters column names in file
+        prefix: for the sparameters column names in file.
     """
     df = pd.read_csv(filepath)
     if xkey not in df:
