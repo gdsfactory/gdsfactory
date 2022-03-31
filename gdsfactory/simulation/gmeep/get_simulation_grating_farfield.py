@@ -20,7 +20,7 @@ nSiO2 = 1.44
 
 
 def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
+    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
 
 
 def get_simulation_grating_farfield(
@@ -174,7 +174,7 @@ def get_simulation_grating_farfield(
     fiber_clad = 120
     hfiber_geom = 100  # Some large number to make fiber extend into PML
 
-    fiber_ncore = (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
+    fiber_ncore = (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
     fiber_clad_material = mp.Medium(index=fiber_nclad)
     fiber_core_material = mp.Medium(index=fiber_ncore)
 

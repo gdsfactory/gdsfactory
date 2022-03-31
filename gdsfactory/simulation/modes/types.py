@@ -143,7 +143,7 @@ class Mode(BaseModel):
     ):
         """plot index profle"""
         plt.imshow(
-            self.eps ** 0.5,
+            self.eps**0.5,
             cmap=cmap,
             origin=origin,
             aspect="auto",
