@@ -361,23 +361,23 @@ def make_connection(
     port_src_name = port_src_name.strip()
     port_dst_name = port_dst_name.strip()
 
-    assert (
-        instance_src_name in instances
-    ), f"{instance_src_name} not in {list(instances.keys())}"
-    assert (
-        instance_dst_name in instances
-    ), f"{instance_dst_name} not in {list(instances.keys())}"
+    if instance_src_name not in instances:
+        raise ValueError(f"{instance_src_name} not in {list(instances.keys())}")
+    if instance_dst_name not in instances:
+        raise ValueError(f"{instance_dst_name} not in {list(instances.keys())}")
     instance_src = instances[instance_src_name]
     instance_dst = instances[instance_dst_name]
 
-    assert port_src_name in instance_src.ports, (
-        f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-        f" {instance_src_name} "
-    )
-    assert port_dst_name in instance_dst.ports, (
-        f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-        f" {instance_dst_name}"
-    )
+    if port_src_name not in instance_src.ports:
+        raise ValueError(
+            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+            f" {instance_src_name} "
+        )
+    if port_dst_name not in instance_dst.ports:
+        raise ValueError(
+            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
+            f" {instance_dst_name}"
+        )
     port_dst = instance_dst.ports[port_dst_name]
     instance_src.connect(port=port_src_name, destination=port_dst)
 
@@ -444,10 +444,11 @@ def from_yaml(
 
     .. code::
 
-        valid properties:
+        valid variables:
 
         name: Optional Component name
         vars: Optional variables
+        pdk: overides component_factory and cross_section_factory
         info: Optional component info
             description: just a demo
             polarization: TE
@@ -541,7 +542,10 @@ def from_yaml(
     if pdk:
         module = importlib.import_module(pdk)
         component_factory = getattr(module, "component_factory")
-        cross_section_factory = getattr(module, "cross_section_factory")
+        try:
+            cross_section_factory = getattr(module, "cross_section_factory")
+        except AttributeError as e:
+            raise ValueError(f"'from {pdk} import cross_section_factory' failed {e}")
 
         if component_factory is None:
             raise ValueError(f"'from {pdk} import component_factory' failed")
@@ -691,7 +695,9 @@ def from_yaml(
                             f"{port_dst_name}{i}" for i in range(dst0, dst1 - 1, -1)
                         ]
 
-                    assert len(ports1names) == len(ports2names)
+                    if len(ports1names) != len(ports2names):
+                        raise ValueError(f"{ports1names} different from {ports2names}")
+
                     route_names += [
                         f"{instance_src_name},{i}:{instance_dst_name},{j}"
                         for i, j in zip(ports1names, ports2names)
@@ -701,17 +707,19 @@ def from_yaml(
                     instance_dst = instances[instance_dst_name]
 
                     for port_src_name in ports1names:
-                        assert port_src_name in instance_src.ports, (
-                            f"{port_src_name} not in {list(instance_src.ports.keys())}"
-                            f"for {instance_src_name} "
-                        )
+                        if port_src_name not in instance_src.ports:
+                            raise ValueError(
+                                f"{port_src_name} not in {list(instance_src.ports.keys())}"
+                                f"for {instance_src_name} "
+                            )
                         ports1.append(instance_src.ports[port_src_name])
 
                     for port_dst_name in ports2names:
-                        assert port_dst_name in instance_dst.ports, (
-                            f"{port_dst_name} not in {list(instance_dst.ports.keys())}"
-                            f"for {instance_dst_name}"
-                        )
+                        if port_dst_name not in instance_dst.ports:
+                            raise ValueError(
+                                f"{port_dst_name} not in {list(instance_dst.ports.keys())}"
+                                f"for {instance_dst_name}"
+                            )
                         ports2.append(instance_dst.ports[port_dst_name])
 
                     # print(ports1)
@@ -727,24 +735,29 @@ def from_yaml(
                     port_src_name = port_src_name.strip()
                     port_dst_name = port_dst_name.strip()
 
-                    assert (
-                        instance_src_name in instances
-                    ), f"{instance_src_name} not in {list(instances.keys())}"
-                    assert (
-                        instance_dst_name in instances
-                    ), f"{instance_dst_name} not in {list(instances.keys())}"
+                    if instance_src_name not in instances:
+                        raise ValueError(
+                            f"{instance_src_name} not in {list(instances.keys())}"
+                        )
+                    if instance_dst_name not in instances:
+                        raise ValueError(
+                            f"{instance_dst_name} not in {list(instances.keys())}"
+                        )
 
                     instance_src = instances[instance_src_name]
                     instance_dst = instances[instance_dst_name]
 
-                    assert port_src_name in instance_src.ports, (
-                        f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-                        f" {instance_src_name} "
-                    )
-                    assert port_dst_name in instance_dst.ports, (
-                        f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-                        f" {instance_dst_name}"
-                    )
+                    if port_src_name not in instance_src.ports:
+                        raise ValueError(
+                            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
+                            f" {instance_src_name} "
+                        )
+
+                    if port_dst_name not in instance_dst.ports:
+                        raise ValueError(
+                            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
+                            f" {instance_dst_name}"
+                        )
 
                     ports1.append(instance_src.ports[port_src_name])
                     ports2.append(instance_dst.ports[port_dst_name])
@@ -770,20 +783,22 @@ def from_yaml(
                 raise ValueError(f"{route_or_route_list} needs to be a Route or a list")
 
     if ports_conf:
-        assert hasattr(ports_conf, "items"), f"{ports_conf} needs to be a dict"
+        if not hasattr(ports_conf, "items"):
+            raise ValueError(f"{ports_conf} needs to be a dict")
         for port_name, instance_comma_port in ports_conf.items():
             if "," in instance_comma_port:
                 instance_name, instance_port_name = instance_comma_port.split(",")
                 instance_name = instance_name.strip()
                 instance_port_name = instance_port_name.strip()
-                assert (
-                    instance_name in instances
-                ), f"{instance_name} not in {list(instances.keys())}"
+                if instance_name not in instances:
+                    raise ValueError(f"{instance_name} not in {list(instances.keys())}")
                 instance = instances[instance_name]
-                assert instance_port_name in instance.ports, (
-                    f"{instance_port_name} not in {list(instance.ports.keys())} for"
-                    f" {instance_name} "
-                )
+
+                if instance_port_name not in instance.ports:
+                    raise ValueError(
+                        f"{instance_port_name} not in {list(instance.ports.keys())} for"
+                        f" {instance_name} "
+                    )
                 c.add_port(port_name, port=instance.ports[instance_port_name])
             else:
                 c.add_port(**instance_comma_port)
@@ -913,13 +928,12 @@ routes:
 
 ports:
     o1: yl,opt1
-    o2: yr,opt2
-    o3: yr,opt3
-
+    o2: yr,opt1
 """
 
 
 sample_pdk_mzi_lattice = """
+name: lattice_filter
 pdk: ubcpdk
 
 instances:
