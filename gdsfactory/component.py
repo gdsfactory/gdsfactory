@@ -249,17 +249,44 @@ class Component(Device):
         G = self.plot_netlist()
         write_dot(G, filepath)
 
-    def get_netlist(self) -> Any:
-        """Return netlist dict(instances, placements, connections, ports)
+    def get_netlist(self, **kwargs) -> DictConfig:
+        """Return netlist dict config (instances, placements, connections, ports)
 
-        instances = {instances}
-        placements = {instance_name,uid,x,y: dict(x=0, y=0, rotation=90), ...}
-        connections = {instance_name_src_x_y,portName: instance_name_dst_x_y,portName}
-        ports: {portName: instace_name,portName}
+        Keyword Args:
+            component: to extract netlist.
+            full_settings: True returns all, false changed settings.
+            layer_label: label to read instanceNames from (if any).
+            tolerance: tolerance in nm to consider two ports connected.
+
+        Returns:
+            instances: Dict of instance name and settings.
+            connections: Dict of Instance1Name,portName: Instace2Name,portName.
+            placements: Dict of instance names and placements (x, y, rotation).
+            port: Dict portName: ComponentName,port.
+            name: name of component.
         """
         from gdsfactory.get_netlist import get_netlist
 
-        return get_netlist(component=self)
+        return get_netlist(component=self, **kwargs)
+
+    def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
+        """Returns recursive netlist for a component and subcomponents.
+
+        Keyword Args:
+            component: to extract netlist.
+            component_suffix: suffix to append to each component name.
+                useful if to save and reload a back-annotated netlist.
+            get_netlist_func: function to extract individual netlists.
+            full_settings: True returns all, false changed settings.
+            layer_label: label to read instanceNames from (if any).
+            tolerance: tolerance in nm to consider two ports connected.
+
+        Returns:
+            Dictionary of netlists, keyed by the name of each component.
+        """
+        from gdsfactory.get_netlist import get_netlist_recursive
+
+        return get_netlist_recursive(component=self, **kwargs)
 
     def assert_ports_on_grid(self, nm: int = 1) -> None:
         """Asserts that all ports are on grid."""
@@ -270,7 +297,7 @@ class Component(Device):
         """Return a dict of ports.
 
         Keyword Args:
-            layer: port GDS layer
+            layer: port GDS layer.
             prefix: for example "E" for east, "W" for west ...
         """
         return select_ports(self.ports, **kwargs)
