@@ -23,7 +23,7 @@ nSiO2 = 1.44
 
 
 def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
+    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
 
 
 def get_simulation_grating_fiber(
@@ -204,7 +204,7 @@ def get_simulation_grating_fiber(
     wg_material = mp.Medium(index=nwg)
     top_clad_material = mp.Medium(index=nclad)
     bottom_clad_material = mp.Medium(index=nbox)
-    fiber_ncore = (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
+    fiber_ncore = (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
     fiber_clad_material = mp.Medium(index=fiber_nclad)
     fiber_core_material = mp.Medium(index=fiber_ncore)
 
@@ -548,7 +548,7 @@ if __name__ == "__main__":
     eps_parameters["contour"] = True
     eps_parameters["levels"] = np.unique(epsilons)
 
-    fiber_na = float(np.sqrt(1.44427 ** 2 - 1.43482 ** 2))
+    fiber_na = float(np.sqrt(1.44427**2 - 1.43482**2))
 
     sim_dict = get_simulation_grating_fiber(
         # grating parameters

@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## [4.5.2]
+## [4.5.2](https://github.com/gdsfactory/gdsfactory/pull/256)
 
 - better cross_section parsing in YAML component [PR](https://github.com/gdsfactory/gdsfactory/pull/254)
 - recursive netlist extraction [PR](https://github.com/gdsfactory/gdsfactory/pull/255)
+- add Component.get_netlist_recursive()
 
 
 ## [4.5.1](https://github.com/gdsfactory/gdsfactory/pull/253)

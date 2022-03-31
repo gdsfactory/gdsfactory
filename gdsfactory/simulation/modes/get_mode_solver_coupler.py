@@ -194,7 +194,7 @@ if __name__ == "__main__":
     cmap = "binary"
     origin = "lower"
     plt.imshow(
-        eps.T ** 0.5,
+        eps.T**0.5,
         cmap=cmap,
         origin=origin,
         aspect="auto",

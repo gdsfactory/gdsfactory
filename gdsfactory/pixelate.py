@@ -169,6 +169,6 @@ def gen_op_blocking(pts, snap_res=0.05, margin=0.3):
 if __name__ == "__main__":
     import numpy as np
 
-    pts = [(x, x ** 2) for x in np.linspace(0, 1, 5)]
+    pts = [(x, x**2) for x in np.linspace(0, 1, 5)]
     c = pixelate(pts)
     print(c)

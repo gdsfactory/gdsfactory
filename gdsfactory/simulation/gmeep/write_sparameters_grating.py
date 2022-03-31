@@ -35,7 +35,7 @@ Floats = Tuple[float, ...]
 
 
 def fiber_ncore(fiber_numerical_aperture, fiber_nclad):
-    return (fiber_numerical_aperture ** 2 + fiber_nclad ** 2) ** 0.5
+    return (fiber_numerical_aperture**2 + fiber_nclad**2) ** 0.5
 
 
 def write_sparameters_grating(
