@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [4.5.1](https://github.com/gdsfactory/gdsfactory/pull/253)
+
+- replace asserts by raise ValueError in read.from_yaml
+
 ## [4.5.0](https://github.com/gdsfactory/gdsfactory/pull/252)
 
 - `gf yaml ide` brings up dashboard to build YAML based circuits.
