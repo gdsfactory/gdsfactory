@@ -1,29 +1,29 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: df25ab1ba8b2d70333ec8f447ad66cef519a654f
+    rev: f5894ac96a39f5d5ab6534c936fd31867e519bc3
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
   - repo: https://github.com/hakancelik96/unimport
-    rev: 07de9fc2900f077f26b4e0167075bd825f0cf45f
+    rev: 039c9bb2940e95c16d8169053a7b301e4b20eecc
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
   - repo: https://github.com/pycqa/isort
-    rev: 44e3b5d179da5033ce23f796b014e74f3a3259cd
+    rev: c6a41965247a858a0afd848fbebfca18b8983917
     hooks:
       - id: isort
         files: gdsfactory/.*
         args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: 092959ff1f9253347b01eeb2d6d72e15bad7e25a
+    rev: def048356bb31474c3316f758503742773265bbf
     hooks:
       - id: black
   - repo: https://github.com/asottile/blacken-docs
-    rev: f35c84dee38f029473d780e029cf5a49933a33e0
+    rev: 3f121711bf21114bc4b9344097252e1d5d0be6cf
     hooks:
       - id: blacken-docs
         additional_dependencies: [black==21.9b0]
@@ -32,7 +32,7 @@ repos:
     hooks:
       - id: flake8
   - repo: https://github.com/kynan/nbstripout
-    rev: 3843f5f7c586fa6f0df81423f35d52e6af8e3039
+    rev: 8cafdcc393232045208137698dbeb42d6e0dd9e8
     hooks:
       - id: nbstripout
         files: .ipynb
