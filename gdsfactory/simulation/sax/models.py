@@ -102,7 +102,7 @@ def grating_coupler(
 
     amplitude = jnp.asarray(10 ** (-loss / 20), dtype=complex)
     sigma = bandwidth / (2 * jnp.sqrt(2 * jnp.log(2)))
-    transmission = amplitude * jnp.exp(-((wl - wl0) ** 2) / (2 * sigma ** 2))
+    transmission = amplitude * jnp.exp(-((wl - wl0) ** 2) / (2 * sigma**2))
     sdict = reciprocal(
         {
             ("o1", "o1"): reflection * jnp.ones_like(transmission),
@@ -163,8 +163,8 @@ def coupler(
     """
 
     dwl = wl - wl0
-    dn = dn + dn1 * dwl + 0.5 * dn2 * dwl ** 2
-    kappa0 = coupling0 + dk1 * dwl + 0.5 * dk2 * dwl ** 2
+    dn = dn + dn1 * dwl + 0.5 * dn2 * dwl**2
+    kappa0 = coupling0 + dk1 * dwl + 0.5 * dk2 * dwl**2
     kappa1 = jnp.pi * dn / wl
 
     tau = jnp.cos(kappa0 + kappa1 * length)
@@ -199,7 +199,7 @@ def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
          o1                                          o4
 
     """
-    kappa = coupling ** 0.5
+    kappa = coupling**0.5
     tau = (1 - coupling) ** 0.5
     sdict = reciprocal(
         {

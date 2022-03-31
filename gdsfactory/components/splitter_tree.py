@@ -67,7 +67,7 @@ def splitter_tree(
     i = 0
 
     for col in range(cols):
-        ncouplers = int(2 ** col)
+        ncouplers = int(2**col)
         y0 = -0.5 * dy * 2 ** (cols - 1)
         for row in range(ncouplers):
             x = col * dx
@@ -150,13 +150,13 @@ if __name__ == "__main__":
         coupler=gf.partial(mmi2x2, gap_mmi=2.0, width_mmi=5.0),
         # noutputs=128 * 2,
         # noutputs=2 ** 3,
-        noutputs=2 ** 2,
+        noutputs=2**2,
         # bend_s=None,
         # dy=100.0,
         # layer=(2, 0),
     )
     c = splitter_tree(
-        noutputs=2 ** 2,
+        noutputs=2**2,
         # bend_length=30,
         bend_s=None,
     )

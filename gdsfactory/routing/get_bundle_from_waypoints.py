@@ -67,7 +67,7 @@ def _distance(port1, port2):
     dx = x1 - x2
     dy = y1 - y2
 
-    return np.sqrt(dx ** 2 + dy ** 2)
+    return np.sqrt(dx**2 + dy**2)
 
 
 def get_bundle_from_waypoints(
