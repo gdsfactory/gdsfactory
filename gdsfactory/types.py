@@ -153,6 +153,9 @@ class NetlistModel(BaseModel):
     #     component_model = ComponentModel(component=component, settings=settings)
     #     self.instances[name] = component_model
 
+    # def add_route(self, port1: Port, port2: Port, **settings) -> None:
+    #     self.routes = component_model
+
 
 RouteFactory = Callable[..., Route]
 

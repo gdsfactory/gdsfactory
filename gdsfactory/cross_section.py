@@ -9,6 +9,7 @@ from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 import pydantic
 from pydantic import BaseModel
 
+from gdsfactory.add_pins import add_pins_siepic_optical
 from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
@@ -24,8 +25,10 @@ class CrossSection(BaseModel):
         sections: list of sections
         ports:
         port_types:
-        aliases:
         info:
+        aliases:
+        name:
+        decorator:
     """
 
     sections: List[Section] = []
@@ -51,15 +54,15 @@ class CrossSection(BaseModel):
         it will add Ports at the ends.
 
         Args:
-            width: width of the segment (um) or function that is parameterized from 0 to 1.
-                 the width at t==0 is the width at the beginning of the Path.
-                 the width at t==1 is the width at the end.
+            width: (um) or function that is parameterized from 0 to 1.
+                the width at t==0 is the width at the beginning of the Path.
+                the width at t==1 is the width at the end.
             offset: Offset of the segment (positive values = right hand side)
             layer: The polygon layer to put the segment on
-            ports: Optional port names at the ends of the cross-section
-            name: Optional Name of the cross-sectional element for later access
+            ports: Optional port names at the ends of the cross-section.
+            name: Optional Name of the cross-sectional element for later access.
             port_types: electrical, optical ...
-            hidden: if True does not draw polygons for CrossSection
+            hidden: if True does not draw polygons for CrossSection.
 
         .. code::
 
@@ -841,6 +844,10 @@ def rib_heater_doped_contact(
     )
 
 
+# xs_optical = partial(
+#     cross_section, layer_bbox=(68, 0), decorator=add_pins_siepic_optical
+# )
+
 strip = partial(cross_section)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
 rib = partial(
@@ -905,7 +912,6 @@ cross_section_factory = dict(
 
 if __name__ == "__main__":
     import gdsfactory as gf
-    from gdsfactory.add_pins import add_pins_siepic_optical
 
     P = gf.path.straight()
     # P = gf.path.euler(radius=10, use_eff=True)
