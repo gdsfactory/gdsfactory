@@ -6,7 +6,7 @@ To read more about gdsfactory netlist format you can take a look a the netlist d
 
 The idea is that you have klayout open in one panel and the webapp in the other window, and you can see the circuit live changes.
 
-[windows](https://i.imgur.com/xKCxSpp.png)
+![windows](https://i.imgur.com/xKCxSpp.png)
 
 
 Then save the circuit with `.ic.yaml` extension.
