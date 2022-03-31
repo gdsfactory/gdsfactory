@@ -15,7 +15,7 @@ Assumes two ports are connected when they have same width, x, y
 
 """
 
-from typing import Tuple
+from typing import Callable, Dict, Tuple
 
 import omegaconf
 
@@ -173,6 +173,43 @@ def get_netlist(
             name=component.name,
         )
     )
+
+
+def get_recursive_netlists(
+    pic: Component,
+    component_suffix: str = ".ba",
+    get_netlist_func: Callable = get_netlist,
+) -> Dict[str, omegaconf.DictConfig]:
+    """
+    Recursively get netlists for this PIC component and all subcomponents found in the hierarchy.
+
+    Args:
+        pic: A PIC component
+        component_suffix: a suffix to append to each component name. This is useful if you wish to save and reload specifically the back-annotated verison of each component later
+        get_netlist_func: a function to extract individual netlists
+
+    Returns:
+        A dictionary of netlists, keyed by the name of each component.
+    """
+    all_netlists = {}
+    # only components with references (subcomponents) warrant a netlist
+    if pic.references:
+        netlist = get_netlist_func(pic)  # 3nm tolerance on ports locations
+        all_netlists[f"{pic.name}{component_suffix}"] = netlist
+
+        # for each reference, expand the netlist
+        for ref in pic.references:
+            rcell = ref.parent
+            grandchildren = get_recursive_netlists(rcell)
+            all_netlists.update(grandchildren)
+            if ref.ref_cell.references:
+                inst_name = get_instance_name(pic, ref)
+                netlist["instances"][inst_name] = {
+                    "component": f"{rcell.name}{component_suffix}",
+                    "settings": rcell.settings.full,
+                }
+
+    return all_netlists
 
 
 def demo_ring_single_array() -> None:
