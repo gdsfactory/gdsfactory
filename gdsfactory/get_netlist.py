@@ -73,14 +73,14 @@ def get_netlist(
          component: to extract netlist.
          full_settings: True returns all, false changed settings.
          layer_label: label to read instanceNames from (if any).
-         tolerance: tolerance in nm to consider two ports the same.
+         tolerance: tolerance in nm to consider two ports connected.
 
      Returns:
-         connections: Dict of Instance1Name,portName: Instace2Name,portName
-         instances: Dict of instances and settings
-         placements: Dict of instances and placements (x, y, rotation)
-         port: Dict portName: CompoentName,port
-         name: name of component
+         instances: Dict of instance name and settings.
+         connections: Dict of Instance1Name,portName: Instace2Name,portName.
+         placements: Dict of instance names and placements (x, y, rotation).
+         port: Dict portName: ComponentName,port.
+         name: name of component.
 
     """
     placements = {}
@@ -175,35 +175,42 @@ def get_netlist(
     )
 
 
-def get_recursive_netlists(
-    pic: Component,
+def get_netlist_recursive(
+    component: Component,
     component_suffix: str = ".ba",
     get_netlist_func: Callable = get_netlist,
+    **kwargs,
 ) -> Dict[str, omegaconf.DictConfig]:
-    """
-    Recursively get netlists for this PIC component and all subcomponents found in the hierarchy.
+    """Returns recursive netlist for a component and subcomponents.
 
     Args:
-        pic: A PIC component
-        component_suffix: a suffix to append to each component name. This is useful if you wish to save and reload specifically the back-annotated verison of each component later
-        get_netlist_func: a function to extract individual netlists
+        component: to extract netlist.
+        component_suffix: suffix to append to each component name.
+            useful if to save and reload a back-annotated netlist.
+        get_netlist_func: function to extract individual netlists.
+
+    Keyword Args:
+        full_settings: True returns all, false changed settings.
+        layer_label: label to read instanceNames from (if any).
+        tolerance: tolerance in nm to consider two ports connected.
 
     Returns:
-        A dictionary of netlists, keyed by the name of each component.
+        Dictionary of netlists, keyed by the name of each component.
     """
     all_netlists = {}
+
     # only components with references (subcomponents) warrant a netlist
-    if pic.references:
-        netlist = get_netlist_func(pic)  # 3nm tolerance on ports locations
-        all_netlists[f"{pic.name}{component_suffix}"] = netlist
+    if component.references:
+        netlist = get_netlist_func(component, **kwargs)
+        all_netlists[f"{component.name}{component_suffix}"] = netlist
 
         # for each reference, expand the netlist
-        for ref in pic.references:
+        for ref in component.references:
             rcell = ref.parent
-            grandchildren = get_recursive_netlists(rcell)
+            grandchildren = get_netlist_recursive(rcell)
             all_netlists.update(grandchildren)
             if ref.ref_cell.references:
-                inst_name = get_instance_name(pic, ref)
+                inst_name = get_instance_name(component, ref)
                 netlist["instances"][inst_name] = {
                     "component": f"{rcell.name}{component_suffix}",
                     "settings": rcell.settings.full,
@@ -212,14 +219,14 @@ def get_recursive_netlists(
     return all_netlists
 
 
-def demo_ring_single_array() -> None:
+def _demo_ring_single_array() -> None:
     import gdsfactory as gf
 
     c = gf.components.ring_single_array()
     c.get_netlist()
 
 
-def demo_mzi_lattice() -> None:
+def _demo_mzi_lattice() -> None:
     import gdsfactory as gf
 
     coupler_lengths = [10, 20, 30, 40]
@@ -236,19 +243,30 @@ def demo_mzi_lattice() -> None:
 
 
 if __name__ == "__main__":
-    from pprint import pprint
+    # from pprint import pprint
+    # from omegaconf import OmegaConf
+    # import gdsfactory as gf
+    # from gdsfactory.tests.test_component_from_yaml import sample_2x2_connections
 
-    from omegaconf import OmegaConf
+    # c = gf.read.from_yaml(sample_2x2_connections)
+    # c = gf.components.ring_single()
+    # c.show()
+    # pprint(c.get_netlist())
+
+    # n = c.get_netlist()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # c2 = gf.read.from_yaml(yaml_str)
+    # gf.show(c2)
 
     import gdsfactory as gf
-    from gdsfactory.tests.test_component_from_yaml import sample_2x2_connections
 
-    c = gf.read.from_yaml(sample_2x2_connections)
-    c = gf.components.ring_single()
-    c.show()
-    pprint(c.get_netlist())
+    coupler_lengths = [10, 20, 30, 40]
+    coupler_gaps = [0.1, 0.2, 0.4, 0.5]
+    delta_lengths = [10, 100, 200]
 
-    n = c.get_netlist()
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    c2 = gf.read.from_yaml(yaml_str)
-    gf.show(c2)
+    c = gf.components.mzi_lattice(
+        coupler_lengths=coupler_lengths,
+        coupler_gaps=coupler_gaps,
+        delta_lengths=delta_lengths,
+    )
+    n = c.get_netlist_recursive()
