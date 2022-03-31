@@ -29,7 +29,7 @@ def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
     ys = 0.0
     n = len(control_points) - 1
     for k in range(n + 1):
-        ank = binom(n, k) * (1 - t) ** (n - k) * t ** k
+        ank = binom(n, k) * (1 - t) ** (n - k) * t**k
         xs += ank * control_points[k][0]
         ys += ank * control_points[k][1]
 
