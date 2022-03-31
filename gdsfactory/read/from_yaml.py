@@ -579,9 +579,16 @@ def from_yaml(
 
         # replace partial
         for k, v in settings.items():
-            if isinstance(v, dict):
-                function_name = v.pop("function")
-                settings[k] = functools.partial(component_factory[function_name], **v)
+            if isinstance(v, dict) and "function" in v:
+                function_name = v["function"]
+                try:
+                    settings[k] = functools.partial(
+                        component_factory[function_name], **v
+                    )
+                except Exception as e:
+                    raise ValueError(
+                        f"Error trying to create cross section from dictionary setting: {e}"
+                    )
 
         ci = component_factory[component_type](**settings)
         ref = c << ci
