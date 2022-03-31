@@ -146,7 +146,7 @@ mzi_nitride_o = gf.partial(
 
 
 # for testing
-factory = dict(
+component_factory = dict(
     mmi1x2_nitride_c=mmi1x2_nitride_c,
     mmi1x2_nitride_o=mmi1x2_nitride_o,
     bend_euler_c=bend_euler_c,
