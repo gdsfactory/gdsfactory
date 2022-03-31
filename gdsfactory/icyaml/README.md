@@ -10,3 +10,13 @@ The idea is that you have klayout open in one panel and the webapp in the other 
 
 
 Then save the circuit with `.ic.yaml` extension.
+
+
+You can launch it from the terminal
+
+
+```
+
+gf yaml ide
+
+```
