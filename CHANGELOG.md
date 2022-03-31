@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [4.5.2]
+
+- better cross_section parsing in YAML component [PR](https://github.com/gdsfactory/gdsfactory/pull/254)
+- recursive netlist extraction [PR](https://github.com/gdsfactory/gdsfactory/pull/255)
+
+
 ## [4.5.1](https://github.com/gdsfactory/gdsfactory/pull/253)
 
 - replace asserts by raise ValueError in read.from_yaml

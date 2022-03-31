@@ -93,7 +93,7 @@ if __name__ == "__main__":
     c1 = factory[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
+    # print(yaml_str)
     c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
