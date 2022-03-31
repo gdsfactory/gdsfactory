@@ -20,3 +20,6 @@ You can launch it from the terminal
 gf yaml ide
 
 ```
+
+
+For the klayout live update make sure you install the klayout gdsfactory SALT package. See instructions [here](https://gdsfactory.github.io/gdsfactory/notebooks/00_klayout.html)
