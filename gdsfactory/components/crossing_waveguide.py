@@ -354,7 +354,7 @@ def compensation_path(
     # This gives the bounds for the brentq root finding
 
     ya = target_bend_length - x0
-    yb = np.sqrt(target_bend_length ** 2 - x0 ** 2)
+    yb = np.sqrt(target_bend_length**2 - x0**2)
 
     solution = so.root_scalar(f, bracket=[ya, yb], method="brentq")
 

@@ -60,7 +60,7 @@ def plot_loss2x2(df: DataFrame, port1: str = "s13m", port2: str = "s14m") -> Non
     y1 = df[port1].values
     y2 = df[port2].values
     x = df["wavelengths"] * 1e3
-    plt.plot(x, abs(10 * np.log10(y1 ** 2 + y2 ** 2)))
+    plt.plot(x, abs(10 * np.log10(y1**2 + y2**2)))
     plt.xlabel("wavelength (nm)")
     plt.ylabel("excess loss (dB)")
 

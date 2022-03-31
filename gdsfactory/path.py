@@ -72,7 +72,7 @@ def transition_exponential(y1, y2, exp=0.5):
         y2: end width
         exp: exponent
     """
-    return lambda t: y1 + (y2 - y1) * t ** exp
+    return lambda t: y1 + (y2 - y1) * t**exp
 
 
 def transition(
@@ -250,7 +250,7 @@ def extrude(
             # Compute lengths
             dx = np.diff(p.points[:, 0])
             dy = np.diff(p.points[:, 1])
-            lengths = np.cumsum(np.sqrt(dx ** 2 + dy ** 2))
+            lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
         else:

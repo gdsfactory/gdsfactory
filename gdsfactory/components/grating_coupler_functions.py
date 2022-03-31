@@ -31,7 +31,7 @@ def get_grating_period_curved(
 
     DEG2RAD = pi / 180
     cos_fib_angle = sin(DEG2RAD * fiber_angle)
-    n2_reduced = n_slab ** 2 - n_clad ** 2 * cos_fib_angle ** 2
+    n2_reduced = n_slab**2 - n_clad**2 * cos_fib_angle**2
     sqrt_n2_reduced = sqrt(n2_reduced)
     h_period = wavelength * (n_slab + n_clad * cos_fib_angle) / n2_reduced
     v_period = wavelength / sqrt_n2_reduced
