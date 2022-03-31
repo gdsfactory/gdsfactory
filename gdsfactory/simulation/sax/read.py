@@ -40,7 +40,7 @@ def sdict_from_csv(
     if xkey not in df:
         raise ValueError(f"{xkey!r} not in {df.keys()}")
     nsparameters = (len(df.keys()) - 1) // 2
-    nports = int(nsparameters ** 0.5)
+    nports = int(nsparameters**0.5)
 
     x = df[xkey] * xunits
 
