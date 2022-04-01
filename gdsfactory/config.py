@@ -130,6 +130,8 @@ CONFIG["mask_config_directory"] = mask_config_directory
 CONFIG["samples_path"] = module_path / "samples"
 CONFIG["netlists"] = module_path / "samples" / "netlists"
 CONFIG["components_path"] = module_path / "components"
+CONFIG["schemas"] = module_path / "schemas"
+CONFIG["schema_icyaml"] = module_path / "schemas" / "icyaml.json"
 
 if "gds_resources" in CONFIG:
     CONFIG["gds_resources"] = CONFIG["masks_path"] / CONFIG["gds_resources"]
