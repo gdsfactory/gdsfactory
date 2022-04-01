@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [4.5.4]
+## [4.5.4](https://github.com/gdsfactory/gdsfactory/pull/258)
 
 - enable schema validation in `ic yaml ide`
 - validate schema and fail with unknown keys
