@@ -180,6 +180,8 @@ def place(
             f"circular reference in placement for {instance_name}! Loop: {loop_str}"
         )
     encountered_insts.append(instance_name)
+    if instance_name not in instances:
+        raise ValueError(f"{instance_name!r} not in {list(instances.keys())}")
     ref = instances[instance_name]
 
     if instance_name in placements_conf:
@@ -962,7 +964,7 @@ if __name__ == "__main__":
     # c = from_yaml(yaml_anchor)
     c = from_yaml(sample_pdk_mzi)
 
-    c2 = c.get_netlist()
+    # c2 = c.get_netlist()
 
     c.show()
 
