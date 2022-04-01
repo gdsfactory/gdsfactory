@@ -24,8 +24,8 @@ app = dash.Dash(
     ],
 )
 
-dirpath = Path(__file__).parent.joinpath("defaults")
-schema_path = dirpath / "schema.json"
+dirpath = Path(__file__).parent.parent.joinpath("schemas")
+schema_path = dirpath / "icyaml.json"
 schema_dict = json.loads(schema_path.read_text())
 
 logger.info(f"Loaded schema from {str(schema_path)!r}")
@@ -75,13 +75,17 @@ def validate_yaml(yaml_text):
 
     if yaml_dict is not None:
         try:
-            # jsonschema.validate(yaml_dict, schema_dict)
+            jsonschema.validate(yaml_dict, schema_dict)
             c = from_yaml(yaml_text)
             c.show()
             return class_name + " is-valid", ""
-        except (ValueError, ModuleNotFoundError, KeyError) as e:
-            return (class_name + " is-invalid", f"ValueError {e}")
-        except jsonschema.exceptions.ValidationError as e:
-            return (f"invalid {class_name}", f"Schema ValidationError: {e}")
+        except (
+            ValueError,
+            ModuleNotFoundError,
+            KeyError,
+            Exception,
+            jsonschema.exceptions.ValidationError,
+        ) as e:
+            return (class_name + " is-invalid", f"Error {e}")
     else:
         return class_name, ""
