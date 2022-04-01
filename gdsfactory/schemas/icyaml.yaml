@@ -2,7 +2,8 @@ title: NetlistModel
 description: "Netlist defined component.\n\nAttributes:\n    instances: dict of instances\
   \ (name, settings, component).\n    placements: dict of placements.\n    routes:\
   \ dict of routes.\n    name: component model.\n    info: information (polarization,\
-  \ wavelength ...).\n    vars: input variables.\n    pdk: pdk module name."
+  \ wavelength ...).\n    vars: input variables.\n    pdk: pdk module name.\n    ports:\
+  \ exposed component ports."
 type: object
 properties:
   instances:
@@ -17,7 +18,6 @@ properties:
       $ref: '#/definitions/PlacementModel'
   connections:
     title: Connections
-    default: []
     type: array
     items:
       type: object
@@ -40,9 +40,14 @@ properties:
   pdk:
     title: Pdk
     type: string
+  ports:
+    title: Ports
+    type: object
+    additionalProperties:
+      type: string
 required:
 - instances
-- placements
+additionalProperties: false
 definitions:
   ComponentModel:
     title: ComponentModel
@@ -56,6 +61,7 @@ definitions:
         type: object
     required:
     - component
+    additionalProperties: false
   PlacementModel:
     title: PlacementModel
     type: object
@@ -104,6 +110,7 @@ definitions:
         title: Mirror
         default: false
         type: boolean
+    additionalProperties: false
   RouteModel:
     title: RouteModel
     type: object
@@ -121,3 +128,4 @@ definitions:
         type: string
     required:
     - links
+    additionalProperties: false

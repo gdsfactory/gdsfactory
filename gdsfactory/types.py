@@ -24,7 +24,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 from omegaconf import OmegaConf
 from phidl.device_layout import Label as LabelPhidl
 from phidl.device_layout import Path
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
@@ -96,6 +96,9 @@ class Route(BaseModel):
     ports: Tuple[Port, Port]
     length: float
 
+    class Config:
+        extra = Extra.forbid
+
 
 class Routes(BaseModel):
     references: List[ComponentReference]
@@ -103,10 +106,16 @@ class Routes(BaseModel):
     ports: Optional[List[Port]] = None
     bend_radius: Optional[List[float]] = None
 
+    class Config:
+        extra = Extra.forbid
+
 
 class ComponentModel(BaseModel):
     component: str
     settings: Optional[Dict[str, Any]]
+
+    class Config:
+        extra = Extra.forbid
 
 
 class PlacementModel(BaseModel):
@@ -118,11 +127,17 @@ class PlacementModel(BaseModel):
     rotation: int = 0
     mirror: bool = False
 
+    class Config:
+        extra = Extra.forbid
+
 
 class RouteModel(BaseModel):
     links: Dict[str, str]
     settings: Optional[Dict[str, Any]] = None
     routing_strategy: Optional[str] = None
+
+    class Config:
+        extra = Extra.forbid
 
 
 class NetlistModel(BaseModel):
@@ -136,16 +151,21 @@ class NetlistModel(BaseModel):
         info: information (polarization, wavelength ...).
         vars: input variables.
         pdk: pdk module name.
+        ports: exposed component ports.
     """
 
     instances: Dict[str, ComponentModel]
-    placements: Dict[str, PlacementModel]
-    connections: List[Dict[str, str]] = []
+    placements: Optional[Dict[str, PlacementModel]] = None
+    connections: Optional[List[Dict[str, str]]] = None
     routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
     vars: Optional[Dict[str, Any]] = None
     pdk: Optional[str] = None
+    ports: Optional[Dict[str, str]] = None
+
+    class Config:
+        extra = Extra.forbid
 
     # factory: Dict[str, ComponentFactory] = {}
     # def add_instance(self, name: str, component: str, **settings) -> None:
@@ -192,18 +212,74 @@ def write_schema(model: BaseModel = NetlistModel):
     s = model.schema_json()
     d = OmegaConf.create(s)
 
-    dirpath = pathlib.Path(__file__).parent / "icyaml" / "defaults"
+    dirpath = pathlib.Path(__file__).parent / "schemas"
 
-    f1 = dirpath / "schema.yaml"
+    f1 = dirpath / "icyaml.yaml"
     f1.write_text(OmegaConf.to_yaml(d))
 
-    f2 = dirpath / "schema.json"
+    f2 = dirpath / "icyaml.json"
     f2.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
 if __name__ == "__main__":
+    write_schema()
+
+    import jsonschema
+    import yaml
+
+    from gdsfactory.config import CONFIG
+
+    schema_path = CONFIG["schema_icyaml"]
+    schema_dict = json.loads(schema_path.read_text())
+
+    yaml_text = """
+
+name: mzi
+
+pdk: ubcpdk
+
+vars:
+   dy: -90
+
+info:
+    polarization: te
+    wavelength: 1.55
+    description: mzi for ubcpdk
+
+instances:
+    yr:
+      component: y_splitter
+    yl:
+      component: y_splitter
+
+placements:
+    yr:
+        rotation: 180
+        x: 100
+        y: 0
+
+routes:
+    route_top:
+        links:
+            yl,opt2: yr,opt3
+        settings:
+            cross_section: strip
+    route_bot:
+        links:
+            yl,opt3: yr,opt2
+        routing_strategy: get_bundle_from_steps
+        settings:
+          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          cross_section: strip
+
+ports:
+    o1: yl,opt1
+    o2: yr,opt1
+"""
+
+    yaml_dict = yaml.safe_load(yaml_text)
+    jsonschema.validate(yaml_dict, schema_dict)
+
     # from gdsfactory.components import factory
     # c = NetlistModel(factory=factory)
     # c.add_instance("mmi1", "mmi1x2", length=13.3)
-
-    write_schema()

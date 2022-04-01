@@ -1,4 +1,8 @@
-# CHANGELOG
+# [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
+
+## [4.5.4]
+
+- fix schema
 
 ## [4.5.3](https://github.com/gdsfactory/gdsfactory/pull/257)
 
