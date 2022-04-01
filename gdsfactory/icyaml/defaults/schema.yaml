@@ -1,8 +1,8 @@
 title: NetlistModel
 description: "Netlist defined component.\n\nAttributes:\n    instances: dict of instances\
   \ (name, settings, component).\n    placements: dict of placements.\n    routes:\
-  \ dict of routes.\n    name: component model\n    info: information (polarization,\
-  \ wavelength ...).\n    vars: input variables."
+  \ dict of routes.\n    name: component model.\n    info: information (polarization,\
+  \ wavelength ...).\n    vars: input variables.\n    pdk: pdk module name."
 type: object
 properties:
   instances:
@@ -43,7 +43,6 @@ properties:
 required:
 - instances
 - placements
-- routes
 definitions:
   ComponentModel:
     title: ComponentModel

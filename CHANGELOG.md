@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [4.5.3]
+
+- icyaml does not validate schema
+- routes = None by default in NetlistModel
+
 ## [4.5.2](https://github.com/gdsfactory/gdsfactory/pull/256)
 
 - better cross_section parsing in YAML component [PR](https://github.com/gdsfactory/gdsfactory/pull/254)

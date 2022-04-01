@@ -141,7 +141,7 @@ class NetlistModel(BaseModel):
     instances: Dict[str, ComponentModel]
     placements: Dict[str, PlacementModel]
     connections: List[Dict[str, str]] = []
-    routes: Dict[str, RouteModel]
+    routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
     vars: Optional[Dict[str, Any]] = None
