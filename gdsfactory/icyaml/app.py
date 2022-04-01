@@ -62,7 +62,7 @@ def run():
     [Output("yaml_text", "className"), Output("yaml_feedback", "children")],
     [Input("yaml_text", "value")],
 )
-def validate_yaml(yaml_text, schema=schema_dict):
+def validate_yaml(yaml_text):
     class_name = "form-control"
 
     try:
@@ -75,11 +75,11 @@ def validate_yaml(yaml_text, schema=schema_dict):
 
     if yaml_dict is not None:
         try:
-            jsonschema.validate(yaml_dict, schema)
+            # jsonschema.validate(yaml_dict, schema_dict)
             c = from_yaml(yaml_text)
             c.show()
             return class_name + " is-valid", ""
-        except (ValueError, ModuleNotFoundError) as e:
+        except (ValueError, ModuleNotFoundError, KeyError) as e:
             return (class_name + " is-invalid", f"ValueError {e}")
         except jsonschema.exceptions.ValidationError as e:
             return (f"invalid {class_name}", f"Schema ValidationError: {e}")
