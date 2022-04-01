@@ -2,7 +2,9 @@
 
 ## [4.5.4]
 
-- fix schema
+- enable schema validation in `ic yaml ide`
+- validate schema and fail with unknown keys
+
 
 ## [4.5.3](https://github.com/gdsfactory/gdsfactory/pull/257)
 
