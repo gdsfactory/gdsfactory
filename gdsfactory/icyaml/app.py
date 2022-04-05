@@ -25,13 +25,13 @@ app = dash.Dash(
 )
 
 dirpath = Path(__file__).parent.parent.joinpath("schemas")
-schema_path = dirpath / "icyaml.json"
+schema_path = dirpath / "netlist.json"
 schema_dict = json.loads(schema_path.read_text())
 
 logger.info(f"Loaded schema from {str(schema_path)!r}")
 
 wsgi_app = app.server
-app.title = "ICYAML- Interactive IC based YAML Validator"
+app.title = "gdsfactory webapp"
 app.layout = layout
 
 
@@ -41,7 +41,7 @@ def run_debug():
 
 
 def run():
-    print("YAML IC")
+    print("gdsfactory webapp")
     webbrowser.open("127.0.0.1:8080", new=2)
 
     try:
