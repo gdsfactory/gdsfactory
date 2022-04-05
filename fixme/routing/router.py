@@ -69,7 +69,7 @@ if __name__ == "__main__":
         c.add(routes_bend180.references)
 
         ports1 = ps.get_ports_list(port_type="electrical", orientation=180) + list(
-            routes_bend180.ports.values()
+            routes_bend180.ports
         )
 
         ports2 = pads.get_ports_list()
