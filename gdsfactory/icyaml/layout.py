@@ -31,7 +31,7 @@ navbar = dbc.NavbarSimple(
             )
         ),
     ],
-    brand="ICYAML",
+    brand="gdsfactory",
     brand_href="#",
     color="primary",
     dark=True,
