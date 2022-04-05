@@ -177,6 +177,42 @@ class NetlistModel(BaseModel):
     #     self.routes = component_model
 
 
+class MaskSettings(BaseModel):
+    width: float
+    height: float
+    name: str
+    cache: bool = True
+
+
+EW = Literal["E", "W"]
+SN = Literal["S", "N"]
+
+
+class Placer(BaseModel):
+    placer_type: Literal["pack_row", "pack_col", "template"]
+    ids: Optional[List[int]] = None
+    x0: Union[float, EW]
+    y0: Union[float, SN]
+    margin: Optional[float] = None
+    margin_x: Optional[float] = None
+    margin_y: Optional[float] = None
+    inter_margin_x: Optional[float] = None
+    inter_margin_y: Optional[float] = None
+    next_to: str
+
+
+class Doe(BaseModel):
+    component: str
+    do_permutation: bool = False
+    settings: Dict[str, Any]
+    placer: Placer
+
+
+class Mask(BaseModel):
+    mask_settings: MaskSettings
+    does: Dict[str, Doe]
+
+
 RouteFactory = Callable[..., Route]
 
 __all__ = (
@@ -214,10 +250,10 @@ def write_schema(model: BaseModel = NetlistModel):
 
     dirpath = pathlib.Path(__file__).parent / "schemas"
 
-    f1 = dirpath / "icyaml.yaml"
+    f1 = dirpath / "netlist.yaml"
     f1.write_text(OmegaConf.to_yaml(d))
 
-    f2 = dirpath / "icyaml.json"
+    f2 = dirpath / "netlist.json"
     f2.write_text(json.dumps(OmegaConf.to_container(d)))
 
 
@@ -229,7 +265,7 @@ if __name__ == "__main__":
 
     from gdsfactory.config import CONFIG
 
-    schema_path = CONFIG["schema_icyaml"]
+    schema_path = CONFIG["schema_netlist"]
     schema_dict = json.loads(schema_path.read_text())
 
     yaml_text = """

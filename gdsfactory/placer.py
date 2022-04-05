@@ -65,16 +65,15 @@ def placer_grid_cell_refs(
 
     if rows * cols < len(component_list):
         raise ValueError(
-            "Shape ({}, {}): Not enough emplacements ({}) for all these components ({}).".format(
-                rows, cols, len(indices), len(component_list)
-            )
+            f"Shape ({rows}, {cols}): Not enough emplacements ({len(indices)})"
+            f"for all these components ({len(component_list)})."
         )
-    components = []
+    references = []
     for component, (i, j) in zip(component_list, indices):
         c_ref = component.ref(position=(x0 + j * dx, y0 + i * dy))
-        components += [c_ref]
+        references += [c_ref]
 
-    return components
+    return references
 
 
 def pack_horizontal(
@@ -86,15 +85,21 @@ def pack_horizontal(
     align_y: NSEW = "S",
     margin_x: float = 20.0,
     margin_y: float = 20.0,
-):
-    """
+) -> List[ComponentReference]:
+    """Returns a list of cell references
+
     Args:
-        cells: a list of cells  (size n)
-        row_ids: a list of row ids (size n)
+        cells: a list of N cells.
+        row_ids: a list of N row ids.
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
+        x0: x origin.
+        y0: y origin.
+        align_x:
+        align_y:
+        margin_x:
+        margin_y:
 
-    returns a list of cell references
     """
     heights = [c.size_info.height for c in cells]
 
@@ -102,10 +107,8 @@ def pack_horizontal(
 
     if len(cells) != len(row_ids):
         raise ValueError(
-            "Each cell should be assigned a row id. \
-        Got {} cells for {} row ids".format(
-                len(cells), len(row_ids)
-            )
+            "Each cell should be assigned a row id."
+            f"Got {len(cells)} cells for {len(row_ids)} row ids"
         )
 
     # Find the height of each row to fit the cells
@@ -121,7 +124,7 @@ def pack_horizontal(
 
     row_to_height = {k: max(v) for k, v in _row_to_heights.items()}
 
-    components = []
+    references = []
 
     # Do the packing per row
     y = y0
@@ -139,7 +142,7 @@ def pack_horizontal(
             elif align_x == "W" and align_y == "N":
                 component_origin = c.size_info.nw
             try:
-                components += [c.ref(position=-component_origin + (x, y))]
+                references += [c.ref(position=-component_origin + (x, y))]
             except ValueError as e:
                 if align_x not in ["W", "E"]:
                     print("align_x should be `W`, `E` or a float")
@@ -157,7 +160,7 @@ def pack_horizontal(
         else:
             y += -row_to_height[row] - margin_y
 
-    return components
+    return references
 
 
 def pack_vertical(
@@ -169,15 +172,21 @@ def pack_vertical(
     align_y: NSEW = "S",
     margin_x: float = 20.0,
     margin_y: float = 20.0,
-) -> List[Component]:
-    """
+) -> List[ComponentReference]:
+    """Returns a list of component references
+
     Args:
         cells: a list of cells  (size n)
         col_ids: a list of column ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells are packed in the same column
+        x0: x origin.
+        y0: y origin.
+        align_x:
+        align_y:
+        margin_x:
+        margin_y:
 
-    returns a list of cell references
     """
     widths = [c.size_info.width for c in cells]
     col_ids = col_ids or [0] * len(cells)
@@ -201,7 +210,7 @@ def pack_vertical(
 
     col_to_width = {k: max(v) for k, v in _col_to_widths.items()}
 
-    components = []
+    references = []
 
     # Do the packing per column
     x = x0
@@ -218,7 +227,7 @@ def pack_vertical(
                 component_origin = c.size_info.ne
             elif align_x == "W" and align_y == "N":
                 component_origin = c.size_info.nw
-            components += [c.ref(position=-component_origin + (x, y))]
+            references += [c.ref(position=-component_origin + (x, y))]
 
             if align_y == "S":
                 y += c.size_info.height + margin_y
@@ -230,7 +239,7 @@ def pack_vertical(
         else:
             x += -col_to_width[col] - margin_x
 
-    return components
+    return references
 
 
 def placer_fixed_coords(cells, x, y, **kwargs):
@@ -306,10 +315,19 @@ CONTENT_SEP = " , "
 
 
 def save_doe(
-    doe_name, components, doe_root_path=CONFIG["cache_doe_directory"], precision=1e-9
+    doe_name,
+    components,
+    doe_root_path=CONFIG["cache_doe_directory"],
+    precision: float = 1e-9,
 ):
     """
-    Save all components from this DOE in a tmp cache folder
+    Write all components from this DOE in a tmp cache folder
+
+    Args:
+        doe_name: str
+        components:
+        doe_root_path:
+        precision:
     """
     doe_dir = pathlib.Path(doe_root_path) / doe_name
     doe_dir.mkdir(parents=True, exist_ok=True)
