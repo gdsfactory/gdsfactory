@@ -23,7 +23,7 @@ does:
 """
 
 
-def read_sweep(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
+def read_sweep(filepath: Union[Path, StringIO, str]) -> Dict[str, Any]:
     """Return dictionary with the information loaded from does.yml
 
     Args:
@@ -52,6 +52,11 @@ def read_sweep(filepath: Union[Path, StringIO]) -> Dict[str, Any]:
 
     """
     does = {}
+    filepath = (
+        StringIO(filepath)
+        if isinstance(filepath, str) and "\n" in filepath
+        else filepath
+    )
     input_does = OmegaConf.load(filepath)
     input_does = OmegaConf.to_container(input_does)
 

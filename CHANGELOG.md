@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 4.6.0
+
+- add `pack_doe` and `pack_doe_grid` as part of YAML component definition.
+- add deprecation warning on gf.placer and gf.autoplacer.
+- add `get_module_factories` to get all Component factories from a module.
+
 ## [4.5.4](https://github.com/gdsfactory/gdsfactory/pull/258)
 
 - enable schema validation in `ic yaml ide`

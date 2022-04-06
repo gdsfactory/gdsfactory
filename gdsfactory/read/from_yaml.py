@@ -64,6 +64,7 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
+from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
 from gdsfactory.cross_section import cross_section_factory
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
@@ -557,7 +558,10 @@ def from_yaml(
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component_type = instance_conf["component"]
-        if component_type not in component_factory:
+
+        if component_type not in component_factory and not component_type.startswith(
+            "pack_doe"
+        ):
             raise ValueError(
                 f"{component_type} not in {list(component_factory.keys())}"
             )
@@ -592,7 +596,37 @@ def from_yaml(
                         f"Error trying to partial function from dictionary setting: {e}"
                     )
 
-        ci = component_factory[component_type](**settings)
+        if component_type.startswith("pack_doe"):
+            if component_type not in ["pack_doe", "pack_doe_grid"]:
+                raise ValueError(
+                    "Error {component_type!r} not int (pack_doe, pack_doe_grid)"
+                )
+
+            if "component" not in settings:
+                raise ValueError(
+                    f"Missing component key in settings for {instance_name!r}"
+                )
+            component_function = component_factory[settings.pop("component")]
+            pack = instance_conf.get("pack", {})
+            pack = OmegaConf.to_container(pack, resolve=True) if pack else {}
+
+            if component_type == "pack_doe":
+                ci = pack_doe(
+                    component_factory=component_function,
+                    settings=settings,
+                    name=instance_name,
+                    **pack,
+                )
+            else:
+                ci = pack_doe_grid(
+                    component_factory=component_function,
+                    settings=settings,
+                    name=instance_name,
+                    **pack,
+                )
+
+        else:
+            ci = component_factory[component_type](**settings)
         ref = c << ci
         instances[instance_name] = ref
 
@@ -955,6 +989,59 @@ instances:
 """
 
 
+# sample_doe = """
+# name: lattice_filter
+
+# instances:
+#     mmi1x2:
+#        component: mmi1x2
+#        settings:
+#          length_mmi: [2, 100]
+# """
+
+sample_doe = """
+name: mask
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe
+       settings:
+         component: mmi1x2
+         length_mmi: [2, 100]
+         width_mmi: [4, 10]
+       pack:
+         do_permutations: True
+         spacing: 100
+"""
+
+sample_doe_grid = """
+name: mask
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe_grid
+       settings:
+         component: mmi1x2
+         length_mmi: [2, 100]
+         width_mmi: [4, 10]
+       pack:
+         do_permutations: True
+         spacing: [100, 100]
+         shape: [2, 2]
+"""
+
+# def sample_doe_range():
+#     lengths_mmi = range(2, 10)
+#     sample_doe = f"""
+#     name: lattice_filter
+
+#     instances:
+#         mmi1x2:
+#           component: mmi1x2
+#           settings:
+#             length_mmi: {lengths_mmi}
+#     """
+
 if __name__ == "__main__":
     # for k in factory.keys():
     #     print(k)
@@ -962,10 +1049,11 @@ if __name__ == "__main__":
 
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
-    c = from_yaml(sample_pdk_mzi)
-
+    # c = from_yaml(sample_pdk_mzi)
     # c2 = c.get_netlist()
 
+    # c = from_yaml(sample_doe_grid)
+    c = from_yaml(sample_doe)
     c.show()
 
     # c = test_connections_regex()
