@@ -78,6 +78,26 @@ definitions:
         anyOf:
         - type: string
         - type: number
+      xmin:
+        title: Xmin
+        anyOf:
+        - type: string
+        - type: number
+      ymin:
+        title: Ymin
+        anyOf:
+        - type: string
+        - type: number
+      xmax:
+        title: Xmax
+        anyOf:
+        - type: string
+        - type: number
+      ymax:
+        title: Ymax
+        anyOf:
+        - type: string
+        - type: number
       dx:
         title: Dx
         default: 0
