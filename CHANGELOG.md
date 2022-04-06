@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 4.6.0
+## [4.6.0](https://github.com/gdsfactory/gdsfactory/pull/260)
 
 - add `pack_doe` and `pack_doe_grid` as part of YAML component definition.
 - add deprecation warning on gf.placer and gf.autoplacer.
