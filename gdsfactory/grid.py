@@ -65,9 +65,7 @@ def grid(
     elif (shape is None) and (device_array.ndim == 1):
         shape = (device_array.size, -1)
     elif 0 < shape[0] * shape[1] < device_array.size:
-        raise ValueError(
-            "[PHIDL] grid() The shape is too small for all the items in components"
-        )
+        raise ValueError("Shape is too small for all the components")
     else:
         if np.min(shape) == -1:
             remainder = np.max(shape) - device_array.size % np.max(shape)
@@ -129,10 +127,10 @@ def grid_with_text(
     """Returns Grid with text labels
 
     Args:
-        components: Iterable to be placed onto a grid. (can be 1D or 2D)
+        components: Iterable to be placed onto a grid. (can be 1D or 2D).
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
-        text_offsets: relative to component anchor. Defaults to center
-        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc)
+        text_offsets: relative to component anchor. Defaults to center.
+        text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         text: function to add text labels.
 
     keyword Args:
@@ -150,7 +148,7 @@ def grid_with_text(
           to perform the x (column) distribution (ignored if separation = True)
         edge_y: {'y', 'ymin', 'ymax'}
           to perform the y (row) distribution along (ignored if separation = True)
-        rotation: for each reference in degrees
+        rotation: for each reference in degrees.
 
     """
     c = Component()

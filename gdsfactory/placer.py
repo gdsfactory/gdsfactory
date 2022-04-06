@@ -1,7 +1,9 @@
 # type: ignore
 """ gdspy based placer
+deprecated! use gf.read.from_yaml
 
 YAML defines component DOE settings and placement
+
 
 .. code:: yaml
 
@@ -30,6 +32,7 @@ YAML defines component DOE settings and placement
         A-B1-2: doe1
 """
 
+import io
 import os
 import pathlib
 from pathlib import Path
@@ -42,7 +45,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
-from gdsfactory.types import NSEW, ComponentFactoryDict
+from gdsfactory.types import NSEW, ComponentFactoryDict, PathType
 
 
 def placer_grid_cell_refs(
@@ -302,10 +305,9 @@ def load_placer_with_does(filepath, defaults=None):
         doe["list_settings"] += get_settings_list(do_permutation, **settings)
 
         # check that the sweep is valid (only one type of component)
-        assert (
-            component_type == doe["component_type"]
-        ), "There can be only one component type per sweep. Got {} while expecting {}".format(
-            component_type, doe["component_type"]
+        assert component_type == doe["component_type"], (
+            "There can be only one component type per sweep."
+            f"Got {component_type!r} while expecting {doe['component_type']!r}"
         )
 
     return does, placer_info, component_placement, gds_files
@@ -319,9 +321,8 @@ def save_doe(
     components,
     doe_root_path=CONFIG["cache_doe_directory"],
     precision: float = 1e-9,
-):
-    """
-    Write all components from this DOE in a tmp cache folder
+) -> None:
+    """Write all components from a DOE in a tmp cache folder
 
     Args:
         doe_name: str
@@ -343,9 +344,10 @@ def save_doe(
         c.write_gds_with_metadata(gdspath=gdspath, precision=precision)
 
 
-def load_doe_from_cache(doe_name, doe_root_path=None):
-    """
-    Load all components for this DOE from the cache
+def load_doe_from_cache(doe_name, doe_root_path=None) -> List[Component]:
+    """Load all components for this DOE from the cache
+    and returns a list of components
+
     """
     if doe_root_path is None:
         doe_root_path = CONFIG["cache_doe_directory"]
@@ -359,7 +361,7 @@ def load_doe_from_cache(doe_name, doe_root_path=None):
     return components
 
 
-def load_doe_component_names(doe_name, doe_root_path=None):
+def load_doe_component_names(doe_name, doe_root_path=None) -> List[str]:
     if doe_root_path is None:
         doe_root_path = CONFIG["cache_doe_directory"]
     doe_dir = os.path.join(doe_root_path, doe_name)
@@ -411,13 +413,31 @@ def doe_exists(
     return False
 
 
-def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Component:
-    """Returns a Component composed of DOEs/components given in a yaml file
-    allows for each DOE to have its own x and y spacing (more flexible than method1)
+def component_grid_from_yaml(filepath: PathType, precision: float = 1e-9) -> Component:
+    """Returns a Component composed of DOE components in YAML file
+    allows each DOE to have its own x and y spacing (more flexible than method1)
+
+    Args:
+        filepath: YAML filepath or YAML text.
+        precision: database precision.
     """
-    input_does = OmegaConf.load(str(filepath))
-    mask_settings = input_does["mask"]
-    does = read_sweep(filepath)
+
+    yaml_str = (
+        io.StringIO(filepath)
+        if isinstance(filepath, str) and "\n" in filepath
+        else filepath
+    )
+
+    input_does = OmegaConf.load(yaml_str)
+    mask_settings = input_does.pop("mask", {})
+
+    yaml_str = (
+        io.StringIO(filepath)
+        if isinstance(filepath, str) and "\n" in filepath
+        else filepath
+    )
+
+    does = read_sweep(yaml_str)
 
     placed_doe = None
     placed_does = {}
@@ -429,6 +449,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
     default_cache_enabled = (
         mask_settings["cache_enabled"] if "cache_enabled" in mask_settings else False
     )
+
     for doe_name, doe in does.items():
         list_settings = doe["settings"]
         component_type = doe["component"]
@@ -454,14 +475,14 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
 
         # If no component is loaded, build them
         if components is None:
-            print("{} - Generating components...".format(doe_name))
+            print(f"{doe_name} - Generating components...")
             components = build_components(component_type, list_settings)
 
             # After building the components, if cache enabled, save them
             if cache_enabled:
                 save_doe(doe_name, components, precision=precision)
         else:
-            logger.info("{} - Loaded components from cache".format(doe_name))
+            logger.info("{doe_name} - Loaded components from cache")
 
         # logger.info(doe_name, [c.name for c in components])
         # Find placer information
@@ -483,8 +504,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
             # Check whether we are doing relative or absolute placement
             if (x0 in ["E", "W"] or y0 in ["N", "S"]) and not placed_doe:
                 raise ValueError(
-                    "At least one DOE must be placed to use\
-                relative placement"
+                    "At least one DOE must be placed with relative placement"
                 )
 
             # For relative placement (to previous DOE)
@@ -556,7 +576,6 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
         # test=test,
         # analysis=analysis
         # )
-
         component_grid.add_ref(placed_doe)
 
     return component_grid
@@ -567,9 +586,18 @@ def build_components(
     list_settings: List[Dict[str, Union[float, int]]],
     component_factory: Dict[str, Callable] = factory,
 ) -> List[Component]:
+    """Returns a list of components.
+    If no settings passed, generates a single component with defaults
+
+    Args:
+        component_type:
+        list_settings:
+        component_factory:
+
+    """
+
     components = []
 
-    # If no settings passed, generate a single component with defaults
     if not list_settings:
         component_function = component_factory[component_type]
         component = component_function()
