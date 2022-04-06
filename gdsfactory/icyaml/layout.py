@@ -4,7 +4,7 @@ https://github.com/DrGFreeman/YAMLDash
 from pathlib import Path
 
 import dash_bootstrap_components as dbc
-from dash import html
+from dash import dcc, html
 
 SRC_URL = "https://github.com/gdsfactory/gdsfactory"
 YAML_REF_URL = "https://yaml.org/spec/1.2/spec.html"
@@ -40,7 +40,14 @@ navbar = dbc.NavbarSimple(
 
 yaml_col = dbc.Col(
     [
-        html.H2("YAML Netlist", className="mt-3"),
+        html.H2("input", className="mt-3"),
+        dcc.Dropdown(
+            options=("netlist", "mask"),
+            value="netlist",
+            id="dd-input-mode",
+            clearable=False,
+        ),
+        html.H2("YAML", className="mt-3"),
         dbc.Textarea(
             id="yaml_text",
             className="form-control",
