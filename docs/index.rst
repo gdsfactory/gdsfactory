@@ -10,10 +10,7 @@ Gdsfactory
    notebooks
    plugins
    component_intro
-   api
    routing
-   yaml
    components
-   cli
    contribution
    CHANGELOG
