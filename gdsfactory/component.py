@@ -269,6 +269,9 @@ class Component(Device):
 
         return get_netlist(component=self, **kwargs)
 
+    def get_netlist_dict(self, **kwargs) -> Dict[str, str]:
+        return OmegaConf.to_container(self.get_netlist(**kwargs))
+
     def get_netlist_recursive(self, **kwargs) -> Dict[str, DictConfig]:
         """Returns recursive netlist for a component and subcomponents.
 

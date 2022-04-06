@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [4.6.2]
+
+- add Component.get_netlist_dict
+- document gdsfactory to sax
+
 ## [4.6.1](https://github.com/gdsfactory/gdsfactory/pull/261)
 
 - add xmin, xmax, ymin, ymax to JSON schema
