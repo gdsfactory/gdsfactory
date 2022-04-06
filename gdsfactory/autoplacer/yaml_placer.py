@@ -530,6 +530,14 @@ def place_from_yaml(
     Args:
         filepath_yaml:
         root_does: used for cache, requires content.txt
+        precision:
+        fontpath:
+        default_align_x:
+        default_align_y:
+        default_margin:
+        default_x0:
+        default_y0:
+
     """
     transform_identity = pya.Trans(0, 0)
     dicts, mask_settings = load_yaml(filepath_yaml)

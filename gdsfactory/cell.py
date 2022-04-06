@@ -3,6 +3,7 @@ import copy
 import functools
 import hashlib
 import inspect
+from inspect import getmembers
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import toolz
@@ -13,6 +14,8 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Device] = {}
+# _FACTORY: Dict[str, Callable] = {}
+
 INFO_VERSION = 2
 
 
@@ -29,6 +32,18 @@ def clear_cache() -> None:
 def print_cache():
     for k in CACHE:
         print(k)
+
+
+def get_module_factories(module) -> Dict[str, Callable]:
+    """Returns component factories from a module."""
+    from gdsfactory.component import Component
+
+    return {
+        t[0]: t[1]
+        for t in getmembers(module)
+        if callable(t[1]) and inspect.signature(t[1]).return_annotation == Component
+        # if isfunction(t[1]) and id(t[1]) in _FACTORY
+    }
 
 
 def get_source_code(func: Callable) -> str:
@@ -69,7 +84,6 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
-
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
@@ -192,6 +206,7 @@ def cell_without_validator(func):
             CACHE[name] = component
             return component
 
+    # _FACTORY[id(_cell)] = _cell
     return _cell
 
 
@@ -376,9 +391,12 @@ if __name__ == "__main__":
     # print(wg(length=3.0).name)
     # print(wg().name)
 
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
-    c = gf.import_gds(gdspath)
-    c3 = gf.routing.add_fiber_single(c)
-    c3.show()
+    # gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
+    # c = gf.import_gds(gdspath)
+    # c3 = gf.routing.add_fiber_single(c)
+    # c3.show()
+    import ubcpdk
+
+    f = get_module_factories(ubcpdk.components)
