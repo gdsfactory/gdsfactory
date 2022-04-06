@@ -1,8 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [4.6.1]
+## [4.6.1](https://github.com/gdsfactory/gdsfactory/pull/261)
 
 - add xmin, xmax, ymin, ymax to JSON schema
+- remove placer schema, as it's being deprecated in favor of JSON YAML schema
 
 ## [4.6.0](https://github.com/gdsfactory/gdsfactory/pull/260)
 
