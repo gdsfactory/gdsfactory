@@ -10,10 +10,11 @@ from pathlib import Path
 import dash
 import jsonschema
 import yaml
-from dash.dependencies import Input, Output
+from dash import Input, Output
 
 from gdsfactory.config import logger
 from gdsfactory.icyaml.layout import layout, theme
+from gdsfactory.placer import component_grid_from_yaml
 from gdsfactory.read.from_yaml import from_yaml
 
 app = dash.Dash(
@@ -25,13 +26,16 @@ app = dash.Dash(
 )
 
 dirpath = Path(__file__).parent.parent.joinpath("schemas")
-schema_path = dirpath / "icyaml.json"
+schema_path = dirpath / "netlist.json"
 schema_dict = json.loads(schema_path.read_text())
 
-logger.info(f"Loaded schema from {str(schema_path)!r}")
+mask_schema_path = dirpath / "mask.json"
+mask_schema_dict = json.loads(schema_path.read_text())
+
+logger.info(f"Loaded netlist schema from {str(schema_path)!r}")
 
 wsgi_app = app.server
-app.title = "ICYAML- Interactive IC based YAML Validator"
+app.title = "gdsfactory webapp"
 app.layout = layout
 
 
@@ -41,7 +45,7 @@ def run_debug():
 
 
 def run():
-    print("YAML IC")
+    print("gdsfactory webapp")
     webbrowser.open("127.0.0.1:8080", new=2)
 
     try:
@@ -59,10 +63,12 @@ def run():
 
 
 @app.callback(
-    [Output("yaml_text", "className"), Output("yaml_feedback", "children")],
-    [Input("yaml_text", "value")],
+    Output("yaml_text", "className"),
+    Output("yaml_feedback", "children"),
+    Input("yaml_text", "value"),
+    Input("dd-input-mode", "value"),
 )
-def validate_yaml(yaml_text):
+def validate_yaml(yaml_text, input_mode):
     class_name = "form-control"
 
     try:
@@ -75,8 +81,13 @@ def validate_yaml(yaml_text):
 
     if yaml_dict is not None:
         try:
-            jsonschema.validate(yaml_dict, schema_dict)
-            c = from_yaml(yaml_text)
+            if input_mode == "netlist":
+                jsonschema.validate(yaml_dict, schema_dict)
+                c = from_yaml(yaml_text)
+            elif input_mode == "mask":
+                # print(input_mode)
+                # jsonschema.validate(yaml_dict, mask_schema_dict)
+                c = component_grid_from_yaml(yaml_text)
             c.show()
             return class_name + " is-valid", ""
         except (

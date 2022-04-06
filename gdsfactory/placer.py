@@ -1,7 +1,9 @@
 # type: ignore
 """ gdspy based placer
+deprecated! use gf.read.from_yaml
 
 YAML defines component DOE settings and placement
+
 
 .. code:: yaml
 
@@ -30,6 +32,7 @@ YAML defines component DOE settings and placement
         A-B1-2: doe1
 """
 
+import io
 import os
 import pathlib
 from pathlib import Path
@@ -42,7 +45,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import factory
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
-from gdsfactory.types import NSEW, ComponentFactoryDict
+from gdsfactory.types import NSEW, ComponentFactoryDict, PathType
 
 
 def placer_grid_cell_refs(
@@ -65,16 +68,15 @@ def placer_grid_cell_refs(
 
     if rows * cols < len(component_list):
         raise ValueError(
-            "Shape ({}, {}): Not enough emplacements ({}) for all these components ({}).".format(
-                rows, cols, len(indices), len(component_list)
-            )
+            f"Shape ({rows}, {cols}): Not enough emplacements ({len(indices)})"
+            f"for all these components ({len(component_list)})."
         )
-    components = []
+    references = []
     for component, (i, j) in zip(component_list, indices):
         c_ref = component.ref(position=(x0 + j * dx, y0 + i * dy))
-        components += [c_ref]
+        references += [c_ref]
 
-    return components
+    return references
 
 
 def pack_horizontal(
@@ -86,15 +88,21 @@ def pack_horizontal(
     align_y: NSEW = "S",
     margin_x: float = 20.0,
     margin_y: float = 20.0,
-):
-    """
+) -> List[ComponentReference]:
+    """Returns a list of cell references
+
     Args:
-        cells: a list of cells  (size n)
-        row_ids: a list of row ids (size n)
+        cells: a list of N cells.
+        row_ids: a list of N row ids.
             where each id represents the row where the cell should be placed
             None by default => all cells in the same row
+        x0: x origin.
+        y0: y origin.
+        align_x:
+        align_y:
+        margin_x:
+        margin_y:
 
-    returns a list of cell references
     """
     heights = [c.size_info.height for c in cells]
 
@@ -102,10 +110,8 @@ def pack_horizontal(
 
     if len(cells) != len(row_ids):
         raise ValueError(
-            "Each cell should be assigned a row id. \
-        Got {} cells for {} row ids".format(
-                len(cells), len(row_ids)
-            )
+            "Each cell should be assigned a row id."
+            f"Got {len(cells)} cells for {len(row_ids)} row ids"
         )
 
     # Find the height of each row to fit the cells
@@ -121,7 +127,7 @@ def pack_horizontal(
 
     row_to_height = {k: max(v) for k, v in _row_to_heights.items()}
 
-    components = []
+    references = []
 
     # Do the packing per row
     y = y0
@@ -139,7 +145,7 @@ def pack_horizontal(
             elif align_x == "W" and align_y == "N":
                 component_origin = c.size_info.nw
             try:
-                components += [c.ref(position=-component_origin + (x, y))]
+                references += [c.ref(position=-component_origin + (x, y))]
             except ValueError as e:
                 if align_x not in ["W", "E"]:
                     print("align_x should be `W`, `E` or a float")
@@ -157,7 +163,7 @@ def pack_horizontal(
         else:
             y += -row_to_height[row] - margin_y
 
-    return components
+    return references
 
 
 def pack_vertical(
@@ -169,15 +175,21 @@ def pack_vertical(
     align_y: NSEW = "S",
     margin_x: float = 20.0,
     margin_y: float = 20.0,
-) -> List[Component]:
-    """
+) -> List[ComponentReference]:
+    """Returns a list of component references
+
     Args:
         cells: a list of cells  (size n)
         col_ids: a list of column ids (size n)
             where each id represents the row where the cell should be placed
             None by default => all cells are packed in the same column
+        x0: x origin.
+        y0: y origin.
+        align_x:
+        align_y:
+        margin_x:
+        margin_y:
 
-    returns a list of cell references
     """
     widths = [c.size_info.width for c in cells]
     col_ids = col_ids or [0] * len(cells)
@@ -201,7 +213,7 @@ def pack_vertical(
 
     col_to_width = {k: max(v) for k, v in _col_to_widths.items()}
 
-    components = []
+    references = []
 
     # Do the packing per column
     x = x0
@@ -218,7 +230,7 @@ def pack_vertical(
                 component_origin = c.size_info.ne
             elif align_x == "W" and align_y == "N":
                 component_origin = c.size_info.nw
-            components += [c.ref(position=-component_origin + (x, y))]
+            references += [c.ref(position=-component_origin + (x, y))]
 
             if align_y == "S":
                 y += c.size_info.height + margin_y
@@ -230,7 +242,7 @@ def pack_vertical(
         else:
             x += -col_to_width[col] - margin_x
 
-    return components
+    return references
 
 
 def placer_fixed_coords(cells, x, y, **kwargs):
@@ -293,10 +305,9 @@ def load_placer_with_does(filepath, defaults=None):
         doe["list_settings"] += get_settings_list(do_permutation, **settings)
 
         # check that the sweep is valid (only one type of component)
-        assert (
-            component_type == doe["component_type"]
-        ), "There can be only one component type per sweep. Got {} while expecting {}".format(
-            component_type, doe["component_type"]
+        assert component_type == doe["component_type"], (
+            "There can be only one component type per sweep."
+            f"Got {component_type!r} while expecting {doe['component_type']!r}"
         )
 
     return does, placer_info, component_placement, gds_files
@@ -306,10 +317,18 @@ CONTENT_SEP = " , "
 
 
 def save_doe(
-    doe_name, components, doe_root_path=CONFIG["cache_doe_directory"], precision=1e-9
-):
-    """
-    Save all components from this DOE in a tmp cache folder
+    doe_name,
+    components,
+    doe_root_path=CONFIG["cache_doe_directory"],
+    precision: float = 1e-9,
+) -> None:
+    """Write all components from a DOE in a tmp cache folder
+
+    Args:
+        doe_name: str
+        components:
+        doe_root_path:
+        precision:
     """
     doe_dir = pathlib.Path(doe_root_path) / doe_name
     doe_dir.mkdir(parents=True, exist_ok=True)
@@ -325,9 +344,10 @@ def save_doe(
         c.write_gds_with_metadata(gdspath=gdspath, precision=precision)
 
 
-def load_doe_from_cache(doe_name, doe_root_path=None):
-    """
-    Load all components for this DOE from the cache
+def load_doe_from_cache(doe_name, doe_root_path=None) -> List[Component]:
+    """Load all components for this DOE from the cache
+    and returns a list of components
+
     """
     if doe_root_path is None:
         doe_root_path = CONFIG["cache_doe_directory"]
@@ -341,7 +361,7 @@ def load_doe_from_cache(doe_name, doe_root_path=None):
     return components
 
 
-def load_doe_component_names(doe_name, doe_root_path=None):
+def load_doe_component_names(doe_name, doe_root_path=None) -> List[str]:
     if doe_root_path is None:
         doe_root_path = CONFIG["cache_doe_directory"]
     doe_dir = os.path.join(doe_root_path, doe_name)
@@ -393,13 +413,31 @@ def doe_exists(
     return False
 
 
-def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Component:
-    """Returns a Component composed of DOEs/components given in a yaml file
-    allows for each DOE to have its own x and y spacing (more flexible than method1)
+def component_grid_from_yaml(filepath: PathType, precision: float = 1e-9) -> Component:
+    """Returns a Component composed of DOE components in YAML file
+    allows each DOE to have its own x and y spacing (more flexible than method1)
+
+    Args:
+        filepath: YAML filepath or YAML text.
+        precision: database precision.
     """
-    input_does = OmegaConf.load(str(filepath))
-    mask_settings = input_does["mask"]
-    does = read_sweep(filepath)
+
+    yaml_str = (
+        io.StringIO(filepath)
+        if isinstance(filepath, str) and "\n" in filepath
+        else filepath
+    )
+
+    input_does = OmegaConf.load(yaml_str)
+    mask_settings = input_does.pop("mask", {})
+
+    yaml_str = (
+        io.StringIO(filepath)
+        if isinstance(filepath, str) and "\n" in filepath
+        else filepath
+    )
+
+    does = read_sweep(yaml_str)
 
     placed_doe = None
     placed_does = {}
@@ -411,6 +449,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
     default_cache_enabled = (
         mask_settings["cache_enabled"] if "cache_enabled" in mask_settings else False
     )
+
     for doe_name, doe in does.items():
         list_settings = doe["settings"]
         component_type = doe["component"]
@@ -436,14 +475,14 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
 
         # If no component is loaded, build them
         if components is None:
-            print("{} - Generating components...".format(doe_name))
+            print(f"{doe_name} - Generating components...")
             components = build_components(component_type, list_settings)
 
             # After building the components, if cache enabled, save them
             if cache_enabled:
                 save_doe(doe_name, components, precision=precision)
         else:
-            logger.info("{} - Loaded components from cache".format(doe_name))
+            logger.info("{doe_name} - Loaded components from cache")
 
         # logger.info(doe_name, [c.name for c in components])
         # Find placer information
@@ -465,8 +504,7 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
             # Check whether we are doing relative or absolute placement
             if (x0 in ["E", "W"] or y0 in ["N", "S"]) and not placed_doe:
                 raise ValueError(
-                    "At least one DOE must be placed to use\
-                relative placement"
+                    "At least one DOE must be placed with relative placement"
                 )
 
             # For relative placement (to previous DOE)
@@ -538,7 +576,6 @@ def component_grid_from_yaml(filepath: Path, precision: float = 1e-9) -> Compone
         # test=test,
         # analysis=analysis
         # )
-
         component_grid.add_ref(placed_doe)
 
     return component_grid
@@ -549,9 +586,18 @@ def build_components(
     list_settings: List[Dict[str, Union[float, int]]],
     component_factory: Dict[str, Callable] = factory,
 ) -> List[Component]:
+    """Returns a list of components.
+    If no settings passed, generates a single component with defaults
+
+    Args:
+        component_type:
+        list_settings:
+        component_factory:
+
+    """
+
     components = []
 
-    # If no settings passed, generate a single component with defaults
     if not list_settings:
         component_function = component_factory[component_type]
         component = component_function()

@@ -18,7 +18,7 @@ Layout Tutorial
    notebooks/04_routing.ipynb
    notebooks/041_routing_electical.ipynb
    notebooks/05_GDS.ipynb
-   notebooks/06_component_circuit_mask.ipynb
-   notebooks/06_mask.ipynb
    notebooks/07_yaml_component.ipynb
+   notebooks/08_component_circuit_mask.ipynb
+   notebooks/09_mask.ipynb
    notebooks/common_mistakes.ipynb

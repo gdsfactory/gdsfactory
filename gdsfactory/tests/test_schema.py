@@ -6,7 +6,7 @@ import yaml
 
 from gdsfactory.config import CONFIG
 
-schema_path = CONFIG["schema_icyaml"]
+schema_path = CONFIG["schema_netlist"]
 schema_dict = json.loads(schema_path.read_text())
 yaml_text_invalid = """
 name: demo
