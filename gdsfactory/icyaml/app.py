@@ -14,7 +14,6 @@ from dash import Input, Output
 
 from gdsfactory.config import logger
 from gdsfactory.icyaml.layout import layout, theme
-from gdsfactory.placer import component_grid_from_yaml
 from gdsfactory.read.from_yaml import from_yaml
 
 app = dash.Dash(
@@ -66,9 +65,9 @@ def run():
     Output("yaml_text", "className"),
     Output("yaml_feedback", "children"),
     Input("yaml_text", "value"),
-    Input("dd-input-mode", "value"),
+    Input("dd-output", "value"),
 )
-def validate_yaml(yaml_text, input_mode):
+def validate_yaml(yaml_text, output):
     class_name = "form-control"
 
     try:
@@ -81,13 +80,8 @@ def validate_yaml(yaml_text, input_mode):
 
     if yaml_dict is not None:
         try:
-            if input_mode == "netlist":
-                jsonschema.validate(yaml_dict, schema_dict)
-                c = from_yaml(yaml_text)
-            elif input_mode == "mask":
-                # print(input_mode)
-                # jsonschema.validate(yaml_dict, mask_schema_dict)
-                c = component_grid_from_yaml(yaml_text)
+            jsonschema.validate(yaml_dict, schema_dict)
+            c = from_yaml(yaml_text)
             c.show()
             return class_name + " is-valid", ""
         except (
