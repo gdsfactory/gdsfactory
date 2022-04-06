@@ -121,6 +121,10 @@ class ComponentModel(BaseModel):
 class PlacementModel(BaseModel):
     x: Union[str, float] = 0
     y: Union[str, float] = 0
+    xmin: Optional[Union[str, float]] = None
+    ymin: Optional[Union[str, float]] = None
+    xmax: Optional[Union[str, float]] = None
+    ymax: Optional[Union[str, float]] = None
     dx: float = 0
     dy: float = 0
     port: Optional[Union[str, Anchor]] = None
@@ -175,42 +179,6 @@ class NetlistModel(BaseModel):
 
     # def add_route(self, port1: Port, port2: Port, **settings) -> None:
     #     self.routes = component_model
-
-
-class MaskSettings(BaseModel):
-    width: float
-    height: float
-    name: str
-    cache: bool = True
-
-
-EW = Literal["E", "W"]
-SN = Literal["S", "N"]
-
-
-class Placer(BaseModel):
-    placer_type: Literal["pack_row", "pack_col", "template"]
-    ids: Optional[List[int]] = None
-    x0: Union[float, EW]
-    y0: Union[float, SN]
-    margin: Optional[float] = None
-    margin_x: Optional[float] = None
-    margin_y: Optional[float] = None
-    inter_margin_x: Optional[float] = None
-    inter_margin_y: Optional[float] = None
-    next_to: str
-
-
-class Doe(BaseModel):
-    component: str
-    do_permutation: bool = False
-    settings: Dict[str, Any]
-    placer: Placer
-
-
-class Mask(BaseModel):
-    mask_settings: MaskSettings
-    does: Dict[str, Doe]
 
 
 RouteFactory = Callable[..., Route]

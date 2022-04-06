@@ -8,7 +8,6 @@ from dash import dcc, html
 
 SRC_URL = "https://github.com/gdsfactory/gdsfactory"
 YAML_REF_URL = "https://yaml.org/spec/1.2/spec.html"
-SCHEMA_REF_URL = "https://json-schema.org/draft/2019-09/json-schema-validation.html"
 
 theme = dbc.themes.UNITED
 
@@ -21,7 +20,9 @@ navbar = dbc.NavbarSimple(
     [
         dbc.NavItem(dbc.NavLink("YAML Reference", href=YAML_REF_URL, target="_blank")),
         dbc.NavItem(
-            dbc.NavLink("Schema Reference", href=SCHEMA_REF_URL, target="_blank")
+            dbc.NavLink(
+                "Docs", href="https://gdsfactory.github.io/gdsfactory/", target="_blank"
+            )
         ),
         dbc.NavItem(
             dbc.NavLink(
@@ -40,11 +41,11 @@ navbar = dbc.NavbarSimple(
 
 yaml_col = dbc.Col(
     [
-        html.H2("input", className="mt-3"),
+        html.H2("output", className="mt-3"),
         dcc.Dropdown(
-            options=("netlist", "mask"),
-            value="netlist",
-            id="dd-input-mode",
+            options=("klayout",),
+            value="klayout",
+            id="dd-output",
             clearable=False,
         ),
         html.H2("YAML", className="mt-3"),
