@@ -2,6 +2,7 @@
 click
 gdspy
 jsondiff
+jsonschema
 klayout
 loguru
 lytest==0.0.20

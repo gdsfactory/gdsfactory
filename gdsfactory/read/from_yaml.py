@@ -69,7 +69,19 @@ from gdsfactory.cross_section import cross_section_factory
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
 
-valid_placement_keys = ["x", "y", "dx", "dy", "rotation", "mirror", "port"]
+valid_placement_keys = [
+    "x",
+    "y",
+    "xmin",
+    "xmax",
+    "ymin",
+    "ymax",
+    "dx",
+    "dy",
+    "rotation",
+    "mirror",
+    "port",
+]
 
 
 valid_top_level_keys = [
@@ -196,7 +208,13 @@ def place(
                 raise ValueError(f"Invalid placement {k} from {valid_placement_keys}")
 
         x = placement_settings.get("x")
+        xmin = placement_settings.get("xmin")
+        xmax = placement_settings.get("xmax")
+
         y = placement_settings.get("y")
+        ymin = placement_settings.get("ymin")
+        ymax = placement_settings.get("ymax")
+
         dx = placement_settings.get("dx")
         dy = placement_settings.get("dy")
         port = placement_settings.get("port")
@@ -207,7 +225,7 @@ def place(
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
                 raise ValueError(
-                    f"Port {port} is neither a valid port on {ref.parent.name}"
+                    f"Port {port!r} is neither a valid port on {ref.parent.name!r}"
                     " nor a recognized anchor keyword.\n"
                     "Valid ports: \n"
                     f"{list(ref.ports.keys())}. \n"
@@ -216,7 +234,11 @@ def place(
                 )
             ref.x -= a[0]
             ref.y -= a[1]
-        if x:
+
+        if x or xmin or xmax:
+            xmin_or_xmax = xmin or xmax
+            x = x or xmin or xmax
+
             if isinstance(x, str):
                 if not len(x.split(",")) == 2:
                     raise ValueError(
@@ -234,7 +256,7 @@ def place(
                     )
                 if instance_name_ref not in instances:
                     raise ValueError(
-                        f"instance {instance_name_ref} not in {list(instances.keys())}."
+                        f"instance {instance_name_ref!r} not in {list(instances.keys())}."
                         f" You can define x as `x: instaceName,portName`, got x: {x!r}"
                     )
                 if (
@@ -242,16 +264,26 @@ def place(
                     and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"port = `{port_name}` not in {list(instances[instance_name_ref].ports.keys())}"
-                        f" or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
+                        f"port = {port_name!r} not in {list(instances[instance_name_ref].ports.keys())}"
+                        f" or in valid anchors {valid_anchor_keywords} for {instance_name_ref!r}, "
                         f"you can define x as `x: instaceName,portName`, got `x: {x!r}`"
                     )
 
                 x = _get_anchor_value_from_name(
                     instances[instance_name_ref], port_name, "x"
                 )
-            ref.x += x
-        if y:
+            if xmin_or_xmax:
+                if xmin:
+                    ref.xmin = x
+                else:
+                    ref.xmax = x
+            else:
+                ref.x += x
+
+        if y or ymin or ymax:
+            ymin_or_ymax = ymin or ymax
+            y = y or ymin or ymax
+
             if isinstance(y, str):
                 if not len(y.split(",")) == 2:
                     raise ValueError(
@@ -269,7 +301,7 @@ def place(
                     )
                 if instance_name_ref not in instances:
                     raise ValueError(
-                        f"{instance_name_ref} not in {list(instances.keys())}, "
+                        f"{instance_name_ref!r} not in {list(instances.keys())}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y!r}`"
                     )
                 if (
@@ -277,19 +309,29 @@ def place(
                     and port_name not in valid_anchor_keywords
                 ):
                     raise ValueError(
-                        f"port = {port_name} not in {list(instances[instance_name_ref].ports.keys())} "
-                        f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref}, "
+                        f"port = {port_name!r} not in {list(instances[instance_name_ref].ports.keys())} "
+                        f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref!r}, "
                         f"you can define y as `y: instaceName,portName`, got `y: {y!r}`"
                     )
 
                 y = _get_anchor_value_from_name(
                     instances[instance_name_ref], port_name, "y"
                 )
-            ref.y += y
+
+            if ymin_or_ymax:
+                if ymin:
+                    ref.ymin = y
+                else:
+                    ref.ymax = y
+            else:
+                ref.y += y
+
         if dx:
             ref.x += dx
+
         if dy:
             ref.y += dy
+
         if mirror:
             if mirror is True and port:
                 ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
@@ -615,6 +657,7 @@ def from_yaml(
                     component_factory=component_function,
                     settings=settings,
                     name=instance_name,
+                    cache=cache,
                     **pack,
                 )
             else:
@@ -622,6 +665,7 @@ def from_yaml(
                     component_factory=component_function,
                     settings=settings,
                     name=instance_name,
+                    cache=cache,
                     **pack,
                 )
 
@@ -1042,18 +1086,49 @@ instances:
 #             length_mmi: {lengths_mmi}
 #     """
 
+sample_yaml_xmin = """
+name: mask_compact
+
+instances:
+    mmi1x2_sweep_pack:
+       component: pack_doe
+       settings:
+         component: mmi1x2
+         length_mmi: [2, 100]
+         width_mmi: [4, 10]
+       pack:
+         do_permutations: True
+         spacing: 100
+
+    mzi_sweep:
+       component: pack_doe
+       settings:
+         component: mzi
+         delta_length: [10, 100]
+       pack:
+         do_permutations: True
+         spacing: 100
+
+placements:
+    mmi1x2_sweep_pack:
+        xmin: -10
+
+    mzi_sweep:
+        xmin: mmi1x2_sweep_pack,east
+
+"""
+
 if __name__ == "__main__":
     # for k in factory.keys():
     #     print(k)
     # print(c.settings["info"])
-
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
     # c = from_yaml(sample_pdk_mzi)
     # c2 = c.get_netlist()
-
     # c = from_yaml(sample_doe_grid)
-    c = from_yaml(sample_doe)
+
+    c = from_yaml(sample_yaml_xmin)
     c.show()
 
     # c = test_connections_regex()
