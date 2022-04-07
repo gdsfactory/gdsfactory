@@ -131,6 +131,15 @@ def ide() -> None:
     subprocess.call(command)
 
 
+@click.argument("filepath", type=click.Path(exists=True))
+@click.command()
+def watch(filepath) -> None:
+    """Filewatch YAML file."""
+    from gdsfactory.icyaml.filewatch import filewatch
+
+    filewatch(filepath)
+
+
 # MASKS
 
 
@@ -259,6 +268,7 @@ tool.add_command(test)
 tool.add_command(install)
 
 yaml.add_command(ide)
+yaml.add_command(watch)
 
 gf.add_command(gds)
 gf.add_command(tool)
