@@ -9,6 +9,7 @@ import yaml
 
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.types import PathType
 
 schema_path = CONFIG["schema_netlist"]
 schema_dict = json.loads(schema_path.read_text())
@@ -16,29 +17,34 @@ schema_dict = json.loads(schema_path.read_text())
 logger.info(f"Loaded netlist schema from {str(schema_path)!r}")
 
 
-def filewatch(filepath: str):
+def rebuild(filepath: PathType):
+    """Read YAML file, validate schema and show it in Klayout."""
     filepath = Path(filepath)
+    yaml_text = filepath.read_text()
+    yaml_dict = yaml.safe_load(yaml_text)
+
+    if yaml_dict is not None:
+        try:
+            jsonschema.validate(yaml_dict, schema_dict)
+            c = from_yaml(yaml_text)
+            c.show()
+        except (
+            ValueError,
+            ModuleNotFoundError,
+            KeyError,
+            Exception,
+            jsonschema.exceptions.ValidationError,
+        ) as e:
+            logger.error(e)
+
+
+def filewatch(filepath: str):
     logger.info(f"Watching {str(filepath)!r}")
 
     try:
         while True:
-            yaml_text = filepath.read_text()
-            yaml_dict = yaml.safe_load(yaml_text)
-
-            if yaml_dict is not None:
-                try:
-                    jsonschema.validate(yaml_dict, schema_dict)
-                    c = from_yaml(yaml_text)
-                    c.show()
-                    time.sleep(1)
-                except (
-                    ValueError,
-                    ModuleNotFoundError,
-                    KeyError,
-                    Exception,
-                    jsonschema.exceptions.ValidationError,
-                ) as e:
-                    logger.error(e)
+            rebuild(filepath)
+            time.sleep(1)
 
     except KeyboardInterrupt:
         return
