@@ -651,12 +651,16 @@ def from_yaml(
             component_function = component_factory[settings.pop("component")]
             pack = instance_conf.get("pack", {})
             pack = OmegaConf.to_container(pack, resolve=True) if pack else {}
+            function_name = pack.pop("function", None)
+
+            function = component_factory[function_name] if function_name else None
 
             if component_type == "pack_doe":
                 ci = pack_doe(
                     component_factory=component_function,
                     settings=settings,
                     name=instance_name,
+                    function=function,
                     cache=cache,
                     **pack,
                 )
@@ -665,6 +669,7 @@ def from_yaml(
                     component_factory=component_function,
                     settings=settings,
                     name=instance_name,
+                    function=function,
                     cache=cache,
                     **pack,
                 )

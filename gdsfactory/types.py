@@ -113,6 +113,7 @@ class Routes(BaseModel):
 class ComponentModel(BaseModel):
     component: str
     settings: Optional[Dict[str, Any]]
+    pack: Optional[Dict[str, Any]]
 
     class Config:
         extra = Extra.forbid
