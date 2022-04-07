@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [4.6.3]
+
+- pack_doe and pack_doe_grid have a function argument
+- fix netlist.json schema for instances to have pack kwarg
+- add `gf yaml watch` CLI command to watch a YAML file
+
 ## [4.6.2]
 
 - add Component.get_netlist_dict

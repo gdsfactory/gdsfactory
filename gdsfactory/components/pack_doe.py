@@ -5,7 +5,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentFactory, Optional
 
 
 @cell
@@ -13,14 +13,16 @@ def pack_doe(
     component_factory: ComponentFactory,
     settings: Dict[str, List[Any]],
     do_permutations: bool = False,
+    function: Optional[ComponentFactory] = None,
     **kwargs,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using pack.
 
     Args:
         component_factory: function to return Components.
-        settings:
-        do_permutations:
+        settings: component_factory settings.
+        do_permutations: for each setting.
+        function: for the component (add padding, grating couplers ...)
 
     keyword Args:
         component_factory: list or tuple
@@ -44,7 +46,13 @@ def pack_doe(
         settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
     else:
         settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
-    component_list = [component_factory(**settings) for settings in settings_list]
+
+    if function:
+        component_list = [
+            function(component_factory(**settings)) for settings in settings_list
+        ]
+    else:
+        component_list = [component_factory(**settings) for settings in settings_list]
 
     c = pack(component_list=component_list, **kwargs)
     if len(c) > 1:
@@ -60,6 +68,7 @@ def pack_doe_grid(
     component_factory: ComponentFactory,
     settings: Dict[str, List[Any]],
     do_permutations: bool = False,
+    function: Optional[ComponentFactory] = None,
     with_text: bool = False,
     **kwargs,
 ) -> Component:
@@ -67,8 +76,10 @@ def pack_doe_grid(
 
     Args:
         component_factory: function to return Components.
-        settings:
-        do_permutations:
+        settings: component_factory settings.
+        do_permutations: for each setting.
+        function: for the component (add padding, grating couplers ...)
+        with_text: includes text label.
 
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
@@ -79,17 +90,23 @@ def pack_doe_grid(
             If no shape and the list is 1D, if np.reshape were run with (1, -1).
         align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along
         align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along
-        edge_x: {'x', 'xmin', 'xmax'} for x (column) distribution (ignored if separation = True)
-        edge_y: {'y', 'ymin', 'ymax'} for y (row) distribution along (ignored if separation = True)
-        rotation: for each component in degrees
-        h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
-        v_mirror: vertical mirror using x axis (1, y) (0, y)
+        edge_x: {'x', 'xmin', 'xmax'} for x (column) (ignored if separation = True)
+        edge_y: {'y', 'ymin', 'ymax'} for y (row) (ignored if separation = True)
+        rotation: for each component in degrees.
+        h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
+        v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     if do_permutations:
         settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
     else:
         settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
-    component_list = [component_factory(**settings) for settings in settings_list]
+
+    if function:
+        component_list = [
+            function(component_factory(**settings)) for settings in settings_list
+        ]
+    else:
+        component_list = [component_factory(**settings) for settings in settings_list]
 
     if with_text:
         return grid_with_text(component_list, **kwargs)

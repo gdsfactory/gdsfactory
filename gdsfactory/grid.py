@@ -30,20 +30,20 @@ def grid(
     Adapted from phidl.geometry
 
     Args:
-        components: Iterable to be placed onto a grid. (can be 1D or 2D)
+        components: Iterable to be placed onto a grid. (can be 1D or 2D).
         spacing: between adjacent elements on the grid, can be a tuple for
             different distances in height and width.
         separation: If True, guarantees elements are speparated with fixed spacing
             if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
             If no shape and the list is 1D, if np.reshape were run with (1, -1).
-        align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along
-        align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along
-        edge_x: {'x', 'xmin', 'xmax'} for x (column) distribution (ignored if separation = True)
-        edge_y: {'y', 'ymin', 'ymax'} for y (row) distribution along (ignored if separation = True)
-        rotation: for each component in degrees
-        h_mirror: horizontal mirror using y axis (x, 1) (1, 0). This is the most common mirror.
-        v_mirror: vertical mirror using x axis (1, y) (0, y)
+        align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along.
+        align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along.
+        edge_x: {'x', 'xmin', 'xmax'} for x (column) (ignored if separation = True).
+        edge_y: {'y', 'ymin', 'ymax'} for y (row) along (ignored if separation = True).
+        rotation: for each component in degrees.
+        h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
+        v_mirror: vertical mirror using x axis (1, y) (0, y).
 
     Returns:
         Component containing all the components in a grid.
@@ -55,8 +55,8 @@ def grid(
         raise ValueError("[PHIDL] grid() The components needs to be 1D or 2D.")
     if shape is not None and len(shape) != 2:
         raise ValueError(
-            "[PHIDL] grid() shape argument must be None or"
-            + " have a length of 2, for example shape=(4,6)"
+            "grid() shape argument must be None or"
+            " have a length of 2, for example shape=(4,6)"
         )
 
     # Check that shape is valid and reshape array if needed
