@@ -59,6 +59,9 @@ definitions:
       settings:
         title: Settings
         type: object
+      pack:
+        title: Pack
+        type: object
     required:
     - component
     additionalProperties: false
