@@ -35,18 +35,18 @@ select_ports_optical = gf.partial(select_ports, layers_excluded=((100, 0),))
 def get_layer_stack_fab_c(thickness: float = 350.0) -> LayerStack:
     """Returns generic LayerStack"""
     return LayerStack(
-        layers=[
-            LayerLevel(
+        layers=dict(
+            wg=LayerLevel(
                 layer=LAYER.WG,
                 zmin=0.0,
                 thickness=0.22,
             ),
-            LayerLevel(
+            wgn=LayerLevel(
                 layer=LAYER.WGN,
                 zmin=0.22 + 0.1,
                 thickness=0.4,
             ),
-        ]
+        )
     )
 
 
