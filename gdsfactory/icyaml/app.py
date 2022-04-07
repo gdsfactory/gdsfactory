@@ -28,9 +28,6 @@ dirpath = Path(__file__).parent.parent.joinpath("schemas")
 schema_path = dirpath / "netlist.json"
 schema_dict = json.loads(schema_path.read_text())
 
-mask_schema_path = dirpath / "mask.json"
-mask_schema_dict = json.loads(schema_path.read_text())
-
 logger.info(f"Loaded netlist schema from {str(schema_path)!r}")
 
 wsgi_app = app.server
