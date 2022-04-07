@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [4.7.0]
+
+- convert LayerStack from dict to BaseModel, which accepts a single layers: Dict[str, LayerLevel]
+- add gf.get_factories to get_component_factories and get_module_factories
+
 ## [4.6.3](https://github.com/gdsfactory/gdsfactory/pull/262)
 
 - pack_doe and pack_doe_grid have a function argument
