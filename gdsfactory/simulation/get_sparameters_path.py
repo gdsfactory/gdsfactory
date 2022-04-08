@@ -66,7 +66,6 @@ get_sparameters_path_tidy3d = partial(
     _get_sparameters_path, layer_stack=LAYER_STACK, tool="tidy3d"
 )
 
-
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
 get_sparameters_data_lumerical = partial(
     _get_sparameters_data, layer_stack=LAYER_STACK, tool="lumerical"
@@ -78,11 +77,11 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
     nm = 1e-3
     layer_stack2 = deepcopy(LAYER_STACK)
-    layer_stack2["core"].thickness = 230 * nm
+    layer_stack2.layers["core"].thickness = 230 * nm
 
-    name1 = "straight_6637a3d3"
-    name2 = "straight_98818a59"
-    name3 = "straight_91432e2d"
+    name1 = "straight_a819ff51"
+    name2 = "straight_b18ef775"
+    name3 = "straight_8da6acc3"
 
     c = gf.components.straight()
 
