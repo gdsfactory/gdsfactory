@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [4.7.0]
+## [4.7.0](https://github.com/gdsfactory/gdsfactory/pull/264)
 
 - convert LayerStack from dict to BaseModel, which accepts a single layers: Dict[str, LayerLevel]
 - add gf.get_factories to get_component_factories and get_module_factories
