@@ -17,7 +17,6 @@ def plot_circuit(
     logscale: bool = True,
     fig: Optional[plt.Figure] = None,
     phase=False,
-    **kwargs,
 ) -> None:
     """Plot Sparameter circuit transmission over wavelength
 

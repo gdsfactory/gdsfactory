@@ -3,7 +3,6 @@ import copy
 import functools
 import hashlib
 import inspect
-from inspect import getmembers
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import toolz
@@ -32,18 +31,6 @@ def clear_cache() -> None:
 def print_cache():
     for k in CACHE:
         print(k)
-
-
-def get_module_factories(module) -> Dict[str, Callable]:
-    """Returns component factories from a module."""
-    from gdsfactory.component import Component
-
-    return {
-        t[0]: t[1]
-        for t in getmembers(module)
-        if callable(t[1]) and inspect.signature(t[1]).return_annotation == Component
-        # if isfunction(t[1]) and id(t[1]) in _FACTORY
-    }
 
 
 def get_source_code(func: Callable) -> str:
@@ -376,11 +363,10 @@ def test_import_gds_settings():
 
 if __name__ == "__main__":
     # test_names()
-    # c = wg(layer=(1, 0))
-    # print(c.info.changed)
 
-    # import gdsfactory as gf
-    # c = gf.components.straight()
+    import gdsfactory as gf
+
+    c = gf.components.straight()
     # c = gf.components.straight()
     # print(c.name)
 
@@ -397,6 +383,3 @@ if __name__ == "__main__":
     # c = gf.import_gds(gdspath)
     # c3 = gf.routing.add_fiber_single(c)
     # c3.show()
-    import ubcpdk
-
-    f = get_module_factories(ubcpdk.components)
