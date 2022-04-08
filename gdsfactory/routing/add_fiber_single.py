@@ -43,37 +43,35 @@ def add_fiber_single(
     cross_section: CrossSectionFactory = strip,
     **kwargs,
 ) -> Component:
-    r"""Returns component with grating ports and labels on each port.
-
-    Can add loopback reference structure next to it.
+    r"""Returns component with grating couplers and labels on each port.
 
     Args:
-        component: to connect
+        component: component or component function to connect to grating couplers.
         grating_coupler: grating coupler instance, function or list of functions
         layer_label: for test and measurement label
         fiber_spacing: between outputs
-        bend: bend_circular
-        straight: straight
+        bend: bend function.
+        straight: straight function.
         route_filter:
         min_input_to_output_spacing: spacing from input to output fiber
         max_y0_optical: None
-        with_loopback: True, adds loopback structures
+        with_loopback: True, adds loopback reference straight waveguide.
         loopback_xspacing: spacing from loopback xmin to component.xmin
-        straight_separation: 4.0
+        straight_separation: spacing between waveguides.
         list_port_labels: None, add labels to port indices in this list
         connected_port_list_ids: None # only for type 0 optical routing
-        nb_optical_ports_lines: 1
-        force_manhattan: False
-        excluded_ports: list of ports to exclude
-        grating_indices: None
-        routing_method: function to ge the route
-        gc_port_name: grating coupler name
-        zero_port: name of the port to move to (0, 0) for the routing to work correctly
-        get_input_labels_function: function to get input labels for grating couplers
-        optical_routing_type: None: autoselection, 0: no extension
-        gc_rotation: grating_coupler rotation (deg)
-        component_name: name of component
-        cross_section:
+        nb_optical_ports_lines: 1.
+        force_manhattan: False.
+        excluded_ports: list of ports to exclude.
+        grating_indices: None.
+        routing_method: function to ge the route.
+        gc_port_name: grating coupler name.
+        zero_port: name of the port to move to (0, 0) for the routing to work correctly.
+        get_input_labels_function: function to get input labels for grating couplers.
+        optical_routing_type: None: autoselection, 0: no extension.
+        gc_rotation: grating_coupler rotation (deg).
+        component_name: name of component.
+        cross_section: cross_section factory.
         get_input_label_text_function: for the grating couplers input label
         get_input_label_text_loopback_function: for the loopacks input label
         kwargs: cross_section settings
