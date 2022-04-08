@@ -39,7 +39,7 @@ def model_from_gdsfactory(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    c = model_from_gdsfactory(gf.c.mmi1x2())
+    c = model_from_gdsfactory(gf.c.mmi2x2())
     # c = model_from_gdsfactory(gf.c.mmi2x2())
     # c = model_from_gdsfactory(gf.c.bend_euler())
     # wav = np.linspace(1520, 1570, 1024) * 1e-9
@@ -49,5 +49,4 @@ if __name__ == "__main__":
     wav = c.wavelengths
     s = c.s
     plt.plot(wav * 1e9, np.abs(s[:, 1] ** 2))
-
     plt.show()
