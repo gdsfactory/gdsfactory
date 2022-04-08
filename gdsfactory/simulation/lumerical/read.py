@@ -6,6 +6,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.config import logger
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
@@ -125,6 +126,8 @@ def read_sparameters_lumerical(
     if not filepath.exists():
         raise ValueError(f"Sparameters for {component.name!r} not found in {filepath}")
     assert numports > 1, f"number of ports = {numports} and needs to be > 1"
+
+    logger.info(f"Sparameters loaded from {filepath}")
     return read_sparameters_file(filepath=filepath, numports=numports)
 
 
