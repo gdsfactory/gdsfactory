@@ -25,7 +25,6 @@ def build(filepath: PathType, validate_schema: bool = False):
         filepath = Path(filepath)
         yaml_text = filepath.read_text()
 
-    print(yaml_text)
     yaml_dict = yaml.safe_load(yaml_text)
 
     if yaml_dict is not None:
