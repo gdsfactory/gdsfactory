@@ -122,9 +122,8 @@ def read_sparameters_lumerical(
         component=component, dirpath=dirpath, layer_stack=layer_stack, **kwargs
     ).with_suffix(".dat")
     numports = numports or len(component.ports)
-    assert (
-        filepath.exists()
-    ), f"Sparameters for {component.name} not found in {filepath}"
+    if not filepath.exists():
+        raise ValueError(f"Sparameters for {component.name!r} not found in {filepath}")
     assert numports > 1, f"number of ports = {numports} and needs to be > 1"
     return read_sparameters_file(filepath=filepath, numports=numports)
 
