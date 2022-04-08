@@ -140,6 +140,15 @@ def watch(filepath) -> None:
     filewatch(filepath)
 
 
+@click.argument("filepath", type=click.Path(exists=True))
+@click.command()
+def build(filepath) -> None:
+    """Build YAML file and show it in klayout."""
+    from gdsfactory.icyaml.filewatch import build
+
+    build(filepath)
+
+
 # MASKS
 
 
@@ -269,6 +278,7 @@ tool.add_command(install)
 
 yaml.add_command(ide)
 yaml.add_command(watch)
+yaml.add_command(build)
 
 gf.add_command(gds)
 gf.add_command(tool)

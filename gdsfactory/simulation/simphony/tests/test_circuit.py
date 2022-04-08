@@ -27,10 +27,11 @@ if __name__ == "__main__":
     # from gdsfactory.simulation.simphony import plot_circuit
 
     c = gf.c.mzi(delta_length=10)
+    n = c.get_netlist()
     m = component_to_circuit(c)
     m.elements[splitter].pins["o1"] = "o1"
     m.elements[combiner].pins["o1"] = "o2"
 
     # plot_circuit(m)
     # plt.show()
-    # test_circuit_transmission(None, False)
+    test_circuit_transmission(None, False)

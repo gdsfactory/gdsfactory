@@ -17,7 +17,7 @@ schema_dict = json.loads(schema_path.read_text())
 logger.info(f"Loaded netlist schema from {str(schema_path)!r}")
 
 
-def rebuild(filepath: PathType):
+def build(filepath: PathType):
     """Read YAML file, validate schema and show it in Klayout."""
     filepath = Path(filepath)
     yaml_text = filepath.read_text()
@@ -43,7 +43,7 @@ def filewatch(filepath: str):
 
     try:
         while True:
-            rebuild(filepath)
+            build(filepath)
             time.sleep(1)
 
     except KeyboardInterrupt:
