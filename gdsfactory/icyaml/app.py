@@ -77,7 +77,7 @@ def validate_yaml(yaml_text, output):
 
     if yaml_dict is not None:
         try:
-            jsonschema.validate(yaml_dict, schema_dict)
+            # jsonschema.validate(yaml_dict, schema_dict)
             c = from_yaml(yaml_text)
             c.show()
             return class_name + " is-valid", ""

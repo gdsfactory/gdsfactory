@@ -106,35 +106,43 @@ class LayerLevel(BaseModel):
     sidewall_angle: float = 0
 
 
-class LayerStack(dict):
-    """For simulation and trimesh 3D rendering"""
+class LayerStack(BaseModel):
+    """For simulation and trimesh 3D rendering."""
+
+    layers: Dict[str, LayerLevel]
 
     def get_layer_to_thickness(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to thickness (um)."""
         return {
-            level.layer: level.thickness for level in self.values() if level.thickness
+            level.layer: level.thickness
+            for level in self.layers.values()
+            if level.thickness
         }
 
     def get_layer_to_zmin(self) -> Dict[Tuple[int, int], float]:
         """Returns layer tuple to z min position (um)."""
-        return {level.layer: level.zmin for level in self.values() if level.thickness}
+        return {
+            level.layer: level.zmin for level in self.layers.values() if level.thickness
+        }
 
     def get_layer_to_material(self) -> Dict[Tuple[int, int], str]:
         """Returns layer tuple to material name."""
         return {
-            level.layer: level.material for level in self.values() if level.thickness
+            level.layer: level.material
+            for level in self.layers.values()
+            if level.thickness
         }
 
     def get_layer_to_sidewall_angle(self) -> Dict[Tuple[int, int], str]:
         """Returns layer tuple to material name."""
         return {
             level.layer: level.sidewall_angle
-            for level in self.values()
+            for level in self.layers.values()
             if level.thickness
         }
 
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
-        return {level_name: dict(level) for level_name, level in self.items()}
+        return {level_name: dict(level) for level_name, level in self.layers.items()}
 
 
 def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStack:
@@ -142,71 +150,73 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
     """
     layer_stack = LayerStack(
-        core=LayerLevel(
-            layer=LAYER.WG,
-            thickness=thickness_silicon_core,
-            zmin=0.0,
-            material="si",
-        ),
-        clad=LayerLevel(
-            layer=LAYER.WGCLAD,
-            zmin=0.0,
-            material="sio2",
-        ),
-        slab150=LayerLevel(
-            layer=LAYER.SLAB150,
-            thickness=150e-3,
-            zmin=0,
-            material="si",
-        ),
-        slab90=LayerLevel(
-            layer=LAYER.SLAB90,
-            thickness=90e-3,
-            zmin=0.0,
-            material="si",
-        ),
-        nitride=LayerLevel(
-            layer=LAYER.WGN,
-            thickness=350e-3,
-            zmin=220e-3 + 100e-3,
-            material="sin",
-        ),
-        ge=LayerLevel(
-            layer=LAYER.GE,
-            thickness=500e-3,
-            zmin=220e-3,
-            material="ge",
-        ),
-        via_contact=LayerLevel(
-            layer=LAYER.VIAC,
-            thickness=1100e-3,
-            zmin=90e-3,
-            material="Aluminum",
-        ),
-        metal1=LayerLevel(
-            layer=LAYER.M1,
-            thickness=750e-3,
-            zmin=220e-3 + 1100e-3,
-            material="Aluminum",
-        ),
-        heater=LayerLevel(
-            layer=LAYER.HEATER,
-            thickness=750e-3,
-            zmin=220e-3 + 1100e-3,
-            material="TiN",
-        ),
-        viac=LayerLevel(
-            layer=LAYER.VIA1,
-            thickness=1500e-3,
-            zmin=220e-3 + 1100e-3 + 750e-3,
-            material="Aluminum",
-        ),
-        metal2=LayerLevel(
-            layer=LAYER.M2,
-            thickness=2000e-3,
-            zmin=220e-3 + 1100e-3 + 750e-3 + 1.5,
-            material="Aluminum",
-        ),
+        layers=dict(
+            core=LayerLevel(
+                layer=LAYER.WG,
+                thickness=thickness_silicon_core,
+                zmin=0.0,
+                material="si",
+            ),
+            clad=LayerLevel(
+                layer=LAYER.WGCLAD,
+                zmin=0.0,
+                material="sio2",
+            ),
+            slab150=LayerLevel(
+                layer=LAYER.SLAB150,
+                thickness=150e-3,
+                zmin=0,
+                material="si",
+            ),
+            slab90=LayerLevel(
+                layer=LAYER.SLAB90,
+                thickness=90e-3,
+                zmin=0.0,
+                material="si",
+            ),
+            nitride=LayerLevel(
+                layer=LAYER.WGN,
+                thickness=350e-3,
+                zmin=220e-3 + 100e-3,
+                material="sin",
+            ),
+            ge=LayerLevel(
+                layer=LAYER.GE,
+                thickness=500e-3,
+                zmin=220e-3,
+                material="ge",
+            ),
+            via_contact=LayerLevel(
+                layer=LAYER.VIAC,
+                thickness=1100e-3,
+                zmin=90e-3,
+                material="Aluminum",
+            ),
+            metal1=LayerLevel(
+                layer=LAYER.M1,
+                thickness=750e-3,
+                zmin=220e-3 + 1100e-3,
+                material="Aluminum",
+            ),
+            heater=LayerLevel(
+                layer=LAYER.HEATER,
+                thickness=750e-3,
+                zmin=220e-3 + 1100e-3,
+                material="TiN",
+            ),
+            viac=LayerLevel(
+                layer=LAYER.VIA1,
+                thickness=1500e-3,
+                zmin=220e-3 + 1100e-3 + 750e-3,
+                material="Aluminum",
+            ),
+            metal2=LayerLevel(
+                layer=LAYER.M2,
+                thickness=2000e-3,
+                zmin=220e-3 + 1100e-3 + 750e-3 + 1.5,
+                material="Aluminum",
+            ),
+        )
     )
     return layer_stack
 
@@ -334,16 +344,16 @@ class Tech(BaseModel):
 TECH = Tech()
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-    from gdsfactory.component import clean_value_json
+    # import gdsfactory as gf
+    # from gdsfactory.serialization import clean_value_json
 
-    d = clean_value_json(SIMULATION_SETTINGS)
+    # d = clean_value_json(SIMULATION_SETTINGS)
 
-    def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
-        return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
+    # def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
+    #     return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)
 
-    def mzi_longer(**kwargs):
-        return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
+    # def mzi_longer(**kwargs):
+    #     return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     ls = LAYER_STACK
     # print(ls.get_layer_to_material())

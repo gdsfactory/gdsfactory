@@ -1,6 +1,7 @@
 """Lets for example customize the default gf.PDK
 
-Fab B is mostly uses optical layers but the waveguides required many cladding layers to avoid tiling, dopants...
+Fab B is mostly uses optical layers
+but the waveguides required many cladding layers to avoid tiling, dopants...
 
 Lets say that the waveguides are defined in layer (2, 0) and are 0.3um wide
 

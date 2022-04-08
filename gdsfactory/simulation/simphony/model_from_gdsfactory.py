@@ -40,6 +40,8 @@ if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     c = model_from_gdsfactory(gf.c.mmi1x2())
+    # c = model_from_gdsfactory(gf.c.mmi2x2())
+    # c = model_from_gdsfactory(gf.c.bend_euler())
     # wav = np.linspace(1520, 1570, 1024) * 1e-9
     # f = speed_of_light / wav
     # s = c.s_parameters(freq=f)

@@ -35,37 +35,40 @@ def add_fiber_array(
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
+    adds a grating_coupler
 
     Args:
-        component: to connect
-        grating_coupler: grating coupler instance, function or list of functions
-        straight: factory
-        bend: bend_circular
-        gc_port_name: grating coupler input port name 'W0'
-        gc_port_labels: grating coupler list of labels
-        component_name: for the label
-        select_ports: function to select ports
-        cross_section: cross_section function
-        taper: taper function name or dict
-        get_input_labels_function: function to get input labels for grating couplers
-        get_input_label_text_loopback_function: function to get input label test
-        get_input_label_text_function
-        straight: straight
+        component: component or component function to connect to grating couplers.
+        grating_coupler: fiber coupler instance, function or list of functions.
+        straight: straight function.
+        bend: bend function.
+        gc_port_name: grating coupler input port name.
+        gc_port_labels: grating coupler list of labels.
+        component_name: for the label.
+        select_ports: function to select ports.
+        cross_section: cross_section function.
+        layer_label: LAYER.LABEL
+        get_input_labels_function: function to get input labels for grating couplers.
+
+    Keyword Args:
+        taper: taper function name or dict.
+        get_input_label_text_loopback_function: function to get input label test.
+        get_input_label_text_function.
+        straight: straight.
         fanout_length: None  # if None, automatic calculation of fanout length
-        max_y0_optical: None
+        max_y0_optical: None.
         with_loopback: True, adds loopback structures
-        straight_separation: 4.0
-        list_port_labels: None, adds TM labels to port indices in this list
+        straight_separation: 4.0.
+        list_port_labels: None, adds TM labels to port indices in this list.
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
         force_manhattan: False
-        excluded_ports:
-        grating_indices: None
+        excluded_ports: list of ports to exclude from adding fiber coupler.
+        grating_indices: list of grating coupler indices.
         routing_straight: None
         routing_method: get_route
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check
-        gc_rotation: -90
-        layer_label: LAYER.LABEL
+        gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
         input_port_indexes: [0]
 
     .. plot::
