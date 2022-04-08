@@ -1,5 +1,4 @@
 """filewatcher"""
-
 import json
 import time
 from pathlib import Path
@@ -17,15 +16,21 @@ schema_dict = json.loads(schema_path.read_text())
 logger.info(f"Loaded netlist schema from {str(schema_path)!r}")
 
 
-def build(filepath: PathType):
+def build(filepath: PathType, validate_schema: bool = False):
     """Read YAML file, validate schema and show it in Klayout."""
-    filepath = Path(filepath)
-    yaml_text = filepath.read_text()
+
+    if "\n" in filepath:
+        yaml_text = str(filepath)
+    else:
+        filepath = Path(filepath)
+        yaml_text = filepath.read_text()
+
     yaml_dict = yaml.safe_load(yaml_text)
 
     if yaml_dict is not None:
         try:
-            jsonschema.validate(yaml_dict, schema_dict)
+            if validate_schema:
+                jsonschema.validate(yaml_dict, schema_dict)
             c = from_yaml(yaml_text)
             c.show()
         except (

@@ -114,18 +114,18 @@ def merge_gds(
     c.show()
 
 
-# netlist driven flow
+# netlist driven flow in YAML
 
 
 @click.group()
 def yaml() -> None:
-    """Commands for building components from YAML"""
+    """define components/circuits/masks in YAML"""
     pass
 
 
 @click.command()
-def ide() -> None:
-    """Opens YAML based IDE."""
+def webapp() -> None:
+    """Opens YAML based webapp."""
     os.chdir(CONFIG["module_path"] / "icyaml")
     command = shlex.split("make debug")
     subprocess.call(command)
@@ -140,11 +140,18 @@ def watch(filepath) -> None:
     filewatch(filepath)
 
 
-@click.argument("filepath", type=click.Path(exists=True))
+@click.argument("filepath", required=False, default=None)
 @click.command()
-def build(filepath) -> None:
-    """Build YAML file and show it in klayout."""
+def build(filepath=None) -> None:
+    """Read YAML file or stdin, build component and show it in klayout."""
     from gdsfactory.icyaml.filewatch import build
+
+    if filepath is None:
+        filepath = click.get_text_stream("stdin")
+        filepath = filepath.read()
+
+        if "\n" not in filepath:
+            raise ValueError("need to specify a file")
 
     build(filepath)
 
@@ -276,7 +283,7 @@ tool.add_command(config_get)
 tool.add_command(test)
 tool.add_command(install)
 
-yaml.add_command(ide)
+yaml.add_command(webapp)
 yaml.add_command(watch)
 yaml.add_command(build)
 

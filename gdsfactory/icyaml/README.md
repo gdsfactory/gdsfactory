@@ -17,7 +17,7 @@ You can launch it from the terminal
 
 ```
 
-gf yaml ide
+gf yaml webapp
 
 ```
 
