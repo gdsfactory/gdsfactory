@@ -64,10 +64,10 @@ def component_to_circuit(
 if __name__ == "__main__":
     import gdsfactory.simulation.simphony as gs
 
-    c = gf.components.ring_single()
+    c = gf.components.mzi()
     n = c.get_netlist_dict()
 
     cm = component_to_circuit(c)
-    # p2 = cm.pins.pop()
-    # p2.name = "o2"
+    p2 = cm.pins.pop()
+    p2.name = "o2"
     gs.plot_circuit(cm)
