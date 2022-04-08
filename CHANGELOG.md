@@ -2,7 +2,7 @@
 
 ## [4.7.1]
 
-- `gf yaml build` can read from stdinput
+- `gf yaml build` can read from stdin
 
 ## [4.7.0](https://github.com/gdsfactory/gdsfactory/pull/264)
 
