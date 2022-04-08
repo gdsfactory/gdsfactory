@@ -4,6 +4,7 @@
 
 - convert LayerStack from dict to BaseModel, which accepts a single layers: Dict[str, LayerLevel]
 - add gf.get_factories to get_component_factories and get_module_factories
+- add `gf yaml build filepath`  where filepath is a YAML path that you want to show in klayout
 
 ## [4.6.3](https://github.com/gdsfactory/gdsfactory/pull/262)
 
