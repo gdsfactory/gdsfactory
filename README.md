@@ -16,21 +16,22 @@
 ![](https://i.imgur.com/v4wpHpg.png)
 
 [gdsfactory](https://gdsfactory.github.io/gdsfactory/) is an EDA (electronics design automation) tool to Layout Integrated Circuits.
-It is build on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and klayout and provides you with functions to build your GDSII components, PDKs and masks for different foundries.
+It is built on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and [klayout](https://www.klayout.de/) to work with GDSII components, PDKs and masks for different foundries.
 
 You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
 gdsfactory provides you with functions that you can use to:
 
 - define components, circuits and masks in python or YAML
-- add routes between components
-- ensure you can build complex systems by testing settings, ports and GDS geometry
+- route between components
+- test settings, ports and GDS geometry
 
-As input, you describe your layouts in python or YAML code.
+It enables both layout and netlist driven flows and is all code driven.
+
+As input, you write python or YAML code.
 
 As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by CMOS foundries.
-It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). You can also easily adapt this metadata output files to your needs.
-
+It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). And you can easily adapt any outputs to your needs, thanks to being all natively written in python.
 ![](https://i.imgur.com/XbhWJDz.png)
 
 For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
@@ -42,10 +43,10 @@ Then I tried all the commercial (Luceda, Cadence, Synopsys) and open source EDA 
 The metrics for the benchmark were:
 
 1. Fast
-2. Easy to use
+2. Easy to use and interface with other tools
 3. Maintained / Documented / Popular
 
-PHIDL was the outstanding winner thanks to its speed, code beauty and easy of use, and is written on top of gdspy (which came second), so you can also leverage all the goodies from gdspy.
+PHIDL was the winner thanks to its speed, code beauty and easy of use, and is written on top of gdspy (which came second), so you can also leverage all the work from many tools that support gdspy.
 
 Gdsfactory also leverages klayout and gdspy libraries for some functions.
 
