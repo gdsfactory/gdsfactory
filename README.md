@@ -17,6 +17,7 @@
 
 [gdsfactory](https://gdsfactory.github.io/gdsfactory/) is an EDA (electronics design automation) tool to Layout Integrated Circuits.
 It is built on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and [klayout](https://www.klayout.de/) to work with GDSII components, PDKs and masks for different foundries.
+It combines the power of a code driven flow (python or YAML) together with visualization interfaces (Klayout for GDS, trimesh for 3D rendering, networkx for graphs ...)
 
 You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
@@ -46,9 +47,9 @@ The metrics for the benchmark were:
 2. Easy to use and interface with other tools
 3. Maintained / Documented / Popular
 
-PHIDL was the winner thanks to its speed, code beauty and easy of use, and is written on top of gdspy (which came second), so you can also leverage all the work from many tools that support gdspy.
+PHIDL won in speed, readability and easy of use. PHIDL is written on top of gdspy (which came second), so you can still leverage all the work from the gdspy community.
 
-Gdsfactory also leverages klayout and gdspy libraries for some functions.
+Gdsfactory also leverages klayout and gdspy python APIs.
 
 ![](https://i.imgur.com/4xQJ2yk.png)
 
@@ -81,7 +82,7 @@ What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
   - `get_bundle`: for bundles of routes (river routing)
   - `get_bundle_path_length_match`: for routes that need to keep the same path length
   - `get_route(auto_widen=True)`: for routes that expand to wider waveguides to reduce loss and phase errors
-  - `get_route(impossible route)`: for impossible routes it raises a warning and returns a FlexPath on an error layer
+  - `get_route(impossible route)`: for impossible routes it warns you and returns a FlexPath on an error layer to clearly show you the impossible route
 - testing framework to avoid unwanted regressions
   - checks geometric GDS changes by making a boolean difference between GDS cells
   - checks metadata changes, including port location and component settings
