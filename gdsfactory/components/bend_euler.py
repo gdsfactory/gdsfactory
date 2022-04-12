@@ -30,16 +30,16 @@ def bend_euler(
     https://www.osapublishing.org/oe/fulltext.cfm?uri=oe-25-8-9150&id=362937
 
     Args:
-        angle: total angle of the curve
-        p: Proportion of the curve that is an Euler curve
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature
           If True: The curve scales such that the endpoints match a bend_circular
           with parameters `radius` and `angle`
-        npoints: Number of points used per 360 degrees
-        direction: cw (clock-wise) or ccw (counter clock-wise)
-        with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section:
-        kwargs: cross_section settings
+        npoints: Number of points used per 360 degrees.
+        direction: cw (clock-wise) or ccw (counter clock-wise).
+        with_cladding_box: to avoid DRC acute angle errors in cladding.
+        cross_section: CrossSection or function that returns a cross_section.
+        kwargs: cross_section settings.
 
 
     .. code::
