@@ -111,7 +111,7 @@ class CrossSection(BaseModel):
         self.sections.append(new_segment)
         return self
 
-    def copy(self):
+    def copy(self, width: Optional[float] = None):
         """Return a copy of the CrossSection"""
         X = CrossSection()
         X.info = self.info.copy()
@@ -119,6 +119,14 @@ class CrossSection(BaseModel):
         X.ports = tuple(sorted(list(self.ports)))
         X.aliases = dict(self.aliases)
         X.port_types = tuple(self.port_types)
+
+        if width:
+            if "_default" not in self.aliases:
+                raise ValueError(
+                    f"No section named `_default` in {self.aliases.keys()}"
+                )
+            self.aliases["_default"]["width"] = width
+
         return X
 
     @classmethod
@@ -193,8 +201,8 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main layer waveguide width (um).
-        layer: main layer for waveguide.
+        width: main section width (um).
+        layer: main section layer.
         layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
