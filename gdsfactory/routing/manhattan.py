@@ -754,7 +754,11 @@ def round_corners(
             # Straight waveguide
             kwargs_wide = kwargs.copy()
             kwargs_wide.update(width=width_wide)
-            cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+            if callable(cross_section):
+                cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+            else:
+                cross_section_wide = cross_section.copy()
+                cross_section.aliases["_default"]["width"] = width_wide
             wg = straight(length=length, cross_section=cross_section_wide)
         else:
             wg = straight_fall_back_no_taper(
