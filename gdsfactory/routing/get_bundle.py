@@ -49,18 +49,39 @@ def get_bundle(
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
     Chooses the correct u_bundle to use based on port angles
+    ports1 and ports2 should all be facing in the same direction.
 
     Args:
-        ports1: should all be facing in the same direction
-        ports2: should all be facing in the same direction
-        separation: bundle separation (center to center)
-        extension_length: adds straight extension
-        bend:
-        sort_ports:
-        end_straight_length:
-        start_straight_length:
-        cross_section:
-        **kwargs: cross_section settings
+        ports1: list of starting ports.
+        ports2: list of end ports.
+        separation: bundle separation (center to center).
+        extension_length: adds straight extension.
+        bend: function for the bend. Defaults to euler.
+        sort_ports: sort port coordinates.
+        end_straight_length: straight length at the end of the route.
+        start_straight_length: straight length at the beginning of the route.
+        cross_section: function that returns a cross_section.
+        kwargs: cross_section settings.
+
+    Keyword Args:
+        width: main layer waveguide width (um).
+        layer: main layer for waveguide.
+        layer_bbox: optional bounding box layer for device recognition. (68, 0)
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        radius: bend radius (um).
+        cladding_offset: offset for layers_cladding (um).
+        layers_cladding: list of cladding layers around component bounding box.
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: can snap points to grid when extruding the path.
+
 
     """
     # convert single port to list
