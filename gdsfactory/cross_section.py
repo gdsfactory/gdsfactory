@@ -193,24 +193,24 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main of the waveguide
-        layer: main layer
+        width: main layer waveguide width (um).
+        layer: main layer for waveguide.
         layer_bbox: optional bounding box layer for device recognition. (68, 0)
-        width_wide: taper to widen waveguides for lower loss
-        auto_widen: taper to widen waveguides for lower loss
-        auto_widen_minimum_length: minimum straight length for auto_widen
-        taper_length: taper_length for auto_widen
-        radius: bend radius
-        cladding_offset: offset for layers_cladding
-        layers_cladding:
-        sections: Sections(width, offset, layer, ports)
-        port_names: for input and output ('o1', 'o2')
-        port_types: for input and output (electrical, optical, vertical_te ...)
-        min_length: 10e-3 for routing
-        start_straight_length: for routing
-        end_straight_length: for routing
-        snap_to_grid: can snap points to grid when extruding the path
-        decorator: optional decorator function (adds pins to each port, etc.)
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        radius: bend radius (um).
+        cladding_offset: offset for layers_cladding (um).
+        layers_cladding: list of cladding layers around component bounding box.
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: can snap points to grid when extruding the path.
+        decorator: optional decorator function (adds pins to each port, etc.).
     """
     info = dict(
         width=width,

@@ -96,6 +96,9 @@ def get_route(
         c.plot()
 
     """
+    # if not callable(cross_section):
+    #     raise ValueError()
+
     x = cross_section(**kwargs)
     taper_length = x.info.get("taper_length")
     width1 = input_port.width
