@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [4.7.2]
+
+- add vscode plugin to docs
+- get_bundle accepts also cross_section as well as cross_section_factory
+
 ## [4.7.1](https://github.com/gdsfactory/gdsfactory/pull/265)
 
 - `gf yaml build` can read from stdin
