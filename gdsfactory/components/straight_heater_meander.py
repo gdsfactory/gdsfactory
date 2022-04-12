@@ -1,4 +1,5 @@
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Layer, Optional
@@ -19,7 +20,7 @@ def straight_heater_meander(
     heater_taper_length: Optional[float] = 10.0,
     straight_width: float = 0.9,
     taper_length: float = 10,
-):
+) -> Component:
     """Returns a meander based heater
     based on SungWon Chung, Makoto Nakai, and Hossein Hashemi,
     Low-power thermo-optic silicon modulator for large-scale photonic integrated systems
@@ -44,7 +45,7 @@ def straight_heater_meander(
         taper_length: from the cross_section
     """
     rows = 3
-    c = gf.Component()
+    c = Component()
     p1 = gf.Port(midpoint=(0, 0), orientation=0)
     p2 = gf.Port(midpoint=(0, spacing), orientation=0)
     route = gf.routing.get_route(p1, p2, radius=radius)
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     # c.add_port("o2", port=straight_array.ports[f"o2_{rows}_1"])
 
     c = straight_heater_meander(
-        straight_width=0.5,
+        straight_width=0.9,
         taper_length=10
         # taper_length=10,
         # length=600,
