@@ -96,8 +96,11 @@ def get_route(
         c.plot()
 
     """
-    # if not callable(cross_section):
-    #     raise ValueError()
+    if not callable(cross_section):
+        raise ValueError(
+            "cross_section needs to be a function that returns a CrossSection.\n"
+            f"Got {type(cross_section)}"
+        )
 
     x = cross_section(**kwargs)
     taper_length = x.info.get("taper_length")
@@ -204,6 +207,11 @@ def get_route_from_waypoints(
         c.plot()
 
     """
+    if not callable(cross_section):
+        raise ValueError(
+            "cross_section needs to be a function that returns a CrossSection.\n"
+            f"Got {type(cross_section)}"
+        )
 
     x = cross_section(**kwargs)
     auto_widen = x.info.get("auto_widen", False)
@@ -257,7 +265,7 @@ if __name__ == "__main__":
     route = get_route_electrical(
         p1.ports["e13"],
         p2.ports["e11"],
-        cross_section=gf.cross_section.metal3,
+        cross_section=gf.cross_section.metal3(),
         width=10.0,
     )
     c.add(route.references)
