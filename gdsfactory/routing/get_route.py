@@ -254,7 +254,7 @@ if __name__ == "__main__":
     route = get_route(
         p1.ports["e13"],
         p2.ports["e11"],
-        cross_section=gf.cross_section.strip(auto_widen=True),
+        cross_section=gf.cross_section.strip(auto_widen=True, width_wide=2),
     )
     c.add(route.references)
 
