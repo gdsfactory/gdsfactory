@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionFactory, Layer
+from gdsfactory.types import CrossSectionOrFactory, Layer
 
 
 @cell
@@ -16,7 +16,7 @@ def taper(
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_cladding_box: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -33,7 +33,7 @@ def taper(
         kwargs: cross_section settings
 
     """
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
 
     layers_cladding = x.info["layers_cladding"]
     layer = x.info["layer"]
@@ -47,10 +47,10 @@ def taper(
     y2 = width2 / 2
 
     kwargs.update(width=width1)
-    x1 = cross_section(**kwargs)
+    x1 = cross_section(**kwargs) if callable(cross_section) else cross_section
 
     kwargs.update(width=width2)
-    x2 = cross_section(**kwargs)
+    x2 = cross_section(**kwargs) if callable(cross_section) else cross_section
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
@@ -103,7 +103,7 @@ def taper_strip_to_ridge(
     layer_slab: Layer = gf.LAYER.SLAB90,
     layers_cladding: Optional[Tuple[Layer, ...]] = None,
     cladding_offset: float = 3.0,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
 ) -> Component:
     r"""Linear taper from strip to rib
 
@@ -133,7 +133,11 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
-    cross_section = gf.partial(cross_section, width=width1)
+    cross_section = (
+        gf.partial(cross_section, width=width1)
+        if callable(cross_section)
+        else cross_section
+    )
 
     taper_wg = taper(
         length=length,
