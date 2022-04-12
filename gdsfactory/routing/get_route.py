@@ -251,11 +251,10 @@ if __name__ == "__main__":
 
     p1.movex(300)
     p1.movey(300)
-    route = get_route_electrical(
+    route = get_route(
         p1.ports["e13"],
         p2.ports["e11"],
-        cross_section=gf.cross_section.metal3(),
-        width=10.0,
+        cross_section=gf.cross_section.strip(auto_widen=True),
     )
     c.add(route.references)
 
