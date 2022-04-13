@@ -47,7 +47,22 @@ add_fidutials
 
   import gdsfactory as gf
 
-  c = gf.components.add_fidutials(gap=50)
+  c = gf.components.add_fidutials(gap=50, offset=(0, 0))
+  c.plot()
+
+
+
+add_fidutials_offsets
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.add_fidutials_offsets
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.add_fidutials_offsets(offsets=((0, 100), (0, -100)))
   c.plot()
 
 
@@ -586,7 +601,7 @@ coupler90circular
 
   import gdsfactory as gf
 
-  c = gf.components.coupler90circular()
+  c = gf.components.coupler90circular(gap=0.2, radius=10.0)
   c.plot()
 
 
@@ -961,7 +976,7 @@ delay_snake_sbend
 
   import gdsfactory as gf
 
-  c = gf.components.delay_snake_sbend(length=100.0, length1=0.0, length4=0.0, radius=5.0, waveguide_spacing=5.0, sbend_xsize=100.0, print_min_bend_radius=False)
+  c = gf.components.delay_snake_sbend(length=100.0, length1=0.0, length4=0.0, radius=5.0, waveguide_spacing=5.0, sbend_xsize=100.0)
   c.plot()
 
 
@@ -1742,6 +1757,66 @@ pad_array
   import gdsfactory as gf
 
   c = gf.components.pad_array(spacing=(150.0, 150.0), columns=6, rows=1, orientation=270)
+  c.plot()
+
+
+
+pad_array0
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array0
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array0(spacing=(150.0, 150.0), columns=1, rows=3, orientation=0)
+  c.plot()
+
+
+
+pad_array180
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array180
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array180(spacing=(150.0, 150.0), columns=1, rows=3, orientation=180)
+  c.plot()
+
+
+
+pad_array270
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array270
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array270(spacing=(150.0, 150.0), columns=6, rows=1, orientation=270)
+  c.plot()
+
+
+
+pad_array90
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pad_array90
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pad_array90(spacing=(150.0, 150.0), columns=6, rows=1, orientation=90)
   c.plot()
 
 
@@ -2586,6 +2661,21 @@ text
 
 
 
+text_lines
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.text_lines
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.text_lines(text=('',), size=0.4, layer=(1, 0))
+  c.plot()
+
+
+
 text_rectangular
 ----------------------------------------------------
 
@@ -2656,7 +2746,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='4.4.1', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='4.7.2', text_size=10)
   c.plot()
 
 

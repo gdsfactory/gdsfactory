@@ -18,7 +18,7 @@ def bend_port(
     angle: float = 180,
     extension_length: Optional[float] = None,
     **kwargs,
-):
+) -> gf.Component:
     """
     Returns a component that contains a component with a bend and a straight
 

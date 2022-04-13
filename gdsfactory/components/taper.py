@@ -185,7 +185,7 @@ def taper_strip_to_ridge_trenches(
     trench_layer: Layer = gf.LAYER.SLAB90,
     layer_wg: Layer = gf.LAYER.WG,
     trench_offset: float = 0.1,
-):
+) -> gf.Component:
     """Defines taper using trenches to define the etch.
 
     Args:
