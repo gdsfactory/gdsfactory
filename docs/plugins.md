@@ -39,6 +39,7 @@ There are different types of simulation storage that you can use.
    :titlesonly:
    :caption: Contents:
 
+   notebooks/plugins/vscode.ipynb
    notebooks/plugins/mpb/001_mpb_waveguide.ipynb
    notebooks/plugins/lumerical/1_fdtd_sparameters.ipynb
    notebooks/plugins/meep/001_meep_sparameters.ipynb
