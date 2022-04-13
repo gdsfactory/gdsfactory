@@ -23,6 +23,7 @@ import tempfile
 import os
 
 is_python3 = sys.version_info.major==3
+temp = tempfile.TemporaryDirectory().name
 
 
 if is_python3:
@@ -70,7 +71,6 @@ class MyServer(pya.QTcpServer):
             # temp.mkdir(exist_ok=True)
             # filepath_layers = temp / 'klayout_layers.lyp'
 
-            temp = tempfile.TemporaryDirectory().name
             filepath_layers = os.path.join(temp, 'klayout_layers.lyp')
             os.makedirs(temp, exist_ok=True)
 
@@ -123,7 +123,7 @@ class MyServer(pya.QTcpServer):
 
 # Start the server
 server = MyServer()
-print("klive v0.0.7 is running")
+print("klive v0.0.8 is running")
 
 
 </text>
