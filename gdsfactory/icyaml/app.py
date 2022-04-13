@@ -36,13 +36,13 @@ app.layout = layout
 
 
 def run_debug():
+    webbrowser.open("127.0.0.1:5000", new=1)
     app.run_server(debug=True)
-    # app.run_server(debug=True)
 
 
 def run():
     print("gdsfactory webapp")
-    webbrowser.open("127.0.0.1:8080", new=2)
+    webbrowser.open("127.0.0.1:8080", new=1)
 
     try:
         import waitress
