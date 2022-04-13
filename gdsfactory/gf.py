@@ -3,6 +3,7 @@ import os
 import pathlib
 import shlex
 import subprocess
+import webbrowser
 from typing import Optional
 
 import click
@@ -126,6 +127,7 @@ def yaml() -> None:
 @click.command()
 def webapp() -> None:
     """Opens YAML based webapp."""
+    webbrowser.open("127.0.0.1:5000", new=1)
     os.chdir(CONFIG["module_path"] / "icyaml")
     command = shlex.split("make debug")
     subprocess.call(command)
