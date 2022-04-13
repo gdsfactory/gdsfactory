@@ -1,15 +1,15 @@
-"""You can define a path with a list of points
-
+"""You can define a path as list of points.
 To create a component you need to extrude the path with a cross-section.
-
 """
+import inspect
+import sys
 from functools import partial
+from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
 
 import pydantic
 from pydantic import BaseModel
 
-from gdsfactory.add_pins import add_pins_siepic_optical
 from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
@@ -111,7 +111,7 @@ class CrossSection(BaseModel):
         self.sections.append(new_segment)
         return self
 
-    def copy(self):
+    def copy(self, width: Optional[float] = None):
         """Return a copy of the CrossSection"""
         X = CrossSection()
         X.info = self.info.copy()
@@ -119,6 +119,14 @@ class CrossSection(BaseModel):
         X.ports = tuple(sorted(list(self.ports)))
         X.aliases = dict(self.aliases)
         X.port_types = tuple(self.port_types)
+
+        if width:
+            if "_default" not in self.aliases:
+                raise ValueError(
+                    f"No section named `_default` in {self.aliases.keys()}"
+                )
+            self.aliases["_default"]["width"] = width
+
         return X
 
     @classmethod
@@ -193,8 +201,8 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main layer waveguide width (um).
-        layer: main layer for waveguide.
+        width: main section width (um).
+        layer: main section layer.
         layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
@@ -847,6 +855,7 @@ def rib_heater_doped_contact(
 # xs_optical = partial(
 #     cross_section, layer_bbox=(68, 0), decorator=add_pins_siepic_optical
 # )
+# strip = partial(cross_section, layer_bbox=(68, 0), decorator=add_pins_siepic_optical)
 
 strip = partial(cross_section)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
@@ -880,40 +889,41 @@ metal3 = partial(
 )
 
 
-# xs_strip = strip()
-# xs_strip_auto_widen = strip_auto_widen()
-# xs_rib = rib()
-# xs_nitride = nitride()
-# xs_metal1 = metal1()
-# xs_metal2 = metal2()
-# xs_metal3 = metal3()
-# xs_pin = pin()
-# xs_strip_heater_metal_undercut = strip_heater_metal_undercut()
-# xs_strip_heater_metal = strip_heater_metal()
-# xs_strip_heater_doped = strip_heater_doped()
-# xs_rib_heater_doped = rib_heater_doped()
+CrossSectionFactory = Callable[..., CrossSection]
 
 
-cross_section_factory = dict(
-    cross_section=cross_section,
-    strip=strip,
-    strip_auto_widen=strip_auto_widen,
-    rib=rib,
-    nitride=nitride,
-    metal1=metal1,
-    metal2=metal2,
-    metal3=metal3,
-    pin=pin,
-    strip_heater_metal_undercut=strip_heater_metal_undercut,
-    strip_heater_metal=strip_heater_metal,
-    strip_heater_doped=strip_heater_doped,
-    rib_heater_doped=rib_heater_doped,
-)
+def get_cross_section_factories(module) -> Dict[str, CrossSectionFactory]:
+    """Returns cross_section factories from a module."""
+
+    return {
+        t[0]: t[1]
+        for t in getmembers(module)
+        if callable(t[1])
+        and t[0] != "partial"
+        and inspect.signature(t[1]).return_annotation == CrossSection
+    }
+
+
+def validate_module_factories(module) -> None:
+    """Iterates over factories and makes sure they have a valid signature."""
+
+    for t in getmembers(module):
+        try:
+            if callable(t[1]) and t[0] != "partial":
+                inspect.signature(t[1]).return_annotation
+        except Exception:
+            print(f"error in {t[0]}")
+
+
+cross_section_factory = get_cross_section_factories(sys.modules[__name__])
+# validate_module_factories(sys.modules[__name__])
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    print(len(cross_section_factory.keys()))
 
-    P = gf.path.straight()
+    # import gdsfactory as gf
+
+    # P = gf.path.straight()
     # P = gf.path.euler(radius=10, use_eff=True)
     # P = euler()
     # P = gf.Path()
@@ -942,10 +952,9 @@ if __name__ == "__main__":
     # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["e1", "e2"])
     # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
 
-    X = rib_heater_doped(with_bot_heater=False, decorator=add_pins_siepic_optical)
-    P = gf.path.straight(npoints=100, length=10)
-
-    c = gf.path.extrude(P, X)
+    # X = rib_heater_doped(with_bot_heater=False, decorator=add_pins_siepic_optical)
+    # P = gf.path.straight(npoints=100, length=10)
+    # c = gf.path.extrude(P, X)
 
     # print(x1.to_dict())
     # print(x1.name)
@@ -954,4 +963,4 @@ if __name__ == "__main__":
     # c << gf.components.bend_euler(radius=10)
     # c << gf.components.bend_circular(radius=10)
     # c.pprint_ports()
-    c.show(show_ports=False)
+    # c.show(show_ports=False)

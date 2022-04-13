@@ -1,0 +1,23 @@
+settings:
+  changed: {}
+  child: null
+  default:
+    layer:
+    - 1
+    - 0
+    size: 0.4
+    text:
+    - ''
+  full:
+    layer:
+    - 1
+    - 0
+    size: 0.4
+    text:
+    - ''
+  function_name: text_lines
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.text
+  name: text_lines
+version: 0.0.1

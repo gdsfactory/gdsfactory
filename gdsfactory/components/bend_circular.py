@@ -18,11 +18,11 @@ def bend_circular(
     """Returns a radial arc.
 
     Args:
-        angle: angle of arc (degrees)
-        npoints: number of points
-        with_cladding_box: square in layers_cladding to remove DRC
-        cross_section:
-        kwargs: cross_section settings
+        angle: angle of arc (degrees).
+        npoints: number of points.
+        with_cladding_box: square in layers_cladding to remove DRC.
+        cross_section: CrossSection or function that returns a cross_section.
+        kwargs: cross_section settings.
 
 
     .. code::
