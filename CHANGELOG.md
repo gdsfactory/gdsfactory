@@ -4,6 +4,8 @@
 
 - add vscode plugin to docs
 - get_bundle accepts also cross_section as well as cross_section_factory
+- rename gethash to text_lines
+- simplify component_factory definition
 
 ## [4.7.1](https://github.com/gdsfactory/gdsfactory/pull/265)
 
