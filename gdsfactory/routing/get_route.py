@@ -48,7 +48,7 @@ from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
     Coordinates,
-    CrossSectionFactory,
+    CrossSectionOrFactory,
     Route,
 )
 
@@ -62,7 +62,7 @@ def get_route(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports
@@ -96,10 +96,7 @@ def get_route(
         c.plot()
 
     """
-    # if not callable(cross_section):
-    #     raise ValueError()
-
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     taper_length = x.info.get("taper_length")
     width1 = input_port.width
     auto_widen = x.info.get("auto_widen", False)
@@ -147,7 +144,7 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper: Optional[Callable] = taper_function,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with
@@ -205,7 +202,7 @@ def get_route_from_waypoints(
 
     """
 
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     auto_widen = x.info.get("auto_widen", False)
     width1 = x.info.get("width")
     width2 = x.info.get("width_wide") if auto_widen else width1
@@ -254,11 +251,10 @@ if __name__ == "__main__":
 
     p1.movex(300)
     p1.movey(300)
-    route = get_route_electrical(
+    route = get_route(
         p1.ports["e13"],
         p2.ports["e11"],
-        cross_section=gf.cross_section.metal3,
-        width=10.0,
+        cross_section=gf.cross_section.strip(auto_widen=True, width_wide=2),
     )
     c.add(route.references)
 

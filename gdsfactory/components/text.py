@@ -66,33 +66,20 @@ def text(
 
 
 @gf.cell
-def githash(
+def text_lines(
     text: Tuple[str, ...] = ("",),
     size: float = 0.4,
-    hash_length: int = 6,
     layer: Layer = LAYER.WG,
 ) -> Component:
-    """Returns the repo git hash
-    allows a list of text, that will print on separate lines
+    """Returns the a list of text lines.
 
     Args:
-        text:
-        size:
-        hash_length:
-        layer:
+        text: (gf.CONFIG['repo'][:6],)
+        size: text size.
+        layer: text layer.
 
     """
-    try:
-
-        git_hash = gf.CONFIG["repo"][:hash_length]
-        git_hash = f"gf_{git_hash}"
-    except Exception:
-        git_hash = f"gf_{gf.__version__}"
-
     c = gf.Component()
-    t = text_rectangular(text=git_hash, size=size, layer=layer)
-    tref = c.add_ref(t)
-    c.absorb(tref)
 
     for i, texti in enumerate(text):
         t = text_rectangular(text=texti, size=size, layer=layer)

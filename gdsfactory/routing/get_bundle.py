@@ -29,7 +29,7 @@ from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Route
+from gdsfactory.types import ComponentFactory, CrossSectionOrFactory, Number, Route
 
 METAL_MIN_SEPARATION = TECH.metal_spacing
 
@@ -44,7 +44,7 @@ def get_bundle(
     sort_ports: bool = True,
     end_straight_length: float = 0.0,
     start_straight_length: Optional[float] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
@@ -60,8 +60,7 @@ def get_bundle(
         sort_ports: sort port coordinates.
         end_straight_length: straight length at the end of the route.
         start_straight_length: straight length at the beginning of the route.
-        cross_section: function that returns a cross_section.
-        kwargs: cross_section settings.
+        cross_section: CrossSection or function that returns a cross_section.
 
     Keyword Args:
         width: main layer waveguide width (um).
@@ -110,7 +109,7 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     start_straight_length = start_straight_length or x.info.get("min_length")
 
     if sort_ports:
@@ -206,7 +205,7 @@ def get_bundle_same_axis(
     start_straight_length: float = 0.0,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -222,7 +221,7 @@ def get_bundle_same_axis(
             e.g `get_route_from_waypoints` for deep etch strip straight
         end_straight_length: offset to add at the end of each straight
         sort_ports: sort the ports according to the axis.
-        cross_section: cross_section
+        cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings
 
     Returns:
@@ -296,7 +295,7 @@ def _get_bundle_waypoints(
     end_straight_length: float = 0.0,
     tol: float = 0.00001,
     start_straight_length: float = 0.0,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> List[ndarray]:
     """Returns route coordinates List
@@ -308,7 +307,7 @@ def _get_bundle_waypoints(
         end_straight_length: adds a straigth
         tol: tolerance
         start_straight_length: length of straight
-        cross_section: cross_section
+        cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings
     """
 
@@ -522,7 +521,7 @@ def get_bundle_same_axis_no_grouping(
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     sort_ports: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Returns a list of route elements.
@@ -567,6 +566,7 @@ def get_bundle_same_axis_no_grouping(
         start_straight_length: offset on the starting length before the first bend
         end_straight_length: offset on the ending length after the last bend
         sort_ports: True -> sort the ports according to the axis. False -> no sort applied
+        cross_section: CrossSection or function that returns a cross_section.
 
     Returns:
         a list of routes the connecting straights
@@ -668,10 +668,11 @@ def test_get_bundle_small() -> Component:
         [c2.ports["o1"], c2.ports["o2"]],
         radius=5,
         separation=5.0,
+        # cross_section=gf.cross_section.strip(radius=5)
+        cross_section=gf.cross_section.strip,
     )
     for route in routes:
         assert np.isclose(route.length, 111.136), route.length
-        c.add(route.references)
     return c
 
 

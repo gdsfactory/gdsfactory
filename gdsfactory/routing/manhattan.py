@@ -24,7 +24,7 @@ from gdsfactory.types import (
     Coordinate,
     Coordinates,
     CrossSection,
-    CrossSectionFactory,
+    CrossSectionOrFactory,
     Layer,
     Route,
 )
@@ -539,7 +539,7 @@ def round_corners(
     straight_fall_back_no_taper: Optional[ComponentFactory] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     snap_to_grid_nm: Optional[int] = 1,
@@ -565,7 +565,7 @@ def round_corners(
         snap_to_grid_nm: nm to snap to grid
         kwargs: cross_section settings
     """
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     points = (
         gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
     )
@@ -754,7 +754,10 @@ def round_corners(
             # Straight waveguide
             kwargs_wide = kwargs.copy()
             kwargs_wide.update(width=width_wide)
-            cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+            if callable(cross_section):
+                cross_section_wide = gf.partial(cross_section, **kwargs_wide)
+            else:
+                cross_section_wide = cross_section.copy(width=width_wide)
             wg = straight(length=length, cross_section=cross_section_wide)
         else:
             wg = straight_fall_back_no_taper(
@@ -825,13 +828,13 @@ def generate_manhattan_waypoints(
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
     bend: ComponentFactory = bend_euler,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     **kwargs,
 ) -> ndarray:
     """Return waypoints for a Manhattan route between two ports."""
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
     start_straight_length = start_straight_length or x.info.get("min_length")
     end_straight_length = end_straight_length or x.info.get("min_length")
     min_straight_length = min_straight_length or x.info.get("min_length")
@@ -865,14 +868,14 @@ def route_manhattan(
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
     bend: ComponentFactory = bend_euler,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionOrFactory = strip,
     with_point_markers: bool = False,
     **kwargs,
 ) -> Route:
     """Generates the Manhattan waypoints for a route.
     Then creates the straight, taper and bend references that define the route.
     """
-    x = cross_section(**kwargs)
+    x = cross_section(**kwargs) if callable(cross_section) else cross_section
 
     start_straight_length = start_straight_length or x.info.get("min_length")
     end_straight_length = end_straight_length or x.info.get("min_length")
