@@ -213,7 +213,7 @@ from gdsfactory.components.taper_from_csv import (
     taper_w12_l200,
 )
 from gdsfactory.components.taper_parabolic import taper_parabolic
-from gdsfactory.components.text import githash, text
+from gdsfactory.components.text import text, text_lines
 from gdsfactory.components.text_rectangular import (
     text_rectangular,
     text_rectangular_multi_layer,
@@ -339,7 +339,7 @@ __all__ = [
     "extension",
     "fiber",
     "fiber_array",
-    "githash",
+    "text_lines",
     "grating_coupler_array",
     "grating_coupler_circular",
     "grating_coupler_elliptical",
