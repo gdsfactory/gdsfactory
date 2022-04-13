@@ -1,11 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [4.7.2]
+## [4.7.2](https://github.com/gdsfactory/gdsfactory/pull/270)
 
 - add vscode plugin to docs
 - get_bundle accepts also cross_section as well as cross_section_factory
 - rename gethash to text_lines
 - simplify component_factory definition
+- simplify cross_section_factory definition
 
 ## [4.7.1](https://github.com/gdsfactory/gdsfactory/pull/265)
 
