@@ -1,13 +1,7 @@
 import inspect
 from inspect import getmembers
 
-from gdsfactory.types import (
-    Component,
-    ComponentFactory,
-    CrossSection,
-    CrossSectionFactory,
-    Dict,
-)
+from gdsfactory.types import Component, ComponentFactory, Dict
 
 
 def get_component_factories(module) -> Dict[str, ComponentFactory]:
@@ -18,16 +12,6 @@ def get_component_factories(module) -> Dict[str, ComponentFactory]:
         for t in getmembers(module)
         if callable(t[1]) and inspect.signature(t[1]).return_annotation == Component
         # if isfunction(t[1]) and id(t[1]) in _FACTORY
-    }
-
-
-def get_cross_section_factories(module) -> Dict[str, CrossSectionFactory]:
-    """Returns cross_section factories from a module."""
-
-    return {
-        t[0]: t[1]
-        for t in getmembers(module)
-        if callable(t[1]) and inspect.signature(t[1]).return_annotation == CrossSection
     }
 
 
