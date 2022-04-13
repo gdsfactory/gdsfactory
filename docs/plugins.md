@@ -33,6 +33,8 @@ There are different types of simulation storage that you can use.
 - [DVC](https://dvc.org/)
 - database
 
+
+
 ```{eval-rst}
 .. toctree::
    :maxdepth: 2
@@ -41,10 +43,7 @@ There are different types of simulation storage that you can use.
 
    notebooks/plugins/vscode.ipynb
    notebooks/plugins/mpb/001_mpb_waveguide.ipynb
-   notebooks/plugins/lumerical/1_fdtd_sparameters.ipynb
-   notebooks/plugins/meep/001_meep_sparameters.ipynb
-   notebooks/plugins/meep/002_gratings.ipynb
-   notebooks/plugins/tidy3d/00_tidy3d.ipynb
+   fdtd
    notebooks/plugins/sax/sax.ipynb
    notebooks/plugins/simphony/01_components.ipynb
 ```

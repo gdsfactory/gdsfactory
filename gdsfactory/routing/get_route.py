@@ -97,6 +97,8 @@ def get_route(
 
     """
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
+    x.has_routing_info()
+
     taper_length = x.info.get("taper_length")
     width1 = input_port.width
     auto_widen = x.info.get("auto_widen", False)
