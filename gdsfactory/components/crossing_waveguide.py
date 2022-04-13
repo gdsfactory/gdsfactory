@@ -102,7 +102,7 @@ def crossing(arm: ComponentFactory = crossing_arm) -> Component:
 
 
 @cell
-def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)):
+def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Component:
     """
     Crossing based on a taper. The default is a dummy taper
     """
@@ -128,7 +128,7 @@ def crossing_etched(
     L: float = 3.4,
     layer_wg: Layer = LAYER.WG,
     layer_slab: Layer = LAYER.SLAB150,
-):
+) -> Component:
     """
     Waveguide crossing:
     - The full crossing has to be on WG layer (to start with a 220nm slab)

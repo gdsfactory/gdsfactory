@@ -177,7 +177,7 @@ def spiral_inner_io_fiber_single(
     y_straight_inner_bottom: float = 0.0,
     grating_spacing: float = 200.0,
     **kwargs
-):
+) -> Component:
     """Returns Spiral with 90 and 270 degree ports.
     You can add single fiber north and south grating couplers
     inside the spiral to save space

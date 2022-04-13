@@ -69,8 +69,7 @@ def coupler90(
     return c
 
 
-def coupler90circular(bend: ComponentFactory = bend_circular, **kwargs):
-    return coupler90(bend=bend, **kwargs)
+coupler90circular = gf.partial(coupler90, bend=bend_circular)
 
 
 if __name__ == "__main__":
