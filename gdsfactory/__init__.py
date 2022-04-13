@@ -128,7 +128,3 @@ __all__ = [
     "Label",
 ]
 __version__ = "4.7.1"
-
-
-if __name__ == "__main__":
-    print(__all__)
