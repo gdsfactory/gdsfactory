@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Callable, Dict, List, Optional, Union
 
 from gdsfactory.component import Component
-from gdsfactory.components import factory
+from gdsfactory.components import component_factories
 from gdsfactory.config import CONFIG
 from gdsfactory.name import get_component_name
 from gdsfactory.sweep.read_sweep import get_settings_list
@@ -118,7 +118,7 @@ def write_sweep(
     path: Path = CONFIG["build_directory"],
     doe_metadata_path: Path = CONFIG["doe_directory"],
     functions: Optional[List[Callable[..., Component]]] = None,
-    component_factory: ComponentFactoryDict = factory,
+    component_factory: ComponentFactoryDict = component_factories,
     **kwargs,
 ) -> List[Path]:
     """writes each component GDS, together with metadata for each component:

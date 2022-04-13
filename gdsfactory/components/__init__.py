@@ -466,7 +466,7 @@ __all__ = [
     "wire_straight",
 ]
 
-factory = get_component_factories(sys.modules[__name__])
+component_factories = get_component_factories(sys.modules[__name__])
 
 if __name__ == "__main__":
-    print(len(factory.keys()))
+    print(len(component_factories.keys()))
