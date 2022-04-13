@@ -138,7 +138,7 @@ straight_heater_metal_undercut_90_90 = gf.partial(
 )
 
 
-def test_ports() -> Component:
+def test_ports():
     c = straight_heater_metal(length=50.0)
     assert c.ports["o2"].midpoint[0] == 50.0, c.ports["o2"].midpoint[0]
     return c
