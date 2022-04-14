@@ -6,6 +6,7 @@ from gdsfactory.types import (
     ComponentSpec,
     CrossSection,
     CrossSectionFactory,
+    CrossSectionSpec,
     Dict,
 )
 
@@ -23,8 +24,8 @@ class Pdk(BaseModel):
         ACTIVE_PDK = self
 
     def load(self):
-        """find pdk.yml
-        register all YAML components into cells.
+        """find pdk.yml register all YAML components into cells.
+        TODO:
         """
         pass
 
@@ -45,9 +46,31 @@ class Pdk(BaseModel):
             settings.update(**kwargs)
             return cell(**settings)
 
-    def get_cross_section(self) -> CrossSection:
-        pass
+    def get_cross_section(
+        self, cross_section: CrossSectionSpec, **kwargs
+    ) -> CrossSection:
+        if isinstance(cross_section, CrossSection):
+            if kwargs:
+                raise ValueError(
+                    f"Cannot apply kwargs {kwargs} to {cross_section.name!r}"
+                )
+            return cross_section
+        elif callable(cross_section):
+            return cross_section(**kwargs)
+        elif isinstance(cross_section, str):
+            cross_section_factory = self.cross_sections[cross_section]
+            return cross_section_factory(**kwargs)
+        else:
+            cross_section_factory_name = cross_section.get("cross_section")
+            cross_section_factory = self.cross_section[cross_section_factory_name]
+            settings = dict(cross_section.get("settings", {}))
+            settings.update(**kwargs)
+            return cross_section_factory(**settings)
 
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
     return ACTIVE_PDK.get_component(component, **kwargs)
+
+
+def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
+    return ACTIVE_PDK.get_component(cross_section, **kwargs)
