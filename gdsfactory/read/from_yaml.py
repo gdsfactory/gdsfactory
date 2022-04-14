@@ -63,7 +63,7 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import component_factories
+from gdsfactory.components import cells
 from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
@@ -466,7 +466,7 @@ ports:
 
 def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
-    component_factory: ComponentFactoryDict = component_factories,
+    component_factory: ComponentFactoryDict = cells,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     cross_section_factory: Dict[str, CrossSectionFactory] = cross_sections,
     label_instance_function: Callable = add_instance_label,

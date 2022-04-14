@@ -31,7 +31,7 @@ bend_euler = gf.partial(gf.components.bend_euler, decorator=decorator)
 straight = gf.partial(gf.components.straight, decorator=decorator)
 mzi = gf.partial(gf.components.mzi, splitter=mmi1x2, bend=bend_euler, straight=straight)
 
-factory = dict(mmi2x2=mmi2x2, mmi1x2=mmi1x2, mzi=mzi)
+cells = dict(mmi2x2=mmi2x2, mmi1x2=mmi1x2, mzi=mzi)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 from typing import Any, Dict, List, Union
 
-from gdsfactory.components import component_factories
+from gdsfactory.components import cells
 
 skip_test = {
     "version_stamp",
@@ -15,7 +15,7 @@ skip_test = {
     "mzi_phase_shifter_top_heater_metal",
 }
 
-components_to_test = set(component_factories.keys()) - skip_test
+components_to_test = set(cells.keys()) - skip_test
 
 
 def tuplify(iterable: Union[List, Dict]) -> Any:
