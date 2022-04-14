@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [4.7.3]
+## [4.7.3](https://github.com/gdsfactory/gdsfactory/pull/272)
 
 - add `has_routing_info` to [CrossSection](CrossSection) to ensure it has routing information
 - rename cross_section_factory to cross_sections
