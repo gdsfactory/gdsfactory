@@ -36,7 +36,7 @@ import io
 import os
 import pathlib
 from pathlib import Path
-from typing import Callable, Dict, List, Union
+from typing import Dict, List, Union
 
 from omegaconf import OmegaConf
 
@@ -45,7 +45,7 @@ from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components import cells
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
-from gdsfactory.types import NSEW, ComponentFactoryDict, PathType
+from gdsfactory.types import NSEW, ComponentFactoryDict, ComponentSpec, PathType
 
 
 def placer_grid_cell_refs(
@@ -582,15 +582,14 @@ def component_grid_from_yaml(filepath: PathType, precision: float = 1e-9) -> Com
 
 
 def build_components(
-    component_type: str,
+    component: ComponentSpec,
     list_settings: List[Dict[str, Union[float, int]]],
-    component_factory: Dict[str, Callable] = cells,
 ) -> List[Component]:
     """Returns a list of components.
     If no settings passed, generates a single component with defaults
 
     Args:
-        component_type:
+        component:
         list_settings:
         component_factory:
 
@@ -599,14 +598,12 @@ def build_components(
     components = []
 
     if not list_settings:
-        component_function = component_factory[component_type]
-        component = component_function()
+        component = gf.get_component(component)
         components += [component]
         return components
 
     for settings in list_settings:
-        component_function = component_factory[component_type]
-        component = component_function(**settings)
+        component = gf.get_component(component, **settings)
         components += [component]
 
     return components

@@ -1,3 +1,5 @@
+import warnings
+
 from pydantic import BaseModel
 
 from gdsfactory.components import cells
@@ -24,6 +26,11 @@ class Pdk(BaseModel):
         global ACTIVE_PDK
         ACTIVE_PDK = self
 
+    def register_cell(self, name: str, function: ComponentFactory) -> None:
+        if name in cells:
+            warnings.warn(f"Overwriting cell {name!r}")
+        self.cells[name] = function
+
     def load(self):
         """find pdk.yml register all YAML components into cells.
         TODO:
@@ -33,7 +40,7 @@ class Pdk(BaseModel):
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         if isinstance(component, Component):
             if kwargs:
-                raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
+                warnings.warn(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
         elif callable(component):
             return component(**kwargs)
@@ -59,7 +66,7 @@ class Pdk(BaseModel):
     ) -> CrossSection:
         if isinstance(cross_section, CrossSection):
             if kwargs:
-                raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
+                warnings.warn(f"Cannot apply {kwargs} to a defined CrossSection")
             return cross_section
         elif callable(cross_section):
             return cross_section(**kwargs)

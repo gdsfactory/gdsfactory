@@ -17,7 +17,6 @@ def route_fiber_single(
     optical_routing_type: int = 1,
     optical_port_labels: Optional[Tuple[str, ...]] = None,
     excluded_ports: Optional[Tuple[str, ...]] = None,
-    auto_widen: bool = False,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
@@ -33,7 +32,6 @@ def route_fiber_single(
         optical_routing_type: 0 (basic), 1 (standard), 2 (looks at ports)
         optical_port_labels: port labels that need connection
         excluded_ports: ports excluded from routing
-        auto_widen: for long routes
         component_name:
         select_ports:
         cross_section:
@@ -125,7 +123,6 @@ def route_fiber_single(
             fanout_length=fanout_length,
             grating_coupler=grating_couplers[0],
             optical_routing_type=optical_routing_type,
-            auto_widen=auto_widen,
             component_name=component_name,
             cross_section=cross_section,
             select_ports=select_ports,
@@ -149,7 +146,6 @@ def route_fiber_single(
         fanout_length=fanout_length,
         grating_coupler=grating_couplers[1:],
         optical_routing_type=optical_routing_type,
-        auto_widen=auto_widen,
         component_name=component_name,
         cross_section=cross_section,
         select_ports=select_ports,
@@ -179,7 +175,7 @@ if __name__ == "__main__":
     c = gf.components.rectangle()
 
     # elements, gc = route_fiber_single(
-    #     c, grating_coupler=[gcte, gctm, gcte, gctm], auto_widen=False
+    #     c, grating_coupler=[gcte, gctm, gcte, gctm],
     # )
 
     layer = (2, 0)
@@ -194,7 +190,6 @@ if __name__ == "__main__":
     elements, gc = route_fiber_single(
         c,
         grating_coupler=[gc, gc, gc, gc],
-        auto_widen=False,
         radius=10,
         layer=layer,
     )
@@ -216,7 +211,6 @@ if __name__ == "__main__":
     # elements, gc = route_fiber_single(
     #     c,
     #     grating_coupler=[gc, gc, gc, gc],
-    #     auto_widen=False,
     #     radius=10,
     #     layer=layer,
     # )

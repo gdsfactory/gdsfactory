@@ -2,6 +2,7 @@ import pathlib
 import shutil
 
 from gdsfactory.config import logger
+from gdsfactory.pdk import ACTIVE_PDK
 from gdsfactory.samples.autoplacer.spiral import spiral
 from gdsfactory.sweep.write_sweeps import write_sweeps
 
@@ -26,14 +27,13 @@ def test_autoplacer():
     shutil.rmtree(build_path, ignore_errors=True)
     mask_path.mkdir(parents=True, exist_ok=True)
 
-    # Map the component library names in the YAML file to the component library
-    name2factory = {"spiral": spiral}
+    # Add custom component to pdk cells
+    ACTIVE_PDK.register_cell("spiral", spiral)
 
     logger.add(sink=logpath)
     logger.info("writring does to", doe_root_path)
     write_sweeps(
         str(config_yml),
-        component_factory=name2factory,
         doe_root_path=doe_root_path,
         doe_metadata_path=doe_metadata_path,
     )

@@ -2,7 +2,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def spiral(N=6, x=50.0) -> gf.Component:
+def spiral(N: int = 6, x: float = 50.0) -> gf.Component:
     """Generate a spiral component with grating couplers.
 
     Args:

@@ -29,7 +29,7 @@ from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, CrossSectionOrFactory, Number, Route
+from gdsfactory.types import ComponentFactory, CrossSectionSpec, Number, Route
 
 METAL_MIN_SEPARATION = TECH.metal_spacing
 
@@ -44,7 +44,7 @@ def get_bundle(
     sort_ports: bool = True,
     end_straight_length: float = 0.0,
     start_straight_length: Optional[float] = None,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
@@ -109,10 +109,12 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
-    x.has_routing_info()
+    cross_section = gf.get_cross_section(cross_section, **kwargs)
+    cross_section.has_routing_info()
 
-    start_straight_length = start_straight_length or x.info.get("min_length")
+    start_straight_length = start_straight_length or cross_section.info.get(
+        "min_length"
+    )
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
@@ -207,7 +209,7 @@ def get_bundle_same_axis(
     start_straight_length: float = 0.0,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -297,7 +299,7 @@ def _get_bundle_waypoints(
     end_straight_length: float = 0.0,
     tol: float = 0.00001,
     start_straight_length: float = 0.0,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[ndarray]:
     """Returns route coordinates List
@@ -523,7 +525,7 @@ def get_bundle_same_axis_no_grouping(
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     sort_ports: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Returns a list of route elements.
@@ -674,6 +676,7 @@ def test_get_bundle_small() -> Component:
         cross_section=gf.cross_section.strip,
     )
     for route in routes:
+        c.add(route.references)
         assert np.isclose(route.length, 111.136), route.length
     return c
 
