@@ -226,7 +226,7 @@ from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
-from gdsfactory.get_factories import get_component_factories
+from gdsfactory.get_factories import get_cells
 
 _factory_passives = dict(
     bend_circular=bend_circular,
@@ -466,7 +466,7 @@ __all__ = [
     "wire_straight",
 ]
 
-cells = get_component_factories(sys.modules[__name__])
+cells = get_cells(sys.modules[__name__])
 
 if __name__ == "__main__":
     print(len(cells.keys()))

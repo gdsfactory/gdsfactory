@@ -586,14 +586,14 @@ def from_yaml(
 
     if pdk:
         module = importlib.import_module(pdk)
-        component_factory = getattr(module, "component_factories")
+        component_factory = getattr(module, "cells")
         try:
             cross_section_factory = getattr(module, "cross_sections")
         except AttributeError as e:
             raise ValueError(f"'from {pdk} import cross_sections' failed {e}")
 
         if component_factory is None:
-            raise ValueError(f"'from {pdk} import component_factories' failed")
+            raise ValueError(f"'from {pdk} import cells' failed")
         if cross_section_factory is None:
             raise ValueError(f"'from {pdk} import cross_sections' failed")
 
