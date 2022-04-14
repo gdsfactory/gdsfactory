@@ -5,7 +5,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionOrFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -16,7 +16,7 @@ def bend_euler(
     npoints: int = 720,
     direction: str = "ccw",
     with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -38,7 +38,7 @@ def bend_euler(
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         with_cladding_box: to avoid DRC acute angle errors in cladding.
-        cross_section: CrossSection or function that returns a cross_section.
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
 
@@ -53,7 +53,7 @@ def bend_euler(
 
 
     """
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
+    x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.info["radius"]
 
     c = Component()
@@ -115,7 +115,7 @@ def bend_straight_bend(
     npoints: int = 720,
     direction: str = "ccw",
     with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
@@ -130,7 +130,7 @@ def bend_straight_bend(
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
         with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section:
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings
 
 
