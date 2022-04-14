@@ -468,5 +468,19 @@ __all__ = [
 
 cells = get_cells(sys.modules[__name__])
 
+
 if __name__ == "__main__":
+    from gdsfactory.cell import CELLS
+
     print(len(cells.keys()))
+    print(len(CELLS.keys()))
+    print(set(CELLS.keys()) - set(cells.keys()))
+
+    print("cells")
+    for i in cells.keys():
+        print(i)
+
+    print()
+    print("CELLS")
+    for i in CELLS.keys():
+        print(i)
