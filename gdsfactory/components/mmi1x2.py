@@ -56,7 +56,7 @@ def mmi1x2(
     gf.snap.assert_on_2nm_grid(gap_mmi)
     x = cross_section(**kwargs)
     cladding_offset = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"]
+    layers_cladding = x.info.get("layers_cladding", [])
     layer = x.info["layer"]
 
     c = Component()
@@ -92,7 +92,6 @@ def mmi1x2(
 
     c.absorb(mmi)
 
-    layers_cladding = layers_cladding or []
     if layers_cladding and with_cladding_box:
         add_padding(
             c,

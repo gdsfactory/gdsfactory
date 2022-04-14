@@ -63,9 +63,9 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import factory
+from gdsfactory.components import cells
 from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
-from gdsfactory.cross_section import cross_section_factory
+from gdsfactory.cross_section import cross_sections
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
 
@@ -466,9 +466,9 @@ ports:
 
 def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
-    component_factory: ComponentFactoryDict = factory,
+    component_factory: ComponentFactoryDict = cells,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
-    cross_section_factory: Dict[str, CrossSectionFactory] = cross_section_factory,
+    cross_section_factory: Dict[str, CrossSectionFactory] = cross_sections,
     label_instance_function: Callable = add_instance_label,
     cache: bool = False,
     **kwargs,
@@ -586,16 +586,16 @@ def from_yaml(
 
     if pdk:
         module = importlib.import_module(pdk)
-        component_factory = getattr(module, "component_factory")
+        component_factory = getattr(module, "cells")
         try:
-            cross_section_factory = getattr(module, "cross_section_factory")
+            cross_section_factory = getattr(module, "cross_sections")
         except AttributeError as e:
-            raise ValueError(f"'from {pdk} import cross_section_factory' failed {e}")
+            raise ValueError(f"'from {pdk} import cross_sections' failed {e}")
 
         if component_factory is None:
-            raise ValueError(f"'from {pdk} import component_factory' failed")
+            raise ValueError(f"'from {pdk} import cells' failed")
         if cross_section_factory is None:
-            raise ValueError(f"'from {pdk} import cross_section_factory' failed")
+            raise ValueError(f"'from {pdk} import cross_sections' failed")
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
@@ -1124,7 +1124,7 @@ placements:
 """
 
 if __name__ == "__main__":
-    # for k in factory.keys():
+    # for k in component_factories.keys():
     #     print(k)
     # print(c.settings["info"])
     # from gdsfactory.tests.test_component_from_yaml import yaml_anchor

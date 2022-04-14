@@ -110,6 +110,8 @@ def get_bundle(
     ports2 = cast(List[Port], ports2)
 
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
+    x.has_routing_info()
+
     start_straight_length = start_straight_length or x.info.get("min_length")
 
     if sort_ports:

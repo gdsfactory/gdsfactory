@@ -40,11 +40,11 @@ Components
 """
     )
 
-    for name in sorted(gf.components.factory.keys()):
+    for name in sorted(gf.components.cells.keys()):
         if name in skip or name.startswith("_"):
             continue
         print(name)
-        sig = inspect.signature(gf.components.factory[name])
+        sig = inspect.signature(gf.components.cells[name])
         kwargs = ", ".join(
             [
                 f"{p}={repr(sig.parameters[p].default)}"

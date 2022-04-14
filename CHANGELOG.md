@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [4.7.3]
+
+- add `has_routing_info` to [CrossSection](CrossSection) to ensure it has routing information
+- rename cross_section_factory to cross_sections
+- rename component_factory to cells
+- add ComponentSpec, CrossSectionSpec, gf.get_component, gf.get_cross_section, gf.Pdk
+
+
 ## [4.7.2](https://github.com/gdsfactory/gdsfactory/pull/270)
 
 - add vscode plugin to docs

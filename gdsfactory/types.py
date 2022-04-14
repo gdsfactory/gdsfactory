@@ -89,6 +89,9 @@ CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, Dict[str, List[str]]]
 
+ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
+CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+
 
 class Route(BaseModel):
     references: List[ComponentReference]
