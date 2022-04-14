@@ -5,6 +5,8 @@
 - add `has_routing_info` to [CrossSection](CrossSection) to ensure it has routing information
 - rename cross_section_factory to cross_sections
 - rename component_factory to cells
+- add ComponentSpec, CrossSectionSpec, gf.get_component, gf.get_cross_section, gf.Pdk
+
 
 ## [4.7.2](https://github.com/gdsfactory/gdsfactory/pull/270)
 
