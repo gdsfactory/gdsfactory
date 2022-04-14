@@ -1,4 +1,5 @@
 import pathlib
+import tempfile
 from typing import Union
 
 from gdsfactory import klive
@@ -30,7 +31,8 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         )
 
     elif isinstance(component, Component):
-        gdspath = component.write_gds(logging=False, **kwargs)
+        tmp = tempfile.TemporaryDirectory().name
+        gdspath = component.write_gds(gdsdir=tmp, logging=False, **kwargs)
         klive.show(gdspath)
     else:
         raise ValueError(

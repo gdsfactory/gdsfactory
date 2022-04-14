@@ -1,10 +1,12 @@
+from simphony.elements import Model
+
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory
 
 
 def coupler_ring_fdtd(
     factory=gf.c.coupler_ring, width=0.5, length_x=4.0, gap=0.2, radius=5
-):
+) -> Model:
     r"""Return half ring model based on Lumerical 3D FDTD simulations.
 
     Args:

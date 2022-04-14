@@ -840,7 +840,7 @@ class Component(Device):
 
         Args:
             gdspath: GDS file path to write to.
-            gdsdir: directory for the GDS file. Defaults to /tmp/
+            gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             unit: unit size for objects in library. 1um by default.
             precision: for object dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25 for consistent hash.

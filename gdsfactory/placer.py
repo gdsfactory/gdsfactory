@@ -42,14 +42,14 @@ from omegaconf import OmegaConf
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import factory
+from gdsfactory.components import cells
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.sweep.read_sweep import get_settings_list, read_sweep
 from gdsfactory.types import NSEW, ComponentFactoryDict, PathType
 
 
 def placer_grid_cell_refs(
-    component_factory: ComponentFactoryDict = factory,
+    component_factory: ComponentFactoryDict = cells,
     cols: int = 1,
     rows: int = 1,
     dx: float = 10.0,
@@ -584,7 +584,7 @@ def component_grid_from_yaml(filepath: PathType, precision: float = 1e-9) -> Com
 def build_components(
     component_type: str,
     list_settings: List[Dict[str, Union[float, int]]],
-    component_factory: Dict[str, Callable] = factory,
+    component_factory: Dict[str, Callable] = cells,
 ) -> List[Component]:
     """Returns a list of components.
     If no settings passed, generates a single component with defaults
