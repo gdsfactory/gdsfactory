@@ -34,14 +34,12 @@ There are different types of simulation storage that you can use.
 - database
 
 
-
 ```{eval-rst}
 .. toctree::
    :maxdepth: 2
    :titlesonly:
    :caption: Contents:
 
-   notebooks/plugins/vscode.ipynb
    notebooks/plugins/mpb/001_mpb_waveguide.ipynb
    fdtd
    notebooks/plugins/sax/sax.ipynb
