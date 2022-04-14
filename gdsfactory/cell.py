@@ -363,10 +363,11 @@ def test_import_gds_settings():
 
 if __name__ == "__main__":
     # test_names()
+    test_import_gds_settings()
 
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
-    c = gf.components.straight()
+    # c = gf.components.straight()
     # c = gf.components.straight()
     # print(c.name)
 

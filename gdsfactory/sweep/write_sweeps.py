@@ -3,11 +3,10 @@ import multiprocessing
 import pathlib
 import time
 from multiprocessing import Process
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from omegaconf import OmegaConf
 
-from gdsfactory import components
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.placer import (
     build_components,
@@ -19,13 +18,7 @@ from gdsfactory.sweep.read_sweep import get_settings_list
 from gdsfactory.sweep.write_sweep import write_sweep_metadata
 from gdsfactory.types import PathType
 
-factory = {
-    i: getattr(components, i)
-    for i in dir(components)
-    if not i.startswith("_") and callable(getattr(components, i))
-}
-
-n_cores = multiprocessing.cpu_count()
+n_cpus = multiprocessing.cpu_count()
 
 
 def separate_does_from_templates(dicts: Dict[str, Any]) -> Any:
@@ -76,7 +69,6 @@ def save_doe_use_template(doe, doe_root_path=None) -> None:
 
 def write_sweep(
     doe,
-    component_factory=factory,
     doe_root_path: Optional[PathType] = None,
     doe_metadata_path: Optional[PathType] = None,
     overwrite: bool = False,
@@ -87,9 +79,10 @@ def write_sweep(
     list_settings = doe["list_settings"]
 
     # Otherwise generate each component using the component library
-    component_type = doe["component"]
+    component = doe["component"]
     components = build_components(
-        component_type, list_settings, component_factory=component_factory
+        component,
+        list_settings,
     )
 
     component_names = [c.name for c in components]
@@ -126,10 +119,9 @@ def read_sweep(
 
 def write_sweeps(
     filepath: PathType,
-    component_factory: Dict[str, Callable] = factory,
     doe_root_path: PathType = CONFIG["cache_doe_directory"],
     doe_metadata_path: PathType = CONFIG["doe_directory"],
-    n_cores: int = n_cores,
+    n_cores: int = n_cpus,
     overwrite: bool = False,
     precision: float = 1e-9,
     cache: bool = False,
@@ -140,7 +132,6 @@ def write_sweeps(
 
     Args:
         filepath: for the does.yml
-        component_factory:
         doe_root_path:
         doe_metadata_path:
         n_cores: number of cores
@@ -166,10 +157,6 @@ def write_sweeps(
     list_args = []
     for doe_name, doe in does.items():
         doe["name"] = doe_name
-        component = doe["component"]
-
-        if component not in component_factory:
-            raise ValueError(f"{component!r} not in {component_factory.keys()}")
 
         if "template" in doe:
             # The keyword template is used to enrich the dictionary from the template
@@ -237,7 +224,7 @@ def write_sweeps(
                 start_times[doe_name] = time.time()
                 p = Process(
                     target=write_sweep,
-                    args=(doe, component_factory),
+                    args=(doe,),
                     kwargs={
                         "doe_root_path": doe_root_path,
                         "doe_metadata_path": doe_metadata_path,
@@ -251,7 +238,6 @@ def write_sweeps(
                     p.start()
                 except Exception:
                     print(f"Issue starting process for {doe_name}")
-                    print(type(component_factory))
                     raise
 
         to_rm = []
