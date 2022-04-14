@@ -4,7 +4,7 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionOrFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -12,7 +12,7 @@ def bend_circular(
     angle: float = 90.0,
     npoints: int = 720,
     with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Returns a radial arc.
@@ -35,7 +35,7 @@ def bend_circular(
        o1_____/
 
     """
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
+    x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.info["radius"]
 
     p = arc(radius=radius, angle=angle, npoints=npoints)

@@ -19,13 +19,7 @@ from phidl.path import smooth as smooth_phidl
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Transition
-from gdsfactory.types import (
-    Coordinates,
-    CrossSectionOrFactory,
-    Float2,
-    Layer,
-    PathFactory,
-)
+from gdsfactory.types import Coordinates, CrossSectionSpec, Float2, Layer, PathFactory
 
 
 class Path(PathPhidl):
@@ -169,7 +163,7 @@ def transition(
 @cell
 def extrude(
     p: Path,
-    cross_section: Optional[CrossSectionOrFactory] = None,
+    cross_section: Optional[CrossSectionSpec] = None,
     layer: Optional[Layer] = None,
     width: Optional[float] = None,
     widths: Optional[Float2] = None,
@@ -191,6 +185,8 @@ def extrude(
           All points that can be removed without changing the resulting
           polygon by more than the value listed here will be removed.
     """
+    from gdsfactory.pdk import get_cross_section
+
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
 
@@ -210,7 +206,7 @@ def extrude(
     xsection_points = []
     c = Component()
 
-    cross_section = cross_section() if callable(cross_section) else cross_section
+    cross_section = get_cross_section(cross_section)
     snap_to_grid = cross_section.info.get("snap_to_grid", None)
 
     for section in cross_section.sections:
