@@ -23,12 +23,12 @@ class CrossSection(BaseModel):
 
     Args:
         sections: list of sections
-        ports:
-        port_types:
-        info:
-        aliases:
-        name:
-        decorator:
+        ports: input and output port names.
+        port_types: input and output port types.
+        info: settings.
+        aliases: dict of cross_section aliases.
+        name: cross_section name.
+        decorator: function when extruding component.
     """
 
     sections: List[Section] = []
@@ -38,6 +38,14 @@ class CrossSection(BaseModel):
     aliases: Dict[str, Section] = {}
     name: Optional[str] = None
     decorator: Optional[Callable] = None
+
+    def has_routing_info(self):
+        """Check if cross_section has routing info needed for bends."""
+        for setting in ["radius", "width", "layers_cladding", "layer"]:
+            if setting not in self.info:
+                raise ValueError(
+                    f"Cross_section {self.name!r} needs .info[{setting!r}]"
+                )
 
     def add(
         self,
@@ -112,7 +120,11 @@ class CrossSection(BaseModel):
         return self
 
     def copy(self, width: Optional[float] = None):
-        """Return a copy of the CrossSection"""
+        """Returns a copy of the CrossSection.
+
+        Args:
+            width: optional width (um) for new _default Section.
+        """
         X = CrossSection()
         X.info = self.info.copy()
         X.sections = list(self.sections)
@@ -915,11 +927,11 @@ def validate_module_factories(module) -> None:
             print(f"error in {t[0]}")
 
 
-cross_section_factory = get_cross_section_factories(sys.modules[__name__])
+cross_sections = get_cross_section_factories(sys.modules[__name__])
 # validate_module_factories(sys.modules[__name__])
 
 if __name__ == "__main__":
-    print(len(cross_section_factory.keys()))
+    print(len(cross_sections.keys()))
 
     # import gdsfactory as gf
 

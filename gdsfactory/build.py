@@ -9,14 +9,14 @@ from glob import glob
 from multiprocessing import Pool
 from subprocess import PIPE, Popen, check_call
 
+from gdsfactory.components import cells as components
 from gdsfactory.config import CONFIG, logger
-from gdsfactory.read.from_yaml import factory as component_factory
 from gdsfactory.sweep.read_sweep import read_sweep
 
 
 def run_python(filename):
     """Run a python script and keep track of some context"""
-    logger.debug("Running `{}`.".format(filename))
+    logger.debug(f"Running {filename}`")
     command = ["python", filename]
 
     # Run the process
@@ -125,12 +125,12 @@ def build_cache_push():
         )
 
 
-def _build_doe(doe_name, config, component_factory=component_factory):
+def _build_doe(doe_name, config, components=components):
     from gdsfactory.sweep.write_sweep import write_sweep
 
     doe = config["does"][doe_name]
     component_type = doe.get("component")
-    component_function = component_factory[component_type]
+    component_function = components[component_type]
     write_sweep(
         component_type=component_function,
         doe_name=doe_name,
@@ -143,7 +143,7 @@ def _build_doe(doe_name, config, component_factory=component_factory):
     )
 
 
-def build_does(filepath, component_factory=component_factory):
+def build_does(filepath, components=components):
     """this function is depreacted
 
     Writes DOE settings from config.yml file and writes GDS into build_directory
@@ -162,13 +162,13 @@ def build_does(filepath, component_factory=component_factory):
     doe_names = does.keys()
 
     doe_params = zip(
-        doe_names, itertools.repeat(filepath), itertools.repeat(component_factory)
+        doe_names, itertools.repeat(filepath), itertools.repeat(components)
     )
     p = multiprocessing.Pool(multiprocessing.cpu_count())
     p.starmap(_build_doe, doe_params)
 
     # for doe_name in doe_names:
-    #     p = multiprocessing.Process(target=_build_doe, args=(doe_name, config, component_factory=component_factory))
+    #     p = multiprocessing.Process(target=_build_doe, args=(doe_name, config, components=components))
     #     p.start()
 
 

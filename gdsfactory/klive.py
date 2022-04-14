@@ -13,7 +13,14 @@ from typing import Union
 def show(
     gds_filename: Union[Path, str], keep_position: bool = True, port: int = 8082
 ) -> None:
-    """Show GDS in klayout."""
+    """Show GDS in klayout.
+
+    Args:
+        gds_filename:
+        keep_position: keep position and active layers.
+        port: klayout server port.
+
+    """
     if not os.path.isfile(gds_filename):
         raise ValueError(f"{gds_filename} does not exist")
     data = {

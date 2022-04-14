@@ -10,3 +10,4 @@ Intro Tutorial
    notebooks/00__git.ipynb
    notebooks/00__python_intro.ipynb
    notebooks/00_klayout.ipynb
+   notebooks/plugins/vscode.ipynb
