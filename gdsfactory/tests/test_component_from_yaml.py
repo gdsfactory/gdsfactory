@@ -501,11 +501,12 @@ def test_netlists(
     yaml_string = yaml_strings[yaml_key]
     c = from_yaml(yaml_string)
     n = c.get_netlist()
+    n = OmegaConf.create(n)
     if check:
         data_regression.check(OmegaConf.to_container(n))
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # print(yaml_str)
+    print(yaml_str)
     c2 = from_yaml(yaml_str)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
@@ -534,7 +535,9 @@ if __name__ == "__main__":
     # c = from_yaml(sample_2x2_connections)
     # c = from_yaml(sample_different_factory)
     # c = test_sample()
-    # c = test_netlists("sample_mmis", True, None, check=False)
+    c = test_netlists("sample_mmis", None, check=False)
+    c.show()
+
     # c = test_connections_regex()
     # c = test_connections_regex_backwargs()
     # c = test_mirror()
@@ -565,14 +568,14 @@ if __name__ == "__main__":
 
     # c = test_netlists("sample_different_link_factory", None, check=False)
 
-    yaml_key = "yaml_anchor"
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
-    n = c.get_netlist()
+    # yaml_key = "yaml_anchor"
+    # yaml_string = yaml_strings[yaml_key]
+    # c = from_yaml(yaml_string)
+    # n = c.get_netlist()
 
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    print(yaml_str)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    d = jsondiff.diff(n, n2)
-    c2.show()
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # print(yaml_str)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # d = jsondiff.diff(n, n2)
+    # c2.show()
