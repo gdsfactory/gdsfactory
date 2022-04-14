@@ -4,7 +4,7 @@
 
 - add `has_routing_info` to CrossSection to ensure it has routing information
 - rename cross_section_factory to cross_sections
-- rename component_factory to component_factories
+- rename component_factory to cells
 
 ## [4.7.2](https://github.com/gdsfactory/gdsfactory/pull/270)
 
