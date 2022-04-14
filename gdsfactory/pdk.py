@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from gdsfactory.components import cells
+from gdsfactory.cross_section import cross_sections
 from gdsfactory.types import (
     Component,
     ComponentFactory,
@@ -10,12 +12,11 @@ from gdsfactory.types import (
     Dict,
 )
 
-ACTIVE_PDK = None
-
 
 class Pdk(BaseModel):
-    """Pdk Library to store cell functions and CrosSection factories."""
+    """Pdk Library to store cell and cross_section functions."""
 
+    name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
 
@@ -39,33 +40,54 @@ class Pdk(BaseModel):
         elif isinstance(component, str):
             cell = self.cells[component]
             return cell(**kwargs)
-        else:
+        elif isinstance(component, dict):
             component = component.get("component")
+            if not isinstance(component, str) or component not in self.cells:
+                components = list(self.components.keys())
+                raise ValueError(f"{component!r} {type(component)} not in {components}")
             cell = self.cells[component]
             settings = dict(component.get("settings", {}))
             settings.update(**kwargs)
             return cell(**settings)
+        else:
+            raise ValueError(
+                f"get_component expects a ComponentSpec (Component, ComponentFactory, string or dict), got {type(component)}"
+            )
 
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
     ) -> CrossSection:
         if isinstance(cross_section, CrossSection):
             if kwargs:
-                raise ValueError(
-                    f"Cannot apply kwargs {kwargs} to {cross_section.name!r}"
-                )
+                raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
             return cross_section
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):
             cross_section_factory = self.cross_sections[cross_section]
             return cross_section_factory(**kwargs)
-        else:
+        elif isinstance(cross_section, dict):
             cross_section_factory_name = cross_section.get("cross_section")
-            cross_section_factory = self.cross_section[cross_section_factory_name]
+            if (
+                not isinstance(cross_section_factory_name, str)
+                or cross_section_factory_name not in self.cross_sections
+            ):
+                cross_sections = list(self.cross_sections.keys())
+                raise ValueError(
+                    f"{cross_section_factory_name!r} {type(cross_section_factory_name)} "
+                    f"not in {cross_sections}"
+                )
+            cross_section_factory = self.cross_sections[cross_section_factory_name]
             settings = dict(cross_section.get("settings", {}))
             settings.update(**kwargs)
             return cross_section_factory(**settings)
+        else:
+            raise ValueError(
+                f"get_cross_section expects a CrossSectionSpec (CrossSection, CrossSectionFactory, string or dict), got {type(cross_section)}"
+            )
+
+
+ACTIVE_PDK = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
 
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
@@ -73,4 +95,4 @@ def get_component(component: ComponentSpec, **kwargs) -> Component:
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
-    return ACTIVE_PDK.get_component(cross_section, **kwargs)
+    return ACTIVE_PDK.get_cross_section(cross_section, **kwargs)

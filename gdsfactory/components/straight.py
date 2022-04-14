@@ -4,7 +4,7 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionOrFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -12,7 +12,7 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Returns a Straight waveguide.
@@ -21,7 +21,7 @@ def straight(
         length: straight length (um).
         npoints: number of points.
         with_cladding_box: box in layers_cladding to avoid DRC sharp edges.
-        cross_section: CrossSection or function that returns a cross_section.
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
     .. code::
@@ -32,7 +32,7 @@ def straight(
     """
     length = snap_to_grid(length)
     p = gf.path.straight(length=length, npoints=npoints)
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
+    x = gf.get_cross_section(cross_section, **kwargs)
 
     c = Component()
     path = gf.path.extrude(p, x)
@@ -65,7 +65,16 @@ if __name__ == "__main__":
     from gdsfactory.cross_section import strip
 
     strip2 = strip(layer=(2, 0))
-    c = straight(length=1, cross_section=strip2)
+    settings = dict(width=2)
+
+    # c = straight(
+    #     length=1, cross_section={"cross_section": "strip", "settings": settings}
+    # )
+    c = straight(
+        length=1,
+        cross_section={"cross_section": "strip", "settings": settings},
+        width=3,
+    )
     c.assert_ports_on_grid()
     c.show()
     c.pprint()

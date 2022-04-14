@@ -44,16 +44,19 @@ def test_compose2():
 
 
 if __name__ == "__main__":
-    mzi500 = gf.partial(gf.components.mzi, straight=straigth_extended3)
-    mzi900 = gf.partial(gf.components.mzi, straight=straigth_extended2)
-
-    c900 = mzi900()
-    c500 = mzi500()
-
-    c = gf.Component()
-    r500 = c << c500
-    r900 = c << c900
-    r900.ymin = r500.ymax + 10
+    c = straigth_extended1()
     c.show()
 
-    assert c900.name != c500.name, f"{c500.name} must be different from {c900.name}"
+    # mzi500 = gf.partial(gf.components.mzi, straight=straigth_extended3)
+    # mzi900 = gf.partial(gf.components.mzi, straight=straigth_extended2)
+
+    # c900 = mzi900()
+    # c500 = mzi500()
+
+    # c = gf.Component()
+    # r500 = c << c500
+    # r900 = c << c900
+    # r900.ymin = r500.ymax + 10
+    # c.show()
+
+    # assert c900.name != c500.name, f"{c500.name} must be different from {c900.name}"
