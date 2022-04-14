@@ -13,7 +13,7 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Device] = {}
-# CELLS: Dict[str, Callable] = {}
+CELLS: Dict[str, Callable] = {}
 
 INFO_VERSION = 2
 
@@ -193,7 +193,7 @@ def cell_without_validator(func):
             CACHE[name] = component
             return component
 
-    # CELLS[id(_cell)] = _cell
+    CELLS[id(_cell)] = _cell
     return _cell
 
 

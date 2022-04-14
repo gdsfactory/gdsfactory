@@ -70,6 +70,7 @@ from gdsfactory.add_pins import add_pins
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
+from gdsfactory.pdk import Pdk, get_component
 
 
 c = components
@@ -126,5 +127,7 @@ __all__ = [
     "sweep",
     "write_cells",
     "Label",
+    "Pdk",
+    "get_component",
 ]
 __version__ = "4.7.2"
