@@ -120,7 +120,11 @@ class CrossSection(BaseModel):
         return self
 
     def copy(self, width: Optional[float] = None):
-        """Return a copy of the CrossSection"""
+        """Returns a copy of the CrossSection.
+
+        Args:
+            width: optional width (um) for new _default Section.
+        """
         X = CrossSection()
         X.info = self.info.copy()
         X.sections = list(self.sections)

@@ -4,8 +4,8 @@ from inspect import getmembers
 from gdsfactory.types import Component, ComponentFactory, Dict
 
 
-def get_component_factories(module) -> Dict[str, ComponentFactory]:
-    """Returns component factories from a module."""
+def get_cells(module) -> Dict[str, ComponentFactory]:
+    """Returns Pcells (component functions) from a module."""
 
     return {
         t[0]: t[1]
@@ -16,7 +16,7 @@ def get_component_factories(module) -> Dict[str, ComponentFactory]:
 
 
 def validate_module_factories(module) -> None:
-    """Iterates over module factories and makes sure they have a valid signature."""
+    """Iterates over module functions and makes sure they have a valid signature."""
 
     for t in getmembers(module):
         try:
@@ -29,5 +29,5 @@ def validate_module_factories(module) -> None:
 if __name__ == "__main__":
     import ubcpdk
 
-    f = get_component_factories(ubcpdk.components)
+    f = get_cells(ubcpdk.components)
     print(f.keys())
