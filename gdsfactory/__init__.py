@@ -131,4 +131,4 @@ __all__ = [
     "get_component",
     "get_cross_section",
 ]
-__version__ = "4.7.2"
+__version__ = "4.7.3"
