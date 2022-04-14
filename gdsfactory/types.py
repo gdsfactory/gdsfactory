@@ -76,7 +76,6 @@ PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 
-ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
 ComponentOrFactory = Union[ComponentFactory, Component]
 ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
 ComponentOrPath = Union[PathType, Component]
@@ -89,6 +88,9 @@ ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, Dict[str, List[str]]]
+
+ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
+CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
 
 
 class Route(BaseModel):
