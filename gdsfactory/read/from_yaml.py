@@ -1133,7 +1133,10 @@ if __name__ == "__main__":
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
 
-    c = from_yaml(sample_yaml_xmin)
+    # c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(sample_mmis)
+    n = c.get_netlist()
+    print(n)
     c.show()
 
     # c = test_connections_regex()

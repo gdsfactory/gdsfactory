@@ -55,7 +55,6 @@ from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import mask
-from gdsfactory import sweep
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 
@@ -124,7 +123,6 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "sweep",
     "write_cells",
     "Label",
     "Pdk",

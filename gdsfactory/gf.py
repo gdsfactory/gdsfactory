@@ -10,18 +10,10 @@ import click
 from click.core import Context, Option
 
 import gdsfactory
-import gdsfactory.build as pb
 from gdsfactory.config import CONFIG, print_config
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 from gdsfactory.install import install_gdsdiff, install_generic_tech, install_klive
 from gdsfactory.layers import lyp_to_dataclass
-from gdsfactory.mask.merge_json import merge_json
-from gdsfactory.mask.merge_markdown import merge_markdown
-from gdsfactory.mask.merge_test_metadata import merge_test_metadata
-from gdsfactory.mask.write_labels import write_labels
-
-# from gdsfactory.write_doe_from_yaml import write_doe_from_yaml
-from gdsfactory.sweep.write_sweep_from_yaml import import_custom_doe_factories
 from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
@@ -158,65 +150,6 @@ def build(filepath=None) -> None:
     build(filepath)
 
 
-# MASKS
-
-
-@click.group()
-def mask() -> None:
-    """Commands for building masks"""
-    pass
-
-
-@click.command(name="clean")
-@click.option("--force", "-f", default=False, help="Force deletion", is_flag=True)
-def build_clean(force: bool) -> None:
-    """Deletes the build folder and contents"""
-    message = "Delete {}. Are you sure?".format(CONFIG["build_directory"])
-    if force or click.confirm(message, default=True):
-        pb.build_clean()
-
-
-@click.command(name="build_devices")
-@click.argument("regex", required=False, default=".*")
-def build_devices(regex) -> None:
-    """Build all devices described in devices/"""
-    pb.build_devices(regex)
-
-
-@click.command(name="build_does")
-@click.argument("yamlpath")
-def build_does(yamlpath: str) -> None:
-    """Build does defined in sweep.yml"""
-    print("this is deprecated")
-    import_custom_doe_factories()
-    # write_doe_from_yaml()
-    pb.build_does(yamlpath)
-
-
-@click.command(name="write_metadata")
-@click.argument("layer_label", required=False, default=LAYER_LABEL)
-def mask_merge(layer_label) -> None:
-    """merge JSON/Markdown from build/devices into build/mask"""
-
-    gdspath = CONFIG["mask_gds"]
-    write_labels(gdspath=gdspath, layer_label=layer_label)
-
-    merge_json()
-    merge_markdown()
-    merge_test_metadata(gdspath=gdspath)
-
-
-@click.command(name="write_labels")
-@click.argument("gdspath", default=None)
-@click.argument("layer_label", required=False, default=LAYER_LABEL)
-def write_mask_labels(gdspath: str, layer_label) -> None:
-    """Find test and measurement labels."""
-    if gdspath is None:
-        gdspath = CONFIG["mask_gds"]
-
-    write_labels(gdspath=gdspath, layer_label=layer_label)
-
-
 # EXTRA
 @click.command()
 @click.argument("filename")
@@ -269,12 +202,6 @@ def gf():
     pass
 
 
-mask.add_command(build_clean)
-mask.add_command(build_devices)
-mask.add_command(build_does)
-mask.add_command(mask_merge)
-mask.add_command(write_mask_labels)
-
 gds.add_command(layermap_to_dataclass)
 gds.add_command(write_cells)
 gds.add_command(merge_gds)
@@ -291,7 +218,6 @@ yaml.add_command(build)
 
 gf.add_command(gds)
 gf.add_command(tool)
-gf.add_command(mask)
 gf.add_command(yaml)
 
 
