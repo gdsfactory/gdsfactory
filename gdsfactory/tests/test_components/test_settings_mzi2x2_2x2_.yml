@@ -14,7 +14,7 @@ settings:
       function: bend_euler
     combiner: null
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -37,7 +37,7 @@ settings:
     combiner:
       function: mmi2x2
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     delta_length: 10
     length_x: 0.1
     length_y: 2

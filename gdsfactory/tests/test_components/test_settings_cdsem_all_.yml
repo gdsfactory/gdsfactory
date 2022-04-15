@@ -5,7 +5,7 @@ settings:
     bend90:
       function: bend_circular
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -16,7 +16,7 @@ settings:
     straight:
       function: straight
     text:
-      function: text_rectangular
+      component: text_rectangular
       size: 1
     widths:
     - 0.4
@@ -29,7 +29,7 @@ settings:
     bend90:
       function: bend_circular
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -40,7 +40,7 @@ settings:
     straight:
       function: straight
     text:
-      function: text_rectangular
+      component: text_rectangular
       size: 1
     widths:
     - 0.4

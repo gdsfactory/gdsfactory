@@ -98,12 +98,11 @@ def get_route(
 
     """
     x = gf.get_cross_section(cross_section, **kwargs)
-    x.has_routing_info()
 
-    taper_length = x.info.get("taper_length")
+    taper_length = x.taper_length
     width1 = input_port.width
-    auto_widen = x.info.get("auto_widen", False)
-    width2 = x.info.get("width_wide") if auto_widen else width1
+    auto_widen = x.auto_widen
+    width2 = x.width_wide if auto_widen else width1
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
 
@@ -206,10 +205,10 @@ def get_route_from_waypoints(
     """
 
     x = gf.get_cross_section(cross_section, **kwargs)
-    auto_widen = x.info.get("auto_widen", False)
-    width1 = x.info.get("width")
-    width2 = x.info.get("width_wide") if auto_widen else width1
-    taper_length = x.info.get("taper_length")
+    auto_widen = x.auto_widen
+    width1 = x.width
+    width2 = x.width_wide if auto_widen else width1
+    taper_length = x.taper_length
     waypoints = np.array(waypoints)
     kwargs.pop("route_filter", "")
 

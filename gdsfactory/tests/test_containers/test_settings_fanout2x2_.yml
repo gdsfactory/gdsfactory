@@ -7,7 +7,7 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top:
-            function: straight_heater_metal_undercut
+            component: straight_heater_metal_undercut
             with_undercut: false
         child: null
         default:
@@ -15,7 +15,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -37,7 +37,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           delta_length: 10
           length_x: null
           length_y: 2
@@ -52,7 +52,7 @@ settings:
             function: straight
           straight_x_bot: null
           straight_x_top:
-            function: straight_heater_metal_undercut
+            component: straight_heater_metal_undercut
             with_undercut: false
           straight_y: null
           with_splitter: true
@@ -68,7 +68,7 @@ settings:
       splitter:
         function: mmi2x2
       straight_x_top:
-        function: straight_heater_metal_undercut
+        component: straight_heater_metal_undercut
         with_undercut: false
     child: null
     default:
@@ -76,7 +76,7 @@ settings:
         function: bend_euler
       combiner: null
       cross_section:
-        function: cross_section
+        cross_section: cross_section
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -98,7 +98,7 @@ settings:
         function: bend_euler
       combiner: null
       cross_section:
-        function: cross_section
+        cross_section: cross_section
       delta_length: 10
       length_x: null
       length_y: 2
@@ -113,7 +113,7 @@ settings:
         function: straight
       straight_x_bot: null
       straight_x_top:
-        function: straight_heater_metal_undercut
+        component: straight_heater_metal_undercut
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -125,7 +125,7 @@ settings:
   default:
     bend_length: null
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     npoints: 101
     port_spacing: 20
     select_ports:
@@ -141,7 +141,7 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top:
-            function: straight_heater_metal_undercut
+            component: straight_heater_metal_undercut
             with_undercut: false
         child: null
         default:
@@ -149,7 +149,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -171,7 +171,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           delta_length: 10
           length_x: null
           length_y: 2
@@ -186,7 +186,7 @@ settings:
             function: straight
           straight_x_bot: null
           straight_x_top:
-            function: straight_heater_metal_undercut
+            component: straight_heater_metal_undercut
             with_undercut: false
           straight_y: null
           with_splitter: true
@@ -197,7 +197,7 @@ settings:
         name: mzi_ab45cb05
       version: 0.0.1
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     npoints: 101
     port_spacing: 20
     select_ports:
@@ -208,5 +208,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.fanout2x2
-  name: mzi_ab45cb05_fanout2x2_c09cae54
+  name: mzi_ab45cb05_fanout2x2_04554259
 version: 0.0.1

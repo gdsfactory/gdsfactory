@@ -16,7 +16,7 @@ settings:
       - 10
     vias:
     - null
-    - function: via
+    - component: via
       layer:
       - 40
       - 0
@@ -35,7 +35,7 @@ settings:
       - 10
     vias:
     - null
-    - function: via
+    - component: via
       layer:
       - 40
       - 0

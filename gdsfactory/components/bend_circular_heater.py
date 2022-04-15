@@ -1,10 +1,11 @@
 import gdsfactory as gf
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -15,30 +16,27 @@ def bend_circular_heater(
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater=TECH.layer.HEATER,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
+    **kwargs
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:
-        radius
+        radius:
         angle: angle of arc (degrees)
         npoints: Number of points used per 360 degrees
         heater_to_wg_distance:
-        heater_width
-        layer_heater
-        cross_section:
+        heater_width:
+        layer_heater:
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
+        kwargs: cross_section settings.
     """
-    x = cross_section()
-    width = x.info["width"]
-    cladding_offset = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"] or []
-    layer = x.info["layer"]
+    x = gf.get_cross_section(cross_section, radius=radius, **kwargs)
+    width = x.width
+    layer = x.layer
 
     x = gf.CrossSection()
     x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
-
-    for layer_cladding in layers_cladding:
-        x.add(width=width + 2 * cladding_offset, offset=0, layer=layer_cladding)
 
     offset = heater_to_wg_distance + width / 2
     x.add(
@@ -56,6 +54,15 @@ def bend_circular_heater(
     c.length = snap_to_grid(p.length())
     c.dx = abs(p.points[0][0] - p.points[-1][0])
     c.dy = abs(p.points[0][0] - p.points[-1][0])
+
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        points = get_padding_points(
+            component=c,
+            default=0,
+            bottom=offset,
+            top=offset,
+        )
+        c.add_polygon(points, layer=layer)
     return c
 
 

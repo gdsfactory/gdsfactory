@@ -2,12 +2,12 @@ settings:
   changed:
     bend180:
       angle: 180
-      function: bend_circular
+      component: bend_circular
   child: null
   default:
     bend180:
       angle: 180
-      function: bend_euler
+      component: bend_euler
     columns: 6
     rows: 6
     spacing: 3
@@ -17,7 +17,7 @@ settings:
   full:
     bend180:
       angle: 180
-      function: bend_circular
+      component: bend_circular
     columns: 6
     rows: 6
     spacing: 3

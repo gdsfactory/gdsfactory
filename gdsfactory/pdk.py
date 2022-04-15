@@ -40,7 +40,7 @@ class Pdk(BaseModel):
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         if isinstance(component, Component):
             if kwargs:
-                warnings.warn(f"Cannot apply kwargs {kwargs} to {component.name!r}")
+                raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
             return component
         elif callable(component):
             return component(**kwargs)
@@ -58,7 +58,8 @@ class Pdk(BaseModel):
             return cell(**settings)
         else:
             raise ValueError(
-                f"get_component expects a ComponentSpec (Component, ComponentFactory, string or dict), got {type(component)}"
+                "get_component expects a ComponentSpec (Component, ComponentFactory, string or dict),"
+                f"got {type(component)}"
             )
 
     def get_cross_section(
@@ -66,7 +67,7 @@ class Pdk(BaseModel):
     ) -> CrossSection:
         if isinstance(cross_section, CrossSection):
             if kwargs:
-                warnings.warn(f"Cannot apply {kwargs} to a defined CrossSection")
+                raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
             return cross_section
         elif callable(cross_section):
             return cross_section(**kwargs)
@@ -103,3 +104,8 @@ def get_component(component: ComponentSpec, **kwargs) -> Component:
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
     return ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
+
+
+if __name__ == "__main__":
+    c = ACTIVE_PDK.get_component("straight")
+    print(c.settings)

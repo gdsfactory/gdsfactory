@@ -3,7 +3,7 @@ settings:
   child: null
   default:
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -12,10 +12,9 @@ settings:
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
-    with_cladding_box: true
   full:
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -24,7 +23,6 @@ settings:
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
-    with_cladding_box: true
   function_name: mmi1x2
   info: {}
   info_version: 2

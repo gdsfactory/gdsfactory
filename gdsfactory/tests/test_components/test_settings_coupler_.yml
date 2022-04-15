@@ -7,7 +7,7 @@ settings:
     coupler_symmetric:
       function: coupler_symmetric
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     dx: 10
     dy: 5
     gap: 0.236
@@ -18,7 +18,7 @@ settings:
     coupler_symmetric:
       function: coupler_symmetric
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     dx: 10
     dy: 5
     gap: 0.236

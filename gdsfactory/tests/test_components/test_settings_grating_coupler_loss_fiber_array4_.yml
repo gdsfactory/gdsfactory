@@ -3,13 +3,13 @@ settings:
   child: null
   default:
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      component: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     pitch: 127
   full:
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      component: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     pitch: 127
