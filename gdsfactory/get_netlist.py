@@ -163,12 +163,14 @@ def get_netlist(
     connections_sorted = {k: connections[k] for k in sorted(list(connections.keys()))}
     placements_sorted = {k: placements[k] for k in sorted(list(placements.keys()))}
     instances_sorted = {k: instances[k] for k in sorted(list(instances.keys()))}
-    return dict(
-        connections=connections_sorted,
-        instances=instances_sorted,
-        placements=placements_sorted,
-        ports=top_ports,
-        name=component.name,
+    return omegaconf.DictConfig(
+        dict(
+            connections=connections_sorted,
+            instances=instances_sorted,
+            placements=placements_sorted,
+            ports=top_ports,
+            name=component.name,
+        )
     )
 
 
