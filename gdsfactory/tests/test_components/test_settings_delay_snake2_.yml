@@ -4,18 +4,18 @@ settings:
   default:
     bend180:
       angle: 180
-      function: bend_euler
+      component: bend_euler
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     length: 1600
     length0: 0
     n: 2
   full:
     bend180:
       angle: 180
-      function: bend_euler
+      component: bend_euler
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     length: 1600
     length0: 0
     n: 2

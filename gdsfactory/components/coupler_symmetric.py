@@ -39,7 +39,7 @@ def coupler_symmetric(
     """
 
     x = cross_section(**kwargs)
-    width = x.info["width"]
+    width = x.width
     bend_component = (
         bend(
             size=(dx, (dy - gap - width) / 2),

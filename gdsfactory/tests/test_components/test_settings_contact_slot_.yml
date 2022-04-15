@@ -18,8 +18,8 @@ settings:
     - 11.0
     - 11.0
     via:
+      component: via
       enclosure: 2
-      function: via
       layer:
       - 44
       - 0
@@ -42,8 +42,8 @@ settings:
     - 11.0
     - 11.0
     via:
+      component: via
       enclosure: 2
-      function: via
       layer:
       - 44
       - 0

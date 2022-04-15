@@ -11,7 +11,7 @@ settings:
     min_pad_spacing: 0
     num_vias: 100
     pad:
-      function: contact
+      component: contact
       layers:
       - - 47
         - 0
@@ -20,12 +20,12 @@ settings:
       - - 49
         - 0
       vias:
-      - enclosure: 2
-        function: via
+      - component: via
+        enclosure: 2
         layer:
         - 44
         - 0
-      - function: via
+      - component: via
         layer:
         - 43
         - 0
@@ -49,7 +49,7 @@ settings:
     min_pad_spacing: 0
     num_vias: 100
     pad:
-      function: contact
+      component: contact
       layers:
       - - 47
         - 0
@@ -58,12 +58,12 @@ settings:
       - - 49
         - 0
       vias:
-      - enclosure: 2
-        function: via
+      - component: via
+        enclosure: 2
         layer:
         - 44
         - 0
-      - function: via
+      - component: via
         layer:
         - 43
         - 0

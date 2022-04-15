@@ -23,7 +23,7 @@ settings:
     polarization: te
     slab_offset: 2
     taper:
-      function: taper_strip_to_ridge
+      component: taper_strip_to_ridge
       layer_slab:
       - 2
       - 0
@@ -63,7 +63,7 @@ settings:
     polarization: te
     slab_offset: 2
     taper:
-      function: taper_strip_to_ridge
+      component: taper_strip_to_ridge
       layer_slab:
       - 2
       - 0

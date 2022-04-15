@@ -1,6 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [4.7.4]
+## [5.0.0]
+
+- cross_section BaseModel takes all routing parameters
 
 ## [4.7.3](https://github.com/gdsfactory/gdsfactory/pull/272)
 

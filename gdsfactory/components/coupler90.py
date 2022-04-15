@@ -57,7 +57,7 @@ def coupler90(
     )
 
     wg_ref = c << straight_component
-    width = x.info["width"]
+    width = x.width
 
     pbw = bend_ref.ports["o1"]
     bend_ref.movey(pbw.midpoint[1] + gap + width)

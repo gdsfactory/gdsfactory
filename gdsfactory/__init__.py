@@ -34,7 +34,7 @@ from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.types import Label
 
 from gdsfactory import cross_section
@@ -80,6 +80,7 @@ __all__ = [
     "Component",
     "ComponentReference",
     "CrossSection",
+    "Section",
     "compose",
     "Group",
     "LAYER",

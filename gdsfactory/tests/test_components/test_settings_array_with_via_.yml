@@ -9,7 +9,7 @@ settings:
       function: contact
     contact_dy: 0
     cross_section:
-      function: cross_section
+      cross_section: cross_section
       layer:
       - 45
       - 0
@@ -33,7 +33,7 @@ settings:
       function: contact
     contact_dy: 0
     cross_section:
-      function: cross_section
+      cross_section: cross_section
       layer:
       - 45
       - 0

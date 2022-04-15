@@ -81,7 +81,7 @@ def loss_deembedding_ch13_24(
     )
 
     x = cross_section(**kwargs)
-    radius = x.info["radius"]
+    radius = x.radius
 
     gsi = gc.size_info
     p1 = gc_ports[1]

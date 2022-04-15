@@ -39,7 +39,7 @@ def coupler_asymmetric(
 
     """
     x = cross_section(**kwargs)
-    width = x.info["width"]
+    width = x.width
     bend_component = (
         bend(size=(dx, dy - gap - width), cross_section=cross_section, **kwargs)
         if callable(bend)

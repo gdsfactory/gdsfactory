@@ -15,7 +15,6 @@ def bend_euler(
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
-    with_cladding_box: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -54,7 +53,7 @@ def bend_euler(
 
     """
     x = gf.get_cross_section(cross_section, **kwargs)
-    radius = x.info["radius"]
+    radius = x.radius
 
     c = Component()
     p = euler(
@@ -66,21 +65,16 @@ def bend_euler(
     c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
     c.info["radius_min"] = float(snap_to_grid(p.info["Rmin"]))
     c.info["radius"] = float(radius)
-    c.info["wg_width"] = x.info["width"]
+    c.info["wg_width"] = x.width
 
-    if with_cladding_box and x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offset"]
-        top = cladding_offset if angle == 180 else 0
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
         points = get_padding_points(
             component=c,
             default=0,
-            bottom=cladding_offset,
-            right=cladding_offset,
-            top=top,
+            bottom=offset,
+            top=offset,
         )
-        for layer in layers_cladding or []:
-            c.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
 
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])

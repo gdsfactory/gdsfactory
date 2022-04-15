@@ -8,7 +8,7 @@ settings:
     coupler:
       function: mmi1x2
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     noutputs: 4
     spacing:
     - 90.0
@@ -20,7 +20,7 @@ settings:
     coupler:
       function: mmi1x2
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     noutputs: 4
     spacing:
     - 90.0

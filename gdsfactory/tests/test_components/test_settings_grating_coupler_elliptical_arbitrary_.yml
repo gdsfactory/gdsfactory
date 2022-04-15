@@ -4,7 +4,7 @@ settings:
   default:
     bias_gap: 0
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     fiber_angle: 15
     fiber_marker_layer:
     - 203
@@ -50,7 +50,7 @@ settings:
   full:
     bias_gap: 0
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     fiber_angle: 15
     fiber_marker_layer:
     - 203

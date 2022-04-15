@@ -26,17 +26,17 @@ def cross_section_to_waveguide_template(
 ) -> WaveguideTemplate:
     x = cross_section(**kwargs)
 
-    layer = x.info["layer"]
-    layer_cladding = x.info["layers_cladding"][0]
+    layer = x.layer
+    layer_cladding = x.bbox_layers[0] if x.bbox_layers else None
 
     return pc.WaveguideTemplate(
-        bend_radius=x.info["radius"],
-        wg_width=x.info["width"],
+        bend_radius=x.radius,
+        wg_width=x.width,
         wg_layer=layer[0],
         wg_datatype=layer[1],
         clad_layer=layer_cladding[0],
         clad_datatype=layer_cladding[1],
-        clad_width=x.info["cladding_offset"],
+        clad_width=x.bbox_offsets[0] if x.bbox_offsets else 0,
         wg_type=wg_type,
         euler_bend=euler_bend,
     )

@@ -13,7 +13,7 @@ settings:
     mzi:
       combiner:
         function: coupler
-      function: mzi
+      component: mzi
       port_e0_combiner: o4
       port_e0_splitter: o4
       port_e1_combiner: o3
@@ -34,7 +34,7 @@ settings:
     mzi:
       combiner:
         function: coupler
-      function: mzi
+      component: mzi
       port_e0_combiner: o4
       port_e0_splitter: o4
       port_e1_combiner: o3

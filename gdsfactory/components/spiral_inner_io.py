@@ -58,8 +58,8 @@ def spiral_inner_io(
     """
     dx = dy = waveguide_spacing
     x = cross_section(**kwargs)
-    width = x.info.get("width")
-    layer = x.info.get("layer")
+    width = x.width
+    layer = x.layer
     cross_section_bend = cross_section_bend or cross_section
 
     if length:

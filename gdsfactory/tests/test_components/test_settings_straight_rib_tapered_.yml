@@ -1,26 +1,28 @@
 settings:
   changed:
     component:
+      component: straight
       cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
+        bbox_layers:
         - - 3
           - 0
+        bbox_offsets:
+        - 0
+        cross_section: cross_section
         sections:
-        - layer:
+        - hidden: false
+          layer:
           - 3
           - 0
           name: slab
           offset: 0
+          port_names:
+          - null
+          - null
           port_types:
           - optical
           - optical
-          ports:
-          - null
-          - null
           width: 6.0
-      function: straight
     extension_factory:
       function: taper_strip_to_ridge
     port1: o2
@@ -28,61 +30,63 @@ settings:
   child:
     changed:
       cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
+        bbox_layers:
         - - 3
           - 0
+        bbox_offsets:
+        - 0
+        cross_section: cross_section
         sections:
-        - layer:
+        - hidden: false
+          layer:
           - 3
           - 0
           name: slab
           offset: 0
+          port_names:
+          - null
+          - null
           port_types:
           - optical
           - optical
-          ports:
-          - null
-          - null
           width: 6.0
     child: null
     default:
       cross_section:
-        function: cross_section
+        cross_section: cross_section
       length: 10
       npoints: 2
-      with_cladding_box: true
     full:
       cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
+        bbox_layers:
         - - 3
           - 0
+        bbox_offsets:
+        - 0
+        cross_section: cross_section
         sections:
-        - layer:
+        - hidden: false
+          layer:
           - 3
           - 0
           name: slab
           offset: 0
+          port_names:
+          - null
+          - null
           port_types:
           - optical
           - optical
-          ports:
-          - null
-          - null
           width: 6.0
       length: 10
       npoints: 2
-      with_cladding_box: true
     function_name: straight
     info:
       length: 10.0
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_4d2ecf14
+    name: straight_0a6ec136
   default:
     centered: false
     component:
@@ -97,26 +101,28 @@ settings:
   full:
     centered: false
     component:
+      component: straight
       cross_section:
-        cladding_offset: 0
-        function: cross_section
-        layers_cladding:
+        bbox_layers:
         - - 3
           - 0
+        bbox_offsets:
+        - 0
+        cross_section: cross_section
         sections:
-        - layer:
+        - hidden: false
+          layer:
           - 3
           - 0
           name: slab
           offset: 0
+          port_names:
+          - null
+          - null
           port_types:
           - optical
           - optical
-          ports:
-          - null
-          - null
           width: 6.0
-      function: straight
     cross_section: null
     extension_factory:
       function: taper_strip_to_ridge
@@ -129,5 +135,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_4d2ecf14_exten_2a310c80
+  name: straight_0a6ec136_exten_5e657a3b
 version: 0.0.1

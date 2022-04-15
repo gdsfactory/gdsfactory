@@ -20,8 +20,8 @@ def wire_corner(cross_section: CrossSectionOrFactory = metal3, **kwargs) -> Comp
 
     """
     x = cross_section(**kwargs) if callable(cross_section) else cross_section
-    layer = x.info["layer"]
-    width = x.info["width"]
+    layer = x.layer
+    width = x.width
 
     c = Component()
     a = width / 2

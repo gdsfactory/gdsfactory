@@ -11,7 +11,6 @@ from gdsfactory.types import CrossSectionSpec
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    with_cladding_box: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -20,7 +19,6 @@ def straight(
     Args:
         length: straight length (um).
         npoints: number of points.
-        with_cladding_box: box in layers_cladding to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -39,18 +37,16 @@ def straight(
     ref = c << path
     c.add_ports(ref.ports)
     c.info["length"] = length
-    c.info["width"] = float(x.info["width"])
+    c.info["width"] = float(x.width)
 
-    if length > 0 and with_cladding_box and x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offset"]
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=cladding_offset,
-            top=cladding_offset,
-        )
-        for layer in layers_cladding or []:
+    if length:
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
             c.add_polygon(points, layer=layer)
     c.absorb(ref)
     return c
@@ -74,6 +70,8 @@ if __name__ == "__main__":
         length=1,
         cross_section={"cross_section": "strip", "settings": settings},
         width=3,
+        # bbox_layers=[(2, 0)],
+        # bbox_offsets=[3],
     )
     c.assert_ports_on_grid()
     c.show()
