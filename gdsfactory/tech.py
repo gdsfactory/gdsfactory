@@ -228,14 +228,17 @@ class Section(BaseModel):
     """
 
     Args:
-        width: of the section (um) or function that is parameterized from 0 to 1.
+        width: of the section (um) or parameterized function from 0 to 1.
              the width at t==0 is the width at the beginning of the Path.
              the width at t==1 is the width at the end.
-        offset: center offset
+        offset: center offset (um) or function parameterized function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
         layer:
-        ports: Optional port names
-        name: Optional Section name
+        port_names: Optional port names
         port_types: optical, electrical, ...
+        name: Optional Section name.
+        hidden:
 
     .. code::
 
@@ -252,28 +255,11 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    layer: Layer = (1, 0)
-    ports: Tuple[Optional[str], Optional[str]] = (None, None)
-    name: Optional[str] = None
+    layer: Layer
+    port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
-
-    def __repr__(self):
-        return "_".join(
-            [
-                f"{i}"
-                for i in [
-                    self.name,
-                    int(self.width * 1e3),
-                    self.layer[0],
-                    self.layer[1],
-                    self.ports[0],
-                    self.ports[1],
-                    self.port_types[0],
-                    self.port_types[1],
-                ]
-                if i is not None
-            ]
-        )
+    name: Optional[str] = None
+    hidden: bool = False
 
 
 class SimulationSettings(BaseModel):

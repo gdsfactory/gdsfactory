@@ -224,7 +224,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         **kwargs: cross_section settings
     """
     x = cross_section(**kwargs)
-    bend_radius_loopback = bend_radius_loopback or x.info["radius"]
+    bend_radius_loopback = bend_radius_loopback or x.radius
     excluded_ports = excluded_ports or []
     gc = grating_coupler() if callable(grating_coupler) else grating_coupler
 

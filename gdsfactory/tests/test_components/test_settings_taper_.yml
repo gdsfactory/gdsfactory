@@ -3,20 +3,18 @@ settings:
   child: null
   default:
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     length: 10
     port: null
     width1: 0.5
     width2: null
-    with_cladding_box: true
   full:
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     length: 10
     port: null
     width1: 0.5
     width2: null
-    with_cladding_box: true
   function_name: taper
   info:
     length: 10.0

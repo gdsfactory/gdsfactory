@@ -42,8 +42,6 @@ def get_bundle(
     straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    end_straight_length: float = 0.0,
-    start_straight_length: Optional[float] = None,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[Route]:
@@ -58,8 +56,6 @@ def get_bundle(
         extension_length: adds straight extension.
         bend: function for the bend. Defaults to euler.
         sort_ports: sort port coordinates.
-        end_straight_length: straight length at the end of the route.
-        start_straight_length: straight length at the beginning of the route.
         cross_section: CrossSection or function that returns a cross_section.
 
     Keyword Args:
@@ -70,9 +66,9 @@ def get_bundle(
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
         radius: bend radius (um).
-        cladding_offset: offset for layers_cladding (um).
-        layers_cladding: list of cladding layers around component bounding box.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -110,27 +106,18 @@ def get_bundle(
     ports2 = cast(List[Port], ports2)
 
     cross_section = gf.get_cross_section(cross_section, **kwargs)
-    cross_section.has_routing_info()
-
-    start_straight_length = start_straight_length or cross_section.info.get(
-        "min_length"
-    )
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
     start_port_angles = set([p.angle for p in ports1])
     if len(start_port_angles) > 1:
-        raise ValueError(
-            "All start port angles should be the same", f"Got {start_port_angles}"
-        )
+        raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
     params = {
         "ports1": ports1,
         "ports2": ports2,
         "separation": separation,
-        "start_straight_length": start_straight_length,
-        "end_straight_length": end_straight_length,
         "bend": bend,
         "straight": straight,
         "cross_section": cross_section,
@@ -670,10 +657,10 @@ def test_get_bundle_small() -> Component:
     routes = get_bundle(
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o1"], c2.ports["o2"]],
-        radius=5,
+        # radius=5,
         separation=5.0,
-        # cross_section=gf.cross_section.strip(radius=5)
-        cross_section=gf.cross_section.strip,
+        cross_section=gf.cross_section.strip(radius=5)
+        # cross_section=gf.cross_section.strip,
     )
     for route in routes:
         c.add(route.references)

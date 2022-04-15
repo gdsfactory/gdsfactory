@@ -22,171 +22,93 @@ class CrossSection(BaseModel):
     """Extend phidl.device_layout.CrossSection with port_types.
 
     Args:
-        sections: list of sections
-        ports: input and output port names.
-        port_types: input and output port types.
-        info: settings.
+        layer: main Section layer.
+        width: (um) or function that is parameterized from 0 to 1.
+            the width at t==0 is the width at the beginning of the Path.
+            the width at t==1 is the width at the end.
+        radius: main Section bend radius (um).
+        offset: center offset (um) or function parameterized function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        layer_bbox: optional bounding box layer for device recognition. (68, 0)
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: can snap points to grid when extruding the path.
         aliases: dict of cross_section aliases.
-        name: cross_section name.
         decorator: function when extruding component.
+        info: settings
+        name: cross_section name.
     """
 
+    layer: Layer
+    width: Union[float, Callable]
+    offset: Union[float, Callable] = 0
+    radius: Optional[float]
+    layer_bbox: Optional[Tuple[int, int]] = None
+    width_wide: Optional[float] = None
+    auto_widen: bool = False
+    auto_widen_minimum_length: float = 200.0
+    taper_length: float = 10.0
+    bbox_layers: List[Layer] = []
+    bbox_offsets: List[float] = []
     sections: List[Section] = []
-    ports: List[str] = []
-    port_types: List[str] = []
-    info: Dict[str, Any] = {}
-    aliases: Dict[str, Section] = {}
-    name: Optional[str] = None
+    port_names: Tuple[str, str] = ("o1", "o2")
+    port_types: Tuple[str, str] = ("optical", "optical")
+    min_length: float = 10e-3
+    start_straight_length: float = 10e-3
+    end_straight_length: float = 10e-3
+    snap_to_grid: Optional[float] = None
     decorator: Optional[Callable] = None
+    info: Optional[Dict[str, Any]] = None
+    name: Optional[str] = None
 
-    def has_routing_info(self):
-        """Check if cross_section has routing info needed for bends."""
-        for setting in ["radius", "width", "layers_cladding", "layer"]:
-            if setting not in self.info:
-                raise ValueError(
-                    f"Cross_section {self.name!r} needs .info[{setting!r}]"
-                )
+    class Config:
+        frozen = True
 
-    def add(
-        self,
-        width: Union[float, Callable] = 1,
-        offset: float = 0,
-        layer: Tuple[int, int] = (1, 0),
-        ports: Tuple[Optional[str], Optional[str]] = (None, None),
-        name: Optional[str] = None,
-        port_types: Tuple[str, str] = ("optical", "optical"),
-        hidden: bool = False,
-    ):
-        """Adds a cross-sectional element to the CrossSection. If ports are
-        specified, when creating a Component with the gf.path.extrude() command
-        it will add Ports at the ends.
-
-        Args:
-            width: (um) or function that is parameterized from 0 to 1.
-                the width at t==0 is the width at the beginning of the Path.
-                the width at t==1 is the width at the end.
-            offset: Offset of the segment (positive values = right hand side)
-            layer: The polygon layer to put the segment on
-            ports: Optional port names at the ends of the cross-section.
-            name: Optional Name of the cross-sectional element for later access.
-            port_types: electrical, optical ...
-            hidden: if True does not draw polygons for CrossSection.
-
-        .. code::
-
-              0   offset
-              |<-------------->|
-              |              _____
-              |             |     |
-              |             |layer|
-              |             |_____|
-              |              <---->
-                             width
-
-        """
-        if isinstance(width, (float, int)) and (width <= 0):
-            raise ValueError("CrossSection.add(): widths must be >0")
-        if len(ports) != 2:
-            raise ValueError("CrossSection.add(): must receive 2 port names")
-        for p in ports:
-            if p is not None and p in self.ports:
-                raise ValueError(
-                    f"CrossSection.add(): a port named {p!r} already "
-                    "exists in this CrossSection, please rename port"
-                )
-
-        [self.ports.append(port) for port in ports if port is not None]
-        [self.port_types.append(port_type) for port_type in port_types]
-
-        if name in self.aliases:
-            raise ValueError(
-                f"CrossSection.add(): an element named {name!r} already "
-                "exists in this CrossSection, please change the name"
-            )
-
-        new_segment = dict(
-            width=width,
-            offset=offset,
-            layer=layer,
-            ports=ports,
-            port_types=port_types,
-            hidden=hidden,
-            name=name,
-        )
-
-        if name is not None:
-            self.aliases[name] = new_segment
-        self.sections.append(new_segment)
-        return self
-
-    def copy(self, width: Optional[float] = None):
-        """Returns a copy of the CrossSection.
-
-        Args:
-            width: optional width (um) for new _default Section.
-        """
-        X = CrossSection()
-        X.info = self.info.copy()
-        X.sections = list(self.sections)
-        X.ports = tuple(sorted(list(self.ports)))
-        X.aliases = dict(self.aliases)
-        X.port_types = tuple(self.port_types)
-
+    def get_copy(self, width: Optional[float] = None):
         if width:
-            if "_default" not in self.aliases:
-                raise ValueError(
-                    f"No section named `_default` in {self.aliases.keys()}"
-                )
-            self.aliases["_default"]["width"] = width
+            settings = dict(self)
+            settings.update(width=width)
+            return CrossSection(**settings)
+        else:
+            return self.copy()
 
-        return X
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
-
-    @classmethod
-    def validate(cls, v):
-        """pydantic checks CrossSection valid type"""
-        # assert isinstance(
-        #     v, CrossSection
-        # ), f"TypeError, Got {type(v)}, expecting CrossSection"
-        return v
-
-    def to_dict(self):
-        d = {}
-        x = self.copy()
-        d["sections"] = [dict(section) for section in x.sections if section]
-        d["ports"] = list(x.ports)
-        d["port_types"] = x.port_types
-        d["aliases"] = x.aliases
-        d["info"] = x.info
-        if hasattr(self, "cross_sections"):
-            d["cross_sections"] = [x.to_dict() for x in self.cross_sections]
-        return d
-
-    def get_name(self):
-        return self.name or "_".join([str(i) for i in self.to_dict()["sections"]])
-
-    def __getitem__(self, key: str) -> "CrossSection":
-        """Allows access to Sections by name like X['etch2'].
-
-        Args:
-            key: Section name to access within the CrossSection.
-        """
-        try:
-            return self.aliases[key]
-        except:
-            raise ValueError(
-                f"Section {key!r} does not exists in {self.aliases.keys()}"
+    @property
+    def aliases(self) -> Dict[str, Section]:
+        s = dict(
+            _default=Section(
+                width=self.width,
+                offset=self.offset,
+                layer=self.layer,
+                port_names=self.port_names,
+                port_types=self.port_types,
+                name="_default",
             )
+        )
+        sections = self.sections or []
+        for section in sections:
+            if section.name:
+                s[section.name] = section
+        return s
 
 
 class Transition(CrossSection):
     cross_section1: CrossSection
     cross_section2: CrossSection
     width_type: str = "sine"
-    name: Optional[str] = None
+    sections: List[Section]
+    layer: Optional[Layer] = None
+    width: Optional[Union[float, Callable]] = None
 
 
 @pydantic.validate_arguments
@@ -199,8 +121,6 @@ def cross_section(
     auto_widen_minimum_length: float = 200.0,
     taper_length: float = 10.0,
     radius: float = 10.0,
-    cladding_offset: float = 3.0,
-    layers_cladding: Optional[Tuple[Layer, ...]] = None,
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     port_types: Tuple[str, str] = ("optical", "optical"),
@@ -209,6 +129,9 @@ def cross_section(
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
     decorator: Optional[Callable] = None,
+    bbox_layers: Optional[List[Layer]] = None,
+    bbox_offsets: Optional[List[float]] = None,
+    info: Optional[Dict[str, Any]] = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -221,8 +144,6 @@ def cross_section(
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
         radius: bend radius (um).
-        cladding_offset: offset for layers_cladding (um).
-        layers_cladding: list of cladding layers around component bounding box.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -231,8 +152,12 @@ def cross_section(
         end_straight_length: end length at the beginning of the route.
         snap_to_grid: can snap points to grid when extruding the path.
         decorator: optional decorator function (adds pins to each port, etc.).
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        info: settings info.
     """
-    info = dict(
+
+    x = CrossSection(
         width=width,
         layer=layer,
         width_wide=width_wide,
@@ -240,55 +165,17 @@ def cross_section(
         auto_widen_minimum_length=auto_widen_minimum_length,
         taper_length=taper_length,
         radius=radius,
-        cladding_offset=cladding_offset,
-        layers_cladding=layers_cladding,
-        sections=sections,
+        bbox_layers=bbox_layers or [],
+        bbox_offsets=bbox_offsets or [],
+        sections=sections or [],
         min_length=min_length,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
         snap_to_grid=snap_to_grid,
         port_types=port_types,
         port_names=port_names,
+        info=info,
     )
-
-    x = CrossSection(info=info, decorator=decorator)
-    x.add(
-        width=width,
-        offset=0,
-        layer=layer,
-        ports=port_names,
-        port_types=port_types,
-        name="_default",
-    )
-
-    if layer_bbox:
-        x.add(
-            width=width,
-            offset=0,
-            layer=layer_bbox,
-            name="bbox",
-        )
-
-    sections = sections or []
-    for section in sections:
-        if isinstance(section, dict):
-            x.add(
-                width=section["width"],
-                offset=section["offset"],
-                layer=section["layer"],
-                ports=section["ports"],
-                port_types=section["port_types"],
-                name=section["name"],
-            )
-        else:
-            x.add(
-                width=section.width,
-                offset=section.offset,
-                layer=section.layer,
-                ports=section.ports,
-                port_types=section.port_types,
-                name=section.name,
-            )
 
     return x
 
@@ -375,13 +262,6 @@ def pin(
             )
             for offset in via_offsets
         ]
-
-    x = cross_section(
-        width=width,
-        layer=layer,
-        sections=sections,
-        **kwargs,
-    )
     info = dict(
         width=width,
         layer=layer,
@@ -398,8 +278,14 @@ def pin(
         via_offsets=via_offsets,
         **kwargs,
     )
-    x.info.update(**info)
-    x.info.update(**kwargs)
+
+    x = cross_section(
+        width=width,
+        layer=layer,
+        sections=sections,
+        info=info,
+        **kwargs,
+    )
     return x
 
 
@@ -419,9 +305,9 @@ def pn(
     layer_n: Tuple[int, int] = LAYER.N,
     layer_np: Tuple[int, int] = LAYER.NP,
     layer_npp: Tuple[int, int] = LAYER.NPP,
-    cladding_offsets: Floats = (0,),
-    layers_cladding: Optional[Tuple[Layer, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
+    bbox_layers: Optional[List[Layer]] = None,
+    bbox_offsets: Optional[List[float]] = None,
 ) -> CrossSection:
     """rib PN doped cross_section.
 
@@ -441,8 +327,8 @@ def pn(
         layer_n:
         layer_np:
         layer_npp:
-        cladding_offsets:
-        layers_cladding: Iterable of layers
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
         port_names:
 
 
@@ -465,53 +351,74 @@ def pn(
                                            gap_medium_doping
 
     """
-    x = CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=port_names)
-    x.add(width=width_slab, offset=0, layer=layer_slab)
+    sections = []
+    slab = Section(width=width_slab, offset=0, layer=layer_slab)
+    sections.append(slab)
 
     offset_low_doping = width_doping / 2 + gap_low_doping
     width_low_doping = width_doping - gap_low_doping
-    x.add(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
-    x.add(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
+
+    n = Section(width=width_low_doping, offset=+offset_low_doping, layer=layer_n)
+    p = Section(width=width_low_doping, offset=-offset_low_doping, layer=layer_p)
+    sections.append(n)
+    sections.append(p)
 
     if gap_medium_doping is not None:
         width_medium_doping = width_doping - gap_medium_doping
         offset_medium_doping = width_medium_doping / 2 + gap_medium_doping
 
-        x.add(
+        np = Section(
             width=width_medium_doping,
             offset=+offset_medium_doping,
             layer=layer_np,
         )
-        x.add(
+        pp = Section(
             width=width_medium_doping,
             offset=-offset_medium_doping,
             layer=layer_pp,
         )
+        sections.append(np)
+        sections.append(pp)
 
     if gap_high_doping is not None:
         width_high_doping = width_doping - gap_high_doping
         offset_high_doping = width_high_doping / 2 + gap_high_doping
-        x.add(width=width_high_doping, offset=+offset_high_doping, layer=layer_npp)
-        x.add(width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp)
+        npp = Section(
+            width=width_high_doping, offset=+offset_high_doping, layer=layer_npp
+        )
+        ppp = Section(
+            width=width_high_doping, offset=-offset_high_doping, layer=layer_ppp
+        )
+        sections.append(npp)
+        sections.append(ppp)
 
-    layers_cladding = layers_cladding or []
+    bbox_layers = bbox_layers or []
+    bbox_offsets = bbox_offsets or []
+    for layer_cladding, cladding_offset in zip(bbox_layers, bbox_offsets):
+        s = Section(
+            width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding
+        )
+        sections.append(s)
 
-    for cladding_offset, layer_cladding in zip(cladding_offsets, layers_cladding):
-        x.add(width=width_slab + 2 * cladding_offset, offset=0, layer=layer_cladding)
-
-    s = dict(
+    info = dict(
         width=width,
         layer=layer,
-        cladding_offsets=cladding_offsets,
-        layers_cladding=layers_cladding,
+        bbox_layers=bbox_layers,
+        bbox_offsets=bbox_offsets,
         gap_low_doping=gap_low_doping,
         gap_medium_doping=gap_medium_doping,
         gap_high_doping=gap_high_doping,
         width_doping=width_doping,
         width_slab=width_slab,
     )
-    x.info = s
+    x = CrossSection(
+        width=width,
+        offset=0,
+        layer=layer,
+        ports=port_names,
+        info=info,
+        sections=sections,
+    )
     return x
 
 
@@ -560,6 +467,16 @@ def strip_heater_metal_undercut(
 
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
+    info = dict(
+        width=width,
+        layer=layer,
+        heater_width=heater_width,
+        trench_width=trench_width,
+        trench_gap=trench_gap,
+        layer_heater=layer_heater,
+        layer_trench=layer_trench,
+        **kwargs,
+    )
     x = cross_section(
         width=width,
         layer=layer,
@@ -568,13 +485,9 @@ def strip_heater_metal_undercut(
             Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
             Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
         ),
+        info=info,
         **kwargs,
     )
-    x.info["heater_width"] = heater_width
-    x.info["layer_heater"] = layer_heater
-    x.info["trench_width"] = trench_width
-    x.info["layer_heater"] = layer_heater
-    x.info["trench_gap"] = trench_gap
     return x
 
 
@@ -596,14 +509,21 @@ def strip_heater_metal(
         layer_heater: for the metal
 
     """
+    info = dict(
+        width=width,
+        layer=layer,
+        heater_width=heater_width,
+        layer_heater=layer_heater,
+        **kwargs,
+    )
+
     x = cross_section(
         width=width,
         layer=layer,
-        sections=(Section(layer=layer_heater, width=heater_width),),
+        sections=[Section(layer=layer_heater, width=heater_width)],
+        info=info,
         **kwargs,
     )
-    x.info["heater_width"] = heater_width
-    x.info["layer_heater"] = layer_heater
     return x
 
 
@@ -873,9 +793,9 @@ strip = partial(cross_section)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
 rib = partial(
     strip,
-    sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),),
-    layers_cladding=(LAYER.SLAB90,),
-    cladding_offset=0,
+    sections=[Section(width=6, layer=LAYER.SLAB90, name="slab")],
+    bbox_layers=[LAYER.SLAB90],
+    bbox_offsets=[0],
 )
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 strip_rib_tip = partial(
@@ -931,11 +851,14 @@ cross_sections = get_cross_section_factories(sys.modules[__name__])
 # validate_module_factories(sys.modules[__name__])
 
 if __name__ == "__main__":
-    print(len(cross_sections.keys()))
+    import gdsfactory as gf
 
-    # import gdsfactory as gf
+    p = gf.path.straight()
+    x = CrossSection(name="strip", layer=(1, 0), width=0.5)
+    x = x.get_copy(width=3)
+    c = p.extrude(x)
+    c.show()
 
-    # P = gf.path.straight()
     # P = gf.path.euler(radius=10, use_eff=True)
     # P = euler()
     # P = gf.Path()

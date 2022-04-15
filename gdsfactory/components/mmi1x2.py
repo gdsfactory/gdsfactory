@@ -1,9 +1,8 @@
 import gdsfactory as gf
-from gdsfactory.add_padding import add_padding
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -15,9 +14,7 @@ def mmi1x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentFactory = taper_function,
-    with_cladding_box: bool = True,
-    cross_section: CrossSectionFactory = strip,
-    **kwargs
+    cross_section: CrossSectionSpec = strip,
 ) -> Component:
     r"""Mmi 1x2.
 
@@ -29,9 +26,7 @@ def mmi1x2(
         width_mmi: in y direction
         gap_mmi:  gap between tapered wg
         taper: taper function
-        with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section:
-        **kwargs: cross_section settings
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
 
 
     .. code::
@@ -54,10 +49,8 @@ def mmi1x2(
 
     """
     gf.snap.assert_on_2nm_grid(gap_mmi)
-    x = cross_section(**kwargs)
-    cladding_offset = x.info["cladding_offset"]
-    layers_cladding = x.info.get("layers_cladding", [])
-    layer = x.info["layer"]
+    x = gf.get_cross_section(cross_section)
+    layer = x.layer
 
     c = Component()
     w_mmi = width_mmi
@@ -68,7 +61,6 @@ def mmi1x2(
         width1=width,
         width2=w_taper,
         cross_section=cross_section,
-        **kwargs
     )
 
     a = gap_mmi / 2 + width_taper / 2
@@ -91,22 +83,19 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     c.absorb(mmi)
-
-    if layers_cladding and with_cladding_box:
-        add_padding(
-            c,
-            default=cladding_offset,
-            right=0,
-            left=0,
-            top=cladding_offset,
-            bottom=cladding_offset,
-            layers=layers_cladding,
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        points = gf.get_padding_points(
+            component=c,
+            default=0,
+            bottom=offset,
+            top=offset,
         )
+        c.add_polygon(points, layer=layer)
     return c
 
 
 if __name__ == "__main__":
-    c = mmi1x2(layer=(2, 0), width=0.8)
+    c = mmi1x2()
     c.pprint_ports()
 
     c2 = gf.components.extend_ports(c)

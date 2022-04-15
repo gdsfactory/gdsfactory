@@ -5,11 +5,11 @@ settings:
     N: 6
     bend180_function:
       angle: 180
-      function: bend_euler
+      component: bend_euler
     bend90_function:
       function: bend_euler
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     cross_section_bend: null
     grating_spacing: 127
     length: null
@@ -24,11 +24,11 @@ settings:
     N: 6
     bend180_function:
       angle: 180
-      function: bend_euler
+      component: bend_euler
     bend90_function:
       function: bend_euler
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     cross_section_bend: null
     grating_spacing: 127
     length: null

@@ -12,7 +12,7 @@ settings:
           coupler_symmetric:
             function: coupler_symmetric
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           dx: 10
           dy: 5
           gap: 0.236
@@ -23,7 +23,7 @@ settings:
           coupler_symmetric:
             function: coupler_symmetric
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           dx: 10
           dy: 5
           gap: 0.244
@@ -48,7 +48,7 @@ settings:
       coupler_symmetric:
         function: coupler_symmetric
       cross_section:
-        function: cross_section
+        cross_section: cross_section
       dx: 10
       dy: 5
       gap: 0.236
@@ -59,7 +59,7 @@ settings:
       coupler_symmetric:
         function: coupler_symmetric
       cross_section:
-        function: cross_section
+        cross_section: cross_section
       dx: 10
       dy: 5
       gap: 0.244
@@ -76,13 +76,13 @@ settings:
       function: bend_euler
     component_name: null
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      component: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -108,7 +108,7 @@ settings:
           coupler_symmetric:
             function: coupler_symmetric
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           dx: 10
           dy: 5
           gap: 0.236
@@ -119,7 +119,7 @@ settings:
           coupler_symmetric:
             function: coupler_symmetric
           cross_section:
-            function: cross_section
+            cross_section: cross_section
           dx: 10
           dy: 5
           gap: 0.244
@@ -134,13 +134,13 @@ settings:
       version: 0.0.1
     component_name: null
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      component: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -156,5 +156,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_a078f3c8_add_fi_5063ee1a
+  name: coupler_a078f3c8_add_fi_107cf216
 version: 0.0.1

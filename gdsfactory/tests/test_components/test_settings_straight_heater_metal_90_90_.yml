@@ -6,7 +6,7 @@ settings:
   child: null
   default:
     contact:
-      function: contact
+      component: contact
       layers:
       - - 47
         - 0
@@ -15,12 +15,12 @@ settings:
       - - 49
         - 0
       vias:
-      - enclosure: 2
-        function: via
+      - component: via
+        enclosure: 2
         layer:
         - 44
         - 0
-      - function: via
+      - component: via
         layer:
         - 43
         - 0
@@ -40,7 +40,7 @@ settings:
     with_undercut: true
   full:
     contact:
-      function: contact
+      component: contact
       layers:
       - - 47
         - 0
@@ -49,12 +49,12 @@ settings:
       - - 49
         - 0
       vias:
-      - enclosure: 2
-        function: via
+      - component: via
+        enclosure: 2
         layer:
         - 44
         - 0
-      - function: via
+      - component: via
         layer:
         - 43
         - 0

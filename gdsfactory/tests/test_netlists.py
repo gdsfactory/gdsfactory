@@ -97,4 +97,4 @@ if __name__ == "__main__":
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     print(d)
-    gf.show(c2)
+    c2.show()

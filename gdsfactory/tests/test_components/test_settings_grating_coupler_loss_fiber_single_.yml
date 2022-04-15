@@ -62,16 +62,16 @@ settings:
     name: grating_coupler_ellipti_db285fcb
   default:
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      component: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
   full:
     cross_section:
-      function: cross_section
+      cross_section: cross_section
     grating_coupler:
-      function: grating_coupler_elliptical_trenches
+      component: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
   function_name: grating_coupler_loss_fiber_single

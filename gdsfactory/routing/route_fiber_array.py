@@ -19,7 +19,7 @@ from gdsfactory.routing.utils import direction_ports_from_list_ports
 from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
-    CrossSectionFactory,
+    CrossSectionSpec,
     Label,
 )
 
@@ -55,7 +55,7 @@ def route_fiber_array(
     get_input_label_text_function: Callable = get_input_label_text,
     get_input_labels_function: Optional[Callable] = get_input_labels,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Tuple[
     List[Union[ComponentReference, Label]], List[List[ComponentReference]], List[Port]
@@ -116,8 +116,8 @@ def route_fiber_array(
         elements, io_grating_lines, list of ports
     """
 
-    x = cross_section(**kwargs)
-    radius = x.info["radius"]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    radius = x.radius
 
     assert isinstance(
         radius, (int, float)
@@ -373,9 +373,7 @@ def route_fiber_array(
                     gr.translate(0, delta_y - min_y)
 
         # If we add align ports, we need enough space for the bends
-        end_straight_offset = (
-            straight_separation + 5 if with_loopback else x.info.get("min_length", 0.1)
-        )
+        end_straight_offset = straight_separation + 5 if with_loopback else x.min_length
         if len(io_gratings_lines) == 1:
             io_gratings = io_gratings_lines[0]
             gc_ports = [gc.ports[gc_port_name] for gc in io_gratings]
@@ -405,7 +403,6 @@ def route_fiber_array(
                     end_straight_length=end_straight_offset,
                     bend=bend90,
                     straight=straight,
-                    radius=radius,
                     cross_section=cross_section,
                     **kwargs,
                 )
@@ -554,7 +551,6 @@ if __name__ == "__main__":
     elements, gc, ports = route_fiber_array(
         component=c,
         grating_coupler=gc,
-        cladding_offset=6,
         nlabels_loopback=1,
         layer=layer,
         optical_routing_type=2,
