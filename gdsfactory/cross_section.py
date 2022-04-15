@@ -5,7 +5,7 @@ import inspect
 import sys
 from functools import partial
 from inspect import getmembers
-from typing import Any, Callable, Dict, List, Optional, Set, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from pydantic import BaseModel
@@ -32,8 +32,8 @@ class CrossSection(BaseModel):
     """
 
     sections: List[Section] = []
-    ports: Set[str] = set()
-    port_types: Set[str] = set()
+    ports: List[str] = []
+    port_types: List[str] = []
     info: Dict[str, Any] = {}
     aliases: Dict[str, Section] = {}
     name: Optional[str] = None
@@ -95,8 +95,8 @@ class CrossSection(BaseModel):
                     "exists in this CrossSection, please rename port"
                 )
 
-        [self.ports.add(port) for port in ports if port is not None]
-        [self.port_types.add(port_type) for port_type in port_types]
+        [self.ports.append(port) for port in ports if port is not None]
+        [self.port_types.append(port_type) for port_type in port_types]
 
         if name in self.aliases:
             raise ValueError(
@@ -157,7 +157,7 @@ class CrossSection(BaseModel):
         d = {}
         x = self.copy()
         d["sections"] = [dict(section) for section in x.sections if section]
-        d["ports"] = x.ports
+        d["ports"] = list(x.ports)
         d["port_types"] = x.port_types
         d["aliases"] = x.aliases
         d["info"] = x.info
