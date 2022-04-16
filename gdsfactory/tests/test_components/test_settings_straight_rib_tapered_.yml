@@ -1,28 +1,30 @@
 settings:
   changed:
     component:
-      cross_section:
-        bbox_layers:
-        - - 3
-          - 0
-        bbox_offsets:
-        - 0
-        function: cross_section
-        sections:
-        - hidden: false
-          layer:
-          - 3
-          - 0
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          width: 6.0
       function: straight
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 3
+              - 0
+            bbox_offsets:
+            - 0
+            sections:
+            - hidden: false
+              layer:
+              - 3
+              - 0
+              name: slab
+              offset: 0
+              port_names:
+              - null
+              - null
+              port_types:
+              - optical
+              - optical
+              width: 6.0
     extension_factory:
       function: taper_strip_to_ridge
     port1: o2
@@ -30,54 +32,57 @@ settings:
   child:
     changed:
       cross_section:
-        bbox_layers:
-        - - 3
-          - 0
-        bbox_offsets:
-        - 0
         function: cross_section
-        sections:
-        - hidden: false
-          layer:
-          - 3
+        settings:
+          bbox_layers:
+          - - 3
+            - 0
+          bbox_offsets:
           - 0
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          width: 6.0
+          sections:
+          - hidden: false
+            layer:
+            - 3
+            - 0
+            name: slab
+            offset: 0
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            width: 6.0
     child: null
     default:
       cross_section:
         function: cross_section
+        settings: {}
       length: 10
       npoints: 2
     full:
       cross_section:
-        bbox_layers:
-        - - 3
-          - 0
-        bbox_offsets:
-        - 0
         function: cross_section
-        sections:
-        - hidden: false
-          layer:
-          - 3
+        settings:
+          bbox_layers:
+          - - 3
+            - 0
+          bbox_offsets:
           - 0
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          width: 6.0
+          sections:
+          - hidden: false
+            layer:
+            - 3
+            - 0
+            name: slab
+            offset: 0
+            port_names:
+            - null
+            - null
+            port_types:
+            - optical
+            - optical
+            width: 6.0
       length: 10
       npoints: 2
     function_name: straight
@@ -101,28 +106,30 @@ settings:
   full:
     centered: false
     component:
-      cross_section:
-        bbox_layers:
-        - - 3
-          - 0
-        bbox_offsets:
-        - 0
-        function: cross_section
-        sections:
-        - hidden: false
-          layer:
-          - 3
-          - 0
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          width: 6.0
       function: straight
+      settings:
+        cross_section:
+          function: cross_section
+          settings:
+            bbox_layers:
+            - - 3
+              - 0
+            bbox_offsets:
+            - 0
+            sections:
+            - hidden: false
+              layer:
+              - 3
+              - 0
+              name: slab
+              offset: 0
+              port_names:
+              - null
+              - null
+              port_types:
+              - optical
+              - optical
+              width: 6.0
     cross_section: null
     extension_factory:
       function: taper_strip_to_ridge
@@ -135,5 +142,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_0a6ec136_exten_6c555957
+  name: straight_0a6ec136_exten_929f5ad7
 version: 0.0.1

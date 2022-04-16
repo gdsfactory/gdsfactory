@@ -3,19 +3,23 @@ settings:
   child: null
   default:
     bend180:
-      angle: 180
       function: bend_euler
+      settings:
+        angle: 180
     cross_section:
       function: cross_section
+      settings: {}
     length: 1600
     length0: 0
     n: 2
   full:
     bend180:
-      angle: 180
       function: bend_euler
+      settings:
+        angle: 180
     cross_section:
       function: cross_section
+      settings: {}
     length: 1600
     length0: 0
     n: 2

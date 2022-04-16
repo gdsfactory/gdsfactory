@@ -6,26 +6,29 @@ settings:
       function: bend_euler
     contact:
       function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 4
-      - 4
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        size:
+        - 4
+        - 4
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     contact_offset:
     - 0
     - 0
@@ -33,6 +36,7 @@ settings:
       function: coupler_ring
     cross_section:
       function: cross_section
+      settings: {}
     cross_section_heater:
       function: strip_heater_metal
     gap: 0.2
@@ -47,26 +51,29 @@ settings:
       function: bend_euler
     contact:
       function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      size:
-      - 4
-      - 4
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        size:
+        - 4
+        - 4
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     contact_offset:
     - 0
     - 0
@@ -74,6 +81,7 @@ settings:
       function: coupler_ring
     cross_section:
       function: cross_section
+      settings: {}
     cross_section_heater:
       function: strip_heater_metal
     gap: 0.2

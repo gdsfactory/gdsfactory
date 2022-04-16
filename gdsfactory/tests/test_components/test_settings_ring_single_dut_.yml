@@ -7,6 +7,7 @@ settings:
     default:
       cross_section:
         function: cross_section
+        settings: {}
       length: 10
       port: null
       width1: 0.5
@@ -14,6 +15,7 @@ settings:
     full:
       cross_section:
         function: cross_section
+        settings: {}
       length: 10
       port: null
       width1: 0.5
@@ -31,7 +33,8 @@ settings:
       function: bend_euler
     component:
       function: taper
-      width2: 3
+      settings:
+        width2: 3
     coupler:
       function: coupler_ring
     gap: 0.2
@@ -47,7 +50,8 @@ settings:
       function: bend_euler
     component:
       function: taper
-      width2: 3
+      settings:
+        width2: 3
     coupler:
       function: coupler_ring
     gap: 0.2

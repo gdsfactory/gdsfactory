@@ -67,6 +67,7 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     nb_points: 99
     size:
     - 10.0
@@ -74,6 +75,7 @@ settings:
   full:
     cross_section:
       function: cross_section
+      settings: {}
     nb_points: 99
     size:
     - 10.0

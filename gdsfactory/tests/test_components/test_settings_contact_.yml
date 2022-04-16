@@ -14,15 +14,17 @@ settings:
     - 11.0
     - 11.0
     vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
     - function: via
-      layer:
-      - 43
-      - 0
+      settings:
+        enclosure: 2
+        layer:
+        - 44
+        - 0
+    - function: via
+      settings:
+        layer:
+        - 43
+        - 0
   full:
     layer_port: null
     layers:
@@ -36,15 +38,17 @@ settings:
     - 11.0
     - 11.0
     vias:
-    - enclosure: 2
-      function: via
-      layer:
-      - 44
-      - 0
     - function: via
-      layer:
-      - 43
-      - 0
+      settings:
+        enclosure: 2
+        layer:
+        - 44
+        - 0
+    - function: via
+      settings:
+        layer:
+        - 43
+        - 0
   function_name: contact
   info:
     layer:

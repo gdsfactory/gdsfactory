@@ -416,7 +416,7 @@ def pn(
         width=width,
         offset=0,
         layer=layer,
-        ports=port_names,
+        port_names=port_names,
         info=info,
         sections=sections,
     )
@@ -868,7 +868,6 @@ if __name__ == "__main__":
     # P.append(gf.path.spiral())
 
     # Create a blank CrossSection
-    # X.add(width=2.0, offset=4, layer=LAYER.HEATER, ports=["HW0", "HE0"])
 
     # X = pin(width=0.5, width_i=0.5)
     # x = strip(width=0.5)
@@ -885,8 +884,6 @@ if __name__ == "__main__":
     # P = gf.path.straight(npoints=100, length=10)
 
     # X = CrossSection()
-    # X.add(width=2.0, offset=-4, layer=LAYER.HEATER, ports=["e1", "e2"])
-    # X.add(width=0.5, offset=0, layer=LAYER.SLAB90, ports=["o1", "o2"])
 
     # X = rib_heater_doped(with_bot_heater=False, decorator=add_pins_siepic_optical)
     # P = gf.path.straight(npoints=100, length=10)

@@ -4,29 +4,31 @@ settings:
   default:
     cross_section:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
   full:
     cross_section:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
   function_name: wire_corner
   info:
     length: 10.0

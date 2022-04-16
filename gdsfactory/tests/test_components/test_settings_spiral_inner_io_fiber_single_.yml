@@ -11,12 +11,14 @@ settings:
     default:
       N: 6
       bend180_function:
-        angle: 180
         function: bend_euler
+        settings:
+          angle: 180
       bend90_function:
         function: bend_euler
       cross_section:
         function: cross_section
+        settings: {}
       cross_section_bend: null
       grating_spacing: 127
       length: null
@@ -30,12 +32,14 @@ settings:
     full:
       N: 6
       bend180_function:
-        angle: 180
         function: bend_euler
+        settings:
+          angle: 180
       bend90_function:
         function: bend_euler
       cross_section:
         function: cross_section
+        settings: {}
       cross_section_bend: null
       grating_spacing: 200
       length: null
@@ -55,6 +59,7 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
@@ -65,6 +70,7 @@ settings:
   full:
     cross_section:
       function: cross_section
+      settings: {}
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200

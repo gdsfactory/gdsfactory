@@ -12,11 +12,13 @@ settings:
               default:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 10
                 npoints: 2
               full:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 20
                 npoints: 2
                 width: 2
@@ -36,11 +38,13 @@ settings:
           default:
             cross_section:
               function: cross_section
+              settings: {}
             length: 10
             npoints: 2
           full:
             cross_section:
               function: cross_section
+              settings: {}
             length: 20
             npoints: 2
             width: 2
@@ -54,7 +58,8 @@ settings:
         default:
           select_ports:
             function: select_ports
-            port_type: optical
+            settings:
+              port_type: optical
           taper:
             function: taper
           taper_port_name1: o1
@@ -69,11 +74,13 @@ settings:
               default:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 10
                 npoints: 2
               full:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 20
                 npoints: 2
                 width: 2
@@ -87,7 +94,8 @@ settings:
             version: 0.0.1
           select_ports:
             function: select_ports
-            port_type: optical
+            settings:
+              port_type: optical
           taper:
             function: taper
           taper_port_name1: o1
@@ -96,7 +104,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_0beff7d3
+        name: straight_373b1ebb_add_t_7de38509
       version: 0.0.1
     optical_routing_type: 0
   child:
@@ -110,11 +118,13 @@ settings:
           default:
             cross_section:
               function: cross_section
+              settings: {}
             length: 10
             npoints: 2
           full:
             cross_section:
               function: cross_section
+              settings: {}
             length: 20
             npoints: 2
             width: 2
@@ -134,11 +144,13 @@ settings:
       default:
         cross_section:
           function: cross_section
+          settings: {}
         length: 10
         npoints: 2
       full:
         cross_section:
           function: cross_section
+          settings: {}
         length: 20
         npoints: 2
         width: 2
@@ -152,7 +164,8 @@ settings:
     default:
       select_ports:
         function: select_ports
-        port_type: optical
+        settings:
+          port_type: optical
       taper:
         function: taper
       taper_port_name1: o1
@@ -167,11 +180,13 @@ settings:
           default:
             cross_section:
               function: cross_section
+              settings: {}
             length: 10
             npoints: 2
           full:
             cross_section:
               function: cross_section
+              settings: {}
             length: 20
             npoints: 2
             width: 2
@@ -185,7 +200,8 @@ settings:
         version: 0.0.1
       select_ports:
         function: select_ports
-        port_type: optical
+        settings:
+          port_type: optical
       taper:
         function: taper
       taper_port_name1: o1
@@ -194,27 +210,30 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_0beff7d3
+    name: straight_373b1ebb_add_t_7de38509
   default:
     bend:
       function: bend_euler
     component_name: null
     cross_section:
       function: cross_section
+      settings: {}
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     layer_label:
     - 66
     - 0
     select_ports:
       function: select_ports
-      port_type: optical
+      settings:
+        port_type: optical
     straight:
       function: straight
   full:
@@ -232,11 +251,13 @@ settings:
               default:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 10
                 npoints: 2
               full:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 20
                 npoints: 2
                 width: 2
@@ -256,11 +277,13 @@ settings:
           default:
             cross_section:
               function: cross_section
+              settings: {}
             length: 10
             npoints: 2
           full:
             cross_section:
               function: cross_section
+              settings: {}
             length: 20
             npoints: 2
             width: 2
@@ -274,7 +297,8 @@ settings:
         default:
           select_ports:
             function: select_ports
-            port_type: optical
+            settings:
+              port_type: optical
           taper:
             function: taper
           taper_port_name1: o1
@@ -289,11 +313,13 @@ settings:
               default:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 10
                 npoints: 2
               full:
                 cross_section:
                   function: cross_section
+                  settings: {}
                 length: 20
                 npoints: 2
                 width: 2
@@ -307,7 +333,8 @@ settings:
             version: 0.0.1
           select_ports:
             function: select_ports
-            port_type: optical
+            settings:
+              port_type: optical
           taper:
             function: taper
           taper_port_name1: o1
@@ -316,31 +343,34 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_0beff7d3
+        name: straight_373b1ebb_add_t_7de38509
       version: 0.0.1
     component_name: null
     cross_section:
       function: cross_section
+      settings: {}
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     layer_label:
     - 66
     - 0
     optical_routing_type: 0
     select_ports:
       function: select_ports
-      port_type: optical
+      settings:
+        port_type: optical
     straight:
       function: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_640bbb4c
+  name: straight_373b1ebb_add_t_ccbbf93d
 version: 0.0.1

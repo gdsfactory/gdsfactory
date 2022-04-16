@@ -50,6 +50,7 @@ cells:
       nbends: 2
       cross_section:
         function: cross_section
+        settings: {}
     changed: {}
     default:
       delta_length: 10
@@ -73,6 +74,7 @@ cells:
       nbends: 2
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   mmi1x2:
     name: mmi1x2
@@ -89,9 +91,9 @@ cells:
       gap_mmi: 0.25
       taper:
         function: taper
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed: {}
     default:
       width: 0.5
@@ -102,9 +104,9 @@ cells:
       gap_mmi: 0.25
       taper:
         function: taper
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   bend_euler:
     name: bend_euler
@@ -115,6 +117,7 @@ cells:
       dy: 10.0
       radius_min: 7.061
       radius: 10.0
+      wg_width: 0.5
     info_version: 2
     full:
       angle: 90
@@ -122,9 +125,9 @@ cells:
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed: {}
     default:
       angle: 90
@@ -132,9 +135,9 @@ cells:
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   straight_a4be237b:
     name: straight_a4be237b
@@ -147,17 +150,17 @@ cells:
     full:
       length: 7
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed:
       length: 7
     default:
       length: 10
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   straight_6870e926:
     name: straight_6870e926
@@ -170,17 +173,17 @@ cells:
     full:
       length: 0.1
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed:
       length: 0.1
     default:
       length: 10
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   straight_fba69bc3:
     name: straight_fba69bc3
@@ -193,17 +196,17 @@ cells:
     full:
       length: 2
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed:
       length: 2
     default:
       length: 10
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   straight_5b70f7d2:
     name: straight_5b70f7d2
@@ -216,17 +219,17 @@ cells:
     full:
       length: 0.09
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed:
       length: 0.09
     default:
       length: 10
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
   straight_c49ce9c6:
     name: straight_c49ce9c6
@@ -239,17 +242,17 @@ cells:
     full:
       length: 0.01
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed:
       length: 0.01
     default:
       length: 10
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
 version: 0.0.1
 settings:
@@ -280,6 +283,7 @@ settings:
     nbends: 2
     cross_section:
       function: cross_section
+      settings: {}
   changed: {}
   default:
     delta_length: 10
@@ -303,4 +307,5 @@ settings:
     nbends: 2
     cross_section:
       function: cross_section
+      settings: {}
   child: null
