@@ -450,6 +450,37 @@ placements:
         dy: 10
 """
 
+sample_doe = """
+name: mask
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe
+       settings:
+         doe: mmi1x2
+         do_permutations: True
+         spacing: 100
+         settings:
+           length_mmi: [2, 100]
+           width_mmi: [4, 10]
+"""
+
+sample_doe_grid = """
+name: mask
+
+instances:
+    mmi1x2_sweep:
+       component: pack_doe_grid
+       settings:
+         doe: mmi1x2
+         do_permutations: True
+         spacing: [100, 100]
+         shape: [2, 2]
+         settings:
+           length_mmi: [2, 100]
+           width_mmi: [4, 10]
+"""
+
 # FIXME: Fix both unconmmented cases
 # yaml_fail should actually fail
 # sample_different_factory: returns a zero length straight that gives an error
@@ -467,6 +498,8 @@ yaml_strings = dict(
     sample_mirror_simple=sample_mirror_simple,
     sample_connections=sample_connections,
     sample_mmis=sample_mmis,
+    sample_doe=sample_doe,
+    sample_doe_grid=sample_doe_grid,
 )
 
 

@@ -46,6 +46,9 @@ class Pdk(BaseModel):
         elif callable(component):
             return component(**kwargs)
         elif isinstance(component, str):
+            if component not in self.cells:
+                cells = list(self.cells.keys())
+                raise ValueError(f"{component!r} not in {cells}")
             cell = self.cells[component]
             return cell(**kwargs)
         elif isinstance(component, dict):
@@ -81,6 +84,9 @@ class Pdk(BaseModel):
         elif callable(cross_section):
             return cross_section(**kwargs)
         elif isinstance(cross_section, str):
+            if cross_section not in self.cross_sections:
+                cross_sections = list(self.cross_sections.keys())
+                raise ValueError(f"{cross_section!r} not in {cross_sections}")
             cross_section_factory = self.cross_sections[cross_section]
             return cross_section_factory(**kwargs)
         elif isinstance(cross_section, dict):
