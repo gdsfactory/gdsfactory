@@ -105,8 +105,6 @@ def taper_strip_to_ridge(
         w_slab2
         layer_wg:
         layer_slab:
-        layers_cladding
-        cladding_offset:
         cross_section: for input waveguide
 
     .. code::
@@ -227,7 +225,7 @@ taper_sc_nc = gf.partial(
 
 if __name__ == "__main__":
     # c = taper(width2=1)
-    # c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
+    # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     # c = taper()

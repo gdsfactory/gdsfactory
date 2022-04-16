@@ -152,8 +152,6 @@ if __name__ == "__main__":
     # c = gf.components.straight(polarization="TMeraer")
     # print(c.settings["polarization"])
     # print(clean_value(11.001))
-    # layers_cladding = (gf.LAYER.WGCLAD, gf.LAYER.NO_TILE_SI)
-    # layers_cladding = (gf.LAYER.WGCLAD,)
     # c = gf.components.straight(length=10)
     # c = gf.components.straight(length=10)
 
