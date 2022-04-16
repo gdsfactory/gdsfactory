@@ -59,9 +59,9 @@ def _write():
 if __name__ == "__main__":
     # _write()
 
-    test_mix_cells_from_gds_and_from_function()
+    # test_mix_cells_from_gds_and_from_function()
     test_read_gds_equivalent()
-    test_read_gds_hash()
+    # test_read_gds_hash()
 
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"

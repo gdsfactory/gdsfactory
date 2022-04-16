@@ -4,24 +4,24 @@ import gdsfactory as gf
 def test_path_transition_class():
     P = gf.path.straight(length=10, npoints=101)
 
-    X1 = gf.CrossSection()
-    X1.add(width=1, offset=0, layer=gf.LAYER.WG, name="core", ports=("o1", "o2"))
-    X1.add(width=3, offset=0, layer=gf.LAYER.SLAB90)
+    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
+    X1 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s],
+    )
 
-    X2 = gf.CrossSection()
-    X2.add(width=3, offset=0, layer=gf.LAYER.WG, name="core", ports=("o1", "o2"))
+    X2 = gf.CrossSection(
+        width=3, offset=0, layer=gf.LAYER.WG, name="core", port_names=("o1", "o2")
+    )
 
     T = gf.path.transition(X1, X2)
     c3 = gf.path.extrude(P, T)
 
-    sections = {
-        section["name"]: section for section in X1.sections if "name" in section
-    }
-
-    assert c3.ports["o1"].name == sections["core"]["ports"][0]
-    assert c3.ports["o1"].layer == sections["core"]["layer"]
-    assert c3.ports["o1"].orientation == 180
-    assert c3.ports["o1"].port_type == sections["core"]["port_types"][0]
+    return c3
 
 
 def test_path_transition_function():
@@ -31,31 +31,35 @@ def test_path_transition_function():
     T = gf.path.transition(X1, X2)
     P = gf.path.straight(length=10, npoints=101)
     c3 = gf.path.extrude(P, T)
-
-    sections = {
-        section["name"]: section for section in X1.sections if "name" in section
-    }
-
-    assert c3.ports["o1"].name == sections["_default"]["ports"][0]
-    assert c3.ports["o1"].layer == sections["_default"]["layer"]
-    assert c3.ports["o1"].orientation == 180
-    assert c3.ports["o1"].port_type == sections["_default"]["port_types"][0]
+    return c3
 
 
 def test_path_transitions():
     import gdsfactory as gf
 
     # Create our first CrossSection
-    X1 = gf.CrossSection()
-    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("o1", "o2"))
-    X1.add(width=2.2, offset=0, layer=3, name="etch")
-    X1.add(width=1.1, offset=3, layer=1, name="wg2")
+    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
+    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
+    X1 = gf.CrossSection(
+        width=1.2,
+        offset=0,
+        layer=(2, 0),
+        name="wg",
+        port_names=("o1", "o2"),
+        sections=[s1, s2],
+    )
 
     # Create the second CrossSection that we want to transition to
-    X2 = gf.CrossSection()
-    X2.add(width=1, offset=0, layer=2, name="wg", ports=("o1", "o2"))
-    X2.add(width=3.5, offset=0, layer=3, name="etch")
-    X2.add(width=3, offset=5, layer=1, name="wg2")
+    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
+    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
+    X2 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=(2, 0),
+        name="wg",
+        port_names=("o1", "o2"),
+        sections=[s1, s2],
+    )
 
     # To show the cross-sections, let's create two Paths and
     # create Devices by extruding them
@@ -95,11 +99,12 @@ def test_path_transitions():
 
 
 if __name__ == "__main__":
-    c = test_path_transitions()
+    # c = test_path_transitions()
+    # c= test_path_transition_function()
+    c = test_path_transition_class()
     c.show()
 
     # test_path_transition_class()
-    # test_path_transition_function()
 
     # X1 = gf.cross_section.cross_section(width=1)
     # X2 = gf.cross_section.cross_section(width=3)

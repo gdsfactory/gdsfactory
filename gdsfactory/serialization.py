@@ -140,7 +140,7 @@ def clean_value_json(value: Any) -> Any:
         func = value.func
         while hasattr(func, "func"):
             func = func.func
-        value = dict(function=func.__name__, **args_as_kwargs)
+        value = dict(function=func.__name__, settings=args_as_kwargs)
 
     elif hasattr(value, "to_dict"):
         value = value.to_dict()
@@ -189,11 +189,13 @@ if __name__ == "__main__":
     # d = clean_value_json(c.ports)
     # d = clean_value_json(c.get_ports_list())
     # print(d, type(d))
-    # f = gf.partial(gf.c.straight, length=3)
+    f = gf.partial(gf.c.straight, length=3)
+    # f = gf.partial(gf.c.mzi, straight=f, length=3)
+
     # f = gf.cross_section.strip
     # f = gf.cross_section.cross_section
-    # d = clean_value_json(f)
+    d = clean_value_json(f)
     # d = clean_value_name(f)
 
-    d = clean_value_json(dict(args=dict(layer_stack=gf.tech.LAYER_STACK)))
+    # d = clean_value_json(dict(args=dict(layer_stack=gf.tech.LAYER_STACK)))
     print(f"{d!r}")

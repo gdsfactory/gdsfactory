@@ -38,6 +38,7 @@ class Pdk(BaseModel):
         pass
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
+        """Returns component from a component spec."""
         if isinstance(component, Component):
             if kwargs:
                 raise ValueError(f"Cannot apply kwargs {kwargs} to {component.name!r}")
@@ -48,13 +49,20 @@ class Pdk(BaseModel):
             cell = self.cells[component]
             return cell(**kwargs)
         elif isinstance(component, dict):
-            component = component.get("component")
-            if not isinstance(component, str) or component not in self.cells:
-                components = list(self.components.keys())
-                raise ValueError(f"{component!r} {type(component)} not in {components}")
-            cell = self.cells[component]
+            for key in component.keys():
+                if key not in ["function", "component", "settings"]:
+                    raise ValueError(
+                        f"Invalid setting {key!r} not in (component, function, settings)"
+                    )
             settings = dict(component.get("settings", {}))
             settings.update(**kwargs)
+
+            cell_name = component.get("component", None)
+            cell_name = cell_name or component.get("function")
+            if not isinstance(cell_name, str) or cell_name not in self.cells:
+                cells = list(self.cells.keys())
+                raise ValueError(f"{cell_name!r} not in {cells}")
+            cell = self.cells[cell_name]
             return cell(**settings)
         else:
             raise ValueError(
@@ -65,6 +73,7 @@ class Pdk(BaseModel):
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
     ) -> CrossSection:
+        """Returns component from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
             if kwargs:
                 raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
@@ -75,19 +84,27 @@ class Pdk(BaseModel):
             cross_section_factory = self.cross_sections[cross_section]
             return cross_section_factory(**kwargs)
         elif isinstance(cross_section, dict):
-            cross_section_factory_name = cross_section.get("cross_section")
+            for key in cross_section.keys():
+                if key not in ["function", "cross_section", "settings"]:
+                    raise ValueError(
+                        f"Invalid setting {key!r} not in (cross_section, function, settings)"
+                    )
+            cross_section_factory_name = cross_section.get("cross_section", None)
+            cross_section_factory_name = (
+                cross_section_factory_name or cross_section.get("function")
+            )
             if (
                 not isinstance(cross_section_factory_name, str)
                 or cross_section_factory_name not in self.cross_sections
             ):
                 cross_sections = list(self.cross_sections.keys())
                 raise ValueError(
-                    f"{cross_section_factory_name!r} {type(cross_section_factory_name)} "
-                    f"not in {cross_sections}"
+                    f"{cross_section_factory_name!r} not in {cross_sections}"
                 )
             cross_section_factory = self.cross_sections[cross_section_factory_name]
             settings = dict(cross_section.get("settings", {}))
             settings.update(**kwargs)
+
             return cross_section_factory(**settings)
         else:
             raise ValueError(

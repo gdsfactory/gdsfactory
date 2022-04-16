@@ -5,6 +5,7 @@ settings:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     direction: ccw
     npoints: 720
     p: 0.5
@@ -14,6 +15,7 @@ settings:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     direction: ccw
     npoints: 720
     p: 0.5

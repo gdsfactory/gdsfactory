@@ -118,7 +118,11 @@ def get_bundle_corner(
 
 
 def _get_bundle_corner_waypoints(
-    ports1, ports2, routing_func=generate_manhattan_waypoints, separation=5.0, **kwargs
+    ports1,
+    ports2,
+    routing_func=generate_manhattan_waypoints,
+    separation: float = 5.0,
+    **kwargs,
 ):
 
     nb_ports = len(ports1)
@@ -224,8 +228,8 @@ def _get_bundle_corner_waypoints(
     ports2.sort(key=type2key[end_angle_sort_type])
 
     i = 0
-    # kwargs.pop("start_straight_length", '')
-    # kwargs.pop("end_straight_length", '')
+    kwargs.pop("start_straight_length", "")
+    kwargs.pop("end_straight_length", "")
     for p1, p2 in zip(ports1, ports2):
         conn = routing_func(
             p1,

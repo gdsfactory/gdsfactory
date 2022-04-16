@@ -33,21 +33,18 @@ cells:
     full:
       length: 1.234
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     changed:
       length: 1.234
     default:
       length: 10
       npoints: 2
-      with_cladding_box: true
       cross_section:
         function: cross_section
+        settings: {}
     child: null
-info:
-  length: 1.234
-  width: 0.5
 version: 0.0.1
 settings:
   name: straight_189d2d09
@@ -60,15 +57,15 @@ settings:
   full:
     length: 1.234
     npoints: 2
-    with_cladding_box: true
     cross_section:
       function: cross_section
+      settings: {}
   changed:
     length: 1.234
   default:
     length: 10
     npoints: 2
-    with_cladding_box: true
     cross_section:
       function: cross_section
+      settings: {}
   child: null
