@@ -5,7 +5,7 @@ settings:
     child: null
     default:
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10
@@ -16,7 +16,7 @@ settings:
       width_taper: 1
     full:
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       gap_mmi: 0.25
       length_mmi: 5.5
       length_taper: 10

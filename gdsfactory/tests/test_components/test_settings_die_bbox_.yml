@@ -31,7 +31,7 @@ settings:
     name: rectangle_fa2668ee
   default:
     component:
-      component: rectangle
+      function: rectangle
       size:
       - 1300
       - 2600
@@ -46,7 +46,7 @@ settings:
     text_size: 100
   full:
     component:
-      component: rectangle
+      function: rectangle
       size:
       - 1300
       - 2600

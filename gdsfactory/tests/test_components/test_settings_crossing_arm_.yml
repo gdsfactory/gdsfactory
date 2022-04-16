@@ -4,7 +4,7 @@ settings:
   default:
     L: 3.4
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     layer_slab:
     - 2
     - 0
@@ -18,7 +18,7 @@ settings:
   full:
     L: 3.4
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     layer_slab:
     - 2
     - 0

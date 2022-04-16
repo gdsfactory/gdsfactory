@@ -1,13 +1,15 @@
 settings:
   changed:
     cross_section:
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3
       function: cross_section
       layer:
       - 34
       - 0
-      layers_cladding:
-      - - 36
-        - 0
       width: 1
     decorator:
       function: add_pins
@@ -17,27 +19,27 @@ settings:
       function: cross_section
     length: 10
     npoints: 2
-    with_cladding_box: true
   full:
     cross_section:
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3
       function: cross_section
       layer:
       - 34
       - 0
-      layers_cladding:
-      - - 36
-        - 0
       width: 1
     decorator:
       function: add_pins
     length: 10
     npoints: 2
-    with_cladding_box: true
   function_name: straight
   info:
     length: 10.0
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_831172ce
+  name: straight_5a3fc5a7
 version: 0.0.1

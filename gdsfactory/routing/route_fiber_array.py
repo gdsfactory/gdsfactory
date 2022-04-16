@@ -161,7 +161,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
+    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
 
     dy = abs(bend90.info["dy"])
 
@@ -311,14 +311,12 @@ def route_fiber_array(
                     bend=bend90,
                     straight=straight,
                     cross_section=cross_section,
-                    **kwargs,
                 )
                 route = route_filter(
                     waypoints=waypoints,
                     bend=bend90,
                     straight=straight,
                     cross_section=cross_section,
-                    **kwargs,
                 )
                 elements.extend(route.references)
 
@@ -335,7 +333,6 @@ def route_fiber_array(
             taper=taper,
             select_ports=select_ports,
             cross_section=cross_section,
-            **kwargs,
         )
         elems = route.references
         to_route = route.ports
@@ -385,7 +382,6 @@ def route_fiber_array(
                 straight=straight,
                 bend=bend90,
                 cross_section=cross_section,
-                **kwargs,
             )
             elements.extend([route.references for route in routes])
 
@@ -404,7 +400,6 @@ def route_fiber_array(
                     bend=bend90,
                     straight=straight,
                     cross_section=cross_section,
-                    **kwargs,
                 )
                 elements.extend([route.references for route in routes])
                 del to_route[n0 - dn : n0 + dn]
@@ -452,7 +447,6 @@ def route_fiber_array(
             straight=straight,
             bend=bend90,
             cross_section=cross_section,
-            **kwargs,
         )
         elements.extend(route.references)
         if nlabels_loopback == 1:
@@ -542,23 +536,26 @@ if __name__ == "__main__":
     # for e in gc:
     #     c.add(e)
 
+    c = gf.Component()
+
     layer = (1, 0)
-    c = gf.components.mmi2x2()
-    c = gf.components.straight(layer=layer)
-    c = gf.components.straight_heater_metal()
+    ci = gf.components.straight(layer=layer)
+    ci = gf.components.mmi2x2()
+    ci = gf.components.straight_heater_metal()
     gc = gf.components.grating_coupler_elliptical_te(layer=layer, taper_length=30)
     gc.xmin = -20
     elements, gc, ports = route_fiber_array(
-        component=c,
+        component=ci,
         grating_coupler=gc,
         nlabels_loopback=1,
         layer=layer,
-        optical_routing_type=2,
-        fanout_length=20,
-        get_input_label_text_function=None,
+        # optical_routing_type=2,
+        # fanout_length=20,
+        # get_input_label_text_function=None,
     )
     # c = p.ring_single()
     # c = p.add_fiber_array(c, optical_routing_type=1, auto_widen=False)
+    c << ci
     for e in elements:
         # if isinstance(e, list):
         # print(len(e))

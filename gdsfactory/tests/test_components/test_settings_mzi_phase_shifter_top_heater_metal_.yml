@@ -2,7 +2,7 @@ settings:
   changed:
     length_x: null
     straight_x_top:
-      component: straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       with_undercut: false
   child: null
   default:
@@ -10,7 +10,7 @@ settings:
       function: bend_euler
     combiner: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -32,7 +32,7 @@ settings:
       function: bend_euler
     combiner: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     delta_length: 10
     length_x: null
     length_y: 2
@@ -47,7 +47,7 @@ settings:
       function: straight
     straight_x_bot: null
     straight_x_top:
-      component: straight_heater_metal_undercut
+      function: straight_heater_metal_undercut
       with_undercut: false
     straight_y: null
     with_splitter: true

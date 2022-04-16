@@ -6,7 +6,7 @@ settings:
     - 100
     - 0
     marker:
-      component: triangle
+      function: triangle
       layer:
       - 49
       - 0
@@ -19,7 +19,7 @@ settings:
     - 100
     - 0
     marker:
-      component: triangle
+      function: triangle
       layer:
       - 49
       - 0
