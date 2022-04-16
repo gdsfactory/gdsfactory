@@ -2,21 +2,21 @@ settings:
   changed: {}
   child: null
   default:
-    cladding_offsets: null
+    bbox_layers: null
+    bbox_offsets: null
     layer:
     - 49
     - 0
-    layers_cladding: null
     port_inclusion: 0
     size:
     - 100.0
     - 100.0
   full:
-    cladding_offsets: null
+    bbox_layers: null
+    bbox_offsets: null
     layer:
     - 49
     - 0
-    layers_cladding: null
     port_inclusion: 0
     size:
     - 100.0
