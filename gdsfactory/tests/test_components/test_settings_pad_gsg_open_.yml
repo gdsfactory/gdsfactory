@@ -4,7 +4,7 @@ settings:
   child: null
   default:
     contact:
-      component: rectangle
+      function: rectangle
       layer:
       - 49
       - 0
@@ -21,7 +21,7 @@ settings:
     - 7
   full:
     contact:
-      component: rectangle
+      function: rectangle
       layer:
       - 49
       - 0

@@ -81,10 +81,18 @@ def add_pins(
 # cross_sections
 
 xs_nitridec = gf.partial(
-    strip, width=WIDTH_NITRIDE_CBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
+    strip,
+    width=WIDTH_NITRIDE_CBAND,
+    layer=LAYER.WGN,
+    bbox_layers=[LAYER.WGN_CLAD],
+    bbox_offsets=[3],
 )
 xs_nitrideo = gf.partial(
-    strip, width=WIDTH_NITRIDE_OBAND, layer=LAYER.WGN, layers_cladding=(LAYER.WGN_CLAD,)
+    strip,
+    width=WIDTH_NITRIDE_OBAND,
+    layer=LAYER.WGN,
+    bbox_layers=[LAYER.WGN_CLAD],
+    bbox_offsets=[3],
 )
 
 
@@ -180,8 +188,8 @@ get_sparameters_path_lumerical = gf.partial(
 
 
 if __name__ == "__main__":
-
     mzi = mzi_nitride_c()
+    mzi.show()
     mzi_gc = gf.routing.add_fiber_single(
         component=mzi,
         grating_coupler=gc_nitride_c,

@@ -6,7 +6,7 @@ settings:
         - 0
       bbox_offsets:
       - 0
-      cross_section: cross_section
+      function: cross_section
       sections:
       - hidden: false
         layer:
@@ -24,7 +24,7 @@ settings:
   child: null
   default:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     length: 10
     npoints: 2
   full:
@@ -34,7 +34,7 @@ settings:
         - 0
       bbox_offsets:
       - 0
-      cross_section: cross_section
+      function: cross_section
       sections:
       - hidden: false
         layer:

@@ -21,12 +21,12 @@ settings:
     - 11.0
     - 11.0
     vias:
-    - component: via
-      enclosure: 2
+    - enclosure: 2
+      function: via
       layer:
       - 44
       - 0
-    - component: via
+    - function: via
       layer:
       - 43
       - 0
@@ -43,12 +43,12 @@ settings:
     - 11.0
     - 11.0
     vias:
-    - component: via
-      enclosure: 2
+    - enclosure: 2
+      function: via
       layer:
       - 44
       - 0
-    - component: via
+    - function: via
       layer:
       - 43
       - 0

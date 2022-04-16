@@ -11,7 +11,7 @@ settings:
       function: pad
     component_port_name: e4
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     end_straight_length: 40
     pitch: 150
     radius: 5
@@ -27,7 +27,7 @@ settings:
       function: pad
     component_port_name: e4
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     end_straight_length: 40
     pitch: 150
     radius: 5

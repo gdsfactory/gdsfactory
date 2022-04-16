@@ -4,7 +4,7 @@ settings:
   default:
     bend180:
       angle: 180
-      component: bend_euler
+      function: bend_euler
     columns: 6
     rows: 6
     spacing: 3
@@ -14,7 +14,7 @@ settings:
   full:
     bend180:
       angle: 180
-      component: bend_euler
+      function: bend_euler
     columns: 6
     rows: 6
     spacing: 3

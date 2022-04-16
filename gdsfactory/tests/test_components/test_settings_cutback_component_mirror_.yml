@@ -30,11 +30,11 @@ settings:
   default:
     bend180:
       angle: 180
-      component: bend_euler
+      function: bend_euler
     cols: 4
     component:
-      component: taper_from_csv
       filepath: taper_strip_0p5_3_36
+      function: taper_from_csv
     mirror: false
     port1: o1
     port2: o2
@@ -46,11 +46,11 @@ settings:
   full:
     bend180:
       angle: 180
-      component: bend_euler
+      function: bend_euler
     cols: 4
     component:
-      component: taper_from_csv
       filepath: taper_strip_0p5_3_36
+      function: taper_from_csv
     mirror: true
     port1: o1
     port2: o2

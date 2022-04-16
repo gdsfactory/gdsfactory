@@ -1,7 +1,7 @@
 settings:
   changed:
     contact:
-      component: contact
+      function: contact
       layers:
       - - 1
         - 0
@@ -12,7 +12,7 @@ settings:
       vias:
       - null
       - null
-      - component: via
+      - function: via
         layer:
         - 40
         - 0
@@ -21,7 +21,7 @@ settings:
   child: null
   default:
     contact:
-      component: contact
+      function: contact
       layers:
       - - 3
         - 0
@@ -32,13 +32,13 @@ settings:
       vias:
       - null
       - null
-      - component: via
+      - function: via
         layer:
         - 40
         - 0
     contact_gap: 0
     contact_metal:
-      component: contact
+      function: contact
       layers:
       - - 41
         - 0
@@ -47,12 +47,12 @@ settings:
       - - 49
         - 0
       vias:
-      - component: via
-        enclosure: 2
+      - enclosure: 2
+        function: via
         layer:
         - 44
         - 0
-      - component: via
+      - function: via
         layer:
         - 43
         - 0
@@ -63,7 +63,7 @@ settings:
     - 10.0
     - 10.0
     cross_section:
-      cross_section: cross_section
+      function: cross_section
       sections:
       - hidden: false
         layer:
@@ -93,7 +93,7 @@ settings:
     with_top_contact: true
   full:
     contact:
-      component: contact
+      function: contact
       layers:
       - - 1
         - 0
@@ -104,13 +104,13 @@ settings:
       vias:
       - null
       - null
-      - component: via
+      - function: via
         layer:
         - 40
         - 0
     contact_gap: 0
     contact_metal:
-      component: contact
+      function: contact
       layers:
       - - 41
         - 0
@@ -119,12 +119,12 @@ settings:
       - - 49
         - 0
       vias:
-      - component: via
-        enclosure: 2
+      - enclosure: 2
+        function: via
         layer:
         - 44
         - 0
-      - component: via
+      - function: via
         layer:
         - 43
         - 0
@@ -135,7 +135,7 @@ settings:
     - 10.0
     - 10.0
     cross_section:
-      cross_section: cross_section
+      function: cross_section
       sections:
       - hidden: false
         layer:
@@ -167,5 +167,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_fac3e2db
+  name: straight_heater_doped_r_4652dd69
 version: 0.0.1

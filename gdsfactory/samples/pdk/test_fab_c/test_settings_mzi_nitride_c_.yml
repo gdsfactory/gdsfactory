@@ -2,37 +2,43 @@ settings:
   changed:
     bend:
       cross_section:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         function: cross_section
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 1
       decorator:
         function: add_pins
       function: bend_euler
     cross_section:
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3
       function: cross_section
       layer:
       - 34
       - 0
-      layers_cladding:
-      - - 36
-        - 0
       width: 1
     decorator:
       function: add_pins
     splitter:
       cross_section:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         function: cross_section
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 1
       decorator:
         function: add_pins
@@ -41,13 +47,15 @@ settings:
       width_mmi: 3
     straight:
       cross_section:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         function: cross_section
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 1
       decorator:
         function: add_pins
@@ -78,26 +86,30 @@ settings:
   full:
     bend:
       cross_section:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         function: cross_section
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 1
       decorator:
         function: add_pins
       function: bend_euler
     combiner: null
     cross_section:
+      bbox_layers:
+      - - 36
+        - 0
+      bbox_offsets:
+      - 3
       function: cross_section
       layer:
       - 34
       - 0
-      layers_cladding:
-      - - 36
-        - 0
       width: 1
     decorator:
       function: add_pins
@@ -111,13 +123,15 @@ settings:
     port_e1_splitter: o2
     splitter:
       cross_section:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         function: cross_section
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 1
       decorator:
         function: add_pins
@@ -126,13 +140,15 @@ settings:
       width_mmi: 3
     straight:
       cross_section:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         function: cross_section
         layer:
         - 34
         - 0
-        layers_cladding:
-        - - 36
-          - 0
         width: 1
       decorator:
         function: add_pins
@@ -145,5 +161,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_7618f819
+  name: mzi_7ff922b4
 version: 0.0.1

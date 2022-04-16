@@ -5,7 +5,7 @@ settings:
     bend:
       function: bend_euler
     contact:
-      component: contact
+      function: contact
       layers:
       - - 47
         - 0
@@ -17,12 +17,12 @@ settings:
       - 4
       - 4
       vias:
-      - component: via
-        enclosure: 2
+      - enclosure: 2
+        function: via
         layer:
         - 44
         - 0
-      - component: via
+      - function: via
         layer:
         - 43
         - 0
@@ -32,7 +32,7 @@ settings:
     coupler_ring:
       function: coupler_ring
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     cross_section_heater:
       function: strip_heater_metal
     gap: 0.2
@@ -46,7 +46,7 @@ settings:
     bend:
       function: bend_euler
     contact:
-      component: contact
+      function: contact
       layers:
       - - 47
         - 0
@@ -58,12 +58,12 @@ settings:
       - 4
       - 4
       vias:
-      - component: via
-        enclosure: 2
+      - enclosure: 2
+        function: via
         layer:
         - 44
         - 0
-      - component: via
+      - function: via
         layer:
         - 43
         - 0
@@ -73,7 +73,7 @@ settings:
     coupler_ring:
       function: coupler_ring
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     cross_section_heater:
       function: strip_heater_metal
     gap: 0.2

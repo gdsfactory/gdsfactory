@@ -13,16 +13,13 @@ from gdsfactory.difftest import difftest
 
 WIDTH = 0.3
 LAYER = (2, 0)
-LAYERS_CLADDING = ((71, 0), (68, 0))
 
 
 fab_b_metal = gf.partial(
     strip,
     width=WIDTH,
     layer=LAYER,
-    layers_cladding=LAYERS_CLADDING,
 )
-fab_b_metal.__name__ = "fab_b_metal"
 
 
 straight = gf.partial(gf.components.straight, cross_section=fab_b_metal)

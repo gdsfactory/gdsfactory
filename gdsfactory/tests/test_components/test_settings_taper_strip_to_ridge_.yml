@@ -3,7 +3,7 @@ settings:
   child: null
   default:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     layer_slab:
     - 3
     - 0
@@ -17,7 +17,7 @@ settings:
     width2: 0.5
   full:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     layer_slab:
     - 3
     - 0

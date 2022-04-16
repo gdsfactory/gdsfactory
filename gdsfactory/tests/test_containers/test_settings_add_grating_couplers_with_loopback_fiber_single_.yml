@@ -7,7 +7,7 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
         child: null
         default:
@@ -15,7 +15,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -37,7 +37,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: null
           length_y: 2
@@ -52,7 +52,7 @@ settings:
             function: straight
           straight_x_bot: null
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
           straight_y: null
           with_splitter: true
@@ -68,7 +68,7 @@ settings:
       splitter:
         function: mmi2x2
       straight_x_top:
-        component: straight_heater_metal_undercut
+        function: straight_heater_metal_undercut
         with_undercut: false
     child: null
     default:
@@ -76,7 +76,7 @@ settings:
         function: bend_euler
       combiner: null
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -98,7 +98,7 @@ settings:
         function: bend_euler
       combiner: null
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       delta_length: 10
       length_x: null
       length_y: 2
@@ -113,7 +113,7 @@ settings:
         function: straight
       straight_x_bot: null
       straight_x_top:
-        component: straight_heater_metal_undercut
+        function: straight_heater_metal_undercut
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -125,7 +125,7 @@ settings:
   default:
     component_name: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_loopback_function:
@@ -133,7 +133,7 @@ settings:
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
-      component: grating_coupler_elliptical_trenches
+      function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -155,7 +155,7 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
         child: null
         default:
@@ -163,7 +163,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -185,7 +185,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: null
           length_y: 2
@@ -200,7 +200,7 @@ settings:
             function: straight
           straight_x_bot: null
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
           straight_y: null
           with_splitter: true
@@ -212,7 +212,7 @@ settings:
       version: 0.0.1
     component_name: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_loopback_function:
@@ -220,7 +220,7 @@ settings:
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
-      component: grating_coupler_elliptical_trenches
+      function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -238,5 +238,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_grating_couplers
-  name: mzi_ab45cb05_add_gratin_6c29b39d
+  name: mzi_ab45cb05_add_gratin_461b2600
 version: 0.0.1
