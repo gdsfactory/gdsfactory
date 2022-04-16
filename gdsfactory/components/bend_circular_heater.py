@@ -47,7 +47,7 @@ def bend_circular_heater(
         layer=layer_heater,
     )
     x = gf.CrossSection(
-        width=width, offset=0, layer=layer, ports=["in", "out"], sections=[s1, s2]
+        width=width, offset=0, layer=layer, port_names=["in", "out"], sections=[s1, s2]
     )
 
     p = arc(radius=radius, angle=angle, npoints=npoints)

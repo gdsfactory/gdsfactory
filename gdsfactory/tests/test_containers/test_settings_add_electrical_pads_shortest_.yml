@@ -8,7 +8,8 @@ settings:
             function: mmi2x2
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
         child: null
         default:
           bend:
@@ -16,6 +17,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -38,6 +40,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: null
           length_y: 2
@@ -53,7 +56,8 @@ settings:
           straight_x_bot: null
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
           straight_y: null
           with_splitter: true
         function_name: mzi
@@ -69,7 +73,8 @@ settings:
         function: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
-        with_undercut: false
+        settings:
+          with_undercut: false
     child: null
     default:
       bend:
@@ -77,6 +82,7 @@ settings:
       combiner: null
       cross_section:
         function: cross_section
+        settings: {}
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -99,6 +105,7 @@ settings:
       combiner: null
       cross_section:
         function: cross_section
+        settings: {}
       delta_length: 10
       length_x: null
       length_y: 2
@@ -114,7 +121,8 @@ settings:
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
-        with_undercut: false
+        settings:
+          with_undercut: false
       straight_y: null
       with_splitter: true
     function_name: mzi
@@ -132,7 +140,8 @@ settings:
     port_orientation: 90
     select_ports:
       function: select_ports
-      port_type: electrical
+      settings:
+        port_type: electrical
   full:
     component:
       settings:
@@ -142,7 +151,8 @@ settings:
             function: mmi2x2
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
         child: null
         default:
           bend:
@@ -150,6 +160,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -172,6 +183,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: null
           length_y: 2
@@ -187,7 +199,8 @@ settings:
           straight_x_bot: null
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
           straight_y: null
           with_splitter: true
         function_name: mzi
@@ -205,10 +218,11 @@ settings:
     port_orientation: 90
     select_ports:
       function: select_ports
-      port_type: electrical
+      settings:
+        port_type: electrical
   function_name: add_electrical_pads_shortest
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: mzi_ab45cb05_add_electr_9bf5395b
+  name: mzi_ab45cb05_add_electr_a8a175b2
 version: 0.0.1

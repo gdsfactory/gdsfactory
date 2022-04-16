@@ -5,6 +5,7 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     port: null
     width1: 0.5
@@ -12,6 +13,7 @@ settings:
   full:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     port: null
     width1: 0.5

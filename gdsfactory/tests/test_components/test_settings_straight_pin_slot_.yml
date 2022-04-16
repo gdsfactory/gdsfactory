@@ -4,33 +4,38 @@ settings:
   default:
     contact:
       function: contact
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     contact_slab:
       function: contact_slot
-      layers:
-      - - 41
-        - 0
-      via:
-        function: via
-        layer:
-        - 40
-        - 0
+      settings:
+        layers:
+        - - 41
+          - 0
+        via:
+          function: via
+          settings:
+            layer:
+            - 40
+            - 0
     contact_slab_bot: null
     contact_slab_spacing: 2
     contact_slab_top: null
@@ -45,33 +50,38 @@ settings:
   full:
     contact:
       function: contact
-      layers:
-      - - 41
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     contact_slab:
       function: contact_slot
-      layers:
-      - - 41
-        - 0
-      via:
-        function: via
-        layer:
-        - 40
-        - 0
+      settings:
+        layers:
+        - - 41
+          - 0
+        via:
+          function: via
+          settings:
+            layer:
+            - 40
+            - 0
     contact_slab_bot: null
     contact_slab_spacing: 2
     contact_slab_top: null

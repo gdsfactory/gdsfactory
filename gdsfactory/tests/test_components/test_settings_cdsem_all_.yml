@@ -6,6 +6,7 @@ settings:
       function: bend_circular
     cross_section:
       function: cross_section
+      settings: {}
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -17,7 +18,8 @@ settings:
       function: straight
     text:
       function: text_rectangular
-      size: 1
+      settings:
+        size: 1
     widths:
     - 0.4
     - 0.45
@@ -30,6 +32,7 @@ settings:
       function: bend_circular
     cross_section:
       function: cross_section
+      settings: {}
     dense_lines_gap: 0.3
     dense_lines_labels:
     - DL
@@ -41,7 +44,8 @@ settings:
       function: straight
     text:
       function: text_rectangular
-      size: 1
+      settings:
+        size: 1
     widths:
     - 0.4
     - 0.45

@@ -1,73 +1,17 @@
 connections:
-  bend_euler_9df59d9e_120p145_5p5,o1: straight_77d9c212_63p76_0p625,o2
-  bend_euler_9df59d9e_120p145_5p5,o2: straight_43fb5823_125p02_50p312,o1
-  bend_euler_9df59d9e_120p145_95p125,o1: straight_43fb5823_125p02_50p312,o2
-  bend_euler_9df59d9e_120p145_95p125,o2: straight_5330193d_115p01_100p0,o1
-  mmi_long,o1: straight_5330193d_115p01_100p0,o2
-  mmi_short,o2: straight_77d9c212_63p76_0p625,o1
+  bend_euler_120p145_5p5,o1: straight_27dc3cc6_63p76_0p625,o2
+  bend_euler_120p145_5p5,o2: straight_e4b574c8_125p02_50p312,o1
+  bend_euler_120p145_95p125,o1: straight_e4b574c8_125p02_50p312,o2
+  bend_euler_120p145_95p125,o2: straight_2d58b973_115p01_100p0,o1
+  mmi_long,o1: straight_2d58b973_115p01_100p0,o2
+  mmi_short,o2: straight_27dc3cc6_63p76_0p625,o1
 instances:
-  bend_euler_9df59d9e_120p145_5p5:
+  bend_euler_120p145_5p5:
     component: bend_euler
-    settings:
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: []
-        bbox_offsets: []
-        decorator: null
-        end_straight_length: 0.01
-        info: null
-        layer:
-        - 1
-        - 0
-        layer_bbox: null
-        min_length: 0.01
-        name: null
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: []
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-  bend_euler_9df59d9e_120p145_95p125:
+    settings: {}
+  bend_euler_120p145_95p125:
     component: bend_euler
-    settings:
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: []
-        bbox_offsets: []
-        decorator: null
-        end_straight_length: 0.01
-        info: null
-        layer:
-        - 1
-        - 0
-        layer_bbox: null
-        min_length: 0.01
-        name: null
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: []
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
+    settings: {}
   mmi_long:
     component: mmi1x2
     settings:
@@ -78,110 +22,26 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_43fb5823_125p02_50p312:
+  straight_27dc3cc6_63p76_0p625:
     component: straight
     settings:
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: []
-        bbox_offsets: []
-        decorator: null
-        end_straight_length: 0.01
-        info: null
-        layer:
-        - 1
-        - 0
-        layer_bbox: null
-        min_length: 0.01
-        name: null
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: []
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-      length: 79.375
-  straight_5330193d_115p01_100p0:
-    component: straight
-    settings:
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: []
-        bbox_offsets: []
-        decorator: null
-        end_straight_length: 0.01
-        info: null
-        layer:
-        - 1
-        - 0
-        layer_bbox: null
-        min_length: 0.01
-        name: null
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: []
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
-      length: 0.02
-  straight_77d9c212_63p76_0p625:
-    component: straight
-    settings:
-      cross_section:
-        auto_widen: false
-        auto_widen_minimum_length: 200.0
-        bbox_layers: []
-        bbox_offsets: []
-        decorator: null
-        end_straight_length: 0.01
-        info: null
-        layer:
-        - 1
-        - 0
-        layer_bbox: null
-        min_length: 0.01
-        name: null
-        offset: 0
-        port_names:
-        - o1
-        - o2
-        port_types:
-        - optical
-        - optical
-        radius: 10.0
-        sections: []
-        snap_to_grid: null
-        start_straight_length: 0.01
-        taper_length: 10.0
-        width: 0.5
-        width_wide: null
       length: 102.52
+  straight_2d58b973_115p01_100p0:
+    component: straight
+    settings:
+      length: 0.02
+  straight_e4b574c8_125p02_50p312:
+    component: straight
+    settings:
+      length: 79.375
 name: Unnamed_a491ff8b
 placements:
-  bend_euler_9df59d9e_120p145_5p5:
+  bend_euler_120p145_5p5:
     mirror: false
     rotation: 0
     x: 115.02
     y: 0.625
-  bend_euler_9df59d9e_120p145_95p125:
+  bend_euler_120p145_95p125:
     mirror: false
     rotation: 90
     x: 125.02
@@ -196,21 +56,21 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_43fb5823_125p02_50p312:
-    mirror: false
-    rotation: 90
-    x: 125.02
-    y: 10.625
-  straight_5330193d_115p01_100p0:
-    mirror: false
-    rotation: 180
-    x: 115.02
-    y: 100.0
-  straight_77d9c212_63p76_0p625:
+  straight_27dc3cc6_63p76_0p625:
     mirror: false
     rotation: 0
     x: 12.5
     y: 0.625
+  straight_2d58b973_115p01_100p0:
+    mirror: false
+    rotation: 180
+    x: 115.02
+    y: 100.0
+  straight_e4b574c8_125p02_50p312:
+    mirror: false
+    rotation: 90
+    x: 125.02
+    y: 10.625
 ports:
   o1: mmi_short,o1
   o2: mmi_long,o2

@@ -1,16 +1,17 @@
 settings:
   changed:
     cross_section:
-      bbox_layers:
-      - - 36
-        - 0
-      bbox_offsets:
-      - 3
       function: cross_section
-      layer:
-      - 34
-      - 0
-      width: 1
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
+        - 0
+        width: 1
     decorator:
       function: add_pins
     width: 1
@@ -19,6 +20,7 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -29,16 +31,17 @@ settings:
     width_taper: 1
   full:
     cross_section:
-      bbox_layers:
-      - - 36
-        - 0
-      bbox_offsets:
-      - 3
       function: cross_section
-      layer:
-      - 34
-      - 0
-      width: 1
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
+        - 0
+        width: 1
     decorator:
       function: add_pins
     gap_mmi: 0.25

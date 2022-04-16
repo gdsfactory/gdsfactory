@@ -8,7 +8,8 @@ settings:
             function: mmi2x2
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
         child: null
         default:
           bend:
@@ -16,6 +17,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -38,6 +40,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: null
           length_y: 2
@@ -53,7 +56,8 @@ settings:
           straight_x_bot: null
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
           straight_y: null
           with_splitter: true
         function_name: mzi
@@ -72,7 +76,8 @@ settings:
               function: mmi2x2
             straight_x_top:
               function: straight_heater_metal_undercut
-              with_undercut: false
+              settings:
+                with_undercut: false
           child: null
           default:
             bend:
@@ -80,6 +85,7 @@ settings:
             combiner: null
             cross_section:
               function: cross_section
+              settings: {}
             delta_length: 10
             length_x: 0.1
             length_y: 2
@@ -102,6 +108,7 @@ settings:
             combiner: null
             cross_section:
               function: cross_section
+              settings: {}
             delta_length: 10
             length_x: null
             length_y: 2
@@ -117,7 +124,8 @@ settings:
             straight_x_bot: null
             straight_x_top:
               function: straight_heater_metal_undercut
-              with_undercut: false
+              settings:
+                with_undercut: false
             straight_y: null
             with_splitter: true
           function_name: mzi
@@ -134,7 +142,8 @@ settings:
           function: mmi2x2
         straight_x_top:
           function: straight_heater_metal_undercut
-          with_undercut: false
+          settings:
+            with_undercut: false
       child: null
       default:
         bend:
@@ -142,6 +151,7 @@ settings:
         combiner: null
         cross_section:
           function: cross_section
+          settings: {}
         delta_length: 10
         length_x: 0.1
         length_y: 2
@@ -164,6 +174,7 @@ settings:
         combiner: null
         cross_section:
           function: cross_section
+          settings: {}
         delta_length: 10
         length_x: null
         length_y: 2
@@ -179,7 +190,8 @@ settings:
         straight_x_bot: null
         straight_x_top:
           function: straight_heater_metal_undercut
-          with_undercut: false
+          settings:
+            with_undercut: false
         straight_y: null
         with_splitter: true
       function_name: mzi
@@ -203,7 +215,8 @@ settings:
               function: mmi2x2
             straight_x_top:
               function: straight_heater_metal_undercut
-              with_undercut: false
+              settings:
+                with_undercut: false
           child: null
           default:
             bend:
@@ -211,6 +224,7 @@ settings:
             combiner: null
             cross_section:
               function: cross_section
+              settings: {}
             delta_length: 10
             length_x: 0.1
             length_y: 2
@@ -233,6 +247,7 @@ settings:
             combiner: null
             cross_section:
               function: cross_section
+              settings: {}
             delta_length: 10
             length_x: null
             length_y: 2
@@ -248,7 +263,8 @@ settings:
             straight_x_bot: null
             straight_x_top:
               function: straight_heater_metal_undercut
-              with_undercut: false
+              settings:
+                with_undercut: false
             straight_y: null
             with_splitter: true
           function_name: mzi
@@ -263,13 +279,14 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_ab45cb05_move_d09d668b
+    name: mzi_ab45cb05_move_b04a7aed
   default:
     bend:
       function: bend_circular
     component_name: null
     cross_section:
       function: cross_section
+      settings: {}
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
@@ -278,8 +295,9 @@ settings:
       function: get_input_label_text_loopback
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     layer_label:
     - 201
     - 0
@@ -290,7 +308,8 @@ settings:
       function: get_route_from_waypoints
     select_ports:
       function: select_ports
-      port_type: optical
+      settings:
+        port_type: optical
     straight:
       function: straight
     with_loopback: true
@@ -306,7 +325,8 @@ settings:
             function: mmi2x2
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
         child: null
         default:
           bend:
@@ -314,6 +334,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -336,6 +357,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: null
           length_y: 2
@@ -351,7 +373,8 @@ settings:
           straight_x_bot: null
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
           straight_y: null
           with_splitter: true
         function_name: mzi
@@ -363,6 +386,7 @@ settings:
     component_name: null
     cross_section:
       function: cross_section
+      settings: {}
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
@@ -371,8 +395,9 @@ settings:
       function: get_input_label_text_loopback
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     layer_label:
     - 201
     - 0
@@ -383,7 +408,8 @@ settings:
       function: get_route_from_waypoints
     select_ports:
       function: select_ports
-      port_type: optical
+      settings:
+        port_type: optical
     straight:
       function: straight
     with_loopback: true
@@ -392,5 +418,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_ab45cb05_move_d09d6_1d9c4736
+  name: mzi_ab45cb05_move_b04a7_eaf00700
 version: 0.0.1

@@ -12,6 +12,7 @@ settings:
     component_port_name: e4
     cross_section:
       function: cross_section
+      settings: {}
     end_straight_length: 40
     pitch: 150
     radius: 5
@@ -28,6 +29,7 @@ settings:
     component_port_name: e4
     cross_section:
       function: cross_section
+      settings: {}
     end_straight_length: 40
     pitch: 150
     radius: 5
