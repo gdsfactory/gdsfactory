@@ -466,7 +466,7 @@ instances:
 """
 
 sample_doe_grid = """
-name: mask
+name: mask_grid
 
 instances:
     mmi1x2_sweep:
