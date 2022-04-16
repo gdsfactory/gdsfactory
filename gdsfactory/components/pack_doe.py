@@ -1,24 +1,12 @@
 import itertools as it
 from typing import Any, Dict, List
 
-import pytest
-
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
 from gdsfactory.types import ComponentSpec, Optional
-
-
-@pytest.fixture
-def doe():
-    return "mmi1x2"
-
-
-@pytest.fixture
-def settings():
-    return dict(length_mmi=[2, 100], width_mmi=[4, 10])
 
 
 @cell
@@ -134,9 +122,9 @@ def pack_doe_grid(
 if __name__ == "__main__":
     c = pack_doe_grid(
         # doe=gf.c.mmi1x2,
-        # doe='mmi1x2',
+        doe="mmi1x2",
         # doe=dict(component='mmi1x2', settings=dict(length_taper=50)),
-        # settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
+        settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
         with_text=True,
         spacing=(100, 100),
         shape=(2, 2),

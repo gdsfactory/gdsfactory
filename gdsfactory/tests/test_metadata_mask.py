@@ -23,7 +23,9 @@ def test_mask_metadata():
         mask_metadata=mask_metadata, labels_path=labels_path
     )
     assert len(tm.keys()) == 3
+    return m
 
 
 if __name__ == "__main__":
-    test_mask_metadata()
+    m = test_mask_metadata()
+    m.show()
