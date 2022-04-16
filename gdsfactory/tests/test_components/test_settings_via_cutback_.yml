@@ -12,23 +12,26 @@ settings:
     num_vias: 100
     pad:
       function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     pad_size:
     - 150
     - 150
@@ -50,23 +53,26 @@ settings:
     num_vias: 100
     pad:
       function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     pad_size:
     - 150
     - 150

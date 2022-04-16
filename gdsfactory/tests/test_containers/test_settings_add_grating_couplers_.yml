@@ -8,7 +8,8 @@ settings:
             function: mmi2x2
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
         child: null
         default:
           bend:
@@ -16,6 +17,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -38,6 +40,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: null
           length_y: 2
@@ -53,7 +56,8 @@ settings:
           straight_x_bot: null
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
           straight_y: null
           with_splitter: true
         function_name: mzi
@@ -69,7 +73,8 @@ settings:
         function: mmi2x2
       straight_x_top:
         function: straight_heater_metal_undercut
-        with_undercut: false
+        settings:
+          with_undercut: false
     child: null
     default:
       bend:
@@ -77,6 +82,7 @@ settings:
       combiner: null
       cross_section:
         function: cross_section
+        settings: {}
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -99,6 +105,7 @@ settings:
       combiner: null
       cross_section:
         function: cross_section
+        settings: {}
       delta_length: 10
       length_x: null
       length_y: 2
@@ -114,7 +121,8 @@ settings:
       straight_x_bot: null
       straight_x_top:
         function: straight_heater_metal_undercut
-        with_undercut: false
+        settings:
+          with_undercut: false
       straight_y: null
       with_splitter: true
     function_name: mzi
@@ -129,14 +137,16 @@ settings:
       function: get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     layer_label:
     - 200
     - 0
     select_ports:
       function: select_ports
-      port_type: optical
+      settings:
+        port_type: optical
   full:
     component:
       settings:
@@ -146,7 +156,8 @@ settings:
             function: mmi2x2
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
         child: null
         default:
           bend:
@@ -154,6 +165,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -176,6 +188,7 @@ settings:
           combiner: null
           cross_section:
             function: cross_section
+            settings: {}
           delta_length: 10
           length_x: null
           length_y: 2
@@ -191,7 +204,8 @@ settings:
           straight_x_bot: null
           straight_x_top:
             function: straight_heater_metal_undercut
-            with_undercut: false
+            settings:
+              with_undercut: false
           straight_y: null
           with_splitter: true
         function_name: mzi
@@ -206,17 +220,19 @@ settings:
       function: get_input_labels
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     layer_label:
     - 200
     - 0
     select_ports:
       function: select_ports
-      port_type: optical
+      settings:
+        port_type: optical
   function_name: add_grating_couplers
   info: {}
   info_version: 2
   module: gdsfactory.add_grating_couplers
-  name: mzi_ab45cb05_add_gratin_12fcb32d
+  name: mzi_ab45cb05_add_gratin_573f14a4
 version: 0.0.1

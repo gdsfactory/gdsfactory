@@ -4,11 +4,13 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     npoints: 2
   full:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     npoints: 2
   function_name: straight

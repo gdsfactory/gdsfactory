@@ -1,13 +1,15 @@
 settings:
   changed:
     bend180:
-      angle: 180
       function: bend_circular
+      settings:
+        angle: 180
   child: null
   default:
     bend180:
-      angle: 180
       function: bend_euler
+      settings:
+        angle: 180
     columns: 6
     rows: 6
     spacing: 3
@@ -16,8 +18,9 @@ settings:
     straight_length: 5
   full:
     bend180:
-      angle: 180
       function: bend_circular
+      settings:
+        angle: 180
     columns: 6
     rows: 6
     spacing: 3

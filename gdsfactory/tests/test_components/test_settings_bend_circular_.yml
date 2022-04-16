@@ -5,11 +5,13 @@ settings:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     npoints: 720
   full:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     npoints: 720
   function_name: bend_circular
   info:

@@ -6,82 +6,86 @@ settings:
   default:
     cross_section1:
       function: cross_section
-      sections:
-      - hidden: false
-        layer:
-        - 3
-        - 0
-        name: slab
-        offset: 0
-        port_names:
-        - null
-        - null
-        port_types:
-        - optical
-        - optical
-        width: 0.2
+      settings:
+        sections:
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 0.2
     cross_section2:
-      bbox_layers:
-      - - 3
-        - 0
-      bbox_offsets:
-      - 0
       function: cross_section
-      sections:
-      - hidden: false
-        layer:
-        - 3
+      settings:
+        bbox_layers:
+        - - 3
+          - 0
+        bbox_offsets:
         - 0
-        name: slab
-        offset: 0
-        port_names:
-        - null
-        - null
-        port_types:
-        - optical
-        - optical
-        width: 6.0
+        sections:
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 6.0
     length: 10
     linear: false
     npoints: 100
   full:
     cross_section1:
       function: cross_section
-      sections:
-      - hidden: false
-        layer:
-        - 3
-        - 0
-        name: slab
-        offset: 0
-        port_names:
-        - null
-        - null
-        port_types:
-        - optical
-        - optical
-        width: 0.2
+      settings:
+        sections:
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 0.2
     cross_section2:
-      bbox_layers:
-      - - 3
-        - 0
-      bbox_offsets:
-      - 0
       function: cross_section
-      sections:
-      - hidden: false
-        layer:
-        - 3
+      settings:
+        bbox_layers:
+        - - 3
+          - 0
+        bbox_offsets:
         - 0
-        name: slab
-        offset: 0
-        port_names:
-        - null
-        - null
-        port_types:
-        - optical
-        - optical
-        width: 6.0
+        sections:
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 6.0
     length: 10
     linear: true
     npoints: 2

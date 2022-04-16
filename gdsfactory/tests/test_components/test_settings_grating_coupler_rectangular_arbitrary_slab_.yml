@@ -24,9 +24,10 @@ settings:
     slab_offset: 2
     taper:
       function: taper_strip_to_ridge
-      layer_slab:
-      - 2
-      - 0
+      settings:
+        layer_slab:
+        - 2
+        - 0
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11
@@ -64,9 +65,10 @@ settings:
     slab_offset: 2
     taper:
       function: taper_strip_to_ridge
-      layer_slab:
-      - 2
-      - 0
+      settings:
+        layer_slab:
+        - 2
+        - 0
     wavelength: 1.55
     wg_width: 0.5
     width_grating: 11
