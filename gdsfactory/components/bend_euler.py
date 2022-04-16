@@ -36,7 +36,6 @@ def bend_euler(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
-        with_cladding_box: to avoid DRC acute angle errors in cladding.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -108,7 +107,6 @@ def bend_straight_bend(
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
-    with_cladding_box: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -123,7 +121,6 @@ def bend_straight_bend(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
-        with_cladding_box: to avoid DRC acute angle errors in cladding
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings
 
@@ -136,7 +133,6 @@ def bend_straight_bend(
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
         direction=direction,
-        with_cladding_box=with_cladding_box,
         cross_section=cross_section,
         **kwargs
     )
@@ -192,14 +188,14 @@ if __name__ == "__main__":
     # c = bend_euler(angle=270)
     # c.pprint()
     # p = euler()
-    # c = bend_straight_bend()
+    c = bend_straight_bend()
     # c = _compare_bend_euler90()
 
-    c = gf.Component()
-    b1 = c << bend_euler()
-    b2 = c << bend_euler()
-    b2.connect("o1", b1.ports["o2"])
-    c.show(show_ports=False)
+    # c = gf.Component()
+    # b1 = c << bend_euler()
+    # b2 = c << bend_euler()
+    # b2.connect("o1", b1.ports["o2"])
+    # c.show(show_ports=False)
 
     # _compare_bend_euler180()
     # import gdsfactory as gf

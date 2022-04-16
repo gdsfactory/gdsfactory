@@ -8,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.cross_section import strip as xs_strip
-from gdsfactory.types import Coordinate, CrossSectionOrFactory, Floats, Layer
+from gdsfactory.types import Coordinate, CrossSectionSpec, Floats, Layer
 
 
 @cell
@@ -33,7 +33,7 @@ def grating_coupler_circular(
     fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     wg_width: float = 0.5,
     cladding_offset: float = 2.0,
-    cross_section: CrossSectionOrFactory = xs_strip,
+    cross_section: CrossSectionSpec = xs_strip,
 ) -> Component:
     r"""Return circular Grating coupler.
 
@@ -85,10 +85,8 @@ def grating_coupler_circular(
                  <-->
                 taper_length
     """
-    x = (
-        cross_section(width=wg_width, cladding_offset=cladding_offset, layer=layer)
-        if callable(cross_section)
-        else cross_section
+    x = gf.get_cross_section(
+        cross_section, bbox_layers=[layer_cladding], bbox_offsets=[cladding_offset]
     )
 
     widths = widths or n_periods * [period * fill_factor]

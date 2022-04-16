@@ -3,9 +3,9 @@ settings:
   child: null
   default:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     grating_coupler:
-      component: grating_coupler_elliptical_trenches
+      function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     input_port_indexes:
@@ -14,9 +14,9 @@ settings:
     pitch: 127
   full:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     grating_coupler:
-      component: grating_coupler_elliptical_trenches
+      function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     input_port_indexes:

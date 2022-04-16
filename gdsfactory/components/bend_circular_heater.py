@@ -35,20 +35,21 @@ def bend_circular_heater(
     width = x.width
     layer = x.layer
 
-    x = gf.CrossSection()
-    x.add(width=width, offset=0, layer=layer, ports=["in", "out"])
-
     offset = heater_to_wg_distance + width / 2
-    x.add(
+    s1 = gf.Section(
         width=heater_width,
         offset=+offset,
         layer=layer_heater,
     )
-    x.add(
+    s2 = gf.Section(
         width=heater_width,
         offset=-offset,
         layer=layer_heater,
     )
+    x = gf.CrossSection(
+        width=width, offset=0, layer=layer, ports=["in", "out"], sections=[s1, s2]
+    )
+
     p = arc(radius=radius, angle=angle, npoints=npoints)
     c = extrude(p, x)
     c.length = snap_to_grid(p.length())

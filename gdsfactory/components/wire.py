@@ -7,7 +7,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import metal3
 from gdsfactory.types import CrossSectionOrFactory
 
-wire_straight = gf.partial(straight, with_cladding_box=False, cross_section=metal3)
+wire_straight = gf.partial(straight, cross_section=metal3)
 
 
 @gf.cell

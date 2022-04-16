@@ -7,7 +7,7 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
         child: null
         default:
@@ -15,7 +15,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -37,7 +37,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: null
           length_y: 2
@@ -52,7 +52,7 @@ settings:
             function: straight
           straight_x_bot: null
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
           straight_y: null
           with_splitter: true
@@ -68,7 +68,7 @@ settings:
       splitter:
         function: mmi2x2
       straight_x_top:
-        component: straight_heater_metal_undercut
+        function: straight_heater_metal_undercut
         with_undercut: false
     child: null
     default:
@@ -76,7 +76,7 @@ settings:
         function: bend_euler
       combiner: null
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -98,7 +98,7 @@ settings:
         function: bend_euler
       combiner: null
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       delta_length: 10
       length_x: null
       length_y: 2
@@ -113,7 +113,7 @@ settings:
         function: straight
       straight_x_bot: null
       straight_x_top:
-        component: straight_heater_metal_undercut
+        function: straight_heater_metal_undercut
         with_undercut: false
       straight_y: null
       with_splitter: true
@@ -134,7 +134,7 @@ settings:
           splitter:
             function: mmi2x2
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
         child: null
         default:
@@ -142,7 +142,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -164,7 +164,7 @@ settings:
             function: bend_euler
           combiner: null
           cross_section:
-            cross_section: cross_section
+            function: cross_section
           delta_length: 10
           length_x: null
           length_y: 2
@@ -179,7 +179,7 @@ settings:
             function: straight
           straight_x_bot: null
           straight_x_top:
-            component: straight_heater_metal_undercut
+            function: straight_heater_metal_undercut
             with_undercut: false
           straight_y: null
           with_splitter: true
@@ -196,5 +196,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_padding
-  name: mzi_ab45cb05_add_paddin_ebc2f7fa
+  name: mzi_ab45cb05_add_paddin_9e8d1933
 version: 0.0.1

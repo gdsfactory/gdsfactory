@@ -11,12 +11,12 @@ settings:
               child: null
               default:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 10
                 npoints: 2
               full:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 20
                 npoints: 2
                 width: 2
@@ -35,12 +35,12 @@ settings:
           child: null
           default:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 10
             npoints: 2
           full:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 20
             npoints: 2
             width: 2
@@ -68,12 +68,12 @@ settings:
               child: null
               default:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 10
                 npoints: 2
               full:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 20
                 npoints: 2
                 width: 2
@@ -96,7 +96,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_fd4ec428
+        name: straight_373b1ebb_add_t_0beff7d3
       version: 0.0.1
     optical_routing_type: 0
   child:
@@ -109,12 +109,12 @@ settings:
           child: null
           default:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 10
             npoints: 2
           full:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 20
             npoints: 2
             width: 2
@@ -133,12 +133,12 @@ settings:
       child: null
       default:
         cross_section:
-          cross_section: cross_section
+          function: cross_section
         length: 10
         npoints: 2
       full:
         cross_section:
-          cross_section: cross_section
+          function: cross_section
         length: 20
         npoints: 2
         width: 2
@@ -166,12 +166,12 @@ settings:
           child: null
           default:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 10
             npoints: 2
           full:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 20
             npoints: 2
             width: 2
@@ -194,19 +194,19 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_fd4ec428
+    name: straight_373b1ebb_add_t_0beff7d3
   default:
     bend:
       function: bend_euler
     component_name: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
-      component: grating_coupler_elliptical_trenches
+      function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -231,12 +231,12 @@ settings:
               child: null
               default:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 10
                 npoints: 2
               full:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 20
                 npoints: 2
                 width: 2
@@ -255,12 +255,12 @@ settings:
           child: null
           default:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 10
             npoints: 2
           full:
             cross_section:
-              cross_section: cross_section
+              function: cross_section
             length: 20
             npoints: 2
             width: 2
@@ -288,12 +288,12 @@ settings:
               child: null
               default:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 10
                 npoints: 2
               full:
                 cross_section:
-                  cross_section: cross_section
+                  function: cross_section
                 length: 20
                 npoints: 2
                 width: 2
@@ -316,17 +316,17 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_fd4ec428
+        name: straight_373b1ebb_add_t_0beff7d3
       version: 0.0.1
     component_name: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
       function: get_input_labels
     grating_coupler:
-      component: grating_coupler_elliptical_trenches
+      function: grating_coupler_elliptical_trenches
       polarization: te
       taper_angle: 35
     layer_label:
@@ -342,5 +342,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_82013d97
+  name: straight_373b1ebb_add_t_640bbb4c
 version: 0.0.1

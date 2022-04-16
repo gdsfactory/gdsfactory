@@ -6,7 +6,7 @@ settings:
       function: bend_euler
     bend_cross_section: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     gap: 0.2
     radius: 10
   full:
@@ -14,7 +14,7 @@ settings:
       function: bend_euler
     bend_cross_section: null
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     gap: 0.2
     radius: 10
   function_name: coupler90

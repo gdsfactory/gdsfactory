@@ -66,14 +66,14 @@ settings:
     name: bezier_9829f357
   default:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     nb_points: 99
     size:
     - 10.0
     - 2.0
   full:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     nb_points: 99
     size:
     - 10.0

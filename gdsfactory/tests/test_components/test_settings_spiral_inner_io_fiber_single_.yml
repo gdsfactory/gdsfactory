@@ -12,11 +12,11 @@ settings:
       N: 6
       bend180_function:
         angle: 180
-        component: bend_euler
+        function: bend_euler
       bend90_function:
         function: bend_euler
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       cross_section_bend: null
       grating_spacing: 127
       length: null
@@ -31,11 +31,11 @@ settings:
       N: 6
       bend180_function:
         angle: 180
-        component: bend_euler
+        function: bend_euler
       bend90_function:
         function: bend_euler
       cross_section:
-        cross_section: cross_section
+        function: cross_section
       cross_section_bend: null
       grating_spacing: 200
       length: null
@@ -54,7 +54,7 @@ settings:
     name: spiral_inner_io_50517bc3
   default:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
@@ -64,7 +64,7 @@ settings:
     y_straight_inner_top: 10
   full:
     cross_section:
-      cross_section: cross_section
+      function: cross_section
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200

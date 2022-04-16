@@ -3,7 +3,7 @@ settings:
   child: null
   default:
     contact:
-      component: contact
+      function: contact
       layers:
       - - 3
         - 0
@@ -14,16 +14,16 @@ settings:
       - - 49
         - 0
       vias:
-      - component: via
+      - function: via
         layer:
         - 40
         - 0
-      - component: via
-        enclosure: 2
+      - enclosure: 2
+        function: via
         layer:
         - 44
         - 0
-      - component: via
+      - function: via
         layer:
         - 43
         - 0
@@ -36,7 +36,7 @@ settings:
       function: taper_strip_to_ridge
   full:
     contact:
-      component: contact
+      function: contact
       layers:
       - - 3
         - 0
@@ -47,16 +47,16 @@ settings:
       - - 49
         - 0
       vias:
-      - component: via
+      - function: via
         layer:
         - 40
         - 0
-      - component: via
-        enclosure: 2
+      - enclosure: 2
+        function: via
         layer:
         - 44
         - 0
-      - component: via
+      - function: via
         layer:
         - 43
         - 0
