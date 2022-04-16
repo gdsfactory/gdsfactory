@@ -647,9 +647,6 @@ def from_yaml(
             settings = (
                 OmegaConf.to_container(settings, resolve=True) if settings else {}
             )
-            if "cross_section" in settings:
-                cross_section = settings["cross_section"]
-                cross_section = pdk.get_cross_section(cross_section)
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
                 raise ValueError(

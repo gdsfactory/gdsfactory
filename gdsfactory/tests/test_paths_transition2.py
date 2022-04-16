@@ -18,11 +18,8 @@ def test_transition_unamed_fails():
         path.append(gf.path.arc(radius=8, angle=45))
         path.append(gf.path.straight(length=10))
 
-        X = gf.CrossSection()
-        X.add(width=1, offset=0, layer=0)
-
-        x2 = gf.CrossSection()
-        x2.add(width=2, offset=0, layer=0)
+        X = gf.CrossSection(width=1, offset=0, layer=0)
+        x2 = gf.CrossSection(width=2, offset=0, layer=0)
 
         transition(X, x2)
 
@@ -35,8 +32,8 @@ def test_transition_ports():
     xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
     path = gf.path.straight(length=5)
     c = gf.path.extrude(path, xt)
-    assert c.ports["o1"].cross_section.cross_section1.info["width"] == width1
-    assert c.ports["o2"].cross_section.cross_section2.info["width"] == width2
+    assert c.ports["o1"].cross_section.cross_section1.width == width1
+    assert c.ports["o2"].cross_section.cross_section2.width == width2
 
 
 if __name__ == "__main__":
@@ -59,7 +56,8 @@ if __name__ == "__main__":
     xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
     path = gf.path.straight(length=5)
     c = gf.path.extrude(path, xt)
-    assert c.ports["o1"].cross_section.cross_section1.info["width"] == width1
-    assert c.ports["o2"].cross_section.cross_section2.info["width"] == width2
+    assert c.ports["o1"].cross_section.cross_section1.width == width1
+    assert c.ports["o2"].cross_section.cross_section2.width == width2
+    c.show()
 
     # test_transition_ports()

@@ -18,16 +18,28 @@ def test_no_ports() -> gf.Component:
 
 
 def test_path() -> gf.Component:
-    X1 = CrossSection()
-    X1.add(width=1.2, offset=0, layer=2, name="wg", ports=("in1", "out1"))
-    X1.add(width=2.2, offset=0, layer=3, name="etch")
-    X1.add(width=1.1, offset=3, layer=1, name="wg2")
+    s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
+    s2 = gf.Section(width=1.1, offset=3, layer=(1, 0), name="wg2")
+    X1 = CrossSection(
+        width=1.2,
+        offset=0,
+        layer=(2, 0),
+        name="wg",
+        port_names=("in1", "out1"),
+        sections=(s1, s2),
+    )
 
     # Create the second CrossSection that we want to transition to
-    X2 = CrossSection()
-    X2.add(width=1, offset=0, layer=2, name="wg", ports=("in2", "out2"))
-    X2.add(width=3.5, offset=0, layer=3, name="etch")
-    X2.add(width=3, offset=5, layer=1, name="wg2")
+    s1 = gf.Section(width=3.5, offset=0, layer=(3, 0), name="etch")
+    s2 = gf.Section(width=3, offset=5, layer=(1, 0), name="wg2")
+    X2 = CrossSection(
+        width=1,
+        offset=0,
+        layer=(2, 0),
+        name="wg",
+        port_names=("in2", "out2"),
+        sections=[s1, s2],
+    )
 
     Xtrans = pa.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
 

@@ -830,7 +830,14 @@ def generate_manhattan_waypoints(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> ndarray:
-    """Return waypoints for a Manhattan route between two ports."""
+    """Return waypoints for a Manhattan route between two ports.
+
+    Args:
+        input_port:
+        output_port:
+        straight:
+
+    """
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
     x = gf.get_cross_section(cross_section, **kwargs)

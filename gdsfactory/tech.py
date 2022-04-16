@@ -261,6 +261,10 @@ class Section(BaseModel):
     name: Optional[str] = None
     hidden: bool = False
 
+    class Config:
+        frozen = True
+        extra = "forbid"
+
 
 class SimulationSettings(BaseModel):
     """Lumerical FDTD simulation_settings
@@ -281,7 +285,6 @@ class SimulationSettings(BaseModel):
         simulation_temperature: in kelvin (default = 300)
         frequency_dependent_profile: computes mode profiles for different wavelengths
         field_profile_samples: number of wavelengths to compute field profile
-
     """
 
     background_material: str = "sio2"
