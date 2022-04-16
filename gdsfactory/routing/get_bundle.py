@@ -105,8 +105,6 @@ def get_bundle(
     ports1 = cast(List[Port], ports1)
     ports2 = cast(List[Port], ports2)
 
-    cross_section = gf.get_cross_section(cross_section, **kwargs)
-
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
@@ -659,7 +657,7 @@ def test_get_bundle_small() -> Component:
         [c2.ports["o1"], c2.ports["o2"]],
         # radius=5,
         separation=5.0,
-        cross_section=gf.cross_section.strip(radius=5)
+        cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
         # cross_section=gf.cross_section.strip,
     )
     for route in routes:

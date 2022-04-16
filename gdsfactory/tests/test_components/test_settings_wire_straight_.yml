@@ -2,35 +2,38 @@ settings:
   changed:
     cross_section:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
   child: null
   default:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     npoints: 2
   full:
     cross_section:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     length: 10
     npoints: 2
   function_name: straight

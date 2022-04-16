@@ -74,6 +74,7 @@ class CrossSection(BaseModel):
 
     class Config:
         frozen = True
+        extra = "forbid"
 
     def get_copy(self, width: Optional[float] = None):
         if width:

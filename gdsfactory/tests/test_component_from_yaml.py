@@ -103,7 +103,10 @@ routes:
             mmi_bottom,o3: mmi_top,o2
 
         settings:
-            layer: [2, 0]
+            cross_section:
+                cross_section: strip
+                settings:
+                    layer: [2, 0]
 
 """
 
@@ -148,14 +151,20 @@ routes:
     electrical:
         settings:
             separation: 20
-            layer: [31, 0]
-            width: 10
+            cross_section:
+                cross_section: metal3
+                settings:
+                    layer: [31, 0]
+                    width: 10
         links:
             tl,e3: tr,e1
             bl,e3: br,e1
     optical:
         settings:
-            radius: 100
+            cross_section:
+                cross_section: strip
+                settings:
+                    radius: 100
         links:
             bl,e4: br,e3
 
@@ -569,14 +578,17 @@ if __name__ == "__main__":
 
     # c = test_netlists("sample_different_link_factory", None, check=False)
 
-    yaml_key = "sample_mmis"
-    yaml_string = yaml_strings[yaml_key]
-    c = from_yaml(yaml_string)
-    n = c.get_netlist()
+    c = from_yaml(sample_different_factory)
+    c.show()
 
-    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # print(yaml_str)
-    c2 = from_yaml(yaml_str)
-    n2 = c2.get_netlist()
-    d = jsondiff.diff(n, n2)
-    c2.show()
+    # yaml_key = "sample_mmis"
+    # yaml_string = yaml_strings[yaml_key]
+    # c = from_yaml(yaml_string)
+    # n = c.get_netlist()
+
+    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    # # print(yaml_str)
+    # c2 = from_yaml(yaml_str)
+    # n2 = c2.get_netlist()
+    # d = jsondiff.diff(n, n2)
+    # c2.show()

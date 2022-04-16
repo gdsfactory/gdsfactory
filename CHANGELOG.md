@@ -2,7 +2,8 @@
 
 ## [5.0.0]
 
-- cross_section BaseModel takes all routing parameters
+- cross_section BaseModel has routing parameters
+    - rename ports to port_names
 - delete klayout autoplacer code. Use gf.read.from_yaml instead.
 - delete YAML placer code. Use gf.read.from_yaml instead.
 
