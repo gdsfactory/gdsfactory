@@ -1,31 +1,43 @@
 import itertools as it
 from typing import Any, Dict, List
 
+import pytest
+
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
-from gdsfactory.types import ComponentFactory, Optional
+from gdsfactory.types import ComponentSpec, Optional
+
+
+@pytest.fixture
+def doe():
+    return "mmi1x2"
+
+
+@pytest.fixture
+def settings():
+    return dict(length_mmi=[2, 100], width_mmi=[4, 10])
 
 
 @cell
 def pack_doe(
-    component_factory: ComponentFactory,
+    doe: ComponentSpec,
     settings: Dict[str, List[Any]],
     do_permutations: bool = False,
-    function: Optional[ComponentFactory] = None,
+    function: Optional[ComponentSpec] = None,
     **kwargs,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using pack.
 
     Args:
-        component_factory: function to return Components.
-        settings: component_factory settings.
+        doe: function to return Components.
+        settings: component settings.
         do_permutations: for each setting.
         function: for the component (add padding, grating couplers ...)
 
     keyword Args:
-        component_factory: list or tuple
         spacing: Minimum distance between adjacent shapes
         aspect_ratio: (width, height) ratio of the rectangular bin
         max_size: Limits the size into which the shapes will be packed
@@ -49,10 +61,12 @@ def pack_doe(
 
     if function:
         component_list = [
-            function(component_factory(**settings)) for settings in settings_list
+            function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
     else:
-        component_list = [component_factory(**settings) for settings in settings_list]
+        component_list = [
+            gf.get_component(doe, **settings) for settings in settings_list
+        ]
 
     c = pack(component_list=component_list, **kwargs)
     if len(c) > 1:
@@ -65,18 +79,18 @@ def pack_doe(
 
 @cell
 def pack_doe_grid(
-    component_factory: ComponentFactory,
+    doe: ComponentSpec,
     settings: Dict[str, List[Any]],
     do_permutations: bool = False,
-    function: Optional[ComponentFactory] = None,
+    function: Optional[ComponentSpec] = None,
     with_text: bool = False,
     **kwargs,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using grid.
 
     Args:
-        component_factory: function to return Components.
-        settings: component_factory settings.
+        component: function to return Components.
+        settings: component settings.
         do_permutations: for each setting.
         function: for the component (add padding, grating couplers ...)
         with_text: includes text label.
@@ -103,10 +117,12 @@ def pack_doe_grid(
 
     if function:
         component_list = [
-            function(component_factory(**settings)) for settings in settings_list
+            function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
     else:
-        component_list = [component_factory(**settings) for settings in settings_list]
+        component_list = [
+            gf.get_component(doe, **settings) for settings in settings_list
+        ]
 
     if with_text:
         return grid_with_text(component_list, **kwargs)
@@ -116,11 +132,11 @@ def pack_doe_grid(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = pack_doe_grid(
-        component_factory=gf.c.mmi1x2,
-        settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
+        # doe=gf.c.mmi1x2,
+        # doe='mmi1x2',
+        # doe=dict(component='mmi1x2', settings=dict(length_taper=50)),
+        # settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
         with_text=True,
         spacing=(100, 100),
         shape=(2, 2),

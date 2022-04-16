@@ -955,36 +955,6 @@ instances:
 #          length_mmi: [2, 100]
 # """
 
-sample_doe = """
-name: mask
-
-instances:
-    mmi1x2_sweep:
-       component: pack_doe
-       settings:
-         component: mmi1x2
-         length_mmi: [2, 100]
-         width_mmi: [4, 10]
-       pack:
-         do_permutations: True
-         spacing: 100
-"""
-
-sample_doe_grid = """
-name: mask
-
-instances:
-    mmi1x2_sweep:
-       component: pack_doe_grid
-       settings:
-         component: mmi1x2
-         length_mmi: [2, 100]
-         width_mmi: [4, 10]
-       pack:
-         do_permutations: True
-         spacing: [100, 100]
-         shape: [2, 2]
-"""
 
 # def sample_doe_range():
 #     lengths_mmi = range(2, 10)
@@ -1030,21 +1000,22 @@ placements:
 
 """
 
+
 if __name__ == "__main__":
+    from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
+
     # for k in component_factories.keys():
     #     print(k)
     # print(c.settings["info"])
-    # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
     # c = from_yaml(sample_pdk_mzi)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
-
     # c = from_yaml(sample_yaml_xmin)
     # n = c.get_netlist()
     # print(n)
 
-    c = from_yaml(sample_mmis)
+    c = from_yaml(sample_doe_grid)
     c.show()
 
     # c = test_connections_regex()
