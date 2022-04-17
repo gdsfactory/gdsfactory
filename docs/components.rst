@@ -212,7 +212,7 @@ bend_circular
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular(angle=90.0, npoints=720, with_cladding_box=True)
+  c = gf.components.bend_circular(angle=90.0, npoints=720, with_bbox=False)
   c.plot()
 
 
@@ -227,7 +227,7 @@ bend_circular180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular180(angle=180, npoints=720, with_cladding_box=True)
+  c = gf.components.bend_circular180(angle=180, npoints=720, with_bbox=False)
   c.plot()
 
 
@@ -242,7 +242,7 @@ bend_circular_heater
 
   import gdsfactory as gf
 
-  c = gf.components.bend_circular_heater(radius=10, angle=90, npoints=720, heater_to_wg_distance=1.2, heater_width=0.5, layer_heater=(47, 0))
+  c = gf.components.bend_circular_heater(radius=10, angle=90, npoints=720, heater_to_wg_distance=1.2, heater_width=0.5, layer_heater=(47, 0), with_bbox=False)
   c.plot()
 
 
@@ -257,7 +257,7 @@ bend_euler
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler(angle=90.0, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c = gf.components.bend_euler(angle=90.0, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_bbox=False)
   c.plot()
 
 
@@ -272,7 +272,7 @@ bend_euler180
 
   import gdsfactory as gf
 
-  c = gf.components.bend_euler180(angle=180, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c = gf.components.bend_euler180(angle=180, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_bbox=False)
   c.plot()
 
 
@@ -317,7 +317,7 @@ bend_s
 
   import gdsfactory as gf
 
-  c = gf.components.bend_s(size=(10.0, 2.0), nb_points=99, with_cladding_box=True)
+  c = gf.components.bend_s(size=(10.0, 2.0), nb_points=99, with_bbox=False, cross_section='strip')
   c.plot()
 
 
@@ -332,7 +332,7 @@ bend_straight_bend
 
   import gdsfactory as gf
 
-  c = gf.components.bend_straight_bend(straight_length=10.0, angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw', with_cladding_box=True)
+  c = gf.components.bend_straight_bend(straight_length=10.0, angle=90, p=0.5, with_arc_floorplan=True, npoints=720, direction='ccw')
   c.plot()
 
 
@@ -556,7 +556,7 @@ coupler
 
   import gdsfactory as gf
 
-  c = gf.components.coupler(gap=0.236, length=20.0, dy=5.0, dx=10.0)
+  c = gf.components.coupler(gap=0.236, length=20.0, dy=5.0, dx=10.0, cross_section='strip')
   c.plot()
 
 
@@ -571,7 +571,7 @@ coupler90
 
   import gdsfactory as gf
 
-  c = gf.components.coupler90(gap=0.2, radius=10.0)
+  c = gf.components.coupler90(gap=0.2, radius=10.0, cross_section='strip')
   c.plot()
 
 
@@ -601,7 +601,7 @@ coupler90circular
 
   import gdsfactory as gf
 
-  c = gf.components.coupler90circular(gap=0.2, radius=10.0)
+  c = gf.components.coupler90circular(gap=0.2, radius=10.0, cross_section='strip')
   c.plot()
 
 
@@ -1516,7 +1516,7 @@ mmi1x2
 
   import gdsfactory as gf
 
-  c = gf.components.mmi1x2(width=0.5, width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25, with_cladding_box=True)
+  c = gf.components.mmi1x2(width=0.5, width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25, with_bbox=True)
   c.plot()
 
 
@@ -1531,7 +1531,7 @@ mmi2x2
 
   import gdsfactory as gf
 
-  c = gf.components.mmi2x2(width=0.5, width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25)
+  c = gf.components.mmi2x2(width=0.5, width_taper=1.0, length_taper=10.0, length_mmi=5.5, width_mmi=2.5, gap_mmi=0.25, with_bbox=True)
   c.plot()
 
 
@@ -1666,7 +1666,7 @@ mzi_phase_shifter
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=2.0, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2)
+  c = gf.components.mzi_phase_shifter(delta_length=10.0, length_y=2.0, length_x=200, straight_x_top='straight_heater_metal', with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2)
   c.plot()
 
 
@@ -1681,7 +1681,7 @@ mzi_phase_shifter_top_heater_metal
 
   import gdsfactory as gf
 
-  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2)
+  c = gf.components.mzi_phase_shifter_top_heater_metal(delta_length=10.0, length_y=2.0, length_x=200, with_splitter=True, port_e1_splitter='o2', port_e0_splitter='o3', port_e1_combiner='o2', port_e0_combiner='o3', nbends=2)
   c.plot()
 
 
@@ -1727,6 +1727,36 @@ nxn
   import gdsfactory as gf
 
   c = gf.components.nxn(west=1, east=4, north=0, south=0, xsize=8.0, ysize=8.0, wg_width=0.5, layer=(1, 0), wg_margin=1.0)
+  c.plot()
+
+
+
+pack_doe
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pack_doe
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pack_doe(do_permutations=False)
+  c.plot()
+
+
+
+pack_doe_grid
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.pack_doe_grid
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.pack_doe_grid(do_permutations=False, with_text=False)
   c.plot()
 
 
@@ -2026,7 +2056,7 @@ ring_single
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6)
+  c = gf.components.ring_single(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, cross_section='strip')
   c.plot()
 
 
@@ -2221,7 +2251,7 @@ straight
 
   import gdsfactory as gf
 
-  c = gf.components.straight(length=10.0, npoints=2, with_cladding_box=True)
+  c = gf.components.straight(length=10.0, npoints=2, with_bbox=False)
   c.plot()
 
 
@@ -2401,7 +2431,7 @@ straight_rib
 
   import gdsfactory as gf
 
-  c = gf.components.straight_rib(length=10.0, npoints=2, with_cladding_box=True)
+  c = gf.components.straight_rib(length=10.0, npoints=2, with_bbox=False)
   c.plot()
 
 
@@ -2446,7 +2476,7 @@ taper
 
   import gdsfactory as gf
 
-  c = gf.components.taper(length=10.0, width1=0.5, with_cladding_box=True)
+  c = gf.components.taper(length=10.0, width1=0.5, with_bbox=False)
   c.plot()
 
 
@@ -2461,7 +2491,7 @@ taper2
 
   import gdsfactory as gf
 
-  c = gf.components.taper2(length=10.0, width1=0.5, width2=3, with_cladding_box=True)
+  c = gf.components.taper2(length=10.0, width1=0.5, width2=3, with_bbox=False)
   c.plot()
 
 
@@ -2551,7 +2581,7 @@ taper_strip_to_ridge
 
   import gdsfactory as gf
 
-  c = gf.components.taper_strip_to_ridge(length=10.0, width1=0.5, width2=0.5, w_slab1=0.15, w_slab2=6.0, layer_wg=(1, 0), layer_slab=(3, 0), cladding_offset=3.0)
+  c = gf.components.taper_strip_to_ridge(length=10.0, width1=0.5, width2=0.5, w_slab1=0.15, w_slab2=6.0, layer_wg=(1, 0), layer_slab=(3, 0))
   c.plot()
 
 
@@ -2746,7 +2776,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='4.7.2', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='5.0.3', text_size=10)
   c.plot()
 
 
@@ -2761,7 +2791,7 @@ via
 
   import gdsfactory as gf
 
-  c = gf.components.via(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=1.0, layer=(40, 0), cladding_offset=0)
+  c = gf.components.via(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=1.0, layer=(40, 0), bbox_offset=0)
   c.plot()
 
 
@@ -2776,7 +2806,7 @@ via1
 
   import gdsfactory as gf
 
-  c = gf.components.via1(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=2, layer=(44, 0), cladding_offset=0)
+  c = gf.components.via1(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=2, layer=(44, 0), bbox_offset=0)
   c.plot()
 
 
@@ -2791,7 +2821,7 @@ via2
 
   import gdsfactory as gf
 
-  c = gf.components.via2(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=1.0, layer=(43, 0), cladding_offset=0)
+  c = gf.components.via2(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=1.0, layer=(43, 0), bbox_offset=0)
   c.plot()
 
 
@@ -2821,7 +2851,7 @@ viac
 
   import gdsfactory as gf
 
-  c = gf.components.viac(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=1.0, layer=(40, 0), cladding_offset=0)
+  c = gf.components.viac(size=(0.7, 0.7), spacing=(2.0, 2.0), enclosure=1.0, layer=(40, 0), bbox_offset=0)
   c.plot()
 
 
@@ -2866,5 +2896,5 @@ wire_straight
 
   import gdsfactory as gf
 
-  c = gf.components.wire_straight(length=10.0, npoints=2, with_cladding_box=False)
+  c = gf.components.wire_straight(length=10.0, npoints=2, with_bbox=False)
   c.plot()
