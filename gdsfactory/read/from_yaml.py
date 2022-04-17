@@ -1011,16 +1011,20 @@ instances:
         radius: [30, 50, 20, 40]
         length_x: [1, 2, 3]
       do_permutations: True
-      function: add_fiber_array
+      function:
+        function: add_fiber_array
+        settings:
+            fanout_length: 200
+
 
   mzis:
-    component: pack_doe
+    component: pack_doe_grid
     settings:
       doe: mzi
       settings:
         delta_length: [10, 100]
       do_permutations: True
-      spacing: 10
+      spacing: [10, 10]
       function: add_fiber_array
 
 placements:
@@ -1035,16 +1039,33 @@ placements:
 
 sample_add_gratings = """
 name: sample_add_gratings
+pdk: ubcpdk
 instances:
   ring_te:
-    component: add_fiber_array,ring_single
+    component:
+        component: add_fiber_array
+        settings:
+            component: ring_single
+
+"""
+
+sample_add_gratings_doe = """
+name: sample_add_gratings_doe
+pdk: ubcpdk
+instances:
+  ring_te:
+    component:
+        component: pack_doe
+        settings:
+            component: add_fiber_array
+            settings:
+                component: ring_single
 
 """
 
 
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
-
     # for k in component_factories.keys():
     #     print(k)
     # print(c.settings["info"])

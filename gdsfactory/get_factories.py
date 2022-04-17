@@ -1,29 +1,27 @@
 import inspect
+from collections.abc import Iterable
 from inspect import getmembers
 
 from gdsfactory.types import Component, ComponentFactory, Dict
 
 
-def get_cells(module) -> Dict[str, ComponentFactory]:
+def get_cells(modules, verbose: bool = False) -> Dict[str, ComponentFactory]:
     """Returns Pcells (component functions) from a module."""
 
-    return {
-        t[0]: t[1]
-        for t in getmembers(module)
-        if callable(t[1]) and inspect.signature(t[1]).return_annotation == Component
-        # if isfunction(t[1]) and id(t[1]) in _FACTORY
-    }
+    modules = modules if isinstance(modules, Iterable) else [modules]
 
-
-def validate_module_factories(module) -> None:
-    """Iterates over module functions and makes sure they have a valid signature."""
-
-    for t in getmembers(module):
-        try:
-            if callable(t[1]):
-                inspect.signature(t[1]).return_annotation
-        except Exception:
-            print(f"error in {t[0]}")
+    cells = {}
+    for module in modules:
+        for t in getmembers(module):
+            if callable(t[1]) and t[0] != "partial":
+                try:
+                    r = inspect.signature(t[1]).return_annotation
+                    if r == Component:
+                        cells[t[0]] = t[1]
+                except ValueError:
+                    if verbose:
+                        print(f"error in {t[0]}")
+    return cells
 
 
 if __name__ == "__main__":

@@ -1,10 +1,13 @@
 import warnings
+from functools import partial
 
+from omegaconf import DictConfig
 from pydantic import BaseModel
 
 from gdsfactory.components import cells
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.types import (
+    CellSpec,
     Component,
     ComponentFactory,
     ComponentSpec,
@@ -55,6 +58,37 @@ class Pdk(BaseModel):
         """Load *.pic.yml YAML files and register them as cells."""
         pass
 
+    def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
+        """Returns ComponentFactory from a cell spec."""
+        if callable(cell):
+            return cell
+        elif isinstance(cell, str):
+            if cell not in self.cells:
+                cells = list(self.cells.keys())
+                raise ValueError(f"{cell!r} not in {cells}")
+            cell = self.cells[cell]
+            return cell
+        elif isinstance(cell, (dict, DictConfig)):
+            for key in cell.keys():
+                if key not in ["function", "component", "settings"]:
+                    raise ValueError(
+                        f"Invalid setting {key!r} not in (component, function, settings)"
+                    )
+            settings = dict(cell.get("settings", {}))
+            settings.update(**kwargs)
+
+            cell_name = cell.get("function")
+            if not isinstance(cell_name, str) or cell_name not in self.cells:
+                cells = list(self.cells.keys())
+                raise ValueError(f"{cell_name!r} not in {cells}")
+            cell = self.cells[cell_name]
+            return partial(cell, **settings)
+        else:
+            raise ValueError(
+                "get_cell expects a CellSpec (ComponentFactory, string or dict),"
+                f"got {type(cell)}"
+            )
+
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
         if isinstance(component, Component):
@@ -69,7 +103,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{component!r} not in {cells}")
             cell = self.cells[component]
             return cell(**kwargs)
-        elif isinstance(component, dict):
+        elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
                 if key not in ["function", "component", "settings"]:
                     raise ValueError(
@@ -107,7 +141,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             cross_section_factory = self.cross_sections[cross_section]
             return cross_section_factory(**kwargs)
-        elif isinstance(cross_section, dict):
+        elif isinstance(cross_section, (dict, DictConfig)):
             for key in cross_section.keys():
                 if key not in ["function", "cross_section", "settings"]:
                     raise ValueError(
@@ -141,6 +175,10 @@ ACTIVE_PDK = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
     return ACTIVE_PDK.get_component(component, **kwargs)
+
+
+def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
+    return ACTIVE_PDK.get_cell(cell, **kwargs)
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:

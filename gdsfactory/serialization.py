@@ -22,9 +22,14 @@ def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def get_string(value: Any) -> str:
-    return orjson.dumps(
-        value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_name
-    ).decode()
+    try:
+        s = orjson.dumps(
+            value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_name
+        ).decode()
+    except TypeError as e:
+        print(f"Error serializing {value!r}")
+        raise (e)
+    return s
 
 
 def clean_value_name(value: Any) -> str:
