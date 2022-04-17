@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from gdsfactory.components import cells
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.types import (
+    CellSpec,
     Component,
     ComponentFactory,
     ComponentSpec,
@@ -55,6 +56,16 @@ class Pdk(BaseModel):
     def load_yaml(self):
         """Load *.pic.yml YAML files and register them as cells."""
         pass
+
+    def get_cell(self, cell: CellSpec) -> ComponentFactory:
+        if callable(cell):
+            return cell
+        elif isinstance(cell, str):
+            if cell not in self.cells:
+                cells = list(self.cells.keys())
+                raise ValueError(f"{cell!r} not in {cells}")
+            cell = self.cells[cell]
+            return cell
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
@@ -142,6 +153,10 @@ ACTIVE_PDK = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
     return ACTIVE_PDK.get_component(component, **kwargs)
+
+
+def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
+    return ACTIVE_PDK.get_cell(cell, **kwargs)
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:

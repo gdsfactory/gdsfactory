@@ -48,9 +48,9 @@ def pack_doe(
         settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
 
     if function:
+        function = gf.get_cell(function)
         component_list = [
-            function(gf.get_component(function, component=doe, **settings))
-            for settings in settings_list
+            function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
     else:
         component_list = [
@@ -105,6 +105,7 @@ def pack_doe_grid(
         settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
 
     if function:
+        function = gf.get_cell(function)
         component_list = [
             function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
