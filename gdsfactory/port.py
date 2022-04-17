@@ -92,14 +92,14 @@ class Port(PortPhidl):
         self.width = width
         self.orientation = np.mod(orientation, 360)
         self.parent = parent
-        self.info = {}
+        self.info: Dict[str, Any] = {}
         self.uid = Port._next_uid
         self.layer = layer
         self.port_type = port_type
         self.cross_section = cross_section
 
         if self.width < 0:
-            raise ValueError("[PHIDL] Port creation error: width must be >=0")
+            raise ValueError("[PHIDL] Port width must be >=0")
         Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
@@ -462,7 +462,7 @@ def flipped(port: Port) -> Port:
     return _port
 
 
-def move_copy(port, x=0, y=0):
+def move_copy(port, x=0, y=0) -> Port:
     _port = port.copy()
     _port.midpoint += (x, y)
     return _port
@@ -547,7 +547,7 @@ def _rename_ports_facing_side_ccw(
             p.name = prefix + direction + str(i)
 
 
-def _rename_ports_counter_clockwise(direction_ports, prefix=""):
+def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: +p.y)  # sort south to north
 
@@ -566,7 +566,7 @@ def _rename_ports_counter_clockwise(direction_ports, prefix=""):
         p.name = f"{prefix}{i+1}" if prefix else i + 1
 
 
-def _rename_ports_clockwise(direction_ports, prefix: str = ""):
+def _rename_ports_clockwise(direction_ports, prefix: str = "") -> None:
     """Rename ports in the clockwise direction starting from the bottom left (west) corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
@@ -587,7 +587,7 @@ def _rename_ports_clockwise(direction_ports, prefix: str = ""):
         p.name = f"{prefix}{i+1}" if prefix else i + 1
 
 
-def _rename_ports_clockwise_top_right(direction_ports, prefix: str = ""):
+def _rename_ports_clockwise_top_right(direction_ports, prefix: str = "") -> None:
     """Rename ports in the clockwise direction starting from the top right corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south

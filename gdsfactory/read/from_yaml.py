@@ -1033,6 +1033,15 @@ placements:
 """
 
 
+sample_add_gratings = """
+name: sample_add_gratings
+instances:
+  ring_te:
+    component: add_fiber_array,ring_single
+
+"""
+
+
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
 
