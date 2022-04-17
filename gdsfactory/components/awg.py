@@ -33,9 +33,8 @@ def free_propagation_region(
     y1 = width1 / 2
     y2 = width2 / 2
     x = cross_section(**kwargs)
-    o = x.info["cladding_offset"]
-    layers_cladding = x.info["layers_cladding"] or []
-    layer = x.info["layer"]
+    o = 0
+    layer = x.layer
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
@@ -75,9 +74,6 @@ def free_propagation_region(
         )
 
     ypts = [y1 + o, y2 + o, -y2 - o, -y1 - o]
-
-    for layer in layers_cladding:
-        c.add_polygon((xpts, ypts), layer=layer)
 
     c.info["length"] = length
     c.info["width1"] = width1

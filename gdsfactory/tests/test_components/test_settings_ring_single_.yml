@@ -8,6 +8,7 @@ settings:
       function: coupler_ring
     cross_section:
       function: cross_section
+      settings: {}
     gap: 0.2
     length_x: 4
     length_y: 0.6
@@ -21,6 +22,7 @@ settings:
       function: coupler_ring
     cross_section:
       function: cross_section
+      settings: {}
     gap: 0.2
     length_x: 4
     length_y: 0.6

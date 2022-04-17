@@ -5,7 +5,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.path import euler, extrude
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import CrossSectionOrFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -15,8 +15,7 @@ def bend_euler(
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
-    with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -37,8 +36,7 @@ def bend_euler(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
-        with_cladding_box: to avoid DRC acute angle errors in cladding.
-        cross_section: CrossSection or function that returns a cross_section.
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
 
@@ -53,8 +51,8 @@ def bend_euler(
 
 
     """
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
-    radius = x.info["radius"]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    radius = x.radius
 
     c = Component()
     p = euler(
@@ -66,21 +64,16 @@ def bend_euler(
     c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
     c.info["radius_min"] = float(snap_to_grid(p.info["Rmin"]))
     c.info["radius"] = float(radius)
-    c.info["wg_width"] = x.info["width"]
+    c.info["wg_width"] = x.width
 
-    if with_cladding_box and x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offset"]
-        top = cladding_offset if angle == 180 else 0
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
         points = get_padding_points(
             component=c,
             default=0,
-            bottom=cladding_offset,
-            right=cladding_offset,
-            top=top,
+            bottom=offset,
+            top=offset,
         )
-        for layer in layers_cladding or []:
-            c.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
 
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])
@@ -114,8 +107,7 @@ def bend_straight_bend(
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
-    with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Sbend made of 2 euler bends and straight section in between.
@@ -129,8 +121,7 @@ def bend_straight_bend(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
-        with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section:
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings
 
 
@@ -142,7 +133,6 @@ def bend_straight_bend(
         with_arc_floorplan=with_arc_floorplan,
         npoints=npoints,
         direction=direction,
-        with_cladding_box=with_cladding_box,
         cross_section=cross_section,
         **kwargs
     )
@@ -198,14 +188,14 @@ if __name__ == "__main__":
     # c = bend_euler(angle=270)
     # c.pprint()
     # p = euler()
-    # c = bend_straight_bend()
+    c = bend_straight_bend()
     # c = _compare_bend_euler90()
 
-    c = gf.Component()
-    b1 = c << bend_euler()
-    b2 = c << bend_euler()
-    b2.connect("o1", b1.ports["o2"])
-    c.show(show_ports=False)
+    # c = gf.Component()
+    # b1 = c << bend_euler()
+    # b2 = c << bend_euler()
+    # b2.connect("o1", b1.ports["o2"])
+    # c.show(show_ports=False)
 
     # _compare_bend_euler180()
     # import gdsfactory as gf

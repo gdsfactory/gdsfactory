@@ -20,11 +20,10 @@ def route_south(
     excluded_ports: Optional[Tuple[str, ...]] = None,
     straight_separation: Number = 4.0,
     io_gratings_lines: Optional[List[List[ComponentReference]]] = None,
-    gc_port_name: str = 1,
+    gc_port_name: str = "o1",
     bend: ComponentFactory = bend_euler,
     straight: ComponentFactory = straight_function,
     taper: Optional[ComponentFactory] = taper_function,
-    auto_widen: bool = True,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionFactory = strip,
     **kwargs,
@@ -76,7 +75,6 @@ def route_south(
         bend=bend,
         straight=straight,
         taper=taper,
-        auto_widen=auto_widen,
         cross_section=cross_section,
         **kwargs,
     )
@@ -251,8 +249,10 @@ if __name__ == "__main__":
     c = gf.components.ring_double()
 
     layer = (2, 0)
-    c = gf.components.ring_double(layer=layer)
-    r = route_south(c, bend=gf.components.bend_euler, layer=layer)
+    c = gf.Component()
+    ci = gf.components.ring_double(layer=layer)
+    c << ci
+    r = route_south(ci, bend=gf.components.bend_euler, layer=layer)
     for e in r.references:
         if isinstance(e, list):
             print(len(e))

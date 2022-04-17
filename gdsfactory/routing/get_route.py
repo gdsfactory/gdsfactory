@@ -37,6 +37,7 @@ from typing import Callable, Optional
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
@@ -48,7 +49,7 @@ from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
     Coordinates,
-    CrossSectionOrFactory,
+    CrossSectionSpec,
     Route,
 )
 
@@ -62,7 +63,7 @@ def get_route(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports
@@ -96,13 +97,12 @@ def get_route(
         c.plot()
 
     """
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
-    x.has_routing_info()
+    x = gf.get_cross_section(cross_section, **kwargs)
 
-    taper_length = x.info.get("taper_length")
+    taper_length = x.taper_length
     width1 = input_port.width
-    auto_widen = x.info.get("auto_widen", False)
-    width2 = x.info.get("width_wide") if auto_widen else width1
+    auto_widen = x.auto_widen
+    width2 = x.width_wide if auto_widen else width1
 
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
 
@@ -146,7 +146,7 @@ def get_route_from_waypoints(
     bend: Callable = bend_euler,
     straight: Callable = straight_function,
     taper: Optional[Callable] = taper_function,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Route:
     """Returns a route formed by the given waypoints with
@@ -204,11 +204,11 @@ def get_route_from_waypoints(
 
     """
 
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
-    auto_widen = x.info.get("auto_widen", False)
-    width1 = x.info.get("width")
-    width2 = x.info.get("width_wide") if auto_widen else width1
-    taper_length = x.info.get("taper_length")
+    x = gf.get_cross_section(cross_section, **kwargs)
+    auto_widen = x.auto_widen
+    width1 = x.width
+    width2 = x.width_wide if auto_widen else width1
+    taper_length = x.taper_length
     waypoints = np.array(waypoints)
     kwargs.pop("route_filter", "")
 
@@ -238,8 +238,6 @@ def get_route_from_waypoints(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # w = gf.components.mmi1x2()
     # c = gf.Component()
     # c << w

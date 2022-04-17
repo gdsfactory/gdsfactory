@@ -10,16 +10,17 @@ settings:
     contact_dy: 0
     cross_section:
       function: cross_section
-      layer:
-      - 45
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     port_offset: null
     port_orientation: 180
     spacing: 150
@@ -34,16 +35,17 @@ settings:
     contact_dy: 0
     cross_section:
       function: cross_section
-      layer:
-      - 45
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 45
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     port_offset: null
     port_orientation: 180
     spacing: 150

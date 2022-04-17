@@ -1,6 +1,7 @@
 from functools import partial
 from typing import Optional
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -10,7 +11,7 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.routing import get_route
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionSpec
 
 
 @cell
@@ -31,7 +32,7 @@ def mzi(
     port_e1_combiner: str = "o2",
     port_e0_combiner: str = "o3",
     nbends: int = 2,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
 ) -> Component:
     """Mzi.
 
@@ -81,8 +82,8 @@ def mzi(
     bend = bend_factory(cross_section=cross_section)
 
     c = Component()
-    cp1 = splitter() if callable(splitter) else splitter
-    cp2 = combiner() if combiner else cp1
+    cp1 = gf.get_component(splitter)
+    cp2 = gf.get_component(combiner) if combiner else cp1
 
     if with_splitter:
         cp1 = c << cp1

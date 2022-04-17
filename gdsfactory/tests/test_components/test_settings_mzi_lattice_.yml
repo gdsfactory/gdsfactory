@@ -11,15 +11,16 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      combiner:
-        function: coupler
       function: mzi
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: coupler
+      settings:
+        combiner:
+          function: coupler
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: coupler
     splitter:
       function: coupler
   full:
@@ -32,15 +33,16 @@ settings:
     delta_lengths:
     - 10.0
     mzi:
-      combiner:
-        function: coupler
       function: mzi
-      port_e0_combiner: o4
-      port_e0_splitter: o4
-      port_e1_combiner: o3
-      port_e1_splitter: o3
-      splitter:
-        function: coupler
+      settings:
+        combiner:
+          function: coupler
+        port_e0_combiner: o4
+        port_e0_splitter: o4
+        port_e1_combiner: o3
+        port_e1_splitter: o3
+        splitter:
+          function: coupler
     splitter:
       function: coupler
   function_name: mzi_lattice

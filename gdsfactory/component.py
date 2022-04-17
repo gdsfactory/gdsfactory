@@ -1122,7 +1122,7 @@ def test_get_layers() -> Device:
     import gdsfactory as gf
 
     c = gf.components.straight(
-        length=10, width=0.5, layer=(2, 0), layers_cladding=((111, 0),)
+        length=10, width=0.5, layer=(2, 0), bbox_layers=[(111, 0)], bbox_offsets=[3]
     )
     assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
     c.remove_layers((111, 0))
@@ -1215,7 +1215,9 @@ def test_netlist_complex() -> None:
 def test_extract():
     import gdsfactory as gf
 
-    c = gf.components.straight(length=10, width=0.5, layers_cladding=[gf.LAYER.WGCLAD])
+    c = gf.components.straight(
+        length=10, width=0.5, bbox_layers=[gf.LAYER.WGCLAD], bbox_offsets=[0]
+    )
     c2 = c.extract(layers=[gf.LAYER.WGCLAD])
 
     assert len(c.polygons) == 2, len(c.polygons)
@@ -1248,6 +1250,10 @@ def test_bbox_component():
 
 
 if __name__ == "__main__":
+    test_extract()
+    # c = test_get_layers()
+    # c.show()
+
     # test_bbox_reference()
     # test_bbox_component()
 
@@ -1284,19 +1290,18 @@ if __name__ == "__main__":
     # c = Component()
     # print(c.metadata_child.get('name'))
 
-    import toolz
+    # import toolz
+    # import gdsfactory as gf
 
-    import gdsfactory as gf
+    # ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
+    # rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
 
-    ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
-    rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])
+    # @gf.cell
+    # def mask(size=(1000, 1000)):
+    #     c = gf.Component()
+    #     c << gf.components.die(size=size)
+    #     c << rings
+    #     return c
 
-    @gf.cell
-    def mask(size=(1000, 1000)):
-        c = gf.Component()
-        c << gf.components.die(size=size)
-        c << rings
-        return c
-
-    m = mask()
-    gdspath = m.write_gds_with_metadata(gdspath="mask.gds")
+    # m = mask()
+    # gdspath = m.write_gds_with_metadata(gdspath="mask.gds")

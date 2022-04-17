@@ -5,6 +5,7 @@ settings:
     L: 3.4
     cross_section:
       function: cross_section
+      settings: {}
     layer_slab:
     - 2
     - 0
@@ -19,6 +20,7 @@ settings:
     L: 3.4
     cross_section:
       function: cross_section
+      settings: {}
     layer_slab:
     - 2
     - 0

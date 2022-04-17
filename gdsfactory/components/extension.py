@@ -152,11 +152,13 @@ def extend_ports(
                     or port.cross_section
                     or cross_section_function(layer=port.layer, width=port.width)
                 )
+
+                if cross_section_extension is None:
+                    raise ValueError("cross_section=None for extend_ports")
+
                 extension_component = gf.components.straight(
                     length=length,
-                    width=port.width,
                     cross_section=cross_section_extension,
-                    layer=port.layer,
                 )
             port_labels = list(extension_component.ports.keys())
             port1 = port1 or port_labels[0]
@@ -195,7 +197,7 @@ def test_extend_ports() -> Component:
     p = len(c3.polygons)
     assert p == 4, p
 
-    c4 = extend_ports(gf.components.cross(port_type="optical"))
+    c4 = extend_ports(gf.components.cross(port_type="optical"), cross_section=xs_strip)
     p = len(c4.polygons)
     assert p == 4, p
 

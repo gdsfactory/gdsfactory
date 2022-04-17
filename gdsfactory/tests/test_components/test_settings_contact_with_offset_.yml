@@ -17,9 +17,10 @@ settings:
     vias:
     - null
     - function: via
-      layer:
-      - 40
-      - 0
+      settings:
+        layer:
+        - 40
+        - 0
   full:
     layers:
     - - 25
@@ -36,9 +37,10 @@ settings:
     vias:
     - null
     - function: via
-      layer:
-      - 40
-      - 0
+      settings:
+        layer:
+        - 40
+        - 0
   function_name: contact_with_offset
   info: {}
   info_version: 2

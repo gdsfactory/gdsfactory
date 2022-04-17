@@ -2,13 +2,16 @@ settings:
   changed:
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 0.9
+        width: 0.9
     decorator:
       function: add_pins
     width: 0.9
@@ -16,6 +19,7 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -24,17 +28,19 @@ settings:
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
-    with_cladding_box: true
   full:
     cross_section:
       function: cross_section
-      layer:
-      - 34
-      - 0
-      layers_cladding:
-      - - 36
+      settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        layer:
+        - 34
         - 0
-      width: 0.9
+        width: 0.9
     decorator:
       function: add_pins
     gap_mmi: 0.25
@@ -45,10 +51,9 @@ settings:
     width: 0.9
     width_mmi: 2.5
     width_taper: 1
-    with_cladding_box: true
   function_name: mmi1x2
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_e27cf6a9
+  name: mmi1x2_449eaf8b
 version: 0.0.1

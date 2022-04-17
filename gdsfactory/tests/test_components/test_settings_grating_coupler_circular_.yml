@@ -6,6 +6,7 @@ settings:
     cladding_offset: 2
     cross_section:
       function: cross_section
+      settings: {}
     direction: EAST
     fiber_marker_layer:
     - 203
@@ -37,6 +38,7 @@ settings:
     cladding_offset: 2
     cross_section:
       function: cross_section
+      settings: {}
     direction: EAST
     fiber_marker_layer:
     - 203

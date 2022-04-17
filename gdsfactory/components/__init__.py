@@ -145,6 +145,7 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
+from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
     pad_array,
@@ -385,6 +386,8 @@ __all__ = [
     "mzit",
     "mzit_lattice",
     "nxn",
+    "pack_doe_grid",
+    "pack_doe",
     "pad",
     "pad_array",
     "pad_array0",

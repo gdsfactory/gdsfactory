@@ -22,6 +22,8 @@ def get_routes_bend180(
         ports: List or dict of ports
         bend: function for bend
         cross_section:
+        bend_port1:
+        bend_port2:
         **kwargs: bend settings
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports

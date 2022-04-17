@@ -15,7 +15,7 @@ from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
     ComponentOrFactoryOrList,
-    CrossSectionFactory,
+    CrossSectionSpec,
 )
 
 
@@ -29,7 +29,7 @@ def add_fiber_array(
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     get_input_labels_function: Optional[Callable] = get_input_labels,
     layer_label: Optional[Tuple[int, int]] = (66, 0),
     **kwargs,

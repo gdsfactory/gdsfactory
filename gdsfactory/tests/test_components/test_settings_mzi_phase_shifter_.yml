@@ -8,6 +8,7 @@ settings:
     combiner: null
     cross_section:
       function: cross_section
+      settings: {}
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -30,6 +31,7 @@ settings:
     combiner: null
     cross_section:
       function: cross_section
+      settings: {}
     delta_length: 10
     length_x: null
     length_y: 2

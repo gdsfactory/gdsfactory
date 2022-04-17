@@ -6,7 +6,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.types import ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentOrFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -16,7 +16,7 @@ def fanout2x2(
     bend_length: Optional[float] = None,
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     with_cladding_box: bool = True,
     **kwargs
 ) -> Component:
@@ -59,9 +59,9 @@ def fanout2x2(
 
     control_points = [(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)]
 
-    x = cross_section(**kwargs)
-    width = x.info["width"]
-    layer = x.info["layer"]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    width = x.width
+    layer = x.layer
 
     bend = bezier(
         control_points=control_points,
@@ -71,18 +71,16 @@ def fanout2x2(
         width=width,
         layer=layer,
     )
-    if with_cladding_box and x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offset"]
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
         bend.unlock()
         points = get_padding_points(
             component=bend,
             default=0,
-            bottom=cladding_offset,
-            top=cladding_offset,
+            bottom=offset,
+            top=offset,
         )
-        for layer in layers_cladding or []:
-            bend.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
+    bend.lock()
 
     b_tr = bend.ref(port_id="o1", position=p_e1)
     b_br = bend.ref(port_id="o1", position=p_e0, v_mirror=True)
