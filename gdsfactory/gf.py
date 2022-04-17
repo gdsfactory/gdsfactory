@@ -121,8 +121,8 @@ def webapp() -> None:
     """Opens YAML based webapp."""
     from gdsfactory.icyaml import app
 
-    webbrowser.open("127.0.0.1:5000", new=1)
-    app.run_server(debug=True)
+    webbrowser.open("127.0.0.1:8080", new=1)
+    app.run()
 
 
 @click.argument("filepath", type=click.Path(exists=True))
