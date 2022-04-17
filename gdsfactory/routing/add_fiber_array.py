@@ -11,20 +11,15 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    ComponentOrFactoryOrList,
-    CrossSectionSpec,
-)
+from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
 
 
 @gf.cell
 def add_fiber_array(
-    component: ComponentOrFactory,
-    grating_coupler: ComponentOrFactoryOrList = grating_coupler_te,
-    straight: ComponentFactory = straight_function,
-    bend: ComponentFactory = bend_euler,
+    component: ComponentSpec = "mmi2x2",
+    grating_coupler: ComponentSpecOrList = grating_coupler_te,
+    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = bend_euler,
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
@@ -88,10 +83,8 @@ def add_fiber_array(
 
     """
     get_input_labels_function = None if gc_port_labels else get_input_labels_function
-    component = gf.call_if_func(component)
-    grating_coupler = (
-        grating_coupler() if callable(grating_coupler) else grating_coupler
-    )
+    component = gf.get_component(component)
+
     if not component.ports:
         return component
 
@@ -99,9 +92,15 @@ def add_fiber_array(
         gc = grating_coupler[0]
     else:
         gc = grating_coupler
-    gc = gf.call_if_func(gc)
+    gc = gf.get_component(gc)
 
     orientation = gc.ports[gc_port_name].orientation
+
+    grating_coupler = (
+        [gf.get_component(i) for i in grating_coupler]
+        if isinstance(grating_coupler, list)
+        else gf.get_component(grating_coupler)
+    )
 
     if int(orientation) != 180:
         warnings.warn(
