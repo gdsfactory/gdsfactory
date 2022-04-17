@@ -1,4 +1,5 @@
 import warnings
+from functools import partial
 
 from omegaconf import DictConfig
 from pydantic import BaseModel
@@ -57,7 +58,8 @@ class Pdk(BaseModel):
         """Load *.pic.yml YAML files and register them as cells."""
         pass
 
-    def get_cell(self, cell: CellSpec) -> ComponentFactory:
+    def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
+        """Returns ComponentFactory from a cell spec."""
         if callable(cell):
             return cell
         elif isinstance(cell, str):
@@ -66,6 +68,26 @@ class Pdk(BaseModel):
                 raise ValueError(f"{cell!r} not in {cells}")
             cell = self.cells[cell]
             return cell
+        elif isinstance(cell, (dict, DictConfig)):
+            for key in cell.keys():
+                if key not in ["function", "component", "settings"]:
+                    raise ValueError(
+                        f"Invalid setting {key!r} not in (component, function, settings)"
+                    )
+            settings = dict(cell.get("settings", {}))
+            settings.update(**kwargs)
+
+            cell_name = cell.get("function")
+            if not isinstance(cell_name, str) or cell_name not in self.cells:
+                cells = list(self.cells.keys())
+                raise ValueError(f"{cell_name!r} not in {cells}")
+            cell = self.cells[cell_name]
+            return partial(cell, **settings)
+        else:
+            raise ValueError(
+                "get_cell expects a CellSpec (ComponentFactory, string or dict),"
+                f"got {type(cell)}"
+            )
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
         """Returns component from a component spec."""
