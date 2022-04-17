@@ -92,14 +92,14 @@ class Port(PortPhidl):
         self.width = width
         self.orientation = np.mod(orientation, 360)
         self.parent = parent
-        self.info = {}
+        self.info: Dict[str, Any] = {}
         self.uid = Port._next_uid
         self.layer = layer
         self.port_type = port_type
         self.cross_section = cross_section
 
         if self.width < 0:
-            raise ValueError("[PHIDL] Port creation error: width must be >=0")
+            raise ValueError("[PHIDL] Port width must be >=0")
         Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
