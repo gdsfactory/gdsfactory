@@ -11,6 +11,7 @@ from gdsfactory.types import CrossSectionSpec
 def straight(
     length: float = 10.0,
     npoints: int = 2,
+    with_bbox: bool = False,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -19,6 +20,7 @@ def straight(
     Args:
         length: straight length (um).
         npoints: number of points.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -40,7 +42,7 @@ def straight(
     c.info["width"] = x.width
 
     padding = []
-    if length:
+    if with_bbox and length:
         for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
             points = get_padding_points(
                 component=c,

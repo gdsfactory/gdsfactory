@@ -15,6 +15,7 @@ def bend_euler(
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
+    with_bbox: bool = False,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -36,6 +37,7 @@ def bend_euler(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -62,24 +64,25 @@ def bend_euler(
     c.add_ports(ref.ports)
     c.info["length"] = snap_to_grid(p.length())
     c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
-    c.info["radius_min"] = float(snap_to_grid(p.info["Rmin"]))
-    c.info["radius"] = float(radius)
+    c.info["radius_min"] = snap_to_grid(p.info["Rmin"])
+    c.info["radius"] = radius
     c.info["wg_width"] = x.width
 
-    padding = []
-    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
-        top = offset if angle == 180 else 0
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            right=offset,
-            top=top,
-        )
-        padding.append(points)
+    if with_bbox:
+        padding = []
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            top = offset if angle == 180 else 0
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                right=offset,
+                top=top,
+            )
+            padding.append(points)
 
-    for layer, points in zip(x.bbox_layers, padding):
-        c.add_polygon(points, layer=layer)
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     if direction == "cw":
         ref.mirror(p1=[0, 0], p2=[1, 0])

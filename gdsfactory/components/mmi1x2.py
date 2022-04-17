@@ -1,5 +1,7 @@
 import gdsfactory as gf
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
@@ -14,18 +16,22 @@ def mmi1x2(
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
     taper: ComponentSpec = taper_function,
+    straight: CrossSectionSpec = straight_function,
+    with_bbox: bool = True,
     cross_section: CrossSectionSpec = strip,
 ) -> Component:
     r"""Mmi 1x2.
 
     Args:
-        width: input and output straight width
-        width_taper: interface between input straights and mmi region
-        length_taper: into the mmi region
-        length_mmi: in x direction
-        width_mmi: in y direction
-        gap_mmi:  gap between tapered wg
-        taper: taper function
+        width: input and output straight width.
+        width_taper: interface between input straights and mmi region.
+        length_taper: into the mmi region.
+        length_mmi: in x direction.
+        width_mmi: in y direction.
+        gap_mmi:  gap between tapered wg.
+        taper: taper function.
+        straight: straight function.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
 
 
@@ -62,9 +68,7 @@ def mmi1x2(
     )
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << gf.components.straight(
-        length=length_mmi, width=w_mmi, cross_section=cross_section
-    )
+    mmi = c << straight(length=length_mmi, width=w_mmi, cross_section=cross_section)
 
     ports = [
         gf.Port("o1", orientation=180, midpoint=(0, 0), width=w_taper),
@@ -77,6 +81,21 @@ def mmi1x2(
         taper_ref.connect(port="o2", destination=port)
         c.add_port(name=port.name, port=taper_ref.ports["o1"])
         c.absorb(taper_ref)
+
+    if with_bbox:
+        x = gf.get_cross_section(cross_section)
+        padding = []
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
+
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     c.absorb(mmi)
     return c
