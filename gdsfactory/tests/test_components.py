@@ -10,6 +10,8 @@ skip_test = {
     "extend_port",
     "component_sequence",
     "mzi_arm",
+    "pack_doe",
+    "pack_doe_grid",
 }
 
 cells_to_test = set(cells.keys()) - skip_test

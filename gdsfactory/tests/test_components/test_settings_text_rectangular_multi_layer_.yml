@@ -2,7 +2,8 @@ settings:
   changed:
     factory:
       function: text_rectangular
-      text: abcd
+      settings:
+        text: abcd
     layers:
     - - 1
       - 0
@@ -58,7 +59,8 @@ settings:
   full:
     factory:
       function: text_rectangular
-      text: abcd
+      settings:
+        text: abcd
     layers:
     - - 1
       - 0

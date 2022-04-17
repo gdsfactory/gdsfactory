@@ -9,6 +9,7 @@ settings:
       function: mmi1x2
     cross_section:
       function: cross_section
+      settings: {}
     noutputs: 4
     spacing:
     - 90.0
@@ -21,6 +22,7 @@ settings:
       function: mmi1x2
     cross_section:
       function: cross_section
+      settings: {}
     noutputs: 4
     spacing:
     - 90.0

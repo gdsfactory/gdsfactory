@@ -1,59 +1,64 @@
 settings:
   changed:
     cross_section:
-      cladding_offset: 0
       function: cross_section
-      layers_cladding:
-      - - 3
+      settings:
+        bbox_layers:
+        - - 3
+          - 0
+        bbox_offsets:
         - 0
-      sections:
-      - layer:
-        - 3
-        - 0
-        name: slab
-        offset: 0
-        port_types:
-        - optical
-        - optical
-        ports:
-        - null
-        - null
-        width: 6.0
+        sections:
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 6.0
   child: null
   default:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     npoints: 2
-    with_cladding_box: true
   full:
     cross_section:
-      cladding_offset: 0
       function: cross_section
-      layers_cladding:
-      - - 3
+      settings:
+        bbox_layers:
+        - - 3
+          - 0
+        bbox_offsets:
         - 0
-      sections:
-      - layer:
-        - 3
-        - 0
-        name: slab
-        offset: 0
-        port_types:
-        - optical
-        - optical
-        ports:
-        - null
-        - null
-        width: 6.0
+        sections:
+        - hidden: false
+          layer:
+          - 3
+          - 0
+          name: slab
+          offset: 0
+          port_names:
+          - null
+          - null
+          port_types:
+          - optical
+          - optical
+          width: 6.0
     length: 10
     npoints: 2
-    with_cladding_box: true
   function_name: straight
   info:
     length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_4d2ecf14
+  name: straight_0a6ec136
 version: 0.0.1

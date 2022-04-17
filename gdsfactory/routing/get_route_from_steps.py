@@ -9,7 +9,7 @@ from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentOrFactory, CrossSectionFactory, Route
+from gdsfactory.types import ComponentOrFactory, CrossSectionSpec, Route
 
 
 def get_route_from_steps(
@@ -19,7 +19,7 @@ def get_route_from_steps(
     bend: ComponentOrFactory = bend_euler,
     straight: ComponentOrFactory = straight_function,
     taper: Optional[ComponentOrFactory] = taper_function,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints steps
@@ -87,11 +87,11 @@ def get_route_from_steps(
 
     waypoints += [(x2, y2)]
 
-    x = cross_section(**kwargs)
-    auto_widen = x.info.get("auto_widen", False)
-    width1 = x.info.get("width")
-    width2 = x.info.get("width_wide") if auto_widen else width1
-    taper_length = x.info.get("taper_length")
+    x = gf.get_cross_section(cross_section, **kwargs)
+    auto_widen = x.auto_widen
+    width1 = x.width
+    width2 = x.width_wide if auto_widen else width1
+    taper_length = x.taper_length
     waypoints = np.array(waypoints)
 
     if auto_widen:

@@ -2,45 +2,45 @@ settings:
   changed:
     cross_section:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
-    with_cladding_box: false
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
   child: null
   default:
     cross_section:
       function: cross_section
+      settings: {}
     length: 10
     npoints: 2
-    with_cladding_box: true
   full:
     cross_section:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     length: 10
     npoints: 2
-    with_cladding_box: false
   function_name: straight
   info:
     length: 10.0
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_6cc7e3bd
+  name: straight_56c3100f
 version: 0.0.1

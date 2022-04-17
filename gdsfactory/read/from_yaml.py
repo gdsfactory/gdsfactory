@@ -46,8 +46,6 @@ routes:
             radius: 10
 
 """
-
-import functools
 import hashlib
 import importlib
 import io
@@ -63,11 +61,9 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.components import cells
-from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
-from gdsfactory.cross_section import cross_sections
+from gdsfactory.pdk import ACTIVE_PDK
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.types import ComponentFactoryDict, CrossSectionFactory, Route
+from gdsfactory.types import Route
 
 valid_placement_keys = [
     "x",
@@ -466,23 +462,18 @@ ports:
 
 def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
-    component_factory: ComponentFactoryDict = cells,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
-    cross_section_factory: Dict[str, CrossSectionFactory] = cross_sections,
     label_instance_function: Callable = add_instance_label,
     cache: bool = False,
-    **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML file or string.
 
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
           (instances, placements, routes, ports, connections, names)
-        component_factory: dict of functions {factory_name: factory_function}
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         cache: stores and retrieves components from the cache.
-        kwargs: prefix, autoname ... to pass to all factories.
 
     Returns:
         Component
@@ -493,7 +484,7 @@ def from_yaml(
 
         name: Optional Component name
         vars: Optional variables
-        pdk: overides component_factory and cross_section_factory
+        pdk: overides
         info: Optional component info
             description: just a demo
             polarization: TE
@@ -586,97 +577,22 @@ def from_yaml(
 
     if pdk:
         module = importlib.import_module(pdk)
-        component_factory = getattr(module, "cells")
-        try:
-            cross_section_factory = getattr(module, "cross_sections")
-        except AttributeError as e:
-            raise ValueError(f"'from {pdk} import cross_sections' failed {e}")
+        pdk = getattr(module, "PDK")
+        if pdk is None:
+            raise ValueError(f"'from {pdk} import PDK' failed")
 
-        if component_factory is None:
-            raise ValueError(f"'from {pdk} import cells' failed")
-        if cross_section_factory is None:
-            raise ValueError(f"'from {pdk} import cross_sections' failed")
+        pdk.activate()
+    else:
+        pdk = ACTIVE_PDK
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
-        component_type = instance_conf["component"]
-
-        if component_type not in component_factory and not component_type.startswith(
-            "pack_doe"
-        ):
-            raise ValueError(
-                f"{component_type} not in {list(component_factory.keys())}"
-            )
-
+        component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
         settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
-        settings.update(**kwargs)
 
-        if "cross_section" in settings:
-            name_or_dict = settings["cross_section"]
-            if isinstance(name_or_dict, str):
-                cross_section = cross_section_factory[name_or_dict]
-            elif isinstance(name_or_dict, dict):
-                name = name_or_dict.pop("function")
-                cross_section = functools.partial(
-                    cross_section_factory[name], **name_or_dict
-                )
-            else:
-                raise ValueError(f"invalid type for cross_section={name_or_dict!r}")
-            settings["cross_section"] = cross_section
-
-        # replace partial
-        for k, v in settings.items():
-            if isinstance(v, dict) and "function" in v:
-                function_name = v.pop("function")
-                try:
-                    settings[k] = functools.partial(
-                        component_factory[function_name], **v
-                    )
-                except Exception as e:
-                    raise ValueError(
-                        f"Error trying to partial function from dictionary setting: {e}"
-                    )
-
-        if component_type.startswith("pack_doe"):
-            if component_type not in ["pack_doe", "pack_doe_grid"]:
-                raise ValueError(
-                    "Error {component_type!r} not int (pack_doe, pack_doe_grid)"
-                )
-
-            if "component" not in settings:
-                raise ValueError(
-                    f"Missing component key in settings for {instance_name!r}"
-                )
-            component_function = component_factory[settings.pop("component")]
-            pack = instance_conf.get("pack", {})
-            pack = OmegaConf.to_container(pack, resolve=True) if pack else {}
-            function_name = pack.pop("function", None)
-
-            function = component_factory[function_name] if function_name else None
-
-            if component_type == "pack_doe":
-                ci = pack_doe(
-                    component_factory=component_function,
-                    settings=settings,
-                    name=instance_name,
-                    function=function,
-                    cache=cache,
-                    **pack,
-                )
-            else:
-                ci = pack_doe_grid(
-                    component_factory=component_function,
-                    settings=settings,
-                    name=instance_name,
-                    function=function,
-                    cache=cache,
-                    **pack,
-                )
-
-        else:
-            ci = component_factory[component_type](**settings)
-        ref = c << ci
+        component = pdk.get_component(component, **settings)
+        ref = c << component
         instances[instance_name] = ref
 
     placements_conf = dict() if placements_conf is None else placements_conf
@@ -728,18 +644,6 @@ def from_yaml(
             settings = (
                 OmegaConf.to_container(settings, resolve=True) if settings else {}
             )
-            if "cross_section" in settings:
-                name_or_dict = settings["cross_section"]
-                if isinstance(name_or_dict, str):
-                    cross_section = cross_section_factory[name_or_dict]
-                elif isinstance(name_or_dict, dict):
-                    name = name_or_dict.pop("function")
-                    cross_section = functools.partial(
-                        cross_section_factory[name], **name_or_dict
-                    )
-                else:
-                    raise ValueError(f"invalid type for cross_section={name_or_dict}")
-                settings["cross_section"] = cross_section
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
                 raise ValueError(
@@ -1048,36 +952,6 @@ instances:
 #          length_mmi: [2, 100]
 # """
 
-sample_doe = """
-name: mask
-
-instances:
-    mmi1x2_sweep:
-       component: pack_doe
-       settings:
-         component: mmi1x2
-         length_mmi: [2, 100]
-         width_mmi: [4, 10]
-       pack:
-         do_permutations: True
-         spacing: 100
-"""
-
-sample_doe_grid = """
-name: mask
-
-instances:
-    mmi1x2_sweep:
-       component: pack_doe_grid
-       settings:
-         component: mmi1x2
-         length_mmi: [2, 100]
-         width_mmi: [4, 10]
-       pack:
-         do_permutations: True
-         spacing: [100, 100]
-         shape: [2, 2]
-"""
 
 # def sample_doe_range():
 #     lengths_mmi = range(2, 10)
@@ -1123,17 +997,57 @@ placements:
 
 """
 
+
+sample_doe = """
+name: mask_compact
+pdk: ubcpdk
+
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        radius: [30, 50, 20, 40]
+        length_x: [1, 2, 3]
+      do_permutations: True
+      function: add_fiber_array
+
+  mzis:
+    component: pack_doe
+    settings:
+      doe: mzi
+      settings:
+        delta_length: [10, 100]
+      do_permutations: True
+      spacing: 10
+      function: add_fiber_array
+
+placements:
+  rings:
+    xmin: 50
+
+  mzis:
+    xmin: rings,east
+
+"""
+
+
 if __name__ == "__main__":
+    # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
+
     # for k in component_factories.keys():
     #     print(k)
     # print(c.settings["info"])
-    # from gdsfactory.tests.test_component_from_yaml import yaml_anchor
     # c = from_yaml(yaml_anchor)
     # c = from_yaml(sample_pdk_mzi)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
+    # c = from_yaml(sample_yaml_xmin)
+    # n = c.get_netlist()
+    # print(n)
 
-    c = from_yaml(sample_yaml_xmin)
+    c = from_yaml(sample_doe)
     c.show()
 
     # c = test_connections_regex()

@@ -48,7 +48,7 @@ def test_netlists(
 
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     # print(yaml_str)
-    c2 = gf.read.from_yaml(yaml_str, component_factory=component_factory)
+    c2 = gf.read.from_yaml(yaml_str)
     n2 = c2.get_netlist()
 
     d = jsondiff.diff(n, n2)
@@ -89,6 +89,7 @@ if __name__ == "__main__":
     # component_type = "ring_double"
 
     component_type = "ring_single"
+    component_type = "ring_double"
     c1 = components[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
@@ -97,4 +98,4 @@ if __name__ == "__main__":
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
     print(d)
-    gf.show(c2)
+    c2.show()

@@ -182,14 +182,12 @@ def test_get_bundle_u_indirect(
     a2 = a1 + 180
 
     if axis == "X":
-        ports1 = [Port("top_{}".format(i), (0, xs1[i]), 0.5, a1) for i in range(N)]
-
-        ports2 = [Port("bot_{}".format(i), (dy, xs2[i]), 0.5, a2) for i in range(N)]
+        ports1 = [Port(f"top_{i}", (0, xs1[i]), 0.5, a1) for i in range(N)]
+        ports2 = [Port(f"bot_{i}", (dy, xs2[i]), 0.5, a2) for i in range(N)]
 
     else:
-        ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
-
-        ports2 = [Port("bot_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
+        ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
+        ports2 = [Port(f"bot_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
 
@@ -228,8 +226,8 @@ def test_facing_ports(
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    ports1 = [Port(f"top_{i}", (xs1[i], +0), 0.5, a1) for i in range(N)]
+    ports2 = [Port(f"bot_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
 
     c = gf.Component("test_facing_ports")
     routes = get_bundle(ports1, ports2)

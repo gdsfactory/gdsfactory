@@ -12,8 +12,8 @@ from gdsfactory.types import ComponentOrFactory, Layer
 def pad(
     size: Tuple[float, float] = (100.0, 100.0),
     layer: Layer = LAYER.M3,
-    layers_cladding: Optional[Tuple[Layer, ...]] = None,
-    cladding_offsets: Optional[Tuple[float, ...]] = None,
+    bbox_layers: Optional[Tuple[Layer, ...]] = None,
+    bbox_offsets: Optional[Tuple[float, ...]] = None,
     port_inclusion: float = 0,
 ) -> Component:
     """Rectangular pad with 4 ports (1, 2, 3, 4)
@@ -21,8 +21,8 @@ def pad(
     Args:
         size:
         layer: pad layer
-        layers_cladding:
-        cladding_offsets:
+        bbox_layers:
+        bbox_offsets:
         port_inclusion: from edge
     """
     c = Component()
@@ -32,8 +32,8 @@ def pad(
     c.info["size"] = (float(size[0]), float(size[1]))
     c.info["layer"] = layer
 
-    if layers_cladding and cladding_offsets:
-        for layer, cladding_offset in zip(layers_cladding, cladding_offsets):
+    if bbox_layers and bbox_offsets:
+        for layer, cladding_offset in zip(bbox_layers, bbox_offsets):
             c.add_ref(
                 compass(
                     size=(size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset),

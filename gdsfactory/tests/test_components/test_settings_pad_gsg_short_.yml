@@ -4,9 +4,10 @@ settings:
   default:
     contact:
       function: rectangle
-      layer:
-      - 49
-      - 0
+      settings:
+        layer:
+        - 49
+        - 0
     layer_metal:
     - 49
     - 0
@@ -21,9 +22,10 @@ settings:
   full:
     contact:
       function: rectangle
-      layer:
-      - 49
-      - 0
+      settings:
+        layer:
+        - 49
+        - 0
     layer_metal:
     - 49
     - 0

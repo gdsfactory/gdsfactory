@@ -4,8 +4,9 @@ settings:
   default:
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     input_port_indexes:
     - 0
     - 1
@@ -13,8 +14,9 @@ settings:
   full:
     grating_coupler:
       function: grating_coupler_elliptical_trenches
-      polarization: te
-      taper_angle: 35
+      settings:
+        polarization: te
+        taper_angle: 35
     input_port_indexes:
     - 0
     - 1

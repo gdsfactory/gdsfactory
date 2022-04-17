@@ -6,6 +6,7 @@ settings:
       function: bend_s
     cross_section:
       function: cross_section
+      settings: {}
     dx: 10
     dy: 5
     gap: 0.234
@@ -14,6 +15,7 @@ settings:
       function: bend_s
     cross_section:
       function: cross_section
+      settings: {}
     dx: 10
     dy: 5
     gap: 0.234

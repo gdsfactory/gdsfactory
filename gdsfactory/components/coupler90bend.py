@@ -2,7 +2,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -10,8 +10,8 @@ def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
     bend: ComponentFactory = bend_euler,
-    cross_section_inner: CrossSectionFactory = strip,
-    cross_section_outer: CrossSectionFactory = strip,
+    cross_section_inner: CrossSectionSpec = strip,
+    cross_section_outer: CrossSectionSpec = strip,
 ) -> Component:
     r"""Returns 2 coupled bends.
 
@@ -36,10 +36,10 @@ def coupler90bend(
 
     c = Component()
 
-    xi = cross_section_inner()
-    xo = cross_section_outer()
+    xi = gf.get_cross_section(cross_section_inner)
+    xo = gf.get_cross_section(cross_section_outer)
 
-    width = xo.info["width"] / 2 + xi.info["width"] / 2
+    width = xo.width / 2 + xi.width / 2
     spacing = gap + width
 
     bend90_inner = bend(radius=radius, cross_section=cross_section_inner)

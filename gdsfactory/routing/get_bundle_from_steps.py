@@ -112,10 +112,10 @@ def get_bundle_from_steps(
         waypoints += [(x2, y)]
 
     x = cross_section(**kwargs)
-    auto_widen = x.info.get("auto_widen", False)
-    width1 = x.info.get("width")
-    width2 = x.info.get("width_wide") if auto_widen else width1
-    taper_length = x.info.get("taper_length")
+    auto_widen = x.auto_widen
+    width1 = x.width
+    width2 = x.width_wide if auto_widen else width1
+    taper_length = x.taper_length
     waypoints = np.array(waypoints)
 
     if auto_widen:
