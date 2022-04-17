@@ -1045,6 +1045,19 @@ instances:
 
 """
 
+sample_add_gratings_doe = """
+name: sample_add_gratings_doe
+pdk: ubcpdk
+instances:
+  ring_te:
+    component:
+        component: pack_doe
+        settings:
+            component: add_fiber_array
+            settings:
+                component: ring_single
+
+"""
 
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
@@ -1060,7 +1073,7 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # print(n)
 
-    c = from_yaml(sample_add_gratings)
+    c = from_yaml(sample_add_gratings_doe)
     c.show()
 
     # c = test_connections_regex()
