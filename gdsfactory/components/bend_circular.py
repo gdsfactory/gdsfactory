@@ -43,10 +43,11 @@ def bend_circular(
 
     c.absorb(ref)
     c.info["length"] = snap_to_grid(p.length())
-    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
-    c.info["radius"] = float(radius)
+    c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
+    c.info["radius"] = radius
 
     padding = []
+
     for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
         top = offset if angle == 180 else 0
         points = get_padding_points(
@@ -68,7 +69,7 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5)
+    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5, cross_section="rib")
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
     # c.pprint_ports()
     print(c.ports["o2"].orientation)

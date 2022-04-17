@@ -67,14 +67,19 @@ def taper(
         cross_section=x2,
     )
 
-    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            top=offset,
-        )
-        c.add_polygon(points, layer=layer)
+    padding = []
+    if length:
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
+
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     c.info["length"] = float(length)
     c.info["width1"] = float(width1)
@@ -144,15 +149,20 @@ def taper_strip_to_ridge(
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     c.add_port(name="o2", port=taper_slab.ports["o2"])
 
-    cross_section = gf.get_cross_section(cross_section)
-    for layer, offset in zip(cross_section.bbox_layers, cross_section.bbox_offsets):
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            top=offset,
-        )
-        c.add_polygon(points, layer=layer)
+    x = gf.get_cross_section(cross_section)
+    padding = []
+    if length:
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
+
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     return c
 
