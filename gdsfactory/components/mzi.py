@@ -192,22 +192,24 @@ if __name__ == "__main__":
     # c = mzi1x2_2x2()
     # c = mzi_coupler(length_x=5)
     # c = mzi2x2()
-    # c.show()
 
-    c = mzi(
-        delta_length=100,
-        straight_x_top="straight_pin",
-        # straight_x_top=gf.components.straight_heater_meander,
-        # straight_x_bot=gf.components.straight_heater_meander,
-        # straight_x_top=gf.components.straight_heater_metal,
-        # straight_x_bot=gf.components.straight_heater_metal,
-        # length_x=None,
-        length_x=300,
-        length_y=200.8,
-        # with_splitter=False,
-        splitter="mmi1x2",
-    )
-    c.show(show_ports=False)
+    c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    c.show()
+
+    # c = mzi(
+    #     delta_length=100,
+    #     straight_x_top="straight_pin",
+    #     # straight_x_top=gf.components.straight_heater_meander,
+    #     # straight_x_bot=gf.components.straight_heater_meander,
+    #     # straight_x_top=gf.components.straight_heater_metal,
+    #     # straight_x_bot=gf.components.straight_heater_metal,
+    #     # length_x=None,
+    #     length_x=300,
+    #     length_y=200.8,
+    #     # with_splitter=False,
+    #     splitter="mmi1x2",
+    # )
+    # c.show(show_ports=False)
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()

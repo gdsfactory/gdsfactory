@@ -1,6 +1,6 @@
 settings:
   changed:
-    length_x: null
+    length_x: 200
     straight_x_top:
       function: straight_heater_metal_undercut
       settings:
@@ -37,7 +37,7 @@ settings:
       function: cross_section
       settings: {}
     delta_length: 10
-    length_x: null
+    length_x: 200
     length_y: 2
     nbends: 2
     port_e0_combiner: o3
@@ -59,5 +59,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_c059ff8c
+  name: mzi_5b60a971
 version: 0.0.1
