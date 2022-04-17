@@ -49,12 +49,12 @@ placements:
   mmi_bot:
     mirror: false
     rotation: 0
-    x: 97.5
+    x: 92.0
     y: -39.375
   mmi_top:
     mirror: false
     rotation: 0
-    x: 21.0
+    x: 10.0
     y: 0.0
   straight_720ba455_71p99_m20p0:
     mirror: false

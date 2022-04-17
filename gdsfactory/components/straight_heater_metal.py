@@ -5,7 +5,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -15,14 +15,15 @@ def straight_heater_metal_undercut(
     length_undercut: float = 30.0,
     length_straight_input: float = 15.0,
     heater_width: float = 2.5,
-    cross_section_heater: CrossSectionFactory = strip_heater_metal,
-    cross_section_heater_undercut: CrossSectionFactory = strip_heater_metal_undercut,
+    cross_section_heater: CrossSectionSpec = strip_heater_metal,
+    cross_section_heater_undercut: CrossSectionSpec = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    contact: Optional[ComponentFactory] = contact_heater_m3,
+    contact: Optional[ComponentSpec] = contact_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 5.0,
     ohms_per_square: Optional[float] = None,
+    cross_section: Optional[CrossSectionSpec] = None,
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
@@ -40,6 +41,7 @@ def straight_heater_metal_undercut(
         port_orientation1: left via stack port orientation
         port_orientation2: right via stack port orientation
         heater_taper_length: minimizes current concentrations from heater to contact
+        ohms_per_square: to calculate resistance.
         kwargs: cross_section common settings
     """
     period = length_undercut + length_undercut_spacing
@@ -85,8 +87,7 @@ def straight_heater_metal_undercut(
     c.add_ports(sequence.ports)
 
     if contact:
-        contactw = contact()
-        contacte = contact()
+        contactw = contacte = gf.get_component(contact)
         contact_west_midpoint = sequence.aliases["-1"].size_info.cw
         contact_east_midpoint = sequence.aliases["-2"].size_info.ce
         dx = contactw.get_ports_xsize() / 2 + heater_taper_length or 0

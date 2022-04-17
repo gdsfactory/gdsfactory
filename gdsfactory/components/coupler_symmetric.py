@@ -2,16 +2,16 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def coupler_symmetric(
-    bend: ComponentFactory = bend_s,
+    bend: ComponentSpec = bend_s,
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
     r"""Two coupled straights with bends.
@@ -38,16 +38,13 @@ def coupler_symmetric(
 
     """
 
-    x = cross_section(**kwargs)
+    x = gf.get_cross_section(cross_section, **kwargs)
     width = x.width
-    bend_component = (
-        bend(
-            size=(dx, (dy - gap - width) / 2),
-            cross_section=cross_section,
-            **kwargs,
-        )
-        if callable(bend)
-        else bend
+    bend_component = gf.get_component(
+        bend,
+        size=(dx, (dy - gap - width) / 2),
+        cross_section=cross_section,
+        **kwargs,
     )
 
     w = bend_component.ports["o1"].width

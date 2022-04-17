@@ -28,7 +28,7 @@ settings:
         - - 3
           - 0
         bbox_offsets:
-        - 0
+        - 3
         sections:
         - hidden: false
           layer:
@@ -71,7 +71,7 @@ settings:
         - - 3
           - 0
         bbox_offsets:
-        - 0
+        - 3
         sections:
         - hidden: false
           layer:

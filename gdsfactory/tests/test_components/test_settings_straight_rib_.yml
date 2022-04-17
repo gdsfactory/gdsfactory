@@ -7,7 +7,7 @@ settings:
         - - 3
           - 0
         bbox_offsets:
-        - 0
+        - 3
         sections:
         - hidden: false
           layer:
@@ -29,6 +29,7 @@ settings:
       settings: {}
     length: 10
     npoints: 2
+    with_bbox: false
   full:
     cross_section:
       function: cross_section
@@ -37,7 +38,7 @@ settings:
         - - 3
           - 0
         bbox_offsets:
-        - 0
+        - 3
         sections:
         - hidden: false
           layer:
@@ -54,11 +55,12 @@ settings:
           width: 6.0
     length: 10
     npoints: 2
+    with_bbox: false
   function_name: straight
   info:
     length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_0a6ec136
+  name: straight_aebd5e9d
 version: 0.0.1

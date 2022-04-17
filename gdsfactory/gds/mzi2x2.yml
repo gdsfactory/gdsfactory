@@ -3,7 +3,7 @@ ports:
     name: o1
     width: 0.5
     midpoint:
-    - -12.75
+    - -10.0
     - 0.0
     orientation: 180
     layer:
@@ -14,7 +14,7 @@ ports:
     name: o2
     width: 0.5
     midpoint:
-    - 78.45
+    - 81.2
     - 0.0
     orientation: 0
     layer:
@@ -91,6 +91,9 @@ cells:
       gap_mmi: 0.25
       taper:
         function: taper
+      straight:
+        function: straight
+      with_bbox: true
       cross_section:
         function: cross_section
         settings: {}
@@ -104,6 +107,9 @@ cells:
       gap_mmi: 0.25
       taper:
         function: taper
+      straight:
+        function: straight
+      with_bbox: true
       cross_section:
         function: cross_section
         settings: {}
@@ -125,6 +131,7 @@ cells:
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -135,6 +142,7 @@ cells:
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -150,6 +158,7 @@ cells:
     full:
       length: 7
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -158,6 +167,7 @@ cells:
     default:
       length: 10
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -173,6 +183,7 @@ cells:
     full:
       length: 0.1
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -181,6 +192,7 @@ cells:
     default:
       length: 10
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -196,6 +208,7 @@ cells:
     full:
       length: 2
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -204,6 +217,7 @@ cells:
     default:
       length: 10
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -219,6 +233,7 @@ cells:
     full:
       length: 0.09
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -227,6 +242,7 @@ cells:
     default:
       length: 10
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -242,6 +258,7 @@ cells:
     full:
       length: 0.01
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}
@@ -250,6 +267,7 @@ cells:
     default:
       length: 10
       npoints: 2
+      with_bbox: false
       cross_section:
         function: cross_section
         settings: {}

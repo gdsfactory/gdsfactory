@@ -4,13 +4,13 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.straight import straight
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def ring_single_array(
-    ring_function: ComponentFactory = ring_single,
-    straight_function: ComponentFactory = straight,
+    ring_function: ComponentSpec = ring_single,
+    straight_function: ComponentSpec = straight,
     spacing: float = 5.0,
     list_of_dicts: Tuple[Dict[str, float], ...] = (
         dict(length_x=10.0, radius=5.0),
@@ -32,13 +32,13 @@ def ring_single_array(
     """
     c = Component()
     settings0 = list_of_dicts[0]
-    ring1 = c << ring_function(**settings0)
+    ring1 = c << gf.get_component(ring_function, **settings0)
 
     ring0 = ring1
     wg = straight_function(length=spacing)
 
     for settings in list_of_dicts[1:]:
-        ringi = c << ring_function(**settings)
+        ringi = c << gf.get_component(ring_function, **settings)
         wgi = c << wg
         wgi.connect("o1", ring0.ports["o2"])
         ringi.connect("o1", wgi.ports["o2"])
