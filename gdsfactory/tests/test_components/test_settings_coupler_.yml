@@ -6,9 +6,7 @@ settings:
       function: coupler_straight
     coupler_symmetric:
       function: coupler_symmetric
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     dx: 10
     dy: 5
     gap: 0.236
@@ -18,9 +16,7 @@ settings:
       function: coupler_straight
     coupler_symmetric:
       function: coupler_symmetric
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     dx: 10
     dy: 5
     gap: 0.236

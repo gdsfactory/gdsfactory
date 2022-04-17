@@ -20,6 +20,7 @@ settings:
       settings: {}
     length: 10
     npoints: 2
+    with_bbox: false
   full:
     cross_section:
       function: cross_section
@@ -36,6 +37,7 @@ settings:
         width: 10
     length: 10
     npoints: 2
+    with_bbox: false
   function_name: straight
   info:
     length: 10.0
