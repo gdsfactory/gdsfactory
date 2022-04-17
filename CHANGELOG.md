@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.0.2]
+## [5.0.2](https://github.com/gdsfactory/gdsfactory/pull/275)
 
 - get_cells and get_component_factories work with module and list of modules
 - add `gf.get_cells` and `gf.get_cross_section_factories`
