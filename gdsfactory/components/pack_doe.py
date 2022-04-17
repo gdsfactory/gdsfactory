@@ -49,7 +49,8 @@ def pack_doe(
 
     if function:
         component_list = [
-            function(gf.get_component(doe, **settings)) for settings in settings_list
+            function(gf.get_component(function, component=doe, **settings))
+            for settings in settings_list
         ]
     else:
         component_list = [
