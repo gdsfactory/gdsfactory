@@ -2,6 +2,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight as _straight
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -10,10 +11,10 @@ def ring_single(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.6,
-    coupler_ring: gf.types.ComponentFactory = _coupler_ring,
-    straight: gf.types.ComponentFactory = _straight,
-    bend: gf.types.ComponentFactory = bend_euler,
-    cross_section: gf.types.CrossSectionFactory = gf.cross_section.strip,
+    coupler_ring: ComponentSpec = _coupler_ring,
+    straight: ComponentSpec = _straight,
+    bend: ComponentSpec = bend_euler,
+    cross_section: ComponentSpec = "strip",
     **kwargs
 ) -> gf.Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -45,32 +46,30 @@ def ring_single(
     """
     gf.snap.assert_on_2nm_grid(gap)
 
-    coupler_ring = gf.partial(
+    sy = gf.get_component(
+        straight, length=length_y, cross_section=cross_section, **kwargs
+    )
+    b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
+    sx = gf.get_component(
+        straight, length=length_x, cross_section=cross_section, **kwargs
+    )
+
+    c = gf.Component()
+    cb = c << gf.get_component(
         coupler_ring,
         bend=bend,
+        straight=straight,
         gap=gap,
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
         **kwargs
     )
-
-    straight_side = gf.partial(
-        straight, length=length_y, cross_section=cross_section, **kwargs
-    )
-    straight_top = gf.partial(
-        straight, length=length_x, cross_section=cross_section, **kwargs
-    )
-
-    bend = gf.partial(bend, radius=radius, cross_section=cross_section, **kwargs)
-
-    c = gf.Component()
-    cb = c << coupler_ring()
-    sl = c << straight_side()
-    sr = c << straight_side()
-    bl = c << bend()
-    br = c << bend()
-    st = c << straight_top()
+    sl = c << sy
+    sr = c << sy
+    bl = c << b
+    br = c << b
+    st = c << sx
     # st.mirror(p1=(0, 0), p2=(1, 0))
 
     sl.connect(port="o1", destination=cb.ports["o2"])

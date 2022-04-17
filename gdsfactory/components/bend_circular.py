@@ -11,6 +11,7 @@ from gdsfactory.types import CrossSectionSpec
 def bend_circular(
     angle: float = 90.0,
     npoints: int = 720,
+    with_bbox: bool = False,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -19,6 +20,7 @@ def bend_circular(
     Args:
         angle: angle of arc (degrees).
         npoints: number of points.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -42,24 +44,25 @@ def bend_circular(
     c.add_ports(ref.ports)
 
     c.absorb(ref)
-    c.info["length"] = snap_to_grid(p.length())
+    c.info["length"] = float(snap_to_grid(p.length()))
     c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["radius"] = float(radius)
 
-    padding = []
-    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
-        top = offset if angle == 180 else 0
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            right=offset,
-            top=top,
-        )
-        padding.append(points)
+    if with_bbox:
+        padding = []
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            top = offset if angle == 180 else 0
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                right=offset,
+                top=top,
+            )
+            padding.append(points)
 
-    for layer, points in zip(x.bbox_layers, padding):
-        c.add_polygon(points, layer=layer)
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     return c
 
@@ -68,7 +71,8 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5)
+    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5, cross_section="rib")
+    c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
     # c.pprint_ports()
     print(c.ports["o2"].orientation)

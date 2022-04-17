@@ -797,7 +797,7 @@ rib = partial(
     strip,
     sections=[Section(width=6, layer=LAYER.SLAB90, name="slab")],
     bbox_layers=[LAYER.SLAB90],
-    bbox_offsets=[0],
+    bbox_offsets=[3],
 )
 nitride = partial(cross_section, layer=LAYER.WGN, width=1.0)
 strip_rib_tip = partial(

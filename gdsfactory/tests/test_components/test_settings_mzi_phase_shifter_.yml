@@ -1,6 +1,7 @@
 settings:
   changed:
-    length_x: null
+    length_x: 200
+    straight_x_top: straight_heater_metal
   child: null
   default:
     bend:
@@ -33,7 +34,7 @@ settings:
       function: cross_section
       settings: {}
     delta_length: 10
-    length_x: null
+    length_x: 200
     length_y: 2
     nbends: 2
     port_e0_combiner: o3
@@ -45,12 +46,12 @@ settings:
     straight:
       function: straight
     straight_x_bot: null
-    straight_x_top: null
+    straight_x_top: straight_heater_metal
     straight_y: null
     with_splitter: true
   function_name: mzi
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_e5e8650a
+  name: mzi_7a18d033
 version: 0.0.1

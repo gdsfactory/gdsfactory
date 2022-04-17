@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+
+## [5.0.3]
+
+- fix mmi1x2 and 2x2 definition to use waveguide cross_sections
+
 ## [5.0.2](https://github.com/gdsfactory/gdsfactory/pull/275)
 
 - get_cells and get_component_factories work with module and list of modules

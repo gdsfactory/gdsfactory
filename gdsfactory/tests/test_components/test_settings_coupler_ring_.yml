@@ -14,6 +14,8 @@ settings:
     gap: 0.2
     length_x: 4
     radius: 5
+    straight:
+      function: straight
   full:
     bend: null
     bend_cross_section: null
@@ -27,6 +29,8 @@ settings:
     gap: 0.2
     length_x: 4
     radius: 5
+    straight:
+      function: straight
   function_name: coupler_ring
   info: {}
   info_version: 2

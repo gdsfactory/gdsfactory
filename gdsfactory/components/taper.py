@@ -15,6 +15,7 @@ def taper(
     width1: float = 0.5,
     width2: Optional[float] = None,
     port: Optional[Port] = None,
+    with_bbox: bool = False,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -27,6 +28,7 @@ def taper(
         width1: width of the west port.
         width2: width of the east port.
         port: can taper from a port instead of defining width1.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -67,14 +69,19 @@ def taper(
         cross_section=x2,
     )
 
-    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            top=offset,
-        )
-        c.add_polygon(points, layer=layer)
+    if with_bbox and length:
+        padding = []
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
+
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     c.info["length"] = float(length)
     c.info["width1"] = float(width1)
@@ -144,15 +151,20 @@ def taper_strip_to_ridge(
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     c.add_port(name="o2", port=taper_slab.ports["o2"])
 
-    cross_section = gf.get_cross_section(cross_section)
-    for layer, offset in zip(cross_section.bbox_layers, cross_section.bbox_offsets):
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            top=offset,
-        )
-        c.add_polygon(points, layer=layer)
+    x = gf.get_cross_section(cross_section)
+    padding = []
+    if length:
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                top=offset,
+            )
+            padding.append(points)
+
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     return c
 
