@@ -1011,7 +1011,6 @@ instances:
         radius: [30, 50, 20, 40]
         length_x: [1, 2, 3]
       do_permutations: True
-      function: add_fiber_array
 
   mzis:
     component: pack_doe
@@ -1021,7 +1020,6 @@ instances:
         delta_length: [10, 100]
       do_permutations: True
       spacing: 10
-      function: add_fiber_array
 
 placements:
   rings:
@@ -1059,9 +1057,25 @@ instances:
 
 """
 
+
+# FIXME
+sample_doe2 = """
+name: sample_add_gratings_doe
+pdk: ubcpdk
+instances:
+  ring_te:
+    component:
+        component: pack_doe
+        settings:
+            doe:
+                component: mmi
+                settings:
+                    settings: ring_single
+
+"""
+
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
-
     # for k in component_factories.keys():
     #     print(k)
     # print(c.settings["info"])
@@ -1073,7 +1087,7 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # print(n)
 
-    c = from_yaml(sample_add_gratings_doe)
+    c = from_yaml(sample_doe)
     c.show()
 
     # c = test_connections_regex()
