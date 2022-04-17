@@ -77,6 +77,8 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
+    cross_section_bot: null
+    cross_section_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -125,6 +127,8 @@ settings:
         - 34
         - 0
         width: 1
+    cross_section_bot: null
+    cross_section_top: null
     decorator:
       function: add_pins
     delta_length: 10

@@ -20,6 +20,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_bot: null
+          cross_section_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -44,6 +46,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_bot: null
+          cross_section_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -85,6 +89,8 @@ settings:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_bot: null
+      cross_section_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -109,6 +115,8 @@ settings:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_bot: null
+      cross_section_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -163,6 +171,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_bot: null
+          cross_section_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -187,6 +197,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_bot: null
+          cross_section_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -224,5 +236,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: mzi_f173d462_add_electr_3c7e8d81
+  name: mzi_f173d462_add_electr_20c19e19
 version: 0.0.1
