@@ -81,7 +81,6 @@ def get_netlist(
          placements: Dict of instance names and placements (x, y, rotation).
          port: Dict portName: ComponentName,port.
          name: name of component.
-
     """
     placements = {}
     instances = {}

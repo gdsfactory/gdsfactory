@@ -6,14 +6,14 @@ settings:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     npoints: 720
-    with_cladding_box: true
   full:
     angle: 180
     cross_section:
       function: cross_section
+      settings: {}
     npoints: 720
-    with_cladding_box: true
   function_name: bend_circular
   info:
     dy: 0.0

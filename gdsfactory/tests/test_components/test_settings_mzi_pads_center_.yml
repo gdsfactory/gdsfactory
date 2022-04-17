@@ -4,18 +4,20 @@ settings:
   default:
     cross_section:
       function: cross_section
+      settings: {}
     cross_section_metal:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     delta_length: 40
     end_straight_length: 5
     length_x: 500
@@ -35,26 +37,30 @@ settings:
     pad_sig_top: e3_1_3
     ps_bot:
       function: straight_heater_metal_undercut
-      with_undercut: false
+      settings:
+        with_undercut: false
     ps_top:
       function: straight_heater_metal_undercut
-      with_undercut: false
+      settings:
+        with_undercut: false
     start_straight_length: 5
   full:
     cross_section:
       function: cross_section
+      settings: {}
     cross_section_metal:
       function: cross_section
-      layer:
-      - 49
-      - 0
-      port_names:
-      - e1
-      - e2
-      port_types:
-      - electrical
-      - electrical
-      width: 10
+      settings:
+        layer:
+        - 49
+        - 0
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 10
     delta_length: 40
     end_straight_length: 5
     length_x: 500
@@ -74,10 +80,12 @@ settings:
     pad_sig_top: e3_1_3
     ps_bot:
       function: straight_heater_metal_undercut
-      with_undercut: false
+      settings:
+        with_undercut: false
     ps_top:
       function: straight_heater_metal_undercut
-      with_undercut: false
+      settings:
+        with_undercut: false
     start_straight_length: 5
   function_name: mzi_pads_center
   info: {}

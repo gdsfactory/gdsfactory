@@ -2,12 +2,12 @@ settings:
   changed: {}
   child: null
   default:
-    cladding_offset: 0
+    bbox_layers: null
+    bbox_offset: 0
     enclosure: 1
     layer:
     - 40
     - 0
-    layers_cladding: null
     size:
     - 0.7
     - 0.7
@@ -15,12 +15,12 @@ settings:
     - 2.0
     - 2.0
   full:
-    cladding_offset: 0
+    bbox_layers: null
+    bbox_offset: 0
     enclosure: 1
     layer:
     - 40
     - 0
-    layers_cladding: null
     size:
     - 0.7
     - 0.7

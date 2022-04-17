@@ -15,6 +15,7 @@ settings:
     combiner: null
     cross_section:
       function: cross_section
+      settings: {}
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -38,6 +39,7 @@ settings:
       function: mmi2x2
     cross_section:
       function: cross_section
+      settings: {}
     delta_length: 10
     length_x: 0.1
     length_y: 2

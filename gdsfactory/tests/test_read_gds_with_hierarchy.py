@@ -67,15 +67,13 @@ def _write():
 
 if __name__ == "__main__":
     # _write()
-    # test_read_gds_equivalent2()
+    test_read_gds_equivalent2()
 
     # c = test_read_gds_hash2()
     # c.show()
     # test_mix_cells_from_gds_and_from_function2()
 
     # test_read_gds_with_settings2()
-    test_read_gds_equivalent2()
-
     # c1 = gf.components.mzi()
     # c2 = gf.import_gds(gdspath)
     # d1 = c1.to_dict()

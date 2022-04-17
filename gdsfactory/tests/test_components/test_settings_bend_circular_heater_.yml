@@ -5,6 +5,7 @@ settings:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater:
@@ -16,6 +17,7 @@ settings:
     angle: 90
     cross_section:
       function: cross_section
+      settings: {}
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater:

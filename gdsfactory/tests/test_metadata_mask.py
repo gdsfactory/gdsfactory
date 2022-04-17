@@ -13,17 +13,20 @@ def mask(size=(1000, 1000)):
     return c
 
 
-def test_mask_metadata():
-    m = mask()
-    gdspath = m.write_gds_with_metadata(gdspath="mask.gds")
-    labels_path = gdspath.with_suffix(".csv")
-    gf.mask.write_labels(gdspath=gdspath, layer_label=(66, 0))
-    mask_metadata = gf.mask.read_metadata(gdspath=gdspath)
-    tm = gf.mask.merge_test_metadata(
-        mask_metadata=mask_metadata, labels_path=labels_path
-    )
-    assert len(tm.keys()) == 3
+# def test_mask_metadata():
+#     m = mask()
+#     gdspath = m.write_gds_with_metadata(gdspath="test_mask_metadata.gds")
+#     labels_path = gdspath.with_suffix(".csv")
+#     gf.mask.write_labels(gdspath=gdspath, layer_label=(66, 0))
+#     mask_metadata = gf.mask.read_metadata(gdspath=gdspath)
+#     tm = gf.mask.merge_test_metadata(
+#         mask_metadata=mask_metadata, labels_path=labels_path
+#     )
+#     assert len(tm.keys()) == 3
+#     return m
 
 
 if __name__ == "__main__":
-    test_mask_metadata()
+    # m = test_mask_metadata()
+    m = mask()
+    m.show()

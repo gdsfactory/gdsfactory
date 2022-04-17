@@ -19,7 +19,7 @@ def straight_pin(
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
-    """Returns PIN with contacts
+    """Returns straight PIN waveguide with contacts.
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -30,13 +30,13 @@ def straight_pin(
     https://ieeexplore.ieee.org/document/8853396/
 
     Args:
-        length: of the waveguide
-        cross_section: for the waveguide
-        contact: for the contacts
-        contact_size:
-        contact_spacing: spacing between contacts
-        taper: optional taper
-        kwargs: cross_section settings
+        length: of the waveguide.
+        cross_section: for the waveguide.
+        contact: for the contacts.
+        contact_width: width of the contact.
+        contact_spacing: spacing between contacts.
+        taper: optional taper.
+        kwargs: cross_section settings.
 
     """
     c = Component()

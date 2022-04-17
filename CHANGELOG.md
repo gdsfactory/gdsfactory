@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.0.0]
+
+- cross_section BaseModel has routing parameters
+    - rename ports to port_names
+- delete klayout autoplacer code. Use gf.read.from_yaml instead.
+- delete YAML placer code. Use gf.read.from_yaml instead.
+
 ## [4.7.3](https://github.com/gdsfactory/gdsfactory/pull/272)
 
 - add `has_routing_info` to [CrossSection](CrossSection) to ensure it has routing information

@@ -34,7 +34,7 @@ from gdsfactory.cell import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.types import Label
 
 from gdsfactory import cross_section
@@ -55,7 +55,6 @@ from gdsfactory import functions
 from gdsfactory import export
 from gdsfactory import geometry
 from gdsfactory import mask
-from gdsfactory import sweep
 from gdsfactory import add_ports
 from gdsfactory import write_cells
 
@@ -70,7 +69,7 @@ from gdsfactory.add_pins import add_pins
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
-from gdsfactory.pdk import Pdk, get_component, get_cross_section
+from gdsfactory.pdk import Pdk, get_component, get_cross_section, ACTIVE_PDK
 
 
 c = components
@@ -81,6 +80,7 @@ __all__ = [
     "Component",
     "ComponentReference",
     "CrossSection",
+    "Section",
     "compose",
     "Group",
     "LAYER",
@@ -124,10 +124,10 @@ __all__ = [
     "snap",
     "tech",
     "types",
-    "sweep",
     "write_cells",
     "Label",
     "Pdk",
+    "ACTIVE_PDK",
     "get_component",
     "get_cross_section",
 ]

@@ -118,7 +118,11 @@ def get_bundle_corner(
 
 
 def _get_bundle_corner_waypoints(
-    ports1, ports2, routing_func=generate_manhattan_waypoints, separation=5.0, **kwargs
+    ports1,
+    ports2,
+    routing_func=generate_manhattan_waypoints,
+    separation: float = 5.0,
+    **kwargs,
 ):
 
     nb_ports = len(ports1)
@@ -224,8 +228,8 @@ def _get_bundle_corner_waypoints(
     ports2.sort(key=type2key[end_angle_sort_type])
 
     i = 0
-    kwargs.pop("start_straight_length")
-    kwargs.pop("end_straight_length")
+    kwargs.pop("start_straight_length", "")
+    kwargs.pop("end_straight_length", "")
     for p1, p2 in zip(ports1, ports2):
         conn = routing_func(
             p1,
@@ -238,3 +242,31 @@ def _get_bundle_corner_waypoints(
         i += 1
 
     return connections
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+    from gdsfactory.routing import get_routes_bend180
+
+    c = gf.Component("get_routes_bend180")
+    pad_array = gf.components.pad_array(orientation=270)
+    c1 = c << pad_array
+    c2 = c << pad_array
+    c2.rotate(90)
+    c2.movex(1000)
+    c2.ymax = -200
+
+    routes_bend180 = get_routes_bend180(
+        ports=c2.get_ports_list(),
+        radius=75 / 2,
+    )
+    c.add(routes_bend180.references)
+
+    routes = gf.routing.get_bundle(
+        ports1=c1.get_ports_list(),
+        ports2=routes_bend180.ports,
+    )
+    for route in routes:
+        c.add(route.references)
+
+    c.show()

@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionOrFactory, Layer
+from gdsfactory.types import CrossSectionSpec, Layer
 
 
 @cell
@@ -15,8 +15,7 @@ def taper(
     width1: float = 0.5,
     width2: Optional[float] = None,
     port: Optional[Port] = None,
-    with_cladding_box: bool = True,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -24,19 +23,16 @@ def taper(
     Deprecated, use gf.components.taper_cross_section instead
 
     Args:
-        length:
-        width1: width of the west port
-        width2: width of the east port
-        port: can taper from a port instead of defining width1
-        with_cladding_box: to avoid DRC acute angle errors in cladding
-        cross_section:
-        kwargs: cross_section settings
+        length: taper length.
+        width1: width of the west port.
+        width2: width of the east port.
+        port: can taper from a port instead of defining width1.
+        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
+        kwargs: cross_section settings.
 
     """
-    x = cross_section(**kwargs) if callable(cross_section) else cross_section
-
-    layers_cladding = x.info["layers_cladding"]
-    layer = x.info["layer"]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    layer = x.layer
 
     if isinstance(port, gf.Port) and width1 is None:
         width1 = port.width
@@ -46,11 +42,8 @@ def taper(
     y1 = width1 / 2
     y2 = width2 / 2
 
-    kwargs.update(width=width1)
-    x1 = cross_section(**kwargs) if callable(cross_section) else cross_section
-
-    kwargs.update(width=width2)
-    x2 = cross_section(**kwargs) if callable(cross_section) else cross_section
+    x1 = x.get_copy(width=width1)
+    x2 = x.get_copy(width=width2)
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
@@ -74,17 +67,14 @@ def taper(
         cross_section=x2,
     )
 
-    if with_cladding_box and x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offset"]
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
         points = get_padding_points(
             component=c,
             default=0,
-            bottom=cladding_offset,
-            top=cladding_offset,
+            bottom=offset,
+            top=offset,
         )
-        for layer in layers_cladding or []:
-            c.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
 
     c.info["length"] = float(length)
     c.info["width1"] = float(width1)
@@ -101,9 +91,7 @@ def taper_strip_to_ridge(
     w_slab2: float = 6.0,
     layer_wg: Layer = gf.LAYER.WG,
     layer_slab: Layer = gf.LAYER.SLAB90,
-    layers_cladding: Optional[Tuple[Layer, ...]] = None,
-    cladding_offset: float = 3.0,
-    cross_section: CrossSectionOrFactory = strip,
+    cross_section: CrossSectionSpec = strip,
 ) -> Component:
     r"""Linear taper from strip to rib
 
@@ -117,8 +105,6 @@ def taper_strip_to_ridge(
         w_slab2
         layer_wg:
         layer_slab:
-        layers_cladding
-        cladding_offset:
         cross_section: for input waveguide
 
     .. code::
@@ -133,11 +119,6 @@ def taper_strip_to_ridge(
                      \__________________________
 
     """
-    cross_section = (
-        gf.partial(cross_section, width=width1)
-        if callable(cross_section)
-        else cross_section
-    )
 
     taper_wg = taper(
         length=length,
@@ -163,15 +144,15 @@ def taper_strip_to_ridge(
     c.add_port(name="o1", port=taper_wg.ports["o1"])
     c.add_port(name="o2", port=taper_slab.ports["o2"])
 
-    if layers_cladding:
+    cross_section = gf.get_cross_section(cross_section)
+    for layer, offset in zip(cross_section.bbox_layers, cross_section.bbox_offsets):
         points = get_padding_points(
             component=c,
             default=0,
-            bottom=cladding_offset,
-            top=cladding_offset,
+            bottom=offset,
+            top=offset,
         )
-        for layer in layers_cladding:
-            c.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
 
     return c
 
@@ -244,7 +225,7 @@ taper_sc_nc = gf.partial(
 
 if __name__ == "__main__":
     # c = taper(width2=1)
-    # c = taper_strip_to_ridge(with_slab_port=True, layers_cladding=((111, 0),))
+    # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     # c = taper()

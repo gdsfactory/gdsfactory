@@ -4,25 +4,29 @@ settings:
   default:
     contact:
       function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     cross_section:
       function: cross_section
+      settings: {}
     extension_length: 15
     heater_taper_length: 10
     heater_width: 2.5
@@ -39,25 +43,29 @@ settings:
   full:
     contact:
       function: contact
-      layers:
-      - - 47
-        - 0
-      - - 45
-        - 0
-      - - 49
-        - 0
-      vias:
-      - enclosure: 2
-        function: via
-        layer:
-        - 44
-        - 0
-      - function: via
-        layer:
-        - 43
-        - 0
+      settings:
+        layers:
+        - - 47
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
     cross_section:
       function: cross_section
+      settings: {}
     extension_length: 15
     heater_taper_length: 10
     heater_width: 2.5

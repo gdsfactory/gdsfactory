@@ -1,0 +1,28 @@
+connections: {}
+instances:
+  mmi1x2_sweep:
+    component: pack_doe_grid
+    settings:
+      do_permutations: true
+      doe: mmi1x2
+      settings:
+        length_mmi:
+        - 2
+        - 100
+        width_mmi:
+        - 4
+        - 10
+      shape:
+      - 2
+      - 2
+      spacing:
+      - 100
+      - 100
+name: mask_grid
+placements:
+  mmi1x2_sweep:
+    mirror: false
+    rotation: 0
+    x: 0.0
+    y: 0.0
+ports: {}

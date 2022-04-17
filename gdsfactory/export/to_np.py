@@ -57,9 +57,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
-    c = gf.components.bend_circular(
-        layers_cladding=[gf.LAYER.WGCLAD], cladding_offset=3.0
-    )
+    c = gf.components.bend_circular()
     # i = to_np(c, nm_per_pixel=250)
     i = to_np(c, nm_per_pixel=20)
     c.show()

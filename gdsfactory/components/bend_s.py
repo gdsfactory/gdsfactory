@@ -1,18 +1,18 @@
+import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
-from gdsfactory.types import CrossSectionFactory, Float2
+from gdsfactory.types import CrossSectionSpec, Float2
 
 
 @cell
 def bend_s(
     size: Float2 = (10.0, 2.0),
     nb_points: int = 99,
-    with_cladding_box: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """S bend with bezier curve
@@ -23,15 +23,14 @@ def bend_s(
     Args:
         size: in x and y direction
         nb_points: number of points
-        with_cladding_box: square bounding box to avoid DRC errors
         cross_section: function
         kwargs: cross_section settings
 
     """
     dx, dy = size
-    x = cross_section(**kwargs)
-    width = x.info["width"]
-    layer = x.info["layer"]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    width = x.width
+    layer = x.layer
 
     c = Component()
 
@@ -50,26 +49,23 @@ def bend_s(
     c.info["length"] = bend.info["length"]
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
-    if with_cladding_box and x.info["layers_cladding"]:
-        layers_cladding = x.info["layers_cladding"]
-        cladding_offset = x.info["cladding_offset"]
+    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
         points = get_padding_points(
             component=c,
             default=0,
-            bottom=cladding_offset,
-            top=cladding_offset,
+            bottom=offset,
+            top=offset,
         )
-        for layer in layers_cladding or []:
-            c.add_polygon(points, layer=layer)
+        c.add_polygon(points, layer=layer)
 
     auto_rename_ports(c)
     return c
 
 
 if __name__ == "__main__":
-    c = bend_s(width=1, layers_cladding=[(2, 0)])
-    c = bend_s(size=[10, 2.5], layers_cladding=[(2, 0)])  # 10um bend radius
-    c = bend_s(size=[20, 3], layers_cladding=[(2, 0)])  # 10um bend radius
+    c = bend_s(width=1)
+    c = bend_s(size=[10, 2.5])  # 10um bend radius
+    c = bend_s(size=[20, 3])  # 10um bend radius
     c.pprint()
     # c = bend_s_biased()
     # print(c.info["min_bend_radius"])

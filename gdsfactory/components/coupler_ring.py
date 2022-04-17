@@ -9,7 +9,7 @@ from gdsfactory.components.coupler_straight import (
 )
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -17,11 +17,11 @@ def coupler_ring(
     gap: float = 0.2,
     radius: float = 5.0,
     length_x: float = 4.0,
-    coupler90: ComponentFactory = coupler90function,
-    bend: Optional[ComponentFactory] = None,
-    coupler_straight: ComponentFactory = coupler_straight_function,
-    cross_section: CrossSectionFactory = strip,
-    bend_cross_section: Optional[CrossSectionFactory] = None,
+    coupler90: ComponentSpec = coupler90function,
+    bend: Optional[ComponentSpec] = None,
+    coupler_straight: ComponentSpec = coupler_straight_function,
+    cross_section: CrossSectionSpec = strip,
+    bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
     r"""Coupler for ring.
@@ -53,24 +53,21 @@ def coupler_ring(
     assert_on_2nm_grid(gap)
 
     # define subcells
-    coupler90_component = (
-        coupler90(
-            gap=gap,
-            radius=radius,
-            bend=bend,
-            cross_section=cross_section,
-            bend_cross_section=bend_cross_section,
-            **kwargs
-        )
-        if callable(coupler90)
-        else coupler90
+    coupler90_component = gf.get_component(
+        coupler90,
+        gap=gap,
+        radius=radius,
+        bend=bend,
+        cross_section=cross_section,
+        bend_cross_section=bend_cross_section,
+        **kwargs
     )
-    coupler_straight_component = (
-        coupler_straight(
-            gap=gap, length=length_x, cross_section=cross_section, **kwargs
-        )
-        if callable(coupler_straight)
-        else coupler_straight
+    coupler_straight_component = gf.get_component(
+        coupler_straight,
+        gap=gap,
+        length=length_x,
+        cross_section=cross_section,
+        **kwargs
     )
 
     # add references to subcells
