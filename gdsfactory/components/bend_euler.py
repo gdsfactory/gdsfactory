@@ -66,13 +66,19 @@ def bend_euler(
     c.info["radius"] = float(radius)
     c.info["wg_width"] = x.width
 
+    padding = []
     for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        top = offset if angle == 180 else 0
         points = get_padding_points(
             component=c,
             default=0,
             bottom=offset,
-            top=offset,
+            right=offset,
+            top=top,
         )
+        padding.append(points)
+
+    for layer, points in zip(x.bbox_layers, padding):
         c.add_polygon(points, layer=layer)
 
     if direction == "cw":
@@ -183,12 +189,14 @@ def _compare_bend_euler90():
 
 if __name__ == "__main__":
     # c = bend_euler_s()
-    # c = bend_euler180()
+    c = bend_euler(bbox_layers=[(2, 0), (3, 0)], bbox_offsets=[3, 3])
+    c.show()
+
     # c = bend_euler(direction="cw")
     # c = bend_euler(angle=270)
     # c.pprint()
     # p = euler()
-    c = bend_straight_bend()
+    # c = bend_straight_bend()
     # c = _compare_bend_euler90()
 
     # c = gf.Component()
