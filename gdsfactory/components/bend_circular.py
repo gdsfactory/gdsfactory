@@ -44,9 +44,9 @@ def bend_circular(
     c.add_ports(ref.ports)
 
     c.absorb(ref)
-    c.info["length"] = snap_to_grid(p.length())
-    c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
-    c.info["radius"] = radius
+    c.info["length"] = float(snap_to_grid(p.length()))
+    c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
+    c.info["radius"] = float(radius)
 
     if with_bbox:
         padding = []
@@ -72,6 +72,7 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 if __name__ == "__main__":
     c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5, cross_section="rib")
+    c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
     # c.pprint_ports()
     print(c.ports["o2"].orientation)

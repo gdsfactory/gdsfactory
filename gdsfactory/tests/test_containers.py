@@ -1,13 +1,11 @@
 import pytest
 from pytest_regressions.data_regression import DataRegressionFixture
 
-from gdsfactory.components.mzi_phase_shifter import mzi_phase_shifter_top_heater_metal
-
-# from gdsfactory.components.spiral_inner_io import spiral_inner_io
+import gdsfactory as gf
 from gdsfactory.containers import containers
 from gdsfactory.difftest import difftest
 
-component = mzi_phase_shifter_top_heater_metal()
+component = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
 
 skip_test = {
     "pack_doe",
