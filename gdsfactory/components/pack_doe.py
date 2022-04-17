@@ -6,7 +6,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
-from gdsfactory.types import ComponentSpec, Optional
+from gdsfactory.types import CellSpec, ComponentSpec, Optional
 
 
 @cell
@@ -14,7 +14,7 @@ def pack_doe(
     doe: ComponentSpec,
     settings: Dict[str, List[Any]],
     do_permutations: bool = False,
-    function: Optional[ComponentSpec] = None,
+    function: Optional[CellSpec] = None,
     **kwargs,
 ) -> Component:
     """Packs a component DOE (Design of Experiment) using pack.
@@ -48,9 +48,11 @@ def pack_doe(
         settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
 
     if function:
+        function = gf.get_cell(function)
+        if not callable(function):
+            raise ValueError(f"Error {function!r} needs to be callable.")
         component_list = [
-            function(gf.get_component(function, component=doe, **settings))
-            for settings in settings_list
+            function(gf.get_component(doe, **settings)) for settings in settings_list
         ]
     else:
         component_list = [
@@ -71,7 +73,7 @@ def pack_doe_grid(
     doe: ComponentSpec,
     settings: Dict[str, List[Any]],
     do_permutations: bool = False,
-    function: Optional[ComponentSpec] = None,
+    function: Optional[CellSpec] = None,
     with_text: bool = False,
     **kwargs,
 ) -> Component:
@@ -105,6 +107,9 @@ def pack_doe_grid(
         settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
 
     if function:
+        function = gf.get_cell(function)
+        if not callable(function):
+            raise ValueError(f"Error {function!r} needs to be callable.")
         component_list = [
             function(gf.get_component(doe, **settings)) for settings in settings_list
         ]

@@ -1,34 +1,29 @@
 from typing import Callable, Optional, Tuple
 
+import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_circular import bend_circular
+from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import TECH, call_if_func
-from gdsfactory.cross_section import strip
 from gdsfactory.functions import move_port_to_zero
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    ComponentOrFactoryOrList,
-    CrossSectionFactory,
-)
+from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
 
 
 @cell
 def add_fiber_single(
-    component: ComponentOrFactory,
-    grating_coupler: ComponentOrFactoryOrList = grating_coupler_te,
+    component: ComponentSpec = "mmi2x2",
+    grating_coupler: ComponentSpecOrList = grating_coupler_te,
     layer_label: Tuple[int, int] = TECH.layer_label,
     fiber_spacing: float = TECH.fiber_spacing,
-    bend: ComponentFactory = bend_circular,
-    straight: ComponentFactory = straight_function,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
     route_filter: Callable = get_route_from_waypoints,
     min_input_to_output_spacing: float = 200.0,
     optical_routing_type: int = 2,
@@ -40,7 +35,7 @@ def add_fiber_single(
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
     get_input_label_text_function: Callable = get_input_label_text,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     r"""Returns component with grating couplers and labels on each port.
@@ -104,7 +99,7 @@ def add_fiber_single(
         cc.plot()
 
     """
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
 
     optical_ports = select_ports(component.ports)
     optical_ports = list(optical_ports.values())
@@ -124,8 +119,6 @@ def add_fiber_single(
     if not optical_ports:
         raise ValueError(f"No ports for {component.name}")
 
-    component = component() if callable(component) else component
-
     component_name = component_name or component.metadata_child.get(
         "name", component.name
     )
@@ -135,7 +128,7 @@ def add_fiber_single(
         if isinstance(grating_coupler, (list, tuple))
         else grating_coupler
     )
-    gc = gc() if callable(gc) else gc
+    gc = gf.get_component(gc)
 
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
@@ -258,8 +251,6 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # c = gf.components.crossing()
     # c = gf.components.mmi1x2()
     # c = gf.components.rectangle()
@@ -291,8 +282,9 @@ if __name__ == "__main__":
         loopback_xspacing=-50,
         # grating_coupler=[gf.components.grating_coupler_te, gf.components.grating_coupler_tm],
     )
+
+    cc = add_fiber_single()
     cc.show()
-    cc.pprint()
 
     # c = gf.components.straight(length=20)
     # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
