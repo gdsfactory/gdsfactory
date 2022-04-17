@@ -3,6 +3,7 @@ To create a component you need to extrude the path with a cross-section.
 """
 import inspect
 import sys
+from collections.abc import Iterable
 from functools import partial
 from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
@@ -825,31 +826,28 @@ metal3 = partial(
 CrossSectionFactory = Callable[..., CrossSection]
 
 
-def get_cross_section_factories(module) -> Dict[str, CrossSectionFactory]:
+def get_cross_section_factories(
+    modules, verbose: bool = False
+) -> Dict[str, CrossSectionFactory]:
     """Returns cross_section factories from a module."""
 
-    return {
-        t[0]: t[1]
-        for t in getmembers(module)
-        if callable(t[1])
-        and t[0] != "partial"
-        and inspect.signature(t[1]).return_annotation == CrossSection
-    }
+    modules = modules if isinstance(modules, Iterable) else [modules]
 
-
-def validate_module_factories(module) -> None:
-    """Iterates over factories and makes sure they have a valid signature."""
-
-    for t in getmembers(module):
-        try:
+    xs = {}
+    for module in modules:
+        for t in getmembers(module):
             if callable(t[1]) and t[0] != "partial":
-                inspect.signature(t[1]).return_annotation
-        except Exception:
-            print(f"error in {t[0]}")
+                try:
+                    r = inspect.signature(t[1]).return_annotation
+                    if r == CrossSection:
+                        xs[t[0]] = t[1]
+                except ValueError:
+                    if verbose:
+                        print(f"error in {t[0]}")
+    return xs
 
 
 cross_sections = get_cross_section_factories(sys.modules[__name__])
-# validate_module_factories(sys.modules[__name__])
 
 if __name__ == "__main__":
     import gdsfactory as gf
