@@ -4,6 +4,7 @@
 
 - get_cells and get_component_factories work with module and list of modules
 - add `gf.get_cells` and `gf.get_cross_section_factories`
+- get_component and get_cross_section accepts also omegaconf.DictConfig
 
 ## [5.0.1](https://github.com/gdsfactory/gdsfactory/pull/274)
 

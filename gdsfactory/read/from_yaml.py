@@ -1035,10 +1035,13 @@ placements:
 
 sample_add_gratings = """
 name: sample_add_gratings
+pdk: ubcpdk
 instances:
   ring_te:
     component:
-        add_fiber_array
+        component: add_fiber_array
+        settings:
+            component: ring_single
 
 """
 
