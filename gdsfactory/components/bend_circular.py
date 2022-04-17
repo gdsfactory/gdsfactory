@@ -46,13 +46,19 @@ def bend_circular(
     c.info["dy"] = float(abs(p.points[0][0] - p.points[-1][0]))
     c.info["radius"] = float(radius)
 
+    padding = []
     for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        top = offset if angle == 180 else 0
         points = get_padding_points(
             component=c,
             default=0,
             bottom=offset,
-            top=offset,
+            right=offset,
+            top=top,
         )
+        padding.append(points)
+
+    for layer, points in zip(x.bbox_layers, padding):
         c.add_polygon(points, layer=layer)
 
     return c
