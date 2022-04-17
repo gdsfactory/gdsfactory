@@ -90,6 +90,7 @@ CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, Dict[str, List[str]]]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
+ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
 
 
