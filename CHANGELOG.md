@@ -6,7 +6,7 @@
 - add `gf.get_cells` and `gf.get_cross_section_factories`
 - get_component and get_cross_section accepts also omegaconf.DictConfig
 - add pack_doe and pack_doe_grid to containers
-- add gf.get_cell
+- add gf.get_cell, and enable partials
 
 ## [5.0.1](https://github.com/gdsfactory/gdsfactory/pull/274)
 
