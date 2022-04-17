@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Coordinate, CrossSectionFactory, Layer
+from gdsfactory.types import ComponentSpec, Coordinate, CrossSectionFactory, Layer
 
 DEG2RAD = np.pi / 180
 
@@ -83,10 +83,10 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 
 @gf.cell
 def extend_ports(
-    component: ComponentOrFactory = mmi1x2,
+    component: ComponentSpec = mmi1x2,
     port_names: Optional[Tuple[str, ...]] = None,
     length: float = 5.0,
-    extension_factory: Optional[ComponentOrFactory] = None,
+    extension_factory: Optional[ComponentSpec] = None,
     port1: Optional[str] = None,
     port2: Optional[str] = None,
     port_type: str = "optical",
@@ -120,7 +120,7 @@ def extend_ports(
         clockwise: if True, sort ports clockwise, False: counter-clockwise
     """
     c = gf.Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     cref = c << component
     c.component = component
 
@@ -145,7 +145,7 @@ def extend_ports(
 
         if port_name in ports_to_extend_names:
             if extension_factory:
-                extension_component = extension_factory()
+                extension_component = gf.get_component(extension_factory)
             else:
                 cross_section_extension = (
                     cross_section

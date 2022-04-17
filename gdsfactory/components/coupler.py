@@ -6,20 +6,19 @@ from gdsfactory.components.coupler_straight import (
 from gdsfactory.components.coupler_symmetric import (
     coupler_symmetric as coupler_symmetric_function,
 )
-from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid, snap_to_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def coupler(
     gap: float = 0.236,
     length: float = 20.0,
-    coupler_symmetric: ComponentFactory = coupler_symmetric_function,
-    coupler_straight: ComponentFactory = coupler_straight_function,
+    coupler_symmetric: ComponentSpec = coupler_symmetric_function,
+    coupler_straight: ComponentSpec = coupler_straight_function,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     r"""Symmetric coupler.
@@ -54,14 +53,14 @@ def coupler(
     assert_on_2nm_grid(gap)
     c = Component()
 
-    sbend = coupler_symmetric(
-        gap=gap, dy=dy, dx=dx, cross_section=cross_section, **kwargs
+    sbend = gf.get_component(
+        coupler_symmetric, gap=gap, dy=dy, dx=dx, cross_section=cross_section, **kwargs
     )
 
     sr = c << sbend
     sl = c << sbend
-    cs = c << coupler_straight(
-        length=length, gap=gap, cross_section=cross_section, **kwargs
+    cs = c << gf.get_component(
+        coupler_straight, length=length, gap=gap, cross_section=cross_section, **kwargs
     )
     sl.connect("o2", destination=cs.ports["o1"])
     sr.connect("o1", destination=cs.ports["o4"])
@@ -90,5 +89,5 @@ if __name__ == "__main__":
 
     # layer = (2, 0)
     # c = coupler(gap=0.300, layer=layer)
-    c = coupler(cross_section=gf.cross_section.rib)
+    c = coupler(cross_section="rib")
     c.show(show_subports=True)
