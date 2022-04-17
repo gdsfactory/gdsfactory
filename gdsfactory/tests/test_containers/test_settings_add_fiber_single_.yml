@@ -282,11 +282,10 @@ settings:
     name: mzi_ab45cb05_move_b04a7aed
   default:
     bend:
-      function: bend_circular
+      function: bend_euler
+    component: mmi2x2
     component_name: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
@@ -316,7 +315,7 @@ settings:
     zero_port: o1
   full:
     bend:
-      function: bend_circular
+      function: bend_euler
     component:
       settings:
         changed:
@@ -384,9 +383,7 @@ settings:
         name: mzi_ab45cb05
       version: 0.0.1
     component_name: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_function:
