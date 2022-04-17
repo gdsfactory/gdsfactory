@@ -51,8 +51,6 @@ cells:
       cross_section:
         function: cross_section
         settings: {}
-      cross_section_top: null
-      cross_section_bot: null
     changed: {}
     default:
       delta_length: 10
@@ -77,8 +75,6 @@ cells:
       cross_section:
         function: cross_section
         settings: {}
-      cross_section_top: null
-      cross_section_bot: null
     child: null
   mmi1x2:
     name: mmi1x2
@@ -306,8 +302,6 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
-    cross_section_top: null
-    cross_section_bot: null
   changed: {}
   default:
     delta_length: 10
@@ -332,6 +326,4 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
-    cross_section_top: null
-    cross_section_bot: null
   child: null
