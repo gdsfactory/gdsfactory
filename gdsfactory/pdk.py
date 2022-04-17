@@ -1,5 +1,6 @@
 import warnings
 
+from omegaconf import DictConfig
 from pydantic import BaseModel
 
 from gdsfactory.components import cells
@@ -69,7 +70,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{component!r} not in {cells}")
             cell = self.cells[component]
             return cell(**kwargs)
-        elif isinstance(component, dict):
+        elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
                 if key not in ["function", "component", "settings"]:
                     raise ValueError(
@@ -107,7 +108,7 @@ class Pdk(BaseModel):
                 raise ValueError(f"{cross_section!r} not in {cross_sections}")
             cross_section_factory = self.cross_sections[cross_section]
             return cross_section_factory(**kwargs)
-        elif isinstance(cross_section, dict):
+        elif isinstance(cross_section, (dict, DictConfig)):
             for key in cross_section.keys():
                 if key not in ["function", "cross_section", "settings"]:
                     raise ValueError(
