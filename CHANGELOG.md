@@ -1,7 +1,7 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
 
-## [5.0.3]
+## [5.0.3](https://github.com/gdsfactory/gdsfactory/pull/276)
 
 - fix mmi1x2 and 2x2 definition to use waveguide cross_sections
 
