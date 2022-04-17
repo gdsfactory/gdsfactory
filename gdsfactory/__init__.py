@@ -17,8 +17,6 @@ modules:
 
 isort:skip_file
 """
-
-
 from functools import partial
 from toolz import compose
 from phidl import quickplot as plot
@@ -70,6 +68,8 @@ from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pdk import Pdk, get_component, get_cross_section, ACTIVE_PDK
+from gdsfactory.get_factories import get_cells
+from gdsfactory.cross_section import get_cross_section_factories
 
 
 c = components
@@ -130,5 +130,7 @@ __all__ = [
     "ACTIVE_PDK",
     "get_component",
     "get_cross_section",
+    "get_cells",
+    "get_cross_section_factories",
 ]
 __version__ = "5.0.1"
