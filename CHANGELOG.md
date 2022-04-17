@@ -2,14 +2,14 @@
 
 ## [5.0.0]
 
-- refactor cross_section. I reccommend reviewing the Layout Tutorial -> Paths and CrossSections
+- refactor cross_section. I recommend reviewing the Layout Tutorial -> Paths and CrossSections
     - include routing parameters (width, layer)
     - rename ports to port_names
-    - make it inmutable and remove add method
+    - make it immutable and remove add method
     - raise Error when creating a foreign key
     - rename `ports` to `port_names`
 - refactor Section
-    - make it inmutable
+    - make it immutable
     - raise Error when creating a foreign key
 - add gf.Pdk
     - add gf.get_component(component_spec) returns a Component from the active PDK using the registered Cells
@@ -19,6 +19,7 @@
 - add gf.ACTIVE_PDK
 - delete klayout autoplacer code. Use gf.read.from_yaml instead.
 - delete YAML placer code. Use gf.read.from_yaml instead.
+
 
 ## [4.7.3](https://github.com/gdsfactory/gdsfactory/pull/272)
 
@@ -53,7 +54,7 @@
 - fix netlist.json schema for instances to have pack kwarg
 - add `gf yaml watch` CLI command to watch a YAML file
 
-## [4.6.2]
+## 4.6.2
 
 - add Component.get_netlist_dict
 - document gdsfactory to sax
