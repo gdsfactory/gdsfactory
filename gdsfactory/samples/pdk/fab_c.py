@@ -80,14 +80,14 @@ def add_pins(
 
 # cross_sections
 
-xs_nitridec = gf.partial(
+xs_nc = gf.partial(
     strip,
     width=WIDTH_NITRIDE_CBAND,
     layer=LAYER.WGN,
     bbox_layers=[LAYER.WGN_CLAD],
     bbox_offsets=[3],
 )
-xs_nitrideo = gf.partial(
+xs_no = gf.partial(
     strip,
     width=WIDTH_NITRIDE_OBAND,
     layer=LAYER.WGN,
@@ -98,33 +98,34 @@ xs_nitrideo = gf.partial(
 
 # LEAF COMPONENTS have pins
 
-mmi1x2_nitride_c = gf.partial(
+bend_euler_nc = gf.partial(
+    gf.components.bend_euler, cross_section=xs_nc, decorator=add_pins, with_bbox=True
+)
+straight_nc = gf.partial(
+    gf.components.straight, cross_section=xs_nc, decorator=add_pins, with_bbox=True
+)
+bend_euler_o = gf.partial(
+    gf.components.bend_euler, cross_section=xs_no, decorator=add_pins, with_bbox=True
+)
+straight_o = gf.partial(
+    gf.components.straight, cross_section=xs_no, decorator=add_pins, with_bbox=True
+)
+
+mmi1x2_nc = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     width_mmi=3,
-    cross_section=xs_nitridec,
+    cross_section=xs_nc,
     decorator=add_pins,
 )
-mmi1x2_nitride_o = gf.partial(
+mmi1x2_no = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
-    cross_section=xs_nitrideo,
+    cross_section=xs_no,
     decorator=add_pins,
 )
-bend_euler_c = gf.partial(
-    gf.components.bend_euler, cross_section=xs_nitridec, decorator=add_pins
-)
-straight_c = gf.partial(
-    gf.components.straight, cross_section=xs_nitridec, decorator=add_pins
-)
-bend_euler_o = gf.partial(
-    gf.components.bend_euler, cross_section=xs_nitrideo, decorator=add_pins
-)
-straight_o = gf.partial(
-    gf.components.straight, cross_section=xs_nitrideo, decorator=add_pins
-)
 
-gc_nitride_c = gf.partial(
+gc_nc = gf.partial(
     gf.components.grating_coupler_elliptical,
     grating_line_width=0.6,
     wg_width=WIDTH_NITRIDE_CBAND,
@@ -135,18 +136,18 @@ gc_nitride_c = gf.partial(
 
 # HIERARCHICAL COMPONENTS made of leaf components
 
-mzi_nitride_c = gf.partial(
+mzi_nc = gf.partial(
     gf.components.mzi,
-    cross_section=xs_nitridec,
-    splitter=mmi1x2_nitride_c,
+    cross_section=xs_nc,
+    splitter=mmi1x2_nc,
     decorator=add_pins,
-    straight=straight_c,
-    bend=bend_euler_c,
+    straight=straight_nc,
+    bend=bend_euler_nc,
 )
-mzi_nitride_o = gf.partial(
+mzi_no = gf.partial(
     gf.components.mzi,
-    cross_section=xs_nitrideo,
-    splitter=mmi1x2_nitride_o,
+    cross_section=xs_no,
+    splitter=mmi1x2_no,
     decorator=add_pins,
     straight=straight_o,
     bend=bend_euler_o,
@@ -155,13 +156,13 @@ mzi_nitride_o = gf.partial(
 
 # for testing
 cells = dict(
-    mmi1x2_nitride_c=mmi1x2_nitride_c,
-    mmi1x2_nitride_o=mmi1x2_nitride_o,
-    bend_euler_c=bend_euler_c,
-    straight_c=straight_c,
-    mzi_nitride_c=mzi_nitride_c,
-    mzi_nitride_o=mzi_nitride_o,
-    gc_nitride_c=gc_nitride_c,
+    mmi1x2_nc=mmi1x2_nc,
+    mmi1x2_no=mmi1x2_no,
+    bend_euler_nc=bend_euler_nc,
+    straight_nc=straight_nc,
+    mzi_nc=mzi_nc,
+    mzi_no=mzi_no,
+    gc_nc=gc_nc,
 )
 
 
@@ -188,15 +189,15 @@ get_sparameters_path_lumerical = gf.partial(
 
 
 if __name__ == "__main__":
-    mzi = mzi_nitride_c()
+    mzi = mzi_nc()
     mzi.show()
     mzi_gc = gf.routing.add_fiber_single(
         component=mzi,
-        grating_coupler=gc_nitride_c,
-        cross_section=xs_nitridec,
+        grating_coupler=gc_nc,
+        cross_section=xs_nc,
         optical_routing_type=1,
-        straight=straight_c,
-        bend=bend_euler_c,
+        straight=straight_nc,
+        bend=bend_euler_nc,
         select_ports=select_ports_optical,
     )
     mzi_gc.show()

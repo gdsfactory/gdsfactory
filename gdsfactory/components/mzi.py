@@ -11,7 +11,7 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.routing import get_route
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionSpec
+from gdsfactory.types import ComponentFactory, ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -19,12 +19,12 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
     length_x: Optional[float] = 0.1,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
-    straight_y: Optional[ComponentFactory] = None,
-    straight_x_top: Optional[ComponentFactory] = None,
-    straight_x_bot: Optional[ComponentFactory] = None,
-    splitter: ComponentOrFactory = mmi1x2,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    straight_y: Optional[ComponentSpec] = None,
+    straight_x_top: Optional[ComponentSpec] = None,
+    straight_x_bot: Optional[ComponentSpec] = None,
+    splitter: ComponentSpec = mmi1x2,
     combiner: Optional[ComponentFactory] = None,
     with_splitter: bool = True,
     port_e1_splitter: str = "o2",
@@ -37,23 +37,23 @@ def mzi(
     """Mzi.
 
     Args:
-        delta_length: bottom arm vertical extra length
-        length_y: vertical length for both and top arms
-        length_x: horizontal length. None uses to the straight_x_bot/top defaults
-        bend: 90 degrees bend library
-        straight: straight function
-        straight_y: straight for length_y and delta_length
-        straight_x_top: top straight for length_x
-        straight_x_bot: bottom straight for length_x
-        splitter: splitter function
-        combiner: combiner function
-        with_splitter: if False removes splitter
-        port_e1_combiner: east top combiner port
-        port_e0_splitter: east bot splitter port
-        port_e1_splitter: east top splitter port
-        port_e0_combiner: east bot combiner port
-        nbends: from straight top/bot to combiner (at least 2)
-        cross_section: for routing (sxtop/sxbot to combiner)
+        delta_length: bottom arm vertical extra length.
+        length_y: vertical length for both and top arms.
+        length_x: horizontal length. None uses to the straight_x_bot/top defaults.
+        bend: 90 degrees bend library.
+        straight: straight function.
+        straight_y: straight for length_y and delta_length.
+        straight_x_top: top straight for length_x.
+        straight_x_bot: bottom straight for length_x.
+        splitter: splitter function.
+        combiner: combiner function.
+        with_splitter: if False removes splitter.
+        port_e1_combiner: east top combiner port.
+        port_e0_splitter: east bot splitter port.
+        port_e1_splitter: east top splitter port.
+        port_e0_combiner: east bot combiner port.
+        nbends: from straight top/bot to combiner (at least 2).
+        cross_section: for routing (sxtop/sxbot to combiner).
 
     .. code::
 
@@ -73,13 +73,12 @@ def mzi(
                           Lx
     """
     combiner = combiner or splitter
-    straight = partial(straight, cross_section=cross_section)
 
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
     bend_factory = bend
-    bend = bend_factory(cross_section=cross_section)
+    bend = gf.get_component(bend_factory, cross_section=cross_section)
 
     c = Component()
     cp1 = gf.get_component(splitter)
@@ -93,26 +92,37 @@ def mzi(
     b5.mirror()
     b5.connect("o1", cp1.ports[port_e0_splitter])
 
-    syl = c << straight_y(
-        length=delta_length / 2 + length_y,
+    syl = c << gf.get_component(
+        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
     )
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
     b6.connect("o1", syl.ports["o2"])
 
-    straight_x_bot = straight_x_bot(length=length_x) if length_x else straight_x_bot()
+    straight_x_bot = (
+        gf.get_component(straight_x_bot, length=length_x)
+        if length_x
+        else gf.get_component(straight_x_bot)
+    )
     sxb = c << straight_x_bot
     sxb.connect("o1", b6.ports["o2"])
 
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
 
-    sy = c << straight_y(length=length_y)
+    sy = c << gf.get_component(straight_y, length=length_y, cross_section=cross_section)
     sy.connect("o1", b1.ports["o2"])
 
     b2 = c << bend
     b2.connect("o2", sy.ports["o2"])
-    straight_x_top = straight_x_top(length=length_x) if length_x else straight_x_top()
+    straight_x_top = (
+        gf.get_component(
+            straight_x_top,
+            length=length_x,
+        )
+        if length_x
+        else gf.get_component(straight_x_top)
+    )
     sxt = c << straight_x_top
     sxt.connect("o1", b2.ports["o1"])
 
@@ -185,20 +195,24 @@ if __name__ == "__main__":
     # c = mzi1x2_2x2()
     # c = mzi_coupler(length_x=5)
     # c = mzi2x2()
-    # c.show()
 
-    c = mzi(
-        delta_length=100,
-        # straight_x_top=gf.components.straight_heater_meander,
-        # straight_x_bot=gf.components.straight_heater_meander,
-        # straight_x_top=gf.components.straight_heater_metal,
-        # straight_x_bot=gf.components.straight_heater_metal,
-        # length_x=None,
-        length_x=None,
-        # length_y=1.8,
-        with_splitter=False,
-    )
-    c.show(show_ports=False)
+    c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    c.show()
+
+    # c = mzi(
+    #     delta_length=100,
+    #     straight_x_top="straight_pin",
+    #     # straight_x_top=gf.components.straight_heater_meander,
+    #     # straight_x_bot=gf.components.straight_heater_meander,
+    #     # straight_x_top=gf.components.straight_heater_metal,
+    #     # straight_x_bot=gf.components.straight_heater_metal,
+    #     # length_x=None,
+    #     length_x=300,
+    #     length_y=200.8,
+    #     # with_splitter=False,
+    #     splitter="mmi1x2",
+    # )
+    # c.show(show_ports=False)
     # c.show(show_subports=True)
     # c.pprint()
     # n = c.get_netlist()

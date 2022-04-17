@@ -3,16 +3,18 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         layer:
-        - 49
+        - 34
         - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
+        width: 1
+    decorator:
+      function: add_pins
+    with_bbox: true
   child: null
   default:
     cross_section:
@@ -25,24 +27,25 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
         layer:
-        - 49
+        - 34
         - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
+        width: 1
+    decorator:
+      function: add_pins
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   function_name: straight
   info:
     length: 10.0
-    width: 10.0
+    width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_56c3100f
+  name: straight_7465e1e4
 version: 0.0.1

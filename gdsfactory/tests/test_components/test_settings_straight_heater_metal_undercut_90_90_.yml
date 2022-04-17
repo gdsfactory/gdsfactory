@@ -27,6 +27,7 @@ settings:
             layer:
             - 43
             - 0
+    cross_section: null
     cross_section_heater:
       function: strip_heater_metal
     cross_section_heater_undercut:
@@ -64,6 +65,7 @@ settings:
             layer:
             - 43
             - 0
+    cross_section: null
     cross_section_heater:
       function: strip_heater_metal
     cross_section_heater_undercut:

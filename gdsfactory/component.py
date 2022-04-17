@@ -1122,7 +1122,12 @@ def test_get_layers() -> Device:
     import gdsfactory as gf
 
     c = gf.components.straight(
-        length=10, width=0.5, layer=(2, 0), bbox_layers=[(111, 0)], bbox_offsets=[3]
+        length=10,
+        width=0.5,
+        layer=(2, 0),
+        bbox_layers=[(111, 0)],
+        bbox_offsets=[3],
+        with_bbox=True,
     )
     assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
     c.remove_layers((111, 0))
@@ -1216,7 +1221,11 @@ def test_extract():
     import gdsfactory as gf
 
     c = gf.components.straight(
-        length=10, width=0.5, bbox_layers=[gf.LAYER.WGCLAD], bbox_offsets=[0]
+        length=10,
+        width=0.5,
+        bbox_layers=[gf.LAYER.WGCLAD],
+        bbox_offsets=[0],
+        with_bbox=True,
     )
     c2 = c.extract(layers=[gf.LAYER.WGCLAD])
 

@@ -117,7 +117,7 @@ def test_connections_2x2() -> Component:
     assert len(c.ports) == 0, len(c.ports)
 
     length = c.routes["mmi_bottom,o3:mmi_top,o2"]
-    assert np.isclose(length, 165.774), length
+    assert np.isclose(length, 168.274), length
     return c
 
 
@@ -588,7 +588,7 @@ if __name__ == "__main__":
     # c = test_connections_different_factory()
 
     # c = test_sample()
-    # c = test_connections_2x2()
+    c = test_connections_2x2()
     # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_waypoints()
@@ -611,7 +611,7 @@ if __name__ == "__main__":
 
     # c = test_netlists("sample_different_link_factory", None, check=False)
 
-    c = from_yaml(sample_different_factory)
+    # c = from_yaml(sample_different_factory)
     c.show()
 
     # yaml_key = "sample_mmis"

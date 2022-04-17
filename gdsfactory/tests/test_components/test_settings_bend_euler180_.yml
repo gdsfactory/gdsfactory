@@ -11,6 +11,7 @@ settings:
     npoints: 720
     p: 0.5
     with_arc_floorplan: true
+    with_bbox: false
   full:
     angle: 180
     cross_section:
@@ -20,6 +21,7 @@ settings:
     npoints: 720
     p: 0.5
     with_arc_floorplan: true
+    with_bbox: false
   function_name: bend_euler
   info:
     dy: 0.0

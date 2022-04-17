@@ -12,6 +12,7 @@ settings:
       port: null
       width1: 0.5
       width2: null
+      with_bbox: false
     full:
       cross_section:
         function: cross_section
@@ -20,6 +21,7 @@ settings:
       port: null
       width1: 0.5
       width2: 3
+      with_bbox: false
     function_name: taper
     info:
       length: 10.0
