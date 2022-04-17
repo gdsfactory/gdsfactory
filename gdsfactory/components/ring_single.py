@@ -14,7 +14,7 @@ def ring_single(
     coupler_ring: ComponentSpec = _coupler_ring,
     straight: ComponentSpec = _straight,
     bend: ComponentSpec = bend_euler,
-    cross_section: ComponentSpec = gf.cross_section.strip,
+    cross_section: ComponentSpec = "strip",
     **kwargs
 ) -> gf.Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -58,6 +58,7 @@ def ring_single(
     cb = c << gf.get_component(
         coupler_ring,
         bend=bend,
+        straight=straight,
         gap=gap,
         radius=radius,
         length_x=length_x,

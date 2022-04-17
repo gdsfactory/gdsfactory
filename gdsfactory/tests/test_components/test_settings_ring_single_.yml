@@ -6,9 +6,7 @@ settings:
       function: bend_euler
     coupler_ring:
       function: coupler_ring
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gap: 0.2
     length_x: 4
     length_y: 0.6
@@ -20,9 +18,7 @@ settings:
       function: bend_euler
     coupler_ring:
       function: coupler_ring
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gap: 0.2
     length_x: 4
     length_y: 0.6
