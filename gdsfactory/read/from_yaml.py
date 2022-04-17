@@ -465,7 +465,6 @@ def from_yaml(
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     cache: bool = False,
-    **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML file or string.
 
@@ -475,7 +474,6 @@ def from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         cache: stores and retrieves components from the cache.
-        kwargs: prefix, autoname ... to pass to all factories.
 
     Returns:
         Component
@@ -592,7 +590,6 @@ def from_yaml(
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
         settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
-        settings.update(**kwargs)
 
         component = pdk.get_component(component, **settings)
         ref = c << component
@@ -1001,8 +998,43 @@ placements:
 """
 
 
+sample_doe = """
+name: mask_compact
+pdk: ubcpdk
+
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        radius: [30, 50, 20, 40]
+        length_x: [1, 2, 3]
+      do_permutations: True
+      function: add_fiber_array
+
+  mzis:
+    component: pack_doe
+    settings:
+      doe: mzi
+      settings:
+        delta_length: [10, 100]
+      do_permutations: True
+      spacing: 10
+      function: add_fiber_array
+
+placements:
+  rings:
+    xmin: 50
+
+  mzis:
+    xmin: rings,east
+
+"""
+
+
 if __name__ == "__main__":
-    from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
+    # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
 
     # for k in component_factories.keys():
     #     print(k)
@@ -1015,7 +1047,7 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # print(n)
 
-    c = from_yaml(sample_doe_grid)
+    c = from_yaml(sample_doe)
     c.show()
 
     # c = test_connections_regex()

@@ -69,7 +69,7 @@ from gdsfactory.add_pins import add_pins
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
-from gdsfactory.pdk import Pdk, get_component, get_cross_section
+from gdsfactory.pdk import Pdk, get_component, get_cross_section, ACTIVE_PDK
 
 
 c = components
@@ -127,6 +127,7 @@ __all__ = [
     "write_cells",
     "Label",
     "Pdk",
+    "ACTIVE_PDK",
     "get_component",
     "get_cross_section",
 ]

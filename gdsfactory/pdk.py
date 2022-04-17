@@ -26,15 +26,33 @@ class Pdk(BaseModel):
         global ACTIVE_PDK
         ACTIVE_PDK = self
 
-    def register_cell(self, name: str, function: ComponentFactory) -> None:
-        if name in cells:
-            warnings.warn(f"Overwriting cell {name!r}")
-        self.cells[name] = function
+    def register_cells(self, **kwargs) -> None:
+        """Register cell factories."""
+        for name, cell in kwargs.items():
+            if not callable(cell):
+                raise ValueError(
+                    f"{cell} is not callable, make sure you register "
+                    "cells functions that return a Component"
+                )
+            if name in self.cells:
+                warnings.warn(f"Overwriting cell {name!r}")
 
-    def load(self):
-        """find pdk.yml register all YAML components into cells.
-        TODO:
-        """
+            self.cells[name] = cell
+
+    def register_cross_sections(self, **kwargs) -> None:
+        """Register cross_sections factories."""
+        for name, cross_section in kwargs.items():
+            if not callable(cross_section):
+                raise ValueError(
+                    f"{cross_section} is not callable, make sure you register "
+                    "cross_section functions that return a CrossSection"
+                )
+            if name in self.cross_sections:
+                warnings.warn(f"Overwriting cross_section {name!r}")
+            self.cross_section[name] = cross_section
+
+    def load_yaml(self):
+        """Load *.pic.yml YAML files and register them as cells."""
         pass
 
     def get_component(self, component: ComponentSpec, **kwargs) -> Component:
