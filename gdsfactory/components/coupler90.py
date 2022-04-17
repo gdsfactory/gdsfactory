@@ -3,7 +3,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
 
 
@@ -12,7 +11,7 @@ def coupler90(
     gap: float = 0.2,
     radius: float = 10.0,
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
@@ -71,6 +70,7 @@ if __name__ == "__main__":
     # c = coupler90circular(gap=0.3)
     # c << coupler90(gap=0.3)
     c = coupler90(radius=3, layer=(2, 0))
+    c = coupler90(radius=10, cross_section="rib")
     c.show()
     c.pprint()
     # print(c.ports)

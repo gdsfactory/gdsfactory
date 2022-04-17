@@ -1,0 +1,69 @@
+settings:
+  changed:
+    decorator:
+      function: add_pins
+    grating_line_width: 0.6
+    layer:
+    - 34
+    - 0
+    layer_slab: null
+    wg_width: 1
+  child: null
+  default:
+    big_last_tooth: false
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    grating_line_width: 0.343
+    layer:
+    - 1
+    - 0
+    layer_slab:
+    - 2
+    - 0
+    n_periods: 30
+    nclad: 1.443
+    neff: 2.638
+    polarization: te
+    slab_offset: 2
+    slab_xmin: -1
+    spiked: true
+    taper_angle: 40
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 0.5
+  full:
+    big_last_tooth: false
+    decorator:
+      function: add_pins
+    fiber_angle: 15
+    fiber_marker_layer:
+    - 203
+    - 0
+    fiber_marker_width: 11
+    grating_line_width: 0.6
+    layer:
+    - 34
+    - 0
+    layer_slab: null
+    n_periods: 30
+    nclad: 1.443
+    neff: 2.638
+    polarization: te
+    slab_offset: 2
+    slab_xmin: -1
+    spiked: true
+    taper_angle: 40
+    taper_length: 16.6
+    wavelength: 1.554
+    wg_width: 1
+  function_name: grating_coupler_elliptical
+  info:
+    polarization: te
+    wavelength: 1.554
+  info_version: 2
+  module: gdsfactory.components.grating_coupler_elliptical
+  name: grating_coupler_ellipti_47843a17
+version: 0.0.1

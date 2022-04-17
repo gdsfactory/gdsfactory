@@ -11,6 +11,7 @@ from gdsfactory.types import CrossSectionSpec
 def bend_circular(
     angle: float = 90.0,
     npoints: int = 720,
+    with_bbox: bool = False,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -19,6 +20,7 @@ def bend_circular(
     Args:
         angle: angle of arc (degrees).
         npoints: number of points.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
         kwargs: cross_section settings.
 
@@ -46,21 +48,21 @@ def bend_circular(
     c.info["dy"] = abs(p.points[0][0] - p.points[-1][0])
     c.info["radius"] = radius
 
-    padding = []
+    if with_bbox:
+        padding = []
+        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            top = offset if angle == 180 else 0
+            points = get_padding_points(
+                component=c,
+                default=0,
+                bottom=offset,
+                right=offset,
+                top=top,
+            )
+            padding.append(points)
 
-    for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
-        top = offset if angle == 180 else 0
-        points = get_padding_points(
-            component=c,
-            default=0,
-            bottom=offset,
-            right=offset,
-            top=top,
-        )
-        padding.append(points)
-
-    for layer, points in zip(x.bbox_layers, padding):
-        c.add_polygon(points, layer=layer)
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     return c
 
