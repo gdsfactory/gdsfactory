@@ -214,6 +214,7 @@ settings:
   default:
     bend:
       function: bend_euler
+    component: mmi2x2
     component_name: null
     cross_section:
       function: cross_section
