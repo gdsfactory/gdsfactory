@@ -1011,15 +1011,17 @@ instances:
         radius: [30, 50, 20, 40]
         length_x: [1, 2, 3]
       do_permutations: True
+      function: add_fiber_array
 
   mzis:
-    component: pack_doe
+    component: pack_doe_grid
     settings:
       doe: mzi
       settings:
         delta_length: [10, 100]
       do_permutations: True
-      spacing: 10
+      spacing: [10, 10]
+      function: add_fiber_array
 
 placements:
   rings:
