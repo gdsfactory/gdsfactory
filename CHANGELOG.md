@@ -2,10 +2,24 @@
 
 ## [5.0.0]
 
-- cross_section BaseModel has routing parameters
+- refactor cross_section. I recommend reviewing the Layout Tutorial -> Paths and CrossSections
+    - include routing parameters (width, layer)
     - rename ports to port_names
+    - make it immutable and remove add method
+    - raise Error when creating a foreign key
+    - rename `ports` to `port_names`
+- refactor Section
+    - make it immutable
+    - raise Error when creating a foreign key
+- add gf.Pdk
+    - add gf.get_component(component_spec) returns a Component from the active PDK using the registered Cells
+    - add gf.get_cross_section(cross_section_spec) returns a CrossSection from the active PDK using the registered CrossSectionFactory
+    - add Pdk.register_cells()
+    - add Pdk.register_cross_sections()
+- add gf.ACTIVE_PDK
 - delete klayout autoplacer code. Use gf.read.from_yaml instead.
 - delete YAML placer code. Use gf.read.from_yaml instead.
+
 
 ## [4.7.3](https://github.com/gdsfactory/gdsfactory/pull/272)
 
@@ -40,7 +54,7 @@
 - fix netlist.json schema for instances to have pack kwarg
 - add `gf yaml watch` CLI command to watch a YAML file
 
-## [4.6.2]
+## 4.6.2
 
 - add Component.get_netlist_dict
 - document gdsfactory to sax
