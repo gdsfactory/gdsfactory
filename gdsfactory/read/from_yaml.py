@@ -1037,7 +1037,8 @@ sample_add_gratings = """
 name: sample_add_gratings
 instances:
   ring_te:
-    component: add_fiber_array,ring_single
+    component:
+        add_fiber_array
 
 """
 
@@ -1056,7 +1057,7 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # print(n)
 
-    c = from_yaml(sample_doe)
+    c = from_yaml(sample_add_gratings)
     c.show()
 
     # c = test_connections_regex()
