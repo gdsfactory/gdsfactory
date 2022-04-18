@@ -61,7 +61,7 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.pdk import ACTIVE_PDK
+from gdsfactory.pdk import get_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import Route
 
@@ -583,15 +583,15 @@ def from_yaml(
 
         pdk.activate()
     else:
-        pdk = ACTIVE_PDK
+        pdk = get_active_pdk()
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
         settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
-
-        component = pdk.get_component(component, **settings)
+        component_spec = {"component": component, "settings": settings}
+        component = pdk.get_component(component_spec)
         ref = c << component
         instances[instance_name] = ref
 
