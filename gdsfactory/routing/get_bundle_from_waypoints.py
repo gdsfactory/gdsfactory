@@ -15,7 +15,7 @@ from gdsfactory.routing.manhattan import (
     round_corners,
 )
 from gdsfactory.routing.utils import get_list_ports_angle
-from gdsfactory.types import Coordinate, Coordinates, CrossSectionFactory, Number, Route
+from gdsfactory.types import Coordinate, Coordinates, CrossSectionSpec, Number, Route
 
 
 def _is_vertical(segment: Coordinate, tol: float = 1e-5) -> bool:
@@ -78,7 +78,7 @@ def get_bundle_from_waypoints(
     taper: Callable = taper_function,
     bend: Callable = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     separation: Optional[float] = None,
     on_route_error: Callable = get_route_error,
     **kwargs,
@@ -99,6 +99,8 @@ def get_bundle_from_waypoints(
         **kwargs: cross_section settings
 
     """
+    from gdsfactory.pdk import get_cross_section
+
     if len(ports2) != len(ports1):
         raise ValueError(
             f"Number of start ports should match number of end ports.\
@@ -161,7 +163,7 @@ def get_bundle_from_waypoints(
     except RouteError:
         return [on_route_error(waypoints)]
 
-    x = cross_section(**kwargs)
+    x = get_cross_section(cross_section, **kwargs)
     bends90 = [bend(cross_section=cross_section, **kwargs) for p in ports1]
 
     if taper and x.auto_widen:

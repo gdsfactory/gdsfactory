@@ -185,6 +185,15 @@ def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection
     return ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
 
 
+def get_active_pdk() -> Pdk:
+    return ACTIVE_PDK
+
+
+def set_active_pdk(pdk: Pdk):
+    global ACTIVE_PDK
+    ACTIVE_PDK = pdk
+
+
 if __name__ == "__main__":
     c = ACTIVE_PDK.get_component("straight")
     print(c.settings)

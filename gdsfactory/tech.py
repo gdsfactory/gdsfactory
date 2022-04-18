@@ -255,7 +255,7 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    layer: Layer
+    layer: Union[Layer, Tuple[Layer, Layer]]
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None
