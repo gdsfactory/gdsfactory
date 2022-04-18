@@ -1077,7 +1077,8 @@ if __name__ == "__main__":
     # n = c.get_netlist()
     # print(n)
 
-    c = from_yaml(sample_doe)
+    # c = from_yaml(sample_doe)
+    c = from_yaml(sample_pdk_mzi_vars)
     c.show()
 
     # c = test_connections_regex()
