@@ -1,24 +1,19 @@
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
 from gdsfactory.components.pad import pad_array
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    Coordinates,
-    Float2,
-    Optional,
-)
+from gdsfactory.types import ComponentSpec, Coordinates, Float2, Optional
 
 
 @cell
 def add_fidutials(
-    component: ComponentOrFactory = pad_array,
+    component: ComponentSpec = pad_array,
     gap: float = 50,
-    left: Optional[ComponentFactory] = cross,
-    right: Optional[ComponentFactory] = cross,
-    top: Optional[ComponentFactory] = None,
-    bottom: Optional[ComponentFactory] = None,
+    left: Optional[ComponentSpec] = cross,
+    right: Optional[ComponentSpec] = cross,
+    top: Optional[ComponentSpec] = None,
+    bottom: Optional[ComponentSpec] = None,
     offset: Float2 = (0, 0),
     **kwargs
 ) -> Component:
@@ -36,27 +31,27 @@ def add_fidutials(
 
     """
     c = Component()
-    component = component(**kwargs) if callable(component) else component
+    component = gf.get_component(component, **kwargs)
     r = c << component
     r.move(offset)
 
     if left:
-        x1 = c << left()
+        x1 = c << gf.get_component(left)
         x1.xmax = r.xmin - gap
         c.add_ports(x1.ports, prefix="l")
 
     if right:
-        x2 = c << right()
+        x2 = c << gf.get_component(right)
         x2.xmin = r.xmax + gap
         c.add_ports(x2.ports, prefix="r")
 
     if top:
-        y1 = c << top()
+        y1 = c << gf.get_component(top)
         y1.ymin = r.ymax + gap
         c.add_ports(y1.ports, prefix="t")
 
     if bottom:
-        y2 = c << bottom()
+        y2 = c << gf.get_component(bottom)
         y2.ymax = r.ymin - gap
         c.add_ports(y2.ports, prefix="b")
 
@@ -67,8 +62,8 @@ def add_fidutials(
 
 @cell
 def add_fidutials_offsets(
-    component: ComponentOrFactory = pad_array,
-    fidutial: ComponentFactory = cross,
+    component: ComponentSpec = pad_array,
+    fidutial: ComponentSpec = cross,
     offsets: Coordinates = ((0, 100), (0, -100)),
 ) -> Component:
     """Returns new component with fidutials from a list of offsets.
@@ -80,7 +75,7 @@ def add_fidutials_offsets(
     """
 
     c = Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     r = c << component
     c.add_ports(r.ports)
     c.copy_child_info(component)
