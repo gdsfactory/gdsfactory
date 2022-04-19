@@ -1,5 +1,6 @@
 from typing import Optional
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array_component import array
@@ -9,12 +10,12 @@ from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
 def array_with_fanout(
-    component: ComponentOrFactory = pad,
+    component: ComponentSpec = pad,
     columns: int = 3,
     pitch: float = 150.0,
     waveguide_pitch: float = 10.0,
@@ -22,10 +23,10 @@ def array_with_fanout(
     end_straight_length: float = 40.0,
     radius: float = 5.0,
     component_port_name: str = "e4",
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     bend_port_name1: Optional[str] = None,
     bend_port_name2: Optional[str] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
     """Returns an array of components in X axis
@@ -47,8 +48,8 @@ def array_with_fanout(
         kwargs: cross_section settings
     """
     c = Component()
-    component = component() if callable(component) else component
-    bend = bend(radius=radius, cross_section=cross_section, **kwargs)
+    component = gf.get_component(component)
+    bend = gf.get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
 
     bend_ports = bend.get_ports_list()
     bend_ports = sort_ports_x(bend_ports)

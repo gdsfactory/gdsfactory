@@ -4,7 +4,7 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.cross_section import strip
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionSpec
 
 
 @gf.cell
@@ -15,7 +15,7 @@ def free_propagation_region(
     wg_width: float = 0.5,
     inputs: int = 1,
     outputs: int = 10,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
     r"""
