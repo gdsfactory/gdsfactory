@@ -26,8 +26,7 @@ class Pdk(BaseModel):
     cells: Dict[str, ComponentFactory]
 
     def activate(self):
-        global ACTIVE_PDK
-        ACTIVE_PDK = self
+        set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
         """Register cell factories."""
@@ -170,21 +169,30 @@ class Pdk(BaseModel):
             )
 
 
-ACTIVE_PDK = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
+_ACTIVE_PDK = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
 
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
-    return ACTIVE_PDK.get_component(component, **kwargs)
+    return _ACTIVE_PDK.get_component(component, **kwargs)
 
 
 def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
-    return ACTIVE_PDK.get_cell(cell, **kwargs)
+    return _ACTIVE_PDK.get_cell(cell, **kwargs)
 
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
-    return ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
+    return _ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
+
+
+def get_active_pdk() -> Pdk:
+    return _ACTIVE_PDK
+
+
+def set_active_pdk(pdk: Pdk):
+    global _ACTIVE_PDK
+    _ACTIVE_PDK = pdk
 
 
 if __name__ == "__main__":
-    c = ACTIVE_PDK.get_component("straight")
+    c = _ACTIVE_PDK.get_component("straight")
     print(c.settings)
