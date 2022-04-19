@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Callable, Optional, Tuple
 
 import numpy as np
 import picwriter.components as pc
@@ -6,7 +6,6 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
@@ -26,7 +25,7 @@ def cdc(
     contradc_wgt: None = None,
     port_midpoint: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: ComponentFactory = strip,
+    waveguide_template: Callable = strip,
     **kwargs
 ) -> Component:
     """Grating-Assisted Contra-Directional Coupler

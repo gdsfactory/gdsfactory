@@ -8,7 +8,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Float2
+from gdsfactory.types import ComponentFactory, CrossSectionSpec, Float2
 
 contact_heater_m3_mini = gf.partial(contact_heater_m3, size=(4, 4))
 
@@ -22,8 +22,8 @@ def ring_double_heater(
     coupler_ring: ComponentFactory = coupler_ring_function,
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
-    cross_section_heater: gf.types.CrossSectionFactory = gf.cross_section.strip_heater_metal,
-    cross_section: CrossSectionFactory = strip,
+    cross_section_heater: gf.types.CrossSectionSpec = gf.cross_section.strip_heater_metal,
+    cross_section: CrossSectionSpec = strip,
     contact: gf.types.ComponentFactory = contact_heater_m3_mini,
     port_orientation: float = 90,
     contact_offset: Float2 = (0, 0),

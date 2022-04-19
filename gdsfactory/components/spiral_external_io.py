@@ -11,7 +11,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float64, float64]:
@@ -30,7 +30,7 @@ def spiral_external_io(
     yspacing: float = 3.0,
     bend: ComponentFactory = bend_euler,
     length: Optional[float] = None,
-    cross_section: CrossSectionFactory = gf.cross_section.strip,
+    cross_section: CrossSectionSpec = gf.cross_section.strip,
     **kwargs
 ) -> Component:
     """Returns a Spiral with input and output ports outside the spiral

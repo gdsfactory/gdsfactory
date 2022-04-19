@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, viac
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, Float2, Floats, Layer, Layers
+from gdsfactory.types import ComponentSpec, Float2, Floats, Layer, Layers
 
 
 @gf.cell
@@ -18,7 +18,7 @@ def contact_slot(
     layer_offsetsx: Optional[Floats] = None,
     layer_offsetsy: Optional[Floats] = None,
     layer_port: Optional[Layer] = None,
-    via: ComponentOrFactory = via1,
+    via: ComponentSpec = via1,
     enclosure: float = 1.0,
     ysize: float = 0.5,
     yspacing: float = 2.0,
@@ -93,7 +93,7 @@ def contact_slot(
         if layer == layer_port:
             c.add_ports(ref.ports)
 
-    via = via(size=(size[0] - 2 * enclosure, ysize)) if callable(via) else via
+    via = gf.get_component(via, size=(size[0] - 2 * enclosure, ysize))
 
     nb_vias_y = (size[1] - 2 * enclosure) / yspacing
     nb_vias_y = int(floor(nb_vias_y)) or 1
@@ -109,5 +109,5 @@ contact_slot_slab_m1 = gf.partial(contact_slot, layers=(LAYER.M1,), via=viac)
 
 
 if __name__ == "__main__":
-    c = contact_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2, size=(1, 1))
+    c = contact_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2, size=(3, 3))
     c.show()
