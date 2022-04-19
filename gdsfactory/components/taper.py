@@ -29,7 +29,7 @@ def taper(
         width2: width of the east port.
         port: can taper from a port instead of defining width1.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
     """

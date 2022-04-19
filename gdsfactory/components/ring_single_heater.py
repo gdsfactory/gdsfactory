@@ -3,7 +3,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight as _straight
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Float2
+from gdsfactory.types import ComponentFactory, CrossSectionSpec, Float2
 
 contact_heater_m3_mini = gf.partial(contact_heater_m3, size=(4, 4))
 
@@ -17,8 +17,8 @@ def ring_single_heater(
     coupler_ring: ComponentFactory = _coupler_ring,
     straight: ComponentFactory = _straight,
     bend: ComponentFactory = bend_euler,
-    cross_section_heater: CrossSectionFactory = gf.cross_section.strip_heater_metal,
-    cross_section: CrossSectionFactory = gf.cross_section.strip,
+    cross_section_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
+    cross_section: CrossSectionSpec = gf.cross_section.strip,
     contact: ComponentFactory = contact_heater_m3_mini,
     port_orientation: float = 90,
     contact_offset: Float2 = (0, 0),

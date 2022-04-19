@@ -3,18 +3,18 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def bend_port(
-    component: ComponentOrFactory = straight_heater_metal,
+    component: ComponentSpec = straight_heater_metal,
     port_name: str = "e1",
     port_name2: str = "e2",
     port_name1_bend: Optional[str] = None,
     port_name2_bend: Optional[str] = None,
-    cross_section: CrossSectionFactory = gf.cross_section.metal3,
-    bend: ComponentFactory = bend_circular,
+    cross_section: CrossSectionSpec = gf.cross_section.metal3,
+    bend: ComponentSpec = bend_circular,
     angle: float = 180,
     extension_length: Optional[float] = None,
     **kwargs,
@@ -36,7 +36,7 @@ def bend_port(
 
     """
     c = gf.Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     c.component = component
 
     if port_name not in component.ports:
@@ -47,7 +47,7 @@ def bend_port(
     )
 
     ref = c << component
-    b = c << bend(angle=angle, cross_section=cross_section, **kwargs)
+    b = c << gf.get_component(bend, angle=angle, cross_section=cross_section, **kwargs)
     bend_ports = b.get_ports_list()
 
     port_name1_bend = port_name1_bend or bend_ports[0].name

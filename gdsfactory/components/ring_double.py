@@ -7,7 +7,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentSpec, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -19,7 +19,7 @@ def ring_double(
     coupler_ring: ComponentSpec = coupler_ring_function,
     straight: ComponentSpec = straight_function,
     bend: Optional[ComponentSpec] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)

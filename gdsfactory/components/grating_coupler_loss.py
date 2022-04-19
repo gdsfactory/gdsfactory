@@ -10,7 +10,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 def connect_loopback(
@@ -19,7 +19,7 @@ def connect_loopback(
     a: float,
     b: float,
     y_bot_align_route: float,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> ComponentReference:
     p0 = port0.position
@@ -46,7 +46,7 @@ def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     grating_coupler: ComponentFactory = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Grating coupler test structure for fiber array.

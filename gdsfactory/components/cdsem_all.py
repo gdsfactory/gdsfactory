@@ -11,7 +11,7 @@ from gdsfactory.components.cdsem_straight_density import cdsem_straight_density
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -23,10 +23,10 @@ def cdsem_all(
     dense_lines_width_difference: float = 20e-3,
     dense_lines_gap: float = 0.3,
     dense_lines_labels: Tuple[str, ...] = ("DL", "DM", "DH"),
-    straight: ComponentFactory = straight_function,
-    bend90: Optional[ComponentFactory] = bend_circular,
-    cross_section: CrossSectionFactory = strip,
-    text: ComponentFactory = text_rectangular_mini,
+    straight: ComponentSpec = straight_function,
+    bend90: Optional[ComponentSpec] = bend_circular,
+    cross_section: CrossSectionSpec = strip,
+    text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
     """column with all optical PCMs
 
