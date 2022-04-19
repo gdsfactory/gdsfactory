@@ -21,7 +21,7 @@ def bend_circular(
         angle: angle of arc (degrees).
         npoints: number of points.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionSpec, dict).
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
     .. code::
