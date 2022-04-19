@@ -6,7 +6,12 @@ from gdsfactory.types import Component, ComponentFactory, Dict
 
 
 def get_cells(modules, verbose: bool = False) -> Dict[str, ComponentFactory]:
-    """Returns Pcells (component functions) from a module."""
+    """Returns Pcells (component functions) from a module or list of modules.
+
+    Args:
+        modules: module or iterable of modules.
+        verbose: prints in case any errors occur.
+    """
 
     modules = modules if isinstance(modules, Iterable) else [modules]
 

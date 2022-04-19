@@ -11,7 +11,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Number, Routes
+from gdsfactory.types import ComponentFactory, CrossSectionSpec, Number, Routes
 
 
 def route_south(
@@ -25,7 +25,7 @@ def route_south(
     straight: ComponentFactory = straight_function,
     taper: Optional[ComponentFactory] = taper_function,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Routes:
     """Returns Routes

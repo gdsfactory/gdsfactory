@@ -9,7 +9,7 @@ from gdsfactory.types import ComponentFactory, Layer, Optional
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.types.CrossSectionFactory = gf.cross_section.strip,
+    cross_section: gf.types.CrossSectionSpec = gf.cross_section.strip,
     heater_width: float = 2.5,
     extension_length: float = 15.0,
     layer_heater: Optional[Layer] = LAYER.HEATER,
