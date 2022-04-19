@@ -61,7 +61,7 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.pdk import get_active_pdk
+from gdsfactory.pdk import get_active_pdk, set_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import Route
 
@@ -581,7 +581,7 @@ def from_yaml(
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
 
-        pdk.activate()
+        set_active_pdk(pdk)
     else:
         pdk = get_active_pdk()
 
