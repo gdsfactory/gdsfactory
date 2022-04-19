@@ -47,7 +47,7 @@ def array_with_via(
 
     c = Component()
     component = gf.get_component(component)
-    contact = gf.get_component(component)
+    contact = gf.get_component(contact)
 
     for col in range(columns):
         ref = component.ref()

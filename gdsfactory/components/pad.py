@@ -33,10 +33,15 @@ def pad(
     c.info["layer"] = layer
 
     if bbox_layers and bbox_offsets:
-        for layer, cladding_offset in zip(bbox_layers, bbox_offsets):
+        sizes = []
+        for cladding_offset in bbox_offsets:
+            size = (size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset)
+            sizes.append(size)
+
+        for layer, size in zip(bbox_layers, sizes):
             c.add_ref(
                 compass(
-                    size=(size[0] + 2 * cladding_offset, size[1] + 2 * cladding_offset),
+                    size=size,
                     layer=layer,
                 )
             )
