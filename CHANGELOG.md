@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.0.4](https://github.com/gdsfactory/gdsfactory/pull/277)
+
+- fix cross_section from get_route_from_steps
+- replace CrossSectionFactory to CrossSectionSpec
+- replace ComponentFactory to ComponentSpec
 
 ## [5.0.3](https://github.com/gdsfactory/gdsfactory/pull/276)
 

@@ -3,6 +3,7 @@ from typing import Callable, List, Optional, Tuple, Union
 import numpy as np
 from numpy import float64, ndarray
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
@@ -15,7 +16,14 @@ from gdsfactory.routing.manhattan import (
     round_corners,
 )
 from gdsfactory.routing.utils import get_list_ports_angle
-from gdsfactory.types import Coordinate, Coordinates, CrossSectionSpec, Number, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    Coordinate,
+    Coordinates,
+    CrossSectionSpec,
+    Number,
+    Route,
+)
 
 
 def _is_vertical(segment: Coordinate, tol: float = 1e-5) -> bool:
@@ -74,9 +82,9 @@ def get_bundle_from_waypoints(
     ports1: List[Port],
     ports2: List[Port],
     waypoints: Coordinates,
-    straight: Callable = straight_function,
-    taper: Callable = taper_function,
-    bend: Callable = bend_euler,
+    straight: ComponentSpec = straight_function,
+    taper: ComponentSpec = taper_function,
+    bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionSpec = strip,
     separation: Optional[float] = None,
@@ -99,8 +107,6 @@ def get_bundle_from_waypoints(
         **kwargs: cross_section settings
 
     """
-    from gdsfactory.pdk import get_cross_section
-
     if len(ports2) != len(ports1):
         raise ValueError(
             f"Number of start ports should match number of end ports.\
@@ -163,12 +169,15 @@ def get_bundle_from_waypoints(
     except RouteError:
         return [on_route_error(waypoints)]
 
-    x = get_cross_section(cross_section, **kwargs)
-    bends90 = [bend(cross_section=cross_section, **kwargs) for p in ports1]
+    x = gf.get_cross_section(cross_section, **kwargs)
+    bends90 = [
+        gf.get_component(bend, cross_section=cross_section, **kwargs) for p in ports1
+    ]
 
     if taper and x.auto_widen:
         if callable(taper):
-            taper = taper(
+            taper = gf.get_component(
+                taper,
                 length=x.taper_length,
                 width1=ports1[0].width,
                 width2=x.width_wide,

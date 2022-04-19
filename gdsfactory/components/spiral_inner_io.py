@@ -10,7 +10,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -31,8 +31,8 @@ def spiral_inner_io(
     bend180_function: ComponentFactory = bend_euler180,
     straight: ComponentFactory = straight_function,
     length: Optional[float] = None,
-    cross_section: CrossSectionFactory = strip,
-    cross_section_bend: Optional[CrossSectionFactory] = None,
+    cross_section: CrossSectionSpec = strip,
+    cross_section_bend: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
@@ -168,9 +168,9 @@ def spiral_inner_io(
 
 @gf.cell
 def spiral_inner_io_fiber_single(
-    cross_section: CrossSectionFactory = strip,
-    cross_section_bend: Optional[CrossSectionFactory] = None,
-    cross_section_ports: Optional[CrossSectionFactory] = None,
+    cross_section: CrossSectionSpec = strip,
+    cross_section_bend: Optional[CrossSectionSpec] = None,
+    cross_section_ports: Optional[CrossSectionSpec] = None,
     x_straight_inner_right: float = 40.0,
     x_straight_inner_left: float = 75.0,
     y_straight_inner_top: float = 10.0,

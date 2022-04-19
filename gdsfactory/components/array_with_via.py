@@ -2,6 +2,7 @@ from typing import Optional
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array_component import array
@@ -9,23 +10,18 @@ from gdsfactory.components.contact import contact as contact_factory
 from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import metal2
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    CrossSectionFactory,
-    Float2,
-)
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
 
 @cell
 def array_with_via(
-    component: ComponentOrFactory = pad,
+    component: ComponentSpec = pad,
     columns: int = 3,
     spacing: float = 150.0,
     via_spacing: float = 10.0,
     straight_length: float = 60.0,
-    cross_section: Optional[CrossSectionFactory] = metal2,
-    contact: ComponentFactory = contact_factory,
+    cross_section: Optional[CrossSectionSpec] = metal2,
+    contact: ComponentSpec = contact_factory,
     contact_dy: float = 0,
     port_orientation: float = 180,
     port_offset: Optional[Float2] = None,
@@ -35,12 +31,12 @@ def array_with_via(
     with fanout waveguides facing west
 
     Args:
-        component: to replicate in the array
-        columns: number of components
-        spacing: for the array
-        via_spacing: for fanout
-        straight_length: lenght of the straight at the end
-        waveguide: waveguide definition
+        component: to replicate in the array.
+        columns: number of components.
+        spacing: for the array.
+        via_spacing: for fanout.
+        straight_length: lenght of the straight at the end.
+        waveguide: waveguide definition.
         cross_section:
         contact:
         contact_dy: contact offset
@@ -50,8 +46,8 @@ def array_with_via(
     """
 
     c = Component()
-    component = component() if callable(component) else component
-    contact = contact()
+    component = gf.get_component(component)
+    contact = gf.get_component(contact)
 
     for col in range(columns):
         ref = component.ref()
@@ -119,8 +115,6 @@ def array_with_via_2d(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     contact_big = gf.partial(contact_factory, size=(30, 20))
     # c = array_with_via(columns=3, width=10, via_spacing=20, port_orientation=90)
     c = array_with_via_2d(

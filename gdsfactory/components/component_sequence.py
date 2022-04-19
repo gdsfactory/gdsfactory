@@ -3,12 +3,15 @@ from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 class SequenceGenerator:
     def __init__(
-        self, start_sequence="IL", repeated_sequence="ASASBSBS", end_sequence="LO"
+        self,
+        start_sequence: str = "IL",
+        repeated_sequence: str = "ASASBSBS",
+        end_sequence: str = "LO",
     ):
         """sequence generator.
         Main use case: any type of cascade of components with repeating patterns
@@ -65,7 +68,7 @@ def _flip_ref(c_ref, port_name):
 @gf.cell
 def component_sequence(
     sequence: str,
-    symbol_to_component: Dict[str, Tuple[ComponentOrFactory, str, str]],
+    symbol_to_component: Dict[str, Tuple[ComponentSpec, str, str]],
     ports_map: Optional[Dict[str, Tuple[str, str]]] = None,
     port_name1: str = "o1",
     port_name2: str = "o2",
@@ -155,7 +158,7 @@ def component_sequence(
         s, do_flip = _parse_component_name(s)
 
         component_i, input_port, next_port = symbol_to_component[s]
-        component_i = component_i() if callable(component_i) else component_i
+        component_i = gf.get_component(component_i)
         ref = component.add_ref(component_i, alias=_next_id(s))
 
         if do_flip:

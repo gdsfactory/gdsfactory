@@ -19,7 +19,7 @@ from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
-    CrossSectionFactory,
+    CrossSectionSpec,
     Layer,
 )
 
@@ -38,7 +38,7 @@ def crossing_arm(
     L: float = 3.4,
     layer_wg: Layer = LAYER.WG,
     layer_slab: Layer = LAYER.SLAB150,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
 ) -> Component:
     """arm of a crossing"""
     c = Component()

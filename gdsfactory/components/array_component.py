@@ -8,7 +8,7 @@ from gdsfactory.components.straight import straight
 
 @cell
 def array(
-    component: gf.types.ComponentOrFactory = straight,
+    component: gf.types.ComponentSpec = straight,
     spacing: Tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
@@ -46,7 +46,7 @@ def array(
         raise ValueError(f"columns = {columns} > 1 require spacing[0] > 0")
 
     c = Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     c.add_array(component, columns=columns, rows=rows, spacing=spacing)
 
     for col in range(columns):

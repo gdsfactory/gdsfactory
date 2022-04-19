@@ -7,15 +7,15 @@ from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionSpec
 
 
 @gf.cell
 def straight_heater_doped_rib(
     length: float = 320.0,
     nsections: int = 3,
-    cross_section: CrossSectionFactory = strip_rib_tip,
-    cross_section_heater: CrossSectionFactory = rib_heater_doped,
+    cross_section: CrossSectionSpec = strip_rib_tip,
+    cross_section_heater: CrossSectionSpec = rib_heater_doped,
     contact: Optional[ComponentFactory] = contact_slab_npp_m3,
     contact_metal: Optional[ComponentFactory] = contact_metal_function,
     contact_metal_size: Tuple[float, float] = (10.0, 10.0),
