@@ -1070,7 +1070,7 @@ if __name__ == "__main__":
     #     print(k)
     # print(c.settings["info"])
     # c = from_yaml(yaml_anchor)
-    # c = from_yaml(sample_pdk_mzi)
+    c = from_yaml(sample_pdk_mzi)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
     # c = from_yaml(sample_yaml_xmin)
@@ -1078,7 +1078,7 @@ if __name__ == "__main__":
     # print(n)
 
     # c = from_yaml(sample_doe)
-    c = from_yaml(sample_pdk_mzi_vars)
+    # c = from_yaml(sample_pdk_mzi_vars)
     c.show()
 
     # c = test_connections_regex()

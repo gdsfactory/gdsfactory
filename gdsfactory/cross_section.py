@@ -132,6 +132,7 @@ def cross_section(
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
     info: Optional[Dict[str, Any]] = None,
+    decorator: Optional[Callable] = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -173,6 +174,7 @@ def cross_section(
         port_types=port_types,
         port_names=port_names,
         info=info or {},
+        decorator=decorator,
     )
 
     return x
