@@ -12,7 +12,7 @@ from gdsfactory.cross_section import metal2
 from gdsfactory.types import (
     ComponentFactory,
     ComponentOrFactory,
-    CrossSectionFactory,
+    CrossSectionSpec,
     Float2,
 )
 
@@ -24,7 +24,7 @@ def array_with_via(
     spacing: float = 150.0,
     via_spacing: float = 10.0,
     straight_length: float = 60.0,
-    cross_section: Optional[CrossSectionFactory] = metal2,
+    cross_section: Optional[CrossSectionSpec] = metal2,
     contact: ComponentFactory = contact_factory,
     contact_dy: float = 0,
     port_orientation: float = 180,

@@ -3,7 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -13,7 +13,7 @@ def bend_port(
     port_name2: str = "e2",
     port_name1_bend: Optional[str] = None,
     port_name2_bend: Optional[str] = None,
-    cross_section: CrossSectionFactory = gf.cross_section.metal3,
+    cross_section: CrossSectionSpec = gf.cross_section.metal3,
     bend: ComponentFactory = bend_circular,
     angle: float = 180,
     extension_length: Optional[float] = None,

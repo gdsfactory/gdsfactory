@@ -829,7 +829,12 @@ CrossSectionFactory = Callable[..., CrossSection]
 def get_cross_section_factories(
     modules, verbose: bool = False
 ) -> Dict[str, CrossSectionFactory]:
-    """Returns cross_section factories from a module."""
+    """Returns cross_section factories from a module or list of modules.
+
+    Args:
+        modules: module or iterable of modules.
+        verbose: prints in case any errors occur.
+    """
 
     modules = modules if isinstance(modules, Iterable) else [modules]
 

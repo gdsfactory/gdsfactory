@@ -10,7 +10,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.cross_section import cross_section as cross_section_function
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentSpec, Coordinate, CrossSectionFactory, Layer
+from gdsfactory.types import ComponentSpec, Coordinate, CrossSectionSpec, Layer
 
 DEG2RAD = np.pi / 180
 
@@ -91,7 +91,7 @@ def extend_ports(
     port2: Optional[str] = None,
     port_type: str = "optical",
     centered: bool = False,
-    cross_section: Optional[CrossSectionFactory] = None,
+    cross_section: Optional[CrossSectionSpec] = None,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended

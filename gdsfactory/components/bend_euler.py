@@ -38,7 +38,7 @@ def bend_euler(
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
+        cross_section: specification (CrossSection, string, CrossSectionSpec, dict).
         kwargs: cross_section settings.
 
 
@@ -130,7 +130,7 @@ def bend_straight_bend(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees
         direction: cw (clock-wise) or ccw (counter clock-wise)
-        cross_section: specification (CrossSection, string, CrossSectionFactory, dict).
+        cross_section: specification (CrossSection, string, CrossSectionSpec, dict).
         kwargs: cross_section settings
 
 
