@@ -7,14 +7,14 @@ from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, Layer
+from gdsfactory.types import ComponentSpec, Layer
 
 
 @gf.cell
 def contact(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
-    vias: Optional[Tuple[Optional[ComponentOrFactory], ...]] = (via1, via2),
+    vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
     layer_port: Optional[Layer] = None,
 ) -> Component:
     """Rectangular via array stack
@@ -53,7 +53,7 @@ def contact(
     vias = vias or []
     for via in vias:
         if via is not None:
-            via = via() if callable(via) else via
+            via = gf.get_component(via)
 
             w, h = via.info["size"]
             g = via.info["enclosure"]
