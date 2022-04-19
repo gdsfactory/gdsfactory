@@ -9,7 +9,7 @@ from gdsfactory.components.straight import straight
 from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionSpec
 
 
 @cell
@@ -25,7 +25,7 @@ def array_with_fanout(
     bend: ComponentFactory = bend_euler,
     bend_port_name1: Optional[str] = None,
     bend_port_name2: Optional[str] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
     """Returns an array of components in X axis

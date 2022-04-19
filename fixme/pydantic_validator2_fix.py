@@ -1,5 +1,5 @@
 import gdsfactory as gf
-from gdsfactory.types import CrossSectionFactory
+from gdsfactory.types import CrossSectionSpec
 from pydantic import validate_arguments
 
 
@@ -7,8 +7,8 @@ from pydantic import validate_arguments
 def straight2a(
     length1: float = 5,
     length2: float = 10,
-    cross_section1: CrossSectionFactory = gf.cross_section.strip,
-    cross_section2: CrossSectionFactory = gf.cross_section.pin,
+    cross_section1: CrossSectionSpec = gf.cross_section.strip,
+    cross_section2: CrossSectionSpec = gf.cross_section.pin,
     **kwargs
 ) -> gf.Component:
     r"""Returns a contatentation of two cross_sections

@@ -14,7 +14,7 @@ from gdsfactory.routing.get_bundle import (
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, CrossSectionFactory, Route
+from gdsfactory.types import ComponentFactory, CrossSectionSpec, Route
 
 
 def get_bundle_path_length_match(
@@ -31,7 +31,7 @@ def get_bundle_path_length_match(
     start_straight_length: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> List[Route]:
     """Returns list of routes that are path length matched.

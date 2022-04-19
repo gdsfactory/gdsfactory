@@ -8,7 +8,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionFactory
+from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
 
 @gf.cell
@@ -20,7 +20,7 @@ def ring_single_sample(
     coupler_ring: ComponentFactory = coupler_ring_function,
     straight: ComponentFactory = straight_function,
     bend: Optional[ComponentFactory] = None,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
     """Single bus ring made of a ring coupler (cb: bottom)
