@@ -2,6 +2,15 @@
 
 ## [5.0.5](https://github.com/gdsfactory/gdsfactory/pull/278)
 
+- implements `get_active_pdk()` and `set_active_pdk()` functions to avoid side-effects of using ACTIVE_PDK global variable in different scopes. Renames `ACTIVE_PDK` to `_ACTIVE_PDK` to make it private, and instead promotes `get_active_pdk()`
+- fixes instances where cross_section was specified and/or used as a factory rather than CrossSectionSpec
+- fixes cases where cross_section was directly called as a function rather than invoking get_cross_section(cross_section) pattern
+- Section.layer type needs to be the Union of Layer and Tuple[Layer,Layer] as long as we use the current implementation of Transition
+- when getting instances in read_yaml(), uses the dictionary ComponentSpec format to get each component rather than using component name and `**settings` the old method causes an error for container-style components which have an argument named component
+- for CrossSection class, makes info non-optional and by default instantiates empty dictionary. also replaces default values for mutable types with factories creating empty mutable types
+- for cross_section() function, removes unused args
+
+
 ## [5.0.4](https://github.com/gdsfactory/gdsfactory/pull/277)
 
 - fix cross_section from get_route_from_steps
