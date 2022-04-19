@@ -219,8 +219,9 @@ For fast FDTD GPU based simulations on the cloud. Requires you to create an acco
 
 ## CHANGELOG
 
-gdsfactory keeps a general [changelog](https://gdsfactory.readthedocs.io/en/latest/CHANGELOG.html) as well as for each individual component
+gdsfactory keeps a changelog.
 
+You can also keep a changelog for each individual component.
 By default each component has an empty changelog and starts with version '0.0.1'
 
 - major:
