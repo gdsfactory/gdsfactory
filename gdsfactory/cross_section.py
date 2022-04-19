@@ -9,7 +9,7 @@ from inspect import getmembers
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from gdsfactory.tech import TECH, Section
 
@@ -60,9 +60,9 @@ class CrossSection(BaseModel):
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
-    bbox_layers: List[Layer] = []
-    bbox_offsets: List[float] = []
-    sections: List[Section] = []
+    bbox_layers: List[Layer] = Field(default_factory=list)
+    bbox_offsets: List[float] = Field(default_factory=list)
+    sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
     min_length: float = 10e-3
@@ -70,7 +70,7 @@ class CrossSection(BaseModel):
     end_straight_length: float = 10e-3
     snap_to_grid: Optional[float] = None
     decorator: Optional[Callable] = None
-    info: Optional[Dict[str, Any]] = None
+    info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
 
     class Config:
@@ -117,7 +117,6 @@ class Transition(CrossSection):
 def cross_section(
     width: float = 0.5,
     layer: Tuple[int, int] = (1, 0),
-    layer_bbox: Optional[Tuple[int, int]] = None,
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -130,7 +129,6 @@ def cross_section(
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
-    decorator: Optional[Callable] = None,
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
     info: Optional[Dict[str, Any]] = None,
@@ -140,7 +138,6 @@ def cross_section(
     Args:
         width: main section width (um).
         layer: main section layer.
-        layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
@@ -153,7 +150,6 @@ def cross_section(
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
         snap_to_grid: can snap points to grid when extruding the path.
-        decorator: optional decorator function (adds pins to each port, etc.).
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         info: settings info.
@@ -176,7 +172,7 @@ def cross_section(
         snap_to_grid=snap_to_grid,
         port_types=port_types,
         port_names=port_names,
-        info=info,
+        info=info or {},
     )
 
     return x

@@ -241,8 +241,8 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    snap_to_grid = cross_section.snap_to_grid
-    sections = cross_section.sections or []
+    snap_to_grid = x.snap_to_grid
+    sections = x.sections or []
     sections = list(sections)
 
     if x.layer and x.width:
@@ -349,9 +349,9 @@ def extrude(
                 port_type=port_types[0],
                 width=_width,
                 orientation=orientation,
-                cross_section=cross_section.cross_sections[0]
-                if hasattr(cross_section, "cross_sections")
-                else cross_section,
+                cross_section=x.cross_sections[0]
+                if hasattr(x, "cross_sections")
+                else x,
             )
             new_port.endpoints = (points1[0], points2[0])
         if port_names[1] is not None:
@@ -363,9 +363,9 @@ def extrude(
                 port_type=port_types[1],
                 width=_width,
                 orientation=orientation,
-                cross_section=cross_section.cross_sections[1]
-                if hasattr(cross_section, "cross_sections")
-                else cross_section,
+                cross_section=x.cross_sections[1]
+                if hasattr(x, "cross_sections")
+                else x,
             )
             new_port.endpoints = (points2[-1], points1[-1])
 
@@ -379,8 +379,8 @@ def extrude(
     # c.info.cross_section = cross_section.info
     c.info["length"] = float(np.round(p.length(), 3))
 
-    if cross_section.decorator:
-        c = cross_section.decorator(c) or c
+    if x.decorator:
+        c = x.decorator(c) or c
 
     return c
 
