@@ -6,7 +6,7 @@ from gdsfactory.components.grating_coupler_elliptical_trenches import grating_co
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.route_fiber_array import route_fiber_array
-from gdsfactory.types import CrossSectionFactory, Label
+from gdsfactory.types import CrossSectionSpec, Label
 
 
 def route_fiber_single(
@@ -19,7 +19,7 @@ def route_fiber_single(
     excluded_ports: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionFactory = strip,
+    cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Tuple[List[Union[ComponentReference, Label]], List[ComponentReference]]:
     """Returns route Tuple(references, grating couplers) for single fiber input/output.
