@@ -3,7 +3,7 @@
 from typing import Callable, List, Optional
 
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as _straight
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
@@ -14,7 +14,7 @@ from gdsfactory.routing.get_bundle import (
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, CrossSectionSpec, Route
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Route
 
 
 def get_bundle_path_length_match(
@@ -25,9 +25,9 @@ def get_bundle_path_length_match(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     modify_segment_i: int = -2,
-    bend: ComponentFactory = bend_euler,
-    straight: Callable = straight,
-    taper: Optional[Callable] = taper_function,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = _straight,
+    taper: Optional[ComponentSpec] = taper_function,
     start_straight_length: float = 0.0,
     route_filter: Callable = get_route_from_waypoints,
     sort_ports: bool = True,
