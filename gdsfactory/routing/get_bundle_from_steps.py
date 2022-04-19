@@ -7,7 +7,6 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
@@ -21,7 +20,7 @@ def get_bundle_from_steps(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = taper_function,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     sort_ports: bool = True,
     separation: Optional[float] = None,
     **kwargs

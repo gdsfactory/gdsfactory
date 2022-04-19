@@ -61,7 +61,7 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.pdk import get_active_pdk
+from gdsfactory.pdk import get_active_pdk, set_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import Route
 
@@ -581,7 +581,7 @@ def from_yaml(
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
 
-        pdk.activate()
+        set_active_pdk(pdk)
     else:
         pdk = get_active_pdk()
 
@@ -1070,7 +1070,7 @@ if __name__ == "__main__":
     #     print(k)
     # print(c.settings["info"])
     # c = from_yaml(yaml_anchor)
-    # c = from_yaml(sample_pdk_mzi)
+    c = from_yaml(sample_pdk_mzi)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
     # c = from_yaml(sample_yaml_xmin)
@@ -1078,7 +1078,7 @@ if __name__ == "__main__":
     # print(n)
 
     # c = from_yaml(sample_doe)
-    c = from_yaml(sample_pdk_mzi_vars)
+    # c = from_yaml(sample_pdk_mzi_vars)
     c.show()
 
     # c = test_connections_regex()
