@@ -42,7 +42,7 @@ def get_bundle(
     straight: ComponentFactory = straight_function,
     bend: ComponentFactory = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
@@ -284,7 +284,7 @@ def _get_bundle_waypoints(
     end_straight_length: float = 0.0,
     tol: float = 0.00001,
     start_straight_length: float = 0.0,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> List[ndarray]:
     """Returns route coordinates List
