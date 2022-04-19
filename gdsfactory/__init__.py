@@ -72,6 +72,7 @@ from gdsfactory.pdk import (
     get_component,
     get_cross_section,
     get_active_pdk,
+    set_active_pdk,
     get_cell,
 )
 from gdsfactory.get_factories import get_cells
@@ -134,6 +135,7 @@ __all__ = [
     "Label",
     "Pdk",
     "get_active_pdk",
+    "set_active_pdk",
     "get_component",
     "get_cross_section",
     "get_cell",

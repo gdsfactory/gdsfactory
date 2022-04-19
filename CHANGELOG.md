@@ -1,5 +1,7 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.0.6]
+
 ## [5.0.5](https://github.com/gdsfactory/gdsfactory/pull/278)
 
 - implements `get_active_pdk()` and `set_active_pdk()` functions to avoid side-effects of using ACTIVE_PDK global variable in different scopes. Renames `ACTIVE_PDK` to `_ACTIVE_PDK` to make it private, and instead promotes `get_active_pdk()`
