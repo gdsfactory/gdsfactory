@@ -1,13 +1,14 @@
 """CD SEM structures."""
 from functools import partial
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 LINE_LENGTH = 420.0
 
@@ -19,10 +20,10 @@ def cdsem_bend180(
     width: float = 0.5,
     radius: float = 10.0,
     wg_length: float = LINE_LENGTH,
-    straight: ComponentFactory = straight_function,
-    bend90: ComponentFactory = bend_circular,
+    straight: ComponentSpec = straight_function,
+    bend90: ComponentSpec = bend_circular,
     cross_section: CrossSectionSpec = strip,
-    text: ComponentFactory = text_rectangular_mini,
+    text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
     """
 
@@ -36,14 +37,14 @@ def cdsem_bend180(
     c = Component()
     r = radius
 
-    cross_section = partial(cross_section, width=width)
     if wg_length is None:
         wg_length = 2 * r
 
-    bend90 = bend90(cross_section=cross_section, radius=r)
-    wg = straight(
-        cross_section=cross_section,
-        length=wg_length,
+    bend90 = gf.get_component(
+        bend90, cross_section=cross_section, radius=r, width=width
+    )
+    wg = gf.get_component(
+        straight, cross_section=cross_section, length=wg_length, width=width
     )
 
     # Add the U-turn on straight layer
