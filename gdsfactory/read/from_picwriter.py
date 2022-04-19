@@ -11,7 +11,7 @@ from picwriter.components.waveguide import WaveguideTemplate
 from picwriter.toolkit import Component
 
 import gdsfactory as gf
-from gdsfactory.types import CrossSectionFactory, Layer
+from gdsfactory.types import CrossSectionSpec, Layer
 
 gdspy.current_library = gdspy.GdsLibrary()
 
@@ -19,7 +19,7 @@ direction_to_orientation = dict(EAST=0.0, NORTH=90.0, WEST=180.0, SOUTH=270.0)
 
 
 def cross_section_to_waveguide_template(
-    cross_section: CrossSectionFactory,
+    cross_section: CrossSectionSpec,
     euler_bend: bool = True,
     wg_type: str = "strip",
     **kwargs
