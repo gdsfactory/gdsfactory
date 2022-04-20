@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.0.7]
+
+- fix tests
+
 ## [5.0.6](https://github.com/gdsfactory/gdsfactory/pull/279)
 
 - fix set active PDK on component_from_yaml
