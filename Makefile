@@ -111,9 +111,13 @@ mypy:
 build:
 	python setup.py sdist bdist_wheel
 
-devpi-release:
+upload-devpi:
 	pip install devpi-client wheel
 	devpi upload --format=bdist_wheel,sdist.tgz
+
+upload-twine: build
+	pip install twine
+	twine upload dist/*
 
 release:
 	git push origin --tags
