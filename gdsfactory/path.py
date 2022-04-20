@@ -202,6 +202,7 @@ def extrude(
     width: Optional[float] = None,
     widths: Optional[Float2] = None,
     simplify: Optional[float] = None,
+    shear_angle: float = 0.0,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
     A path can be extruded using any CrossSection returning a Component
@@ -298,16 +299,22 @@ def extrude(
             width = width(lengths / lengths[-1])
         else:
             pass
-
+        points = np.asarray(points)
+        dy = offset + width / 2
+        dx = np.tan(np.deg2rad(shear_angle)) * dy
+        _points = points + np.array([dx, 0])
         points1 = p._centerpoint_offset_curve(
-            points,
-            offset_distance=offset + width / 2,
+            _points,
+            offset_distance=dy,
             start_angle=start_angle,
             end_angle=end_angle,
         )
+        dy = offset - width / 2
+        dx = np.tan(np.deg2rad(shear_angle)) * dy
+        _points = points + np.array([dx, 0])
         points2 = p._centerpoint_offset_curve(
-            points,
-            offset_distance=offset - width / 2,
+            _points,
+            offset_distance=dy,
             start_angle=start_angle,
             end_angle=end_angle,
         )
