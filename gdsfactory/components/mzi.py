@@ -11,7 +11,7 @@ from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.routing import get_route
-from gdsfactory.types import ComponentFactory, ComponentSpec, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
@@ -25,7 +25,7 @@ def mzi(
     straight_x_top: Optional[ComponentSpec] = None,
     straight_x_bot: Optional[ComponentSpec] = None,
     splitter: ComponentSpec = mmi1x2,
-    combiner: Optional[ComponentFactory] = None,
+    combiner: Optional[ComponentSpec] = None,
     with_splitter: bool = True,
     port_e1_splitter: str = "o2",
     port_e0_splitter: str = "o3",
@@ -184,7 +184,6 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
-
     # delta_length = 116.8 / 2
     # print(delta_length)
     # c = mzi(delta_length=delta_length, with_splitter=False)
