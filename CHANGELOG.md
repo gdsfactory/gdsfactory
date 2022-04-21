@@ -2,7 +2,9 @@
 
 ## [5.0.7]
 
-- fix tests
+- define layermap as pydantic BaseModel
+- Sometimes it is desirable to have a waveguide with a shear face (i.e. the port face is not orthogonal to the propagation direction, but slightly slanted). [PR](https://github.com/gdsfactory/gdsfactory/pull/280) adds the capability to extrude basic waveguides with shear faces.
+
 
 ## [5.0.6](https://github.com/gdsfactory/gdsfactory/pull/279)
 
