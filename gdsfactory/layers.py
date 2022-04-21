@@ -32,8 +32,9 @@ def preview_layerset(
     files
 
     Args:
-        ls: LayerSet
-
+        ls: LayerSet.
+        size: square size.
+        spacing: spacing between each square.
     """
     import numpy as np
 
@@ -255,18 +256,25 @@ def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> 
         raise FileExistsError(f"You can delete {filepathout}")
 
     script = """
-import dataclasses
+from pydantic import BaseModel
 from gdsfactory.types import Layer
 
 
-@dataclasses.dataclass
-class LayerMap():
+class LayerMap(BaseModel):
 """
     lys = load_lyp(filepathin)
     for layer_name, layer in sorted(lys._layers.items()):
         script += (
             f"    {layer_name}: Layer = ({layer.gds_layer}, {layer.gds_datatype})\n"
         )
+
+    script += """
+    class Config:
+        frozen = True
+        extra = "forbid"
+
+LAYER = LayerMap()
+"""
 
     filepathout.write_text(script)
     return script
