@@ -11,7 +11,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
 from gdsfactory.cross_section import strip as xs_strip
 from gdsfactory.geometry.functions import DEG2RAD
 from gdsfactory.tech import LAYER
-from gdsfactory.types import CrossSectionOrFactory, Floats, Layer
+from gdsfactory.types import CrossSectionSpec, Floats, Layer
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -36,7 +36,7 @@ def grating_coupler_elliptical_arbitrary(
     fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
     spiked: bool = True,
     bias_gap: float = 0,
-    cross_section: CrossSectionOrFactory = xs_strip,
+    cross_section: CrossSectionSpec = xs_strip,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
@@ -134,11 +134,7 @@ def grating_coupler_elliptical_arbitrary(
     )
 
     # Add port
-    xs = (
-        cross_section(width=wg_width, layer=layer)
-        if callable(cross_section)
-        else cross_section
-    )
+    xs = gf.get_cross_section(cross_section, width=wg_width, layer=layer)
     c.add_port(
         name="o1",
         midpoint=[x_output, 0],

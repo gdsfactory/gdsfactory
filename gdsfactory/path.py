@@ -218,10 +218,10 @@ def extrude(
         width:
         widths: tuple of starting and end width
         simplify: Tolerance value for the simplification algorithm.
-          All points that can be removed without changing the resulting
+          All points that can be removed without changing the resulting.
           polygon by more than the value listed here will be removed.
-        shear_angle_start: an optional angle to shear the starting face by (in degrees)
-        shear_angle_end: an optional angle to shear the ending face by (in degrees)
+        shear_angle_start: an optional angle to shear the starting face by (in degrees).
+        shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
     from gdsfactory.pdk import get_cross_section
 
@@ -399,9 +399,16 @@ def _shear_face(
     dy: float,
     shear_angle_start: Optional[float],
     shear_angle_end: Optional[float],
-):
+) -> np.ndarray:
     """
-    Displaces a point sequence offset a distance dy away by a shear angle, given in degrees, on either side.
+    Displaces a point sequence offset a distance dy away by a shear angle,
+    given in degrees, on either side.
+
+    Args:
+        points: points sequence.
+        dy: y offset.
+        shear_angle_start: an optional angle to shear the starting face by (in degrees).
+        shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
     if shear_angle_start or shear_angle_end:
         shear_angle_start = shear_angle_start or 0

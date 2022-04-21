@@ -1,7 +1,6 @@
 import pathlib
 from typing import Any, Callable, Dict, Optional, Tuple, Union
 
-import pydantic
 from pydantic import BaseModel
 
 module_path = pathlib.Path(__file__).parent.absolute()
@@ -12,8 +11,7 @@ def make_empty_dict() -> Dict[str, Callable]:
     return {}
 
 
-@pydantic.dataclasses.dataclass(frozen=True)
-class LayerMap:
+class LayerMap(BaseModel):
     """Generic layermap based on Textbook:
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
@@ -64,6 +62,10 @@ class LayerMap:
     LABEL_INSTANCE: Layer = (206, 0)
     ERROR_MARKER: Layer = (207, 0)
     ERROR_PATH: Layer = (208, 0)
+
+    class Config:
+        frozen = True
+        extra = "forbid"
 
 
 LAYER = LayerMap()
