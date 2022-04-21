@@ -202,7 +202,8 @@ def extrude(
     width: Optional[float] = None,
     widths: Optional[Float2] = None,
     simplify: Optional[float] = None,
-    shear_angle: float = 0.0,
+    shear_angle_start: Optional[float] = None,
+    shear_angle_end: Optional[float] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
     A path can be extruded using any CrossSection returning a Component
@@ -219,6 +220,8 @@ def extrude(
         simplify: Tolerance value for the simplification algorithm.
           All points that can be removed without changing the resulting
           polygon by more than the value listed here will be removed.
+        shear_angle_start: an optional angle to shear the starting face by (in degrees)
+        shear_angle_end: an optional angle to shear the ending face by (in degrees)
     """
     from gdsfactory.pdk import get_cross_section
 
@@ -299,10 +302,9 @@ def extrude(
             width = width(lengths / lengths[-1])
         else:
             pass
-        points = np.asarray(points)
         dy = offset + width / 2
-        dx = np.tan(np.deg2rad(shear_angle)) * dy
-        _points = points + np.array([dx, 0])
+        _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
+
         points1 = p._centerpoint_offset_curve(
             _points,
             offset_distance=dy,
@@ -310,8 +312,8 @@ def extrude(
             end_angle=end_angle,
         )
         dy = offset - width / 2
-        dx = np.tan(np.deg2rad(shear_angle)) * dy
-        _points = points + np.array([dx, 0])
+        _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
+
         points2 = p._centerpoint_offset_curve(
             _points,
             offset_distance=dy,
@@ -390,6 +392,38 @@ def extrude(
         c = x.decorator(c) or c
 
     return c
+
+
+def _shear_face(
+    points: np.ndarray,
+    dy: float,
+    shear_angle_start: Optional[float],
+    shear_angle_end: Optional[float],
+):
+    """
+    Displaces a point sequence offset a distance dy away by a shear angle, given in degrees, on either side.
+    """
+    if shear_angle_start or shear_angle_end:
+        shear_angle_start = shear_angle_start or 0
+        shear_angle_end = shear_angle_end or 0
+
+        starts_monotonically_increasing = np.all(points[1:, 0] > points[:-1, 0])
+        if not starts_monotonically_increasing:
+            raise ValueError(
+                "Cannot shear face! Current algorithm assumes that all points are monotonically increasing in x."
+            )
+        dx_start = np.tan(np.deg2rad(shear_angle_start)) * dy
+        dx_end = np.tan(np.deg2rad(shear_angle_end)) * dy
+        points = points.copy()
+        points[0][0] += dx_start
+        points[-1][0] += dx_end
+        ends_monotonically_increasing = np.all(points[1:, 0] > points[:-1, 0])
+
+        if not ends_monotonically_increasing:
+            raise ValueError(
+                "Cannot shear face! Sheared segment is not monotonically increasing! Maybe the segment is too short or has curvature?"
+            )
+    return points
 
 
 def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
