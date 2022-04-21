@@ -75,6 +75,7 @@ def write_layer_definition(layer_map: Dict[str, Layer]) -> str:
 
     """
     layer_map = asdict(layer_map) if is_dataclass(layer_map) else layer_map
+    layer_map = dict(layer_map)
     return [
         f"{key} = input({value[0]}, {value[1]})" for key, value in layer_map.items()
     ]
