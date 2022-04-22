@@ -1,0 +1,69 @@
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section:
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers: []
+      bbox_offsets: []
+      decorator: null
+      end_straight_length: 0.01
+      info: {}
+      layer:
+      - 1
+      - 0
+      layer_bbox: null
+      min_length: 0.01
+      name: null
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      radius: 10.0
+      sections: []
+      snap_to_grid: null
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width: 0.5
+      width_wide: null
+  full:
+    cross_section:
+      auto_widen: false
+      auto_widen_minimum_length: 200.0
+      bbox_layers: []
+      bbox_offsets: []
+      decorator: null
+      end_straight_length: 0.01
+      info: {}
+      layer:
+      - 1
+      - 0
+      layer_bbox: null
+      min_length: 0.01
+      name: null
+      offset: 0
+      port_names:
+      - o1
+      - o2
+      port_types:
+      - optical
+      - optical
+      radius: 10.0
+      sections: []
+      snap_to_grid: null
+      start_straight_length: 0.01
+      taper_length: 10.0
+      width: 0.5
+      width_wide: null
+  function_name: demo_cross_section_setting
+  info:
+    length: 10.0
+    width: 0.5
+  info_version: 2
+  module: gdsfactory.tests.test_serialize
+  name: demo_cross_section_setting
+version: 0.0.1
