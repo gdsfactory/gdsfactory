@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.1.0]
+## [5.1.0](https://github.com/gdsfactory/gdsfactory/pull/284)
 
 - improve shear angle algorithm to work with waveguides at any angle [PR](https://github.com/gdsfactory/gdsfactory/pull/283)
   - add examples in notebooks
