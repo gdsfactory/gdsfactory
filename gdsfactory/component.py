@@ -14,7 +14,7 @@ import numpy as np
 import yaml
 from numpy import int64
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import Device, _parse_layer
+from phidl.device_layout import CellArray, Device, _parse_layer
 from typing_extensions import Literal
 
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
@@ -611,6 +611,41 @@ class Component(Device):
         """
         self.is_unlocked()
         super().add(element)
+
+    def add_array(
+        self,
+        component: Device,
+        columns: int = 2,
+        rows: int = 2,
+        spacing: Tuple[float, float] = (100, 100),
+        alias: Optional[str] = None,
+    ) -> CellArray:
+        """Creates a CellArray reference to a Component.
+
+        Args:
+            component: The referenced component.
+            columns: Number of columns in the array.
+            rows: Number of rows in the array.
+            spacing: array-like[2] of int or float
+                Distance between adjacent columns and adjacent rows.
+            alias: str or None. Alias of the referenced Device.
+
+        Returns
+            a: CellArray containing references to the Component.
+        """
+        if not isinstance(component, Component):
+            raise TypeError("""add_array() needs a Component object. """)
+        ref = CellArray(
+            device=component,
+            columns=int(round(columns)),
+            rows=int(round(rows)),
+            spacing=spacing,
+        )
+        ref.owner = self
+        self.add(ref)  # Add ComponentReference Component
+        if alias is not None:
+            self.aliases[alias] = ref
+        return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
         """Returns a flattened copy of the component
