@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.1.1]
+## [5.1.1](https://github.com/gdsfactory/gdsfactory/pull/285)
 
 - add `gf yaml webapp -d` or `gf yaml webapp --debug` for debug mode
 - fix [get_netlist for component arrays issue](https://github.com/gdsfactory/gdsfactory/issues/263)
