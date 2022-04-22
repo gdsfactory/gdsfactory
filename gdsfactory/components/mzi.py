@@ -77,8 +77,8 @@ def mzi(
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
-    bend_factory = bend
-    bend = gf.get_component(bend_factory, cross_section=cross_section)
+
+    bend = gf.get_component(bend, cross_section=cross_section)
 
     c = Component()
     cp1 = gf.get_component(splitter)
@@ -100,9 +100,9 @@ def mzi(
     b6.connect("o1", syl.ports["o2"])
 
     straight_x_bot = (
-        gf.get_component(straight_x_bot, length=length_x)
+        gf.get_component(straight_x_bot, length=length_x, cross_section=cross_section)
         if length_x
-        else gf.get_component(straight_x_bot)
+        else gf.get_component(straight_x_bot, cross_section=cross_section)
     )
     sxb = c << straight_x_bot
     sxb.connect("o1", b6.ports["o2"])
@@ -116,12 +116,9 @@ def mzi(
     b2 = c << bend
     b2.connect("o2", sy.ports["o2"])
     straight_x_top = (
-        gf.get_component(
-            straight_x_top,
-            length=length_x,
-        )
+        gf.get_component(straight_x_top, length=length_x, cross_section=cross_section)
         if length_x
-        else gf.get_component(straight_x_top)
+        else gf.get_component(straight_x_top, cross_section=cross_section)
     )
     sxt = c << straight_x_top
     sxt.connect("o1", b2.ports["o1"])
@@ -133,7 +130,7 @@ def mzi(
         sxt.ports["o2"],
         cp2.ports[port_e1_combiner],
         straight=straight,
-        bend=bend_factory,
+        bend=bend,
         cross_section=cross_section,
     )
     c.add(route.references)
@@ -141,7 +138,7 @@ def mzi(
         sxb.ports["o2"],
         cp2.ports[port_e0_combiner],
         straight=straight,
-        bend=bend_factory,
+        bend=bend,
         cross_section=cross_section,
     )
     c.add(route.references)
@@ -184,6 +181,28 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
+    WIDTH = 2
+    LAYER = (34, 0)
+    xs_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
+    mmi1x2 = gf.partial(
+        gf.components.mmi1x2,
+        cross_section=xs_metal,
+        width=WIDTH,
+        width_taper=WIDTH,
+        width_mmi=3 * WIDTH,
+    )
+    mzi = gf.partial(gf.components.mzi, cross_section=xs_metal, splitter=mmi1x2)
+    c = mzi()
+    c.show()
+
+    # extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
+
+    # straigth_extended2 = gf.compose(
+    #     extend_ports2, gf.partial(gf.components.straight, width=0.9)
+    # )
+    # c = straigth_extended2()
+    # c.show()
+
     # delta_length = 116.8 / 2
     # print(delta_length)
     # c = mzi(delta_length=delta_length, with_splitter=False)
@@ -195,8 +214,8 @@ if __name__ == "__main__":
     # c = mzi_coupler(length_x=5)
     # c = mzi2x2()
 
-    c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c.show()
+    # c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c.show()
 
     # c = mzi(
     #     delta_length=100,

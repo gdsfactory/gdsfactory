@@ -43,8 +43,8 @@ def C(
         (-w, -w),
     ]
     D.add_polygon(points, layer=layer)
-    D.add_port(name="o1", midpoint=(s1, s2), width=width, orientation=0)
-    D.add_port(name="o2", midpoint=(s1, 0), width=width, orientation=0)
+    D.add_port(name="o1", midpoint=(s1, s2), width=width, orientation=0, layer=layer)
+    D.add_port(name="o2", midpoint=(s1, 0), width=width, orientation=0, layer=layer)
     return D
 
 

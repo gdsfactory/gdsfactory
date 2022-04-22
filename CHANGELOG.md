@@ -1,10 +1,19 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.1.0]
+
+- improve shear angle algorithm to work with waveguides at any angle [PR](https://github.com/gdsfactory/gdsfactory/pull/283)
+  - add examples in notebooks
+  - add tests
+  - add shear_angle attribute to Port
+  - Update test_shear_face_path.py
+
+- remove default port width, layer and midpoint
+
 ## [5.0.7](https://github.com/gdsfactory/gdsfactory/pull/281)
 
 - define layermap as pydantic BaseModel
 - Sometimes it is desirable to have a waveguide with a shear face (i.e. the port face is not orthogonal to the propagation direction, but slightly slanted). [PR](https://github.com/gdsfactory/gdsfactory/pull/280) adds the capability to extrude basic waveguides with shear faces.
-
 
 ## [5.0.6](https://github.com/gdsfactory/gdsfactory/pull/279)
 
@@ -19,7 +28,6 @@
 - when getting instances in read_yaml(), uses the dictionary ComponentSpec format to get each component rather than using component name and `**settings` the old method causes an error for container-style components which have an argument named component
 - for CrossSection class, makes info non-optional and by default instantiates empty dictionary. also replaces default values for mutable types with factories creating empty mutable types
 - for cross_section() function, removes unused args
-
 
 ## [5.0.4](https://github.com/gdsfactory/gdsfactory/pull/277)
 
@@ -46,23 +54,22 @@
 ## [5.0.0](https://github.com/gdsfactory/gdsfactory/pull/273)
 
 - refactor cross_section. I recommend reviewing the Layout Tutorial -> Paths and CrossSections
-    - include routing parameters (width, layer)
-    - rename ports to port_names
-    - make it immutable and remove add method
-    - raise Error when creating a foreign key
-    - rename `ports` to `port_names`
+  - include routing parameters (width, layer)
+  - rename ports to port_names
+  - make it immutable and remove add method
+  - raise Error when creating a foreign key
+  - rename `ports` to `port_names`
 - refactor Section
-    - make it immutable
-    - raise Error when creating a foreign key
+  - make it immutable
+  - raise Error when creating a foreign key
 - add gf.Pdk
-    - add gf.get_component(component_spec) returns a Component from the active PDK using the registered Cells
-    - add gf.get_cross_section(cross_section_spec) returns a CrossSection from the active PDK using the registered CrossSectionFactory
-    - add Pdk.register_cells()
-    - add Pdk.register_cross_sections()
+  - add gf.get_component(component_spec) returns a Component from the active PDK using the registered Cells
+  - add gf.get_cross_section(cross_section_spec) returns a CrossSection from the active PDK using the registered CrossSectionFactory
+  - add Pdk.register_cells()
+  - add Pdk.register_cross_sections()
 - add gf.ACTIVE_PDK
 - delete klayout autoplacer code. Use gf.read.from_yaml instead.
 - delete YAML placer code. Use gf.read.from_yaml instead.
-
 
 ## [4.7.3](https://github.com/gdsfactory/gdsfactory/pull/272)
 
@@ -70,7 +77,6 @@
 - rename cross_section_factory to cross_sections
 - rename component_factory to cells
 - add ComponentSpec, CrossSectionSpec, gf.get_component, gf.get_cross_section, gf.Pdk
-
 
 ## [4.7.2](https://github.com/gdsfactory/gdsfactory/pull/270)
 
@@ -88,7 +94,7 @@
 
 - convert LayerStack from dict to BaseModel, which accepts a single layers: Dict[str, LayerLevel]
 - add gf.get_factories to get_component_factories and get_module_factories
-- add `gf yaml build filepath`  where filepath is a YAML path that you want to show in klayout
+- add `gf yaml build filepath` where filepath is a YAML path that you want to show in klayout
 - update to phidl 1.6.1
 
 ## [4.6.3](https://github.com/gdsfactory/gdsfactory/pull/262)
@@ -114,13 +120,12 @@
 - add `get_module_factories` to get all Component factories from a module.
 - add gf.read.from_yaml placer support for xmin, xmax, ymin, ymax
 - simpler documentation (remove API, gf, YAML mask)
-    - remove mask klayout YAML placer documentation, as it's being deprecated
+  - remove mask klayout YAML placer documentation, as it's being deprecated
 
 ## [4.5.4](https://github.com/gdsfactory/gdsfactory/pull/258)
 
 - enable schema validation in `ic yaml ide`
 - validate schema and fail with unknown keys
-
 
 ## [4.5.3](https://github.com/gdsfactory/gdsfactory/pull/257)
 
@@ -132,7 +137,6 @@
 - better cross_section parsing in YAML component [PR](https://github.com/gdsfactory/gdsfactory/pull/254)
 - recursive netlist extraction [PR](https://github.com/gdsfactory/gdsfactory/pull/255)
 - add Component.get_netlist_recursive()
-
 
 ## [4.5.1](https://github.com/gdsfactory/gdsfactory/pull/253)
 
@@ -224,42 +228,42 @@
 ## [4.3.4](https://github.com/gdsfactory/gdsfactory/pull/215)
 
 - tidy3d improvements:
-    - get_simulation and write_sparameters accepts componentOrFactory
-    - grating_coupler simulations can also be dispersive
+  - get_simulation and write_sparameters accepts componentOrFactory
+  - grating_coupler simulations can also be dispersive
 
 ## [4.3.3](https://github.com/gdsfactory/gdsfactory/pull/214)
 
 - tidy3d improvements:
-    * add dispersive flag in tidy3d get_simulation
-    * write_sparameters_batch can accept list of kwargs
-    * write_sparameters accepts with_all_monitors: if True, includes field monitors which increase results file size.
-    * add test_write_sparameters
-    * run tidy3d tests on every push as part of test_plugins CI/CD
+  - add dispersive flag in tidy3d get_simulation
+  - write_sparameters_batch can accept list of kwargs
+  - write_sparameters accepts with_all_monitors: if True, includes field monitors which increase results file size.
+  - add test_write_sparameters
+  - run tidy3d tests on every push as part of test_plugins CI/CD
 
 ## [4.3.1](https://github.com/gdsfactory/gdsfactory/pull/213)
 
 - gf.components.grating_coupler_circular improvements:
-    - rename teeth_list by a simpler widths and gaps separate arguments
-    - delete grating_coupler_circular_arbitrary as it's now unnecessary
-    - add bias_gap
+  - rename teeth_list by a simpler widths and gaps separate arguments
+  - delete grating_coupler_circular_arbitrary as it's now unnecessary
+  - add bias_gap
 - gf.components.grating_coupler_elliptical improvements:
-    - add bias_gap
+  - add bias_gap
 - fix [serialization of ports](https://github.com/gdsfactory/gdsfactory/pull/212)
 - extend_ports works with cross_sections that do not have layer
 - `pip install gdsfactory` also installs most of the plugins
-    - `pip install gdsfactory[full]` only adds SIPANN (which depends on ternsorflow, which is a heavy dependency)
+  - `pip install gdsfactory[full]` only adds SIPANN (which depends on ternsorflow, which is a heavy dependency)
 
 ## 4.3.0
 
 - tidy3d improvements:
-    - update to version 1.1.1
+  - update to version 1.1.1
 - change port angle type annotation from int to float
 
 ## [4.2.17](https://github.com/gdsfactory/gdsfactory/pull/210)
 
 - tidy3d improvements:
-    * change tidy3d grating_coupler angle positive to be positive for the most normal case (grating coupler waveguide facing west)
-    * tidy3d plot simulations in 2D only shows one plot
+  - change tidy3d grating_coupler angle positive to be positive for the most normal case (grating coupler waveguide facing west)
+  - tidy3d plot simulations in 2D only shows one plot
 - add cross_section to grating_coupler waveguide ports
 
 ## [4.2.16](https://github.com/gdsfactory/gdsfactory/pull/209)
@@ -285,9 +289,10 @@
 ## 4.2.13
 
 - gmeep simulation improvements:
-    - ymargin=3 by default
-    - add write_sparameters_meep_1x1 for reciprocal devices (port_symmetries1x1)
-    - add write_sparameters_meep_1x1_bend90 for 90degree bend simulations
+
+  - ymargin=3 by default
+  - add write_sparameters_meep_1x1 for reciprocal devices (port_symmetries1x1)
+  - add write_sparameters_meep_1x1_bend90 for 90degree bend simulations
 
 - fix `is_3d=False` case to run simulations in 2D with [tidy3d](https://github.com/flexcompute/tidy3d/issues/229)
 
@@ -299,13 +304,13 @@
 ## 4.2.11
 
 - tidy3d simulation plugin improvements
-    - add tidy3d.get_simulation_grating_coupler
+  - add tidy3d.get_simulation_grating_coupler
 
 ## 4.2.10
 
 - tidy3d simulation plugin improvements
-    * add run_time_ps to tidy3d plugin, increase by 10x previous default run_time_ps
-    * if a task was deleted it raises WebError exception, catch that in get results
+  - add run_time_ps to tidy3d plugin, increase by 10x previous default run_time_ps
+  - if a task was deleted it raises WebError exception, catch that in get results
 
 ## [4.2.9](https://github.com/gdsfactory/gdsfactory/pull/199)
 
@@ -392,10 +397,10 @@
 ## 4.0.18
 
 - improve gdsfactory.simulation.modes
-    - replace dataclass with pydantic.BaseModel
-    - add pickle based file cache to speed up mode calculation
-    - find_modes_waveguide and find_modes_coupler do not need to pass mode_solver
-    - add single_waveguide kwarg to find_modes_waveguide and find_modes_coupler
+  - replace dataclass with pydantic.BaseModel
+  - add pickle based file cache to speed up mode calculation
+  - find_modes_waveguide and find_modes_coupler do not need to pass mode_solver
+  - add single_waveguide kwarg to find_modes_waveguide and find_modes_coupler
 
 ## 4.0.17
 
@@ -415,10 +420,10 @@
 ## 4.0.12
 
 - improve tidy3d plugin
-    - add xmargin_left, xmargin_right, ymargin_bot, ymargin_top
-    - plot_simulation_xy and plot_simulation_yz
-    - fix materials
-    - add tests
+  - add xmargin_left, xmargin_right, ymargin_bot, ymargin_top
+  - plot_simulation_xy and plot_simulation_yz
+  - fix materials
+  - add tests
 
 ## 4.0.8
 
@@ -435,7 +440,6 @@
 - modify the write_gds() function to fix the checking of duplicate cell names (recursively), and it also gives an option to choose how to handle duplicate cell names on write. It changes the default behavior to warn and overwrite duplicates, rather than throw an error. [PR](https://github.com/gdsfactory/gdsfactory/pull/174)
 - remove clear_cache in `show()`. Intermediate clearing of cache can cause errors in final gds export, by leaving two versions of the same cell lingering within subcells created before/after cache clearing.
 - remove clear_cache in some of the tests
-
 
 ## 4.0.3
 

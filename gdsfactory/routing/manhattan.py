@@ -511,8 +511,12 @@ def get_route_error(
     )
     c.add(path)
     ref = ComponentReference(c)
-    port1 = gf.Port(name="p1", midpoint=points[0], width=width)
-    port2 = gf.Port(name="p2", midpoint=points[1], width=width)
+    port1 = gf.Port(
+        name="p1", midpoint=points[0], width=width, layer=layer_path, orientation=0
+    )
+    port2 = gf.Port(
+        name="p2", midpoint=points[1], width=width, layer=layer_path, orientation=0
+    )
 
     point_marker = gf.components.rectangle(
         size=(width * 2, width * 2), centered=True, layer=layer_marker
@@ -894,34 +898,34 @@ def route_manhattan(
         end_straight_length=end_straight_length,
         min_straight_length=min_straight_length,
         bend=bend,
-        cross_section=cross_section,
-        **kwargs,
+        cross_section=x,
     )
     return round_corners(
         points=points,
         straight=straight,
         taper=taper,
         bend=bend,
-        cross_section=cross_section,
+        cross_section=x,
         with_point_markers=with_point_markers,
-        **kwargs,
     )
 
 
 def test_manhattan() -> Component:
     top_cell = Component()
 
+    layer = (2, 0)
+
     inputs = [
-        Port("in1", (10, 5), 0.5, 90),
-        # Port("in2", (-10, 20), 0.5, 0),
-        # Port("in3", (10, 30), 0.5, 0),
-        # Port("in4", (-10, -5), 0.5, 90),
-        # Port("in5", (0, 0), 0.5, 0),
-        # Port("in6", (0, 0), 0.5, 0),
+        Port("in1", midpoint=(10, 5), width=0.5, orientation=90, layer=layer),
+        # Port("in2",midpoint= (-10, 20), width=0.5, 0),
+        # Port("in3",midpoint= (10, 30), width=0.5, 0),
+        # Port("in4",midpoint= (-10, -5), width=0.5, 90),
+        # Port("in5",midpoint= (0, 0), width=0.5, 0),
+        # Port("in6",midpoint= (0, 0), width=0.5, 0),
     ]
 
     outputs = [
-        Port("in1", (290, -60), 0.5, 180),
+        Port("in1", midpoint=(290, -60), width=0.5, orientation=180, layer=layer),
         # Port("in2", (-100, 20), 0.5, 0),
         # Port("in3", (100, -25), 0.5, 0),
         # Port("in4", (-150, -65), 0.5, 270),
@@ -944,7 +948,7 @@ def test_manhattan() -> Component:
             radius=5.0,
             auto_widen=True,
             width_wide=2,
-            # layer=(2, 0),
+            layer=layer
             # width=0.2,
         )
 
@@ -1000,27 +1004,27 @@ def _demo_manhattan_fail() -> Component:
 
 
 if __name__ == "__main__":
-    # c = test_manhattan()
+    c = test_manhattan()
     # c = test_manhattan_fail()
     # c = test_manhattan_pass()
     # c = _demo_manhattan_fail()
     # c = gf.components.straight()
     # c = gf.routing.add_fiber_array(c)
     # c = gf.components.delay_snake()
-    # c.show()
-
-    c = gf.Component("pads_route_from_steps")
-    pt = c << gf.components.pad_array(orientation=270, columns=3)
-    pb = c << gf.components.pad_array(orientation=90, columns=3)
-    pt.move((100, 200))
-    route = gf.routing.get_route_from_steps(
-        pt.ports["e11"],
-        pb.ports["e11"],
-        steps=[
-            {"y": 100},
-        ],
-        cross_section=gf.cross_section.metal3,
-        bend=gf.components.wire_corner,
-    )
-    c.add(route.references)
     c.show()
+
+    # c = gf.Component("pads_route_from_steps")
+    # pt = c << gf.components.pad_array(orientation=270, columns=3)
+    # pb = c << gf.components.pad_array(orientation=90, columns=3)
+    # pt.move((100, 200))
+    # route = gf.routing.get_route_from_steps(
+    #     pt.ports["e11"],
+    #     pb.ports["e11"],
+    #     steps=[
+    #         {"y": 100},
+    #     ],
+    #     cross_section=gf.cross_section.metal3,
+    #     bend=gf.components.wire_corner,
+    # )
+    # c.add(route.references)
+    # c.show()
