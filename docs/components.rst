@@ -1306,7 +1306,7 @@ grating_coupler_rectangular
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_rectangular(n_periods=20, period=0.75, fill_factor=0.5, width_grating=11.0, length_taper=150.0, wg_width=0.5, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=1.0)
+  c = gf.components.grating_coupler_rectangular(n_periods=20, period=0.75, fill_factor=0.5, width_grating=11.0, length_taper=150.0, wg_width=0.5, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), fiber_marker_layer=(203, 0), slab_xmin=-1.0, slab_offset=1.0)
   c.plot()
 
 
@@ -1321,7 +1321,7 @@ grating_coupler_rectangular_arbitrary
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_rectangular_arbitrary(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=1.0)
+  c = gf.components.grating_coupler_rectangular_arbitrary(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), slab_xmin=-1.0, slab_offset=1.0, fiber_marker_layer=(203, 0))
   c.plot()
 
 
@@ -1336,7 +1336,7 @@ grating_coupler_rectangular_arbitrary_slab
 
   import gdsfactory as gf
 
-  c = gf.components.grating_coupler_rectangular_arbitrary_slab(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), slab_offset=2.0)
+  c = gf.components.grating_coupler_rectangular_arbitrary_slab(gaps=(0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2), widths=(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), wg_width=0.5, width_grating=11.0, length_taper=150.0, layer=(1, 0), polarization='te', wavelength=1.55, layer_slab=(2, 0), slab_offset=2.0, fiber_marker_layer=(203, 0))
   c.plot()
 
 
@@ -1771,7 +1771,7 @@ pad
 
   import gdsfactory as gf
 
-  c = gf.components.pad(size=(100.0, 100.0), layer=(49, 0), port_inclusion=0)
+  c = gf.components.pad(size=(100.0, 100.0), layer=(49, 0), port_inclusion=0, port_orientation=0)
   c.plot()
 
 
@@ -1996,7 +1996,7 @@ resistance_sheet
 
   import gdsfactory as gf
 
-  c = gf.components.resistance_sheet(width=10, layers=((3, 0), (24, 0)), layer_offsets=(0, 0.2), pad_pitch=100.0)
+  c = gf.components.resistance_sheet(width=10, layers=((3, 0), (24, 0)), layer_offsets=(0, 0.2), pad_pitch=100.0, port_orientation1=180, port_orientation2=0)
   c.plot()
 
 
@@ -2776,7 +2776,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='5.0.3', text_size=10)
+  c = gf.components.version_stamp(labels=('demo_label',), with_qr_code=False, layer=(1, 0), pixel_size=1, version='5.0.8', text_size=10)
   c.plot()
 
 

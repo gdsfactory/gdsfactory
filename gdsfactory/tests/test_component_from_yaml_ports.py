@@ -13,6 +13,7 @@ ports:
     width: 0.45
     orientation: 180
     port_type: optical
+    layer: strip
   o2:
     name: o2
     midpoint:
@@ -21,6 +22,7 @@ ports:
     width: 0.45
     orientation: 0
     port_type: optical
+    layer: [1, 0]
   o3:
     name: o3
     midpoint:
@@ -29,6 +31,7 @@ ports:
     width: 0.45
     orientation: 0
     port_type: optical
+    layer: [1, 0]
 
 instances:
     mmi_bot:
@@ -49,6 +52,4 @@ def test_component_from_yaml_ports(
 
 
 if __name__ == "__main__":
-    from omegaconf import OmegaConf
-
-    d = OmegaConf.create(yaml_str)
+    test_component_from_yaml_ports(None, check=False)

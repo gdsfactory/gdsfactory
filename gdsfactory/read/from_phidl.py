@@ -2,9 +2,10 @@ from phidl.device_layout import Device
 
 from gdsfactory.component import Component, ComponentReference, Port
 from gdsfactory.config import call_if_func
+from gdsfactory.types import Layer
 
 
-def from_phidl(component: Device, **kwargs) -> Component:
+def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Component:
     """Returns gf.Component from a phidl Device or function"""
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)
@@ -31,6 +32,7 @@ def from_phidl(component: Device, **kwargs) -> Component:
                 width=p.width,
                 orientation=p.orientation,
                 parent=p.parent,
+                layer=port_layer,
             )
         )
     for poly in device.polygons:

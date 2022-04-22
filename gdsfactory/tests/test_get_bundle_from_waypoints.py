@@ -15,9 +15,10 @@ def test_get_bundle_from_waypointsB(
     ys1 = np.array([0, 5, 10, 15, 30, 40, 50, 60]) + 0.0
     ys2 = np.array([0, 10, 20, 30, 70, 90, 110, 120]) + 500.0
     N = ys1.size
+    layer = (1, 0)
 
     ports1 = [
-        Port(name=f"A_{i}", midpoint=(0, ys1[i]), width=0.5, orientation=0)
+        Port(name=f"A_{i}", midpoint=(0, ys1[i]), width=0.5, orientation=0, layer=layer)
         for i in range(N)
     ]
     ports2 = [
@@ -26,6 +27,7 @@ def test_get_bundle_from_waypointsB(
             midpoint=(500, ys2[i]),
             width=0.5,
             orientation=180,
+            layer=layer,
         )
         for i in range(N)
     ]
@@ -61,9 +63,10 @@ def test_get_bundle_from_waypointsC(
     ys1 = np.array([0, 5, 10, 15, 20, 60, 70, 80, 120, 125])
     ys2 = np.array([0, 5, 10, 20, 25, 30, 40, 55, 60, 65]) - 500.0
     N = ys1.size
+    layer = (1, 0)
 
     ports1 = [
-        Port(name=f"A_{i}", midpoint=(0, ys1[i]), width=0.5, orientation=0)
+        Port(name=f"A_{i}", midpoint=(0, ys1[i]), width=0.5, orientation=0, layer=layer)
         for i in range(N)
     ]
     ports2 = [
@@ -72,6 +75,7 @@ def test_get_bundle_from_waypointsC(
             midpoint=(600, ys2[i]),
             width=0.5,
             orientation=180,
+            layer=layer,
         )
         for i in range(N)
     ]

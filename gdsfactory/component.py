@@ -404,14 +404,11 @@ class Component(Device):
     def add_port(
         self,
         name: Optional[Union[str, int, object]] = None,
-        midpoint: Tuple[float, float] = (
-            0.0,
-            0.0,
-        ),
-        width: float = 1.0,
-        orientation: float = 45,
+        midpoint: Optional[Tuple[float, float]] = None,
+        width: Optional[float] = None,
+        orientation: Optional[float] = None,
         port: Optional[Port] = None,
-        layer: Tuple[int, int] = (1, 0),
+        layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
@@ -445,6 +442,12 @@ class Component(Device):
             p.parent = self
             name = p.name
         else:
+            if width is None:
+                raise ValueError("Port needs width parameter (um).")
+            if orientation is None:
+                raise ValueError("Port needs orientation parameter (degrees).")
+            if midpoint is None:
+                raise ValueError("Port needs midpoint parameter (x, y) um.")
             half_width = width / 2
             half_width_correct = snap_to_grid(half_width, nm=1)
             if not np.isclose(half_width, half_width_correct):

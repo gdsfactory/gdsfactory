@@ -17,8 +17,19 @@ def test_path_length_matching() -> Component:
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    layer = (1, 0)
+    ports1 = [
+        gf.Port(
+            f"top_{i}", midpoint=(xs1[i], 0), width=0.5, orientation=a1, layer=layer
+        )
+        for i in range(N)
+    ]
+    ports2 = [
+        gf.Port(
+            f"bot_{i}", midpoint=(xs2[i], dy), width=0.5, orientation=a2, layer=layer
+        )
+        for i in range(N)
+    ]
 
     routes = gf.routing.get_bundle_path_length_match(ports1, ports2)
     lengths = [2659.822]
@@ -40,9 +51,20 @@ def test_path_length_matching_extra_length() -> Component:
 
     a1 = 90
     a2 = a1 + 180
+    layer = (1, 0)
 
-    ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    ports1 = [
+        gf.Port(
+            f"top_{i}", midpoint=(xs1[i], 0), width=0.5, orientation=a1, layer=layer
+        )
+        for i in range(N)
+    ]
+    ports2 = [
+        gf.Port(
+            f"bot_{i}", midpoint=(xs2[i], dy), width=0.5, orientation=a2, layer=layer
+        )
+        for i in range(N)
+    ]
 
     routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=40)
     lengths = [2699.822]
@@ -65,8 +87,19 @@ def test_path_length_matching_nb_loops() -> Component:
     a1 = 90
     a2 = a1 + 180
 
-    ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-    ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+    layer = (1, 0)
+    ports1 = [
+        gf.Port(
+            f"top_{i}", midpoint=(xs1[i], 0), width=0.5, orientation=a1, layer=layer
+        )
+        for i in range(N)
+    ]
+    ports2 = [
+        gf.Port(
+            f"bot_{i}", midpoint=(xs2[i], dy), width=0.5, orientation=a2, layer=layer
+        )
+        for i in range(N)
+    ]
 
     routes = gf.routing.get_bundle_path_length_match(ports1, ports2, nb_loops=2)
     lengths = [2686.37]

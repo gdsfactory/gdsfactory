@@ -2,6 +2,9 @@ settings:
   changed: {}
   child: null
   default:
+    fiber_marker_layer:
+    - 203
+    - 0
     fill_factor: 0.5
     layer:
     - 1
@@ -21,6 +24,9 @@ settings:
     wg_width: 0.5
     width_grating: 11
   full:
+    fiber_marker_layer:
+    - 203
+    - 0
     fill_factor: 0.5
     layer:
     - 1
