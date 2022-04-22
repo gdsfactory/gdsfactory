@@ -47,7 +47,8 @@ def array(
 
     c = Component()
     component = gf.get_component(component)
-    c.add_array(component, columns=columns, rows=rows, spacing=spacing)
+    ref = c.add_array(component, columns=columns, rows=rows, spacing=spacing)
+    ref.ports = {}
 
     for col in range(columns):
         for row in range(rows):
@@ -55,6 +56,7 @@ def array(
                 name = f"{port.name}_{row+1}_{col+1}"
                 c.add_port(name, port=port)
                 c.ports[name].move((col * spacing[0], row * spacing[1]))
+                ref.ports[name] = port
     return c
 
 
