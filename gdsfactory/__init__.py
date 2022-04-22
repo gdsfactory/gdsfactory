@@ -142,4 +142,4 @@ __all__ = [
     "get_cells",
     "get_cross_section_factories",
 ]
-__version__ = "5.1.0"
+__version__ = "5.1.1"
