@@ -3,7 +3,6 @@ import os
 import pathlib
 import shlex
 import subprocess
-import webbrowser
 from typing import Optional
 
 import click
@@ -116,13 +115,17 @@ def yaml() -> None:
     pass
 
 
+@click.option("--debug", "-d", default=False, help="debug", is_flag=True)
 @click.command()
-def webapp() -> None:
+def webapp(debug: bool = False) -> None:
     """Opens YAML based webapp."""
     from gdsfactory.icyaml import app
 
-    webbrowser.open("127.0.0.1:8080", new=1)
-    app.run()
+    if debug:
+        app.run_debug()
+
+    else:
+        app.run()
 
 
 @click.argument("filepath", type=click.Path(exists=True))
