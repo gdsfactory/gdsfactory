@@ -8,6 +8,7 @@ settings:
     - 49
     - 0
     port_inclusion: 0
+    port_orientation: 0
     size:
     - 100.0
     - 100.0
@@ -18,6 +19,7 @@ settings:
     - 49
     - 0
     port_inclusion: 0
+    port_orientation: 0
     size:
     - 100.0
     - 100.0
