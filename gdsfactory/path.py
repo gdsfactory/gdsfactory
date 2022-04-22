@@ -19,6 +19,7 @@ from phidl.path import smooth as smooth_phidl
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
+from gdsfactory.port import Port
 from gdsfactory.types import Coordinates, CrossSectionSpec, Float2, Layer, PathFactory
 
 
@@ -353,28 +354,34 @@ def extrude(
             orientation = (p.start_angle + 180) % 360
             _width = width if np.isscalar(width) else width[0]
             new_port = c.add_port(
-                name=port_names[0],
-                layer=layers[0],
-                port_type=port_types[0],
-                width=_width,
-                orientation=orientation,
-                cross_section=x.cross_sections[0]
-                if hasattr(x, "cross_sections")
-                else x,
+                port=Port(
+                    name=port_names[0],
+                    layer=layers[0],
+                    port_type=port_types[0],
+                    width=_width,
+                    orientation=orientation,
+                    cross_section=x.cross_sections[0]
+                    if hasattr(x, "cross_sections")
+                    else x,
+                    shear_angle=shear_angle_start,
+                )
             )
             new_port.endpoints = (points1[0], points2[0])
         if port_names[1] is not None:
             orientation = (p.end_angle + 180) % 360
             _width = width if np.isscalar(width) else width[-1]
             new_port = c.add_port(
-                name=port_names[1],
-                layer=layers[1],
-                port_type=port_types[1],
-                width=_width,
-                orientation=orientation,
-                cross_section=x.cross_sections[1]
-                if hasattr(x, "cross_sections")
-                else x,
+                port=Port(
+                    name=port_names[1],
+                    layer=layers[1],
+                    port_type=port_types[1],
+                    width=_width,
+                    orientation=orientation,
+                    cross_section=x.cross_sections[1]
+                    if hasattr(x, "cross_sections")
+                    else x,
+                    shear_angle=shear_angle_end,
+                )
             )
             new_port.endpoints = (points2[-1], points1[-1])
 
@@ -414,21 +421,31 @@ def _shear_face(
         shear_angle_start = shear_angle_start or 0
         shear_angle_end = shear_angle_end or 0
 
-        starts_monotonically_increasing = np.all(points[1:, 0] > points[:-1, 0])
-        if not starts_monotonically_increasing:
-            raise ValueError(
-                "Cannot shear face! Current algorithm assumes that all points are monotonically increasing in x."
-            )
-        dx_start = np.tan(np.deg2rad(shear_angle_start)) * dy
-        dx_end = np.tan(np.deg2rad(shear_angle_end)) * dy
-        points = points.copy()
-        points[0][0] += dx_start
-        points[-1][0] += dx_end
-        ends_monotonically_increasing = np.all(points[1:, 0] > points[:-1, 0])
+        dl_start = np.tan(np.deg2rad(shear_angle_start)) * dy
+        dp_start = points[1] - points[0]
+        a_start = np.arctan2(dp_start[1], dp_start[0])
+        dl_end = np.tan(np.deg2rad(shear_angle_end)) * dy
+        dp_end = points[-1] - points[-2]
+        a_end = np.arctan2(dp_end[1], dp_end[0])
+        _points = points.copy()
+        _points[0] = points[0] + np.array(
+            [dl_start * np.cos(a_start), dl_start * np.sin(a_start)]
+        )
+        _points[-1] = points[-1] + np.array(
+            [dl_end * np.cos(a_end), dl_end * np.sin(a_end)]
+        )
+        points = _points
 
-        if not ends_monotonically_increasing:
+        # verify nothing went screwy
+        dp_start_final = points[1] - points[0]
+        dp_end_final = points[-1] - points[-2]
+        if not np.array_equal(np.sign(dp_start), np.sign(dp_start_final)):
             raise ValueError(
-                "Cannot shear face! Sheared segment is not monotonically increasing! Maybe the segment is too short or has curvature?"
+                "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the start point"
+            )
+        if not np.array_equal(np.sign(dp_end), np.sign(dp_end_final)):
+            raise ValueError(
+                "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the end point"
             )
     return points
 
