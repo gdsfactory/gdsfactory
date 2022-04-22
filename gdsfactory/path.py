@@ -383,14 +383,6 @@ def extrude(
             )
             new_port.endpoints = (points2[-1], points1[-1])
 
-    # points = np.concatenate((p.points, np.array(xsection_points)))
-    # points_hash = hash_points(points)[:26]
-    # name = f"path_{points_hash}"
-    # c.info.points_hash = points_hash
-    # clean_dict(p.info)
-    # clean_dict(cross_section.info)
-    # c.info.path = p.info
-    # c.info.cross_section = cross_section.info
     c.info["length"] = float(np.round(p.length(), 3))
 
     if x.decorator:

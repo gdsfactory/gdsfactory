@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
@@ -99,6 +99,8 @@ def taper_strip_to_ridge(
     layer_wg: Layer = gf.LAYER.WG,
     layer_slab: Layer = gf.LAYER.SLAB90,
     cross_section: CrossSectionSpec = strip,
+    bbox_layers: Optional[List[Layer]] = None,
+    bbox_offsets: Optional[List[float]] = None,
 ) -> Component:
     r"""Linear taper from strip to rib
 
@@ -154,7 +156,9 @@ def taper_strip_to_ridge(
     x = gf.get_cross_section(cross_section)
     padding = []
     if length:
-        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        for layer, offset in zip(
+            bbox_layers or x.bbox_layers, bbox_offsets or x.bbox_offsets
+        ):
             points = get_padding_points(
                 component=c,
                 default=0,
