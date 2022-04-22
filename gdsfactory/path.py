@@ -19,6 +19,7 @@ from phidl.path import smooth as smooth_phidl
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
+from gdsfactory.port import Port
 from gdsfactory.types import Coordinates, CrossSectionSpec, Float2, Layer, PathFactory
 
 
@@ -353,28 +354,34 @@ def extrude(
             orientation = (p.start_angle + 180) % 360
             _width = width if np.isscalar(width) else width[0]
             new_port = c.add_port(
-                name=port_names[0],
-                layer=layers[0],
-                port_type=port_types[0],
-                width=_width,
-                orientation=orientation,
-                cross_section=x.cross_sections[0]
-                if hasattr(x, "cross_sections")
-                else x,
+                port=Port(
+                    name=port_names[0],
+                    layer=layers[0],
+                    port_type=port_types[0],
+                    width=_width,
+                    orientation=orientation,
+                    cross_section=x.cross_sections[0]
+                    if hasattr(x, "cross_sections")
+                    else x,
+                    shear_angle=shear_angle_start,
+                )
             )
             new_port.endpoints = (points1[0], points2[0])
         if port_names[1] is not None:
             orientation = (p.end_angle + 180) % 360
             _width = width if np.isscalar(width) else width[-1]
             new_port = c.add_port(
-                name=port_names[1],
-                layer=layers[1],
-                port_type=port_types[1],
-                width=_width,
-                orientation=orientation,
-                cross_section=x.cross_sections[1]
-                if hasattr(x, "cross_sections")
-                else x,
+                port=Port(
+                    name=port_names[1],
+                    layer=layers[1],
+                    port_type=port_types[1],
+                    width=_width,
+                    orientation=orientation,
+                    cross_section=x.cross_sections[1]
+                    if hasattr(x, "cross_sections")
+                    else x,
+                    shear_angle=shear_angle_end,
+                )
             )
             new_port.endpoints = (points2[-1], points1[-1])
 

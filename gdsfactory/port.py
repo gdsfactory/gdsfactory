@@ -86,6 +86,7 @@ class Port(PortPhidl):
         port_type: str = "optical",
         parent: Optional[object] = None,
         cross_section: Optional[object] = None,
+        shear_angle: Optional[object] = None,
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
@@ -97,22 +98,24 @@ class Port(PortPhidl):
         self.layer = layer
         self.port_type = port_type
         self.cross_section = cross_section
+        self.shear_angle = shear_angle
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port width must be >=0")
         Port._next_uid += 1
 
     def to_dict(self) -> Dict[str, Any]:
-        return clean_value_json(
-            dict(
-                name=self.name,
-                width=self.width,
-                midpoint=tuple(np.round(self.midpoint, 3)),
-                orientation=int(self.orientation),
-                layer=self.layer,
-                port_type=self.port_type,
-            )
+        d = dict(
+            name=self.name,
+            width=self.width,
+            midpoint=tuple(np.round(self.midpoint, 3)),
+            orientation=int(self.orientation),
+            layer=self.layer,
+            port_type=self.port_type,
         )
+        if self.shear_angle:
+            d["shear_angle"] = self.shear_angle
+        return clean_value_json(d)
 
     def __repr__(self) -> str:
         return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
@@ -191,6 +194,7 @@ class Port(PortPhidl):
             layer=self.layer,
             port_type=self.port_type,
             cross_section=self.cross_section,
+            shear_angle=self.shear_angle,
         )
         new_port.info = deepcopy(self.info)
         if not new_uid:
