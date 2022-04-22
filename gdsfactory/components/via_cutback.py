@@ -18,7 +18,16 @@ def _via_iterable(
     via_layer: Tuple[int, int],
     via_width: float,
 ) -> Component:
-    """Via"""
+    """Via chain.
+
+    Args:
+        via_spacing: via_spacing
+        wire_width: width of wire
+        layer1: top wiring
+        layer2: bottom wiring
+        via_layer:
+        via_width: width of via
+    """
     c = gf.Component()
     wire1 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer1))
     wire2 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer2))
@@ -31,14 +40,15 @@ def _via_iterable(
     via1.connect(
         port="e1", destination=wire2.ports["e3"], overlap=(wire_width + via_width) / 2
     )
-    c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical")
-    c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical")
+    c.add_port(name="e1", port=wire1.ports["e1"], port_type="electrical", layer=layer1)
+    c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical", layer=layer2)
     c.add_port(
         name="e4",
         midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
         width=wire_width,
         orientation=-90,
         port_type="electrical",
+        layer=layer2,
     )
     c.add_port(
         name="e2",
@@ -46,6 +56,7 @@ def _via_iterable(
         width=wire_width,
         orientation=90,
         port_type="electrical",
+        layer=layer2,
     )
 
     return c
@@ -79,7 +90,7 @@ def via_cutback(
         pad_layer
         layer1: top wiring
         layer2: bottom wiring
-        via_layer
+        via_layer:
         wire_pad_inclusion:
 
     """

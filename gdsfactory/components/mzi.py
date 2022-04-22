@@ -77,8 +77,8 @@ def mzi(
     straight_x_top = straight_x_top or straight
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
-    bend_factory = bend
-    bend = gf.get_component(bend_factory, cross_section=cross_section)
+
+    bend = gf.get_component(bend)
 
     c = Component()
     cp1 = gf.get_component(splitter)
@@ -93,7 +93,8 @@ def mzi(
     b5.connect("o1", cp1.ports[port_e0_splitter])
 
     syl = c << gf.get_component(
-        straight_y, length=delta_length / 2 + length_y, cross_section=cross_section
+        straight_y,
+        length=delta_length / 2 + length_y,
     )
     syl.connect("o1", b5.ports["o2"])
     b6 = c << bend
@@ -110,7 +111,7 @@ def mzi(
     b1 = c << bend
     b1.connect("o1", cp1.ports[port_e1_splitter])
 
-    sy = c << gf.get_component(straight_y, length=length_y, cross_section=cross_section)
+    sy = c << gf.get_component(straight_y, length=length_y)
     sy.connect("o1", b1.ports["o2"])
 
     b2 = c << bend
@@ -133,7 +134,7 @@ def mzi(
         sxt.ports["o2"],
         cp2.ports[port_e1_combiner],
         straight=straight,
-        bend=bend_factory,
+        bend=bend,
         cross_section=cross_section,
     )
     c.add(route.references)
@@ -141,7 +142,7 @@ def mzi(
         sxb.ports["o2"],
         cp2.ports[port_e0_combiner],
         straight=straight,
-        bend=bend_factory,
+        bend=bend,
         cross_section=cross_section,
     )
     c.add(route.references)
@@ -184,6 +185,14 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
+    extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
+
+    straigth_extended2 = gf.compose(
+        extend_ports2, gf.partial(gf.components.straight, width=0.9)
+    )
+    c = straigth_extended2()
+    c.show()
+
     # delta_length = 116.8 / 2
     # print(delta_length)
     # c = mzi(delta_length=delta_length, with_splitter=False)
@@ -195,8 +204,8 @@ if __name__ == "__main__":
     # c = mzi_coupler(length_x=5)
     # c = mzi2x2()
 
-    c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c.show()
+    # c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c.show()
 
     # c = mzi(
     #     delta_length=100,

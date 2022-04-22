@@ -15,6 +15,7 @@ def pad(
     bbox_layers: Optional[Tuple[Layer, ...]] = None,
     bbox_offsets: Optional[Tuple[float, ...]] = None,
     port_inclusion: float = 0,
+    port_orientation: int = 0,
 ) -> Component:
     """Rectangular pad with 4 ports (1, 2, 3, 4)
 
@@ -46,7 +47,21 @@ def pad(
                 )
             )
 
-    c.add_port(name="pad", port_type="vertical_dc", layer=layer, orientation=0)
+    if port_orientation not in [0, 90, 180, 270]:
+        raise ValueError(
+            f"port_orientation = {port_orientation} not in [0, 90, 180, 270]"
+        )
+
+    width = size[1] if port_orientation in [0, 180] else size[0]
+
+    c.add_port(
+        name="pad",
+        port_type="vertical_dc",
+        layer=layer,
+        midpoint=[0, 0],
+        orientation=port_orientation,
+        width=width,
+    )
     return c
 
 

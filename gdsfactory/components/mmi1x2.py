@@ -67,13 +67,33 @@ def mmi1x2(
         cross_section=cross_section,
     )
 
+    x = gf.get_cross_section(cross_section)
+
     a = gap_mmi / 2 + width_taper / 2
     mmi = c << straight(length=length_mmi, width=w_mmi, cross_section=cross_section)
 
     ports = [
-        gf.Port("o1", orientation=180, midpoint=(0, 0), width=w_taper),
-        gf.Port("o2", orientation=0, midpoint=(+length_mmi, +a), width=w_taper),
-        gf.Port("o3", orientation=0, midpoint=(+length_mmi, -a), width=w_taper),
+        gf.Port(
+            "o1",
+            orientation=180,
+            midpoint=(0, 0),
+            width=w_taper,
+            cross_section=x,
+        ),
+        gf.Port(
+            "o2",
+            orientation=0,
+            midpoint=(+length_mmi, +a),
+            width=w_taper,
+            cross_section=x,
+        ),
+        gf.Port(
+            "o3",
+            orientation=0,
+            midpoint=(+length_mmi, -a),
+            width=w_taper,
+            cross_section=x,
+        ),
     ]
 
     for port in ports:

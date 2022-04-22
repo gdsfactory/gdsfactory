@@ -62,31 +62,31 @@ class Port(PortPhidl):
     Extends phidl port with layer and cross_section
 
     Args:
-        name: we name ports according to orientation starting from bottom, left
-        midpoint: (0, 0)
+        name: we name ports clock-wise starting from bottom left.
+        midpoint: (x, y) port center coordinate.
         width: of the port
         orientation: in degrees (0: east, 90: north, 180: west, 270: south)
         parent: parent component (component to which this port belong to)
-        layer: (1, 0)
+        layer: layer tuple.
         port_type: str (optical, electrical, vertical_te, vertical_tm)
-        parent: Component that port belongs to
+        parent: Component that port belongs to.
         cross_section:
-
+        shear_angle: an optional angle to shear port face in degrees.
     """
 
     _next_uid = 0
 
     def __init__(
         self,
-        name: Optional[str] = None,
-        midpoint: Tuple[float, float] = (0.0, 0.0),
-        width: float = 0.5,
-        orientation: float = 0,
-        layer: Tuple[int, int] = (1, 0),
+        name: str,
+        midpoint: Tuple[float, float],
+        width: float,
+        orientation: float,
+        layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
         parent: Optional[object] = None,
         cross_section: Optional[object] = None,
-        shear_angle: Optional[object] = None,
+        shear_angle: Optional[float] = None,
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
@@ -99,6 +99,11 @@ class Port(PortPhidl):
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
+
+        if cross_section is None and layer is None:
+            raise ValueError("You need Port to define cross_section or layer")
+
+        layer = layer or cross_section.layer
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port width must be >=0")
@@ -269,6 +274,7 @@ def port_array(
     return [
         Port(
             name=str(i),
+            width=width,
             midpoint=np.array(midpoint) + i * pitch - (n - 1) / 2 * pitch,
             orientation=orientation,
             **kwargs,

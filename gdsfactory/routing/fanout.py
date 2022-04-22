@@ -27,6 +27,8 @@ def fanout_component(
         port_names: list of port names
         pitch: target port spacing for new component
         dx: how far the fanout in x direction
+        sort_ports:
+        auto_rename_ports:
         kwargs: for get_route_sbend
     """
 

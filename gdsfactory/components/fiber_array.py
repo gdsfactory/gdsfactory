@@ -35,7 +35,13 @@ def fiber_array(
         cladding = c.add_ref(circle(radius=cladding_diameter / 2, layer=layer_cladding))
         core.movex(i * pitch)
         cladding.movex(i * pitch)
-        c.add_port(name=f"F{i}", width=core_diameter, orientation=0)
+        c.add_port(
+            name=f"F{i}",
+            width=core_diameter,
+            orientation=0,
+            layer=layer_core,
+            midpoint=(0, 0),
+        )
 
     return c
 

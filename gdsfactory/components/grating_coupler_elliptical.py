@@ -97,8 +97,8 @@ def grating_coupler_elliptical(
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     slab_xmin: float = -1.0,
     slab_offset: float = 2.0,
-    fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
+    fiber_marker_width: Optional[float] = 11.0,
+    fiber_marker_layer: Layer = gf.LAYER.TE,
     spiked: bool = True,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
@@ -120,7 +120,7 @@ def grating_coupler_elliptical(
         slab_xmin: where 0 is at the start of the taper
         slab_offset:
         fiber_marker_width: width
-        fiber_marker_layer: Optional circular marker
+        fiber_marker_layer: fiber marker layer.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
 
 
@@ -205,7 +205,7 @@ def grating_coupler_elliptical(
         c.add_polygon(pts, layer)
 
     x = np.round(taper_length + x_output, 3)
-    if fiber_marker_layer:
+    if fiber_marker_width:
         circle = gf.components.circle(
             radius=fiber_marker_width / 2, layer=fiber_marker_layer
         )

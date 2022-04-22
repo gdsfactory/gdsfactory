@@ -46,8 +46,15 @@ def straight_heater_meander(
     """
     rows = 3
     c = Component()
-    p1 = gf.Port(midpoint=(0, 0), orientation=0)
-    p2 = gf.Port(midpoint=(0, spacing), orientation=0)
+
+    x = gf.get_cross_section(cross_section)
+
+    p1 = gf.Port(
+        name="p1", midpoint=(0, 0), orientation=0, cross_section=x, width=x.width
+    )
+    p2 = gf.Port(
+        name="p2", midpoint=(0, spacing), orientation=0, cross_section=x, width=x.width
+    )
     route = gf.routing.get_route(p1, p2, radius=radius)
 
     cross_section1 = gf.partial(cross_section, width=straight_width)

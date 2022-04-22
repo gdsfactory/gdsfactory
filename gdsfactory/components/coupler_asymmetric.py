@@ -67,9 +67,11 @@ def coupler_asymmetric(
     c.absorb(bottom_bend)
 
     port_width = 2 * w + gap
-    c.add_port(name="o1", midpoint=[0, 0], width=port_width, orientation=180)
-    c.add_port(port=bottom_bend.ports["o2"], name="o3")
-    c.add_port(port=wg.ports["o2"], name="o2")
+    c.add_port(
+        name="o1", midpoint=[0, 0], width=port_width, orientation=180, cross_section=x
+    )
+    c.add_port(name="o3", port=bottom_bend.ports["o2"])
+    c.add_port(name="o2", port=wg.ports["o2"])
 
     return c
 

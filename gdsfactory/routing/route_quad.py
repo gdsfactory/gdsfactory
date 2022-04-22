@@ -51,12 +51,14 @@ def route_quad(
         midpoint=port1.midpoint,
         orientation=port1.orientation + 180,
         width=width1,
+        layer=layer,
     )
     component.add_port(
         name="e2",
         midpoint=port2.midpoint,
         orientation=port2.orientation + 180,
         width=width2,
+        layer=layer,
     )
     return component
 

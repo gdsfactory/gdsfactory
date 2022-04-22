@@ -18,15 +18,28 @@ def test_get_bundle_u_indirect(angle=0):
 
     a1 = angle
     a2 = a1 + 180
+    layer = (1, 0)
 
     if axis == "X":
-        ports1 = [Port("top_{}".format(i), (0, xs1[i]), 0.5, a1) for i in range(N)]
-        ports2 = [Port("bot_{}".format(i), (dy, xs2[i]), 0.5, a2) for i in range(N)]
+        ports1 = [
+            Port("top_{}".format(i), (0, xs1[i]), 0.5, a1, layer=layer)
+            for i in range(N)
+        ]
+        ports2 = [
+            Port("bot_{}".format(i), (dy, xs2[i]), 0.5, a2, layer=layer)
+            for i in range(N)
+        ]
 
     else:
-        ports1 = [Port("top_{}".format(i), (xs1[i], 0), 0.5, a1) for i in range(N)]
+        ports1 = [
+            Port("top_{}".format(i), (xs1[i], 0), 0.5, a1, layer=layer)
+            for i in range(N)
+        ]
 
-        ports2 = [Port("bot_{}".format(i), (xs2[i], dy), 0.5, a2) for i in range(N)]
+        ports2 = [
+            Port("bot_{}".format(i), (xs2[i], dy), 0.5, a2, layer=layer)
+            for i in range(N)
+        ]
 
     c = gf.Component(f"test_get_bundle_u_indirect_{angle}_{dy}")
     routes = get_bundle(

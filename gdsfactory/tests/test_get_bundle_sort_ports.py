@@ -15,9 +15,14 @@ def test_get_bundle_sort_ports(
     pitch = 127.0
     N = len(ys_right)
     ys_left = [(i - N / 2) * pitch for i in range(N)]
+    layer = (1, 0)
 
-    right_ports = [gf.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180) for i in range(N)]
-    left_ports = [gf.Port(f"L_{i}", (-400, ys_left[i]), 0.5, 0) for i in range(N)]
+    right_ports = [
+        gf.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180, layer=layer) for i in range(N)
+    ]
+    left_ports = [
+        gf.Port(f"L_{i}", (-400, ys_left[i]), 0.5, 0, layer=layer) for i in range(N)
+    ]
     left_ports.reverse()
     routes = gf.routing.get_bundle(right_ports, left_ports)
 
