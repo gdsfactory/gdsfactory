@@ -1,14 +1,14 @@
 from typing import Callable, List, Optional, Tuple
 
 import numpy as np
-import phidl.device_layout as pd
 
+import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
-from gdsfactory.port import select_ports_optical
+from gdsfactory.port import Port, select_ports_optical
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
 from gdsfactory.types import ComponentFactory, CrossSectionSpec, Number, Routes
@@ -53,6 +53,7 @@ def route_south(
         east ports on the east of the box
         west ports on the west of the box
     """
+    xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or []
     assert optical_routing_type in [
         1,
@@ -103,10 +104,14 @@ def route_south(
     def get_index_port_closest_to_x(x, list_ports):
         return np.array([abs(x - p.ports[gc_port_name].x) for p in list_ports]).argmin()
 
-    def gen_port_from_port(x, y, p):
-        new_p = pd.Port(name=p.name, midpoint=(x, y), orientation=90.0, width=p.width)
-
-        return new_p
+    def gen_port_from_port(x, y, p, cross_section):
+        return Port(
+            name=p.name,
+            midpoint=(x, y),
+            orientation=90.0,
+            width=p.width,
+            cross_section=cross_section,
+        )
 
     west_ports.reverse()
 
@@ -147,7 +152,7 @@ def route_south(
                 elif x < x_gr:
                     x = x_gr - delta_gr_min
 
-        tmp_port = gen_port_from_port(x, y0, p)
+        tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         ports_to_route.append(tmp_port)
         route = get_route(input_port=p, output_port=tmp_port, **conn_params)
         references.extend(route.references)
@@ -163,7 +168,7 @@ def route_south(
     if len(north_start) > 0:
         y_max = max([p.y for p in west_ports + north_start])
         for p in north_start:
-            tmp_port = gen_port_from_port(x, y0, p)
+            tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
 
             route = get_route(
                 input_port=p,
@@ -206,7 +211,7 @@ def route_south(
                 elif x > x_gr:
                     x = x_gr + delta_gr_min
 
-        tmp_port = gen_port_from_port(x, y0, p)
+        tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
         route = get_route(
             p, tmp_port, start_straight_length=start_straight_length, **conn_params
         )
@@ -223,7 +228,7 @@ def route_south(
     if len(north_finish) > 0:
         y_max = max([p.y for p in east_ports + north_finish])
         for p in north_finish:
-            tmp_port = gen_port_from_port(x, y0, p)
+            tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
             route = get_route(
                 input_port=p,
@@ -242,8 +247,6 @@ def route_south(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
     c = gf.components.ring_double()

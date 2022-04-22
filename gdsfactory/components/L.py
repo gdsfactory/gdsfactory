@@ -26,10 +26,20 @@ def L(
     points = [(-w, -w), (s1, -w), (s1, w), (w, w), (w, s2), (-w, s2), (-w, -w)]
     D.add_polygon(points, layer=layer)
     D.add_port(
-        name="e1", midpoint=(0, s2), width=width, orientation=90, port_type=port_type
+        name="e1",
+        midpoint=(0, s2),
+        width=width,
+        orientation=90,
+        port_type=port_type,
+        layer=layer,
     )
     D.add_port(
-        name="e2", midpoint=(s1, 0), width=width, orientation=0, port_type=port_type
+        name="e2",
+        midpoint=(s1, 0),
+        width=width,
+        orientation=0,
+        port_type=port_type,
+        layer=layer,
     )
     return D
 

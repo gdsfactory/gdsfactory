@@ -18,6 +18,8 @@ def resistance_sheet(
     pad: ComponentFactory = pad_contact_slab_npp,
     pad_pitch: float = 100.0,
     ohms_per_square: Optional[float] = None,
+    port_orientation1: int = 180,
+    port_orientation2: int = 0,
 ) -> Component:
     """Sheet resistance.
     keeps connectivity for pads and first layer in layers
@@ -29,6 +31,8 @@ def resistance_sheet(
         pad: function to create a pad
         pad_pitch:
         ohms_per_square: optional sheet resistance to compute info.resistance
+        port_orientation1: in degrees.
+        port_orientation2: in degrees.
     """
     c = Component()
 
@@ -49,8 +53,22 @@ def resistance_sheet(
 
     c.info["resistance"] = ohms_per_square * width * length if ohms_per_square else None
 
-    c.add_port("pad1", port_type="vertical_dc", midpoint=pad1.center)
-    c.add_port("pad2", port_type="vertical_dc", midpoint=pad2.center)
+    c.add_port(
+        "pad1",
+        port_type="vertical_dc",
+        midpoint=pad1.center,
+        layer=list(layers)[-1],
+        width=width,
+        orientation=port_orientation1,
+    )
+    c.add_port(
+        "pad2",
+        port_type="vertical_dc",
+        midpoint=pad2.center,
+        layer=list(layers)[-1],
+        width=width,
+        orientation=port_orientation2,
+    )
     return c
 
 

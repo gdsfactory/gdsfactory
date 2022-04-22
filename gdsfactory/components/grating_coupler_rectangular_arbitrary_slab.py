@@ -25,6 +25,7 @@ def grating_coupler_rectangular_arbitrary_slab(
     taper: ComponentFactory = taper_strip_to_slab150,
     layer_slab: Optional[Layer] = gf.LAYER.SLAB150,
     slab_offset: float = 2.0,
+    fiber_marker_layer: Layer = gf.LAYER.TE,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
@@ -116,7 +117,14 @@ def grating_coupler_rectangular_arbitrary_slab(
     xport = np.round((xi + length_taper) / 2, 3)
 
     port_type = f"vertical_{polarization.lower()}"
-    c.add_port(name=port_type, port_type=port_type, midpoint=(xport, 0), orientation=0)
+    c.add_port(
+        name=port_type,
+        port_type=port_type,
+        midpoint=(xport, 0),
+        orientation=0,
+        width=width_grating,
+        layer=fiber_marker_layer,
+    )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)

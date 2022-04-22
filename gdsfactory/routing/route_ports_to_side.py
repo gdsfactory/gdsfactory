@@ -486,17 +486,19 @@ def _sample_route_side() -> Component:
 
     c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], LAYER.WG)
 
+    layer = (1, 0)
+
     for i, y in enumerate(ys):
         p0 = (xl, y)
         p1 = (xr, y)
-        c.add_port(name="W{}".format(i), midpoint=p0, orientation=180, width=0.5)
-        c.add_port(name="E{}".format(i), midpoint=p1, orientation=0, width=0.5)
+        c.add_port(name=f"W{i}", midpoint=p0, orientation=180, width=0.5, layer=layer)
+        c.add_port(name=f"E{i}", midpoint=p1, orientation=0, width=0.5, layer=layer)
 
     for i, x in enumerate(xs):
         p0 = (x, yb)
         p1 = (x, yt)
-        c.add_port(name="S{}".format(i), midpoint=p0, orientation=270, width=0.5)
-        c.add_port(name="N{}".format(i), midpoint=p1, orientation=90, width=0.5)
+        c.add_port(name=f"S{i}", midpoint=p0, orientation=270, width=0.5, layer=layer)
+        c.add_port(name=f"N{i}", midpoint=p1, orientation=90, width=0.5, layer=layer)
 
     return c
 
