@@ -71,6 +71,13 @@ def preview_layerset(
 
 
 class LayerSet(LayerSetPhidl):
+    """Store layers and colors.
+
+    Attributes:
+        _layers: dict of layers.
+
+    """
+
     def add_layer(
         self,
         name: str = "unnamed",
@@ -81,7 +88,7 @@ class LayerSet(LayerSetPhidl):
         inverted: bool = False,
         alpha: float = 0.6,
         dither: bool = None,
-    ):
+    ) -> None:
         """Adds a layer to an existing LayerSet object for nice colors.
 
         Args:
@@ -92,8 +99,9 @@ class LayerSet(LayerSetPhidl):
             color: Hex code of color for the Layer.
             inverted: If true, inverts the Layer.
             alpha: layer opacity between 0 and 1 (0: invisible,  1: opaque).
-            dither: KLayout dither style, only used for phidl.utilities.write_lyp().
+            dither: KLayout dither style for phidl.utilities.write_lyp().
         """
+
         new_layer = LayerPhidl(
             gds_layer=gds_layer,
             gds_datatype=gds_datatype,
@@ -272,6 +280,7 @@ class LayerMap(BaseModel):
     class Config:
         frozen = True
         extra = "forbid"
+
 
 LAYER = LayerMap()
 """

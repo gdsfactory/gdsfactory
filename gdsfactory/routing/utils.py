@@ -6,8 +6,8 @@ from gdsfactory.port import Port
 
 
 def flip(port: Port) -> Port:
-    """Flip Port orientation."""
-    return Port(port.name, port.midpoint, port.width, port.orientation + 180)
+    """Returns port copy with Flip Port orientation."""
+    return port.flip()
 
 
 def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List[Port]]:

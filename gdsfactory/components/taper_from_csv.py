@@ -20,7 +20,6 @@ def taper_from_csv(
     layer: Tuple[int, int] = (1, 0),
     layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
     cladding_offset: float = 3.0,
-    **kwargs
 ) -> Component:
     """
 
@@ -29,7 +28,6 @@ def taper_from_csv(
         layer
         layer_cladding:
         cladding_offset
-        kwargs: kwargs will be ignored
 
     """
     taper_data = pd.read_csv(filepath)
@@ -44,16 +42,10 @@ def taper_from_csv(
     )
 
     c.add_port(
-        name="o1",
-        midpoint=(xs[0], 0),
-        width=2 * ys[0],
-        orientation=180,
+        name="o1", midpoint=(xs[0], 0), width=2 * ys[0], orientation=180, layer=layer
     )
     c.add_port(
-        name="o2",
-        midpoint=(xs[-1], 0),
-        width=2 * ys[-1],
-        orientation=0,
+        name="o2", midpoint=(xs[-1], 0), width=2 * ys[-1], orientation=0, layer=layer
     )
     return c
 

@@ -40,8 +40,14 @@ if __name__ == "__main__":
     N = len(ys_left)
     ys_right = [(i - N / 2) * pitch for i in range(N)]
 
-    right_ports = [gf.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180) for i in range(N)]
-    left_ports = [gf.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0) for i in range(N)]
+    right_ports = [
+        gf.Port(f"R_{i}", (0, ys_right[i]), width=0.5, orientation=180, layer=(1, 0))
+        for i in range(N)
+    ]
+    left_ports = [
+        gf.Port(f"L_{i}", (-50, ys_left[i]), width=0.5, orientation=0, layer=(1, 0))
+        for i in range(N)
+    ]
     left_ports.reverse()
     right_ports, left_ports = sort_ports(right_ports, left_ports)
 

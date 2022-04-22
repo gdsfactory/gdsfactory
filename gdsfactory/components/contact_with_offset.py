@@ -79,6 +79,7 @@ def contact_with_offset(
         orientation=port_orientation,
         midpoint=(0, y1),
         port_type="electrical",
+        layer=list(layers)[-1],
     )
     return c
 

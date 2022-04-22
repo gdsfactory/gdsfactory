@@ -11,9 +11,10 @@ def component_phidl(function_name: str, **kwargs) -> gf.Component:
     return gf.read.from_phidl(device)
 
 
-def test_import_component_phidl():
-    component_phidl(function_name="snspd")
+def test_import_component_phidl() -> gf.Component:
+    return component_phidl(function_name="snspd")
 
 
 if __name__ == "__main__":
-    test_import_component_phidl()
+    c = test_import_component_phidl()
+    c.show()

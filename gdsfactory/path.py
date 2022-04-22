@@ -351,15 +351,14 @@ def extrude(
 
         # Add port_names if they were specified
         if port_names[0] is not None:
-            orientation = (p.start_angle + 180) % 360
-            _width = width if np.isscalar(width) else width[0]
             new_port = c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=layers[0],
                     port_type=port_types[0],
-                    width=_width,
-                    orientation=orientation,
+                    width=width if np.isscalar(width) else width[0],
+                    orientation=(p.start_angle + 180) % 360,
+                    midpoint=(0, 0),
                     cross_section=x.cross_sections[0]
                     if hasattr(x, "cross_sections")
                     else x,
@@ -368,15 +367,14 @@ def extrude(
             )
             new_port.endpoints = (points1[0], points2[0])
         if port_names[1] is not None:
-            orientation = (p.end_angle + 180) % 360
-            _width = width if np.isscalar(width) else width[-1]
             new_port = c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=layers[1],
                     port_type=port_types[1],
-                    width=_width,
-                    orientation=orientation,
+                    width=width if np.isscalar(width) else width[-1],
+                    midpoint=(0, 0),
+                    orientation=(p.end_angle + 180) % 360,
                     cross_section=x.cross_sections[1]
                     if hasattr(x, "cross_sections")
                     else x,
