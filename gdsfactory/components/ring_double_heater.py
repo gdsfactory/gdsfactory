@@ -2,15 +2,15 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentFactory, CrossSectionSpec, Float2
 
-contact_heater_m3_mini = gf.partial(contact_heater_m3, size=(4, 4))
+via_stack_heater_m3_mini = gf.partial(via_stack_heater_m3, size=(4, 4))
 
 
 @gf.cell
@@ -24,9 +24,9 @@ def ring_double_heater(
     bend: Optional[ComponentFactory] = None,
     cross_section_heater: gf.types.CrossSectionSpec = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionSpec = strip,
-    contact: gf.types.ComponentFactory = contact_heater_m3_mini,
+    via_stack: gf.types.ComponentFactory = via_stack_heater_m3_mini,
     port_orientation: float = 90,
-    contact_offset: Float2 = (0, 0),
+    via_stack_offset: Float2 = (0, 0),
     **kwargs
 ) -> Component:
     """Double bus ring made of two couplers (ct: top, cb: bottom)
@@ -43,9 +43,9 @@ def ring_double_heater(
         bend: bend function
         cross_section_heater:
         cross_section:
-        contact:
-        port_orientation: for electrical ports to promote from contact
-        contact_offset: for each contact
+        via_stack:
+        port_orientation: for electrical ports to promote from via_stack
+        via_stack_offset: for each via_stack
         kwargs: cross_section settings
 
     .. code::
@@ -92,12 +92,12 @@ def ring_double_heater(
     c.add_port("o3", port=ct.ports["o4"])
     c.add_port("o4", port=ct.ports["o1"])
 
-    c1 = c << contact()
-    c2 = c << contact()
-    c1.xmax = -length_x / 2 + cb.x - contact_offset[0]
-    c2.xmin = +length_x / 2 + cb.x + contact_offset[0]
-    c1.movey(contact_offset[1])
-    c2.movey(contact_offset[1])
+    c1 = c << via_stack()
+    c2 = c << via_stack()
+    c1.xmax = -length_x / 2 + cb.x - via_stack_offset[0]
+    c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
+    c1.movey(via_stack_offset[1])
+    c2.movey(via_stack_offset[1])
     c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()

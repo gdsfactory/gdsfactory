@@ -2,8 +2,13 @@ settings:
   changed: {}
   child: null
   default:
-    contact:
-      function: contact
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 41
@@ -24,8 +29,8 @@ settings:
             layer:
             - 43
             - 0
-    contact_slab:
-      function: contact_slot
+    via_stack_slab:
+      function: via_stack_slot
       settings:
         layers:
         - - 41
@@ -36,20 +41,20 @@ settings:
             layer:
             - 40
             - 0
-    contact_slab_bot: null
-    contact_slab_spacing: 2
-    contact_slab_top: null
-    contact_slab_width: null
-    contact_spacing: 3
-    contact_width: 10
-    cross_section:
-      function: pin
-    length: 500
-    taper:
-      function: taper_strip_to_ridge
+    via_stack_slab_bot: null
+    via_stack_slab_spacing: 2
+    via_stack_slab_top: null
+    via_stack_slab_width: null
+    via_stack_spacing: 3
+    via_stack_width: 10
   full:
-    contact:
-      function: contact
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 41
@@ -70,8 +75,8 @@ settings:
             layer:
             - 43
             - 0
-    contact_slab:
-      function: contact_slot
+    via_stack_slab:
+      function: via_stack_slot
       settings:
         layers:
         - - 41
@@ -82,17 +87,12 @@ settings:
             layer:
             - 40
             - 0
-    contact_slab_bot: null
-    contact_slab_spacing: 2
-    contact_slab_top: null
-    contact_slab_width: null
-    contact_spacing: 3
-    contact_width: 10
-    cross_section:
-      function: pin
-    length: 500
-    taper:
-      function: taper_strip_to_ridge
+    via_stack_slab_bot: null
+    via_stack_slab_spacing: 2
+    via_stack_slab_top: null
+    via_stack_slab_width: null
+    via_stack_spacing: 3
+    via_stack_width: 10
   function_name: straight_pin_slot
   info: {}
   info_version: 2

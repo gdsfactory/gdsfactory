@@ -1,8 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.1.3]
+## [5.2.0]
 
 - add ComponentSpec to straight_heater_doped_rib
+- rename `contact` to `via_stack`
 
 
 ## [5.1.2](https://github.com/gdsfactory/gdsfactory/pull/286)

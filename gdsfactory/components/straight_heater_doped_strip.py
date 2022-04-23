@@ -7,11 +7,11 @@ top view
       <-|--------|--------------------------------->
         |        | length_section
         |<--------------------------->
-       length_contact
+       length_via_stack
         |<------>|
         |________|_____________________________
        /|        |____________________|        |
-      / |viastack|                    |contact |
+      / |viastack|                    |via_stack |
       \ | size   |____________________|        |
        \|________|____________________|________|
                                       |        |
@@ -37,14 +37,14 @@ cross_section
 
 from functools import partial
 
-from gdsfactory.components.contact import contact_npp_m1
 from gdsfactory.components.straight_heater_doped_rib import straight_heater_doped_rib
+from gdsfactory.components.via_stack import via_stack_npp_m1
 from gdsfactory.cross_section import strip_heater_doped
 
 straight_heater_doped_strip = partial(
     straight_heater_doped_rib,
     cross_section_heater=strip_heater_doped,
-    contact=contact_npp_m1,
+    via_stack=via_stack_npp_m1,
 )
 
 

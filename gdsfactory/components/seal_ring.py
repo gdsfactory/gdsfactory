@@ -3,8 +3,8 @@ from typing import Tuple, Union
 from numpy import array
 
 import gdsfactory as gf
-from gdsfactory.components.contact import contact
 from gdsfactory.components.rectangle import rectangle
+from gdsfactory.components.via_stack import via_stack
 from gdsfactory.snap import snap_to_grid
 
 Coordinate = Union[Tuple[float, float], array]
@@ -13,7 +13,7 @@ Coordinate = Union[Tuple[float, float], array]
 @gf.cell_without_validator
 def seal_ring(
     bbox: Tuple[Coordinate, Coordinate] = ((-1.0, -1.0), (3.0, 4.0)),
-    seal: gf.types.ComponentFactory = contact,
+    seal: gf.types.ComponentFactory = via_stack,
     width: float = 10,
     padding: float = 10.0,
     with_north: bool = True,

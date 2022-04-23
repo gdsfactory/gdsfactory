@@ -5,7 +5,7 @@ This router could save more routing space with a more direct algorithm
 
 import gdsfactory as gf
 from gdsfactory.components.extend_ports_list import extend_ports_list
-from gdsfactory.components.contact import contact_heater_m3
+from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.routing.sort_ports import sort_ports
 
 
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         length=length,
         port_orientation1=180,
         port_orientation2=0,
-        contact=contact_heater_m3,
+        contact=via_stack_heater_m3,
     )
 
     ps = c << extend_ports_list(

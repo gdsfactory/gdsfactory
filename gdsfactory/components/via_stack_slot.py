@@ -11,7 +11,7 @@ from gdsfactory.types import ComponentSpec, Float2, Floats, Layer, Layers
 
 
 @gf.cell
-def contact_slot(
+def via_stack_slot(
     size: Float2 = (11.0, 11.0),
     layers: Layers = (LAYER.M1, LAYER.M2),
     layer_offsets: Optional[Floats] = (0, 1.0),
@@ -23,7 +23,7 @@ def contact_slot(
     ysize: float = 0.5,
     yspacing: float = 2.0,
 ) -> Component:
-    """Rectangular contact with slotted via in X direction
+    """Rectangular via_stack with slotted via in X direction
 
     Args:
         size: of the layers
@@ -67,11 +67,11 @@ def contact_slot(
     """
     if size[0] - 2 * enclosure < 0:
         raise ValueError(
-            f"Contact length (size[0] = {size[0]}) < 2*enclosure ({2*enclosure}). "
+            f"via_stack length (size[0] = {size[0]}) < 2*enclosure ({2*enclosure}). "
         )
     if size[1] - 2 * enclosure < 0:
         raise ValueError(
-            f"Contact width (size[1] = {size[1]}) < 2*enclosure ({2*enclosure}). "
+            f"via_stack width (size[1] = {size[1]}) < 2*enclosure ({2*enclosure}). "
         )
 
     layer_port = layer_port or layers[-1]
@@ -103,11 +103,11 @@ def contact_slot(
     return c
 
 
-contact_slot_m1_m2 = gf.partial(contact_slot, layers=(LAYER.M1, LAYER.M2), via=via1)
+via_stack_slot_m1_m2 = gf.partial(via_stack_slot, layers=(LAYER.M1, LAYER.M2), via=via1)
 
-contact_slot_slab_m1 = gf.partial(contact_slot, layers=(LAYER.M1,), via=viac)
+via_stack_slot_slab_m1 = gf.partial(via_stack_slot, layers=(LAYER.M1,), via=viac)
 
 
 if __name__ == "__main__":
-    c = contact_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2, size=(3, 3))
+    c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2, size=(3, 3))
     c.show()
