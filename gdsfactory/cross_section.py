@@ -154,6 +154,7 @@ def cross_section(
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
         info: settings info.
+        decorator: funcion to run when converting path to component.
     """
 
     x = CrossSection(

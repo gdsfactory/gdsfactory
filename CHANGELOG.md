@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.1.2]
+
+- `Component.remove_layers` also removes layers from paths
+- add `bbox_layers` and `bbox_offsets` to `taper`
+
 ## [5.1.1](https://github.com/gdsfactory/gdsfactory/pull/285)
 
 - add `gf yaml webapp -d` or `gf yaml webapp --debug` for debug mode

@@ -499,7 +499,7 @@ class Component(Device):
         invert_selection: bool = False,
         recursive: bool = True,
     ) -> Device:
-        """Remove a list of layers and returns a new Component.
+        """Remove a list of layers and returns the same Component.
 
         Args:
             layers: list of layers to remove.
@@ -525,6 +525,14 @@ class Component(Device):
                 polygonset.datatypes = [
                     p for p, keep in zip(polygonset.datatypes, polygons_to_keep) if keep
                 ]
+
+            paths = []
+            for path in D.paths:
+                for layer in zip(path.layers, path.datatypes):
+                    if layer not in layers:
+                        paths.append(path)
+
+            D.paths = paths
 
             if include_labels:
                 new_labels = []
