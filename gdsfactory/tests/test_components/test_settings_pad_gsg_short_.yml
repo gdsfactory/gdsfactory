@@ -2,12 +2,6 @@ settings:
   changed: {}
   child: null
   default:
-    contact:
-      function: rectangle
-      settings:
-        layer:
-        - 49
-        - 0
     layer_metal:
     - 49
     - 0
@@ -19,13 +13,13 @@ settings:
     size:
     - 22
     - 7
+    via_stack:
+      function: rectangle
+      settings:
+        layer:
+        - 49
+        - 0
   full:
-    contact:
-      function: rectangle
-      settings:
-        layer:
-        - 49
-        - 0
     layer_metal:
     - 49
     - 0
@@ -37,6 +31,12 @@ settings:
     size:
     - 22
     - 7
+    via_stack:
+      function: rectangle
+      settings:
+        layer:
+        - 49
+        - 0
   function_name: pad_gsg_short
   info: {}
   info_version: 2

@@ -12,7 +12,7 @@ settings:
       - 0
     ohms_per_square: null
     pad:
-      function: contact
+      function: via_stack
       settings:
         layers:
         - - 3
@@ -47,7 +47,7 @@ settings:
       - 0
     ohms_per_square: null
     pad:
-      function: contact
+      function: via_stack
       settings:
         layers:
         - - 3

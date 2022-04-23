@@ -152,7 +152,7 @@ array_with_via
 
   import gdsfactory as gf
 
-  c = gf.components.array_with_via(columns=3, spacing=150.0, via_spacing=10.0, straight_length=60.0, contact_dy=0, port_orientation=180)
+  c = gf.components.array_with_via(columns=3, spacing=150.0, via_spacing=10.0, straight_length=60.0, via_stack_dy=0, port_orientation=180)
   c.plot()
 
 
@@ -438,96 +438,6 @@ component_sequence
 ----------------------------------------------------
 
 .. autofunction:: gdsfactory.components.component_sequence
-
-
-
-contact
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.contact
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.contact(size=(11.0, 11.0), layers=((41, 0), (45, 0), (49, 0)))
-  c.plot()
-
-
-
-contact_heater_m3
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.contact_heater_m3
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.contact_heater_m3(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)))
-  c.plot()
-
-
-
-contact_slab_m3
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.contact_slab_m3
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.contact_slab_m3(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)))
-  c.plot()
-
-
-
-contact_slot
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.contact_slot
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.contact_slot(size=(11.0, 11.0), layers=((41, 0), (45, 0)), layer_offsets=(0, 1.0), enclosure=1.0, ysize=0.5, yspacing=2.0)
-  c.plot()
-
-
-
-contact_slot_m1_m2
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.contact_slot_m1_m2
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.contact_slot_m1_m2(size=(11.0, 11.0), layers=((41, 0), (45, 0)), layer_offsets=(0, 1.0), enclosure=1.0, ysize=0.5, yspacing=2.0)
-  c.plot()
-
-
-
-contact_with_offset
-----------------------------------------------------
-
-.. autofunction:: gdsfactory.components.contact_with_offset
-
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.contact_with_offset(layers=((25, 0), (41, 0)), sizes=((10, 10), (10, 10)), port_orientation=180)
-  c.plot()
 
 
 
@@ -2041,7 +1951,7 @@ ring_double_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, port_orientation=90, contact_offset=(0, 0))
+  c = gf.components.ring_double_heater(gap=0.2, radius=10.0, length_x=0.01, length_y=0.01, port_orientation=90, via_stack_offset=(0, 0))
   c.plot()
 
 
@@ -2101,7 +2011,7 @@ ring_single_heater
 
   import gdsfactory as gf
 
-  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, port_orientation=90, contact_offset=(0, 0))
+  c = gf.components.ring_single_heater(gap=0.2, radius=10.0, length_x=4.0, length_y=0.6, port_orientation=90, via_stack_offset=(0, 0))
   c.plot()
 
 
@@ -2281,7 +2191,7 @@ straight_heater_doped_rib
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True, straight='straight')
+  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, via_stack_metal_size=(10.0, 10.0), via_stack_size=(10.0, 10.0), with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, via_stack_gap=0.0, width=0.5, with_top_via_stack=True, with_bot_via_stack=True, straight='straight')
   c.plot()
 
 
@@ -2296,7 +2206,7 @@ straight_heater_doped_strip
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, contact_metal_size=(10.0, 10.0), contact_size=(10.0, 10.0), with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, contact_gap=0.0, width=0.5, with_top_contact=True, with_bot_contact=True, straight='straight')
+  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, via_stack_metal_size=(10.0, 10.0), via_stack_size=(10.0, 10.0), with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, via_stack_gap=0.0, width=0.5, with_top_via_stack=True, with_bot_via_stack=True, straight='straight')
   c.plot()
 
 
@@ -2386,7 +2296,7 @@ straight_pin
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pin(length=500.0, contact_width=10.0, contact_spacing=2)
+  c = gf.components.straight_pin(length=500.0, via_stack_width=10.0, via_stack_spacing=2)
   c.plot()
 
 
@@ -2401,7 +2311,7 @@ straight_pin_slot
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pin_slot(length=500.0, contact_width=10.0, contact_spacing=3.0, contact_slab_spacing=2.0)
+  c = gf.components.straight_pin_slot(length=500.0, via_stack_width=10.0, via_stack_spacing=3.0, via_stack_slab_spacing=2.0)
   c.plot()
 
 
@@ -2416,7 +2326,7 @@ straight_pn
 
   import gdsfactory as gf
 
-  c = gf.components.straight_pn(length=500.0, contact_width=10.0, contact_spacing=2)
+  c = gf.components.straight_pn(length=500.0, via_stack_width=10.0, via_stack_spacing=2)
   c.plot()
 
 
@@ -2837,6 +2747,96 @@ via_cutback
   import gdsfactory as gf
 
   c = gf.components.via_cutback(num_vias=100.0, wire_width=10.0, via_width=5.0, via_spacing=40.0, min_pad_spacing=0.0, pad_size=(150, 150), layer1=(47, 0), layer2=(41, 0), via_layer=(40, 0), wire_pad_inclusion=12.0)
+  c.plot()
+
+
+
+via_stack
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack(size=(11.0, 11.0), layers=((41, 0), (45, 0), (49, 0)))
+  c.plot()
+
+
+
+via_stack_heater_m3
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_heater_m3
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_heater_m3(size=(11.0, 11.0), layers=((47, 0), (45, 0), (49, 0)))
+  c.plot()
+
+
+
+via_stack_slab_m3
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_slab_m3
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_slab_m3(size=(11.0, 11.0), layers=((3, 0), (41, 0), (45, 0), (49, 0)))
+  c.plot()
+
+
+
+via_stack_slot
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_slot
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_slot(size=(11.0, 11.0), layers=((41, 0), (45, 0)), layer_offsets=(0, 1.0), enclosure=1.0, ysize=0.5, yspacing=2.0)
+  c.plot()
+
+
+
+via_stack_slot_m1_m2
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_slot_m1_m2
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_slot_m1_m2(size=(11.0, 11.0), layers=((41, 0), (45, 0)), layer_offsets=(0, 1.0), enclosure=1.0, ysize=0.5, yspacing=2.0)
+  c.plot()
+
+
+
+via_stack_with_offset
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.via_stack_with_offset
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.via_stack_with_offset(layers=((25, 0), (41, 0)), sizes=((10, 10), (10, 10)), port_orientation=180)
   c.plot()
 
 

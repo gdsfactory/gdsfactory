@@ -2,8 +2,13 @@ settings:
   changed: {}
   child: null
   default:
-    contact:
-      function: contact
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 3
@@ -31,16 +36,16 @@ settings:
             layer:
             - 43
             - 0
-    contact_spacing: 2
-    contact_width: 10
-    cross_section:
-      function: pin
-    length: 500
-    taper:
-      function: taper_strip_to_ridge
+    via_stack_spacing: 2
+    via_stack_width: 10
   full:
-    contact:
-      function: contact
+    cross_section:
+      function: pin
+    length: 500
+    taper:
+      function: taper_strip_to_ridge
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 3
@@ -68,13 +73,8 @@ settings:
             layer:
             - 43
             - 0
-    contact_spacing: 2
-    contact_width: 10
-    cross_section:
-      function: pin
-    length: 500
-    taper:
-      function: taper_strip_to_ridge
+    via_stack_spacing: 2
+    via_stack_width: 10
   function_name: straight_pin
   info: {}
   info_version: 2
