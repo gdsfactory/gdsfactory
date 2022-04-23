@@ -46,14 +46,6 @@ def ring_single(
     """
     gf.snap.assert_on_2nm_grid(gap)
 
-    sy = gf.get_component(
-        straight, length=length_y, cross_section=cross_section, **kwargs
-    )
-    b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
-    sx = gf.get_component(
-        straight, length=length_x, cross_section=cross_section, **kwargs
-    )
-
     c = gf.Component()
     cb = c << gf.get_component(
         coupler_ring,
@@ -64,6 +56,13 @@ def ring_single(
         length_x=length_x,
         cross_section=cross_section,
         **kwargs
+    )
+    sy = gf.get_component(
+        straight, length=length_y, cross_section=cross_section, **kwargs
+    )
+    b = gf.get_component(bend, cross_section=cross_section, radius=radius, **kwargs)
+    sx = gf.get_component(
+        straight, length=length_x, cross_section=cross_section, **kwargs
     )
     sl = c << sy
     sr = c << sy

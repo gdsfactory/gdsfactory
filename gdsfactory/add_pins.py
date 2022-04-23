@@ -18,7 +18,6 @@ from numpy import ndarray
 from omegaconf import OmegaConf
 from phidl.device_layout import Device as Component
 from phidl.device_layout import DeviceReference as ComponentReference
-from toolz import compose
 
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
@@ -402,7 +401,28 @@ def add_bbox_siepic(
     return component
 
 
-add_pins_bbox_siepic = compose(add_pins_siepic, add_bbox_siepic)
+def add_pins_bbox_siepic(
+    component: Component,
+    function: Callable = add_pin_path,
+    port_type: str = "optical",
+    layer_pin: Layer = LAYER.PORT,
+    pin_length: float = 10 * nm,
+    bbox_layer: Layer = (68, 0),
+    padding: float = 0,
+) -> Component:
+    """Add bounding box device recognition layer."""
+    component = component.copy()
+    component.remove_layers(layers=(layer_pin, bbox_layer))
+    component.add_padding(default=padding, layers=(bbox_layer,))
+
+    component = add_pins_siepic(
+        component=component,
+        function=function,
+        port_type=port_type,
+        layer_pin=layer_pin,
+        pin_length=pin_length,
+    )
+    return component
 
 
 def add_pins(
