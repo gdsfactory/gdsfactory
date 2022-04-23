@@ -264,7 +264,6 @@ class Section(BaseModel):
     hidden: bool = False
 
     class Config:
-        frozen = True
         extra = "forbid"
 
 
