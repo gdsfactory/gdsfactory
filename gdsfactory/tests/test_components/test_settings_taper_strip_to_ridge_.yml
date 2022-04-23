@@ -2,6 +2,8 @@ settings:
   changed: {}
   child: null
   default:
+    bbox_layers: null
+    bbox_offsets: null
     cross_section:
       function: cross_section
       settings: {}
@@ -17,6 +19,8 @@ settings:
     width1: 0.5
     width2: 0.5
   full:
+    bbox_layers: null
+    bbox_offsets: null
     cross_section:
       function: cross_section
       settings: {}
