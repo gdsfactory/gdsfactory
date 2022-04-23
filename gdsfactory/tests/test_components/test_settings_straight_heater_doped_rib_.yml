@@ -72,6 +72,7 @@ settings:
     heater_width: 2
     length: 320
     nsections: 3
+    straight: straight
     taper:
       function: taper_cross_section
     width: 0.5
@@ -150,6 +151,7 @@ settings:
     heater_width: 2
     length: 320
     nsections: 3
+    straight: straight
     taper:
       function: taper_cross_section
     width: 0.5

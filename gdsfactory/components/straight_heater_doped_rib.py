@@ -7,7 +7,12 @@ from gdsfactory.components.contact import contact_slab_npp_m3
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, ComponentOrFactory, CrossSectionSpec
+from gdsfactory.types import (
+    ComponentFactory,
+    ComponentOrFactory,
+    ComponentSpec,
+    CrossSectionSpec,
+)
 
 
 @gf.cell
@@ -29,6 +34,7 @@ def straight_heater_doped_rib(
     width: float = 0.5,
     with_top_contact: bool = True,
     with_bot_contact: bool = True,
+    straight: ComponentSpec = "straight",
     **kwargs
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
@@ -107,7 +113,8 @@ def straight_heater_doped_rib(
         )
         length -= taper.get_ports_xsize() * 2
 
-    wg = c << gf.components.straight(
+    wg = c << gf.get_component(
+        straight,
         cross_section=cross_section_heater,
         length=snap_to_grid(length),
     )
