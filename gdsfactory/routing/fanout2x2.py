@@ -6,12 +6,12 @@ from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.types import ComponentOrFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def fanout2x2(
-    component: ComponentOrFactory,
+    component: ComponentSpec = "mmi2x2",
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
     npoints: int = 101,
@@ -38,7 +38,7 @@ def fanout2x2(
 
     c = gf.Component()
 
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     component.component = component
     ref = c << component
     ref.movey(-ref.y)

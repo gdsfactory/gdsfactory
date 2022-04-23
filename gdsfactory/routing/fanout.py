@@ -7,12 +7,12 @@ from gdsfactory.port import port_array
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.routing.utils import direction_ports_from_list_ports, flip
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
 def fanout_component(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     port_names: Tuple[str, ...],
     pitch: Tuple[float, float] = (0.0, 20.0),
     dx: float = 20.0,
@@ -33,7 +33,7 @@ def fanout_component(
     """
 
     c = Component()
-    comp = component() if callable(component) else component
+    comp = gf.get_component(component)
     ref = c.add_ref(comp)
     ref.movey(-comp.y)
 
