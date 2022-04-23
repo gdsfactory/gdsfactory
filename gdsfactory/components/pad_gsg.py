@@ -10,7 +10,7 @@ rectangle_m3 = gf.partial(rectangle, layer=gf.LAYER.M3)
 
 @gf.cell
 def pad_gsg_short(
-    contact: ComponentFactory = rectangle_m3,
+    via_stack: ComponentFactory = rectangle_m3,
     size: Float2 = (22, 7),
     layer_metal: Layer = gf.LAYER.M3,
     metal_spacing: float = 5.0,
@@ -21,8 +21,8 @@ def pad_gsg_short(
     """Returns high speed GSG pads for calibrating the RF probes.
 
     Args:
-        contact: where the RF pads connect to
-        size: for the contact
+        via_stack: where the RF pads connect to
+        size: for the via_stack
         layer_metal:
         metal_spacing:
         short: if False returns an open
@@ -32,11 +32,11 @@ def pad_gsg_short(
     c = gf.Component()
     sig = gf.components.rectangle(size=size, layer=layer_metal).ref()
 
-    gnd_top = c << contact(size=size)
-    sig = contact(size=size)
+    gnd_top = c << via_stack(size=size)
+    sig = via_stack(size=size)
     if short:
         sig = c << sig
-    gnd_bot = c << contact(size=size)
+    gnd_bot = c << via_stack(size=size)
 
     gnd_bot.ymax = sig.ymin
     gnd_top.ymin = sig.ymax

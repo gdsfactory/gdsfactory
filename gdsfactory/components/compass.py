@@ -13,7 +13,7 @@ def compass(
     port_type: Optional[str] = "electrical",
     port_inclusion: float = 0.0,
 ) -> Component:
-    """Rectangular contact pad with centered ports on rectangle edges
+    """Rectangular via_stack pad with centered ports on rectangle edges
     (north, south, east, and west)
 
     Args:

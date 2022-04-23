@@ -5,9 +5,6 @@ settings:
     columns: 3
     component:
       function: pad
-    contact:
-      function: contact
-    contact_dy: 0
     cross_section:
       function: cross_section
       settings:
@@ -26,13 +23,13 @@ settings:
     spacing: 150
     straight_length: 60
     via_spacing: 10
+    via_stack:
+      function: via_stack
+    via_stack_dy: 0
   full:
     columns: 3
     component:
       function: pad
-    contact:
-      function: contact
-    contact_dy: 0
     cross_section:
       function: cross_section
       settings:
@@ -51,6 +48,9 @@ settings:
     spacing: 150
     straight_length: 60
     via_spacing: 10
+    via_stack:
+      function: via_stack
+    via_stack_dy: 0
   function_name: array_with_via
   info: {}
   info_version: 2

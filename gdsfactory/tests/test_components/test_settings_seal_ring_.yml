@@ -9,7 +9,7 @@ settings:
       - 4.0
     padding: 10
     seal:
-      function: contact
+      function: via_stack
     width: 10
     with_east: true
     with_north: true
@@ -23,7 +23,7 @@ settings:
       - 4.0
     padding: 10
     seal:
-      function: contact
+      function: via_stack
     width: 10
     with_east: true
     with_north: true

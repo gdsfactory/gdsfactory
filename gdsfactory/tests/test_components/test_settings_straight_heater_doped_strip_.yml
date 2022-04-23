@@ -1,7 +1,9 @@
 settings:
   changed:
-    contact:
-      function: contact
+    cross_section_heater:
+      function: strip_heater_doped
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 1
@@ -18,57 +20,8 @@ settings:
             layer:
             - 40
             - 0
-    cross_section_heater:
-      function: strip_heater_doped
   child: null
   default:
-    contact:
-      function: contact
-      settings:
-        layers:
-        - - 3
-          - 0
-        - - 24
-          - 0
-        - - 41
-          - 0
-        vias:
-        - null
-        - null
-        - function: via
-          settings:
-            layer:
-            - 40
-            - 0
-    contact_gap: 0
-    contact_metal:
-      function: contact
-      settings:
-        layers:
-        - - 41
-          - 0
-        - - 45
-          - 0
-        - - 49
-          - 0
-        vias:
-        - function: via
-          settings:
-            enclosure: 2
-            layer:
-            - 44
-            - 0
-        - function: via
-          settings:
-            layer:
-            - 43
-            - 0
-    contact_metal_size:
-    - 10.0
-    - 10.0
-    contact_size:
-    - 10.0
-    - 10.0
     cross_section:
       function: cross_section
       settings:
@@ -95,17 +48,11 @@ settings:
     straight: straight
     taper:
       function: taper_cross_section
-    width: 0.5
-    with_bot_contact: true
-    with_taper1: true
-    with_taper2: true
-    with_top_contact: true
-  full:
-    contact:
-      function: contact
+    via_stack:
+      function: via_stack
       settings:
         layers:
-        - - 1
+        - - 3
           - 0
         - - 24
           - 0
@@ -119,9 +66,9 @@ settings:
             layer:
             - 40
             - 0
-    contact_gap: 0
-    contact_metal:
-      function: contact
+    via_stack_gap: 0
+    via_stack_metal:
+      function: via_stack
       settings:
         layers:
         - - 41
@@ -142,12 +89,18 @@ settings:
             layer:
             - 43
             - 0
-    contact_metal_size:
+    via_stack_metal_size:
     - 10.0
     - 10.0
-    contact_size:
+    via_stack_size:
     - 10.0
     - 10.0
+    width: 0.5
+    with_bot_via_stack: true
+    with_taper1: true
+    with_taper2: true
+    with_top_via_stack: true
+  full:
     cross_section:
       function: cross_section
       settings:
@@ -174,14 +127,61 @@ settings:
     straight: straight
     taper:
       function: taper_cross_section
+    via_stack:
+      function: via_stack
+      settings:
+        layers:
+        - - 1
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer:
+            - 40
+            - 0
+    via_stack_gap: 0
+    via_stack_metal:
+      function: via_stack
+      settings:
+        layers:
+        - - 41
+          - 0
+        - - 45
+          - 0
+        - - 49
+          - 0
+        vias:
+        - function: via
+          settings:
+            enclosure: 2
+            layer:
+            - 44
+            - 0
+        - function: via
+          settings:
+            layer:
+            - 43
+            - 0
+    via_stack_metal_size:
+    - 10.0
+    - 10.0
+    via_stack_size:
+    - 10.0
+    - 10.0
     width: 0.5
-    with_bot_contact: true
+    with_bot_via_stack: true
     with_taper1: true
     with_taper2: true
-    with_top_contact: true
+    with_top_via_stack: true
   function_name: straight_heater_doped_rib
   info: {}
   info_version: 2
   module: gdsfactory.components.straight_heater_doped_rib
-  name: straight_heater_doped_r_bfabc1b7
+  name: straight_heater_doped_r_dbbb2844
 version: 0.0.1

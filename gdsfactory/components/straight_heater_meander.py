@@ -1,6 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_heater_m3
+from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentFactory, Layer, Optional
 
@@ -14,7 +14,7 @@ def straight_heater_meander(
     extension_length: float = 15.0,
     layer_heater: Optional[Layer] = LAYER.HEATER,
     radius: float = 5.0,
-    contact: Optional[ComponentFactory] = contact_heater_m3,
+    via_stack: Optional[ComponentFactory] = via_stack_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 10.0,
@@ -37,10 +37,10 @@ def straight_heater_meander(
         extension_length: of input and output optical ports
         layer_heater: for top heater, if None, it does not add a heater
         radius: for the meander bends
-        contact: for the heater to contact metal
+        via_stack: for the heater to via_stack metal
         port_orientation1:
         port_orientation2:
-        heater_taper_length: minimizes current concentrations from heater to contact
+        heater_taper_length: minimizes current concentrations from heater to via_stack
         straight_width: width of the straight section
         taper_length: from the cross_section
     """
@@ -118,28 +118,28 @@ def straight_heater_meander(
         )
         heater.movey(spacing * (rows // 2))
 
-    if layer_heater and contact:
-        contactw = contact()
-        contacte = contact()
-        dx = contactw.get_ports_xsize() / 2 + heater_taper_length or 0
-        contact_west_midpoint = heater.size_info.cw - (dx, 0)
-        contact_east_midpoint = heater.size_info.ce + (dx, 0)
+    if layer_heater and via_stack:
+        via_stackw = via_stack()
+        via_stacke = via_stack()
+        dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
+        via_stack_west_midpoint = heater.size_info.cw - (dx, 0)
+        via_stack_east_midpoint = heater.size_info.ce + (dx, 0)
 
-        contact_west = c << contactw
-        contact_east = c << contacte
-        contact_west.move(contact_west_midpoint)
-        contact_east.move(contact_east_midpoint)
+        via_stack_west = c << via_stackw
+        via_stack_east = c << via_stacke
+        via_stack_west.move(via_stack_west_midpoint)
+        via_stack_east.move(via_stack_east_midpoint)
         c.add_port(
-            "e1", port=contact_west.get_ports_list(orientation=port_orientation1)[0]
+            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
         )
         c.add_port(
-            "e2", port=contact_east.get_ports_list(orientation=port_orientation2)[0]
+            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
         )
 
         if heater_taper_length:
             taper = gf.components.taper(
                 cross_section=heater_cross_section,
-                width1=contactw.ports["e1"].width,
+                width1=via_stackw.ports["e1"].width,
                 width2=heater_width,
                 length=heater_taper_length,
             )
@@ -148,8 +148,8 @@ def straight_heater_meander(
             taper1.connect("o2", heater.ports["o1"])
             taper2.connect("o2", heater.ports["o2"])
 
-            contact_west.connect("e3", taper1.ports["o1"])
-            contact_east.connect("e1", taper2.ports["o1"])
+            via_stack_west.connect("e3", taper1.ports["o1"])
+            via_stack_east.connect("e1", taper2.ports["o1"])
     return c
 
 
