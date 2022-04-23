@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.1.2]
+## [5.1.2](https://github.com/gdsfactory/gdsfactory/pull/286)
 
 - `Component.remove_layers` also removes layers from paths
 - add `bbox_layers` and `bbox_offsets` to `taper`
