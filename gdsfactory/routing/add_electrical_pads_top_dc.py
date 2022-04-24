@@ -1,5 +1,6 @@
 from typing import Callable
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
@@ -61,8 +62,6 @@ def add_electrical_pads_top_dc(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.components.straight_heater_metal(length=100.0)
     cc = add_electrical_pads_top_dc(component=c, width=10)
     cc.show()
