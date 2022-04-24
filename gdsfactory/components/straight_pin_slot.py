@@ -3,9 +3,9 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_m1_m3
-from gdsfactory.components.contact_slot import contact_slot_slab_m1
 from gdsfactory.components.taper import taper_strip_to_ridge
+from gdsfactory.components.via_stack import via_stack_m1_m3
+from gdsfactory.components.via_stack_slot import via_stack_slot_slab_m1
 from gdsfactory.cross_section import pin, pn
 from gdsfactory.types import ComponentFactory, CrossSectionSpec
 
@@ -14,14 +14,14 @@ from gdsfactory.types import ComponentFactory, CrossSectionSpec
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
-    contact: Optional[ComponentFactory] = contact_m1_m3,
-    contact_width: float = 10.0,
-    contact_slab: Optional[ComponentFactory] = contact_slot_slab_m1,
-    contact_slab_top: Optional[ComponentFactory] = None,
-    contact_slab_bot: Optional[ComponentFactory] = None,
-    contact_slab_width: Optional[float] = None,
-    contact_spacing: float = 3.0,
-    contact_slab_spacing: float = 2.0,
+    via_stack: Optional[ComponentFactory] = via_stack_m1_m3,
+    via_stack_width: float = 10.0,
+    via_stack_slab: Optional[ComponentFactory] = via_stack_slot_slab_m1,
+    via_stack_slab_top: Optional[ComponentFactory] = None,
+    via_stack_slab_bot: Optional[ComponentFactory] = None,
+    via_stack_slab_width: Optional[float] = None,
+    via_stack_spacing: float = 3.0,
+    via_stack_slab_spacing: float = 2.0,
     taper: Optional[ComponentFactory] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
@@ -38,13 +38,13 @@ def straight_pin_slot(
     Args:
         length: of the waveguide
         cross_section: for the waveguide
-        contact: for contacting the metal
-        contact_width:
-        contact_slab: function for the component contacting the slab
-        contact_slab_top: Optional, defaults to contact_slab
-        contact_slab_bot: Optional, defaults to contact_slab
-        contact_slab_width: defaults to contact_width
-        contact_spacing: spacing between contacts
+        via_stack: for via_stacking the metal
+        via_stack_width:
+        via_stack_slab: function for the component via_stacking the slab
+        via_stack_slab_top: Optional, defaults to via_stack_slab
+        via_stack_slab_bot: Optional, defaults to via_stack_slab
+        via_stack_slab_width: defaults to via_stack_width
+        via_stack_spacing: spacing between via_stacks
         taper: optional taper
         kwargs: cross_section settings
 
@@ -60,8 +60,8 @@ def straight_pin_slot(
         **kwargs,
     )
 
-    contact_slab_width = contact_slab_width or contact_width
-    contact_slab_spacing = contact_slab_spacing or contact_spacing
+    via_stack_slab_width = via_stack_slab_width or via_stack_width
+    via_stack_slab_spacing = via_stack_slab_spacing or via_stack_spacing
 
     if taper:
         t1 = c << taper
@@ -74,40 +74,40 @@ def straight_pin_slot(
     else:
         c.add_ports(wg.get_ports_list())
 
-    contact_length = length
+    via_stack_length = length
 
-    if contact:
-        contact_top = c << contact(
-            size=(contact_length, contact_width),
+    if via_stack:
+        via_stack_top = c << via_stack(
+            size=(via_stack_length, via_stack_width),
         )
-        contact_bot = c << contact(
-            size=(contact_length, contact_width),
+        via_stack_bot = c << via_stack(
+            size=(via_stack_length, via_stack_width),
         )
 
-        contact_bot.x = wg.x
-        contact_top.x = wg.x
+        via_stack_bot.x = wg.x
+        via_stack_top.x = wg.x
 
-        contact_top.ymin = +contact_spacing / 2
-        contact_bot.ymax = -contact_spacing / 2
-        c.add_ports(contact_bot.ports, prefix="bot_")
-        c.add_ports(contact_top.ports, prefix="top_")
+        via_stack_top.ymin = +via_stack_spacing / 2
+        via_stack_bot.ymax = -via_stack_spacing / 2
+        c.add_ports(via_stack_bot.ports, prefix="bot_")
+        c.add_ports(via_stack_top.ports, prefix="top_")
 
-    contact_slab_top = contact_slab_top or contact_slab
-    contact_slab_bot = contact_slab_bot or contact_slab
+    via_stack_slab_top = via_stack_slab_top or via_stack_slab
+    via_stack_slab_bot = via_stack_slab_bot or via_stack_slab
 
-    if contact_slab_top:
-        slot_top = c << contact_slab_top(
-            size=(contact_length, contact_slab_width),
+    if via_stack_slab_top:
+        slot_top = c << via_stack_slab_top(
+            size=(via_stack_length, via_stack_slab_width),
         )
         slot_top.x = wg.x
-        slot_top.ymin = +contact_slab_spacing / 2
+        slot_top.ymin = +via_stack_slab_spacing / 2
 
-    if contact_slab_bot:
-        slot_bot = c << contact_slab_bot(
-            size=(contact_length, contact_slab_width),
+    if via_stack_slab_bot:
+        slot_bot = c << via_stack_slab_bot(
+            size=(via_stack_length, via_stack_slab_width),
         )
         slot_bot.x = wg.x
-        slot_bot.ymax = -contact_slab_spacing / 2
+        slot_bot.ymax = -via_stack_slab_spacing / 2
 
     return c
 
@@ -115,5 +115,5 @@ def straight_pin_slot(
 straight_pn_slot = gf.partial(straight_pin_slot, cross_section=pn)
 
 if __name__ == "__main__":
-    c = straight_pin_slot(contact_width=4, contact_slab_width=3, length=50)
+    c = straight_pin_slot(via_stack_width=4, via_stack_slab_width=3, length=50)
     c.show()

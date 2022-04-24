@@ -11,7 +11,7 @@ from gdsfactory.types import ComponentSpec, Layer
 
 
 @gf.cell
-def contact(
+def via_stack(
     size: Tuple[float, float] = (11.0, 11.0),
     layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
@@ -20,10 +20,10 @@ def contact(
     """Rectangular via array stack
 
     You can use it to connect different metal layers or metals to silicon.
-    You can use the naming convention contact_layerSource_layerDestination
+    You can use the naming convention via_stack_layerSource_layerDestination
 
-    Via array / stack name is more common for contacting metal while
-    contact is used for contacting silicon
+    Via array / stack name is more common for via_stacking metal while
+    via_stack is used for via_stacking silicon
 
     http://www.vlsi-expert.com/2017/12/vias.html
 
@@ -77,32 +77,32 @@ def contact(
     return c
 
 
-contact_m1_m3 = gf.partial(
-    contact,
+via_stack_m1_m3 = gf.partial(
+    via_stack,
     layers=(LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(via1, via2),
 )
 
-contact_slab_m3 = gf.partial(
-    contact,
+via_stack_slab_m3 = gf.partial(
+    via_stack,
     layers=(LAYER.SLAB90, LAYER.M1, LAYER.M2, LAYER.M3),
     vias=(viac, via1, via2),
 )
-contact_npp_m1 = gf.partial(
-    contact,
+via_stack_npp_m1 = gf.partial(
+    via_stack,
     layers=(LAYER.WG, LAYER.NPP, LAYER.M1),
     vias=(None, None, viac),
 )
-contact_slab_npp_m3 = gf.partial(
-    contact,
+via_stack_slab_npp_m3 = gf.partial(
+    via_stack,
     layers=(LAYER.SLAB90, LAYER.NPP, LAYER.M1),
     vias=(None, None, viac),
 )
-contact_heater_m3 = gf.partial(
-    contact, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via1, via2)
+via_stack_heater_m3 = gf.partial(
+    via_stack, layers=(LAYER.HEATER, LAYER.M2, LAYER.M3), vias=(via1, via2)
 )
 
 
 if __name__ == "__main__":
-    c = contact()
+    c = via_stack()
     c.show()

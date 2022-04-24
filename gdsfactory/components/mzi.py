@@ -100,9 +100,9 @@ def mzi(
     b6.connect("o1", syl.ports["o2"])
 
     straight_x_bot = (
-        gf.get_component(straight_x_bot, length=length_x, cross_section=cross_section)
+        gf.get_component(straight_x_bot, length=length_x)
         if length_x
-        else gf.get_component(straight_x_bot, cross_section=cross_section)
+        else gf.get_component(straight_x_bot)
     )
     sxb = c << straight_x_bot
     sxb.connect("o1", b6.ports["o2"])
@@ -116,9 +116,9 @@ def mzi(
     b2 = c << bend
     b2.connect("o2", sy.ports["o2"])
     straight_x_top = (
-        gf.get_component(straight_x_top, length=length_x, cross_section=cross_section)
+        gf.get_component(straight_x_top, length=length_x)
         if length_x
-        else gf.get_component(straight_x_top, cross_section=cross_section)
+        else gf.get_component(straight_x_top)
     )
     sxt = c << straight_x_top
     sxt.connect("o1", b2.ports["o1"])

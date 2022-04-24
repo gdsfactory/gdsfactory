@@ -1,11 +1,11 @@
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.contact import contact_heater_m3
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
 from gdsfactory.components.straight import straight as _straight
+from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentFactory, CrossSectionSpec, Float2
 
-contact_heater_m3_mini = gf.partial(contact_heater_m3, size=(4, 4))
+via_stack_heater_m3_mini = gf.partial(via_stack_heater_m3, size=(4, 4))
 
 
 @gf.cell
@@ -19,9 +19,9 @@ def ring_single_heater(
     bend: ComponentFactory = bend_euler,
     cross_section_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionSpec = gf.cross_section.strip,
-    contact: ComponentFactory = contact_heater_m3_mini,
+    via_stack: ComponentFactory = via_stack_heater_m3_mini,
     port_orientation: float = 90,
-    contact_offset: Float2 = (0, 0),
+    via_stack_offset: Float2 = (0, 0),
     **kwargs
 ) -> gf.Component:
     """Single bus ring made of a ring coupler (cb: bottom)
@@ -39,8 +39,8 @@ def ring_single_heater(
         bend: 90 degrees bend function
         cross_section_heater:
         cross_section:
-        contact:
-        port_orientation: for electrical ports to promote from contact
+        via_stack:
+        port_orientation: for electrical ports to promote from via_stack
         kwargs: cross_section settings
 
 
@@ -97,12 +97,12 @@ def ring_single_heater(
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
 
-    c1 = c << contact()
-    c2 = c << contact()
-    c1.xmax = -length_x / 2 + cb.x - contact_offset[0]
-    c2.xmin = +length_x / 2 + cb.x + contact_offset[0]
-    c1.movey(contact_offset[1])
-    c2.movey(contact_offset[1])
+    c1 = c << via_stack()
+    c2 = c << via_stack()
+    c1.xmax = -length_x / 2 + cb.x - via_stack_offset[0]
+    c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
+    c1.movey(via_stack_offset[1])
+    c2.movey(via_stack_offset[1])
     c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
     c.auto_rename_ports()

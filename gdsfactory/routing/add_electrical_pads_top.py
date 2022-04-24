@@ -3,14 +3,14 @@ from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
-from gdsfactory.types import ComponentFactory, Float2
+from gdsfactory.types import ComponentSpec, Float2
 
 
 @gf.cell
 def add_electrical_pads_top(
-    component: Component,
+    component: ComponentSpec = "straight",
     spacing: Float2 = (0.0, 100.0),
-    pad_array: ComponentFactory = pad_array_function,
+    pad_array: ComponentSpec = pad_array_function,
     select_ports=select_ports_electrical,
     layer: gf.types.Layer = (31, 0),
 ) -> Component:
@@ -24,11 +24,13 @@ def add_electrical_pads_top(
         layer: for the routes
     """
     c = Component()
+    component = gf.get_component(component)
+
     c.component = component
     ref = c << component
     ports = select_ports(ref.ports)
     ports = list(ports.values())
-    pads = c << pad_array(columns=len(ports), orientation=270)
+    pads = c << gf.get_component(pad_array, columns=len(ports), orientation=270)
     pads.x = ref.x + spacing[0]
     pads.ymin = ref.ymax + spacing[1]
     ports_pads = list(pads.ports.values())

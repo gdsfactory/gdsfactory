@@ -132,6 +132,7 @@ settings:
     name: mzi_f173d462
   default:
     bend_length: null
+    component: mmi2x2
     cross_section:
       function: cross_section
       settings: {}

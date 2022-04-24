@@ -131,6 +131,7 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_f173d462
   default:
+    component: straight
     layer:
     - 31
     - 0

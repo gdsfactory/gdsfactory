@@ -2,8 +2,24 @@ settings:
   changed: {}
   child: null
   default:
-    contact:
-      function: contact
+    cross_section:
+      function: cross_section
+      settings: {}
+    extension_length: 15
+    heater_taper_length: 10
+    heater_width: 2.5
+    layer_heater:
+    - 47
+    - 0
+    length: 300
+    port_orientation1: 180
+    port_orientation2: 0
+    radius: 5
+    spacing: 2
+    straight_width: 0.9
+    taper_length: 10
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 47
@@ -24,25 +40,25 @@ settings:
             layer:
             - 43
             - 0
-    cross_section:
-      function: cross_section
-      settings: {}
-    extension_length: 15
-    heater_taper_length: 10
-    heater_width: 2.5
-    layer_heater:
-    - 47
-    - 0
-    length: 300
-    port_orientation1: 180
-    port_orientation2: 0
-    radius: 5
-    spacing: 2
-    straight_width: 0.9
-    taper_length: 10
   full:
-    contact:
-      function: contact
+    cross_section:
+      function: cross_section
+      settings: {}
+    extension_length: 15
+    heater_taper_length: 10
+    heater_width: 2.5
+    layer_heater:
+    - 47
+    - 0
+    length: 300
+    port_orientation1: 180
+    port_orientation2: 0
+    radius: 5
+    spacing: 2
+    straight_width: 0.9
+    taper_length: 10
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 47
@@ -63,22 +79,6 @@ settings:
             layer:
             - 43
             - 0
-    cross_section:
-      function: cross_section
-      settings: {}
-    extension_length: 15
-    heater_taper_length: 10
-    heater_width: 2.5
-    layer_heater:
-    - 47
-    - 0
-    length: 300
-    port_orientation1: 180
-    port_orientation2: 0
-    radius: 5
-    spacing: 2
-    straight_width: 0.9
-    taper_length: 10
   function_name: straight_heater_meander
   info: {}
   info_version: 2

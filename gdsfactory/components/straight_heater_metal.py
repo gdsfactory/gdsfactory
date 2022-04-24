@@ -3,7 +3,7 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.contact import contact_heater_m3
+from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.cross_section import strip_heater_metal, strip_heater_metal_undercut
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -18,7 +18,7 @@ def straight_heater_metal_undercut(
     cross_section_heater: CrossSectionSpec = strip_heater_metal,
     cross_section_heater_undercut: CrossSectionSpec = strip_heater_metal_undercut,
     with_undercut: bool = True,
-    contact: Optional[ComponentSpec] = contact_heater_m3,
+    via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
     port_orientation1: int = 180,
     port_orientation2: int = 0,
     heater_taper_length: Optional[float] = 5.0,
@@ -37,10 +37,10 @@ def straight_heater_metal_undercut(
         cross_section_heater: for heated sections
         cross_section_heater_undercut: for heated sections with undercut
         with_undercut: isolation trenches for higher efficiency
-        contact: via stack
+        via_stack: via stack
         port_orientation1: left via stack port orientation
         port_orientation2: right via stack port orientation
-        heater_taper_length: minimizes current concentrations from heater to contact
+        heater_taper_length: minimizes current concentrations from heater to via_stack
         ohms_per_square: to calculate resistance.
         kwargs: cross_section common settings
     """
@@ -86,34 +86,34 @@ def straight_heater_metal_undercut(
     c.add_ref(sequence)
     c.add_ports(sequence.ports)
 
-    if contact:
-        contactw = contacte = gf.get_component(contact)
-        contact_west_midpoint = sequence.aliases["-1"].size_info.cw
-        contact_east_midpoint = sequence.aliases["-2"].size_info.ce
-        dx = contactw.get_ports_xsize() / 2 + heater_taper_length or 0
+    if via_stack:
+        via_stackw = via_stacke = gf.get_component(via_stack)
+        via_stack_west_midpoint = sequence.aliases["-1"].size_info.cw
+        via_stack_east_midpoint = sequence.aliases["-2"].size_info.ce
+        dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
 
-        contact_west = c << contactw
-        contact_east = c << contacte
-        contact_west.move(contact_west_midpoint - (dx, 0))
-        contact_east.move(contact_east_midpoint + (dx, 0))
+        via_stack_west = c << via_stackw
+        via_stack_east = c << via_stacke
+        via_stack_west.move(via_stack_west_midpoint - (dx, 0))
+        via_stack_east.move(via_stack_east_midpoint + (dx, 0))
         c.add_port(
-            "e1", port=contact_west.get_ports_list(orientation=port_orientation1)[0]
+            "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
         )
         c.add_port(
-            "e2", port=contact_east.get_ports_list(orientation=port_orientation2)[0]
+            "e2", port=via_stack_east.get_ports_list(orientation=port_orientation2)[0]
         )
         if heater_taper_length:
             x = cross_section_heater()
             taper = gf.components.taper(
-                width1=contactw.ports["e1"].width,
+                width1=via_stackw.ports["e1"].width,
                 width2=heater_width,
                 length=heater_taper_length,
                 layer=x.info["layer_heater"],
             )
             taper1 = c << taper
             taper2 = c << taper
-            taper1.connect("o1", contact_west.ports["e3"])
-            taper2.connect("o1", contact_east.ports["e1"])
+            taper1.connect("o1", via_stack_west.ports["e3"])
+            taper2.connect("o1", via_stack_east.ports["e1"])
 
     c.info["resistance"] = (
         ohms_per_square * heater_width * length if ohms_per_square else None

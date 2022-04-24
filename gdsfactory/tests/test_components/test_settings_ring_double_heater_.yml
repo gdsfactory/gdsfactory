@@ -3,8 +3,22 @@ settings:
   child: null
   default:
     bend: null
-    contact:
-      function: contact
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
+      settings: {}
+    cross_section_heater:
+      function: strip_heater_metal
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    port_orientation: 90
+    radius: 10
+    straight:
+      function: straight
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 47
@@ -28,27 +42,27 @@ settings:
             layer:
             - 43
             - 0
-    contact_offset:
+    via_stack_offset:
     - 0
     - 0
-    coupler_ring:
-      function: coupler_ring
-    cross_section:
-      function: cross_section
-      settings: {}
-    cross_section_heater:
-      function: strip_heater_metal
-    gap: 0.2
-    length_x: 0.01
-    length_y: 0.01
-    port_orientation: 90
-    radius: 10
-    straight:
-      function: straight
   full:
     bend: null
-    contact:
-      function: contact
+    coupler_ring:
+      function: coupler_ring
+    cross_section:
+      function: cross_section
+      settings: {}
+    cross_section_heater:
+      function: strip_heater_metal
+    gap: 0.2
+    length_x: 0.01
+    length_y: 0.01
+    port_orientation: 90
+    radius: 10
+    straight:
+      function: straight
+    via_stack:
+      function: via_stack
       settings:
         layers:
         - - 47
@@ -72,23 +86,9 @@ settings:
             layer:
             - 43
             - 0
-    contact_offset:
+    via_stack_offset:
     - 0
     - 0
-    coupler_ring:
-      function: coupler_ring
-    cross_section:
-      function: cross_section
-      settings: {}
-    cross_section_heater:
-      function: strip_heater_metal
-    gap: 0.2
-    length_x: 0.01
-    length_y: 0.01
-    port_orientation: 90
-    radius: 10
-    straight:
-      function: straight
   function_name: ring_double_heater
   info: {}
   info_version: 2

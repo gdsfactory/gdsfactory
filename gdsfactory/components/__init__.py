@@ -33,9 +33,6 @@ from gdsfactory.components.circle import circle
 from gdsfactory.components.compass import compass
 from gdsfactory.components.component_lattice import component_lattice
 from gdsfactory.components.component_sequence import component_sequence
-from gdsfactory.components.contact import contact, contact_heater_m3, contact_slab_m3
-from gdsfactory.components.contact_slot import contact_slot, contact_slot_m1_m2
-from gdsfactory.components.contact_with_offset import contact_with_offset
 from gdsfactory.components.copy_layers import copy_layers
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.coupler90 import coupler90, coupler90circular
@@ -224,6 +221,13 @@ from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
 from gdsfactory.components.via_cutback import via_cutback
+from gdsfactory.components.via_stack import (
+    via_stack,
+    via_stack_heater_m3,
+    via_stack_slab_m3,
+)
+from gdsfactory.components.via_stack_slot import via_stack_slot, via_stack_slot_m1_m2
+from gdsfactory.components.via_stack_with_offset import via_stack_with_offset
 from gdsfactory.components.waveguide_template import strip
 from gdsfactory.components.wire import wire_corner, wire_straight
 from gdsfactory.components.wire_sbend import wire_sbend
@@ -290,12 +294,12 @@ __all__ = [
     "compensation_path",
     "component_lattice",
     "component_sequence",
-    "contact",
-    "contact_heater_m3",
-    "contact_slab_m3",
-    "contact_slot",
-    "contact_slot_m1_m2",
-    "contact_with_offset",
+    "via_stack",
+    "via_stack_heater_m3",
+    "via_stack_slab_m3",
+    "via_stack_slot",
+    "via_stack_slot_m1_m2",
+    "via_stack_with_offset",
     "copy_layers",
     "coupler",
     "coupler90",
