@@ -64,11 +64,11 @@ def straight_heater_doped_rib(
         |    <--------------------------->              |
         |  length_via_stack                               |
         |    <------->                             taper|
-        |    _________                    _________     |
-        |   |        |                    |        |    |
-        |   | via_stack|____________________|        |    |
-        |   |  size  |    heater width    |        |    |
-        |  /|________|____________________|________|\   |
+        |    __________                   _________     |
+        |   |          |                  |        |    |
+        |   | via_stack|__________________|        |    |
+        |   |  size    |  heater width    |        |    |
+        |  /|__________|__________________|________|\   |
         | / |             heater_gap               | \  |
         |/  |______________________________________|  \ |
          \  |_______________width__________________|  /
@@ -85,7 +85,7 @@ def straight_heater_doped_rib(
 
                                    |<------width------>|
                                     ____________________ heater_gap             slab_gap
-             top_via_stack           |                   |<---------->| bot_via_stack   <-->
+             top_via_stack         |                   |<---------->| bot_via_stack   <-->
          ___ ______________________|                   |___________________________|___
         |   |            |               undoped Si                 |              |   |
         |   |layer_heater|               intrinsic region           |layer_heater  |   |
