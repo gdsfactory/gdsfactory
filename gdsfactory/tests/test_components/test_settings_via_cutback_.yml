@@ -11,7 +11,7 @@ settings:
     min_pad_spacing: 0
     num_vias: 100
     pad:
-      function: contact
+      function: via_stack
       settings:
         layers:
         - - 47
@@ -52,7 +52,7 @@ settings:
     min_pad_spacing: 0
     num_vias: 100
     pad:
-      function: contact
+      function: via_stack
       settings:
         layers:
         - - 47
