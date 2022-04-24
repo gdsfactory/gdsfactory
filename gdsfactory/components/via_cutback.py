@@ -5,7 +5,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.components.contact import contact_heater_m3
+from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.types import ComponentFactory, Float2
 
 
@@ -69,7 +69,7 @@ def via_cutback(
     via_width: float = 5.0,
     via_spacing: float = 40.0,
     min_pad_spacing: float = 0.0,
-    pad: ComponentFactory = contact_heater_m3,
+    pad: ComponentFactory = via_stack_heater_m3,
     pad_size: Float2 = (150, 150),
     layer1: Tuple[int, int] = gf.LAYER.HEATER,
     layer2: Tuple[int, int] = gf.LAYER.M1,
