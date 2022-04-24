@@ -2,7 +2,6 @@
 
 ## [5.2.0]
 
-- add ComponentSpec to straight_heater_doped_rib
 - rename `contact` to `via_stack`
 
 
