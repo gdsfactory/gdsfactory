@@ -11,6 +11,7 @@ from collections.abc import Iterable
 from typing import Optional
 
 import numpy as np
+import shapely.ops
 from phidl import path
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _simplify
@@ -490,8 +491,13 @@ def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start:
     intersection = ls.intersection(ls_ray)
 
     if not isinstance(intersection, sg.Point):
-        # return path
-        raise ValueError(f"Expected intersection to be a point, but got {intersection}")
+        if isinstance(intersection, sg.MultiPoint):
+            _, nearest = shapely.ops.nearest_points(sg.Point(point), intersection)
+            intersection = nearest
+        else:
+            raise ValueError(
+                f"Expected intersection to be a point, but got {intersection}"
+            )
     distance = ls.project(intersection)
     if start:
         # when trimming the start, start counting at the intersection point, then add all subsequent points
