@@ -578,8 +578,19 @@ class Component(Device):
         """Copy info from child component into parent.
         Parent components can access child cells settings.
         """
+        if not isinstance(component, Component):
+            raise ValueError(f"{type(component)} is not a Component")
+
         self.get_child_name = True
         self.child = component
+
+        polarization = component.info.get("polarization")
+        wavelength = component.info.get("wavelength")
+
+        if polarization:
+            self.info["polarization"] = polarization
+        if wavelength:
+            self.info["wavelength"] = wavelength
 
     @property
     def size_info(self) -> SizeInfo:
