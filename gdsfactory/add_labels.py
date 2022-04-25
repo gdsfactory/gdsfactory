@@ -26,18 +26,18 @@ def get_input_label_text(
         gc_index: grating_coupler index, which grating_coupler we are labelling
         component_name:
         prefix: component prefix
+        label_prefix:
 
     """
     polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
     wavelength = gc.info.get("wavelength") or gc.metadata_child.get("wavelength")
 
-    assert polarization in [
-        "te",
-        "tm",
-    ], f"Not valid polarization {polarization} in [te, tm]"
-    assert (
-        isinstance(wavelength, (int, float)) and 0.5 < wavelength < 5.0
-    ), f"{wavelength} is Not valid. Make sure it's in um"
+    if polarization not in ["te", "tm"]:
+        raise ValueError(f"polarization {polarization!r} needs to be [te, tm]")
+    if not isinstance(wavelength, (int, float)) or not 0.5 < wavelength < 5.0:
+        raise ValueError(
+            f"{wavelength} needs to be > 0.5um and < 5um. Make sure it's in um"
+        )
 
     component_name = component_name or port.parent.metadata_child.get("name")
 

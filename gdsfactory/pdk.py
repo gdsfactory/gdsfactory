@@ -64,7 +64,7 @@ class Pdk(BaseModel):
         elif isinstance(cell, str):
             if cell not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{cell!r} not in {cells}")
+                raise ValueError(f"{self.name!r} {cell!r} not in {cells}")
             cell = self.cells[cell]
             return cell
         elif isinstance(cell, (dict, DictConfig)):
@@ -79,7 +79,7 @@ class Pdk(BaseModel):
             cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{cell_name!r} not in {cells}")
+                raise ValueError(f"{self.name!r} {cell_name!r} not in {cells}")
             cell = self.cells[cell_name]
             return partial(cell, **settings)
         else:
@@ -99,7 +99,7 @@ class Pdk(BaseModel):
         elif isinstance(component, str):
             if component not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{component!r} not in {cells}")
+                raise ValueError(f"{self.name!r} {component!r} not in {cells}")
             cell = self.cells[component]
             return cell(**kwargs)
         elif isinstance(component, (dict, DictConfig)):
@@ -115,7 +115,7 @@ class Pdk(BaseModel):
             cell_name = cell_name or component.get("function")
             if not isinstance(cell_name, str) or cell_name not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{cell_name!r} not in {cells}")
+                raise ValueError(f"{self.name!r} {cell_name!r} not in {cells}")
             cell = self.cells[cell_name]
             return cell(**settings)
         else:
