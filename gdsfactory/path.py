@@ -304,24 +304,37 @@ def extrude(
         else:
             pass
         dy = offset + width / 2
-        _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
+        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points1 = p._centerpoint_offset_curve(
-            _points,
+            points,
             offset_distance=dy,
             start_angle=start_angle,
             end_angle=end_angle,
         )
         dy = offset - width / 2
-        _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
+        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points2 = p._centerpoint_offset_curve(
-            _points,
+            points,
             offset_distance=dy,
             start_angle=start_angle,
             end_angle=end_angle,
         )
-
+        if shear_angle_end:
+            angle = (
+                end_angle + shear_angle_end + 90
+            )  # the angle for the shear vector, to cut the face by
+            points2 = _cut_path_with_ray(points[-1], angle, points2, start=False)
+            points1 = _cut_path_with_ray(points[-1], angle, points1, start=False)
+        if shear_angle_start:
+            angle = (
+                start_angle + shear_angle_start + 90
+            )  # the angle for the shear vector, to cut the face by
+            points2 = _cut_path_with_ray(points[0], angle, points2, start=True)
+            points1 = _cut_path_with_ray(points[0], angle, points1, start=True)
+        # angle = start_angle + shear_angle_start + 90
+        # points2 = _cut_path_with_ray(points[0], angle, points2, start=True)
         # Simplify lines using the Ramer–Douglas–Peucker algorithm
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
@@ -439,6 +452,60 @@ def _shear_face(
                 "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the end point"
             )
     return points
+
+
+def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start: bool):
+    """
+    Cuts or extends a path given a point and angle to project with
+    """
+    import shapely.geometry as sg
+
+    far_distance = (
+        10000  # a distance to approximate infinity to find ray-segment intersections
+    )
+
+    path_cmp = np.copy(path)
+    # pad start
+    dp = path[0] - path[1]
+    angle_projection = np.arctan2(dp[1], dp[0])
+    d_ext = far_distance * np.array(
+        [np.cos(angle_projection), np.sin(angle_projection)]
+    )
+    path_cmp[0] += d_ext
+    # pad end
+    dp = path[-1] - path[-2]
+    angle_projection = np.arctan2(dp[1], dp[0])
+    d_ext = far_distance * np.array(
+        [np.cos(angle_projection), np.sin(angle_projection)]
+    )
+    path_cmp[-1] += d_ext
+
+    # get intersection
+    ls = sg.LineString(path_cmp)
+    angle_rad = np.deg2rad(angle)
+    dx_far = np.cos(angle_rad) * far_distance
+    dy_far = np.sin(angle_rad) * far_distance
+    d_far = point + np.array([dx_far, dy_far])
+    ls_ray = sg.LineString([point - d_far, point + d_far])
+    intersection = ls.intersection(ls_ray)
+
+    if not isinstance(intersection, sg.Point):
+        # return path
+        raise ValueError(f"Expected intersection to be a point, but got {intersection}")
+    distance = ls.project(intersection)
+    if start:
+        # when trimming the start, start counting at the intersection point, then add all subsequent points
+        points = [np.array(intersection)]
+        for point in path[1:]:
+            if ls.project(sg.Point(point)) > distance:
+                points.append(point)
+    else:
+        points = []
+        for point in path[:-1]:
+            if ls.project(sg.Point(point)) < distance:
+                points.append(point)
+        points.append(np.array(intersection))
+    return np.array(points)
 
 
 def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
