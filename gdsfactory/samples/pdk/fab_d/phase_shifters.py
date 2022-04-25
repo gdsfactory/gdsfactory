@@ -30,7 +30,7 @@ xs_strip_heater_doped = gf.partial(
     layer=LAYER.WG,
     width=1,
     layers_heater=(LAYER.WG, LAYER.HEATER),
-    cladding_offsets_heater=(0, 0.1),
+    bbox_offsets_heater=(0, 0.1),
 )
 xs_rib_pin = gf.partial(
     gf.cross_section.pin, layer=LAYER.WG, width=1, layer_slab=LAYER.SLAB

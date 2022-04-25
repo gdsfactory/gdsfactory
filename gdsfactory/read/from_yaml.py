@@ -252,17 +252,18 @@ def place(
                     )
                 if instance_name_ref not in instances:
                     raise ValueError(
-                        f"instance {instance_name_ref!r} not in {list(instances.keys())}."
+                        f"{instance_name_ref!r} not in {list(instances.keys())}."
                         f" You can define x as `x: instaceName,portName`, got x: {x!r}"
                     )
                 if (
                     port_name not in instances[instance_name_ref].ports
                     and port_name not in valid_anchor_keywords
                 ):
+                    ports = list(instances[instance_name_ref].ports.keys())
                     raise ValueError(
-                        f"port = {port_name!r} not in {list(instances[instance_name_ref].ports.keys())}"
-                        f" or in valid anchors {valid_anchor_keywords} for {instance_name_ref!r}, "
-                        f"you can define x as `x: instaceName,portName`, got `x: {x!r}`"
+                        f"port = {port_name!r} can be a port_name in {ports}, "
+                        f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
+                        f"or `x: instaceName,portName`, got `x: {y!r}`"
                     )
 
                 x = _get_anchor_value_from_name(
@@ -304,10 +305,11 @@ def place(
                     port_name not in instances[instance_name_ref].ports
                     and port_name not in valid_anchor_keywords
                 ):
+                    ports = list(instances[instance_name_ref].ports.keys())
                     raise ValueError(
-                        f"port = {port_name!r} not in {list(instances[instance_name_ref].ports.keys())} "
-                        f"or in valid anchors {valid_anchor_keywords} for {instance_name_ref!r}, "
-                        f"you can define y as `y: instaceName,portName`, got `y: {y!r}`"
+                        f"port = {port_name!r} can be a port_name in {ports}, "
+                        f"an anchor {valid_anchor_keywords} for {instance_name_ref!r}, "
+                        f"or `y: instaceName,portName`, got `y: {y!r}`"
                     )
 
                 y = _get_anchor_value_from_name(
