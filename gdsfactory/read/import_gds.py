@@ -83,9 +83,15 @@ def import_gds(
     if flatten:
         component = Component(name=name or cellname or cellnames[0])
         polygons = topcell.get_polygons(by_spec=True)
+        labels = topcell.get_labels()
+        paths = topcell.get_paths()
 
         for layer_in_gds, polys in polygons.items():
             component.add_polygon(polys, layer=layer_in_gds)
+        for label in labels:
+            component.add(label)
+        for path in paths:
+            component.add(path)
 
         component.name = (
             get_name_short(f"{component.name}_{gdshash}")
