@@ -21,6 +21,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
+from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import Coordinates, CrossSectionSpec, Float2, Layer, PathFactory
 
 
@@ -417,17 +418,11 @@ def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start:
     path_cmp = np.copy(path)
     # pad start
     dp = path[0] - path[1]
-    angle_projection = np.arctan2(dp[1], dp[0])
-    d_ext = far_distance * np.array(
-        [np.cos(angle_projection), np.sin(angle_projection)]
-    )
+    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
     path_cmp[0] += d_ext
     # pad end
     dp = path[-1] - path[-2]
-    angle_projection = np.arctan2(dp[1], dp[0])
-    d_ext = far_distance * np.array(
-        [np.cos(angle_projection), np.sin(angle_projection)]
-    )
+    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
     path_cmp[-1] += d_ext
 
     # get intersection
@@ -450,7 +445,7 @@ def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start:
     distance = ls.project(intersection)
     if start:
         # when trimming the start, start counting at the intersection point, then add all subsequent points
-        points = [np.array(intersection)]
+        points = [snap_to_grid(np.array(intersection))]
         for point in path[1:]:
             if ls.project(sg.Point(point)) > distance:
                 points.append(point)
@@ -459,7 +454,7 @@ def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start:
         for point in path[:-1]:
             if ls.project(sg.Point(point)) < distance:
                 points.append(point)
-        points.append(np.array(intersection))
+        points.append(snap_to_grid(np.array(intersection)))
     return np.array(points)
 
 
