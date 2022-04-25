@@ -405,65 +405,14 @@ def extrude(
     return c
 
 
-def _shear_face(
-    points: np.ndarray,
-    dy: float,
-    shear_angle_start: Optional[float],
-    shear_angle_end: Optional[float],
-) -> np.ndarray:
-    """
-    Displaces a point sequence offset a distance dy away by a shear angle,
-    given in degrees, on either side.
-
-    Args:
-        points: points sequence.
-        dy: y offset.
-        shear_angle_start: an optional angle to shear the starting face by (in degrees).
-        shear_angle_end: an optional angle to shear the ending face by (in degrees).
-    """
-    if shear_angle_start or shear_angle_end:
-        shear_angle_start = shear_angle_start or 0
-        shear_angle_end = shear_angle_end or 0
-
-        dy = np.atleast_1d(dy)
-        dl_start = np.tan(np.deg2rad(shear_angle_start)) * dy[0]
-        dp_start = points[1] - points[0]
-        a_start = np.arctan2(dp_start[1], dp_start[0])
-        dl_end = np.tan(np.deg2rad(shear_angle_end)) * dy[-1]
-        dp_end = points[-1] - points[-2]
-        a_end = np.arctan2(dp_end[1], dp_end[0])
-        _points = points.copy()
-        _points[0] = points[0] + np.array(
-            [dl_start * np.cos(a_start), dl_start * np.sin(a_start)]
-        )
-        _points[-1] = points[-1] + np.array(
-            [dl_end * np.cos(a_end), dl_end * np.sin(a_end)]
-        )
-        points = _points
-
-        # verify nothing went screwy
-        dp_start_final = points[1] - points[0]
-        dp_end_final = points[-1] - points[-2]
-        if not np.array_equal(np.sign(dp_start), np.sign(dp_start_final)):
-            raise ValueError(
-                "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the start point"
-            )
-        if not np.array_equal(np.sign(dp_end), np.sign(dp_end_final)):
-            raise ValueError(
-                "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the end point"
-            )
-    return points
-
-
 def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start: bool):
     """
     Cuts or extends a path given a point and angle to project with
     """
     import shapely.geometry as sg
 
-    far_distance = (
-        10000  # a distance to approximate infinity to find ray-segment intersections
-    )
+    # a distance to approximate infinity to find ray-segment intersections
+    far_distance = 10000
 
     path_cmp = np.copy(path)
     # pad start
