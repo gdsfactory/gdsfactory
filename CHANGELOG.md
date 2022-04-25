@@ -1,12 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
 
-# [5.2.1]
+# [5.2.1](https://github.com/gdsfactory/gdsfactory/pull/289)
 
-- rename cladding_offsets as bbox_offsets
-- copy_child_info propagates polarization and wavelength info
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/289)
+    * rename cladding_offsets as bbox_offsets
+    * copy_child_info propagates polarization and wavelength info
 
-## [5.2.0]
+
+## [5.2.0](https://github.com/gdsfactory/gdsfactory/pull/287)
 
 - rename `contact` to `via_stack`
 
