@@ -144,7 +144,7 @@ def route_ports_to_x(
                 all ports with an index strictly lower or equal are routed bottom
             all ports with an index larger or equal are routed top
         dx_start: override minimum starting x distance
-        dx_start: override minimum starting y distance
+        dy_start: override minimum starting y distance
     Returns:
         routes: list of routes
         ports: list of the new optical ports
@@ -163,11 +163,14 @@ def route_ports_to_x(
 
     epsilon = 1.0
     a = epsilon + max(radius, separation)
+    bx = epsilon + max(radius, dx_start) if dx_start else a
+    by = epsilon + max(radius, dy_start) if dy_start else a
+
     xs = [p.x for p in list_ports]
     ys = [p.y for p in list_ports]
 
     if y0_bottom is None:
-        y0_bottom = min(ys) - a
+        y0_top = max(ys) + by
     y0_bottom -= extend_bottom
 
     if y0_top is None:
@@ -178,9 +181,9 @@ def route_ports_to_x(
         extension_length = -extension_length
 
     if x == "east":
-        x = max([p.x for p in list_ports]) + (max(radius, dx_start) if dx_start else a)
+        x = max([p.x for p in list_ports]) + bx
     elif x == "west":
-        x = min([p.x for p in list_ports]) - (max(radius, dx_start) if dx_start else a)
+        x = min([p.x for p in list_ports]) - bx
     elif isinstance(x, (float, int)):
         pass
     else:
