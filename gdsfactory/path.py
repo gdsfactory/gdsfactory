@@ -411,10 +411,11 @@ def _shear_face(
         shear_angle_start = shear_angle_start or 0
         shear_angle_end = shear_angle_end or 0
 
-        dl_start = np.tan(np.deg2rad(shear_angle_start)) * dy
+        dy = np.atleast_1d(dy)
+        dl_start = np.tan(np.deg2rad(shear_angle_start)) * dy[0]
         dp_start = points[1] - points[0]
         a_start = np.arctan2(dp_start[1], dp_start[0])
-        dl_end = np.tan(np.deg2rad(shear_angle_end)) * dy
+        dl_end = np.tan(np.deg2rad(shear_angle_end)) * dy[-1]
         dp_end = points[-1] - points[-2]
         a_end = np.arctan2(dp_end[1], dp_end[0])
         _points = points.copy()
