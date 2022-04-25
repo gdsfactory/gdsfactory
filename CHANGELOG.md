@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+
+# [5.2.1]
+
+- rename cladding_offsets as bbox_offsets
+- copy_child_info propagates polarization and wavelength info
+
 ## [5.2.0]
 
 - rename `contact` to `via_stack`

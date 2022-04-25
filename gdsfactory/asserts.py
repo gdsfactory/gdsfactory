@@ -1,3 +1,5 @@
+import warnings
+
 import semantic_version
 
 from gdsfactory.component import Component
@@ -5,19 +7,23 @@ from gdsfactory.config import __version__
 
 
 def grating_coupler(gc: Component) -> None:
-    assert gc.info.get("polarization"), f"{gc.name} does not have polarization"
-    assert gc.info.get("polarization") in [
-        "te",
-        "tm",
-    ], f"{gc.name} polarization  should be 'te' or 'tm'"
-    assert gc.info.get("wavelength"), f"{gc.name} wavelength does not have wavelength"
-    assert (
-        0.5 < gc.info["wavelength"] < 5.0
-    ), f"{gc.name} wavelength {gc.wavelength} should be in um"
+    if not gc.info.get("polarization"):
+        raise ValueError(f"{gc.name} does not have polarization")
+
+    if gc.info.get("polarization") not in ["te", "tm"]:
+        raise ValueError(f"{gc.name} polarization not 'te' or 'tm'")
+
+    if not gc.info.get("wavelength"):
+        raise ValueError(f"{gc.name} wavelength does not have wavelength")
+    if not (0.5 < gc.info["wavelength"] < 5.0):
+        raise ValueError(f"{gc.name} wavelength {gc.wavelength} should be in um")
+
     if "o1" not in gc.ports:
-        print(f"grating_coupler {gc.name} should have a o1 port. It has {gc.ports}")
+        warnings.warn(
+            f"grating_coupler {gc.name} should have a o1 port. It has {gc.ports}"
+        )
     if "o1" in gc.ports and gc.ports["o1"].orientation != 180:
-        print(
+        warnings.warn(
             f"grating_coupler {gc.name} orientation = {gc.ports['o1'].orientation}"
             " should be 180 degrees"
         )

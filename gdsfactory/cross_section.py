@@ -188,8 +188,8 @@ def pin(
     layer_slab: Tuple[int, int] = LAYER.SLAB90,
     layers_via_stack1: Layers = (LAYER.PPP,),
     layers_via_stack2: Layers = (LAYER.NPP,),
-    cladding_offsets_via_stack1: Tuple[float, ...] = (0, -0.2),
-    cladding_offsets_via_stack2: Tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack1: Tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack2: Tuple[float, ...] = (0, -0.2),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
@@ -206,8 +206,8 @@ def pin(
         layer_slab: slab layer
         layers_via_stack1: P++ layer
         layers_via_stack2: N++ layer
-        cladding_offsets_via_stack1:
-        cladding_offsets_via_stack2:
+        bbox_offsets_via_stack1:
+        bbox_offsets_via_stack2:
         via_stack_width:
         via_stack_gap: offset from via_stack to ridge edge
         slab_gap: extra slab gap (negative: via_stack goes beyond slab)
@@ -243,9 +243,7 @@ def pin(
             width=via_stack_width + 2 * cladding_offset,
             offset=+via_stack_offset,
         )
-        for layer, cladding_offset in zip(
-            layers_via_stack1, cladding_offsets_via_stack1
-        )
+        for layer, cladding_offset in zip(layers_via_stack1, bbox_offsets_via_stack1)
     ]
     sections += [
         Section(
@@ -253,9 +251,7 @@ def pin(
             width=via_stack_width + 2 * cladding_offset,
             offset=-via_stack_offset,
         )
-        for layer, cladding_offset in zip(
-            layers_via_stack2, cladding_offsets_via_stack2
-        )
+        for layer, cladding_offset in zip(layers_via_stack2, bbox_offsets_via_stack2)
     ]
 
     if layer_via and via_width and via_offsets:
@@ -273,8 +269,8 @@ def pin(
         layer_slab=layer_slab,
         layers_via_stack1=layers_via_stack1,
         layers_via_stack2=layers_via_stack2,
-        cladding_offsets_via_stack1=cladding_offsets_via_stack1,
-        cladding_offsets_via_stack2=cladding_offsets_via_stack2,
+        bbox_offsets_via_stack1=bbox_offsets_via_stack1,
+        bbox_offsets_via_stack2=bbox_offsets_via_stack2,
         via_stack_width=via_stack_width,
         via_stack_gap=via_stack_gap,
         slab_gap=slab_gap,
@@ -560,7 +556,7 @@ def strip_heater_doped(
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
     layers_heater: Layers = (LAYER.WG, LAYER.NPP),
-    cladding_offsets_heater: Tuple[float, ...] = (0, 0.1),
+    bbox_offsets_heater: Tuple[float, ...] = (0, 0.1),
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
@@ -583,7 +579,7 @@ def strip_heater_doped(
             width=heater_width + 2 * cladding_offset,
             offset=+heater_offset,
         )
-        for layer, cladding_offset in zip(layers_heater, cladding_offsets_heater)
+        for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
     ]
 
     sections += [
@@ -592,7 +588,7 @@ def strip_heater_doped(
             width=heater_width + 2 * cladding_offset,
             offset=-heater_offset,
         )
-        for layer, cladding_offset in zip(layers_heater, cladding_offsets_heater)
+        for layer, cladding_offset in zip(layers_heater, bbox_offsets_heater)
     ]
 
     return cross_section(
@@ -606,7 +602,7 @@ def strip_heater_doped(
 strip_heater_doped_via_stack = partial(
     strip_heater_doped,
     layers_heater=(LAYER.WG, LAYER.NPP, LAYER.VIAC),
-    cladding_offsets_heater=(0, 0.1, -0.2),
+    bbox_offsets_heater=(0, 0.1, -0.2),
 )
 
 
@@ -685,7 +681,7 @@ def rib_heater_doped_via_stack(
     via_stack_width: float = 2.0,
     via_stack_gap: float = 0.8,
     layers_via_stack: Layers = (LAYER.NPP, LAYER.VIAC),
-    cladding_offsets_via_stack: Tuple[float, ...] = (0, -0.2),
+    bbox_offsets_via_stack: Tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     slab_offset: float = 0,
     with_top_heater: bool = True,
@@ -705,7 +701,7 @@ def rib_heater_doped_via_stack(
         via_stack_width:
         via_stack_gap:
         layers_via_stack:
-        cladding_offsets_via_stack:
+        bbox_offsets_via_stack:
         slab_gap: from heater edge
         slab_offset: over the center of the slab
         with_top_heater:
@@ -768,9 +764,7 @@ def rib_heater_doped_via_stack(
                 width=heater_width + 2 * cladding_offset,
                 offset=+via_stack_offset,
             )
-            for layer, cladding_offset in zip(
-                layers_via_stack, cladding_offsets_via_stack
-            )
+            for layer, cladding_offset in zip(layers_via_stack, bbox_offsets_via_stack)
         ]
 
     if with_top_heater:
@@ -780,9 +774,7 @@ def rib_heater_doped_via_stack(
                 width=heater_width + 2 * cladding_offset,
                 offset=-via_stack_offset,
             )
-            for layer, cladding_offset in zip(
-                layers_via_stack, cladding_offsets_via_stack
-            )
+            for layer, cladding_offset in zip(layers_via_stack, bbox_offsets_via_stack)
         ]
 
     return cross_section(

@@ -1,8 +1,10 @@
 from typing import List, Optional, Tuple
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.tech import TECH
+from gdsfactory.types import ComponentSpec
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
@@ -40,7 +42,7 @@ def get_padding_points(
 
 
 def add_padding(
-    component: Component,
+    component: ComponentSpec = "mmi2x2",
     layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
@@ -49,7 +51,7 @@ def add_padding(
     Returns the same ports as the component.
 
     Args:
-        component
+        component:
         layers: list of layers
         new_component: returns a new component if True
 
@@ -60,6 +62,7 @@ def add_padding(
         right: east padding
         left: west padding
     """
+    component = gf.get_component(component)
 
     points = get_padding_points(component, **kwargs)
     for layer in layers:
@@ -69,14 +72,14 @@ def add_padding(
 
 @cell
 def add_padding_container(
-    component: Component,
+    component: ComponentSpec,
     layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     **kwargs,
 ) -> Component:
     """Returns new component with padding added.
 
     Args:
-        component
+        component:
         layers: list of layers
         default: default padding
         top: north padding
@@ -84,6 +87,8 @@ def add_padding_container(
         right: east padding
         left: west padding
     """
+
+    component = gf.get_component(component)
 
     c = Component()
     c.component = component
@@ -98,7 +103,7 @@ def add_padding_container(
 
 
 def add_padding_to_size(
-    component: Component,
+    component: ComponentSpec,
     layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     xsize: Optional[float] = None,
     ysize: Optional[float] = None,
@@ -109,6 +114,7 @@ def add_padding_to_size(
 
     New size is multiple of grid size
     """
+    component = gf.get_component(component)
 
     c = component
     top = abs(ysize - component.ysize) if ysize else 0
@@ -128,7 +134,7 @@ def add_padding_to_size(
 
 @cell
 def add_padding_to_size_container(
-    component: Component,
+    component: ComponentSpec,
     layers: Tuple[Layer, ...] = (LAYER.PADDING,),
     xsize: Optional[float] = None,
     ysize: Optional[float] = None,
@@ -146,6 +152,8 @@ def add_padding_to_size_container(
         left:
         bottom:
     """
+    component = gf.get_component(component)
+
     c = Component()
     cref = c << component
 
@@ -168,9 +176,6 @@ def add_padding_to_size_container(
 
 if __name__ == "__main__":
     # test_container()
-
-    import gdsfactory as gf
-
     # c = gf.components.straight(length=128)
     # cc = add_padding(component=c, layers=[(2, 0)])
 
