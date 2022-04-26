@@ -21,7 +21,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
-from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import Coordinates, CrossSectionSpec, Float2, Layer, PathFactory
 
 
@@ -356,6 +355,11 @@ def extrude(
 
         if snap_to_grid:
             snap_to_grid_nm = snap_to_grid * 1e3
+            points = (
+                snap_to_grid_nm
+                * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
+                / 1e3
+            )
             points1 = (
                 snap_to_grid_nm
                 * np.round(np.array(points1) * 1e3 / snap_to_grid_nm)
@@ -368,45 +372,49 @@ def extrude(
             )
 
         # Join points together
-        points = np.concatenate([points1, points2[::-1, :]])
+        points_poly = np.concatenate([points1, points2[::-1, :]])
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p.length() > 1e-3:
-            c.add_polygon(points, layer=layer)
+            c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
         if port_names[0] is not None:
-            new_port = c.add_port(
+            port_width = width if np.isscalar(width) else width[0]
+            port_orientation = (p.start_angle + 180) % 360
+            midpoint = points[0]
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=layers[0],
                     port_type=port_types[0],
-                    width=width if np.isscalar(width) else width[0],
-                    orientation=(p.start_angle + 180) % 360,
-                    midpoint=(0, 0),
+                    width=port_width,
+                    orientation=port_orientation,
+                    midpoint=midpoint,
                     cross_section=x.cross_sections[0]
                     if hasattr(x, "cross_sections")
                     else x,
                     shear_angle=shear_angle_start,
                 )
             )
-            new_port.endpoints = (points1[0], points2[0])
         if port_names[1] is not None:
-            new_port = c.add_port(
+            port_width = width if np.isscalar(width) else width[-1]
+            port_orientation = (p.end_angle) % 360
+            midpoint = points[-1]
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=layers[1],
                     port_type=port_types[1],
-                    width=width if np.isscalar(width) else width[-1],
-                    midpoint=(0, 0),
-                    orientation=(p.end_angle + 180) % 360,
+                    width=port_width,
+                    midpoint=midpoint,
+                    orientation=port_orientation,
                     cross_section=x.cross_sections[1]
                     if hasattr(x, "cross_sections")
                     else x,
                     shear_angle=shear_angle_end,
                 )
             )
-            new_port.endpoints = (points2[-1], points1[-1])
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -470,11 +478,11 @@ def _cut_path_with_ray(
         distance = ls.project(intersection)
         distances.append(distance)
     # when trimming the start, start counting at the intersection point, then add all subsequent points
-    points = [snap_to_grid(np.array(intersections[0]))]
+    points = [np.array(intersections[0].coords[0]).round(3)]
     for point in path[1:-1]:
         if distances[0] < ls.project(sg.Point(point)) < distances[1]:
             points.append(point)
-    points.append(snap_to_grid(np.array(intersections[1])))
+    points.append(np.array(intersections[1].coords[0]).round(3))
     return np.array(points)
 
 
