@@ -163,7 +163,7 @@ def place(
     instance_name: Optional[str] = None,
     all_remaining_insts: Optional[List[str]] = None,
 ) -> None:
-    """Place instance_name with placements_conf config.
+    """Place instance_name based on placements_conf config.
 
     Args:
         placements_conf: Dict of instance_name to placement (x, y, rotation ...)
@@ -211,6 +211,8 @@ def place(
         ymin = placement_settings.get("ymin")
         ymax = placement_settings.get("ymax")
 
+        # print(instance_name, ymin, ymax, xmin, xmax)
+
         dx = placement_settings.get("dx")
         dy = placement_settings.get("dy")
         port = placement_settings.get("port")
@@ -231,9 +233,9 @@ def place(
             ref.x -= a[0]
             ref.y -= a[1]
 
-        if x or xmin or xmax:
-            xmin_or_xmax = xmin or xmax
-            x = x or xmin or xmax
+        if x is not None or xmin is not None or xmax is not None:
+            xmin_or_xmax = xmin if xmin is not None else xmax
+            x = x if x is not None else xmin_or_xmax
 
             if isinstance(x, str):
                 if not len(x.split(",")) == 2:
@@ -269,17 +271,20 @@ def place(
                 x = _get_anchor_value_from_name(
                     instances[instance_name_ref], port_name, "x"
                 )
-            if xmin_or_xmax:
-                if xmin:
+            if xmin_or_xmax is not None:
+                if xmin is not None:
                     ref.xmin = x
-                else:
+                elif xmax is not None:
                     ref.xmax = x
-            else:
+            elif x is not None:
                 ref.x += x
 
-        if y or ymin or ymax:
-            ymin_or_ymax = ymin or ymax
-            y = y or ymin or ymax
+        # print(instance_name, x, xmin, xmax, y, ymin, ymax)
+        # print(ymin, y or ymin or ymax)
+
+        if y is not None or ymin is not None or ymax is not None:
+            ymin_or_ymax = ymin if ymin is not None else ymax
+            y = y if y is not None else ymin_or_ymax
 
             if isinstance(y, str):
                 if not len(y.split(",")) == 2:
@@ -316,12 +321,12 @@ def place(
                     instances[instance_name_ref], port_name, "y"
                 )
 
-            if ymin_or_ymax:
-                if ymin:
+            if ymin_or_ymax is not None:
+                if ymin is not None:
                     ref.ymin = y
-                else:
+                elif ymax is not None:
                     ref.ymax = y
-            else:
+            elif y is not None:
                 ref.y += y
 
         if dx:
@@ -405,21 +410,21 @@ def make_connection(
     port_dst_name = port_dst_name.strip()
 
     if instance_src_name not in instances:
-        raise ValueError(f"{instance_src_name} not in {list(instances.keys())}")
+        raise ValueError(f"{instance_src_name!r} not in {list(instances.keys())}")
     if instance_dst_name not in instances:
-        raise ValueError(f"{instance_dst_name} not in {list(instances.keys())}")
+        raise ValueError(f"{instance_dst_name!r} not in {list(instances.keys())}")
     instance_src = instances[instance_src_name]
     instance_dst = instances[instance_dst_name]
 
     if port_src_name not in instance_src.ports:
         raise ValueError(
             f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-            f" {instance_src_name} "
+            f" {instance_src_name!r} "
         )
     if port_dst_name not in instance_dst.ports:
         raise ValueError(
-            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-            f" {instance_dst_name}"
+            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+            f" {instance_dst_name!r}"
         )
     port_dst = instance_dst.ports[port_dst_name]
     instance_src.connect(port=port_src_name, destination=port_dst)
@@ -556,7 +561,7 @@ def from_yaml(
     conf = OmegaConf.load(yaml_str)  # nicer loader than conf = yaml.safe_load(yaml_str)
     for key in conf.keys():
         if key not in valid_top_level_keys:
-            raise ValueError(f"{key} not in {list(valid_top_level_keys)}")
+            raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")
 
     instances = {}
     routes = {}
@@ -707,16 +712,16 @@ def from_yaml(
                     for port_src_name in ports1names:
                         if port_src_name not in instance_src.ports:
                             raise ValueError(
-                                f"{port_src_name} not in {list(instance_src.ports.keys())}"
-                                f"for {instance_src_name} "
+                                f"{port_src_name!r} not in {list(instance_src.ports.keys())}"
+                                f"for {instance_src_name!r} "
                             )
                         ports1.append(instance_src.ports[port_src_name])
 
                     for port_dst_name in ports2names:
                         if port_dst_name not in instance_dst.ports:
                             raise ValueError(
-                                f"{port_dst_name} not in {list(instance_dst.ports.keys())}"
-                                f"for {instance_dst_name}"
+                                f"{port_dst_name!r} not in {list(instance_dst.ports.keys())}"
+                                f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
 
@@ -735,11 +740,11 @@ def from_yaml(
 
                     if instance_src_name not in instances:
                         raise ValueError(
-                            f"{instance_src_name} not in {list(instances.keys())}"
+                            f"{instance_src_name!r} not in {list(instances.keys())}"
                         )
                     if instance_dst_name not in instances:
                         raise ValueError(
-                            f"{instance_dst_name} not in {list(instances.keys())}"
+                            f"{instance_dst_name!r} not in {list(instances.keys())}"
                         )
 
                     instance_src = instances[instance_src_name]
@@ -747,14 +752,14 @@ def from_yaml(
 
                     if port_src_name not in instance_src.ports:
                         raise ValueError(
-                            f"{port_src_name} not in {list(instance_src.ports.keys())} for"
-                            f" {instance_src_name} "
+                            f"{port_src_name!r} not in {list(instance_src.ports.keys())} for"
+                            f" {instance_src_name!r} "
                         )
 
                     if port_dst_name not in instance_dst.ports:
                         raise ValueError(
-                            f"{port_dst_name} not in {list(instance_dst.ports.keys())} for"
-                            f" {instance_dst_name}"
+                            f"{port_dst_name!r} not in {list(instance_dst.ports.keys())} for"
+                            f" {instance_dst_name!r}"
                         )
 
                     ports1.append(instance_src.ports[port_src_name])
@@ -789,13 +794,15 @@ def from_yaml(
                 instance_name = instance_name.strip()
                 instance_port_name = instance_port_name.strip()
                 if instance_name not in instances:
-                    raise ValueError(f"{instance_name} not in {list(instances.keys())}")
+                    raise ValueError(
+                        f"{instance_name!r} not in {list(instances.keys())}"
+                    )
                 instance = instances[instance_name]
 
                 if instance_port_name not in instance.ports:
                     raise ValueError(
-                        f"{instance_port_name} not in {list(instance.ports.keys())} for"
-                        f" {instance_name} "
+                        f"{instance_port_name!r} not in {list(instance.ports.keys())} for"
+                        f" {instance_name!r} "
                     )
                 c.add_port(port_name, port=instance.ports[instance_port_name])
             else:
@@ -1066,13 +1073,64 @@ instances:
 """
 
 
+sample_rotation_hacky = """
+name: sample_rotation
+
+instances:
+  r1:
+    component: rectangle
+    settings:
+        size: [4, 2]
+  r2:
+    component: rectangle
+    settings:
+        size: [2, 4]
+
+placements:
+    r1:
+        xmin: 0
+        ymin: 0
+    r2:
+        rotation: 90
+        xmin: r1,west
+        ymin: 0
+
+"""
+
+sample_rotation = """
+name: sample_rotation
+
+instances:
+  r1:
+    component: rectangle
+    settings:
+        size: [4, 2]
+  r2:
+    component: rectangle
+    settings:
+        size: [2, 4]
+
+placements:
+    r1:
+        xmin: 0
+        ymin: 0
+    r2:
+        rotation: -90
+        xmin: r1,east
+        ymin: 0
+
+"""
+
+
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
     # for k in component_factories.keys():
     #     print(k)
     # print(c.settings["info"])
     # c = from_yaml(yaml_anchor)
-    c = from_yaml(sample_pdk_mzi)
+    # c = from_yaml(sample_pdk_mzi)
+
+    c = from_yaml(sample_rotation)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
     # c = from_yaml(sample_yaml_xmin)
