@@ -11,6 +11,7 @@ from collections.abc import Iterable
 from typing import Optional
 
 import numpy as np
+import shapely.ops
 from phidl import path
 from phidl.device_layout import Path as PathPhidl
 from phidl.device_layout import _simplify
@@ -304,24 +305,47 @@ def extrude(
         else:
             pass
         dy = offset + width / 2
-        _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
+        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points1 = p._centerpoint_offset_curve(
-            _points,
+            points,
             offset_distance=dy,
             start_angle=start_angle,
             end_angle=end_angle,
         )
         dy = offset - width / 2
-        _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
+        # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
         points2 = p._centerpoint_offset_curve(
-            _points,
+            points,
             offset_distance=dy,
             start_angle=start_angle,
             end_angle=end_angle,
         )
+        if shear_angle_start or shear_angle_end:
+            _face_angle_start = (
+                start_angle + shear_angle_start + 90 if shear_angle_start else None
+            )
+            _face_angle_end = (
+                end_angle + shear_angle_end + 90 if shear_angle_end else None
+            )
+            points1 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=_face_angle_start,
+                end_point=points[-1],
+                end_angle=_face_angle_end,
+                path=points1,
+            )
+            points2 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=_face_angle_start,
+                end_point=points[-1],
+                end_angle=_face_angle_end,
+                path=points2,
+            )
 
+        # angle = start_angle + shear_angle_start + 90
+        # points2 = _cut_path_with_ray(points[0], angle, points2, start=True)
         # Simplify lines using the Ramer–Douglas–Peucker algorithm
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
@@ -331,6 +355,11 @@ def extrude(
 
         if snap_to_grid:
             snap_to_grid_nm = snap_to_grid * 1e3
+            points = (
+                snap_to_grid_nm
+                * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
+                / 1e3
+            )
             points1 = (
                 snap_to_grid_nm
                 * np.round(np.array(points1) * 1e3 / snap_to_grid_nm)
@@ -343,45 +372,49 @@ def extrude(
             )
 
         # Join points together
-        points = np.concatenate([points1, points2[::-1, :]])
+        points_poly = np.concatenate([points1, points2[::-1, :]])
 
         layers = layer if hidden else [layer, layer]
         if not hidden and p.length() > 1e-3:
-            c.add_polygon(points, layer=layer)
+            c.add_polygon(points_poly, layer=layer)
 
         # Add port_names if they were specified
         if port_names[0] is not None:
-            new_port = c.add_port(
+            port_width = width if np.isscalar(width) else width[0]
+            port_orientation = (p.start_angle + 180) % 360
+            midpoint = points[0]
+            c.add_port(
                 port=Port(
                     name=port_names[0],
                     layer=layers[0],
                     port_type=port_types[0],
-                    width=width if np.isscalar(width) else width[0],
-                    orientation=(p.start_angle + 180) % 360,
-                    midpoint=(0, 0),
+                    width=port_width,
+                    orientation=port_orientation,
+                    midpoint=midpoint,
                     cross_section=x.cross_sections[0]
                     if hasattr(x, "cross_sections")
                     else x,
                     shear_angle=shear_angle_start,
                 )
             )
-            new_port.endpoints = (points1[0], points2[0])
         if port_names[1] is not None:
-            new_port = c.add_port(
+            port_width = width if np.isscalar(width) else width[-1]
+            port_orientation = (p.end_angle) % 360
+            midpoint = points[-1]
+            c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=layers[1],
                     port_type=port_types[1],
-                    width=width if np.isscalar(width) else width[-1],
-                    midpoint=(0, 0),
-                    orientation=(p.end_angle + 180) % 360,
+                    width=port_width,
+                    midpoint=midpoint,
+                    orientation=port_orientation,
                     cross_section=x.cross_sections[1]
                     if hasattr(x, "cross_sections")
                     else x,
                     shear_angle=shear_angle_end,
                 )
             )
-            new_port.endpoints = (points2[-1], points1[-1])
 
     c.info["length"] = float(np.round(p.length(), 3))
 
@@ -391,53 +424,66 @@ def extrude(
     return c
 
 
-def _shear_face(
-    points: np.ndarray,
-    dy: float,
-    shear_angle_start: Optional[float],
-    shear_angle_end: Optional[float],
-) -> np.ndarray:
+def _cut_path_with_ray(
+    start_point: np.ndarray,
+    start_angle: Optional[float],
+    end_point: np.ndarray,
+    end_angle: Optional[float],
+    path: np.ndarray,
+):
     """
-    Displaces a point sequence offset a distance dy away by a shear angle,
-    given in degrees, on either side.
-
-    Args:
-        points: points sequence.
-        dy: y offset.
-        shear_angle_start: an optional angle to shear the starting face by (in degrees).
-        shear_angle_end: an optional angle to shear the ending face by (in degrees).
+    Cuts or extends a path given a point and angle to project with
     """
-    if shear_angle_start or shear_angle_end:
-        shear_angle_start = shear_angle_start or 0
-        shear_angle_end = shear_angle_end or 0
+    import shapely.geometry as sg
 
-        dl_start = np.tan(np.deg2rad(shear_angle_start)) * dy
-        dp_start = points[1] - points[0]
-        a_start = np.arctan2(dp_start[1], dp_start[0])
-        dl_end = np.tan(np.deg2rad(shear_angle_end)) * dy
-        dp_end = points[-1] - points[-2]
-        a_end = np.arctan2(dp_end[1], dp_end[0])
-        _points = points.copy()
-        _points[0] = points[0] + np.array(
-            [dl_start * np.cos(a_start), dl_start * np.sin(a_start)]
-        )
-        _points[-1] = points[-1] + np.array(
-            [dl_end * np.cos(a_end), dl_end * np.sin(a_end)]
-        )
-        points = _points
+    # a distance to approximate infinity to find ray-segment intersections
+    far_distance = 10000
 
-        # verify nothing went screwy
-        dp_start_final = points[1] - points[0]
-        dp_end_final = points[-1] - points[-2]
-        if not np.array_equal(np.sign(dp_start), np.sign(dp_start_final)):
-            raise ValueError(
-                "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the start point"
-            )
-        if not np.array_equal(np.sign(dp_end), np.sign(dp_end_final)):
-            raise ValueError(
-                "Could not apply shear face to path! Likely this means the path has curvature or segmentation near the end point"
-            )
-    return points
+    path_cmp = np.copy(path)
+    # pad start
+    dp = path[0] - path[1]
+    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
+    path_cmp[0] += d_ext
+    # pad end
+    dp = path[-1] - path[-2]
+    d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
+    path_cmp[-1] += d_ext
+
+    intersections = [sg.Point(path[0]), sg.Point(path[-1])]
+    distances = []
+    ls = sg.LineString(path_cmp)
+    for i, angle, point in [(0, start_angle, start_point), (1, end_angle, end_point)]:
+        if angle:
+            # get intersection
+            angle_rad = np.deg2rad(angle)
+            dx_far = np.cos(angle_rad) * far_distance
+            dy_far = np.sin(angle_rad) * far_distance
+            d_far = point + np.array([dx_far, dy_far])
+            ls_ray = sg.LineString([point - d_far, point + d_far])
+            intersection = ls.intersection(ls_ray)
+
+            if not isinstance(intersection, sg.Point):
+                if isinstance(intersection, sg.MultiPoint):
+                    _, nearest = shapely.ops.nearest_points(
+                        sg.Point(point), intersection
+                    )
+                    intersection = nearest
+                else:
+                    raise ValueError(
+                        f"Expected intersection to be a point, but got {intersection}"
+                    )
+            intersections[i] = intersection
+        else:
+            intersection = intersections[i]
+        distance = ls.project(intersection)
+        distances.append(distance)
+    # when trimming the start, start counting at the intersection point, then add all subsequent points
+    points = [np.array(intersections[0].coords[0]).round(3)]
+    for point in path[1:-1]:
+        if distances[0] < ls.project(sg.Point(point)) < distances[1]:
+            points.append(point)
+    points.append(np.array(intersections[1].coords[0]).round(3))
+    return np.array(points)
 
 
 def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
