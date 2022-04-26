@@ -66,7 +66,9 @@ def bend_euler(
     c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
     c.info["radius_min"] = snap_to_grid(p.info["Rmin"])
     c.info["radius"] = radius
-    c.info["wg_width"] = x.width
+
+    if x.info:
+        c.info.update(x.info)
 
     if with_bbox:
         padding = []
