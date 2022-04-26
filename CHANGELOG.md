@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+# [5.2.2]
+
+- add `get_name_from_label` to `add_ports_from_labels`
+- add optional `layer_label` to `add_ports_from_labels`
+- remove `.` in clean_name, before it was renaming `.` to `p`
 
 # [5.2.1](https://github.com/gdsfactory/gdsfactory/pull/289)
 

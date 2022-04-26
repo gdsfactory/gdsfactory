@@ -270,6 +270,8 @@ def add_ports_from_labels(
     xcenter: Optional[float] = None,
     port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
+    get_name_from_label: bool = False,
+    layer_label: Optional[Layer] = None,
 ) -> Component:
     """Add ports from labels.
     Assumes that all ports have a label at the port center.
@@ -282,6 +284,7 @@ def add_ports_from_labels(
         xcenter: center of the component, for guessing port orientation.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical
         port_type: optical, electrical
+        layer_label:
 
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
@@ -290,7 +293,16 @@ def add_ports_from_labels(
     yc = component.y
     for i, label in enumerate(component.labels):
         x, y = label.position
-        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
+
+        if layer_label and not (
+            layer_label[0] == label.layer and layer_label[1] == label.texttype
+        ):
+            continue
+
+        if get_name_from_label:
+            port_name = label.text
+        else:
+            port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
         if x > xc:  # east
             orientation = 0
         elif x < xc:  # west
