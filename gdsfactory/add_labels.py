@@ -175,47 +175,55 @@ def add_labels(
 
 def add_siepic_labels(
     component: Component,
-    model: str = None,
-    library: str = None,
+    model: str = "auto",
+    library: str = "auto",
     label_layer: Layer = (68, 0),
-    spice_params: Union[Dict, List] = None,
+    spice_params: Union[Dict, List, str] = None,
     label_sep: float = 0.2,
-) -> None:
+) -> Component:
     """
     Adds labels to a component.
     Args:
         component: component
-        model: name of component for SiEPIC label (defaults to component name)
-        library: Lumerical Interconnect library for SiEPIC label
+        model: Lumerical Interconnect model. 'auto' will attempt to extract this from the cross_section
+        library: Lumerical Interconnect library. 'auto' will attempt to extract this from the cross_section
         label_layer: layer for writing SiEPIC labels
         spice_params: spice parameters (in microns). Either pass in a dict with parameter, value pairs, or pass
             in a list of values to extract from component info.
         label_sep: distance between labels
     """
+
     c = component
 
     labels = list()
     if model:
-        labels.append(
-            f"Component={model}",
-        )
+        if model == "auto":
+            if "model" in c.info:
+                model = c.info["model"]
+        labels.append(f"Component={model}")
     if library:
+        if library == "auto":
+            if "library" in c.info:
+                library = c.info["library"]
         labels.append(f"Lumerical_INTERCONNECT_library={library}")
-    if spice_params:
+    if spice_params and c.info["layout_model_property_pairs"]:
+        if spice_params == "auto":
+            pairs = c.info["layout_model_property_pairs"]
+            spice_params = {pair[1]: c.info[pair[0]] for pair in pairs}
         param_str = ""
         for param in spice_params:
-            val = (
-                spice_params[param]
-                if isinstance(spice_params, dict)
-                else c.metadata_child.info[param]
-            )
+
+            val = spice_params[param]
             param_str += f"{param}={val:.3f}u "
         labels.append("Spice_param:" + param_str)
 
+    c.unlock()
     for i, text in enumerate(labels):
         c.add_label(
             text=text, position=(0, i * label_sep), layer=label_layer, anchor="w"
         )
+    c.lock()
+    return c
 
 
 if __name__ == "__main__":

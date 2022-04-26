@@ -52,6 +52,9 @@ def bend_s(
     c.info["length"] = bend.info["length"]
     c.info["min_bend_radius"] = bend.info["min_bend_radius"]
 
+    if x.info:
+        c.info.update(x.info)
+
     if with_bbox:
         padding = []
         for layer, offset in zip(x.bbox_layers, x.bbox_offsets):

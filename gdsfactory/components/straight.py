@@ -41,6 +41,9 @@ def straight(
     c.info["length"] = length
     c.info["width"] = x.width
 
+    if x.info:
+        c.info.update(x.info)
+
     padding = []
     if with_bbox and length:
         for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
