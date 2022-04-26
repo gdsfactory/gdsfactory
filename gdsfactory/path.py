@@ -323,18 +323,28 @@ def extrude(
             start_angle=start_angle,
             end_angle=end_angle,
         )
-        if shear_angle_end:
-            angle = (
-                end_angle + shear_angle_end + 90
-            )  # the angle for the shear vector, to cut the face by
-            points2 = _cut_path_with_ray(points[-1], angle, points2, start=False)
-            points1 = _cut_path_with_ray(points[-1], angle, points1, start=False)
-        if shear_angle_start:
-            angle = (
-                start_angle + shear_angle_start + 90
-            )  # the angle for the shear vector, to cut the face by
-            points2 = _cut_path_with_ray(points[0], angle, points2, start=True)
-            points1 = _cut_path_with_ray(points[0], angle, points1, start=True)
+        if shear_angle_start or shear_angle_end:
+            _face_angle_start = (
+                start_angle + shear_angle_start + 90 if shear_angle_start else None
+            )
+            _face_angle_end = (
+                end_angle + shear_angle_end + 90 if shear_angle_end else None
+            )
+            points1 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=_face_angle_start,
+                end_point=points[-1],
+                end_angle=_face_angle_end,
+                path=points1,
+            )
+            points2 = _cut_path_with_ray(
+                start_point=points[0],
+                start_angle=_face_angle_start,
+                end_point=points[-1],
+                end_angle=_face_angle_end,
+                path=points2,
+            )
+
         # angle = start_angle + shear_angle_start + 90
         # points2 = _cut_path_with_ray(points[0], angle, points2, start=True)
         # Simplify lines using the Ramer–Douglas–Peucker algorithm
@@ -406,7 +416,13 @@ def extrude(
     return c
 
 
-def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start: bool):
+def _cut_path_with_ray(
+    start_point: np.ndarray,
+    start_angle: Optional[float],
+    end_point: np.ndarray,
+    end_angle: Optional[float],
+    path: np.ndarray,
+):
     """
     Cuts or extends a path given a point and angle to project with
     """
@@ -425,36 +441,40 @@ def _cut_path_with_ray(point: np.ndarray, angle: float, path: np.ndarray, start:
     d_ext = far_distance / np.sqrt(np.sum(dp**2)) * np.array([dp[0], dp[1]])
     path_cmp[-1] += d_ext
 
-    # get intersection
+    intersections = [sg.Point(path[0]), sg.Point(path[-1])]
+    distances = []
     ls = sg.LineString(path_cmp)
-    angle_rad = np.deg2rad(angle)
-    dx_far = np.cos(angle_rad) * far_distance
-    dy_far = np.sin(angle_rad) * far_distance
-    d_far = point + np.array([dx_far, dy_far])
-    ls_ray = sg.LineString([point - d_far, point + d_far])
-    intersection = ls.intersection(ls_ray)
+    for i, angle, point in [(0, start_angle, start_point), (1, end_angle, end_point)]:
+        if angle:
+            # get intersection
+            angle_rad = np.deg2rad(angle)
+            dx_far = np.cos(angle_rad) * far_distance
+            dy_far = np.sin(angle_rad) * far_distance
+            d_far = point + np.array([dx_far, dy_far])
+            ls_ray = sg.LineString([point - d_far, point + d_far])
+            intersection = ls.intersection(ls_ray)
 
-    if not isinstance(intersection, sg.Point):
-        if isinstance(intersection, sg.MultiPoint):
-            _, nearest = shapely.ops.nearest_points(sg.Point(point), intersection)
-            intersection = nearest
+            if not isinstance(intersection, sg.Point):
+                if isinstance(intersection, sg.MultiPoint):
+                    _, nearest = shapely.ops.nearest_points(
+                        sg.Point(point), intersection
+                    )
+                    intersection = nearest
+                else:
+                    raise ValueError(
+                        f"Expected intersection to be a point, but got {intersection}"
+                    )
+            intersections[i] = intersection
         else:
-            raise ValueError(
-                f"Expected intersection to be a point, but got {intersection}"
-            )
-    distance = ls.project(intersection)
-    if start:
-        # when trimming the start, start counting at the intersection point, then add all subsequent points
-        points = [snap_to_grid(np.array(intersection))]
-        for point in path[1:]:
-            if ls.project(sg.Point(point)) > distance:
-                points.append(point)
-    else:
-        points = []
-        for point in path[:-1]:
-            if ls.project(sg.Point(point)) < distance:
-                points.append(point)
-        points.append(snap_to_grid(np.array(intersection)))
+            intersection = intersections[i]
+        distance = ls.project(intersection)
+        distances.append(distance)
+    # when trimming the start, start counting at the intersection point, then add all subsequent points
+    points = [snap_to_grid(np.array(intersections[0]))]
+    for point in path[1:-1]:
+        if distances[0] < ls.project(sg.Point(point)) < distances[1]:
+            points.append(point)
+    points.append(snap_to_grid(np.array(intersections[1])))
     return np.array(points)
 
 
