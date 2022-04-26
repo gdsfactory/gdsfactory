@@ -40,6 +40,89 @@ def regular_waveguide():
     return c
 
 
+@pytest.fixture
+def more_slanted_than_wide():
+    P = gf.path.straight(length=0.1)
+    c = gf.path.extrude(P, "strip", shear_angle_start=60, shear_angle_end=60)
+    return c
+
+
+@pytest.fixture
+def skinny():
+    P = gf.path.straight(length=0.1)
+    c = gf.path.extrude(P, "strip")
+    return c
+
+
+@pytest.fixture
+def linear_taper():
+    P = gf.path.straight(length=10)
+
+    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X1 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s],
+    )
+    s2 = gf.Section(width=2, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X2 = gf.CrossSection(
+        width=0.5,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s2],
+    )
+    t = gf.path.transition(X1, X2, width_type="linear")
+    c = gf.path.extrude(P, t)
+    return c
+
+
+@pytest.fixture
+def linear_taper_sheared():
+    P = gf.path.straight(length=10)
+
+    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X1 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s],
+    )
+    s2 = gf.Section(width=2, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X2 = gf.CrossSection(
+        width=0.5,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s2],
+    )
+    t = gf.path.transition(X1, X2, width_type="linear")
+    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=None)
+    return c
+
+
+@pytest.fixture
+def curve():
+    P = gf.path.euler()
+    c = gf.path.extrude(P, "strip")
+    return c
+
+
+@pytest.fixture
+def curve_sheared():
+    angle = 15
+    P = gf.path.euler()
+    c = gf.path.extrude(P, "strip", shear_angle_start=angle, shear_angle_end=angle)
+    return c
+
+
 def test_mate_on_shear_xor_empty(
     regular_waveguide, shear_waveguide_start, shear_waveguide_end
 ):
@@ -58,6 +141,17 @@ def test_mate_on_shear_xor_empty(
     assert not xor.layers
 
 
+def test_rotations_are_normal(
+    regular_waveguide, shear_waveguide_start, shear_waveguide_end
+):
+    two_shears = gf.Component()
+    c1 = two_shears << shear_waveguide_end
+    c2 = two_shears << shear_waveguide_start
+    c2.connect("o1", c1.ports["o2"])
+
+    assert c2.rotation % 90 == 0
+
+
 def test_area_stays_same(
     regular_waveguide,
     shear_waveguide_start,
@@ -74,6 +168,62 @@ def test_area_stays_same(
     np.testing.assert_allclose(areas, desired=areas[0])
 
 
+def test_area_stays_same_skinny(
+    skinny,
+    more_slanted_than_wide,
+):
+    components = [
+        skinny,
+        more_slanted_than_wide,
+    ]
+    areas = [c.area() for c in components]
+    np.testing.assert_allclose(areas, desired=areas[0])
+
+
+# def test_area_stays_same_curve(
+#     curve,
+#     curve_sheared,
+# ):
+#     components = [
+#         curve,
+#         curve_sheared,
+#     ]
+#     areas = [c.area() for c in components]
+#     np.testing.assert_allclose(areas, desired=areas[0], atol=1e-5)
+
+
+def test_mate_on_shear_xor_empty_transition(linear_taper, linear_taper_sheared):
+    # two sheared components joined at the sheared port should appear the same as two straight component joined
+    two_straights = gf.Component()
+    c1 = two_straights << linear_taper
+    c2 = two_straights << linear_taper
+    c2.connect("o1", c1.ports["o2"])
+
+    two_shears = gf.Component()
+    c1 = two_shears << linear_taper_sheared
+    c2 = two_shears << linear_taper_sheared
+    c2.connect("o1", c1.ports["o1"])
+
+    xor = gf.geometry.xor_diff(two_straights, two_shears)
+    assert not xor.layers
+
+
+def test_mate_on_shear_xor_empty_curve(curve, curve_sheared):
+    # two sheared components joined at the sheared port should appear the same as two straight component joined
+    two_straights = gf.Component()
+    c1 = two_straights << curve
+    c2 = two_straights << curve
+    c2.connect("o1", c1.ports["o2"])
+
+    two_shears = gf.Component()
+    c1 = two_shears << curve_sheared
+    c2 = two_shears << curve_sheared
+    c2.connect("o1", c1.ports["o1"])
+
+    xor = gf.geometry.xor_diff(two_straights, two_shears)
+    assert not xor.layers
+
+
 def test_shear_angle_annotated_on_ports(shear_waveguide_start, shear_waveguide_end):
     assert shear_waveguide_start.ports["o1"].shear_angle == DEMO_PORT_ANGLE
     assert shear_waveguide_start.ports["o2"].shear_angle is None
@@ -83,15 +233,6 @@ def test_shear_angle_annotated_on_ports(shear_waveguide_start, shear_waveguide_e
 
 
 def test_port_attributes(regular_waveguide, shear_waveguide_symmetric):
-    """
-    # TODO: this test should pass... why does it not?
-    it seems to be ignoring the information supplied to the port originally
-    and overwriting with info extracted from the face segment,
-    which is not what it should do in this case.
-    It should have the same attributes of an orthogonal port,
-    but only the shear_angle attribute is different
-
-    """
     regular_ports = [p.to_dict() for p in regular_waveguide.ports.values()]
     shear_ports = [p.to_dict() for p in shear_waveguide_symmetric.ports.values()]
 
@@ -101,11 +242,7 @@ def test_port_attributes(regular_waveguide, shear_waveguide_symmetric):
 
     for p1, p2 in zip(regular_ports, shear_ports):
         for k in p.keys():
-            if k not in ["width", "orientation"]:
-                assert p1[k] == p2[k], f"{k} differs! {p1[k]} != {p2[k]}"
-
-    # assert regular_ports[0] == shear_ports[0]
-    # assert regular_ports[1] == shear_ports[1]
+            assert p1[k] == p2[k], f"{k} differs! {p1[k]} != {p2[k]}"
 
 
 if __name__ == "__main__":
