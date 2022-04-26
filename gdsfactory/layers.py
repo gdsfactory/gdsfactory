@@ -165,7 +165,7 @@ def _name_to_short_name(name_str: str) -> str:
         raise IOError(f"layer {name_str} has no name")
     fields = name_str.split("-")
     name = fields[0].split()[0].strip()
-    return clean_name(name)
+    return clean_name(name, remove_dots=True)
 
 
 def _name_to_description(name_str) -> str:
@@ -201,9 +201,15 @@ def _add_layer(entry, lys: LayerSet) -> LayerSet:
     if not name:
         return
 
-    gds_layer, gds_datatype = info.split("/")
-    gds_layer = gds_layer.split()[-1]
-    gds_datatype = gds_datatype.split()[-1]
+    infos = info.split("/")
+
+    if len(infos) > 1:
+        gds_layer, gds_datatype = info.split("/")
+        gds_layer = gds_layer.split()[-1]
+        gds_datatype = gds_datatype.split()[-1]
+
+    else:
+        return
 
     # print(entry.keys())
     # print(name, entry["xfill"], entry["fill-color"])
