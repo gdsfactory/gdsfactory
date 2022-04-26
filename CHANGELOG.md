@@ -7,6 +7,8 @@
     * rename cladding_offsets as bbox_offsets
     * copy_child_info propagates polarization and wavelength info
 
+- make sure 0 or None is 0 in `xmin` or `xmax` keys from component_from_yaml
+
 
 ## [5.2.0](https://github.com/gdsfactory/gdsfactory/pull/287)
 
