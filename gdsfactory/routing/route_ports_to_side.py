@@ -170,7 +170,8 @@ def route_ports_to_x(
     ys = [p.y for p in list_ports]
 
     if y0_bottom is None:
-        y0_top = max(ys) + by
+        y0_bottom = min(ys) - by
+
     y0_bottom -= extend_bottom
 
     if y0_top is None:
@@ -536,4 +537,9 @@ if __name__ == "__main__":
             c.add(route.references)
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
+    c.show()
+
+
+if __name__ == "__main__":
+    c = _sample_route_sides()
     c.show()
