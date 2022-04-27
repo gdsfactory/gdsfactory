@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_rotate():
+def test_rotate() -> None:
     c1 = gf.components.straight()
     c1r = c1.rotate()
 

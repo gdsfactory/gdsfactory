@@ -3,7 +3,7 @@ import numpy as np
 from gdsfactory.simulation.modes.find_mode_dispersion import find_mode_dispersion
 
 
-def test_find_modes_waveguide_dispersion():
+def test_find_modes_waveguide_dispersion() -> None:
     modes = find_mode_dispersion(wg_width=0.45, resolution=20, cache=None)
     m1 = modes
 

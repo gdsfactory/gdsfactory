@@ -205,7 +205,7 @@ def set_plot_options(
     new_window: bool = False,
     blocking: bool = False,
     zoom_factor: float = 1.4,
-):
+) -> None:
     """Set plot options for matplotlib"""
     set_quickplot_options(
         show_ports=show_ports,

@@ -107,11 +107,11 @@ class Component(Device):
         self.version = version
         self.changelog = changelog
 
-    def unlock(self):
+    def unlock(self) -> None:
         """I recommend doing this only if you know what you are doing."""
         self._locked = False
 
-    def lock(self):
+    def lock(self) -> None:
         """Makes sure components can't add new elements or move existing ones.
         Components lock automatically when going into the CACHE to ensure one
         component does not change others
@@ -473,7 +473,9 @@ class Component(Device):
         self.ports[p.name] = p
         return p
 
-    def add_ports(self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""):
+    def add_ports(
+        self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
+    ) -> None:
         """Add a list or dict of ports,
         you can include a prefix to add to the new port names to avoid name conflicts.
 
@@ -1272,7 +1274,7 @@ def test_netlist_complex() -> None:
     assert len(netlist["instances"]) == 4, len(netlist["instances"])
 
 
-def test_extract():
+def test_extract() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(
@@ -1306,7 +1308,7 @@ def test_bbox_reference():
     return c2
 
 
-def test_bbox_component():
+def test_bbox_component() -> None:
     import gdsfactory as gf
 
     c = gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)

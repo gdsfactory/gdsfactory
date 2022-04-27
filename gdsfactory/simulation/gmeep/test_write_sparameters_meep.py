@@ -11,7 +11,7 @@ from gdsfactory.tech import LAYER_STACK
 RESOLUTION = 20
 
 
-def test_sparameters_straight(dataframe_regression):
+def test_sparameters_straight(dataframe_regression) -> None:
     """Checks Sparameters for a straight waveguide"""
     c = gf.components.straight(length=2)
     p = 3
@@ -28,7 +28,7 @@ def test_sparameters_straight(dataframe_regression):
         dataframe_regression.check(df)
 
 
-def test_sparameters_straight_symmetric(dataframe_regression):
+def test_sparameters_straight_symmetric(dataframe_regression) -> None:
     """Checks Sparameters for a straight waveguide"""
     c = gf.components.straight(length=2)
     p = 3
@@ -58,7 +58,7 @@ def test_sparameters_straight_symmetric(dataframe_regression):
         dataframe_regression.check(df)
 
 
-def test_sparameters_crossing_symmetric(dataframe_regression):
+def test_sparameters_crossing_symmetric(dataframe_regression) -> None:
     """Checks Sparameters for a waveguide crossing. Exploits symmetries."""
     c = gf.components.crossing()
     port_symmetries = {
@@ -81,7 +81,7 @@ def test_sparameters_crossing_symmetric(dataframe_regression):
         dataframe_regression.check(df)
 
 
-def test_sparameters_straight_mpi(dataframe_regression):
+def test_sparameters_straight_mpi(dataframe_regression) -> None:
     """Checks Sparameters for a straight waveguide using MPI"""
     c = gf.components.straight(length=2)
     p = 3
@@ -99,7 +99,7 @@ def test_sparameters_straight_mpi(dataframe_regression):
         dataframe_regression.check(df)
 
 
-def test_sparameters_straight_batch(dataframe_regression):
+def test_sparameters_straight_batch(dataframe_regression) -> None:
     """Checks Sparameters for a straight waveguide using an MPI pool"""
 
     components = []

@@ -42,27 +42,27 @@ factory = {
 #     assert lenf == len(f)
 
 
-def test_read_sparameters_2port_bend():
+def test_read_sparameters_2port_bend() -> None:
     filepath = gf.CONFIG["sparameters"] / "bend_circular" / "bend_circular_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
     assert port_names == ("N0", "W0"), port_names
 
 
-def test_read_sparameters_2port_straight():
+def test_read_sparameters_2port_straight() -> None:
     filepath = gf.CONFIG["sparameters"] / "straight" / "straight_S220.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=2)
     assert len(f) == 500
     assert port_names == ("E0", "W0"), port_names
 
 
-def test_read_sparameters_3port_mmi1x2():
+def test_read_sparameters_3port_mmi1x2() -> None:
     filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=3)
     assert len(f) == 500
     assert port_names == ("E0", "E1", "W0"), port_names
 
 
-def test_read_sparameters_4port_mmi2x2():
+def test_read_sparameters_4port_mmi2x2() -> None:
     filepath = gf.CONFIG["sparameters"] / "mmi2x2" / "mmi2x2_si220n.dat"
     port_names, f, s = read_sparameters_lumerical(filepath=filepath, numports=4)
     assert len(f) == 500

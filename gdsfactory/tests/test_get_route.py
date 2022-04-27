@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_route():
+def test_route() -> None:
     c = gf.Component("sample_connect")
     mmi1 = c << gf.components.mmi1x2()
     mmi2 = c << gf.components.mmi1x2()

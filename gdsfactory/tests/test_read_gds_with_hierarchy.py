@@ -21,7 +21,7 @@ def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None
     data_regression.check(c.to_dict())
 
 
-def test_read_gds_equivalent2():
+def test_read_gds_equivalent2() -> None:
     """Ensures we can load it from GDS + YAML and get the same component settings"""
     c1 = gf.components.mzi()
     c2 = gf.import_gds(gdspath)
@@ -46,7 +46,7 @@ def test_read_gds_equivalent2():
     assert len(d) == 0, d
 
 
-def test_mix_cells_from_gds_and_from_function2():
+def test_mix_cells_from_gds_and_from_function2() -> None:
     """Ensures not duplicated cell names.
     when cells loaded from GDS and have the same name as a function
     with @cell decorator
@@ -58,7 +58,7 @@ def test_mix_cells_from_gds_and_from_function2():
     c.show()
 
 
-def _write():
+def _write() -> None:
     c1 = gf.components.mzi()
     c1.name = "mzi_gds"
     c1.write_gds_with_metadata(gdspath=gdspath)

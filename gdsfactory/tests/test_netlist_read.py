@@ -16,7 +16,7 @@ def test_netlist_read() -> Component:
     return c
 
 
-def regenerate_regression_test():
+def regenerate_regression_test() -> None:
     c = gf.components.mzi()
 
     filepath = gf.CONFIG["netlists"] / "mzi.yml"

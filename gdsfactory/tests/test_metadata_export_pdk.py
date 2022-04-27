@@ -10,7 +10,7 @@ def straight_with_pins(**kwargs):
     return c
 
 
-def test_metadata_export_pdk():
+def test_metadata_export_pdk() -> None:
     c = gf.components.mzi(straight=straight_with_pins)
     assert c.settings.full["straight"]["function"] == "straight_with_pins"
 

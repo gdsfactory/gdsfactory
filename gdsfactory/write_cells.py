@@ -45,7 +45,7 @@ def write_cells_recursively(
     precision: float = 1e-9,
     timestamp: Optional[datetime.datetime] = _timestamp2019,
     dirpath: pathlib.Path = Optional[pathlib.Path],
-):
+) -> None:
     """Write gdspy cells recursively
 
     Args:
