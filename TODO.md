@@ -1,38 +1,23 @@
 # TODO
 
+- add electrical router for DC where orientation is None
 - enable rich output?
-- better electrical routers
-- more explicit Sparameter data format. Considers TE/TM modes.
-- add DVC for version control data on GCS, instead of relying gdslib second repo.
+- more explicit Sparameter data format. Consider TE/TM modes.
 - replace circular fiber marker by square
-- fix FIXMEs
-- klayout klive refresh does not maintain the position of the view any more
 - better netlist extraction
-- interface with Siepic tools? add ports as FlexPath
-- corners don't auto-taper for RF circuits
+- add DVC for version control data on GCS, instead of relying gdslib second repo.
 
 ## Plugins
 
+- snakemake: for cloud workflows
 - tidy3d: compute bend mode missmatch
-- sax. Backend that does not require JAX (for windows users)
 - simphony, update to latest version?
-- sipann
-
-Modes
-
-- include mode overlap examples
-- include modesolverpy solver
-
-Meep
-
-- Add some heuristics for optimizing number of codes in MPI. How many cores to use?
-
-Lumerical:
-
-- batch mode or run with more cores
-- eme
-- mode-solver
-- interconnect
+- sipann, equivalent for SAX?
+- Modes: include mode overlap examples, tidy3d and modesolverpy solver
+- Lumerical:
+    - batch mode or run with more cores
+    - eme
+    - mode-solver
 
 ## Someday
 
