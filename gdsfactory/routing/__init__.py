@@ -26,6 +26,7 @@ from gdsfactory.routing.get_routes_bend180 import get_routes_bend180
 from gdsfactory.routing.get_routes_straight import get_routes_straight
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.routing.route_quad import route_quad
+from gdsfactory.routing.route_sharp import route_sharp
 from gdsfactory.routing.route_south import route_south
 
 __all__ = [
@@ -53,6 +54,7 @@ __all__ = [
     "route_ports_to_side",
     "route_south",
     "route_quad",
+    "route_sharp",
     "fanout",
     "sort_ports",
     "utils",
