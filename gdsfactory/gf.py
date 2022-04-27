@@ -198,7 +198,7 @@ def test() -> None:
     is_eager=True,
     help="Show the version number.",
 )
-def gf():
+def gf() -> None:
     """`gf` is the command line tool for gdsfactory.
     It helps you work with GDS files.
     """

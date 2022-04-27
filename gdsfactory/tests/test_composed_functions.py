@@ -17,7 +17,7 @@ straigth_extended3 = toolz.compose(
 )
 
 
-def test_compose1():
+def test_compose1() -> None:
     """Ensures the first level of composed function gets a unique name"""
     extend_ports1 = gf.partial(gf.components.extend_ports, length=1)
     straigth_extended500 = gf.compose(

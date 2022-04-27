@@ -59,7 +59,7 @@ def test_netlists(
     assert len(d) == 0, d
 
 
-def demo_netlist(component_type):
+def demo_netlist(component_type) -> None:
     c1 = components[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)

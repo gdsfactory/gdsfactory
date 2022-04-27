@@ -81,7 +81,7 @@ def assert_first_letters_are_different(**kwargs):
         )
 
 
-def print_first_letters_warning(**kwargs):
+def print_first_letters_warning(**kwargs) -> None:
     """Prints kwargs that have same cell."""
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
     if not len(set(first_letters)) == len(first_letters):

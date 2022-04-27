@@ -67,7 +67,7 @@ def invert(
     return D
 
 
-def test_invert():
+def test_invert() -> None:
     e1 = gf.components.ellipse(radii=(6, 6)).move((10, 10))
     c = invert(e1)
     assert int(c.area()) == 910

@@ -82,7 +82,7 @@ def write_labels(
     return filepath
 
 
-def test_find_labels():
+def test_find_labels() -> None:
     import gdsfactory as gf
 
     c = gf.components.straight(length=124)
