@@ -14,12 +14,12 @@ def direction_ports_from_list_ports(optical_ports: List[Port]) -> Dict[str, List
     """Returns a dict of WENS ports."""
     direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
     for p in optical_ports:
-        p.angle = (p.angle + 360.0) % 360
-        if p.angle <= 45.0 or p.angle >= 315:
+        p.orientation = (p.orientation + 360.0) % 360
+        if p.orientation <= 45.0 or p.orientation >= 315:
             direction_ports["E"].append(p)
-        elif p.angle <= 135.0 and p.angle >= 45.0:
+        elif p.orientation <= 135.0 and p.orientation >= 45.0:
             direction_ports["N"].append(p)
-        elif p.angle <= 225.0 and p.angle >= 135.0:
+        elif p.orientation <= 225.0 and p.orientation >= 135.0:
             direction_ports["W"].append(p)
         else:
             direction_ports["S"].append(p)
@@ -41,8 +41,8 @@ def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
     if len(list_ports) == 0:
         raise ValueError("list_ports should not be empty")
 
-    angle = get_list_ports_angle(list_ports)
-    if angle in [0, 180]:
+    orientation = get_list_ports_angle(list_ports)
+    if orientation in [0, 180]:
         xys = [p.y for p in list_ports]
     else:
         xys = [p.x for p in list_ports]
@@ -59,7 +59,7 @@ def get_list_ports_angle(list_ports: List[Port]) -> Union[float64, int]:
     """Returns the orientation/angle (in degrees) of a list of ports."""
     if not list_ports:
         return None
-    if len(set([p.angle for p in list_ports])) > 1:
+    if len(set([p.orientation for p in list_ports])) > 1:
         raise ValueError(f"All port angles should be the same. Got {list_ports}")
     return list_ports[0].orientation
 
