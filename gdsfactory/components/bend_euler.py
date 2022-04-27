@@ -158,7 +158,7 @@ def bend_straight_bend(
     return c
 
 
-def _compare_bend_euler180():
+def _compare_bend_euler180() -> None:
     """Compare 180 bend euler with 2 90deg euler bends."""
     import gdsfactory as gf
 

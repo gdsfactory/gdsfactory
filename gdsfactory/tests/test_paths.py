@@ -178,7 +178,7 @@ def test_layers2():
     return c
 
 
-def test_copy():
+def test_copy() -> None:
     x1 = gf.CrossSection(
         width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=["in", "out"]
     )

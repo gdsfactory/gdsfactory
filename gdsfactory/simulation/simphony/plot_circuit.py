@@ -62,7 +62,7 @@ def plot_circuit(
     return ax
 
 
-def demo_single_port():
+def demo_single_port() -> None:
     import gdsfactory.simulation.simphony.components as gc
 
     c = gc.mzi()

@@ -3,7 +3,7 @@ import pytest
 import gdsfactory as gf
 
 
-def test_duplicated_cells_error():
+def test_duplicated_cells_error() -> None:
     w = h = 10
     points = [
         [-w / 2.0, -h / 2.0],

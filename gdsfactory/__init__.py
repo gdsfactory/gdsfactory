@@ -26,9 +26,9 @@ from phidl.device_layout import Group, Path
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.config import CONFIG, CONF, call_if_func
 from gdsfactory.port import Port
-from gdsfactory.cell import cell
-from gdsfactory.cell import cell_without_validator
-from gdsfactory.cell import clear_cache
+from gdsfactory.cell_utils import cell
+from gdsfactory.cell_utils import cell_without_validator
+from gdsfactory.cell_utils import clear_cache
 from gdsfactory.tech import LAYER
 from gdsfactory.show import show
 from gdsfactory.read.import_gds import import_gds

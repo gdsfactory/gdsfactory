@@ -35,12 +35,12 @@ app.title = "gdsfactory webapp"
 app.layout = layout
 
 
-def run_debug():
+def run_debug() -> None:
     webbrowser.open("127.0.0.1:8050", new=1)
     app.run_server(debug=True)
 
 
-def run():
+def run() -> None:
     print("gdsfactory webapp")
     webbrowser.open("127.0.0.1:8080", new=1)
 
