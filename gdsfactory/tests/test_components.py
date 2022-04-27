@@ -34,7 +34,7 @@ def test_settings(component_name: str, data_regression: DataRegressionFixture) -
     data_regression.check(component.to_dict())
 
 
-def test_assert_ports_on_grid(component_name: str):
+def test_assert_ports_on_grid(component_name: str) -> None:
     """Ensure ports are on grid."""
     component = cells[component_name]()
     component.assert_ports_on_grid()

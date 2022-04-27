@@ -15,7 +15,7 @@ Calculated/derived properties are stored in info
 import gdsfactory as gf
 
 
-def test_args():
+def test_args() -> None:
     c1 = gf.components.pad((150, 150))
     assert c1.settings.full["size"][0] == 150
 

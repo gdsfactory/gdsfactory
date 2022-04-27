@@ -144,7 +144,7 @@ class LayerSet(LayerSetPhidl):
         name = tuple_to_name[layer_tuple]
         return self._layers[name]
 
-    def clear(self):
+    def clear(self) -> None:
         """Deletes all entries in the LayerSet"""
         self._layers = {}
 

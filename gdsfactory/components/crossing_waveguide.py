@@ -389,7 +389,7 @@ def compensation_path(
     return c
 
 
-def _demo():
+def _demo() -> None:
     """plot curvature of bends"""
     from matplotlib import pyplot as plt
 

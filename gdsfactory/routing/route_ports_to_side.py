@@ -222,7 +222,7 @@ def route_ports_to_x(
 
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
-    ):
+    ) -> None:
         new_port = p.copy()
         new_port.angle = angle
         new_port.position = (x + extension_length, y)

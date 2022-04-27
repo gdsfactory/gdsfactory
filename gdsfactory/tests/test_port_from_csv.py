@@ -1,7 +1,7 @@
 from gdsfactory.port import csv2port
 
 
-def test_csv2port(data_regression):
+def test_csv2port(data_regression) -> None:
     import gdsfactory as gf
 
     name = "straight"

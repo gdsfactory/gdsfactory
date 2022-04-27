@@ -37,7 +37,7 @@ gc = gf.partial(
 )
 
 
-def test_waveguide():
+def test_waveguide() -> None:
     c = gf.components.straight(cross_section=fab_b_metal)
     difftest(c)
 

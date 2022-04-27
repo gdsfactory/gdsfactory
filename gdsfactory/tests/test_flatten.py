@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_flatten():
+def test_flatten() -> None:
     c1 = gf.components.mzi()
     c2 = c1.flatten()
 
