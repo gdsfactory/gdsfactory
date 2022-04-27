@@ -44,7 +44,7 @@ class SizeInfo:
 
     def get_rect(
         self, padding=0, padding_w=None, padding_e=None, padding_n=None, padding_s=None
-    ):
+    ) -> Tuple[Coordinate, Coordinate, Coordinate, Coordinate]:
         w, e, s, n = self.west, self.east, self.south, self.north
 
         padding_n = padding if padding_n is None else padding_n
@@ -57,10 +57,10 @@ class SizeInfo:
         s = s - padding_s
         n = n + padding_n
 
-        return [(w, s), (e, s), (e, n), (w, n)]
+        return ((w, s), (e, s), (e, n), (w, n))
 
     @property
-    def rect(self):
+    def rect(self) -> Tuple[Coordinate, Coordinate]:
         return self.get_rect()
 
     def __str__(self) -> str:

@@ -27,8 +27,11 @@ You can also rename them W,E,S,N prefix (west, east, south, north)
 
 
 """
+from __future__ import annotations
+
 import csv
 import functools
+import typing
 from copy import deepcopy
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -36,11 +39,14 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import phidl.geometry as pg
 from numpy import ndarray
-from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
+from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
+
+if typing.TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 Layer = Tuple[int, int]
 
@@ -84,8 +90,8 @@ class Port(PortPhidl):
         orientation: float,
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
-        parent: Optional[object] = None,
-        cross_section: Optional[object] = None,
+        parent: Optional[Component] = None,
+        cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
         self.name = name
@@ -103,7 +109,10 @@ class Port(PortPhidl):
         if cross_section is None and layer is None:
             raise ValueError("You need Port to define cross_section or layer")
 
-        layer = layer or cross_section.layer
+        if layer:
+            layer = layer
+        elif cross_section:
+            layer = cross_section.layer
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port width must be >=0")
@@ -162,7 +171,7 @@ class Port(PortPhidl):
         self.orientation = a
 
     @property
-    def position(self):
+    def position(self) -> Tuple[float, float]:
         return self.midpoint
 
     @position.setter
@@ -172,24 +181,24 @@ class Port(PortPhidl):
     def move(self, vector) -> None:
         self.midpoint = self.midpoint + np.array(vector)
 
-    def move_polar_copy(self, d, angle) -> PortPhidl:
+    def move_polar_copy(self, d, angle: float) -> Port:
         port = self.copy()
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
         self.move(dp)
         return port
 
-    def flip(self):
+    def flip(self) -> Port:
         """flips port"""
         port = self.copy()
-        port.angle = (port.angle + 180) % 360
+        port.orientation = (port.orientation + 180) % 360
         return port
 
-    def _copy(self, new_uid: bool = True) -> PortPhidl:
+    def _copy(self, new_uid: bool = True) -> Port:
         """Keep this case for phidl compatibility"""
         return self.copy(new_uid=new_uid)
 
-    def copy(self, new_uid: bool = True) -> PortPhidl:
+    def copy(self, new_uid: bool = True) -> Port:
         new_port = Port(
             name=self.name,
             midpoint=self.midpoint,
@@ -252,11 +261,14 @@ class Port(PortPhidl):
             )
 
 
+PortsMap = Dict[str, List[Port]]
+
+
 def port_array(
-    midpoint: Tuple[int, int] = (0, 0),
+    midpoint: Tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
     orientation: float = 0,
-    pitch: Tuple[int, int] = (10, 0),
+    pitch: Tuple[float, float] = (10.0, 0.0),
     n: int = 2,
     **kwargs,
 ) -> List[Port]:
@@ -285,7 +297,7 @@ def port_array(
 
 def read_port_markers(
     component: object, layers: Tuple[Tuple[int, int], ...] = ((1, 10),)
-) -> Device:
+) -> Component:
     """Loads a GDS and returns the extracted ports from layer markers
 
     Args:
@@ -320,7 +332,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
              8   7
     """
     port_list = list(ports.values())
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
         angle = p.orientation % 360
@@ -363,7 +375,7 @@ def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
              7   8
     """
     port_list = list(ports.values())
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
         angle = p.orientation % 360
@@ -576,7 +588,7 @@ def _rename_ports_counter_clockwise(direction_ports, prefix="") -> None:
         p.name = f"{prefix}{i+1}" if prefix else i + 1
 
 
-def _rename_ports_clockwise(direction_ports, prefix: str = "") -> None:
+def _rename_ports_clockwise(direction_ports: PortsMap, prefix: str = "") -> None:
     """Rename ports in the clockwise direction starting from the bottom left (west) corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
@@ -597,7 +609,9 @@ def _rename_ports_clockwise(direction_ports, prefix: str = "") -> None:
         p.name = f"{prefix}{i+1}" if prefix else i + 1
 
 
-def _rename_ports_clockwise_top_right(direction_ports, prefix: str = "") -> None:
+def _rename_ports_clockwise_top_right(
+    direction_ports: PortsMap, prefix: str = ""
+) -> None:
     """Rename ports in the clockwise direction starting from the top right corner."""
     east_ports = direction_ports["E"]
     east_ports.sort(key=lambda p: -p.y)  # sort north to south
@@ -618,12 +632,12 @@ def _rename_ports_clockwise_top_right(direction_ports, prefix: str = "") -> None
 
 
 def rename_ports_by_orientation(
-    component: Device,
+    component: Component,
     layers_excluded: Tuple[Tuple[int, int], ...] = None,
-    select_ports: Optional[Callable] = None,
+    select_ports: Optional[Callable[..., List[Port]]] = None,
     function=_rename_ports_facing_side,
     prefix: str = "o",
-) -> Device:
+) -> Component:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     Args:
@@ -646,7 +660,7 @@ def rename_ports_by_orientation(
     """
 
     layers_excluded = layers_excluded or []
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = component.ports
     ports = select_ports(ports) if select_ports else ports
@@ -673,14 +687,14 @@ def rename_ports_by_orientation(
 
 
 def auto_rename_ports(
-    component: Device,
+    component: Component,
     function=_rename_ports_clockwise,
     select_ports_optical=select_ports_optical,
     select_ports_electrical=select_ports_electrical,
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
     **kwargs,
-) -> Device:
+) -> Component:
     """Adds prefix for optical and electical.
 
     Args:
@@ -734,7 +748,7 @@ def map_ports_layer_to_orientation(
     """
 
     m = {}
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
     layers = {port.layer for port in ports.values()}
 
     for layer in layers:
@@ -775,7 +789,7 @@ def map_ports_to_orientation_cw(
     """
 
     m = {}
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)
     ports_on_layer = [p.copy() for p in ports.values()]
@@ -802,7 +816,7 @@ map_ports_to_orientation_ccw = partial(
 
 
 def auto_rename_ports_layer_orientation(
-    component: Device,
+    component: Component,
     function=_rename_ports_facing_side,
     prefix: str = "",
 ) -> None:
@@ -822,7 +836,7 @@ def auto_rename_ports_layer_orientation(
     """
     new_ports = {}
     ports = component.ports
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
     layers = {port.layer for port in ports.values()}
 
     for layer in layers:

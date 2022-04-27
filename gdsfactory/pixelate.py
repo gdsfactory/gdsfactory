@@ -1,8 +1,12 @@
 import itertools as it
+from typing import Optional
 
 import numpy as np
+from shapely import geometry
+from shapely.geometry.polygon import Polygon
 
 from gdsfactory.geometry.functions import polygon_grow
+from gdsfactory.types import Coordinates
 
 DEG2RAD = np.pi / 180
 RAD2DEG = 1.0 / DEG2RAD
@@ -10,10 +14,18 @@ RAD2DEG = 1.0 / DEG2RAD
 
 
 def pixelate_path(
-    pts, pixel_size=0.55, snap_res=0.05, middle_offset=0.5, theta_start=0, theta_end=90
-):
+    pts: Coordinates,
+    pixel_size: float = 0.55,
+    snap_res: float = 0.05,
+    middle_offset: float = 0.5,
+    theta_start: float = 0,
+    theta_end: float = 90,
+) -> Coordinates:
     """
     From a path, add one pixel per point on the path
+
+    Args:
+        pts: points
     """
 
     thetas0 = [
@@ -40,7 +52,7 @@ def pixelate_path(
         abs(thetas_deg) * DEG2RAD
     )  # + middle_offset * (1 - np.cos(abs(thetas_deg) * DEG2RAD) )
 
-    def _snap(x):
+    def _snap(x: float) -> float:
         return round(int(x / snap_res), 0) * snap_res
 
     def _gen_pixel(p, a):
@@ -53,11 +65,8 @@ def pixelate_path(
     return [_gen_pixel(p, a * s) for p, s in zip(pts, scalings)]
 
 
-def points_to_shapely(pts):
-    from shapely.geometry.polygon import Polygon
-
-    p = Polygon(pts)
-    return p
+def points_to_shapely(pts: Coordinates) -> Polygon:
+    return Polygon(pts)
 
 
 def _snap_to_resolution(a, snap_res):
@@ -65,27 +74,26 @@ def _snap_to_resolution(a, snap_res):
 
 
 def _pixelate(
-    pts,
-    N=100,
-    margin=0.4,
-    margin_x=None,
-    margin_y=None,
-    nb_pixels_x=None,
-    nb_pixels_y=None,
-    min_pixel_size=0.4,
-    snap_res=0.05,
-):
+    pts: Coordinates,
+    N: int = 100,
+    margin: float = 0.4,
+    margin_x: Optional[float] = None,
+    margin_y: Optional[float] = None,
+    nb_pixels_x: Optional[int] = None,
+    nb_pixels_y: Optional[int] = None,
+    min_pixel_size: float = 0.4,
+    snap_res: float = 0.05,
+) -> Coordinates:
     """
     Pixelates a shape (as 2d array) onto an NxN grid.
 
     Arguments:
-        pts: The 2D array to be pixelated
-        N: The number of pixels on an edge of the grid
+        pts: The 2D array to be pixelated.
+        N: The number of pixels on an edge of the grid.
 
     Returns:
         A list of pixel bounding boxes
     """
-    from shapely import geometry
 
     shape = points_to_shapely(pts)  # convert to shapely
     if not shape:

@@ -1,8 +1,9 @@
 import gdsfactory as gf
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
 
 
-@gf.cell
+@cell
 def logo(text: str = "GDSFACTORY") -> Component:
     """Returns GDSfactory logo."""
     c = Component()

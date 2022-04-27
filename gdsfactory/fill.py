@@ -5,7 +5,7 @@ from phidl.geometry import fill_rectangle as _fill_rectangle
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.read import from_phidl
+from gdsfactory.read.from_phidl import from_phidl
 from gdsfactory.types import Float2, Floats, Layers
 
 
@@ -61,6 +61,7 @@ if __name__ == "__main__":
 
     c = gf.components.straight()
     c = gf.add_padding_container(c)
+    c.unlock()
     c << fill_rectangle(
         c,
         fill_layers=((2, 0),),
