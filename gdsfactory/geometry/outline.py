@@ -52,7 +52,7 @@ def outline(elements, **kwargs) -> Component:
     return gf.read.from_phidl(component=pg.outline(elements, **kwargs))
 
 
-def test_outline():
+def test_outline() -> None:
     e1 = gf.components.ellipse(radii=(6, 6))
     e2 = gf.components.ellipse(radii=(10, 4))
     c = outline([e1, e2])

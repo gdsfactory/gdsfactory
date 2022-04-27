@@ -135,14 +135,14 @@ def compute_area_hierarchical(
     return cell_to_data
 
 
-def test_compute_area():
+def test_compute_area() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()
     assert int(compute_area(c, layer=(1, 0))) == 148, int(compute_area(c, layer=(1, 0)))
 
 
-def test_compute_area_hierarchical():
+def test_compute_area_hierarchical() -> None:
     import gdsfactory as gf
 
     c = gf.components.mzi()

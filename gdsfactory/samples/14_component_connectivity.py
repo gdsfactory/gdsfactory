@@ -99,7 +99,7 @@ def ring_single_sample(
     return c
 
 
-def test_ring_single_sample():
+def test_ring_single_sample() -> None:
     assert ring_single_sample()
 
 

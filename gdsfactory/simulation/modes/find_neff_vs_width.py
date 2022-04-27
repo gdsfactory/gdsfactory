@@ -76,7 +76,7 @@ def find_neff_vs_width(
     return df
 
 
-def plot_neff_vs_width(df: pd.DataFrame, **kwargs):
+def plot_neff_vs_width(df: pd.DataFrame, **kwargs) -> None:
     width = df.width
     for mode_number, neff in df.items():
         if mode_number != "width":

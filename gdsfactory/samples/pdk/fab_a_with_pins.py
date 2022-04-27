@@ -14,7 +14,7 @@ fab_a_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
 fab_a_metal.__name__ = "fab_a_metal"
 
 
-def test_waveguide():
+def test_waveguide() -> None:
     c = gf.components.straight(cross_section=fab_a_metal)
     difftest(c)
 

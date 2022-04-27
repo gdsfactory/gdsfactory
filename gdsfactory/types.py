@@ -218,7 +218,7 @@ __all__ = (
 )
 
 
-def write_schema(model: BaseModel = NetlistModel):
+def write_schema(model: BaseModel = NetlistModel) -> None:
     s = model.schema_json()
     d = OmegaConf.create(s)
 

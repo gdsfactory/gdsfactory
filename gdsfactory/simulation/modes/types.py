@@ -63,7 +63,7 @@ class Mode(BaseModel):
     y: Optional[Array[float]] = None
     z: Optional[Array[float]] = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Mode{self.mode_number}"
 
     def E_grid_interp(self, y_arr, z_arr, index):
@@ -140,7 +140,7 @@ class Mode(BaseModel):
         origin="lower",
         logscale: bool = False,
         show: bool = True,
-    ):
+    ) -> None:
         """plot index profle"""
         plt.imshow(
             self.eps**0.5,
@@ -163,7 +163,7 @@ class Mode(BaseModel):
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
-    ):
+    ) -> None:
         """Plot Electric field module."""
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         Eabs = np.sqrt(
@@ -197,7 +197,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         ex = E[:, :, 0, 0]
         ex = 10 * np.log10(np.abs(ex)) if logscale else operation(ex)
@@ -225,7 +225,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         ey = E[:, :, 0, 1]
         ey = 10 * np.log10(np.abs(ey)) if logscale else operation(ey)
@@ -253,7 +253,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         E = self.E / abs(max(self.E.min(), self.E.max(), key=abs)) if scale else self.E
         ez = E[:, :, 0, 2]
         ez = 10 * np.log10(ez) if logscale else operation(ez)
@@ -281,7 +281,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         plt.figure(figsize=(16, 10), dpi=100)
 
         plt.subplot(2, 3, 1)
@@ -309,7 +309,7 @@ class Mode(BaseModel):
         logscale: bool = False,
         show: bool = True,
         scale: bool = False,
-    ):
+    ) -> None:
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
         Habs = np.sqrt(
             np.multiply(H[:, :, 0, 2], H[:, :, 0, 2])
@@ -342,7 +342,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
         hx = H[:, :, 0, 0]
         hx = 10 * np.log10(np.abs(hx)) if logscale else operation(hx)
@@ -370,7 +370,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
         hy = H[:, :, 0, 1]
         hy = 10 * np.log10(np.abs(hy)) if logscale else operation(hy)
@@ -398,7 +398,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         H = self.H / abs(max(self.H.min(), self.H.max(), key=abs)) if scale else self.H
         hz = abs(H[:, :, 0, 2])
         hz = 10 * np.log10(hz) if logscale else operation(hz)
@@ -426,7 +426,7 @@ class Mode(BaseModel):
         show: bool = True,
         scale: bool = False,
         operation: Callable = np.real,
-    ):
+    ) -> None:
         plt.figure(figsize=(16, 10), dpi=100)
 
         plt.subplot(2, 3, 1)

@@ -50,7 +50,7 @@ def union(
     return U
 
 
-def test_union():
+def test_union() -> None:
     c = Component()
     c << gf.components.ellipse(radii=(6, 6)).move((12, 10))
     c << gf.components.ellipse(radii=(10, 4))
