@@ -1,3 +1,4 @@
+autotyping
 doc8
 docutils
 flake8
