@@ -20,7 +20,7 @@ def test_read_gds_hash() -> gf.Component:
 #     data_regression.check(c.to_dict())
 
 
-def test_read_gds_equivalent():
+def test_read_gds_equivalent() -> None:
     """Ensures we load Component from GDS + YAML and get the same component settings"""
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
@@ -36,7 +36,7 @@ def test_read_gds_equivalent():
     assert len(d) == 0, d
 
 
-def test_mix_cells_from_gds_and_from_function():
+def test_mix_cells_from_gds_and_from_function() -> None:
     """Ensures not duplicated cell names.
     when cells loaded from GDS and have the same name as a function
     with @cell decorator
@@ -48,7 +48,7 @@ def test_mix_cells_from_gds_and_from_function():
     c.write_gds()
 
 
-def _write():
+def _write() -> None:
     c1 = gf.components.straight(length=1.234)
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c1.write_gds_with_metadata(gdspath=gdspath)

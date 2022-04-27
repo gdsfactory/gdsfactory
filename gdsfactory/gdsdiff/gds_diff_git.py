@@ -15,7 +15,7 @@ from gdsfactory.show import show
 
 def gds_diff_git(
     path, curr_file, old_file, old_hex, old_mode, new_file, new_hex, new_mode
-):
+) -> None:
     """
     We do not use most of the arguments
     """

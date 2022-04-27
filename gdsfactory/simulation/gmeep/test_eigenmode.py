@@ -97,7 +97,7 @@ def MPB_eigenmode():
     return m1_MPB, m2_MPB
 
 
-def MPB_eigenmode_toDisk():
+def MPB_eigenmode_toDisk() -> None:
     m1_MPB, m2_MPB = MPB_eigenmode()
     np.save("test_data/stripWG_mpb/neff1.npy", m1_MPB.neff)
     np.save("test_data/stripWG_mpb/E1.npy", m1_MPB.E)
@@ -111,7 +111,7 @@ def MPB_eigenmode_toDisk():
     np.save("test_data/stripWG_mpb/z2.npy", m2_MPB.z)
 
 
-def compare_mpb_lumerical(plot=False):
+def compare_mpb_lumerical(plot=False) -> None:
     """
     WARNING: Segmentation fault occurs if both ms object above and sim object exist in memory at the same time
     Instead load results from separate MPB run

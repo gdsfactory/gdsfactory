@@ -1,7 +1,7 @@
 import gdsfactory as gf
 
 
-def test_partial_function_with_kwargs():
+def test_partial_function_with_kwargs() -> None:
     mmi400 = gf.partial(gf.components.mmi1x2, width=0.4)
     mmi400_args = gf.partial(gf.components.mmi1x2, 0.4)
     mmi600 = gf.partial(gf.components.mmi1x2, width=0.6)
@@ -20,7 +20,7 @@ def test_partial_function_with_kwargs():
     ), f"{cmmi400_args.name} must be equal to {cmmi400.name}"
 
 
-def test_partial_function_without_kwargs():
+def test_partial_function_without_kwargs() -> None:
     r1 = gf.partial(gf.components.rectangle, size=(4, 2))
     r2 = gf.partial(gf.components.rectangle, size=(4, 2))
     r3 = gf.partial(gf.components.rectangle, (4, 2))

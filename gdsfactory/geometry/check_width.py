@@ -34,7 +34,7 @@ def check_width(
     return len(region.width_check(min_width * dbu))
 
 
-def demo():
+def demo() -> None:
     import klayout.db as pya
 
     a = pya.Region()

@@ -571,7 +571,7 @@ def smooth(
 __all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"]
 
 
-def _demo():
+def _demo() -> None:
     import gdsfactory as gf
 
     c = gf.Component()
@@ -616,7 +616,7 @@ def _my_custom_width_fun(t):
     return w
 
 
-def _demo_variable_width():
+def _demo_variable_width() -> None:
     # Create the Path
     P = straight(length=40, npoints=40)
 
@@ -637,7 +637,7 @@ def _my_custom_offset_fun(t):
     return w
 
 
-def _demo_variable_offset():
+def _demo_variable_offset() -> None:
     # Create the Path
     P = straight(length=40, npoints=30)
 

@@ -123,7 +123,7 @@ def splitter_tree(
     return c
 
 
-def test_splitter_tree_ports():
+def test_splitter_tree_ports() -> None:
     c = splitter_tree(
         coupler=mmi2x2,
         noutputs=4,
@@ -131,7 +131,7 @@ def test_splitter_tree_ports():
     assert len(c.ports) == 8, len(c.ports)
 
 
-def test_splitter_tree_ports_no_sbend():
+def test_splitter_tree_ports_no_sbend() -> None:
     c = splitter_tree(
         coupler=mmi2x2,
         noutputs=4,

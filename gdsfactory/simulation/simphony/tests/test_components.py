@@ -11,7 +11,7 @@ from gdsfactory.simulation.simphony.get_transmission import get_transmission
 
 
 @pytest.mark.parametrize("component_type", component_names)
-def test_elements(component_type, data_regression):
+def test_elements(component_type, data_regression) -> None:
     c = model_factory[component_type]()
     wav = np.linspace(1520, 1570, 3) * 1e-9
     f = 3e8 / wav
@@ -26,7 +26,7 @@ def test_elements(component_type, data_regression):
 
 
 @pytest.mark.parametrize("component_type", circuit_names)
-def test_circuits(component_type, data_regression):
+def test_circuits(component_type, data_regression) -> None:
     c = circuit_factory[component_type]()
     r = get_transmission(c, num=3)
     s = np.round(r["s"], decimals=3).tolist()

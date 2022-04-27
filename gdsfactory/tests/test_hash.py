@@ -15,7 +15,7 @@ def test_hash_geometry() -> None:
     assert h1 != h2
 
 
-def _test_hash_array_file():
+def _test_hash_array_file() -> None:
     """Test hash of a component with an array of references."""
     c = gf.Component("array")
     wg = gf.components.straight(length=3.2)
@@ -26,7 +26,7 @@ def _test_hash_array_file():
     assert h == href, f"href = {h!r}"
 
 
-def _test_hash_file():
+def _test_hash_file() -> None:
     """Test hash of the saved GDS file."""
     c = gf.components.straight()
     gdspath = c.write_gds()

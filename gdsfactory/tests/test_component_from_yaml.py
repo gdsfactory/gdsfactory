@@ -557,7 +557,7 @@ def test_netlists(
     return d
 
 
-def _demo_netlist():
+def _demo_netlist() -> None:
     """path on the route"""
     import gdsfactory as gf
 

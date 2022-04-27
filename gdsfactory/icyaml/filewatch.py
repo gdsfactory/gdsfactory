@@ -16,7 +16,7 @@ schema_dict = json.loads(schema_path.read_text())
 logger.info(f"Loaded netlist schema from {str(schema_path)!r}")
 
 
-def build(filepath: PathType, validate_schema: bool = False):
+def build(filepath: PathType, validate_schema: bool = False) -> None:
     """Read YAML file, validate schema and show it in Klayout."""
 
     if "\n" in filepath:
@@ -43,7 +43,7 @@ def build(filepath: PathType, validate_schema: bool = False):
             logger.error(e)
 
 
-def filewatch(filepath: str):
+def filewatch(filepath: str) -> None:
     logger.info(f"Watching {str(filepath)!r}")
 
     try:
