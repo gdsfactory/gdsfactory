@@ -63,7 +63,7 @@ class Mode(BaseModel):
     y: Optional[Array[float]] = None
     z: Optional[Array[float]] = None
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Mode{self.mode_number}"
 
     def E_grid_interp(self, y_arr, z_arr, index):
