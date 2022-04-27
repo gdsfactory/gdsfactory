@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import csv
 import functools
+import typing
 from copy import deepcopy
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -38,12 +39,14 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import phidl.geometry as pg
 from numpy import ndarray
-from phidl.device_layout import Device
 from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
+
+if typing.TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 Layer = Tuple[int, int]
 
@@ -87,7 +90,7 @@ class Port(PortPhidl):
         orientation: float,
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
-        parent: Optional[object] = None,
+        parent: Optional[Component] = None,
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
@@ -294,7 +297,7 @@ def port_array(
 
 def read_port_markers(
     component: object, layers: Tuple[Tuple[int, int], ...] = ((1, 10),)
-) -> Device:
+) -> Component:
     """Loads a GDS and returns the extracted ports from layer markers
 
     Args:
@@ -329,7 +332,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
              8   7
     """
     port_list = list(ports.values())
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
         angle = p.orientation % 360
@@ -372,7 +375,7 @@ def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
              7   8
     """
     port_list = list(ports.values())
-    direction_ports = {x: [] for x in ["E", "N", "W", "S"]}
+    direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
         angle = p.orientation % 360
@@ -629,12 +632,12 @@ def _rename_ports_clockwise_top_right(
 
 
 def rename_ports_by_orientation(
-    component: Device,
+    component: Component,
     layers_excluded: Tuple[Tuple[int, int], ...] = None,
     select_ports: Optional[Callable[..., List[Port]]] = None,
     function=_rename_ports_facing_side,
     prefix: str = "o",
-) -> Device:
+) -> Component:
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     Args:
@@ -684,14 +687,14 @@ def rename_ports_by_orientation(
 
 
 def auto_rename_ports(
-    component: Device,
+    component: Component,
     function=_rename_ports_clockwise,
     select_ports_optical=select_ports_optical,
     select_ports_electrical=select_ports_electrical,
     prefix_optical: str = "o",
     prefix_electrical: str = "e",
     **kwargs,
-) -> Device:
+) -> Component:
     """Adds prefix for optical and electical.
 
     Args:
@@ -813,7 +816,7 @@ map_ports_to_orientation_ccw = partial(
 
 
 def auto_rename_ports_layer_orientation(
-    component: Device,
+    component: Component,
     function=_rename_ports_facing_side,
     prefix: str = "",
 ) -> None:
