@@ -1,11 +1,12 @@
 from typing import Tuple
 
 import gdsfactory as gf
-from gdsfactory import components as pc
+from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.rectangle import rectangle
 
 
-@gf.cell
+@cell
 def litho_calipers(
     notch_size: Tuple[float, float] = (2.0, 5.0),
     notch_spacing: float = 2.0,
@@ -26,16 +27,16 @@ def litho_calipers(
         num_notches: 11
         offset_per_notch: 0.1
         row_spacing: 0
-        layer1: 1
-        layer2: 2
+        layer1: layer.
+        layer2: layer.
 
     """
 
     D = gf.Component()
     num_notches_total = num_notches * 2 + 1
     centre_notch = num_notches
-    R1 = pc.rectangle(size=notch_size, layer=layer1)
-    R2 = pc.rectangle(size=notch_size, layer=layer2)
+    R1 = rectangle(size=notch_size, layer=layer1)
+    R2 = rectangle(size=notch_size, layer=layer2)
     for i in range(num_notches_total):
         if i == centre_notch:
             D.add_ref(R1).movex(i * (notch_size[0] + notch_spacing)).movey(

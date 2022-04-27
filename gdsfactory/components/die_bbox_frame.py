@@ -1,13 +1,12 @@
 from typing import Optional, Tuple, Union
 
 import numpy as np
-from numpy import array
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
 from gdsfactory.types import Anchor, Layer
 
-Coordinate = Union[Tuple[float, float], array]
+Coordinate = Union[Tuple[float, float], Tuple[int, int]]
 
 
 @gf.cell_without_validator

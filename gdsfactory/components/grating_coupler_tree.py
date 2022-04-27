@@ -25,6 +25,13 @@ def grating_coupler_tree(
     useful to align the 4 corners of the chip
 
     Args:
+        n: number of gratings.
+        straight_spacing:
+        grating_coupler_function:
+        with_loopback:
+        bend:
+        fanout_length:
+        layer_label:
         kwargs: cross_section settings
 
     """

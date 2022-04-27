@@ -1,13 +1,11 @@
 from typing import Tuple, Union
 
-from numpy import array
-
 import gdsfactory as gf
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.via_stack import via_stack
 from gdsfactory.snap import snap_to_grid
 
-Coordinate = Union[Tuple[float, float], array]
+Coordinate = Union[Tuple[float, float], Tuple[int, int]]
 
 
 @gf.cell_without_validator

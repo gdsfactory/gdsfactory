@@ -21,7 +21,8 @@ def xor_diff(A, B, precision: float = 1e-4) -> Component:
         Component: containing a polygon(s) defined by the XOR difference result
         between A and B.
     """
-    return gf.read.from_phidl(component=pg.xor_diff(A, B, precision=precision))
+    phidl_component = pg.xor_diff(A, B, precision=precision)
+    return gf.read.from_phidl(phidl_component)
 
 
 if __name__ == "__main__":
