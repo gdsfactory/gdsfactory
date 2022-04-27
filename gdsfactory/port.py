@@ -91,7 +91,7 @@ class Port(PortPhidl):
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
         self.width = width
-        self.orientation = np.mod(orientation, 360)
+        self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: Dict[str, Any] = {}
         self.uid = Port._next_uid
@@ -114,7 +114,7 @@ class Port(PortPhidl):
             name=self.name,
             width=self.width,
             midpoint=tuple(np.round(self.midpoint, 3)),
-            orientation=int(self.orientation),
+            orientation=int(self.orientation) if self.orientation else self.orientation,
             layer=self.layer,
             port_type=self.port_type,
         )

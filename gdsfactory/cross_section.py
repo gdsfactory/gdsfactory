@@ -27,10 +27,10 @@ class CrossSection(BaseModel):
         width: (um) or function that is parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
-        radius: main Section bend radius (um).
         offset: center offset (um) or function parameterized function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
+        radius: main Section bend radius (um).
         layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
@@ -47,7 +47,7 @@ class CrossSection(BaseModel):
         snap_to_grid: can snap points to grid when extruding the path.
         aliases: dict of cross_section aliases.
         decorator: function when extruding component.
-        info: settings
+        info: dict with extra settings or useful information.
         name: cross_section name.
     """
 
@@ -115,13 +115,14 @@ class Transition(CrossSection):
 
 @pydantic.validate_arguments
 def cross_section(
-    width: float = 0.5,
+    width: Union[Callable, float] = 0.5,
+    offset: Union[float, Callable] = 0,
     layer: Tuple[int, int] = (1, 0),
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
     taper_length: float = 10.0,
-    radius: float = 10.0,
+    radius: Optional[float] = 10.0,
     sections: Optional[Tuple[Section, ...]] = None,
     port_names: Tuple[str, str] = ("o1", "o2"),
     port_types: Tuple[str, str] = ("optical", "optical"),
@@ -137,13 +138,18 @@ def cross_section(
     """Return CrossSection.
 
     Args:
-        width: main section width (um).
+        width: (um) or function that is parameterized from 0 to 1.
+            the width at t==0 is the width at the beginning of the Path.
+            the width at t==1 is the width at the end.
+        offset: center offset (um) or function parameterized function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
         layer: main section layer.
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
-        radius: bend radius (um).
+        radius: bend radius (um)..
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -159,6 +165,7 @@ def cross_section(
 
     x = CrossSection(
         width=width,
+        offset=offset,
         layer=layer,
         width_wide=width_wide,
         auto_widen=auto_widen,
