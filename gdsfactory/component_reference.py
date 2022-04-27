@@ -226,7 +226,9 @@ class ComponentReference(DeviceReference):
             if name not in self._local_ports:
                 self._local_ports[name] = port.copy(new_uid=True)
             self._local_ports[name].midpoint = new_midpoint
-            self._local_ports[name].orientation = mod(new_orientation, 360)
+            self._local_ports[name].orientation = (
+                mod(new_orientation, 360) if new_orientation else new_orientation
+            )
             self._local_ports[name].parent = self
         # Remove any ports that no longer exist in the reference's parent
         parent_names = self.parent.ports.keys()
@@ -265,6 +267,9 @@ class ComponentReference(DeviceReference):
         """Apply GDS-type transformation to a port (x_ref)"""
         new_point = np.array(point)
         new_orientation = orientation
+
+        if orientation is None:
+            return new_point, new_orientation
 
         if x_reflection:
             new_point[1] = -new_point[1]
