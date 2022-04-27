@@ -147,7 +147,7 @@ get_bundle_from_steps_electrical = gf.partial(
 )
 
 
-def _demo():
+def _demo() -> None:
     c = gf.Component("get_route_from_steps_sample")
 
     w = gf.components.array(

@@ -445,7 +445,7 @@ def get_port_1D_eigenmode(
     )
 
 
-def plot(sim):
+def plot(sim) -> None:
     """
     sim: simulation object
     """

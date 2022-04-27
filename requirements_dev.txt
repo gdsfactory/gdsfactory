@@ -17,4 +17,6 @@ sphinx-autodoc-typehints
 sphinx-click
 sphinx-markdown-tables
 tox
+types-PyYAML
+types-waitress
 xdoctest

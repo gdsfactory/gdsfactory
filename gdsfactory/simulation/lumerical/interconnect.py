@@ -11,7 +11,7 @@ pi = np.pi
 um = 1e-6
 
 
-def set_global_settings(session: object, simulation_settings: dict):
+def set_global_settings(session: object, simulation_settings: dict) -> None:
     for param, val in zip(simulation_settings.keys(), simulation_settings.values()):
         session.setnamed("::Root Element", param, val)
 

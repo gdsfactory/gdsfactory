@@ -2,14 +2,14 @@ import gdsfactory as gf
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 
 
-def test_differences():
+def test_differences() -> None:
     c1 = gf.components.straight(length=2)
     c2 = gf.components.straight(length=3)
     c = gdsdiff(c1, c2)
     assert c.references[-1].area() == 0.5
 
 
-def test_no_differences():
+def test_no_differences() -> None:
     c1 = gf.components.straight(length=2)
     c2 = gf.components.straight(length=2)
     c = gdsdiff(c1, c2)

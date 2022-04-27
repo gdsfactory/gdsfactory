@@ -6,7 +6,7 @@ def delta_temperature(wavelength, length, dn=1.87e-4):
     return wavelength / 2 / length / dn
 
 
-def test_delta_temperature():
+def test_delta_temperature() -> None:
     dt = delta_temperature(1.55, 100)
     np.isclose(dt, 41.44385026737968)
     dt = delta_temperature(1.55, 1000)

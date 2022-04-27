@@ -3,7 +3,7 @@ import copy
 import functools
 import hashlib
 import inspect
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
 
 import toolz
 from phidl.device_layout import Device
@@ -28,7 +28,7 @@ def clear_cache() -> None:
     CACHE = {}
 
 
-def print_cache():
+def print_cache() -> None:
     for k in CACHE:
         print(k)
 
@@ -197,7 +197,10 @@ def cell_without_validator(func):
     return _cell
 
 
-def cell(func, *args, **kwargs):
+_F = TypeVar("_F", bound=Callable)
+
+
+def cell(func: _F, *args, **kwargs) -> _F:
     """Decorator for Component functions.
     Wraps cell_without_validator Validates type annotations with pydantic.
 
@@ -352,7 +355,7 @@ def straight_with_pins(**kwargs):
     return c
 
 
-def test_import_gds_settings():
+def test_import_gds_settings() -> None:
     """Sometimes it fails for files imported from GDS"""
     import gdsfactory as gf
 

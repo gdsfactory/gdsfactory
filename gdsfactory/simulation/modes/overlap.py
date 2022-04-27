@@ -60,7 +60,7 @@ def innerprod_trapz(
     return 0.25 * integral
 
 
-def test_innerprod_trapz():
+def test_innerprod_trapz() -> None:
     """Checks that overlaps are taken properly
     and has not changed
     """
