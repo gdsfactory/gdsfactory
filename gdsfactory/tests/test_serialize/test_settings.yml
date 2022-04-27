@@ -16,7 +16,7 @@ settings:
       layer_bbox: null
       min_length: 0.01
       name: null
-      offset: 0
+      offset: 0.0
       port_names:
       - o1
       - o2
@@ -45,7 +45,7 @@ settings:
       layer_bbox: null
       min_length: 0.01
       name: null
-      offset: 0
+      offset: 0.0
       port_names:
       - o1
       - o2
