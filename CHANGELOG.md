@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.2.8]
+
+- add more type annontations
+
 ## [5.2.7](https://github.com/gdsfactory/gdsfactory/pull/305)
 
 - fix [issue](https://github.com/gdsfactory/gdsfactory/issues/301)
