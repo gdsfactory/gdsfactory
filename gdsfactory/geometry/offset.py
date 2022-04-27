@@ -99,7 +99,7 @@ def offset(
     return component
 
 
-def test_offset():
+def test_offset() -> None:
     c = gf.components.ring()
     co = offset(c, distance=0.5)
     assert int(co.area()) == 94

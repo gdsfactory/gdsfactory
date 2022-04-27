@@ -487,7 +487,7 @@ def route_fiber_array(
     return elements, io_gratings_lines, ports
 
 
-def demo():
+def demo() -> None:
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm
 

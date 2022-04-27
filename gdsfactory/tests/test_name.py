@@ -11,7 +11,7 @@ def rectangles(widths: gf.types.Floats) -> gf.Component:
     return c
 
 
-def test_name_partial_functions():
+def test_name_partial_functions() -> None:
     s1 = gf.partial(gf.components.straight)
     s2 = gf.partial(gf.components.straight, length=5)
     s3 = gf.partial(gf.components.straight, 5)
@@ -35,13 +35,13 @@ def test_name_partial_functions():
     ), f"{m1.name} is the same {m3.name} while they are different functions"
 
 
-def test_name_iterators():
+def test_name_iterators() -> None:
     c1 = rectangles([i for i in range(5)])
     c2 = rectangles([i for i in range(6)])
     assert c1.name != c2.name
 
 
-def test_name_int_float():
+def test_name_int_float() -> None:
     """Ensure that passing the same int or float returns the same component"""
     c1 = gf.components.straight(length=5)
     c2 = gf.components.straight(length=5.0)
@@ -49,7 +49,7 @@ def test_name_int_float():
     assert c1.name == c2.name, f"{c1.name} does not match {c2.name}"
 
 
-def test_float_point_errors():
+def test_float_point_errors() -> None:
     c1 = gf.components.straight(length=5.0 + 1e-20)  # any unit below pm disappears
     c2 = gf.components.straight(length=5.0)
     assert c1.name == c2.name, f"{c1.name} does not match {c2.name}"

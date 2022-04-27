@@ -63,7 +63,7 @@ def sdict_from_csv(
     }
 
 
-def demo_mmi_lumerical_csv():
+def demo_mmi_lumerical_csv() -> None:
     import matplotlib.pyplot as plt
     from plot_model import plot_model
 

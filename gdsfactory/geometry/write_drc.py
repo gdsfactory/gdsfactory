@@ -48,7 +48,7 @@ def rule_space(value: float, layer: str, angle_limit: float = 90) -> str:
     )
 
 
-def rule_separation(value: float, layer1: str, layer2: str):
+def rule_separation(value: float, layer1: str, layer2: str) -> str:
     """Min space between different layers"""
     error = f"min {layer1} {layer2} separation {value}um"
     return f"{layer1}.separation({layer2}, {value})" f".output('{error}', '{error}')"

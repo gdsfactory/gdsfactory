@@ -56,7 +56,7 @@ def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     return c
 
 
-def test_labels_fiber_array(num_regression):
+def test_labels_fiber_array(num_regression) -> None:
     c = gf.components.straight(length=3)
     assert len(c.labels) == 0, len(c.labels)
 
@@ -77,7 +77,7 @@ def test_labels_fiber_array(num_regression):
         num_regression.check(labels)
 
 
-def test_labels_fiber_single(num_regression):
+def test_labels_fiber_single(num_regression) -> None:
     c = gf.components.straight(length=3)
     assert len(c.labels) == 0, len(c.labels)
 

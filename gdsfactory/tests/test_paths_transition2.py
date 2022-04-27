@@ -4,7 +4,7 @@ from phidl.path import transition
 import gdsfactory as gf
 
 
-def test_transition_unamed_fails():
+def test_transition_unamed_fails() -> None:
     """raises error when transitioning un-named cross_sections"""
     with pytest.raises(ValueError):
 
@@ -24,7 +24,7 @@ def test_transition_unamed_fails():
         transition(X, x2)
 
 
-def test_transition_ports():
+def test_transition_ports() -> None:
     width1 = 0.5
     width2 = 1.0
     x1 = gf.cross_section.strip(width=width1)

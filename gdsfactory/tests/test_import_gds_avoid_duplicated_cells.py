@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory import geometry
 
 
-def test_import_first():
+def test_import_first() -> None:
     c1 = gf.Component("parent")
     c1 << gf.components.mzi_arms()
     gdspath1 = c1.write_gds("extra/mzi.gds")
@@ -17,7 +17,7 @@ def test_import_first():
     geometry.check_duplicated_cells(gdspath2)
 
 
-def test_build_first():
+def test_build_first() -> None:
     c1 = gf.Component("parent")
     c1 << gf.components.mzi_arms()
     gdspath1 = c1.write_gds("extra/mzi.gds")
@@ -30,7 +30,7 @@ def test_build_first():
     geometry.check_duplicated_cells(gdspath2)
 
 
-def test_import_twice():
+def test_import_twice() -> None:
     c0 = gf.Component("parent")
     c0 << gf.components.mzi_arms()
     gdspath1 = c0.write_gds("extra/mzi.gds")
@@ -44,7 +44,7 @@ def test_import_twice():
     assert len(c1.hash_geometry()) == len(c2.hash_geometry())
 
 
-def test_import_thrice():
+def test_import_thrice() -> None:
     c0 = gf.Component("parent")
     c0 << gf.components.mzi_arms()
     gdspath1 = c0.write_gds("extra/mzi.gds")

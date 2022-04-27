@@ -158,7 +158,7 @@ class Port(PortPhidl):
         return self.orientation
 
     @angle.setter
-    def angle(self, a):
+    def angle(self, a) -> None:
         self.orientation = a
 
     @property
@@ -166,10 +166,10 @@ class Port(PortPhidl):
         return self.midpoint
 
     @position.setter
-    def position(self, p):
+    def position(self, p) -> None:
         self.midpoint = np.array(p, dtype="float64")
 
-    def move(self, vector):
+    def move(self, vector) -> None:
         self.midpoint = self.midpoint + np.array(vector)
 
     def move_polar_copy(self, d, angle) -> PortPhidl:

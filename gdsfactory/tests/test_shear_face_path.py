@@ -125,7 +125,7 @@ def curve_sheared():
 
 def test_mate_on_shear_xor_empty(
     regular_waveguide, shear_waveguide_start, shear_waveguide_end
-):
+) -> None:
     # two sheared components joined at the sheared port should appear the same as two straight component joined
     two_straights = gf.Component()
     c1 = two_straights << regular_waveguide
@@ -143,7 +143,7 @@ def test_mate_on_shear_xor_empty(
 
 def test_rotations_are_normal(
     regular_waveguide, shear_waveguide_start, shear_waveguide_end
-):
+) -> None:
     two_shears = gf.Component()
     c1 = two_shears << shear_waveguide_end
     c2 = two_shears << shear_waveguide_start
@@ -157,7 +157,7 @@ def test_area_stays_same(
     shear_waveguide_start,
     shear_waveguide_end,
     shear_waveguide_symmetric,
-):
+) -> None:
     components = [
         regular_waveguide,
         shear_waveguide_start,
@@ -171,7 +171,7 @@ def test_area_stays_same(
 def test_area_stays_same_skinny(
     skinny,
     more_slanted_than_wide,
-):
+) -> None:
     components = [
         skinny,
         more_slanted_than_wide,
@@ -192,7 +192,7 @@ def test_area_stays_same_skinny(
 #     np.testing.assert_allclose(areas, desired=areas[0], atol=1e-5)
 
 
-def test_mate_on_shear_xor_empty_transition(linear_taper, linear_taper_sheared):
+def test_mate_on_shear_xor_empty_transition(linear_taper, linear_taper_sheared) -> None:
     # two sheared components joined at the sheared port should appear the same as two straight component joined
     two_straights = gf.Component()
     c1 = two_straights << linear_taper
@@ -208,7 +208,7 @@ def test_mate_on_shear_xor_empty_transition(linear_taper, linear_taper_sheared):
     assert not xor.layers
 
 
-def test_mate_on_shear_xor_empty_curve(curve, curve_sheared):
+def test_mate_on_shear_xor_empty_curve(curve, curve_sheared) -> None:
     # two sheared components joined at the sheared port should appear the same as two straight component joined
     two_straights = gf.Component()
     c1 = two_straights << curve
@@ -224,7 +224,9 @@ def test_mate_on_shear_xor_empty_curve(curve, curve_sheared):
     assert not xor.layers
 
 
-def test_shear_angle_annotated_on_ports(shear_waveguide_start, shear_waveguide_end):
+def test_shear_angle_annotated_on_ports(
+    shear_waveguide_start, shear_waveguide_end
+) -> None:
     assert shear_waveguide_start.ports["o1"].shear_angle == DEMO_PORT_ANGLE
     assert shear_waveguide_start.ports["o2"].shear_angle is None
 
@@ -232,7 +234,7 @@ def test_shear_angle_annotated_on_ports(shear_waveguide_start, shear_waveguide_e
     assert shear_waveguide_end.ports["o1"].shear_angle is None
 
 
-def test_port_attributes(regular_waveguide, shear_waveguide_symmetric):
+def test_port_attributes(regular_waveguide, shear_waveguide_symmetric) -> None:
     regular_ports = [p.to_dict() for p in regular_waveguide.ports.values()]
     shear_ports = [p.to_dict() for p in shear_waveguide_symmetric.ports.values()]
 

@@ -64,12 +64,12 @@ ports:
 """
 
 
-def test_schema_valid():
+def test_schema_valid() -> None:
     yaml_dict = yaml.safe_load(yaml_text_valid)
     jsonschema.validate(yaml_dict, schema_dict)
 
 
-def test_schema_invalid():
+def test_schema_invalid() -> None:
     yaml_dict = yaml.safe_load(yaml_text_invalid)
     with pytest.raises(jsonschema.exceptions.ValidationError):
         jsonschema.validate(yaml_dict, schema_dict)

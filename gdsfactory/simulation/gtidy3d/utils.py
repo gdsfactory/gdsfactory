@@ -8,7 +8,7 @@ from tidy3d import web
 from gdsfactory.config import logger
 
 
-def print_tasks(status: Optional[str] = None):
+def print_tasks(status: Optional[str] = None) -> None:
     for task in web.get_tasks():
         if status and task["status"] != status:
             continue
