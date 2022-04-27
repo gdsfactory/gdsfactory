@@ -444,8 +444,6 @@ class Component(Device):
         else:
             if width is None:
                 raise ValueError("Port needs width parameter (um).")
-            if orientation is None:
-                raise ValueError("Port needs orientation parameter (degrees).")
             if midpoint is None:
                 raise ValueError("Port needs midpoint parameter (x, y) um.")
             half_width = width / 2

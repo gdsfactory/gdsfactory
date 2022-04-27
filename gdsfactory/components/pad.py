@@ -15,7 +15,7 @@ def pad(
     bbox_layers: Optional[Tuple[Layer, ...]] = None,
     bbox_offsets: Optional[Tuple[float, ...]] = None,
     port_inclusion: float = 0,
-    port_orientation: int = 0,
+    port_orientation: Optional[float] = 0,
 ) -> Component:
     """Rectangular pad with 4 ports (1, 2, 3, 4)
 
@@ -25,6 +25,7 @@ def pad(
         bbox_layers:
         bbox_offsets:
         port_inclusion: from edge
+        port_orientation: in degrees.
     """
     c = Component()
     rect = compass(size=size, layer=layer, port_inclusion=port_inclusion)
@@ -46,11 +47,6 @@ def pad(
                     layer=layer,
                 )
             )
-
-    if port_orientation not in [0, 90, 180, 270]:
-        raise ValueError(
-            f"port_orientation = {port_orientation} not in [0, 90, 180, 270]"
-        )
 
     width = size[1] if port_orientation in [0, 180] else size[0]
 

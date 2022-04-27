@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.2.4
+
+- add route_sharp from phidl to gf.routing
+- allow ports to have None orientation. The idea is that DC ports don't care about orientation. This still requires some work.
+
 ## 5.2.3
 
 - add electrical routes to routing_strategy
