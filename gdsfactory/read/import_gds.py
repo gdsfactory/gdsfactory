@@ -194,7 +194,7 @@ def import_gds(
                     midpoint=port.midpoint,
                     width=port.width,
                     orientation=port.orientation,
-                    layer=port.layer,
+                    layer=tuple(port.layer),
                     port_type=port.port_type,
                 )
 
