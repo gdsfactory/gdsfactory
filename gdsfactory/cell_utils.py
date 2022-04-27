@@ -3,7 +3,7 @@ import copy
 import functools
 import hashlib
 import inspect
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
 
 import toolz
 from phidl.device_layout import Device
@@ -196,8 +196,10 @@ def cell_without_validator(func):
     CELLS[id(_cell)] = _cell
     return _cell
 
+_F = TypeVar("_F", bound=Callable)
 
-def cell(func, *args, **kwargs):
+
+def cell(func: _F, *args, **kwargs) -> _F:
     """Decorator for Component functions.
     Wraps cell_without_validator Validates type annotations with pydantic.
 
