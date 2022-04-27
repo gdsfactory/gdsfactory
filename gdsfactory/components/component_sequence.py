@@ -129,7 +129,7 @@ def component_sequence(
     # To generate unique aliases for each instance
     counters = {k: count(start=1) for k in symbol_to_component.keys()}
 
-    def _next_id(name):
+    def _next_id(name) -> str:
         return "{}{}".format(name, next(counters[name]))
 
     component = Component()
