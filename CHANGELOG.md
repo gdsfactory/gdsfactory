@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.2.5]
+
+- add fail_on_duplicates=False to add_ports_from_labels
+
 ## [5.2.4](https://github.com/gdsfactory/gdsfactory/pull/299)
 
 - allow ports to have None orientation. The idea is that DC ports don't care about orientation. This still requires some work.
