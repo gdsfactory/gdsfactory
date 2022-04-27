@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.2.6]
+
+- remove tempfile and tmpdir after Component.show() sends GDS to klayout. To avoid filling /tmp/ with GDS files
+
 ## [5.2.5](https://github.com/gdsfactory/gdsfactory/pull/303)
 
 - add fail_on_duplicates=False to add_ports_from_labels
