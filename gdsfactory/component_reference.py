@@ -63,7 +63,7 @@ class SizeInfo:
     def rect(self):
         return self.get_rect()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "w: {}\ne: {}\ns: {}\nn: {}\n".format(
             self.west, self.east, self.south, self.north
         )
