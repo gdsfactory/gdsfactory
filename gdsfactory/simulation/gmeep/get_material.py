@@ -86,7 +86,7 @@ def get_index(
     return float(epsilon11.real**0.5)
 
 
-def test_index():
+def test_index() -> None:
     n = get_index(name="sin")
     assert np.isclose(n, 1.9962797317138816)
 

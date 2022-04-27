@@ -72,7 +72,7 @@ def boolean_klayout(
     return gf.import_gds(gdspath)
 
 
-def _demo():
+def _demo() -> None:
     import klayout.db as pya
 
     import gdsfactory as gf
@@ -115,7 +115,7 @@ def _demo():
     gf.show("boolean.gds")
 
 
-def _show_shapes():
+def _show_shapes() -> None:
     c1 = gf.components.ellipse(radii=[8, 8], layer=(1, 0))
     c2 = gf.components.ellipse(radii=[11, 4], layer=(1, 0))
     c3 = gf.Component()

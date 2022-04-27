@@ -28,7 +28,7 @@ def clear_cache() -> None:
     CACHE = {}
 
 
-def print_cache():
+def print_cache() -> None:
     for k in CACHE:
         print(k)
 
@@ -196,6 +196,7 @@ def cell_without_validator(func):
     CELLS[id(_cell)] = _cell
     return _cell
 
+
 _F = TypeVar("_F", bound=Callable)
 
 
@@ -354,7 +355,7 @@ def straight_with_pins(**kwargs):
     return c
 
 
-def test_import_gds_settings():
+def test_import_gds_settings() -> None:
     """Sometimes it fails for files imported from GDS"""
     import gdsfactory as gf
 

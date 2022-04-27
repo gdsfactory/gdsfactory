@@ -25,7 +25,7 @@ class Pdk(BaseModel):
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
 
-    def activate(self):
+    def activate(self) -> None:
         set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
@@ -53,7 +53,7 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cross_section {name!r}")
             self.cross_section[name] = cross_section
 
-    def load_yaml(self):
+    def load_yaml(self) -> None:
         """Load *.pic.yml YAML files and register them as cells."""
         pass
 
@@ -188,7 +188,7 @@ def get_active_pdk() -> Pdk:
     return _ACTIVE_PDK
 
 
-def set_active_pdk(pdk: Pdk):
+def set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
     _ACTIVE_PDK = pdk
 

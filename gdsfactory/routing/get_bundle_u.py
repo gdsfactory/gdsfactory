@@ -443,7 +443,7 @@ def _get_bundle_uindirect_waypoints(
 
     dict_connections = {i: [] for i in range(nb_ports)}
 
-    def add_connections(conns):
+    def add_connections(conns) -> None:
         """
         Ensure that each section in a batch of connection
         is added to the correct route. Also we don't know in which order the

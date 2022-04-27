@@ -530,7 +530,7 @@ def get_port_1D_eigenmode(
     )
 
 
-def plot(sim, eps_parameters=None):
+def plot(sim, eps_parameters=None) -> None:
     """
     sim: simulation object
     """

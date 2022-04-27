@@ -27,7 +27,7 @@ def merge_markdown(
 
     with open(mdpath, "w") as f:
 
-        def wl(line="", eol="\n"):
+        def wl(line="", eol="\n") -> None:
             f.write(line + eol)
 
         reports = sorted(glob(os.path.join(reports_directory, "*.md")))

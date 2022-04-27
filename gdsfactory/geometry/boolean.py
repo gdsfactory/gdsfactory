@@ -64,7 +64,7 @@ def boolean(
     return gf.read.from_phidl(component=c)
 
 
-def test_boolean():
+def test_boolean() -> None:
     c = gf.Component()
     e1 = c << gf.components.ellipse()
     e2 = c << gf.components.ellipse(radii=(10, 6))

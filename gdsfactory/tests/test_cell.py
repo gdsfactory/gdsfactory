@@ -16,7 +16,7 @@ def _dummy2(length: int = 3, wg_width: float = 0.5) -> gf.Component:
     return c
 
 
-def test_validator_error():
+def test_validator_error() -> None:
     with pytest.raises(ValidationError):
         _dummy2(length="error")
 

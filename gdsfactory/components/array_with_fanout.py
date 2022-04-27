@@ -117,12 +117,12 @@ def array_with_fanout_2d(
     return array(component=row, rows=rows, columns=1, spacing=(0, pitch_y))
 
 
-def test_array_with_fanout():
+def test_array_with_fanout() -> None:
     c1 = array_with_fanout_2d(columns=2, rows=2)
     assert len(c1.ports) == 4
 
 
-def test_array():
+def test_array() -> None:
     c1 = array_with_fanout_2d(columns=2, rows=2)
     assert len(c1.ports) == 4
 

@@ -289,7 +289,7 @@ def write_sparameters_grating_batch(
     temp_dir: Optional[str] = None,
     delete_temp_files: bool = False,
     verbosity: bool = False,
-):
+) -> None:
     """
     Given a tuple of write_sparameters_meep keyword arguments (the "instances"), launches parallel simulations
     Each simulation is assigned "cores_per_instance" cores

@@ -12,7 +12,7 @@ class SequenceGenerator:
         start_sequence: str = "IL",
         repeated_sequence: str = "ASASBSBS",
         end_sequence: str = "LO",
-    ):
+    ) -> None:
         """sequence generator.
         Main use case: any type of cascade of components with repeating patterns
         such as serpentine, cutbacks etc...
