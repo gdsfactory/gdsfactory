@@ -75,6 +75,7 @@ def read_config(
 ) -> omegaconf.DictConfig:
     CONFIG = OmegaConf.load(default_config)
     for yamlpath in set(yamlpaths):
+        yamlpath = pathlib.Path(yamlpath)
         if os.access(yamlpath, os.R_OK) and yamlpath.exists():
             logger.info(f"loading tech config from {yamlpath}")
             CONFIG_NEW = OmegaConf.load(yamlpath)
