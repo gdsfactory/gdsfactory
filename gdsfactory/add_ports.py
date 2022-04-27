@@ -272,6 +272,7 @@ def add_ports_from_labels(
     port_type: str = "optical",
     get_name_from_label: bool = False,
     layer_label: Optional[Layer] = None,
+    fail_on_duplicates: bool = False,
 ) -> Component:
     """Add ports from labels.
     Assumes that all ports have a label at the port center.
@@ -285,12 +286,17 @@ def add_ports_from_labels(
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical
         port_type: optical, electrical
         layer_label:
+        fail_on_duplicates: raises ValueError for duplicated port names.
+            if False adds incremental suffix (1, 2 ...) to port name.
 
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
     xc = xcenter or component.x
     yc = component.y
+
+    port_name_to_index = {}
+
     for i, label in enumerate(component.labels):
         x, y = label.position
 
@@ -312,21 +318,28 @@ def add_ports_from_labels(
         elif y < yc:  # south
             orientation = 270
 
-        if port_name in component.ports:
+        if fail_on_duplicates and port_name in component.ports:
             component_ports = list(component.ports.keys())
             raise ValueError(
                 f"port {port_name!r} already in {component_ports}. "
                 "You can pass a port_name_prefix to add it with a different name."
             )
-        else:
-            component.add_port(
-                name=port_name,
-                midpoint=(x, y),
-                width=port_width,
-                orientation=orientation,
-                port_type=port_type,
-                layer=port_layer,
+        if get_name_from_label and port_name in component.ports:
+            port_name_to_index[label.text] = (
+                port_name_to_index[label.text] + 1
+                if label.text in port_name_to_index
+                else 1
             )
+            port_name = f"{label.text}{port_name_to_index[label.text]}"
+
+        component.add_port(
+            name=port_name,
+            midpoint=(x, y),
+            width=port_width,
+            orientation=orientation,
+            port_type=port_type,
+            layer=port_layer,
+        )
     return component
 
 
