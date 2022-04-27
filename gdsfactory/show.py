@@ -1,5 +1,7 @@
 import pathlib
+import shutil
 import tempfile
+import time
 from typing import Union
 
 from gdsfactory import klive
@@ -20,6 +22,7 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         timestamp: Defaults to 2019-10-25. If None uses current time.
 
     """
+
     if isinstance(component, pathlib.Path):
         component = str(component)
         return klive.show(component)
@@ -34,6 +37,11 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         tmp = tempfile.TemporaryDirectory().name
         gdspath = component.write_gds(gdsdir=tmp, logging=False, **kwargs)
         klive.show(gdspath)
+
+        time.sleep(0.1)
+        gdspath.unlink()
+        shutil.rmtree(tmp)
+
     else:
         raise ValueError(
             f"Component is {type(component)}, make sure pass a Component or a path"
