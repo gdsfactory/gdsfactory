@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.2.6]
+## [5.2.6](https://github.com/gdsfactory/gdsfactory/pull/304)
 
 - remove tempfile and tmpdir after Component.show() sends GDS to klayout. To avoid filling /tmp/ with GDS files
 
