@@ -1,9 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.2.4
+## [5.2.4](https://github.com/gdsfactory/gdsfactory/pull/299)
 
-- add route_sharp from phidl to gf.routing
 - allow ports to have None orientation. The idea is that DC ports don't care about orientation. This still requires some work.
+- adapt route_sharp from phidl to gf.routing.route_sharp for electrical routes
+- cross_section function width and offset parameters are consistent with CrossSection class
 
 ## 5.2.3
 
