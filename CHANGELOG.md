@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.2.7]
+
+- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/301)
+- show how to customize text_with_grid
+
 ## [5.2.6](https://github.com/gdsfactory/gdsfactory/pull/304)
 
 - remove tempfile and tmpdir after Component.show() sends GDS to klayout. To avoid filling /tmp/ with GDS files
