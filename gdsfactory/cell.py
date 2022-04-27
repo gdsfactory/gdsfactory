@@ -9,6 +9,7 @@ import toolz
 from phidl.device_layout import Device
 from pydantic import BaseModel, validate_arguments
 
+from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
@@ -28,7 +29,7 @@ def clear_cache() -> None:
     CACHE = {}
 
 
-def print_cache():
+def print_cache() -> None:
     for k in CACHE:
         print(k)
 
@@ -244,9 +245,8 @@ def cell(func, *args, **kwargs):
 
 
 @cell
-def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)):
+def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)) -> Component:
     """Dummy component for testing."""
-    from gdsfactory.component import Component
 
     c = Component("straight")
     width = 0.5
@@ -260,21 +260,6 @@ def wg(length: int = 3, layer: Tuple[int, int] = (1, 0)):
 @cell
 def wg2(wg1=wg):
     """Dummy component for testing."""
-    from gdsfactory.component import Component
-
-    c = Component("straight")
-    w = wg1()
-    w1 = c << w
-    w1.rotate(90)
-    c.copy_child_info(w)
-    c.add_ports(w1.ports)
-    return c
-
-
-@cell
-def wg3(wg1=wg2):
-    """Dummy component for testing."""
-    from gdsfactory.component import Component
 
     c = Component("straight")
     w = wg1()
@@ -291,9 +276,8 @@ def test_set_name() -> None:
 
 
 @cell
-def demo(length: int = 3, wg_width: float = 0.5):
+def demo(length: int = 3, wg_width: float = 0.5) -> Component:
     """Demo Dummy cell"""
-    from gdsfactory.component import Component
 
     c = Component()
     w = length
@@ -342,7 +326,7 @@ def test_names() -> None:
 
 
 @cell
-def straight_with_pins(**kwargs):
+def straight_with_pins(**kwargs) -> Component:
     import gdsfactory as gf
 
     c = gf.Component()
@@ -352,7 +336,7 @@ def straight_with_pins(**kwargs):
     return c
 
 
-def test_import_gds_settings():
+def test_import_gds_settings() -> None:
     """Sometimes it fails for files imported from GDS"""
     import gdsfactory as gf
 
