@@ -8,6 +8,7 @@ from numpy import float64
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
+from gdsfactory.types import Layer
 
 
 def taper(
@@ -15,8 +16,7 @@ def taper(
     end_width: Union[float, float64],
     length: Union[float, float64],
     start_coord: Tuple[float64, float64],
-    layer: int = gf.LAYER.WG,
-    datatype: int = 0,
+    layer: Layer = gf.LAYER.WG,
 ) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
     s = start_coord
     top_left = (s[0], s[1] + start_width / 2.0)
@@ -25,7 +25,7 @@ def taper(
     bot_right = (s[0] + length, s[1] - end_width / 2.0)
     e = (s[0] + length, s[1])
     p = gds.Polygon(
-        [top_left, bot_left, bot_right, top_right], layer=layer, datatype=datatype
+        [top_left, bot_left, bot_right, top_right], layer=layer[0], datatype=layer[1]
     )
     return p, s, e
 
@@ -34,10 +34,9 @@ def straight(
     width: Union[float, float64],
     length: Union[float, float64],
     start_coord: Tuple[float64, float64],
-    layer: int = gf.LAYER.WG,
-    datatype: int = 0,
+    layer: Layer = gf.LAYER.WG,
 ) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
-    t, s, e = taper(width, width, length, start_coord, layer=layer, datatype=datatype)
+    t, s, e = taper(width, width, length, start_coord, layer=layer)
     return t, s, e
 
 
@@ -61,7 +60,6 @@ def spiral_circular(
         min_bend_radius:
         points:
         layer:
-
     """
     wg_datatype = layer[1]
     wg_layer = layer[0]
@@ -129,9 +127,7 @@ def spiral_circular(
     length_3 = np.sum(np.hypot(np.diff(x_2), np.diff(y_2)))
 
     # Output straight
-    p, _, e = straight(
-        wg_width, radii_1[-1], start_1, layer=wg_layer, datatype=wg_datatype
-    )
+    p, _, e = straight(wg_width, radii_1[-1], start_1, layer=layer)
     ps.append(p)
 
     # Outer bend
@@ -155,8 +151,7 @@ def spiral_circular(
         length,
         wg_width,
         (end_input[0] - wg_width / 2.0, end_input[1] + length / 2.0),
-        layer=wg_layer,
-        datatype=wg_datatype,
+        layer=layer,
     )
     ps.append(p)
 

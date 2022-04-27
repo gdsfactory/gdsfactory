@@ -187,7 +187,7 @@ def _name_to_description(name_str) -> str:
     return description
 
 
-def _add_layer(entry, lys: LayerSet) -> LayerSet:
+def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
     """Entry is a dict of one element of 'properties'.
     No return value. It adds it to the lys variable directly
     """
