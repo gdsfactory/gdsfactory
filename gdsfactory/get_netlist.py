@@ -95,12 +95,22 @@ def get_netlist(
         reference_name = get_instance_name(
             component, reference, layer_label=layer_label
         )
-        settings = c.settings.full if full_settings else c.settings.changed
 
-        instances[reference_name] = dict(
-            component=getattr(c.settings, "function_name", c.name),
-            settings=settings,
-        )
+        instance = dict()
+
+        if c.info != {}:
+            instance.update(component=c.name, info=c.info)
+
+        # Prefer name from settings over c.name
+        if c.settings != {}:
+            settings = c.settings.full if full_settings else c.settings.changed
+
+            instance.update(
+                component=getattr(c.settings, "function_name", c.name),
+                settings=settings,
+            )
+
+        instances[reference_name] = instance
 
         placements[reference_name] = dict(
             x=x,
