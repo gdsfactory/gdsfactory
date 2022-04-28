@@ -1,19 +1,17 @@
 connections:
-  bend_euler_fdb9781f_115p145_5p5,o1: straight_4831b31b_62p51_0p625,o2
-  bend_euler_fdb9781f_115p145_5p5,o2: straight_8a18563c_120p02_50p312,o1
-  bend_euler_fdb9781f_115p145_95p125,o1: straight_8a18563c_120p02_50p312,o2
-  bend_euler_fdb9781f_115p145_95p125,o2: straight_9b6195fc_110p01_100p0,o1
+  bend_euler_115p145_5p5,o1: straight_4831b31b_62p51_0p625,o2
+  bend_euler_115p145_5p5,o2: straight_8a18563c_120p02_50p312,o1
+  bend_euler_115p145_95p125,o1: straight_8a18563c_120p02_50p312,o2
+  bend_euler_115p145_95p125,o2: straight_9b6195fc_110p01_100p0,o1
   mmi_long,o1: straight_9b6195fc_110p01_100p0,o2
   mmi_short,o2: straight_4831b31b_62p51_0p625,o1
 instances:
-  bend_euler_fdb9781f_115p145_5p5:
+  bend_euler_115p145_5p5:
     component: bend_euler
-    settings:
-      cross_section: strip
-  bend_euler_fdb9781f_115p145_95p125:
+    settings: {}
+  bend_euler_115p145_95p125:
     component: bend_euler
-    settings:
-      cross_section: strip
+    settings: {}
   mmi_long:
     component: mmi1x2
     settings:
@@ -41,12 +39,12 @@ instances:
       length: 0.02
 name: Unnamed_a491ff8b
 placements:
-  bend_euler_fdb9781f_115p145_5p5:
+  bend_euler_115p145_5p5:
     mirror: false
     rotation: 0
     x: 110.02
     y: 0.625
-  bend_euler_fdb9781f_115p145_95p125:
+  bend_euler_115p145_95p125:
     mirror: false
     rotation: 90
     x: 120.02

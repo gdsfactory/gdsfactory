@@ -7,8 +7,7 @@ settings:
   default:
     columns: 6
     orientation: 270
-    pad:
-      function: pad
+    pad: pad
     rows: 1
     spacing:
     - 150.0
@@ -16,8 +15,7 @@ settings:
   full:
     columns: 1
     orientation: 0
-    pad:
-      function: pad
+    pad: pad
     rows: 3
     spacing:
     - 150.0
