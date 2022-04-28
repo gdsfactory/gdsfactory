@@ -18,9 +18,7 @@ settings:
   child: null
   default:
     angle: 90
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     direction: ccw
     npoints: 720
     p: 0.5

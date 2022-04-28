@@ -198,6 +198,23 @@ class Port(PortPhidl):
         """Keep this case for phidl compatibility"""
         return self.copy(new_uid=new_uid)
 
+    @property
+    def endpoints(self):
+        """Returns the endpoints of the Port."""
+        dxdy = (
+            np.array(
+                [
+                    self.width / 2 * np.cos((self.orientation - 90) * np.pi / 180),
+                    self.width / 2 * np.sin((self.orientation - 90) * np.pi / 180),
+                ]
+            )
+            if self.orientation is not None
+            else np.array([self.width, self.width])
+        )
+        left_point = self.midpoint - dxdy
+        right_point = self.midpoint + dxdy
+        return np.array([left_point, right_point])
+
     def copy(self, new_uid: bool = True) -> Port:
         new_port = Port(
             name=self.name,
