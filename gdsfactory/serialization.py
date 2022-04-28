@@ -14,10 +14,7 @@ from phidl.device_layout import Path as PathPhidl
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
     """Cleans dictionary keys recursively."""
     for k, v in d.items():
-        if isinstance(v, dict):
-            d[k] = clean_dict(dict(v))
-        else:
-            d[k] = clean_value_json(v)
+        d[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
     return d
 
 
@@ -40,8 +37,7 @@ def clean_value_name(value: Any) -> str:
         value = int(value)
         value = str(value)
     elif isinstance(value, (np.int64, np.int32)):
-        value = int(value)
-        value = str(value)
+        value = str(int(value))
     elif isinstance(value, float):
         value = float(value)
         value = str(value)
@@ -63,8 +59,7 @@ def clean_value_name(value: Any) -> str:
         value = value.to_dict()
         value = get_string(value)
     elif isinstance(value, np.float64):
-        value = float(value)
-        value = str(value)
+        value = str(float(value))
     elif type(value) in [int, float, str, bool]:
         pass
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
@@ -81,10 +76,7 @@ def clean_value_name(value: Any) -> str:
     elif isinstance(value, dict):
         d = copy.deepcopy(value)
         for k, v in d.items():
-            if isinstance(v, dict):
-                d[k] = clean_dict(v)
-            else:
-                d[k] = clean_value_name(v)
+            d[k] = clean_dict(v) if isinstance(v, dict) else clean_value_name(v)
         value = get_string(value)
     else:
         value = get_string(value)
@@ -160,17 +152,6 @@ def clean_value_json(value: Any) -> Any:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.c.straight()
-    # d = clean_value_json(c.ports)
-    # d = clean_value_json(c.get_ports_list())
-    # print(d, type(d))
     f = gf.partial(gf.c.straight, length=3)
-    # f = gf.partial(gf.c.mzi, straight=f, length=3)
-
-    # f = gf.cross_section.strip
-    # f = gf.cross_section.cross_section
     d = clean_value_json(f)
-    # d = clean_value_name(f)
-
-    # d = clean_value_json(dict(args=dict(layer_stack=gf.tech.LAYER_STACK)))
     print(f"{d!r}")
