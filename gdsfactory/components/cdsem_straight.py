@@ -8,7 +8,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.cross_section import strip
 from gdsfactory.grid import grid
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 text_rectangular_mini = partial(text_rectangular, size=1)
 
@@ -20,7 +20,7 @@ def cdsem_straight(
     widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,
     cross_section: CrossSectionSpec = strip,
-    text: Optional[ComponentFactory] = text_rectangular_mini,
+    text: Optional[ComponentSpec] = text_rectangular_mini,
     spacing: float = 3,
 ) -> Component:
     """Returns straight waveguide lines width sweep.

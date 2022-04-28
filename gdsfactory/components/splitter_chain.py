@@ -2,14 +2,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def splitter_chain(
-    splitter: ComponentFactory = mmi1x2,
+    splitter: ComponentSpec = mmi1x2,
     columns: int = 3,
-    bend: ComponentFactory = bend_s,
+    bend: ComponentSpec = bend_s,
 ) -> Component:
     """Chain of splitters
 
@@ -33,14 +33,14 @@ def splitter_chain(
 
     """
     c = gf.Component()
-    splitter_component = gf.call_if_func(splitter)
+    splitter_component = gf.get_component(splitter)
     cref = c.add_ref(splitter_component)
 
     splitter_ports_east = cref.get_ports_list(port_type="optical", orientation=0)
     e1_port_name = splitter_ports_east[0].name
     e0_port_name = splitter_ports_east[1].name
 
-    bend = bend() if callable(bend) else bend
+    bend = gf.get_component(bend)
     c.add_port(name="o1", port=cref.ports["o1"])
     c.add_port(name="o2", port=cref.ports[e0_port_name])
 

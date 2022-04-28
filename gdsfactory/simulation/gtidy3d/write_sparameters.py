@@ -19,7 +19,7 @@ from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
 from gdsfactory.types import (
     Any,
     Component,
-    ComponentOrFactory,
+    ComponentSpec,
     Dict,
     List,
     Optional,
@@ -79,7 +79,7 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
 
 
 def write_sparameters(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     port_symmetries: Optional[PortSymmetries] = None,
     dirpath: PathType = sparameters_path,
     overwrite: bool = False,
@@ -141,7 +141,7 @@ def write_sparameters(
         with_all_monitors: True adds field monitor which increases results file size.
 
     """
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     filepath = get_sparameters_path(
         component=component,
         dirpath=dirpath,

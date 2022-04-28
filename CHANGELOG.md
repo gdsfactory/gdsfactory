@@ -1,11 +1,15 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.3.0]
+## [5.3.0](https://github.com/gdsfactory/gdsfactory/pull/312)
 
 - fix some fstrings [issues](https://github.com/gdsfactory/gdsfactory/issues/311)
 - fix lumerical notebook [typo](https://github.com/gdsfactory/gdsfactory/issues/309)
 - enable Component.plot() with ports with orientation = None
 - add gf.routing.get_route_from_steps_electrical
+- rename ComponentFactory to ComponentSpec
+- rename ComponentOrFactory to ComponentSpec
+- replace callable(component) with gf.get_component(component)
+- replace some call_if_func(component) with gf.get_component(component)
 
 ## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 

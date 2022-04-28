@@ -6,17 +6,17 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def loop_mirror(
-    component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
+    component: ComponentSpec = mmi1x2, bend90: ComponentSpec = bend_euler
 ) -> Component:
     """Returns Sagnac loop_mirror."""
     c = Component()
-    component = gf.call_if_func(component)
-    bend90 = gf.call_if_func(bend90)
+    component = gf.get_component(component)
+    bend90 = gf.get_component(bend90)
     cref = c.add_ref(component)
     routes = route_manhattan(
         cref.ports["o3"],
@@ -31,7 +31,9 @@ def loop_mirror(
 
 
 @gf.cell
-def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
+def loop_mirror_with_delay(
+    loop_mirror: ComponentSpec = loop_mirror, spiral: ComponentSpec = spiral_external_io
+) -> Component:
     """
     delay = 13e-12
     # delay = length/speed
@@ -40,7 +42,7 @@ def loop_mirror_with_delay(loop_mirror=loop_mirror, spiral=spiral_external_io):
 
     """
     c = Component()
-    lm = c << gf.call_if_func(loop_mirror)
+    lm = c << gf.get_component(loop_mirror)
     s = c << spiral_external_io()
 
     lm.connect("o1", s.ports["o1"])

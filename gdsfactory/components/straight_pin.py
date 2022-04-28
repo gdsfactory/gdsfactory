@@ -6,17 +6,17 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_slab_m3
 from gdsfactory.cross_section import pin, pn
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def straight_pin(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
-    via_stack: ComponentFactory = via_stack_slab_m3,
+    via_stack: ComponentSpec = via_stack_slab_m3,
     via_stack_width: float = 10.0,
     via_stack_spacing: float = 2,
-    taper: Optional[ComponentFactory] = taper_strip_to_ridge,
+    taper: Optional[ComponentSpec] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
     """Returns straight PIN waveguide with via_stacks.
@@ -41,7 +41,7 @@ def straight_pin(
     """
     c = Component()
     if taper:
-        taper = taper() if callable(taper) else taper
+        taper = gf.get_component(taper)
         length -= 2 * taper.get_ports_xsize()
 
     wg = c << gf.components.straight(

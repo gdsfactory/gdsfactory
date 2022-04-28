@@ -8,15 +8,10 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 from pydantic import validate_arguments
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.name import get_name_short
-from gdsfactory.types import (
-    Anchor,
-    ComponentFactory,
-    ComponentOrFactory,
-    Float2,
-    Number,
-)
+from gdsfactory.types import Anchor, ComponentSpec, Float2, Number
 
 
 def _pack_single_bin(
@@ -98,14 +93,14 @@ def _pack_single_bin(
 
 @validate_arguments
 def pack(
-    component_list: List[ComponentOrFactory],
+    component_list: List[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: Tuple[Optional[float], Optional[float]] = (None, None),
     sort_by_area: bool = True,
     density: float = 1.1,
     precision: float = 1e-2,
-    text: Optional[ComponentFactory] = None,
+    text: Optional[ComponentSpec] = None,
     text_prefix: str = "",
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
@@ -147,10 +142,7 @@ def pack(
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision
 
-    component_list = [
-        component() if callable(component) else component
-        for component in component_list
-    ]
+    component_list = [gf.get_component(component) for component in component_list]
 
     # Convert Components to rectangles
     rect_dict = {}
@@ -260,7 +252,6 @@ def test_pack_with_settings() -> Component:
 
 if __name__ == "__main__":
     # test_pack()
-    import gdsfactory as gf
 
     # c = test_pack_with_settings()
     # c = test_pack()

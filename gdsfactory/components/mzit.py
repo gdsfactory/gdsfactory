@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -21,12 +21,12 @@ def mzit(
     coupler_length2: float = 10.0,
     coupler_gap1: float = 0.2,
     coupler_gap2: float = 0.3,
-    taper: ComponentFactory = taper_function,
+    taper: ComponentSpec = taper_function,
     taper_length: float = 5.0,
-    bend90: ComponentFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
-    coupler1: Optional[ComponentFactory] = coupler_function,
-    coupler2: ComponentFactory = coupler_function,
+    bend90: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    coupler1: Optional[ComponentSpec] = coupler_function,
+    coupler2: ComponentSpec = coupler_function,
     **kwargs,
 ) -> Component:
     r"""Mzi tolerant to fabrication variations.

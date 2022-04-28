@@ -6,7 +6,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.config import call_if_func
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 taper2 = gf.partial(taper, width2=3)
 
@@ -18,9 +18,9 @@ def ring_single_dut(
     length_x: float = 4,
     length_y: float = 0,
     radius: float = 5.0,
-    coupler: ComponentFactory = coupler_ring,
-    straight: ComponentFactory = straight_function,
-    bend: ComponentFactory = bend_euler,
+    coupler: ComponentSpec = coupler_ring,
+    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = bend_euler,
     with_component: bool = True,
     port_name: str = "o1",
     **kwargs

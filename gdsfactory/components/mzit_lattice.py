@@ -3,7 +3,7 @@ from typing import Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.mzit import mzit
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -11,7 +11,7 @@ def mzit_lattice(
     coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
     delta_lengths: Tuple[float, ...] = (10.0,),
-    mzi: ComponentFactory = mzit,
+    mzi: ComponentSpec = mzit,
 ) -> Component:
     r"""Mzi fab tolerant lattice filter.
 

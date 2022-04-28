@@ -105,7 +105,7 @@ def write_sparameters_meep_batch(
     jobs_to_run = []
     for job in jobs:
         component = job["component"]
-        component = component() if callable(component) else component
+        component = gf.get_component(component)
         assert isinstance(component, Component)
         settings = remove_simulation_kwargs(kwargs)
         filepath = job.get(
