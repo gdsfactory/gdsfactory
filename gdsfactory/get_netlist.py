@@ -21,6 +21,7 @@ import omegaconf
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
+from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 
@@ -98,16 +99,16 @@ def get_netlist(
 
         instance = {}
 
-        if c.info != {}:
-            instance.update(component=c.name, info=c.info)
+        if c.info:
+            instance.update(component=c.name, info=clean_value_json(c.info))
 
         # Prefer name from settings over c.name
-        if c.settings != {}:
+        if c.settings:
             settings = c.settings.full if full_settings else c.settings.changed
 
             instance.update(
                 component=getattr(c.settings, "function_name", c.name),
-                settings=settings,
+                settings=clean_value_json(settings),
             )
 
         instances[reference_name] = instance
@@ -145,8 +146,8 @@ def get_netlist(
     # build connectivity port_locations = Dict[Tuple(x,y,width), set of portNames]
     for name, port in name2port.items():
         xyw = tuple(
-            round(1000 * v)
-            for v in snap_to_grid((port.x, port.y, port.width), nm=tolerance)
+            round(1000 * snap_to_grid(v, nm=tolerance))
+            for v in (port.x, port.y, port.width)
         )
         if xyw not in port_locations:
             port_locations[xyw] = set()
