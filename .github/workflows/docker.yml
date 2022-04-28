@@ -29,5 +29,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:5.3.0
+          tags: joamatab/gdsfactory:latest,joamatab/gdsfactory:5.3.1
           file: Dockerfile.dev
