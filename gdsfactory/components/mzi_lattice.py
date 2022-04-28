@@ -5,7 +5,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
 from gdsfactory.components.mzi import mzi_coupler
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
@@ -13,8 +13,8 @@ def mzi_lattice(
     coupler_lengths: Tuple[float, ...] = (10.0, 20.0),
     coupler_gaps: Tuple[float, ...] = (0.2, 0.3),
     delta_lengths: Tuple[float, ...] = (10.0,),
-    mzi: ComponentFactory = mzi_coupler,
-    splitter: ComponentFactory = coupler_function,
+    mzi: ComponentSpec = mzi_coupler,
+    splitter: ComponentSpec = coupler_function,
     **kwargs,
 ) -> Component:
     r"""Mzi lattice filter.

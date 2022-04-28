@@ -3,14 +3,15 @@ from typing import Optional
 
 from tqdm import tqdm
 
+import gdsfactory as gf
 from gdsfactory.simulation.lumerical.write_sparameters_lumerical import (
     write_sparameters_lumerical,
 )
-from gdsfactory.types import ComponentOrFactory, List
+from gdsfactory.types import ComponentSpec, List
 
 
 def write_sparameters_lumerical_components(
-    components: List[ComponentOrFactory],
+    components: List[ComponentSpec],
     run: bool = True,
     session: Optional[object] = None,
     **kwargs,
@@ -31,7 +32,7 @@ def write_sparameters_lumerical_components(
     need_review = []
 
     for component in tqdm(components):
-        component = component() if callable(component) else component
+        component = gf.get_component(component)
         write_sparameters_lumerical(component, run=run, session=session, **kwargs)
         if not run:
             response = input(

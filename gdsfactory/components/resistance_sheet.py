@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Floats, Layers, Optional
+from gdsfactory.types import ComponentSpec, Floats, Layers, Optional
 
 pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 
@@ -15,7 +15,7 @@ def resistance_sheet(
     width: float = 10,
     layers: Layers = (LAYER.SLAB90, LAYER.NPP),
     layer_offsets: Floats = (0, 0.2),
-    pad: ComponentFactory = pad_via_stack_slab_npp,
+    pad: ComponentSpec = pad_via_stack_slab_npp,
     pad_pitch: float = 100.0,
     ohms_per_square: Optional[float] = None,
     port_orientation1: int = 180,

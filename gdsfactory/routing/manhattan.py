@@ -19,7 +19,6 @@ from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 from gdsfactory.types import (
-    ComponentOrFactory,
     ComponentSpec,
     Coordinate,
     Coordinates,
@@ -913,7 +912,7 @@ def route_manhattan(
     input_port: Port,
     output_port: Port,
     straight: ComponentSpec = straight_function,
-    taper: Optional[ComponentOrFactory] = None,
+    taper: Optional[ComponentSpec] = None,
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,

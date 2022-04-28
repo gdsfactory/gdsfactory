@@ -5,7 +5,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
@@ -13,10 +13,10 @@ def mzi_arm(
     length_y_left: float = 0.8,
     length_y_right: float = 0.8,
     length_x: float = 0.1,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
-    straight_x: Optional[ComponentFactory] = None,
-    straight_y: Optional[ComponentFactory] = None,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    straight_x: Optional[ComponentSpec] = None,
+    straight_y: Optional[ComponentSpec] = None,
     **kwargs,
 ) -> Component:
     """Mzi.

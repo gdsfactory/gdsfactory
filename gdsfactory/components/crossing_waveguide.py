@@ -4,6 +4,7 @@ import numpy as np
 import scipy.optimize as so
 from numpy import float64
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
@@ -16,12 +17,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.tech import LAYER
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    CrossSectionSpec,
-    Layer,
-)
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Layer
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -83,10 +79,10 @@ def crossing_arm(
 
 
 @cell
-def crossing(arm: ComponentFactory = crossing_arm) -> Component:
+def crossing(arm: ComponentSpec = crossing_arm) -> Component:
     """Waveguide crossing"""
     cx = Component()
-    arm = arm() if callable(arm) else arm
+    arm = gf.get_component(arm)
     arm_h = arm.ref()
     arm_v = arm.ref(rotation=90)
 
@@ -106,7 +102,7 @@ def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Componen
     """
     Crossing based on a taper. The default is a dummy taper
     """
-    taper = taper() if callable(taper) else taper
+    taper = gf.get_component(taper)
 
     c = Component()
     for i, a in enumerate([0, 90, 180, 270]):
@@ -189,7 +185,7 @@ def crossing_etched(
 
 @cell
 def crossing45(
-    crossing: ComponentFactory = crossing,
+    crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
     dx: Optional[float] = None,
     alpha: float = 0.08,
@@ -219,7 +215,7 @@ def crossing45(
 
     """
 
-    crossing = crossing() if callable(crossing) else crossing
+    crossing = gf.get_component(crossing)
 
     c = Component()
     x = c << crossing
@@ -284,7 +280,7 @@ def crossing45(
 
 @cell
 def compensation_path(
-    crossing45: ComponentOrFactory = crossing45, direction: str = "top"
+    crossing45: ComponentSpec = crossing45, direction: str = "top"
 ) -> Component:
     r"""Returns Component Path with same path length as the crossing
 
@@ -319,7 +315,7 @@ def compensation_path(
 
     """
     # Get total path length taken by the bends
-    crossing45 = crossing45() if callable(crossing45) else crossing45
+    crossing45 = gf.get_component(crossing45)
     bezier_length = crossing45.info["bezier_length"]
     length = 2 * bezier_length
 

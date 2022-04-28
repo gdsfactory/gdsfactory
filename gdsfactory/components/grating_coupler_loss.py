@@ -10,7 +10,7 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 def connect_loopback(
@@ -44,7 +44,7 @@ def connect_loopback(
 @cell
 def loss_deembedding_ch13_24(
     pitch: float = 127.0,
-    grating_coupler: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
     cross_section: CrossSectionSpec = strip,
     **kwargs
@@ -108,7 +108,7 @@ def loss_deembedding_ch13_24(
 @cell
 def loss_deembedding_ch12_34(
     pitch: float = 127.0,
-    grating_coupler: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 2),
     **kwargs
 ) -> Component:
@@ -154,7 +154,7 @@ def loss_deembedding_ch12_34(
 @cell
 def loss_deembedding_ch14_23(
     pitch: float = 127.0,
-    grating_coupler: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
     **kwargs
 ) -> Component:
@@ -201,7 +201,7 @@ def loss_deembedding_ch14_23(
 @cell
 def grating_coupler_loss_fiber_array(
     pitch: float = 127.0,
-    grating_coupler: ComponentFactory = grating_coupler_te,
+    grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
     **kwargs
 ) -> Component:
@@ -239,9 +239,7 @@ def grating_coupler_loss_fiber_array(
 
 @cell
 def grating_coupler_loss_fiber_array4(
-    pitch: float = 127.0,
-    grating_coupler: ComponentFactory = grating_coupler_te,
-    **kwargs
+    pitch: float = 127.0, grating_coupler: ComponentSpec = grating_coupler_te, **kwargs
 ) -> Component:
     """Returns a grating coupler test structure for fiber array
 

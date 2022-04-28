@@ -5,12 +5,12 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.port import Port, select_ports_optical
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 def get_ports_and_tapers(
     component: Component,
-    taper: ComponentFactory = taper_function,
+    taper: ComponentSpec = taper_function,
     select_ports: Optional[Callable] = select_ports_optical,
 ) -> Tuple[List[Port], List[ComponentReference]]:
     """returns ports and taper elements for a component"""
@@ -31,7 +31,7 @@ def get_ports_and_tapers(
 @cell
 def add_tapers(
     component: Component,
-    taper: ComponentFactory = taper_function,
+    taper: ComponentSpec = taper_function,
     select_ports: Optional[Callable] = select_ports_optical,
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",

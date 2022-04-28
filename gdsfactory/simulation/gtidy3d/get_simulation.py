@@ -20,12 +20,12 @@ from gdsfactory.simulation.gtidy3d.materials import (
     get_medium,
 )
 from gdsfactory.tech import LAYER_STACK, LayerStack
-from gdsfactory.types import ComponentOrFactory, Float2
+from gdsfactory.types import ComponentSpec, Float2
 
 
 @pydantic.validate_arguments
 def get_simulation(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     port_extension: Optional[float] = 4.0,
     layer_stack: LayerStack = LAYER_STACK,
     thickness_pml: float = 1.0,
@@ -140,7 +140,7 @@ def get_simulation(
         gt.plot_simulation(sim)
 
     """
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     assert isinstance(component, Component)
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()

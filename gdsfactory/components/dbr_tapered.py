@@ -5,7 +5,7 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -20,8 +20,8 @@ def dbr_tapered(
     fin_size: Tuple[float, float] = (0.2, 0.05),
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: ComponentFactory = strip,
-    waveguide_template_dbr: Optional[ComponentFactory] = None,
+    waveguide_template: ComponentSpec = strip,
+    waveguide_template_dbr: Optional[ComponentSpec] = None,
     **kwargs
 ) -> Component:
     """Distributed Bragg Reflector Cell class.

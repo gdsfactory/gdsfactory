@@ -1,12 +1,12 @@
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.cross import cross
-from gdsfactory.types import ComponentFactory, Layers
+from gdsfactory.types import ComponentSpec, Layers
 
 
 @cell
 def copy_layers(
-    factory: ComponentFactory = cross, layers: Layers = ((1, 0), (2, 0)), **kwargs
+    factory: ComponentSpec = cross, layers: Layers = ((1, 0), (2, 0)), **kwargs
 ) -> Component:
     """Returns a component with the geometry copied in different layers.
 

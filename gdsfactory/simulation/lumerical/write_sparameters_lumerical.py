@@ -19,7 +19,7 @@ from gdsfactory.tech import (
     LayerStack,
     SimulationSettings,
 )
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 run_false_warning = """
 You have passed run=False to debug the simulation
@@ -31,7 +31,7 @@ To compute the Sparameters you need to pass run=True
 
 
 def write_sparameters_lumerical(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
@@ -141,7 +141,7 @@ def write_sparameters_lumerical(
         suffix `a` for angle in radians and `m` for module
 
     """
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     sim_settings = dict(simulation_settings)
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()

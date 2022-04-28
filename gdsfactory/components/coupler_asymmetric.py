@@ -3,13 +3,13 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def coupler_asymmetric(
-    bend: ComponentFactory = bend_s,
-    straight: ComponentFactory = straight_function,
+    bend: ComponentSpec = bend_s,
+    straight: ComponentSpec = straight_function,
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,

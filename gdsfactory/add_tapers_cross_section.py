@@ -6,13 +6,13 @@ from gdsfactory.component import Component
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
 def add_tapers(
     component: Component,
-    taper: ComponentFactory = taper_cross_section,
+    taper: ComponentSpec = taper_cross_section,
     select_ports: Optional[Callable] = select_ports_optical,
     taper_port_name1: str = "o1",
     taper_port_name2: str = "o2",

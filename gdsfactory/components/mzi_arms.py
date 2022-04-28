@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mzi_arm import mzi_arm
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @cell
@@ -14,13 +14,13 @@ def mzi_arms(
     delta_length: float = 10.0,
     length_y: float = 0.8,
     length_x: float = 0.1,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
-    straight_y: Optional[ComponentFactory] = None,
-    straight_x_top: Optional[ComponentFactory] = None,
-    straight_x_bot: Optional[ComponentFactory] = None,
-    splitter: ComponentOrFactory = mmi1x2,
-    combiner: Optional[ComponentFactory] = None,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    straight_y: Optional[ComponentSpec] = None,
+    straight_x_top: Optional[ComponentSpec] = None,
+    straight_x_bot: Optional[ComponentSpec] = None,
+    splitter: ComponentSpec = mmi1x2,
+    combiner: Optional[ComponentSpec] = None,
     with_splitter: bool = True,
     delta_yright: float = 0,
     **kwargs,
