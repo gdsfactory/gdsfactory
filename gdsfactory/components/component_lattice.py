@@ -185,7 +185,7 @@ def component_lattice(
     # Find y spacing and check that all components have same y spacing
     y_spacing = None
     for component in symbol_to_component.values():
-        component = gf.call_if_func(component)
+        component = gf.get_component(component)
         # component = component.copy()
         # component.auto_rename_ports_orientation()
 

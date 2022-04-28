@@ -2,14 +2,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def coupler90bend(
     radius: float = 10.0,
     gap: float = 0.2,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     cross_section_inner: CrossSectionSpec = strip,
     cross_section_outer: CrossSectionSpec = strip,
 ) -> Component:

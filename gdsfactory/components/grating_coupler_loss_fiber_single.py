@@ -3,12 +3,12 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentOrFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
 def grating_coupler_loss_fiber_single(
-    grating_coupler: ComponentOrFactory = grating_coupler_te,
+    grating_coupler: ComponentSpec = grating_coupler_te,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -30,9 +30,7 @@ def grating_coupler_loss_fiber_single(
 
     """
     c = gf.Component()
-    grating_coupler = (
-        grating_coupler() if callable(grating_coupler) else grating_coupler
-    )
+    grating_coupler = gf.get_component(grating_coupler)
 
     c << gf.routing.add_fiber_single(
         component=gf.components.straight(cross_section=cross_section),

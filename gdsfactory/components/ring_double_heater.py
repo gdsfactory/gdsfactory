@@ -8,7 +8,7 @@ from gdsfactory.components.via_stack import via_stack_heater_m3
 from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionSpec, Float2
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
 via_stack_heater_m3_mini = gf.partial(via_stack_heater_m3, size=(4, 4))
 
@@ -19,12 +19,12 @@ def ring_double_heater(
     radius: float = 10.0,
     length_x: float = 0.01,
     length_y: float = 0.01,
-    coupler_ring: ComponentFactory = coupler_ring_function,
-    straight: ComponentFactory = straight_function,
-    bend: Optional[ComponentFactory] = None,
+    coupler_ring: ComponentSpec = coupler_ring_function,
+    straight: ComponentSpec = straight_function,
+    bend: Optional[ComponentSpec] = None,
     cross_section_heater: gf.types.CrossSectionSpec = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionSpec = strip,
-    via_stack: gf.types.ComponentFactory = via_stack_heater_m3_mini,
+    via_stack: gf.types.ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float = 90,
     via_stack_offset: Float2 = (0, 0),
     **kwargs

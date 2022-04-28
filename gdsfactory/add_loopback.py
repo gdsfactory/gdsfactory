@@ -5,17 +5,17 @@ import gdsfactory as gf
 from gdsfactory.component import ComponentReference
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 def add_loopback(
     port1: Port,
     port2: Port,
-    grating: ComponentFactory,
+    grating: ComponentSpec,
     grating_separation: float = 127.0,
     grating_rotation: int = -90,
     grating_port_name: str = "o1",
-    bend: ComponentFactory = gf.components.bend_euler,
+    bend: ComponentSpec = gf.components.bend_euler,
     south_waveguide_spacing: Optional[float] = None,
     inside: bool = True,
     **kwargs
@@ -58,7 +58,7 @@ def add_loopback(
                |________________________________|      _|_
     """
 
-    gc = grating() if callable(grating) else grating
+    gc = gf.get_component(grating)
 
     if hasattr(port1, "y"):
         y0 = port1.y

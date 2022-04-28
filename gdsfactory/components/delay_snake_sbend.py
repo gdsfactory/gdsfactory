@@ -3,7 +3,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -13,10 +13,10 @@ def delay_snake_sbend(
     length4: float = 0.0,
     radius: float = 5.0,
     waveguide_spacing: float = 5.0,
-    bend: ComponentFactory = bend_euler,
-    sbend: ComponentFactory = bend_s,
+    bend: ComponentSpec = bend_euler,
+    sbend: ComponentSpec = bend_s,
     sbend_xsize: float = 100.0,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
     r"""Return compact Snake with sbend in the middle.

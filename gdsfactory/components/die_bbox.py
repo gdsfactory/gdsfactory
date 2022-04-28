@@ -12,7 +12,7 @@ big_square = gf.partial(rectangle, size=(1300, 2600))
 
 @gf.cell
 def die_bbox(
-    component: gf.types.ComponentOrFactory = big_square,
+    component: gf.types.ComponentSpec = big_square,
     street_width: float = 100.0,
     street_length: float = 1000.0,
     die_name: Optional[str] = None,
@@ -40,7 +40,7 @@ def die_bbox(
 
     """
     D = gf.Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
 
     D.copy_child_info(component)
     cref = D.add_ref(component)

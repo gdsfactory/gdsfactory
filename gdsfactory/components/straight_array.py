@@ -1,14 +1,14 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,
-    straigth: ComponentOrFactory = straight_function,
+    straigth: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers.
@@ -23,7 +23,7 @@ def straight_array(
     """
 
     c = Component()
-    wg = straigth(**kwargs) if callable(straigth) else straigth
+    wg = gf.get_component(straigth, **kwargs)
 
     for i in range(n):
         wref = c.add_ref(wg)

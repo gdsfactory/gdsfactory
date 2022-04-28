@@ -11,7 +11,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 period = 318e-3
 w0 = 0.5
@@ -26,7 +26,7 @@ def dbr_cell(
     w2: float = w2,
     l1: float = period / 2,
     l2: float = period / 2,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
 ) -> Component:
     l1 = gf.snap.snap_to_grid(l1)
     l2 = gf.snap.snap_to_grid(l2)
@@ -48,7 +48,7 @@ def dbr(
     l1: float = period / 2,
     l2: float = period / 2,
     n: int = 10,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
 ) -> Component:
     """Distributed Bragg Reflector
 

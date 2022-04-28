@@ -12,7 +12,7 @@ from gdsfactory.routing.manhattan import (
     remove_flat_angles,
 )
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
-from gdsfactory.types import ComponentFactory, Route
+from gdsfactory.types import ComponentSpec, Route
 
 
 def _groups(
@@ -34,7 +34,7 @@ def get_bundle_udirect(
     separation: float = 5.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     **routing_params,
 ) -> List[Route]:
     r"""
@@ -110,7 +110,7 @@ def _get_bundle_udirect_waypoints(
     end_straight_length: float = 0.01,
     end_straight_offset: float = 0.0,
     start_straight_offset: float = 0.0,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     **routing_func_params,
 ) -> List[ndarray]:
 
