@@ -1,9 +1,7 @@
-from gdsfactory.types import ComponentSpecDict
-
+# from gdsfactory.types import ComponentSpecDict
 # from gdsfactory import types
 # type_aliases = autodoc_type_aliases = {type: str(type) for type in dir(types)}
-
-autodoc_type_aliases = {ComponentSpecDict: "ComponentSpecDict"}
+# autodoc_type_aliases = {ComponentSpecDict: "ComponentSpecDict"}
 
 project = "gdsfactory"
 release = "5.2.9"

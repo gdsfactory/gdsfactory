@@ -3,6 +3,7 @@ from typing import Callable, List, Optional, Tuple
 
 import numpy as np
 
+import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text_loopback
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
@@ -46,9 +47,7 @@ def add_grating_couplers(
     c.component = component
     component_name = component_name or component.metadata_child.get("name")
     c.add_ref(component)
-    grating_coupler = (
-        grating_coupler() if callable(grating_coupler) else grating_coupler
-    )
+    grating_coupler = gf.get_component(grating_coupler)
 
     io_gratings = []
     optical_ports = select_ports(component.ports)
@@ -106,9 +105,7 @@ def add_grating_couplers_with_loopback_fiber_single(
     c = Component()
     c.component = component
     c.add_ref(component)
-    grating_coupler = (
-        grating_coupler() if callable(grating_coupler) else grating_coupler
-    )
+    grating_coupler = gf.get_component(grating_coupler)
 
     component_name = component_name or component.metadata_child.get("name")
 
@@ -226,7 +223,7 @@ def add_grating_couplers_with_loopback_fiber_array(
     x = cross_section(**kwargs)
     bend_radius_loopback = bend_radius_loopback or x.radius
     excluded_ports = excluded_ports or []
-    gc = grating_coupler() if callable(grating_coupler) else grating_coupler
+    gc = gf.get_component(grating_coupler)
 
     direction = "S"
     component_name = component_name or component.metadata_child.get("name")
@@ -344,8 +341,6 @@ def add_grating_couplers_with_loopback_fiber_array(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     # from gdsfactory.add_labels import get_optical_text
     # c = gf.components.grating_coupler_elliptical_te()
     # print(c.wavelength)

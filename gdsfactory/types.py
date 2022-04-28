@@ -76,8 +76,6 @@ PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 
-ComponentSpec = Union[ComponentFactory, Component]
-ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 ComponentOrPath = Union[PathType, Component]
 ComponentOrReference = Union[Component, ComponentReference]
 NameToFunctionDict = Dict[str, ComponentFactory]
@@ -90,8 +88,9 @@ CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, Dict[str, List[str]]]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
-CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
+CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
+ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
 
 

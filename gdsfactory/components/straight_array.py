@@ -23,7 +23,7 @@ def straight_array(
     """
 
     c = Component()
-    wg = straigth(**kwargs) if callable(straigth) else straigth
+    wg = gf.get_component(straigth, **kwargs)
 
     for i in range(n):
         wref = c.add_ref(wg)
