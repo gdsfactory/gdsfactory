@@ -588,7 +588,7 @@ if __name__ == "__main__":
     # c = test_connections_different_factory()
 
     # c = test_sample()
-    c = test_connections_2x2()
+    # c = test_connections_2x2()
     # c = test_connections_different_factory()
     # c = test_connections_different_link_factory()
     # c = test_connections_waypoints()
@@ -609,19 +609,20 @@ if __name__ == "__main__":
     # c = from_yaml(sample_regex_connections)
     # c = from_yaml(sample_regex_connections_backwards)
 
-    # c = test_netlists("sample_different_link_factory", None, check=False)
+    # c = test_netlists("sample_doe", None, check=False)
 
     # c = from_yaml(sample_different_factory)
-    c.show()
+    # c.show()
 
     # yaml_key = "sample_mmis"
-    # yaml_string = yaml_strings[yaml_key]
-    # c = from_yaml(yaml_string)
-    # n = c.get_netlist()
+    yaml_key = "sample_doe"
+    yaml_string = yaml_strings[yaml_key]
+    c = from_yaml(yaml_string)
+    n = c.get_netlist()
 
-    # yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
-    # # print(yaml_str)
-    # c2 = from_yaml(yaml_str)
-    # n2 = c2.get_netlist()
-    # d = jsondiff.diff(n, n2)
-    # c2.show()
+    yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
+    print(yaml_str)
+    c2 = from_yaml(yaml_str)
+    n2 = c2.get_netlist()
+    d = jsondiff.diff(n, n2)
+    c2.show()

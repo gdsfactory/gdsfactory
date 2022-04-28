@@ -18,10 +18,19 @@ connections:
 instances:
   b:
     component: pad_array
+    info:
+      size:
+      - 100.0
+      - 100.0
     settings:
       orientation: 90
   bend_euler_e3387fc7_154p875_145p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -29,6 +38,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_395p125_304p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -36,6 +50,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_395p125_395p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -43,6 +62,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_4p875_295p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -50,6 +74,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_545p125_154p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -57,6 +86,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_545p125_545p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -64,6 +98,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_m245p125_404p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -71,6 +110,11 @@ instances:
         settings: {}
   bend_euler_e3387fc7_m95p125_554p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       auto_widen: false
       cross_section:
@@ -78,56 +122,90 @@ instances:
         settings: {}
   straight_152c11f4_200p0_300p0:
     component: straight
+    info:
+      length: 380
+      width: 0.5
     settings:
       auto_widen: false
       length: 380
   straight_152c11f4_350p0_150p0:
     component: straight
+    info:
+      length: 380
+      width: 0.5
     settings:
       auto_widen: false
       length: 380
   straight_152c11f4_550p0_350p0:
     component: straight
+    info:
+      length: 380
+      width: 0.5
     settings:
       auto_widen: false
       length: 380
   straight_1efce1c9_0p0_145p0:
     component: straight
+    info:
+      length: 290
+      width: 0.5
     settings:
       auto_widen: false
       length: 290
   straight_2b932af0_400p0_350p0:
     component: straight
+    info:
+      length: 80
+      width: 0.5
     settings:
       auto_widen: false
       length: 80
   straight_a01b1c4b_150p0_70p0:
     component: straight
+    info:
+      length: 140
+      width: 0.5
     settings:
       auto_widen: false
       length: 140
   straight_a9485c4a_m250p0_705p0:
     component: straight
+    info:
+      length: 590
+      width: 0.5
     settings:
       auto_widen: false
       length: 590
   straight_b2910871_225p0_550p0:
     component: straight
+    info:
+      length: 630
+      width: 0.5
     settings:
       auto_widen: false
       length: 630
   straight_b2910871_75p0_400p0:
     component: straight
+    info:
+      length: 630
+      width: 0.5
     settings:
       auto_widen: false
       length: 630
   straight_bda70908_m100p0_780p0:
     component: straight
+    info:
+      length: 440
+      width: 0.5
     settings:
       auto_widen: false
       length: 440
   t:
     component: pad_array
+    info:
+      size:
+      - 100.0
+      - 100.0
     settings: {}
 name: sample_waypoints
 placements:

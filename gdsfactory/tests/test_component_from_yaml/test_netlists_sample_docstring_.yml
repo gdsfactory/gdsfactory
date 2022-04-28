@@ -8,9 +8,19 @@ connections:
 instances:
   bend_euler_67p115_m5p5:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings: {}
   bend_euler_76p865_m34p5:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings: {}
   mmi_bot:
     component: mmi1x2
@@ -24,16 +34,25 @@ instances:
       width_mmi: 6
   straight_1c2065ee_81p995_m39p375:
     component: straight
+    info:
+      length: 0.01
+      width: 0.5
     settings:
       cross_section: strip
       length: 0.01
   straight_5f7d3a14_51p995_m0p625:
     component: straight
+    info:
+      length: 19.99
+      width: 0.5
     settings:
       cross_section: strip
       length: 19.99
   straight_8124c601_71p99_m20p0:
     component: straight
+    info:
+      length: 18.75
+      width: 0.5
     settings:
       cross_section: strip
       length: 18.75

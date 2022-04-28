@@ -13,6 +13,9 @@ instances:
       length_x: 20
   straight_b3dac65b_7p5_0p0:
     component: straight
+    info:
+      length: 5
+      width: 0.5
     settings:
       length: 5
 name: ring_single_array
