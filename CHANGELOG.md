@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.2.9]
+## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 
 - route ports with orientation = None
 
