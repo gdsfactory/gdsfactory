@@ -40,7 +40,7 @@ def die_bbox(
 
     """
     D = gf.Component()
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
 
     D.copy_child_info(component)
     cref = D.add_ref(component)
