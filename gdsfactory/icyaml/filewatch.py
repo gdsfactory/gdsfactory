@@ -33,13 +33,7 @@ def build(filepath: PathType, validate_schema: bool = False) -> None:
                 jsonschema.validate(yaml_dict, schema_dict)
             c = from_yaml(yaml_text)
             c.show()
-        except (
-            ValueError,
-            ModuleNotFoundError,
-            KeyError,
-            Exception,
-            jsonschema.exceptions.ValidationError,
-        ) as e:
+        except (Exception, jsonschema.exceptions.ValidationError) as e:
             logger.error(e)
 
 
