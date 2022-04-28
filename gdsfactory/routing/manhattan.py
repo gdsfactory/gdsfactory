@@ -19,8 +19,8 @@ from gdsfactory.port import Port, select_ports_list
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 from gdsfactory.types import (
-    ComponentFactory,
     ComponentOrFactory,
+    ComponentSpec,
     Coordinate,
     Coordinates,
     CrossSection,
@@ -559,11 +559,11 @@ def get_route_error(
 
 def round_corners(
     points: Coordinates,
-    straight: ComponentFactory = straight_function,
-    bend: ComponentFactory = bend_euler,
-    bend_s_factory: Optional[ComponentFactory] = bend_s,
-    taper: Optional[ComponentFactory] = None,
-    straight_fall_back_no_taper: Optional[ComponentFactory] = None,
+    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = bend_euler,
+    bend_s_factory: Optional[ComponentSpec] = bend_s,
+    taper: Optional[ComponentSpec] = None,
+    straight_fall_back_no_taper: Optional[ComponentSpec] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
     cross_section: CrossSectionSpec = strip,
@@ -603,15 +603,23 @@ def round_corners(
     width = x.width
     width_wide = x.width_wide
     references = []
-    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
-    # bsx = bsy = _get_bend_size(bend90)
-    taper = taper or taper_function(
-        cross_section=cross_section,
-        width1=width,
-        width2=width_wide,
-        length=taper_length,
+    bend90 = (
+        bend
+        if isinstance(bend, Component)
+        else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
-    taper = taper(cross_section=cross_section, **kwargs) if callable(taper) else taper
+
+    # bsx = bsy = _get_bend_size(bend90)
+
+    if taper is None:
+        taper = taper_function(
+            cross_section=cross_section,
+            width1=width,
+            width2=width_wide,
+            length=taper_length,
+        )
+    elif not isinstance(taper, Component):
+        taper = gf.get_component(taper, cross_section=cross_section, **kwargs)
 
     # If there is a taper, make sure its length is known
     if taper and isinstance(taper, Component):
@@ -786,10 +794,15 @@ def round_corners(
                 cross_section_wide = gf.partial(cross_section, **kwargs_wide)
             else:
                 cross_section_wide = cross_section.get_copy(width=width_wide)
-            wg = straight(length=length, cross_section=cross_section_wide)
+            wg = gf.get_component(
+                straight, length=length, cross_section=cross_section_wide
+            )
         else:
-            wg = straight_fall_back_no_taper(
-                length=length, cross_section=cross_section, **kwargs
+            wg = gf.get_component(
+                straight_fall_back_no_taper,
+                length=length,
+                cross_section=cross_section,
+                **kwargs,
             )
 
         if straight_ports is None:
@@ -849,11 +862,11 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> ndarray:
@@ -866,7 +879,11 @@ def generate_manhattan_waypoints(
 
     """
 
-    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
+    bend90 = (
+        bend
+        if isinstance(bend, Component)
+        else gf.get_component(bend, cross_section=cross_section, **kwargs)
+    )
     x = gf.get_cross_section(cross_section, **kwargs)
     start_straight_length = start_straight_length or x.min_length
     end_straight_length = end_straight_length or x.min_length
@@ -895,12 +912,12 @@ def _get_bend_size(bend90: Component):
 def route_manhattan(
     input_port: Port,
     output_port: Port,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     taper: Optional[ComponentOrFactory] = None,
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec = strip,
     with_point_markers: bool = False,
     **kwargs,
