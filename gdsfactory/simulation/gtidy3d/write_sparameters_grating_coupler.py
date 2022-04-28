@@ -6,6 +6,7 @@ import pandas as pd
 import tidy3d as td
 from omegaconf import OmegaConf
 
+import gdsfactory as gf
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation.get_sparameters_path import (
@@ -162,9 +163,6 @@ def write_sparameters_grating_coupler_batch(
 
 if __name__ == "__main__":
     # import matplotlib.pyplot as plt
-
-    import gdsfactory as gf
-
     # import gdsfactory.simulation as sim
 
     c = gf.components.grating_coupler_elliptical_lumerical()  # inverse design grating
