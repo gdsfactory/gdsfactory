@@ -64,7 +64,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_f173d462
+        name: mzi_2e88f57c
       version: 0.0.1
   child:
     changed:
@@ -129,7 +129,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_f173d462
+    name: mzi_2e88f57c
   default:
     angle: 180
     bend:
@@ -224,7 +224,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_f173d462
+        name: mzi_2e88f57c
       version: 0.0.1
     cross_section:
       function: cross_section
@@ -248,5 +248,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.bend_port
-  name: mzi_f173d462_bend_port_d3590755
+  name: mzi_2e88f57c_bend_port_a1719f97
 version: 0.0.1

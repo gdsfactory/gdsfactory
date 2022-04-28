@@ -26,8 +26,7 @@ def add_keepout(
     c = Component(f"{component.name}_ko")
     c << component
     for layer in target_layers:
-        polygons = component.get_polygons(by_spec=layer)
-        if polygons:
+        if polygons := component.get_polygons(by_spec=layer):
             for ko_layer in keepout_layers:
                 ko_layer = _parse_layer(ko_layer)
                 polygon_keepout = [
@@ -56,11 +55,6 @@ def test_add_keepout() -> None:
 
 if __name__ == "__main__":
     # test_add_keepout()
-
-    # import gdsfactory as gf
-    # from gdsfactory.components.crossing_waveguide import crossing_etched
-    # from gdsfactory.components.crossing_waveguide import crossing45
-
     from gdsfactory.components.straight import straight
 
     c = straight()

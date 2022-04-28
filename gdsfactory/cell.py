@@ -86,8 +86,9 @@ def cell_without_validator(func):
         default = {
             p.name: p.default
             for p in sig.parameters.values()
-            if not p.default == inspect._empty
+            if p.default != inspect._empty
         }
+
         changed = args_as_kwargs
         full = copy.deepcopy(default)
         full.update(**args_as_kwargs)
@@ -140,59 +141,56 @@ def cell_without_validator(func):
         if cache and name in CACHE:
             # print(f"CACHE LOAD {name} {func.__name__}({arguments})")
             return CACHE[name]
+        # print(f"BUILD {name} {func.__name__}({arguments})")
+
+        if not callable(func):
+            raise ValueError(
+                f"{func!r} is not callable! @cell decorator is only for functions"
+            )
+
+        component = func(*args, **kwargs)
+        metadata_child = (
+            dict(component.child.settings) if hasattr(component, "child") else None
+        )
+
+        if not isinstance(component, Device):
+            raise CellReturnTypeError(
+                f"function {func.__name__!r} return type = {type(component)}",
+                "make sure that functions with @cell decorator return a Component",
+            )
+
+        if metadata_child and component.get_child_name:
+            component_name = f"{metadata_child['name']}_{name}"
+            component_name = get_name_short(
+                component_name, max_name_length=max_name_length
+            )
         else:
-            # print(f"BUILD {name} {func.__name__}({arguments})")
+            component_name = name
 
-            if not callable(func):
-                raise ValueError(
-                    f"{func!r} is not callable! @cell decorator is only for functions"
-                )
+        if autoname:
+            component.name = component_name
 
-            component = func(*args, **kwargs)
-            metadata_child = (
-                dict(component.child.settings) if hasattr(component, "child") else None
-            )
+        component.info.update(**info)
+        component.settings = Settings(
+            name=component_name,
+            module=func.__module__,
+            function_name=func.__name__,
+            changed=clean_dict(changed),
+            default=clean_dict(default),
+            full=clean_dict(full),
+            info=component.info,
+            child=metadata_child,
+        )
 
-            if not isinstance(component, Device):
-                raise CellReturnTypeError(
-                    f"function {func.__name__!r} return type = {type(component)}",
-                    "make sure that functions with @cell decorator return a Component",
-                )
+        if decorator:
+            if not callable(decorator):
+                raise ValueError(f"decorator = {type(decorator)} needs to be callable")
+            component_new = decorator(component)
+            component = component_new or component
 
-            if metadata_child and component.get_child_name:
-                component_name = f"{metadata_child['name']}_{name}"
-                component_name = get_name_short(
-                    component_name, max_name_length=max_name_length
-                )
-            else:
-                component_name = name
-
-            if autoname:
-                component.name = component_name
-
-            component.info.update(**info)
-            component.settings = Settings(
-                name=component_name,
-                module=func.__module__,
-                function_name=func.__name__,
-                changed=clean_dict(changed),
-                default=clean_dict(default),
-                full=clean_dict(full),
-                info=component.info,
-                child=metadata_child,
-            )
-
-            if decorator:
-                if not callable(decorator):
-                    raise ValueError(
-                        f"decorator = {type(decorator)} needs to be callable"
-                    )
-                component_new = decorator(component)
-                component = component_new or component
-
-            component.lock()
-            CACHE[name] = component
-            return component
+        component.lock()
+        CACHE[name] = component
+        return component
 
     CELLS[id(_cell)] = _cell
     return _cell

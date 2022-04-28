@@ -95,7 +95,7 @@ class Component(Device):
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
         if "with_uuid" in kwargs or name == "Unnamed":
-            name += "_" + self.uid
+            name += f"_{self.uid}"
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
@@ -135,7 +135,6 @@ class Component(Device):
         assert (
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
-        # assert v.references or v.polygons, f"No references or  polygons in {v.name}"
         return v
 
     @property
@@ -203,7 +202,6 @@ class Component(Device):
         self, with_labels: bool = True, font_weight: str = "normal"
     ) -> nx.Graph:
         """plots a netlist graph with networkx
-        https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.nx_pylab.draw_networkx.html
 
         Args:
             with_labels: label nodes
@@ -342,11 +340,7 @@ class Component(Device):
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
 
-        if port_id:
-            origin = self.ports[port_id].position
-        else:
-            origin = (0, 0)
-
+        origin = self.ports[port_id].position if port_id else (0, 0)
         if h_mirror:
             _ref.reflect_h(port_id)
 
@@ -528,9 +522,11 @@ class Component(Device):
 
             paths = []
             for path in D.paths:
-                for layer in zip(path.layers, path.datatypes):
-                    if layer not in layers:
-                        paths.append(path)
+                paths.extend(
+                    path
+                    for layer in zip(path.layers, path.datatypes)
+                    if layer not in layers
+                )
 
             D.paths = paths
 
@@ -911,7 +907,7 @@ class Component(Device):
 
         """
         gdsdir = pathlib.Path(gdsdir)
-        gdspath = gdspath or gdsdir / (self.name + ".gds")
+        gdspath = gdspath or gdsdir / f"{self.name}.gds"
         gdspath = pathlib.Path(gdspath)
         gdsdir = gdspath.parent
         gdsdir.mkdir(exist_ok=True, parents=True)
@@ -937,20 +933,16 @@ class Component(Device):
                     )
                 cells_dict = {cell.name: cell for cell in cells}
                 cells = cells_dict.values()
-            elif on_duplicate_cell is None:
-                pass
-            else:
+            elif on_duplicate_cell is not None:
                 raise ValueError(
                     f"on_duplicate_cell: {on_duplicate_cell!r} not in (None, warn, error, overwrite)"
                 )
 
         all_cells = [self] + list(cells)
 
-        no_name_cells = [
+        if no_name_cells := [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
-        ]
-
-        if no_name_cells:
+        ]:
             warnings.warn(
                 f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
@@ -1223,7 +1215,7 @@ def recurse_structures(
         return {}
 
     if hasattr(component, "name") and any(
-        [component.name.startswith(i) for i in ignore_components_prefix]
+        component.name.startswith(i) for i in ignore_components_prefix
     ):
         return {}
 
@@ -1233,7 +1225,7 @@ def recurse_structures(
             isinstance(reference, ComponentReference)
             and reference.ref_cell.name not in output
         ):
-            output.update(recurse_structures(reference.ref_cell))
+            output |= recurse_structures(reference.ref_cell)
 
     return output
 

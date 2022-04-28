@@ -193,15 +193,12 @@ def add_fiber_single(
     for i, io_row in enumerate(grating_couplers):
         if isinstance(io_row, list):
             for j, io in enumerate(io_row):
-                ports = io.get_ports_list(prefix="vertical")
-                if ports:
+                if ports := io.get_ports_list(prefix="vertical"):
                     port = ports[0]
                     c.add_port(f"{port.name}_{i}{j}", port=port)
-        else:
-            ports = io_row.get_ports_list(prefix="vertical")
-            if ports:
-                port = ports[0]
-                c.add_port(f"{port.name}_{i}", port=port)
+        elif ports := io_row.get_ports_list(prefix="vertical"):
+            port = ports[0]
+            c.add_port(f"{port.name}_{i}", port=port)
 
     if isinstance(grating_coupler, (list, tuple)):
         grating_coupler = grating_coupler[0]
@@ -211,11 +208,7 @@ def add_fiber_single(
         length = c.ysize - 2 * gc_port_to_edge
         wg = c << straight(length=length, cross_section=cross_section, **kwargs)
         wg.rotate(90)
-        wg.xmax = (
-            c.xmin - loopback_xspacing
-            if abs(c.xmin) > abs(loopback_xspacing)
-            else c.xmin - loopback_xspacing
-        )
+        wg.xmax = c.xmin - loopback_xspacing
         wg.ymin = c.ymin + gc_port_to_edge
 
         gci = c << grating_coupler
