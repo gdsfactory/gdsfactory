@@ -63,5 +63,5 @@ settings:
       start_angle: 0.057
   info_version: 2
   module: gdsfactory.components.splitter_tree
-  name: splitter_tree_0096f74d
+  name: splitter_tree_7c3f8531
 version: 0.0.1

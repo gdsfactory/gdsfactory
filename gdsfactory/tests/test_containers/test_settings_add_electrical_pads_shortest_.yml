@@ -64,7 +64,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_f173d462
+        name: mzi_2e88f57c
       version: 0.0.1
   child:
     changed:
@@ -129,7 +129,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_f173d462
+    name: mzi_2e88f57c
   default:
     component: straight
     layer:
@@ -208,7 +208,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_f173d462
+        name: mzi_2e88f57c
       version: 0.0.1
     layer:
     - 31
@@ -225,5 +225,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: mzi_f173d462_add_electr_3c7e8d81
+  name: mzi_2e88f57c_add_electr_3ae80ece
 version: 0.0.1

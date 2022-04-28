@@ -29,60 +29,6 @@ def get_string(value: Any) -> str:
     return s
 
 
-def clean_value_name(value: Any) -> str:
-    """Returns a string representation of an object."""
-    if isinstance(value, pydantic.BaseModel):
-        value = str(value)
-    elif isinstance(value, float) and int(value) == value:
-        value = int(value)
-        value = str(value)
-    elif isinstance(value, (np.int64, np.int32)):
-        value = str(int(value))
-    elif isinstance(value, float):
-        value = float(value)
-        value = str(value)
-    elif isinstance(value, np.ndarray):
-        value = np.round(value, 3)
-        value = get_string(value)
-    elif callable(value) and isinstance(value, functools.partial):
-        sig = inspect.signature(value.func)
-        args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
-        args_as_kwargs.update(**value.keywords)
-        clean_dict(args_as_kwargs)
-        args_as_kwargs.pop("function", None)
-        func = value.func
-        while hasattr(func, "func"):
-            func = func.func
-        value = dict(function=func.__name__, **args_as_kwargs)
-        value = get_string(value)
-    elif hasattr(value, "to_dict"):
-        value = value.to_dict()
-        value = get_string(value)
-    elif isinstance(value, np.float64):
-        value = str(float(value))
-    elif type(value) in [int, float, str, bool]:
-        pass
-    elif callable(value) and isinstance(value, toolz.functoolz.Compose):
-        value = [clean_value_name(value.first)] + [
-            clean_value_name(func) for func in value.funcs
-        ]
-        value = get_string(value)
-    elif callable(value) and hasattr(value, "__name__"):
-        value = value.__name__
-    elif isinstance(value, PathPhidl):
-        value = value.hash_geometry()
-    elif isinstance(value, pathlib.Path):
-        value = value.stem
-    elif isinstance(value, dict):
-        d = copy.deepcopy(value)
-        for k, v in d.items():
-            d[k] = clean_dict(v) if isinstance(v, dict) else clean_value_name(v)
-        value = get_string(value)
-    else:
-        value = get_string(value)
-    return value
-
-
 def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
 
@@ -147,6 +93,11 @@ def clean_value_json(value: Any) -> Any:
     #     value = value.get_name()
     # else:
     #     value = str(value)
+
+
+def clean_value_name(value: Any) -> str:
+    """Returns a string representation of an object."""
+    return str(clean_value_json(value))
 
 
 if __name__ == "__main__":
