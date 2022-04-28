@@ -269,6 +269,10 @@ class ComponentReference(DeviceReference):
         new_orientation = orientation
 
         if orientation is None:
+            if origin is not None:
+                new_point = new_point + np.array(origin)
+            if x_reflection:
+                new_point[1] = -new_point[1]
             return new_point, new_orientation
 
         if x_reflection:
