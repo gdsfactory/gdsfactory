@@ -95,12 +95,22 @@ def get_netlist(
         reference_name = get_instance_name(
             component, reference, layer_label=layer_label
         )
-        settings = c.settings.full if full_settings else c.settings.changed
 
-        instances[reference_name] = dict(
-            component=getattr(c.settings, "function_name", c.name),
-            settings=settings,
-        )
+        instance = {}
+
+        if c.info != {}:
+            instance.update(component=c.name, info=c.info)
+
+        # Prefer name from settings over c.name
+        if c.settings != {}:
+            settings = c.settings.full if full_settings else c.settings.changed
+
+            instance.update(
+                component=getattr(c.settings, "function_name", c.name),
+                settings=settings,
+            )
+
+        instances[reference_name] = instance
 
         placements[reference_name] = dict(
             x=x,
@@ -207,7 +217,7 @@ def get_netlist_recursive(
         for ref in component.references:
             rcell = ref.parent
             grandchildren = get_netlist_recursive(rcell)
-            all_netlists.update(grandchildren)
+            all_netlists |= grandchildren
             if ref.ref_cell.references:
                 inst_name = get_instance_name(component, ref)
                 netlist["instances"][inst_name] = {
