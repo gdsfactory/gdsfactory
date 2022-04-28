@@ -54,7 +54,7 @@ def pad(
         name="pad",
         port_type="vertical_dc",
         layer=layer,
-        midpoint=[0, 0],
+        midpoint=(0, 0),
         orientation=port_orientation,
         width=width,
     )

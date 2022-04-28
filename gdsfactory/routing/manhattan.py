@@ -220,7 +220,6 @@ def reverse_transform(
 
     # Translate
     pts = pts - np.array(translation)
-
     return pts
 
 
@@ -253,131 +252,155 @@ def _generate_route_manhattan_points(
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
-    bend_orientation = -angle + 180
-    transform_params = (-p_output, bend_orientation, False)
+    if output_port.orientation is None and input_port.orientation is None:
+        x0, y0 = p_input
+        x2, y2 = p_output
+        p1 = (x0, y2)
+        points = np.array([p_input, p1, p_output])
+    elif input_port.orientation is None:
+        raise ValueError("input_port orientation is None")
 
-    _pts_io = transform(pts_io, *transform_params)
-    p = _pts_io[0, :]
-    _p_output = _pts_io[1, :]
+    elif output_port.orientation is None:
+        raise ValueError("output_port orientation is None")
 
-    a = int(input_port.orientation + bend_orientation) % 360
-    s = start_straight_length
-    count = 0
-    points = [p]
+    else:
+        bend_orientation = -angle + 180
+        transform_params = (-p_output, bend_orientation, False)
 
-    while True:
-        count += 1
-        if count > 40:
-            raise AttributeError(
-                f"Too many iterations for in {input_port} -> out {output_port}"
-            )
-        # not ready for final bend: go over possibilities
-        sigp = np.sign(p[1])
-        if not sigp:
-            sigp = 1
-        if a % 360 == 0:
-            # same directions
-            if abs(p[1]) < threshold and p[0] <= threshold:
-                # Reach the output!
-                points += [_p_output]
-                break
-            elif (
-                p[0] + (bs1 + bs2 + end_straight_length + s) < threshold
-                and abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold
-            ):
-                # sufficient space for S-bend
-                p = (-end_straight_length - bs2, p[1])
-                a = -sigp * 90
-            elif (
-                p[0]
-                + (2 * bs1 + 2 * bs2 + end_straight_length + s + min_straight_length)
-                < threshold
-            ):
-                # sufficient distance to move aside
-                p = (p[0] + s + bs1, p[1])
-                a = -sigp * 90
-            elif abs(p[1]) - (2 * bs1 + 2 * bs2 + 2 * min_straight_length) > -threshold:
-                p = (p[0] + s + bs1, p[1])
-                a = -sigp * 90
-            else:
-                p = (p[0] + s + bs1, p[1])
-                a = sigp * 90
+        _pts_io = transform(pts_io, *transform_params)
+        p = _pts_io[0, :]
+        _p_output = _pts_io[1, :]
 
-        elif a == 180:
-            # opposite directions
-            if abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold:
-                # far enough: U-turn
-                p = (min(p[0] - s, -end_straight_length) - bs2, p[1])
-                a = -sigp * 90
-            else:
-                # more complex turn
-                p = (
-                    min(
-                        p[0] - s - bs1,
-                        -end_straight_length - min_straight_length - 2 * bs1 - bs2,
-                    ),
-                    p[1],
+        a = int(input_port.orientation + bend_orientation) % 360
+        s = start_straight_length
+        count = 0
+        points = [p]
+
+        while True:
+            count += 1
+            if count > 40:
+                raise AttributeError(
+                    f"Too many iterations for in {input_port} -> out {output_port}"
                 )
-                a = -sigp * 90
-        elif a % 180 == 90:
-            siga = -np.sign((a % 360) - 180)
-            if not siga:
-                siga = 1
+            # not ready for final bend: go over possibilities
+            sigp = np.sign(p[1])
+            if not sigp:
+                sigp = 1
+            if a % 360 == 0:
+                # same directions
+                if abs(p[1]) < threshold and p[0] <= threshold:
+                    # Reach the output!
+                    points += [_p_output]
+                    break
+                elif (
+                    p[0] + (bs1 + bs2 + end_straight_length + s) < threshold
+                    and abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold
+                ):
+                    # sufficient space for S-bend
+                    p = (-end_straight_length - bs2, p[1])
+                    a = -sigp * 90
+                elif (
+                    p[0]
+                    + (
+                        2 * bs1
+                        + 2 * bs2
+                        + end_straight_length
+                        + s
+                        + min_straight_length
+                    )
+                    < threshold
+                ):
+                    # sufficient distance to move aside
+                    p = (p[0] + s + bs1, p[1])
+                    a = -sigp * 90
+                elif (
+                    abs(p[1]) - (2 * bs1 + 2 * bs2 + 2 * min_straight_length)
+                    > -threshold
+                ):
+                    p = (p[0] + s + bs1, p[1])
+                    a = -sigp * 90
+                else:
+                    p = (p[0] + s + bs1, p[1])
+                    a = sigp * 90
 
-            if ((-p[1] * siga) - (s + bs2) > -threshold) and (
-                -p[0] - (end_straight_length + bs2)
-            ) > -threshold:
-                # simple case: one right angle to the end
-                p = (p[0], 0)
-                a = 0
-            elif (p[1] * siga) <= threshold and p[0] + (
-                end_straight_length + bs1
-            ) > -threshold:
-                # go to the west, and then turn upward
-                # this will sometimes result in too sharp bends, but there is no
-                # avoiding this!
+            elif a == 180:
+                # opposite directions
+                if abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold:
+                    # far enough: U-turn
+                    p = (min(p[0] - s, -end_straight_length) - bs2, p[1])
+                    a = -sigp * 90
+                else:
+                    # more complex turn
+                    p = (
+                        min(
+                            p[0] - s - bs1,
+                            -end_straight_length - min_straight_length - 2 * bs1 - bs2,
+                        ),
+                        p[1],
+                    )
+                    a = -sigp * 90
+            elif a % 180 == 90:
+                siga = -np.sign((a % 360) - 180)
+                if not siga:
+                    siga = 1
 
-                _y = min(
-                    max(min(min_straight_length, 0.5 * abs(p[1])), abs(p[1]) - s - bs1),
-                    bs1 + bs2 + min_straight_length,
-                )
+                if ((-p[1] * siga) - (s + bs2) > -threshold) and (
+                    -p[0] - (end_straight_length + bs2)
+                ) > -threshold:
+                    # simple case: one right angle to the end
+                    p = (p[0], 0)
+                    a = 0
+                elif (p[1] * siga) <= threshold and p[0] + (
+                    end_straight_length + bs1
+                ) > -threshold:
+                    # go to the west, and then turn upward
+                    # this will sometimes result in too sharp bends, but there is no
+                    # avoiding this!
 
-                p = (p[0], sigp * _y)
-                if count == 1:  # take care of the start_straight case
-                    p = (p[0], -sigp * max(start_straight_length, _y))
+                    _y = min(
+                        max(
+                            min(min_straight_length, 0.5 * abs(p[1])),
+                            abs(p[1]) - s - bs1,
+                        ),
+                        bs1 + bs2 + min_straight_length,
+                    )
 
-                a = 180
-            elif (
-                -p[0] - (end_straight_length + 2 * bs1 + bs2 + min_straight_length)
-                > -threshold
-            ):
-                # go sufficiently up, and then east
-                p = (
-                    p[0],
-                    siga * max(p[1] * siga + s + bs1, bs1 + bs2 + min_straight_length),
-                )
-                a = 0
+                    p = (p[0], sigp * _y)
+                    if count == 1:  # take care of the start_straight case
+                        p = (p[0], -sigp * max(start_straight_length, _y))
 
-            elif -p[0] - (end_straight_length + bs2) > -threshold:
-                # make vertical S-bend to get sufficient room for movement
-                points += [(p[0], p[1] + siga * (bs2 + s))]
-                p = (
-                    min(
-                        p[0] - bs1 + bs2 + min_straight_length,
-                        -2 * bs1 - bs2 - end_straight_length - min_straight_length,
-                    ),
-                    p[1] + siga * (bs2 + s),
-                )
-                # `a` remains the same
-            else:
-                # no viable solution for this case. May result in crossed straights
-                p = (p[0], p[1] + sigp * (s + bs1))
-                a = 180
-        points += [p]
-        s = min_straight_length + bs1
+                    a = 180
+                elif (
+                    -p[0] - (end_straight_length + 2 * bs1 + bs2 + min_straight_length)
+                    > -threshold
+                ):
+                    # go sufficiently up, and then east
+                    p = (
+                        p[0],
+                        siga
+                        * max(p[1] * siga + s + bs1, bs1 + bs2 + min_straight_length),
+                    )
+                    a = 0
 
-    points = np.stack([np.array(_p) for _p in points], axis=0)
-    points = reverse_transform(points, *transform_params)
+                elif -p[0] - (end_straight_length + bs2) > -threshold:
+                    # make vertical S-bend to get sufficient room for movement
+                    points += [(p[0], p[1] + siga * (bs2 + s))]
+                    p = (
+                        min(
+                            p[0] - bs1 + bs2 + min_straight_length,
+                            -2 * bs1 - bs2 - end_straight_length - min_straight_length,
+                        ),
+                        p[1] + siga * (bs2 + s),
+                    )
+                    # `a` remains the same
+                else:
+                    # no viable solution for this case. May result in crossed straights
+                    p = (p[0], p[1] + sigp * (s + bs1))
+                    a = 180
+            points += [p]
+            s = min_straight_length + bs1
+        points = np.stack([np.array(_p) for _p in points], axis=0)
+        points = reverse_transform(points, *transform_params)
     return points
 
 
