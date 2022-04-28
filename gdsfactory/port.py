@@ -87,7 +87,7 @@ class Port(PortPhidl):
         name: str,
         midpoint: Tuple[float, float],
         width: float,
-        orientation: float,
+        orientation: Optional[float],
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
         parent: Optional[Component] = None,
