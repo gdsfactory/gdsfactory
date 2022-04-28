@@ -8,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.difftest import difftest
-from gdsfactory.types import Anchor, ComponentFactory, ComponentOrFactory, Float2
+from gdsfactory.types import Anchor, ComponentOrFactory, ComponentSpec, Float2
 
 
 @cell
@@ -121,7 +121,7 @@ def grid_with_text(
     text_prefix: str = "",
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
-    text: Optional[ComponentFactory] = text_rectangular,
+    text: Optional[ComponentSpec] = text_rectangular,
     **kwargs,
 ) -> Component:
     """Returns Grid with text labels

@@ -7,7 +7,7 @@ from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentFactory, ComponentOrFactory
+from gdsfactory.types import ComponentOrFactory, ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float64:
@@ -23,7 +23,7 @@ def cutback_bend(
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 5,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Deprecated! use cutback_bend90 instead,
@@ -83,7 +83,7 @@ def cutback_bend90(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 5,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Returns bend90 loss.
@@ -139,7 +139,7 @@ def staircase(
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Returns staircase.
@@ -183,7 +183,7 @@ def cutback_bend180(
     rows: int = 6,
     columns: int = 6,
     spacing: int = 3,
-    straight: ComponentFactory = straight_function,
+    straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Return cutback to measure u bend loss.

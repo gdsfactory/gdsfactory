@@ -3,19 +3,19 @@
 import gdsfactory as gf
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.types import ComponentFactory, Float2, Layer
+from gdsfactory.types import ComponentSpec, Float2, Layer
 
 rectangle_m3 = gf.partial(rectangle, layer=gf.LAYER.M3)
 
 
 @gf.cell
 def pad_gsg_short(
-    via_stack: ComponentFactory = rectangle_m3,
+    via_stack: ComponentSpec = rectangle_m3,
     size: Float2 = (22, 7),
     layer_metal: Layer = gf.LAYER.M3,
     metal_spacing: float = 5.0,
     short: bool = True,
-    pad: ComponentFactory = pad_function,
+    pad: ComponentSpec = pad_function,
     pad_spacing: float = 150,
 ) -> gf.Component:
     """Returns high speed GSG pads for calibrating the RF probes.

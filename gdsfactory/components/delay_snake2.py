@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
 from gdsfactory.cross_section import strip
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -14,7 +14,7 @@ def delay_snake2(
     length: float = 1600.0,
     length0: float = 0.0,
     n: int = 2,
-    bend180: ComponentFactory = bend_euler180,
+    bend180: ComponentSpec = bend_euler180,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:

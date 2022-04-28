@@ -5,7 +5,7 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentFactory, Layer
+from gdsfactory.types import ComponentSpec, Layer
 
 
 @gf.cell
@@ -16,7 +16,7 @@ def spiral(
     parity: int = 1,
     port: Tuple[int, int] = (0, 0),
     direction: str = "WEST",
-    waveguide_template: ComponentFactory = strip,
+    waveguide_template: ComponentSpec = strip,
     layer: Layer = gf.LAYER.WG,
     layer_cladding: Layer = gf.LAYER.WGCLAD,
     cladding_offset: float = 3.0,

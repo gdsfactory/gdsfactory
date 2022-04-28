@@ -3,7 +3,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.triangle import triangle
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Float2, Layer
+from gdsfactory.types import ComponentSpec, Float2, Layer
 
 triangle_metal = gf.partial(triangle, layer=LAYER.M3, xtop=2)
 
@@ -11,7 +11,7 @@ triangle_metal = gf.partial(triangle, layer=LAYER.M3, xtop=2)
 @gf.cell
 def dicing_lane(
     size: Float2 = (50, 300),
-    marker: ComponentFactory = triangle_metal,
+    marker: ComponentSpec = triangle_metal,
     layer_dicing: Layer = (100, 0),
 ) -> Component:
     """Dicing lane with triangular markers on both sides.

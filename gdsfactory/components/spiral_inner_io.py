@@ -10,7 +10,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 def get_bend_port_distances(bend: Component) -> Tuple[float, float]:
@@ -27,9 +27,9 @@ def spiral_inner_io(
     y_straight_inner_bottom: float = 10.0,
     grating_spacing: float = 127.0,
     waveguide_spacing: float = 3.0,
-    bend90_function: ComponentFactory = bend_euler,
-    bend180_function: ComponentFactory = bend_euler180,
-    straight: ComponentFactory = straight_function,
+    bend90_function: ComponentSpec = bend_euler,
+    bend180_function: ComponentSpec = bend_euler180,
+    straight: ComponentSpec = straight_function,
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = strip,
     cross_section_bend: Optional[CrossSectionSpec] = None,
@@ -227,7 +227,7 @@ def spiral_inner_io_fiber_single(
 
 
 def get_straight_length(
-    length: float, spiral_function: ComponentFactory, **kwargs
+    length: float, spiral_function: ComponentSpec, **kwargs
 ) -> float:
     """Returns y_spiral to achieve a particular spiral length"""
     x0 = 50

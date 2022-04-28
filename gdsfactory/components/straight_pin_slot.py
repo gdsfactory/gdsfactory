@@ -7,22 +7,22 @@ from gdsfactory.components.taper import taper_strip_to_ridge
 from gdsfactory.components.via_stack import via_stack_m1_m3
 from gdsfactory.components.via_stack_slot import via_stack_slot_slab_m1
 from gdsfactory.cross_section import pin, pn
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def straight_pin_slot(
     length: float = 500.0,
     cross_section: CrossSectionSpec = pin,
-    via_stack: Optional[ComponentFactory] = via_stack_m1_m3,
+    via_stack: Optional[ComponentSpec] = via_stack_m1_m3,
     via_stack_width: float = 10.0,
-    via_stack_slab: Optional[ComponentFactory] = via_stack_slot_slab_m1,
-    via_stack_slab_top: Optional[ComponentFactory] = None,
-    via_stack_slab_bot: Optional[ComponentFactory] = None,
+    via_stack_slab: Optional[ComponentSpec] = via_stack_slot_slab_m1,
+    via_stack_slab_top: Optional[ComponentSpec] = None,
+    via_stack_slab_bot: Optional[ComponentSpec] = None,
     via_stack_slab_width: Optional[float] = None,
     via_stack_spacing: float = 3.0,
     via_stack_slab_spacing: float = 2.0,
-    taper: Optional[ComponentFactory] = taper_strip_to_ridge,
+    taper: Optional[ComponentSpec] = taper_strip_to_ridge,
     **kwargs,
 ) -> Component:
     """Returns a PIN straight waveguide with slotted via
