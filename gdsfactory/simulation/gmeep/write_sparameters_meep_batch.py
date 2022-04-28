@@ -177,10 +177,7 @@ def write_sparameters_meep_batch(
         num_pool_jobs = len(filepaths)
         while not done:
             # Check if all jobs finished
-            jobs_done = 0
-            for filepath in filepaths:
-                if filepath.exists():
-                    jobs_done += 1
+            jobs_done = sum(1 for filepath in filepaths if filepath.exists())
             if jobs_done == num_pool_jobs:
                 done = True
             else:

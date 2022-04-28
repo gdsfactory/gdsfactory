@@ -146,7 +146,7 @@ def get_port_2Dx_eigenmode(
                 mp.Vector3(center.x, yy[i, j], zz[i, j]), mp.Hz
             )
 
-    mode = Mode(
+    return Mode(
         mode_number=band_num,
         neff=eigenmode.k.x / fsrc,
         wavelength=1 / fsrc,
@@ -157,7 +157,6 @@ def get_port_2Dx_eigenmode(
         y=y,
         z=z,
     )
-    return mode
 
 
 if __name__ == "__main__":

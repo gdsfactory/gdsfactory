@@ -388,7 +388,7 @@ class ComponentReference(DeviceReference):
         if isinstance(center, Port):
             center = center.midpoint
         self.rotation += angle
-        self.rotation = self.rotation % 360
+        self.rotation %= 360
         self.origin = _rotate_points(self.origin, angle, center)
         self._bb_valid = False
         return self
