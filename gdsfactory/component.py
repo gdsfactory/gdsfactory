@@ -95,7 +95,7 @@ class Component(Device):
         self.aliases = {}
         self.uid = str(uuid.uuid4())[:8]
         if "with_uuid" in kwargs or name == "Unnamed":
-            name += "_" + self.uid
+            name += f"_{self.uid}"
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
@@ -940,11 +940,9 @@ class Component(Device):
 
         all_cells = [self] + list(cells)
 
-        no_name_cells = [
+        if no_name_cells := [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
-        ]
-
-        if no_name_cells:
+        ]:
             warnings.warn(
                 f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
