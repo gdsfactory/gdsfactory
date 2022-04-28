@@ -3,6 +3,7 @@ dash
 dash-bootstrap-components>=0.8.2
 holoviews
 ipympl
+klayout
 pyglet
 pyyaml
 simphony==0.3.0
