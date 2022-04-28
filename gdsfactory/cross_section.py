@@ -733,7 +733,6 @@ def rib_heater_doped_via_stack(
     """
     if with_bot_heater and with_top_heater:
         slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
-        slab_offset = slab_offset
     elif with_top_heater:
         slab_width = width + heater_gap + heater_width + slab_gap
         slab_offset = slab_offset - slab_width / 2

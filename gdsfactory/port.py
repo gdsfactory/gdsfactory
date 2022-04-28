@@ -109,9 +109,7 @@ class Port(PortPhidl):
         if cross_section is None and layer is None:
             raise ValueError("You need Port to define cross_section or layer")
 
-        if layer:
-            layer = layer
-        elif cross_section:
+        if layer is None and cross_section is not None:
             layer = cross_section.layer
 
         if self.width < 0:

@@ -211,11 +211,7 @@ def add_fiber_single(
         length = c.ysize - 2 * gc_port_to_edge
         wg = c << straight(length=length, cross_section=cross_section, **kwargs)
         wg.rotate(90)
-        wg.xmax = (
-            c.xmin - loopback_xspacing
-            if abs(c.xmin) > abs(loopback_xspacing)
-            else c.xmin - loopback_xspacing
-        )
+        wg.xmax = c.xmin - loopback_xspacing
         wg.ymin = c.ymin + gc_port_to_edge
 
         gci = c << grating_coupler

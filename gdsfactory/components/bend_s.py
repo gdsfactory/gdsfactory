@@ -27,12 +27,10 @@ def bend_s(
         kwargs: cross_section settings
 
     """
+    c = Component()
     dx, dy = size
     x = gf.get_cross_section(cross_section, **kwargs)
     width = x.width
-    layer = x.layer
-
-    c = Component()
 
     for name, section in x.aliases.items():
         width = section.width

@@ -41,7 +41,7 @@ settings:
     - 49
     - 0
     padding: 10
-    street_length: 1000
+    street_length: null
     street_width: 100
     text_anchor: sw
     text_size: 100
@@ -57,7 +57,7 @@ settings:
     - 49
     - 0
     padding: 10
-    street_length: 1000
+    street_length: null
     street_width: 100
     text_anchor: sw
     text_size: 100
