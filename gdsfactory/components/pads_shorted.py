@@ -5,12 +5,12 @@ from gdsfactory.component import Component
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def pads_shorted(
-    pad: ComponentFactory = pad_function,
+    pad: ComponentSpec = pad_function,
     columns: int = 8,
     pad_spacing: float = 150.0,
     layer_metal: Tuple[int, int] = LAYER.M3,

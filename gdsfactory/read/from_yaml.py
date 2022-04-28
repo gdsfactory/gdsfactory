@@ -498,7 +498,7 @@ def from_yaml(
             ...
         instances:
             name:
-                component: (ComponentFactory)
+                component: (ComponentSpec)
                 settings (Optional)
                     length: 10
                     ...

@@ -11,7 +11,7 @@ from gdsfactory.routing.manhattan import (
     _is_vertical,
     remove_flat_angles,
 )
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 def path_length_matched_points(
@@ -20,7 +20,7 @@ def path_length_matched_points(
     modify_segment_i: int = -2,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> List[ndarray]:
@@ -145,7 +145,7 @@ def path_length_matched_points_modify_segment(
 def path_length_matched_points_add_waypoints(
     list_of_waypoints: List[ndarray],
     modify_segment_i: int = -2,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,

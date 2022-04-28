@@ -19,8 +19,7 @@ from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import (
     Anchor,
     Axis,
-    ComponentFactory,
-    ComponentOrFactory,
+    ComponentSpec,
     Float2,
     Layer,
     List,
@@ -39,11 +38,11 @@ def add_port(component: Component, **kwargs) -> Component:
 
 @cell
 def add_text(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     text: str = "",
     text_offset: Float2 = (0, 0),
     text_anchor: Anchor = "cc",
-    text_factory: ComponentFactory = text_rectangular_multi_layer,
+    text_factory: ComponentSpec = text_rectangular_multi_layer,
 ) -> Component:
     """Return component inside a new component with text geometry.
 
@@ -54,7 +53,9 @@ def add_text(
         text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
         text_factory: function to add text labels.
     """
-    component = component() if callable(component) else component
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
@@ -68,7 +69,7 @@ def add_text(
 
 
 def add_texts(
-    components: List[ComponentOrFactory],
+    components: List[ComponentSpec],
     prefix: str = "",
     index0: int = 0,
     **kwargs,
@@ -93,7 +94,7 @@ def add_texts(
 
 @cell
 def rotate(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     angle: float = 90,
 ) -> Component:
     """Return rotated component inside a new component.
@@ -105,7 +106,9 @@ def rotate(
         component:
         angle: in degrees
     """
-    component = component() if callable(component) else component
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)

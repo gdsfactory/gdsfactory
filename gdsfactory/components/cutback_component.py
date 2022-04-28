@@ -5,19 +5,19 @@ from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper
 from gdsfactory.components.taper_from_csv import taper_0p5_to_3_l36
-from gdsfactory.types import ComponentFactory, Optional
+from gdsfactory.types import ComponentSpec, Optional
 
 
 @gf.cell
 def cutback_component(
-    component: ComponentFactory = taper_0p5_to_3_l36,
+    component: ComponentSpec = taper_0p5_to_3_l36,
     cols: int = 4,
     rows: int = 5,
     radius: float = 5.0,
     port1: str = "o1",
     port2: str = "o2",
-    bend180: ComponentFactory = bend_euler180,
-    straight: ComponentFactory = straight_function,
+    bend180: ComponentSpec = bend_euler180,
+    straight: ComponentSpec = straight_function,
     mirror: bool = False,
     straight_length: Optional[float] = None,
 ) -> Component:

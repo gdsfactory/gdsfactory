@@ -6,7 +6,7 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -17,9 +17,9 @@ def delay_snake(
     L0: float = 5.0,
     taper_length: float = 10.0,
     n: int = 2,
-    taper: ComponentFactory = taper_function,
-    bend: ComponentFactory = bend_euler,
-    straight: ComponentFactory = straight_function,
+    taper: ComponentSpec = taper_function,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Snake input facing west

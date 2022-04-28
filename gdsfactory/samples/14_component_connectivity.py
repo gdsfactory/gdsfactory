@@ -8,7 +8,7 @@ from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
-from gdsfactory.types import ComponentFactory, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -17,9 +17,9 @@ def ring_single_sample(
     radius: float = 10.0,
     length_x: float = 4.0,
     length_y: float = 0.010,
-    coupler_ring: ComponentFactory = coupler_ring_function,
-    straight: ComponentFactory = straight_function,
-    bend: Optional[ComponentFactory] = None,
+    coupler_ring: ComponentSpec = coupler_ring_function,
+    straight: ComponentSpec = straight_function,
+    bend: Optional[ComponentSpec] = None,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
