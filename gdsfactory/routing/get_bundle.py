@@ -372,8 +372,6 @@ def _get_bundle_waypoints(
             x2 = get_port_x(ports2[i])
             y = get_port_y(ports2[i])
 
-        dx = abs(x2 - x1)
-
         if are_decoupled(x2, x2_prev, x1, x1_prev, sep=separation):
             # If this metal track does not impact the previous one, then start a new
             # group.
@@ -412,32 +410,18 @@ def _get_bundle_waypoints(
             x1 = get_port_x(ports1[i])
             x2 = get_port_x(ports2[i])
 
-        dx = abs(x2 - x1)
-
         # If both ports are aligned, we just need a straight line
-        if dx < tol:
-            elems += [
-                generate_manhattan_waypoints(
-                    ports1[i],
-                    ports2[i],
-                    start_straight_length=start_straight_length,
-                    end_straight_length=end_straights[i],
-                    cross_section=cross_section,
-                    **kwargs,
-                )
-            ]
+        elems += [
+            generate_manhattan_waypoints(
+                ports1[i],
+                ports2[i],
+                start_straight_length=start_straight_length,
+                end_straight_length=end_straights[i],
+                cross_section=cross_section,
+                **kwargs,
+            )
+        ]
 
-        else:
-            elems += [
-                generate_manhattan_waypoints(
-                    ports1[i],
-                    ports2[i],
-                    start_straight_length=start_straight_length,
-                    end_straight_length=end_straights[i],
-                    cross_section=cross_section,
-                    **kwargs,
-                )
-            ]
     return elems
 
 

@@ -1,16 +1,9 @@
-# from gdsfactory.types import ComponentSpecDict
-# from gdsfactory import types
-# type_aliases = autodoc_type_aliases = {type: str(type) for type in dir(types)}
-# autodoc_type_aliases = {ComponentSpecDict: "ComponentSpecDict"}
-
 project = "gdsfactory"
 release = "5.3.2"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
 html_theme = "furo"
-# html_theme = "sphinx_rtd_theme"
-
 source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
@@ -44,7 +37,6 @@ exclude_patterns = [
     "**.ipynb_checkpoints",
     "build",
     "extra",
-    # "notebooks/plugins/*",
 ]
 
 napoleon_use_param = True

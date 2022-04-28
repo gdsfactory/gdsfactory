@@ -232,7 +232,7 @@ def write_sparameters_grating_mpi(
     Returns the subprocess Popen object
 
     Args
-        instances (Dict): Dict. The keys must be parameters names of write_sparameters_meep, and entries the values
+        instances (Dict): The keys must be parameters names of write_sparameters_meep, and entries the values
         cores (int): number of processors
         temp_dir (FilePath): temporary directory to hold simulation files
         temp_file_str (str): names of temporary files in temp_dir
@@ -283,20 +283,20 @@ def write_sparameters_grating_mpi(
 
 
 def write_sparameters_grating_batch(
-    instances: Tuple,
+    instances,
     cores_per_instance: int = 2,
     total_cores: int = 4,
     temp_dir: Optional[str] = None,
     delete_temp_files: bool = False,
     verbosity: bool = False,
 ) -> None:
-    """
-    Given a tuple of write_sparameters_meep keyword arguments (the "instances"), launches parallel simulations
-    Each simulation is assigned "cores_per_instance" cores
-    A total of "total_cores" is assumed, if cores_per_instance * len(instances) > total_cores then the overflow will be performed serially
+    """Given a tuple of write_sparameters_meep keyword arguments (instances)
+    launches parallel simulations each simulation is assigned "cores_per_instance" cores
+    A total of "total_cores" is assumed, if cores_per_instance * len(instances) > total_cores
+    then the overflow will be performed serially
 
     Args
-        instances ([Dict]): list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values
+        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values
         cores_per_instance (int): number of processors to assign to each instance
         total_cores (int): total number of cores to use
         temp_dir (FilePath): temporary directory to hold simulation files
@@ -337,10 +337,9 @@ def write_sparameters_grating_batch(
             instance = instances[i]
 
             process = write_sparameters_grating_batch(
-                instance=instance,
-                cores=cores_per_instance,
+                instances=instance,
+                cores_per_instance=cores_per_instance,
                 temp_dir=temp_dir,
-                temp_file_str=f"write_sparameters_grating_batch_{i}",
                 verbosity=verbosity,
             )
             processes.append(process)

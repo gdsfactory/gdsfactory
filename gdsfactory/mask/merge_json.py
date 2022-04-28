@@ -39,5 +39,7 @@ def merge_json(
 if __name__ == "__main__":
     from pprint import pprint
 
-    d = merge_json()
+    from gdsfactory.config import cwd
+
+    d = merge_json(doe_directory=cwd)
     pprint(d)

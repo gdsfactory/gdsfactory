@@ -47,7 +47,7 @@ def text(
                     label.add_polygon([xpts + xoffset, ypts + yoffset], layer=layer)
                 xoffset += (_width[ascii_val] + _indent[ascii_val]) * scaling
             else:
-                ValueError(f"[PHIDL] text(): No character with ascii value {ascii_val}")
+                raise ValueError(f"No character with ascii value {ascii_val!r}")
         ref = t.add_ref(label)
         t.absorb(ref)
         yoffset -= 1500 * scaling
