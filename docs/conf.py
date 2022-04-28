@@ -4,7 +4,7 @@
 # autodoc_type_aliases = {ComponentSpecDict: "ComponentSpecDict"}
 
 project = "gdsfactory"
-release = "5.2.9"
+release = "5.3.0"
 copyright = "2019, PsiQ"
 author = "PsiQ"
 
