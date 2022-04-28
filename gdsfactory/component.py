@@ -940,9 +940,11 @@ class Component(Device):
 
         all_cells = [self] + list(cells)
 
-        if no_name_cells := [
+        no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
-        ]:
+        ]
+
+        if no_name_cells:
             warnings.warn(
                 f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
