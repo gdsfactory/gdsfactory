@@ -3,22 +3,19 @@ from typing import Dict, List, Optional
 import numpy as np
 
 import gdsfactory as gf
-from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentOrFactory, CrossSectionSpec, Route
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Route
 
 
 def get_route_from_steps(
     port1: Port,
     port2: Port,
     steps: Optional[List[Dict[str, float]]] = None,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentOrFactory = straight_function,
-    taper: Optional[ComponentOrFactory] = taper_function,
+    bend: ComponentSpec = "bend_euler",
+    straight: ComponentSpec = "straight",
+    taper: Optional[ComponentSpec] = "taper",
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Route:
@@ -119,6 +116,11 @@ def get_route_from_steps(
     )
 
 
+get_route_from_steps_electrical = gf.partial(
+    get_route_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
+)
+
+
 @gf.cell
 def test_route_from_steps() -> gf.Component:
     c = gf.Component("get_route_from_steps_sample")
@@ -168,24 +170,40 @@ def test_route_from_steps() -> gf.Component:
 
 if __name__ == "__main__":
     # c = test_route_from_steps()
-    c = gf.Component("get_route_from_steps_sample")
-    w = gf.components.straight()
-    left = c << w
-    right = c << w
-    right.move((100, 80))
+    # c = gf.Component("get_route_from_steps_sample")
+    # w = gf.components.straight()
+    # left = c << w
+    # right = c << w
+    # right.move((100, 80))
 
-    p1 = left.ports["o2"]
-    p2 = right.ports["o2"]
+    # p1 = left.ports["o2"]
+    # p2 = right.ports["o2"]
 
-    route = get_route_from_steps(
-        port1=p2,
-        port2=p1,
-        # steps=[
-        #     {"x": 20, "y": 0},
-        #     {"x": 20, "y": 20},
-        #     {"x": 120, "y": 20},
-        #     {"x": 120, "y": 80},
-        # ],
+    # route = get_route_from_steps(
+    #     port1=p2,
+    #     port2=p1,
+    #     steps=[
+    #         {"x": 20, "y": 0},
+    #         {"x": 20, "y": 20},
+    #         {"x": 120, "y": 20},
+    #         {"x": 120, "y": 80},
+    #     ],
+    # )
+    # c.add(route.references)
+    # c.show()
+
+    c = gf.Component("pads_route_from_steps")
+    pt = c << gf.components.pad_array(orientation=270, columns=3)
+    pb = c << gf.components.pad_array(orientation=90, columns=3)
+    pt.move((100, 200))
+    route = gf.routing.get_route_from_steps_electrical(
+        pb.ports["e11"],
+        pt.ports["e11"],
+        steps=[
+            {"y": 200},
+        ],
+        # cross_section=gf.cross_section.metal3,
+        # bend=gf.components.wire_corner,
     )
     c.add(route.references)
     c.show()
