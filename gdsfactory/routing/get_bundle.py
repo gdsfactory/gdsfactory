@@ -94,10 +94,14 @@ def get_bundle(
         ports2 = list(ports2.values())
 
     for p in ports1:
-        p.angle = int(p.angle) % 360
+        p.orientation = (
+            int(p.orientation) % 360 if p.orientation is not None else p.orientation
+        )
 
     for p in ports2:
-        p.angle = int(p.angle) % 360
+        p.orientation = (
+            int(p.orientation) % 360 if p.orientation is not None else p.orientation
+        )
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
@@ -108,7 +112,7 @@ def get_bundle(
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    start_port_angles = set([p.angle for p in ports1])
+    start_port_angles = set([p.orientation for p in ports1])
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
@@ -122,8 +126,8 @@ def get_bundle(
     }
     params.update(**kwargs)
 
-    start_angle = ports1[0].angle
-    end_angle = ports2[0].angle
+    start_angle = ports1[0].orientation
+    end_angle = ports2[0].orientation
 
     start_axis = "X" if start_angle in [0, 180] else "Y"
     end_axis = "X" if end_angle in [0, 180] else "Y"
@@ -311,7 +315,7 @@ def _get_bundle_waypoints(
         print(f"WARNING! ports1={ports1} or ports2={ports2} are empty")
         return []
 
-    if ports1[0].angle in [0, 180]:
+    if ports1[0].orientation in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
@@ -438,7 +442,7 @@ def _get_bundle_waypoints(
 
 
 def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
-    if ports1[0].angle in [0, 180]:
+    if ports1[0].orientation in [0, 180]:
         a1 = [p.y for p in ports1]
         a2 = [p.y for p in ports2]
     else:
@@ -466,7 +470,7 @@ def get_min_spacing(
     Returns the minimum amount of spacing required to create a given fanout"
     """
 
-    if ports1[0].angle in [0, 180]:
+    if ports1[0].orientation in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
@@ -562,7 +566,7 @@ def get_bundle_same_axis_no_grouping(
 
     """
 
-    if ports1[0].angle in [0, 180]:
+    if ports1[0].orientation in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
@@ -670,11 +674,25 @@ if __name__ == "__main__":
 
     # c = test_connect_corner(None, check=False)
     # c = test_get_bundle_small()
-    c = test_get_bundle_small()
+    # c = test_get_bundle_small()
     # c = test_facing_ports()
     # c = test_get_bundle_u_indirect()
     # c = test_get_bundle_udirect()
     # c = test_connect_corner()
+
+    import gdsfactory as gf
+
+    c = gf.Component("get_bundle_none_orientation")
+    pt = c << gf.components.pad_array(orientation=None, columns=3)
+    pb = c << gf.components.pad_array(orientation=None, columns=3)
+    pt.move((100, 200))
+
+    routes = gf.routing.get_bundle_electrical(
+        pb.ports, pt.ports, end_straight_length=60, separation=30
+    )
+
+    for route in routes:
+        c.add(route.references)
 
     c.show()
 
