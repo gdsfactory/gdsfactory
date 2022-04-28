@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.2.10]
+
+- fix some fstrings [issues](https://github.com/gdsfactory/gdsfactory/issues/311)
+- fix lumerical notebook [typo](https://github.com/gdsfactory/gdsfactory/issues/309)
+
 ## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 
 - route ports with orientation = None
