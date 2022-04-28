@@ -15,7 +15,7 @@ jobs:
       max-parallel: 12
       matrix:
         python-version: [3.9]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Cancel Workflow Action
