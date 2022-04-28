@@ -20,7 +20,10 @@ from gdsfactory.routing.get_route import (
     get_route_electrical,
     get_route_from_waypoints,
 )
-from gdsfactory.routing.get_route_from_steps import get_route_from_steps
+from gdsfactory.routing.get_route_from_steps import (
+    get_route_from_steps,
+    get_route_from_steps_electrical,
+)
 from gdsfactory.routing.get_route_sbend import get_route_sbend
 from gdsfactory.routing.get_routes_bend180 import get_routes_bend180
 from gdsfactory.routing.get_routes_straight import get_routes_straight
@@ -49,6 +52,7 @@ __all__ = [
     "get_bundle_sbend",
     "get_route_from_waypoints",
     "get_route_from_steps",
+    "get_route_from_steps_electrical",
     "fanout2x2",
     "fanout",
     "route_ports_to_side",
