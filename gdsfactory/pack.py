@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 from pydantic import validate_arguments
 
+import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.name import get_name_short
 from gdsfactory.types import Anchor, ComponentSpec, Float2, Number
@@ -141,10 +142,7 @@ def pack(
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision
 
-    component_list = [
-        component() if callable(component) else component
-        for component in component_list
-    ]
+    component_list = [gf.get_component(component) for component in component_list]
 
     # Convert Components to rectangles
     rect_dict = {}
@@ -254,7 +252,6 @@ def test_pack_with_settings() -> Component:
 
 if __name__ == "__main__":
     # test_pack()
-    import gdsfactory as gf
 
     # c = test_pack_with_settings()
     # c = test_pack()

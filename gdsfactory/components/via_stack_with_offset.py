@@ -40,7 +40,7 @@ def via_stack_with_offset(
         c.add_polygon(rect_pts, layer=layer)
 
         if via:
-            via = via() if callable(via) else via
+            via = gf.get_component(via)
             w, h = via.info["size"]
             enclosure = via.info["enclosure"]
             pitch_x, pitch_y = via.info["spacing"]
