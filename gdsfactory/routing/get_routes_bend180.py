@@ -5,12 +5,12 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
 from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, CrossSectionSpec, Routes
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Routes
 
 
 def get_routes_bend180(
     ports: Union[List[Port], Dict[str, Port]],
-    bend: ComponentOrFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     cross_section: CrossSectionSpec = strip,
     bend_port1: Optional[str] = None,
     bend_port2: Optional[str] = None,

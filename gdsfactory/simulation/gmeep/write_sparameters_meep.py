@@ -27,7 +27,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     settings_get_simulation,
 )
 from gdsfactory.tech import LAYER_STACK, LayerStack
-from gdsfactory.types import ComponentOrFactory, PathType, PortSymmetries
+from gdsfactory.types import ComponentSpec, PathType, PortSymmetries
 
 ncores = multiprocessing.cpu_count()
 
@@ -129,7 +129,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
 
 @pydantic.validate_arguments
 def write_sparameters_meep(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     port_symmetries: Optional[PortSymmetries] = None,
     resolution: int = 30,
     wavelength_start: float = 1.5,
@@ -265,7 +265,7 @@ def write_sparameters_meep(
             where `a` is the angle in radians and `m` the module
 
     """
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     assert isinstance(component, Component)
 
     for setting in settings.keys():

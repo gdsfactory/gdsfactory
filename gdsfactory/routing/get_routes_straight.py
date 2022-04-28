@@ -4,12 +4,12 @@ import gdsfactory as gf
 from gdsfactory.components.straight import straight
 from gdsfactory.difftest import difftest
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Routes
+from gdsfactory.types import ComponentSpec, Routes
 
 
 def get_routes_straight(
     ports: Union[List[Port], Dict[str, Port]],
-    straight: ComponentOrFactory = straight,
+    straight: ComponentSpec = straight,
     **kwargs,
 ) -> Routes:
     """Returns routes made by 180 degree straights.

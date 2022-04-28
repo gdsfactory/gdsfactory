@@ -6,14 +6,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import viac
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, Layers
+from gdsfactory.types import ComponentSpec, Layers
 
 
 @gf.cell
 def via_stack_with_offset(
     layers: Layers = (LAYER.PPP, LAYER.M1),
     sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
-    vias: Tuple[Optional[ComponentOrFactory], ...] = (None, viac),
+    vias: Tuple[Optional[ComponentSpec], ...] = (None, viac),
     offsets: Optional[Tuple[float, ...]] = None,
     port_orientation: float = 180,
 ) -> Component:

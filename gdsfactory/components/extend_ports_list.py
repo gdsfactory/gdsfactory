@@ -3,13 +3,13 @@ from typing import List, Optional
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.port import Port
-from gdsfactory.types import ComponentOrFactory, Strs
+from gdsfactory.types import ComponentSpec, Strs
 
 
 @cell
 def extend_ports_list(
     ports: List[Port],
-    extension_factory: ComponentOrFactory,
+    extension_factory: ComponentSpec,
     extension_port_name: Optional[str] = None,
     ignore_ports: Optional[Strs] = None,
 ) -> Component:

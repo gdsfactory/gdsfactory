@@ -15,11 +15,11 @@ from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation_grating_coupler import (
     get_simulation_grating_coupler,
 )
-from gdsfactory.types import Component, ComponentOrFactory, List, PathType
+from gdsfactory.types import Component, ComponentSpec, List, PathType
 
 
 def write_sparameters_grating_coupler(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     dirpath: PathType = sparameters_path,
     overwrite: bool = False,
     **kwargs,
@@ -80,7 +80,7 @@ def write_sparameters_grating_coupler(
         with_all_monitors: stores all monitor fields
 
     """
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     assert isinstance(component, Component)
 
     filepath = get_sparameters_path(

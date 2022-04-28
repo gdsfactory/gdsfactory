@@ -1,12 +1,12 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_circular import grating_coupler_circular
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def grating_coupler_array(
-    grating_coupler: ComponentOrFactory = grating_coupler_circular,
+    grating_coupler: ComponentSpec = grating_coupler_circular,
     pitch: float = 127.0,
     n: int = 6,
     port_name: str = "o1",
@@ -15,7 +15,7 @@ def grating_coupler_array(
     """Array of rectangular pads.
 
     Args:
-        grating_coupler: ComponentOrFactory
+        grating_coupler: ComponentSpec
         spacing: x spacing
         n: number of pads
         port_name: port name
@@ -23,9 +23,7 @@ def grating_coupler_array(
 
     """
     c = Component()
-    grating_coupler = (
-        grating_coupler() if callable(grating_coupler) else grating_coupler
-    )
+    grating_coupler = gf.get_component(grating_coupler)
 
     for i in range(n):
         gc = c << grating_coupler
