@@ -257,8 +257,13 @@ def _generate_route_manhattan_points(
         x2, y2 = p_output
         p1 = (x0, y2)
         points = np.array([p_input, p1, p_output])
+    elif input_port.orientation is None:
+        raise ValueError("input_port orientation is None")
 
-    elif output_port.orientation and input_port.orientation:
+    elif output_port.orientation is None:
+        raise ValueError("output_port orientation is None")
+
+    else:
         bend_orientation = -angle + 180
         transform_params = (-p_output, bend_orientation, False)
 
@@ -394,12 +399,6 @@ def _generate_route_manhattan_points(
                     a = 180
             points += [p]
             s = min_straight_length + bs1
-        else:
-            raise ValueError(
-                "input_port or output_port orientation is None. "
-                f"{input_port.orientation} {output_port.orientation} "
-            )
-
         points = np.stack([np.array(_p) for _p in points], axis=0)
         points = reverse_transform(points, *transform_params)
     return points
