@@ -44,7 +44,7 @@ def build(filepath: PathType, validate_schema: bool = False) -> None:
 
 
 def filewatch(filepath: str) -> None:
-    logger.info(f"Watching {str(filepath)!r}")
+    logger.info(f"Watching {filepath!r}")
 
     try:
         while True:

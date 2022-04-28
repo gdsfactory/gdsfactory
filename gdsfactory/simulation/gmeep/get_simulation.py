@@ -191,8 +191,9 @@ def get_simulation(
     ]
 
     assert (
-        len(layers_thickness) > 0
+        layers_thickness
     ), f"Component layers {component.layers} not in {layer_to_thickness.keys()}. "
+
     "Did you passed the correct layer_stack?"
 
     t_core = max(layers_thickness)

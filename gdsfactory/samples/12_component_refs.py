@@ -60,7 +60,7 @@ def test_crossing() -> Component:
         for p in a.ports.values():
             # Here we don't care too much about the name we give to the ports
             # since they will be renamed. We just want the names to be unique
-            c.add_port(name="{}".format(port_id), port=p)
+            c.add_port(name=f"{port_id}", port=p)
             port_id += 1
 
     c.auto_rename_ports()

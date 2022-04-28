@@ -15,28 +15,12 @@ def install_gdsdiff() -> None:
     else:
         git_config_str = "empty"
 
-    if git_attributes_path.exists():
-        git_attributes_str = open(git_attributes_path).read()
-    else:
-        git_attributes_str = "empty"
+    git_attributes_str = (
+        open(git_attributes_path).read() if git_attributes_path.exists() else "empty"
+    )
 
     if "gds_diff" not in git_config_str:
-        print("gdsdiff shows boolean differences in Klayout")
-        print("git diff FILE.GDS")
-        print("Appending the gdsdiff command to your ~/.gitconfig")
-
-        config = configparser.RawConfigParser()
-        config.read(git_config_path)
-        key = 'diff "gds_diff"'
-
-        if key not in config.sections():
-            config.add_section(key)
-            config.set(key, "command", "python -m gdsfactory.gdsdiff.gds_diff_git")
-            config.set(key, "binary", "True")
-
-            with open(git_config_path, "w+") as f:
-                config.write(f, space_around_delimiters=True)
-
+        _extracted_from_install_gdsdiff_17(git_config_path)
     if "gds_diff" not in git_attributes_str:
         print("Appending the gdsdiff command to your ~/.gitattributes")
 
@@ -44,11 +28,27 @@ def install_gdsdiff() -> None:
             f.write("*.gds diff=gds_diff\n")
 
 
+# TODO Rename this here and in `install_gdsdiff`
+def _extracted_from_install_gdsdiff_17(git_config_path):
+    print("gdsdiff shows boolean differences in Klayout")
+    print("git diff FILE.GDS")
+    print("Appending the gdsdiff command to your ~/.gitconfig")
+
+    config = configparser.RawConfigParser()
+    config.read(git_config_path)
+    key = 'diff "gds_diff"'
+
+    if key not in config.sections():
+        config.add_section(key)
+        config.set(key, "command", "python -m gdsfactory.gdsdiff.gds_diff_git")
+        config.set(key, "binary", "True")
+
+        with open(git_config_path, "w+") as f:
+            config.write(f, space_around_delimiters=True)
+
+
 def get_klayout_path() -> pathlib.Path:
-    if sys.platform == "win32":
-        klayout_folder = "KLayout"
-    else:
-        klayout_folder = ".klayout"
+    klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     home = pathlib.Path.home()
     return home / klayout_folder
 
@@ -88,11 +88,7 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
 
 
 def install_generic_tech() -> None:
-    if sys.platform == "win32":
-        klayout_folder = "KLayout"
-    else:
-        klayout_folder = ".klayout"
-
+    klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     cwd = pathlib.Path(__file__).resolve().parent
     home = pathlib.Path.home()
     src = cwd / "klayout" / "tech"

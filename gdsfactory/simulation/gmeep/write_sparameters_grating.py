@@ -122,16 +122,16 @@ def write_sparameters_grating(
         plt.show()
         return
 
-    termination = []
-    for monitor in [sim_dict["waveguide_monitor"], sim_dict["fiber_monitor"]]:
-        termination.append(
-            mp.stop_when_fields_decayed(
-                dt=50,
-                c=mp.Ez,
-                pt=monitor.regions[0].center,
-                decay_by=decay_by,
-            )
+    termination = [
+        mp.stop_when_fields_decayed(
+            dt=50,
+            c=mp.Ez,
+            pt=monitor.regions[0].center,
+            decay_by=decay_by,
         )
+        for monitor in [sim_dict["waveguide_monitor"], sim_dict["fiber_monitor"]]
+    ]
+
     if animate:
         # Run while saving fields
         # sim.use_output_directory()
@@ -209,9 +209,11 @@ def write_sparameters_grating(
     filepath.write_text(omegaconf.OmegaConf.to_yaml(simulation))
 
     r = dict(s11=s11, s12=s12, s21=s21, s22=s22, wavelengths=wavelengths)
-    keys = [key for key in r.keys() if key.startswith("s")]
-    s = {f"{key}a": list(np.unwrap(np.angle(r[key].flatten()))) for key in keys}
-    s.update({f"{key}m": list(np.abs(r[key].flatten())) for key in keys})
+    keys = [key for key in r if key.startswith("s")]
+    s = {f"{key}a": list(np.unwrap(np.angle(r[key].flatten()))) for key in keys} | {
+        f"{key}m": list(np.abs(r[key].flatten())) for key in keys
+    }
+
     s["wavelengths"] = wavelengths
 
     df = pd.DataFrame(s, index=wavelengths)
@@ -262,24 +264,21 @@ def write_sparameters_grating_mpi(
         script_lines.append(f"\t\t{key} = {parameter},\n")
     script_lines.append("\t)")
     script_file = filepath.with_suffix(".py")
-    script_file_obj = open(script_file, "w")
-    script_file_obj.writelines(script_lines)
-    script_file_obj.close()
-
+    with open(script_file, "w") as script_file_obj:
+        script_file_obj.writelines(script_lines)
     # Exec string
     command = f"mpirun -np {cores} python {script_file}"
 
     # Launch simulation
     if verbosity:
         print(f"Launching: {command}")
-    proc = subprocess.Popen(
+    return subprocess.Popen(
         shlex.split(command),
         shell=False,
         stdin=None,
         stdout=None,
         stderr=None,
     )
-    return proc
 
 
 def write_sparameters_grating_batch(

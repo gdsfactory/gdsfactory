@@ -6,6 +6,3 @@ if __name__ == "__main__":
     c = gf.import_gds(gdspath, demo="hi")
     print(c.info)
     c.show()
-
-    if True:
-        pass

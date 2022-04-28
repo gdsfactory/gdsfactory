@@ -46,8 +46,7 @@ def test_netlist_yaml() -> Component:
         o1: mmi_long,o1
     """
 
-    c = gf.read.from_yaml(yaml)
-    return c
+    return gf.read.from_yaml(yaml)
 
 
 if __name__ == "__main__":

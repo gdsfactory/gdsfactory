@@ -78,12 +78,11 @@ class CrossSection(BaseModel):
         extra = "forbid"
 
     def get_copy(self, width: Optional[float] = None):
-        if width:
-            settings = dict(self)
-            settings.update(width=width)
-            return CrossSection(**settings)
-        else:
+        if not width:
             return self.copy()
+        settings = dict(self)
+        settings.update(width=width)
+        return CrossSection(**settings)
 
     @property
     def aliases(self) -> Dict[str, Section]:
@@ -163,7 +162,7 @@ def cross_section(
         decorator: funcion to run when converting path to component.
     """
 
-    x = CrossSection(
+    return CrossSection(
         width=width,
         offset=offset,
         layer=layer,
@@ -184,8 +183,6 @@ def cross_section(
         info=info or {},
         decorator=decorator,
     )
-
-    return x
 
 
 @pydantic.validate_arguments
@@ -287,14 +284,13 @@ def pin(
         **kwargs,
     )
 
-    x = cross_section(
+    return cross_section(
         width=width,
         layer=layer,
         sections=sections,
         info=info,
         **kwargs,
     )
-    return x
 
 
 @pydantic.validate_arguments
@@ -359,10 +355,8 @@ def pn(
                                            gap_medium_doping
 
     """
-    sections = []
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
-    sections.append(slab)
-
+    sections = [slab]
     offset_low_doping = width_doping / 2 + gap_low_doping
     width_low_doping = width_doping - gap_low_doping
 
@@ -419,7 +413,7 @@ def pn(
         width_doping=width_doping,
         width_slab=width_slab,
     )
-    x = CrossSection(
+    return CrossSection(
         width=width,
         offset=0,
         layer=layer,
@@ -427,7 +421,6 @@ def pn(
         info=info,
         sections=sections,
     )
-    return x
 
 
 @pydantic.validate_arguments
@@ -485,7 +478,7 @@ def strip_heater_metal_undercut(
         layer_trench=layer_trench,
         **kwargs,
     )
-    x = cross_section(
+    return cross_section(
         width=width,
         layer=layer,
         sections=(
@@ -496,7 +489,6 @@ def strip_heater_metal_undercut(
         info=info,
         **kwargs,
     )
-    return x
 
 
 @pydantic.validate_arguments
@@ -525,14 +517,13 @@ def strip_heater_metal(
         **kwargs,
     )
 
-    x = cross_section(
+    return cross_section(
         width=width,
         layer=layer,
         sections=[Section(layer=layer_heater, width=heater_width)],
         info=info,
         **kwargs,
     )
-    return x
 
 
 @pydantic.validate_arguments
@@ -735,10 +726,10 @@ def rib_heater_doped_via_stack(
         slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
     elif with_top_heater:
         slab_width = width + heater_gap + heater_width + slab_gap
-        slab_offset = slab_offset - slab_width / 2
+        slab_offset -= slab_width / 2
     elif with_bot_heater:
         slab_width = width + heater_gap + heater_width + slab_gap
-        slab_offset = slab_offset + slab_width / 2
+        slab_offset += slab_width / 2
 
     heater_offset = width / 2 + heater_gap + heater_width / 2
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2

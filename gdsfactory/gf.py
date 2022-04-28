@@ -39,7 +39,7 @@ def log_delete(logfile: str) -> None:
         print("No logs found.")
         return
 
-    filename = os.path.join(log_directory, "{}.log".format(logfile))
+    filename = os.path.join(log_directory, f"{logfile}.log")
     subprocess.check_output(["rm", filename])
 
 
@@ -167,7 +167,7 @@ def show(filename: str) -> None:
 @click.option("--xor", "-x", default=False, help="include xor", is_flag=True)
 def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
     """Show boolean difference between two GDS files."""
-    diff = gdsdiff(str(gdspath1), str(gdspath2), xor=xor)
+    diff = gdsdiff(gdspath1, gdspath2, xor=xor)
     diff.show()
 
 
