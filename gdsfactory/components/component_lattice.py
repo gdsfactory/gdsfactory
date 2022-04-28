@@ -30,7 +30,7 @@ def dist(i, wgs1, wgs2):
 
 
 def get_sequence_cross(
-    straights_start, straights_end, iter_max=100, symbols=("X", "-")
+    straights_start, straights_end, iter_max: int = 100, symbols=("X", "-")
 ):
     """
     Args:
@@ -67,13 +67,14 @@ def get_sequence_cross(
 
         swaps = []
         i = 0
-        total_dist = 0
+        # total_dist = 0
+
         while i < N - 1:
             a = wgs[i]
             b = wgs[i + 1]
             d1 = dist(a, wgs, straights_end)
             d2 = dist(b, wgs, straights_end)
-            total_dist += abs(d1) + abs(d2)
+            # total_dist += abs(d1) + abs(d2)
 
             # The equality cases are very important:
             # if one straight needs to cross, then even if the other one is
@@ -122,7 +123,7 @@ def component_sequence_to_str(sequence):
     return component_txt_lattice
 
 
-def get_sequence_cross_str(straights_start, straights_end, iter_max=100):
+def get_sequence_cross_str(straights_start, straights_end, iter_max: int = 100):
     seq = get_sequence_cross(
         straights_start, straights_end, iter_max=iter_max, symbols=["X", "-"]
     )
@@ -270,6 +271,7 @@ def parse_lattice(
 
     Args:
         lattice:
+        symbol_to_component:
     """
     lines = lattice.replace(" ", "").split("\n")
     columns = {}
