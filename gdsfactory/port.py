@@ -87,7 +87,7 @@ class Port(PortPhidl):
         name: str,
         midpoint: Tuple[float, float],
         width: float,
-        orientation: float,
+        orientation: Optional[float],
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
         parent: Optional[Component] = None,
@@ -197,6 +197,23 @@ class Port(PortPhidl):
     def _copy(self, new_uid: bool = True) -> Port:
         """Keep this case for phidl compatibility"""
         return self.copy(new_uid=new_uid)
+
+    @property
+    def endpoints(self):
+        """Returns the endpoints of the Port."""
+        dxdy = (
+            np.array(
+                [
+                    self.width / 2 * np.cos((self.orientation - 90) * np.pi / 180),
+                    self.width / 2 * np.sin((self.orientation - 90) * np.pi / 180),
+                ]
+            )
+            if self.orientation is not None
+            else np.array([self.width, self.width])
+        )
+        left_point = self.midpoint - dxdy
+        right_point = self.midpoint + dxdy
+        return np.array([left_point, right_point])
 
     def copy(self, new_uid: bool = True) -> Port:
         new_port = Port(

@@ -744,7 +744,7 @@ class Component(Device):
         plotter = plotter or CONF.get("plotter", "matplotlib")
 
         if plotter == "matplotlib":
-            from phidl import quickplot as plot
+            from gdsfactory.quickplotter import quickplot as plot
 
             plot(self)
         elif plotter == "holoviews":
@@ -758,7 +758,7 @@ class Component(Device):
             return self.ploth(**kwargs)
 
         elif plotter == "qt":
-            from phidl.quickplotter import quickplot2
+            from gdsfactory.quickplotter import quickplot2
 
             quickplot2(self)
 

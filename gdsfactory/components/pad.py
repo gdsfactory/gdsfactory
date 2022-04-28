@@ -1,11 +1,12 @@
 from functools import partial
 from typing import Optional, Tuple
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, Layer
+from gdsfactory.types import ComponentSpec, Layer
 
 
 @cell
@@ -63,23 +64,23 @@ def pad(
 
 @cell
 def pad_array(
-    pad: ComponentOrFactory = pad,
+    pad: ComponentSpec = "pad",
     spacing: Tuple[float, float] = (150.0, 150.0),
     columns: int = 6,
     rows: int = 1,
-    orientation: float = 270,
+    orientation: Optional[float] = 270,
 ) -> Component:
     """Returns 2D array of pads
 
     Args:
-        pad: pad element
-        spacing: x, y pitch
-        columns:
-        rows:
-        orientation: port orientation in deg
+        pad: pad element.
+        spacing: x, y pitch.
+        columns: number of columns.
+        rows: number of rows.
+        orientation: port orientation in deg. None for low speed DC ports.
     """
     c = Component()
-    pad = pad() if callable(pad) else pad
+    pad = gf.get_component(pad)
     size = pad.settings.full["size"]
     c.info["size"] = size
 
