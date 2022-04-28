@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.2.9]
+
+- route ports with orientation = None
+
 ## [5.2.8](https://github.com/gdsfactory/gdsfactory/pull/307)
 
 - add more type annotations. To reduce the number of mypy errors.
