@@ -109,7 +109,7 @@ class Port(PortPhidl):
         if cross_section is None and layer is None:
             raise ValueError("You need Port to define cross_section or layer")
 
-        if layer is None and cross_section is not None:
+        if layer is None:
             layer = cross_section.layer
 
         if self.width < 0:
@@ -451,7 +451,7 @@ def select_ports(
     from gdsfactory.component import Component, ComponentReference
 
     # Make it accept Component or ComponentReference
-    if isinstance(ports, Component) or isinstance(ports, ComponentReference):
+    if isinstance(ports, (Component, ComponentReference)):
         ports = ports.ports
 
     if layer:
@@ -515,7 +515,7 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
 
     if isinstance(ports, dict):
         ports = list(ports.values())
-    elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
+    elif isinstance(ports, (Component, ComponentReference)):
         ports = list(ports.ports.values())
 
     direction_ports: Dict[str, List[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
@@ -781,7 +781,7 @@ def map_ports_layer_to_orientation(
             else:
                 direction_ports["S"].append(p)
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
-        m.update({p.name: p.name_original for p in ports_on_layer})
+        m |= {p.name: p.name_original for p in ports_on_layer}
     return m
 
 
@@ -803,7 +803,6 @@ def map_ports_to_orientation_cw(
 
     """
 
-    m = {}
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     ports = select_ports(ports, **kwargs)
@@ -821,8 +820,7 @@ def map_ports_to_orientation_cw(
         else:
             direction_ports["S"].append(p)
     function(direction_ports)
-    m.update({p.name: p.name_original for p in ports_on_layer})
-    return m
+    return dict({p.name: p.name_original for p in ports_on_layer})
 
 
 map_ports_to_orientation_ccw = partial(
@@ -870,7 +868,7 @@ def auto_rename_ports_layer_orientation(
                 direction_ports["S"].append(p)
 
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
-        new_ports.update({p.name: p for p in ports_on_layer})
+        new_ports |= {p.name: p for p in ports_on_layer}
 
     component.ports = new_ports
 
