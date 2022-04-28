@@ -151,7 +151,7 @@ def write_sparameters_lumerical(
     if hasattr(component.info, "simulation_settings"):
         sim_settings.update(component.info.simulation_settings)
         logger.info(
-            "Updating {component.name} sim settings {component.simulation_settings}"
+            f"Updating {component.name!r} sim settings {component.simulation_settings}"
         )
     for setting in settings.keys():
         if setting not in sim_settings:
@@ -168,7 +168,7 @@ def write_sparameters_lumerical(
 
     ports = component_extended.get_ports_list(port_type="optical")
     if not ports:
-        raise ValueError(f"`{component.name}` does not have any optical ports")
+        raise ValueError(f"{component.name!r} does not have any optical ports")
 
     c = gf.components.extension.extend_ports(
         component=component, length=ss.port_extension
@@ -313,7 +313,7 @@ def write_sparameters_lumerical(
             continue
 
         if layer not in layer_to_material:
-            raise ValueError(f"{layer!r} not in {layer_to_material.keys()}")
+            raise ValueError(f"{layer} not in {layer_to_material.keys()}")
 
         material_name = layer_to_material[layer]
         if material_name not in material_name_to_lumerical:
@@ -387,7 +387,7 @@ def write_sparameters_lumerical(
 
         else:
             raise ValueError(
-                f"port {port.name} orientation {port.orientation} is not valid"
+                f"port {port.name!r} orientation {port.orientation} is not valid"
             )
 
         s.setnamed(p, "direction", direction)
@@ -399,7 +399,7 @@ def write_sparameters_lumerical(
         # s.setnamed(p, "name", f"o{i+1}")
 
         logger.info(
-            f"port {p} {port.name}: at ({port.x}, {port.y}, 0)"
+            f"port {p} {port.name!r}: at ({port.x}, {port.y}, 0)"
             f"size = ({dxp}, {dyp}, {zspan})"
         )
 
