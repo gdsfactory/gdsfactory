@@ -12,7 +12,7 @@ from phidl.device_layout import Path as PathPhidl
 
 
 def clean_dict(d: Dict[str, Any]) -> Dict[str, Any]:
-    """Cleans dictionary keys recursively."""
+    """Cleans dictionary recursively."""
     for k, v in d.items():
         d[k] = clean_dict(dict(v)) if isinstance(v, dict) else clean_value_json(v)
     return d
@@ -59,8 +59,6 @@ def clean_value_json(value: Any) -> Any:
         value = value.to_dict()
     elif isinstance(value, np.float64):
         value = float(value)
-    elif type(value) in [int, float, str, bool]:
-        pass
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs
