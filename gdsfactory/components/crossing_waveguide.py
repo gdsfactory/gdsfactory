@@ -16,7 +16,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentOrFactory, ComponentSpec, CrossSectionSpec, Layer
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Layer
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -279,7 +279,7 @@ def crossing45(
 
 @cell
 def compensation_path(
-    crossing45: ComponentOrFactory = crossing45, direction: str = "top"
+    crossing45: ComponentSpec = crossing45, direction: str = "top"
 ) -> Component:
     r"""Returns Component Path with same path length as the crossing
 

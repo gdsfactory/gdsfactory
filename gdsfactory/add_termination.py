@@ -1,6 +1,7 @@
 from functools import partial
 from typing import List, Optional
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.taper import taper as taper_function
@@ -29,7 +30,7 @@ def add_termination(
         port_type: of the ports that you want to terminate
         **kwargs: for the ports you want to terminate (orientation, width)
     """
-    terminator = terminator() if callable(terminator) else terminator
+    terminator = gf.get_component(terminator)
     port_name = port_name or terminator.get_ports_list()[0].name
 
     c = Component()
@@ -51,8 +52,6 @@ def add_termination(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.components.straight_heater_metal(length=50)
     cc = add_termination(component=c, orientation=0)
     cc.show()

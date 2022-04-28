@@ -58,7 +58,7 @@ def add_loopback(
                |________________________________|      _|_
     """
 
-    gc = grating() if callable(grating) else grating
+    gc = gf.get_component(grating)
 
     if hasattr(port1, "y"):
         y0 = port1.y

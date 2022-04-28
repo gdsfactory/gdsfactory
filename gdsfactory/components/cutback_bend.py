@@ -7,7 +7,7 @@ from gdsfactory.components.bend_circular import bend_circular, bend_circular180
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.component_sequence import component_sequence
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.types import ComponentOrFactory, ComponentSpec
+from gdsfactory.types import ComponentSpec
 
 
 def _get_bend_size(bend90: Component) -> float64:
@@ -19,7 +19,7 @@ def _get_bend_size(bend90: Component) -> float64:
 
 @cell
 def cutback_bend(
-    bend90: ComponentOrFactory = bend_euler,
+    bend90: ComponentSpec = bend_euler,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 5,
@@ -78,7 +78,7 @@ def cutback_bend(
 
 @cell
 def cutback_bend90(
-    bend90: ComponentOrFactory = bend_euler,
+    bend90: ComponentSpec = bend_euler,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 6,
@@ -135,7 +135,7 @@ def cutback_bend90(
 
 @cell
 def staircase(
-    bend90: ComponentOrFactory = bend_euler,
+    bend90: ComponentSpec = bend_euler,
     length_v: float = 5.0,
     length_h: float = 5.0,
     rows: int = 4,
@@ -178,7 +178,7 @@ def staircase(
 
 @cell
 def cutback_bend180(
-    bend180: ComponentOrFactory = bend_euler180,
+    bend180: ComponentSpec = bend_euler180,
     straight_length: float = 5.0,
     rows: int = 6,
     columns: int = 6,

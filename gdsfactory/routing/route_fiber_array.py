@@ -16,13 +16,13 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.types import ComponentOrFactory, ComponentSpec, CrossSectionSpec, Label
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Label
 
 
 def route_fiber_array(
     component: Component,
     fiber_spacing: float = TECH.fiber_array_spacing,
-    grating_coupler: ComponentOrFactory = grating_coupler_te,
+    grating_coupler: ComponentSpec = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight,
     taper: ComponentSpec = taper,
