@@ -96,7 +96,7 @@ def get_netlist(
             component, reference, layer_label=layer_label
         )
 
-        instance = dict()
+        instance = {}
 
         if c.info != {}:
             instance.update(component=c.name, info=c.info)
@@ -217,7 +217,7 @@ def get_netlist_recursive(
         for ref in component.references:
             rcell = ref.parent
             grandchildren = get_netlist_recursive(rcell)
-            all_netlists.update(grandchildren)
+            all_netlists |= grandchildren
             if ref.ref_cell.references:
                 inst_name = get_instance_name(component, ref)
                 netlist["instances"][inst_name] = {
