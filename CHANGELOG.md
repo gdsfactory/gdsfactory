@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.3.3](https://github.com/gdsfactory/gdsfactory/pull/319)
+
+- [copy component info and settings if they exist](https://github.com/gdsfactory/gdsfactory/pull/316)
+- clean code
+- add https://sonarcloud.io code checker
+- add https://sourcery.ai code checker
+- drop support for python3.7 so we can use [named expressions only supported in python >= 3.8](https://docs.sourcery.ai/refactorings/use-named-expression/)
+
 ## [5.3.0](https://github.com/gdsfactory/gdsfactory/pull/312)
 
 - fix some fstrings [issues](https://github.com/gdsfactory/gdsfactory/issues/311)
