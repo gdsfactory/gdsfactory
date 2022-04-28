@@ -75,10 +75,10 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.call_if_func(
+    _bend180 = gf.get_component(
         bend180_function, cross_section=cross_section_bend, **kwargs
     )
-    _bend90 = gf.call_if_func(
+    _bend90 = gf.get_component(
         bend90_function, cross_section=cross_section_bend, **kwargs
     )
 
