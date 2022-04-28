@@ -6,10 +6,11 @@ from pathlib import Path
 
 import pandas as pd
 
+import gdsfactory as gf
 from gdsfactory.config import sparameters_path
 from gdsfactory.name import clean_value
 from gdsfactory.tech import LAYER_STACK
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 
 def get_kwargs_hash(**kwargs) -> str:
@@ -21,7 +22,7 @@ def get_kwargs_hash(**kwargs) -> str:
 
 
 def _get_sparameters_path(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     dirpath: Path = sparameters_path,
     **kwargs,
 ) -> Path:
@@ -31,10 +32,10 @@ def _get_sparameters_path(
     Args:
         component: component or component factory.
         dirpath: directory path to store sparameters
-        kwargs: simulation settings
+        kwargs: simulation settings.
     """
 
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
 
     dirpath = pathlib.Path(dirpath)
     dirpath = (

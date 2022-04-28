@@ -24,7 +24,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     settings_write_sparameters_meep,
 )
 from gdsfactory.tech import LAYER_STACK, LayerStack
-from gdsfactory.types import ComponentOrFactory
+from gdsfactory.types import ComponentSpec
 
 ncores = multiprocessing.cpu_count()
 
@@ -33,7 +33,7 @@ temp_dir_default = Path(sparameters_path) / "temp"
 
 @pydantic.validate_arguments
 def write_sparameters_meep_mpi(
-    component: ComponentOrFactory,
+    component: ComponentSpec,
     cores: int = ncores,
     filepath: Optional[Path] = None,
     dirpath: Path = sparameters_path,
@@ -122,7 +122,7 @@ def write_sparameters_meep_mpi(
         if setting not in settings_write_sparameters_meep:
             raise ValueError(f"{setting} not in {settings_write_sparameters_meep}")
 
-    component = component() if callable(component) else component
+    component = gf.get_component(component)
     assert isinstance(component, Component)
 
     settings = remove_simulation_kwargs(kwargs)

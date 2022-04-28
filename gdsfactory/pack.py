@@ -10,7 +10,7 @@ from pydantic import validate_arguments
 
 from gdsfactory.component import Component
 from gdsfactory.name import get_name_short
-from gdsfactory.types import Anchor, ComponentOrFactory, ComponentSpec, Float2, Number
+from gdsfactory.types import Anchor, ComponentSpec, Float2, Number
 
 
 def _pack_single_bin(
@@ -92,7 +92,7 @@ def _pack_single_bin(
 
 @validate_arguments
 def pack(
-    component_list: List[ComponentOrFactory],
+    component_list: List[ComponentSpec],
     spacing: float = 10.0,
     aspect_ratio: Float2 = (1.0, 1.0),
     max_size: Tuple[Optional[float], Optional[float]] = (None, None),

@@ -51,7 +51,7 @@ def straight_pin_slot(
     """
     c = Component()
     if taper:
-        taper = taper() if callable(taper) else taper
+        taper = gf.get_component(taper)
         length -= 2 * taper.get_ports_xsize()
 
     wg = c << gf.components.straight(

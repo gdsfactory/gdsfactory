@@ -76,8 +76,8 @@ PathFactory = Callable[..., Path]
 PathType = Union[str, pathlib.Path]
 PathTypes = Tuple[PathType, ...]
 
-ComponentOrFactory = Union[ComponentFactory, Component]
-ComponentOrFactoryOrList = Union[ComponentOrFactory, List[ComponentOrFactory]]
+ComponentSpec = Union[ComponentFactory, Component]
+ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 ComponentOrPath = Union[PathType, Component]
 ComponentOrReference = Union[Component, ComponentReference]
 NameToFunctionDict = Dict[str, ComponentFactory]
@@ -192,7 +192,7 @@ RouteFactory = Callable[..., Route]
 __all__ = (
     "ComponentFactory",
     "ComponentFactoryDict",
-    "ComponentOrFactory",
+    "ComponentSpec",
     "ComponentOrPath",
     "ComponentOrReference",
     "Coordinate",
