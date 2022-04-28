@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
@@ -59,7 +58,7 @@ def ring_double(
         cross_section=cross_section,
         **kwargs
     )
-    straight_component = call_if_func(
+    straight_component = gf.get_component(
         straight, length=length_y, cross_section=cross_section, **kwargs
     )
 

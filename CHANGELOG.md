@@ -8,6 +8,8 @@
 - add gf.routing.get_route_from_steps_electrical
 - rename ComponentFactory to ComponentSpec
 - rename ComponentOrFactory to ComponentSpec
+- replace callable(component) with gf.get_component(component)
+- replace some call_if_func(component) with gf.get_component(component)
 
 ## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 
