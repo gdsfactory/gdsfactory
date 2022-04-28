@@ -24,7 +24,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.cross
-    name: cross_be0fe91f
+    name: cross_2976c617
   default:
     factory:
       function: cross
@@ -45,5 +45,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: cross_be0fe91f_copy_layers
+  name: cross_2976c617_copy_layers
 version: 0.0.1
