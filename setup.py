@@ -31,7 +31,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     license="MIT",
     entry_points="""
         [console_scripts]
