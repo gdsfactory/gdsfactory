@@ -112,7 +112,7 @@ def get_bundle(
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    start_port_angles = set([p.orientation for p in ports1])
+    start_port_angles = {p.orientation for p in ports1}
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
@@ -138,36 +138,34 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if start_axis == end_axis:
-        if (
-            start_angle == 0
-            and end_angle == 180
-            and x_start < x_end
-            or start_angle == 180
-            and end_angle == 0
-            and x_start > x_end
-            or start_angle == 90
-            and end_angle == 270
-            and y_start < y_end
-            or start_angle == 270
-            and end_angle == 90
-            and y_start > y_end
-        ):
-            # print("get_bundle_same_axis")
-            return get_bundle_same_axis(**params)
-
-        elif start_angle == end_angle:
-            # print('get_bundle_udirect')
-            return get_bundle_udirect(**params)
-
-        elif end_angle == (start_angle + 180) % 360:
-            # print('get_bundle_uindirect')
-            return get_bundle_uindirect(extension_length=extension_length, **params)
-        else:
-            raise NotImplementedError("This should never happen")
-
-    else:
+    if start_axis != end_axis:
         return get_bundle_corner(**params)
+    if (
+        start_angle == 0
+        and end_angle == 180
+        and x_start < x_end
+        or start_angle == 180
+        and end_angle == 0
+        and x_start > x_end
+        or start_angle == 90
+        and end_angle == 270
+        and y_start < y_end
+        or start_angle == 270
+        and end_angle == 90
+        and y_start > y_end
+    ):
+        # print("get_bundle_same_axis")
+        return get_bundle_same_axis(**params)
+
+    elif start_angle == end_angle:
+        # print('get_bundle_udirect')
+        return get_bundle_udirect(**params)
+
+    elif end_angle == (start_angle + 180) % 360:
+        # print('get_bundle_uindirect')
+        return get_bundle_uindirect(extension_length=extension_length, **params)
+    else:
+        raise NotImplementedError("This should never happen")
 
 
 def get_port_width(port: Port) -> Union[float, int]:
@@ -328,8 +326,6 @@ def _get_bundle_waypoints(
             )
         ]
 
-    elems = []
-
     # Contains end_straight of tracks which need to be adjusted together
     end_straights_in_group = []
 
@@ -394,19 +390,17 @@ def _get_bundle_waypoints(
 
     # Second pass - route the ports pairwise
     N = len(ports1)
-    for i in range(N):
-        elems += [
-            generate_manhattan_waypoints(
-                ports1[i],
-                ports2[i],
-                start_straight_length=start_straight_length,
-                end_straight_length=end_straights[i],
-                cross_section=cross_section,
-                **kwargs,
-            )
-        ]
-
-    return elems
+    return [
+        generate_manhattan_waypoints(
+            ports1[i],
+            ports2[i],
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straights[i],
+            cross_section=cross_section,
+            **kwargs,
+        )
+        for i in range(N)
+    ]
 
 
 def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
