@@ -112,7 +112,7 @@ def get_bundle(
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
 
-    start_port_angles = set([p.orientation for p in ports1])
+    start_port_angles = {p.orientation for p in ports1}
     if len(start_port_angles) > 1:
         raise ValueError(f"All start port angles {start_port_angles} must be equal")
 
@@ -138,36 +138,34 @@ def get_bundle(
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
 
-    if start_axis == end_axis:
-        if (
-            start_angle == 0
-            and end_angle == 180
-            and x_start < x_end
-            or start_angle == 180
-            and end_angle == 0
-            and x_start > x_end
-            or start_angle == 90
-            and end_angle == 270
-            and y_start < y_end
-            or start_angle == 270
-            and end_angle == 90
-            and y_start > y_end
-        ):
-            # print("get_bundle_same_axis")
-            return get_bundle_same_axis(**params)
-
-        elif start_angle == end_angle:
-            # print('get_bundle_udirect')
-            return get_bundle_udirect(**params)
-
-        elif end_angle == (start_angle + 180) % 360:
-            # print('get_bundle_uindirect')
-            return get_bundle_uindirect(extension_length=extension_length, **params)
-        else:
-            raise NotImplementedError("This should never happen")
-
-    else:
+    if start_axis != end_axis:
         return get_bundle_corner(**params)
+    if (
+        start_angle == 0
+        and end_angle == 180
+        and x_start < x_end
+        or start_angle == 180
+        and end_angle == 0
+        and x_start > x_end
+        or start_angle == 90
+        and end_angle == 270
+        and y_start < y_end
+        or start_angle == 270
+        and end_angle == 90
+        and y_start > y_end
+    ):
+        # print("get_bundle_same_axis")
+        return get_bundle_same_axis(**params)
+
+    elif start_angle == end_angle:
+        # print('get_bundle_udirect')
+        return get_bundle_udirect(**params)
+
+    elif end_angle == (start_angle + 180) % 360:
+        # print('get_bundle_uindirect')
+        return get_bundle_uindirect(extension_length=extension_length, **params)
+    else:
+        raise NotImplementedError("This should never happen")
 
 
 def get_port_width(port: Port) -> Union[float, int]:
@@ -311,15 +309,11 @@ def _get_bundle_waypoints(
         ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
 
-    if len(ports1) == 0 or len(ports2) == 0:
+    if not ports1 or not ports2:
         print(f"WARNING! ports1={ports1} or ports2={ports2} are empty")
         return []
 
-    if ports1[0].orientation in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     if len(ports1) == 1 and len(ports2) == 1:
         return [
             generate_manhattan_waypoints(
@@ -332,8 +326,6 @@ def _get_bundle_waypoints(
             )
         ]
 
-    elems = []
-
     # Contains end_straight of tracks which need to be adjusted together
     end_straights_in_group = []
 
@@ -341,9 +333,8 @@ def _get_bundle_waypoints(
     end_straights = []
 
     # Keep track of how many ports should be routed together
-    number_o_connectors_in_group = 0
 
-    if axis in ["X", "x"]:
+    if axis in {"X", "x"}:
         x1_prev = get_port_y(ports1[0])
         x2_prev = get_port_y(ports2[0])
         y0 = get_port_x(ports2[0])
@@ -363,7 +354,7 @@ def _get_bundle_waypoints(
 
     # First pass - loop on all the ports to find the tentative end_straights
     for i in range(len(ports1)):
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             x1 = get_port_y(ports1[i])
             x2 = get_port_y(ports2[i])
             y = get_port_x(ports2[i])
@@ -371,8 +362,6 @@ def _get_bundle_waypoints(
             x1 = get_port_x(ports1[i])
             x2 = get_port_x(ports2[i])
             y = get_port_y(ports2[i])
-
-        dx = abs(x2 - x1)
 
         if are_decoupled(x2, x2_prev, x1, x1_prev, sep=separation):
             # If this metal track does not impact the previous one, then start a new
@@ -383,16 +372,13 @@ def _get_bundle_waypoints(
             # Start new group
             end_straights_in_group = []
             curr_end_straight = 0
-            number_o_connectors_in_group = 0
 
+        elif x2 >= x1:
+            curr_end_straight += separation
         else:
-            if x2 >= x1:
-                curr_end_straight += separation
-            else:
-                curr_end_straight -= separation
+            curr_end_straight -= separation
 
         end_straights_in_group.append(curr_end_straight + (y - y0) * s)
-        number_o_connectors_in_group += 1
 
         x1_prev = x1
         x2_prev = x2
@@ -404,41 +390,17 @@ def _get_bundle_waypoints(
 
     # Second pass - route the ports pairwise
     N = len(ports1)
-    for i in range(N):
-        if axis in ["X", "x"]:
-            x1 = get_port_y(ports1[i])
-            x2 = get_port_y(ports2[i])
-        else:
-            x1 = get_port_x(ports1[i])
-            x2 = get_port_x(ports2[i])
-
-        dx = abs(x2 - x1)
-
-        # If both ports are aligned, we just need a straight line
-        if dx < tol:
-            elems += [
-                generate_manhattan_waypoints(
-                    ports1[i],
-                    ports2[i],
-                    start_straight_length=start_straight_length,
-                    end_straight_length=end_straights[i],
-                    cross_section=cross_section,
-                    **kwargs,
-                )
-            ]
-
-        else:
-            elems += [
-                generate_manhattan_waypoints(
-                    ports1[i],
-                    ports2[i],
-                    start_straight_length=start_straight_length,
-                    end_straight_length=end_straights[i],
-                    cross_section=cross_section,
-                    **kwargs,
-                )
-            ]
-    return elems
+    return [
+        generate_manhattan_waypoints(
+            ports1[i],
+            ports2[i],
+            start_straight_length=start_straight_length,
+            end_straight_length=end_straights[i],
+            cross_section=cross_section,
+            **kwargs,
+        )
+        for i in range(N)
+    ]
 
 
 def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Number:
@@ -453,10 +415,7 @@ def compute_ports_max_displacement(ports1: List[Port], ports2: List[Port]) -> Nu
 
 
 def sign(x: Number) -> int:
-    if x > 0:
-        return 1
-    else:
-        return -1
+    return 1 if x > 0 else -1
 
 
 def get_min_spacing(
@@ -470,16 +429,12 @@ def get_min_spacing(
     Returns the minimum amount of spacing required to create a given fanout"
     """
 
-    if ports1[0].orientation in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     j = 0
     min_j = 0
     max_j = 0
     if sort_ports:
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             ports1.sort(key=get_port_y)
             ports2.sort(key=get_port_y)
         else:
@@ -487,7 +442,7 @@ def get_min_spacing(
             ports2.sort(key=get_port_x)
 
     for port1, port2 in zip(ports1, ports2):
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             x1 = get_port_y(ports1)
             x2 = get_port_y(port2)
         else:
@@ -566,11 +521,7 @@ def get_bundle_same_axis_no_grouping(
 
     """
 
-    if ports1[0].orientation in [0, 180]:
-        axis = "X"
-    else:
-        axis = "Y"
-
+    axis = "X" if ports1[0].orientation in [0, 180] else "Y"
     elems = []
     j = 0
 
@@ -579,8 +530,7 @@ def get_bundle_same_axis_no_grouping(
     max_j = 0
 
     if sort_ports:
-        # Sort ports according to X or Y
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             ports1.sort(key=get_port_y)
             ports2.sort(key=get_port_y)
         else:
@@ -589,7 +539,7 @@ def get_bundle_same_axis_no_grouping(
 
     # Compute max_j and min_j
     for i in range(len(ports1)):
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             x1 = ports1[i].position[1]
             x2 = ports2[i].position[1]
         else:
@@ -617,7 +567,7 @@ def get_bundle_same_axis_no_grouping(
     # Do case with wire direct if the ys are close to each other
     for i, _ in enumerate(ports1):
 
-        if axis in ["X", "x"]:
+        if axis in {"X", "x"}:
             x1 = ports1[i].position[1]
             x2 = ports2[i].position[1]
         else:
@@ -659,7 +609,6 @@ def test_get_bundle_small() -> Component:
     routes = get_bundle(
         [c1.ports["o3"], c1.ports["o4"]],
         [c2.ports["o1"], c2.ports["o2"]],
-        # radius=5,
         separation=5.0,
         cross_section=gf.cross_section.strip(radius=5, layer=(2, 0))
         # cross_section=gf.cross_section.strip,

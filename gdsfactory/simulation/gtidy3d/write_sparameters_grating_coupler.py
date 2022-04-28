@@ -90,25 +90,25 @@ def write_sparameters_grating_coupler(
         **kwargs,
     )
     filepath_sim_settings = filepath.with_suffix(".yml")
-    if filepath.exists() and not overwrite:
-        logger.info(f"Simulation loaded from {filepath!r}")
-        return pd.read_csv(filepath)
-    elif filepath.exists() and overwrite:
-        filepath.unlink()
+    if filepath.exists():
+        if overwrite:
+            filepath.unlink()
 
+        else:
+            logger.info(f"Simulation loaded from {filepath!r}")
+            return pd.read_csv(filepath)
     start = time.time()
     sim = get_simulation_grating_coupler(component, **kwargs)
     sim_data = get_results(sim)
     sim_data = sim_data.result()
 
     direction_inp = "+"
-    direction_out = "-"
-
     monitor_entering = (
         sim_data.monitor_data["waveguide"]
         .amps.sel(direction=direction_inp)
         .values.flatten()
     )
+    direction_out = "-"
     monitor_exiting = (
         sim_data.monitor_data["waveguide"]
         .amps.sel(direction=direction_out)
@@ -122,9 +122,8 @@ def write_sparameters_grating_coupler(
     ta = np.unwrap(np.angle(t))
     tm = np.abs(t)
 
-    sp = {}
     freqs = sim_data.monitor_data["waveguide"].amps.sel(direction="+").f
-    sp["wavelengths"] = td.constants.C_0 / freqs.values
+    sp = {"wavelengths": td.constants.C_0 / freqs.values}
     sp["s11a"] = sp["s22a"] = ra
     sp["s11m"] = sp["s22m"] = rm
 

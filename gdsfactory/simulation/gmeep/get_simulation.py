@@ -191,8 +191,9 @@ def get_simulation(
     ]
 
     assert (
-        len(layers_thickness) > 0
+        layers_thickness
     ), f"Component layers {component.layers} not in {layer_to_thickness.keys()}. "
+
     "Did you passed the correct layer_stack?"
 
     t_core = max(layers_thickness)
@@ -262,7 +263,10 @@ def get_simulation(
     elif np.isclose(port.orientation, 270):
         direction = mp.Y
     else:
-        ValueError(f"Port angle {port.orientation} not 0, 90, 180, or 270 degrees!")
+        raise ValueError(
+            f"Port source {port_source_name!r} orientation {port.orientation} "
+            "not 0, 90, 180, 270 degrees"
+        )
 
     sources = [
         mp.EigenModeSource(

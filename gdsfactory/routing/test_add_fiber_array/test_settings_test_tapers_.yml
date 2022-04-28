@@ -110,7 +110,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_540fab02
+        name: straight_373b1ebb_add_t_1d39f95e
       version: 0.0.1
     optical_routing_type: 0
   child:
@@ -222,7 +222,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_540fab02
+    name: straight_373b1ebb_add_t_1d39f95e
   default:
     bend:
       function: bend_euler
@@ -362,7 +362,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_540fab02
+        name: straight_373b1ebb_add_t_1d39f95e
       version: 0.0.1
     component_name: null
     cross_section:
@@ -391,5 +391,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_4842c36f
+  name: straight_373b1ebb_add_t_f3fbe555
 version: 0.0.1

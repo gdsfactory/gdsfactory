@@ -48,20 +48,16 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     # depending on the port orientation (assuming it's near PMLs)
 
     orientation = ports[f"o{port_index}"].orientation
-    if orientation == 0:  # east
+    if orientation in [0, 90]:  # east
         direction_inp = "-"
         direction_out = "+"
-    elif orientation == 90:  # north
-        direction_inp = "-"
-        direction_out = "+"
-    elif orientation == 180:  # west
-        direction_inp = "+"
-        direction_out = "-"
-    elif orientation == 270:  # south
+    elif orientation in [180, 270]:  # west
         direction_inp = "+"
         direction_out = "-"
     else:
-        ValueError("Port orientation = {orientation} is not 0, 90, 180, or 270 degrees")
+        raise ValueError(
+            "Port orientation = {orientation} is not 0, 90, 180, or 270 degrees"
+        )
 
     coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(
         direction=direction_inp
@@ -198,7 +194,7 @@ def write_sparameters(
         for monitor_index in monitor_indices:
             j = monitor_indices[n]
             i = monitor_index
-            if monitor_index == monitor_indices[n]:
+            if monitor_index == j:
                 sii = source_exiting / source_entering
 
                 siia = np.unwrap(np.angle(sii))
@@ -219,7 +215,7 @@ def write_sparameters(
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
 
-        if bool(port_symmetries) is True:
+        if bool(port_symmetries):
             for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
                 values = port_symmetries[f"o{monitor_indices[n]}"][key]
                 for value in values:

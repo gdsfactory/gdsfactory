@@ -92,5 +92,5 @@ settings:
     - 11.0
   info_version: 2
   module: gdsfactory.components.via_stack
-  name: via_stack_f1441a33
+  name: via_stack_c52235cb
 version: 0.0.1
