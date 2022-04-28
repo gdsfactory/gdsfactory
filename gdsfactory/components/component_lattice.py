@@ -13,7 +13,7 @@ COUNTER = itertools.count()
 
 
 def gen_tmp_port_name() -> str:
-    return "{}".format(next(COUNTER))
+    return f"{next(COUNTER)}"
 
 
 def swap(straights, i, j):
@@ -81,21 +81,19 @@ def get_sequence_cross(
             # already at the right place, it must swap to allow the other one
             # to cross
 
-            if d1 >= 0 and d2 <= 0 and not (d1 == 0 and d2 == 0):
+            if d1 >= 0 and d2 <= 0 and (d1 != 0 or d2 != 0):
                 wgs = swap(wgs, i, i + 1)
                 swaps += [X, X]
                 i += 1
-                # We cannot swap twice the same straight on the same iteration, so we
-                # skip the next straight by incrementing
-
-                # Edge case: Cannot swap if only one wg left so it has to be a straight
-                if i == N - 2:
-                    swaps += [S]
             else:
                 # Edge case if only one wg remain it is straight
                 swaps += [S]
-                if i == N - 2:
-                    swaps += [S]
+            # We cannot swap twice the same straight on the same iteration, so we
+            # skip the next straight by incrementing
+
+            # Edge case: Cannot swap if only one wg left so it has to be a straight
+            if i == N - 2:
+                swaps += [S]
             i += 1
 
         sequence.append(swaps)
@@ -114,10 +112,7 @@ def component_sequence_to_str(sequence):
 
     for i in range(M):
         j = M - 1 - i
-        line = ""
-        for col in sequence:
-            line += col[j]
-        line += "\n"
+        line = "".join(col[j] for col in sequence) + "\n"
         component_txt_lattice += line
 
     return component_txt_lattice
@@ -208,11 +203,10 @@ def component_lattice(
     columns, columns_to_length = parse_lattice(lattice, symbol_to_component)
     keys = sorted(columns.keys())
 
-    components_to_nb_input_ports = {}
-    for c in symbol_to_component.keys():
-        components_to_nb_input_ports[c] = len(
-            get_ports_facing(symbol_to_component[c], "W")
-        )
+    components_to_nb_input_ports = {
+        c: len(get_ports_facing(symbol_to_component[c], "W"))
+        for c in symbol_to_component.keys()
+    }
 
     component = gf.Component()
     x = 0
@@ -278,13 +272,12 @@ def parse_lattice(
     columns_to_length = {}
     for line in lines:
         if len(line) > 0:
-            i = 0
-            for c in line:
+            for i, c in enumerate(line):
                 if i not in columns.keys():
                     columns[i] = []
 
                 columns[i].append(c)
-                if c in symbol_to_component.keys():
+                if c in symbol_to_component:
                     cmp = symbol_to_component[c]
                     pcw = cmp.get_ports_list(clockwise=True)
                     pccw = cmp.get_ports_list(clockwise=False)
@@ -293,8 +286,6 @@ def parse_lattice(
                     columns_to_length[i] = (
                         cmp.ports[pccw[0].name].x - cmp.ports[pcw[0].name].x
                     )
-
-                i += 1
 
     return columns, columns_to_length
 
