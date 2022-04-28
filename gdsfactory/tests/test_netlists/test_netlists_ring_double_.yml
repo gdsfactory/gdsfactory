@@ -16,10 +16,16 @@ instances:
       radius: 10
   straight_c49ce9c6_10p0_10p705:
     component: straight
+    info:
+      length: 0.01
+      width: 0.5
     settings:
       length: 0.01
   straight_c49ce9c6_m10p01_10p705:
     component: straight
+    info:
+      length: 0.01
+      width: 0.5
     settings:
       length: 0.01
 name: ring_double
