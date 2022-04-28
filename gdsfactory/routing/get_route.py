@@ -45,21 +45,15 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import metal3, strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    Coordinates,
-    CrossSectionSpec,
-    Route,
-)
+from gdsfactory.types import ComponentSpec, Coordinates, CrossSectionSpec, Route
 
 
 def get_route(
     input_port: Port,
     output_port: Port,
-    bend: ComponentOrFactory = bend_euler,
-    straight: ComponentOrFactory = straight_function,
-    taper: Optional[ComponentFactory] = None,
+    bend: ComponentSpec = bend_euler,
+    straight: ComponentSpec = straight_function,
+    taper: Optional[ComponentSpec] = None,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,
@@ -71,8 +65,8 @@ def get_route(
     `get_route` is an automatic version of `get_route_from_steps`
 
     Args:
-        input_port: start port
-        output_port: end port
+        input_port: start port.
+        output_port: end port.
         bend: function that return bends
         straight: function that returns straights
         taper:
@@ -104,10 +98,10 @@ def get_route(
     auto_widen = x.auto_widen
     width2 = x.width_wide if auto_widen else width1
 
-    bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
+    bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
 
     if taper:
-        taper = partial(
+        taper = gf.get_component(
             taper,
             length=taper_length,
             width1=input_port.width,
@@ -246,16 +240,20 @@ if __name__ == "__main__":
     # cc.show()
 
     c = gf.Component()
-    p1 = c << gf.components.pad_array270()
-    p2 = c << gf.components.pad_array90()
+    # p1 = c << gf.components.pad_array270()
+    # p2 = c << gf.components.pad_array90()
+
+    p1 = c << gf.components.pad_array()
+    p2 = c << gf.components.pad_array()
 
     p1.movex(300)
     p1.movey(300)
-    route = get_route(
-        p1.ports["e13"],
+    route = get_route_electrical(
         p2.ports["e11"],
-        cross_section=gf.cross_section.strip(auto_widen=True, width_wide=2),
+        p1.ports["e11"],
+        # cross_section=gf.cross_section.strip(auto_widen=True, width_wide=2),
+        bend="wire_corner",
     )
     c.add(route.references)
 
-    c.show()
+    c.plot()

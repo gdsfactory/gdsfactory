@@ -16,7 +16,7 @@ def bend_euler(
     npoints: int = 720,
     direction: str = "ccw",
     with_bbox: bool = False,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
@@ -37,7 +37,7 @@ def bend_euler(
           with parameters `radius` and `angle`
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
