@@ -47,7 +47,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_64c7573c
+    name: text_rectangular_1728a687
   default:
     factory:
       function: cross
@@ -74,5 +74,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: text_rectangular_64c757_f021c7b1
+  name: text_rectangular_1728a6_ebdd1ca3
 version: 0.0.1
