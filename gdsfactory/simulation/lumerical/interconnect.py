@@ -1,3 +1,4 @@
+import contextlib
 from collections import OrderedDict
 from typing import Optional, Tuple
 
@@ -63,7 +64,6 @@ def send_to_interconnect(
     simulation_settings: OrderedDict = None,
     drop_port_prefix: str = None,
     component_distance_scaling: float = 1,
-    **settings,
 ) -> object:
     """Send all components in netlist to Interconnect and make connections according to netlist.
 
@@ -92,9 +92,9 @@ def send_to_interconnect(
 
     instances: DictConfig = netlist["instances"]
     connections: DictConfig = netlist["connections"]
-    placements: DictConfig = netlist["placements"] if not placements else placements
+    placements: DictConfig = placements or netlist["placements"]
 
-    for i, instance in enumerate(instances):
+    for instance in instances:
         info = instances[instance].info
         extra_props = info["interconnect"] if "interconnect" in info.keys() else None
         add_interconnect_element(
@@ -115,14 +115,10 @@ def send_to_interconnect(
 
         if drop_port_prefix:
             # a bad way to autodetect which ports need to have prefixes dropped..
-            try:
+            with contextlib.suppress(Exception):
                 port1 = port1[port1.index(drop_port_prefix) + 1 :]
-            except:
-                pass
-            try:
+            with contextlib.suppress(Exception):
                 port2 = port2[port2.index(drop_port_prefix) + 1 :]
-            except:
-                pass
 
         # EBeam ports are not named consistently between Klayout and Interconnect..
         if hasattr(instances[element1].info, port1):
@@ -163,7 +159,7 @@ def run_wavelength_sweep(
     """
     import lumapi
 
-    inc = session if session else lumapi.INTERCONNECT()
+    inc = session or lumapi.INTERCONNECT()
 
     # Add Monte-Carlo params
     inc.addproperty("::Root Element", "MC_uniformity_thickness", "wafer", "Matrix")
@@ -203,16 +199,13 @@ def run_wavelength_sweep(
         inc.connect(ona.name, f"input {i+1}", *ports_out[i])
 
     inc.run()
-
-    data = dict()
-    for result in results:
-        data[result] = {
+    return {
+        result: {
             port: inc.getresult(ona.name, f"input {i+1}/mode 1/{result}")
             for i, port in enumerate(ports_out)
         }
-
-    # inc.close()
-    return data
+        for result in results
+    }
 
 
 if __name__ == "__main__":
@@ -244,10 +237,6 @@ if __name__ == "__main__":
         ]
     )
 
-    # inc = send_to_interconnect(
-    #     component=c,
-    #     simulation_settings=simulation_settings
-    # )
     from gdsfactory.get_netlist import get_instance_name
 
     gc1_netlist_instance_name = get_instance_name(component, gc1)
@@ -276,4 +265,3 @@ if __name__ == "__main__":
     plt.xlabel(r"Wavelength ($\mu$m)")
     plt.ylabel("TE transmission (dB)")
     plt.show()
-    pass

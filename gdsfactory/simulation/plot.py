@@ -11,7 +11,6 @@ def plot_sparameters(
     df: DataFrame,
     logscale: bool = True,
     keys: Optional[Tuple[str, ...]] = None,
-    **sim_settings,
 ):
     """Plots Sparameters from a pandas DataFrame.
 
@@ -19,10 +18,6 @@ def plot_sparameters(
         df: Sparameters pandas DataFrame
         logscale: plots 20*log10(S)
         keys: list of keys to plot, plots all by default.
-
-    Keyword Args:
-        sim_settings: simulation settings for the write_sparameters_function
-
     """
 
     w = df["wavelengths"] * 1e3
@@ -31,12 +26,11 @@ def plot_sparameters(
     ]
 
     for key in keys:
-        if key in df:
-            y = df[key]
-            y = 20 * np.log10(y) if logscale else y
-            plt.plot(w, y, label=key[:-1])
-        else:
+        if key not in df:
             raise ValueError(f"{key} not in {df.keys()}")
+        y = df[key]
+        y = 20 * np.log10(y) if logscale else y
+        plt.plot(w, y, label=key[:-1])
     plt.legend()
     plt.xlabel("wavelength (nm)")
     plt.ylabel("|S| (dB)") if logscale else plt.ylabel("|S|")

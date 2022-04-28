@@ -38,10 +38,9 @@ def test_cutback_pn() -> Component:
     # with a given input and a given output
 
     sequence = "AB-H-H-H-H-BA"
-    component = component_sequence(
+    return component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    return component
 
 
 if __name__ == "__main__":

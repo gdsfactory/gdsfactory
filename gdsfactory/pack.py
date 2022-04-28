@@ -40,19 +40,13 @@ def _pack_single_bin(
     import rectpack
 
     # Compute total area and use it for an initial estimate of the bin size
-    total_area = 0
-    for r in rect_dict.values():
-        total_area += r[0] * r[1]
+    total_area = sum(r[0] * r[1] for r in rect_dict.values())
     aspect_ratio = np.asarray(aspect_ratio) / np.linalg.norm(aspect_ratio)  # Normalize
 
     # Setup variables
     box_size = np.asarray(aspect_ratio * np.sqrt(total_area), dtype=np.float64)
     box_size = np.clip(box_size, None, max_size)
-    if sort_by_area:
-        rp_sort = rectpack.SORT_AREA
-    else:
-        rp_sort = rectpack.SORT_NONE
-
+    rp_sort = rectpack.SORT_AREA if sort_by_area else rectpack.SORT_NONE
     # Repeatedly run the rectangle-packing algorithm with increasingly larger
     # areas until everything fits or we've reached the maximum size
     while True:
@@ -83,10 +77,9 @@ def _pack_single_bin(
 
     # Separate packed from unpacked rectangles, make dicts of form {id:(x,y,w,h)}
     packed_rect_dict = {r[-1]: r[:-1] for r in rect_packer[0].rect_list()}
-    unpacked_rect_dict = {}
-    for k, v in rect_dict.items():
-        if k not in packed_rect_dict:
-            unpacked_rect_dict[k] = v
+    unpacked_rect_dict = {
+        k: v for k, v in rect_dict.items() if k not in packed_rect_dict
+    }
 
     return packed_rect_dict, unpacked_rect_dict
 
@@ -158,7 +151,7 @@ def pack(
         rect_dict[n] = (w, h)
 
     packed_list = []
-    while len(rect_dict) > 0:
+    while rect_dict:
         (packed_rect_dict, rect_dict) = _pack_single_bin(
             rect_dict,
             aspect_ratio=aspect_ratio,
@@ -245,9 +238,7 @@ def test_pack_with_settings() -> Component:
         sort_by_area=True,  # Pre-sorts the shapes by area
         precision=1e-3,
     )
-    c = components_packed_list[0]
-    # print(len(c.get_dependencies()))
-    return c
+    return components_packed_list[0]
 
 
 if __name__ == "__main__":

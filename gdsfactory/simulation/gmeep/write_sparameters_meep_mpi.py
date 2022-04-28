@@ -158,18 +158,14 @@ def write_sparameters_meep_mpi(
         "\t\tcomponent = pickle.load(inp)\n\n"
         "\twrite_sparameters_meep(component = component,\n",
     ]
-    for key in kwargs.keys():
-        script_lines.append(f"\t\t{key} = {kwargs[key]!r},\n")
-
+    script_lines.extend(f"\t\t{key} = {kwargs[key]!r},\n" for key in kwargs.keys())
     script_lines.append("\t)")
     script_file = tempfile.with_suffix(".py")
-    script_file_obj = open(script_file, "w")
-    script_file_obj.writelines(script_lines)
-    script_file_obj.close()
-
+    with open(script_file, "w") as script_file_obj:
+        script_file_obj.writelines(script_lines)
     command = f"mpirun -np {cores} python {script_file}"
     print(command)
-    print(str(filepath))
+    print(filepath)
     logger.info(command)
     logger.info(str(filepath))
 

@@ -37,10 +37,9 @@ def test_cutback_phase(
     repeated_sequence = "SIPOSASIPOSB"
     heater_seq = "-H-H-H-H-"
     sequence = repeated_sequence * n + "SIPO" + heater_seq
-    component = component_sequence(
+    return component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    return component
 
 
 if __name__ == "__main__":
