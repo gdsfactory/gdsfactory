@@ -5,7 +5,7 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
@@ -19,7 +19,7 @@ def coupler_adiabatic(
     dw: float = 0.1,
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
-    waveguide_template: ComponentFactory = strip,
+    waveguide_template: ComponentSpec = strip,
     **kwargs
 ) -> Component:
     """Returns 50/50 adiabatic coupler.

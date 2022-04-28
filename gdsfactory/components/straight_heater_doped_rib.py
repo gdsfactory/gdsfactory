@@ -7,12 +7,7 @@ from gdsfactory.components.via_stack import via_stack_m1_m3 as via_stack_metal_f
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    ComponentSpec,
-    CrossSectionSpec,
-)
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -21,11 +16,11 @@ def straight_heater_doped_rib(
     nsections: int = 3,
     cross_section: CrossSectionSpec = strip_rib_tip,
     cross_section_heater: CrossSectionSpec = rib_heater_doped,
-    via_stack: Optional[ComponentFactory] = via_stack_slab_npp_m3,
-    via_stack_metal: Optional[ComponentFactory] = via_stack_metal_function,
+    via_stack: Optional[ComponentSpec] = via_stack_slab_npp_m3,
+    via_stack_metal: Optional[ComponentSpec] = via_stack_metal_function,
     via_stack_metal_size: Tuple[float, float] = (10.0, 10.0),
     via_stack_size: Tuple[float, float] = (10.0, 10.0),
-    taper: Optional[ComponentOrFactory] = taper_cross_section,
+    taper: Optional[ComponentSpec] = taper_cross_section,
     with_taper1: bool = True,
     with_taper2: bool = True,
     heater_width: float = 2.0,
@@ -97,7 +92,7 @@ def straight_heater_doped_rib(
 
     """
     c = Component()
-    cross_section_heater = gf.partial(
+    cross_section_heater = gf.get_cross_section(
         cross_section_heater,
         heater_width=heater_width,
         heater_gap=heater_gap,

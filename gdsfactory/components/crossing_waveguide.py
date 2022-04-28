@@ -16,12 +16,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.tech import LAYER
-from gdsfactory.types import (
-    ComponentFactory,
-    ComponentOrFactory,
-    CrossSectionSpec,
-    Layer,
-)
+from gdsfactory.types import ComponentOrFactory, ComponentSpec, CrossSectionSpec, Layer
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -83,7 +78,7 @@ def crossing_arm(
 
 
 @cell
-def crossing(arm: ComponentFactory = crossing_arm) -> Component:
+def crossing(arm: ComponentSpec = crossing_arm) -> Component:
     """Waveguide crossing"""
     cx = Component()
     arm = arm() if callable(arm) else arm
@@ -189,7 +184,7 @@ def crossing_etched(
 
 @cell
 def crossing45(
-    crossing: ComponentFactory = crossing,
+    crossing: ComponentSpec = crossing,
     port_spacing: float = 40.0,
     dx: Optional[float] = None,
     alpha: float = 0.08,

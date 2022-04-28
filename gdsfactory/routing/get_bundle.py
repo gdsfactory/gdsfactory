@@ -29,7 +29,7 @@ from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentFactory, CrossSectionSpec, Number, Route
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Number, Route
 
 METAL_MIN_SEPARATION = TECH.metal_spacing
 
@@ -39,8 +39,8 @@ def get_bundle(
     ports2: List[Port],
     separation: float = 5.0,
     extension_length: float = 0.0,
-    straight: ComponentFactory = straight_function,
-    bend: ComponentFactory = bend_euler,
+    straight: ComponentSpec = straight_function,
+    bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -196,7 +196,7 @@ def get_bundle_same_axis(
     separation: float = 5.0,
     end_straight_length: float = 0.0,
     start_straight_length: float = 0.0,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs,

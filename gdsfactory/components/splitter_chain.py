@@ -2,14 +2,14 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.mmi1x2 import mmi1x2
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def splitter_chain(
-    splitter: ComponentFactory = mmi1x2,
+    splitter: ComponentSpec = mmi1x2,
     columns: int = 3,
-    bend: ComponentFactory = bend_s,
+    bend: ComponentSpec = bend_s,
 ) -> Component:
     """Chain of splitters
 

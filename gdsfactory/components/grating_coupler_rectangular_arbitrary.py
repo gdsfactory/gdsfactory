@@ -7,7 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentFactory, Floats, Layer
+from gdsfactory.types import ComponentSpec, Floats, Layer
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -23,7 +23,7 @@ def grating_coupler_rectangular_arbitrary(
     layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
     wavelength: float = 1.55,
-    taper: Optional[ComponentFactory] = taper_function,
+    taper: Optional[ComponentSpec] = taper_function,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,

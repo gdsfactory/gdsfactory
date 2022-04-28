@@ -8,7 +8,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.tech import LAYER
 from gdsfactory.components.pad import pad as pad_function
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 pad80 = partial(pad_function, size=(80, 80))
@@ -19,7 +19,7 @@ def resistance_meander(
     num_squares: int = 1000,
     width: float = 1.0,
     layer: Tuple[int, int] = LAYER.M3,
-    pad: ComponentFactory = pad80,
+    pad: ComponentSpec = pad80,
 ) -> Component:
     """meander to test resistance
     from phidl.geometry

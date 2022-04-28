@@ -6,12 +6,12 @@ from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.routing.manhattan import route_manhattan
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def loop_mirror(
-    component: ComponentFactory = mmi1x2, bend90: ComponentFactory = bend_euler
+    component: ComponentSpec = mmi1x2, bend90: ComponentSpec = bend_euler
 ) -> Component:
     """Returns Sagnac loop_mirror."""
     c = Component()

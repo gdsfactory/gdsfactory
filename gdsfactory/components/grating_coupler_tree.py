@@ -7,16 +7,16 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
 from gdsfactory.components.straight_array import straight_array
-from gdsfactory.types import ComponentFactory
+from gdsfactory.types import ComponentSpec
 
 
 @gf.cell
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: float = 4.0,
-    grating_coupler_function: ComponentFactory = grating_coupler_elliptical_te,
+    grating_coupler_function: ComponentSpec = grating_coupler_elliptical_te,
     with_loopback: bool = False,
-    bend: ComponentFactory = bend_euler,
+    bend: ComponentSpec = bend_euler,
     fanout_length: float = 0.0,
     layer_label: Tuple[int, int] = (66, 0),
     **kwargs
