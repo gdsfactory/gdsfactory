@@ -22,6 +22,11 @@ connections:
 instances:
   bend_euler_9ace2d87_225p125_204p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -29,6 +34,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_234p875_555p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -36,6 +46,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_234p875_584p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -43,6 +58,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_234p875_595p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -50,6 +70,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_255p125_4p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -57,6 +82,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_264p875_355p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -64,6 +94,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_264p875_384p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -71,6 +106,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_264p875_395p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -78,6 +118,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_495p125_564p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -85,6 +130,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_495p125_575p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -92,6 +142,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_525p125_364p875:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -99,6 +154,11 @@ instances:
       radius: 10
   bend_euler_9ace2d87_525p125_375p125:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       cross_section:
         function: cross_section
@@ -106,65 +166,123 @@ instances:
       radius: 10
   bl:
     component: pad
+    info:
+      layer:
+      - 49
+      - 0
+      size:
+      - 100.0
+      - 100.0
     settings: {}
   br:
     component: pad
+    info:
+      layer:
+      - 49
+      - 0
+      size:
+      - 100.0
+      - 100.0
     settings: {}
   straight_1a88079a_365p0_560p0:
     component: straight
+    info:
+      length: 250
+      width: 0.5
     settings:
       length: 250
       radius: 10
   straight_1a88079a_365p0_580p0:
     component: straight
+    info:
+      length: 250
+      width: 0.5
     settings:
       length: 250
       radius: 10
   straight_1a88079a_395p0_360p0:
     component: straight
+    info:
+      length: 250
+      width: 0.5
     settings:
       length: 250
       radius: 10
   straight_1a88079a_395p0_380p0:
     component: straight
+    info:
+      length: 250
+      width: 0.5
     settings:
       length: 250
       radius: 10
   straight_730b39a8_150p0_0p0:
     component: straight
+    info:
+      length: 200
+      width: 0.5
     settings:
       length: 200
       radius: 10
   straight_76c7a705_545p0_600p0:
     component: straight
+    info:
+      length: 610
+      width: 0.5
     settings:
       length: 610
       radius: 10
   straight_80b7924a_135p0_200p0:
     component: straight
+    info:
+      length: 170
+      width: 0.5
     settings:
       length: 170
       radius: 10
   straight_aa7b6441_230p0_380p0:
     component: straight
+    info:
+      length: 340
+      width: 0.5
     settings:
       length: 340
       radius: 10
   straight_aa7b6441_260p0_180p0:
     component: straight
+    info:
+      length: 340
+      width: 0.5
     settings:
       length: 340
       radius: 10
   straight_e3b83c00_560p0_400p0:
     component: straight
+    info:
+      length: 580
+      width: 0.5
     settings:
       length: 580
       radius: 10
   tl:
     component: pad
+    info:
+      layer:
+      - 49
+      - 0
+      size:
+      - 100.0
+      - 100.0
     settings: {}
   tr:
     component: pad
+    info:
+      layer:
+      - 49
+      - 0
+      size:
+      - 100.0
+      - 100.0
     settings: {}
 name: sample_path_length_matching
 placements:

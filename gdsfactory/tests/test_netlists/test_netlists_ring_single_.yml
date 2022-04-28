@@ -8,10 +8,20 @@ connections:
 instances:
   bend_euler_2e0a66fe_5p125_16p425:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       radius: 10
   bend_euler_2e0a66fe_m9p125_16p425:
     component: bend_euler
+    info:
+      dy: 10
+      length: 16.637
+      radius: 10
+      radius_min: 7.061
     settings:
       radius: 10
   coupler_ring_5ab53b45_m2p0_5p225:
@@ -23,16 +33,25 @@ instances:
       radius: 10
   straight_0683f83e_m2p0_21p3:
     component: straight
+    info:
+      length: 4
+      width: 0.5
     settings:
       cross_section: strip
       length: 4
   straight_15578a48_10p0_11p0:
     component: straight
+    info:
+      length: 0.6
+      width: 0.5
     settings:
       cross_section: strip
       length: 0.6
   straight_15578a48_m14p0_11p0:
     component: straight
+    info:
+      length: 0.6
+      width: 0.5
     settings:
       cross_section: strip
       length: 0.6

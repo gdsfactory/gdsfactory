@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.3.4]
+
+- fix tests
+
 ## [5.3.3](https://github.com/gdsfactory/gdsfactory/pull/319)
 
 - [copy component info and settings if they exist](https://github.com/gdsfactory/gdsfactory/pull/316)
