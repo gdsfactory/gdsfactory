@@ -25,19 +25,20 @@ def merge_json(
         logger.debug(f"merging {filename}")
         with open(filename, "r") as f:
             data = json.load(f)
-            cells.update(data.get("cells"))
+            cells |= data.get("cells")
 
     does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("**/*.json")}
-    metadata = dict(
+    return dict(
         json_version=json_version,
         cells=cells,
         does=does,
     )
-    return metadata
 
 
 if __name__ == "__main__":
     from pprint import pprint
 
-    d = merge_json()
+    from gdsfactory.config import cwd
+
+    d = merge_json(doe_directory=cwd)
     pprint(d)

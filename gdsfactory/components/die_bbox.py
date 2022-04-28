@@ -14,7 +14,7 @@ big_square = gf.partial(rectangle, size=(1300, 2600))
 def die_bbox(
     component: gf.types.ComponentSpec = big_square,
     street_width: float = 100.0,
-    street_length: float = 1000.0,
+    street_length: Optional[float] = None,
     die_name: Optional[str] = None,
     text_size: float = 100.0,
     text_anchor: Anchor = "sw",
@@ -52,7 +52,7 @@ def die_bbox(
     sx += street_width + padding
     sy += street_width + padding
 
-    street_length = max([sx, sy])
+    street_length = street_length or max([sx, sy])
 
     xpts = np.array(
         [

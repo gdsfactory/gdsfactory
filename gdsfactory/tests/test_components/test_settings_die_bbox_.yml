@@ -28,7 +28,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.rectangle
-    name: rectangle_fa2668ee
+    name: rectangle_5992b8ec
   default:
     component:
       function: rectangle
@@ -41,7 +41,7 @@ settings:
     - 49
     - 0
     padding: 10
-    street_length: 1000
+    street_length: null
     street_width: 100
     text_anchor: sw
     text_size: 100
@@ -57,7 +57,7 @@ settings:
     - 49
     - 0
     padding: 10
-    street_length: 1000
+    street_length: null
     street_width: 100
     text_anchor: sw
     text_size: 100
@@ -65,5 +65,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.die_bbox
-  name: rectangle_fa2668ee_die_bbox
+  name: rectangle_5992b8ec_die_bbox
 version: 0.0.1

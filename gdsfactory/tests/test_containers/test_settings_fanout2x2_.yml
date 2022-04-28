@@ -64,7 +64,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_f173d462
+        name: mzi_2e88f57c
       version: 0.0.1
   child:
     changed:
@@ -129,7 +129,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.mzi
-    name: mzi_f173d462
+    name: mzi_2e88f57c
   default:
     bend_length: null
     component: mmi2x2
@@ -209,7 +209,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.components.mzi
-        name: mzi_f173d462
+        name: mzi_2e88f57c
       version: 0.0.1
     cross_section:
       function: cross_section
@@ -225,5 +225,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.fanout2x2
-  name: mzi_f173d462_fanout2x2_d3590755
+  name: mzi_2e88f57c_fanout2x2_a1719f97
 version: 0.0.1

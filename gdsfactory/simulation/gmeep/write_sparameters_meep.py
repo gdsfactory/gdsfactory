@@ -100,7 +100,7 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
         idx_in = 0
         idx_out = 1
     else:
-        ValueError("Port orientation is not 0, 90, 180, or 270 degrees!")
+        raise ValueError("Port orientation is not 0, 90, 180, or 270 degrees!")
 
     # Get port coeffs
     monitor_coeff = sim.get_eigenmode_coefficients(
@@ -399,16 +399,15 @@ def write_sparameters_meep(
         # print(sim.resolution)
 
         # Make termination when field decayed enough across ALL monitors
-        termination = []
-        for monitor_name in monitors:
-            termination.append(
-                mp.stop_when_fields_decayed(
-                    dt=50,
-                    c=mp.Ez,
-                    pt=monitors[monitor_name].regions[0].center,
-                    decay_by=1e-9,
-                )
+        termination = [
+            mp.stop_when_fields_decayed(
+                dt=50,
+                c=mp.Ez,
+                pt=monitors[monitor_name].regions[0].center,
+                decay_by=1e-9,
             )
+            for monitor_name in monitors
+        ]
 
         if animate:
             sim.use_output_directory()
@@ -425,7 +424,7 @@ def write_sparameters_meep(
                 normalize=True,
             )
             sim.run(mp.at_every(1, animate), until_after_sources=termination)
-            animate.to_mp4(30, monitor_indices[n] + ".mp4")
+            animate.to_mp4(30, f"{monitor_indices[n]}.mp4")
         else:
             sim.run(until_after_sources=termination)
         # call this function every 50 time spes
@@ -442,7 +441,7 @@ def write_sparameters_meep(
         for monitor_index in monitor_indices:
             j = monitor_indices[n]
             i = monitor_index
-            if monitor_index == monitor_indices[n]:
+            if monitor_index == j:
                 sii = source_exiting / source_entering
                 siia = np.unwrap(np.angle(sii))
                 siim = np.abs(sii)
@@ -461,7 +460,7 @@ def write_sparameters_meep(
                 sija = np.unwrap(np.angle(sij))
                 sijm = np.abs(sij)
 
-        if bool(port_symmetries) is True:
+        if bool(port_symmetries):
             for key in port_symmetries[f"o{monitor_indices[n]}"].keys():
                 values = port_symmetries[f"o{monitor_indices[n]}"][key]
                 for value in values:
