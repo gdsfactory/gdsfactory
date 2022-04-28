@@ -35,7 +35,7 @@ def get_bundle_udirect(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     bend: ComponentFactory = bend_euler,
-    **routing_params
+    **routing_params,
 ) -> List[Route]:
     r"""
 
@@ -95,7 +95,7 @@ def get_bundle_udirect(
         end_straight_offset=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         bend=bend,
-        **routing_params
+        **routing_params,
     )
 
     return [route_filter(route, bend=bend, **routing_params) for route in routes]
@@ -111,29 +111,28 @@ def _get_bundle_udirect_waypoints(
     end_straight_offset: float = 0.0,
     start_straight_offset: float = 0.0,
     bend: ComponentFactory = bend_euler,
-    **routing_func_params
+    **routing_func_params,
 ) -> List[ndarray]:
 
     nb_ports = len(ports1)
     for p in ports1:
-        p.angle = p.angle % 360
+        p.orientation = (
+            p.orientation % 360 if p.orientation is not None else p.orientation
+        )
 
     for p in ports2:
-        p.angle = p.angle % 360
+        p.orientation = (
+            p.orientation % 360 if p.orientation is not None else p.orientation
+        )
 
     if len(ports2) != nb_ports:
         raise ValueError(
-            "Number of start ports should match number of end ports.\
-        Got {} {}".format(
-                len(ports1), len(ports2)
-            )
+            "Number of start ports should match number of end ports."
+            f"Got {len(ports1)} {len(ports2)}"
         )
-    if len(set([p.angle for p in ports1 + ports2])) > 1:
+    if len(set([p.orientation for p in ports1 + ports2])) > 1:
         raise ValueError(
-            "All ports should have the same angle\
-        , got \n{}\n{}".format(
-                ports1, ports2
-            )
+            f"All ports should have the same orientation, got \n{ports1}\n{ports2}"
         )
 
     xs_end = [p.x for p in ports2]
@@ -143,7 +142,8 @@ def _get_bundle_udirect_waypoints(
     y_cut = 0.5 * (min(ys_end) + max(ys_end))
 
     # Find axis
-    angle_start = ports1[0].angle
+    angle_start = ports1[0].orientation
+
     if angle_start in [0, 180]:
         axis = "X"
         cut = y_cut
@@ -187,6 +187,9 @@ def _get_bundle_udirect_waypoints(
             dy = ys_start[0] - ys_end[0]
         elif angle_start == 270:
             dy = ys_end[0] - ys_start[0]
+        elif angle_start is None:
+            dy = ys_end[0] - ys_start[0]
+
         end_straight_length = max(end_straight_length, dy)
 
     # add offsets
@@ -203,7 +206,7 @@ def _get_bundle_udirect_waypoints(
             start_straight_length=straight_len_start,
             end_straight_length=straight_len_end,
             bend=bend,
-            **routing_func_params
+            **routing_func_params,
         )
         connections += [_c]
         straight_len_end += separation
@@ -218,7 +221,7 @@ def _get_bundle_udirect_waypoints(
             start_straight_length=straight_len_start,
             end_straight_length=straight_len_end,
             bend=bend,
-            **routing_func_params
+            **routing_func_params,
         )
         connections += [_c]
         straight_len_end += separation
@@ -235,7 +238,7 @@ def get_bundle_uindirect(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    **routing_params
+    **routing_params,
 ) -> List[Route]:
     r"""
 
@@ -304,7 +307,7 @@ def get_bundle_uindirect(
         end_straight_length=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         extension_length=extension_length,
-        **routing_params
+        **routing_params,
     )
 
     return [route_filter(route, **routing_params) for route in routes]
@@ -318,16 +321,20 @@ def _get_bundle_uindirect_waypoints(
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
-    **routing_func_params
+    **routing_func_params,
 ):
 
     nb_ports = len(ports1)
 
     for p in ports1:
-        p.angle = p.angle % 360
+        p.orientation = (
+            p.orientation % 360 if p.orientation is not None else p.orientation
+        )
 
     for p in ports2:
-        p.angle = p.angle % 360
+        p.orientation = (
+            p.orientation % 360 if p.orientation is not None else p.orientation
+        )
 
     if len(ports2) != nb_ports:
         raise ValueError(
@@ -337,7 +344,7 @@ def _get_bundle_uindirect_waypoints(
             )
         )
 
-    if len(set([p.angle for p in ports1])) > 1:
+    if len(set([p.orientation for p in ports1])) > 1:
         raise ValueError(
             "All start port angles should be the same.\
         Got {}".format(
@@ -345,7 +352,7 @@ def _get_bundle_uindirect_waypoints(
             )
         )
 
-    if len(set([p.angle for p in ports2])) > 1:
+    if len(set([p.orientation for p in ports2])) > 1:
         raise ValueError(
             "All end port angles should be the same.\
         Got {}".format(
@@ -357,7 +364,7 @@ def _get_bundle_uindirect_waypoints(
     ys_end = [p.y for p in ports2]
 
     # Compute the bundle axis
-    if ports1[0].angle in [0, 180]:
+    if ports1[0].orientation in [0, 180]:
         axis = "X"
     else:
         axis = "Y"
@@ -371,7 +378,7 @@ def _get_bundle_uindirect_waypoints(
         group1 = [p for p in ports1 if p.y <= y_cut]
         group2 = [p for p in ports1 if p.y > y_cut]
 
-        if ports1[0].angle == 0 and ports2[0].angle == 180:
+        if ports1[0].orientation == 0 and ports2[0].orientation == 180:
             """
                  X->
             <-D
@@ -381,7 +388,7 @@ def _get_bundle_uindirect_waypoints(
             group1_route_directives = ["north", "west"]
             group2_route_directives = ["south", "west"]
 
-        elif ports1[0].angle == 180 and ports2[0].angle == 0:
+        elif ports1[0].orientation == 180 and ports2[0].orientation == 0:
             """
             <-X
                  D->
@@ -399,7 +406,7 @@ def _get_bundle_uindirect_waypoints(
         group1 = [p for p in ports1 if p.x <= x_cut]
         group2 = [p for p in ports1 if p.x > x_cut]
 
-        if ports1[0].angle == 90 and ports2[0].angle == 270:
+        if ports1[0].orientation == 90 and ports2[0].orientation == 270:
             """
 
             ^     ^
@@ -413,7 +420,7 @@ def _get_bundle_uindirect_waypoints(
             group1_route_directives = ["east", "south"]
             group2_route_directives = ["west", "south"]
 
-        elif ports1[0].angle == 270 and ports2[0].angle == 90:
+        elif ports1[0].orientation == 270 and ports2[0].orientation == 90:
             """
                ^
                |
@@ -464,14 +471,14 @@ def _get_bundle_uindirect_waypoints(
         group1,
         group1_route_directives[0],
         extension_length=extension_length,
-        **routing_param
+        **routing_param,
     )
 
     conn2, tmp_ports2 = route_ports_to_side(
         group2,
         group2_route_directives[0],
         extension_length=extension_length,
-        **routing_param
+        **routing_param,
     )
     conn = conn1 + conn2
     dict_connections = {i: [c] for i, c in enumerate(conn)}

@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.3.0]
+
+- fix some fstrings [issues](https://github.com/gdsfactory/gdsfactory/issues/311)
+- fix lumerical notebook [typo](https://github.com/gdsfactory/gdsfactory/issues/309)
+- enable Component.plot() with ports with orientation = None
+- add gf.routing.get_route_from_steps_electrical
+
 ## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 
 - route ports with orientation = None
