@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.3.5]
+## [5.3.5](https://github.com/gdsfactory/gdsfactory/pull/323)
 
 - [clean code](https://github.com/gdsfactory/gdsfactory/pull/321)
 - if no optical ports found with add_fiber_array or add_fiber_array it will raise ValueError [inspired by issue](https://github.com/gdsfactory/gdsfactory/issues/322)
