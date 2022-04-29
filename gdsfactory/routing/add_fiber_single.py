@@ -107,6 +107,9 @@ def add_fiber_single(
 
     zero_port = zero_port or optical_port_names[0]
 
+    if not optical_ports:
+        raise ValueError(f"No optical ports found in {component.name!r}")
+
     if zero_port not in optical_port_names:
         raise ValueError(f"zero_port = {zero_port!r} not in {optical_port_names}")
 

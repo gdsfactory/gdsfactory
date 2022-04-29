@@ -85,9 +85,6 @@ def add_fiber_array(
     get_input_labels_function = None if gc_port_labels else get_input_labels_function
     component = gf.get_component(component)
 
-    if not component.ports:
-        return component
-
     if isinstance(grating_coupler, list):
         gc = grating_coupler[0]
     else:
@@ -121,7 +118,7 @@ def add_fiber_array(
     optical_ports = select_ports(component.ports)
     optical_ports_names = list(optical_ports.keys())
     if not optical_ports:
-        return component
+        raise ValueError(f"No optical ports found in {component.name!r}")
 
     elements, io_gratings_lines, ports = route_fiber_array(
         component=component,
