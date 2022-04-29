@@ -110,7 +110,7 @@ def grating_coupler_circular(
         taper_length=taper_length,
         period=period,
         dutycycle=fill_factor,
-        ridge=True if layer_slab else False,
+        ridge=bool(layer_slab),
         ridge_layers=layer_slab,
         teeth_list=teeth_list,
         port=port,

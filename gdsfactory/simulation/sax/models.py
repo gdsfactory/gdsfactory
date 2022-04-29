@@ -33,16 +33,15 @@ def straight(
     """
     dwl = wl - wl0
     dneff_dwl = (ng - neff) / wl0
-    neff = neff - dwl * dneff_dwl
+    neff -= dwl * dneff_dwl
     phase = 2 * jnp.pi * neff * length / wl
     amplitude = jnp.asarray(10 ** (-loss * length / 20), dtype=complex)
     transmission = amplitude * jnp.exp(1j * phase)
-    sdict = reciprocal(
+    return reciprocal(
         {
             ("o1", "o2"): transmission,
         }
     )
-    return sdict
 
 
 def attenuator(*, loss: float = 0.0) -> SDict:
@@ -59,12 +58,11 @@ def attenuator(*, loss: float = 0.0) -> SDict:
                 loss
     """
     transmission = jnp.asarray(10 ** (-loss / 20), dtype=complex)
-    sdict = reciprocal(
+    return reciprocal(
         {
             ("o1", "o2"): transmission,
         }
     )
-    return sdict
 
 
 def grating_coupler(
@@ -103,7 +101,7 @@ def grating_coupler(
     amplitude = jnp.asarray(10 ** (-loss / 20), dtype=complex)
     sigma = bandwidth / (2 * jnp.sqrt(2 * jnp.log(2)))
     transmission = amplitude * jnp.exp(-((wl - wl0) ** 2) / (2 * sigma**2))
-    sdict = reciprocal(
+    return reciprocal(
         {
             ("o1", "o1"): reflection * jnp.ones_like(transmission),
             ("o1", "o2"): transmission,
@@ -111,7 +109,6 @@ def grating_coupler(
             ("o2", "o2"): reflection_fiber * jnp.ones_like(transmission),
         }
     )
-    return sdict
 
 
 def coupler(
@@ -169,7 +166,7 @@ def coupler(
 
     tau = jnp.cos(kappa0 + kappa1 * length)
     kappa = -jnp.sin(kappa0 + kappa1 * length)
-    sdict = reciprocal(
+    return reciprocal(
         {
             ("o1", "o4"): tau,
             ("o1", "o3"): 1j * kappa,
@@ -177,7 +174,6 @@ def coupler(
             ("o2", "o3"): tau,
         }
     )
-    return sdict
 
 
 def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
@@ -201,7 +197,7 @@ def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
     """
     kappa = coupling**0.5
     tau = (1 - coupling) ** 0.5
-    sdict = reciprocal(
+    return reciprocal(
         {
             ("o1", "o4"): tau,
             ("o1", "o3"): 1j * kappa,
@@ -209,7 +205,6 @@ def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
             ("o2", "o3"): tau,
         }
     )
-    return sdict
 
 
 if __name__ == "__main__":

@@ -52,8 +52,7 @@ def mmi2x2(**kwargs):
         c = gc.mmi2x2()
         gs.plot_model(c)
     """
-    m = model_from_gdsfactory(gf.components.mmi2x2)
-    return m
+    return model_from_gdsfactory(gf.components.mmi2x2)
 
 
 if __name__ == "__main__":

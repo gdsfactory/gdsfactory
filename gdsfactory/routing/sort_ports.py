@@ -32,9 +32,9 @@ def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List
     """
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
-    if len(ports1) == 0:
+    if not ports1:
         raise ValueError("ports1 is an empty list")
-    if len(ports2) == 0:
+    if not ports2:
         raise ValueError("ports2 is an empty list")
 
     if isinstance(ports1, dict):
@@ -54,19 +54,9 @@ def sort_ports(ports1: List[Port], ports2: List[Port]) -> Tuple[List[Port], List
         ports1.sort(key=f_key1)
         ports2.sort(key=f_key2)
     else:
-        if ports1[0].orientation in [0, 180]:
-            axis = "X"
-        else:
-            axis = "Y"
-
-        if axis in ["X", "x"]:
-            f_key1 = get_port_y
-            # f_key2 = get_port_y
-        else:
-            f_key1 = get_port_x
-            # f_key2 = get_port_x
-
-        ports2_by1 = {p1: p2 for p1, p2 in zip(ports1, ports2)}
+        axis = "X" if ports1[0].orientation in [0, 180] else "Y"
+        f_key1 = get_port_y if axis in {"X", "x"} else get_port_x
+        ports2_by1 = dict(zip(ports1, ports2))
         ports1.sort(key=f_key1)
         ports2 = [ports2_by1[p1] for p1 in ports1]
     return ports1, ports2
@@ -87,73 +77,67 @@ if __name__ == "__main__":
         if config in ["A", "B"]:
             a = 100.0
             ports_A_TR = [
-                Port("A_TR_{}".format(i), (d, a / 2 + i * sep), 0.5, 0)
-                for i in range(N)
+                Port(f"A_TR_{i}", (d, a / 2 + i * sep), 0.5, 0) for i in range(N)
             ]
+
             ports_A_TL = [
-                Port("A_TL_{}".format(i), (-d, a / 2 + i * sep), 0.5, 180)
-                for i in range(N)
+                Port(f"A_TL_{i}", (-d, a / 2 + i * sep), 0.5, 180) for i in range(N)
             ]
+
             ports_A_BR = [
-                Port("A_BR_{}".format(i), (d, -a / 2 - i * sep), 0.5, 0)
-                for i in range(N)
+                Port(f"A_BR_{i}", (d, -a / 2 - i * sep), 0.5, 0) for i in range(N)
             ]
+
             ports_A_BL = [
-                Port("A_BL_{}".format(i), (-d, -a / 2 - i * sep), 0.5, 180)
-                for i in range(N)
+                Port(f"A_BL_{i}", (-d, -a / 2 - i * sep), 0.5, 180) for i in range(N)
             ]
 
             ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
 
             ports_B_TR = [
-                Port("B_TR_{}".format(i), (a / 2 + i * sep, d), 0.5, 90)
-                for i in range(N)
+                Port(f"B_TR_{i}", (a / 2 + i * sep, d), 0.5, 90) for i in range(N)
             ]
+
             ports_B_TL = [
-                Port("B_TL_{}".format(i), (-a / 2 - i * sep, d), 0.5, 90)
-                for i in range(N)
+                Port(f"B_TL_{i}", (-a / 2 - i * sep, d), 0.5, 90) for i in range(N)
             ]
+
             ports_B_BR = [
-                Port("B_BR_{}".format(i), (a / 2 + i * sep, -d), 0.5, 270)
-                for i in range(N)
+                Port(f"B_BR_{i}", (a / 2 + i * sep, -d), 0.5, 270) for i in range(N)
             ]
+
             ports_B_BL = [
-                Port("B_BL_{}".format(i), (-a / 2 - i * sep, -d), 0.5, 270)
-                for i in range(N)
+                Port(f"B_BL_{i}", (-a / 2 - i * sep, -d), 0.5, 270) for i in range(N)
             ]
 
             ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
 
         elif config in ["C", "D"]:
             a = N * sep + 2 * d
-            ports_A_TR = [
-                Port("A_TR_{}".format(i), (a, d + i * sep), 0.5, 0) for i in range(N)
-            ]
+            ports_A_TR = [Port(f"A_TR_{i}", (a, d + i * sep), 0.5, 0) for i in range(N)]
             ports_A_TL = [
-                Port("A_TL_{}".format(i), (-a, d + i * sep), 0.5, 180) for i in range(N)
+                Port(f"A_TL_{i}", (-a, d + i * sep), 0.5, 180) for i in range(N)
             ]
             ports_A_BR = [
-                Port("A_BR_{}".format(i), (a, -d - i * sep), 0.5, 0) for i in range(N)
+                Port(f"A_BR_{i}", (a, -d - i * sep), 0.5, 0) for i in range(N)
             ]
             ports_A_BL = [
-                Port("A_BL_{}".format(i), (-a, -d - i * sep), 0.5, 180)
-                for i in range(N)
+                Port(f"A_BL_{i}", (-a, -d - i * sep), 0.5, 180) for i in range(N)
             ]
 
             ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
 
             ports_B_TR = [
-                Port("B_TR_{}".format(i), (d + i * sep, a), 0.5, 90) for i in range(N)
+                Port(f"B_TR_{i}", (d + i * sep, a), 0.5, 90) for i in range(N)
             ]
             ports_B_TL = [
-                Port("B_TL_{}".format(i), (-d - i * sep, a), 0.5, 90) for i in range(N)
+                Port(f"B_TL_{i}", (-d - i * sep, a), 0.5, 90) for i in range(N)
             ]
             ports_B_BR = [
-                Port("B_BR_{}".format(i), (d + i * sep, -a), 0.5, 270) for i in range(N)
+                Port(f"B_BR_{i}", (d + i * sep, -a), 0.5, 270) for i in range(N)
             ]
             ports_B_BL = [
-                Port("B_BL_{}".format(i), (-d - i * sep, -a), 0.5, 270)
-                for i in range(N)
+                Port(f"B_BL_{i}", (-d - i * sep, -a), 0.5, 270) for i in range(N)
             ]
 
             ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]

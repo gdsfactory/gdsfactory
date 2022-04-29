@@ -21,9 +21,9 @@ def straight(
         kwargs: geometrical args that this model ignores
     """
     logger.info(f"igoring {kwargs.keys()}")
-    width = width * 1e3
-    thickness = thickness * 1e3
-    length = length * 1e3
+    width *= 1e3
+    thickness *= 1e3
+    length *= 1e3
 
     s = Waveguide(width=width, thickness=thickness, sw_angle=sw_angle, length=length)
     model = SimphonyWrapper(s)

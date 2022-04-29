@@ -38,7 +38,7 @@ def check_ports_have_equal_spacing(list_ports: List[Port]) -> float64:
     """Returns port separation. Raises error if not constant."""
     if not isinstance(list_ports, list):
         raise ValueError(f"list_ports should be a list of ports, got {list_ports}")
-    if len(list_ports) == 0:
+    if not list_ports:
         raise ValueError("list_ports should not be empty")
 
     orientation = get_list_ports_angle(list_ports)
@@ -59,7 +59,7 @@ def get_list_ports_angle(list_ports: List[Port]) -> Union[float64, int]:
     """Returns the orientation/angle (in degrees) of a list of ports."""
     if not list_ports:
         return None
-    if len(set([p.orientation for p in list_ports])) > 1:
+    if len({p.orientation for p in list_ports}) > 1:
         raise ValueError(f"All port angles should be the same. Got {list_ports}")
     return list_ports[0].orientation
 

@@ -79,18 +79,18 @@ def die(
         d = street_width + 20
         if type(text_location) is str:
             text_location = text_location.upper()
-            if text_location == "NW":
-                t.xmin, t.ymax = [-sx + d, sy - d]
-            elif text_location == "N":
+            if text_location == "N":
                 t.x, t.ymax = [0, sy - d]
             elif text_location == "NE":
                 t.xmax, t.ymax = [sx - d, sy - d]
-            if text_location == "SW":
-                t.xmin, t.ymin = [-sx + d, -sy + d]
+            elif text_location == "NW":
+                t.xmin, t.ymax = [-sx + d, sy - d]
             elif text_location == "S":
                 t.x, t.ymin = [0, -sy + d]
             elif text_location == "SE":
                 t.xmax, t.ymin = [sx - d, -sy + d]
+            elif text_location == "SW":
+                t.xmin, t.ymin = [-sx + d, -sy + d]
         else:
             t.x, t.y = text_location
 

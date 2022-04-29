@@ -103,9 +103,9 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
     """Checks Sparameters for a straight waveguide using an MPI pool"""
 
     components = []
+    p = 3
     for length in [2]:
         c = gf.components.straight(length=length)
-        p = 3
         c = gf.add_padding_container(c, default=0, top=p, bottom=p)
         components.append(c)
 

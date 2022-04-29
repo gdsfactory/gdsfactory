@@ -54,24 +54,16 @@ def get_ports_x_or_y_distances(
     angle = get_list_ports_angle(list_ports)
     x0 = ref_point[0]
     y0 = ref_point[1]
-    if angle in [0, 180]:
-        xys = [p.y - y0 for p in list_ports]
-    else:
-        xys = [p.x - x0 for p in list_ports]
-    return xys
+    return (
+        [p.y - y0 for p in list_ports]
+        if angle in [0, 180]
+        else [p.x - x0 for p in list_ports]
+    )
 
 
 def _distance(port1, port2):
-    if hasattr(port1, "x"):
-        x1, y1 = port1.x, port1.y
-    else:
-        x1, y1 = port1[0], port1[1]
-
-    if hasattr(port2, "x"):
-        x2, y2 = port2.x, port2.y
-    else:
-        x2, y2 = port2[0], port2[1]
-
+    x1, y1 = (port1.x, port1.y) if hasattr(port1, "x") else (port1[0], port1[1])
+    x2, y2 = (port2.x, port2.y) if hasattr(port2, "x") else (port2[0], port2[1])
     dx = x1 - x2
     dy = y1 - y2
 
@@ -185,7 +177,7 @@ def get_bundle_from_waypoints(
             )
     else:
         taper = None
-    connections = [
+    return [
         round_corners(
             points=pts,
             bend=bend90,
@@ -196,7 +188,6 @@ def get_bundle_from_waypoints(
         )
         for pts, bend90 in zip(routes, bends90)
     ]
-    return connections
 
 
 def snap_route_to_end_point_x(route, x):
@@ -266,8 +257,7 @@ def _generate_manhattan_bundle_waypoints(
         else:
             raise RouteError(f"Segment should be manhattan, got {s}")
 
-        displaced_seg = [np.array(p) + dp for p in s]
-        return displaced_seg
+        return [np.array(p) + dp for p in s]
 
     def _displace_segment_copy_group1(s, a):
         return _displace_segment_copy(s, a, sh=1, sv=-1)

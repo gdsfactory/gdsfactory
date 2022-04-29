@@ -25,10 +25,11 @@ def litho_steps(
     """
     D = gf.Component()
 
-    height = height / 2
+    height /= 2
     T1 = pc.text(
-        text="%s" % str(line_widths[-1]), size=height, justify="center", layer=layer
+        text=f"{str(line_widths[-1])}", size=height, justify="center", layer=layer
     )
+
     D.add_ref(T1).rotate(90).movex(-height / 10)
     R1 = pc.rectangle(size=(line_spacing, height), layer=layer)
     D.add_ref(R1).movey(-height)

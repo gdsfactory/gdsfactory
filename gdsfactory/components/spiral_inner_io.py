@@ -242,9 +242,8 @@ def get_straight_length(
         np.array([spiral0.info["length"], spiral1.info["length"]]),
         deg=1,
     )
-    x_straight_inner_left = (length - p[1]) / p[0]
     # print(x_straight_inner_left)
-    return x_straight_inner_left
+    return (length - p[1]) / p[0]
 
 
 if __name__ == "__main__":

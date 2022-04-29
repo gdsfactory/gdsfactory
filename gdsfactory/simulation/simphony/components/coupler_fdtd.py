@@ -25,8 +25,7 @@ def coupler_fdtd(c=gf.c.coupler, width=0.5, length=20, gap=0.224):
     """
     if callable(c):
         c = c(width=width, length=length, gap=gap)
-    m = model_from_gdsfactory(c)
-    return m
+    return model_from_gdsfactory(c)
 
 
 if __name__ == "__main__":
