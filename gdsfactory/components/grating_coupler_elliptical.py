@@ -48,18 +48,13 @@ def grating_tooth_points(
     theta_max = taper_angle / 2
 
     backbone_points = ellipse_arc(ap, bp, xp, theta_min, theta_max, angle_step)
-    if spiked:
-        spike_length = width / 3
-    else:
-        spike_length = 0.0
-    points = extrude_path(
+    spike_length = width / 3 if spiked else 0.0
+    return extrude_path(
         backbone_points,
         width,
         with_manhattan_facing_angles=False,
         spike_length=spike_length,
     )
-
-    return points
 
 
 def grating_taper_points(
@@ -76,8 +71,7 @@ def grating_taper_points(
     port_position = np.array((x0, 0))
     p0 = port_position + (0, wg_width / 2)
     p1 = port_position + (0, -wg_width / 2)
-    points = np.vstack([p0, p1, taper_arc])
-    return points
+    return np.vstack([p0, p1, taper_arc])
 
 
 @gf.cell

@@ -63,9 +63,9 @@ def import_gds(
                 f"cell {cellname} is not in file {gdspath} with cells {cellnames}"
             )
         topcell = gdsii_lib.cells[cellname]
-    elif cellname is None and len(top_level_cells) == 1:
+    elif len(top_level_cells) == 1:
         topcell = top_level_cells[0]
-    elif cellname is None and len(top_level_cells) > 1:
+    elif len(top_level_cells) > 1:
         raise ValueError(
             f"import_gds() There are multiple top-level cells in {gdspath!r}, "
             f"you must specify `cellname` to select of one of them among {cellnames}"
@@ -128,7 +128,7 @@ def import_gds(
             )
             D.unlock()
 
-            cell_to_device.update({c: D})
+            cell_to_device[c] = D
             D_list += [D]
 
         for D in D_list:

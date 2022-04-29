@@ -62,17 +62,16 @@ def sort_dict(d: Dict[str, Any]) -> Dict[str, Any]:
 #     return c2
 
 
-if __name__ == "__main__":
-    pass
-    # c = test_properties_components(component_type=list(component_names)[0])
-    # c = test_properties_components(component_type="ring_single")
-    # c = test_properties_components(component_type="mzit")
-    # c = test_properties_components(component_type="bezier")
-    # c = test_properties_components(component_type="wire_straight")
-    # c = test_properties_components(component_type="straight")
-    # c = test_properties_components(component_type="grating_coupler_tree")
-    # c = test_properties_components(component_type="wire")
-    # c = test_properties_components(component_type="bend_circular")
-    # c = test_properties_components(component_type="mzi_arm")
-    # c = test_properties_components(component_type="straight_pin")
-    # c.show()
+pass
+# c = test_properties_components(component_type=list(component_names)[0])
+# c = test_properties_components(component_type="ring_single")
+# c = test_properties_components(component_type="mzit")
+# c = test_properties_components(component_type="bezier")
+# c = test_properties_components(component_type="wire_straight")
+# c = test_properties_components(component_type="straight")
+# c = test_properties_components(component_type="grating_coupler_tree")
+# c = test_properties_components(component_type="wire")
+# c = test_properties_components(component_type="bend_circular")
+# c = test_properties_components(component_type="mzi_arm")
+# c = test_properties_components(component_type="straight_pin")
+# c.show()

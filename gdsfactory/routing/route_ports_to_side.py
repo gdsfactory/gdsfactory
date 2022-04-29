@@ -61,23 +61,15 @@ def route_ports_to_side(
     if isinstance(ports, dict):
         ports = list(ports.values())
 
-    elif isinstance(ports, Component) or isinstance(ports, ComponentReference):
+    elif isinstance(ports, (Component, ComponentReference)):
         ports = list(ports.ports.values())
 
     # Choose which
-    if side in ["north", "south"]:
+    if side in {"north", "south"}:
         func_route = route_ports_to_y
-        if y is not None:
-            xy = y
-        else:
-            xy = side
-
-    elif side in ["west", "east"]:
-        if x is not None:
-            xy = x
-        else:
-            xy = side
-
+        xy = y if y is not None else side
+    elif side in {"west", "east"}:
+        xy = x if x is not None else side
         func_route = route_ports_to_x
     else:
         raise ValueError(f"side = {side} not valid (north, south, west, east)")

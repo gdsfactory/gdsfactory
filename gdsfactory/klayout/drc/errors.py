@@ -5,8 +5,7 @@ layer = gf.LAYER.WG
 
 @gf.cell
 def width_min(size=(0.1, 0.1)):
-    c = gf.components.rectangle(size=size, layer=layer)
-    return c
+    return gf.components.rectangle(size=size, layer=layer)
 
 
 @gf.cell

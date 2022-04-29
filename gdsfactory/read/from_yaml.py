@@ -129,8 +129,7 @@ def _get_anchor_point_from_name(
     ref: ComponentReference, anchor_name: str
 ) -> Optional[np.ndarray]:
     if anchor_name in valid_anchor_point_keywords:
-        pt = getattr(ref.size_info, anchor_name)
-        return pt
+        return getattr(ref.size_info, anchor_name)
     elif anchor_name in ref.ports:
         return ref.ports[anchor_name].position
     else:
@@ -141,18 +140,16 @@ def _get_anchor_value_from_name(
     ref: ComponentReference, anchor_name: str, return_value: str
 ) -> Optional[float]:
     if anchor_name in valid_anchor_value_keywords:
-        v = getattr(ref.size_info, anchor_name)
-        return v
+        return getattr(ref.size_info, anchor_name)
+    anchor_point = _get_anchor_point_from_name(ref, anchor_name)
+    if anchor_point is None:
+        return None
+    if return_value == "x":
+        return anchor_point[0]
+    elif return_value == "y":
+        return anchor_point[1]
     else:
-        anchor_point = _get_anchor_point_from_name(ref, anchor_name)
-        if anchor_point is None:
-            return None
-        if return_value == "x":
-            return anchor_point[0]
-        elif return_value == "y":
-            return anchor_point[1]
-        else:
-            raise ValueError("Expected x or y as return_value.")
+        raise ValueError("Expected x or y as return_value.")
 
 
 def place(
@@ -238,7 +235,7 @@ def place(
             x = x if x is not None else xmin_or_xmax
 
             if isinstance(x, str):
-                if not len(x.split(",")) == 2:
+                if len(x.split(",")) != 2:
                     raise ValueError(
                         f"You can define x as `x: instaceName,portName` got `x: {x!r}`"
                     )
@@ -287,7 +284,7 @@ def place(
             y = y if y is not None else ymin_or_ymax
 
             if isinstance(y, str):
-                if not len(y.split(",")) == 2:
+                if len(y.split(",")) != 2:
                     raise ValueError(
                         f"You can define y as `y: instaceName,portName` got `y: {y!r}`"
                     )

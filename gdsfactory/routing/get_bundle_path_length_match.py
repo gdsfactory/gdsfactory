@@ -88,7 +88,7 @@ def get_bundle_path_length_match(
       c.plot()
 
     """
-    extra_length = extra_length / 2
+    extra_length /= 2
 
     # Heuristic to get a correct default end_straight_offset to leave
     # enough space for path-length compensation

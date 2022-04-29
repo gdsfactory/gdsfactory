@@ -4,8 +4,7 @@ from gdsfactory.cross_section import strip
 
 @gf.cell
 def demo_cross_section_setting(cross_section=strip()) -> gf.Component:
-    c = gf.components.straight(cross_section=cross_section)
-    return c
+    return gf.components.straight(cross_section=cross_section)
 
 
 def test_settings(data_regression, check: bool = True) -> None:

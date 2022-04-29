@@ -105,9 +105,9 @@ def get_bundle_from_steps(
     x2, y2 = port2.midpoint
     orientation = port2.orientation
 
-    if int(orientation) in [0, 180]:
+    if int(orientation) in {0, 180}:
         waypoints += [(x, y2)]
-    elif int(orientation) in [90, 270]:
+    elif int(orientation) in {90, 270}:
         waypoints += [(x2, y)]
 
     x = gf.get_cross_section(cross_section, **kwargs)

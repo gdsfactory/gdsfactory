@@ -57,7 +57,7 @@ def compute_area(component: Component, layer: Layer) -> float64:
             joined_polys = gp.boolean(polys, None, operation="or")
             # print(joined_polys)
             try:
-                _area += sum([abs(area(p)) for p in joined_polys.polygons])
+                _area += sum(abs(area(p)) for p in joined_polys.polygons)
             except BaseException:
                 print(f"Warning, {c.name} joinedpoly {joined_polys} could not be added")
     return _area

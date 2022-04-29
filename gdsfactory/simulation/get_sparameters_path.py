@@ -17,8 +17,7 @@ def get_kwargs_hash(**kwargs) -> str:
     """Returns kwargs parameters hash."""
     kwargs_list = [f"{key}={clean_value(kwargs[key])}" for key in sorted(kwargs.keys())]
     kwargs_string = "_".join(kwargs_list)
-    kwargs_hash = hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
-    return kwargs_hash
+    return hashlib.md5(kwargs_string.encode()).hexdigest()[:8]
 
 
 def _get_sparameters_path(
@@ -80,10 +79,6 @@ def test_get_sparameters_path(test: bool = True) -> None:
     layer_stack2 = deepcopy(LAYER_STACK)
     layer_stack2.layers["core"].thickness = 230 * nm
 
-    name1 = "straight_a819ff51"
-    name2 = "straight_b18ef775"
-    name3 = "straight_8da6acc3"
-
     c = gf.components.straight()
 
     p1 = get_sparameters_path_lumerical(component=c)
@@ -91,8 +86,12 @@ def test_get_sparameters_path(test: bool = True) -> None:
     p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
 
     if test:
+        name1 = "straight_a819ff51"
         assert p1.stem == name1, p1.stem
+        name2 = "straight_b18ef775"
         assert p2.stem == name2, p2.stem
+        name3 = "straight_8da6acc3"
+
         assert p3.stem == name3, p3.stem
     else:
         print(f"name1 = {p1.stem!r}")

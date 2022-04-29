@@ -131,7 +131,7 @@ def grating_coupler_elliptical_lumerical(
     gaps = teeth_list[::2]
     widths = teeth_list[1::2]
     info = info or {}
-    gaps = list(gap + bias_gap for gap in gaps)
+    gaps = [gap + bias_gap for gap in gaps]
 
     return grating_coupler_elliptical_arbitrary(
         gaps=gaps,

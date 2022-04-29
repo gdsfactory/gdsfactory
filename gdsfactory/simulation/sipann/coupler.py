@@ -44,14 +44,14 @@ def coupler(
     """
 
     # SiPANN units are in nm
-    width = width * 1e3
-    thickness = thickness * 1e3
-    gap = gap * 1e3
-    length = length * 1e3
+    width *= 1e3
+    thickness *= 1e3
+    gap *= 1e3
+    length *= 1e3
     H = dx * 1e3
     V = dy * 1e3 / 2
 
-    s = Standard(
+    return Standard(
         width=width,
         thickness=thickness,
         gap=gap,
@@ -60,7 +60,6 @@ def coupler(
         V=V,
         sw_angle=sw_angle,
     )
-    return s
 
 
 if __name__ == "__main__":

@@ -58,7 +58,7 @@ def _get_unique_port_facing(
     )
 
     if len(ports_selected) > 1:
-        orientation = orientation % 360
+        orientation %= 360
         direction = O2D[orientation]
         for port in ports_selected:
             print(port)
@@ -327,7 +327,6 @@ def _generate_route_manhattan_points(
                 if abs(p[1]) - (bs1 + bs2 + min_straight_length) > -threshold:
                     # far enough: U-turn
                     p = (min(p[0] - s, -end_straight_length) - bs2, p[1])
-                    a = -sigp * 90
                 else:
                     # more complex turn
                     p = (
@@ -337,7 +336,7 @@ def _generate_route_manhattan_points(
                         ),
                         p[1],
                     )
-                    a = -sigp * 90
+                a = -sigp * 90
             elif a % 180 == 90:
                 siga = -np.sign((a % 360) - 180)
                 if not siga:

@@ -27,8 +27,7 @@ def test_path():
     assert np.isclose(P.length(), 107.69901058617913), P.length()
 
     X = gf.CrossSection(width=1, offset=0, layer=(0, 0))
-    c = gf.path.extrude(P, X)
-    return c
+    return gf.path.extrude(P, X)
 
 
 @cell
@@ -41,9 +40,7 @@ def rename():
         width=1, offset=0, layer=(0, 0), port_names=("in", "out"), sections=[s1, s2]
     )
 
-    # Combine the Path and the CrossSection
-    straight = gf.path.extrude(p, cross_section=X)
-    return straight
+    return gf.path.extrude(p, cross_section=X)
 
 
 def looploop(num_pts=1000):
@@ -52,8 +49,7 @@ def looploop(num_pts=1000):
     r = 20 + 25 * np.sin(t)
     x = r * np.cos(t)
     y = r * np.sin(t)
-    points = np.array((x, y)).T
-    return points
+    return np.array((x, y)).T
 
 
 @cell
@@ -78,8 +74,7 @@ def double_loop():
         sections=[s1, s2, s3],
     )
 
-    c = gf.path.extrude(P, X, simplify=0.3)
-    return c
+    return gf.path.extrude(P, X, simplify=0.3)
 
 
 @cell
