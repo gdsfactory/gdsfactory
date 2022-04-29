@@ -35,7 +35,7 @@ def test_name_with_decorator():
 
     no_name_cells = [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
     assert (
-        len(no_name_cells) == 0
+        not no_name_cells
     ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
 
 
@@ -64,5 +64,5 @@ if __name__ == "__main__":
 
     no_name_cells = [cell.name for cell in all_cells if cell.name.startswith("Unnamed")]
     assert (
-        len(no_name_cells) == 0
+        not no_name_cells
     ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"

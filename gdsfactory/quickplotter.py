@@ -215,13 +215,12 @@ def quickplot(items):  # noqa: C901
     if new_window:
         fig, ax = plt.subplots(1)
         ax.autoscale(enable=True, tight=True)
+    elif plt.fignum_exists(num="PHIDL quickplot"):
+        fig = plt.figure("PHIDL quickplot")
+        plt.clf()  # Erase figure so toolbar at top works correctly
+        ax = fig.add_subplot(111)
     else:
-        if plt.fignum_exists(num="PHIDL quickplot"):
-            fig = plt.figure("PHIDL quickplot")
-            plt.clf()  # Erase figure so toolbar at top works correctly
-            ax = fig.add_subplot(111)
-        else:
-            fig, ax = plt.subplots(num="PHIDL quickplot")
+        fig, ax = plt.subplots(num="PHIDL quickplot")
 
     ax.axis("equal")
     ax.grid(True, which="both", alpha=0.4)
@@ -331,8 +330,7 @@ def _use_interactive_zoom():
         return _quickplot_options["interactive_zoom"]
     forbidden_backends = ["nbagg"]
     backend = matplotlib.get_backend().lower()
-    usable = not any([(fb.lower() in backend) for fb in forbidden_backends])
-    return usable
+    return all(fb.lower() not in backend for fb in forbidden_backends)
 
 
 def _update_bbox(bbox, new_bbox):
@@ -384,8 +382,7 @@ def _draw_polygons(polygons, ax, **kwargs):
     stacked_polygons = np.vstack(polygons)
     xmin, ymin = np.min(stacked_polygons, axis=0)
     xmax, ymax = np.max(stacked_polygons, axis=0)
-    bbox = [xmin, ymin, xmax, ymax]
-    return bbox
+    return [xmin, ymin, xmax, ymax]
 
 
 def _draw_line(x, y, ax, **kwargs):
@@ -393,8 +390,7 @@ def _draw_line(x, y, ax, **kwargs):
     ax.add_line(line)
     xmin, ymin = np.min(x), np.min(y)
     xmax, ymax = np.max(x), np.max(y)
-    bbox = [xmin, ymin, xmax, ymax]
-    return bbox
+    return [xmin, ymin, xmax, ymax]
 
 
 def _port_marker(port, is_subport):
@@ -443,8 +439,7 @@ def _draw_port(ax, port, is_subport, color):
         fontsize=14,
         color=color,
     )
-    bbox = [xmin, ymin, xmax, ymax]
-    return bbox
+    return [xmin, ymin, xmax, ymax]
 
 
 def _draw_port_as_point(ax, port, **kwargs):
@@ -732,7 +727,7 @@ class Viewer(QGraphicsView):
         self.update_gridsize_label()
 
     def update_gridsize_label(self):
-        self.gridsize_label.setText("grid size = " + str(self.grid_size_snapped))
+        self.gridsize_label.setText(f"grid size = {str(self.grid_size_snapped)}")
         self.gridsize_label.move(QPoint(5, self.height() - 25))
 
     def update_mouse_position_label(self):
@@ -749,11 +744,13 @@ class Viewer(QGraphicsView):
 
     def create_grid(self):
         self.gridlinesx = [
-            self.scene.addLine(-10, -10, 10, 10, self.gridpen) for n in range(300)
+            self.scene.addLine(-10, -10, 10, 10, self.gridpen) for _ in range(300)
         ]
+
         self.gridlinesy = [
-            self.scene.addLine(-10, -10, 10, 10, self.gridpen) for n in range(300)
+            self.scene.addLine(-10, -10, 10, 10, self.gridpen) for _ in range(300)
         ]
+
         self.update_grid()
 
     # ==============================================================================
@@ -795,11 +792,7 @@ class Viewer(QGraphicsView):
             zoom_factor < 1
         ):
             pass
-        elif ((scene_width < min_width) and (scene_height < min_height)) and (
-            zoom_factor > 1
-        ):
-            pass
-        else:
+        elif scene_width >= min_width or scene_height >= min_height or zoom_factor <= 1:
             self.zoom_view(zoom_factor)
 
         # Get the new position and move scene to old position

@@ -41,7 +41,7 @@ def grating_coupler_tree(
         **kwargs,
     )
 
-    cc = gf.routing.add_fiber_array(
+    return gf.routing.add_fiber_array(
         component=c,
         with_loopback=with_loopback,
         optical_routing_type=0,
@@ -53,7 +53,6 @@ def grating_coupler_tree(
         taper=None,
         **kwargs,
     )
-    return cc
 
 
 if __name__ == "__main__":

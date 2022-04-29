@@ -18,7 +18,7 @@ def neff_domain_convergence_test(
     rel_conv_tol: float = 1e-6,
     rel_conv_step: float = 2e-1,
     stdout: bool = False,
-    **kwargs
+    **kwargs,
 ) -> Tuple[Dict[int, Mode], float, float, int]:
     """Repeats a find_modes_waveguide increasing hyperparameters sy, sz, and resolution
     until results are no longer affected by the choice (according to conv_tol).
@@ -64,7 +64,7 @@ def neff_domain_convergence_test(
     if stdout:
         print("Domain convergence")
         print("Iteration | neff | sy | sz | tol")
-        print("0 | {} | {} | {} | ---".format(init_mode.neff, sy, sz))
+        print(f"0 | {init_mode.neff} | {sy} | {sz} | ---")
     while cur_tol > rel_conv_tol:
         if iter == 1:
             cur_tol = 0
@@ -80,11 +80,7 @@ def neff_domain_convergence_test(
             init_mode.neff, incr_mode.neff
         )
         if stdout:
-            print(
-                "{} | {} | {} | {} | {}".format(
-                    iter, incr_mode.neff, cur_sy, cur_sz, cur_tol
-                )
-            )
+            print(f"{iter} | {incr_mode.neff} | {cur_sy} | {cur_sz} | {cur_tol}")
         iter += 1
 
     # Resolution, using converged cell size for initial solve
@@ -94,7 +90,7 @@ def neff_domain_convergence_test(
     if stdout:
         print("Resolution convergence")
         print("Iteration | neff | resolution | tol")
-        print("0 | {} | {} | ---".format(init_mode.neff, resolution))
+        print(f"0 | {init_mode.neff} | {resolution} | ---")
     while cur_tol > rel_conv_tol:
         if iter == 1:
             cur_tol = 0
@@ -112,7 +108,7 @@ def neff_domain_convergence_test(
             init_mode.neff, incr_mode.neff
         )
         if stdout:
-            print("{} | {} | {} | {}".format(iter, incr_mode.neff, cur_res, cur_tol))
+            print(f"{iter} | {incr_mode.neff} | {cur_res} | {cur_tol}")
         iter += 1
 
     return (incr_mode, cur_sy, cur_sz, cur_res)
@@ -126,7 +122,7 @@ def neff_resolution_convergence_test(
     rel_conv_tol: float = 1e-6,
     rel_conv_step: float = 2e-1,
     stdout: bool = False,
-    **kwargs
+    **kwargs,
 ) -> Tuple[Dict[int, Mode], float, float, int]:
     """Repeats a find_modes_waveguide on a mode_solver, increasing hyperparameter resolution
     until results are no longer affected by the choice (according to conv_tol).
@@ -172,7 +168,7 @@ def neff_resolution_convergence_test(
     if stdout:
         print("Domain convergence")
         print("Iteration | neff | sy | sz | tol")
-        print("0 | {} | {} | {} | ---".format(init_mode.neff, sy, sz))
+        print(f"0 | {init_mode.neff} | {sy} | {sz} | ---")
     while cur_tol > rel_conv_tol:
         if iter == 1:
             cur_tol = 0
@@ -188,11 +184,7 @@ def neff_resolution_convergence_test(
             init_mode.neff, incr_mode.neff
         )
         if stdout:
-            print(
-                "{} | {} | {} | {} | {}".format(
-                    iter, incr_mode.neff, cur_sy, cur_sz, cur_tol
-                )
-            )
+            print(f"{iter} | {incr_mode.neff} | {cur_sy} | {cur_sz} | {cur_tol}")
         iter += 1
 
     # Resolution, using converged cell size for initial solve
@@ -202,7 +194,7 @@ def neff_resolution_convergence_test(
     if stdout:
         print("Resolution convergence")
         print("Iteration | neff | resolution | tol")
-        print("0 | {} | {} | ---".format(init_mode.neff, resolution))
+        print(f"0 | {init_mode.neff} | {resolution} | ---")
     while cur_tol > rel_conv_tol:
         if iter == 1:
             cur_tol = 0
@@ -220,7 +212,7 @@ def neff_resolution_convergence_test(
             init_mode.neff, incr_mode.neff
         )
         if stdout:
-            print("{} | {} | {} | {}".format(iter, incr_mode.neff, cur_res, cur_tol))
+            print(f"{iter} | {incr_mode.neff} | {cur_res} | {cur_tol}")
         iter += 1
 
     return (incr_mode, cur_sy, cur_sz, cur_res)

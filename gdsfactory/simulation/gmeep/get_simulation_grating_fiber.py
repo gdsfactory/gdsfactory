@@ -251,9 +251,7 @@ def get_simulation_grating_fiber(
     fiber_clad = 120
     hfiber_geom = 200  # Some large number to make fiber extend into PML
 
-    geometry = []
-    # Fiber (defined first to be overridden)
-    geometry.append(
+    geometry = [
         mp.Block(
             material=fiber_clad_material,
             center=mp.Vector3(0, waveguide_port_y - wg_thickness / 2),
@@ -261,7 +259,8 @@ def get_simulation_grating_fiber(
             e1=mp.Vector3(x=1).rotate(mp.Vector3(z=1), -1 * fiber_angle),
             e2=mp.Vector3(y=1).rotate(mp.Vector3(z=1), -1 * fiber_angle),
         )
-    )
+    ]
+
     geometry.append(
         mp.Block(
             material=fiber_core_material,
@@ -544,10 +543,7 @@ if __name__ == "__main__":
     # Plotting
     epsilons = [1, 1.43482, 1.44, 1.44427, 3.47]
 
-    eps_parameters = {}
-    eps_parameters["contour"] = True
-    eps_parameters["levels"] = np.unique(epsilons)
-
+    eps_parameters = {"contour": True, "levels": np.unique(epsilons)}
     fiber_na = float(np.sqrt(1.44427**2 - 1.43482**2))
 
     sim_dict = get_simulation_grating_fiber(

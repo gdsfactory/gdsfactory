@@ -130,7 +130,7 @@ def _get_bundle_udirect_waypoints(
             "Number of start ports should match number of end ports."
             f"Got {len(ports1)} {len(ports2)}"
         )
-    if len(set([p.orientation for p in ports1 + ports2])) > 1:
+    if len({p.orientation for p in ports1 + ports2}) > 1:
         raise ValueError(
             f"All ports should have the same orientation, got \n{ports1}\n{ports2}"
         )
@@ -172,7 +172,7 @@ def _get_bundle_udirect_waypoints(
             dx = xs_end[0] - xs_start[0]
         end_straight_length = max(end_straight_length, dx)
 
-    if axis == "Y":
+    elif axis == "Y":
         group1.sort(key=lambda p: -p.x)
         group2.sort(key=lambda p: p.x)
 
@@ -185,11 +185,8 @@ def _get_bundle_udirect_waypoints(
 
         if angle_start == 90:
             dy = ys_start[0] - ys_end[0]
-        elif angle_start == 270:
+        elif angle_start == 270 or angle_start is None:
             dy = ys_end[0] - ys_start[0]
-        elif angle_start is None:
-            dy = ys_end[0] - ys_start[0]
-
         end_straight_length = max(end_straight_length, dy)
 
     # add offsets
@@ -522,7 +519,7 @@ def _get_bundle_uindirect_waypoints(
     def _merge_connections(list_of_points):
 
         a = [list_of_points[0]]
-        a = a + [point[1:] for point in list_of_points[1:]]
+        a += [point[1:] for point in list_of_points[1:]]
         b = np.vstack(a)
         b = remove_identicals(b)
         b = remove_flat_angles(b)
@@ -532,5 +529,4 @@ def _get_bundle_uindirect_waypoints(
     return connections
 
 
-if __name__ == "__main__":
-    pass
+pass

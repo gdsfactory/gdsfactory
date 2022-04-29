@@ -50,10 +50,7 @@ def find_neff_vs_width(
         return pd.read_csv(filepath)
 
     width = np.linspace(width1, width2, steps)
-    neff = {}
-    for mode_number in range(1, nmodes + 1):
-        neff[mode_number] = []
-
+    neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
     for wg_width in tqdm(width):
         modes = find_modes_waveguide(
             wavelength=wavelength,

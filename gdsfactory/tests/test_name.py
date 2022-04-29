@@ -36,8 +36,8 @@ def test_name_partial_functions() -> None:
 
 
 def test_name_iterators() -> None:
-    c1 = rectangles([i for i in range(5)])
-    c2 = rectangles([i for i in range(6)])
+    c1 = rectangles(list(range(5)))
+    c2 = rectangles(list(range(6)))
     assert c1.name != c2.name
 
 

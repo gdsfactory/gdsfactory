@@ -18,12 +18,11 @@ def straight(
         kwargs: geometrical args that this model ignores
 
     """
-    width = width * 1e3
-    thickness = thickness * 1e3
-    length = length * 1e3
+    width *= 1e3
+    thickness *= 1e3
+    length *= 1e3
 
     return Waveguide(width=width, thickness=thickness, sw_angle=sw_angle, length=length)
 
 
-if __name__ == "__main__":
-    pass
+pass

@@ -8,27 +8,23 @@ from gdsfactory.difftest import difftest
 
 def test_type0() -> Component:
     component = gf.components.coupler(gap=0.244, length=5.67)
-    cc = gf.routing.add_fiber_array(component=component, optical_routing_type=0)
-    return cc
+    return gf.routing.add_fiber_array(component=component, optical_routing_type=0)
 
 
 def test_type1() -> Component:
     component = gf.components.coupler(gap=0.2, length=5.0)
-    cc = gf.routing.add_fiber_array(component=component, optical_routing_type=1)
-    return cc
+    return gf.routing.add_fiber_array(component=component, optical_routing_type=1)
 
 
 def test_type2() -> Component:
     c = gf.components.coupler(gap=0.244, length=5.67)
-    cc = gf.routing.add_fiber_array(component=c, optical_routing_type=2)
-    return cc
+    return gf.routing.add_fiber_array(component=c, optical_routing_type=2)
 
 
 def test_tapers():
     c = gf.components.straight(width=2, length=20)
     cc = gf.add_tapers(component=c)
-    ccc = gf.routing.add_fiber_array(component=cc, optical_routing_type=0)
-    return ccc
+    return gf.routing.add_fiber_array(component=cc, optical_routing_type=0)
 
 
 components = [test_type0, test_type1, test_type2, test_tapers]

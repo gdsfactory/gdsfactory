@@ -55,7 +55,7 @@ def invert(
         size=(Temp.xsize + 2 * border, Temp.ysize + 2 * border), centered=True
     )
     R.center = Temp.center
-    D = boolean(
+    return boolean(
         A=R,
         B=Temp,
         operation="A-B",
@@ -64,7 +64,6 @@ def invert(
         max_points=max_points,
         layer=layer,
     )
-    return D
 
 
 def test_invert() -> None:

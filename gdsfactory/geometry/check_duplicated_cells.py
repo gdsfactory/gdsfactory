@@ -17,5 +17,4 @@ def check_duplicated_cells(gdspath: Union[Path, str]):
         gdspath = gdspath.write_gds()
     layout = pya.Layout()
     layout.read(str(gdspath))
-    cell = layout.top_cell()
-    return cell
+    return layout.top_cell()

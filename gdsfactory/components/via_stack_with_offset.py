@@ -67,7 +67,7 @@ def via_stack_with_offset(
         rect_pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
         c.add_polygon(rect_pts, layer=layer)
 
-    port_width = height if port_orientation in [0, 180] else width
+    port_width = height if port_orientation in {0, 180} else width
 
     if port_orientation not in [0, 90, 270, 180]:
         raise ValueError(

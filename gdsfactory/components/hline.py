@@ -14,8 +14,8 @@ def hline(
 ) -> Component:
     """Horizonal line straight, with ports on east and west sides"""
     c = gf.Component()
-    a = width / 2
     if length > 0 and width > 0:
+        a = width / 2
         c.add_polygon([(0, -a), (length, -a), (length, a), (0, a)], layer=layer)
 
     c.add_port(
@@ -35,8 +35,8 @@ def hline(
         port_type=port_type,
     )
 
-    c.info["width"] = float(width)
-    c.info["length"] = float(length)
+    c.info["width"] = width
+    c.info["length"] = length
     return c
 
 
