@@ -46,8 +46,8 @@ instances:
 def test_component_from_yaml_ports(
     data_regression: DataRegressionFixture, check: bool = True
 ) -> None:
-    c = gf.read.from_yaml(yaml_str)
     if check:
+        c = gf.read.from_yaml(yaml_str)
         data_regression.check(c.to_dict())
 
 

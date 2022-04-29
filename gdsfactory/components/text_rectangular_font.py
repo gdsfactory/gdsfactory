@@ -33,11 +33,10 @@ def pixel_array(
     component = Component()
     lines = [line for line in pixels.split("\n") if len(line) > 0]
     lines.reverse()
-    j = 0
     i = 0
     i_max = 0
     a = pixel_size
-    for line in lines:
+    for j, line in enumerate(lines):
         i = 0
         for c in line:
             if c in ["X", "1"]:
@@ -46,8 +45,6 @@ def pixel_array(
                 component.add_polygon(pixel, layer=layer)
             i += 1
         i_max = max(i_max, i)
-        j += 1
-
     return component
 
 
@@ -315,9 +312,9 @@ def rectangular_font() -> Dict[str, str]:
             break
         charac = line[0]
 
-        pixels = ""
-        for _i in range(5):
-            pixels += lines.pop(0).replace("\t", "").replace(" ", "") + "\n"
+        pixels = "".join(
+            lines.pop(0).replace("\t", "").replace(" ", "") + "\n" for _i in range(5)
+        )
 
         characters[charac] = pixels
     return characters

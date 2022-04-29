@@ -9,49 +9,43 @@ DEMO_PORT_ANGLE = 10
 @pytest.fixture
 def shear_waveguide_symmetric():
     P = gf.path.straight(length=10)
-    c = gf.path.extrude(
+    return gf.path.extrude(
         P, "strip", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
     )
-    return c
 
 
 @pytest.fixture
 def shear_waveguide_start():
     P = gf.path.straight(length=10)
-    c = gf.path.extrude(
+    return gf.path.extrude(
         P, "strip", shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=None
     )
-    return c
 
 
 @pytest.fixture
 def shear_waveguide_end():
     P = gf.path.straight(length=10)
-    c = gf.path.extrude(
+    return gf.path.extrude(
         P, "strip", shear_angle_start=None, shear_angle_end=DEMO_PORT_ANGLE
     )
-    return c
 
 
 @pytest.fixture
 def regular_waveguide():
     P = gf.path.straight(length=10)
-    c = gf.path.extrude(P, "strip")
-    return c
+    return gf.path.extrude(P, "strip")
 
 
 @pytest.fixture
 def more_slanted_than_wide():
     P = gf.path.straight(length=0.1)
-    c = gf.path.extrude(P, "strip", shear_angle_start=60, shear_angle_end=60)
-    return c
+    return gf.path.extrude(P, "strip", shear_angle_start=60, shear_angle_end=60)
 
 
 @pytest.fixture
 def skinny():
     P = gf.path.straight(length=0.1)
-    c = gf.path.extrude(P, "strip")
-    return c
+    return gf.path.extrude(P, "strip")
 
 
 @pytest.fixture
@@ -77,8 +71,7 @@ def linear_taper():
         sections=[s2],
     )
     t = gf.path.transition(X1, X2, width_type="linear")
-    c = gf.path.extrude(P, t)
-    return c
+    return gf.path.extrude(P, t)
 
 
 @pytest.fixture
@@ -104,23 +97,20 @@ def linear_taper_sheared():
         sections=[s2],
     )
     t = gf.path.transition(X1, X2, width_type="linear")
-    c = gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=None)
-    return c
+    return gf.path.extrude(P, t, shear_angle_start=10, shear_angle_end=None)
 
 
 @pytest.fixture
 def curve():
     P = gf.path.euler()
-    c = gf.path.extrude(P, "strip")
-    return c
+    return gf.path.extrude(P, "strip")
 
 
 @pytest.fixture
 def curve_sheared():
     angle = 15
     P = gf.path.euler()
-    c = gf.path.extrude(P, "strip", shear_angle_start=angle, shear_angle_end=angle)
-    return c
+    return gf.path.extrude(P, "strip", shear_angle_start=angle, shear_angle_end=angle)
 
 
 def test_mate_on_shear_xor_empty(

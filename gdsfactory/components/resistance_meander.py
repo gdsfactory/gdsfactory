@@ -74,10 +74,7 @@ def resistance_meander(
     N = Component("net")
     n = 1
     for i in range(num_rows):
-        if i != num_rows - 1:
-            d = N.add_ref(T)
-        else:
-            d = N.add_ref(Row)
+        d = N.add_ref(T) if i != num_rows - 1 else N.add_ref(Row)
         if n % 2 == 0:
             d.reflect(p1=(d.x, d.ymax), p2=(d.x, d.ymin))
         d.movey(-(n - 1) * T.ysize)

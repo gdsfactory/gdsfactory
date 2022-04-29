@@ -63,7 +63,7 @@ def test_labels_fiber_array(num_regression) -> None:
     # Loopback does not have labels
     cte = gf.routing.add_fiber_array(component=c, with_loopback=True)
     assert len(cte.labels) == 4, len(c.labels)
-    labels = {
+    if labels := {
         label.text: np.array(
             [
                 label.position[0],
@@ -72,8 +72,7 @@ def test_labels_fiber_array(num_regression) -> None:
             ]
         )
         for label in cte.labels
-    }
-    if labels:
+    }:
         num_regression.check(labels)
 
 
@@ -83,7 +82,7 @@ def test_labels_fiber_single(num_regression) -> None:
 
     cte = gf.routing.add_fiber_single(component=c, with_loopback=True)
     assert len(cte.labels) == 4, len(cte.labels)
-    labels = {
+    if labels := {
         label.text: np.array(
             [
                 label.position[0],
@@ -92,8 +91,7 @@ def test_labels_fiber_single(num_regression) -> None:
             ]
         )
         for label in cte.labels
-    }
-    if labels:
+    }:
         num_regression.check(labels)
 
 

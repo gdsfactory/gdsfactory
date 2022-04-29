@@ -19,9 +19,7 @@ def test_path_transition_class():
     )
 
     T = gf.path.transition(X1, X2)
-    c3 = gf.path.extrude(P, T)
-
-    return c3
+    return gf.path.extrude(P, T)
 
 
 def test_path_transition_function():
@@ -30,8 +28,7 @@ def test_path_transition_function():
     X2 = gf.cross_section.cross_section(width=3)
     T = gf.path.transition(X1, X2)
     P = gf.path.straight(length=10, npoints=101)
-    c3 = gf.path.extrude(P, T)
-    return c3
+    return gf.path.extrude(P, T)
 
 
 def test_path_transitions():

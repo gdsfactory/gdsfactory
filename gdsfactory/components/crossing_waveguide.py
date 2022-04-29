@@ -168,8 +168,7 @@ def crossing_etched(
     positions = [(a, 0), (0, a), (-a, 0), (0, -a)]
     angles = [0, 90, 180, 270]
 
-    i = 0
-    for p, angle in zip(positions, angles):
+    for i, (p, angle) in enumerate(zip(positions, angles)):
         c.add_port(
             name=str(i),
             midpoint=p,
@@ -177,8 +176,6 @@ def crossing_etched(
             width=width,
             layer=layer_wg,
         )
-        i += 1
-
     c.auto_rename_ports()
     return c
 

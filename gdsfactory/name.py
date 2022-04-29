@@ -31,12 +31,11 @@ component_type_to_name = dict(phidl="phidl")
 
 def get_component_name(component_type: str, *args, **kwargs) -> str:
     """Returns concatenated kwargs Key_Value."""
-    name = component_type
-    name += "_".join([clean_value(a) for a in args])
+    name = component_type + "_".join([clean_value(a) for a in args])
     for k, v in component_type_to_name.items():
         name = name.replace(k, v)
     if kwargs:
-        name += "_" + dict2name(**kwargs)
+        name += f"_{dict2name(**kwargs)}"
     return name
 
 
@@ -73,7 +72,7 @@ def assert_first_letters_are_different(**kwargs):
     Avoids different args that start with the same first letter getting the same hash.
     """
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
-    if not len(set(first_letters)) == len(first_letters):
+    if len(set(first_letters)) != len(first_letters):
         raise ValueError(
             f"Possible name collision! {kwargs.keys()} repeats first letters {first_letters}",
             "you can separate your arguments with underscores",
@@ -84,7 +83,7 @@ def assert_first_letters_are_different(**kwargs):
 def print_first_letters_warning(**kwargs) -> None:
     """Prints kwargs that have same cell."""
     first_letters = [join_first_letters(k) for k in kwargs.keys()]
-    if not len(set(first_letters)) == len(first_letters):
+    if len(set(first_letters)) != len(first_letters):
         print(
             f"Possible name collision! {kwargs.keys()} "
             f"repeats first letters {first_letters}"

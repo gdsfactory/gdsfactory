@@ -126,7 +126,7 @@ def find_min_curv_bezier_control_points(
     def array_1d_to_cpts(a):
         xs = a[::2]
         ys = a[1::2]
-        return [(x, y) for x, y in zip(xs, ys)]
+        return list(zip(xs, ys))
 
     def objective_func(p):
         """

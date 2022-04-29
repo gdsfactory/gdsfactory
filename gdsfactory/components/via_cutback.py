@@ -146,7 +146,7 @@ def via_cutback(
             up = True
             down = False
             edge = True
-        count = count + 2
+        count += 2
         obj_old = obj
 
     if (

@@ -68,10 +68,7 @@ def ring_single_dut(
     c.component = component
     cb = c << coupler
     wl = c << straight_side
-    if with_component:
-        dut = c << component
-    else:
-        dut = c << straight_side
+    dut = c << component if with_component else c << straight_side
     bl = c << bend
     br = c << bend
     wt = c << straight_top
