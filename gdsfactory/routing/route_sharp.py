@@ -196,29 +196,27 @@ def path_manhattan(port1: Port, port2: Port, radius) -> Path:
                 2 * radius + xrel if (np.abs(radius - xrel) < 2 * radius) else radius
             )
             pts = path_J(port1, port2, length1=length1, length2=length2)
+    elif orel == 180 and yrel == 0 and xrel > 0:
+        pts = path_straight(port1, port2)
+    elif (orel == 180 and xrel <= 2 * radius) or (np.abs(yrel) < 2 * radius):
+        # Adjust length1 and left1 to ensure intermediate segments fit bend radius
+        left1 = np.abs(yrel) + 2 * radius if (np.abs(yrel) < 4 * radius) else 2 * radius
+        y_direction = -1 if (yrel < 0) else 1
+        left1 = y_direction * left1
+        length2 = radius
+        x_direction = -1 if (orel == 180) else 1
+        segmentx_length = np.abs(xrel + x_direction * length2 - radius)
+        length1 = (
+            xrel + x_direction * length2 + 2 * radius
+            if segmentx_length < 2 * radius
+            else radius
+        )
+
+        pts = path_C(port1, port2, length1=length1, length2=length2, left1=left1)
     else:
-        # Parallel case
-        if orel == 180 and yrel == 0 and xrel > 0:
-            pts = path_straight(port1, port2)
-        elif (orel == 180 and xrel <= 2 * radius) or (np.abs(yrel) < 2 * radius):
-            # Adjust length1 and left1 to ensure intermediate segments fit bend radius
-            left1 = (
-                np.abs(yrel) + 2 * radius if (np.abs(yrel) < 4 * radius) else 2 * radius
-            )
-            y_direction = -1 if (yrel < 0) else 1
-            left1 = y_direction * left1
-            length2 = radius
-            x_direction = -1 if (orel == 180) else 1
-            segmentx_length = np.abs(xrel + x_direction * length2 - radius)
-            if segmentx_length < 2 * radius:
-                length1 = xrel + x_direction * length2 + 2 * radius
-            else:
-                length1 = radius
-            pts = path_C(port1, port2, length1=length1, length2=length2, left1=left1)
-        else:
-            # Adjust length1 to ensure segment comes out of port2
-            length1 = radius + xrel if (orel == 0 and xrel > 0) else radius
-            pts = path_U(port1, port2, length1=length1)
+        # Adjust length1 to ensure segment comes out of port2
+        length1 = radius + xrel if (orel == 0 and xrel > 0) else radius
+        pts = path_U(port1, port2, length1=length1)
     return pts
 
 
@@ -324,28 +322,25 @@ def route_sharp(
     Returns
         D: Component containing the route and two ports (`1` and `2`) on either end.
     """
-    if path_type == "straight":
-        P = path_straight(port1, port2)
-    elif path_type == "manual":
-        if not isinstance(manual_path, Path):
-            P = Path(manual_path)
-        else:
-            P = manual_path
+    if path_type == "C":
+        P = path_C(port1, port2, **kwargs)
+    elif path_type == "J":
+        P = path_J(port1, port2, **kwargs)
     elif path_type == "L":
         P = path_L(port1, port2)
     elif path_type == "U":
         P = path_U(port1, port2, **kwargs)
-    elif path_type == "J":
-        P = path_J(port1, port2, **kwargs)
-    elif path_type == "C":
-        P = path_C(port1, port2, **kwargs)
+    elif path_type == "V":
+        P = path_V(port1, port2)
+    elif path_type == "Z":
+        P = path_Z(port1, port2, **kwargs)
     elif path_type == "manhattan":
         radius = max(port1.width, port2.width)
         P = path_manhattan(port1, port2, radius=radius)
-    elif path_type == "Z":
-        P = path_Z(port1, port2, **kwargs)
-    elif path_type == "V":
-        P = path_V(port1, port2)
+    elif path_type == "manual":
+        P = manual_path if isinstance(manual_path, Path) else Path(manual_path)
+    elif path_type == "straight":
+        P = path_straight(port1, port2)
     else:
         raise ValueError(
             """[PHIDL] route_sharp() received an invalid path_type.  Must be one of

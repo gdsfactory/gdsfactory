@@ -160,8 +160,7 @@ def add_fiber_array(
 
     for i, io_row in enumerate(io_gratings_lines):
         for j, io in enumerate(io_row):
-            ports = io.get_ports_list(prefix="vertical")
-            if ports:
+            if ports := io.get_ports_list(prefix="vertical"):
                 port = ports[0]
                 component_new.add_port(f"{port.name}_{i}{j}", port=port)
 

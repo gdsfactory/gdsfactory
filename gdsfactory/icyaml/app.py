@@ -73,21 +73,14 @@ def validate_yaml(yaml_text, output):
         else:
             return class_name, ""
     except Exception as e:
-        return (class_name + " is-invalid", f"YAML ParsingError: {e}")
+        return f"{class_name} is-invalid", f"YAML ParsingError: {e}"
 
-    if yaml_dict is not None:
-        try:
-            # jsonschema.validate(yaml_dict, schema_dict)
-            c = from_yaml(yaml_text)
-            c.show()
-            return class_name + " is-valid", ""
-        except (
-            ValueError,
-            ModuleNotFoundError,
-            KeyError,
-            Exception,
-            jsonschema.exceptions.ValidationError,
-        ) as e:
-            return (class_name + " is-invalid", f"Error {e}")
-    else:
+    if yaml_dict is None:
         return class_name, ""
+    try:
+        # jsonschema.validate(yaml_dict, schema_dict)
+        c = from_yaml(yaml_text)
+        c.show()
+        return f"{class_name} is-valid", ""
+    except (Exception, jsonschema.exceptions.ValidationError) as e:
+        return f"{class_name} is-invalid", f"Error {e}"

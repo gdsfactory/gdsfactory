@@ -42,13 +42,13 @@ def coupler_ring(
 
     """
 
-    width = width * 1e3
-    thickness = thickness * 1e3
-    gap = gap * 1e3
+    width *= 1e3
+    thickness *= 1e3
+    gap *= 1e3
     length = length_x * 1e3
-    radius = radius * 1e3
+    radius *= 1e3
 
-    s = HalfRacetrack(
+    return HalfRacetrack(
         radius=radius,
         width=width,
         thickness=thickness,
@@ -56,7 +56,6 @@ def coupler_ring(
         length=length,
         sw_angle=sw_angle,
     )
-    return s
 
 
 if __name__ == "__main__":

@@ -60,11 +60,7 @@ def add_loopback(
 
     gc = gf.get_component(grating)
 
-    if hasattr(port1, "y"):
-        y0 = port1.y
-    else:
-        y0 = port1[1]
-
+    y0 = port1.y if hasattr(port1, "y") else port1[1]
     if hasattr(port1, "x"):
         x0 = port1.x - grating_separation
     else:
@@ -85,12 +81,9 @@ def add_loopback(
     p1 = gca2.ports[grating_port_name].position
     bend90 = bend(**kwargs)
 
-    if hasattr(bend90, "dx"):
-        a = abs(bend90.info["dy"])
-    else:
-        a = bend90.xsize + 0.5
+    a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.xsize + 0.5
     b = max(2 * a, grating_separation / 2)
-    b = -b if not inside else b
+    b = b if inside else -b
 
     south_waveguide_spacing = (
         south_waveguide_spacing

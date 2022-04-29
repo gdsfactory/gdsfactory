@@ -114,8 +114,7 @@ def curvature(points: ndarray, t: ndarray) -> ndarray:
     dx2 = dp2[:, 0] / dt**2
     dy2 = dp2[:, 1] / dt**2
 
-    curv = (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
-    return curv
+    return (dx * dy2 - dx2 * dy) / (dx**2 + dy**2) ** (3 / 2)
 
 
 def radius_of_curvature(points, t):
@@ -141,23 +140,21 @@ def snap_angle(a: float64) -> int:
     """
     a = a % 360
     if -45 < a < 45:
-        _a = 0
+        return 0
     elif 45 < a < 135:
-        _a = 90
+        return 90
     elif 135 < a < 225:
-        _a = 180
+        return 180
     elif 225 < a < 315:
-        _a = 270
+        return 270
     else:
-        _a = 0
-    return _a
+        return 0
 
 
 def angles_rad(pts: ndarray) -> ndarray:
     """returns the angles (radians) of the connection between each point and the next"""
     _pts = np.roll(pts, -1, 0)
-    radians = np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
-    return radians
+    return np.arctan2(_pts[:, 1] - pts[:, 1], _pts[:, 0] - pts[:, 0])
 
 
 def angles_deg(pts: ndarray) -> ndarray:
@@ -245,7 +242,7 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
 
     # Make sure the shape is oriented in the correct direction for scaling
     ss = sign_shape(s)
-    offset = -ss * offset
+    offset *= -ss
 
     a2 = angles_rad(s) * 0.5
     a1 = np.roll(a2, 1)
@@ -256,7 +253,4 @@ def polygon_grow(polygon: ndarray, offset: float) -> ndarray:
     a = a2 + a1
     c_minus = cos(a2 - a1)
     offsets = np.column_stack((-sin(a) / c_minus, cos(a) / c_minus)) * offset
-    # compute offsets from each point
-
-    pts = s + offsets
-    return pts
+    return s + offsets

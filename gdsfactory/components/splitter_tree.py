@@ -80,11 +80,11 @@ def splitter_tree(
                     if port.name not in [e0_port_name, e1_port_name]:
                         c.add_port(name=f"{port.name}_{col}_{i}", port=port)
                         i += 1
-            if col > 0 and row % 2 == 0:
-                port_name = e0_port_name
-            if col > 0 and row % 2 == 1:
-                port_name = e1_port_name
             if col > 0:
+                if row % 2 == 0:
+                    port_name = e0_port_name
+                if row % 2 == 1:
+                    port_name = e1_port_name
                 c.add(
                     gf.routing.get_route(
                         c.aliases[f"coupler_{col-1}_{row//2}"].ports[port_name],

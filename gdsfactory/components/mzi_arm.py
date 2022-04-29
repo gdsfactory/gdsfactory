@@ -72,7 +72,7 @@ def mzi_arm(
 
     c.unlock()
     c.auto_rename_ports()
-    c.info["length_x"] = float(length_x)
+    c.info["length_x"] = length_x
     c.info["length_xsize"] = straight_x.get_ports_xsize()
     return c
 
