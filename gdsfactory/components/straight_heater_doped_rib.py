@@ -140,7 +140,7 @@ def straight_heater_doped_rib(
     length_via_stack = snap_to_grid(via_stack_size[1])
     length_section = snap_to_grid((length - length_via_stack) / nsections)
     x0 = via_stack_size[0] / 2
-    for i in range(0, nsections + 1):
+    for i in range(nsections + 1):
         xi = x0 + length_section * i
 
         if via_stack_metal and via_stack:

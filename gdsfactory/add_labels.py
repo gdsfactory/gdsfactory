@@ -120,14 +120,13 @@ def get_input_label_electrical(
 
     text = f"elec_{gc_index}_({name})_{port.name}"
     layer, texttype = pd._parse_layer(layer_label)
-    label = Label(
+    return Label(
         text=text,
         position=port.midpoint,
         anchor="o",
         layer=layer,
         texttype=texttype,
     )
-    return label
 
 
 def add_labels(
@@ -195,16 +194,14 @@ def add_siepic_labels(
 
     c = component
 
-    labels = list()
+    labels = []
     if model:
-        if model == "auto":
-            if "model" in c.info:
-                model = c.info["model"]
+        if model == "auto" and "model" in c.info:
+            model = c.info["model"]
         labels.append(f"Component={model}")
     if library:
-        if library == "auto":
-            if "library" in c.info:
-                library = c.info["library"]
+        if library == "auto" and "library" in c.info:
+            library = c.info["library"]
         labels.append(f"Lumerical_INTERCONNECT_library={library}")
     if spice_params and c.info["layout_model_property_pairs"]:
         if spice_params == "auto":
@@ -215,7 +212,7 @@ def add_siepic_labels(
 
             val = spice_params[param]
             param_str += f"{param}={val:.3f}u "
-        labels.append("Spice_param:" + param_str)
+        labels.append(f"Spice_param:{param_str}")
 
     c.unlock()
     for i, text in enumerate(labels):

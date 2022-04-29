@@ -80,8 +80,9 @@ def path_length_matched_points_modify_segment(
 ):
     if not isinstance(list_of_waypoints, list):
         raise ValueError(
-            "list_of_waypoints should be a list, got {}".format(type(list_of_waypoints))
+            f"list_of_waypoints should be a list, got {type(list_of_waypoints)}"
         )
+
     list_of_waypoints = [
         remove_flat_angles(waypoints) for waypoints in list_of_waypoints
     ]

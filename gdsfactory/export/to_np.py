@@ -47,8 +47,7 @@ def to_np(
                 )
                 img[rr, cc] = value
 
-    img_with_padding = np.pad(img, pad_width=pad_width)
-    return img_with_padding
+    return np.pad(img, pad_width=pad_width)
 
 
 if __name__ == "__main__":

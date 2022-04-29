@@ -48,81 +48,89 @@ def test_connect_corner(
     layer = (1, 0)
     c = Component(name=f"test_connect_corner_{config}")
 
-    if config in ["A", "B"]:
+    if config in {"A", "B"}:
         a = 100.0
         ports_A_TR = [
-            Port("A_TR_{}".format(i), (d, a / 2 + i * sep), 0.5, 0, layer=layer)
+            Port(f"A_TR_{i}", (d, a / 2 + i * sep), 0.5, 0, layer=layer)
             for i in range(N)
         ]
+
         ports_A_TL = [
-            Port("A_TL_{}".format(i), (-d, a / 2 + i * sep), 0.5, 180, layer=layer)
+            Port(f"A_TL_{i}", (-d, a / 2 + i * sep), 0.5, 180, layer=layer)
             for i in range(N)
         ]
+
         ports_A_BR = [
-            Port("A_BR_{}".format(i), (d, -a / 2 - i * sep), 0.5, 0, layer=layer)
+            Port(f"A_BR_{i}", (d, -a / 2 - i * sep), 0.5, 0, layer=layer)
             for i in range(N)
         ]
+
         ports_A_BL = [
-            Port("A_BL_{}".format(i), (-d, -a / 2 - i * sep), 0.5, 180, layer=layer)
+            Port(f"A_BL_{i}", (-d, -a / 2 - i * sep), 0.5, 180, layer=layer)
             for i in range(N)
         ]
 
         ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
 
         ports_B_TR = [
-            Port("B_TR_{}".format(i), (a / 2 + i * sep, d), 0.5, 90, layer=layer)
+            Port(f"B_TR_{i}", (a / 2 + i * sep, d), 0.5, 90, layer=layer)
             for i in range(N)
         ]
+
         ports_B_TL = [
-            Port("B_TL_{}".format(i), (-a / 2 - i * sep, d), 0.5, 90, layer=layer)
+            Port(f"B_TL_{i}", (-a / 2 - i * sep, d), 0.5, 90, layer=layer)
             for i in range(N)
         ]
+
         ports_B_BR = [
-            Port("B_BR_{}".format(i), (a / 2 + i * sep, -d), 0.5, 270, layer=layer)
+            Port(f"B_BR_{i}", (a / 2 + i * sep, -d), 0.5, 270, layer=layer)
             for i in range(N)
         ]
+
         ports_B_BL = [
-            Port("B_BL_{}".format(i), (-a / 2 - i * sep, -d), 0.5, 270, layer=layer)
+            Port(f"B_BL_{i}", (-a / 2 - i * sep, -d), 0.5, 270, layer=layer)
             for i in range(N)
         ]
 
         ports_B = [ports_B_TR, ports_B_TL, ports_B_BR, ports_B_BL]
 
-    elif config in ["C", "D"]:
+    elif config in {"C", "D"}:
         a = N * sep + 2 * d
         ports_A_TR = [
-            Port("A_TR_{}".format(i), (a, d + i * sep), 0.5, 0, layer=layer)
-            for i in range(N)
+            Port(f"A_TR_{i}", (a, d + i * sep), 0.5, 0, layer=layer) for i in range(N)
         ]
+
         ports_A_TL = [
-            Port("A_TL_{}".format(i), (-a, d + i * sep), 0.5, 180, layer=layer)
+            Port(f"A_TL_{i}", (-a, d + i * sep), 0.5, 180, layer=layer)
             for i in range(N)
         ]
+
         ports_A_BR = [
-            Port("A_BR_{}".format(i), (a, -d - i * sep), 0.5, 0, layer=layer)
-            for i in range(N)
+            Port(f"A_BR_{i}", (a, -d - i * sep), 0.5, 0, layer=layer) for i in range(N)
         ]
+
         ports_A_BL = [
-            Port("A_BL_{}".format(i), (-a, -d - i * sep), 0.5, 180, layer=layer)
+            Port(f"A_BL_{i}", (-a, -d - i * sep), 0.5, 180, layer=layer)
             for i in range(N)
         ]
 
         ports_A = [ports_A_TR, ports_A_TL, ports_A_BR, ports_A_BL]
 
         ports_B_TR = [
-            Port("B_TR_{}".format(i), (d + i * sep, a), 0.5, 90, layer=layer)
-            for i in range(N)
+            Port(f"B_TR_{i}", (d + i * sep, a), 0.5, 90, layer=layer) for i in range(N)
         ]
+
         ports_B_TL = [
-            Port("B_TL_{}".format(i), (-d - i * sep, a), 0.5, 90, layer=layer)
-            for i in range(N)
+            Port(f"B_TL_{i}", (-d - i * sep, a), 0.5, 90, layer=layer) for i in range(N)
         ]
+
         ports_B_BR = [
-            Port("B_BR_{}".format(i), (d + i * sep, -a), 0.5, 270, layer=layer)
+            Port(f"B_BR_{i}", (d + i * sep, -a), 0.5, 270, layer=layer)
             for i in range(N)
         ]
+
         ports_B_BL = [
-            Port("B_BL_{}".format(i), (-d - i * sep, -a), 0.5, 270, layer=layer)
+            Port(f"B_BL_{i}", (-d - i * sep, -a), 0.5, 270, layer=layer)
             for i in range(N)
         ]
 
@@ -130,16 +138,15 @@ def test_connect_corner(
 
     lengths = {}
     i = 0
-    if config in ["A", "C"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
+    for ports1, ports2 in zip(ports_A, ports_B):
+        if config in {"A", "C"}:
             routes = get_bundle(ports1, ports2)
             for route in routes:
                 c.add(route.references)
                 lengths[i] = route.length
                 i += 1
 
-    elif config in ["B", "D"]:
-        for ports1, ports2 in zip(ports_A, ports_B):
+        elif config in {"B", "D"}:
             routes = get_bundle(ports2, ports1)
             for route in routes:
                 c.add(route.references)

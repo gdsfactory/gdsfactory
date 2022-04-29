@@ -51,9 +51,7 @@ def _parse_component_name(name: str) -> Tuple[str, bool]:
     If the component name has more than one character and starts with "!"
     then we need to flip along the axis given by the input port angle
     """
-    if len(name) != 1 and name[0] == "!":
-        return name[1:], True
-    return name, False
+    return (name[1:], True) if len(name) != 1 and name[0] == "!" else (name, False)
 
 
 def _flip_ref(c_ref, port_name):
@@ -130,7 +128,7 @@ def component_sequence(
     counters = {k: count(start=1) for k in symbol_to_component.keys()}
 
     def _next_id(name) -> str:
-        return "{}{}".format(name, next(counters[name]))
+        return f"{name}{next(counters[name])}"
 
     component = Component()
 

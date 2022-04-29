@@ -134,8 +134,8 @@ def _get_bundle_corner_waypoints(
     for p in ports2:
         p.angle = p.angle % 360
 
-    port_angles1 = set([p.angle for p in ports1])
-    port_angles2 = set([p.angle for p in ports2])
+    port_angles1 = {p.angle for p in ports1}
+    port_angles2 = {p.angle for p in ports2}
 
     assert len(ports2) == nb_ports, f"ports1 = {len(ports1)} must match {len(ports2)}"
     assert (
@@ -196,11 +196,7 @@ def _get_bundle_corner_waypoints(
     da={da}; are_below={are_below}; are_above={are_above}; are_left={are_left}; are_right={are_right}. \
     Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
 
-    if da > 0:
-        end_sort_type = ["Y", "-X", "-Y", "X"]
-    else:
-        end_sort_type = ["-Y", "X", "Y", "-X"]
-
+    end_sort_type = ["Y", "-X", "-Y", "X"] if da > 0 else ["-Y", "X", "Y", "-X"]
     start_angle_sort_index = a_start // 90
     end_angle_sort_index = a_end // 90
 

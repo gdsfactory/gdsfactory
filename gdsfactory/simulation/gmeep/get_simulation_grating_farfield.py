@@ -178,9 +178,7 @@ def get_simulation_grating_farfield(
     fiber_clad_material = mp.Medium(index=fiber_nclad)
     fiber_core_material = mp.Medium(index=fiber_ncore)
 
-    geometry = []
-    # Fiber (defined first to be overridden)
-    geometry.append(
+    geometry = [
         mp.Block(
             material=fiber_clad_material,
             center=mp.Vector3(
@@ -190,7 +188,8 @@ def get_simulation_grating_farfield(
             e1=mp.Vector3(x=1).rotate(mp.Vector3(z=1), -1 * fiber_angle),
             e2=mp.Vector3(y=1).rotate(mp.Vector3(z=1), -1 * fiber_angle),
         )
-    )
+    ]
+
     geometry.append(
         mp.Block(
             material=fiber_core_material,
@@ -359,11 +358,9 @@ def get_farfield(wavelength: float = 1.55, **kwargs):
     farfield_angles = np.array(farfield_angles)
     farfield_power = np.array(farfield_power)
 
-    # Waveguide
-    res_waveguide = sim.get_eigenmode_coefficients(
+    return sim.get_eigenmode_coefficients(
         sim_dict["waveguide_monitor"], [1], eig_parity=mp.ODD_Z, direction=mp.X
     )
-    return res_waveguide
 
 
 def get_port_1D_eigenmode(
@@ -493,7 +490,7 @@ if __name__ == "__main__":
     # plt.show()
 
     wavelength = 1.55
-    settings = dict()
+    settings = {}
     sim_dict = get_simulation_grating_farfield(**settings)
 
     sim = sim_dict["sim"]

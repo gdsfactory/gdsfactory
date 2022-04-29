@@ -46,7 +46,7 @@ def test_label_fiber_single_custom(num_regression, check=True):
     if check and labels:
         num_regression.check(labels)
     else:
-        for key in labels.keys():
+        for key in labels:
             print(key)
     return cte
 

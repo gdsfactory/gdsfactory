@@ -28,8 +28,8 @@ def bend_euler(
     c = gf.c.bend_euler(radius=radius, **kwargs)
     length = c.info["length"] * 1e3
     angle = np.deg2rad(angle)
-    width = width * 1e3
-    thickness = thickness * 1e3
+    width *= 1e3
+    thickness *= 1e3
 
     return Waveguide(width=width, thickness=thickness, sw_angle=sw_angle, length=length)
 

@@ -137,7 +137,7 @@ def transition(
     layers1.add(X1.layer)
     layers2.add(X2.layer)
 
-    has_common_layers = True if layers1.intersection(layers2) else False
+    has_common_layers = bool(layers1.intersection(layers2))
     if not has_common_layers:
         raise ValueError(
             f"transition() found no common layers X1 {layers1} and X2 {layers2}"
@@ -165,10 +165,10 @@ def transition(
 
             offset_fun = _sinusoidal_transition(offset1, offset2)
 
-            if width_type == "sine":
-                width_fun = _sinusoidal_transition(width1, width2)
-            elif width_type == "linear":
+            if width_type == "linear":
                 width_fun = _linear_transition(width1, width2)
+            elif width_type == "sine":
+                width_fun = _sinusoidal_transition(width1, width2)
             else:
                 raise ValueError(f"width_type={width_type!r} must be {'sine','linear'}")
 
@@ -190,10 +190,9 @@ def transition(
             )
             sections.append(s)
 
-    Xtrans = Transition(
+    return Transition(
         cross_section1=X1, cross_section2=X2, width_type=width_type, sections=sections
     )
-    return Xtrans
 
 
 @cell
@@ -302,8 +301,6 @@ def extrude(
             lengths = np.cumsum(np.sqrt(dx**2 + dy**2))
             lengths = np.concatenate([[0], lengths])
             width = width(lengths / lengths[-1])
-        else:
-            pass
         dy = offset + width / 2
         # _points = _shear_face(points, dy, shear_angle_start, shear_angle_end)
 
@@ -463,15 +460,12 @@ def _cut_path_with_ray(
             intersection = ls.intersection(ls_ray)
 
             if not isinstance(intersection, sg.Point):
-                if isinstance(intersection, sg.MultiPoint):
-                    _, nearest = shapely.ops.nearest_points(
-                        sg.Point(point), intersection
-                    )
-                    intersection = nearest
-                else:
+                if not isinstance(intersection, sg.MultiPoint):
                     raise ValueError(
                         f"Expected intersection to be a point, but got {intersection}"
                     )
+                _, nearest = shapely.ops.nearest_points(sg.Point(point), intersection)
+                intersection = nearest
             intersections[i] = intersection
         else:
             intersection = intersections[i]
@@ -612,8 +606,7 @@ def _my_custom_width_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
     # to call them with an array input like my_custom_width_fun([0, 0.1, 0.2, 0.3, 0.4])
     num_periods = 5
-    w = 3 + np.cos(2 * np.pi * t * num_periods)
-    return w
+    return 3 + np.cos(2 * np.pi * t * num_periods)
 
 
 def _demo_variable_width() -> None:
@@ -633,8 +626,7 @@ def _my_custom_offset_fun(t):
     # Note: Custom width/offset functions MUST be vectorizable--you must be able
     # to call them with an array input like my_custom_offset_fun([0, 0.1, 0.2, 0.3, 0.4])
     num_periods = 3
-    w = 3 + np.cos(2 * np.pi * t * num_periods)
-    return w
+    return 3 + np.cos(2 * np.pi * t * num_periods)
 
 
 def _demo_variable_offset() -> None:

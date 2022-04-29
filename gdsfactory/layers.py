@@ -181,10 +181,7 @@ def _name_to_description(name_str) -> str:
     if name_str is None:
         raise IOError(f"layer {name_str} has no name")
     fields = name_str.split()
-    description = ""
-    if len(fields) > 1:
-        description = " ".join(fields[1:])
-    return description
+    return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
 def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
@@ -203,13 +200,12 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
 
     infos = info.split("/")
 
-    if len(infos) > 1:
-        gds_layer, gds_datatype = info.split("/")
-        gds_layer = gds_layer.split()[-1]
-        gds_datatype = gds_datatype.split()[-1]
-
-    else:
+    if len(infos) <= 1:
         return
+
+    gds_layer, gds_datatype = info.split("/")
+    gds_layer = gds_layer.split()[-1]
+    gds_datatype = gds_datatype.split()[-1]
 
     # print(entry.keys())
     # print(name, entry["xfill"], entry["fill-color"])
@@ -222,12 +218,14 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
     else:
         alpha = 0.5
 
-    settings = dict()
-    settings["gds_layer"] = int(gds_layer)
-    settings["gds_datatype"] = int(gds_datatype)
-    settings["color"] = entry["fill-color"]
-    settings["dither"] = entry["dither-pattern"]
-    settings["name"] = _name_to_short_name(name)
+    settings = {
+        "gds_layer": int(gds_layer),
+        "gds_datatype": int(gds_datatype),
+        "color": entry["fill-color"],
+        "dither": entry["dither-pattern"],
+        "name": _name_to_short_name(name),
+    }
+
     settings["description"] = _name_to_description(name)
     settings["alpha"] = alpha
     lys.add_layer(**settings)
