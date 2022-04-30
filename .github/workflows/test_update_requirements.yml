@@ -32,8 +32,5 @@ jobs:
           pip install pur flake8
           pur -r requirements.txt
           pip install -e .
-      - name: Lint with flake8
-        run: |
-          flake8 .
       - name: Test with pytest
         run: pytest
