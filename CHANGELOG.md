@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.3.6](https://github.com/gdsfactory/gdsfactory/pull/324)
+
+- update gf.read.from_dphox to the latest version
+
 ## [5.3.5](https://github.com/gdsfactory/gdsfactory/pull/323)
 
 - [clean code](https://github.com/gdsfactory/gdsfactory/pull/321)
