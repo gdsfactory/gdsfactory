@@ -2,6 +2,7 @@ from gdsfactory.component import Component, ComponentReference
 
 try:
     import dphox as dp
+
     DPHOX_IMPORTED = True
 except ImportError:
     DPHOX_IMPORTED = False
@@ -44,13 +45,12 @@ def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
             midpoint=(port.x, port.y),
             orientation=port.a,
             width=port.w,
-            layer=foundry.layer_to_gds_label.get(port.layer, (1, 0))
+            layer=foundry.layer_to_gds_label.get(port.layer, (1, 0)),
         )
     return c
 
 
 if __name__ == "__main__":
-    import dphox as dp
     from dphox.demo import mzi
 
     c = from_dphox(mzi, foundry=dp.foundry.FABLESS)
