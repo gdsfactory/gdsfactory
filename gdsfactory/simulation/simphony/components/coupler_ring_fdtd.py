@@ -1,4 +1,4 @@
-from simphony.elements import Model
+from simphony import Model
 
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsfactory

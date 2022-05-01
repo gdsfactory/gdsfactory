@@ -1,5 +1,5 @@
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.libraries import siepic
+from simphony.models import Subcircuit
 
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.components.gc import gc1550te
@@ -32,7 +32,7 @@ def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2")
     return c
 
 
-def add_gc_siepic(circuit, gc=siepic.ebeam_gc_te1550):
+def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
     """add input and output gratings
 
     Args:

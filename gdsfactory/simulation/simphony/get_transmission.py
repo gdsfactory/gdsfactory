@@ -1,5 +1,5 @@
-from simphony.netlist import Subcircuit
-from simphony.simulation import SweepSimulation
+from simphony.models import Subcircuit
+from simphony.simulators import SweepSimulator
 from simphony.tools import freq2wl
 
 
@@ -22,7 +22,7 @@ def get_transmission(
         num: number of points
 
     """
-    simulation = SweepSimulation(circuit, start, stop, num)
+    simulation = SweepSimulator(circuit, start, stop, num)
     result = simulation.simulate()
 
     f, s = result.data(pin_in, pin_out)
