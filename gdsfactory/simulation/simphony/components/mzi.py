@@ -1,6 +1,6 @@
 from typing import Callable, Optional
 
-from simphony.netlist import Subcircuit
+from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.mmi1x2 import mmi1x2
 from gdsfactory.simulation.simphony.components.straight import (

@@ -2,8 +2,8 @@ from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
-from simphony.netlist import Subcircuit
-from simphony.simulation import SweepSimulation
+from simphony.models import Subcircuit
+from simphony.simulators import SweepSimulator
 from simphony.tools import freq2wl
 
 
@@ -35,7 +35,7 @@ def plot_circuit(
         raise ValueError("pins out is not iterable")
     circuit = circuit() if callable(circuit) else circuit
 
-    simulation = SweepSimulation(circuit, start, stop, num)
+    simulation = SweepSimulator(circuit, start, stop, num)
     result = simulation.simulate()
 
     fig = fig or plt.subplot()

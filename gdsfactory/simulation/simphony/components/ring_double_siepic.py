@@ -1,5 +1,5 @@
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.libraries import siepic
+from simphony.models import Subcircuit
 
 
 def ring_double_siepic(
@@ -8,9 +8,9 @@ def ring_double_siepic(
     length_x=4,
     bend_radius=5,
     length_y=2,
-    coupler=siepic.ebeam_dc_halfring_straight,
-    straight=siepic.ebeam_wg_integral_1550,
-    terminator=siepic.ebeam_terminator_te1550,
+    coupler=siepic.DirectionalCoupler,
+    straight=siepic.Waveguide,
+    terminator=siepic.Terminator,
 ):
     r"""Return double bus ring made of two couplers (ct: top, cb: bottom)
     connected with two vertical straights (wyl: left, wyr: right)
@@ -65,7 +65,7 @@ def ring_double_siepic(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulationsimphony import plot_circuit
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = ring_double_siepic()
     plot_circuit(c)

@@ -1,4 +1,4 @@
-from simphony.netlist import Subcircuit
+from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 from gdsfactory.simulation.simphony.components.straight import straight
@@ -48,7 +48,7 @@ def ring_single(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulationsimphony import plot_circuit
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = ring_single()
     plot_circuit(c)

@@ -1,4 +1,4 @@
-from simphony.netlist import Subcircuit
+from simphony.layout import Circuit
 
 from gdsfactory.simulation.simphony.components.bend_circular import bend_circular
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
@@ -72,33 +72,13 @@ def ring_single(
         if callable(coupler)
         else coupler
     )
-
-    # Create the circuit, add all individual instances
-    circuit = Subcircuit("ring_double")
-    circuit.add(
-        [
-            (bend, "bl"),
-            (bend, "br"),
-            (coupler, "cb"),
-            (straight, "wl"),
-            (straight, "wr"),
-            (straight, "wt"),
-        ]
-    )
-
-    # Circuits can be connected using the elements' string names:
-    circuit.connect_many(
-        [
-            ("cb", "o2", "wl", "o2"),
-            ("wl", "o1", "bl", "o2"),
-            ("bl", "o1", "wt", "o1"),
-            ("wt", "o2", "br", "o1"),
-            ("br", "o2", "wr", "o2"),
-            ("wr", "o1", "cb", "o3"),
-        ]
-    )
-    circuit.elements["cb"].pins["o1"] = "o1"
-    circuit.elements["cb"].pins["o4"] = "o2"
+    wg1 = straight
+    wg2 = straight
+    bend.connect(wg1)
+    bend.connect(wg2)
+    coupler.multiconnect(wg1["o2"], wg2["o2"])
+    # Create the circuit
+    circuit = Circuit(coupler)
     return circuit
 
 
