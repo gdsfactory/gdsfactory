@@ -321,6 +321,7 @@ def quickplot(items):  # noqa: C901
 
     plt.draw()
     plt.show(block=blocking)
+    return fig
 
 
 def _use_interactive_zoom():

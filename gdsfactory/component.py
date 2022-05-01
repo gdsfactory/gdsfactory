@@ -742,7 +742,7 @@ class Component(Device):
         if plotter == "matplotlib":
             from gdsfactory.quickplotter import quickplot as plot
 
-            plot(self)
+            return plot(self)
         elif plotter == "holoviews":
             try:
                 import holoviews as hv
@@ -756,7 +756,7 @@ class Component(Device):
         elif plotter == "qt":
             from gdsfactory.quickplotter import quickplot2
 
-            quickplot2(self)
+            return quickplot2(self)
 
     def ploth(
         self,
