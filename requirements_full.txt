@@ -3,6 +3,7 @@ dash
 dash-bootstrap-components>=0.8.2
 holoviews
 ipympl
+ipywidgets
 klayout
 pyglet
 pyyaml

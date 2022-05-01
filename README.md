@@ -162,6 +162,7 @@ After installing it you should be able to `import gdsfactory as gf` from a pytho
 ## Documentation
 
 - Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
+- [see slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
 - [read online docs](https://gdsfactory.github.io/gdsfactory/)
 - [download the code](https://github.com/gdsfactory/gdsfactory)
 - run gdsfactory/samples on your IDE (Spyder, PyCharm, VSCode) and docs/notebooks in jupyter-lab
