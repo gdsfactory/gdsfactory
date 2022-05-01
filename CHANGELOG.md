@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.3.7]
+## [5.3.7](https://github.com/gdsfactory/gdsfactory/pull/325)
 
 - add ipywidgets for `read_from_yaml` netlist driven flow tutorial.
 
