@@ -1,4 +1,5 @@
-from simphony.netlist import Subcircuit
+from simphony.models import Subcircuit
+from simphony.layout import Circuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 from gdsfactory.simulation.simphony.components.straight import (
@@ -75,23 +76,18 @@ def ring_double(
         else coupler
     )
 
-    # Create the circuit, add all individual instances
-    circuit = Subcircuit("ring_double")
-    circuit.add([(coupler, "ct"), (coupler, "cb"), (straight, "wl"), (straight, "wr")])
-
-    # Circuits can be connected using the elements' string names:
-    circuit.connect_many(
-        [
-            ("cb", "o2", "wl", "o1"),
-            ("wl", "o2", "ct", "o3"),
-            ("ct", "o2", "wr", "o2"),
-            ("wr", "o1", "cb", "o3"),
-        ]
-    )
-    circuit.elements["cb"].pins["o1"] = "o1"
-    circuit.elements["cb"].pins["o4"] = "o4"
-    circuit.elements["ct"].pins["o4"] = "o2"
-    circuit.elements["ct"].pins["o1"] = "o3"
+    halfring1 = coupler
+    halfring2 = coupler
+    halfring1.rename_pins("pass", "midb", "in", "midt")
+    halfring2.rename_pins("out", "midt", "term", "midb")
+    wg1 = straight
+    wg2 = straight
+    halfring1["midb"].connect(wg1)
+    halfring2["midb"].connect(wg1)
+    halfring2["midt"].connect(wg2)
+    halfring2["midt"].connect(wg2)
+    # Create the circuit
+    circuit = Circuit(halfring1)
     return circuit
 
 

@@ -1,18 +1,18 @@
 from typing import Dict
 
-from simphony.elements import Model
-from simphony.netlist import Subcircuit
+from simphony import Model
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.simulation.simphony.components import model_factory
 from gdsfactory.simulation.simphony.types import ModelFactory
+from simphony.layout import Circuit
 
 
 def component_to_circuit(
     component: Component,
     model_factory: Dict[str, ModelFactory] = model_factory,
-) -> Subcircuit:
+) -> Circuit:
     """Returns Simphony circuit from a gdsfactory component netlist.
 
     Args:
@@ -23,7 +23,7 @@ def component_to_circuit(
     instances = netlist["instances"]
     connections = netlist["connections"]
 
-    circuit = Subcircuit(component.name)
+    circuit = Circuit(component)
     model_names = []
     model_name_tuple = []
     component_models = list(model_factory.keys())

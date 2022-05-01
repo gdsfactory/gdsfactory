@@ -3,7 +3,7 @@ from typing import Tuple
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.constants import speed_of_light
-from simphony.elements import Model
+from simphony import Model
 
 
 def plot_model(
@@ -78,7 +78,7 @@ def plot_model(
 
 
 if __name__ == "__main__":
-    from simphony.library import siepic
+    from simphony.libraries import siepic
 
     from gdsfactory.simulation.simphony.components.straight import straight
 

@@ -1,6 +1,6 @@
 import numpy as np
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.libraries import siepic
+from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 
@@ -12,7 +12,7 @@ def ring_single(
     length_y=4,
     bend_radius=5,
     coupler=coupler_ring,
-    straight=siepic.ebeam_wg_integral_1550,
+    straight=siepic.Waveguide,
 ):
     r"""Single bus ring made of a ring coupler (cb: bottom)
 
@@ -50,7 +50,7 @@ def ring_single(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulationsimphony import plot_circuit
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = ring_single(length_y=20)
     plot_circuit(c)

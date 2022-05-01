@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from simphony.netlist import Subcircuit
-from simphony.simulation import MonteCarloSweepSimulation
+from simphony.models import Subcircuit
+from simphony.simulators import MonteCarloSweepSimulator
 from simphony.tools import freq2wl
 
 
@@ -29,7 +29,7 @@ def plot_circuit_montecarlo(
 
     """
     circuit = circuit() if callable(circuit) else circuit
-    simulation = MonteCarloSweepSimulation(circuit, start=start, stop=stop, num=num)
+    simulation = MonteCarloSweepSimulator(circuit, start=start, stop=stop, num=num)
     result = simulation.simulate(runs=runs)
 
     for i in range(1, runs + 1):
