@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdspy
+import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import yaml
@@ -207,6 +208,7 @@ class Component(Device):
             with_labels: label nodes
             font_weight: normal, bold
         """
+        plt.figure()
         netlist = self.get_netlist()
         connections = netlist["connections"]
         placements = netlist["placements"]
