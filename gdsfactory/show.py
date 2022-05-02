@@ -1,5 +1,4 @@
 import pathlib
-import shutil
 import tempfile
 import time
 from typing import Union
@@ -34,13 +33,14 @@ def show(component: Union[Component, str, pathlib.Path], **kwargs) -> None:
         )
 
     elif isinstance(component, Component):
-        tmp = tempfile.TemporaryDirectory().name
-        gdspath = component.write_gds(gdsdir=tmp, logging=False, **kwargs)
-        klive.show(gdspath)
-
-        time.sleep(0.1)
-        gdspath.unlink()
-        shutil.rmtree(tmp)
+        if "gdsdir" in kwargs:
+            gdspath = component.write_gds(logging=False, **kwargs)
+            klive.show(gdspath)
+        else:
+            with tempfile.TemporaryDirectory() as tmp:
+                gdspath = component.write_gds(gdsdir=tmp, logging=False, **kwargs)
+                klive.show(gdspath)
+                time.sleep(0.1)
 
     else:
         raise ValueError(
