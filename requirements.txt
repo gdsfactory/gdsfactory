@@ -27,4 +27,5 @@ toolz
 tqdm
 trimesh
 typing_extensions
+watchdog
 xmltodict
