@@ -42,7 +42,6 @@ def coupler(
 
 
     """
-
     # SiPANN units are in nm
     width *= 1e3
     thickness *= 1e3

@@ -30,7 +30,6 @@ def model_from_sparameters(
     wavelengths, sparameters, pins: Tuple[str, ...] = ("E0", "W0"), name: str = "model"
 ):
     """Returns simphony model from wavelengths and Sparameters."""
-
     f = wl2freq(wavelengths)
     s = sparameters
 

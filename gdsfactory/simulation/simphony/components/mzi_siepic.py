@@ -7,7 +7,7 @@ from gdsfactory.simulation.simphony.components.mmi1x2 import mmi1x2
 def mzi(
     L0=1, DL=100.0, L2=10.0, y_model_factory=mmi1x2, wg=siepic.ebeam_wg_integral_1550
 ):
-    """Mzi circuit model
+    """Mzi circuit model.
 
     Args:
         L0 (um): vertical length for both and top arms
