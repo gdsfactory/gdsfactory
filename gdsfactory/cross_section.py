@@ -202,7 +202,7 @@ def pin(
     via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
 ) -> CrossSection:
-    """rib PIN doped cross_section.
+    """Rib PIN doped cross_section.
 
     Args:
         width: ridge width
@@ -313,7 +313,7 @@ def pn(
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
 ) -> CrossSection:
-    """rib PN doped cross_section.
+    """Rib PN doped cross_section.
 
     Args:
         width: width of the ridge
