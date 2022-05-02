@@ -48,7 +48,6 @@ def coupler_ring(
         gs.plot_model(m)
 
     """
-
     width *= 1e3
     thickness *= 1e3
     gap *= 1e3

@@ -1,4 +1,4 @@
-"""gdsfactory simphony circuit simulation plugin"""
+"""gdsfactory simphony circuit simulation plugin."""
 
 try:
     from simphony.tools import freq2wl, wl2freq

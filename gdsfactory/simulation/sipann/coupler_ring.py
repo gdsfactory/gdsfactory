@@ -41,7 +41,6 @@ def coupler_ring(
 
 
     """
-
     width *= 1e3
     thickness *= 1e3
     gap *= 1e3
