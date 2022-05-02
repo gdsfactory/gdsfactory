@@ -39,7 +39,6 @@ def plot_model(
 
         gs.plot_model(gs.models.straight, phase=True, port1="o1")
     """
-
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
     sdict = sdict(wl=wavelengths)
 

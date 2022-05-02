@@ -2,7 +2,7 @@ import numpy as np
 
 
 def delta_temperature(wavelength, length, dn=1.87e-4):
-    """Return the delta temperature for a pi phase shift on a MZI interferometer"""
+    """Return the delta temperature for a pi phase shift on a MZI interferometer."""
     return wavelength / 2 / length / dn
 
 
