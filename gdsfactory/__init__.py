@@ -19,8 +19,9 @@ isort:skip_file
 """
 from functools import partial
 from toolz import compose
-from phidl.device_layout import Group, Path
+from phidl.device_layout import Group
 from gdsfactory.quickplotter import quickplot, quickplot2, set_quickplot_options
+from gdsfactory.path import Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
