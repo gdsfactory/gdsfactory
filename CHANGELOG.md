@@ -1,5 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.3.8
+
+- update netlist driven flow tutorial with ipywidgets, so you can live update the YAML and see it in matplotlib and Klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/329)
+- [PR fixes problem with showing new layers, not in the previous layer props](https://github.com/gdsfactory/gdsfactory/pull/328)
+- [fix show](https://github.com/gdsfactory/gdsfactory/pull/326)
+ - Fixes gf.show() when gdsdir is passed as a kwarg (for cases when the user wants to retain the output gds file at a specific directory)
+ - Changes the default behavior to use a context manager to clean up the temp directory after it is created
+ - Adds tests for the two different invocation types
+
 ## [5.3.7](https://github.com/gdsfactory/gdsfactory/pull/325)
 
 - add ipywidgets for `read_from_yaml` netlist driven flow tutorial.
