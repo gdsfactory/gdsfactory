@@ -50,7 +50,7 @@ class YamlEventHandler(FileSystemEventHandler):
             c.show()
 
 
-def watch_folder(path=str(cwd)) -> None:
+def watch(path=str(cwd)) -> None:
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(message)s",
@@ -70,4 +70,4 @@ def watch_folder(path=str(cwd)) -> None:
 
 if __name__ == "__main__":
     path = sys.argv[1] if len(sys.argv) > 1 else "."
-    watch_folder(path)
+    watch(path)
