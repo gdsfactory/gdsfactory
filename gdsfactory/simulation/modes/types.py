@@ -102,8 +102,7 @@ class Mode(BaseModel):
         return self.E_grid_interp(y_arr=y_arr, z_arr=z_arr, index=2)
 
     def H_grid_interp(self, y_arr, z_arr, index=0):
-        """
-        Creates new attributes with scipy.interpolate.RectBivariateSpline objects
+        """Creates new attributes with scipy.interpolate.RectBivariateSpline objects
         that can be used to interpolate the field on a new regular grid
 
         Args:
@@ -141,7 +140,7 @@ class Mode(BaseModel):
         logscale: bool = False,
         show: bool = True,
     ) -> None:
-        """plot index profle"""
+        """Plot index profile."""
         plt.imshow(
             self.eps**0.5,
             cmap=cmap,
