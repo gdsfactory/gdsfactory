@@ -9,7 +9,7 @@ import click
 from click.core import Context, Option
 
 import gdsfactory
-from gdsfactory.config import CONFIG, print_config
+from gdsfactory.config import CONFIG, cwd, print_config
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
 from gdsfactory.install import install_gdsdiff, install_generic_tech, install_klive
 from gdsfactory.layers import lyp_to_dataclass
@@ -19,7 +19,6 @@ from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
 VERSION = "5.3.8"
 log_directory = CONFIG.get("log_directory")
-cwd = pathlib.Path.cwd()
 LAYER_LABEL = LAYER.LABEL
 
 
@@ -128,29 +127,14 @@ def webapp(debug: bool = False) -> None:
         app.run()
 
 
-@click.argument("filepath", type=click.Path(exists=True))
+@click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
 @click.command()
-def watch(filepath) -> None:
+def watch(path=cwd) -> None:
     """Filewatch YAML file."""
-    from gdsfactory.icyaml.filewatch import filewatch
+    from gdsfactory.watch import watch
 
-    filewatch(filepath)
-
-
-@click.argument("filepath", required=False, default=None)
-@click.command()
-def build(filepath=None) -> None:
-    """Read YAML file or stdin, build component and show it in klayout."""
-    from gdsfactory.icyaml.filewatch import build
-
-    if filepath is None:
-        filepath = click.get_text_stream("stdin")
-        filepath = filepath.read()
-
-        if "\n" not in filepath:
-            raise ValueError("need to specify a file")
-
-    build(filepath)
+    path = path.parent if path.is_dir() else path
+    watch(str(path))
 
 
 # EXTRA
@@ -199,10 +183,7 @@ def test() -> None:
     help="Show the version number.",
 )
 def gf() -> None:
-    """`gf` is the command line tool for gdsfactory.
-    It helps you work with GDS files.
-    """
-    pass
+    """`gf` is the gdsfactory command line tool."""
 
 
 gds.add_command(layermap_to_dataclass)
@@ -217,7 +198,6 @@ tool.add_command(install)
 
 yaml.add_command(webapp)
 yaml.add_command(watch)
-yaml.add_command(build)
 
 gf.add_command(gds)
 gf.add_command(tool)
