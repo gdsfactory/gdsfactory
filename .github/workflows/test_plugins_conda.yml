@@ -29,6 +29,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           make install
+          pip install -r requirements_full.txt
       - name: Test with pytest
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
