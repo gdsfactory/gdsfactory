@@ -177,11 +177,11 @@ def add_siepic_labels(
     model: str = "auto",
     library: str = "auto",
     label_layer: Layer = (68, 0),
-    spice_params: Union[Dict, List, str] = None,
+    spice_params: Optional[Union[Dict, List, str]] = None,
     label_sep: float = 0.2,
 ) -> Component:
-    """
-    Adds labels to a component.
+    """Adds labels and returns the same component.
+
     Args:
         component: component
         model: Lumerical Interconnect model. 'auto' will attempt to extract this from the cross_section
