@@ -81,7 +81,7 @@ class MyServer(pya.QTcpServer):
             window.load_layout(gds_path, 0)
 
             if current_view and os.path.exists(filepath_layers):
-                current_view.load_layer_props(str(filepath_layers))
+                current_view.load_layer_props(str(filepath_layers), True)
 
             # Restore the previous position
             view = window.current_view()
