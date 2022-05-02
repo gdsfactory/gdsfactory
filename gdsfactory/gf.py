@@ -131,10 +131,10 @@ def webapp(debug: bool = False) -> None:
 @click.command()
 def watch(path=cwd) -> None:
     """Filewatch YAML file."""
-    from gdsfactory.icyaml.watch_folder import watch_folder
+    from gdsfactory.watch import watch
 
     path = path.parent if path.is_dir() else path
-    watch_folder(str(path))
+    watch(str(path))
 
 
 # EXTRA
