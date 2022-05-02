@@ -7,7 +7,7 @@ Intro Tutorial
    :titlesonly:
    :caption: Contents:
 
-   notebooks/00__git.ipynb
-   notebooks/00__python_intro.ipynb
-   notebooks/00_klayout.ipynb
-   notebooks/plugins/vscode.ipynb
+   notebooks/_0_python.ipynb
+   notebooks/_1_git.ipynb
+   notebooks/_2_klayout.ipynb
+   notebooks/_3_vscode.ipynb
