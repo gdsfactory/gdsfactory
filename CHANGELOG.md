@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.4.0
+## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
 
 - add `gf yaml watch` folder watcher using watchdog, looking for `pic.yml` files
 - add `PDK.register_cells_yaml`
