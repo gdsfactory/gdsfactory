@@ -37,7 +37,7 @@ echo Conda is already installed!
 
 call conda create -n gdsfactory -y
 call conda activate gdsfactory
-call conda install -c conda-forge gdspy -y
+call conda install -c conda-forge gdspy shapely -y
 call pip install -e .[dev] --upgrade
 
 if exist "%ORIGDIR%\gdslib" (goto GDSLIB_INSTALL)
