@@ -61,7 +61,7 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.pdk import get_active_pdk, set_active_pdk
+from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import Route
 
@@ -579,15 +579,17 @@ def from_yaml(
     pdk = conf.get("pdk")
     c.info = conf.get("info", omegaconf.DictConfig({}))
 
-    if pdk:
+    if pdk and pdk == "generic":
+        set_active_pdk(GENERIC)
+
+    elif pdk:
         module = importlib.import_module(pdk)
         pdk = getattr(module, "PDK")
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
-
         set_active_pdk(pdk)
-    else:
-        pdk = get_active_pdk()
+
+    pdk = get_active_pdk()
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
@@ -1118,6 +1120,57 @@ placements:
 
 """
 
+sample2 = """
+
+name: sample_different_factory2
+
+instances:
+    tl:
+      component: pad
+    tr:
+      component: pad
+
+    mzi:
+      component: mzi_phase_shifter_top_heater_metal
+
+placements:
+    mzi:
+        ymax: tl,south
+        dy: -100
+    tl:
+        x: mzi,west
+        y: mzi,north
+        dy: 100
+    tr:
+        x: mzi,west
+        dx: 200
+        y: mzi,north
+        dy: 100
+
+routes:
+    electrical1:
+        routing_strategy: get_bundle
+        settings:
+            separation: 20
+            layer: [31, 0]
+            width: 10
+
+        links:
+            mzi,e2: tr,e1
+
+    electrical2:
+        routing_strategy: get_bundle
+        settings:
+            separation: 20
+            layer: [31, 0]
+            width: 10
+
+        links:
+            mzi,e1: tl,e1
+
+
+"""
+
 
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
@@ -1127,7 +1180,8 @@ if __name__ == "__main__":
     # c = from_yaml(yaml_anchor)
     # c = from_yaml(sample_pdk_mzi)
 
-    c = from_yaml(sample_rotation)
+    # c = from_yaml(sample_rotation)
+    c = from_yaml(sample2)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
     # c = from_yaml(sample_yaml_xmin)
