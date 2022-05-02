@@ -720,12 +720,12 @@ class Component(Device):
         return layers
 
     def _repr_html_(self):
-        """Print component, show geometry in klayout and return plot
+        """Show geometry in klayout and in matplotlib
         for jupyter notebooks
         """
-        self.show(show_ports=False)
-        print(self)
-        return self.plot(plotter="matplotlib")
+        self.show(show_ports=False)  # show in klayout
+        self.plot(plotter="matplotlib")
+        return self.__repr__()
 
     def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
         """Return component plot.
