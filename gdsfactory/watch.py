@@ -46,8 +46,11 @@ class YamlEventHandler(FileSystemEventHandler):
         what = "directory" if event.is_directory else "file"
         if what == "file" and event.src_path.endswith(".pic.yml"):
             self.logger.info("Modified %s: %s", what, event.src_path)
-            c = gf.read.from_yaml(event.src_path)
-            c.show()
+            try:
+                c = gf.read.from_yaml(event.src_path)
+                c.show()
+            except Exception as e:
+                print(e)
 
 
 def watch(path=str(cwd)) -> None:

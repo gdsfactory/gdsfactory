@@ -1,3 +1,4 @@
+import pathlib
 import warnings
 from functools import partial
 
@@ -5,6 +6,7 @@ from omegaconf import DictConfig
 from pydantic import BaseModel
 
 from gdsfactory.components import cells
+from gdsfactory.config import logger
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.types import (
     CellSpec,
@@ -53,9 +55,17 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cross_section {name!r}")
             self.cross_sections[name] = cross_section
 
-    def load_yaml(self) -> None:
+    def register_cells_yaml(self, dirpath: pathlib.Path) -> None:
         """Load *.pic.yml YAML files and register them as cells."""
-        pass
+        from gdsfactory.read.from_yaml import from_yaml
+
+        if not dirpath.is_dir():
+            raise ValueError(f"{dirpath} needs to be a directory.")
+
+        for filepath in dirpath.glob("*/*.pic.yml"):
+            name = filepath.stem.split(".")[0]
+            logger.info(f"Add {name!r}")
+            self.cells[name] = partial(from_yaml, filepath)
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
@@ -64,7 +74,7 @@ class Pdk(BaseModel):
         elif isinstance(cell, str):
             if cell not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{self.name!r} {cell!r} not in {cells}")
+                raise ValueError(f"{cell!r} not in PDK {self.name!r} cells: {cells}")
             cell = self.cells[cell]
             return cell
         elif isinstance(cell, (dict, DictConfig)):
@@ -79,7 +89,7 @@ class Pdk(BaseModel):
             cell_name = cell.get("function")
             if not isinstance(cell_name, str) or cell_name not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{self.name!r} {cell_name!r} not in {cells}")
+                raise ValueError(f"{cell!r} not in PDK {self.name!r} cells: {cells}")
             cell = self.cells[cell_name]
             return partial(cell, **settings)
         else:
@@ -99,7 +109,9 @@ class Pdk(BaseModel):
         elif isinstance(component, str):
             if component not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{self.name!r} {component!r} not in {cells}")
+                raise ValueError(
+                    f"{component!r} not in PDK {self.name!r} cells: {cells}"
+                )
             cell = self.cells[component]
             return cell(**kwargs)
         elif isinstance(component, (dict, DictConfig)):
@@ -115,7 +127,9 @@ class Pdk(BaseModel):
             cell_name = cell_name or component.get("function")
             if not isinstance(cell_name, str) or cell_name not in self.cells:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{self.name!r} {cell_name!r} not in {cells}")
+                raise ValueError(
+                    f"{cell_name!r} from PDK {self.name!r} not in cells: {cells}"
+                )
             cell = self.cells[cell_name]
             return cell(**settings)
         else:

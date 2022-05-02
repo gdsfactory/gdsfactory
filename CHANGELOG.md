@@ -2,7 +2,8 @@
 
 ## 5.4.0
 
-- add `gf yaml watch` filewatcher
+- add `gf yaml watch` folder watcher using watchdog, looking for `pic.yml` files
+- add `PDK.register_cells_yaml`
 
 ## 5.3.8
 
