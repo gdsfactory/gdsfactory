@@ -18,7 +18,7 @@ def plot_circuit(
     fig: Optional[plt.Figure] = None,
     phase=False,
 ) -> None:
-    """Plot Sparameter circuit transmission over wavelength
+    """Plot Sparameter circuit transmission over wavelength.
 
     Args:
         circuit:
