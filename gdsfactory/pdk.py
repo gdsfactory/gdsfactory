@@ -51,7 +51,7 @@ class Pdk(BaseModel):
                 )
             if name in self.cross_sections:
                 warnings.warn(f"Overwriting cross_section {name!r}")
-            self.cross_section[name] = cross_section
+            self.cross_sections[name] = cross_section
 
     def load_yaml(self) -> None:
         """Load *.pic.yml YAML files and register them as cells."""
