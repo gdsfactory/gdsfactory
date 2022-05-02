@@ -169,7 +169,8 @@ class Pdk(BaseModel):
             )
 
 
-_ACTIVE_PDK = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
+GENERIC = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
+_ACTIVE_PDK = GENERIC
 
 
 def get_component(component: ComponentSpec, **kwargs) -> Component:
