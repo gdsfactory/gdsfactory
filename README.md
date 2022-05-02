@@ -33,35 +33,20 @@ As input, you write python or YAML code.
 
 As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by CMOS foundries.
 It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). And you can easily adapt any outputs to your needs, thanks to being all natively written in python.
+
 ![](https://i.imgur.com/XbhWJDz.png)
 
-For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 7 years.
 
-IPKISS is quite slow when working with large layouts, so in 2019 I stopped using it.
+gdsfactory is based on phidl, gdspy and klayout.
 
-Then I tried all the commercial (Luceda, Cadence, Synopsys) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
-
-The metrics for the benchmark were:
-
-1. Fast
-2. Easy to use and interface with other tools
-3. Maintained / Documented / Popular
-
-PHIDL won in speed, readability and easy of use. It is written on top of gdspy (which came second), so you can still leverage all the work from the gdspy community. Gdsfactory also leverages klayout and gdspy python APIs.
-
-![](https://i.imgur.com/4xQJ2yk.png)
+![](https://i.imgur.com/zMpvrWr.png)
 
 
-## Documentation
+## Getting started
 
 - Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
 - [see slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
 - [read online docs](https://gdsfactory.github.io/gdsfactory/)
-- [download the code](https://github.com/gdsfactory/gdsfactory) using `git clone https://github.com/gdsfactory/gdsfactory.git`
-- run gdsfactory/samples on your IDE (Spyder, PyCharm, VSCode) and docs/notebooks in jupyter-lab
-- play with [UBCpdk docs](https://gdsfactory.github.io/ubc/) and [code](https://github.com/gdsfactory/ubc)
-
-
 
 ## Acks
 
@@ -91,7 +76,3 @@ Open source heroes:
 - [miniforge install instructions](https://github.com/conda-forge/miniforge#mambaforge)
 - [SAX](https://flaport.github.io/sax): separate package for circuit simulations
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)
-- [phidl (gdsfactory is based on phidl)](https://github.com/amccaugh/phidl)
-- [gdspy (phidl is based on gdspy)](https://github.com/heitzmann/gdspy)
-- [docs follow MyST syntax](https://myst-parser.readthedocs.io/en/latest/syntax/optional.html)
-- [versions follow semantic versioning](https://semver.org/)
