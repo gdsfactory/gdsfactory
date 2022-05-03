@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.4.2
+
+- add `Pdk.containers` and `Pdk.register_containers`
+
 ## 5.4.1
 
 - bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
