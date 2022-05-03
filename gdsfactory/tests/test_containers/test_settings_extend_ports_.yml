@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_extend_por_5d5c9b55
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -144,6 +146,7 @@ settings:
   full:
     centered: false
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -220,5 +223,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: mzi_2e88f57c_extend_por_9d6ff089
+  name: mzi_2e88f57c_extend_por_5d5c9b55
 version: 0.0.1
