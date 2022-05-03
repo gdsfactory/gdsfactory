@@ -1,9 +1,12 @@
+name: straight_373b1ebb_add_t_1130d2b7
 settings:
   changed:
     component:
+      name: straight_373b1ebb_add_t_96dd4fc5
       settings:
         changed:
           component:
+            name: straight_373b1ebb
             settings:
               changed:
                 length: 20
@@ -70,6 +73,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
+            name: straight_373b1ebb
             settings:
               changed:
                 length: 20
@@ -110,12 +114,13 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_1d39f95e
+        name: straight_373b1ebb_add_t_96dd4fc5
       version: 0.0.1
     optical_routing_type: 0
   child:
     changed:
       component:
+        name: straight_373b1ebb
         settings:
           changed:
             length: 20
@@ -182,6 +187,7 @@ settings:
       taper_port_name2: o2
     full:
       component:
+        name: straight_373b1ebb
         settings:
           changed:
             length: 20
@@ -222,7 +228,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_1d39f95e
+    name: straight_373b1ebb_add_t_96dd4fc5
   default:
     bend:
       function: bend_euler
@@ -253,9 +259,11 @@ settings:
     bend:
       function: bend_euler
     component:
+      name: straight_373b1ebb_add_t_96dd4fc5
       settings:
         changed:
           component:
+            name: straight_373b1ebb
             settings:
               changed:
                 length: 20
@@ -322,6 +330,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
+            name: straight_373b1ebb
             settings:
               changed:
                 length: 20
@@ -362,7 +371,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_1d39f95e
+        name: straight_373b1ebb_add_t_96dd4fc5
       version: 0.0.1
     component_name: null
     cross_section:
@@ -391,5 +400,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_f3fbe555
+  name: straight_373b1ebb_add_t_1130d2b7
 version: 0.0.1

@@ -95,12 +95,19 @@ def clean_value_json(value: Any) -> Any:
 
 def clean_value_name(value: Any) -> str:
     """Returns a string representation of an object."""
+    # value1 = clean_value_json(value)
+    # print(type(value), value, value1, str(value1))
     return str(clean_value_json(value))
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    # f = gf.partial(gf.c.straight, length=3)
+    # d = clean_value_json(f)
+    # print(f"{d!r}")
+
     f = gf.partial(gf.c.straight, length=3)
-    d = clean_value_json(f)
-    print(f"{d!r}")
+    c = f()
+    d = clean_value_json(c)
+    print(d, str(d))

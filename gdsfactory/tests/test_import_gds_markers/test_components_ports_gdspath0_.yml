@@ -1,3 +1,4 @@
+name: mzi_gds
 settings:
   changed: {}
   child: null
@@ -51,5 +52,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi
+  name: mzi_gds
 version: 0.0.1
