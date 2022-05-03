@@ -158,7 +158,7 @@ class NetlistModel(BaseModel):
         routes: dict of routes.
         name: component model.
         info: information (polarization, wavelength ...).
-        vars: input variables.
+        settings: input variables.
         pdk: pdk module name.
         ports: exposed component ports.
     """
@@ -169,7 +169,7 @@ class NetlistModel(BaseModel):
     routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
-    vars: Optional[Dict[str, Any]] = None
+    settings: Optional[Dict[str, Any]] = None
     pdk: Optional[str] = None
     ports: Optional[Dict[str, str]] = None
 
@@ -247,7 +247,7 @@ name: mzi
 
 pdk: ubcpdk
 
-vars:
+settings:
    dy: -90
 
 info:
@@ -278,7 +278,7 @@ routes:
             yl,opt3: yr,opt2
         routing_strategy: get_bundle_from_steps
         settings:
-          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
 
 ports:
