@@ -80,7 +80,7 @@ def mzi(
     splitter[port_name_combiner_e1].connect(wg_short["o1"])
     combiner[port_name_combiner_e0].connect(wg_long["o2"])
     combiner[port_name_combiner_e1].connect(wg_short["o2"])
-    
+
     splitter[port_name_splitter_w0].rename("o1")
     combiner[port_name_combiner_w0].rename("o2")
 

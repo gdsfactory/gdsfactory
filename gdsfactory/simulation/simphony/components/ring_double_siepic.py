@@ -1,5 +1,4 @@
 from simphony.libraries import siepic
-from simphony.models import Subcircuit
 
 
 def ring_double_siepic(
@@ -43,7 +42,7 @@ def ring_double_siepic(
     coupler = coupler() if callable(coupler) else coupler
     ct = cb = coupler
     wl = wr = straight
-    
+
     cb.rename_pins("n2", "n1", "n4", "n3")
     ct.rename_pins("n2", "n1", "n4", "n3")
     wl.rename_pins("n1", "n2")

@@ -1,6 +1,5 @@
 import numpy as np
 from simphony.libraries import siepic
-from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 
@@ -39,7 +38,7 @@ def ring_single(
 
     cb = coupler
     wt = straight
-    
+
     cb.rename_pins("W0", "N0", "N1", "E0")
     wt.rename_pins("n1", "n2")
 
@@ -48,7 +47,7 @@ def ring_single(
 
     cb["W0"].rename("input")
     cb["E0"].rename("output")
-    
+
     return cb.circuit.to_subcircuit()
 
 
