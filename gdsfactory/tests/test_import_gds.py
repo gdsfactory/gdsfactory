@@ -51,8 +51,8 @@ def test_import_ports() -> gf.Component:
 
 
 if __name__ == "__main__":
-    # c = test_import_gds_hierarchy()
-    c = test_import_ports()
+    c = test_import_gds_hierarchy()
+    # c = test_import_ports()
     # c = test_import_gds_add_padding()
     c.show()
     # test_import_gds_snap_to_grid()

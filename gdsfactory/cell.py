@@ -14,7 +14,6 @@ from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Device] = {}
-CELLS: Dict[str, Callable] = {}
 
 INFO_VERSION = 2
 
@@ -75,6 +74,7 @@ def cell_without_validator(func):
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
+        flatten = kwargs.pop("flatten", False)
         info = kwargs.pop("info", {})
         prefix = kwargs.pop("prefix", func.__name__)
         max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
@@ -139,9 +139,9 @@ def cell_without_validator(func):
                     )
 
         if cache and name in CACHE:
-            # print(f"CACHE LOAD {name} {func.__name__}({arguments})")
+            # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
-        # print(f"BUILD {name} {func.__name__}({arguments})")
+        # print(f"BUILD {name} {func.__name__}({named_args_string})")
 
         if not callable(func):
             raise ValueError(
@@ -167,32 +167,34 @@ def cell_without_validator(func):
         else:
             component_name = name
 
-        if autoname:
-            component.name = component_name
-
-        component.info.update(**info)
-        component.settings = Settings(
-            name=component_name,
-            module=func.__module__,
-            function_name=func.__name__,
-            changed=clean_dict(changed),
-            default=clean_dict(default),
-            full=clean_dict(full),
-            info=component.info,
-            child=metadata_child,
-        )
-
         if decorator:
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
+            component.unlock()
             component_new = decorator(component)
             component = component_new or component
+
+        if flatten:
+            component = component.flatten()
+
+        if autoname and not hasattr(component, "imported_gds"):
+            component.name = component_name
+            component.info.update(**info)
+            component.settings = Settings(
+                name=component_name,
+                module=func.__module__,
+                function_name=func.__name__,
+                changed=clean_dict(changed),
+                default=clean_dict(default),
+                full=clean_dict(full),
+                info=component.info,
+                child=metadata_child,
+            )
 
         component.lock()
         CACHE[name] = component
         return component
 
-    CELLS[id(_cell)] = _cell
     return _cell
 
 

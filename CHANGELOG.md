@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.0]
+
+- `gf.read.import_gds()` is now a cell (no more lru cache)
+- add `flatten=False` to cell and decorator
+- remove flatten argument `import_gds`
+- Component.to_dict() also exports component name
+
 ## [5.4.3](https://github.com/gdsfactory/gdsfactory/pull/344)
 
 - bring back python3.7 compatibility

@@ -1,6 +1,8 @@
+name: coupler_a078f3c8_add_fi_13112b56
 settings:
   changed:
     component:
+      name: coupler_a078f3c8
       settings:
         changed:
           gap: 0.244
@@ -97,6 +99,7 @@ settings:
     bend:
       function: bend_euler
     component:
+      name: coupler_a078f3c8
       settings:
         changed:
           gap: 0.244
@@ -157,5 +160,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_a078f3c8_add_fi_444a2aab
+  name: coupler_a078f3c8_add_fi_13112b56
 version: 0.0.1
