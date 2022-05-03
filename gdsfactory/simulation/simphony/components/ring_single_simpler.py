@@ -1,5 +1,3 @@
-from simphony.models import Subcircuit
-
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 from gdsfactory.simulation.simphony.components.straight import straight
 
@@ -46,7 +44,6 @@ def ring_single(
 
     cb["W0"].rename("input")
     cb["E0"].rename("output")
-    
 
     return cb.circuit.to_subcircuit()
 

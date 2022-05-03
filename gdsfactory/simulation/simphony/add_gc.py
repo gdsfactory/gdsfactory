@@ -43,7 +43,7 @@ def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
     gci["n1"].connect(gco["n1"])
     gci["n2"].rename("o1")
     gco["n1"].rename("o2")
-    
+
     return gci.circuit.to_subcircuit()
 
 

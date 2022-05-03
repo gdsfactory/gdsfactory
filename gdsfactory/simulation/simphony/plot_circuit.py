@@ -36,11 +36,10 @@ def plot_circuit(
 
     fig = fig or plt.subplot()
     ax = fig.axes
-    
+
     simulation = SweepSimulator(start, stop, num)
     simulation.circuit = circuit.circuit
 
-    
     for p in pins_out:
         simulation.multiconnect(circuit.circuit.pins[0], circuit.circuit.pins[p])
         wl, s = simulation.simulate()
