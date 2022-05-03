@@ -1,7 +1,7 @@
 """Returns Component from YAML syntax.
 
 name: myComponent
-vars:
+settings:
     length: 3
 
 info:
@@ -13,7 +13,7 @@ instances:
     mzi:
         component: mzi_phase_shifter
         settings:
-            delta_length: ${vars.length}
+            delta_length: ${settings.length}
             length_x: 50
 
     pads:
@@ -46,10 +46,10 @@ routes:
             radius: 10
 
 """
+import copy
 import hashlib
 import importlib
 import io
-import json
 import pathlib
 import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
@@ -61,8 +61,10 @@ from omegaconf import OmegaConf
 from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
+from gdsfactory.name import clean_name
 from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
+from gdsfactory.serialization import clean_value_name
 from gdsfactory.types import Route
 
 valid_placement_keys = [
@@ -87,7 +89,7 @@ valid_top_level_keys = [
     "connections",
     "ports",
     "routes",
-    "vars",
+    "settings",
     "info",
     "pdk",
 ]
@@ -469,25 +471,24 @@ def from_yaml(
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
     cache: bool = False,
+    **kwargs,
 ) -> Component:
-    """Returns a Component defined in YAML file or string.
+    """Returns a Component defined in YAML string or file.
 
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
-          (instances, placements, routes, ports, connections, names)
+          (instances, placements, routes, ports, connections, names).
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         cache: stores and retrieves components from the cache.
-
-    Returns:
-        Component
+        kwargs: function settings. Overwrite settings from YAML.
 
     .. code::
 
         valid variables:
 
         name: Optional Component name
-        vars: Optional variables
+        settings: Optional variables
         pdk: overides
         info: Optional component info
             description: just a demo
@@ -516,7 +517,7 @@ def from_yaml(
 
     .. code::
 
-        vars:
+        settings:
             length_mmi: 5
 
         instances:
@@ -529,7 +530,7 @@ def from_yaml(
               component: mmi1x2
               settings:
                 width_mmi: 4.5
-                length_mmi: ${vars.length_mmi}
+                length_mmi: ${settings.length_mmi}
 
         placements:
             mmi_top:
@@ -562,22 +563,52 @@ def from_yaml(
 
     instances = {}
     routes = {}
-    name = conf.get(
-        "name",
-        f"Unnamed_{hashlib.md5(json.dumps(OmegaConf.to_container(conf)).encode()).hexdigest()[:8]}",
-    )
+
+    settings = conf.get("settings", {})
+    default = copy.deepcopy(settings)
+    changed = copy.deepcopy(kwargs)
+
+    for key, value in kwargs.items():
+        if key not in settings:
+            raise ValueError(f"{key!r} not in {settings.keys()}")
+        else:
+            conf["settings"][key] = value
+
+    settings = conf.get("settings", {})
+    name_prefix = conf.get("name", "Unnamed")
+
+    default_args_list = [
+        f"{key}={clean_value_name(default[key])}" for key in sorted(default.keys())
+    ]
+    # list of explicitly passed args as strings
+    passed_args_list = [
+        f"{key}={clean_value_name(changed[key])}" for key in sorted(changed.keys())
+    ]
+
+    # get only the args which are explicitly passed and different from defaults
+    changed_arg_set = set(passed_args_list).difference(default_args_list)
+    changed_arg_list = sorted(changed_arg_set)
+
+    if changed_arg_list:
+        named_args_string = "_".join(changed_arg_list)
+        named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+        name = clean_name(f"{name_prefix}_{named_args_hash}")
+    else:
+        name = name_prefix
+
     if cache and name in CACHE:
         return CACHE[name]
     else:
         c = Component(name)
         CACHE[name] = c
+
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
     pdk = conf.get("pdk")
-    c.info = conf.get("info", omegaconf.DictConfig({}))
+    c.info = conf.get("info", {})
 
     if pdk and pdk == "generic":
         set_active_pdk(GENERIC)
@@ -890,12 +921,12 @@ ports:
 """
 
 
-sample_pdk_mzi_vars = """
+sample_pdk_mzi_settings = """
 name: mzi
 
 pdk: ubcpdk
 
-vars:
+settings:
    dy: -70
 
 info:
@@ -926,7 +957,7 @@ routes:
             yl,opt3: yr,opt2
         routing_strategy: get_bundle_from_steps
         settings:
-          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
 
 
@@ -1189,7 +1220,7 @@ if __name__ == "__main__":
     # print(n)
 
     # c = from_yaml(sample_doe)
-    # c = from_yaml(sample_pdk_mzi_vars)
+    # c = from_yaml(sample_pdk_mzi_settings)
     c.show()
 
     # c = test_connections_regex()

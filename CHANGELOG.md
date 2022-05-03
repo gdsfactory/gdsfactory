@@ -1,8 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.4.1]
+## 5.4.1
 
-- bring back python3.7 compatibility
+- bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
+- rename `vars` to `settings` in `read.from_yaml`
+    - use settings combined with kwargs for getting component name
 
 ## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
 
@@ -716,7 +718,7 @@
 - remove `Component.plotqt` as the qt plotter is now available with `Component.plot(plotter='qt')`
 - gf.geometry.boolean works with tuples of components or references as well as single component or Reference. Overcome phidl bug, where tuples are not trated as lists.
 - Before plotting make sure we recompute the bounding box
-- YAML mask definition allows using `vars` for global variables
+- YAML mask definition allows using `settings` for global variables
 - grating_coupler_rectangular first teeth starts next to the taper
 
 ## 3.9.28
