@@ -3,8 +3,9 @@
 ## 5.4.1
 
 - bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
-- rename `vars` to `settings` in `read.from_yaml`
+- rename `vars` to `settings` in `read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/339)
     - use settings combined with kwargs for getting component name
+- fix mirror isse in `gf.read.from_yaml` PR
 
 ## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
 
