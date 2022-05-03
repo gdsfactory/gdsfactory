@@ -213,9 +213,9 @@ def import_gds(
         component.flatten()
     component.info.update(**kwargs)
     if rotation:
-        component.rotate(rotation)
+        component = component.rotate(rotation)
     if mirror:
-        component.mirror()
+        component = component.mirror()
     component.lock()
     return component
 
