@@ -205,6 +205,14 @@ def import_gds(
         component.settings = OmegaConf.to_container(metadata.settings)
 
     component.name = name
+    if rotation:
+        component_new = component.rotate(rotation)
+        component_new.name = f"{name}_{rotation}"
+        component = component_new
+    if mirror:
+        component_new = component.mirror()
+        component_new.name = f"{name}_mirror"
+        component = component_new
 
     if decorator:
         component_new = decorator(component)
@@ -212,10 +220,6 @@ def import_gds(
     if flatten:
         component.flatten()
     component.info.update(**kwargs)
-    if rotation:
-        component = component.rotate(rotation)
-    if mirror:
-        component = component.mirror()
     component.lock()
     return component
 
