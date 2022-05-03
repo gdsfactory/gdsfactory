@@ -238,14 +238,6 @@ def place(
                     "x value or True/False"
                 )
 
-        if rotation:
-            if port:
-                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
-            else:
-                x, y = ref.origin
-                ref.rotate(rotation, center=(x, y))
-                # ref.rotate(rotation, center=(ref.x, ref.y))
-
         if port:
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
@@ -361,6 +353,14 @@ def place(
 
         if dy:
             ref.y += dy
+
+        if rotation:
+            if port:
+                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
+            else:
+                x, y = ref.origin
+                ref.rotate(rotation, center=(x, y))
+                # ref.rotate(rotation, center=(ref.x, ref.y))
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -1219,7 +1219,8 @@ if __name__ == "__main__":
     # c = from_yaml(sample_doe)
     # c = from_yaml(sample_pdk_mzi_settings)
 
-    c = from_yaml(sample_mirror)
+    # c = from_yaml(sample_mirror)
+    c = from_yaml(sample_mmis)
     c.show()
 
     # c = test_connections_regex()
@@ -1237,7 +1238,6 @@ if __name__ == "__main__":
     # c = test_mirror()
     # c = from_yaml(sample_waypoints)
     # c = from_yaml(sample_2x2_connections)
-    # c = from_yaml(sample_mmis)
     # c = from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()
