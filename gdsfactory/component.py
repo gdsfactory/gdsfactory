@@ -994,6 +994,7 @@ class Component(Device):
             )
             d["cells"] = cells
 
+        d["name"] = self.name
         d["version"] = self.version
         d["settings"] = dict(self.settings)
         return d
