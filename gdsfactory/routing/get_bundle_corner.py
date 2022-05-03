@@ -149,10 +149,10 @@ def _get_bundle_corner_waypoints(
     a_end = ports2[0].angle
 
     da = a_end - a_start
-    assert (
-        da
-    ) % 180 == 90, f"corner_bundle can \
-    only route port banks between orthogonal axises. Got angles of {a_start} and {a_end}"
+    assert (da) % 180 == 90, (
+        "corner_bundle can  only route port banks between orthogonal axises."
+        f"Got angles of {a_start} and {a_end}"
+    )
 
     # Rotate all ports to be in the configuration where start_angle = 0
 
@@ -190,11 +190,11 @@ def _get_bundle_corner_waypoints(
     is_routable_90 = ((are_below and are_right) or (are_above and are_left)) and (
         da == 90
     )
-    assert (
-        is_routable_270 or is_routable_90
-    ), f"Ports not routable with corner_bundle: \
-    da={da}; are_below={are_below}; are_above={are_above}; are_left={are_left}; are_right={are_right}. \
-    Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
+    assert is_routable_270 or is_routable_90, (
+        f"Ports not routable with corner_bundle: da={da}; are_below={are_below};"
+        "are_above={are_above}; are_left={are_left}; are_right={are_right}. "
+        "Consider applying a U turn first and then to to the 90Deg or 270Deg connection"
+    )
 
     end_sort_type = ["Y", "-X", "-Y", "X"] if da > 0 else ["-Y", "X", "Y", "-X"]
     start_angle_sort_index = a_start // 90
