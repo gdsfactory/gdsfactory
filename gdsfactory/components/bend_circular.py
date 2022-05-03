@@ -81,7 +81,7 @@ if __name__ == "__main__":
     # c = bend_circular180()
     # c.plot("qt")
 
-    # from phidl.quickplotter import quickplot2
+    # from gdsfactory.quickplotter import quickplot2
     # c = bend_circular_trenches()
     # c = bend_circular_deep_rib()
     # print(c.ports)

@@ -192,16 +192,16 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
 
     # skip layers without name or with */*
     if "'" in info or "*" in info:
-        return
+        return None
 
     name = entry.get("name") or entry.get("source")
     if not name:
-        return
+        return None
 
     infos = info.split("/")
 
     if len(infos) <= 1:
-        return
+        return None
 
     gds_layer, gds_datatype = info.split("/")
     gds_layer = gds_layer.split()[-1]
@@ -212,9 +212,9 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
     # if entry["visible"] == "false" or entry["xfill"] == "false":
 
     if ("visible" in entry.keys()) and (entry["visible"] == "false"):
-        alpha = 0
+        alpha = 0.0
     elif ("transparent" in entry.keys()) and (entry["transparent"] == "false"):
-        alpha = 1
+        alpha = 1.0
     else:
         alpha = 0.5
 

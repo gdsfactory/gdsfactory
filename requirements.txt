@@ -26,6 +26,7 @@ Shapely
 toolz
 tqdm
 trimesh
+types-PyYAML
 typing_extensions
 watchdog
 xmltodict
