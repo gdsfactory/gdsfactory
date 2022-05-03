@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.4.2
+## [5.4.2](https://github.com/gdsfactory/gdsfactory/compare/542?expand=1)
 
 - add `Pdk.containers` and `Pdk.register_containers`
 
