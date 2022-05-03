@@ -1,7 +1,5 @@
 from typing import Callable, Optional
 
-from simphony.models import Subcircuit
-
 from gdsfactory.simulation.simphony.components.mmi1x2 import mmi1x2
 from gdsfactory.simulation.simphony.components.straight import (
     straight as straight_function,
@@ -78,29 +76,15 @@ def mzi(
     wg_short = straight_top(length=2 * length_y + length_x)
     wg_long = straight_bot(length=2 * length_y + delta_length + length_x)
 
-    # Create the circuit, add all individual instances
-    circuit = Subcircuit("mzi")
-    circuit.add(
-        [
-            (splitter, "splitter"),
-            (combiner, "recombiner"),
-            (wg_long, "wg_long"),
-            (wg_short, "wg_short"),
-        ]
-    )
+    splitter[port_name_combiner_e0].connect(wg_long["o1"])
+    splitter[port_name_combiner_e1].connect(wg_short["o1"])
+    combiner[port_name_combiner_e0].connect(wg_long["o2"])
+    combiner[port_name_combiner_e1].connect(wg_short["o2"])
+    
+    splitter[port_name_splitter_w0].rename("o1")
+    combiner[port_name_combiner_w0].rename("o2")
 
-    # Circuits can be connected using the elements' string names:
-    circuit.connect_many(
-        [
-            ("splitter", port_name_splitter_e0, "wg_long", "o1"),
-            ("splitter", port_name_splitter_e1, "wg_short", "o1"),
-            ("recombiner", port_name_combiner_e0, "wg_long", "o2"),
-            ("recombiner", port_name_combiner_e1, "wg_short", "o2"),
-        ]
-    )
-    circuit.elements["splitter"].pins[port_name_splitter_w0] = "o1"
-    circuit.elements["recombiner"].pins[port_name_combiner_w0] = "o2"
-    return circuit
+    return splitter.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":

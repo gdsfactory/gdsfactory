@@ -1,3 +1,4 @@
+from simphony.models import Subcircuit
 from simphony.layout import Circuit
 
 from gdsfactory.simulation.simphony.components.bend_circular import bend_circular
@@ -15,7 +16,7 @@ def ring_single(
     coupler=coupler_ring,
     straight=straight,
     bend=bend_circular,
-):
+) -> Subcircuit:
     r"""Return single bus ring Model made of a ring coupler (cb: bottom)
     connected with:
     - 2 vertical straights (wl: left, wr: right)
@@ -77,14 +78,13 @@ def ring_single(
     bend.connect(wg1)
     bend.connect(wg2)
     coupler.multiconnect(wg1["o2"], wg2["o2"])
-    # Create the circuit
-    circuit = Circuit(coupler)
-    return circuit
+    
+    return coupler.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     c = ring_single()
-    plot_circuit(c)
+    plot_circuit(c, pins_out=("o4",))
     plt.show()
