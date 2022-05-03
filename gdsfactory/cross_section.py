@@ -54,7 +54,7 @@ class CrossSection(BaseModel):
     layer: Layer
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    radius: Optional[float]
+    radius: Optional[float] = None
     layer_bbox: Optional[Tuple[int, int]] = None
     width_wide: Optional[float] = None
     auto_widen: bool = False

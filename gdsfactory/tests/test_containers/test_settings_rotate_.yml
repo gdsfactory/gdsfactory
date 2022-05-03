@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_rotate_7b26649e
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -135,6 +137,7 @@ settings:
   full:
     angle: 90
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -204,5 +207,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.functions
-  name: mzi_2e88f57c_rotate_a1719f97
+  name: mzi_2e88f57c_rotate_7b26649e
 version: 0.0.1

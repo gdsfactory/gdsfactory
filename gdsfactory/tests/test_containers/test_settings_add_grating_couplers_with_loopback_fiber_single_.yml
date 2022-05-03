@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_add_gratin_21665327
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -160,6 +162,7 @@ settings:
     with_loopback: true
   full:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -256,5 +259,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_grating_couplers
-  name: mzi_2e88f57c_add_gratin_6a78c701
+  name: mzi_2e88f57c_add_gratin_21665327
 version: 0.0.1
