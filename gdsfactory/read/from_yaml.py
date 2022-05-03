@@ -430,6 +430,7 @@ def make_connection(
 
 
 sample_mmis = """
+name: sample_mmis
 
 info:
     polarization: te
