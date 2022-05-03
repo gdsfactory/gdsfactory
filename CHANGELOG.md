@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.4.3]
+## [5.4.3](https://github.com/gdsfactory/gdsfactory/pull/343)
 
 - add `mirror=False` and `rotation=0` settings to `gf.read.import_gds`
 
