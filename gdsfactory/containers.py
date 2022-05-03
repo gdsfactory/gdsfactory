@@ -6,6 +6,7 @@ from gdsfactory.add_grating_couplers import (
 )
 from gdsfactory.add_padding import add_padding_container
 from gdsfactory.add_termination import add_termination
+from gdsfactory.components.array_component import array
 from gdsfactory.components.bend_port import bend_port
 from gdsfactory.components.cavity import cavity
 from gdsfactory.components.extension import extend_ports
@@ -28,14 +29,15 @@ __all__ = [
     "add_grating_couplers_with_loopback_fiber_single",
     "add_padding_container",
     "add_termination",
+    "array",
+    "bend_port",
     "cavity",
     "extend_ports",
     "fanout2x2",
-    "ring_single_dut",
-    "bend_port",
-    "rotate",
     "pack_doe",
     "pack_doe_grid",
+    "ring_single_dut",
+    "rotate",
 ]
 
 
