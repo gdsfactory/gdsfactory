@@ -1,11 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.5.0]
+## [5.5.0](https://github.com/gdsfactory/gdsfactory/pull/345)
 
-- `gf.read.import_gds()` is now a cell (no more lru cache)
+- `gf.read.import_gds()` is now a cell (no more lru cache). LRU cache was not working properly with partial functions.
 - add `flatten=False` to cell and decorator
 - remove flatten argument `import_gds`
 - Component.to_dict() also exports component name
+- revert [show changes](https://github.com/gdsfactory/gdsfactory/pull/326/files) as it was causing some files not to reload in klayout.
 
 ## [5.4.3](https://github.com/gdsfactory/gdsfactory/pull/344)
 
