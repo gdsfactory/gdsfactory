@@ -218,6 +218,34 @@ def place(
         rotation = placement_settings.get("rotation")
         mirror = placement_settings.get("mirror")
 
+        if mirror:
+            if mirror is True and port:
+                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
+            elif mirror is True:
+                if x:
+                    ref.reflect_h(x0=x)
+                else:
+                    ref.reflect_h()
+            elif mirror is False:
+                pass
+            elif isinstance(mirror, str):
+                ref.reflect_h(port_name=mirror)
+            elif isinstance(mirror, (int, float)):
+                ref.reflect_h(x0=mirror)
+            else:
+                raise ValueError(
+                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
+                    "x value or True/False"
+                )
+
+        if rotation:
+            if port:
+                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
+            else:
+                x, y = ref.origin
+                ref.rotate(rotation, center=(x, y))
+                # ref.rotate(rotation, center=(ref.x, ref.y))
+
         if port:
             a = _get_anchor_point_from_name(ref, port)
             if a is None:
@@ -333,34 +361,6 @@ def place(
 
         if dy:
             ref.y += dy
-
-        if mirror:
-            if mirror is True and port:
-                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
-            elif mirror is True:
-                if x:
-                    ref.reflect_h(x0=x)
-                else:
-                    ref.reflect_h()
-            elif mirror is False:
-                pass
-            elif isinstance(mirror, str):
-                ref.reflect_h(port_name=mirror)
-            elif isinstance(mirror, (int, float)):
-                ref.reflect_h(x0=mirror)
-            else:
-                raise ValueError(
-                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
-                    "x value or True/False"
-                )
-
-        if rotation:
-            if port:
-                ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
-            else:
-                x, y = ref.origin
-                ref.rotate(rotation, center=(x, y))
-                # ref.rotate(rotation, center=(ref.x, ref.y))
 
     if instance_name in connections_by_transformed_inst:
         conn_info = connections_by_transformed_inst[instance_name]
@@ -982,29 +982,6 @@ instances:
 """
 
 
-# sample_doe = """
-# name: lattice_filter
-
-# instances:
-#     mmi1x2:
-#        component: mmi1x2
-#        settings:
-#          length_mmi: [2, 100]
-# """
-
-
-# def sample_doe_range():
-#     lengths_mmi = range(2, 10)
-#     sample_doe = f"""
-#     name: lattice_filter
-
-#     instances:
-#         mmi1x2:
-#           component: mmi1x2
-#           settings:
-#             length_mmi: {lengths_mmi}
-#     """
-
 sample_yaml_xmin = """
 name: mask_compact
 
@@ -1203,6 +1180,25 @@ routes:
 
 """
 
+sample_mirror = """
+name: sample_mirror
+instances:
+    mmi1:
+      component: mmi1x2
+
+    mmi2:
+      component: mmi1x2
+
+placements:
+    mmi1:
+        xmax: 0
+
+    mmi2:
+        xmin: mmi1,east
+        mirror: True
+
+"""
+
 
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
@@ -1213,7 +1209,7 @@ if __name__ == "__main__":
     # c = from_yaml(sample_pdk_mzi)
 
     # c = from_yaml(sample_rotation)
-    c = from_yaml(sample2)
+    # c = from_yaml(sample2)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
     # c = from_yaml(sample_yaml_xmin)
@@ -1222,6 +1218,8 @@ if __name__ == "__main__":
 
     # c = from_yaml(sample_doe)
     # c = from_yaml(sample_pdk_mzi_settings)
+
+    c = from_yaml(sample_mirror)
     c.show()
 
     # c = test_connections_regex()
