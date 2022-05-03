@@ -39,18 +39,12 @@ def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
         circuit: needs to have `o1` and `o2` pins
         gc: grating coupler
     """
-    c = Subcircuit(f"{circuit}_gc")
-    gc = gf.call_if_func(gc)
-    c.add([(gc, "gci"), (gc, "gco"), (circuit, "circuit")])
-    c.connect_many(
-        [("gci", "n1", "circuit", "input"), ("gco", "n1", "circuit", "output")]
-    )
-
-    # c.elements["circuit"].pins["input"] = "input_circuit"
-    # c.elements["circuit"].pins["output"] = "output_circuit"
-    c.elements["gci"].pins["n2"] = "o1"
-    c.elements["gco"].pins["n2"] = "o2"
-    return c
+    gci = gco = gc
+    gci["n1"].connect(gco["n1"])
+    gci["n2"].rename("o1")
+    gco["n1"].rename("o2")
+    
+    return gci.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
