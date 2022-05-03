@@ -11,7 +11,7 @@ def straight_with_pins(**kwargs):
 
 def test_name_with_decorator():
     c = gf.Component("test_name_with_decorator")
-    c1 = c << straight_with_pins(decorator=gf.add_padding_container)
+    c1 = c << straight_with_pins(decorator=gf.add_padding_container, flatten=True)
     c2 = c << straight_with_pins()
 
     c1.movey(-10)
@@ -41,9 +41,9 @@ def test_name_with_decorator():
 
 if __name__ == "__main__":
     c = gf.Component("test_name_with_decorator")
-    c1 = c << straight_with_pins(decorator=gf.add_padding_container)
-    c2 = c << straight_with_pins()
+    c1 = c << straight_with_pins(decorator=gf.add_padding_container, flatten=True)
     c1.movey(-10)
+    c2 = c << straight_with_pins()
     c2.movey(100)
 
     cells = c.get_dependencies()
@@ -66,3 +66,4 @@ if __name__ == "__main__":
     assert (
         not no_name_cells
     ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
+    c.show()

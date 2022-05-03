@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_add_fiber__0c6fc058
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -160,6 +162,7 @@ settings:
     bend:
       function: bend_euler
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -251,5 +254,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: mzi_2e88f57c_add_fiber__54e0e6f9
+  name: mzi_2e88f57c_add_fiber__0c6fc058
 version: 0.0.1

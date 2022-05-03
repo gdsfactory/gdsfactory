@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_add_electr_f23d79f9
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -145,6 +147,7 @@ settings:
         port_type: electrical
   full:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -225,5 +228,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_shortest
-  name: mzi_2e88f57c_add_electr_3ae80ece
+  name: mzi_2e88f57c_add_electr_f23d79f9
 version: 0.0.1
