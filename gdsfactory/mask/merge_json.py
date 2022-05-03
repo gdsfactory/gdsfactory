@@ -1,6 +1,7 @@
 """Combine multiple JSONs into one."""
 
 import json
+import pathlib
 from typing import Any, Dict
 
 from gdsfactory.config import logger
@@ -20,12 +21,13 @@ def merge_json(
     """
     logger.debug(f"Merging JSON files from {doe_directory}")
     cells = {}
+    doe_directory = pathlib.Path(doe_directory)
 
     for filename in doe_directory.glob("**/*.json"):
         logger.debug(f"merging {filename}")
         with open(filename, "r") as f:
             data = json.load(f)
-            cells |= data.get("cells")
+            cells.update(data.get("cells"))
 
     does = {d.stem: json.loads(open(d).read()) for d in doe_directory.glob("**/*.json")}
     return dict(
