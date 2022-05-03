@@ -24,6 +24,8 @@ def import_gds(
     decorator: Optional[Callable] = None,
     gdsdir: Optional[Union[str, Path]] = None,
     safe_cell_names: bool = False,
+    rotation: int = 0,
+    mirror: bool = False,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -43,6 +45,8 @@ def import_gds(
         gdsdir: optional GDS directory.
         safe_cell_names: append file hash to imported cell names to avoid
             duplicated cell names.
+        rotation: in degrees.
+        mirror: mirror.
         kwargs: extra info for the imported component (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -208,6 +212,10 @@ def import_gds(
     if flatten:
         component.flatten()
     component.info.update(**kwargs)
+    if rotation:
+        component.rotate(rotation)
+    if mirror:
+        component.mirror()
     component.lock()
     return component
 
