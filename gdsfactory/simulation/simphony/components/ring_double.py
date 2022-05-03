@@ -1,5 +1,4 @@
 from simphony.models import Subcircuit
-from simphony.layout import Circuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 from gdsfactory.simulation.simphony.components.straight import (
@@ -69,26 +68,28 @@ def ring_double(
         gs.plot_circuit(c)
     """
 
-    straight = straight(length=length_y) if callable(straight) else straight
-    coupler = (
+    wg1 = straight(length=length_y) if callable(straight) else straight
+    wg2 = straight(length=length_y) if callable(straight) else straight
+    halfring1 = (
+
         coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
         if callable(coupler)
         else coupler
     )
+    halfring2 = (
 
-    halfring1 = coupler
-    halfring2 = coupler
-    halfring1.rename_pins("pass", "midb", "in", "midt")
-    halfring2.rename_pins("out", "midt", "term", "midb")
-    wg1 = straight
-    wg2 = straight
-    halfring1["midb"].connect(wg1)
-    halfring2["midb"].connect(wg1)
-    halfring2["midt"].connect(wg2)
-    halfring2["midt"].connect(wg2)
-    # Create the circuit
-    circuit = Circuit(halfring1)
-    return circuit
+        coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
+        if callable(coupler)
+        else coupler
+    )
+    halfring1["o2"].connect(wg1["o1"])
+    halfring2["o3"].connect(wg1["o2"])
+    halfring1["o3"].connect(wg2["o1"])
+    halfring2["o2"].connect(wg2["o2"])
+    halfring2["o1"].rename("o2")
+    halfring2["o4"].rename("o3")
+
+    return halfring1.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
