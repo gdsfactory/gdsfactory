@@ -26,8 +26,8 @@ from typing import Any, Iterable, Optional, Union
 import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
-from phidl.quickplotter import set_quickplot_options
 
+from gdsfactory.quickplotter import set_quickplot_options
 from gdsfactory.tech import TECH
 
 PathType = Union[str, pathlib.Path]
