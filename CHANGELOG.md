@@ -3,9 +3,9 @@
 ## [5.5.0]
 
 - `gf.read.import_gds()` is now a cell (no more lru cache)
-- add `flatten=False` to cell and remove flatten case for `import_gds`
+- add `flatten=False` to cell and decorator
+- remove flatten argument `import_gds`
 - Component.to_dict() also exports component name
-
 
 ## [5.4.3](https://github.com/gdsfactory/gdsfactory/pull/344)
 
