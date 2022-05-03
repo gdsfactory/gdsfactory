@@ -133,6 +133,7 @@ def watch(path=cwd) -> None:
     """Filewatch YAML file."""
     from gdsfactory.watch import watch
 
+    path = pathlib.Path(path)
     path = path.parent if path.is_dir() else path
     watch(str(path))
 
