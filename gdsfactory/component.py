@@ -1229,7 +1229,7 @@ def recurse_structures(
             isinstance(reference, ComponentReference)
             and reference.ref_cell.name not in output
         ):
-            output |= recurse_structures(reference.ref_cell)
+            output.update(recurse_structures(reference.ref_cell))
 
     return output
 

@@ -771,17 +771,18 @@ def map_ports_layer_to_orientation(
 
         for p in ports_on_layer:
             p.name_original = p.name
-            angle = p.orientation % 360
-            if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(p)
-            elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(p)
-            elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(p)
-            else:
-                direction_ports["S"].append(p)
+            if p.orientation:
+                angle = p.orientation % 360
+                if angle <= 45 or angle >= 315:
+                    direction_ports["E"].append(p)
+                elif angle <= 135 and angle >= 45:
+                    direction_ports["N"].append(p)
+                elif angle <= 225 and angle >= 135:
+                    direction_ports["W"].append(p)
+                else:
+                    direction_ports["S"].append(p)
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
-        m |= {p.name: p.name_original for p in ports_on_layer}
+        m.update({p.name: p.name_original for p in ports_on_layer})
     return m
 
 
