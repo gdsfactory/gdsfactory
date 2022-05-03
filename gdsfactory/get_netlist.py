@@ -218,7 +218,7 @@ def get_netlist_recursive(
         for ref in component.references:
             rcell = ref.parent
             grandchildren = get_netlist_recursive(rcell)
-            all_netlists |= grandchildren
+            all_netlists.update(grandchildren)
             if ref.ref_cell.references:
                 inst_name = get_instance_name(component, ref)
                 netlist["instances"][inst_name] = {
