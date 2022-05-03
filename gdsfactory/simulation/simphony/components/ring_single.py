@@ -1,5 +1,4 @@
 from simphony.models import Subcircuit
-from simphony.layout import Circuit
 
 from gdsfactory.simulation.simphony.components.bend_circular import bend_circular
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
@@ -78,7 +77,7 @@ def ring_single(
     bend.connect(wg1)
     bend.connect(wg2)
     coupler.multiconnect(wg1["o2"], wg2["o2"])
-    
+
     return coupler.circuit.to_subcircuit()
 
 
