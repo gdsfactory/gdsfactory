@@ -6,7 +6,7 @@
 import tidy3d as td
 
 from gdsfactory.config import logger
-from gdsfactory.simulation.gtidy3d import materials, utils
+from gdsfactory.simulation.gtidy3d import materials, modes, utils
 from gdsfactory.simulation.gtidy3d.get_results import get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import (
     get_simulation,
@@ -38,6 +38,7 @@ __all__ = [
     "get_simulation_grating_coupler",
     "get_results",
     "materials",
+    "modes",
     "utils",
     "write_sparameters",
     "write_sparameters_crossing",
