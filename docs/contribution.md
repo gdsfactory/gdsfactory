@@ -4,25 +4,23 @@ gdsfactory is an open source project that welcomes contributions from any users.
 
 How can you contribute?
 
+You can fork the repo, work on a feature, and then create a Pull Request asking permission to merge your feature into the `master` branch. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your improvement will be included in the next release and benefit the community.
 
-You can fork the repo, work on a feature, and then create a merge request. As long as the tests pass on [GitHub Actions](https://github.com/gdsfactory/gdsfactory/actions) it is likely that your new improvement will be merged soon and included in the next release.
-
-[pytest](https://docs.pytest.org/en/stable/index.html) run tests and `flake8` checks syntax errors.
-To contribute to the project you will need to install it from GitHub and install it with `make install`. After your improvements `pytest` and `flake8` must be passing.
-To help you with code quality checks `make install` will install some pre-commit hooks for you to ensure code is up to standards before you even commit with GIT.
+After your improvements the tests with `pytest` and syntax checker `flake8` must be passing.
+To help you with code quality checks we install pre-commit hooks to maintain good code quality.
 
 What are the easiest contributions to make?
 
 You can take a look at the [open issues](https://github.com/gdsfactory/gdsfactory/issues) or you can also share some of your work:
 
-- Any improvements you make (documentation, tutorials, docstrings, tests, type checkers, code quality ...
+- Any improvements you make (documentation, tutorials or code)
 - Your layout/verification functions that you wrote recently
-- A cool structure that you made found on a paper. It will help your work get citations as other people build upon it.
+- A new device that you found on a paper. It will help your work get citations as other people build upon it.
 
 The workflow is:
 
 - Fork the repo
-- `git clone` it into your computer and install it
+- `git clone` it into your computer and install it (`./install.bat` for Windows and `make install` for MacOs and Linux)
 - `git add`,`git commit`, `git push` your work as many times as needed (make sure tests are passing)
 - open a Pull request (PR)
 
@@ -46,17 +44,13 @@ You can run tests with `pytest`. This will run 3 types of tests:
 
 ## Testing your own component factories
 
-As you create your component functions (known as factories because they return objects). You can also store them in a dict so you can easily access their names and their functions.
-
-I recommend that you also write tests for the all those new functions that you write.
-
-See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
+As you create your component functions (known as factories because they return objects) I recommend that you also write tests for the all those new functions that you write. See for example the tests in the [ubc PDK](https://github.com/gdsfactory/ubc)
 
 Pytest-regressions automatically creates the CSV and YAML files for you, as well `gdsfactory.gdsdiff` will store the reference GDS in ref_layouts
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==3.9.26` replacing `3.9.26` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.5.1` replacing `5.5.1` by whatever version you end up using.
 2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
 
 

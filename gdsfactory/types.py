@@ -21,6 +21,7 @@ import json
 import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import numpy as np
 from omegaconf import OmegaConf
 from phidl.device_layout import Label as LabelPhidl
 from phidl.device_layout import Path
@@ -187,6 +188,28 @@ class NetlistModel(BaseModel):
 
 
 RouteFactory = Callable[..., Route]
+
+
+class TypedArray(np.ndarray):
+    """based on https://github.com/samuelcolvin/pydantic/issues/380"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_type
+
+    @classmethod
+    def validate_type(cls, val):
+        return np.array(val, dtype=cls.inner_type)
+
+
+class ArrayMeta(type):
+    def __getitem__(self, t):
+        return type("Array", (TypedArray,), {"inner_type": t})
+
+
+class Array(np.ndarray, metaclass=ArrayMeta):
+    pass
+
 
 __all__ = (
     "ComponentFactory",

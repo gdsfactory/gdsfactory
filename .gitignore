@@ -7,6 +7,7 @@
 *.sqlite3
 *.hdf5
 *.stl
+*.pkl
 .pyre_configuration
 gdsfactory/klayout/tech/layers.py
 poetry.lock
