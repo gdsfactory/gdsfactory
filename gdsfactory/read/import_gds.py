@@ -20,6 +20,7 @@ def import_gds(
     cellname: Optional[str] = None,
     snap_to_grid_nm: Optional[int] = None,
     gdsdir: Optional[Union[str, Path]] = None,
+    read_metadata: bool = True,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -34,6 +35,7 @@ def import_gds(
         cellname: cell of the name to import (None) imports top cell.
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
         gdsdir: optional GDS directory.
+        read_metadata: loads metadata if it exists.
         kwargs: extra info for the imported component (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -50,7 +52,7 @@ def import_gds(
     if cellname is not None:
         if cellname not in gdsii_lib.cells:
             raise ValueError(
-                f"cell {cellname} is not in file {gdspath} with cells {cellnames}"
+                f"cell {cellname!r} is not in file {gdspath} with cells {cellnames}"
             )
         topcell = gdsii_lib.cells[cellname]
     elif len(top_level_cells) == 1:
@@ -131,22 +133,24 @@ def import_gds(
     component = cell_to_device[topcell]
     cast(Component, component)
 
-    if metadata_filepath.exists():
+    if read_metadata and metadata_filepath.exists():
         logger.info(f"Read YAML metadata from {metadata_filepath}")
         metadata = OmegaConf.load(metadata_filepath)
 
-        for port_name, port in metadata.ports.items():
-            if port_name not in component.ports:
-                component.add_port(
-                    name=port_name,
-                    midpoint=port.midpoint,
-                    width=port.width,
-                    orientation=port.orientation,
-                    layer=tuple(port.layer),
-                    port_type=port.port_type,
-                )
+        if "settings" in metadata:
+            component.settings = OmegaConf.to_container(metadata.settings)
 
-        component.settings = OmegaConf.to_container(metadata.settings)
+        if "ports" in metadata:
+            for port_name, port in metadata.ports.items():
+                if port_name not in component.ports:
+                    component.add_port(
+                        name=port_name,
+                        midpoint=port.midpoint,
+                        width=port.width,
+                        orientation=port.orientation,
+                        layer=tuple(port.layer),
+                        port_type=port.port_type,
+                    )
 
     component.info.update(**kwargs)
     component.imported_gds = True
