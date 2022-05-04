@@ -3,7 +3,7 @@ center:
 - 0.0
 - 0.0
 courant: 0.9
-grid_size:
+grid_spec:
 - 0.02
 - 0.02
 - 0.02

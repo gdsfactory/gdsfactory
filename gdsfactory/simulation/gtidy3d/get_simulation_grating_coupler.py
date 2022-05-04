@@ -57,6 +57,7 @@ def get_simulation_grating_coupler(
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
+    **kwargs,
 ) -> td.Simulation:
     r"""Returns Simulation object from a gdsfactory grating coupler component
 
@@ -161,6 +162,9 @@ def get_simulation_grating_coupler(
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False collapses the Y direction for a 2D simulation.
         with_all_monitors: if True, includes field monitors which increase results file size.
+
+    keyword Args:
+        grid_spec:
 
     .. code::
 
@@ -390,12 +394,12 @@ def get_simulation_grating_coupler(
 
     sim = td.Simulation(
         size=sim_size,
-        grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[gaussian_beam],
         monitors=monitors,
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()] if is_3d else [td.PML(), None, td.PML()],
+        **kwargs,
     )
 
     if plot_modes:

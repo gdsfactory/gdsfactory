@@ -53,6 +53,7 @@ def get_simulation(
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
+    **kwargs,
 ) -> td.Simulation:
     r"""Returns Simulation object from gdsfactory.component
 
@@ -128,6 +129,9 @@ def get_simulation(
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
         with_all_monitors: if True, includes field monitors which increase results file size.
+
+    keyword Args:
+        grid_spec:
 
     .. code::
 
@@ -222,8 +226,8 @@ def get_simulation(
     for layer in component.layers:
         if layer in layer_to_thickness and layer in layer_to_material:
             thickness = layer_to_thickness[layer]
-            zmin = layer_to_zmin[layer] if is_3d else -td.inf
-            zmax = zmin + thickness if is_3d else td.inf
+            zmin = layer_to_zmin[layer] if is_3d else 0
+            zmax = zmin + thickness if is_3d else 0
 
             if (
                 layer in layer_to_material
@@ -327,12 +331,12 @@ def get_simulation(
 
     sim = td.Simulation(
         size=sim_size,
-        grid_size=3 * [1 / resolution],
         structures=structures,
         sources=[msource],
         monitors=monitors,
         run_time=20 * run_time_ps / fwidth,
         pml_layers=3 * [td.PML()] if is_3d else [td.PML(), td.PML(), None],
+        **kwargs,
     )
 
     if plot_modes:
@@ -468,7 +472,6 @@ if __name__ == "__main__":
 
     c = gf.c.straight(length=3)
     sim = get_simulation(c, plot_modes=False, is_3d=False)
-
     plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
