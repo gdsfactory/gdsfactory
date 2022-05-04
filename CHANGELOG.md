@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.3]
+
+- add `read_metadata` flag to `gf.read.import_gds`
+- move dashboard to experimental `requirements_exp` file, that can be install with `pip install gdsfactory[exp]`
+
 ## [5.5.2](https://github.com/gdsfactory/gdsfactory/pull/350)
 
 - add `gtidy3d` mode solver
