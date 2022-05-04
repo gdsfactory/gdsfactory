@@ -1,6 +1,4 @@
 bokeh
-dash
-dash-bootstrap-components>=0.8.2
 holoviews
 ipympl
 ipywidgets
@@ -12,4 +10,3 @@ SiPANN==1.3.1
 sklearn
 tidy3d-beta==1.1.1
 triangle
-Werkzeug==2.0.0
