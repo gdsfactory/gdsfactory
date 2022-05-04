@@ -1,5 +1,10 @@
 """tidy3d mode solver
-Lumerical MODE and tidy3d are the only solvers in gdsfactory that can compute bend modes.
+
+tidy3d has a powerful open source mode solver.
+
+tidy3d can:
+
+- compute bend modes.
 
 TODO:
 
@@ -11,17 +16,20 @@ Maybe:
 - combine modes package, mpb and tidy3d APIs
 """
 
+import pathlib
+import pickle
 from types import SimpleNamespace
-from typing import Any, Callable, Optional
+from typing import Callable, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import colors
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
 from tidy3d.plugins.mode.solver import compute_modes
 
 from gdsfactory.simulation.gtidy3d.materials import si, sio2
+from gdsfactory.types import PathType
 
 
 def plot(
@@ -101,7 +109,7 @@ def get_n(
     t_slab: float,
     t_clad: float,
 ):
-    """Retruns index matrix."""
+    """Return index matrix."""
     w = wg_width
     n = np.ones_like(Y)
     n[
@@ -120,14 +128,17 @@ class Waveguide(BaseModel):
     """Waveguide Model.
 
     Args:
+        wavelength: (um).
         wg_width: waveguide width.
         t_wg: thickness waveguide (um).
         t_slab: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
         w_sim: width simulation (um).
         resolution: pixels/um.
-        nmodes: number of modes to computer
+        nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
     """
 
@@ -144,22 +155,8 @@ class Waveguide(BaseModel):
     nmodes: int = 10
     bend_radius: Optional[float] = None
 
-    nx: Optional[Any] = None
-    ny: Optional[Any] = None
-    nz: Optional[Any] = None
-    Xx: Optional[Any] = None
-    Yx: Optional[Any] = None
-    Xy: Optional[Any] = None
-    Yy: Optional[Any] = None
-    Xz: Optional[Any] = None
-    Yz: Optional[Any] = None
-    Ex: Optional[Any] = None
-    Ey: Optional[Any] = None
-    Ez: Optional[Any] = None
-    Hx: Optional[Any] = None
-    Hy: Optional[Any] = None
-    Hz: Optional[Any] = None
-    neffs: Optional[Any] = None
+    class Config:
+        extra = Extra.allow
 
     @property
     def t_sim(self):
@@ -189,7 +186,7 @@ class Waveguide(BaseModel):
         )
         plot(Xx, Yx, nx)
 
-    def compute_modes(self, wavelength: Optional[float] = None):
+    def compute_modes(self, wavelength: Optional[float] = None) -> None:
         wavelength = wavelength or self.wavelength
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
             -self.w_sim / 2,
@@ -258,27 +255,21 @@ class Waveguide(BaseModel):
         self.Ex, self.Ey, self.Ez = Ex, Ey, Ez
         self.Hx, self.Hy, self.Hz = Hx, Hy, Hz
         self.neffs = neffs
-        return (
-            nx,
-            neffs,
-            Ex,
-            Ey,
-        )
 
-    def plot_Ex(self, index: int = 0):
-        if self.neffs is None:
-            nx, neffs, Ex = self.compute_modes()
-        else:
-            nx, neffs, Ex = self.nx, self.neffs, self.Ex.Ey
+    def plot_Ex(self, index: int = 0) -> None:
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+
+        nx, neffs, Ex = self.nx, self.neffs, self.Ex
         neff_, Ex_ = np.real(neffs[index]), Ex[..., index]
         plot(self.Xx, self.Yx, nx, mode=np.abs(Ex_) ** 2, title=f"Ex::{neff_:.3f}")
         plt.show()
 
-    def plot_Ey(self, index: int = 0):
-        if self.neffs is None:
-            nx, neffs, Ey = self.compute_modes()
-        else:
-            nx, neffs, Ey = self.nx, self.neffs, self.Ey
+    def plot_Ey(self, index: int = 0) -> None:
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+
+        nx, neffs, Ey = self.nx, self.neffs, self.Ey
         neff_, Ey_ = np.real(neffs[index]), Ey[..., index]
         plot(self.Xx, self.Yx, nx, mode=np.abs(Ey_) ** 2, title=f"Ey::{neff_:.3f}")
         plt.show()
@@ -287,6 +278,16 @@ class Waveguide(BaseModel):
         """Show index in matplotlib for jupyter notebooks."""
         self.plot_index()
         return self.__repr__()
+
+    def pickle_dump(self, filepath: PathType) -> None:
+        data = pickle.dumps(self)
+        filepath = pathlib.Path(filepath)
+        filepath.write_bytes(data)
+
+
+def pickle_load(filepath: PathType) -> Waveguide:
+    filepath = pathlib.Path(filepath)
+    return pickle.loads(filepath.read_bytes())
 
 
 if __name__ == "__main__":
