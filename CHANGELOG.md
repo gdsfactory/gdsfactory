@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.5.2]
+## [5.5.2](https://github.com/gdsfactory/gdsfactory/pull/350)
 
 - add `gtidy3d` mode solver
 
