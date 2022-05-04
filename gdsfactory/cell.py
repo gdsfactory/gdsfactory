@@ -160,7 +160,7 @@ def cell_without_validator(func):
             )
 
         if metadata_child and component.get_child_name:
-            component_name = f"{metadata_child['name']}_{name}"
+            component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
