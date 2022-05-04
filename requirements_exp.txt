@@ -1,0 +1,3 @@
+dash
+dash-bootstrap-components>=0.8.2
+Werkzeug==2.0.0
