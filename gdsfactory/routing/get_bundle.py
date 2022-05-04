@@ -46,8 +46,7 @@ def get_bundle(
     **kwargs,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
-    Chooses the correct u_bundle to use based on port angles
-    ports1 and ports2 should all be facing in the same direction.
+    Chooses the correct routing function to use based on port angles.
 
     Args:
         ports1: list of starting ports.
