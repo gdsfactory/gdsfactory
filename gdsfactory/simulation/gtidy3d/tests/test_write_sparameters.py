@@ -7,7 +7,7 @@ import gdsfactory.simulation.gtidy3d as gt
 def test_sparameters_straight(dataframe_regression) -> None:
     """Checks Sparameters for a straight waveguide in 2D."""
     c = gf.components.straight(length=2)
-    df = gt.write_sparameters_1x1(c, overwrite=True, resolution=30)
+    df = gt.write_sparameters_1x1(c, overwrite=True, resolution=30, is_3d=False)
 
     # Check reasonable reflection/transmission
     assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
