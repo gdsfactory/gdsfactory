@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.5.3]
+## [5.5.3](https://github.com/gdsfactory/gdsfactory/pull/358)
 
 - add `read_metadata` flag to `gf.read.import_gds`
 - move dashboard to experimental `requirements_exp` file, that can be install with `pip install gdsfactory[exp]`
