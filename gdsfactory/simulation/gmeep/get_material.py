@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Dict, Optional, Union
 
 import meep as mp
@@ -91,8 +92,8 @@ def test_index() -> None:
     assert np.isclose(n, 1.9962797317138816)
 
 
-# si = partial(get_index, name="Si")
-# sio2 = partial(get_index, name="SiO2")
+si = partial(get_index, name="Si")
+sio2 = partial(get_index, name="SiO2")
 
 
 if __name__ == "__main__":
