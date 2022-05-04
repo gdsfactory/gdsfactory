@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.5.1]
+## [5.5.1](https://github.com/gdsfactory/gdsfactory/pull/349)
 
 - waveguide separation in get_bundle_from_waypoints [fix](https://github.com/gdsfactory/gdsfactory/issues/346)
 - cell get_metadata [fix](https://github.com/gdsfactory/gdsfactory/issues/348)
