@@ -230,9 +230,11 @@ def _generate_manhattan_bundle_waypoints(
     # in the same direction as the original offsets
     if separation and len(ports1) > 1:
         # the default case when we start with the reference port
+        offsets_start_sign = (
+            np.sign(offsets_start[1]) if np.sign(offsets_start[1]) != 0 else 1
+        )
         offsets_mid = [
-            np.sign(offsets_start[1]) * separation * i
-            for i, o in enumerate(offsets_start)
+            offsets_start_sign * separation * i for i, o in enumerate(offsets_start)
         ]
         if offsets_start[0] == 0:
             # the default case, no action necessary

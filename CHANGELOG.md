@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.1]
+
+- waveguide separation in get_bundle_from_waypoints [fix](https://github.com/gdsfactory/gdsfactory/issues/346)
+- cell get_metadata [fix](https://github.com/gdsfactory/gdsfactory/issues/348)
+
 ## [5.5.0](https://github.com/gdsfactory/gdsfactory/pull/345)
 
 - `gf.read.import_gds()` is now a cell (no more lru cache). LRU cache was not working properly with partial functions.
