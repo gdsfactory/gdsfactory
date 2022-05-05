@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.6]
+
+- expose `gf.add_pins` module
+- improve tutorial
+
+
 ## [5.5.5](https://github.com/gdsfactory/gdsfactory/pull/360)
 
 - add `gdsdir` to write_cells CLI command
