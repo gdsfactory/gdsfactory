@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.5.5]
+## [5.5.5](https://github.com/gdsfactory/gdsfactory/pull/360)
 
 - add `gdsdir` to write_cells CLI command
 - rewrite write_cells, before it was writing some empty cells.
