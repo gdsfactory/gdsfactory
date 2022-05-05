@@ -340,41 +340,38 @@ def get_simulation(
     )
 
     if plot_modes:
-        src_plane = td.Box(center=source_center_offset, size=source_size)
-        ms = td.plugins.ModeSolver(simulation=sim, plane=src_plane, freq=freq0)
         mode_spec = td.ModeSpec(num_modes=num_modes)
-        modes = ms.solve(mode_spec=mode_spec)
-
-        print(
-            "Effective index of computed modes: ",
-            ", ".join([f"{mode.n_eff:1.4f}" for mode in modes]),
+        src_plane = td.Box(center=source_center_offset, size=source_size)
+        ms = td.plugins.ModeSolver(
+            simulation=sim, plane=src_plane, freqs=[freq0], mode_spec=mode_spec
         )
+        modes = ms.solve()
+        print("Effective index of computed modes: ", np.array(modes.n_eff))
 
         if is_3d:
             fig, axs = plt.subplots(num_modes, 2, figsize=(12, 12))
+            for mode_ind in range(num_modes):
+                modes.plot_field(
+                    "Ey", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 0]
+                )
+                modes.plot_field(
+                    "Ez", "abs", freq=freq0, mode_index=mode_ind, ax=axs[mode_ind, 1]
+                )
         else:
             fig, axs = plt.subplots(num_modes, 3, figsize=(12, 12))
+            for mode_ind in range(num_modes):
+                ax1 = axs[mode_ind, 0]
+                ax2 = axs[mode_ind, 1]
+                ax3 = axs[mode_ind, 2]
 
-        for mode_ind in range(num_modes):
-            if is_3d:
-                abs(modes[mode_ind].field_data.Ey).plot(
-                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 0]
-                )
-                abs(modes[mode_ind].field_data.Ez).plot(
-                    x="y", y="z", cmap="magma", ax=axs[mode_ind, 1]
-                )
-            else:
-                abs(modes[mode_ind].field_data.Ex).plot(ax=axs[mode_ind, 0])
-                abs(modes[mode_ind].field_data.Ey).plot(ax=axs[mode_ind, 1])
-                abs(modes[mode_ind].field_data.Ez).plot(ax=axs[mode_ind, 2])
+                abs(modes.fields.Ex.sel(mode_index=mode_ind).abs).plot(ax=ax1)
+                abs(modes.fields.Ey.sel(mode_index=mode_ind).abs).plot(ax=ax2)
+                abs(modes.fields.Ez.sel(mode_index=mode_ind).abs).plot(ax=ax3)
 
-                axs[mode_ind, 0].set_title(f"|Ex|: mode_index={mode_ind}")
-                axs[mode_ind, 1].set_title(f"|Ey|: mode_index={mode_ind}")
-                axs[mode_ind, 2].set_title(f"|Ez|: mode_index={mode_ind}")
+                ax1.set_title(f"|Ex|: mode_index={mode_ind}")
+                ax2.set_title(f"|Ey|: mode_index={mode_ind}")
+                ax3.set_title(f"|Ez|: mode_index={mode_ind}")
 
-        if is_3d:
-            axs[mode_ind, 0].set_aspect("equal")
-            axs[mode_ind, 1].set_aspect("equal")
         plt.show()
     return sim
 
@@ -471,8 +468,8 @@ if __name__ == "__main__":
     # c = gf.c.straight_rib()
 
     c = gf.c.straight(length=3)
-    sim = get_simulation(c, plot_modes=False, is_3d=False)
-    plot_simulation(sim)
+    sim = get_simulation(c, plot_modes=True, is_3d=False)
+    # plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
     # filepath.write_text(sim.json())
