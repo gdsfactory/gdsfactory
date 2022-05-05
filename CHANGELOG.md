@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.5]
+
+- add `gdsdir` to write_cells CLI command
+- rewrite write_cells, before it was writing some empty cells.
+- add `debug=False` to add_ports_from_markers_center and remove logger output
+
 ## [5.5.4](https://github.com/gdsfactory/gdsfactory/compare/554?expand=1)
 
 - update tidy3d from `1.1.1` to `1.3.2`
