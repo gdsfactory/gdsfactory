@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.4](https://github.com/gdsfactory/gdsfactory/compare/554?expand=1)
+
+- update tidy3d from `1.1.1` to `1.3.2`
+
 ## [5.5.3](https://github.com/gdsfactory/gdsfactory/pull/358)
 
 - add `read_metadata` flag to `gf.read.import_gds`
