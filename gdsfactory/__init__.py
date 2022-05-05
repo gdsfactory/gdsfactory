@@ -56,6 +56,7 @@ from gdsfactory import geometry
 from gdsfactory import mask
 from gdsfactory import add_ports
 from gdsfactory import write_cells
+from gdsfactory import add_pins
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -64,7 +65,6 @@ from gdsfactory.add_padding import (
     add_padding_container,
     get_padding_points,
 )
-from gdsfactory.add_pins import add_pins
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
