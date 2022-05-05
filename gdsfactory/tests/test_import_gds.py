@@ -25,7 +25,7 @@ def test_import_gds_hierarchy() -> gf.Component:
 
 def test_import_ports() -> gf.Component:
     """Make sure you can import the ports"""
-    c0 = gf.components.mzi_arms(decorator=gf.add_pins)
+    c0 = gf.components.mzi_arms(decorator=gf.add_pins.add_pins)
     gdspath = c0.write_gds()
     c0x1 = c0.ports["o1"].x
     c0x2 = c0.ports["o2"].x
