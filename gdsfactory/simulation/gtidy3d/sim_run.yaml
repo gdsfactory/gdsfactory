@@ -3,10 +3,29 @@ center:
 - 0.0
 - 0.0
 courant: 0.9
-grid_size:
-- 0.02
-- 0.02
-- 0.02
+grid_size: null
+grid_spec:
+    grid_x:
+        max_scale: 1.4
+        mesher:
+            type: GradedMesher
+        min_steps_per_wvl: 10.0
+        type: AutoGrid
+    grid_y:
+        max_scale: 1.4
+        mesher:
+            type: GradedMesher
+        min_steps_per_wvl: 10.0
+        type: AutoGrid
+    grid_z:
+        max_scale: 1.4
+        mesher:
+            type: GradedMesher
+        min_steps_per_wvl: 10.0
+        type: AutoGrid
+    override_structures: []
+    type: GridSpec
+    wavelength: null
 medium:
     conductivity: 0.0
     frequency_range: null
@@ -71,12 +90,15 @@ monitors:
         - 187609584552572.06
         - 187370286613091.75
     mode_spec:
+        angle_phi: 0.0
+        angle_theta: 0.0
         bend_axis: null
         bend_radius: null
         num_modes: 1
         num_pml:
         - 0
         - 0
+        sort_by: largest_neff
         target_neff: null
         type: ModeSpec
     name: o1
@@ -142,12 +164,15 @@ monitors:
         - 187609584552572.06
         - 187370286613091.75
     mode_spec:
+        angle_phi: 0.0
+        angle_theta: 0.0
         bend_axis: null
         bend_radius: null
         num_modes: 1
         num_pml:
         - 0
         - 0
+        sort_by: largest_neff
         target_neff: null
         type: ModeSpec
     name: o2
@@ -210,12 +235,15 @@ sources:
     direction: +
     mode_index: 0
     mode_spec:
+        angle_phi: 0.0
+        angle_theta: 0.0
         bend_axis: null
         bend_radius: null
         num_modes: 1
         num_pml:
         - 0
         - 0
+        sort_by: largest_neff
         target_neff: null
         type: ModeSpec
     name: null
@@ -238,9 +266,9 @@ structures:
         - 0.0
         - 0.0
         size:
-        - 1.0000000200408773e+20
-        - 1.0000000200408773e+20
-        - 1.0000000200408773e+20
+        - Infinity
+        - Infinity
+        - Infinity
         type: Box
     medium:
         conductivity: 0.0
@@ -256,7 +284,9 @@ structures:
         - -3.5
         - 2.4054832200211723e-16
         - 0.11
+        dilation: 0.0
         length: 0.22
+        sidewall_angle: 0.0
         slab_bounds:
         - 0.0
         - 0.22
@@ -284,7 +314,9 @@ structures:
         - 3.5
         - -0.0
         - 0.11
+        dilation: 0.0
         length: 0.22
+        sidewall_angle: 0.0
         slab_bounds:
         - 0.0
         - 0.22
@@ -312,7 +344,9 @@ structures:
         - -0.0
         - -0.0
         - 0.11
+        dilation: 0.0
         length: 0.22
+        sidewall_angle: 0.0
         slab_bounds:
         - 0.0
         - 0.22
@@ -340,4 +374,4 @@ symmetry:
 - 0
 - 0
 type: Simulation
-version: 1.1.1
+version: 1.3.2
