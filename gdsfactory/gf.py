@@ -83,9 +83,10 @@ def layermap_to_dataclass(filepath, force: bool) -> None:
 
 @click.command(name="write_cells")
 @click.argument("gdspath")
-def write_cells(gdspath) -> None:
+@click.argument("dirpath", required=False, default=None)
+def write_cells(gdspath, dirpath) -> None:
     """Write each all level cells into separate GDS files."""
-    write_cells_to_separate_gds(gdspath)
+    write_cells_to_separate_gds(gdspath=gdspath, dirpath=dirpath)
 
 
 @click.command(name="merge_gds")

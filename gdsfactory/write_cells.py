@@ -44,7 +44,7 @@ def write_cells_recursively(
     unit: float = 1e-6,
     precision: float = 1e-9,
     timestamp: Optional[datetime.datetime] = _timestamp2019,
-    dirpath: pathlib.Path = Optional[pathlib.Path],
+    dirpath: Optional[pathlib.Path] = None,
 ) -> None:
     """Write gdspy cells recursively
 
@@ -81,6 +81,7 @@ def write_cells(
     precision: float = 1e-9,
     timestamp: Optional[datetime.datetime] = _timestamp2019,
     recursively: bool = True,
+    flatten: bool = False,
 ) -> None:
     """Writes cells into separate GDS files.
 
@@ -92,6 +93,7 @@ def write_cells(
         timestamp: Defaults to 2019-10-25. If None uses current time.
         dirpath: directory for the GDS file. Defaults to current working directory.
         recursively: writes all cells recursively. If False writes only top cells.
+        flatten: flatten cell
     """
     if cell is None and gdspath is None:
         raise ValueError("You need to specify component or gdspath")
@@ -105,8 +107,11 @@ def write_cells(
     dirpath.mkdir(exist_ok=True, parents=True)
 
     for cell in top_level_cells:
+        if flatten:
+            cell = cell.flatten()
         gdspath = f"{pathlib.Path(dirpath)/cell.name}.gds"
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
+        gdspy.library.use_current_library = False
         lib.write_gds(gdspath, cells=[cell], timestamp=timestamp)
         logger.info(f"Write GDS to {gdspath}")
 
