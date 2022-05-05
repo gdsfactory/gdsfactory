@@ -4,7 +4,6 @@ from typing import Optional, Tuple
 import numpy as np
 
 from gdsfactory.component import Component
-from gdsfactory.config import logger
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import Layer
@@ -39,7 +38,7 @@ def add_ports_from_markers_square(
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
     port_name_prefix = port_name_prefix or port_name_prefix_default
-    port_markers = read_port_markers(component, [pin_layer])
+    port_markers = read_port_markers(component, (pin_layer,))
     port_names = port_names or [
         f"{port_name_prefix}{i+1}" for i in range(len(port_markers.polygons))
     ]
@@ -76,6 +75,7 @@ def add_ports_from_markers_center(
     port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
     auto_rename_ports: bool = True,
+    debug: bool = False,
 ) -> Component:
     """Add ports from rectangular pin markers.
 
@@ -86,18 +86,19 @@ def add_ports_from_markers_center(
     Args:
         component: to read polygons from and to write ports to.
         pin_layer: GDS layer for maker [int, int].
-        port_layer: for the new created port
-        inside: True-> markers  inside. False-> markers at center
-        tol: tolerance for comparing how rectangular is the pin
-        pin_extra_width: 2*offset from pin to straight
-        min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2
-        max_pin_area_um2: ignore pins for area above certain size
-        skip_square_ports: skips square ports (hard to guess orientation)
-        xcenter: for guessing orientation of rectangular ports
-        ycenter: for guessing orientation of rectangular ports
+        port_layer: for the new created port.
+        inside: True-> markers  inside. False-> markers at center.
+        tol: tolerance for comparing how rectangular is the pin.
+        pin_extra_width: 2*offset from pin to straight.
+        min_pin_area_um2: ignores pins with area smaller than min_pin_area_um2.
+        max_pin_area_um2: ignore pins for area above certain size.
+        skip_square_ports: skips square ports (hard to guess orientation).
+        xcenter: for guessing orientation of rectangular ports.
+        ycenter: for guessing orientation of rectangular ports.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
-        port_type: type of port (optical, electrical ...)
+        port_type: type of port (optical, electrical ...).
         auto_rename_ports:
+        debug: if True prints ports that are skipped.
 
     For inside=False the port location is at the middle of the PIN
 
@@ -166,20 +167,24 @@ def add_ports_from_markers_center(
         y = p.y
 
         if min_pin_area_um2 and dx * dy < min_pin_area_um2:
-            logger.debug(f"skipping port at ({x}, {y}) with min_pin_area_um2 {dx * dy}")
+            if debug:
+                print(f"skipping port at ({x}, {y}) with min_pin_area_um2 {dx * dy}")
             continue
 
         if max_pin_area_um2 and dx * dy > max_pin_area_um2:
             continue
 
         if skip_square_ports and snap_to_grid(dx) == snap_to_grid(dy):
-            logger.debug(f"skipping square port at ({x}, {y})")
+            if debug:
+                print(f"skipping square port at ({x}, {y})")
             continue
 
         pxmax = p.xmax
         pxmin = p.xmin
         pymax = p.ymax
         pymin = p.ymin
+
+        orientation = 0
 
         if dx < dy and x > xc:  # east
             orientation = 0
@@ -283,8 +288,8 @@ def add_ports_from_labels(
         port_width: for ports.
         port_layer: for the new created port.
         xcenter: center of the component, for guessing port orientation.
-        port_name_prefix: defaults to 'o' for optical and 'e' for electrical
-        port_type: optical, electrical
+        port_name_prefix: defaults to 'o' for optical and 'e' for electrical.
+        port_type: optical, electrical.
         layer_label:
         fail_on_duplicates: raises ValueError for duplicated port names.
             if False adds incremental suffix (1, 2 ...) to port name.
@@ -309,6 +314,8 @@ def add_ports_from_labels(
             port_name = label.text
         else:
             port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
+
+        orientation = 0
         if x > xc:  # east
             orientation = 0
         elif x < xc:  # west
