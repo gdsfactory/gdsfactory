@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.5.9]
+
+- MaterialSpec for lumerical simulation to address [feature request](https://github.com/gdsfactory/gdsfactory/issues/363)
+
 ## [5.5.8](https://github.com/gdsfactory/gdsfactory/pull/364)
 
 - support ports with None orientation
