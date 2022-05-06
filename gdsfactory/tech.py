@@ -266,7 +266,7 @@ class Section(BaseModel):
         extra = "forbid"
 
 
-MaterialSpec = Union[str, float, Tuple[float, float]]
+MaterialSpec = Union[str, float, complex, Tuple[float, float]]
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
@@ -310,6 +310,9 @@ class SimulationSettingsLumericalFdtd(BaseModel):
         "sio2": "SiO2 (Glass) - Palik",
         "sin": "Si3N4 (Silicon Nitride) - Phillip",
     }
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()
