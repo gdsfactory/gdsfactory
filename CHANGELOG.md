@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.5.9]
+## [5.5.9](https://github.com/gdsfactory/gdsfactory/pull/365)
 
 - MaterialSpec for lumerical simulation to address [feature request](https://github.com/gdsfactory/gdsfactory/issues/363)
 
