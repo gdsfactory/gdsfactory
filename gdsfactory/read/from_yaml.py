@@ -1199,6 +1199,43 @@ placements:
 
 """
 
+sample_doe_function = """
+name: mask_compact
+
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        radius: [30, 50, 20, 40]
+        length_x: [1, 2, 3]
+      do_permutations: True
+      function:
+        function: add_fiber_array
+        settings:
+            fanout_length: 200
+
+
+  mzis:
+    component: pack_doe_grid
+    settings:
+      doe: mzi
+      settings:
+        delta_length: [10, 100]
+      do_permutations: True
+      spacing: [10, 10]
+      function: add_fiber_array
+
+placements:
+  rings:
+    xmin: 50
+
+  mzis:
+    xmin: rings,east
+
+"""
+
 
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
@@ -1220,7 +1257,7 @@ if __name__ == "__main__":
     # c = from_yaml(sample_pdk_mzi_settings)
 
     # c = from_yaml(sample_mirror)
-    c = from_yaml(sample_mmis)
+    c = from_yaml(sample_doe_function)
     c.show()
 
     # c = test_connections_regex()
