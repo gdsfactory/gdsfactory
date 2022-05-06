@@ -84,13 +84,19 @@ class Pdk(BaseModel):
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
+        cells_and_containers = set(self.cells.keys()).union(set(self.containers.keys()))
+
         if callable(cell):
             return cell
         elif isinstance(cell, str):
-            if cell not in self.cells:
+            if cell not in cells_and_containers:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{cell!r} not in PDK {self.name!r} cells: {cells}")
-            cell = self.cells[cell]
+                containers = list(self.containers.keys())
+                raise ValueError(
+                    f"{cell!r} from PDK {self.name!r} not in cells: {cells} "
+                    f"or containers: {containers}"
+                )
+            cell = self.cells[cell] if cell in self.cells else self.containers[cell]
             return cell
         elif isinstance(cell, (dict, DictConfig)):
             for key in cell.keys():
@@ -102,10 +108,18 @@ class Pdk(BaseModel):
             settings.update(**kwargs)
 
             cell_name = cell.get("function")
-            if not isinstance(cell_name, str) or cell_name not in self.cells:
+            if not isinstance(cell_name, str) or cell_name not in cells_and_containers:
                 cells = list(self.cells.keys())
-                raise ValueError(f"{cell!r} not in PDK {self.name!r} cells: {cells}")
-            cell = self.cells[cell_name]
+                containers = list(self.containers.keys())
+                raise ValueError(
+                    f"{cell_name!r} from PDK {self.name!r} not in cells: {cells} "
+                    f"or containers: {containers}"
+                )
+            cell = (
+                self.cells[cell_name]
+                if cell_name in self.cells
+                else self.containers[cell_name]
+            )
             return partial(cell, **settings)
         else:
             raise ValueError(
