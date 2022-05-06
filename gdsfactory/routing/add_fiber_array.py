@@ -3,7 +3,6 @@ from typing import Callable, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
@@ -19,7 +18,7 @@ def add_fiber_array(
     component: ComponentSpec = "mmi2x2",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     straight: ComponentSpec = straight_function,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
@@ -58,7 +57,7 @@ def add_fiber_array(
         connected_port_list_ids: None # only for type 0 optical routing
         nb_optical_ports_lines: 1
         force_manhattan: False
-        excluded_ports: list of ports to exclude from adding fiber coupler.
+        excluded_ports: list of port names to exclude from adding fiber coupler.
         grating_indices: list of grating coupler indices.
         routing_straight: None
         routing_method: get_route

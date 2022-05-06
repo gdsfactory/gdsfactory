@@ -230,8 +230,7 @@ settings:
     module: gdsfactory.add_tapers
     name: straight_373b1ebb_add_t_96dd4fc5
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component: mmi2x2
     component_name: null
     cross_section:
@@ -256,8 +255,7 @@ settings:
     straight:
       function: straight
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component:
       name: straight_373b1ebb_add_t_96dd4fc5
       settings:

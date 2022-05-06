@@ -70,8 +70,7 @@ settings:
     module: gdsfactory.components.coupler
     name: coupler_bcc4a0b5
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component: mmi2x2
     component_name: null
     cross_section:
@@ -96,8 +95,7 @@ settings:
     straight:
       function: straight
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component:
       name: coupler_bcc4a0b5
       settings:

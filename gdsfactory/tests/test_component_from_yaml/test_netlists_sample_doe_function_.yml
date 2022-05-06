@@ -92,8 +92,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_15a01d93
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -118,8 +117,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_15a01d93
               settings:
@@ -260,8 +258,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_36bf9679
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -286,8 +283,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_36bf9679
               settings:
@@ -428,8 +424,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_4f2b93e6
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -454,8 +449,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_4f2b93e6
               settings:
@@ -596,8 +590,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_557cf3bf
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -622,8 +615,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_557cf3bf
               settings:
@@ -764,8 +756,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_5d6e411b
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -790,8 +781,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_5d6e411b
               settings:
@@ -932,8 +922,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_97963132
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -958,8 +947,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_97963132
               settings:
@@ -1100,8 +1088,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_b1b00c28
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -1126,8 +1113,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_b1b00c28
               settings:
@@ -1268,8 +1254,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_b4c8763a
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -1294,8 +1279,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_b4c8763a
               settings:
@@ -1436,8 +1420,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_b5de162f
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -1462,8 +1445,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_b5de162f
               settings:
@@ -1604,8 +1586,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_cb0f7119
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -1630,8 +1611,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_cb0f7119
               settings:
@@ -1772,8 +1752,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_f56e8ae9
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -1798,8 +1777,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_f56e8ae9
               settings:
@@ -1940,8 +1918,7 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_f72b5eef
           default:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component: mmi2x2
             component_name: null
             cross_section:
@@ -1966,8 +1943,7 @@ instances:
             straight:
               function: straight
           full:
-            bend:
-              function: bend_euler
+            bend: bend_euler
             component:
               name: ring_single_f72b5eef
               settings:
