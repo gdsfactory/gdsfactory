@@ -525,7 +525,7 @@ if __name__ == "__main__":
     # component = gf.components.straight(length=2.5)
     component = gf.components.mmi1x2()
 
-    material_name_to_lumerical = dict(si=(3.45, 2))
+    material_name_to_lumerical = dict(si=(3.45, 2))  # or dict(si=3.45+2j)
     r = write_sparameters_lumerical(
         component=component,
         material_name_to_lumerical=material_name_to_lumerical,
