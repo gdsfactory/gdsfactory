@@ -998,7 +998,7 @@ class Component(Device):
                 ignore_functions_prefix=ignore_functions_prefix,
                 ignore_components_prefix=ignore_components_prefix,
             )
-            d["cells"] = cells
+            d["cells"] = clean_dict(cells)
 
         d["name"] = self.name
         d["version"] = self.version
