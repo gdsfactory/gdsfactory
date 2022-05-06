@@ -189,6 +189,8 @@ class Port(PortPhidl):
     def flip(self) -> Port:
         """flips port"""
         port = self.copy()
+        if port.orientation is None:
+            raise ValueError(f"port {self.name!r} has None orientation")
         port.orientation = (port.orientation + 180) % 360
         return port
 
@@ -248,7 +250,7 @@ class Port(PortPhidl):
         component_name = self.parent.name
         if not np.isclose(half_width, half_width_correct):
             raise PortNotOnGridError(
-                f"{component_name}, port = {self.name}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",
+                f"{component_name}, port = {self.name!r}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
 
@@ -350,7 +352,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
@@ -393,7 +395,7 @@ def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
@@ -494,6 +496,8 @@ def select_ports_list(**kwargs) -> List[Port]:
 
 
 def flipped(port: Port) -> Port:
+    if port.orientation is None:
+        raise ValueError(f"port {port.name!r} has None orientation")
     _port = port.copy()
     _port.orientation = (_port.orientation + 180) % 360
     return _port
@@ -521,7 +525,7 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     direction_ports: Dict[str, List[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in ports:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:

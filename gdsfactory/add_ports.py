@@ -160,7 +160,7 @@ def add_ports_from_markers_center(
     port_name_prefix = port_name_prefix or port_name_prefix_default
 
     for i, p in enumerate(port_markers.polygons):
-        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
+        port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else str(i)
         dy = p.ymax - p.ymin
         dx = p.xmax - p.xmin
         x = p.x
@@ -278,6 +278,8 @@ def add_ports_from_labels(
     get_name_from_label: bool = False,
     layer_label: Optional[Layer] = None,
     fail_on_duplicates: bool = False,
+    port_orientation: Optional[float] = None,
+    guess_port_orientation: bool = True,
 ) -> Component:
     """Add ports from labels.
     Assumes that all ports have a label at the port center.
@@ -293,6 +295,8 @@ def add_ports_from_labels(
         layer_label:
         fail_on_duplicates: raises ValueError for duplicated port names.
             if False adds incremental suffix (1, 2 ...) to port name.
+        port_orientation: None for electrical ports.
+        guess_port_orientation: asumes right: 0, left: 180, top: 90, bot: 270.
 
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"
@@ -315,15 +319,17 @@ def add_ports_from_labels(
         else:
             port_name = f"{port_name_prefix}{i+1}" if port_name_prefix else i
 
-        orientation = 0
-        if x > xc:  # east
-            orientation = 0
-        elif x < xc:  # west
-            orientation = 180
-        elif y > yc:  # north
-            orientation = 90
-        elif y < yc:  # south
-            orientation = 270
+        orientation = port_orientation
+
+        if guess_port_orientation:
+            if x > xc:  # east
+                orientation = 0
+            elif x < xc:  # west
+                orientation = 180
+            elif y > yc:  # north
+                orientation = 90
+            elif y < yc:  # south
+                orientation = 270
 
         if fail_on_duplicates and port_name in component.ports:
             component_ports = list(component.ports.keys())
@@ -348,6 +354,3 @@ def add_ports_from_labels(
             layer=port_layer,
         )
     return component
-
-
-pass

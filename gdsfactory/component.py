@@ -767,7 +767,7 @@ class Component(Device):
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
-        """Plot Component in holoviews.
+        """Plot component in holoviews.
 
         adapted from dphox.device.Device.hvplot
 
@@ -871,11 +871,17 @@ class Component(Device):
         if show_subports:
             component = self.copy(suffix="", cache=False)
             for reference in component.references:
-                add_pins_triangle(component=component, reference=reference)
+                try:
+                    add_pins_triangle(component=component, reference=reference)
+                except ValueError:
+                    pass
 
         elif show_ports:
             component = self.copy(suffix="", cache=False)
-            add_pins_triangle(component=component)
+            try:
+                add_pins_triangle(component=component)
+            except ValueError:
+                pass
         else:
             component = self
 
