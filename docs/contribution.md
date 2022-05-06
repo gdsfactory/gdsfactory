@@ -61,3 +61,68 @@ You can use the command line `gf gds diff gds1.gds gds2.gds` to overlay `gds1.gd
 For example, if you changed the mmi1x2 and made it 5um longer by mistake, you could `gf gds diff ref_layouts/mmi1x2.gds run_layouts/mmi1x2.gds` and see the GDS differences in Klayout.
 
 ![](images/git_diff_gds_ex2.png)
+
+
+## Why does gdsfactory exists?
+
+For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsys) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
+
+The metrics for the benchmark were:
+
+0. Fast
+1. Easy to use and interface with other tools
+2. Maintained / Documented / Popular
+
+PHIDL won in speed, readability and easy of use. It is written on top of gdspy (which came second), so you can still leverage all the work from the gdspy community. Gdsfactory also leverages klayout and gdspy python APIs.
+
+Gdsfactory leverages klayout and gdspy python APIs.
+
+What nice things come from phidl?
+
+- functional programming that follow UNIX philosophy
+- nice API to create and modify Components
+- Easy definition of paths, cross-sections and extrude them into Components
+- Easy definition of ports, to connect components. Ports in phidl have name, position, width and orientation (in degrees)
+  - gdsfactory expands phidl ports with layer, port_type (optical, electrical, vertical_te, vertical_tm ...) and cross_section
+  - gdsfactory adds renaming ports functions (clockwise, counter_clockwise ...)
+
+What nice things come from klayout?
+
+- GDS viewer. gdsfactory can send GDS files directly to klayout, you just need to have klayout open
+- layer colormaps for showing in klayout, matplotlib, trimesh (using the same colors)
+- fast boolean xor to avoid geometric regressions on Components geometry. Klayout booleans are faster than gdspy ones
+- basic DRC checks
+
+What functionality does gdsfactory provide you on top phidl/gdspy/klayout?
+
+- `@cell decorator` for decorating functions that create components
+  - autonames Components with a unique name that depends on the input parameters
+  - avoids duplicated names and faster runtime implementing a cache. If you try to call the same component function with the same parameters, you get the component directly from the cache.
+  - automatically adds cell parameters into a `component.info` (`full`, `default`, `changed`) as well as any other `info` metadata (`polarization`, `wavelength`, `test_protocol`, `simulation_settings` ...)
+  - writes component metadata in YAML including port information (name, position, width, orientation, type, layer)
+- routing functions where the routes are composed of configurable bends and straight sections (for circuit simulations you want to maintain the route bends and straight settings)
+  - `get_route`: for single routes between component ports
+  - `get_route_from_steps`: for single routes between ports where we define the steps or bends
+  - `get_bundle`: for bundles of routes (river routing)
+  - `get_bundle_path_length_match`: for routes that need to keep the same path length
+  - `get_route(auto_widen=True)`: for routes that expand to wider waveguides to reduce loss and phase errors
+  - `get_route(impossible route)`: for impossible routes it warns you and returns a FlexPath on an error layer to clearly show you the impossible route
+- testing framework to avoid unwanted regressions
+  - checks geometric GDS changes by making a boolean difference between GDS cells
+  - checks metadata changes, including port location and component settings
+- large library of photonics and electrical components that you can easily customize to your technology
+- read components from GDS, numpy, YAML
+- export components to GDS, YAML or 3D (trimesh, STL ...)
+- export netlist in YAML format
+- plugins to compute Sparameters using for example Lumerical, meep or tidy3d
+
+
+
+gdsfactory is written in python and requires some basic knowledge of python. If you are new to python you can find many free online resources to learn:
+
+- [books](https://jakevdp.github.io/PythonDataScienceHandbook/index.html)
+- [youTube videos](https://www.youtube.com/c/anthonywritescode)
+- courses
+    - [scientific computing](https://nbviewer.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-0-Scientific-Computing-with-Python.ipynb)
+    - [numerical python](http://jrjohansson.github.io/numericalpython.html)
+    - [python](https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/01_Python.html)
