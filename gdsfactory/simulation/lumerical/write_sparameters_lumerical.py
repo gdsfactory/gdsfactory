@@ -46,16 +46,21 @@ def set_material(session, structure: str, material: MaterialSpec) -> None:
         session.setnamed(structure, "material", material)
     elif isinstance(material, (int, float)):
         session.setnamed(structure, "index", material)
+    elif isinstance(material, complex):
+        mat = session.addmaterial("(n,k) Material")
+        session.setmaterial(mat, "Refractive Index", material.real)
+        session.setmaterial(mat, "Imaginary Refractive Index", material.imag)
+        session.setnamed(structure, "material", mat)
     elif isinstance(material, (tuple, list)):
-        material = list(material)
         if len(material) != 2:
             raise ValueError(
                 "Complex material requires a tuple or list of two numbers "
                 f"(real, imag). Got {material} "
             )
+        real, imag = material
         mat = session.addmaterial("(n,k) Material")
-        session.setmaterial(mat, "Refractive Index", material[0])
-        session.setmaterial(mat, "Imaginary Refractive Index", material[1])
+        session.setmaterial(mat, "Refractive Index", real)
+        session.setmaterial(mat, "Imaginary Refractive Index", imag)
         session.setnamed(structure, "material", mat)
     else:
         raise ValueError(
@@ -311,7 +316,8 @@ def write_sparameters_lumerical(
     material_name_to_lumerical = ss.material_name_to_lumerical.copy()
     material_name_to_lumerical.update(**material_name_to_lumerical_new)
 
-    set_material(session=s, structure="clad", material=ss.background_material)
+    material = material_name_to_lumerical[ss.background_material]
+    set_material(session=s, structure="clad", material=material)
 
     s.addfdtd(
         dimension="3D",
@@ -363,7 +369,7 @@ def write_sparameters_lumerical(
                 "or float (refractive index)"
             )
 
-        set_material(session=s, structure=layername, material=ss.background_material)
+        set_material(session=s, structure=layername, material=material)
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
     for i, port in enumerate(ports):
@@ -523,13 +529,19 @@ def _sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
+    import lumapi
+
+    s = lumapi.FDTD()
+
     # component = gf.components.straight(length=2.5)
     component = gf.components.mmi1x2()
+
     material_name_to_lumerical = dict(si=(3.45, 2))
     r = write_sparameters_lumerical(
         component=component,
         material_name_to_lumerical=material_name_to_lumerical,
         run=False,
+        session=s,
     )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
