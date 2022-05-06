@@ -2,7 +2,7 @@
 import shutil
 import time
 from pathlib import Path
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
 import numpy as np
 import omegaconf
@@ -15,9 +15,10 @@ from gdsfactory.simulation.get_sparameters_path import (
 )
 from gdsfactory.tech import (
     LAYER_STACK,
-    SIMULATION_SETTINGS,
+    SIMULATION_SETTINGS_LUMERICAL_FDTD,
     LayerStack,
-    SimulationSettings,
+    MaterialSpec,
+    SimulationSettingsLumericalFdtd,
 )
 from gdsfactory.types import ComponentSpec
 
@@ -30,6 +31,44 @@ To compute the Sparameters you need to pass run=True
 """
 
 
+def set_material(session, structure: str, material: MaterialSpec) -> None:
+    """Sets the material of a structure.
+
+    Args:
+        session: lumerical session.
+        structure: name of the lumerical structure.
+        material: material spec, can be
+            a string from lumerical database materials.
+            a float or int, representing refractive index.
+            a complex for n, k materials.
+    """
+    if isinstance(material, str):
+        session.setnamed(structure, "material", material)
+    elif isinstance(material, (int, float)):
+        session.setnamed(structure, "index", material)
+    elif isinstance(material, complex):
+        mat = session.addmaterial("(n,k) Material")
+        session.setmaterial(mat, "Refractive Index", material.real)
+        session.setmaterial(mat, "Imaginary Refractive Index", material.imag)
+        session.setnamed(structure, "material", mat)
+    elif isinstance(material, (tuple, list)):
+        if len(material) != 2:
+            raise ValueError(
+                "Complex material requires a tuple or list of two numbers "
+                f"(real, imag). Got {material} "
+            )
+        real, imag = material
+        mat = session.addmaterial("(n,k) Material")
+        session.setmaterial(mat, "Refractive Index", real)
+        session.setmaterial(mat, "Imaginary Refractive Index", imag)
+        session.setnamed(structure, "material", mat)
+    else:
+        raise ValueError(
+            f"{material!r} needs to be a float refractive index, a complex number or tuple "
+            "or a string from lumerical's material database"
+        )
+
+
 def write_sparameters_lumerical(
     component: ComponentSpec,
     session: Optional[object] = None,
@@ -37,8 +76,8 @@ def write_sparameters_lumerical(
     overwrite: bool = False,
     dirpath: Path = gf.CONFIG["sparameters"],
     layer_stack: LayerStack = LAYER_STACK,
-    simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
-    material_name_to_lumerical: Optional[Dict[str, Union[str, float]]] = None,
+    simulation_settings: SimulationSettingsLumericalFdtd = SIMULATION_SETTINGS_LUMERICAL_FDTD,
+    material_name_to_lumerical: Optional[Dict[str, MaterialSpec]] = None,
     delete_fsp_files: bool = True,
     **settings,
 ) -> pd.DataFrame:
@@ -160,7 +199,7 @@ def write_sparameters_lumerical(
             )
 
     sim_settings.update(**settings)
-    ss = SimulationSettings(**sim_settings)
+    ss = SimulationSettingsLumericalFdtd(**sim_settings)
 
     component_extended = gf.components.extend_ports(
         component, length=ss.distance_source_to_monitors
@@ -273,26 +312,12 @@ def write_sparameters_lumerical(
         name="clad",
     )
 
-    material = ss.background_material
     material_name_to_lumerical_new = material_name_to_lumerical or {}
     material_name_to_lumerical = ss.material_name_to_lumerical.copy()
     material_name_to_lumerical.update(**material_name_to_lumerical_new)
 
-    if material not in material_name_to_lumerical:
-        raise ValueError(
-            f"{material!r} not in {list(material_name_to_lumerical.keys())}"
-        )
-    material = material_name_to_lumerical[material]
-
-    if isinstance(material, str):
-        s.setnamed("clad", "material", material)
-    elif isinstance(material, (int, float)):
-        s.setnamed("clad", "index", material)
-    else:
-        raise ValueError(
-            f"{material!r} needs to be a string from lumerical's material database"
-            "or float (refractive index)"
-        )
+    material = material_name_to_lumerical[ss.background_material]
+    set_material(session=s, structure="clad", material=material)
 
     s.addfdtd(
         dimension="3D",
@@ -333,16 +358,7 @@ def write_sparameters_lumerical(
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z * 1e-6)
         s.setnamed(layername, "z span", thickness * 1e-6)
-
-        if isinstance(material, str):
-            s.setnamed(layername, "material", material)
-        elif isinstance(material, (int, float)):
-            s.setnamed(layername, "index", material)
-        else:
-            raise ValueError(
-                f"{material!r} needs to be a string from lumerical's material database"
-                "or float (refractive index)"
-            )
+        set_material(session=s, structure=layername, material=material)
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
     for i, port in enumerate(ports):
@@ -502,9 +518,20 @@ def _sample_convergence_wavelength():
 
 
 if __name__ == "__main__":
+    import lumapi
+
+    s = lumapi.FDTD()
+
     # component = gf.components.straight(length=2.5)
     component = gf.components.mmi1x2()
-    r = write_sparameters_lumerical(component=component)
+
+    material_name_to_lumerical = dict(si=(3.45, 2))  # or dict(si=3.45+2j)
+    r = write_sparameters_lumerical(
+        component=component,
+        material_name_to_lumerical=material_name_to_lumerical,
+        run=False,
+        session=s,
+    )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
     # print(r)
