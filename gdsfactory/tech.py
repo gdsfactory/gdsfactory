@@ -3,8 +3,6 @@ from typing import Any, Callable, Dict, Optional, Tuple, Union
 
 from pydantic import BaseModel
 
-from gdsfactory.component import Float2
-
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
 
@@ -268,7 +266,7 @@ class Section(BaseModel):
         extra = "forbid"
 
 
-MaterialSpec = Union[str, float, Float2]
+MaterialSpec = Union[str, float, Tuple[float, float]]
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
