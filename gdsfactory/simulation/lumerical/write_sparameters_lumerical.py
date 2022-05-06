@@ -31,14 +31,30 @@ To compute the Sparameters you need to pass run=True
 
 
 def set_material(session, structure, material) -> None:
+    """Sets the material of a structure.
+
+    Args:
+        session: lumerical session.
+        structure: name of the lumerical structure.
+        material: material spec, can be
+            a string from lumerical database materials.
+            a float or int, representing refractive index.
+            a complex for n, k materials.
+    """
     if isinstance(material, str):
         session.setnamed(structure, "material", material)
     elif isinstance(material, (int, float)):
         session.setnamed(structure, "index", material)
-    elif isinstance(material, tuple):
+    elif isinstance(material, (tuple, list)):
+        material = list(material)
+        if len(material) != 2:
+            raise ValueError(
+                "Complex material requires a tuple or list of two numbers "
+                f"(real, imag). Got {material} "
+            )
         mat = session.addmaterial("(n,k) Material")
-        session.setmaterial(mat, "Refractive Index", material.real)
-        session.setmaterial(mat, "Imaginary Refractive Index", material.imag)
+        session.setmaterial(mat, "Refractive Index", material[0])
+        session.setmaterial(mat, "Imaginary Refractive Index", material[1])
         session.setnamed(structure, "material", mat)
     else:
         raise ValueError(
@@ -508,7 +524,12 @@ def _sample_convergence_wavelength():
 if __name__ == "__main__":
     # component = gf.components.straight(length=2.5)
     component = gf.components.mmi1x2()
-    r = write_sparameters_lumerical(component=component)
+    material_name_to_lumerical = dict(si=(3.45, 2))
+    r = write_sparameters_lumerical(
+        component=component,
+        material_name_to_lumerical=material_name_to_lumerical,
+        run=False,
+    )
     # c = gf.components.coupler_ring(length_x=3)
     # c = gf.components.mmi1x2()
     # print(r)
