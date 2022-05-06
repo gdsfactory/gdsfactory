@@ -335,7 +335,7 @@ def straight_with_pins(**kwargs) -> Component:
     c = gf.Component()
     ref = c << gf.components.straight()
     c.add_ports(ref.ports)
-    gf.add_pins(c)
+    gf.add_pins.add_pins(c)
     return c
 
 

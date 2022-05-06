@@ -15,9 +15,9 @@
 
 ![](https://i.imgur.com/v4wpHpg.png)
 
-[gdsfactory](https://gdsfactory.github.io/gdsfactory/) is an EDA (electronics design automation) tool to Layout Integrated Circuits.
-It is built on top of [phidl](https://github.com/amccaugh/phidl), [gdspy](https://github.com/heitzmann/gdspy) and [klayout](https://www.klayout.de/) to work with GDSII components, PDKs and masks for different foundries.
-It combines the power of a code driven flow (python or YAML) together with visualization interfaces (Klayout for GDS, trimesh for 3D rendering, networkx for graphs ...)
+gdsfactory is an EDA (electronics design automation) tool to Layout Integrated Circuits.
+It is built on top of phidl, gdspy and klayout to work with GDSII components, PDKs and masks for different foundries.
+It combines the power of a code driven flow (python or YAML) together with visualization (Klayout for GDS, trimesh for 3D rendering, networkx for graphs ...) and simulation (for component and circuit) interfaces.
 
 You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
 
@@ -31,7 +31,7 @@ It enables both layout and netlist driven flows and is all code driven.
 
 As input, you write python or YAML code.
 
-As output it creates a [GDSII file](https://en.wikipedia.org/wiki/GDSII) which is the most common filetype used by CMOS foundries.
+As output it creates a GDSII file which is the most common filetype used by CMOS foundries.
 It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). And you can easily adapt any outputs to your needs, thanks to being all natively written in python.
 
 ![](https://i.imgur.com/XbhWJDz.png)
