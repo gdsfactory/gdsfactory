@@ -17,9 +17,10 @@ from gdsfactory.tech import (
     LAYER_STACK,
     SIMULATION_SETTINGS_LUMERICAL_FDTD,
     LayerStack,
+    MaterialSpec,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.types import ComponentSpec, MaterialSpec
+from gdsfactory.types import ComponentSpec
 
 run_false_warning = """
 You have passed run=False to debug the simulation
