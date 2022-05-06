@@ -2,7 +2,7 @@
 
 ## [5.5.6]
 
-- expose `gf.add_pins` module
+- expose `gf.add_pins` module instead of `add_pins` function. So you can use any of the functions inside the module.
 - improve tutorial
 
 
