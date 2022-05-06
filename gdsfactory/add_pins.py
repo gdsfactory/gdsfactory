@@ -35,11 +35,14 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     """Returns triangle polygon and tip position"""
     p = port
 
-    a = p.orientation
-    ca = np.cos(a * np.pi / 180)
-    sa = np.sin(a * np.pi / 180)
-    rot_mat = np.array([[ca, -sa], [sa, ca]])
+    orientation = p.orientation
 
+    if orientation is None:
+        raise ValueError("Port {port.name} needs to have an orientation.")
+
+    ca = np.cos(orientation * np.pi / 180)
+    sa = np.sin(orientation * np.pi / 180)
+    rot_mat = np.array([[ca, -sa], [sa, ca]])
     d = p.width / 2
 
     dbot = np.array([0, -d])
@@ -49,6 +52,7 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     p0 = p.position + _rotate(dbot, rot_mat)
     p1 = p.position + _rotate(dtop, rot_mat)
     ptip = p.position + _rotate(dtip, rot_mat)
+
     polygon = [p0, p1, ptip]
     polygon = np.stack(polygon)
     return polygon, ptip
@@ -338,6 +342,8 @@ def add_outline(
         component: where to add the markers
         reference: to read outline from
         layer: to add padding
+
+    Keyword Args:
         default: default padding
         top: North padding
         bottom
@@ -375,7 +381,6 @@ def add_pins_siepic(
         layer_pin: pin layer.
         pin_length: length of the pin marker for the port
 
-
     """
 
     for p in component.get_ports_list(port_type=port_type):
@@ -410,7 +415,17 @@ def add_pins_bbox_siepic(
     bbox_layer: Layer = (68, 0),
     padding: float = 0,
 ) -> Component:
-    """Add bounding box device recognition layer."""
+    """Add bounding box device recognition layer.
+
+    Args:
+        component: to add pins.
+        function: to add pins.
+        port_type: optical, electrical...
+        layer_pin:
+        pin_length:
+        bbox_layer:
+        padding:
+    """
     component = component.copy()
     component.remove_layers(layers=(layer_pin, bbox_layer))
     component.add_padding(default=padding, layers=(bbox_layer,))
