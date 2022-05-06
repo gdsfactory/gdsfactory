@@ -2,7 +2,7 @@
 import shutil
 import time
 from pathlib import Path
-from typing import Dict, Optional, Union
+from typing import Dict, Optional
 
 import numpy as np
 import omegaconf
@@ -15,11 +15,11 @@ from gdsfactory.simulation.get_sparameters_path import (
 )
 from gdsfactory.tech import (
     LAYER_STACK,
-    SIMULATION_SETTINGS,
+    SIMULATION_SETTINGS_LUMERICAL_FDTD,
     LayerStack,
-    SimulationSettings,
+    SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, MaterialSpec
 
 run_false_warning = """
 You have passed run=False to debug the simulation
@@ -30,6 +30,23 @@ To compute the Sparameters you need to pass run=True
 """
 
 
+def set_material(session, structure, material) -> None:
+    if isinstance(material, str):
+        session.setnamed(structure, "material", material)
+    elif isinstance(material, (int, float)):
+        session.setnamed(structure, "index", material)
+    elif isinstance(material, tuple):
+        mat = session.addmaterial("(n,k) Material")
+        session.setmaterial(mat, "Refractive Index", material.real)
+        session.setmaterial(mat, "Imaginary Refractive Index", material.imag)
+        session.setnamed(structure, "material", mat)
+    else:
+        raise ValueError(
+            f"{material!r} needs to be a string from lumerical's material database"
+            "float: refractive index or (float, float) for complex material"
+        )
+
+
 def write_sparameters_lumerical(
     component: ComponentSpec,
     session: Optional[object] = None,
@@ -37,8 +54,8 @@ def write_sparameters_lumerical(
     overwrite: bool = False,
     dirpath: Path = gf.CONFIG["sparameters"],
     layer_stack: LayerStack = LAYER_STACK,
-    simulation_settings: SimulationSettings = SIMULATION_SETTINGS,
-    material_name_to_lumerical: Optional[Dict[str, Union[str, float]]] = None,
+    simulation_settings: SimulationSettingsLumericalFdtd = SIMULATION_SETTINGS_LUMERICAL_FDTD,
+    material_name_to_lumerical: Optional[Dict[str, MaterialSpec]] = None,
     delete_fsp_files: bool = True,
     **settings,
 ) -> pd.DataFrame:
@@ -160,7 +177,7 @@ def write_sparameters_lumerical(
             )
 
     sim_settings.update(**settings)
-    ss = SimulationSettings(**sim_settings)
+    ss = SimulationSettingsLumericalFdtd(**sim_settings)
 
     component_extended = gf.components.extend_ports(
         component, length=ss.distance_source_to_monitors
@@ -273,26 +290,11 @@ def write_sparameters_lumerical(
         name="clad",
     )
 
-    material = ss.background_material
     material_name_to_lumerical_new = material_name_to_lumerical or {}
     material_name_to_lumerical = ss.material_name_to_lumerical.copy()
     material_name_to_lumerical.update(**material_name_to_lumerical_new)
 
-    if material not in material_name_to_lumerical:
-        raise ValueError(
-            f"{material!r} not in {list(material_name_to_lumerical.keys())}"
-        )
-    material = material_name_to_lumerical[material]
-
-    if isinstance(material, str):
-        s.setnamed("clad", "material", material)
-    elif isinstance(material, (int, float)):
-        s.setnamed("clad", "index", material)
-    else:
-        raise ValueError(
-            f"{material!r} needs to be a string from lumerical's material database"
-            "or float (refractive index)"
-        )
+    set_material(session=s, structure="clad", material=ss.background_material)
 
     s.addfdtd(
         dimension="3D",
@@ -343,6 +345,8 @@ def write_sparameters_lumerical(
                 f"{material!r} needs to be a string from lumerical's material database"
                 "or float (refractive index)"
             )
+
+        set_material(session=s, structure=layername, material=ss.background_material)
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
     for i, port in enumerate(ports):
