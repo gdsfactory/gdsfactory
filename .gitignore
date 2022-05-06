@@ -21,6 +21,7 @@ docs/notebooks/ring.yml
 # Packages
 *.egg
 *.egg-info
+docs/notebooks/demo.yml
 Pipfile.lock
 dist
 doc_pdks/
