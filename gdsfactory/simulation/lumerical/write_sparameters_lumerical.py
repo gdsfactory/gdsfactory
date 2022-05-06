@@ -64,8 +64,8 @@ def set_material(session, structure: str, material: MaterialSpec) -> None:
         session.setnamed(structure, "material", mat)
     else:
         raise ValueError(
-            f"{material!r} needs to be a string from lumerical's material database"
-            "float: refractive index or (float, float) for complex material"
+            f"{material!r} needs to be a float refractive index, a complex number or tuple "
+            "or a string from lumerical's material database"
         )
 
 
@@ -358,17 +358,6 @@ def write_sparameters_lumerical(
         layername = f"GDS_LAYER_{layer[0]}:{layer[1]}"
         s.setnamed(layername, "z", z * 1e-6)
         s.setnamed(layername, "z span", thickness * 1e-6)
-
-        if isinstance(material, str):
-            s.setnamed(layername, "material", material)
-        elif isinstance(material, (int, float)):
-            s.setnamed(layername, "index", material)
-        else:
-            raise ValueError(
-                f"{material!r} needs to be a string from lumerical's material database"
-                "or float (refractive index)"
-            )
-
         set_material(session=s, structure=layername, material=material)
         logger.info(f"adding {layer}, thickness = {thickness} um, zmin = {zmin} um ")
 
