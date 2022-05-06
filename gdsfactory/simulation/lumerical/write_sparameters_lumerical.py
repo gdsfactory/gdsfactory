@@ -30,7 +30,7 @@ To compute the Sparameters you need to pass run=True
 """
 
 
-def set_material(session, structure, material) -> None:
+def set_material(session, structure: str, material: MaterialSpec) -> None:
     """Sets the material of a structure.
 
     Args:
