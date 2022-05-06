@@ -350,7 +350,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
@@ -393,7 +393,7 @@ def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
