@@ -116,9 +116,8 @@ class Routes(BaseModel):
 
 
 class ComponentModel(BaseModel):
-    component: str
+    component: Union[str, Dict[str, Any]]
     settings: Optional[Dict[str, Any]]
-    pack: Optional[Dict[str, Any]]
 
     class Config:
         extra = Extra.forbid
@@ -156,8 +155,9 @@ class NetlistModel(BaseModel):
     Attributes:
         instances: dict of instances (name, settings, component).
         placements: dict of placements.
+        connections: dict of connections.
         routes: dict of routes.
-        name: component model.
+        name: component name.
         info: information (polarization, wavelength ...).
         settings: input variables.
         pdk: pdk module name.
