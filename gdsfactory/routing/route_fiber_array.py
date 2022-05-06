@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
@@ -36,7 +36,7 @@ def route_fiber_array(
     connected_port_names: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
-    excluded_ports: List[Any] = None,
+    excluded_ports: List[str] = None,
     grating_indices: None = None,
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "o1",
@@ -156,7 +156,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = bend(cross_section=cross_section) if callable(bend) else bend
+    bend90 = gf.get_component(bend, cross_section=cross_section)
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius
@@ -319,7 +319,7 @@ def route_fiber_array(
             straight_separation=straight_separation,
             io_gratings_lines=io_gratings_lines,
             gc_port_name=gc_port_name,
-            bend=bend,
+            bend=bend90,
             straight=straight,
             taper=taper,
             select_ports=select_ports,
