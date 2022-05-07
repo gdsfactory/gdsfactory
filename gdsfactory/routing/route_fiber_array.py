@@ -47,7 +47,7 @@ def route_fiber_array(
     x_grating_offset: int = 0,
     optical_port_labels: Optional[Tuple[str, ...]] = None,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
-    get_input_label_text_function: Callable = get_input_label_text,
+    get_input_label_text_function: Optional[Callable] = get_input_label_text,
     get_input_labels_function: Optional[Callable] = get_input_labels,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
@@ -451,7 +451,11 @@ def route_fiber_array(
                 f"Invalid nlabels_loopback = {nlabels_loopback}, "
                 "valid (0: no labels, 1: first port, 2: both ports2)"
             )
-        if nlabels_loopback > 0 and get_input_labels_function:
+        if (
+            nlabels_loopback > 0
+            and get_input_labels_function
+            and get_input_label_text_function
+        ):
             elements.extend(
                 get_input_labels_function(
                     io_gratings=io_gratings_loopback,
@@ -463,7 +467,7 @@ def route_fiber_array(
                 )
             )
 
-    if get_input_labels_function:
+    if get_input_labels_function and get_input_label_text_function:
         elements.extend(
             get_input_labels_function(
                 io_gratings=io_gratings,
