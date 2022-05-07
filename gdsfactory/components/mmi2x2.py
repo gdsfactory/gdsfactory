@@ -3,7 +3,6 @@ from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -18,7 +17,7 @@ def mmi2x2(
     taper: ComponentSpec = taper_function,
     straight: CrossSectionSpec = straight_function,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Mmi 2x2.
 
