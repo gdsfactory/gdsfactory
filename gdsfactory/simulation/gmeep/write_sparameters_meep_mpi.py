@@ -146,11 +146,12 @@ def write_sparameters_meep_mpi(
     parameters_file = tempfile.with_suffix(".pkl")
     kwargs.update(filepath=str(filepath))
 
-    parameters_dict = {}
-    # Hardcode non kwargs
-    parameters_dict["component"] = component
-    parameters_dict["layer_stack"] = layer_stack
-    parameters_dict["overwrite"] = overwrite
+    parameters_dict = {
+        "component": component,
+        "layer_stack": layer_stack,
+        "overwrite": overwrite,
+    }
+
     # Loop over kwargs
     for key in kwargs.keys():
         parameters_dict[key] = kwargs[key]
@@ -167,8 +168,9 @@ def write_sparameters_meep_mpi(
         "\t\tparameters_dict = pickle.load(inp)\n\n" "\twrite_sparameters_meep(\n",
     ]
     script_lines.extend(
-        f'\t\t{key} = parameters_dict["{key}"],\n' for key in parameters_dict.keys()
+        f'\t\t{key} = parameters_dict["{key}"],\n' for key in parameters_dict
     )
+
     script_lines.append("\t)")
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
