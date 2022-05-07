@@ -34,10 +34,10 @@ temp_dir_default = Path(sparameters_path) / "temp"
 @pydantic.validate_arguments
 def write_sparameters_meep_mpi(
     component: ComponentSpec,
+    layer_stack: LayerStack = LAYER_STACK,
     cores: int = ncores,
     filepath: Optional[Path] = None,
     dirpath: Path = sparameters_path,
-    layer_stack: LayerStack = LAYER_STACK,
     temp_dir: Path = temp_dir_default,
     temp_file_str: str = "write_sparameters_meep_mpi",
     overwrite: bool = False,
@@ -140,32 +140,40 @@ def write_sparameters_meep_mpi(
     if filepath.exists() and overwrite:
         filepath.unlink()
 
-    # Save the component object to simulation for later retrieval
+    # Save all the simulation arguments for later retrieval
     temp_dir.mkdir(exist_ok=True, parents=True)
     tempfile = temp_dir / temp_file_str
-    component_file = tempfile.with_suffix(".pkl")
+    parameters_file = tempfile.with_suffix(".pkl")
     kwargs.update(filepath=str(filepath))
 
-    with open(component_file, "wb") as outp:
-        pickle.dump(component, outp, pickle.HIGHEST_PROTOCOL)
+    parameters_dict = {}
+    # Hardcode non kwargs
+    parameters_dict["component"] = component
+    parameters_dict["layer_stack"] = layer_stack
+    parameters_dict["overwrite"] = overwrite
+    # Loop over kwargs
+    for key in kwargs.keys():
+        parameters_dict[key] = kwargs[key]
+
+    with open(parameters_file, "wb") as outp:
+        pickle.dump(parameters_dict, outp, pickle.HIGHEST_PROTOCOL)
 
     # Write execution file
     script_lines = [
         "import pickle\n",
         "from gdsfactory.simulation.gmeep import write_sparameters_meep\n\n",
         'if __name__ == "__main__":\n\n',
-        f"\twith open(\"{component_file}\", 'rb') as inp:\n",
-        "\t\tcomponent = pickle.load(inp)\n\n"
-        "\twrite_sparameters_meep(component = component,\n",
+        f"\twith open(\"{parameters_file}\", 'rb') as inp:\n",
+        "\t\tparameters_dict = pickle.load(inp)\n\n" "\twrite_sparameters_meep(\n",
     ]
-    script_lines.extend(f"\t\t{key} = {kwargs[key]!r},\n" for key in kwargs.keys())
+    script_lines.extend(
+        f'\t\t{key} = parameters_dict["{key}"],\n' for key in parameters_dict.keys()
+    )
     script_lines.append("\t)")
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
     command = f"mpirun -np {cores} python {script_file}"
-    print(command)
-    print(filepath)
     logger.info(command)
     logger.info(str(filepath))
 
