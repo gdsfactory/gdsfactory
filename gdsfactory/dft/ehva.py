@@ -1,8 +1,10 @@
-from typing import Tuple
+from typing import List, Optional, Tuple
 
+import flatdict
 import pydantic
 
 import gdsfactory as gf
+from gdsfactory.name import clean_name
 from gdsfactory.snap import snap_to_grid as snap
 from gdsfactory.types import Layer, Strs
 
@@ -19,34 +21,63 @@ DFT = Dft()
 
 
 port_types_all = ("vertical_te", "dc")
-skip = ("cross_section", "decorator", "cross_section1", "cross_section2")
+ignore = ("cross_section", "decorator", "cross_section1", "cross_section2")
 
 
+@pydantic.validate_arguments
 def add_label_ehva(
     component: gf.Component,
     die_name: str,
     port_types: Strs = port_types_all,
     layer: Layer = (66, 0),
+    metadata_ignore: Optional[List[str]] = None,
+    metadata_include_parent: Optional[List[str]] = None,
+    metadata_include_child: Optional[List[str]] = None,
 ) -> gf.Component:
-    """Returns Component with test and measurement automated labels.
+    """Returns Component with measurement labels.
 
     Args:
-        component: gdsfactory component
+        component: to add labels to.
         die_name: string.
         port_types: list of port types to label.
         layer: text label layer.
+        metadata_ignore: list of settings keys to ignore.
+            Works with flatdict setting:subsetting.
+        metadata_include_parent: includes parent metadata.
+            Works with flatdict setting:subsetting.
     """
+    metadata_ignore = metadata_ignore or []
+    metadata_include_parent = metadata_include_parent or []
+    metadata_include_child = metadata_include_child or []
 
     t = f"""DIE NAME:{die_name}
 COMPONENT NAME:{component.name}
 """
-    if component.metadata_child:
-        info = [
+    info = []
+
+    metadata = component.metadata_child.changed
+    if metadata:
+        info += [
             f"COMPONENTINFO NAME: {k}, VALUE {v}\n"
-            for k, v in component.metadata_child.changed.items()
-            if k not in skip and isinstance(v, (str, int, float))
+            for k, v in metadata.items()
+            if k not in metadata_ignore
         ]
-        t += "\n".join(info)
+
+    metadata = flatdict.FlatDict(component.metadata.full)
+    info += [
+        f"COMPONENTINFO NAME: {clean_name(k)}, VALUE {metadata.get(k)}\n"
+        for k in metadata_include_parent
+        if metadata.get(k)
+    ]
+
+    metadata = flatdict.FlatDict(component.metadata_child.full)
+    info += [
+        f"COMPONENTINFO NAME: {k}, VALUE {metadata.get(k)}\n"
+        for k in metadata_include_child
+        if metadata.get(k)
+    ]
+
+    t += "\n".join(info)
 
     if component.ports:
         for port_type in port_types:
@@ -73,8 +104,18 @@ COMPONENT NAME:{component.name}
 
 if __name__ == "__main__":
     c = gf.c.straight(length=11)
-    c = gf.c.mmi2x2()
-    c = gf.routing.add_fiber_array(c)
-    add_label_ehva(c, die_name="demo_die")
+    c = gf.c.mmi2x2(length_mmi=2.2)
+    c = gf.routing.add_fiber_array(
+        c, get_input_labels_function=None, grating_coupler=gf.c.grating_coupler_te
+    )
+
+    add_label_ehva(
+        c,
+        die_name="demo_die",
+        metadata_include_parent=["grating_coupler:settings:polarization"],
+    )
+    # add_label_ehva(c, die_name="demo_die", metadata_include_child=["width_mmi"])
+    # add_label_ehva(c, die_name="demo_die", metadata_include_child=[])
+
     print(c.labels)
     c.show()

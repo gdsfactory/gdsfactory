@@ -3,9 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -18,9 +16,7 @@ settings:
     width_taper: 1
     with_bbox: true
   full:
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
