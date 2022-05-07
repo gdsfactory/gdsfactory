@@ -5,8 +5,8 @@ from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loo
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight
-from gdsfactory.components.taper import taper
+from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port, select_ports_optical
@@ -16,16 +16,16 @@ from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints, round_corners
 from gdsfactory.routing.route_south import route_south
 from gdsfactory.routing.utils import direction_ports_from_list_ports
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Label
+from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpec, Label
 
 
 def route_fiber_array(
     component: Component,
     fiber_spacing: float = TECH.fiber_array_spacing,
-    grating_coupler: ComponentSpec = grating_coupler_te,
+    grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = bend_euler,
-    straight: ComponentSpec = straight,
-    taper: ComponentSpec = taper,
+    straight: ComponentSpec = straight_function,
+    taper: ComponentSpec = taper_function,
     fanout_length: Optional[float] = None,
     max_y0_optical: None = None,
     with_loopback: bool = True,
@@ -36,8 +36,8 @@ def route_fiber_array(
     connected_port_names: None = None,
     nb_optical_ports_lines: int = 1,
     force_manhattan: bool = False,
-    excluded_ports: List[str] = None,
-    grating_indices: None = None,
+    excluded_ports: Optional[List[str]] = None,
+    grating_indices: Optional[List[int]] = None,
     route_filter: Callable = get_route_from_waypoints,
     gc_port_name: str = "o1",
     gc_rotation: int = -90,
