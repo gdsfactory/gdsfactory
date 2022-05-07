@@ -32,8 +32,10 @@ def add_fiber_single(
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     zero_port: Optional[str] = "o1",
-    get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
-    get_input_label_text_function: Callable = get_input_label_text,
+    get_input_label_text_loopback_function: Optional[
+        Callable
+    ] = get_input_label_text_loopback,
+    get_input_label_text_function: Optional[Callable] = get_input_label_text,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -144,6 +146,8 @@ def add_fiber_single(
     cr = c << component
     cr.rotate(90)
 
+    elements = []
+
     for port in cr.ports.values():
         if port.name not in optical_port_names:
             c.add_port(name=port.name, port=port)
@@ -161,14 +165,15 @@ def add_fiber_single(
                 gc_ref.connect(gc_port_name, port)
                 grating_couplers.append(gc_ref)
 
-        elements = get_input_labels(
-            io_gratings=grating_couplers,
-            ordered_ports=list(cr.ports.values()),
-            component_name=component_name,
-            layer_label=layer_label,
-            gc_port_name=gc_port_name,
-            get_input_label_text_function=get_input_label_text_function,
-        )
+        if get_input_label_text_function:
+            elements = get_input_labels(
+                io_gratings=grating_couplers,
+                ordered_ports=list(cr.ports.values()),
+                component_name=component_name,
+                layer_label=layer_label,
+                gc_port_name=gc_port_name,
+                get_input_label_text_function=get_input_label_text_function,
+            )
 
     else:
         elements, grating_couplers = route_fiber_single(
@@ -185,6 +190,8 @@ def add_fiber_single(
             component_name=component_name,
             cross_section=cross_section,
             select_ports=select_ports,
+            get_input_label_text_function=get_input_label_text_function,
+            get_input_label_text_loopback_function=get_input_label_text_loopback,
             **kwargs,
         )
 
@@ -225,27 +232,34 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         port = wg.ports["o2"]
-        text = get_input_label_text_loopback_function(
-            port=port, gc=grating_coupler, gc_index=0, component_name=component_name
-        )
 
-        c.add_label(
-            text=text,
-            position=port.midpoint,
-            anchor="o",
-            layer=layer_label,
-        )
+        p1 = c.add_port(name="loopback1", port=wg.ports["o1"])
+        p2 = c.add_port(name="loopback2", port=wg.ports["o2"])
+        p1.port_type = "loopback"
+        p2.port_type = "loopback"
 
-        port = wg.ports["o1"]
-        text = get_input_label_text_loopback_function(
-            port=port, gc=grating_coupler, gc_index=1, component_name=component_name
-        )
-        c.add_label(
-            text=text,
-            position=port.midpoint,
-            anchor="o",
-            layer=layer_label,
-        )
+        if get_input_label_text_function and get_input_label_text_loopback_function:
+            text = get_input_label_text_loopback_function(
+                port=port, gc=grating_coupler, gc_index=0, component_name=component_name
+            )
+
+            c.add_label(
+                text=text,
+                position=port.midpoint,
+                anchor="o",
+                layer=layer_label,
+            )
+
+            port = wg.ports["o1"]
+            text = get_input_label_text_loopback_function(
+                port=port, gc=grating_coupler, gc_index=1, component_name=component_name
+            )
+            c.add_label(
+                text=text,
+                position=port.midpoint,
+                anchor="o",
+                layer=layer_label,
+            )
 
     c.copy_child_info(component)
     return c
@@ -282,9 +296,11 @@ if __name__ == "__main__":
         zero_port="o2",
         loopback_xspacing=-50,
         # grating_coupler=[gf.components.grating_coupler_te, gf.components.grating_coupler_tm],
+        get_input_label_text_function=None,
     )
 
-    cc = add_fiber_single()
+    gf.dft.add_label_ehva(cc, die="demo")
+    print(cc.get_labels())
     cc.show()
 
     # c = gf.components.straight(length=20)
