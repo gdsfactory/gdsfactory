@@ -15,7 +15,7 @@ import numpy as np
 import yaml
 from numpy import int64
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import CellArray, Device, _parse_layer
+from phidl.device_layout import CellArray, Device, Label, _parse_layer
 from typing_extensions import Literal
 
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
@@ -137,6 +137,42 @@ class Component(Device):
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         return v
+
+    def add_label(
+        self,
+        text: str = "hello",
+        position: Tuple[float, float] = (0.0, 0.0),
+        magnification: Optional[float] = None,
+        rotation: Optional[float] = None,
+        anchor: str = "o",
+        layer: Tuple[int, int] = (10, 0),
+    ) -> Label:
+        """Adds a Label to the Device.
+
+        Args:
+            text: Label text.
+            position: x-, y-coordinates of the Label location.
+            magnification:int, float, or None Magnification factor for the Label text.
+            rotation: Angle rotation of the Label text.
+            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...} Position of the anchor relative to the text.
+            layer: Specific layer(s) to put Label on.
+        """
+
+        gds_layer, gds_datatype = layer
+
+        if type(text) is not str:
+            text = str(text)
+        label = Label(
+            text=text,
+            position=position,
+            anchor=anchor,
+            magnification=magnification,
+            rotation=rotation,
+            layer=gds_layer,
+            texttype=gds_datatype,
+        )
+        self.add(label)
+        return label
 
     @property
     def bbox(self):
