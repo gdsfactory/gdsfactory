@@ -137,7 +137,6 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
-    fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text_loopback
@@ -232,7 +231,6 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
-    fiber_spacing: 50
     gc_port_name: o1
     get_input_label_text_loopback_function:
       function: get_input_label_text_loopback
@@ -256,7 +254,9 @@ settings:
       function: straight
     with_loopback: true
   function_name: add_grating_couplers_with_loopback_fiber_single
-  info: {}
+  info:
+    polarization: te
+    wavelength: 1.53
   info_version: 2
   module: gdsfactory.add_grating_couplers
   name: mzi_2e88f57c_add_gratin_21665327
