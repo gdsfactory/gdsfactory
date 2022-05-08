@@ -133,8 +133,7 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_2e88f57c
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component: mmi2x2
     component_name: null
     cross_section:
@@ -159,8 +158,7 @@ settings:
     straight:
       function: straight
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     component:
       name: mzi_2e88f57c
       settings:

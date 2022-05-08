@@ -61,14 +61,13 @@ def write_labels(
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load  GDS mask and extracts the labels and coordinates from a GDS file.
-    Returns CSV filepath
+    """Load  GDS mask and extracts the labels and coordinates from a GDS file. Returns CSV filepath.
 
     Args:
-        gdspath:
-        layer_label:
+        gdspath: for the mask.
+        layer_label: for labels to write.
         filepath: for CSV file. Defaults to gdspath with CSV
-        prefix: for the labels
+        prefix: for the labels to write.
 
     """
     labels = list(find_labels(gdspath, layer_label=layer_label, prefix=prefix))
@@ -78,7 +77,7 @@ def write_labels(
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    logger.info(f"Wrote {len(labels)} labels in {filepath.absolute()}")
+    logger.info(f"Wrote {len(labels)} labels to CSV {filepath.absolute()}")
     return filepath
 
 
