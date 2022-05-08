@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import flatdict
 import pydantic
@@ -6,7 +6,7 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.name import clean_name
 from gdsfactory.snap import snap_to_grid as snap
-from gdsfactory.types import Layer, Strs
+from gdsfactory.types import Layer
 
 
 class Dft(pydantic.BaseModel):
@@ -20,15 +20,28 @@ class Dft(pydantic.BaseModel):
 DFT = Dft()
 
 
-port_types_all = ("vertical_te", "dc", "optical", "loopback")
-ignore = ("cross_section", "decorator", "cross_section1", "cross_section2")
+ignore = (
+    "cross_section",
+    "decorator",
+    "cross_section1",
+    "cross_section2",
+    "contact",
+    "pad",
+)
+port_types = {
+    "vertical_te": "OPTICALPORT",
+    "pad": "ELECTRICALPORT",
+    "vertical_dc": "ELECTRICALPORT",
+    "optical": "OPTICALPORT",
+    "loopback": "OPTICALPORT",
+}
 
 
 @pydantic.validate_arguments
 def add_label_ehva(
     component: gf.Component,
     die: str = "demo",
-    port_types: Strs = port_types_all,
+    port_types: Dict[str, str] = port_types,
     layer: Layer = (66, 0),
     metadata_ignore: Optional[List[str]] = None,
     metadata_include_parent: Optional[List[str]] = None,
@@ -51,28 +64,28 @@ def add_label_ehva(
     metadata_include_child = metadata_include_child or []
 
     text = f"""DIE NAME:{die}
-COMPONENT NAME:{component.name}
+CIRCUIT NAME:{component.name}
 """
     info = []
 
     metadata = component.metadata_child.changed
     if metadata:
         info += [
-            f"COMPONENTINFO NAME: {k}, VALUE {v}"
+            f"CIRCUITINFO NAME: {k}, VALUE {v}"
             for k, v in metadata.items()
-            if k not in metadata_ignore
+            if k not in metadata_ignore and isinstance(v, (int, float, str))
         ]
 
     metadata = flatdict.FlatDict(component.metadata.full)
     info += [
-        f"COMPONENTINFO NAME: {clean_name(k)}, VALUE {metadata.get(k)}"
+        f"CIRCUITINFO NAME: {clean_name(k)}, VALUE {metadata.get(k)}"
         for k in metadata_include_parent
         if metadata.get(k)
     ]
 
     metadata = flatdict.FlatDict(component.metadata_child.full)
     info += [
-        f"COMPONENTINFO NAME: {k}, VALUE {metadata.get(k)}"
+        f"CIRCUITINFO NAME: {k}, VALUE {metadata.get(k)}"
         for k in metadata_include_child
         if metadata.get(k)
     ]
@@ -82,12 +95,12 @@ COMPONENT NAME:{component.name}
 
     info = []
     if component.ports:
-        for port_type in port_types:
+        for port_type_gdsfactory, port_type_ehva in port_types.items():
             info += [
-                f"OPTICALPORT TYPE: {port_type}, "
+                f"{port_type_ehva} NAME: {port.name} TYPE: {port_type_gdsfactory}, "
                 f"POSITION RELATIVE:({snap(port.x)}, {snap(port.y)}),"
                 f" ORIENTATION: {port.orientation}"
-                for port in component.get_ports_list(port_type=port_type)
+                for port in component.get_ports_list(port_type=port_type_gdsfactory)
             ]
     text += "\n".join(info)
 
