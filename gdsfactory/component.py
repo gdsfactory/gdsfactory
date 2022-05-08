@@ -1355,7 +1355,13 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    test_extract()
+    import gdsfactory as gf
+
+    c2 = gf.components.straight()
+    c2.add_label(text="First label")
+    c2.add_label(text="Second label")
+
+    # test_extract()
     # c = test_get_layers()
     # c.show()
 
