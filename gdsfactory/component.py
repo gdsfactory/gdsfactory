@@ -161,7 +161,7 @@ class Component(Device):
         gds_layer, gds_datatype = layer
 
         if type(text) is not str:
-            text = str(text)
+            text = text
         label = Label(
             text=text,
             position=position,

@@ -100,10 +100,11 @@ def get_route(
     width2 = x.width_wide if auto_widen else width1
 
     bend90 = (
-        gf.get_component(bend, cross_section=cross_section, **kwargs)
-        if not isinstance(bend, Component)
-        else bend
+        bend
+        if isinstance(bend, Component)
+        else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
+
 
     if taper:
         taper = gf.get_component(
