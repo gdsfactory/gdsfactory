@@ -209,11 +209,11 @@ class Component(Device):
         """Return xdistance from east to west ports
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: with in port name
-            orientation: in degrees
-            width:
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: with in port name.
+            orientation: in degrees.
+            width: port width.
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
@@ -224,11 +224,11 @@ class Component(Device):
         """Return ydistance from east to west ports
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: with in port name
-            orientation: in degrees
-            width:
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: with in port name.
+            orientation: in degrees.
+            width: port width (um).
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
@@ -241,8 +241,8 @@ class Component(Device):
         """plots a netlist graph with networkx
 
         Args:
-            with_labels: label nodes
-            font_weight: normal, bold
+            with_labels: add label to each node.
+            font_weight: normal, bold.
         """
         plt.figure()
         netlist = self.get_netlist()
@@ -345,13 +345,13 @@ class Component(Device):
         """Return list of ports.
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: with in port name
-            orientation: in degrees
-            width:
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: with in port name.
+            orientation: in degrees.
+            width: port width.
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
-            clockwise: if True, sort ports clockwise, False: counter-clockwise
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return list(select_ports(self.ports, **kwargs).values())
 
@@ -366,12 +366,12 @@ class Component(Device):
         """Returns Component reference.
 
         Args:
-            position:
-            port_id: name of the port
-            rotation: in degrees
+            position: x, y position.
+            port_id: name of the port.
+            rotation: in degrees.
             h_mirror: horizontal mirror using y axis (x, 1) (1, 0).
                 This is the most common mirror.
-            v_mirror: vertical mirror using x axis (1, y) (0, y)
+            v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
         _ref = ComponentReference(self)
 
@@ -451,13 +451,13 @@ class Component(Device):
         with a new name add_port(port = existing_port, name = new_name)
 
         Args:
-            name:
-            midpoint:
-            orientation: in deg
-            port: optional port
-            layer:
-            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm
-            cross_section:
+            name: port name.
+            midpoint: x, y.
+            orientation: in deg.
+            port: optional port.
+            layer: port layer.
+            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm.
+            cross_section: port cross_section.
 
         """
 
@@ -944,9 +944,9 @@ class Component(Device):
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in klayout.
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily)
-                "error": throw a ValueError when attempting to write a gds with duplicate cells
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning
+                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
 
         """
@@ -1018,8 +1018,8 @@ class Component(Device):
         """Return Dict representation of a component.
 
         Args:
-            ignore_components_prefix: for components to ignore when exporting
-            ignore_functions_prefix: for functions to ignore when exporting
+            ignore_components_prefix: for components to ignore when exporting.
+            ignore_functions_prefix: for functions to ignore when exporting.
             with_cells: write cells recursively.
             with_ports: write port information dict.
         """
@@ -1076,11 +1076,11 @@ class Component(Device):
         """Rename ports by orientation NSEW (north, south, east, west).
 
         Keyword Args:
-            function: to rename ports
-            select_ports_optical:
-            select_ports_electrical:
-            prefix_optical:
-            prefix_electrical:
+            function: to rename ports.
+            select_ports_optical: to select optical ports.
+            select_ports_electrical: to select electrical ports.
+            prefix_optical: prefix.
+            prefix_electrical: prefix.
 
         .. code::
 
@@ -1174,14 +1174,14 @@ class Component(Device):
         """Return component with padding
 
         Keyword Args:
-            component
-            layers: list of layers
-            suffix for name
-            default: default padding (50um)
-            top: north padding
-            bottom: south padding
-            right: east padding
-            left: west padding
+            component: for padding.
+            layers: list of layers.
+            suffix for name.
+            default: default padding (50um).
+            top: north padding.
+            bottom: south padding.
+            right: east padding.
+            left: west padding.
         """
         from gdsfactory.add_padding import add_padding
 

@@ -71,13 +71,13 @@ class Port(PortPhidl):
     Args:
         name: we name ports clock-wise starting from bottom left.
         midpoint: (x, y) port center coordinate.
-        width: of the port
-        orientation: in degrees (0: east, 90: north, 180: west, 270: south)
-        parent: parent component (component to which this port belong to)
+        width: of the port.
+        orientation: in degrees (0: east, 90: north, 180: west, 270: south).
+        parent: parent component (component to which this port belong to).
         layer: layer tuple.
-        port_type: str (optical, electrical, vertical_te, vertical_tm)
+        port_type: str (optical, electrical, vertical_te, vertical_tm).
         parent: Component that port belongs to.
-        cross_section:
+        cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
     """
 
@@ -307,11 +307,11 @@ def port_array(
     """Returns a list of ports placed in an array
 
     Args:
-        midpoint: center point of the port
-        width: port width
-        orientation: angle in degrees
-        pitch: period of the port array
-        n: number of ports in the array
+        midpoint: center point of the port.
+        width: port width.
+        orientation: angle in degrees.
+        pitch: period of the port array.
+        n: number of ports in the array.
 
     """
     pitch = np.array(pitch)
@@ -450,19 +450,18 @@ def select_ports(
     """Returns a dict of ports from a dict of ports
 
     Args:
-        ports: Dict[str, Port] a port dict {port name: port}
-        layer: port GDS layer
-        prefix: port name prefix
-        suffix: port name suffix
-        orientation: in degrees
-        width: port width
-        layers_excluded: List of layers to exclude
+        ports: Dict[str, Port] a port dict {port name: port}.
+        layer: port GDS layer.
+        prefix: port name prefix.
+        suffix: port name suffix.
+        orientation: in degrees.
+        width: port width.
+        layers_excluded: List of layers to exclude.
         port_type: optical, electrical, ...
-        clockwise: if True, sort ports clockwise, False: counter-clockwise
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     Returns:
-        Dictionary containing only the ports with the wanted type(s)
-        {port name: port}
+        Dict containing the selected ports {port name: port}.
     """
 
     from gdsfactory.component import Component, ComponentReference
@@ -732,12 +731,12 @@ def auto_rename_ports(
     """Adds prefix for optical and electical.
 
     Args:
-        component:
-        function: to rename ports
-        select_ports_optical:
-        select_ports_electrical:
-        prefix_optical:
-        prefix_electrical:
+        component: to auto_rename_ports.
+        function: to rename ports.
+        select_ports_optical: to select optical ports.
+        select_ports_electrical: to select electrical ports.
+        prefix_optical: prefix of optical ports.
+        prefix_electrical: prefix of electrical ports.
     """
     rename_ports_by_orientation(
         component=component,
