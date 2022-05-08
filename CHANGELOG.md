@@ -1,8 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.6.0]
+## [5.6.0](https://github.com/gdsfactory/gdsfactory/pull/369)
 
-- add `gf.dft` design for testing, test protocols example.
+- add `gf.dft` design for testing, test protocols example in the mask section documentation.
 - fix sparameters_meep_mpi [PR](https://github.com/gdsfactory/gdsfactory/pull/366)
 
 ## [5.5.9](https://github.com/gdsfactory/gdsfactory/pull/365)

@@ -316,8 +316,13 @@ class ComponentReference(DeviceReference):
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
 
+        Args:
+            origin: x,y.
+            destination: x,y.
+            axis: for the movemenent.
+
         Returns:
-            ComponentReference
+            ComponentReference.
         """
 
         # If only one set of coordinates is defined, make sure it's used to move things
@@ -496,13 +501,13 @@ class ComponentReference(DeviceReference):
         """Return a list of ports.
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: port name prefix
-            orientation: in degrees
-            width: port width
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: port name prefix.
+            orientation: in degrees.
+            width: port width.
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
-            clockwise: if True, sort ports clockwise, False: counter-clockwise
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return list(select_ports(self.ports, **kwargs).values())
 
@@ -510,13 +515,13 @@ class ComponentReference(DeviceReference):
         """Return a dict of ports.
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: port name prefix
-            orientation: in degrees
-            width: port width
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: port name prefix.
+            orientation: in degrees.
+            width: port width.
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
-            clockwise: if True, sort ports clockwise, False: counter-clockwise
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return select_ports(self.ports, **kwargs)
 
@@ -549,7 +554,7 @@ class ComponentReference(DeviceReference):
         """Return xdistance from east to west ports
 
         Keyword Args:
-            kwargs: orientation, port_type, layer
+            kwargs: orientation, port_type, layer.
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
