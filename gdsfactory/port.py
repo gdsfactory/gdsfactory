@@ -39,6 +39,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import phidl.geometry as pg
 from numpy import ndarray
+from omegaconf import OmegaConf
 from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.cross_section import CrossSection
@@ -128,6 +129,20 @@ class Port(PortPhidl):
         if self.shear_angle:
             d["shear_angle"] = self.shear_angle
         return clean_value_json(d)
+
+    def to_yaml(self) -> str:
+        d = dict(
+            name=self.name,
+            width=float(self.width),
+            midpoint=[float(self.midpoint[0]), float(self.midpoint[1])],
+            orientation=float(self.orientation)
+            if self.orientation
+            else self.orientation,
+            layer=self.layer,
+            port_type=self.port_type,
+        )
+        d = OmegaConf.create(d)
+        return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
         return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"

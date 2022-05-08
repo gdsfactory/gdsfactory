@@ -66,6 +66,7 @@ def route_south(
     references = []
     lengths = []
     bend90 = bend(cross_section=cross_section, **kwargs) if callable(bend) else bend
+    bend90 = gf.get_component(bend90)
     dy = abs(bend90.info["dy"])
 
     # Handle empty list gracefully

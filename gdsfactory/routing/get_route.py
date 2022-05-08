@@ -38,6 +38,7 @@ from typing import Callable, Optional
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
@@ -98,7 +99,11 @@ def get_route(
     auto_widen = x.auto_widen
     width2 = x.width_wide if auto_widen else width1
 
-    bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
+    bend90 = (
+        gf.get_component(bend, cross_section=cross_section, **kwargs)
+        if not isinstance(bend, Component)
+        else bend
+    )
 
     if taper:
         taper = gf.get_component(

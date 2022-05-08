@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.0]
+
+- add `gf.dft` design for testing, test protocols example.
+- fix sparameters_meep_mpi [PR](https://github.com/gdsfactory/gdsfactory/pull/366)
+
 ## [5.5.9](https://github.com/gdsfactory/gdsfactory/pull/365)
 
 - MaterialSpec for lumerical simulation to address [feature request](https://github.com/gdsfactory/gdsfactory/issues/363)
