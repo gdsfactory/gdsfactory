@@ -90,7 +90,7 @@ settings:
             for port in component.get_ports_list(port_type=port_type_gdsfactory):
                 ports_info += []
                 ports_info += [f"  {port.name}:"]
-                s = "    " + port.to_yaml()
+                s = f"    {port.to_yaml()}"
                 s = s.split("\n")
                 ports_info += ["    \n    ".join(s)]
 
