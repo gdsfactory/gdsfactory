@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.1](https://github.com/gdsfactory/gdsfactory/pull/371)
+
+- import `load_lyp`
+
 ## [5.6.0](https://github.com/gdsfactory/gdsfactory/pull/369)
 
 - add `gf.dft` design for testing, test protocols example in the mask section documentation.
