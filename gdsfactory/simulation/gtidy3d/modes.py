@@ -19,7 +19,7 @@ Maybe:
 import pathlib
 import pickle
 from types import SimpleNamespace
-from typing import Callable, Optional
+from typing import Callable, Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -290,8 +290,75 @@ def pickle_load(filepath: PathType) -> Waveguide:
     return pickle.loads(filepath.read_bytes())
 
 
+def sweep_bend_loss(
+    rmin: float = 1.0, rmax: float = 5, steps: int = 3, index: int = 0, **kwargs
+) -> Tuple[np.ndarray, np.ndarray]:
+    """Returns overlap integral loss.
+
+    Args:
+        rmin: min bend radius (um).
+        rmax: max bend radius (um).
+        steps: number of steps.
+        index: mode index.
+
+    Keyword Args:
+        wavelength: (um).
+        wg_width: waveguide width.
+        t_wg: thickness waveguide (um).
+        t_slab: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        w_sim: width simulation (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+    """
+
+    r = np.linspace(rmin, rmax, steps)
+    integral = np.zeros_like(r)
+
+    strip = Waveguide(**kwargs)
+    strip.compute_modes()
+
+    for i, radius in enumerate(r):
+        strip_bend = Waveguide(bend_radius=radius, **kwargs)
+        strip_bend.compute_modes()
+
+        mode1_Ey = strip.Ey[index]
+        mode1_Ex = strip.Ex[index]
+        mode1_Hx = strip.Hx[index]
+        mode1_Hy = strip.Hy[index]
+
+        mode2_Ey = strip_bend.Ey[index]
+        mode2_Ex = strip_bend.Ex[index]
+        mode2_Hx = strip_bend.Hx[index]
+        mode2_Hy = strip_bend.Hy[index]
+
+        integrand = (
+            np.conj(mode1_Ex) * mode2_Hy
+            - np.conj(mode1_Ey) * mode2_Hx
+            + mode2_Ex * np.conj(mode1_Hy)
+            - mode2_Ey * np.conj(mode1_Hx)
+        )
+
+        integral[i] = np.trapz(np.trapz(integrand, axis=0), axis=0)
+    return r, integral
+
+
 if __name__ == "__main__":
-    c = Waveguide(t_slab=90e-3, bend_radius=5)
+    # c0 = Waveguide(t_slab=0)
+    # c0.plot_Ex(index=0)
+    # c0.pickle_dump("strip.pkl")
+
+    # c1 = Waveguide(t_slab=0, bend_radius=5)
+    # c1.plot_Ex()
+    # c1.pickle_dump("strip_bend5.pkl")
+
+    # c = Waveguide(t_slab=90e-3, bend_radius=5)
     # c.plot_index()
-    c.plot_Ex(index=0)
+
+    r, integral = sweep_bend_loss()
+    plt.plot(r, integral / max(integral), ".")
+    plt.xlabel("bend radius (um)")
     plt.show()
