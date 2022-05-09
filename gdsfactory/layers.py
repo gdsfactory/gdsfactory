@@ -223,7 +223,8 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
         "gds_datatype": int(gds_datatype),
         "color": entry["fill-color"],
         "dither": entry["dither-pattern"],
-        "name": _name_to_short_name(name),
+        "name": name,
+        # "name": _name_to_short_name(name),
     }
 
     settings["description"] = _name_to_description(name)
