@@ -347,6 +347,8 @@ def sweep_bend_loss(
 
 
 if __name__ == "__main__":
+    c = pickle_load("strip.pkl")
+
     # c0 = Waveguide(t_slab=0)
     # c0.plot_Ex(index=0)
     # c0.pickle_dump("strip.pkl")
@@ -358,7 +360,7 @@ if __name__ == "__main__":
     # c = Waveguide(t_slab=90e-3, bend_radius=5)
     # c.plot_index()
 
-    r, integral = sweep_bend_loss()
-    plt.plot(r, integral / max(integral), ".")
-    plt.xlabel("bend radius (um)")
-    plt.show()
+    # r, integral = sweep_bend_loss()
+    # plt.plot(r, integral / max(integral), ".")
+    # plt.xlabel("bend radius (um)")
+    # plt.show()

@@ -1,3 +1,4 @@
+import copy as libcopy
 import datetime
 import hashlib
 import itertools
@@ -107,6 +108,30 @@ class Component(Device):
         self.get_child_name = False
         self.version = version
         self.changelog = changelog
+
+    def get_labels(self, depth: Optional[int] = None) -> List[Label]:
+        """Return a list with a copy of the labels in this cell.
+
+        Args:
+            depth: defines from how many reference levels to retrieve labels from.
+                None. gets all levels.
+
+        Returns
+            out: List containing the labels in this cell.
+        """
+        labels = libcopy.deepcopy(self.labels)
+        if depth is None or depth > 0:
+            for reference in self.references:
+                if depth is None:
+                    next_depth = None
+                else:
+                    next_depth = depth - 1
+                ref_labels = reference.get_labels(next_depth)
+                if reference.rotation:
+                    for label in ref_labels:
+                        label.rotation = reference.rotation
+                labels.extend(ref_labels)
+        return labels
 
     def unlock(self) -> None:
         """I recommend doing this only if you know what you are doing."""
@@ -1357,9 +1382,17 @@ def test_bbox_component() -> None:
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c2 = gf.components.straight()
-    c2.add_label(text="First label")
-    c2.add_label(text="Second label")
+    c = gf.Component("demo")
+
+    c2 = gf.components.mmi1x2()
+    c2.unlock()
+    c2.add_label(text="a")
+
+    ref = c << c2
+    ref.rotate(90)
+    print(c.get_labels())
+    c.show()
+    # [Label("a", (0.0, 0.0), None, None, False, 10, 0)]
 
     # test_extract()
     # c = test_get_layers()
