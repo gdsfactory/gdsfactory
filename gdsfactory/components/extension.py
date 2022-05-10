@@ -41,9 +41,9 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
     """Returns the points of a position (pos) with angle, by shifted by certain length
 
     Args:
-        pos: position
-        angle: in radians
-        length: extension length
+        pos: position.
+        angle: in radians.
+        length: extension length.
 
     """
     c = np.cos(angle)
@@ -56,9 +56,9 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
     """Returns a straight extension component out of a port.
 
     Args:
-        port: port to extend
-        length: extension length
-        layer: for the straight section
+        port: port to extend.
+        length: extension length.
+        layer: for the straight section.
     """
     c = Component()
     layer = layer or port.layer
@@ -99,25 +99,25 @@ def extend_ports(
     otherwise, defaults to the port cross_section of each port to extend
 
     Args:
-        component: component to extend ports
-        port_names: list of ports names to extend, if None it extends all ports
-        length: extension length
-        extension_factory: function to extend ports (defaults to a straight)
-        port1: input port name
-        port2: output port name
-        port_type: type of the ports to extend
-        centered: if True centers rectangle at (0, 0)
+        component: component to extend ports.
+        port_names: list of ports names to extend, if None it extends all ports.
+        length: extension length.
+        extension_factory: function to extend ports (defaults to a straight).
+        port1: input port name.
+        port2: output port name.
+        port_type: type of the ports to extend.
+        centered: if True centers rectangle at (0, 0).
         cross_section: extension cross_section, defaults to port cross_section
-            if port has no cross_section it creates one using width and layer
+            if port has no cross_section it creates one using width and layer.
 
     Keyword Args:
-        layer: port GDS layer
-        prefix: port name prefix
-        orientation: in degrees
-        width: port width
-        layers_excluded: List of layers to exclude
-        port_type: optical, electrical, ...
-        clockwise: if True, sort ports clockwise, False: counter-clockwise
+        layer: port GDS layer.
+        prefix: port name prefix.
+        orientation: in degrees.
+        width: port width.
+        layers_excluded: List of layers to exclude.
+        port_type: optical, electrical, ....
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
     """
     c = gf.Component()
     component = gf.get_component(component)

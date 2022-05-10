@@ -12,7 +12,14 @@ def fiber(
     layer_core: Tuple[int, int] = gf.LAYER.WG,
     layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
 ) -> Component:
-    """Returns a fiber."""
+    """Returns a fiber.
+
+    Args:
+        core_diameter: in um.
+        cladding_diameter: in um.
+        layer_core: tuple.
+        layer_cladding: tuple.
+    """
     c = Component()
     c.add_ref(circle(radius=core_diameter / 2, layer=layer_core))
     c.add_ref(circle(radius=cladding_diameter / 2, layer=layer_cladding))

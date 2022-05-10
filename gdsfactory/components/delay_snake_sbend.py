@@ -23,15 +23,15 @@ def delay_snake_sbend(
     Input port faces west and output port faces east.
 
     Args:
-        length: total length
-        length1: first straight section length
-        length3: third straight section length
-        radius: u bend radius
-        waveguide_spacing: waveguide pitch
-        bend:
-        sbend:
-        sbend_size:
-        straight:
+        length: total length.
+        length1: first straight section length.
+        length3: third straight section length.
+        radius: u bend radius.
+        waveguide_spacing: waveguide pitch.
+        bend: bend spec.
+        sbend: sbend spec.
+        sbend_size: sbend size.
+        straight: straight spec.
         kwargs: cross_section settings
 
     .. code::
@@ -56,8 +56,8 @@ def delay_snake_sbend(
     c = Component()
 
     bend180_radius = (radius + waveguide_spacing) / 2
-    bend = bend(radius=bend180_radius, angle=180, **kwargs)
-    sbend = sbend(size=(sbend_xsize, radius), **kwargs)
+    bend = gf.get_component(bend, radius=bend180_radius, angle=180, **kwargs)
+    sbend = gf.get_component(sbend, size=(sbend_xsize, radius), **kwargs)
 
     b1 = c << bend
     b2 = c << bend
@@ -76,10 +76,10 @@ def delay_snake_sbend(
             f"or length3 = {length3} or increase length = {length}"
         )
 
-    straight1 = straight(length=length1, **kwargs)
-    straight2 = straight(length=length2, **kwargs)
-    straight3 = straight(length=length3, **kwargs)
-    straight4 = straight(length=length4, **kwargs)
+    straight1 = gf.get_component(straight, length=length1, **kwargs)
+    straight2 = gf.get_component(straight, length=length2, **kwargs)
+    straight3 = gf.get_component(straight, length=length3, **kwargs)
+    straight4 = gf.get_component(straight, length=length4, **kwargs)
 
     s1 = c << straight1
     s2 = c << straight2

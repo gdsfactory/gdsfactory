@@ -29,14 +29,14 @@ def die_bbox(
     adapted from phidl.geometry
 
     Args:
-        component: to frame
-        street_width: Width of the boundary box
-        street_length: length of the boundary box
+        component: to frame.
+        street_width: Width of the boundary box.
+        street_length: length of the boundary box.
         die_name: Label text.
         text_size: Label text size.
         text_anchor: {'nw', 'nc', 'ne', 'sw', 'sc', 'se'} text location.
         layer: Specific layer(s) to put polygon geometry on.
-        padding: adds padding
+        padding: adds padding.
 
     """
     D = gf.Component()

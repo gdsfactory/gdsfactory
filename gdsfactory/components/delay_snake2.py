@@ -25,12 +25,12 @@ def delay_snake2(
     This snakes can have a starting offset (length0)
 
     Args:
-        length: total length
-        length0: initial offset
-        n: number of loops
-        bend180
-        cross_section: factory
-        kwargs: cross_section settings
+        length: total length.
+        length0: initial offset.
+        n: number of loops.
+        bend180: ubend spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
