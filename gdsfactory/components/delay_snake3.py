@@ -25,12 +25,12 @@ def delay_snake3(
     This snake
 
     Args:
-        length:
-        length0: initial offset
-        n: number of loops
-        bend180
-        cross_section: factory
-        **kwargs: cross_section settings
+        length: total length.
+        length0: initial offset.
+        n: number of loops.
+        bend180: ubend spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -50,7 +50,7 @@ def delay_snake3(
     if n % 2:
         warnings.warn(f"rounding {n} to {n//2 *2}", stacklevel=3)
         n = n // 2 * 2
-    bend180 = bend180(cross_section=cross_section, **kwargs)
+    bend180 = gf.get_component(bend180, cross_section=cross_section, **kwargs)
 
     delta_length = (length - length0 - n * bend180.info["length"]) / (n + 1)
     assert (

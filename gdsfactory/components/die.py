@@ -33,9 +33,9 @@ def die(
         text_size: Label text size.
         text_location: {'NW', 'N', 'NE', 'SW', 'S', 'SE'} Label text compass location.
         layer: Specific layer to put polygon geometry on.
-        bbox_layer: optional bbox layer
-        draw_corners:
-        draw_dicing_lane:
+        bbox_layer: optional bbox layer.
+        draw_corners: around die.
+        draw_dicing_lane: around die.
 
     """
     D = gf.Component(name="die")

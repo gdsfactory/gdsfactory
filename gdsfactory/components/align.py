@@ -16,7 +16,16 @@ def align_wafer(
     layer_cladding: Optional[Tuple[int, int]] = None,
     square_corner: str = "bottom_left",
 ) -> Component:
-    """Returns cross inside a frame to align wafer."""
+    """Returns cross inside a frame to align wafer.
+
+    Args:
+        width: in um.
+        spacing: in um.
+        cross_length: for the cross.
+        layer: for the cross.
+        layer_cladding: optional.
+        square_corner: bottom_left, bottom_right, top_right, top_left.
+    """
     c = Component()
     cross = gf.components.cross(length=cross_length, width=width, layer=layer)
     c.add_ref(cross)
