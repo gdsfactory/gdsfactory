@@ -356,3 +356,74 @@ def add_ports_from_labels(
             layer=port_layer,
         )
     return component
+
+
+def add_ports_from_siepic_pins(
+    component: Component,
+    pin_layer_optical: Layer = (1, 10),
+    port_layer_optical: Optional[Layer] = None,
+    pin_layer_electrical: Layer = (1, 11),
+    port_layer_electrical: Optional[Layer] = None,
+) -> Component:
+    """Add ports from SiEPIC-type cells.
+    Looks for label, path pairs
+
+    Args:
+        component: component
+        optical_pin_layer: layer for optical pins
+        electrical_pin_layer: layer for electrical pins
+    """
+    pin_layers = {"optical": pin_layer_optical, "electrical": pin_layer_electrical}
+    from numpy import arctan2, degrees, isclose
+
+    c = component
+    labels = c.get_labels()
+
+    for path in c.paths:
+        p1, p2 = path.points
+
+        # Find the midpoint of the path
+        midpoint = (p1 + p2) / 2
+
+        # Find the label closest to the pin
+        label = None
+        for i, l in enumerate(labels):
+            if (
+                all(isclose(l.position, midpoint))
+                or all(isclose(l.position, p1))
+                or all(isclose(l.position, p2))
+            ):
+                label = l
+                labels.pop(i)
+        if label is None:
+            print(f"Warning: label not found for path: ({p1}, {p2})")
+            continue
+        if pin_layer_optical[0] in path.layers:
+            port_type = "optical"
+            port_layer = port_layer_optical if port_layer_optical else None
+        elif pin_layer_electrical[0] in pin_layers:
+            port_type = "electrical"
+            port_layer = port_layer_electrical if port_layer_electrical else None
+        else:
+            continue
+
+        port_name = str(label.text)
+
+        # If the port name is already used, add a number to it
+        i = 1
+        while port_name in c.ports:
+            port_name += f"_{i}"
+
+        angle = round(degrees(arctan2(p2[1] - p1[1], p2[0] - p1[0])) % 360)
+
+        port = Port(
+            name=port_name,
+            midpoint=midpoint,
+            width=path.widths[0][0],
+            orientation=angle,
+            layer=pin_layers[port_type] if not port_layer else port_layer,
+            port_type=port_type,
+        )
+
+        c.add_port(port)
+    return c
