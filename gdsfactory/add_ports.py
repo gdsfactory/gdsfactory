@@ -370,8 +370,10 @@ def add_ports_from_siepic_pins(
 
     Args:
         component: component
-        optical_pin_layer: layer for optical pins
-        electrical_pin_layer: layer for electrical pins
+        pin_layer_optical: layer for optical pins
+        port_layer_optical: layer for optical ports
+        pin_layer_electrical: layer for electrical pins
+        port_layer_electrical: layer for electrical ports
     """
     pin_layers = {"optical": pin_layer_optical, "electrical": pin_layer_electrical}
     from numpy import arctan2, degrees, isclose
@@ -401,7 +403,7 @@ def add_ports_from_siepic_pins(
         if pin_layer_optical[0] in path.layers:
             port_type = "optical"
             port_layer = port_layer_optical if port_layer_optical else None
-        elif pin_layer_electrical[0] in pin_layers:
+        elif pin_layer_electrical[0] in path.layers:
             port_type = "electrical"
             port_layer = port_layer_electrical if port_layer_electrical else None
         else:
