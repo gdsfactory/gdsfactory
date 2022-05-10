@@ -21,6 +21,7 @@ def import_gds(
     snap_to_grid_nm: Optional[int] = None,
     gdsdir: Optional[Union[str, Path]] = None,
     read_metadata: bool = True,
+    hashed_name: bool = True,
     **kwargs,
 ) -> Component:
     """Returns a Componenent from a GDS file.
@@ -36,6 +37,7 @@ def import_gds(
         snap_to_grid_nm: snap to different nm grid (does not snap if False)
         gdsdir: optional GDS directory.
         read_metadata: loads metadata if it exists.
+        hashed_name: appends a hash to a shortened component name
         kwargs: extra info for the imported component (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
@@ -84,7 +86,8 @@ def import_gds(
             )
             label_ref.anchor = label.anchor
 
-        D.name = get_name_short(D.name)
+        if hashed_name:
+            D.name = get_name_short(D.name)
         D.unlock()
 
         cell_to_device[c] = D
