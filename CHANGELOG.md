@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.3](https://github.com/gdsfactory/gdsfactory/pull/373)
+
+- fix get_labels rotation
+
 ## [5.6.2](https://github.com/gdsfactory/gdsfactory/pull/372)
 
 - add `gdsfactory.simulation.tidy3d.modes.sweep_bend_radius`
