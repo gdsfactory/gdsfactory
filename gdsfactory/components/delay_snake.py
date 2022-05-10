@@ -26,15 +26,15 @@ def delay_snake(
     Snake output facing east
 
     Args:
-        wg_width
-        wg_width_wide: for the wide
-        total_length:
-        L0: initial offset
-        taper_length: length of the taper
-        n: number of loops
-        taper: taper library
-        bend
-        straight
+        wg_width: waveguide width.
+        wg_width_wide: for the wide.
+        total_length: of the delay.
+        L0: initial offset.
+        taper_length: length of the taper.
+        n: number of loops.
+        taper: taper library.
+        bend: bend spec.
+        straight: straight spec.
 
     .. code::
 
@@ -51,7 +51,7 @@ def delay_snake(
 
     """
     epsilon = 0.1
-    bend90 = bend(width=wg_width, **kwargs)
+    bend90 = gf.get_component(bend, width=wg_width, **kwargs)
     dy = bend90.info["dy"]
     DL = (total_length + L0 - n * (pi * dy + epsilon)) / (2 * n + 1)
     L2 = DL - L0
@@ -72,8 +72,8 @@ def delay_snake(
 
     component = gf.Component()
     if taper:
-        _taper = taper(
-            width1=wg_width, width2=wg_width_wide, length=taper_length, **kwargs
+        _taper = gf.get_component(
+            taper, width1=wg_width, width2=wg_width_wide, length=taper_length, **kwargs
         )
     route = round_corners(
         points=path,

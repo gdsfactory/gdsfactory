@@ -17,10 +17,10 @@ def compass(
     (north, south, east, and west)
 
     Args:
-        size: rectangle size
-        layer: tuple (int, int)
-        port_type:
-        port_inclusion: from edge
+        size: rectangle size.
+        layer: tuple (int, int).
+        port_type: optical, electrical.
+        port_inclusion: from edge.
     """
     c = gf.Component()
     dx, dy = size

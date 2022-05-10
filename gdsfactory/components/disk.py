@@ -23,26 +23,25 @@ def disk(
     """Disk Resonator
 
     Args:
-       radius: disk resonator radius
-       gap: Distance between the bus straight and resonator
-       wrap_angle_deg: Angle in degrees between 0 and 180
+       radius: disk resonator radius.
+       gap: Distance between the bus straight and resonator.
+       wrap_angle_deg: Angle in degrees between 0 and 180.
         determines how much the bus straight wraps along the resonator.
-        0 corresponds to a straight bus straight,
+        0 corresponds to a straight bus straight.
         180 corresponds to a bus straight wrapped around half of the resonator.
-       parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right
-       port (tuple): Cartesian coordinate of the input port (x1, y1)
-       direction: of component 'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'
-       waveguide_template: Picwriter WaveguideTemplate object
+       parity (1 or -1): 1, resonator left from bus straight, -1 resonator to the right.
+       port: Cartesian coordinate of the input port (x1, y1).
+       direction: of component 'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'.
+       waveguide_template: Picwriter WaveguideTemplate object.
 
-
-    Other Parameters:
-       wg_width: 0.5
-       wg_layer: gf.LAYER.WG[0]
-       wg_datatype: gf.LAYER.WG[1]
-       clad_layer: gf.LAYER.WGCLAD[0]
-       clad_datatype: gf.LAYER.WGCLAD[1]
-       bend_radius: 10
-       cladding_offset: 3
+    Keyword Args:
+       wg_width: 0.5.
+       wg_layer: gf.LAYER.WG[0].
+       wg_datatype: gf.LAYER.WG[1].
+       clad_layer: gf.LAYER.WGCLAD[0].
+       clad_datatype: gf.LAYER.WGCLAD[1].
+       bend_radius: 10.
+       cladding_offset: 3.
 
     """
 
