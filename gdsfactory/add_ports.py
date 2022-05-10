@@ -402,10 +402,10 @@ def add_ports_from_siepic_pins(
             continue
         if pin_layer_optical[0] in path.layers:
             port_type = "optical"
-            port_layer = port_layer_optical if port_layer_optical else None
+            port_layer = port_layer_optical or None
         elif pin_layer_electrical[0] in path.layers:
             port_type = "electrical"
-            port_layer = port_layer_electrical if port_layer_electrical else None
+            port_layer = port_layer_electrical or None
         else:
             continue
 
@@ -423,9 +423,10 @@ def add_ports_from_siepic_pins(
             midpoint=midpoint,
             width=path.widths[0][0],
             orientation=angle,
-            layer=pin_layers[port_type] if not port_layer else port_layer,
+            layer=port_layer or pin_layers[port_type],
             port_type=port_type,
         )
+
 
         c.add_port(port)
     return c
