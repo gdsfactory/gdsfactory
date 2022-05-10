@@ -10,20 +10,28 @@ import gdsfactory as gf
 from gdsfactory.name import clean_name
 from gdsfactory.types import Layer
 
-ignore = (
+ignore = [
     "cross_section",
     "decorator",
     "cross_section1",
     "cross_section2",
     "contact",
     "pad",
-)
-port_types = ["vertical_te", "pad", "vertical_dc", "optical", "loopback"]
+]
+port_types_to_label = [
+    "vertical_te",
+    "pad",
+    "vertical_dc",
+    "optical",
+    "loopback",
+    "vertical_tm",
+]
 
 
 @pydantic.validate_arguments
 def add_label_yaml(
     component: gf.Component,
+    port_types: List[str] = port_types_to_label,
     layer: Layer = (66, 0),
     metadata_ignore: Optional[List[str]] = ignore,
     metadata_include_parent: Optional[List[str]] = None,
@@ -37,8 +45,9 @@ def add_label_yaml(
         layer: text label layer.
         metadata_ignore: list of settings keys to ignore.
             Works with flatdict setting:subsetting.
-        metadata_include_parent: includes parent metadata.
+        metadata_include_parent: parent metadata keys to include.
             Works with flatdict setting:subsetting.
+        metadata_include_child: child metadata keys to include.
     """
     metadata_ignore = metadata_ignore or []
     metadata_include_parent = metadata_include_parent or []

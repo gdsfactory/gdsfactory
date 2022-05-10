@@ -24,21 +24,23 @@ def cutback_component(
     """Returns a daisy chain of components for measuring their loss.
 
     Args:
-        component: for cutback
-        cols
-        rows
-        radius: for bend
-        port1: name of first optical port
-        port2: name of second optical port
-        bend180: ubend
-        straight: waveguide function to connect both sides
-        mirror: Flips component. Useful when 'o2' is the port that you want to route to
-        straight_length: length of the straight section beween cutbacks
+        component: for cutback.
+        cols: number of columns.
+        rows: number of rows.
+        radius: for bend.
+        port1: name of first optical port.
+        port2: name of second optical port.
+        bend180: ubend.
+        straight: waveguide spec to connect both sides.
+        mirror: Flips component. Useful when 'o2' is the port that you want to route to.
+        straight_length: length of the straight section beween cutbacks.
 
     """
-    component = component() if callable(component) else component
-    bendu = bend180(radius=radius)
-    straight_component = straight(length=straight_length or radius * 2)
+    component = gf.get_component(component)
+    bendu = gf.get_component(bend180, radius=radius)
+    straight_component = gf.get_component(
+        straight, length=straight_length or radius * 2
+    )
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
