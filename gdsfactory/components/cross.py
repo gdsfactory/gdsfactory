@@ -15,11 +15,10 @@ def cross(
     """Returns a cross from two rectangles of length and width.
 
     Args:
-        length: float Length of the cross from one end to the other
-        width: float Width of the arms of the cross
-        layer: layer for geometry
-        port_type:
-
+        length: float Length of the cross from one end to the other.
+        width: float Width of the arms of the cross.
+        layer: layer for geometry.
+        port_type: None, optical, electrical.
     """
     c = gf.Component()
     R = gf.components.rectangle(size=(width, length), layer=layer)
