@@ -35,20 +35,20 @@ def grating_coupler_elliptical_trenches(
     Others define the slab that they keep (see grating_coupler_elliptical)
 
     Args:
-        polarization: 'te' or 'tm'
-        taper_length: taper length from straight I/O
-        taper_angle: grating flare angle
-        wavelength: grating transmission central wavelength
-        fiber_angle: fibre polish angle in degrees
-        grating_line_width: of the 220 ridge
-        wg_width: straight width
-        neff: 2.638  # tooth effective index
-        ncladding: cladding index
-        layer: for the grating teeth
-        layer_trench: for the trench
-        p_start: first tooth
+        polarization: 'te' or 'tm'.
+        taper_length: taper length from straight I/O.
+        taper_angle: grating flare angle.
+        wavelength: grating transmission central wavelength.
+        fiber_angle: fibre polish angle in degrees.
+        grating_line_width: of the 220 ridge.
+        wg_width: straight width.
+        neff: tooth effective index.
+        ncladding: cladding index.
+        layer: for the grating teeth.
+        layer_trench: for the trench.
+        p_start: first tooth.
         n_periods: number of grating teeth.
-        end_straight_length: at the end of
+        end_straight_length: at the end of.
 
 
     .. code::

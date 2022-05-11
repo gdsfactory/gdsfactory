@@ -34,19 +34,19 @@ def grating_coupler_rectangular(
 
 
     Args:
-        n_periods: number of grating teeth
-        period: grating pitch
-        fill_factor: ratio of grating width vs gap
-        width_grating: 11
-        length_taper: 150
-        wg_width: input waveguide width
-        layer: for grating teeth
-        polarization: 'te' or 'tm'
-        wavelength: in um
-        taper: function
-        layer_slab: layer that protects the slab under the grating
-        slab_xmin: where 0 is at the start of the taper
-        slab_offset: from edge of grating to edge of the slab
+        n_periods: number of grating teeth.
+        period: grating pitch.
+        fill_factor: ratio of grating width vs gap.
+        width_grating: 11.
+        length_taper: 150.
+        wg_width: input waveguide width.
+        layer: for grating teeth.
+        polarization: 'te' or 'tm'.
+        wavelength: in um.
+        taper: function.
+        layer_slab: layer that protects the slab under the grating.
+        slab_xmin: where 0 is at the start of the taper.
+        slab_offset: from edge of grating to edge of the slab.
 
     .. code::
 

@@ -32,17 +32,18 @@ def grating_coupler_rectangular_arbitrary_slab(
     Grating teeth are straight instead of elliptical.
 
     Args:
-        gaps: list of gaps
-        widths: list of widths
-        wg_width: input waveguide width
-        width_grating:
-        length_taper:
-        layer: for grating teeth
-        polarization: 'te' or 'tm'
-        wavelength: in um
-        taper: function
-        layer_slab:
-        slab_offset
+        gaps: list of gaps.
+        widths: list of widths.
+        wg_width: input waveguide width.
+        width_grating: um.
+        length_taper: um.
+        layer: for grating teeth.
+        polarization: 'te' or 'tm'.
+        wavelength: in um.
+        taper: function.
+        layer_slab: for pedestal.
+        slab_offset: from edge.
+        fiber_marker_layer: layer for fiber.
 
     .. code::
 
