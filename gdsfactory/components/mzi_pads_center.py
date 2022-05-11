@@ -3,6 +3,7 @@ from gdsfactory.components.mzi import mzi as mzi_function
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.straight_heater_metal import straight_heater_metal
 from gdsfactory.cross_section import metal3, strip
+from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -75,7 +76,7 @@ def mzi_pads_center(
     pads.x = m.x
     pads.y = m.y
 
-    route_sig_bot = gf.routing.get_route(
+    route_sig_bot = get_route(
         m.ports[mzi_sig_bot],
         pads.ports[pad_sig_bot],
         cross_section=cross_section_metal,
@@ -86,7 +87,7 @@ def mzi_pads_center(
     )
     c.add(route_sig_bot.references)
 
-    route_gnd_bot = gf.routing.get_route(
+    route_gnd_bot = get_route(
         m.ports[mzi_gnd_bot],
         pads.ports[pad_gnd_bot],
         cross_section=cross_section_metal,
@@ -96,7 +97,7 @@ def mzi_pads_center(
         width=metal_route_width,
     )
     c.add(route_gnd_bot.references)
-    route_gnd_top = gf.routing.get_route(
+    route_gnd_top = get_route(
         m.ports[mzi_gnd_top],
         pads.ports[pad_gnd_top],
         cross_section=cross_section_metal,
@@ -107,7 +108,7 @@ def mzi_pads_center(
     )
     c.add(route_gnd_top.references)
 
-    route_sig_top = gf.routing.get_route(
+    route_sig_top = get_route(
         m.ports[mzi_sig_top],
         pads.ports[pad_sig_top],
         cross_section=cross_section_metal,
@@ -121,11 +122,9 @@ def mzi_pads_center(
     return c
 
 
-mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
-mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
-
-
 if __name__ == "__main__":
+    mzi_ps_fa = gf.compose(gf.routing.add_fiber_array, mzi_pads_center)
+    mzi_ps_fs = gf.compose(gf.routing.add_fiber_single, mzi_pads_center)
     # c = mzi_ps_fs()
     c = mzi_pads_center()
     c.show()
