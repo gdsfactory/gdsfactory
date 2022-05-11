@@ -1,12 +1,16 @@
 import logging
+import pathlib
 import sys
 import time
+from functools import partial
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 import gdsfactory as gf
 from gdsfactory.config import cwd
+from gdsfactory.pdk import get_active_pdk
+from gdsfactory.read.from_yaml import from_yaml
 
 
 class YamlEventHandler(FileSystemEventHandler):
@@ -16,6 +20,14 @@ class YamlEventHandler(FileSystemEventHandler):
         super().__init__()
 
         self.logger = logger or logging.root
+
+    def update_cell(self, src_path) -> None:
+        # register new file into active pdk
+        pdk = get_active_pdk()
+        filepath = pathlib.Path(src_path)
+        cell_name = filepath.stem
+        function = partial(from_yaml, filepath)
+        pdk.register_cells_yaml(**{cell_name: function})
 
     def on_moved(self, event):
         super().on_moved(event)
@@ -34,11 +46,21 @@ class YamlEventHandler(FileSystemEventHandler):
             c = gf.read.from_yaml(event.src_path)
             c.show()
 
+            self.update_cell(event.src_path)
+
     def on_deleted(self, event):
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
         self.logger.info("Deleted %s: %s", what, event.src_path)
+
+        pdk = get_active_pdk()
+        filepath = pathlib.Path(event.src_path)
+        cell_name = filepath.stem
+        try:
+            pdk.remove_cell(cell_name)
+        except ValueError:
+            pass
 
     def on_modified(self, event):
         super().on_modified(event)
@@ -49,6 +71,7 @@ class YamlEventHandler(FileSystemEventHandler):
             try:
                 c = gf.read.from_yaml(event.src_path)
                 c.show()
+                self.update_cell(event.src_path)
             except Exception as e:
                 print(e)
 
