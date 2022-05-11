@@ -195,7 +195,7 @@ def add_settings_label(
     d = (
         {setting: component.get_setting(setting) for setting in settings}
         if settings
-        else component.info.changed
+        else component.metadata.changed
     )
 
     component.add_label(text=OmegaConf.to_yaml(d), layer=layer_label)
