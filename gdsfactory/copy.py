@@ -44,6 +44,8 @@ def copy(
         D_copy.add_port(port=port)
     for poly in D.polygons:
         D_copy.add_polygon(poly)
+    for path in D.paths:
+        D_copy.add(path)
     for label in D.labels:
         D_copy.add_label(
             text=label.text,
