@@ -77,13 +77,14 @@ def _rotate_points(
         0.0,
     ),
 ) -> ndarray:
-    """Rotates points around a center point
+    """Rotates points around a center point.
+
     accepts single points [1,2] or array-like[N][2], and will return in kind
 
     Args:
-        points: rotate points around center point
-        angle:
-        center:
+        points: rotate points around center point.
+        angle: in degrees.
+        center: x, y.
     """
     # First check for common, easy values of angle
     p_arr = np.asarray(points)
