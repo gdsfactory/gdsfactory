@@ -27,12 +27,12 @@ def cdsem_straight_density(
     """Returns sweep of dense straight lines
 
     Args:
-        widths: list of widths
-        gaps: list of gaps
-        length: of the lines
-        label: defaults to widths[0] gaps[0]
-        cross_section:
-        text: optional function for text
+        widths: list of widths.
+        gaps: list of gaps.
+        length: of the lines.
+        label: defaults to widths[0] gaps[0].
+        cross_section: spec.
+        text: optional function for text.
     """
     c = Component()
     label = label or f"{int(widths[0]*1e3)} {int(gaps[0]*1e3)}"

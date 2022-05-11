@@ -11,9 +11,9 @@ def copy_layers(
     """Returns a component with the geometry copied in different layers.
 
     Args:
-        factory: component factory / function
-        layers: iterable of layers
-        kwargs: keyword arguments
+        factory: component spec.
+        layers: iterable of layers.
+        kwargs: keyword arguments.
     """
     c = Component()
     for layer in layers:

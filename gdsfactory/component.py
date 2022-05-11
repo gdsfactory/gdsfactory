@@ -1,4 +1,3 @@
-import copy as libcopy
 import datetime
 import hashlib
 import itertools
@@ -108,30 +107,6 @@ class Component(Device):
         self.get_child_name = False
         self.version = version
         self.changelog = changelog
-
-    def get_labels(self, depth: Optional[int] = None) -> List[Label]:
-        """Return a list with a copy of the labels in this cell.
-
-        Args:
-            depth: defines from how many reference levels to retrieve labels from.
-                None. gets all levels.
-
-        Returns
-            out: List containing the labels in this cell.
-        """
-        labels = libcopy.deepcopy(self.labels)
-        if depth is None or depth > 0:
-            for reference in self.references:
-                if depth is None:
-                    next_depth = None
-                else:
-                    next_depth = depth - 1
-                ref_labels = reference.get_labels(next_depth)
-                if reference.rotation:
-                    for label in ref_labels:
-                        label.rotation = reference.rotation
-                labels.extend(ref_labels)
-        return labels
 
     def unlock(self) -> None:
         """I recommend doing this only if you know what you are doing."""

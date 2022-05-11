@@ -26,17 +26,18 @@ def cdsem_straight(
     """Returns straight waveguide lines width sweep.
 
     Args:
-        widths: for the sweep
-        length: for the line
-        cross_section: for the lines
-        text: optional text for labels
-        spacing: edge to edge spacing
+        widths: for the sweep.
+        length: for the line.
+        cross_section: for the lines.
+        text: optional text for labels.
+        spacing: edge to edge spacing.
     """
 
     lines = []
     for width in widths:
-        cross_section = partial(cross_section, width=width)
-        line = straight_function(length=length, cross_section=cross_section)
+        line = straight_function(
+            length=length, cross_section=cross_section, width=width
+        )
         if text:
             line = line.copy()
             t = line << text(str(int(width * 1e3)))
