@@ -20,12 +20,12 @@ def text_rectangular(
     """Pixel based font, guaranteed to be manhattan, without acute angles.
 
     Args:
-        text:
-        size: pixel size
-        position: coordinate
-        justify: left, right or center
-        layer:
-        font: function that returns dictionary of characters
+        text: string.
+        size: pixel size.
+        position: coordinate.
+        justify: left, right or center.
+        layer: for text.
+        font: function that returns dictionary of characters.
 
     """
     pixel_size = size

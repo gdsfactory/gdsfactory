@@ -674,11 +674,11 @@ def rename_ports_by_orientation(
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     Args:
-        component:
-        layers_excluded:
-        select_ports:
-        function: to rename ports
-        prefix: to add on each port name
+        component: to rename ports.
+        layers_excluded: to exclude.
+        select_ports: function to select_ports.
+        function: to rename ports.
+        prefix: to add on each port name.
 
     .. code::
 
@@ -704,13 +704,16 @@ def rename_ports_by_orientation(
         # Make sure we can backtrack the parent component from the port
         p.parent = component
 
-        angle = p.orientation % 360
-        if angle <= 45 or angle >= 315:
-            direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
-            direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
-            direction_ports["W"].append(p)
+        if p.orientation:
+            angle = p.orientation % 360
+            if angle <= 45 or angle >= 315:
+                direction_ports["E"].append(p)
+            elif angle <= 135 and angle >= 45:
+                direction_ports["N"].append(p)
+            elif angle <= 225 and angle >= 135:
+                direction_ports["W"].append(p)
+            else:
+                direction_ports["S"].append(p)
         else:
             direction_ports["S"].append(p)
 

@@ -1,3 +1,5 @@
+from typing import Optional
+
 import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as _coupler_ring
@@ -20,28 +22,30 @@ def ring_single_heater(
     cross_section_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionSpec = gf.cross_section.strip,
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
-    port_orientation: float = 90,
+    port_orientation: Optional[float] = 90,
     via_stack_offset: Float2 = (0, 0),
     **kwargs
 ) -> gf.Component:
-    """Single bus ring made of a ring coupler (cb: bottom)
-    connected with two vertical straights (sl: left, sr: right)
+    """Returns a single ring with heater on top.
+
+    ring coupler (cb: bottom) connects to two vertical straights (sl: left, sr: right),
     two bends (bl, br) and horizontal straight (wg: top)
-    includes heater
+
 
     Args:
-        gap: gap between for coupler
-        radius: for the bend and coupler
-        length_x: ring coupler length
-        length_y: vertical straight length
-        coupler_ring: ring coupler function
-        straight: straight function
-        bend: 90 degrees bend function
-        cross_section_heater:
-        cross_section:
-        via_stack:
-        port_orientation: for electrical ports to promote from via_stack
-        kwargs: cross_section settings
+        gap: gap between for coupler.
+        radius: for the bend and coupler.
+        length_x: ring coupler length.
+        length_y: vertical straight length.
+        coupler_ring: ring coupler function.
+        straight: straight function.
+        bend: 90 degrees bend function.
+        cross_section_heater: for heater.
+        cross_section: for regular waveguide.
+        via_stack: for heater to routing metal.
+        port_orientation: for electrical ports to promote from via_stack.
+        via_stack_offset: x,y offset for via_stack.
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -57,7 +61,7 @@ def ring_single_heater(
     """
     gf.snap.assert_on_2nm_grid(gap)
 
-    coupler_ring = gf.partial(
+    coupler_ring = gf.get_component(
         coupler_ring,
         bend=bend,
         gap=gap,
@@ -68,22 +72,24 @@ def ring_single_heater(
         **kwargs
     )
 
-    straight_side = gf.partial(
+    straight_side = gf.get_component(
         straight, length=length_y, cross_section=cross_section_heater, **kwargs
     )
-    straight_top = gf.partial(
+    straight_top = gf.get_component(
         straight, length=length_x, cross_section=cross_section_heater, **kwargs
     )
 
-    bend = gf.partial(bend, radius=radius, cross_section=cross_section_heater, **kwargs)
+    bend = gf.get_component(
+        bend, radius=radius, cross_section=cross_section_heater, **kwargs
+    )
 
     c = gf.Component()
-    cb = c << coupler_ring()
-    sl = c << straight_side()
-    sr = c << straight_side()
-    bl = c << bend()
-    br = c << bend()
-    st = c << straight_top()
+    cb = c << coupler_ring
+    sl = c << straight_side
+    sr = c << straight_side
+    bl = c << bend
+    br = c << bend
+    st = c << straight_top
     # st.mirror(p1=(0, 0), p2=(1, 0))
 
     sl.connect(port="o1", destination=cb.ports["o2"])
@@ -97,8 +103,9 @@ def ring_single_heater(
     c.add_port("o2", port=cb.ports["o4"])
     c.add_port("o1", port=cb.ports["o1"])
 
-    c1 = c << via_stack()
-    c2 = c << via_stack()
+    via = gf.get_component(via_stack)
+    c1 = c << via
+    c2 = c << via
     c1.xmax = -length_x / 2 + cb.x - via_stack_offset[0]
     c2.xmin = +length_x / 2 + cb.x + via_stack_offset[0]
     c1.movey(via_stack_offset[1])
