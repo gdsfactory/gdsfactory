@@ -167,5 +167,5 @@ if __name__ == "__main__":
     # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
     # c.settings = {}
     # print(clean_value_name(c))
-    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, polarization="te")
+    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=False, polarization="te")
     c.show()

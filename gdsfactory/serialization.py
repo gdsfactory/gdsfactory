@@ -25,7 +25,7 @@ def get_string(value: Any) -> str:
         ).decode()
     except TypeError as e:
         print(f"Error serializing {value!r}")
-        raise (e)
+        raise e
     return s
 
 
