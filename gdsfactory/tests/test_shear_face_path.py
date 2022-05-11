@@ -1,9 +1,38 @@
 import numpy as np
 import pytest
+import shapely.geometry as sg
 
 import gdsfactory as gf
 
 DEMO_PORT_ANGLE = 10
+
+
+def assert_polygon_equals(coords_expected, coords_actual):
+    coords_expected = gf.snap.snap_to_grid(coords_expected)
+    coords_actual = gf.snap.snap_to_grid(coords_actual)
+    shape_expected = sg.polygon.orient(sg.Polygon(coords_expected))
+    shape_actual = sg.polygon.orient(sg.Polygon(coords_actual))
+
+    assert shape_expected.equals(
+        shape_actual
+    ), f"Expected: {shape_expected}. Got: {shape_actual}"
+
+
+def get_expected_shear_shape(length, width, shear_angle):
+    dx = np.round(np.tan(np.deg2rad(shear_angle)) * width * 0.5, 3)
+    x0 = 0
+    x1 = length
+    y0 = -width * 0.5
+    y1 = width * 0.5
+    points_expected = np.array(
+        [
+            [x0 - dx, y1],
+            [x1 - dx, y1],
+            [x1 + dx, y0],
+            [x0 + dx, y0],
+        ]
+    )
+    return points_expected
 
 
 @pytest.fixture
@@ -169,7 +198,7 @@ def test_mate_on_shear_xor_empty_transition() -> None:
     c2.connect("o1", c1.ports["o1"])
 
     xor = gf.geometry.xor_diff(two_straights, two_shears)
-    xor.show()
+    # xor.show()
     # two_straights.show()
     # two_shears.show()
 
@@ -224,6 +253,105 @@ def test_port_attributes(regular_waveguide, shear_waveguide_symmetric) -> None:
     for p1, p2 in zip(regular_ports, shear_ports):
         for k in p.keys():
             assert p1[k] == p2[k], f"{k} differs! {p1[k]} != {p2[k]}"
+
+
+def test_points_are_correct(shear_waveguide_symmetric):
+    shear_angle = DEMO_PORT_ANGLE
+    cs = gf.get_cross_section("strip")
+    wg_width = cs.width
+    length = 10
+    points_expected = get_expected_shear_shape(
+        length=length, width=wg_width, shear_angle=shear_angle
+    )
+
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=(1, 0))[0]
+    assert_polygon_equals(points_expected, poly_actual)
+
+
+def test_points_are_correct_wide():
+    wg_width = 40
+    length = 10
+    P = gf.path.straight(length=length)
+    shear_waveguide_symmetric = gf.path.extrude(
+        P,
+        {"cross_section": "strip", "settings": {"width": wg_width}},
+        shear_angle_start=DEMO_PORT_ANGLE,
+        shear_angle_end=DEMO_PORT_ANGLE,
+    )
+
+    shear_angle = DEMO_PORT_ANGLE
+
+    points_expected = get_expected_shear_shape(
+        length=length, width=wg_width, shear_angle=shear_angle
+    )
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=(1, 0))[0]
+    assert_polygon_equals(points_expected, poly_actual)
+
+
+def test_points_are_correct_short():
+    wg_width = 40
+    length = 0.5
+    P = gf.path.straight(length=length)
+    shear_waveguide_symmetric = gf.path.extrude(
+        P,
+        {"cross_section": "strip", "settings": {"width": wg_width}},
+        shear_angle_start=DEMO_PORT_ANGLE,
+        shear_angle_end=DEMO_PORT_ANGLE,
+    )
+
+    shear_angle = DEMO_PORT_ANGLE
+
+    points_expected = get_expected_shear_shape(
+        length=length, width=wg_width, shear_angle=shear_angle
+    )
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=(1, 0))[0]
+    assert_polygon_equals(points_expected, poly_actual)
+
+
+def test_points_are_correct_long():
+    wg_width = 28
+    length = 100
+    P = gf.path.straight(length=length)
+    shear_waveguide_symmetric = gf.path.extrude(
+        P,
+        {"cross_section": "strip", "settings": {"width": wg_width}},
+        shear_angle_start=DEMO_PORT_ANGLE,
+        shear_angle_end=DEMO_PORT_ANGLE,
+    )
+
+    shear_angle = DEMO_PORT_ANGLE
+
+    points_expected = get_expected_shear_shape(
+        length=length, width=wg_width, shear_angle=shear_angle
+    )
+    poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=(1, 0))[0]
+    assert_polygon_equals(points_expected, poly_actual)
+
+
+def test_points_are_correct_multi_layer():
+    length = 1000
+    P = gf.path.straight(length=length)
+
+    s = gf.Section(width=30, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X1 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s],
+    )
+    shear_waveguide_symmetric = gf.path.extrude(
+        P, X1, shear_angle_start=DEMO_PORT_ANGLE, shear_angle_end=DEMO_PORT_ANGLE
+    )
+    shear_angle = DEMO_PORT_ANGLE
+
+    for layer, wg_width in [(gf.LAYER.WG, 1), (gf.LAYER.SLAB90, 30)]:
+        points_expected = get_expected_shear_shape(
+            length=length, width=wg_width, shear_angle=shear_angle
+        )
+        poly_actual = shear_waveguide_symmetric.get_polygons(by_spec=layer)[0]
+        assert_polygon_equals(points_expected, poly_actual)
 
 
 if __name__ == "__main__":
