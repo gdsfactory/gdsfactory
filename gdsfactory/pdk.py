@@ -1,6 +1,7 @@
 import pathlib
 import warnings
 from functools import partial
+from typing import Optional
 
 from omegaconf import DictConfig
 from pydantic import BaseModel
@@ -70,17 +71,36 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cross_section {name!r}")
             self.cross_sections[name] = cross_section
 
-    def register_cells_yaml(self, dirpath: pathlib.Path) -> None:
-        """Load *.pic.yml YAML files and register them as cells."""
+    def register_cells_yaml(
+        self, dirpath: Optional[pathlib.Path] = None, **kwargs
+    ) -> None:
+        """Load *.pic.yml YAML files and register them as cells.
+
+        Args:
+            dirpath: directory to recursive search for YAML cells.
+
+        Keyword Args:
+            cell_name: cell function. To update cell dict.
+
+        """
         from gdsfactory.read.from_yaml import from_yaml
 
-        if not dirpath.is_dir():
-            raise ValueError(f"{dirpath} needs to be a directory.")
+        if dirpath:
+            if not dirpath.is_dir():
+                raise ValueError(f"{dirpath} needs to be a directory.")
 
-        for filepath in dirpath.glob("*/*.pic.yml"):
-            name = filepath.stem.split(".")[0]
-            logger.info(f"Add {name!r}")
-            self.cells[name] = partial(from_yaml, filepath)
+            for filepath in dirpath.glob("*/**/*.pic.yml", recursive=True):
+                name = filepath.stem.split(".")[0]
+                logger.info(f"Add {name!r}")
+                self.cells[name] = partial(from_yaml, filepath)
+
+        for k, v in kwargs.items():
+            self.cells[k] = v
+
+    def remove_cell(self, name: str):
+        if name not in self.cells:
+            raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
+        self.cells.pop(name)
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
