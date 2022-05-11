@@ -4,6 +4,7 @@
 
 - add_fiber_array adds vertical ports to grating couplers
 - add_fiber_single adds vertical ports to grating couplers. Before it was adding only loopback ports.
+- import gds fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/374)
 
 ## [5.6.3](https://github.com/gdsfactory/gdsfactory/pull/373)
 
