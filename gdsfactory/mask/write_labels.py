@@ -102,7 +102,6 @@ def write_labels_gdspy(
         filepath: for CSV file. Defaults to gdspath with CSV suffix.
         prefix: for the labels to write.
         debug: prints the label.
-
     """
 
     gdspath = pathlib.Path(gdspath)

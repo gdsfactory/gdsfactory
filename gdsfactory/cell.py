@@ -6,14 +6,13 @@ import inspect
 from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
 
 import toolz
-from phidl.device_layout import Device
 from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
-CACHE: Dict[str, Device] = {}
+CACHE: Dict[str, Component] = {}
 
 INFO_VERSION = 2
 
@@ -153,7 +152,7 @@ def cell_without_validator(func):
             dict(component.child.settings) if hasattr(component, "child") else None
         )
 
-        if not isinstance(component, Device):
+        if not isinstance(component, Component):
             raise CellReturnTypeError(
                 f"function {func.__name__!r} return type = {type(component)}",
                 "make sure that functions with @cell decorator return a Component",

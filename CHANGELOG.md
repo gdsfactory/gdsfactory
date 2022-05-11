@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.5]
+
+- copy paths when copying components [PR](https://github.com/gdsfactory/gdsfactory/pull/377)
+- shear face fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/379)
+- fix some pydocstyle
+- add port_orientations to gf.components.compass, if None it adds a port with None orientation
+
 ## [5.6.4](https://github.com/gdsfactory/gdsfactory/pull/376)
 
 - add_fiber_array adds vertical ports to grating couplers
