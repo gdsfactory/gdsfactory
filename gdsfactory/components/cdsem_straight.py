@@ -2,6 +2,7 @@
 from functools import partial
 from typing import Optional, Tuple
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
@@ -26,16 +27,16 @@ def cdsem_straight(
     """Returns straight waveguide lines width sweep.
 
     Args:
-        widths: for the sweep
-        length: for the line
-        cross_section: for the lines
-        text: optional text for labels
-        spacing: edge to edge spacing
+        widths: for the sweep.
+        length: for the line.
+        cross_section: for the lines.
+        text: optional text for labels.
+        spacing: edge to edge spacing.
     """
 
     lines = []
     for width in widths:
-        cross_section = partial(cross_section, width=width)
+        cross_section = gf.get_cross_section(cross_section, width=width)
         line = straight_function(length=length, cross_section=cross_section)
         if text:
             line = line.copy()

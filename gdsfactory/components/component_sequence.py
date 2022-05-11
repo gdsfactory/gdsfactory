@@ -75,13 +75,13 @@ def component_sequence(
     """Returns component from a ASCII sequence and a dictionary to interpret each symbol
 
     Args:
-        sequence: a string or a list of symbols
-        symbol_to_component: maps symbols to (component, input, output)
-        ports_map: (optional) extra port mapping using the convention
+        sequence: a string or a list of symbols.
+        symbol_to_component: maps symbols to (component, input, output).
+        ports_map: (optional) extra port mapping using the convention.
             {port_name: (alias_name, port_name)}
-        port_name1: input port_name
-        port_name2: output port_name
-        start_orientation:
+        port_name1: input port_name.
+        port_name2: output port_name.
+        start_orientation: in degrees.
 
     Returns:
         component containing the sequence of sub-components
