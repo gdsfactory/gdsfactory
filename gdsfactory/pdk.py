@@ -89,18 +89,20 @@ class Pdk(BaseModel):
             if not dirpath.is_dir():
                 raise ValueError(f"{dirpath} needs to be a directory.")
 
-            for filepath in dirpath.glob("*/**/*.pic.yml", recursive=True):
+            for filepath in dirpath.glob("*/**/*.pic.yml"):
                 name = filepath.stem.split(".")[0]
-                logger.info(f"Add {name!r}")
                 self.cells[name] = partial(from_yaml, filepath)
+                logger.info(f"Registered cell {name!r}")
 
         for k, v in kwargs.items():
             self.cells[k] = v
+            logger.info(f"Registered cell {k!r}")
 
     def remove_cell(self, name: str):
         if name not in self.cells:
             raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
         self.cells.pop(name)
+        logger.info(f"Removed cell {name!r}")
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
