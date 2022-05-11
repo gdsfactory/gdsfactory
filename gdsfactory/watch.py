@@ -7,10 +7,7 @@ from functools import partial
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-import gdsfactory as gf
 from gdsfactory.config import cwd
-from gdsfactory.pdk import get_active_pdk
-from gdsfactory.read.from_yaml import from_yaml
 
 
 class YamlEventHandler(FileSystemEventHandler):
@@ -22,6 +19,9 @@ class YamlEventHandler(FileSystemEventHandler):
         self.logger = logger or logging.root
 
     def update_cell(self, src_path) -> None:
+        from gdsfactory.pdk import get_active_pdk
+        from gdsfactory.read.from_yaml import from_yaml
+
         # register new file into active pdk
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)
@@ -38,17 +38,21 @@ class YamlEventHandler(FileSystemEventHandler):
         )
 
     def on_created(self, event):
+        from gdsfactory.read.from_yaml import from_yaml
+
         super().on_created(event)
 
         what = "directory" if event.is_directory else "file"
         if what == "file" and event.src_path.endswith(".pic.yml"):
             self.logger.info("Created %s: %s", what, event.src_path)
-            c = gf.read.from_yaml(event.src_path)
+            c = from_yaml(event.src_path)
             c.show()
 
             self.update_cell(event.src_path)
 
     def on_deleted(self, event):
+        from gdsfactory.pdk import get_active_pdk
+
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
@@ -57,19 +61,18 @@ class YamlEventHandler(FileSystemEventHandler):
         pdk = get_active_pdk()
         filepath = pathlib.Path(event.src_path)
         cell_name = filepath.stem
-        try:
-            pdk.remove_cell(cell_name)
-        except ValueError:
-            pass
+        pdk.remove_cell(cell_name)
 
     def on_modified(self, event):
+        from gdsfactory.read.from_yaml import from_yaml
+
         super().on_modified(event)
 
         what = "directory" if event.is_directory else "file"
         if what == "file" and event.src_path.endswith(".pic.yml"):
             self.logger.info("Modified %s: %s", what, event.src_path)
             try:
-                c = gf.read.from_yaml(event.src_path)
+                c = from_yaml(event.src_path)
                 c.show()
                 self.update_cell(event.src_path)
             except Exception as e:
