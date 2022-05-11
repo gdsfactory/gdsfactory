@@ -3,6 +3,7 @@ from functools import partial
 from typing import Optional, Tuple
 
 import numpy as np
+from numpy import arctan2, degrees, isclose
 
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
@@ -366,17 +367,17 @@ def add_ports_from_siepic_pins(
     port_layer_electrical: Optional[Layer] = None,
 ) -> Component:
     """Add ports from SiEPIC-type cells.
-    Looks for label, path pairs
+
+    Looks for label, path pairs.
 
     Args:
-        component: component
-        pin_layer_optical: layer for optical pins
-        port_layer_optical: layer for optical ports
-        pin_layer_electrical: layer for electrical pins
-        port_layer_electrical: layer for electrical ports
+        component: component.
+        pin_layer_optical: layer for optical pins.
+        port_layer_optical: layer for optical ports.
+        pin_layer_electrical: layer for electrical pins.
+        port_layer_electrical: layer for electrical ports.
     """
     pin_layers = {"optical": pin_layer_optical, "electrical": pin_layer_electrical}
-    from numpy import arctan2, degrees, isclose
 
     c = component
     labels = c.get_labels()

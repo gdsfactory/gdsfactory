@@ -225,9 +225,12 @@ if __name__ == "__main__":
     )
     # c.show()
 
-    cr = c.rotate()
-    cr.pprint()
+    cr = rotate(component=c)
     cr.show()
+
+    # cr = c.rotate()
+    # cr.pprint()
+    # cr.show()
 
     # cm = move(c, destination=(20, 20))
     # cm.show()

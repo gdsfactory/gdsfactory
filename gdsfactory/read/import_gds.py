@@ -162,11 +162,10 @@ def import_gds(
 
 
 if __name__ == "__main__":
-    from gdsfactory.serialization import clean_value_name
 
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     # c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, name="TOP")
-    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True)
-    c.settings = {}
-    print(clean_value_name(c))
+    # c.settings = {}
+    # print(clean_value_name(c))
+    c = import_gds(gdspath, snap_to_grid_nm=5, flatten=True, polarization="te")
     c.show()
