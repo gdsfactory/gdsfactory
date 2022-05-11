@@ -472,11 +472,11 @@ def _cut_path_with_ray(
         distance = ls.project(intersection)
         distances.append(distance)
     # when trimming the start, start counting at the intersection point, then add all subsequent points
-    points = [np.array(intersections[0].coords[0]).round(3)]
+    points = [np.array(intersections[0].coords[0])]
     for point in path[1:-1]:
         if distances[0] < ls.project(sg.Point(point)) < distances[1]:
             points.append(point)
-    points.append(np.array(intersections[1].coords[0]).round(3))
+    points.append(np.array(intersections[1].coords[0]))
     return np.array(points)
 
 
