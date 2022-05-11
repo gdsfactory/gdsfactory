@@ -94,8 +94,7 @@ def add_texts(
 
 @cell
 def rotate(
-    component: ComponentSpec,
-    angle: float = 90,
+    component: ComponentSpec, angle: float = 90, recenter: bool = False
 ) -> Component:
     """Return rotated component inside a new component.
 
@@ -105,6 +104,7 @@ def rotate(
     Args:
         component:
         angle: in degrees
+        recenter: recenter the component after rotating. (returns center to original position relative to origin)
     """
     from gdsfactory.pdk import get_component
 
@@ -112,7 +112,17 @@ def rotate(
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
+
+    origin_offset = ref.origin - np.array((ref.xmin, ref.ymin))
+
     ref.rotate(angle)
+
+    if recenter:
+        ref.move(
+            origin=ref.center,
+            destination=np.array((ref.xsize / 2, ref.ysize / 2)) - origin_offset,
+        )
+
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
     return component_new
