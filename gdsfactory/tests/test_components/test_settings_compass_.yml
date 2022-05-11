@@ -7,6 +7,11 @@ settings:
     - 1
     - 0
     port_inclusion: 0
+    port_orientations:
+    - 180
+    - 90
+    - 0
+    - -90
     port_type: electrical
     size:
     - 4.0
@@ -16,6 +21,11 @@ settings:
     - 1
     - 0
     port_inclusion: 0
+    port_orientations:
+    - 180
+    - 90
+    - 0
+    - -90
     port_type: electrical
     size:
     - 4.0
