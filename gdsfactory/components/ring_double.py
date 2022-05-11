@@ -21,19 +21,21 @@ def ring_double(
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
-    """Double bus ring made of two couplers (ct: top, cb: bottom)
+    """Returns a double bus ring.
+
+    two couplers (ct: top, cb: bottom)
     connected with two vertical straights (sl: left, sr: right)
 
     Args:
-        gap: gap between for coupler
-        radius: for the bend and coupler
-        length_x: ring coupler length
-        length_y: vertical straight length
-        coupler: ring coupler function
-        straight: straight function
-        bend: bend function
-        cross_section:
-        **kwargs: cross_section settings
+        gap: gap between for coupler.
+        radius: for the bend and coupler.
+        length_x: ring coupler length.
+        length_y: vertical straight length.
+        coupler: ring coupler spec.
+        straight: straight spec.
+        bend: bend spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings
 
     .. code::
 

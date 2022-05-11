@@ -17,12 +17,12 @@ def taper_cross_section(
     r"""Returns taper transition between cross_section1 and cross_section2
 
     Args:
-        cross_section1: start cross_section factory
-        cross_section2: end cross_section factory
-        length: transition length
-        npoints: number of points
-        linear: shape of the transition, sine when False
-        kwargs: cross_section settings for section2
+        cross_section1: start cross_section factory.
+        cross_section2: end cross_section factory.
+        length: transition length.
+        npoints: number of points.
+        linear: shape of the transition, sine when False.
+        kwargs: cross_section settings for section2.
 
 
 

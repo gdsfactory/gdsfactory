@@ -18,14 +18,14 @@ def pad(
     port_inclusion: float = 0,
     port_orientation: Optional[float] = 0,
 ) -> Component:
-    """Rectangular pad with 4 ports (1, 2, 3, 4)
+    """Returns rectangular pad with 4 ports (1, 2, 3, 4).
 
     Args:
-        size:
-        layer: pad layer
-        bbox_layers:
-        bbox_offsets:
-        port_inclusion: from edge
+        size: x,y size.
+        layer: pad layer.
+        bbox_layers: list of layers.
+        bbox_offsets: list of offsets.
+        port_inclusion: from edge.
         port_orientation: in degrees.
     """
     c = Component()

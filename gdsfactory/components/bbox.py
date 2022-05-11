@@ -16,16 +16,15 @@ def bbox(
     left: float = 0,
     right: float = 0,
 ) -> gf.Component:
-    """Returns bounding box rectangle from coordinates, to allow
-    creation of a rectangle bounding box directly from another shape.
+    """Returns bounding box rectangle from coordinates.
 
     Args:
         bbox: Coordinates of the box [(x1, y1), (x2, y2)].
-        layer:
-        top: north offset
-        bottom: south offset
-        left: west offset
-        right: east offset
+        layer: for bbox.
+        top: north offset.
+        bottom: south offset.
+        left: west offset.
+        right: east offset.
 
     """
     D = gf.Component()
