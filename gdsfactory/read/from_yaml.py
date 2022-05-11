@@ -62,7 +62,6 @@ from gdsfactory.add_pins import add_instance_label
 from gdsfactory.cell import CACHE
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
-from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.serialization import clean_value_name
 from gdsfactory.types import Route
@@ -551,6 +550,8 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
+    from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
+
     yaml_str = (
         io.StringIO(yaml_str)
         if isinstance(yaml_str, str) and "\n" in yaml_str

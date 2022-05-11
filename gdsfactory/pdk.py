@@ -1,14 +1,16 @@
+import logging
 import pathlib
 import warnings
 from functools import partial
+from typing import Optional
 
 from omegaconf import DictConfig
 from pydantic import BaseModel
 
 from gdsfactory.components import cells
-from gdsfactory.config import logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
+from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -19,6 +21,10 @@ from gdsfactory.types import (
     CrossSectionSpec,
     Dict,
 )
+
+logger = logging.root
+component_settings = ["function", "component", "settings"]
+cross_section_settings = ["function", "cross_section", "settings"]
 
 
 class Pdk(BaseModel):
@@ -70,17 +76,37 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cross_section {name!r}")
             self.cross_sections[name] = cross_section
 
-    def register_cells_yaml(self, dirpath: pathlib.Path) -> None:
-        """Load *.pic.yml YAML files and register them as cells."""
-        from gdsfactory.read.from_yaml import from_yaml
+    def register_cells_yaml(
+        self, dirpath: Optional[pathlib.Path] = None, **kwargs
+    ) -> None:
+        """Load *.pic.yml YAML files and register them as cells.
 
-        if not dirpath.is_dir():
-            raise ValueError(f"{dirpath} needs to be a directory.")
+        Args:
+            dirpath: directory to recursive search for YAML cells.
 
-        for filepath in dirpath.glob("*/*.pic.yml"):
-            name = filepath.stem.split(".")[0]
-            logger.info(f"Add {name!r}")
-            self.cells[name] = partial(from_yaml, filepath)
+        Keyword Args:
+            cell_name: cell function. To update cells dict.
+
+        """
+
+        if dirpath:
+            if not dirpath.is_dir():
+                raise ValueError(f"{dirpath} needs to be a directory.")
+
+            for filepath in dirpath.glob("*/**/*.pic.yml"):
+                name = filepath.stem.split(".")[0]
+                self.cells[name] = partial(from_yaml, filepath)
+                logger.info(f"Registered cell {name!r}")
+
+        for k, v in kwargs.items():
+            self.cells[k] = v
+            logger.info(f"Registered cell {k!r}")
+
+    def remove_cell(self, name: str):
+        if name not in self.cells:
+            raise ValueError(f"{name!r} not in {list(self.cells.keys())}")
+        self.cells.pop(name)
+        logger.info(f"Removed cell {name!r}")
 
     def get_cell(self, cell: CellSpec, **kwargs) -> ComponentFactory:
         """Returns ComponentFactory from a cell spec."""
@@ -100,9 +126,9 @@ class Pdk(BaseModel):
             return cell
         elif isinstance(cell, (dict, DictConfig)):
             for key in cell.keys():
-                if key not in ["function", "component", "settings"]:
+                if key not in component_settings:
                     raise ValueError(
-                        f"Invalid setting {key!r} not in (component, function, settings)"
+                        f"Invalid setting {key!r} not in {component_settings}"
                     )
             settings = dict(cell.get("settings", {}))
             settings.update(**kwargs)
@@ -154,9 +180,9 @@ class Pdk(BaseModel):
             return cell(**kwargs)
         elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
-                if key not in ["function", "component", "settings"]:
+                if key not in component_settings:
                     raise ValueError(
-                        f"Invalid setting {key!r} not in (component, function, settings)"
+                        f"Invalid setting {key!r} not in {component_settings}"
                     )
             settings = dict(component.get("settings", {}))
             settings.update(**kwargs)
@@ -178,8 +204,8 @@ class Pdk(BaseModel):
             return cell(**settings)
         else:
             raise ValueError(
-                "get_component expects a ComponentSpec (Component, ComponentFactory, string or dict),"
-                f"got {type(component)}"
+                "get_component expects a ComponentSpec (Component, ComponentFactory, "
+                f"string or dict), got {type(component)}"
             )
 
     def get_cross_section(
@@ -200,9 +226,9 @@ class Pdk(BaseModel):
             return cross_section_factory(**kwargs)
         elif isinstance(cross_section, (dict, DictConfig)):
             for key in cross_section.keys():
-                if key not in ["function", "cross_section", "settings"]:
+                if key not in cross_section_settings:
                     raise ValueError(
-                        f"Invalid setting {key!r} not in (cross_section, function, settings)"
+                        f"Invalid setting {key!r} not in {cross_section_settings}"
                     )
             cross_section_factory_name = cross_section.get("cross_section", None)
             cross_section_factory_name = (
@@ -223,7 +249,8 @@ class Pdk(BaseModel):
             return cross_section_factory(**settings)
         else:
             raise ValueError(
-                f"get_cross_section expects a CrossSectionSpec (CrossSection, CrossSectionFactory, string or dict), got {type(cross_section)}"
+                "get_cross_section expects a CrossSectionSpec (CrossSection, "
+                f"CrossSectionFactory, string or dict), got {type(cross_section)}"
             )
 
 
