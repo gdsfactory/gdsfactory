@@ -24,7 +24,7 @@ def get_expected_shear_shape(length, width, shear_angle):
     x1 = length
     y0 = -width * 0.5
     y1 = width * 0.5
-    points_expected = np.array(
+    return np.array(
         [
             [x0 - dx, y1],
             [x1 - dx, y1],
@@ -32,7 +32,6 @@ def get_expected_shear_shape(length, width, shear_angle):
             [x0 + dx, y0],
         ]
     )
-    return points_expected
 
 
 @pytest.fixture
