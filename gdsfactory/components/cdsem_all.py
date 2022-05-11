@@ -31,7 +31,15 @@ def cdsem_all(
     """column with all optical PCMs
 
     Args:
-        widths: for straight lines
+        widths: for straight lines.
+        dense_lines_width: in um.
+        dense_lines_width_difference: in um.
+        dense_lines_gap: in um.
+        dense_lines_labels: strings.
+        straight: spec.
+        bend90: spec.
+        cross_section: spec.
+        text: sepc.
 
     """
     c = Component()

@@ -17,22 +17,18 @@ def fanout2x2(
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = strip,
-    with_cladding_box: bool = True,
     **kwargs
 ) -> Component:
     """returns component with port_spacing.
 
     Args:
-        component: to package
-        port_spacing: for the returned component
-        bend_length: length of the bend (defaults to port_spacing)
-        npoints: for sbend
-        select_ports: function to select  optical_ports ports
-        cross_section:
-        with_cladding_box: square bounding box to avoid DRC errors
-
-    Keyword Args:
-        cross_section settings
+        component: to fanout.
+        port_spacing: for the returned component.
+        bend_length: length of the bend (defaults to port_spacing).
+        npoints: for sbend.
+        select_ports: function to select  optical_ports ports.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings
 
     """
 

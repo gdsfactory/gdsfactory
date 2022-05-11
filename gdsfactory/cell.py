@@ -167,19 +167,12 @@ def cell_without_validator(func):
         else:
             component_name = name
 
-        if decorator:
-            if not callable(decorator):
-                raise ValueError(f"decorator = {type(decorator)} needs to be callable")
-            component.unlock()
-            component_new = decorator(component)
-            component = component_new or component
-
-        if flatten:
-            component = component.flatten()
-
         if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
-            component.info.update(**info)
+
+        component.info.update(**info)
+
+        if not hasattr(component, "imported_gds"):
             component.settings = Settings(
                 name=component_name,
                 module=func.__module__,
@@ -190,6 +183,16 @@ def cell_without_validator(func):
                 info=component.info,
                 child=metadata_child,
             )
+
+        if decorator:
+            if not callable(decorator):
+                raise ValueError(f"decorator = {type(decorator)} needs to be callable")
+            component.unlock()
+            component_new = decorator(component)
+            component = component_new or component
+
+        if flatten:
+            component = component.flatten()
 
         component.lock()
         CACHE[name] = component

@@ -16,17 +16,17 @@ def grating_coupler_loss_fiber_single(
     for testing with single fiber input/output
 
     Args:
-        grating_coupler: function
-        cross_section:
+        grating_coupler: function.
+        cross_section: spec.
 
     Keyword Args:
-        layer_label: for test and measurement label
-        min_input_to_output_spacing: spacing from input to output fiber
-        max_y0_optical: None
-        get_input_labels_function: function to get input labels for grating couplers
-        optical_routing_type: None: autoselection, 0: no extension
-        get_input_label_text_function: for the grating couplers input label
-        get_input_label_text_loopback_function: for the loopacks input label
+        layer_label: for test and measurement label.
+        min_input_to_output_spacing: spacing from input to output fiber.
+        max_y0_optical: None.
+        get_input_labels_function: function to get input labels for grating couplers.
+        optical_routing_type: None: autoselection, 0: no extension.
+        get_input_label_text_function: for the grating couplers input label.
+        get_input_label_text_loopback_function: for the loopacks input label.
 
     """
     c = gf.Component()
