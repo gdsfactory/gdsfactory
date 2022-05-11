@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.4]
+
+- add_fiber_array adds vertical ports to grating couplers
+- add_fiber_single adds vertical ports to grating couplers. Before it was adding only loopback ports.
+
 ## [5.6.3](https://github.com/gdsfactory/gdsfactory/pull/373)
 
 - fix get_labels rotation
