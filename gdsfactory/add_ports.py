@@ -427,6 +427,5 @@ def add_ports_from_siepic_pins(
             port_type=port_type,
         )
 
-
         c.add_port(port)
     return c
