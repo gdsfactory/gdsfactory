@@ -47,7 +47,7 @@ def add_text(
     """Return component inside a new component with text geometry.
 
     Args:
-        component:
+        component: component spec.
         text: text string.
         text_offset: relative to component anchor. Defaults to center (cc).
         text_anchor: relative to component (ce cw nc ne nw sc se sw center cc).
@@ -77,9 +77,9 @@ def add_texts(
     """Return a list of Component with text labels.
 
     Args:
-        components: list of components
-        prefix: Optional prefix for the labels
-        index0: defaults to 0 (0, for first component, 1 for second ...)
+        components: list of component specs.
+        prefix: Optional prefix for the labels.
+        index0: defaults to 0 (0, for first component, 1 for second ...).
 
     keyword Args:
         text_offset: relative to component size info anchor. Defaults to center.
@@ -102,9 +102,9 @@ def rotate(
     This rotate function just encapsulates the rotated reference into a new component.
 
     Args:
-        component:
-        angle: in degrees
-        recenter: recenter the component after rotating. (returns center to original position relative to origin)
+        component: spec.
+        angle: to rotate in degrees.
+        recenter: recenter component after rotating.
     """
     from gdsfactory.pdk import get_component
 
@@ -134,13 +134,19 @@ rotate180 = partial(rotate, angle=180)
 
 
 @cell
-def mirror(component: Component, p1: Float2 = (0, 1), p2: Float2 = (0, 0)) -> Component:
+def mirror(
+    component: ComponentSpec, p1: Float2 = (0, 1), p2: Float2 = (0, 0)
+) -> Component:
     """Return new Component with a mirrored reference.
 
     Args:
-        p1: first point to define mirror axis
-        p2: second point to define mirror axis
+        component: component spec.
+        p1: first point to define mirror axis.
+        p2: second point to define mirror axis.
     """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
     component_new = Component()
     component_new.component = component
     ref = component_new.add_ref(component)
@@ -160,9 +166,10 @@ def move(
     """Return new Component with a moved reference to the original component.
 
     Args:
-        origin: of component
-        destination:
-        axis: x or y axis
+        component: to move.
+        origin: of component.
+        destination: Optional x, y.
+        axis: x or y axis.
     """
     component_new = Component()
     component_new.component = component
@@ -175,7 +182,8 @@ def move(
 
 def move_port_to_zero(component: Component, port_name: str = "o1"):
     """Return a container that contains a reference to the original component.
-    where the new component has port_name in (0, 0)
+
+    The new component has port_name in (0, 0).
     """
     if port_name not in component.ports:
         raise ValueError(
@@ -197,9 +205,9 @@ def add_settings_label(
     """Add a settings label to a component.
 
     Args:
-        component:
-        layer_label:
-        settings: tuple or list of settings. if None, adds all changed settings
+        component: spec.
+        layer_label: for label.
+        settings: tuple or list of settings. if None, adds all changed settings.
 
     """
     d = (
