@@ -16,11 +16,11 @@ def triangle(
     r"""Return triangle.
 
     Args:
-        x: base xsize
-        xtop: top xsize
-        y: ysize
-        ybot: bottom ysize
-        layer: layer
+        x: base xsize.
+        xtop: top xsize.
+        y: ysize.
+        ybot: bottom ysize.
+        layer: layer.
 
     .. code::
 
@@ -43,17 +43,17 @@ def triangle(
 
 @cell
 def triangle2(spacing: float = 3, **kwargs):
-    r"""Return 2 triangles (bot, top)
+    r"""Return 2 triangles (bot, top).
 
     Args:
         spacing: between top and bottom.
 
     Keyword Args:
-        x: base xsize
-        xtop: top xsize
-        y: ysize
-        ybot: bottom ysize
-        layer: layer
+        x: base xsize.
+        xtop: top xsize.
+        y: ysize.
+        ybot: bottom ysize.
+        layer: layer.
 
     .. code::
           _
@@ -88,11 +88,11 @@ def triangle4(**kwargs):
     r"""Return 4 triangles.
 
     Keyword Args:
-        x: base xsize
-        xtop: top xsize
-        y: ysize
-        ybot: bottom ysize
-        layer: layer
+        x: base xsize.
+        xtop: top xsize.
+        y: ysize.
+        ybot: bottom ysize.
+        layer: layer.
 
     .. code::
 

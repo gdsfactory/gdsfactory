@@ -21,13 +21,13 @@ def taper_from_csv(
     layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
     cladding_offset: float = 3.0,
 ) -> Component:
-    """
+    """Returns taper from CSV file.
 
     Args:
-        filepath: for CSV file
-        layer
-        layer_cladding:
-        cladding_offset
+        filepath: for CSV file.
+        layer: for taper.
+        layer_cladding: for cladding.
+        cladding_offset: in um.
 
     """
     taper_data = pd.read_csv(filepath)

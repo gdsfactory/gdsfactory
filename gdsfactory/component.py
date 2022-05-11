@@ -100,9 +100,9 @@ class Component(Device):
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
-        self.info = {}
+        self.info: Dict[str, Any] = {}
 
-        self.settings = {}
+        self.settings: Dict[str, Any] = {}
         self._locked = False
         self.get_child_name = False
         self.version = version
@@ -679,7 +679,7 @@ class Component(Device):
             component: The referenced component.
             columns: Number of columns in the array.
             rows: Number of rows in the array.
-            spacing: array-like[2] of int or float
+            spacing: array-like[2] of int or float.
                 Distance between adjacent columns and adjacent rows.
             alias: str or None. Alias of the referenced Device.
 
@@ -894,12 +894,12 @@ class Component(Device):
     ) -> None:
         """Show component in klayout.
 
-        show_subports = True adds pins to a component copy (only used for display)
+        show_subports = True adds pins to a component copy for klayout show.
         so the original component remains intact.
 
         Args:
-            show_ports: shows component with port markers and labels
-            show_subports: add ports markers and labels to component references
+            show_ports: shows component with port markers and labels.
+            show_subports: add ports markers and labels to references.
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -939,7 +939,7 @@ class Component(Device):
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             unit: unit size for objects in library. 1um by default.
-            precision: for object dimensions in the library (m). 1nm by default.
+            precision: for dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25 for consistent hash.
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in klayout.
@@ -1045,10 +1045,10 @@ class Component(Device):
         """Write Dict representation of a component in YAML format.
 
         Args:
-            ignore_components_prefix: for components to ignore when exporting
-            ignore_functions_prefix: for functions to ignore when exporting
-            with_cells: write cells recursively
-            with_ports: write port information
+            ignore_components_prefix: for components to ignore when exporting.
+            ignore_functions_prefix: for functions to ignore when exporting.
+            with_cells: write cells recursively.
+            with_ports: write port information.
 
         """
         return OmegaConf.to_yaml(self.to_dict(**kwargs))
@@ -1137,9 +1137,9 @@ class Component(Device):
         """Return new Component with a moved reference to the original component.
 
         Args:
-            origin: of component
-            destination:
-            axis: x or y
+            origin: of component.
+            destination: x, y.
+            axis: x or y.
         """
         from gdsfactory.functions import move
 
@@ -1248,8 +1248,8 @@ def recurse_structures(
 
     Args:
         component: component to recurse.
-        ignore_components_prefix: list of prefix to ingore
-        ignore_functions_prefix: list of prefix to ingore
+        ignore_components_prefix: list of prefix to ingore.
+        ignore_functions_prefix: list of prefix to ingore.
     """
 
     ignore_functions_prefix = ignore_functions_prefix or []

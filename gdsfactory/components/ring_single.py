@@ -17,20 +17,21 @@ def ring_single(
     cross_section: ComponentSpec = "strip",
     **kwargs
 ) -> gf.Component:
-    """Single bus ring made of a ring coupler (cb: bottom)
-    connected with two vertical straights (sl: left, sr: right)
+    """Returns a single ring.
+
+    ring coupler (cb: bottom) connects to two vertical straights (sl: left, sr: right),
     two bends (bl, br) and horizontal straight (wg: top)
 
     Args:
-        gap: gap between for coupler
-        radius: for the bend and coupler
-        length_x: ring coupler length
-        length_y: vertical straight length
-        coupler_ring: ring coupler function
-        straight: straight function
-        bend: 90 degrees bend function
-        cross_section:
-        **kwargs: cross_section settings
+        gap: gap between for coupler.
+        radius: for the bend and coupler.
+        length_x: ring coupler length.
+        length_y: vertical straight length.
+        coupler_ring: ring coupler spec.
+        straight: straight spec.
+        bend: 90 degrees bend spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings
 
 
     .. code::

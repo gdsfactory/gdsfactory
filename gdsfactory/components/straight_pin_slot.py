@@ -36,17 +36,17 @@ def straight_pin_slot(
     https://ieeexplore.ieee.org/document/8853396/
 
     Args:
-        length: of the waveguide
-        cross_section: for the waveguide
-        via_stack: for via_stacking the metal
-        via_stack_width:
-        via_stack_slab: function for the component via_stacking the slab
-        via_stack_slab_top: Optional, defaults to via_stack_slab
-        via_stack_slab_bot: Optional, defaults to via_stack_slab
-        via_stack_slab_width: defaults to via_stack_width
-        via_stack_spacing: spacing between via_stacks
-        taper: optional taper
-        kwargs: cross_section settings
+        length: of the waveguide.
+        cross_section: for the waveguide.
+        via_stack: for via_stacking the metal.
+        via_stack_width: in um.
+        via_stack_slab: function for the component via_stacking the slab.
+        via_stack_slab_top: Optional, defaults to via_stack_slab.
+        via_stack_slab_bot: Optional, defaults to via_stack_slab.
+        via_stack_slab_width: defaults to via_stack_width.
+        via_stack_spacing: spacing between via_stacks.
+        taper: optional taper.
+        kwargs: cross_section settings.
 
     """
     c = Component()

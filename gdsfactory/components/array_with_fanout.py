@@ -29,23 +29,22 @@ def array_with_fanout(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Component:
-    """Returns an array of components in X axis
-    with fanout waveguides facing west
+    """Returns an array of components in X axis with west facing waveguides fanout.
 
     Args:
         component: to replicate.
         columns: number of components.
         pitch: for waveguides.
         waveguide_pitch: for output waveguides.
-        start_straight_length: length of the start of the straight
-        end_straight_length: lenght of the straight at the end
-        radius: bend radius
-        component_port_name:
-        bend:
-        bend_port_name1:
-        bend_port_name2:
-        cross_section: cross_section definition
-        kwargs: cross_section settings
+        start_straight_length: length of the start of the straight.
+        end_straight_length: lenght of the straight at the end.
+        radius: bend radius.
+        component_port_name: for fanout.
+        bend: spec.
+        bend_port_name1: optional port name.
+        bend_port_name2: optional port name.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
     """
     c = Component()
     component = gf.get_component(component)
@@ -93,23 +92,23 @@ def array_with_fanout_2d(
     """Returns 2D array with fanout waveguides facing west.
 
     Args:
-        pitch: 2D pitch
-        pitch_x: defaults to pitch
-        pitch_y: defaults to pitch
-        columns:
-        rows:
-        kwargs:
-            component: to replicate
-            pitch: float
-            waveguide_pitch: for fanout
-            start_straight_length: length of the start of the straight
-            end_straight_length: length of the straight at the end
-            radius: bend radius
-            cross_section: cross_section factory
-            component_port_name:
-            bend_port_name1:
-            bend_port_name2:
-            **kwargs
+        pitch: 2D pitch.
+        pitch_x: defaults to pitch.
+        pitch_y: defaults to pitch.
+        columns: number of columns.
+        rows: number of rows.
+
+    keyword args:
+        component: to replicate
+        pitch: float
+        waveguide_pitch: for fanout
+        start_straight_length: length of the start of the straight
+        end_straight_length: length of the straight at the end
+        radius: bend radius
+        cross_section: cross_section factory
+        component_port_name:
+        bend_port_name1:
+        bend_port_name2:
     """
     pitch_y = pitch_y or pitch
     pitch_x = pitch_x or pitch
