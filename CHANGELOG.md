@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.6]
+
+- `gf yaml watch` uses the same logger
+
 ## [5.6.5](https://github.com/gdsfactory/gdsfactory/pull/380)
 
 - copy paths when copying components [PR](https://github.com/gdsfactory/gdsfactory/pull/377)

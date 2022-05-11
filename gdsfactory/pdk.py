@@ -1,3 +1,4 @@
+import logging
 import pathlib
 import warnings
 from functools import partial
@@ -7,9 +8,9 @@ from omegaconf import DictConfig
 from pydantic import BaseModel
 
 from gdsfactory.components import cells
-from gdsfactory.config import logger
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
+from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -20,6 +21,10 @@ from gdsfactory.types import (
     CrossSectionSpec,
     Dict,
 )
+
+logger = logging.root
+component_settings = ["function", "component", "settings"]
+cross_section_settings = ["function", "cross_section", "settings"]
 
 
 class Pdk(BaseModel):
@@ -80,10 +85,9 @@ class Pdk(BaseModel):
             dirpath: directory to recursive search for YAML cells.
 
         Keyword Args:
-            cell_name: cell function. To update cell dict.
+            cell_name: cell function. To update cells dict.
 
         """
-        from gdsfactory.read.from_yaml import from_yaml
 
         if dirpath:
             if not dirpath.is_dir():
@@ -122,9 +126,9 @@ class Pdk(BaseModel):
             return cell
         elif isinstance(cell, (dict, DictConfig)):
             for key in cell.keys():
-                if key not in ["function", "component", "settings"]:
+                if key not in component_settings:
                     raise ValueError(
-                        f"Invalid setting {key!r} not in (component, function, settings)"
+                        f"Invalid setting {key!r} not in {component_settings}"
                     )
             settings = dict(cell.get("settings", {}))
             settings.update(**kwargs)
@@ -176,9 +180,9 @@ class Pdk(BaseModel):
             return cell(**kwargs)
         elif isinstance(component, (dict, DictConfig)):
             for key in component.keys():
-                if key not in ["function", "component", "settings"]:
+                if key not in component_settings:
                     raise ValueError(
-                        f"Invalid setting {key!r} not in (component, function, settings)"
+                        f"Invalid setting {key!r} not in {component_settings}"
                     )
             settings = dict(component.get("settings", {}))
             settings.update(**kwargs)
@@ -200,8 +204,8 @@ class Pdk(BaseModel):
             return cell(**settings)
         else:
             raise ValueError(
-                "get_component expects a ComponentSpec (Component, ComponentFactory, string or dict),"
-                f"got {type(component)}"
+                "get_component expects a ComponentSpec (Component, ComponentFactory, "
+                f"string or dict), got {type(component)}"
             )
 
     def get_cross_section(
@@ -222,9 +226,9 @@ class Pdk(BaseModel):
             return cross_section_factory(**kwargs)
         elif isinstance(cross_section, (dict, DictConfig)):
             for key in cross_section.keys():
-                if key not in ["function", "cross_section", "settings"]:
+                if key not in cross_section_settings:
                     raise ValueError(
-                        f"Invalid setting {key!r} not in (cross_section, function, settings)"
+                        f"Invalid setting {key!r} not in {cross_section_settings}"
                     )
             cross_section_factory_name = cross_section.get("cross_section", None)
             cross_section_factory_name = (
@@ -245,7 +249,8 @@ class Pdk(BaseModel):
             return cross_section_factory(**settings)
         else:
             raise ValueError(
-                f"get_cross_section expects a CrossSectionSpec (CrossSection, CrossSectionFactory, string or dict), got {type(cross_section)}"
+                "get_cross_section expects a CrossSectionSpec (CrossSection, "
+                f"CrossSectionFactory, string or dict), got {type(cross_section)}"
             )
 
 

@@ -10,7 +10,7 @@ from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.cross_section import strip
-from gdsfactory.routing import get_route
+from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
