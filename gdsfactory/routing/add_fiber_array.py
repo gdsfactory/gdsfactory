@@ -32,10 +32,10 @@ def add_fiber_array(
     adds a grating_coupler
 
     Args:
-        component: component or component function to connect to grating couplers.
+        component: component spec to connect to grating couplers.
         grating_coupler: fiber coupler instance, function or list of functions.
-        straight: straight function.
-        bend: bend function.
+        straight: straight spec.
+        bend: bend spec.
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
         component_name: for the label.
@@ -45,25 +45,24 @@ def add_fiber_array(
         get_input_labels_function: function to get input labels for grating couplers.
 
     Keyword Args:
-        taper: taper function name or dict.
+        taper: taper spec.
         get_input_label_text_loopback_function: function to get input label test.
-        get_input_label_text_function.
-        straight: straight.
-        fanout_length: None  # if None, automatic calculation of fanout length
-        max_y0_optical: None.
-        with_loopback: True, adds loopback structures
-        straight_separation: 4.0.
+        get_input_label_text_function: for labels.
+        fanout_length: if None, automatic calculation of fanout length.
+        max_y0_optical: in um.
+        with_loopback: True, adds loopback structures.
+        straight_separation: from edge to edge.
         list_port_labels: None, adds TM labels to port indices in this list.
-        connected_port_list_ids: None # only for type 0 optical routing
-        nb_optical_ports_lines: 1
+        connected_port_list_ids: names of ports only for type 0 optical routing.
+        nb_optical_ports_lines: number of grating coupler lines.
         force_manhattan: False
-        excluded_ports: list of port names to exclude from adding fiber coupler.
+        excluded_ports: list of port names to exclude when adding gratings.
         grating_indices: list of grating coupler indices.
-        routing_straight: None
-        routing_method: get_route
-        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check
+        routing_straight: function .
+        routing_method: get_route.
+        optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
-        input_port_indexes: [0]
+        input_port_indexes: to connect.
 
     .. plot::
         :include-source:

@@ -25,13 +25,16 @@ def cdsem_bend180(
     cross_section: CrossSectionSpec = strip,
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
-    """
+    """Returns CDSEM structures.
 
     Args:
-        width: of the line
-        cladding_offset:
-        radius: bend radius
-        wg_length
+        width: of the line.
+        radius: um.
+        wg_length: in um.
+        straight: spec.
+        bend90: spec.
+        cross_section: spec.
+        text: spec.
 
     """
     c = Component()

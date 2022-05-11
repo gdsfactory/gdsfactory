@@ -144,7 +144,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    with_cladding_box: true
   full:
     bend_length: null
     component:
@@ -223,7 +222,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    with_cladding_box: true
   function_name: fanout2x2
   info: {}
   info_version: 2
