@@ -23,19 +23,19 @@ def via_stack_slot(
     ysize: float = 0.5,
     yspacing: float = 2.0,
 ) -> Component:
-    """Rectangular via_stack with slotted via in X direction
+    """Rectangular via_stack with slotted via in X direction.
 
     Args:
-        size: of the layers
-        layers: layers on which to draw rectangles
-        layer_offsets: cladding_offset for each layer
-        layer_offsetsx: optional xoffset for layers, defaults to layer_offsets
-        layer_offsetsx: optional yoffset for layers, defaults to layer_offsets
-        layer_port: if None asumes port is on the last layer
-        via: via to use to fill the rectangles
-        enclosure: of the via by rectangle
-        ysize: via height in y
-        yspacing: via spacing pitch in y
+        size: of the layers.
+        layers: layers on which to draw rectangles.
+        layer_offsets: cladding_offset for each layer.
+        layer_offsetsx: optional xoffset for layers, defaults to layer_offsets.
+        layer_offsetsx: optional yoffset for layers, defaults to layer_offsets.
+        layer_port: if None asumes port is on the last layer.
+        via: via to use to fill the rectangles.
+        enclosure: of the via by rectangle.
+        ysize: via height in y.
+        yspacing: via spacing pitch in y.
 
     .. code::
 
@@ -109,5 +109,7 @@ via_stack_slot_slab_m1 = gf.partial(via_stack_slot, layers=(LAYER.M1,), via=viac
 
 
 if __name__ == "__main__":
-    c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=2, size=(3, 3))
+    # c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=1, size=(3, 3))
+    # c = via_stack_slot_m1_m2()
+    c = via_stack_slot_slab_m1()
     c.show()

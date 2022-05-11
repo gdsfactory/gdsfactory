@@ -20,11 +20,11 @@ def via_stack_with_offset(
     """Rectangular layer transition with offset between layers
 
     Args:
-        layers:
-        vias: factory for via or None for no via
-        sizes:
-        offsets: for next layer
-        port_orientation: 180: W0, 0: E0, 90: N0, 270: S0
+        layers: for each via.
+        vias: factory for via or None for no via.
+        sizes: for each via.
+        offsets: for next layer.
+        port_orientation: 180: W0, 0: E0, 90: N0, 270: S0.
     """
     c = Component()
     y0 = y1 = 0
