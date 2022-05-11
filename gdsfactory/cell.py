@@ -167,13 +167,6 @@ def cell_without_validator(func):
         else:
             component_name = name
 
-        if decorator:
-            if not callable(decorator):
-                raise ValueError(f"decorator = {type(decorator)} needs to be callable")
-            component.unlock()
-            component_new = decorator(component)
-            component = component_new or component
-
         if flatten:
             component = component.flatten()
 
@@ -190,6 +183,13 @@ def cell_without_validator(func):
                 info=component.info,
                 child=metadata_child,
             )
+
+        if decorator:
+            if not callable(decorator):
+                raise ValueError(f"decorator = {type(decorator)} needs to be callable")
+            component.unlock()
+            component_new = decorator(component)
+            component = component_new or component
 
         component.lock()
         CACHE[name] = component
