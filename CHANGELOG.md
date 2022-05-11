@@ -1,8 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.6.6]
+## [5.6.6](https://github.com/gdsfactory/gdsfactory/pull/382)
 
-- `gf yaml watch` uses the same logger
+- `gf yaml watch` uses the same logging.logger
+- `gf.functions.rotate` can recenter component [PR](https://github.com/gdsfactory/gdsfactory/pull/381)
 
 ## [5.6.5](https://github.com/gdsfactory/gdsfactory/pull/380)
 
