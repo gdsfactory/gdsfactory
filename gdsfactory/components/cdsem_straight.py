@@ -2,7 +2,6 @@
 from functools import partial
 from typing import Optional, Tuple
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
@@ -36,8 +35,9 @@ def cdsem_straight(
 
     lines = []
     for width in widths:
-        cross_section = gf.get_cross_section(cross_section, width=width)
-        line = straight_function(length=length, cross_section=cross_section)
+        line = straight_function(
+            length=length, cross_section=cross_section, width=width
+        )
         if text:
             line = line.copy()
             t = line << text(str(int(width * 1e3)))

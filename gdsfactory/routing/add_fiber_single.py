@@ -236,8 +236,10 @@ def add_fiber_single(
 
         port = wg.ports["o2"]
 
-        p1 = c.add_port(name="loopback1", port=wg.ports["o1"])
-        p2 = c.add_port(name="loopback2", port=wg.ports["o2"])
+        p = grating_coupler.get_ports_list(prefix="vertical")[0]
+        pname = p.name
+        p1 = c.add_port(name="loopback1", port=gci.ports[pname])
+        p2 = c.add_port(name="loopback2", port=gco.ports[pname])
         p1.port_type = "loopback"
         p2.port_type = "loopback"
 
