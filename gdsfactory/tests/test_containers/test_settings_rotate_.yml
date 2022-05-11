@@ -134,6 +134,7 @@ settings:
     name: mzi_2e88f57c
   default:
     angle: 90
+    recenter: false
   full:
     angle: 90
     component:
@@ -203,6 +204,7 @@ settings:
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
       version: 0.0.1
+    recenter: false
   function_name: rotate
   info: {}
   info_version: 2
