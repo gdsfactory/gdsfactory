@@ -8,10 +8,12 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 from gdsfactory.config import cwd
+from gdsfactory.pdk import get_active_pdk
+from gdsfactory.read.from_yaml import from_yaml
 
 
 class YamlEventHandler(FileSystemEventHandler):
-    """Logs all the events captured."""
+    """Logs captured events."""
 
     def __init__(self, logger=None):
         super().__init__()
@@ -19,10 +21,8 @@ class YamlEventHandler(FileSystemEventHandler):
         self.logger = logger or logging.root
 
     def update_cell(self, src_path) -> None:
-        from gdsfactory.pdk import get_active_pdk
-        from gdsfactory.read.from_yaml import from_yaml
+        """Register new file into active pdk."""
 
-        # register new file into active pdk
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem
@@ -38,8 +38,6 @@ class YamlEventHandler(FileSystemEventHandler):
         )
 
     def on_created(self, event):
-        from gdsfactory.read.from_yaml import from_yaml
-
         super().on_created(event)
 
         what = "directory" if event.is_directory else "file"
@@ -51,8 +49,6 @@ class YamlEventHandler(FileSystemEventHandler):
             self.update_cell(event.src_path)
 
     def on_deleted(self, event):
-        from gdsfactory.pdk import get_active_pdk
-
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
@@ -64,8 +60,6 @@ class YamlEventHandler(FileSystemEventHandler):
         pdk.remove_cell(cell_name)
 
     def on_modified(self, event):
-        from gdsfactory.read.from_yaml import from_yaml
-
         super().on_modified(event)
 
         what = "directory" if event.is_directory else "file"
