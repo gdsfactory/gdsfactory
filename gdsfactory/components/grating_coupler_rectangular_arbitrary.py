@@ -39,13 +39,13 @@ def grating_coupler_rectangular_arbitrary(
         wg_width: input waveguide width.
         width_grating: grating teeth width.
         length_taper: taper length (um).
-        layer: for grating teeth
-        polarization: 'te' or 'tm'
-        wavelength: in um
-        taper: function
-        layer_slab: layer that protects the slab under the grating
-        slab_xmin: where 0 is at the start of the taper
-        slab_offset: from edge of grating to edge of the slab
+        layer: for grating teeth.
+        polarization: 'te' or 'tm'.
+        wavelength: in um.
+        taper: function.
+        layer_slab: layer that protects the slab under the grating.
+        slab_xmin: where 0 is at the start of the taper.
+        slab_offset: from edge of grating to edge of the slab.
 
     .. code::
 

@@ -14,9 +14,9 @@ def C(
     """Generates a 'C' geometry with ports on both ends. Adapted from phidl
 
     Args:
-        width: of the line
-        size: length and height of the base
-        layer:
+        width: of the line.
+        size: length and height of the base.
+        layer: to draw.
 
     .. code::
          ______

@@ -16,11 +16,11 @@ def coupler90bend(
     r"""Returns 2 coupled bends.
 
     Args:
-        radius: um
-        gap: um
-        bend: for bend
-        cross_section_inner:
-        cross_section_outer:
+        radius: um.
+        gap: um.
+        bend: for bend.
+        cross_section_inner: spec inner bend.
+        cross_section_outer: spec outer bend.
 
 
     .. code::
