@@ -321,7 +321,7 @@ def extrude(
         )
         if shear_angle_start or shear_angle_end:
             _face_angle_start = (
-                start_angle + shear_angle_start + 90 if shear_angle_start else None
+                start_angle + shear_angle_start - 90 if shear_angle_start else None
             )
             _face_angle_end = (
                 end_angle + shear_angle_end + 90 if shear_angle_end else None
@@ -455,7 +455,7 @@ def _cut_path_with_ray(
             angle_rad = np.deg2rad(angle)
             dx_far = np.cos(angle_rad) * far_distance
             dy_far = np.sin(angle_rad) * far_distance
-            d_far = point + np.array([dx_far, dy_far])
+            d_far = np.array([dx_far, dy_far])
             ls_ray = sg.LineString([point - d_far, point + d_far])
             intersection = ls.intersection(ls_ray)
 
