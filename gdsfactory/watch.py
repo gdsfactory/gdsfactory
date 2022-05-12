@@ -25,7 +25,7 @@ class YamlEventHandler(FileSystemEventHandler):
 
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)
-        cell_name = filepath.stem
+        cell_name = filepath.stem.split(".")[0]
         function = partial(from_yaml, filepath)
         pdk.register_cells_yaml(**{cell_name: function})
 
