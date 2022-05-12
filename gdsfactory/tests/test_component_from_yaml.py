@@ -550,10 +550,10 @@ def test_netlists(
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
 
     # print(yaml_str)
-    c2 = from_yaml(yaml_str)
+    c2 = from_yaml(yaml_str, name=c.name)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
-    pprint(d)
+    # pprint(d)
     # assert len(d) == 0, pprint(d)
     return d
 
@@ -626,4 +626,5 @@ if __name__ == "__main__":
     c2 = from_yaml(yaml_str)
     n2 = c2.get_netlist()
     d = jsondiff.diff(n, n2)
+    pprint(d)
     c2.show()

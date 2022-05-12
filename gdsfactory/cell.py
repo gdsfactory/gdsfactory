@@ -220,14 +220,14 @@ def cell(func: _F, *args, **kwargs) -> _F:
 
     Keyword Args:
         autoname (bool): if True renames component based on args and kwargs
-        name (str): Optional (ignored when autoname=True)
+        name (str): Optional (ignored when autoname=True).
         cache (bool): returns component from the cache if it already exists.
-            if False creates a new component
-            by default True avoids having duplicated cells with the same name
-        info: updates component.info dict
-        prefix: name_prefix, defaults to function name
-        max_name_length: truncates name beyond some characters (32) with a hash
-        decorator: function to run over the component
+            if False creates a new component.
+            by default True avoids having duplicated cells with the same name.
+        info: updates component.info dict.
+        prefix: name_prefix, defaults to function name.
+        max_name_length: truncates name beyond some characters (32) with a hash.
+        decorator: function to run over the component.
 
 
     .. plot::

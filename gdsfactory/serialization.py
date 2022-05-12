@@ -8,6 +8,7 @@ import numpy as np
 import orjson
 import pydantic
 import toolz
+from omegaconf import DictConfig, OmegaConf
 from phidl.device_layout import Path as PathPhidl
 
 
@@ -72,6 +73,8 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, dict):
         value = copy.deepcopy(value)
         value = clean_dict(value)
+    elif isinstance(value, DictConfig):
+        value = clean_dict(OmegaConf.to_container(value))
     else:
         value_json = orjson.dumps(
             value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_json
@@ -79,8 +82,6 @@ def clean_value_json(value: Any) -> Any:
         value = orjson.loads(value_json)
     return value
 
-    # elif isinstance(value, DictConfig):
-    #     value = clean_dict(value)
     # elif isinstance(value, (tuple, list, ListConfig)):
     #     value = [clean_value_json(i) for i in value]
     # elif value is None:
