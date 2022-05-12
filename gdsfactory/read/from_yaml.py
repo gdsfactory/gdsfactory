@@ -576,7 +576,6 @@ def from_yaml(
         else:
             conf["settings"][key] = value
 
-    settings = conf.get("settings", {})
     name_prefix = conf.get("name", "Unnamed")
 
     default_args_list = [
