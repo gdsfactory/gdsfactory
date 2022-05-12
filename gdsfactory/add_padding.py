@@ -21,12 +21,12 @@ def get_padding_points(
     """Returns padding points for a component outline.
 
     Args:
-        component
-        default: default padding
-        top: north padding
-        bottom: south padding
-        right: east padding
-        left: west padding
+        component: to add padding.
+        default: default padding.
+        top: north padding.
+        bottom: south padding.
+        right: east padding.
+        left: west padding.
     """
     c = component
     top = top if top is not None else default
@@ -51,16 +51,16 @@ def add_padding(
     Returns the same ports as the component.
 
     Args:
-        component:
-        layers: list of layers
-        new_component: returns a new component if True
+        component: to add padding.
+        layers: list of layers.
+        new_component: returns a new component if True.
 
     keyword Args:
-        default: default padding
-        top: north padding
-        bottom: south padding
-        right: east padding
-        left: west padding
+        default: default padding.
+        top: north padding.
+        bottom: south padding.
+        right: east padding.
+        left: west padding.
     """
     component = gf.get_component(component)
 
@@ -79,13 +79,13 @@ def add_padding_container(
     """Returns new component with padding added.
 
     Args:
-        component:
-        layers: list of layers
-        default: default padding
-        top: north padding
-        bottom: south padding
-        right: east padding
-        left: west padding
+        component: to add padding.
+        layers: list of layers.
+        default: default padding.
+        top: north padding.
+        bottom: south padding.
+        right: east padding.
+        left: west padding.
     """
 
     component = gf.get_component(component)
@@ -145,12 +145,12 @@ def add_padding_to_size_container(
     New size is multiple of grid size
 
     Args:
-        component
-        layers: list of layers
-        xsize:
-        ysize:
-        left:
-        bottom:
+        component: to add padding.
+        layers: list of layers.
+        xsize: to fill up.
+        ysize: to fill up.
+        left: to fill up.
+        bottom: to fill up.
     """
     component = gf.get_component(component)
 

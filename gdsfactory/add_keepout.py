@@ -14,16 +14,16 @@ def add_keepout(
     keepout_layers: Layers,
     margin: float = 2.0,
 ) -> Component:
-    """Adds keepout after Looking up all polygons in a cell.
+    """Adds keepout after looking up all polygons in a cell.
     You can also use add_padding
 
     Args:
-        component
-        target_layers: list of layers to read
-        keepout_layers: list of layers to add keepout
-        margin: offset from tareget to keepout_layers
+        component: to add keepout.
+        target_layers: list of layers to read.
+        keepout_layers: list of layers to add keepout.
+        margin: offset from tareget to keepout_layers.
     """
-    c = Component(f"{component.name}_ko")
+    c = Component()
     c << component
     for layer in target_layers:
         polygons = component.get_polygons(by_spec=layer)
@@ -44,7 +44,7 @@ def test_add_keepout() -> None:
     polygons = len(c.get_polygons())
     target_layers = [LAYER.WG]
     keepout_layers = [LAYER.NO_TILE_SI]
-    print(len(c.get_polygons()))
+    # print(len(c.get_polygons()))
 
     assert len(c.get_polygons()) == polygons
     c = add_keepout(
