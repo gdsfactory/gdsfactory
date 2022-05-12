@@ -2,6 +2,7 @@ import logging
 import pathlib
 import sys
 import time
+import traceback
 from functools import partial
 
 from watchdog.events import FileSystemEventHandler
@@ -72,6 +73,7 @@ class YamlEventHandler(FileSystemEventHandler):
                 c.show()
                 self.update_cell(event.src_path)
             except Exception as e:
+                traceback.print_exc(file=sys.stdout)
                 print(e)
 
 
