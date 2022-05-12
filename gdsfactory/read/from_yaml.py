@@ -570,7 +570,7 @@ def from_yaml(
     default = copy.deepcopy(settings)
     changed = copy.deepcopy(kwargs)
 
-    for key, value in kwargs.items():
+    for key, value in changed.items():
         if key not in settings:
             raise ValueError(f"{key!r} not in {settings.keys()}")
         else:
@@ -582,6 +582,7 @@ def from_yaml(
     default_args_list = [
         f"{key}={clean_value_name(default[key])}" for key in sorted(default.keys())
     ]
+
     # list of explicitly passed args as strings
     passed_args_list = [
         f"{key}={clean_value_name(changed[key])}" for key in sorted(changed.keys())
@@ -658,7 +659,7 @@ def from_yaml(
             placements_conf=placements_conf,
             connections_by_transformed_inst=connections_by_transformed_inst,
             instances=instances,
-            encountered_insts=list(),
+            encountered_insts=[],
             all_remaining_insts=all_remaining_insts,
         )
 
@@ -685,8 +686,9 @@ def from_yaml(
             )
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
+                routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
-                    f"function {routing_strategy_name!r} not in routing_strategy {list(routing_strategy.keys())}"
+                    f"{routing_strategy_name!r} not in routing_strategy {routing_strategies}"
                 )
 
             if "links" not in routes_dict:
