@@ -22,19 +22,19 @@ def add_tapers(
     """returns new component with taper in all optical ports.
 
     Args:
-        component:
-        taper: factory for taper
-        select_ports:
-        taper_port_name1:
-        taper_port_name2:
-        cross_section2: end cross_section factory (cross_section)
+        component: to add tapers.
+        taper: taper spec.
+        select_ports: function to select ports.
+        taper_port_name1: name.
+        taper_port_name2: name.
+        cross_section2: end cross_section factory (cross_section).
 
     Keyword Args:
-        cross_section1: start cross_section factory
-        length: transition length
-        npoints: number of points
-        linear: shape of the transition, sine when False
-        kwargs: cross_section settings for section2
+        cross_section1: start cross_section factory.
+        length: transition length.
+        npoints: number of points.
+        linear: shape of the transition, sine when False.
+        kwargs: cross_section settings for section2.
     """
 
     c = gf.Component()

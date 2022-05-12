@@ -35,9 +35,9 @@ def get_instance_name(
     If no label returns to instanceName_x_y
 
     Args:
-        component: with labels
-        reference: reference that needs naming
-        layer_label: ignores layer_label[1]
+        component: with labels.
+        reference: reference that needs naming.
+        layer_label: ignores layer_label[1].
     """
 
     x = snap_to_grid(reference.x)
