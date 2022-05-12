@@ -91,7 +91,7 @@ class Pdk(BaseModel):
 
         if dirpath:
             if not dirpath.is_dir():
-                raise ValueError(f"{dirpath} needs to be a directory.")
+                raise ValueError(f"{dirpath!r} needs to be a directory.")
 
             for filepath in dirpath.glob("*/**/*.pic.yml"):
                 name = filepath.stem.split(".")[0]
