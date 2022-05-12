@@ -468,7 +468,6 @@ def from_yaml(
     label_instance_function: Callable = add_instance_label,
     name: Optional[str] = None,
     prefix: Optional[str] = None,
-    cache: bool = True,
     **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML string or file.
@@ -480,7 +479,6 @@ def from_yaml(
         label_instance_function: to label each instance.
         name: Optional name.
         prefix: name prefix.
-        cache (bool): returns component from the cache if it already exists.
         kwargs: function settings. Overwrite settings from YAML.
 
     .. code::
@@ -575,7 +573,6 @@ def from_yaml(
         label_instance_function=label_instance_function,
         prefix=prefix or conf.get("name", "Unnamed"),
         name=name,
-        cache=cache,
         **kwargs,
     )
 
