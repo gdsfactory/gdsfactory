@@ -1,3 +1,174 @@
-name: sample_waypoints
-settings: {}
+name: sample_waypoints_51e45344
+settings:
+  changed:
+    conf:
+      instances:
+        b:
+          component: pad_array
+          settings:
+            orientation: 90
+        t:
+          component: pad_array
+          settings:
+            orientation: 270
+      name: sample_waypoints
+      placements:
+        t:
+          x: -250
+          y: 1000
+      routes:
+        route1:
+          links:
+            b,e11: t,e11
+            b,e12: t,e12
+          routing_strategy: get_bundle_from_waypoints
+          settings:
+            auto_widen: false
+            waypoints:
+            - - 0
+              - 300
+            - - 400
+              - 300
+            - - 400
+              - 400
+            - - -250
+              - 400
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        b:
+          component: pad_array
+          settings:
+            orientation: 90
+        t:
+          component: pad_array
+          settings:
+            orientation: 270
+      name: sample_waypoints
+      placements:
+        t:
+          x: -250
+          y: 1000
+      routes:
+        route1:
+          links:
+            b,e11: t,e11
+            b,e12: t,e12
+          routing_strategy: get_bundle_from_waypoints
+          settings:
+            auto_widen: false
+            waypoints:
+            - - 0
+              - 300
+            - - 400
+              - 300
+            - - 400
+              - 400
+            - - -250
+              - 400
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info: {}
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_waypoints_51e45344
 version: 0.0.1
