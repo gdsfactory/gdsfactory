@@ -13,7 +13,7 @@ from gdsfactory.read.from_yaml import from_yaml
 
 
 class YamlEventHandler(FileSystemEventHandler):
-    """Logs captured events."""
+    """Captures pic.yml events."""
 
     def __init__(self, logger=None):
         super().__init__()
@@ -21,8 +21,10 @@ class YamlEventHandler(FileSystemEventHandler):
         self.logger = logger or logging.root
 
     def update_cell(self, src_path) -> None:
-        """Register new file into active pdk."""
+        """Register new YAML file into active pdk.
 
+        pdk.cells[filename] = partial(from_yaml, filepath)
+        """
         pdk = get_active_pdk()
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]

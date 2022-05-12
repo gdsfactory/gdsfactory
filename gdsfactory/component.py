@@ -926,7 +926,7 @@ class Component(Device):
     def write_gds(
         self,
         gdspath: Optional[PathType] = None,
-        gdsdir: PathType = tmp,
+        gdsdir: Optional[PathType] = None,
         unit: float = 1e-6,
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
@@ -950,6 +950,9 @@ class Component(Device):
                 None: do not try to resolve (at your own risk!)
 
         """
+        gdsdir = (
+            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+        )
         gdsdir = pathlib.Path(gdsdir)
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
         gdspath = pathlib.Path(gdspath)

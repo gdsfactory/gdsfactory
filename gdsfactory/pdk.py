@@ -28,7 +28,14 @@ cross_section_settings = ["function", "cross_section", "settings"]
 
 
 class Pdk(BaseModel):
-    """Pdk Library to store cell and cross_section functions."""
+    """Pdk Library to store cell and cross_section functions.
+
+    Args:
+        name: PDK name.
+        cross_sections: cross_sections.
+        cells: pcells.
+        containers: pcells that contain other cells.
+    """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
