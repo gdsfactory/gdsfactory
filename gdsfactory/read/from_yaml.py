@@ -646,7 +646,7 @@ def from_yaml(
         if "x" in placement_settings or "y" in placement_settings:
             warnings.warn(
                 f"YAML defined: ({', '.join(components_with_placement_conflicts)}) "
-                + "with both connection and placement. Please use one or the other.",
+                "with both connection and placement. Please use one or the other.",
             )
 
     all_remaining_insts = list(
