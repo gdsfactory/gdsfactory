@@ -968,15 +968,13 @@ class Component(Device):
                 cell_names.remove(cell_name)
 
             if on_duplicate_cell == "error":
-                cell_names_duplicated = "\n".join(set(cell_names))
                 raise ValueError(
-                    f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
+                    f"Duplicated cell names in {self.name!r}: {cell_names!r}"
                 )
             elif on_duplicate_cell in {"warn", "overwrite"}:
                 if on_duplicate_cell == "warn":
-                    cell_names_duplicated = "\n".join(set(cell_names))
                     warnings.warn(
-                        f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
+                        f"Duplicated cell names in {self.name!r}:  {cell_names}",
                     )
                 cells_dict = {cell.name: cell for cell in cells}
                 cells = cells_dict.values()
