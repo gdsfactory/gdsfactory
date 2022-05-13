@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.7]
+
+- improve filewatcher for YAML files
+
 ## [5.6.6](https://github.com/gdsfactory/gdsfactory/pull/382)
 
 - `gf yaml watch` uses the same logging.logger

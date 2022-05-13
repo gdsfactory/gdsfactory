@@ -926,7 +926,7 @@ class Component(Device):
     def write_gds(
         self,
         gdspath: Optional[PathType] = None,
-        gdsdir: PathType = tmp,
+        gdsdir: Optional[PathType] = None,
         unit: float = 1e-6,
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
@@ -950,6 +950,9 @@ class Component(Device):
                 None: do not try to resolve (at your own risk!)
 
         """
+        gdsdir = (
+            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+        )
         gdsdir = pathlib.Path(gdsdir)
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
         gdspath = pathlib.Path(gdspath)
@@ -965,15 +968,13 @@ class Component(Device):
                 cell_names.remove(cell_name)
 
             if on_duplicate_cell == "error":
-                cell_names_duplicated = "\n".join(set(cell_names))
                 raise ValueError(
-                    f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
+                    f"Duplicated cell names in {self.name!r}: {cell_names!r}"
                 )
             elif on_duplicate_cell in {"warn", "overwrite"}:
                 if on_duplicate_cell == "warn":
-                    cell_names_duplicated = "\n".join(set(cell_names))
                     warnings.warn(
-                        f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
+                        f"Duplicated cell names in {self.name!r}:  {cell_names}",
                     )
                 cells_dict = {cell.name: cell for cell in cells}
                 cells = cells_dict.values()

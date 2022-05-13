@@ -21,12 +21,12 @@ def get_input_label_text(
     """Get text string for an optical port based on grating coupler.
 
     Args:
-        port:
-        gc: grating coupler
-        gc_index: grating_coupler index, which grating_coupler we are labelling
-        component_name:
-        prefix: component prefix
-        label_prefix:
+        port: to label.
+        gc: grating coupler.
+        gc_index: grating_coupler index, which grating_coupler we are labelling.
+        component_name: optional name.
+        prefix: cell name prefix on the label.
+        label_prefix: prefix to add.
 
     """
     polarization = gc.info.get("polarization") or gc.metadata_child.get("polarization")
@@ -64,16 +64,17 @@ def get_input_label(
     get_input_label_text_function=get_input_label_text,
 ) -> Label:
     """Returns a label with component info for a given grating coupler.
+
     Test equipment to extract grating coupler coordinates and match it to the component.
 
     Args:
-        port: port to label
-        gc: grating coupler reference
-        gc_index: grating coupler index
-        gc_port_name: name of grating coupler port
-        layer_label: layer of the label
-        component_name: for the label
-        get_input_label_text_function: function to get input label
+        port: port to label.
+        gc: grating coupler reference.
+        gc_index: grating coupler index.
+        gc_port_name: name of grating coupler port.
+        layer_label: layer of the label.
+        component_name: for the label.
+        get_input_label_text_function: function to get input label.
     """
     text = get_input_label_text_function(
         port=port, gc=gc, gc_index=gc_index, component_name=component_name
@@ -104,11 +105,11 @@ def get_input_label_electrical(
     and match it to the component.
 
     Args:
-        port:
-        gc_index: index of the label
-        component_name:
-        layer_label:
-        gc: ignored
+        port: to label
+        gc_index: index of the label.
+        component_name: Optional component_name.
+        layer_label: for label.
+        gc: ignored.
     """
 
     if component_name:
@@ -140,18 +141,18 @@ def add_labels(
 
     Args:
         component: to add labels to.
-        get_label_function: function to get label
-        layer_label: layer_label
-        gc: Optional grating coupler
+        get_label_function: function to get label.
+        layer_label: layer_label.
+        gc: Optional grating coupler.
 
     keyword Args:
-        layer: port GDS layer
-        prefix: with in port name
-        orientation: in degrees
-        width:
-        layers_excluded: List of layers to exclude
+        layer: port GDS layer.
+        prefix: with in port name.
+        orientation: in degrees.
+        width: for ports to add label.
+        layers_excluded: List of layers to exclude.
         port_type: optical, electrical, ...
-        clockwise: if True, sort ports clockwise, False: counter-clockwise
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     Returns:
         original component with labels
@@ -183,13 +184,13 @@ def add_siepic_labels(
     """Adds labels and returns the same component.
 
     Args:
-        component: component
-        model: Lumerical Interconnect model. 'auto' will attempt to extract this from the cross_section
-        library: Lumerical Interconnect library. 'auto' will attempt to extract this from the cross_section
-        label_layer: layer for writing SiEPIC labels
-        spice_params: spice parameters (in microns). Either pass in a dict with parameter, value pairs, or pass
+        component: component.
+        model: Lumerical Interconnect model. 'auto' attempts to extract this from the cross_section.
+        library: Lumerical Interconnect library. 'auto' attempts to extract this from the cross_section.
+        label_layer: layer for writing SiEPIC labels.
+        spice_params: spice parameters (in microns). Either pass in a dict with parameter, value pairs, or pass.
             in a list of values to extract from component info.
-        label_sep: distance between labels
+        label_sep: separation distance between labels.
     """
 
     c = component

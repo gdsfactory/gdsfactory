@@ -1,3 +1,162 @@
-name: dxdy
-settings: {}
+name: dxdy_0f08c794
+settings:
+  changed:
+    conf:
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 10
+            width_mmi: 4.5
+        mmi_short:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: dxdy
+      placements:
+        mmi_long:
+          dx: 10
+          dy: -10
+          port: o1
+          x: mmi_short,o2
+          y: mmi_short,o2
+        mmi_short:
+          port: o1
+          x: 0
+          y: 0
+      ports:
+        o1: mmi_long,o3
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 10
+            width_mmi: 4.5
+        mmi_short:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: dxdy
+      placements:
+        mmi_long:
+          dx: 10
+          dy: -10
+          port: o1
+          x: mmi_short,o2
+          y: mmi_short,o2
+        mmi_short:
+          port: o1
+          x: 0
+          y: 0
+      ports:
+        o1: mmi_long,o3
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info: {}
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: dxdy_0f08c794
 version: 0.0.1

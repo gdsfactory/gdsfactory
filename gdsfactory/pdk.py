@@ -20,6 +20,7 @@ from gdsfactory.types import (
     CrossSectionFactory,
     CrossSectionSpec,
     Dict,
+    PathType,
 )
 
 logger = logging.root
@@ -28,7 +29,14 @@ cross_section_settings = ["function", "cross_section", "settings"]
 
 
 class Pdk(BaseModel):
-    """Pdk Library to store cell and cross_section functions."""
+    """Pdk Library to store cell and cross_section functions.
+
+    Args:
+        name: PDK name.
+        cross_sections: cross_sections.
+        cells: pcells.
+        containers: pcells that contain other cells.
+    """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
@@ -77,30 +85,43 @@ class Pdk(BaseModel):
             self.cross_sections[name] = cross_section
 
     def register_cells_yaml(
-        self, dirpath: Optional[pathlib.Path] = None, **kwargs
+        self,
+        dirpath: Optional[PathType] = None,
+        update: bool = False,
+        **kwargs,
     ) -> None:
         """Load *.pic.yml YAML files and register them as cells.
 
         Args:
             dirpath: directory to recursive search for YAML cells.
+            update: does not raise ValueError if cell already registered.
 
         Keyword Args:
             cell_name: cell function. To update cells dict.
 
         """
+        message = "Updated" if update else "Registered"
 
         if dirpath:
+            dirpath = pathlib.Path(dirpath)
+
             if not dirpath.is_dir():
-                raise ValueError(f"{dirpath} needs to be a directory.")
+                raise ValueError(f"{dirpath!r} needs to be a directory.")
 
             for filepath in dirpath.glob("*/**/*.pic.yml"):
                 name = filepath.stem.split(".")[0]
+                if not update and name in self.cells:
+                    raise ValueError(
+                        f"ERROR: Cell name {name!r} from {filepath} already registered."
+                    )
                 self.cells[name] = partial(from_yaml, filepath)
-                logger.info(f"Registered cell {name!r}")
+                logger.info(f"{message} cell {name!r}")
 
         for k, v in kwargs.items():
+            if not update and k in self.cells:
+                raise ValueError(f"ERROR: Cell name {k!r} already registered.")
             self.cells[k] = v
-            logger.info(f"Registered cell {k!r}")
+            logger.info(f"{message} cell {k!r}")
 
     def remove_cell(self, name: str):
         if name not in self.cells:
