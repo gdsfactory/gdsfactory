@@ -1,8 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.6.7]
+## [5.6.7](https://github.com/gdsfactory/gdsfactory/pull/385)
 
+- fix some pydocstyle errors
+- write_gds creates a new file per save
 - improve filewatcher for YAML files
+- add python_requires = >= 3.7 in setup.cfg
+
 
 ## [5.6.6](https://github.com/gdsfactory/gdsfactory/pull/382)
 
