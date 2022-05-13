@@ -53,7 +53,6 @@ import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
-import omegaconf
 from omegaconf import OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
@@ -189,7 +188,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, omegaconf.DictConfig):
+        if not isinstance(placement_settings, dict):
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
@@ -561,6 +560,7 @@ def from_yaml(
             raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")
 
     settings = conf.get("settings", {})
+
     for key, value in kwargs.items():
         if key not in settings:
             raise ValueError(f"{key!r} not in {settings.keys()}")
@@ -568,12 +568,11 @@ def from_yaml(
             conf["settings"][key] = value
 
     return _from_yaml(
-        conf=conf,
+        conf=OmegaConf.to_container(conf, resolve=True),
         routing_strategy=routing_strategy,
         label_instance_function=label_instance_function,
         prefix=prefix or conf.get("name", "Unnamed"),
         name=name,
-        **kwargs,
     )
 
 
@@ -582,15 +581,13 @@ def _from_yaml(
     conf,
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
-    **kwargs,
 ) -> Component:
     """Returns component from YAML decorated with cell for caching and autonaming.
 
     Args:
-        conf: DictConfig.
+        conf: dict.
         routing_strategy: for each route.
         label_instance_function: to label each instance.
-        kwargs: function settings. Overwrite settings from YAML.
     """
     from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
 
@@ -622,7 +619,6 @@ def _from_yaml(
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
-        settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
         component_spec = {"component": component, "settings": settings}
         component = pdk.get_component(component_spec)
         ref = c << component
@@ -674,9 +670,6 @@ def _from_yaml(
                     )
 
             settings = routes_dict.pop("settings", {})
-            settings = (
-                OmegaConf.to_container(settings, resolve=True) if settings else {}
-            )
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
                 routing_strategies = list(routing_strategy.keys())
@@ -751,10 +744,6 @@ def _from_yaml(
                                 f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
-
-                    # print(ports1)
-                    # print(ports2)
-                    # print(route_names)
 
                 else:
                     instance_src_name, port_src_name = port_src_string.split(",")
