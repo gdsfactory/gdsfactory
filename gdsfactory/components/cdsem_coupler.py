@@ -26,16 +26,15 @@ def cdsem_coupler(
     """Returns 2 coupled waveguides gap sweep.
 
     Args:
-        width: for the waveguide
-        length: for the line
-        gaps: list of gaps for the sweep
-        cross_section: for the lines
-        text: optional text for labels
-        spacing: edge to edge spacing
-
+        width: for the waveguide.
+        length: for the line.
+        gaps: list of gaps for the sweep.
+        cross_section: for the lines.
+        text: optional text for labels.
+        spacing: edge to edge spacing.
     """
 
-    cross_section = partial(cross_section, width=width)
+    cross_section = gf.get_cross_section(cross_section, width=width)
 
     couplers = []
 

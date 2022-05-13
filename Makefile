@@ -131,7 +131,7 @@ pylint:
 lintdocs:
 	flake8 --select RST
 
-lintdocs2:
+pydocstyle:
 	pydocstyle gdsfactory
 
 doc8:

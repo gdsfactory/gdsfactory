@@ -10,9 +10,7 @@ instances:
             width_mmi: 4
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
@@ -25,9 +23,7 @@ instances:
             width_taper: 1
             with_bbox: true
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10
@@ -50,9 +46,7 @@ instances:
             width_mmi: 4
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
@@ -65,9 +59,7 @@ instances:
             width_taper: 1
             with_bbox: true
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10
@@ -90,9 +82,7 @@ instances:
             width_mmi: 10
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
@@ -105,9 +95,7 @@ instances:
             width_taper: 1
             with_bbox: true
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10
@@ -130,9 +118,7 @@ instances:
             width_mmi: 10
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
@@ -145,9 +131,7 @@ instances:
             width_taper: 1
             with_bbox: true
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10
@@ -175,7 +159,7 @@ instances:
         - 4
         - 10
       spacing: 100
-name: mask
+name: mask_c9e6af3d
 placements:
   mmi1x2_sweep:
     mirror: false

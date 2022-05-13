@@ -54,11 +54,11 @@ def loss_deembedding_ch13_24(
     Connects channel 1->3, 2->4
 
     Args:
-        pitch:
-        grating_coupler:
-        input_port_indexes: adds test labels
-        cross_section:
-        kwargs: cross_section settings
+        pitch: um.
+        grating_coupler: spec.
+        input_port_indexes: adds test labels.
+        cross_section: spec.
+        kwargs: cross_section settings.
     """
 
     gc = grating_coupler()

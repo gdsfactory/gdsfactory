@@ -1,5 +1,6 @@
 """Combine multiple YAML files into one."""
 
+import pathlib
 from typing import Any, Dict, Optional
 
 from omegaconf import OmegaConf
@@ -26,12 +27,13 @@ def merge_yaml(
     """
     logger.debug(f"Merging JSON files from {doe_directory}")
     cells = {}
+    doe_directory = pathlib.Path(doe_directory)
 
     for filename in doe_directory.glob("**/*.yml"):
         logger.debug(f"merging {filename}")
         metadata = OmegaConf.load(filename)
-        metadata = OmegaConf.to_container(metadata)
-        cells |= metadata.get("cells", {})
+        metadata_dict = OmegaConf.to_container(metadata)
+        cells.update(metadata_dict.get("cells", {}))
 
     metadata = dict(
         json_version=json_version,
@@ -39,6 +41,7 @@ def merge_yaml(
     )
 
     if yaml_path:
+        yaml_path = pathlib.Path(yaml_path)
         yaml_path.write_text(OmegaConf.to_yaml(metadata))
         logger.info(f"Wrote metadata in {yaml_path}")
     return metadata

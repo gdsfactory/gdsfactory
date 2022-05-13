@@ -184,24 +184,29 @@ def _name_to_description(name_str) -> str:
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
-def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
+def _add_layer(entry, lys: LayerSet, shorten_names: bool = True) -> Optional[LayerSet]:
     """Entry is a dict of one element of 'properties'.
     No return value. It adds it to the lys variable directly
+
+    Args:
+        entry: layer entry.
+        lys: layer set.
+        shorten_names: takes the first part of the layer as its name.
     """
     info = entry["source"].split("@")[0]
 
     # skip layers without name or with */*
     if "'" in info or "*" in info:
-        return
+        return None
 
     name = entry.get("name") or entry.get("source")
     if not name:
-        return
+        return None
 
     infos = info.split("/")
 
     if len(infos) <= 1:
-        return
+        return None
 
     gds_layer, gds_datatype = info.split("/")
     gds_layer = gds_layer.split()[-1]
@@ -212,9 +217,9 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
     # if entry["visible"] == "false" or entry["xfill"] == "false":
 
     if ("visible" in entry.keys()) and (entry["visible"] == "false"):
-        alpha = 0
+        alpha = 0.0
     elif ("transparent" in entry.keys()) and (entry["transparent"] == "false"):
-        alpha = 1
+        alpha = 1.0
     else:
         alpha = 0.5
 
@@ -223,7 +228,7 @@ def _add_layer(entry, lys: LayerSet) -> Optional[LayerSet]:
         "gds_datatype": int(gds_datatype),
         "color": entry["fill-color"],
         "dither": entry["dither-pattern"],
-        "name": _name_to_short_name(name),
+        "name": _name_to_short_name(name) if shorten_names else name,
     }
 
     settings["description"] = _name_to_description(name)
@@ -253,7 +258,10 @@ def load_lyp(filepath: Path) -> LayerSet:
             if not isinstance(group_members, list):
                 group_members = [group_members]
             for member in group_members:
-                _add_layer(member, lys)
+                try:
+                    _add_layer(member, lys)
+                except Exception:
+                    _add_layer(member, lys, shorten_names=False)
     return lys
 
 

@@ -1,0 +1,190 @@
+name: mask_compact_c65fc3af
+settings:
+  changed:
+    conf:
+      instances:
+        mzis:
+          component: pack_doe_grid
+          settings:
+            do_permutations: true
+            doe: mzi
+            function: add_fiber_array
+            settings:
+              delta_length:
+              - 10
+              - 100
+            spacing:
+            - 10
+            - 10
+        rings:
+          component: pack_doe
+          settings:
+            do_permutations: true
+            doe: ring_single
+            function:
+              function: add_fiber_array
+              settings:
+                fanout_length: 200
+            settings:
+              length_x:
+              - 1
+              - 2
+              - 3
+              radius:
+              - 30
+              - 50
+              - 20
+              - 40
+      name: mask_compact
+      placements:
+        mzis:
+          xmin: rings,east
+        rings:
+          xmin: 50
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        mzis:
+          component: pack_doe_grid
+          settings:
+            do_permutations: true
+            doe: mzi
+            function: add_fiber_array
+            settings:
+              delta_length:
+              - 10
+              - 100
+            spacing:
+            - 10
+            - 10
+        rings:
+          component: pack_doe
+          settings:
+            do_permutations: true
+            doe: ring_single
+            function:
+              function: add_fiber_array
+              settings:
+                fanout_length: 200
+            settings:
+              length_x:
+              - 1
+              - 2
+              - 3
+              radius:
+              - 30
+              - 50
+              - 20
+              - 40
+      name: mask_compact
+      placements:
+        mzis:
+          xmin: rings,east
+        rings:
+          xmin: 50
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info: {}
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: mask_compact_c65fc3af
+version: 0.0.1

@@ -33,10 +33,11 @@ def coupler_ring(
         radius: of the bends.
         length_x: length of the parallel coupled straight waveguides.
         coupler90: straight coupled to a 90deg bend.
-        bend: factory for bend
+        bend: bend spec.
         coupler_straight: two parallel coupled straight waveguides.
-        cross_section:
-        kwargs: cross_section settings
+        cross_section: cross_section spec.
+        bend_cross_section: optional bend cross_section spec.
+        kwargs: cross_section settings for bend and coupler.
 
     .. code::
 

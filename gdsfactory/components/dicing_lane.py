@@ -18,14 +18,14 @@ def dicing_lane(
 
     Args:
         size: (tuple) Width and height of rectangle.
-        marker: function to generate the dicing lane markers
+        marker: function to generate the dicing lane markers.
         layer_dicing: Specific layer to put polygon geometry on.
 
     """
     c = Component()
     r = c << rectangle(size=size, layer=layer_dicing)
 
-    m = marker()
+    m = gf.get_component(marker)
 
     mbr = c << m
     mbr.xmin = r.xmax

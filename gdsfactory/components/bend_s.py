@@ -37,7 +37,7 @@ def bend_s(
         layer = section.layer
         bend = bezier(
             width=width,
-            control_points=[(0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)],
+            control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
             npoints=nb_points,
             layer=layer,
         )

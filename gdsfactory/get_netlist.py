@@ -35,9 +35,9 @@ def get_instance_name(
     If no label returns to instanceName_x_y
 
     Args:
-        component: with labels
-        reference: reference that needs naming
-        layer_label: ignores layer_label[1]
+        component: with labels.
+        reference: reference that needs naming.
+        layer_label: ignores layer_label[1].
     """
 
     x = snap_to_grid(reference.x)
@@ -218,7 +218,7 @@ def get_netlist_recursive(
         for ref in component.references:
             rcell = ref.parent
             grandchildren = get_netlist_recursive(rcell)
-            all_netlists |= grandchildren
+            all_netlists.update(grandchildren)
             if ref.ref_cell.references:
                 inst_name = get_instance_name(component, ref)
                 netlist["instances"][inst_name] = {

@@ -15,7 +15,7 @@ def plot_model(
     fig=None,
     phase: bool = False,
 ) -> None:
-    """Plot simphony Sparameters for a model
+    """Plot simphony Sparameters for a model.
 
     Args:
         model: simphony model

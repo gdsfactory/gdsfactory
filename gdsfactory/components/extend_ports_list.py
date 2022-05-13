@@ -16,10 +16,10 @@ def extend_ports_list(
     """Returns a component with the extensions for a list of ports.
 
     Args:
-        ports: list of ports
-        extension_factory: function for extension
-        extension_port_name: to connect extension
-        ignore_ports: list of port names to ignore
+        ports: list of ports.
+        extension_factory: function for extension.
+        extension_port_name: to connect extension.
+        ignore_ports: list of port names to ignore.
 
     """
     c = Component()

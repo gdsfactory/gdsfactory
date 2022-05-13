@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_cavity_7b26649e
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -139,6 +141,7 @@ settings:
     length: 0.1
   full:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -212,5 +215,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.cavity
-  name: mzi_2e88f57c_cavity_a1719f97
+  name: mzi_2e88f57c_cavity_7b26649e
 version: 0.0.1

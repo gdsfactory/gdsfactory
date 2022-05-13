@@ -1,3 +1,4 @@
+name: array_with_fanout
 settings:
   changed: {}
   child: null

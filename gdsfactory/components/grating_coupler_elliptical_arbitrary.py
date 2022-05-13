@@ -44,25 +44,25 @@ def grating_coupler_elliptical_arbitrary(
     it depends on fiber_angle (degrees), neff, and nclad
 
     Args:
-        gaps:
-        widths:
-        wg_width: waveguide width
-        taper_length: taper length from input
-        taper_angle: grating flare angle
-        layer: LAYER.WG
-        wavelength: grating transmission central wavelength (um)
-        fiber_angle: fibre angle in degrees determines ellipticity
-        neff: tooth effective index
-        nclad: cladding effective index
-        layer_slab: Optional slab
-        slab_xmin: where 0 is at the start of the taper
-        polarization: te or tm
-        fiber_marker_width:
-        fiber_marker_layer: Optional marker
-        spiked: grating teeth have spikes to avoid drc errors.
+        gaps: list of gaps.
+        widths: list of widths.
+        wg_width: waveguide width.
+        taper_length: taper length from input.
+        taper_angle: grating flare angle.
+        layer: LAYER.WG.
+        wavelength: grating transmission central wavelength (um).
+        fiber_angle: fibre angle in degrees determines ellipticity.
+        neff: tooth effective index.
+        nclad: cladding effective index.
+        layer_slab: Optional slab.
+        slab_xmin: where 0 is at the start of the taper.
+        polarization: te or tm.
+        fiber_marker_width: in um.
+        fiber_marker_layer: Optional marker.
+        spiked: grating teeth have spikes to avoid drc errors..
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
-        cross_section: cross_section factory for waveguide port.
+        cross_section: cross_section spec for waveguide port.
 
     https://en.wikipedia.org/wiki/Ellipse
     c = (a1 ** 2 - b1 ** 2) ** 0.5
@@ -126,7 +126,7 @@ def grating_coupler_elliptical_arbitrary(
     name = f"vertical_{polarization.lower()}"
     c.add_port(
         name=name,
-        midpoint=[x, 0],
+        midpoint=(x, 0),
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
@@ -137,7 +137,7 @@ def grating_coupler_elliptical_arbitrary(
     xs = gf.get_cross_section(cross_section, width=wg_width, layer=layer)
     c.add_port(
         name="o1",
-        midpoint=[x_output, 0],
+        midpoint=(x_output, 0),
         width=wg_width,
         orientation=180,
         layer=layer,

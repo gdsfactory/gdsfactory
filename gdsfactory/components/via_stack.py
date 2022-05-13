@@ -28,10 +28,10 @@ def via_stack(
     http://www.vlsi-expert.com/2017/12/vias.html
 
     Args:
-        size: of the layers
-        layers: layers on which to draw rectangles
-        vias: vias to use to fill the rectangles
-        layer_port: if None asumes port is on the last layer
+        size: of the layers.
+        layers: layers on which to draw rectangles.
+        vias: vias to use to fill the rectangles.
+        layer_port: if None asumes port is on the last layer.
     """
 
     width, height = size

@@ -6,15 +6,13 @@ import inspect
 from typing import Any, Callable, Dict, Optional, Tuple, TypeVar
 
 import toolz
-from phidl.device_layout import Device
 from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
 from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
 from gdsfactory.serialization import clean_dict, clean_value_name
 
-CACHE: Dict[str, Device] = {}
-CELLS: Dict[str, Callable] = {}
+CACHE: Dict[str, Component] = {}
 
 INFO_VERSION = 2
 
@@ -75,6 +73,7 @@ def cell_without_validator(func):
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
+        flatten = kwargs.pop("flatten", False)
         info = kwargs.pop("info", {})
         prefix = kwargs.pop("prefix", func.__name__)
         max_name_length = kwargs.pop("max_name_length", MAX_NAME_LENGTH)
@@ -139,9 +138,9 @@ def cell_without_validator(func):
                     )
 
         if cache and name in CACHE:
-            # print(f"CACHE LOAD {name} {func.__name__}({arguments})")
+            # print(f"CACHE LOAD {name} {func.__name__}({named_args_string})")
             return CACHE[name]
-        # print(f"BUILD {name} {func.__name__}({arguments})")
+        # print(f"BUILD {name} {func.__name__}({named_args_string})")
 
         if not callable(func):
             raise ValueError(
@@ -153,46 +152,51 @@ def cell_without_validator(func):
             dict(component.child.settings) if hasattr(component, "child") else None
         )
 
-        if not isinstance(component, Device):
+        if not isinstance(component, Component):
             raise CellReturnTypeError(
                 f"function {func.__name__!r} return type = {type(component)}",
                 "make sure that functions with @cell decorator return a Component",
             )
 
         if metadata_child and component.get_child_name:
-            component_name = f"{metadata_child['name']}_{name}"
+            component_name = f"{metadata_child.get('name')}_{name}"
             component_name = get_name_short(
                 component_name, max_name_length=max_name_length
             )
         else:
             component_name = name
 
-        if autoname:
+        if autoname and not hasattr(component, "imported_gds"):
             component.name = component_name
 
         component.info.update(**info)
-        component.settings = Settings(
-            name=component_name,
-            module=func.__module__,
-            function_name=func.__name__,
-            changed=clean_dict(changed),
-            default=clean_dict(default),
-            full=clean_dict(full),
-            info=component.info,
-            child=metadata_child,
-        )
+
+        if not hasattr(component, "imported_gds"):
+            component.settings = Settings(
+                name=component_name,
+                module=func.__module__,
+                function_name=func.__name__,
+                changed=clean_dict(changed),
+                default=clean_dict(default),
+                full=clean_dict(full),
+                info=component.info,
+                child=metadata_child,
+            )
 
         if decorator:
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
+            component.unlock()
             component_new = decorator(component)
             component = component_new or component
+
+        if flatten:
+            component = component.flatten()
 
         component.lock()
         CACHE[name] = component
         return component
 
-    CELLS[id(_cell)] = _cell
     return _cell
 
 
@@ -216,14 +220,14 @@ def cell(func: _F, *args, **kwargs) -> _F:
 
     Keyword Args:
         autoname (bool): if True renames component based on args and kwargs
-        name (str): Optional (ignored when autoname=True)
+        name (str): Optional (ignored when autoname=True).
         cache (bool): returns component from the cache if it already exists.
-            if False creates a new component
-            by default True avoids having duplicated cells with the same name
-        info: updates component.info dict
-        prefix: name_prefix, defaults to function name
-        max_name_length: truncates name beyond some characters (32) with a hash
-        decorator: function to run over the component
+            if False creates a new component.
+            by default True avoids having duplicated cells with the same name.
+        info: updates component.info dict.
+        prefix: name_prefix, defaults to function name.
+        max_name_length: truncates name beyond some characters (32) with a hash.
+        decorator: function to run over the component.
 
 
     .. plot::
@@ -333,7 +337,7 @@ def straight_with_pins(**kwargs) -> Component:
     c = gf.Component()
     ref = c << gf.components.straight()
     c.add_ports(ref.ports)
-    gf.add_pins(c)
+    gf.add_pins.add_pins(c)
     return c
 
 

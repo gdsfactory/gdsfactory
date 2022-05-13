@@ -1,3 +1,4 @@
+from functools import partial
 from typing import Dict, Union
 
 import tidy3d as td
@@ -96,8 +97,12 @@ def get_medium(
     return m
 
 
+si = partial(get_index, "si")
+sio2 = partial(get_index, "sio2")
+
 if __name__ == "__main__":
+    print(si(1.55))
     # print(get_index(name_or_index="cSi"))
-    print(get_index(name_or_index=3.4))
+    # print(get_index(name_or_index=3.4))
     # m = get_medium(name_or_index="SiO2")
     # m = td.Medium(permittivity=1.45 ** 2)

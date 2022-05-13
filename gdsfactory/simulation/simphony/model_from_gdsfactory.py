@@ -11,7 +11,7 @@ from gdsfactory.component import Component
 def model_from_gdsfactory(
     component: Component, dirpath=gf.CONFIG["sparameters"], **kwargs
 ) -> Model:
-    """Return simphony model from gdsfactory Component Sparameters
+    """Return simphony model from gdsfactory Component Sparameters.
 
     Args:
         component: component factory or instance

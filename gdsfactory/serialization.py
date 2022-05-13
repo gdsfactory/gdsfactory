@@ -8,6 +8,7 @@ import numpy as np
 import orjson
 import pydantic
 import toolz
+from omegaconf import DictConfig, OmegaConf
 from phidl.device_layout import Path as PathPhidl
 
 
@@ -25,7 +26,7 @@ def get_string(value: Any) -> str:
         ).decode()
     except TypeError as e:
         print(f"Error serializing {value!r}")
-        raise (e)
+        raise e
     return s
 
 
@@ -72,6 +73,8 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, dict):
         value = copy.deepcopy(value)
         value = clean_dict(value)
+    elif isinstance(value, DictConfig):
+        value = clean_dict(OmegaConf.to_container(value))
     else:
         value_json = orjson.dumps(
             value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_json
@@ -79,8 +82,6 @@ def clean_value_json(value: Any) -> Any:
         value = orjson.loads(value_json)
     return value
 
-    # elif isinstance(value, DictConfig):
-    #     value = clean_dict(value)
     # elif isinstance(value, (tuple, list, ListConfig)):
     #     value = [clean_value_json(i) for i in value]
     # elif value is None:
@@ -95,12 +96,19 @@ def clean_value_json(value: Any) -> Any:
 
 def clean_value_name(value: Any) -> str:
     """Returns a string representation of an object."""
+    # value1 = clean_value_json(value)
+    # print(type(value), value, value1, str(value1))
     return str(clean_value_json(value))
 
 
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    # f = gf.partial(gf.c.straight, length=3)
+    # d = clean_value_json(f)
+    # print(f"{d!r}")
+
     f = gf.partial(gf.c.straight, length=3)
-    d = clean_value_json(f)
-    print(f"{d!r}")
+    c = f()
+    d = clean_value_json(c)
+    print(d, str(d))
