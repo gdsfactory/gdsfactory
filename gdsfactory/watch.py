@@ -4,6 +4,7 @@ import sys
 import time
 import traceback
 from functools import partial
+from typing import Optional
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
@@ -16,12 +17,14 @@ from gdsfactory.read.from_yaml import from_yaml
 class YamlEventHandler(FileSystemEventHandler):
     """Captures pic.yml events."""
 
-    def __init__(self, logger=None):
+    def __init__(self, logger=None, path: Optional[str] = None):
         super().__init__()
 
         self.logger = logger or logging.root
+        pdk = get_active_pdk()
+        pdk.register_cells_yaml(dirpath=path)
 
-    def update_cell(self, src_path) -> None:
+    def update_cell(self, src_path, update: bool = False) -> None:
         """Register new YAML file into active pdk.
 
         pdk.cells[filename] = partial(from_yaml, filepath)
@@ -30,7 +33,10 @@ class YamlEventHandler(FileSystemEventHandler):
         filepath = pathlib.Path(src_path)
         cell_name = filepath.stem.split(".")[0]
         function = partial(from_yaml, filepath)
-        pdk.register_cells_yaml(**{cell_name: function})
+        try:
+            pdk.register_cells_yaml(**{cell_name: function}, update=update)
+        except ValueError as e:
+            print(e)
 
     def on_moved(self, event):
         super().on_moved(event)
@@ -39,6 +45,10 @@ class YamlEventHandler(FileSystemEventHandler):
         self.logger.info(
             "Moved %s: from %s to %s", what, event.src_path, event.dest_path
         )
+        if what == "file" and event.dest_path.endswith(".pic.yml"):
+            self.logger.info("Created %s: %s", what, event.src_path)
+            self.update_cell(event.dest_path)
+            self.show(event.dest_path)
 
     def on_created(self, event):
         super().on_created(event)
@@ -46,10 +56,8 @@ class YamlEventHandler(FileSystemEventHandler):
         what = "directory" if event.is_directory else "file"
         if what == "file" and event.src_path.endswith(".pic.yml"):
             self.logger.info("Created %s: %s", what, event.src_path)
-            c = from_yaml(event.src_path)
-            c.show()
-
             self.update_cell(event.src_path)
+            self.show(event.src_path)
 
     def on_deleted(self, event):
         super().on_deleted(event)
@@ -59,7 +67,7 @@ class YamlEventHandler(FileSystemEventHandler):
 
         pdk = get_active_pdk()
         filepath = pathlib.Path(event.src_path)
-        cell_name = filepath.stem
+        cell_name = filepath.stem.split(".")[0]
         pdk.remove_cell(cell_name)
 
     def on_modified(self, event):
@@ -68,13 +76,16 @@ class YamlEventHandler(FileSystemEventHandler):
         what = "directory" if event.is_directory else "file"
         if what == "file" and event.src_path.endswith(".pic.yml"):
             self.logger.info("Modified %s: %s", what, event.src_path)
-            try:
-                c = from_yaml(event.src_path)
-                c.show()
-                self.update_cell(event.src_path)
-            except Exception as e:
-                traceback.print_exc(file=sys.stdout)
-                print(e)
+            self.show(event.src_path)
+
+    def show(self, filepath):
+        try:
+            c = from_yaml(filepath)
+            c.show()
+            self.update_cell(filepath, update=True)
+        except (ValueError, KeyError) as e:
+            traceback.print_exc(file=sys.stdout)
+            print(e)
 
 
 def watch(path=str(cwd)) -> None:
@@ -83,10 +94,11 @@ def watch(path=str(cwd)) -> None:
         format="%(asctime)s - %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
-    event_handler = YamlEventHandler()
+    event_handler = YamlEventHandler(path=path)
     observer = Observer()
     observer.schedule(event_handler, path, recursive=True)
     observer.start()
+    logging.info(f"Observing {path!r}")
     try:
         while True:
             time.sleep(1)
