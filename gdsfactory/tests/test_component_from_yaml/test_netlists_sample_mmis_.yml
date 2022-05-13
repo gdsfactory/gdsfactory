@@ -56,7 +56,7 @@ instances:
     settings:
       cross_section: strip
       length: 0.02
-name: Unnamed_a491ff8b
+name: sample_mmis_8ba5a8e2
 placements:
   bend_euler_115p145_5p5:
     mirror: false

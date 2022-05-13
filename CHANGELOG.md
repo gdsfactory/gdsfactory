@@ -1,5 +1,127 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.7](https://github.com/gdsfactory/gdsfactory/pull/385)
+
+- fix some pydocstyle errors
+- write_gds creates a new file per save
+- improve filewatcher for YAML files
+- add python_requires = >= 3.7 in setup.cfg
+
+
+## [5.6.6](https://github.com/gdsfactory/gdsfactory/pull/382)
+
+- `gf yaml watch` uses the same logging.logger
+- `gf.functions.rotate` can recenter component [PR](https://github.com/gdsfactory/gdsfactory/pull/381)
+
+## [5.6.5](https://github.com/gdsfactory/gdsfactory/pull/380)
+
+- copy paths when copying components [PR](https://github.com/gdsfactory/gdsfactory/pull/377)
+- shear face fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/379)
+- fix some pydocstyle
+- add port_orientations to gf.components.compass, if None it adds a port with None orientation
+
+## [5.6.4](https://github.com/gdsfactory/gdsfactory/pull/376)
+
+- add_fiber_array adds vertical ports to grating couplers
+- add_fiber_single adds vertical ports to grating couplers. Before it was adding only loopback ports.
+- import gds fixes [PR](https://github.com/gdsfactory/gdsfactory/pull/374)
+
+## [5.6.3](https://github.com/gdsfactory/gdsfactory/pull/373)
+
+- fix get_labels rotation
+
+## [5.6.2](https://github.com/gdsfactory/gdsfactory/pull/372)
+
+- add `gdsfactory.simulation.tidy3d.modes.sweep_bend_radius`
+
+## [5.6.1](https://github.com/gdsfactory/gdsfactory/pull/371)
+
+- import `load_lyp`
+
+## [5.6.0](https://github.com/gdsfactory/gdsfactory/pull/369)
+
+- add `gf.dft` design for testing, test protocols example in the mask section documentation.
+- fix sparameters_meep_mpi [PR](https://github.com/gdsfactory/gdsfactory/pull/366)
+
+## [5.5.9](https://github.com/gdsfactory/gdsfactory/pull/365)
+
+- MaterialSpec for lumerical simulation to address [feature request](https://github.com/gdsfactory/gdsfactory/issues/363)
+
+## [5.5.8](https://github.com/gdsfactory/gdsfactory/pull/364)
+
+- support ports with None orientation
+
+## [5.5.7](https://github.com/gdsfactory/gdsfactory/pull/362)
+
+- fix json schema
+
+## [5.5.6](https://github.com/gdsfactory/gdsfactory/pull/361)
+
+- expose `gf.add_pins` module instead of `add_pins` function. So you can use any of the functions inside the module.
+- improve tutorial
+
+
+## [5.5.5](https://github.com/gdsfactory/gdsfactory/pull/360)
+
+- add `gdsdir` to write_cells CLI command
+- rewrite write_cells, before it was writing some empty cells.
+- add `debug=False` to add_ports_from_markers_center and remove logger output
+
+## [5.5.4](https://github.com/gdsfactory/gdsfactory/compare/554?expand=1)
+
+- update tidy3d from `1.1.1` to `1.3.2`
+
+## [5.5.3](https://github.com/gdsfactory/gdsfactory/pull/358)
+
+- add `read_metadata` flag to `gf.read.import_gds`
+- move dashboard to experimental `requirements_exp` file, that can be install with `pip install gdsfactory[exp]`
+
+## [5.5.2](https://github.com/gdsfactory/gdsfactory/pull/350)
+
+- add `gtidy3d` mode solver
+
+## [5.5.1](https://github.com/gdsfactory/gdsfactory/pull/349)
+
+- waveguide separation in get_bundle_from_waypoints [fix](https://github.com/gdsfactory/gdsfactory/issues/346)
+- cell get_metadata [fix](https://github.com/gdsfactory/gdsfactory/issues/348)
+
+## [5.5.0](https://github.com/gdsfactory/gdsfactory/pull/345)
+
+- `gf.read.import_gds()` is now a cell (no more lru cache). LRU cache was not working properly with partial functions.
+- add `flatten=False` to cell and decorator
+- remove flatten argument `import_gds`
+- Component.to_dict() also exports component name
+- revert [show changes](https://github.com/gdsfactory/gdsfactory/pull/326/files) as it was causing some files not to reload in klayout.
+
+## [5.4.3](https://github.com/gdsfactory/gdsfactory/pull/344)
+
+- bring back python3.7 compatibility
+
+## [5.4.2](https://github.com/gdsfactory/gdsfactory/compare/542?expand=1)
+
+- add `Pdk.containers` and `Pdk.register_containers`
+
+## 5.4.1
+
+- bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
+- rename `vars` to `settings` in `read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/339)
+    - use settings combined with kwargs for getting component name
+- fix mirror isse in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
+
+## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
+
+- add `gf yaml watch` folder watcher using watchdog, looking for `pic.yml` files
+- add `PDK.register_cells_yaml`
+
+## 5.3.8
+
+- update netlist driven flow tutorial with ipywidgets, so you can live update the YAML and see it in matplotlib and Klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/329)
+- [PR fixes problem with showing new layers, not in the previous layer props](https://github.com/gdsfactory/gdsfactory/pull/328)
+- [fix show](https://github.com/gdsfactory/gdsfactory/pull/326)
+ - Fixes gf.show() when gdsdir is passed as a kwarg (for cases when the user wants to retain the output gds file at a specific directory)
+ - Changes the default behavior to use a context manager to clean up the temp directory after it is created
+ - Adds tests for the two different invocation types
+
 ## [5.3.7](https://github.com/gdsfactory/gdsfactory/pull/325)
 
 - add ipywidgets for `read_from_yaml` netlist driven flow tutorial.
@@ -698,7 +820,7 @@
 - remove `Component.plotqt` as the qt plotter is now available with `Component.plot(plotter='qt')`
 - gf.geometry.boolean works with tuples of components or references as well as single component or Reference. Overcome phidl bug, where tuples are not trated as lists.
 - Before plotting make sure we recompute the bounding box
-- YAML mask definition allows using `vars` for global variables
+- YAML mask definition allows using `settings` for global variables
 - grating_coupler_rectangular first teeth starts next to the taper
 
 ## 3.9.28

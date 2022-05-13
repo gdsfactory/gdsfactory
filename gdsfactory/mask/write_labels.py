@@ -1,6 +1,4 @@
-"""
-find GDS labels and write labels into a CSV file
-"""
+"""Find GDS labels and write them to a CSV file."""
 
 import csv
 import pathlib
@@ -9,25 +7,28 @@ from typing import Iterator, Tuple
 
 from loguru import logger
 
+import gdsfactory as gf
 from gdsfactory import LAYER
 from gdsfactory.routing.add_fiber_single import add_fiber_single
 from gdsfactory.types import Optional, PathType
 
 
 def find_labels(
-    gdspath: Path, layer_label: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
+    gdspath: PathType, layer_label: Tuple[int, int] = LAYER.LABEL, prefix: str = "opt_"
 ) -> Iterator[Tuple[str, float, float]]:
     """Return text label and locations iterator from a GDS file.
 
+    Klayout does not support label rotations.
+
     Args:
-        gdspath: for the gds
-        layer_label:
-        prefix:
+        gdspath: for the gds.
+        layer_label: for the labels.
+        prefix: for the labels to select.
 
     Returns
-        string:
-        x: x position.
-        y: y position.
+        string: for the label.
+        x: x position (um).
+        y: y position (um).
     """
     import klayout.db as pya
 
@@ -56,29 +57,75 @@ def find_labels(
 
 
 def write_labels(
-    gdspath: Path,
+    gdspath: PathType,
     layer_label: Tuple[int, int] = LAYER.TEXT,
     filepath: Optional[PathType] = None,
     prefix: str = "opt_",
 ) -> Path:
-    """Load  GDS mask and extracts the labels and coordinates from a GDS file.
-    Returns CSV filepath
+    """Load GDS and extracts label text and coordinates.
+
+    Returns CSV filepath.
 
     Args:
-        gdspath:
-        layer_label:
-        filepath: for CSV file. Defaults to gdspath with CSV
-        prefix: for the labels
+        gdspath: for the mask.
+        layer_label: for labels to write.
+        filepath: for CSV file. Defaults to gdspath with CSV suffix.
+        prefix: for the labels to write.
 
     """
     labels = list(find_labels(gdspath, layer_label=layer_label, prefix=prefix))
     gdspath = pathlib.Path(gdspath)
 
     filepath = filepath or gdspath.with_suffix(".csv")
+
     with open(filepath, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows(labels)
-    logger.info(f"Wrote {len(labels)} labels in {filepath.absolute()}")
+    logger.info(f"Wrote {len(labels)} labels to CSV {filepath.absolute()}")
+    return filepath
+
+
+def write_labels_gdspy(
+    gdspath: Path,
+    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    filepath: Optional[PathType] = None,
+    prefix: str = "opt_",
+    debug: bool = False,
+) -> Path:
+    """Load GDS and extracts label text and coordinates.
+
+    Returns CSV filepath. Text, x, y, rotation (degrees)
+
+    Args:
+        gdspath: for the mask.
+        layer_label: for labels to write.
+        filepath: for CSV file. Defaults to gdspath with CSV suffix.
+        prefix: for the labels to write.
+        debug: prints the label.
+    """
+
+    gdspath = pathlib.Path(gdspath)
+    filepath = filepath or gdspath.with_suffix(".csv")
+    filepath = pathlib.Path(filepath)
+    c = gf.import_gds(gdspath)
+
+    labels = []
+
+    for label in c.get_labels(set_transform=True):
+        if (
+            layer_label
+            and label.layer == layer_label[0]
+            and label.texttype == layer_label[1]
+            and label.text.startswith(prefix)
+        ):
+            labels += [(label.text, label.x, label.y, label.rotation)]
+            if debug:
+                print(label.text, label.x, label.y, label.rotation)
+
+    with open(filepath, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(labels)
+    logger.info(f"Wrote {len(labels)} labels to {filepath.absolute()}")
     return filepath
 
 
@@ -95,12 +142,10 @@ if __name__ == "__main__":
     test_find_labels()
 
     # import gdsfactory as gf
-
     # c = gf.components.straight()
     # cc = add_fiber_single(component=c)
     # gdspath = cc.write_gds()
     # print(len(list(find_labels(gdspath))))
     # cc.show()
-
     # gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
     # write_labels(gdspath)

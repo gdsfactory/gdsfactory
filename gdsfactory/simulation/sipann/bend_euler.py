@@ -12,7 +12,7 @@ def bend_euler(
     sw_angle: float = 90.0,
     **kwargs,
 ):
-    """Return simphony Model for a bend using a straight
+    """Return simphony Model for a bend using a straight.
 
     FIXME. this is fake bend! need to create a better model
 

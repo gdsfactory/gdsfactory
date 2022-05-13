@@ -19,7 +19,7 @@ from gdsfactory.types import Coordinate, Coordinates, Number
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
-    """Returns bezier coordinates
+    """Returns bezier coordinates.
 
     Args:
         t: 1D array of points varying between 0 and 1.
@@ -55,20 +55,19 @@ def bezier(
     end_angle: Optional[int] = None,
     grid: float = 0.001,
 ) -> Component:
-    """Bezier bend
-    We avoid autoname for control_points
+    """Returns Bezier bend.
 
     Args:
-        name: for the cell
-        width: straight width
-        control_points: list of points
-        npoints: number of points varying between 0 and 1
-        layer: layer
-        with_manhattan_facing_angles:
-        spike_length
-        start_angle
-        end_angle
-        grid
+        name: for the cell.
+        width: straight width (um)
+        control_points: list of points.
+        npoints: number of points varying between 0 and 1.
+        layer: layer.
+        with_manhattan_facing_angles: bool.
+        spike_length: um.
+        start_angle: deg.
+        end_angle: deg.
+        grid: in um.
     """
 
     if name is None:

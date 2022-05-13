@@ -7,6 +7,7 @@
 *.sqlite3
 *.hdf5
 *.stl
+*.pkl
 .pyre_configuration
 gdsfactory/klayout/tech/layers.py
 poetry.lock
@@ -20,6 +21,7 @@ docs/notebooks/ring.yml
 # Packages
 *.egg
 *.egg-info
+docs/notebooks/demo.yml
 Pipfile.lock
 dist
 doc_pdks/

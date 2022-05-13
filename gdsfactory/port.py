@@ -39,6 +39,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 import numpy as np
 import phidl.geometry as pg
 from numpy import ndarray
+from omegaconf import OmegaConf
 from phidl.device_layout import Port as PortPhidl
 
 from gdsfactory.cross_section import CrossSection
@@ -70,13 +71,13 @@ class Port(PortPhidl):
     Args:
         name: we name ports clock-wise starting from bottom left.
         midpoint: (x, y) port center coordinate.
-        width: of the port
-        orientation: in degrees (0: east, 90: north, 180: west, 270: south)
-        parent: parent component (component to which this port belong to)
+        width: of the port.
+        orientation: in degrees (0: east, 90: north, 180: west, 270: south).
+        parent: parent component (component to which this port belong to).
         layer: layer tuple.
-        port_type: str (optical, electrical, vertical_te, vertical_tm)
+        port_type: str (optical, electrical, vertical_te, vertical_tm).
         parent: Component that port belongs to.
-        cross_section:
+        cross_section: cross_section spec.
         shear_angle: an optional angle to shear port face in degrees.
     """
 
@@ -128,6 +129,20 @@ class Port(PortPhidl):
         if self.shear_angle:
             d["shear_angle"] = self.shear_angle
         return clean_value_json(d)
+
+    def to_yaml(self) -> str:
+        d = dict(
+            name=self.name,
+            width=float(self.width),
+            midpoint=[float(self.midpoint[0]), float(self.midpoint[1])],
+            orientation=float(self.orientation)
+            if self.orientation
+            else self.orientation,
+            layer=self.layer,
+            port_type=self.port_type,
+        )
+        d = OmegaConf.create(d)
+        return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
         return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
@@ -189,6 +204,8 @@ class Port(PortPhidl):
     def flip(self) -> Port:
         """flips port"""
         port = self.copy()
+        if port.orientation is None:
+            raise ValueError(f"port {self.name!r} has None orientation")
         port.orientation = (port.orientation + 180) % 360
         return port
 
@@ -248,7 +265,7 @@ class Port(PortPhidl):
         component_name = self.parent.name
         if not np.isclose(half_width, half_width_correct):
             raise PortNotOnGridError(
-                f"{component_name}, port = {self.name}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",
+                f"{component_name}, port = {self.name!r}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
 
@@ -290,11 +307,11 @@ def port_array(
     """Returns a list of ports placed in an array
 
     Args:
-        midpoint: center point of the port
-        width: port width
-        orientation: angle in degrees
-        pitch: period of the port array
-        n: number of ports in the array
+        midpoint: center point of the port.
+        width: port width.
+        orientation: angle in degrees.
+        pitch: period of the port array.
+        n: number of ports in the array.
 
     """
     pitch = np.array(pitch)
@@ -350,7 +367,7 @@ def sort_ports_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
@@ -393,7 +410,7 @@ def sort_ports_counter_clockwise(ports: Dict[str, Port]) -> Dict[str, Port]:
     direction_ports: PortsMap = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in port_list:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
@@ -433,19 +450,18 @@ def select_ports(
     """Returns a dict of ports from a dict of ports
 
     Args:
-        ports: Dict[str, Port] a port dict {port name: port}
-        layer: port GDS layer
-        prefix: port name prefix
-        suffix: port name suffix
-        orientation: in degrees
-        width: port width
-        layers_excluded: List of layers to exclude
+        ports: Dict[str, Port] a port dict {port name: port}.
+        layer: port GDS layer.
+        prefix: port name prefix.
+        suffix: port name suffix.
+        orientation: in degrees.
+        width: port width.
+        layers_excluded: List of layers to exclude.
         port_type: optical, electrical, ...
-        clockwise: if True, sort ports clockwise, False: counter-clockwise
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     Returns:
-        Dictionary containing only the ports with the wanted type(s)
-        {port name: port}
+        Dict containing the selected ports {port name: port}.
     """
 
     from gdsfactory.component import Component, ComponentReference
@@ -494,6 +510,8 @@ def select_ports_list(**kwargs) -> List[Port]:
 
 
 def flipped(port: Port) -> Port:
+    if port.orientation is None:
+        raise ValueError(f"port {port.name!r} has None orientation")
     _port = port.copy()
     _port.orientation = (_port.orientation + 180) % 360
     return _port
@@ -521,7 +539,7 @@ def get_ports_facing(ports: List[Port], direction: str = "W") -> List[Port]:
     direction_ports: Dict[str, List[Port]] = {x: [] for x in ["E", "N", "W", "S"]}
 
     for p in ports:
-        angle = p.orientation % 360
+        angle = p.orientation % 360 if p.orientation is not None else 0
         if angle <= 45 or angle >= 315:
             direction_ports["E"].append(p)
         elif angle <= 135 and angle >= 45:
@@ -656,11 +674,11 @@ def rename_ports_by_orientation(
     """Returns Component with port names based on port orientation (E, N, W, S)
 
     Args:
-        component:
-        layers_excluded:
-        select_ports:
-        function: to rename ports
-        prefix: to add on each port name
+        component: to rename ports.
+        layers_excluded: to exclude.
+        select_ports: function to select_ports.
+        function: to rename ports.
+        prefix: to add on each port name.
 
     .. code::
 
@@ -686,13 +704,16 @@ def rename_ports_by_orientation(
         # Make sure we can backtrack the parent component from the port
         p.parent = component
 
-        angle = p.orientation % 360
-        if angle <= 45 or angle >= 315:
-            direction_ports["E"].append(p)
-        elif angle <= 135 and angle >= 45:
-            direction_ports["N"].append(p)
-        elif angle <= 225 and angle >= 135:
-            direction_ports["W"].append(p)
+        if p.orientation:
+            angle = p.orientation % 360
+            if angle <= 45 or angle >= 315:
+                direction_ports["E"].append(p)
+            elif angle <= 135 and angle >= 45:
+                direction_ports["N"].append(p)
+            elif angle <= 225 and angle >= 135:
+                direction_ports["W"].append(p)
+            else:
+                direction_ports["S"].append(p)
         else:
             direction_ports["S"].append(p)
 
@@ -713,12 +734,12 @@ def auto_rename_ports(
     """Adds prefix for optical and electical.
 
     Args:
-        component:
-        function: to rename ports
-        select_ports_optical:
-        select_ports_electrical:
-        prefix_optical:
-        prefix_electrical:
+        component: to auto_rename_ports.
+        function: to rename ports.
+        select_ports_optical: to select optical ports.
+        select_ports_electrical: to select electrical ports.
+        prefix_optical: prefix of optical ports.
+        prefix_electrical: prefix of electrical ports.
     """
     rename_ports_by_orientation(
         component=component,
@@ -771,17 +792,18 @@ def map_ports_layer_to_orientation(
 
         for p in ports_on_layer:
             p.name_original = p.name
-            angle = p.orientation % 360
-            if angle <= 45 or angle >= 315:
-                direction_ports["E"].append(p)
-            elif angle <= 135 and angle >= 45:
-                direction_ports["N"].append(p)
-            elif angle <= 225 and angle >= 135:
-                direction_ports["W"].append(p)
-            else:
-                direction_ports["S"].append(p)
+            if p.orientation:
+                angle = p.orientation % 360
+                if angle <= 45 or angle >= 315:
+                    direction_ports["E"].append(p)
+                elif angle <= 135 and angle >= 45:
+                    direction_ports["N"].append(p)
+                elif angle <= 225 and angle >= 135:
+                    direction_ports["W"].append(p)
+                else:
+                    direction_ports["S"].append(p)
         function(direction_ports, prefix=f"{layer[0]}_{layer[1]}_")
-        m |= {p.name: p.name_original for p in ports_on_layer}
+        m.update({p.name: p.name_original for p in ports_on_layer})
     return m
 
 

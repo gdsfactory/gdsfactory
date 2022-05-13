@@ -19,13 +19,13 @@ def coupler_asymmetric(
     """bend coupled to straight waveguide
 
     Args:
-        bend:
-        straight: straight library
-        gap: um
-        dy: port to port vertical spacing
-        dx: bend length in x direction
-        cross_section:
-        **kwargs: cross_section settings
+        bend: spec.
+        straight: straight library.
+        gap: um.
+        dy: port to port vertical spacing.
+        dx: bend length in x direction.
+        cross_section: spec.
+        **kwargs: cross_section settings.
 
     .. code::
 

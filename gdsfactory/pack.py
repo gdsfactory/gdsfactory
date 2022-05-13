@@ -1,4 +1,5 @@
 """pack a list of components into as few components as possible.
+
 adapted from phidl.geometry.
 """
 
@@ -21,21 +22,22 @@ def _pack_single_bin(
     sort_by_area: bool,
     density: float,
 ) -> Tuple[Dict[int, Tuple[Number, Number, Number, Number]], Dict[Any, Any]]:
-    """Packs a dict of rectangles {id:(w,h)} and tries to
-    pack it into a bin as small as possible with aspect ratio `aspect_ratio`
+    """Packs a dict of rectangles {id:(w,h)} and tries to.
+
+    Pack it into a bin as small as possible with aspect ratio `aspect_ratio`
     Will iteratively grow the bin size until everything fits or the bin size
     reaches `max_size`.
 
     Args:
-        rect_dict: dict of rectangles {id: (w, h)} to pack
-        aspect_ratio:
-        max_size: tuple of max X, Y size
-        sort_by_area: sorts components by area
-        density: of packing, closer to 1 packs tighter (more compute heavy)
+        rect_dict: dict of rectangles {id: (w, h)} to pack.
+        aspect_ratio: x, y.
+        max_size: tuple of max X, Y size.
+        sort_by_area: sorts components by area.
+        density: of packing, closer to 1 packs tighter (more compute heavy).
 
     Returns:
-        packed rectangles dict {id:(x,y,w,h)}
-        dict of remaining unpacked rectangles
+        packed rectangles dict {id:(x,y,w,h)}.
+        dict of remaining unpacked rectangles.
     """
     import rectpack
 
@@ -107,22 +109,22 @@ def pack(
     Adapted from phidl.geometry
 
     Args:
-        component_list: list or tuple
-        spacing: Minimum distance between adjacent shapes
-        aspect_ratio: (width, height) ratio of the rectangular bin
-        max_size: Limits the size into which the shapes will be packed
-        sort_by_area: Pre-sorts the shapes by area
-        density: Values closer to 1 pack tighter but require more computation
+        component_list: list or tuple.
+        spacing: Minimum distance between adjacent shapes.
+        aspect_ratio: (width, height) ratio of the rectangular bin.
+        max_size: Limits the size into which the shapes will be packed.
+        sort_by_area: Pre-sorts the shapes by area.
+        density: Values closer to 1 pack tighter but require more computation.
         precision: Desired precision for rounding vertex coordinates.
         text: Optional function to add text labels.
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
         text_offsets: relative to component size info anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         name_prefix: for each packed component (avoids the Unnamed cells warning).
-            Note that the suffix contains a uuid so the name will not be deterministic
-        rotation: for each component in degrees
+            Note that the suffix contains a uuid so the name will not be deterministic.
+        rotation: for each component in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
-        v_mirror: vertical mirror using x axis (1, y) (0, y)
+        v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     if density < 1.01:
         raise ValueError(
@@ -196,8 +198,7 @@ def pack(
 
 
 def test_pack() -> Component:
-    import gdsfactory as gf
-
+    """Test packing function."""
     component_list = [
         gf.components.ellipse(radii=tuple(np.random.rand(2) * n + 2)) for n in range(2)
     ]
@@ -219,8 +220,7 @@ def test_pack() -> Component:
 
 
 def test_pack_with_settings() -> Component:
-    import gdsfactory as gf
-
+    """Test packing function with custom settings."""
     component_list = [
         gf.components.rectangle(size=(i, i), port_type=None) for i in range(1, 10)
     ]

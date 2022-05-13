@@ -6,7 +6,7 @@ from gdsfactory.simulation.simphony.components.gc import gc1550te
 
 
 def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2"):
-    """add input and output gratings
+    """Add input and output gratings.
 
     Args:
         circuit: needs to have `input` and `output` pins
@@ -33,7 +33,7 @@ def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2")
 
 
 def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
-    """add input and output gratings
+    """Add input and output gratings.
 
     Args:
         circuit: needs to have `o1` and `o2` pins

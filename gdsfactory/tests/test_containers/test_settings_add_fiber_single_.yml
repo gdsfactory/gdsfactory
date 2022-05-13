@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_move_e2f05_1bf5f9f0
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -69,6 +71,7 @@ settings:
   child:
     changed:
       component:
+        name: mzi_2e88f57c
         settings:
           changed:
             combiner:
@@ -208,6 +211,7 @@ settings:
     full:
       axis: null
       component:
+        name: mzi_2e88f57c
         settings:
           changed:
             combiner:
@@ -279,7 +283,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_2e88f57c_move_7a005f3a
+    name: mzi_2e88f57c_move_e2f053e4
   default:
     bend:
       function: bend_euler
@@ -317,6 +321,7 @@ settings:
     bend:
       function: bend_euler
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -415,5 +420,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_2e88f57c_move_7a005_9987aa92
+  name: mzi_2e88f57c_move_e2f05_1bf5f9f0
 version: 0.0.1

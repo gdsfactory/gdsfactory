@@ -16,7 +16,8 @@ def ring_single(
     straight=straight,
     bend=bend_circular,
 ) -> Subcircuit:
-    r"""Return single bus ring Model made of a ring coupler (cb: bottom)
+    r"""Return single bus ring Model made of a ring coupler (cb: bottom).
+
     connected with:
     - 2 vertical straights (wl: left, wr: right)
     - 2 bend90 straights (bl: left, br: right)
@@ -62,7 +63,6 @@ def ring_single(
         c = gc.ring_single()
         gs.plot_circuit(c)
     """
-
     straight = (
         straight(width=wg_width, length=length_y) if callable(straight) else straight
     )

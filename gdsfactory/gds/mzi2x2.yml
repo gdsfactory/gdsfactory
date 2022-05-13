@@ -274,7 +274,7 @@ cells:
     child: null
 version: 0.0.1
 settings:
-  name: mzi
+  name: mzi_gds
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}

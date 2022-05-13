@@ -20,11 +20,11 @@ def cavity(
     creating a resonant cavity
 
     Args:
-        component: mirror
-        coupler: coupler library
-        length: coupler length
-        gap: coupler gap
-        kwargs: coupler_settings
+        component: mirror.
+        coupler: coupler library.
+        length: coupler length.
+        gap: coupler gap.
+        kwargs: coupler_settings.
 
     .. code::
 

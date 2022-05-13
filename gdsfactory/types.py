@@ -21,6 +21,7 @@ import json
 import pathlib
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
+import numpy as np
 from omegaconf import OmegaConf
 from phidl.device_layout import Label as LabelPhidl
 from phidl.device_layout import Path
@@ -115,9 +116,8 @@ class Routes(BaseModel):
 
 
 class ComponentModel(BaseModel):
-    component: str
+    component: Union[str, Dict[str, Any]]
     settings: Optional[Dict[str, Any]]
-    pack: Optional[Dict[str, Any]]
 
     class Config:
         extra = Extra.forbid
@@ -155,10 +155,11 @@ class NetlistModel(BaseModel):
     Attributes:
         instances: dict of instances (name, settings, component).
         placements: dict of placements.
+        connections: dict of connections.
         routes: dict of routes.
-        name: component model.
+        name: component name.
         info: information (polarization, wavelength ...).
-        vars: input variables.
+        settings: input variables.
         pdk: pdk module name.
         ports: exposed component ports.
     """
@@ -169,7 +170,7 @@ class NetlistModel(BaseModel):
     routes: Optional[Dict[str, RouteModel]] = None
     name: Optional[str] = None
     info: Optional[Dict[str, Any]] = None
-    vars: Optional[Dict[str, Any]] = None
+    settings: Optional[Dict[str, Any]] = None
     pdk: Optional[str] = None
     ports: Optional[Dict[str, str]] = None
 
@@ -187,6 +188,28 @@ class NetlistModel(BaseModel):
 
 
 RouteFactory = Callable[..., Route]
+
+
+class TypedArray(np.ndarray):
+    """based on https://github.com/samuelcolvin/pydantic/issues/380"""
+
+    @classmethod
+    def __get_validators__(cls):
+        yield cls.validate_type
+
+    @classmethod
+    def validate_type(cls, val):
+        return np.array(val, dtype=cls.inner_type)
+
+
+class ArrayMeta(type):
+    def __getitem__(self, t):
+        return type("Array", (TypedArray,), {"inner_type": t})
+
+
+class Array(np.ndarray, metaclass=ArrayMeta):
+    pass
+
 
 __all__ = (
     "ComponentFactory",
@@ -247,7 +270,7 @@ name: mzi
 
 pdk: ubcpdk
 
-vars:
+settings:
    dy: -90
 
 info:
@@ -278,7 +301,7 @@ routes:
             yl,opt3: yr,opt2
         routing_strategy: get_bundle_from_steps
         settings:
-          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
 
 ports:

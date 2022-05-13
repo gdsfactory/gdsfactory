@@ -3,6 +3,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 import gdsfactory as gf
 
 yaml_str = """
+name: component_yaml_ports
 
 ports:
   o1:

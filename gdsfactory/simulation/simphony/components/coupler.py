@@ -58,13 +58,14 @@ def coupler(
 
     """
 
-    # Simphony units are in m
-    width *= 1e-6
-    thickness *= 1e-6
-    gap *= 1e-6
-    length *= 1e-6
-    H = dx * 1e-6
-    V = dy * 1e-6 / 2
+    # SiPANN units are in nm
+    width *= 1e3
+    thickness *= 1e3
+    gap *= 1e3
+    length *= 1e3
+    H = dx * 1e3
+    V = dy * 1e3 / 2
+
 
     model = Standard(
         width=width,

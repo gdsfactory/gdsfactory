@@ -20,20 +20,22 @@ def add_loopback(
     inside: bool = True,
     **kwargs
 ) -> List[ComponentReference]:
-    """Return loopback (grating coupler align reference) references
+    """Return loopback (grating coupler align reference) references.
+
     Input grating generated on the left of port1
     Output grating generated on the right of port2
 
     Args:
-        port1: start port
-        port2: end port
+        port1: start port.
+        port2: end port.
         grating: fiber coupler.
         grating_separation: grating pitch.
-        grating_rotation:
+        grating_rotation: in degrees.
         grating_port_name: fiber port name for grating coupler.
+        bend: bend spec.
         south_waveguide_spacing: spacing from loopback to grating_coupler.ymin
         inside: add loopback inside.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
 
     .. code::

@@ -443,9 +443,7 @@ def get_port_1D_eigenmode(
 
 
 def plot(sim) -> None:
-    """
-    sim: simulation object
-    """
+    """sim: simulation object"""
     sim.plot2D(eps_parameters={"contour": True})
     # plt.colorbar()
 

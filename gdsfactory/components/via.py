@@ -17,12 +17,12 @@ def via(
     """Rectangular via. Defaults to a square via.
 
     Args:
-        size: in x, y direction
-        spacing: pitch_x, pitch_y
-        enclosure: inclusion of via
-        layer: via layer
-        bbox_layers:
-        bbox_offset
+        size: in x, y direction.
+        spacing: pitch_x, pitch_y.
+        enclosure: inclusion of via.
+        layer: via layer.
+        bbox_layers: layers for the bounding box.
+        bbox_offset: in um.
 
     .. code::
 

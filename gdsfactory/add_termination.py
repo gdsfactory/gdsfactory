@@ -20,15 +20,15 @@ def add_termination(
     port_type: str = "optical",
     **kwargs
 ) -> Component:
-    """Returns component with all or some ports terminated
+    """Returns component with all or some ports terminated.
 
     Args:
-        component:
-        ports: optional list of ports to terminate (defaults to all)
-        terminator: factory for the terminator
-        port_name: for the terminator to connect to the component ports
-        port_type: of the ports that you want to terminate
-        **kwargs: for the ports you want to terminate (orientation, width)
+        component: to add terminator.
+        ports: optional list of ports to terminate (defaults to all).
+        terminator: factory for the terminator.
+        port_name: for the terminator to connect to the component ports.
+        port_type: of the ports that you want to terminate.
+        **kwargs: for the ports you want to terminate (orientation, width).
     """
     terminator = gf.get_component(terminator)
     port_name = port_name or terminator.get_ports_list()[0].name

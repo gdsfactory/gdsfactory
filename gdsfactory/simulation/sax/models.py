@@ -45,7 +45,7 @@ def straight(
 
 
 def attenuator(*, loss: float = 0.0) -> SDict:
-    """attenuator model.
+    """Attenuator model.
 
     based on sax.models
 
@@ -74,7 +74,7 @@ def grating_coupler(
     reflection_fiber: float = 0.0,
     bandwidth: float = 40 * nm,
 ) -> SDict:
-    """grating_coupler model.
+    """Grating_coupler model.
 
     equation adapted from photontorch grating coupler
     https://github.com/flaport/photontorch/blob/master/photontorch/components/gratingcouplers.py
@@ -97,7 +97,6 @@ def grating_coupler(
             o1  ______________|
 
     """
-
     amplitude = jnp.asarray(10 ** (-loss / 20), dtype=complex)
     sigma = bandwidth / (2 * jnp.sqrt(2 * jnp.log(2)))
     transmission = amplitude * jnp.exp(-((wl - wl0) ** 2) / (2 * sigma**2))
@@ -158,7 +157,6 @@ def coupler(
                     / K
            -----------------------------------> T = 1 - K (transmitted power)
     """
-
     dwl = wl - wl0
     dn = dn + dn1 * dwl + 0.5 * dn2 * dwl**2
     kappa0 = coupling0 + dk1 * dwl + 0.5 * dk2 * dwl**2
@@ -177,9 +175,9 @@ def coupler(
 
 
 def coupler_single_wavelength(*, coupling: float = 0.5) -> SDict:
-    r"""coupler model for a single wavelength.
+    r"""Coupler model for a single wavelength.
 
-    based on sax.models
+    Based on sax.models.
 
     Args:
         coupling: power coupling coefficient.

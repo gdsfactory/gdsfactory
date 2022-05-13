@@ -17,12 +17,12 @@ def coupler_symmetric(
     r"""Two coupled straights with bends.
 
     Args:
-        bend: bend or library
-        gap:
-        dy: port to port vertical spacing
-        dx: bend length in x direction
-        cross_section:
-        **kwargs: cross_section settings
+        bend: bend spec.
+        gap: in um.
+        dy: port to port vertical spacing.
+        dx: bend length in x direction.
+        cross_section: section.
+        **kwargs: cross_section settings.
 
     .. code::
 
