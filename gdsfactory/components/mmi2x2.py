@@ -31,8 +31,7 @@ def mmi2x2(
         taper: taper function.
         straight: straight function.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section:
-        **kwargs: cross_section settings
+        cross_section: spec.
 
 
     .. code::

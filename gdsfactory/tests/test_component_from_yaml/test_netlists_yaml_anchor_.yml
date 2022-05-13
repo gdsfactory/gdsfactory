@@ -10,7 +10,7 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-name: yaml_anchor
+name: yaml_anchor_4d75d577
 placements:
   mmi_long:
     mirror: false

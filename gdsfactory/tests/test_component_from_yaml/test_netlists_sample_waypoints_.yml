@@ -207,7 +207,7 @@ instances:
       - 100.0
       - 100.0
     settings: {}
-name: sample_waypoints
+name: sample_waypoints_51e45344
 placements:
   b:
     mirror: false
