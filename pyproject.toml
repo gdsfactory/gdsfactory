@@ -51,20 +51,24 @@ pytest-cov = {version = "^3.0.0", optional = true}
 recommonmark = {version = "^0.7.1", optional = true}
 sphinx-autodoc-typehints = {version = "^1.12.0", optional = true}
 sphinx-click = {version = "^3.0.2", optional = true}
-sphinx-markdown-tables = "^0.0.15"
+sphinx-markdown-tables = {version = "^0.0.15", optional = true}
 ipympl = "^0.8.7"
 holoviews = "^1.14.7"
-xdoctest = "^0.15.10"
-tox = "^3.24.4"
 
 [tool.poetry.extras]
-full = ['holoviews', 'ipympl', 'tidy3d', 'triangle']
+full = ['holoviews', 'ipympl']
 dash = ['dash',"dash-bootstrap-components>=0.8.2", "Werkzeug==2.0.0"]
 
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+xdoctest = {version = "^0.15.10", optional = true}
+tox = {version = "^3.24.4", optional = true}
+
+[tool.poetry.extras]
+full = ['tidy3d', 'triangle']
+
 
 [tool.poetry.scripts]
 gf = "gdsfactory.gf:gf"
