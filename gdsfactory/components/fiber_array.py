@@ -16,6 +16,14 @@ def fiber_array(
 ) -> Component:
     """Returns a fiber array
 
+    Args:
+        n: number of fibers.
+        pitch: spacing.
+        core_diameter: 10um.
+        cladding_diameter: in um.
+        layer_core: tuple.
+        layer_cladding: tuple.
+
     .. code::
 
         pitch

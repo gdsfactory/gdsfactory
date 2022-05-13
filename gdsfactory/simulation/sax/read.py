@@ -26,8 +26,9 @@ def sdict_from_csv(
     xunits: float = 1,
     prefix: str = "s",
 ) -> SDict:
-    """Returns SDict from Sparameters from a CSV file
-    Returns interpolated Sdict over wavelength
+    """Returns SDict from Sparameters from a CSV file.
+
+    Returns interpolated Sdict over wavelength.
 
     Args:
         filepath: CSV FDTD simulation results path.

@@ -266,7 +266,10 @@ class Section(BaseModel):
         extra = "forbid"
 
 
-class SimulationSettings(BaseModel):
+MaterialSpec = Union[str, float, complex, Tuple[float, float]]
+
+
+class SimulationSettingsLumericalFdtd(BaseModel):
     """Lumerical FDTD simulation_settings
 
     Args:
@@ -302,14 +305,17 @@ class SimulationSettings(BaseModel):
     frequency_dependent_profile: bool = True
     field_profile_samples: int = 15
     distance_source_to_monitors: float = 0.2
-    material_name_to_lumerical = {
+    material_name_to_lumerical: Dict[str, MaterialSpec] = {
         "si": "Si (Silicon) - Palik",
         "sio2": "SiO2 (Glass) - Palik",
         "sin": "Si3N4 (Silicon Nitride) - Phillip",
     }
 
+    class Config:
+        arbitrary_types_allowed = True
 
-SIMULATION_SETTINGS = SimulationSettings()
+
+SIMULATION_SETTINGS_LUMERICAL_FDTD = SimulationSettingsLumericalFdtd()
 
 
 def assert_callable(function):
@@ -336,7 +342,7 @@ if __name__ == "__main__":
     # import gdsfactory as gf
     # from gdsfactory.serialization import clean_value_json
 
-    # d = clean_value_json(SIMULATION_SETTINGS)
+    # d = clean_value_json(SIMULATION_SETTINGS_LUMERICAL_FDTD)
 
     # def mmi1x2_longer(length_mmi: float = 25.0, **kwargs):
     #     return gf.components.mmi1x2(length_mmi=length_mmi, **kwargs)

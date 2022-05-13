@@ -1,5 +1,6 @@
 #!/bin/sh
 
-pip install -e .[dev] --upgrade
+pip install -r requirements_dev.txt
+pip install -e .
 pre-commit install
 gf tool install

@@ -1,2 +1,173 @@
-settings: {}
+name: sample_mmis_8ba5a8e2
+settings:
+  changed:
+    conf:
+      info:
+        description: just a demo on adding metadata
+        polarization: te
+        wavelength: 1.55
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 10
+            width_mmi: 4.5
+        mmi_short:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: sample_mmis
+      placements:
+        mmi_long:
+          rotation: 180
+          x: 100
+          y: 100
+      ports:
+        o1: mmi_short,o1
+        o2: mmi_long,o2
+        o3: mmi_long,o3
+      routes:
+        route_name1:
+          links:
+            mmi_short,o2: mmi_long,o1
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      info:
+        description: just a demo on adding metadata
+        polarization: te
+        wavelength: 1.55
+      instances:
+        mmi_long:
+          component: mmi1x2
+          settings:
+            length_mmi: 10
+            width_mmi: 4.5
+        mmi_short:
+          component: mmi1x2
+          settings:
+            length_mmi: 5
+            width_mmi: 4.5
+      name: sample_mmis
+      placements:
+        mmi_long:
+          rotation: 180
+          x: 100
+          y: 100
+      ports:
+        o1: mmi_short,o1
+        o2: mmi_long,o2
+        o3: mmi_long,o3
+      routes:
+        route_name1:
+          links:
+            mmi_short,o2: mmi_long,o1
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info:
+    description: just a demo on adding metadata
+    polarization: te
+    wavelength: 1.55
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_mmis_8ba5a8e2
 version: 0.0.1

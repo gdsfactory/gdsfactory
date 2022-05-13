@@ -11,7 +11,8 @@ def ring_double_siepic(
     straight=siepic.Waveguide,
     terminator=siepic.Terminator,
 ):
-    r"""Return double bus ring made of two couplers (ct: top, cb: bottom)
+    r"""Return double bus ring made of two couplers (ct: top, cb: bottom).
+
     connected with two vertical straights (wyl: left, wyr: right)
 
     .. code::
@@ -37,7 +38,6 @@ def ring_double_siepic(
 
 
     """
-
     straight = straight() if callable(straight) else straight
     coupler = coupler() if callable(coupler) else coupler
     ct = cb = coupler

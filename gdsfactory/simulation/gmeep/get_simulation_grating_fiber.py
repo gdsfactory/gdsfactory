@@ -1,4 +1,5 @@
-"""Adapted from https://github.com/simbilod/optio
+"""
+Adapted from https://github.com/simbilod/optio
 
 SMF specs from photonics.byu.edu/FiberOpticConnectors.parts/images/smf28.pdf
 

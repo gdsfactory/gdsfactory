@@ -1,6 +1,8 @@
+name: mzi_2e88f57c_bend_port_7b26649e
 settings:
   changed:
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -161,6 +163,7 @@ settings:
     bend:
       function: bend_circular
     component:
+      name: mzi_2e88f57c
       settings:
         changed:
           combiner:
@@ -248,5 +251,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.bend_port
-  name: mzi_2e88f57c_bend_port_a1719f97
+  name: mzi_2e88f57c_bend_port_7b26649e
 version: 0.0.1

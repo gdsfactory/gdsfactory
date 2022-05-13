@@ -18,6 +18,7 @@ def straight(
         thickness: Thickness of straight in um (Valid for 180nm-240nm)
         sw_angle: Sidewall angle. Valid for 80-90 degrees.
         kwargs: geometrical args that this model ignores
+
     """
     logger.info(f"igoring {kwargs.keys()}")
     width *= 1e-6

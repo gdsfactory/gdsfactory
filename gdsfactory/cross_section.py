@@ -54,7 +54,7 @@ class CrossSection(BaseModel):
     layer: Layer
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    radius: Optional[float]
+    radius: Optional[float] = None
     layer_bbox: Optional[Tuple[int, int]] = None
     width_wide: Optional[float] = None
     auto_widen: bool = False
@@ -202,7 +202,7 @@ def pin(
     via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
 ) -> CrossSection:
-    """rib PIN doped cross_section.
+    """Rib PIN doped cross_section.
 
     Args:
         width: ridge width
@@ -313,7 +313,7 @@ def pn(
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
 ) -> CrossSection:
-    """rib PN doped cross_section.
+    """Rib PN doped cross_section.
 
     Args:
         width: width of the ridge

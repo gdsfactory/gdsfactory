@@ -17,7 +17,8 @@ def ring_double(
     coupler: ModelFactory = coupler_ring,
     straight: ModelFactory = straight_function,
 ) -> Subcircuit:
-    r"""Return double bus ring Model made of two couplers (ct: top, cb: bottom)
+    r"""Return double bus ring Model made of two couplers (ct: top, cb: bottom).
+
     connected with two vertical straights (yl: left, wr: right)
 
     .. code::
@@ -67,6 +68,7 @@ def ring_double(
         c = gc.ring_double()
         gs.plot_circuit(c)
     """
+
 
     wg1 = straight(length=length_y) if callable(straight) else straight
     wg2 = straight(length=length_y) if callable(straight) else straight

@@ -1,7 +1,7 @@
 """Returns Component from YAML syntax.
 
 name: myComponent
-vars:
+settings:
     length: 3
 
 info:
@@ -13,7 +13,7 @@ instances:
     mzi:
         component: mzi_phase_shifter
         settings:
-            delta_length: ${vars.length}
+            delta_length: ${settings.length}
             length_x: 50
 
     pads:
@@ -46,22 +46,18 @@ routes:
             radius: 10
 
 """
-import hashlib
 import importlib
 import io
-import json
 import pathlib
 import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
-import omegaconf
 from omegaconf import OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.cell import CACHE
+from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.pdk import get_active_pdk, set_active_pdk
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
 from gdsfactory.types import Route
 
@@ -87,7 +83,7 @@ valid_top_level_keys = [
     "connections",
     "ports",
     "routes",
-    "vars",
+    "settings",
     "info",
     "pdk",
 ]
@@ -192,7 +188,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, omegaconf.DictConfig):
+        if not isinstance(placement_settings, dict):
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
@@ -215,6 +211,26 @@ def place(
         port = placement_settings.get("port")
         rotation = placement_settings.get("rotation")
         mirror = placement_settings.get("mirror")
+
+        if mirror:
+            if mirror is True and port:
+                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
+            elif mirror is True:
+                if x:
+                    ref.reflect_h(x0=x)
+                else:
+                    ref.reflect_h()
+            elif mirror is False:
+                pass
+            elif isinstance(mirror, str):
+                ref.reflect_h(port_name=mirror)
+            elif isinstance(mirror, (int, float)):
+                ref.reflect_h(x0=mirror)
+            else:
+                raise ValueError(
+                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
+                    "x value or True/False"
+                )
 
         if port:
             a = _get_anchor_point_from_name(ref, port)
@@ -332,26 +348,6 @@ def place(
         if dy:
             ref.y += dy
 
-        if mirror:
-            if mirror is True and port:
-                ref.reflect_h(x0=_get_anchor_value_from_name(ref, port, "x"))
-            elif mirror is True:
-                if x:
-                    ref.reflect_h(x0=x)
-                else:
-                    ref.reflect_h()
-            elif mirror is False:
-                pass
-            elif isinstance(mirror, str):
-                ref.reflect_h(port_name=mirror)
-            elif isinstance(mirror, (int, float)):
-                ref.reflect_h(x0=mirror)
-            else:
-                raise ValueError(
-                    f"{mirror!r} can only be a port name {ref.ports.keys()}, "
-                    "x value or True/False"
-                )
-
         if rotation:
             if port:
                 ref.rotate(rotation, center=_get_anchor_point_from_name(ref, port))
@@ -428,6 +424,7 @@ def make_connection(
 
 
 sample_mmis = """
+name: sample_mmis
 
 info:
     polarization: te
@@ -468,26 +465,27 @@ def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
-    cache: bool = False,
+    name: Optional[str] = None,
+    prefix: Optional[str] = None,
+    **kwargs,
 ) -> Component:
-    """Returns a Component defined in YAML file or string.
+    """Returns a Component defined in YAML string or file.
 
     Args:
         yaml: YAML IO describing Component file or string (with newlines)
-          (instances, placements, routes, ports, connections, names)
+          (instances, placements, routes, ports, connections, names).
         routing_strategy: for each route.
         label_instance_function: to label each instance.
-        cache: stores and retrieves components from the cache.
-
-    Returns:
-        Component
+        name: Optional name.
+        prefix: name prefix.
+        kwargs: function settings. Overwrite settings from YAML.
 
     .. code::
 
         valid variables:
 
         name: Optional Component name
-        vars: Optional variables
+        settings: Optional variables
         pdk: overides
         info: Optional component info
             description: just a demo
@@ -516,7 +514,7 @@ def from_yaml(
 
     .. code::
 
-        vars:
+        settings:
             length_mmi: 5
 
         instances:
@@ -529,7 +527,7 @@ def from_yaml(
               component: mmi1x2
               settings:
                 width_mmi: 4.5
-                length_mmi: ${vars.length_mmi}
+                length_mmi: ${settings.length_mmi}
 
         placements:
             mmi_top:
@@ -549,6 +547,7 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
+
     yaml_str = (
         io.StringIO(yaml_str)
         if isinstance(yaml_str, str) and "\n" in yaml_str
@@ -560,40 +559,66 @@ def from_yaml(
         if key not in valid_top_level_keys:
             raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")
 
+    settings = conf.get("settings", {})
+
+    for key, value in kwargs.items():
+        if key not in settings:
+            raise ValueError(f"{key!r} not in {settings.keys()}")
+        else:
+            conf["settings"][key] = value
+
+    return _from_yaml(
+        conf=OmegaConf.to_container(conf, resolve=True),
+        routing_strategy=routing_strategy,
+        label_instance_function=label_instance_function,
+        prefix=prefix or conf.get("name", "Unnamed"),
+        name=name,
+    )
+
+
+@cell
+def _from_yaml(
+    conf,
+    routing_strategy: Dict[str, Callable] = routing_strategy_factories,
+    label_instance_function: Callable = add_instance_label,
+) -> Component:
+    """Returns component from YAML decorated with cell for caching and autonaming.
+
+    Args:
+        conf: dict.
+        routing_strategy: for each route.
+        label_instance_function: to label each instance.
+    """
+    from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
+
+    c = Component()
     instances = {}
     routes = {}
-    name = conf.get(
-        "name",
-        f"Unnamed_{hashlib.md5(json.dumps(OmegaConf.to_container(conf)).encode()).hexdigest()[:8]}",
-    )
-    if cache and name in CACHE:
-        return CACHE[name]
-    else:
-        c = Component(name)
-        CACHE[name] = c
+
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")
     ports_conf = conf.get("ports")
     connections_conf = conf.get("connections")
     instances_dict = conf["instances"]
     pdk = conf.get("pdk")
-    c.info = conf.get("info", omegaconf.DictConfig({}))
+    c.info = conf.get("info", {})
 
-    if pdk:
+    if pdk and pdk == "generic":
+        set_active_pdk(GENERIC)
+
+    elif pdk:
         module = importlib.import_module(pdk)
         pdk = getattr(module, "PDK")
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
-
         set_active_pdk(pdk)
-    else:
-        pdk = get_active_pdk()
+
+    pdk = get_active_pdk()
 
     for instance_name in instances_dict:
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
-        settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
         component_spec = {"component": component, "settings": settings}
         component = pdk.get_component(component_spec)
         ref = c << component
@@ -611,7 +636,7 @@ def from_yaml(
         if "x" in placement_settings or "y" in placement_settings:
             warnings.warn(
                 f"YAML defined: ({', '.join(components_with_placement_conflicts)}) "
-                + "with both connection and placement. Please use one or the other.",
+                "with both connection and placement. Please use one or the other.",
             )
 
     all_remaining_insts = list(
@@ -623,7 +648,7 @@ def from_yaml(
             placements_conf=placements_conf,
             connections_by_transformed_inst=connections_by_transformed_inst,
             instances=instances,
-            encountered_insts=list(),
+            encountered_insts=[],
             all_remaining_insts=all_remaining_insts,
         )
 
@@ -645,13 +670,11 @@ def from_yaml(
                     )
 
             settings = routes_dict.pop("settings", {})
-            settings = (
-                OmegaConf.to_container(settings, resolve=True) if settings else {}
-            )
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
+                routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
-                    f"function {routing_strategy_name!r} not in routing_strategy {list(routing_strategy.keys())}"
+                    f"{routing_strategy_name!r} not in routing_strategy {routing_strategies}"
                 )
 
             if "links" not in routes_dict:
@@ -721,10 +744,6 @@ def from_yaml(
                                 f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
-
-                    # print(ports1)
-                    # print(ports2)
-                    # print(route_names)
 
                 else:
                     instance_src_name, port_src_name = port_src_string.split(",")
@@ -888,12 +907,12 @@ ports:
 """
 
 
-sample_pdk_mzi_vars = """
+sample_pdk_mzi_settings = """
 name: mzi
 
 pdk: ubcpdk
 
-vars:
+settings:
    dy: -70
 
 info:
@@ -924,7 +943,7 @@ routes:
             yl,opt3: yr,opt2
         routing_strategy: get_bundle_from_steps
         settings:
-          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
 
 
@@ -947,29 +966,6 @@ instances:
 
 """
 
-
-# sample_doe = """
-# name: lattice_filter
-
-# instances:
-#     mmi1x2:
-#        component: mmi1x2
-#        settings:
-#          length_mmi: [2, 100]
-# """
-
-
-# def sample_doe_range():
-#     lengths_mmi = range(2, 10)
-#     sample_doe = f"""
-#     name: lattice_filter
-
-#     instances:
-#         mmi1x2:
-#           component: mmi1x2
-#           settings:
-#             length_mmi: {lengths_mmi}
-#     """
 
 sample_yaml_xmin = """
 name: mask_compact
@@ -1118,6 +1114,113 @@ placements:
 
 """
 
+sample2 = """
+
+name: sample_different_factory2
+
+instances:
+    tl:
+      component: pad
+    tr:
+      component: pad
+
+    mzi:
+      component: mzi_phase_shifter_top_heater_metal
+
+placements:
+    mzi:
+        ymax: tl,south
+        dy: -100
+    tl:
+        x: mzi,west
+        y: mzi,north
+        dy: 100
+    tr:
+        x: mzi,west
+        dx: 200
+        y: mzi,north
+        dy: 100
+
+routes:
+    electrical1:
+        routing_strategy: get_bundle
+        settings:
+            separation: 20
+            layer: [31, 0]
+            width: 10
+
+        links:
+            mzi,e2: tr,e1
+
+    electrical2:
+        routing_strategy: get_bundle
+        settings:
+            separation: 20
+            layer: [31, 0]
+            width: 10
+
+        links:
+            mzi,e1: tl,e1
+
+
+"""
+
+sample_mirror = """
+name: sample_mirror
+instances:
+    mmi1:
+      component: mmi1x2
+
+    mmi2:
+      component: mmi1x2
+
+placements:
+    mmi1:
+        xmax: 0
+
+    mmi2:
+        xmin: mmi1,east
+        mirror: True
+
+"""
+
+sample_doe_function = """
+name: mask_compact
+
+instances:
+  rings:
+    component: pack_doe
+    settings:
+      doe: ring_single
+      settings:
+        radius: [30, 50, 20, 40]
+        length_x: [1, 2, 3]
+      do_permutations: True
+      function:
+        function: add_fiber_array
+        settings:
+            fanout_length: 200
+
+
+  mzis:
+    component: pack_doe_grid
+    settings:
+      doe: mzi
+      settings:
+        delta_length: [10, 100]
+      do_permutations: True
+      spacing: [10, 10]
+      function: add_fiber_array
+
+placements:
+  rings:
+    xmin: 50
+
+  mzis:
+    xmin: rings,east
+
+"""
+
 
 if __name__ == "__main__":
     # from gdsfactory.tests.test_component_from_yaml import sample_doe_grid
@@ -1127,7 +1230,8 @@ if __name__ == "__main__":
     # c = from_yaml(yaml_anchor)
     # c = from_yaml(sample_pdk_mzi)
 
-    c = from_yaml(sample_rotation)
+    # c = from_yaml(sample_rotation)
+    # c = from_yaml(sample2)
     # c2 = c.get_netlist()
     # c = from_yaml(sample_doe_grid)
     # c = from_yaml(sample_yaml_xmin)
@@ -1135,7 +1239,10 @@ if __name__ == "__main__":
     # print(n)
 
     # c = from_yaml(sample_doe)
-    # c = from_yaml(sample_pdk_mzi_vars)
+
+    # c = from_yaml(sample_mirror)
+    # c = from_yaml(sample_doe_function)
+    c = from_yaml(sample_pdk_mzi_settings, dy=-500)
     c.show()
 
     # c = test_connections_regex()
@@ -1153,7 +1260,6 @@ if __name__ == "__main__":
     # c = test_mirror()
     # c = from_yaml(sample_waypoints)
     # c = from_yaml(sample_2x2_connections)
-    # c = from_yaml(sample_mmis)
     # c = from_yaml(sample_connections)
     # assert len(c.get_dependencies()) == 3
     # test_component_from_yaml()

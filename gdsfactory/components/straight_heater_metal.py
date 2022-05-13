@@ -27,22 +27,23 @@ def straight_heater_metal_undercut(
     **kwargs,
 ) -> Component:
     """Returns a thermal phase shifter.
+
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
-        length: of the waveguide
-        length_undercut_spacing: from undercut regions
-        length_undercut: length of each undercut section
-        length_straight_input: from input port to where trenches start
-        cross_section_heater: for heated sections
-        cross_section_heater_undercut: for heated sections with undercut
-        with_undercut: isolation trenches for higher efficiency
-        via_stack: via stack
-        port_orientation1: left via stack port orientation
-        port_orientation2: right via stack port orientation
-        heater_taper_length: minimizes current concentrations from heater to via_stack
+        length: of the waveguide.
+        length_undercut_spacing: from undercut regions.
+        length_undercut: length of each undercut section.
+        length_straight_input: from input port to where trenches start.
+        cross_section_heater: for heated sections.
+        cross_section_heater_undercut: for heated sections with undercut.
+        with_undercut: isolation trenches for higher efficiency.
+        via_stack: via stack.
+        port_orientation1: left via stack port orientation.
+        port_orientation2: right via stack port orientation.
+        heater_taper_length: minimizes current concentrations from heater to via_stack.
         ohms_per_square: to calculate resistance.
-        kwargs: cross_section common settings
+        kwargs: cross_section common settings.
     """
     period = length_undercut + length_undercut_spacing
     n = int((length - 2 * length_straight_input) // period)

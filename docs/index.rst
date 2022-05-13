@@ -8,9 +8,11 @@ Gdsfactory
    README
    git
    notebooks
-   plugins
    component_intro
    routing
    components
+   plugins_mode_solver
+   plugins_fdtd
+   plugins_circuits
    contribution
    CHANGELOG

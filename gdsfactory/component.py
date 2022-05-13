@@ -9,12 +9,13 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdspy
+import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
 import yaml
 from numpy import int64
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import CellArray, Device, _parse_layer
+from phidl.device_layout import CellArray, Device, Label, _parse_layer
 from typing_extensions import Literal
 
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
@@ -99,9 +100,9 @@ class Component(Device):
 
         super(Component, self).__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
-        self.info = {}
+        self.info: Dict[str, Any] = {}
 
-        self.settings = {}
+        self.settings: Dict[str, Any] = {}
         self._locked = False
         self.get_child_name = False
         self.version = version
@@ -136,6 +137,42 @@ class Component(Device):
             len(v.name) <= MAX_NAME_LENGTH
         ), f"name `{v.name}` {len(v.name)} > {MAX_NAME_LENGTH} "
         return v
+
+    def add_label(
+        self,
+        text: str = "hello",
+        position: Tuple[float, float] = (0.0, 0.0),
+        magnification: Optional[float] = None,
+        rotation: Optional[float] = None,
+        anchor: str = "o",
+        layer: Tuple[int, int] = (10, 0),
+    ) -> Label:
+        """Adds a Label to the Device.
+
+        Args:
+            text: Label text.
+            position: x-, y-coordinates of the Label location.
+            magnification:int, float, or None Magnification factor for the Label text.
+            rotation: Angle rotation of the Label text.
+            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...} Position of the anchor relative to the text.
+            layer: Specific layer(s) to put Label on.
+        """
+
+        gds_layer, gds_datatype = layer
+
+        if type(text) is not str:
+            text = text
+        label = Label(
+            text=text,
+            position=position,
+            anchor=anchor,
+            magnification=magnification,
+            rotation=rotation,
+            layer=gds_layer,
+            texttype=gds_datatype,
+        )
+        self.add(label)
+        return label
 
     @property
     def bbox(self):
@@ -172,11 +209,11 @@ class Component(Device):
         """Return xdistance from east to west ports
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: with in port name
-            orientation: in degrees
-            width:
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: with in port name.
+            orientation: in degrees.
+            width: port width.
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
@@ -187,11 +224,11 @@ class Component(Device):
         """Return ydistance from east to west ports
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: with in port name
-            orientation: in degrees
-            width:
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: with in port name.
+            orientation: in degrees.
+            width: port width (um).
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
         """
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
@@ -204,9 +241,10 @@ class Component(Device):
         """plots a netlist graph with networkx
 
         Args:
-            with_labels: label nodes
-            font_weight: normal, bold
+            with_labels: add label to each node.
+            font_weight: normal, bold.
         """
+        plt.figure()
         netlist = self.get_netlist()
         connections = netlist["connections"]
         placements = netlist["placements"]
@@ -307,13 +345,13 @@ class Component(Device):
         """Return list of ports.
 
         Keyword Args:
-            layer: port GDS layer
-            prefix: with in port name
-            orientation: in degrees
-            width:
-            layers_excluded: List of layers to exclude
+            layer: port GDS layer.
+            prefix: with in port name.
+            orientation: in degrees.
+            width: port width.
+            layers_excluded: List of layers to exclude.
             port_type: optical, electrical, ...
-            clockwise: if True, sort ports clockwise, False: counter-clockwise
+            clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return list(select_ports(self.ports, **kwargs).values())
 
@@ -328,12 +366,12 @@ class Component(Device):
         """Returns Component reference.
 
         Args:
-            position:
-            port_id: name of the port
-            rotation: in degrees
+            position: x, y position.
+            port_id: name of the port.
+            rotation: in degrees.
             h_mirror: horizontal mirror using y axis (x, 1) (1, 0).
                 This is the most common mirror.
-            v_mirror: vertical mirror using x axis (1, y) (0, y)
+            v_mirror: vertical mirror using x axis (1, y) (0, y).
         """
         _ref = ComponentReference(self)
 
@@ -413,13 +451,13 @@ class Component(Device):
         with a new name add_port(port = existing_port, name = new_name)
 
         Args:
-            name:
-            midpoint:
-            orientation: in deg
-            port: optional port
-            layer:
-            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm
-            cross_section:
+            name: port name.
+            midpoint: x, y.
+            orientation: in deg.
+            port: optional port.
+            layer: port layer.
+            port_type: optical, electrical, vertical_dc, vertical_te, vertical_tm.
+            cross_section: port cross_section.
 
         """
 
@@ -641,7 +679,7 @@ class Component(Device):
             component: The referenced component.
             columns: Number of columns in the array.
             rows: Number of rows in the array.
-            spacing: array-like[2] of int or float
+            spacing: array-like[2] of int or float.
                 Distance between adjacent columns and adjacent rows.
             alias: str or None. Alias of the referenced Device.
 
@@ -718,12 +756,12 @@ class Component(Device):
         return layers
 
     def _repr_html_(self):
-        """Print component, show geometry in klayout and return plot
+        """Show geometry in klayout and in matplotlib
         for jupyter notebooks
         """
-        self.show(show_ports=False)
-        print(self)
-        return self.plot(plotter="matplotlib")
+        self.show(show_ports=False)  # show in klayout
+        self.plot(plotter="matplotlib")
+        return self.__repr__()
 
     def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
         """Return component plot.
@@ -765,7 +803,7 @@ class Component(Device):
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
-        """Plot Component in holoviews.
+        """Plot component in holoviews.
 
         adapted from dphox.device.Device.hvplot
 
@@ -856,12 +894,12 @@ class Component(Device):
     ) -> None:
         """Show component in klayout.
 
-        show_subports = True adds pins to a component copy (only used for display)
+        show_subports = True adds pins to a component copy for klayout show.
         so the original component remains intact.
 
         Args:
-            show_ports: shows component with port markers and labels
-            show_subports: add ports markers and labels to component references
+            show_ports: shows component with port markers and labels.
+            show_subports: add ports markers and labels to references.
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -869,11 +907,17 @@ class Component(Device):
         if show_subports:
             component = self.copy(suffix="", cache=False)
             for reference in component.references:
-                add_pins_triangle(component=component, reference=reference)
+                try:
+                    add_pins_triangle(component=component, reference=reference)
+                except ValueError:
+                    pass
 
         elif show_ports:
             component = self.copy(suffix="", cache=False)
-            add_pins_triangle(component=component)
+            try:
+                add_pins_triangle(component=component)
+            except ValueError:
+                pass
         else:
             component = self
 
@@ -882,7 +926,7 @@ class Component(Device):
     def write_gds(
         self,
         gdspath: Optional[PathType] = None,
-        gdsdir: PathType = tmp,
+        gdsdir: Optional[PathType] = None,
         unit: float = 1e-6,
         precision: float = 1e-9,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
@@ -895,17 +939,20 @@ class Component(Device):
             gdspath: GDS file path to write to.
             gdsdir: directory for the GDS file. Defaults to /tmp/randomFile/gdsfactory.
             unit: unit size for objects in library. 1um by default.
-            precision: for object dimensions in the library (m). 1nm by default.
+            precision: for dimensions in the library (m). 1nm by default.
             timestamp: Defaults to 2019-10-25 for consistent hash.
                 If None uses current time.
             logging: disable GDS path logging, for example for showing it in klayout.
             on_duplicate_cell: specify how to resolve duplicate-named cells. Choose one of the following:
-                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily)
-                "error": throw a ValueError when attempting to write a gds with duplicate cells
-                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning
+                "warn" (default): overwrite all duplicate cells with one of the duplicates (arbitrarily).
+                "error": throw a ValueError when attempting to write a gds with duplicate cells.
+                "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
 
         """
+        gdsdir = (
+            gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
+        )
         gdsdir = pathlib.Path(gdsdir)
         gdspath = gdspath or gdsdir / f"{self.name}.gds"
         gdspath = pathlib.Path(gdspath)
@@ -921,15 +968,13 @@ class Component(Device):
                 cell_names.remove(cell_name)
 
             if on_duplicate_cell == "error":
-                cell_names_duplicated = "\n".join(set(cell_names))
                 raise ValueError(
-                    f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
+                    f"Duplicated cell names in {self.name!r}: {cell_names!r}"
                 )
             elif on_duplicate_cell in {"warn", "overwrite"}:
                 if on_duplicate_cell == "warn":
-                    cell_names_duplicated = "\n".join(set(cell_names))
                     warnings.warn(
-                        f"Duplicated cell names in {self.name!r}:\n{cell_names_duplicated}"
+                        f"Duplicated cell names in {self.name!r}:  {cell_names}",
                     )
                 cells_dict = {cell.name: cell for cell in cells}
                 cells = cells_dict.values()
@@ -940,9 +985,11 @@ class Component(Device):
 
         all_cells = [self] + list(cells)
 
-        if no_name_cells := [
+        no_name_cells = [
             cell.name for cell in all_cells if cell.name.startswith("Unnamed")
-        ]:
+        ]
+
+        if no_name_cells:
             warnings.warn(
                 f"Component {self.name!r} contains {len(no_name_cells)} Unnamed cells"
             )
@@ -972,8 +1019,8 @@ class Component(Device):
         """Return Dict representation of a component.
 
         Args:
-            ignore_components_prefix: for components to ignore when exporting
-            ignore_functions_prefix: for functions to ignore when exporting
+            ignore_components_prefix: for components to ignore when exporting.
+            ignore_functions_prefix: for functions to ignore when exporting.
             with_cells: write cells recursively.
             with_ports: write port information dict.
         """
@@ -988,8 +1035,9 @@ class Component(Device):
                 ignore_functions_prefix=ignore_functions_prefix,
                 ignore_components_prefix=ignore_components_prefix,
             )
-            d["cells"] = cells
+            d["cells"] = clean_dict(cells)
 
+        d["name"] = self.name
         d["version"] = self.version
         d["settings"] = dict(self.settings)
         return d
@@ -998,10 +1046,10 @@ class Component(Device):
         """Write Dict representation of a component in YAML format.
 
         Args:
-            ignore_components_prefix: for components to ignore when exporting
-            ignore_functions_prefix: for functions to ignore when exporting
-            with_cells: write cells recursively
-            with_ports: write port information
+            ignore_components_prefix: for components to ignore when exporting.
+            ignore_functions_prefix: for functions to ignore when exporting.
+            with_cells: write cells recursively.
+            with_ports: write port information.
 
         """
         return OmegaConf.to_yaml(self.to_dict(**kwargs))
@@ -1029,11 +1077,11 @@ class Component(Device):
         """Rename ports by orientation NSEW (north, south, east, west).
 
         Keyword Args:
-            function: to rename ports
-            select_ports_optical:
-            select_ports_electrical:
-            prefix_optical:
-            prefix_electrical:
+            function: to rename ports.
+            select_ports_optical: to select optical ports.
+            select_ports_electrical: to select electrical ports.
+            prefix_optical: prefix.
+            prefix_electrical: prefix.
 
         .. code::
 
@@ -1090,9 +1138,9 @@ class Component(Device):
         """Return new Component with a moved reference to the original component.
 
         Args:
-            origin: of component
-            destination:
-            axis: x or y
+            origin: of component.
+            destination: x, y.
+            axis: x or y.
         """
         from gdsfactory.functions import move
 
@@ -1127,14 +1175,14 @@ class Component(Device):
         """Return component with padding
 
         Keyword Args:
-            component
-            layers: list of layers
-            suffix for name
-            default: default padding (50um)
-            top: north padding
-            bottom: south padding
-            right: east padding
-            left: west padding
+            component: for padding.
+            layers: list of layers.
+            suffix for name.
+            default: default padding (50um).
+            top: north padding.
+            bottom: south padding.
+            right: east padding.
+            left: west padding.
         """
         from gdsfactory.add_padding import add_padding
 
@@ -1201,8 +1249,8 @@ def recurse_structures(
 
     Args:
         component: component to recurse.
-        ignore_components_prefix: list of prefix to ingore
-        ignore_functions_prefix: list of prefix to ingore
+        ignore_components_prefix: list of prefix to ingore.
+        ignore_functions_prefix: list of prefix to ingore.
     """
 
     ignore_functions_prefix = ignore_functions_prefix or []
@@ -1225,7 +1273,7 @@ def recurse_structures(
             isinstance(reference, ComponentReference)
             and reference.ref_cell.name not in output
         ):
-            output |= recurse_structures(reference.ref_cell)
+            output.update(recurse_structures(reference.ref_cell))
 
     return output
 
@@ -1308,7 +1356,21 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    test_extract()
+    import gdsfactory as gf
+
+    c = gf.Component("demo")
+
+    c2 = gf.components.mmi1x2()
+    c2.unlock()
+    c2.add_label(text="a")
+
+    ref = c << c2
+    ref.rotate(90)
+    print(c.get_labels())
+    c.show()
+    # [Label("a", (0.0, 0.0), None, None, False, 10, 0)]
+
+    # test_extract()
     # c = test_get_layers()
     # c.show()
 

@@ -24,14 +24,14 @@ def coupler(
     r"""Symmetric coupler.
 
     Args:
-        gap: between straights
-        length: of coupling region
-        coupler_symmetric
-        coupler_straight
-        dy: port to port vertical spacing
-        dx: length of bend in x direction
-        cross_section: factory
-        kwargs: cross_section settings
+        gap: between straights.
+        length: of coupling region.
+        coupler_symmetric.
+        coupler_straight.
+        dy: port to port vertical spacing.
+        dx: length of bend in x direction.
+        cross_section: factory.
+        kwargs: cross_section settings.
 
     .. code::
 

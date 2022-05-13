@@ -10,9 +10,9 @@ def ring_single(
     coupler=coupler_ring,
     straight=straight,
 ):
-    r"""Return Single bus ring made of a ring coupler (cb: bottom)
+    r"""Return Single bus ring made of a ring coupler (cb: bottom).
 
-    FIXME! Sparameters are zero
+    FIXME! Sparameters are zero.
 
     .. code::
 

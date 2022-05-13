@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "5.3.7"
+__version__ = "5.6.8"
 import io
 import json
 import os
@@ -26,8 +26,8 @@ from typing import Any, Iterable, Optional, Union
 import omegaconf
 from loguru import logger
 from omegaconf import OmegaConf
-from phidl.quickplotter import set_quickplot_options
 
+from gdsfactory.quickplotter import set_quickplot_options
 from gdsfactory.tech import TECH
 
 PathType = Union[str, pathlib.Path]

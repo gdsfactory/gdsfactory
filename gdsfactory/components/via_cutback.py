@@ -21,12 +21,12 @@ def _via_iterable(
     """Via chain.
 
     Args:
-        via_spacing: via_spacing
-        wire_width: width of wire
-        layer1: top wiring
-        layer2: bottom wiring
-        via_layer:
-        via_width: width of via
+        via_spacing: via_spacing (um).
+        wire_width: width of wire.
+        layer1: top wiring.
+        layer2: bottom wiring.
+        via_layer: via.
+        via_width: width of via.
     """
     c = gf.Component()
     wire1 = c.add_ref(compass(size=(via_spacing, wire_width), layer=layer1))
@@ -44,7 +44,7 @@ def _via_iterable(
     c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical", layer=layer2)
     c.add_port(
         name="e4",
-        midpoint=[(1 * wire_width) + wire_width / 2, -wire_width / 2],
+        midpoint=((1 * wire_width) + wire_width / 2, -wire_width / 2),
         width=wire_width,
         orientation=-90,
         port_type="electrical",
@@ -52,7 +52,7 @@ def _via_iterable(
     )
     c.add_port(
         name="e2",
-        midpoint=[(1 * wire_width) + wire_width / 2, wire_width / 2],
+        midpoint=((1 * wire_width) + wire_width / 2, wire_width / 2),
         width=wire_width,
         orientation=90,
         port_type="electrical",
@@ -81,17 +81,17 @@ def via_cutback(
     adapted from phidl.geometry
 
     Args:
-        num_vias: total requested vias needs to be even
-        wire_width: width of wire
-        via_width: width of via
-        via_spacing: via_spacing
-        pad_size: (width, height)
-        min_pad_spacing
-        pad_layer
-        layer1: top wiring
-        layer2: bottom wiring
-        via_layer:
-        wire_pad_inclusion:
+        num_vias: total requested vias needs to be even.
+        wire_width: width of wire.
+        via_width: width of via.
+        via_spacing: via_spacing.
+        pad_size: (width, height).
+        min_pad_spacing.
+        pad_layer.
+        layer1: top wiring.
+        layer2: bottom wiring.
+        via_layer: via.
+        wire_pad_inclusion: in um.
 
     """
 

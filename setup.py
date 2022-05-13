@@ -1,4 +1,8 @@
 from setuptools import find_packages, setup
+import sys
+
+if sys.version_info < (3, 7):
+    raise RuntimeError("This package requres Python 3.7 or newer")
 
 with open("requirements.txt") as f:
     requirements = [
@@ -15,6 +19,11 @@ with open("requirements_full.txt") as f:
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
     ]
 
+with open("requirements_exp.txt") as f:
+    requirements_exp = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
+
 with open("README.md") as f:
     long_description = f.read()
 
@@ -22,7 +31,7 @@ with open("README.md") as f:
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="5.3.7",
+    version="5.6.8",
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",
@@ -31,7 +40,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    python_requires=">=3.8",
+    python_requires=">=3.7",
     license="MIT",
     entry_points="""
         [console_scripts]
@@ -41,6 +50,7 @@ setup(
         "full": list(set(requirements + requirements_full)),
         "basic": requirements,
         "dev": list(set(requirements + requirements_dev + requirements_full)),
+        "exp": list(set(requirements + requirements_exp)),
     },
     package_data={
         "": ["*.gds", "*.yml", "*.lyp", "*.json"],

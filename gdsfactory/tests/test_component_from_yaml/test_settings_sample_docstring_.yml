@@ -1,2 +1,166 @@
-settings: {}
+name: sample_docstring_5eb0f802
+settings:
+  changed:
+    conf:
+      instances:
+        mmi_bot:
+          component: mmi1x2
+          settings:
+            length_mmi: 11
+            width_mmi: 5
+        mmi_top:
+          component: mmi1x2
+          settings:
+            length_mmi: 22
+            width_mmi: 6
+      name: sample_docstring
+      placements:
+        mmi_bot:
+          dx: 40
+          dy: -40
+          port: o1
+          x: mmi_top,o2
+          y: mmi_top,o2
+        mmi_top:
+          port: o1
+          x: 0
+          y: 0
+      routes:
+        optical:
+          links:
+            mmi_top,o3: mmi_bot,o1
+  child: null
+  default:
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  full:
+    conf:
+      instances:
+        mmi_bot:
+          component: mmi1x2
+          settings:
+            length_mmi: 11
+            width_mmi: 5
+        mmi_top:
+          component: mmi1x2
+          settings:
+            length_mmi: 22
+            width_mmi: 6
+      name: sample_docstring
+      placements:
+        mmi_bot:
+          dx: 40
+          dy: -40
+          port: o1
+          x: mmi_top,o2
+          y: mmi_top,o2
+        mmi_top:
+          port: o1
+          x: 0
+          y: 0
+      routes:
+        optical:
+          links:
+            mmi_top,o3: mmi_bot,o1
+    label_instance_function:
+      function: add_instance_label
+    routing_strategy:
+      get_bundle:
+        function: get_bundle
+      get_bundle_electrical:
+        function: get_bundle
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_steps:
+        function: get_bundle_from_steps
+      get_bundle_from_steps_electrical:
+        function: get_bundle_from_steps
+        settings:
+          bend:
+            function: wire_corner
+          cross_section:
+            function: cross_section
+            settings:
+              layer:
+              - 49
+              - 0
+              port_names:
+              - e1
+              - e2
+              port_types:
+              - electrical
+              - electrical
+              width: 10
+      get_bundle_from_waypoints:
+        function: get_bundle_from_waypoints
+      get_bundle_path_length_match:
+        function: get_bundle_path_length_match
+      get_bundle_same_axis_no_grouping:
+        function: get_bundle_same_axis_no_grouping
+  function_name: _from_yaml
+  info: {}
+  info_version: 2
+  module: gdsfactory.read.from_yaml
+  name: sample_docstring_5eb0f802
 version: 0.0.1

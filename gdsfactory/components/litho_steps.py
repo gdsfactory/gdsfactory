@@ -12,8 +12,9 @@ def litho_steps(
     height: float = 100.0,
     layer: Tuple[int, int] = gf.LAYER.WG,
 ) -> Component:
-    """Produces a positive + negative tone linewidth test, used for
-    lithography resolution test patterning
+    """Positive + negative tone linewidth test
+
+    used for lithography resolution test patterning
     adapted from phidl
 
     Args:

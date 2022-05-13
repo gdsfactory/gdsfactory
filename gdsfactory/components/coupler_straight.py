@@ -14,10 +14,10 @@ def coupler_straight(
     """Coupler_straight with two parallel straights.
 
     Args:
-        length: of straight
-        gap: between straights
-        straight: straight waveguide function
-        kwargs: cross_section settings
+        length: of straight.
+        gap: between straights.
+        straight: straight waveguide function.
+        kwargs: cross_section settings.
     """
     component = Component()
     straight_component = gf.get_component(straight, length=length, **kwargs)

@@ -15,11 +15,11 @@ def grating_coupler_array(
     """Array of rectangular pads.
 
     Args:
-        grating_coupler: ComponentSpec
-        spacing: x spacing
-        n: number of pads
-        port_name: port name
-        rotation: rotation angle for each reference
+        grating_coupler: ComponentSpec.
+        pitch: x spacing.
+        n: number of pads.
+        port_name: port name.
+        rotation: rotation angle for each reference.
 
     """
     c = Component()

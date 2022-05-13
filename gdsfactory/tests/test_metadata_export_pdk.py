@@ -4,9 +4,9 @@ import gdsfactory as gf
 @gf.cell
 def straight_with_pins(**kwargs):
     c = gf.Component()
-    ref = c << gf.components.straight()
+    ref = c << gf.components.straight(**kwargs)
     c.add_ports(ref.ports)
-    gf.add_pins(c)
+    gf.add_pins.add_pins(c)
     return c
 
 
@@ -20,6 +20,7 @@ if __name__ == "__main__":
 
     c = gf.components.mzi(straight=straight_with_pins)
     print(c.settings.full["straight"])
+    c.show()
 
     # df = d.settings.full
     # sf = df.straight

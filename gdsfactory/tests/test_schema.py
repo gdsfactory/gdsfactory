@@ -24,7 +24,7 @@ name: mzi
 
 pdk: ubcpdk
 
-vars:
+settings:
    dy: -90
 
 info:
@@ -55,7 +55,7 @@ routes:
             yl,opt3: yr,opt2
         routing_strategy: get_bundle_from_steps
         settings:
-          steps: [dx: 30, dy: '${vars.dy}', dx: 20]
+          steps: [dx: 30, dy: '${settings.dy}', dx: 20]
           cross_section: strip
 
 ports:

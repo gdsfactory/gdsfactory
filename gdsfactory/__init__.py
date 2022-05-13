@@ -19,8 +19,9 @@ isort:skip_file
 """
 from functools import partial
 from toolz import compose
-from phidl.device_layout import Group, Path
+from phidl.device_layout import Group
 from gdsfactory.quickplotter import quickplot, quickplot2, set_quickplot_options
+from gdsfactory.path import Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
@@ -38,6 +39,7 @@ from gdsfactory.types import Label
 from gdsfactory import cross_section
 from gdsfactory import asserts
 from gdsfactory import components
+from gdsfactory import dft
 from gdsfactory import routing
 from gdsfactory import klive
 from gdsfactory import port
@@ -55,6 +57,7 @@ from gdsfactory import geometry
 from gdsfactory import mask
 from gdsfactory import add_ports
 from gdsfactory import write_cells
+from gdsfactory import add_pins
 
 from gdsfactory.tech import TECH
 from gdsfactory.add_tapers import add_tapers
@@ -63,7 +66,6 @@ from gdsfactory.add_padding import (
     add_padding_container,
     get_padding_points,
 )
-from gdsfactory.add_pins import add_pins
 from gdsfactory.fill import fill_rectangle
 from gdsfactory.pack import pack
 from gdsfactory.grid import grid, grid_with_text
@@ -111,6 +113,7 @@ __all__ = [
     "clear_cache",
     "components",
     "cross_section",
+    "dft",
     "export",
     "fill_rectangle",
     "functions",
@@ -146,4 +149,4 @@ __all__ = [
     "quickplot2",
     "set_quickplot_options",
 ]
-__version__ = "5.3.7"
+__version__ = "5.6.8"

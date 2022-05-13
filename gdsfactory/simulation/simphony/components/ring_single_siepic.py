@@ -13,7 +13,7 @@ def ring_single(
     coupler=coupler_ring,
     straight=siepic.Waveguide,
 ):
-    r"""Single bus ring made of a ring coupler (cb: bottom)
+    r"""Single bus ring made of a ring coupler (cb: bottom).
 
     .. code::
 
@@ -27,7 +27,6 @@ def ring_single(
 
 
     """
-
     length = np.pi * bend_radius + length_x + 2 * length_y
     straight = straight(length=length * 1e-6) if callable(straight) else straight
     coupler = (

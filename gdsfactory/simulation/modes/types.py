@@ -6,29 +6,10 @@ from meep import mpb
 from pydantic import BaseModel
 from scipy.interpolate import RectBivariateSpline
 
+from gdsfactory.types import Array
+
 # cmap_default = 'viridis'
 cmap_default = "RdBu"
-
-
-class TypedArray(np.ndarray):
-    """based on https://github.com/samuelcolvin/pydantic/issues/380"""
-
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate_type
-
-    @classmethod
-    def validate_type(cls, val):
-        return np.array(val, dtype=cls.inner_type)
-
-
-class ArrayMeta(type):
-    def __getitem__(self, t):
-        return type("Array", (TypedArray,), {"inner_type": t})
-
-
-class Array(np.ndarray, metaclass=ArrayMeta):
-    pass
 
 
 class Mode(BaseModel):
@@ -102,8 +83,7 @@ class Mode(BaseModel):
         return self.E_grid_interp(y_arr=y_arr, z_arr=z_arr, index=2)
 
     def H_grid_interp(self, y_arr, z_arr, index=0):
-        """
-        Creates new attributes with scipy.interpolate.RectBivariateSpline objects
+        """Creates new attributes with scipy.interpolate.RectBivariateSpline objects
         that can be used to interpolate the field on a new regular grid
 
         Args:
@@ -141,7 +121,7 @@ class Mode(BaseModel):
         logscale: bool = False,
         show: bool = True,
     ) -> None:
-        """plot index profle"""
+        """Plot index profile."""
         plt.imshow(
             self.eps**0.5,
             cmap=cmap,

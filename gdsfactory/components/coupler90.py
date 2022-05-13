@@ -18,12 +18,13 @@ def coupler90(
     r"""straight coupled to a bend.
 
     Args:
-        gap: um
-        radius: um
-        straight: for straight
-        bend: for bend
-        cross_section:
-        kwargs: cross_section settings
+        gap: um.
+        radius: um.
+        straight: for straight.
+        bend: bend spec.
+        cross_section: cross_section spec.
+        bend_cross_section: optional bend cross_section spec.
+        kwargs: cross_section settings.
 
     .. code::
 

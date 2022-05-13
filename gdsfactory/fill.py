@@ -21,24 +21,24 @@ def fill_rectangle(
     fill_inverted: bool = False,
     bbox: Optional[Float2] = None,
 ) -> Component:
-    """Creates a rectangular fill pattern and fills all empty areas
+    """Creates a rectangular fill pattern and fills all empty areas.
+
     in the input component and returns a component that contains just the fill
     Dummy fill keeps density constant during fabrication
 
     Args:
-        component: Component to fill
-        fill_size: Rectangular size of the fill element
-        avoid_layers: Layers to be avoided (not filled) in D
-        include_layers: Layers to be filled, supercedes avoid_layers
-        margin :
-            Margin spacing around avoided areas -- fill will not come within
-            `margin` of the geometry in D
-        fill_layers: list of layers. fill pattern layers
-        fill_densities: float between 0 and 1
-            Defines the fill pattern density (1.0 == fully filled)
-        fill_inverted: Inverts the fill pattern
-        bbox: array-like[2][2]
-            Limit the fill pattern to the area defined by this bounding box
+        component: Component to fill.
+        fill_size: Rectangular size of the fill element.
+        avoid_layers: Layers to be avoided (not filled) in D.
+        include_layers: Layers to be filled, supercedes avoid_layers.
+        margin:
+            Margin spacing around avoided areas -- fill will not come within.
+            `margin` of the geometry in D.
+        fill_layers: list of layers. fill pattern layers.
+        fill_densities: float between 0 and 1.
+            Defines the fill pattern density (1.0 == fully filled).
+        fill_inverted: Inverts the fill pattern.
+        bbox: x, y limit the fill pattern to the area defined by this bounding box.
 
     """
 

@@ -33,24 +33,24 @@ def dbr_tapered(
        period: Period of the repeated unit.
        dc: Duty cycle of the repeated unit (must be a float between 0 and 1.0).
        w1: thin section width. w1 = 0 corresponds to disconnected periodic blocks.
-       w2: wide section width
+       w2: wide section width.
        taper_length: between the input/output straight and the DBR region.
        fins: If `True`, adds fins to the input/output straights.
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        waveguide_template_dbr: If `fins` is True, a WaveguideTemplate must be specified.
        port: Cartesian coordinate of the input port.  Defaults to (0,0).
        direction: Direction that the component points *towards*,
-        `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians)
-       waveguide_template: WaveguideTemplate object
+        `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).
+       waveguide_template: WaveguideTemplate object.
 
     Keyword Args:
-        wg_width: 0.5
-        wg_layer: gf.LAYER.WG[0]
-        wg_datatype: gf.LAYER.WG[1]
-        clad_layer: gf.LAYER.WGCLAD[0]
-        clad_datatype: gf.LAYER.WGCLAD[1]
-        bend_radius: 10
-        cladding_offset: 3
+        wg_width: 0.5.
+        wg_layer: gf.LAYER.WG[0].
+        wg_datatype: gf.LAYER.WG[1].
+        clad_layer: gf.LAYER.WGCLAD[0].
+        clad_datatype: gf.LAYER.WGCLAD[1].
+        bend_radius: 10.
+        cladding_offset: 3.
 
     .. code::
 
