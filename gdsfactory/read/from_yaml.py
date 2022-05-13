@@ -46,8 +46,6 @@ routes:
             radius: 10
 
 """
-import copy
-import hashlib
 import importlib
 import io
 import pathlib
@@ -55,15 +53,12 @@ import warnings
 from typing import IO, Any, Callable, Dict, List, Optional, Union
 
 import numpy as np
-import omegaconf
 from omegaconf import OmegaConf
 
 from gdsfactory.add_pins import add_instance_label
-from gdsfactory.cell import CACHE
+from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.name import clean_name
 from gdsfactory.routing.factories import routing_strategy as routing_strategy_factories
-from gdsfactory.serialization import clean_value_name
 from gdsfactory.types import Route
 
 valid_placement_keys = [
@@ -193,7 +188,7 @@ def place(
 
     if instance_name in placements_conf:
         placement_settings = placements_conf[instance_name] or {}
-        if not isinstance(placement_settings, omegaconf.DictConfig):
+        if not isinstance(placement_settings, dict):
             raise ValueError(
                 f"Invalid placement {placement_settings} from {valid_placement_keys}"
             )
@@ -470,7 +465,8 @@ def from_yaml(
     yaml_str: Union[str, pathlib.Path, IO[Any]],
     routing_strategy: Dict[str, Callable] = routing_strategy_factories,
     label_instance_function: Callable = add_instance_label,
-    cache: bool = False,
+    name: Optional[str] = None,
+    prefix: Optional[str] = None,
     **kwargs,
 ) -> Component:
     """Returns a Component defined in YAML string or file.
@@ -480,7 +476,8 @@ def from_yaml(
           (instances, placements, routes, ports, connections, names).
         routing_strategy: for each route.
         label_instance_function: to label each instance.
-        cache: stores and retrieves components from the cache.
+        name: Optional name.
+        prefix: name prefix.
         kwargs: function settings. Overwrite settings from YAML.
 
     .. code::
@@ -550,7 +547,6 @@ def from_yaml(
                     mmi_top,o3: mmi_bot,o1
 
     """
-    from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
 
     yaml_str = (
         io.StringIO(yaml_str)
@@ -563,12 +559,7 @@ def from_yaml(
         if key not in valid_top_level_keys:
             raise ValueError(f"{key!r} not in {list(valid_top_level_keys)}")
 
-    instances = {}
-    routes = {}
-
     settings = conf.get("settings", {})
-    default = copy.deepcopy(settings)
-    changed = copy.deepcopy(kwargs)
 
     for key, value in kwargs.items():
         if key not in settings:
@@ -576,33 +567,33 @@ def from_yaml(
         else:
             conf["settings"][key] = value
 
-    settings = conf.get("settings", {})
-    name_prefix = conf.get("name", "Unnamed")
+    return _from_yaml(
+        conf=OmegaConf.to_container(conf, resolve=True),
+        routing_strategy=routing_strategy,
+        label_instance_function=label_instance_function,
+        prefix=prefix or conf.get("name", "Unnamed"),
+        name=name,
+    )
 
-    default_args_list = [
-        f"{key}={clean_value_name(default[key])}" for key in sorted(default.keys())
-    ]
-    # list of explicitly passed args as strings
-    passed_args_list = [
-        f"{key}={clean_value_name(changed[key])}" for key in sorted(changed.keys())
-    ]
 
-    # get only the args which are explicitly passed and different from defaults
-    changed_arg_set = set(passed_args_list).difference(default_args_list)
-    changed_arg_list = sorted(changed_arg_set)
+@cell
+def _from_yaml(
+    conf,
+    routing_strategy: Dict[str, Callable] = routing_strategy_factories,
+    label_instance_function: Callable = add_instance_label,
+) -> Component:
+    """Returns component from YAML decorated with cell for caching and autonaming.
 
-    if changed_arg_list:
-        named_args_string = "_".join(changed_arg_list)
-        named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
-        name = clean_name(f"{name_prefix}_{named_args_hash}")
-    else:
-        name = name_prefix
+    Args:
+        conf: dict.
+        routing_strategy: for each route.
+        label_instance_function: to label each instance.
+    """
+    from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
 
-    if cache and name in CACHE:
-        return CACHE[name]
-    else:
-        c = Component(name)
-        CACHE[name] = c
+    c = Component()
+    instances = {}
+    routes = {}
 
     placements_conf = conf.get("placements")
     routes_conf = conf.get("routes")
@@ -628,7 +619,6 @@ def from_yaml(
         instance_conf = instances_dict[instance_name]
         component = instance_conf["component"]
         settings = instance_conf.get("settings", {})
-        settings = OmegaConf.to_container(settings, resolve=True) if settings else {}
         component_spec = {"component": component, "settings": settings}
         component = pdk.get_component(component_spec)
         ref = c << component
@@ -646,7 +636,7 @@ def from_yaml(
         if "x" in placement_settings or "y" in placement_settings:
             warnings.warn(
                 f"YAML defined: ({', '.join(components_with_placement_conflicts)}) "
-                + "with both connection and placement. Please use one or the other.",
+                "with both connection and placement. Please use one or the other.",
             )
 
     all_remaining_insts = list(
@@ -658,7 +648,7 @@ def from_yaml(
             placements_conf=placements_conf,
             connections_by_transformed_inst=connections_by_transformed_inst,
             instances=instances,
-            encountered_insts=list(),
+            encountered_insts=[],
             all_remaining_insts=all_remaining_insts,
         )
 
@@ -680,13 +670,11 @@ def from_yaml(
                     )
 
             settings = routes_dict.pop("settings", {})
-            settings = (
-                OmegaConf.to_container(settings, resolve=True) if settings else {}
-            )
             routing_strategy_name = routes_dict.pop("routing_strategy", "get_bundle")
             if routing_strategy_name not in routing_strategy:
+                routing_strategies = list(routing_strategy.keys())
                 raise ValueError(
-                    f"function {routing_strategy_name!r} not in routing_strategy {list(routing_strategy.keys())}"
+                    f"{routing_strategy_name!r} not in routing_strategy {routing_strategies}"
                 )
 
             if "links" not in routes_dict:
@@ -756,10 +744,6 @@ def from_yaml(
                                 f"for {instance_dst_name!r}"
                             )
                         ports2.append(instance_dst.ports[port_dst_name])
-
-                    # print(ports1)
-                    # print(ports2)
-                    # print(route_names)
 
                 else:
                     instance_src_name, port_src_name = port_src_string.split(",")
@@ -1255,10 +1239,10 @@ if __name__ == "__main__":
     # print(n)
 
     # c = from_yaml(sample_doe)
-    # c = from_yaml(sample_pdk_mzi_settings)
 
     # c = from_yaml(sample_mirror)
-    c = from_yaml(sample_doe_function)
+    # c = from_yaml(sample_doe_function)
+    c = from_yaml(sample_pdk_mzi_settings, dy=-500)
     c.show()
 
     # c = test_connections_regex()

@@ -36,8 +36,8 @@ def _pack_single_bin(
         density: of packing, closer to 1 packs tighter (more compute heavy).
 
     Returns:
-        packed rectangles dict {id:(x,y,w,h)}
-        dict of remaining unpacked rectangles
+        packed rectangles dict {id:(x,y,w,h)}.
+        dict of remaining unpacked rectangles.
     """
     import rectpack
 

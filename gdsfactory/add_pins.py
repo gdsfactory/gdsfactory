@@ -67,10 +67,10 @@ def add_pin_triangle(
     """Add triangle pin with a right angle, pointing out of the port
 
     Args:
-        component:
-        port: Port
-        layer: for the pin marker
-        layer_label: for the label
+        component: to add pin.
+        port: Port.
+        layer: for the pin marker.
+        layer_label: for the label.
     """
     polygon, ptip = get_pin_triangle_polygon_tip(port=port)
     component.add_polygon(polygon, layer=layer)
@@ -93,11 +93,11 @@ def add_pin_rectangle_inside(
     """Add square pin towards the inside of the port
 
     Args:
-        component:
-        port: Port
-        pin_length: length of the pin marker for the port
-        layer: for the pin marker
-        layer_label: for the label
+        component: to add pins.
+        port: Port.
+        pin_length: length of the pin marker for the port.
+        layer: for the pin marker.
+        layer_label: for the label.
 
     .. code::
 
@@ -147,14 +147,14 @@ def add_pin_rectangle_double(
     layer: Tuple[int, int] = LAYER.PORT,
     layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
 ) -> None:
-    """Add two square pins: one inside with label, one outside
+    """Add two square pins: one inside with label, one outside.
 
     Args:
-        component:
-        port: Port
-        pin_length: length of the pin marker for the port
-        layer: for the pin marker
-        layer_label: for the label
+        component: to add pins.
+        port: Port.
+        pin_length: length of the pin marker for the port.
+        layer: for the pin marker.
+        layer_label: for the label.
 
     .. code::
 
@@ -223,12 +223,12 @@ def add_pin_rectangle(
     """Add half out pin to a component.
 
     Args:
-        component:
-        port: Port
-        pin_length: length of the pin marker for the port
-        layer: for the pin marker
-        layer_label: for the label
-        port_margin: margin to port edge
+        component: to add pin.
+        port: Port.
+        pin_length: length of the pin marker for the port.
+        layer: for the pin marker.
+        layer_label: for the label.
+        port_margin: margin to port edge.
 
 
     .. code::
@@ -285,9 +285,9 @@ def add_pin_path(
     This port type is compatible with SiEPIC pdk.
 
     Args:
-        component:
-        port: Port
-        pin_length: length of the pin marker for the port
+        component: to add pin.
+        port: Port.
+        pin_length: length of the pin marker for the port.
         layer: for the pin marker.
         layer_label: for the label. Defaults to layer.
 
@@ -339,16 +339,16 @@ def add_outline(
     """Adds devices outline bounding box in layer.
 
     Args:
-        component: where to add the markers
-        reference: to read outline from
-        layer: to add padding
+        component: where to add the markers.
+        reference: to read outline from.
+        layer: to add padding.
 
     Keyword Args:
-        default: default padding
-        top: North padding
-        bottom
-        right
-        left
+        default: default padding.
+        top: North padding.
+        bottom: padding.
+        right: padding.
+        left: padding.
     """
     from gdsfactory.add_padding import get_padding_points
 
@@ -366,7 +366,7 @@ def add_pins_siepic(
     layer_pin: Layer = LAYER.PORT,
     pin_length: float = 10 * nm,
 ) -> Component:
-    """Add pins
+    """Add pins.
     Enables you to run SiEPIC verification tools:
     To Run verification install SiEPIC-tools klayout package
     then hit V shortcut in klayout to run verification
@@ -379,7 +379,7 @@ def add_pins_siepic(
         function: to add pin.
         port_type: optical, electrical, ...
         layer_pin: pin layer.
-        pin_length: length of the pin marker for the port
+        pin_length: length of the pin marker for the port.
 
     """
 
@@ -532,12 +532,12 @@ def add_pins_and_outline(
     - label for the settings
 
     Args:
-        component: where to add the markers
-        reference
-        add_outline_function
-        add_pins_function: to add pins to ports
-        add_settings_function: to add outline around the component
-        add_instance_label_function: labels each instance
+        component: where to add the markers.
+        reference: to add pins.
+        add_outline_function.
+        add_pins_function: to add pins to ports.
+        add_settings_function: to add outline around the component.
+        add_instance_label_function: labels each instance.
 
     """
     if add_outline_function:
