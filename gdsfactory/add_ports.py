@@ -76,6 +76,7 @@ def add_ports_from_markers_center(
     ycenter: Optional[float] = None,
     port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
+    short_ports: bool = False,
     auto_rename_ports: bool = True,
     debug: bool = False,
 ) -> Component:
@@ -99,6 +100,7 @@ def add_ports_from_markers_center(
         ycenter: for guessing orientation of rectangular ports.
         port_name_prefix: defaults to 'o' for optical and 'e' for electrical ports.
         port_type: type of port (optical, electrical ...).
+        short_ports: if the port is on the short side rather than the long side
         auto_rename_ports:
         debug: if True prints ports that are skipped.
 
@@ -188,22 +190,24 @@ def add_ports_from_markers_center(
 
         orientation = 0
 
-        if dx < dy and x > xc:  # east
-            orientation = 0
-            width = dy
-            x = p.xmax if inside else p.x
-        elif dx < dy and x < xc:  # west
-            orientation = 180
-            width = dy
-            x = p.xmin if inside else p.x
-        elif dx > dy and y > yc:  # north
-            orientation = 90
-            width = dx
-            y = p.ymax if inside else p.y
-        elif dx > dy and y < yc:  # south
-            orientation = 270
-            width = dx
-            y = p.ymin if inside else p.y
+        if dx < dy if not short_ports else dy < dx:
+            if x > xc:  # east
+                orientation = 0
+                width = dy
+                x = p.xmax if inside else p.x
+            elif x < xc:  # west
+                orientation = 180
+                width = dy
+                x = p.xmin if inside else p.x
+        elif dx > dy if not short_ports else dy > dx:
+            if y > yc:  # north
+                orientation = 90
+                width = dx
+                y = p.ymax if inside else p.y
+            elif y < yc:  # south
+                orientation = 270
+                width = dx
+                y = p.ymin if inside else p.y
 
         # square port markers have same width and height
         # check which edge (E, W, N, S) they are closer to
