@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.constants import speed_of_light
-from simphony.elements import Model
+from simphony import Model
 from simphony.tools import interpolate
 
 import gdsfactory as gf
