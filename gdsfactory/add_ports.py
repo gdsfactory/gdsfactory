@@ -190,7 +190,7 @@ def add_ports_from_markers_center(
 
         orientation = 0
 
-        if dx < dy if not short_ports else dy < dx:
+        if dy < dx if short_ports else dx < dy:
             if x > xc:  # east
                 orientation = 0
                 width = dy
@@ -199,7 +199,7 @@ def add_ports_from_markers_center(
                 orientation = 180
                 width = dy
                 x = p.xmin if inside else p.x
-        elif dx > dy if not short_ports else dy > dx:
+        elif dy > dx if short_ports else dx > dy:
             if y > yc:  # north
                 orientation = 90
                 width = dx
@@ -208,9 +208,6 @@ def add_ports_from_markers_center(
                 orientation = 270
                 width = dx
                 y = p.ymin if inside else p.y
-
-        # square port markers have same width and height
-        # check which edge (E, W, N, S) they are closer to
 
         elif pxmax > xmax - tol:  # east
             orientation = 0
