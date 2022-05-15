@@ -1,8 +1,4 @@
 from setuptools import find_packages, setup
-import sys
-
-if sys.version_info < (3, 7):
-    raise RuntimeError("This package requres Python 3.7 or newer")
 
 with open("requirements.txt") as f:
     requirements = [
