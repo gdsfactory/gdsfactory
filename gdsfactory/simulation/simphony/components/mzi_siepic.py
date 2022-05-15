@@ -1,11 +1,11 @@
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.libraries import siepic
+from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.mmi1x2 import mmi1x2
 
 
 def mzi(
-    L0=1, DL=100.0, L2=10.0, y_model_factory=mmi1x2, wg=siepic.ebeam_wg_integral_1550
+    L0=1, DL=100.0, L2=10.0, y_model_factory=mmi1x2, wg=siepic.Waveguide
 ):
     """Mzi circuit model.
 
@@ -83,7 +83,7 @@ def mzi(
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulationsimphony import plot_circuit
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = mzi()
     plot_circuit(c)
