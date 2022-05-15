@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from simphony.models import Subcircuit
-from simphony.simulators import MonteCarloSweepSimulator
+from simphony.netlist import Subcircuit
+from simphony.simulation import MonteCarloSweepSimulation
+from simphony.tools import freq2wl
 
 
 def plot_circuit_montecarlo(
@@ -28,16 +29,18 @@ def plot_circuit_montecarlo(
 
     """
     circuit = circuit() if callable(circuit) else circuit
-    simulation = MonteCarloSweepSimulator(start=start, stop=stop, num=num)
-    simulation.circuit = circuit.circuit
+    simulation = MonteCarloSweepSimulation(circuit, start=start, stop=stop, num=num)
     result = simulation.simulate(runs=runs)
 
-    for wl, s in result:
+    for i in range(1, runs + 1):
+        f, s = result.data(pin_in, pin_out, i)
+        wl = freq2wl(f)
         s = 10 * np.log10(abs(s)) if logscale else abs(s)
         plt.plot(wl, s)
 
     # The data located at the 0 position is the ideal values.
-    wl, s = result[0]
+    f, s = result.data(pin_in, pin_out, 0)
+    wl = freq2wl(f)
     plt.plot(wl, s, "k")
     plt.title("MZI Monte Carlo")
     ylabel = "|S| (dB)" if logscale else "|S|"

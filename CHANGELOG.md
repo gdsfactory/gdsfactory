@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.9]
+
+-  add_port_from_marker function only allows for ports to be created parallel to the long side of the pin marker. [PR](https://github.com/gdsfactory/gdsfactory/pull/386)
+
 ## [5.6.7](https://github.com/gdsfactory/gdsfactory/pull/385)
 
 - fix some pydocstyle errors
