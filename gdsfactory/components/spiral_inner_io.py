@@ -27,8 +27,8 @@ def spiral_inner_io(
     y_straight_inner_bottom: float = 10.0,
     grating_spacing: float = 127.0,
     waveguide_spacing: float = 3.0,
-    bend90_function: ComponentSpec = bend_euler,
-    bend180_function: ComponentSpec = bend_euler180,
+    bend90: ComponentSpec = bend_euler,
+    bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
     length: Optional[float] = None,
     cross_section: CrossSectionSpec = strip,
@@ -39,25 +39,25 @@ def spiral_inner_io(
     You can add grating couplers inside .
 
     Args:
-        N: number of loops
-        x_straight_inner_right:
-        x_straight_inner_left:
-        y_straight_inner_top:
-        y_straight_inner_bottom:
-        grating_spacing: defaults to 127 for fiber array
-        waveguide_spacing: center to center spacing
-        bend90_function
-        bend180_function
-        straight: straight function
-        length: spiral target length (um), overrides x_straight_inner_left
-            to match the length by a simple 1D interpolation
-        cross_section:
-        cross_section_bend: for the bends
-        kwargs: cross_section settings
+        N: number of loops.
+        x_straight_inner_right: xlength.
+        x_straight_inner_left: x length left.
+        y_straight_inner_top: x inner top.
+        y_straight_inner_bottom: y length.
+        grating_spacing: defaults to 127 for fiber array.
+        waveguide_spacing: center to center spacing.
+        bend90: bend90 spec.
+        bend180: bend180 spec.
+        straight: straight spec.
+        length: spiral target length (um), overrides x_straight_inner_left.
+            to match the length by a simple 1D interpolation.
+        cross_section: spec.
+        cross_section_bend: for the bends.
+        kwargs: cross_section settings.
 
     """
     dx = dy = waveguide_spacing
-    x = cross_section(**kwargs)
+    x = gf.get_cross_section(cross_section, **kwargs)
     width = x.width
     layer = x.layer
     cross_section_bend = cross_section_bend or cross_section
@@ -75,12 +75,8 @@ def spiral_inner_io(
             waveguide_spacing=waveguide_spacing,
         )
 
-    _bend180 = gf.get_component(
-        bend180_function, cross_section=cross_section_bend, **kwargs
-    )
-    _bend90 = gf.get_component(
-        bend90_function, cross_section=cross_section_bend, **kwargs
-    )
+    _bend180 = gf.get_component(bend180, cross_section=cross_section_bend, **kwargs)
+    _bend90 = gf.get_component(bend90, cross_section=cross_section_bend, **kwargs)
 
     rx, ry = get_bend_port_distances(_bend90)
     _, rx180 = get_bend_port_distances(_bend180)  # rx180, second arg since we rotate
@@ -179,25 +175,28 @@ def spiral_inner_io_fiber_single(
     **kwargs
 ) -> Component:
     """Returns Spiral with 90 and 270 degree ports.
+
     You can add single fiber north and south grating couplers
     inside the spiral to save space
 
     Args:
-        cross_section: for the straight sections in the spiral
-        cross_section_bend: for the bends in the spiral
-        cross_section_ports: for input/output ports
-        x_straight_inner_right:
-        x_straight_inner_left:
-        y_straight_inner_top:
-        y_straight_inner_bottom:
-        grating_spacing:
-        N: number of loops
-        waveguide_spacing: center to center spacing
-        bend90_function
-        bend180_function
-        straight: straight function
-        length: computes spiral length from simple interpolation
-        kwargs: cross_section settings
+        cross_section: for the straight sections in the spiral.
+        cross_section_bend: for the bends in the spiral.
+        cross_section_ports: for input/output ports.
+        x_straight_inner_right: in um.
+        x_straight_inner_left: in um.
+        y_straight_inner_top: in um.
+        y_straight_inner_bottom: in um.
+        grating_spacing: in um.
+
+    Keyword Args:
+        N: number of loops.
+        waveguide_spacing: center to center spacing.
+        bend90: bend90 spec.
+        bend180: bend180 spec.
+        straight: straight spec.
+        length: computes spiral length from simple interpolation.
+        kwargs: cross_section settings.
     """
     c = Component()
     spiral = spiral_inner_io(
