@@ -1,5 +1,4 @@
-from SiPANN.scee import Standard
-from SiPANN.scee_int import SimphonyWrapper
+from simphony.libraries.sipann import Standard
 
 
 def coupler(
@@ -58,6 +57,7 @@ def coupler(
         gs.plot_model(c)
 
     """
+
     # SiPANN units are in nm
     width *= 1e3
     thickness *= 1e3
@@ -66,18 +66,17 @@ def coupler(
     H = dx * 1e3
     V = dy * 1e3 / 2
 
-    s = Standard(
+
+    model = Standard(
         width=width,
         thickness=thickness,
         gap=gap,
         length=length,
-        H=H,
-        V=V,
+        horizontal=H,
+        vertical=V,
         sw_angle=sw_angle,
     )
-    model = SimphonyWrapper(s)
-    model.pins = ("o1", "o2", "o4", "o3")
-    model.sipann = s
+    model.rename_pins("o1", "o2", "o4", "o3")
     return model
 
 
