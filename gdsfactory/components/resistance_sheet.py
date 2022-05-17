@@ -26,7 +26,7 @@ def resistance_sheet(
     keeps connectivity for pads and first layer in layers
 
     Args:
-        width:  in um.
+        width: in um.
         layers: for the middle part.
         layer_offsets: from edge, positive: over, negative: inclusion.
         pad: function to create a pad.
@@ -74,6 +74,10 @@ def resistance_sheet(
 
 
 if __name__ == "__main__":
+    # import gdsfactory as gf
+    # sweep = [resistance_sheet(width=width, layers=((1,0), (1,1))) for width in [1, 10, 100]]
+    # c = gf.pack(sweep)[0]
+
     c = resistance_sheet(width=40)
     c.show()
 
