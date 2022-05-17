@@ -21,16 +21,17 @@ def resistance_sheet(
     port_orientation1: int = 180,
     port_orientation2: int = 0,
 ) -> Component:
-    """Sheet resistance.
+    """Returns Sheet resistance.
+
     keeps connectivity for pads and first layer in layers
 
     Args:
-        width:
-        layers: for the middle part
-        layer_offsets: from edge, positive: over, negative: inclusion
-        pad: function to create a pad
-        pad_pitch:
-        ohms_per_square: optional sheet resistance to compute info.resistance
+        width:  in um.
+        layers: for the middle part.
+        layer_offsets: from edge, positive: over, negative: inclusion.
+        pad: function to create a pad.
+        pad_pitch: in um.
+        ohms_per_square: optional sheet resistance to compute info.resistance.
         port_orientation1: in degrees.
         port_orientation2: in degrees.
     """

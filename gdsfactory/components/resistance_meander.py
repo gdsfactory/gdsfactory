@@ -18,16 +18,17 @@ def resistance_meander(
     pad_layer: Tuple[int, int] = LAYER.M3,
     gnd_layer: Tuple[int, int] = LAYER.M3,
 ) -> Component:
-    """Return meander to test resistance
+    """Return meander to test resistance.
+
     adapted from phidl.geometry
 
     Args:
-        pad_size: Size of the two matched impedance pads (microns)
-        num_squares: Number of squares comprising the resonator wire
-        width: The width of the squares (microns)
-        res_layer:
-        pad_layer:
-        gnd_layer:
+        pad_size: Size of the two matched impedance pads (microns).
+        num_squares: Number of squares comprising the resonator wire.
+        width: The width of the squares (microns).
+        res_layer: resistance layer.
+        pad_layer: pad layer.
+        gnd_layer: ground layer.
 
     """
 
