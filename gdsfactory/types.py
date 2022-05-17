@@ -93,6 +93,7 @@ ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 
 class Route(BaseModel):
@@ -221,6 +222,7 @@ __all__ = (
     "Coordinates",
     "CrossSectionFactory",
     "CrossSectionOrFactory",
+    "MultiCrossSectionAngleSpec",
     "Float2",
     "Float3",
     "Floats",
