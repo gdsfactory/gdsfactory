@@ -21,6 +21,7 @@ from gdsfactory.types import (
     Coordinate,
     Coordinates,
     CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
     Number,
     Route,
 )
@@ -78,7 +79,7 @@ def get_bundle_from_waypoints(
     taper: ComponentSpec = taper_function,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     separation: Optional[float] = None,
     on_route_error: Callable = get_route_error,
     **kwargs,
@@ -161,20 +162,21 @@ def get_bundle_from_waypoints(
     except RouteError:
         return [on_route_error(waypoints)]
 
-    x = gf.get_cross_section(cross_section, **kwargs)
     bends90 = [
         gf.get_component(bend, cross_section=cross_section, **kwargs) for p in ports1
     ]
 
-    if taper and x.auto_widen:
-        if callable(taper):
-            taper = gf.get_component(
-                taper,
-                length=x.taper_length,
-                width1=ports1[0].width,
-                width2=x.width_wide,
-                layer=ports1[0].layer,
-            )
+    if taper and not isinstance(cross_section, list):
+        x = gf.get_cross_section(cross_section, **kwargs)
+        if x.auto_widen:
+            if callable(taper):
+                taper = gf.get_component(
+                    taper,
+                    length=x.taper_length,
+                    width1=ports1[0].width,
+                    width2=x.width_wide,
+                    layer=ports1[0].layer,
+                )
     else:
         taper = None
     return [

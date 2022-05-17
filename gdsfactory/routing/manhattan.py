@@ -1,6 +1,6 @@
 import uuid
 import warnings
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import gdspy
 import numpy as np
@@ -25,6 +25,8 @@ from gdsfactory.types import (
     CrossSection,
     CrossSectionSpec,
     Layer,
+    Layers,
+    MultiCrossSectionAngleSpec,
     Route,
 )
 
@@ -74,7 +76,7 @@ def _get_unique_port_facing(
 def _get_bend_ports(
     bend: Component,
     orientation: float = 0,
-    layer: Tuple[int, int] = (1, 0),
+    layer: Union[Layer, Layers] = (1, 0),
 ) -> List[Port]:
     """Returns West and North facing ports for bend.
 
@@ -83,9 +85,12 @@ def _get_bend_ports(
     """
 
     ports = bend.ports
-
-    p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
-    p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer)
+    if isinstance(layer, list):
+        p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer[0])
+        p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer[1])
+    else:
+        p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
+        p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer)
 
     return p_w + p_n
 
@@ -403,7 +408,11 @@ def _generate_route_manhattan_points(
 
 
 def _get_bend_reference_parameters(
-    p0: ndarray, p1: ndarray, p2: ndarray, bend_cell: Component, port_layer: Layer
+    p0: ndarray,
+    p1: ndarray,
+    p2: ndarray,
+    bend_cell: Component,
+    port_layer: Union[Layer, List[Layer]],
 ) -> Tuple[ndarray, int, bool]:
     """Returns bend reference settings.
 
@@ -564,7 +573,7 @@ def round_corners(
     straight_fall_back_no_taper: Optional[ComponentSpec] = None,
     mirror_straight: bool = False,
     straight_ports: Optional[List[str]] = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     on_route_error: Callable = get_route_error,
     with_point_markers: bool = False,
     snap_to_grid_nm: Optional[int] = 1,
@@ -590,17 +599,20 @@ def round_corners(
         snap_to_grid_nm: nm to snap to grid
         kwargs: cross_section settings
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
+    multi_cross_section = isinstance(cross_section, list)
+    if multi_cross_section:
+        x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
+        layer = [_x.layer for _x in x]
+    else:
+        x = gf.get_cross_section(cross_section, **kwargs)
+        layer = x.layer
+
     points = (
         gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
     )
 
-    auto_widen = x.auto_widen
-    auto_widen_minimum_length = x.auto_widen_minimum_length
-    taper_length = x.taper_length
-    width = x.width
-    width_wide = x.width_wide
     references = []
+
     bend90 = (
         bend
         if isinstance(bend, Component)
@@ -608,8 +620,25 @@ def round_corners(
     )
 
     # bsx = bsy = _get_bend_size(bend90)
+    auto_widen = (
+        x.auto_widen if not isinstance(x, list) else [_x.auto_widen for _x in x]
+    )
+    auto_widen_minimum_length = (
+        x.auto_widen_minimum_length
+        if not isinstance(x, list)
+        else [_x.auto_widen_minimum_length for _x in x]
+    )
+    taper_length = (
+        x.taper_length if not isinstance(x, list) else [_x.taper_length for _x in x]
+    )
+    width = x.width if not isinstance(x, list) else [_x.width for _x in x]
+    width_wide = (
+        x.width_wide if not isinstance(x, list) else [_x.width_wide for _x in x]
+    )
 
-    if taper is None:
+    if isinstance(cross_section, list):
+        taper = None
+    elif taper is None:
         taper = taper_function(
             cross_section=cross_section,
             width1=width,
@@ -656,9 +685,9 @@ def round_corners(
             bend_orientation = 180
 
     if bend_orientation is None:
+        # TODO: update for multiple cross sections
         return on_route_error(points=points, cross_section=x)
 
-    layer = x.layer
     try:
         pname_west, pname_north = [
             p.name for p in _get_bend_ports(bend=bend90, layer=layer)
@@ -676,7 +705,7 @@ def round_corners(
     # Add bend sections and record straight-section information
     for i in range(1, points.shape[0] - 1):
         bend_origin, rotation, x_reflection = _get_bend_reference_parameters(
-            points[i - 1], points[i], points[i + 1], bend90, x.layer
+            points[i - 1], points[i], points[i + 1], bend90, layer
         )
         bend_ref = gen_sref(bend90, rotation, x_reflection, pname_west, bend_origin)
         references.append(bend_ref)
@@ -760,12 +789,28 @@ def round_corners(
 
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
+        if isinstance(cross_section, list):
+            for section, angles in cross_section:
+                if angle in angles:
+                    xsection = section
+                    break
+        else:
+            xsection = cross_section
+        x = gf.get_cross_section(xsection, **kwargs)
+
         with_taper = False
         # wg_width = list(bend90.ports.values())[0].width
         length = snap_to_grid(length)
         total_length += length
 
-        if auto_widen and length > auto_widen_minimum_length and width_wide:
+        if isinstance(cross_section, list):
+            wg = gf.get_component(
+                straight_fall_back_no_taper,
+                length=length,
+                cross_section=xsection,
+                **kwargs,
+            )
+        elif auto_widen and length > auto_widen_minimum_length and width_wide:
             # Taper starts where straight would have started
             with_taper = True
             length = length - 2 * taper_length
@@ -799,7 +844,7 @@ def round_corners(
             wg = gf.get_component(
                 straight_fall_back_no_taper,
                 length=length,
-                cross_section=cross_section,
+                cross_section=xsection,
                 **kwargs,
             )
 
