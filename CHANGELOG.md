@@ -4,6 +4,7 @@
 
 - add python3.6 deprecation notice in the docs [issue](https://github.com/gdsfactory/gdsfactory/issues/384)
 - add edge_coupler, edge_coupler_array and edge_coupler_array_with_loopback
+- add python3.10 tests
 
 ## [5.6.10](https://github.com/gdsfactory/gdsfactory/pull/390)
 
