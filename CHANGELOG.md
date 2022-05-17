@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.11]
+
+- add python3.6 deprecation notice in the docs [issue](https://github.com/gdsfactory/gdsfactory/issues/384)
+- add edge_coupler, edge_coupler_array and edge_coupler_array_with_loopback
+
 ## [5.6.10](https://github.com/gdsfactory/gdsfactory/pull/390)
 
 - add_fiber_single and add_fiber_array tries to add port with `vertical` prefix to the new component. It not adds the regular first port. This Keeps backwards compatibility with grating couplers that have no defined verical ports.
