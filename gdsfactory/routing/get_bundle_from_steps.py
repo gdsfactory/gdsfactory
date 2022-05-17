@@ -10,7 +10,12 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Route,
+)
 
 
 def get_bundle_from_steps(
@@ -20,7 +25,7 @@ def get_bundle_from_steps(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = taper_function,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: [CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     sort_ports: bool = True,
     separation: Optional[float] = None,
     **kwargs
@@ -109,23 +114,23 @@ def get_bundle_from_steps(
         waypoints += [(x, y2)]
     elif int(orientation) in {90, 270}:
         waypoints += [(x2, y)]
-
-    x = gf.get_cross_section(cross_section, **kwargs)
-    auto_widen = x.auto_widen
-    width1 = x.width
-    width2 = x.width_wide if auto_widen else width1
-    taper_length = x.taper_length
     waypoints = np.array(waypoints)
 
-    if auto_widen:
-        taper = gf.get_component(
-            taper,
-            length=taper_length,
-            width1=width1,
-            width2=width2,
-            cross_section=cross_section,
-            **kwargs,
-        )
+    if not isinstance(cross_section, list):
+        x = gf.get_cross_section(cross_section, **kwargs)
+        auto_widen = x.auto_widen
+
+        if auto_widen:
+            taper = gf.get_component(
+                taper,
+                length=x.taper_length,
+                width1=x.width,
+                width2=x.width_wide,
+                cross_section=cross_section,
+                **kwargs,
+            )
+        else:
+            taper = None
     else:
         taper = None
 
