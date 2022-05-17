@@ -1,0 +1,48 @@
+name: edge_coupler_array_with_loopback
+settings:
+  changed: {}
+  child: null
+  default:
+    cross_section: strip
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+    extension_length: 1
+    h_mirror: false
+    n: 8
+    pitch: 127
+    radius: 30
+    right_loopback: true
+    text:
+      function: text_rectangular
+    text_offset:
+    - 0
+    - 0
+    v_mirror: false
+  full:
+    cross_section: strip
+    edge_coupler:
+      function: taper
+      settings:
+        length: 100
+        width2: 0.2
+    extension_length: 1
+    h_mirror: false
+    n: 8
+    pitch: 127
+    radius: 30
+    right_loopback: true
+    text:
+      function: text_rectangular
+    text_offset:
+    - 0
+    - 0
+    v_mirror: false
+  function_name: edge_coupler_array_with_loopback
+  info: {}
+  info_version: 2
+  module: gdsfactory.components.edge_coupler_array
+  name: edge_coupler_array_with_loopback
+version: 0.0.1
