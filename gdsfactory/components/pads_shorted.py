@@ -16,18 +16,18 @@ def pads_shorted(
     layer_metal: Tuple[int, int] = LAYER.M3,
     metal_width: float = 10,
 ) -> Component:
-    """Returns a 1D array of shorted_pads
+    """Returns a 1D array of shorted_pads.
 
     Args:
-        pad: pad function
-        columns: number of columns
-        pad_spacing:
-        layer_metal: for the short
-        metal_width: for the short
+        pad: pad spec.
+        columns: number of columns.
+        pad_spacing: in um
+        layer_metal: for the short.
+        metal_width: for the short.
 
     """
-    c = Component(name="shorted_pads")
-    pad = pad()
+    c = Component()
+    pad = gf.get_component(pad)
     for i in range(columns):
         pad_ref = c.add_ref(pad)
         pad_ref.movex(i * pad_spacing - columns / 2 * pad_spacing + pad_spacing / 2)

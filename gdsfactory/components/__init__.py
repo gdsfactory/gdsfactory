@@ -1,6 +1,5 @@
 """Each component factory component returns a component.
-Make sure new components get imported / registered
-registered components get tested and are available
+Make sure your components get imported here so the PDK registers them.
 """
 
 import sys
@@ -75,6 +74,11 @@ from gdsfactory.components.die import die
 from gdsfactory.components.die_bbox import die_bbox
 from gdsfactory.components.die_bbox_frame import die_bbox_frame
 from gdsfactory.components.disk import disk
+from gdsfactory.components.edge_coupler_array import (
+    edge_coupler_array,
+    edge_coupler_array_with_loopback,
+    edge_coupler_silicon,
+)
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.extend_ports_list import extend_ports_list
 from gdsfactory.components.extension import extend_port, extend_ports
@@ -269,7 +273,6 @@ __all__ = [
     "add_fidutials",
     "add_fidutials_offsets",
     "add_frame",
-    "align",
     "align_wafer",
     "array",
     "array_with_fanout",
@@ -294,6 +297,9 @@ __all__ = [
     "compensation_path",
     "component_lattice",
     "component_sequence",
+    "edge_coupler_silicon",
+    "edge_coupler_array",
+    "edge_coupler_array_with_loopback",
     "via_stack",
     "via_stack_heater_m3",
     "via_stack_slab_m3",
@@ -317,7 +323,6 @@ __all__ = [
     "crossing_arm",
     "crossing_etched",
     "crossing_from_taper",
-    "crossing_waveguide",
     "cutback_bend",
     "cutback_bend180",
     "cutback_bend180circular",
@@ -341,7 +346,6 @@ __all__ = [
     "extend_port",
     "extend_ports",
     "extend_ports_list",
-    "extension",
     "fiber",
     "fiber_array",
     "text_lines",
@@ -353,8 +357,6 @@ __all__ = [
     "grating_coupler_elliptical_te",
     "grating_coupler_elliptical_tm",
     "grating_coupler_elliptical_trenches",
-    "grating_coupler_functions",
-    "grating_coupler_loss",
     "grating_coupler_loss_fiber_array",
     "grating_coupler_loss_fiber_array4",
     "grating_coupler_loss_fiber_single",
@@ -466,8 +468,6 @@ __all__ = [
     "via2",
     "via_cutback",
     "viac",
-    "waveguide_template",
-    "wire",
     "wire_corner",
     "wire_sbend",
     "wire_straight",
