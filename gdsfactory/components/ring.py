@@ -17,10 +17,10 @@ def ring(
     """Returns a ring.
 
     Args:
-        radius: ring radius
-        width: of the ring
-        angle_resolution: number of points per degree
-        layer: layer
+        radius: ring radius.
+        width: of the ring.
+        angle_resolution: number of points per degree.
+        layer: layer.
 
     """
 
