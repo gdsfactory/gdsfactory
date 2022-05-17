@@ -1,0 +1,33 @@
+name: taper_0ecee076
+settings:
+  changed:
+    length: 100
+    width2: 0.2
+  child: null
+  default:
+    cross_section:
+      function: cross_section
+      settings: {}
+    length: 10
+    port: null
+    width1: 0.5
+    width2: null
+    with_bbox: false
+  full:
+    cross_section:
+      function: cross_section
+      settings: {}
+    length: 100
+    port: null
+    width1: 0.5
+    width2: 0.2
+    with_bbox: false
+  function_name: taper
+  info:
+    length: 100.0
+    width1: 0.5
+    width2: 0.2
+  info_version: 2
+  module: gdsfactory.components.taper
+  name: taper_0ecee076
+version: 0.0.1

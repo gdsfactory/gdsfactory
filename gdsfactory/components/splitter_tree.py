@@ -22,12 +22,12 @@ def splitter_tree(
     """Tree of power splitters.
 
     Args:
-        coupler: coupler factory
-        noutputs: number of outputs
-        spacing: x, y spacing between couplers
-        bend_s: Sbend function for termination
-        bend_s_xsize: xsize for the sbend
-        cross_section: cross_section
+        coupler: coupler factory.
+        noutputs: number of outputs.
+        spacing: x, y spacing between couplers.
+        bend_s: Sbend function for termination.
+        bend_s_xsize: xsize for the sbend.
+        cross_section: cross_section.
 
     .. code::
 
