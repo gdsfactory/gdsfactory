@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.constants import speed_of_light
 from simphony import Model
+from simphony.pins import Pin
 from simphony.tools import interpolate
 
 import gdsfactory as gf
@@ -26,11 +27,13 @@ def model_from_gdsfactory(
     def interpolate_sp(freq):
         return interpolate(freq, f, s)
 
+    Model.pin_count = len(pins)
     m = Model()
-    m.pins = pins
-    m.s_params = (f, s)
+    for i in range(len(pins)):
+        m.pins.append(Pin(component=m, name=pins[i]))
+    m.__setattr__("sparams", (f, s))
     m.s_parameters = interpolate_sp
-    m.freq_range = (m.s_params[0][0], m.s_params[0][-1])
+    m.freq_range = (m.sparams[0][0], m.sparams[0][-1])
     m.wavelengths = speed_of_light / np.array(f)
     m.s = s
     return m
