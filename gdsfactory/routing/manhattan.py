@@ -94,12 +94,9 @@ def _get_bend_ports(
     """
 
     ports = bend.ports
-    if isinstance(layer, list):
-        p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
-        p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer)
-    else:
-        p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
-        p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer)
+
+    p_w = _get_unique_port_facing(ports=ports, orientation=180, layer=layer)
+    p_n = _get_unique_port_facing(ports=ports, orientation=90, layer=layer)
 
     return p_w + p_n
 
