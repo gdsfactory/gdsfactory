@@ -905,7 +905,6 @@ def round_corners(
 def generate_manhattan_waypoints(
     input_port: Port,
     output_port: Port,
-    straight: ComponentSpec = straight_function,
     start_straight_length: Optional[float] = None,
     end_straight_length: Optional[float] = None,
     min_straight_length: Optional[float] = None,
@@ -921,6 +920,8 @@ def generate_manhattan_waypoints(
         straight:
 
     """
+    if "straight" in kwargs.keys():
+        _ = kwargs.pop("straight")
 
     bend90 = (
         bend
