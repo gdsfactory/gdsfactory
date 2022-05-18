@@ -170,15 +170,14 @@ def get_bundle_from_waypoints(
 
     if taper and not isinstance(cross_section, list):
         x = gf.get_cross_section(cross_section, **kwargs)
-        if x.auto_widen:
-            if callable(taper):
-                taper = gf.get_component(
-                    taper,
-                    length=x.taper_length,
-                    width1=ports1[0].width,
-                    width2=x.width_wide,
-                    layer=ports1[0].layer,
-                )
+        if x.auto_widen and callable(taper):
+            taper = gf.get_component(
+                taper,
+                length=x.taper_length,
+                width1=ports1[0].width,
+                width2=x.width_wide,
+                layer=ports1[0].layer,
+            )
     else:
         taper = None
     return [
