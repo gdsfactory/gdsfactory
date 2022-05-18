@@ -7,6 +7,8 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.via_corner import via_corner
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import (
@@ -190,6 +192,20 @@ def get_bundle_from_waypoints(
         )
         for pts, bend90 in zip(routes, bends90)
     ]
+
+
+get_bundle_from_waypoints_electrical = gf.partial(
+    get_bundle_from_waypoints, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
+
+get_bundle_from_waypoints_electrical_multilayer = gf.partial(
+    get_bundle_from_waypoints_electrical,
+    bend=via_corner,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        (gf.cross_section.metal3, (0, 180)),
+    ],
+)
 
 
 def snap_route_to_end_point_x(route, x):

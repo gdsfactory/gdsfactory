@@ -1,12 +1,18 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 
 import gdsfactory as gf
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Route,
+)
 
 
 def get_route_from_steps(
@@ -16,7 +22,7 @@ def get_route_from_steps(
     bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = "straight",
     taper: Optional[ComponentSpec] = "taper",
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs
 ) -> Route:
     """Returns a route formed by the given waypoints steps
@@ -83,26 +89,23 @@ def get_route_from_steps(
         waypoints += [(x, y)]
 
     waypoints += [(x2, y2)]
-
-    x = gf.get_cross_section(cross_section, **kwargs)
-    auto_widen = x.auto_widen
-    width1 = x.width
-    width2 = x.width_wide if auto_widen else width1
-    taper_length = x.taper_length
     waypoints = np.array(waypoints)
 
-    if auto_widen:
-        taper = (
-            taper(
-                length=taper_length,
-                width1=width1,
-                width2=width2,
+    if not isinstance(cross_section, list):
+        x = gf.get_cross_section(cross_section, **kwargs)
+        auto_widen = x.auto_widen
+
+        if auto_widen:
+            taper = gf.get_component(
+                taper,
+                length=x.taper_length,
+                width1=x.width,
+                width2=x.width_wide,
                 cross_section=cross_section,
                 **kwargs,
             )
-            if callable(taper)
-            else taper
-        )
+        else:
+            taper = None
     else:
         taper = None
 
@@ -118,6 +121,16 @@ def get_route_from_steps(
 
 get_route_from_steps_electrical = gf.partial(
     get_route_from_steps, bend="wire_corner", taper=None, cross_section="metal3"
+)
+
+get_route_from_steps_electrical_multilayer = gf.partial(
+    get_route_from_steps,
+    bend=via_corner,
+    taper=None,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        (gf.cross_section.metal3, (0, 180)),
+    ],
 )
 
 

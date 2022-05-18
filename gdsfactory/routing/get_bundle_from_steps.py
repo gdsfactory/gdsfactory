@@ -6,6 +6,7 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
@@ -151,6 +152,15 @@ get_bundle_from_steps_electrical = gf.partial(
     get_bundle_from_steps, bend=wire_corner, cross_section=gf.cross_section.metal3
 )
 
+get_bundle_from_steps_electrical_multilayer = gf.partial(
+    get_bundle_from_steps,
+    bend=via_corner,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        (gf.cross_section.metal3, (0, 180)),
+    ],
+)
+
 
 def _demo() -> None:
     c = gf.Component("get_route_from_steps_sample")
@@ -193,7 +203,7 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((300, 500))
 
-    routes = gf.routing.get_bundle_from_steps_electrical(
+    routes = get_bundle_from_steps_electrical_multilayer(
         pb.ports, pt.ports, end_straight_length=60, separation=30, steps=[{"dy": 100}]
     )
 

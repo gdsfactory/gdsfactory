@@ -33,7 +33,7 @@ To generate a straight route:
 
 """
 from functools import partial
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 
 import numpy as np
 
@@ -42,11 +42,18 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
-from gdsfactory.cross_section import metal3, strip
+from gdsfactory.cross_section import metal2, metal3, strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import round_corners, route_manhattan
-from gdsfactory.types import ComponentSpec, Coordinates, CrossSectionSpec, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    Coordinates,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Route,
+)
 
 
 def get_route(
@@ -58,7 +65,7 @@ def get_route(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     min_straight_length: float = 0.01,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> Route:
     """Returns a Manhattan Route between 2 ports
@@ -92,12 +99,6 @@ def get_route(
         c.plot()
 
     """
-    x = gf.get_cross_section(cross_section, **kwargs)
-
-    taper_length = x.taper_length
-    width1 = input_port.width
-    auto_widen = x.auto_widen
-    width2 = x.width_wide if auto_widen else width1
 
     bend90 = (
         bend
@@ -106,6 +107,17 @@ def get_route(
     )
 
     if taper:
+        if isinstance(cross_section, list):
+            raise ValueError(
+                "Tapers not implemented for routes made from multiple cross_sections."
+            )
+        x = gf.get_cross_section(cross_section, **kwargs)
+
+        taper_length = x.taper_length
+        width1 = input_port.width
+        auto_widen = x.auto_widen
+        width2 = x.width_wide if auto_widen else width1
+
         taper = gf.get_component(
             taper,
             length=taper_length,
@@ -137,6 +149,12 @@ get_route_electrical = partial(
     cross_section=metal3,
     taper=None,
     min_straight_length=2.0,
+)
+
+get_route_electrical_multilayer = partial(
+    get_route_electrical,
+    bend=via_corner,
+    cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
 )
 
 
@@ -234,6 +252,17 @@ def get_route_from_waypoints(
         cross_section=cross_section,
         **kwargs,
     )
+
+
+get_route_from_waypoints_electrical = gf.partial(
+    get_route_from_waypoints, bend=wire_corner, cross_section=metal3
+)
+
+get_route_from_waypoints_electrical_multilayer = gf.partial(
+    get_route_from_waypoints,
+    bend=via_corner,
+    cross_section=[(metal2, (0, 180)), (metal3, (90, 270))],
+)
 
 
 if __name__ == "__main__":
