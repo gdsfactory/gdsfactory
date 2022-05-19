@@ -176,10 +176,10 @@ def transform(
     """Transform points.
 
     Args:
-        points (np.array of shape (N,2) ): points to be transformed
-        translation (2d like array): translation vector
-        angle_deg: rotation angle
-        x_reflection (bool): if True, mirror the shape across the x axis  (y -> -y)
+        points (np.array of shape (N,2) ): points to be transformed.
+        translation (2d like array): translation vector.
+        angle_deg: rotation angle.
+        x_reflection (bool): if True, mirror the shape across the x axis  (y -> -y).
     """
     # Copy
     pts = points[:, :]
@@ -208,10 +208,10 @@ def reverse_transform(
 ) -> ndarray:
     """
     Args:
-        points (np.array of shape (N,2) ): points to be transformed
-        translation (2d like array): translation vector
-        angle_deg: rotation angle
-        x_reflection: if True, mirror the shape across the x axis  (y -> -y)
+        points (np.array of shape (N,2) ): points to be transformed.
+        translation (2d like array): translation vector.
+        angle_deg: rotation angle.
+        x_reflection: if True, mirror the shape across the x axis  (y -> -y).
     """
     angle_deg = -angle_deg
 
@@ -423,9 +423,11 @@ def _get_bend_reference_parameters(
     """Returns bend reference settings.
 
     Args:
-        p0: starting port waypoints
-        p1: middle port waypoints
-        p2: end port points
+        p0: starting port waypoints.
+        p1: middle port waypoints.
+        p2: end port points.
+        bend_cell: bend component.
+        port_layer: for the port.
 
     8 possible configurations
     First mirror, Then rotate
@@ -585,25 +587,25 @@ def round_corners(
     snap_to_grid_nm: Optional[int] = 1,
     **kwargs,
 ) -> Route:
-    """Returns Route:
+    """Returns Route.
 
-    - references list with rounded straight route from a list of manhattan points.
-    - ports: Tuple of ports
-    - length: route length (float)
+    - reference list with rounded straight route from a list of manhattan points.
+    - ports: Tuple of ports.
+    - length: route length (float).
 
     Args:
-        points: manhattan route defined by waypoints
-        bend90: the bend to use for 90Deg turns
-        straight: the straight library to use to generate straight portions
-        taper: taper for straight portions. If None, no tapering
-        straight_fall_back_no_taper: in case there is no space for two tapers
-        mirror_straight: mirror_straight waveguide
+        points: manhattan route defined by waypoints.
+        bend90: the bend to use for 90Deg turns.
+        straight: the straight library to use to generate straight portions.
+        taper: taper for straight portions. If None, no tapering.
+        straight_fall_back_no_taper: in case there is no space for two tapers.
+        mirror_straight: mirror_straight waveguide.
         straight_ports: port names for straights. If None finds them automatically.
-        cross_section:
-        on_route_error: function to run when route fails
-        with_point_markers: add route points markers (easy for debugging)
-        snap_to_grid_nm: nm to snap to grid
-        kwargs: cross_section settings
+        cross_section: spec.
+        on_route_error: function to run when route fails.
+        with_point_markers: add route points markers (easy for debugging).
+        snap_to_grid_nm: nm to snap to grid.
+        kwargs: cross_section settings.
     """
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:
@@ -921,9 +923,14 @@ def generate_manhattan_waypoints(
     """Return waypoints for a Manhattan route between two ports.
 
     Args:
-        input_port:
-        output_port:
-        straight:
+        input_port: source port.
+        output_port: destination port.
+        start_straight_length: Optional start length.
+        end_straight_length: in um.
+        min_straight_length: in um.
+        bend: bend spec.
+        cross_section: spec.
+        kwargs: cross_section settings.
 
     """
     if "straight" in kwargs.keys():

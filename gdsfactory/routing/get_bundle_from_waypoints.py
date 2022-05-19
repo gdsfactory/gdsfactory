@@ -109,10 +109,10 @@ def get_bundle_from_waypoints(
         )
 
     for p in ports1:
-        p.angle = int(p.angle) % 360
+        p.angle = int(p.angle) % 360 if p.angle else p.angle
 
     for p in ports2:
-        p.angle = int(p.angle) % 360
+        p.angle = int(p.angle) % 360 if p.angle else p.angle
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
@@ -136,6 +136,7 @@ def get_bundle_from_waypoints(
         (270, 270): ("X", "-X"),
         (270, 0): ("X", "-Y"),
         (270, 180): ("X", "Y"),
+        # (None, None): ("Y", "X"),
     }
 
     dict_sorts = {
@@ -228,18 +229,18 @@ def _generate_manhattan_bundle_waypoints(
 ) -> Coordinates:
     """
     Args:
-        ports1: list of ports must face the same direction
-        ports2: list of ports must face the same direction
+        ports1: list of ports must face the same direction.
+        ports2: list of ports must face the same direction.
         waypoints: from one point within the ports1 bank
-            to another point within the ports2 bank
-        separation: center to center, defaults to ports1 separation
+            to another point within the ports2 bank.
+        separation: center to center, defaults to ports1 separation.
     """
     waypoints = remove_flat_angles(waypoints)
     way_segments = list(zip(waypoints, waypoints[1:]))
     offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
 
     start_angle = ports1[0].orientation
-    if start_angle in [90, 270]:
+    if start_angle in [90]:
         offsets_start = [-_d for _d in offsets_start]
     end_angle = ports2[0].orientation
 
