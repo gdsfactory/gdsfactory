@@ -1,4 +1,4 @@
-"""tidy3d mode solver
+"""tidy3d mode solver.
 
 tidy3d has a powerful open source mode solver.
 
@@ -43,7 +43,7 @@ def plot(
     axes="xy",
     title=None,
     normalize_mode=False,
-):
+) -> None:
     """Plot mode in matplotlib"""
     x, y = axes
     if n_cmap is None:
@@ -295,6 +295,11 @@ def sweep_bend_loss(
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Returns overlap integral loss.
 
+    The loss is squared because you hit the bend loss twice
+    (from bend to straight and from straight to bend)
+
+    FIXME! fix overlap integral code.
+
     Args:
         rmin: min bend radius (um).
         rmax: max bend radius (um).
@@ -342,7 +347,8 @@ def sweep_bend_loss(
             - mode2_Ey * np.conj(mode1_Hx)
         )
 
-        integral[i] = np.trapz(np.trapz(integrand, axis=0), axis=0)
+        # square because you hit the bend loss twice
+        integral[i] = np.trapz(np.trapz(integrand, axis=0), axis=0) ** 2
     return r, integral
 
 
