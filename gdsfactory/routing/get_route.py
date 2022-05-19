@@ -220,29 +220,30 @@ def get_route_from_waypoints(
         c.plot()
 
     """
-
-    x = gf.get_cross_section(cross_section, **kwargs)
-    auto_widen = x.auto_widen
-    width1 = x.width
-    width2 = x.width_wide if auto_widen else width1
-    taper_length = x.taper_length
+    if isinstance(cross_section, list):
+        taper = None
+    elif taper:
+        x = gf.get_cross_section(cross_section, **kwargs)
+        auto_widen = x.auto_widen
+        width1 = x.width
+        width2 = x.width_wide if auto_widen else width1
+        taper_length = x.taper_length
+        if auto_widen:
+            taper = (
+                taper(
+                    length=taper_length,
+                    width1=width1,
+                    width2=width2,
+                    cross_section=cross_section,
+                    **kwargs,
+                )
+                if callable(taper)
+                else taper
+            )
+        else:
+            taper = None
     waypoints = np.array(waypoints)
     kwargs.pop("route_filter", "")
-
-    if auto_widen:
-        taper = (
-            taper(
-                length=taper_length,
-                width1=width1,
-                width2=width2,
-                cross_section=cross_section,
-                **kwargs,
-            )
-            if callable(taper)
-            else taper
-        )
-    else:
-        taper = None
 
     return round_corners(
         points=waypoints,
