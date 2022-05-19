@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.6.12](https://github.com/gdsfactory/gdsfactory/pull/397)
+
+- improve types and docs
+
 ## [5.6.11](https://github.com/gdsfactory/gdsfactory/pull/391)
 
 - add python3.6 deprecation notice in the docs [issue](https://github.com/gdsfactory/gdsfactory/issues/384)
