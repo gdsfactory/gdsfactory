@@ -1,7 +1,7 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
 
-## 5.7.0
+## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
 
 - tidy3d mode solver accepts ncore and nclad floats. add file cache to tidy3d. thanks to `gt.modes.find_modes`
 - fix get_bundle [issue](https://github.com/gdsfactory/gdsfactory/issues/396)
@@ -11,8 +11,6 @@
    - Use via_corner instead of wire_corner for bend function
    - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
    - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
-
-
 
 ## [5.6.12](https://github.com/gdsfactory/gdsfactory/pull/397)
 
