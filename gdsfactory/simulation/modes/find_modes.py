@@ -86,24 +86,24 @@ def find_modes_waveguide(
                                    sy
 
     Args:
-        mode_solver: function that returns mpb.ModeSolver
-        tol: tolerance when finding modes
+        mode_solver: function that returns mpb.ModeSolver.
+        tol: tolerance when finding modes.
         wavelength: wavelength in um.
-        mode_number: mode order of the first mode
+        mode_number: mode order of the first mode.
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
         cache: directory path to cache modes. None disables the file cache.
-        overwrite: forces
+        overwrite: forces simulating again.
         kwargs: waveguide settings.
 
     Keyword Args:
-        wg_width: wg_width (um)
-        wg_thickness: wg height (um)
-        slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        sy: simulation region width (um)
-        sz: simulation region height (um)
-        resolution: resolution (pixels/um)
+        wg_width: wg_width (um).
+        wg_thickness: wg height (um).
+        slab_thickness: thickness for the waveguide slab.
+        ncore: core material refractive index.
+        nclad: clad material refractive index.
+        sy: simulation region width (um).
+        sz: simulation region height (um).
+        resolution: resolution (pixels/um).
         nmodes: number of modes to compute.
 
     Keyword Args:
@@ -111,17 +111,17 @@ def find_modes_waveguide(
         gap: for the case of only two waveguides.
         wg_widths: list or tuple of waveguide widths.
         gaps: list or tuple of waveguide gaps.
-        wg_thickness: wg height (um)
-        slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
+        wg_thickness: wg height (um).
+        slab_thickness: thickness for the waveguide slab.
+        ncore: core material refractive index.
+        nclad: clad material refractive index.
         nslab: Optional slab material refractive index. Defaults to ncore.
         ymargin: margin in y.
-        sz: simulation region thickness (um)
-        resolution: resolution (pixels/um)
-        nmodes: number of modes
+        sz: simulation region thickness (um).
+        resolution: resolution (pixels/um).
+        nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (radians),
-            tapers from wg_width at top of slab, upwards, to top of waveguide
+            tapers from wg_width at top of slab, upwards, to top of waveguide.
 
     Returns: Dict[mode_number, Mode]
 
