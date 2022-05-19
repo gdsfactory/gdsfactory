@@ -239,7 +239,7 @@ def _generate_manhattan_bundle_waypoints(
     offsets_start = get_ports_x_or_y_distances(ports1, waypoints[0])
 
     start_angle = ports1[0].orientation
-    if start_angle in [90, 270]:
+    if start_angle in [90]:
         offsets_start = [-_d for _d in offsets_start]
     end_angle = ports2[0].orientation
 
