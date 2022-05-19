@@ -1,5 +1,16 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+
+## 5.7.0
+
+- fix get_bundle [issue](https://github.com/gdsfactory/gdsfactory/issues/396)
+- clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)
+- fix N/S routing in route_ports_to_side [PR](https://github.com/gdsfactory/gdsfactory/pull/395)
+- Add basic multilayer electrical routing to most routing functions [PR](https://github.com/gdsfactory/gdsfactory/pull/392)
+   - Use via_corner instead of wire_corner for bend function
+   - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
+   - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
+
 ## [5.6.12](https://github.com/gdsfactory/gdsfactory/pull/397)
 
 - improve types and docs
