@@ -12,17 +12,21 @@ from gdsfactory.types import ComponentSpec, MultiCrossSectionAngleSpec
 
 @gf.cell
 def via_corner(
-    cross_section: MultiCrossSectionAngleSpec = (metal2, metal3),
+    cross_section: MultiCrossSectionAngleSpec = (
+        (metal2, (0, 180)),
+        (metal3, (90, 270)),
+    ),
     vias: Tuple[ComponentSpec] = (via1,),
-    layers_labels: Tuple[str] = ("m2", "m3"),
+    layers_labels: Tuple[str, ...] = ("m2", "m3"),
     **kwargs,
 ) -> gf.Component:
-    """
-    Corner via. Use in place of wire_corner to route between two layers
+    """Returns Corner via. Use in place of wire_corner to route between two layers.
+
     Args:
         cross_section: list of cross_section, orientation pairs.
         vias: vias to use to fill the rectangles.
         layers_labels: Labels to use for each layer.
+        kwargs: cross_section settings
     """
     cross_sections = [gf.get_cross_section(x[0], **kwargs) for x in cross_section]
     port_orientations = [x[1] for x in cross_section]
@@ -82,5 +86,6 @@ def via_corner(
 
 
 if __name__ == "__main__":
-    v = via_corner(cross_section=[(metal2, (0, 180)), (metal3, (90, 270))])
+    # v = via_corner(cross_section=[(metal2, (0, 180)), (metal3, (90, 270))])
+    v = via_corner()
     v.show()

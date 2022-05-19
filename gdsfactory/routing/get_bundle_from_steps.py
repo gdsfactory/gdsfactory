@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 
@@ -26,7 +26,7 @@ def get_bundle_from_steps(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = taper_function,
-    cross_section: [CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     sort_ports: bool = True,
     separation: Optional[float] = None,
     **kwargs
@@ -38,16 +38,16 @@ def get_bundle_from_steps(
     and a more convenient version of `get_bundle_from_waypoints`
 
     Args:
-        port1: start ports (list or dict)
-        port2: end ports (list or dict)
-        steps: changes that define the route [{'dx': 5}, {'dy': 10}]
-        bend: function that returns bends
-        straight: function that returns straight waveguides
-        taper: function that returns tapers
-        cross_section: for routes
-        sort_ports: if True sort ports
-        separation: center to center, defaults to ports1 separation
-        kwargs: cross_section settings
+        port1: start ports (list or dict).
+        port2: end ports (list or dict).
+        steps: changes that define the route [{'dx': 5}, {'dy': 10}].
+        bend: function that returns bends.
+        straight: function that returns straight waveguides.
+        taper: function that returns tapers.
+        cross_section: for routes.
+        sort_ports: if True sort ports.
+        separation: center to center, defaults to ports1 separation.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:
@@ -110,6 +110,9 @@ def get_bundle_from_steps(
     port2 = ports2[0]
     x2, y2 = port2.midpoint
     orientation = port2.orientation
+
+    # if orientation is None:
+    #     waypoints += [(x2, y2)]
 
     if int(orientation) in {0, 180}:
         waypoints += [(x, y2)]
