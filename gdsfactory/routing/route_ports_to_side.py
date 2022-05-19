@@ -301,6 +301,8 @@ def route_ports_to_y(
     routing_func: Callable = get_route,
     backward_port_side_split_index: int = 0,
     start_straight_length: float = 0.01,
+    dx_start: float = None,
+    dy_start: float = None,
     **routing_func_args: Dict[Any, Any],
 ) -> Tuple[List[Route], List[Port]]:
     """
@@ -348,25 +350,31 @@ def route_ports_to_y(
 
     epsilon = 1.0
     a = radius + max(radius, separation)
+    bx = epsilon + max(radius, dx_start) if dx_start else a
+    by = epsilon + max(radius, dy_start) if dy_start else a
+
     xs = [p.x for p in list_ports]
     ys = [p.y for p in list_ports]
 
-    x0_right = x0_right or max(xs) + a
-    x0_right += extend_right
-    x0_left = x0_left or min(xs) - a
+    if x0_left is None:
+        x0_left = min(xs) - bx
     x0_left -= extend_left
+
+    if x0_right is None:
+        x0_right = max(xs) + (max(radius, dx_start) if dx_start else a)
+    x0_right += extend_right
 
     if y == "north":
         y = (
             max([p.y + a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
-            + epsilon
+            + by
         )
     elif y == "south":
         y = (
             min([p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
-            - epsilon
+            - by
         )
-    elif isinstance(y, float):
+    elif isinstance(y, (float, int)):
         pass
     else:
         pass
