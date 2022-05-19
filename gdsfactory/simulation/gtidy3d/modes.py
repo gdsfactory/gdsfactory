@@ -19,7 +19,7 @@ Maybe:
 import pathlib
 import pickle
 from types import SimpleNamespace
-from typing import Callable, Optional, Tuple
+from typing import Callable, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -148,8 +148,8 @@ class Waveguide(BaseModel):
     t_slab: float = 0.0
     t_box: float = 2.0
     t_clad: float = 2.0
-    ncore: Callable[[str], float] = si
-    nclad: Callable[[str], float] = sio2
+    ncore: Union[float, Callable[[str], float]] = si
+    nclad: Union[float, Callable[[str], float]] = sio2
     w_sim: float = 2.0
     resolution: int = 100
     nmodes: int = 10
@@ -161,6 +161,12 @@ class Waveguide(BaseModel):
     @property
     def t_sim(self):
         return self.t_box + self.t_wg + self.t_clad
+
+    def get_ncore(self, wavelength):
+        return self.ncore(wavelength) if callable(self.ncore) else self.ncore
+
+    def get_nclad(self, wavelength):
+        return self.nclad(wavelength) if callable(self.nclad) else self.nclad
 
     def plot_index(self, wavelength: Optional[float] = None) -> None:
         wavelength = wavelength or self.wavelength
@@ -177,14 +183,15 @@ class Waveguide(BaseModel):
             Xx,
             Yx,
             wg_width=self.wg_width,
-            ncore=self.ncore(wavelength),
-            nclad=self.nclad(wavelength),
+            ncore=self.get_ncore(wavelength),
+            nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
             t_slab=self.t_slab,
             t_wg=self.t_wg,
             t_clad=self.t_clad,
         )
         plot(Xx, Yx, nx)
+        plt.show()
 
     def compute_modes(self, wavelength: Optional[float] = None) -> None:
         wavelength = wavelength or self.wavelength
@@ -201,8 +208,8 @@ class Waveguide(BaseModel):
             Xx,
             Yx,
             wg_width=self.wg_width,
-            ncore=self.ncore(wavelength),
-            nclad=self.nclad(wavelength),
+            ncore=self.get_ncore(wavelength),
+            nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
             t_slab=self.t_slab,
             t_wg=self.t_wg,
@@ -212,8 +219,8 @@ class Waveguide(BaseModel):
             Xy,
             Yy,
             wg_width=self.wg_width,
-            ncore=self.ncore(wavelength),
-            nclad=self.nclad(wavelength),
+            ncore=self.get_ncore(wavelength),
+            nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
             t_slab=self.t_slab,
             t_wg=self.t_wg,
@@ -223,8 +230,8 @@ class Waveguide(BaseModel):
             Xz,
             Yz,
             wg_width=self.wg_width,
-            ncore=self.ncore(wavelength),
-            nclad=self.nclad(wavelength),
+            ncore=self.get_ncore(wavelength),
+            nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
             t_slab=self.t_slab,
             t_wg=self.t_wg,
@@ -244,7 +251,7 @@ class Waveguide(BaseModel):
                     angle_theta=0.0,
                     angle_phi=0.0,
                     num_pml=(0, 0),
-                    target_neff=self.ncore(wavelength),
+                    target_neff=self.get_ncore(wavelength),
                     sort_by="largest_neff",
                 ),
             )
@@ -353,7 +360,10 @@ def sweep_bend_loss(
 
 
 if __name__ == "__main__":
-    c = pickle_load("strip.pkl")
+    c = Waveguide(t_slab=0, ncore=2.00, nclad=1.44)
+    c.plot_index()
+
+    # c = pickle_load("strip.pkl")
 
     # c0 = Waveguide(t_slab=0)
     # c0.plot_Ex(index=0)
