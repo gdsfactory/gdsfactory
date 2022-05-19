@@ -949,9 +949,7 @@ def generate_manhattan_waypoints(
         else gf.get_component(bend, cross_section=cross_section, **kwargs)
     )
     if isinstance(cross_section, list):
-        x = [
-            gf.get_cross_section(xsection, **kwargs) for xsection in list(cross_section)
-        ]
+        x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(
             [_x.min_length for _x in x]
         )
