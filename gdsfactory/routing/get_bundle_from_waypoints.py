@@ -7,6 +7,8 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.via_corner import via_corner
+from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import (
@@ -21,6 +23,7 @@ from gdsfactory.types import (
     Coordinate,
     Coordinates,
     CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
     Number,
     Route,
 )
@@ -78,7 +81,7 @@ def get_bundle_from_waypoints(
     taper: ComponentSpec = taper_function,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     separation: Optional[float] = None,
     on_route_error: Callable = get_route_error,
     **kwargs,
@@ -161,13 +164,13 @@ def get_bundle_from_waypoints(
     except RouteError:
         return [on_route_error(waypoints)]
 
-    x = gf.get_cross_section(cross_section, **kwargs)
     bends90 = [
         gf.get_component(bend, cross_section=cross_section, **kwargs) for p in ports1
     ]
 
-    if taper and x.auto_widen:
-        if callable(taper):
+    if taper and not isinstance(cross_section, list):
+        x = gf.get_cross_section(cross_section, **kwargs)
+        if x.auto_widen and callable(taper):
             taper = gf.get_component(
                 taper,
                 length=x.taper_length,
@@ -188,6 +191,20 @@ def get_bundle_from_waypoints(
         )
         for pts, bend90 in zip(routes, bends90)
     ]
+
+
+get_bundle_from_waypoints_electrical = gf.partial(
+    get_bundle_from_waypoints, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
+
+get_bundle_from_waypoints_electrical_multilayer = gf.partial(
+    get_bundle_from_waypoints_electrical,
+    bend=via_corner,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        (gf.cross_section.metal3, (0, 180)),
+    ],
+)
 
 
 def snap_route_to_end_point_x(route, x):
