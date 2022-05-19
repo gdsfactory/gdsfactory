@@ -19,6 +19,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
@@ -29,7 +30,13 @@ from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Number, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Number,
+    Route,
+)
 
 METAL_MIN_SEPARATION = TECH.metal_spacing
 
@@ -42,7 +49,7 @@ def get_bundle(
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> List[Route]:
     """Connects a bundle of ports with a river router.
@@ -195,7 +202,7 @@ def get_bundle_same_axis(
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[Route]:
     r"""Semi auto-routing for two lists of ports.
@@ -596,6 +603,15 @@ def get_bundle_same_axis_no_grouping(
 
 get_bundle_electrical = partial(
     get_bundle, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
+
+get_bundle_electrical_multilayer = gf.partial(
+    get_bundle,
+    bend=via_corner,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        (gf.cross_section.metal3, (0, 180)),
+    ],
 )
 
 

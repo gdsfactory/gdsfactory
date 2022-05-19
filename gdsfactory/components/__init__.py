@@ -224,6 +224,7 @@ from gdsfactory.components.triangle import triangle, triangle2, triangle4
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.via_cutback import via_cutback
 from gdsfactory.components.via_stack import (
     via_stack,
@@ -468,6 +469,7 @@ __all__ = [
     "via2",
     "via_cutback",
     "viac",
+    "via_corner",
     "wire_corner",
     "wire_sbend",
     "wire_straight",

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 import numpy as np
 from numpy import ndarray
@@ -11,7 +11,7 @@ from gdsfactory.routing.manhattan import (
     _is_vertical,
     remove_flat_angles,
 )
-from gdsfactory.types import ComponentSpec, CrossSectionSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, MultiCrossSectionAngleSpec
 
 
 def path_length_matched_points(
@@ -21,7 +21,7 @@ def path_length_matched_points(
     extra_length: float = 0.0,
     nb_loops: int = 1,
     bend: ComponentSpec = bend_euler,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
     """
@@ -150,7 +150,7 @@ def path_length_matched_points_add_waypoints(
     margin: float = 0.0,
     extra_length: float = 0.0,
     nb_loops: int = 1,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[ndarray]:
     """
