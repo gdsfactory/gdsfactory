@@ -691,8 +691,9 @@ def round_corners(
             bend_orientation = 180
 
     if bend_orientation is None:
-        # TODO: update for multiple cross sections
-        return on_route_error(points=points, cross_section=x)
+        return on_route_error(
+            points=points, cross_section=x if not multi_cross_section else None
+        )
 
     try:
         pname_west, pname_north = [
@@ -752,7 +753,7 @@ def round_corners(
         except RouteError:
             on_route_error(
                 points=(p0_straight, bend_origin),
-                cross_section=x,
+                cross_section=x if not multi_cross_section else None,
                 references=references,
             )
 
@@ -772,7 +773,7 @@ def round_corners(
     except RouteError:
         on_route_error(
             points=(p0_straight, points[-1]),
-            cross_section=x,
+            cross_section=x if not multi_cross_section else None,
             references=references,
         )
 
@@ -791,7 +792,11 @@ def round_corners(
         bsx = np.sign(bend_points[2 * i + 1][0] - bend_points[2 * i][0])
         bsy = np.sign(bend_points[2 * i + 1][1] - bend_points[2 * i][1])
         if bsx * sx == -1 or bsy * sy == -1:
-            return on_route_error(points=points, cross_section=x, references=references)
+            return on_route_error(
+                points=points,
+                cross_section=x if not multi_cross_section else None,
+                references=references,
+            )
 
     wg_refs = []
     for straight_origin, angle, length in straight_sections:
@@ -899,7 +904,9 @@ def round_corners(
             port_index_out = 0
 
     if with_point_markers:
-        route = get_route_error(points, cross_section=x)
+        route = get_route_error(
+            points, cross_section=x if not multi_cross_section else None
+        )
         references += route.references
 
     port_input = list(wg_refs[0].ports.values())[0]
@@ -985,9 +992,7 @@ def route_manhattan(
     Then creates the straight, taper and bend references that define the route.
     """
     if isinstance(cross_section, list):
-        x = [
-            gf.get_cross_section(xsection, **kwargs) for xsection in list(cross_section)
-        ]
+        x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
         start_straight_length = start_straight_length or min(
             [_x.min_length for _x in x]
         )
