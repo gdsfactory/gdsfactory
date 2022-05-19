@@ -87,6 +87,8 @@ ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, Dict[str, List[str]]]
+PortsDict = Dict[str, Port]
+PortsList = Dict[str, Port]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]

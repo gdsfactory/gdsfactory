@@ -18,7 +18,7 @@ from gdsfactory.routing.utils import (
     check_ports_have_equal_spacing,
     direction_ports_from_list_ports,
 )
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Label
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Label, PortsDict
 
 
 @cell
@@ -28,7 +28,7 @@ def add_grating_couplers(
     layer_label: Tuple[int, int] = (200, 0),
     gc_port_name: str = "o1",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
-    select_ports: Callable = select_ports_optical,
+    select_ports: Callable[..., PortsDict] = select_ports_optical,
     component_name: Optional[str] = None,
 ) -> Component:
     """Returns new component with grating couplers and labels.
@@ -83,7 +83,7 @@ def add_grating_couplers_with_loopback_fiber_single(
     gc_port_name: str = "o1",
     get_input_labels_function: Callable[..., List[Label]] = get_input_labels,
     get_input_label_text_loopback_function: Callable = get_input_label_text_loopback,
-    select_ports: Callable = select_ports_optical,
+    select_ports: Callable[..., PortsDict] = select_ports_optical,
     with_loopback: bool = True,
     cross_section: CrossSectionSpec = strip,
     component_name: Optional[str] = None,
