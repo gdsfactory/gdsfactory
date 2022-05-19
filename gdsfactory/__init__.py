@@ -149,4 +149,4 @@ __all__ = [
     "quickplot2",
     "set_quickplot_options",
 ]
-__version__ = "5.6.11"
+__version__ = "5.6.12"
