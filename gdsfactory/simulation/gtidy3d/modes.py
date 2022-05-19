@@ -148,8 +148,8 @@ class Waveguide(BaseModel):
     t_slab: float = 0.0
     t_box: float = 2.0
     t_clad: float = 2.0
-    ncore: Callable[str, float] = si
-    nclad: Callable[str, float] = sio2
+    ncore: Callable[[str], float] = si
+    nclad: Callable[[str], float] = sio2
     w_sim: float = 2.0
     resolution: int = 100
     nmodes: int = 10
