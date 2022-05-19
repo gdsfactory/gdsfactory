@@ -8,11 +8,11 @@ tidy3d can:
 
 TODO:
 
-- cache modes in local file
-- include mode overlaps for bend loss
-- dipersion calculation
+- fix mode overlaps for bend loss
+- calculate dispersion
 
 Maybe:
+
 - combine modes package, mpb and tidy3d APIs
 """
 
@@ -28,6 +28,8 @@ from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
 from tidy3d.plugins.mode.solver import compute_modes
 
+from gdsfactory.config import CONFIG, logger
+from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sio2
 from gdsfactory.types import PathType
 
@@ -111,7 +113,7 @@ def get_n(
 ):
     """Return index matrix."""
     w = wg_width
-    n = np.ones_like(Y)
+    n = np.ones_like(Y) * nclad
     n[
         (-w / 2 - t_clad / 2 <= Y)
         & (Y <= w / 2 + t_clad / 2)
@@ -122,6 +124,22 @@ def get_n(
     n[(-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + t_wg)] = ncore
     n[(Z >= t_box) & (Z <= t_box + t_slab)] = ncore if t_slab else nclad
     return n
+
+
+SETTINGS = [
+    "wavelength",
+    "wg_width",
+    "t_wg",
+    "t_slab",
+    "t_box",
+    "t_clad",
+    "ncore",
+    "nclad",
+    "w_sim",
+    "resolution",
+    "nmodes",
+    "bend_radius",
+]
 
 
 class Waveguide(BaseModel):
@@ -152,7 +170,7 @@ class Waveguide(BaseModel):
     nclad: Union[float, Callable[[str], float]] = sio2
     w_sim: float = 2.0
     resolution: int = 100
-    nmodes: int = 10
+    nmodes: int = 4
     bend_radius: Optional[float] = None
 
     class Config:
@@ -173,7 +191,7 @@ class Waveguide(BaseModel):
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
             -self.w_sim / 2,
             0.0,
-            self.w_sim / 2,
+            +self.w_sim / 2,
             self.t_sim,
             self.resolution,
             self.resolution,
@@ -198,7 +216,7 @@ class Waveguide(BaseModel):
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
             -self.w_sim / 2,
             0.0,
-            self.w_sim / 2,
+            +self.w_sim / 2,
             self.t_sim,
             self.resolution,
             self.resolution,
@@ -281,15 +299,20 @@ class Waveguide(BaseModel):
         plot(self.Xx, self.Yx, nx, mode=np.abs(Ey_) ** 2, title=f"Ey::{neff_:.3f}")
         plt.show()
 
-    def _repr_html_(self):
+    def _repr_html_(self) -> str:
         """Show index in matplotlib for jupyter notebooks."""
         self.plot_index()
         return self.__repr__()
+
+    def __repr__(self) -> str:
+        """Show index in matplotlib for jupyter notebooks."""
+        return ", ".join([f"{k}:{getattr(self, k)!r}" for k in SETTINGS])
 
     def pickle_dump(self, filepath: PathType) -> None:
         data = pickle.dumps(self)
         filepath = pathlib.Path(filepath)
         filepath.write_bytes(data)
+        logger.info(f"write {filepath} waveguide to file cache.")
 
 
 def pickle_load(filepath: PathType) -> Waveguide:
@@ -359,9 +382,76 @@ def sweep_bend_loss(
     return r, integral
 
 
+def find_modes(
+    wavelength: float = 1.55,
+    wg_width: float = 0.45,
+    t_wg: float = 0.22,
+    t_slab: float = 0.0,
+    t_box: float = 2.0,
+    t_clad: float = 2.0,
+    ncore: Union[float, Callable[[str], float]] = si,
+    nclad: Union[float, Callable[[str], float]] = sio2,
+    w_sim: float = 2.0,
+    resolution: int = 100,
+    nmodes: int = 4,
+    bend_radius: Optional[float] = None,
+    cache: Optional[PathType] = CONFIG["modes"],
+) -> Waveguide:
+    """
+    Args:
+        wavelength: (um).
+        wg_width: waveguide width.
+        t_wg: thickness waveguide (um).
+        t_slab: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        w_sim: width simulation (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+        cache: directory path to cache modes. None disables the file cache.
+
+    """
+    settings = dict(
+        wavelength=wavelength,
+        wg_width=wg_width,
+        t_wg=t_wg,
+        t_slab=t_slab,
+        t_box=t_box,
+        t_clad=t_clad,
+        ncore=ncore,
+        nclad=nclad,
+        w_sim=w_sim,
+        resolution=resolution,
+        nmodes=nmodes,
+        bend_radius=bend_radius,
+    )
+
+    if cache:
+        cache = pathlib.Path(cache)
+        cache.mkdir(exist_ok=True, parents=True)
+        filepath = cache / f"{get_hash(settings)}.pkl"
+        if filepath.exists():
+            logger.info(f"load {filepath} waveguide from file cache.")
+            return pickle_load(filepath)
+        else:
+            waveguide = Waveguide(**settings)
+            waveguide.compute_modes()
+            waveguide.pickle_dump(filepath=filepath)
+
+    waveguide = Waveguide(**settings)
+    waveguide.compute_modes()
+    return waveguide
+
+
 if __name__ == "__main__":
-    c = Waveguide(t_slab=0, ncore=2.00, nclad=1.44)
-    c.plot_index()
+    # c = Waveguide(t_slab=0, ncore=2.00, nclad=1.44, w_sim=5)
+    # c.plot_index()
+
+    nitride = find_modes(wavelength=1.55, wg_width=1.0, t_wg=0.4, ncore=2.0, w_sim=5)
+    nitride.plot_index()
 
     # c = pickle_load("strip.pkl")
 

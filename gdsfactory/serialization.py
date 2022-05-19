@@ -1,5 +1,6 @@
 import copy
 import functools
+import hashlib
 import inspect
 import pathlib
 from typing import Any, Dict
@@ -99,6 +100,10 @@ def clean_value_name(value: Any) -> str:
     # value1 = clean_value_json(value)
     # print(type(value), value, value1, str(value1))
     return str(clean_value_json(value))
+
+
+def get_hash(value: Any) -> str:
+    return hashlib.md5((clean_value_name(value)).encode()).hexdigest()[:8]
 
 
 if __name__ == "__main__":
