@@ -15,8 +15,8 @@ def wire_corner(cross_section: CrossSectionSpec = metal3, **kwargs) -> Component
     """90 degrees electrical corner
 
     Args:
-        waveguide:
-        kwargs: cross_section settings
+        cross_section: spec.
+        kwargs: cross_section settings.
 
     """
     x = gf.get_cross_section(cross_section, **kwargs)

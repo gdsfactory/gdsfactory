@@ -36,7 +36,7 @@ def spiral_inner_io(
     **kwargs
 ) -> Component:
     """Returns Spiral with ports inside the spiral loop.
-    You can add grating couplers inside .
+    You can add grating couplers inside.
 
     Args:
         N: number of loops.

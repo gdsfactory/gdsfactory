@@ -70,7 +70,6 @@ def ring_single(
     bl = c << b
     br = c << b
     st = c << sx
-    # st.mirror(p1=(0, 0), p2=(1, 0))
 
     sl.connect(port="o1", destination=cb.ports["o2"])
     bl.connect(port="o2", destination=sl.ports["o2"])

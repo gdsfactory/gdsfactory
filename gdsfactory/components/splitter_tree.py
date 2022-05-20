@@ -43,7 +43,7 @@ def splitter_tree(
 
     dx, dy = spacing
 
-    coupler = coupler()
+    coupler = gf.get_component(coupler)
     coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
     coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
 
@@ -58,7 +58,8 @@ def splitter_tree(
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx
-        bend_s = bend_s(
+        bend_s = gf.get_component(
+            bend_s,
             cross_section=cross_section,
             size=(bend_s_xsize, bend_s_ysize),
         )
