@@ -42,8 +42,17 @@ class Pdk(BaseModel):
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
     containers: Dict[str, ComponentFactory] = containers_default
+    base_pdk: "Pdk" = None
 
     def activate(self) -> None:
+        if self.base_pdk:
+            _cross_sections = self.base_pdk.cross_sections
+            _cross_sections |= self.cross_sections
+            self.cross_sections = _cross_sections
+
+            _cells = self.base_pdk.cells
+            _cells |= self.cells
+            self.cells |= _cells
         set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
