@@ -429,7 +429,17 @@ def add_pins_bbox_siepic(
     bbox_layer: Layer = (68, 0),
     padding: float = 0,
 ) -> Component:
-    """Add bounding box device recognition layer."""
+    """Add bounding box device recognition layer.
+
+    Args:
+        component: to add pins.
+        function: to add pins.
+        port_type: optical, electrical...
+        layer_pin:
+        pin_length:
+        bbox_layer:
+        padding:
+    """
     layer_pin = layer_pin or gf.LAYER.PORT
 
     component = component.copy()
