@@ -226,7 +226,7 @@ LAYER_STACK = get_layer_stack_generic()
 
 
 class Section(BaseModel):
-    """
+    """CrossSection to extrude a path with a waveguide.
 
     Args:
         width: of the section (um) or parameterized function from 0 to 1.
