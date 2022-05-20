@@ -24,14 +24,14 @@ def seal_ring(
     you can connect it to ground
 
     Args:
-        bbox: to add seal ring around. You can pass Component.bbox
-        seal: function for the seal
-        width: of the seal
-        padding: from component to seal
-        with_north: includes seal
-        with_south: includes seal
-        with_east: includes seal
-        with_west: includes seal
+        bbox: to add seal ring around. You can pass Component.bbox.
+        seal: function for the seal.
+        width: of the seal.
+        padding: from component to seal.
+        with_north: includes seal.
+        with_south: includes seal.
+        with_east: includes seal.
+        with_west: includes seal.
 
     """
 
