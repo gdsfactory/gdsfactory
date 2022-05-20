@@ -1,4 +1,4 @@
-name: array_7b26649e
+name: array_d93d7134
 settings:
   changed:
     component:
@@ -22,6 +22,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -46,6 +48,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -100,6 +104,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -124,6 +130,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -154,5 +162,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.array_component
-  name: array_7b26649e
+  name: array_d93d7134
 version: 0.0.1

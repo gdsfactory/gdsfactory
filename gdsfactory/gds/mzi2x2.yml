@@ -22,7 +22,7 @@ ports:
     - 0
     port_type: optical
 cells:
-  mzi_gds:
+  mzi:
     name: mzi
     module: gdsfactory.components.mzi
     function_name: mzi
@@ -51,6 +51,8 @@ cells:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_x_top: null
+      cross_section_x_bot: null
     changed: {}
     default:
       delta_length: 10
@@ -75,6 +77,8 @@ cells:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_x_top: null
+      cross_section_x_bot: null
     child: null
   mmi1x2:
     name: mmi1x2
@@ -94,9 +98,7 @@ cells:
       straight:
         function: straight
       with_bbox: true
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
     changed: {}
     default:
       width: 0.5
@@ -110,20 +112,17 @@ cells:
       straight:
         function: straight
       with_bbox: true
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
     child: null
-  bend_euler:
-    name: bend_euler
+  bend_euler_9e0718a0:
+    name: bend_euler_9e0718a0
     module: gdsfactory.components.bend_euler
     function_name: bend_euler
     info:
       length: 16.637
-      dy: 10.0
+      dy: 10
       radius_min: 7.061
-      radius: 10.0
-      wg_width: 0.5
+      radius: 10
     info_version: 2
     full:
       angle: 90
@@ -135,7 +134,10 @@ cells:
       cross_section:
         function: cross_section
         settings: {}
-    changed: {}
+    changed:
+      cross_section:
+        function: cross_section
+        settings: {}
     default:
       angle: 90
       p: 0.5
@@ -143,16 +145,14 @@ cells:
       npoints: 720
       direction: ccw
       with_bbox: false
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
     child: null
   straight_a4be237b:
     name: straight_a4be237b
     module: gdsfactory.components.straight
     function_name: straight
     info:
-      length: 7.0
+      length: 7
       width: 0.5
     info_version: 2
     full:
@@ -202,7 +202,7 @@ cells:
     module: gdsfactory.components.straight
     function_name: straight
     info:
-      length: 2.0
+      length: 2
       width: 0.5
     info_version: 2
     full:
@@ -222,8 +222,8 @@ cells:
         function: cross_section
         settings: {}
     child: null
-  straight_5b70f7d2:
-    name: straight_5b70f7d2
+  straight_fa3a3f2f:
+    name: straight_fa3a3f2f
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -235,9 +235,62 @@ cells:
       npoints: 2
       with_bbox: false
       cross_section:
-        function: cross_section
-        settings: {}
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
     changed:
+      cross_section:
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
       length: 0.09
     default:
       length: 10
@@ -247,8 +300,86 @@ cells:
         function: cross_section
         settings: {}
     child: null
-  straight_c49ce9c6:
-    name: straight_c49ce9c6
+  straight_c804d8bd:
+    name: straight_c804d8bd
+    module: gdsfactory.components.straight
+    function_name: straight
+    info:
+      length: 2
+      width: 0.5
+    info_version: 2
+    full:
+      length: 2
+      npoints: 2
+      with_bbox: false
+      cross_section:
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
+    changed:
+      cross_section:
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
+      length: 2
+    default:
+      length: 10
+      npoints: 2
+      with_bbox: false
+      cross_section:
+        function: cross_section
+        settings: {}
+    child: null
+  straight_4ae164bc:
+    name: straight_4ae164bc
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -260,9 +391,62 @@ cells:
       npoints: 2
       with_bbox: false
       cross_section:
-        function: cross_section
-        settings: {}
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
     changed:
+      cross_section:
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
       length: 0.01
     default:
       length: 10
@@ -272,9 +456,88 @@ cells:
         function: cross_section
         settings: {}
     child: null
+  straight_32d14105:
+    name: straight_32d14105
+    module: gdsfactory.components.straight
+    function_name: straight
+    info:
+      length: 7
+      width: 0.5
+    info_version: 2
+    full:
+      length: 7
+      npoints: 2
+      with_bbox: false
+      cross_section:
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
+    changed:
+      cross_section:
+        layer:
+        - 1
+        - 0
+        width: 0.5
+        offset: 0
+        radius: 10
+        layer_bbox: null
+        width_wide: null
+        auto_widen: false
+        auto_widen_minimum_length: 200
+        taper_length: 10
+        bbox_layers: []
+        bbox_offsets: []
+        sections: []
+        port_names:
+        - o1
+        - o2
+        port_types:
+        - optical
+        - optical
+        min_length: 0.01
+        start_straight_length: 0.01
+        end_straight_length: 0.01
+        snap_to_grid: null
+        decorator: null
+        info: {}
+        name: null
+      length: 7
+    default:
+      length: 10
+      npoints: 2
+      with_bbox: false
+      cross_section:
+        function: cross_section
+        settings: {}
+    child: null
+name: mzi
 version: 0.0.1
 settings:
-  name: mzi_gds
+  name: mzi
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
@@ -302,6 +565,8 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
+    cross_section_x_top: null
+    cross_section_x_bot: null
   changed: {}
   default:
     delta_length: 10
@@ -326,4 +591,6 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
+    cross_section_x_top: null
+    cross_section_x_bot: null
   child: null

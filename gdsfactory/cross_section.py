@@ -533,11 +533,12 @@ def heater_metal(
     **kwargs,
 ) -> CrossSection:
     """Returns metal heater cross_section.
+
     dimensions from https://doi.org/10.1364/OE.18.020298
 
     Args:
-        width: of the metal
-        layer: of the heater
+        width: metal width.
+        layer: heater layer.
 
     """
     return cross_section(
