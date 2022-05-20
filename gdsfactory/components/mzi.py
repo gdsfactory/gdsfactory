@@ -33,6 +33,8 @@ def mzi(
     port_e0_combiner: str = "o3",
     nbends: int = 2,
     cross_section: CrossSectionSpec = strip,
+    cross_section_x_top: Optional[CrossSectionSpec] = None,
+    cross_section_x_bot: Optional[CrossSectionSpec] = None,
 ) -> Component:
     """Mzi.
 
@@ -54,6 +56,8 @@ def mzi(
         port_e0_combiner: east bot combiner port.
         nbends: from straight top/bot to combiner (at least 2).
         cross_section: for routing (sxtop/sxbot to combiner).
+        cross_section_x_top: optional top cross_section (defaults to cross_section).
+        cross_section_x_bot: optional bottom cross_section (defaults to cross_section).
 
     .. code::
 
@@ -78,6 +82,9 @@ def mzi(
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
 
+    cross_section_x_bot = cross_section_x_bot or cross_section
+    cross_section_x_top = cross_section_x_top or cross_section
+
     bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
 
@@ -101,7 +108,9 @@ def mzi(
     b6.connect("o1", syl.ports["o2"])
 
     straight_x_bot = (
-        gf.get_component(straight_x_bot, length=length_x)
+        gf.get_component(
+            straight_x_bot, length=length_x, cross_section=cross_section_x_bot
+        )
         if length_x
         else gf.get_component(straight_x_bot)
     )
@@ -117,7 +126,9 @@ def mzi(
     b2 = c << bend
     b2.connect("o2", sy.ports["o2"])
     straight_x_top = (
-        gf.get_component(straight_x_top, length=length_x)
+        gf.get_component(
+            straight_x_top, length=length_x, cross_section=cross_section_x_top
+        )
         if length_x
         else gf.get_component(straight_x_top)
     )
@@ -182,6 +193,15 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
+    # from gdsfactory.cross_section import heater_metal
+    # c = mzi(cross_section=heater_metal)
+
+    from gdsfactory.cross_section import strip_heater_metal
+
+    c = mzi(cross_section_x_top=strip_heater_metal, length_x=100)
+
+    c.show()
+
     # WIDTH = 2
     # LAYER = (34, 0)
     # xs_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
@@ -195,8 +215,8 @@ if __name__ == "__main__":
     # mzi = gf.partial(gf.components.mzi, cross_section=xs_metal, splitter=mmi1x2)
     # c = mzi()
 
-    c = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c.show()
+    # c = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c.show()
 
     # extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
 

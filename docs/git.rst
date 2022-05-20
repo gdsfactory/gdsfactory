@@ -11,3 +11,4 @@ Intro Tutorial
    notebooks/_1_git.ipynb
    notebooks/_2_klayout.ipynb
    notebooks/_3_vscode.ipynb
+   notebooks/_4_gdsfactory_in_5minutes.ipynb

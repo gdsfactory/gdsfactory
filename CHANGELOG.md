@@ -1,9 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.7.1]
+
+- add cross_section_bot and cross_section_top to mzi, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/402)
+- add electrical ports to heater cross_sections, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/394)
 
 ## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
 
-- tidy3d mode solver accepts ncore and nclad floats. add file cache to tidy3d. thanks to `gt.modes.find_modes`
+- tidy3d mode solver accepts ncore and nclad floats.
+- add file cache to tidy3d to `gt.modes.find_modes`
 - fix get_bundle [issue](https://github.com/gdsfactory/gdsfactory/issues/396)
 - clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)
 - fix N/S routing in route_ports_to_side [PR](https://github.com/gdsfactory/gdsfactory/pull/395)
