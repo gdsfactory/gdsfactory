@@ -19,6 +19,7 @@ from omegaconf import OmegaConf
 from phidl.device_layout import Device as Component
 from phidl.device_layout import DeviceReference as ComponentReference
 
+import gdsfactory as gf
 from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
@@ -43,6 +44,7 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
     rot_mat = np.array([[ca, -sa], [sa, ca]])
+
     d = p.width / 2
 
     dbot = np.array([0, -d])
@@ -52,7 +54,6 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     p0 = p.position + _rotate(dbot, rot_mat)
     p1 = p.position + _rotate(dtop, rot_mat)
     ptip = p.position + _rotate(dtip, rot_mat)
-
     polygon = [p0, p1, ptip]
     polygon = np.stack(polygon)
     return polygon, ptip
@@ -61,8 +62,8 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
 def add_pin_triangle(
     component: Component,
     port: Port,
-    layer: Tuple[int, int] = LAYER.PORT,
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer: Tuple[int, int] = None,
+    layer_label: Optional[Tuple[int, int]] = None,
 ) -> None:
     """Add triangle pin with a right angle, pointing out of the port
 
@@ -72,6 +73,9 @@ def add_pin_triangle(
         layer: for the pin marker.
         layer_label: for the label.
     """
+    layer = layer or gf.LAYER.PORT
+    layer_label = layer_label or gf.LAYER.LABEL
+
     polygon, ptip = get_pin_triangle_polygon_tip(port=port)
     component.add_polygon(polygon, layer=layer)
 
@@ -87,8 +91,8 @@ def add_pin_rectangle_inside(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: Tuple[int, int] = LAYER.PORT,
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer: Tuple[int, int] = None,
+    layer_label: Optional[Tuple[int, int]] = None,
 ) -> None:
     """Add square pin towards the inside of the port
 
@@ -113,6 +117,8 @@ def add_pin_rectangle_inside(
 
 
     """
+    layer = layer or gf.LAYER.PORT
+    layer_label = layer_label or gf.LAYER.LABEL
     p = port
     a = p.orientation
     ca = np.cos(a * np.pi / 180)
@@ -144,8 +150,8 @@ def add_pin_rectangle_double(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: Tuple[int, int] = LAYER.PORT,
-    layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
+    layer: Tuple[int, int] = None,
+    layer_label: Optional[Tuple[int, int]] = None,
 ) -> None:
     """Add two square pins: one inside with label, one outside.
 
@@ -170,6 +176,8 @@ def add_pin_rectangle_double(
                  __
 
     """
+    layer = layer or LAYER.PORT
+    layer_label = layer_label or LAYER.LABEL
     p = port
     a = p.orientation
     ca = np.cos(a * np.pi / 180)
@@ -216,8 +224,8 @@ def add_pin_rectangle(
     component: Component,
     port: Port,
     pin_length: float = 0.1,
-    layer: Tuple[int, int] = LAYER.PORT,
-    layer_label: Optional[Tuple[int, int]] = LAYER.PORT,
+    layer: Tuple[int, int] = None,
+    layer_label: Optional[Tuple[int, int]] = None,
     port_margin: float = 0.0,
 ) -> None:
     """Add half out pin to a component.
@@ -245,6 +253,8 @@ def add_pin_rectangle(
                  __
 
     """
+    layer = layer or gf.LAYER.PORT
+    layer_label = layer_label or gf.LAYER.LABEL
     p = port
     a = p.orientation
     ca = np.cos(a * np.pi / 180)
@@ -277,7 +287,7 @@ def add_pin_path(
     component: Component,
     port: Port,
     pin_length: float = 2 * nm,
-    layer: Tuple[int, int] = LAYER.PORT,
+    layer: Tuple[int, int] = None,
     layer_label: Optional[Tuple[int, int]] = None,
 ) -> None:
     """Add half out path pin to a component.
@@ -306,6 +316,7 @@ def add_pin_path(
                  __
 
     """
+    layer = layer or gf.LAYER.PORT
     layer_label = layer_label or layer
     p = port
     a = p.orientation
@@ -333,7 +344,7 @@ def add_pin_path(
 def add_outline(
     component: Component,
     reference: Optional[ComponentReference] = None,
-    layer: Tuple[int, int] = LAYER.DEVREC,
+    layer: Tuple[int, int] = None,
     **kwargs,
 ) -> None:
     """Adds devices outline bounding box in layer.
@@ -352,6 +363,8 @@ def add_outline(
     """
     from gdsfactory.add_padding import get_padding_points
 
+    layer = layer or gf.LAYER.DEVREC
+
     c = reference or component
     if hasattr(component, "parent"):
         component = component.parent
@@ -363,7 +376,7 @@ def add_pins_siepic(
     component: Component,
     function: Callable = add_pin_path,
     port_type: str = "optical",
-    layer_pin: Layer = LAYER.PORT,
+    layer_pin: Layer = None,
     pin_length: float = 10 * nm,
 ) -> Component:
     """Add pins.
@@ -382,6 +395,7 @@ def add_pins_siepic(
         pin_length: length of the pin marker for the port.
 
     """
+    layer_pin = layer_pin or gf.LAYER.PORT
 
     for p in component.get_ports_list(port_type=port_type):
         function(component=component, port=p, layer=layer_pin, pin_length=pin_length)
@@ -410,22 +424,14 @@ def add_pins_bbox_siepic(
     component: Component,
     function: Callable = add_pin_path,
     port_type: str = "optical",
-    layer_pin: Layer = LAYER.PORT,
+    layer_pin: Layer = None,
     pin_length: float = 10 * nm,
     bbox_layer: Layer = (68, 0),
     padding: float = 0,
 ) -> Component:
-    """Add bounding box device recognition layer.
+    """Add bounding box device recognition layer."""
+    layer_pin = layer_pin or gf.LAYER.PORT
 
-    Args:
-        component: to add pins.
-        function: to add pins.
-        port_type: optical, electrical...
-        layer_pin:
-        pin_length:
-        bbox_layer:
-        padding:
-    """
     component = component.copy()
     component.remove_layers(layers=(layer_pin, bbox_layer))
     component.add_padding(default=padding, layers=(bbox_layer,))
@@ -475,7 +481,7 @@ add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 def add_settings_label(
     component: Component,
     reference: ComponentReference,
-    layer_label: Tuple[int, int] = LAYER.LABEL_SETTINGS,
+    layer_label: Tuple[int, int] = None,
 ) -> None:
     """Add settings in label
 
@@ -485,6 +491,7 @@ def add_settings_label(
         layer_label:
 
     """
+    layer_label = layer_label or gf.LAYER.LABEL_SETTINGS
     settings_dict = OmegaConf.to_container(reference.settings.full)
     settings_string = f"settings={json.dumps(settings_dict)}"
     print(settings_string)
@@ -499,9 +506,10 @@ def add_instance_label(
     component: Component,
     reference: ComponentReference,
     instance_name: Optional[str] = None,
-    layer: Tuple[int, int] = LAYER.LABEL_INSTANCE,
+    layer: Tuple[int, int] = None,
 ) -> None:
     """Adds label to a reference in a component."""
+    layer = layer or gf.LAYER.LABEL_INSTANCE
 
     instance_name = (
         instance_name
@@ -551,7 +559,7 @@ def add_pins_and_outline(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
 
     # c = test_add_pins()
     # c.show()

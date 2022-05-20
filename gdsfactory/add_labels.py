@@ -59,12 +59,11 @@ def get_input_label(
     gc: ComponentReference,
     gc_index: Optional[int] = None,
     gc_port_name: str = "o1",
-    layer_label: Layer = gf.LAYER.LABEL,
+    layer_label: Layer = None,
     component_name: Optional[str] = None,
     get_input_label_text_function=get_input_label_text,
 ) -> Label:
     """Returns a label with component info for a given grating coupler.
-
     Test equipment to extract grating coupler coordinates and match it to the component.
 
     Args:
@@ -79,6 +78,8 @@ def get_input_label(
     text = get_input_label_text_function(
         port=port, gc=gc, gc_index=gc_index, component_name=component_name
     )
+
+    layer_label = layer_label or gf.LAYER.LABEL
 
     if gc_port_name is None:
         gc_port_name = list(gc.ports.values())[0].name
@@ -97,7 +98,7 @@ def get_input_label_electrical(
     port: Port,
     gc_index: int = 0,
     component_name: Optional[str] = None,
-    layer_label: Layer = gf.LAYER.LABEL,
+    layer_label: Layer = None,
     gc: Optional[ComponentReference] = None,
 ) -> Label:
     """Returns a label to test component info for a given electrical port.
@@ -111,6 +112,8 @@ def get_input_label_electrical(
         layer_label: for label.
         gc: ignored.
     """
+
+    layer_label = layer_label or gf.LAYER.LABEL
 
     if component_name:
         name = component_name
@@ -133,7 +136,7 @@ def get_input_label_electrical(
 def add_labels(
     component: Component,
     get_label_function: Callable = get_input_label_electrical,
-    layer_label: Layer = gf.LAYER.LABEL,
+    layer_label: Layer = None,
     gc: Optional[Component] = None,
     **kwargs,
 ) -> Component:
@@ -158,6 +161,8 @@ def add_labels(
         original component with labels
 
     """
+    layer_label = layer_label or gf.LAYER.LABEL
+
     ports = component.get_ports_list(**kwargs)
 
     for i, port in enumerate(ports):
