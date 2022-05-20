@@ -1,5 +1,8 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.7.1]
+
+- add cross_section_bot and cross_section_top to mzi, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/402)
 
 ## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
 
