@@ -30,19 +30,19 @@ def straight_heater_meander(
     FIXME: only works for 3 rows.
 
     Args:
-        length: total length of the optical path
-        spacing: waveguide spacing (center to center)
-        cross_section: for waveguide
-        heater_width: for heater
-        extension_length: of input and output optical ports
-        layer_heater: for top heater, if None, it does not add a heater
-        radius: for the meander bends
-        via_stack: for the heater to via_stack metal
-        port_orientation1:
-        port_orientation2:
-        heater_taper_length: minimizes current concentrations from heater to via_stack
-        straight_width: width of the straight section
-        taper_length: from the cross_section
+        length: total length of the optical path.
+        spacing: waveguide spacing (center to center).
+        cross_section: for waveguide.
+        heater_width: for heater.
+        extension_length: of input and output optical ports.
+        layer_heater: for top heater, if None, it does not add a heater.
+        radius: for the meander bends.
+        via_stack: for the heater to via_stack metal.
+        port_orientation1: in degrees.
+        port_orientation2: in degrees.
+        heater_taper_length: minimizes current concentrations from heater to via_stack.
+        straight_width: width of the straight section.
+        taper_length: from the cross_section.
     """
     rows = 3
     c = Component()
