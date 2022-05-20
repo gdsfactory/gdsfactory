@@ -1,3 +1,7 @@
+"""get_bundle_from_steps does not support ports with None orientation.
+"""
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
