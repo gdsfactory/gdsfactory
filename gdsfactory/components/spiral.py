@@ -24,22 +24,22 @@ def spiral(
     radius: float = 10.0,
     **kwargs
 ) -> Component:
-    """Picwriter Spiral
+    """Spiral. Based on picwriter.
 
     Args:
-        port_spacing: distance between input/output ports
-        length: spiral length (um)
-        spacing: distance between parallel straights
-        parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip)
-        port: Cartesian coordinate of the input port
-        direction: NORTH, WEST, SOUTH, EAST  or angle in radians
-        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function
-        layer: core layer
-        layer_cladding: cladding layer
-        cladding_offset: distance from core to cladding
-        wg_width: 0.5
-        radius: 10
-        kwargs: cross_section settings
+        port_spacing: distance between input/output ports.
+        length: spiral length (um).
+        spacing: distance between parallel straights.
+        parity: If 1 spiral on right side, if -1 spiral on left side (mirror flip).
+        port: Cartesian coordinate of the input port.
+        direction: NORTH, WEST, SOUTH, EAST  or angle in radians.
+        waveguide_template (WaveguideTemplate): Picwriter WaveguideTemplate function.
+        layer: core layer.
+        layer_cladding: cladding layer.
+        cladding_offset: distance from core to cladding.
+        wg_width: 0.5.
+        radius: 10.
+        kwargs: cross_section settings.
 
     """
     c = pc.Spiral(

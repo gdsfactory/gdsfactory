@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_fiber__0c6fc058
+name: mzi_2e88f57c_add_fiber__2ffc24bd
 settings:
   changed:
     component:
@@ -22,6 +22,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -46,6 +48,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -87,6 +91,8 @@ settings:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -111,6 +117,8 @@ settings:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -180,6 +188,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -204,6 +214,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -252,5 +264,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: mzi_2e88f57c_add_fiber__0c6fc058
+  name: mzi_2e88f57c_add_fiber__2ffc24bd
 version: 0.0.1
