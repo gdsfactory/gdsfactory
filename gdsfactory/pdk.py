@@ -53,6 +53,10 @@ class Pdk(BaseModel):
             _cells = self.base_pdk.cells
             _cells |= self.cells
             self.cells |= _cells
+
+            _containers = self.base_pdk.containers
+            _containers |= self.containers
+            self.containers |= _containers
         set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
