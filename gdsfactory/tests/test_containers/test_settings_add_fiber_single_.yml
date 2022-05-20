@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_move_e2f05_1bf5f9f0
+name: mzi_2e88f57c_move_5e973_5b5bbea1
 settings:
   changed:
     component:
@@ -22,6 +22,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -46,6 +48,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -91,6 +95,8 @@ settings:
             cross_section:
               function: cross_section
               settings: {}
+            cross_section_x_bot: null
+            cross_section_x_top: null
             delta_length: 10
             length_x: 0.1
             length_y: 2
@@ -115,6 +121,8 @@ settings:
             cross_section:
               function: cross_section
               settings: {}
+            cross_section_x_bot: null
+            cross_section_x_top: null
             delta_length: 10
             length_x: 0.1
             length_y: 2
@@ -157,6 +165,8 @@ settings:
         cross_section:
           function: cross_section
           settings: {}
+        cross_section_x_bot: null
+        cross_section_x_top: null
         delta_length: 10
         length_x: 0.1
         length_y: 2
@@ -181,6 +191,8 @@ settings:
         cross_section:
           function: cross_section
           settings: {}
+        cross_section_x_bot: null
+        cross_section_x_top: null
         delta_length: 10
         length_x: 0.1
         length_y: 2
@@ -231,6 +243,8 @@ settings:
             cross_section:
               function: cross_section
               settings: {}
+            cross_section_x_bot: null
+            cross_section_x_top: null
             delta_length: 10
             length_x: 0.1
             length_y: 2
@@ -255,6 +269,8 @@ settings:
             cross_section:
               function: cross_section
               settings: {}
+            cross_section_x_bot: null
+            cross_section_x_top: null
             delta_length: 10
             length_x: 0.1
             length_y: 2
@@ -283,7 +299,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_2e88f57c_move_e2f053e4
+    name: mzi_2e88f57c_move_5e97306f
   default:
     bend:
       function: bend_euler
@@ -341,6 +357,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -365,6 +383,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -420,5 +440,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_2e88f57c_move_e2f05_1bf5f9f0
+  name: mzi_2e88f57c_move_5e973_5b5bbea1
 version: 0.0.1

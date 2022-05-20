@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_termin_c98da713
+name: mzi_2e88f57c_add_termin_52143b95
 settings:
   changed:
     component:
@@ -22,6 +22,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -46,6 +48,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -87,6 +91,8 @@ settings:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -111,6 +117,8 @@ settings:
       cross_section:
         function: cross_section
         settings: {}
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -162,6 +170,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -186,6 +196,8 @@ settings:
           cross_section:
             function: cross_section
             settings: {}
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -219,5 +231,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_termination
-  name: mzi_2e88f57c_add_termin_c98da713
+  name: mzi_2e88f57c_add_termin_52143b95
 version: 0.0.1
