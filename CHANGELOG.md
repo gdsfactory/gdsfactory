@@ -3,6 +3,7 @@
 ## [5.7.1]
 
 - add cross_section_bot and cross_section_top to mzi, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/402)
+- add electrical ports to heater cross_sections, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/394)
 
 ## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
 

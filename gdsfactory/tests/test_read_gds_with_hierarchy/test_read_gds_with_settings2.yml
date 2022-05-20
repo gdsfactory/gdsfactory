@@ -1,4 +1,4 @@
-name: mzi_gds
+name: mzi
 settings:
   changed: {}
   child: null
@@ -9,6 +9,8 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
+    cross_section_x_bot: null
+    cross_section_x_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -32,6 +34,8 @@ settings:
     cross_section:
       function: cross_section
       settings: {}
+    cross_section_x_bot: null
+    cross_section_x_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -52,5 +56,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_gds
+  name: mzi
 version: 0.0.1

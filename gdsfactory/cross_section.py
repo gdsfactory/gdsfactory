@@ -17,6 +17,8 @@ LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 Floats = Tuple[float, ...]
+port_names_electrical = ("e1", "e2")
+port_types_electrical = ("electrical", "electrical")
 
 
 class CrossSection(BaseModel):
@@ -205,20 +207,20 @@ def pin(
     """Rib PIN doped cross_section.
 
     Args:
-        width: ridge width
-        layer: ridge layer
-        layer_slab: slab layer
-        layers_via_stack1: P++ layer
-        layers_via_stack2: N++ layer
-        bbox_offsets_via_stack1:
-        bbox_offsets_via_stack2:
-        via_stack_width:
-        via_stack_gap: offset from via_stack to ridge edge
-        slab_gap: extra slab gap (negative: via_stack goes beyond slab)
+        width: ridge width.
+        layer: ridge layer.
+        layer_slab: slab layer.
+        layers_via_stack1: P++ layer.
+        layers_via_stack2: N++ layer.
+        bbox_offsets_via_stack1: for via left.
+        bbox_offsets_via_stack2: for via right.
+        via_stack_width: in um.
+        via_stack_gap: offset from via_stack to ridge edge.
+        slab_gap: extra slab gap (negative: via_stack goes beyond slab).
         layer_via:
         via_width:
         via_offsets:
-        kwargs: other cross_section settings
+        kwargs: other cross_section settings.
 
     https://doi.org/10.1364/OE.26.029983
 
@@ -287,7 +289,7 @@ def pin(
     return cross_section(
         width=width,
         layer=layer,
-        sections=sections,
+        sections=tuple(sections),
         info=info,
         **kwargs,
     )
@@ -438,14 +440,14 @@ def strip_heater_metal_undercut(
     dimensions from https://doi.org/10.1364/OE.18.020298
 
     Args:
-        width: of waveguide
-        layer:
-        heater_width: of metal heater
-        trench_width:
-        trench_gap: from waveguide edge to trench edge
-        layer_heater:
-        layer_trench:
-        kwargs: cross_section settings
+        width: waveguide width.
+        layer: waveguide layer.
+        heater_width: of metal heater.
+        trench_width: in um.
+        trench_gap: from waveguide edge to trench edge.
+        layer_heater: heater layer.
+        layer_trench: tench layer.
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -482,7 +484,12 @@ def strip_heater_metal_undercut(
         width=width,
         layer=layer,
         sections=(
-            Section(layer=layer_heater, width=heater_width),
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                port_names=port_names_electrical,
+                port_types=port_types_electrical,
+            ),
             Section(layer=layer_trench, width=trench_width, offset=+trench_offset),
             Section(layer=layer_trench, width=trench_width, offset=-trench_offset),
         ),
@@ -503,10 +510,10 @@ def strip_heater_metal(
     dimensions from https://doi.org/10.1364/OE.18.020298
 
     Args:
-        width: of waveguide
-        layer:
-        heater_width: of metal heater
-        layer_heater: for the metal
+        width: waveguide width (um).
+        layer: waveguide layer.
+        heater_width: of metal heater.
+        layer_heater: for the metal.
 
     """
     info = dict(
@@ -520,7 +527,14 @@ def strip_heater_metal(
     return cross_section(
         width=width,
         layer=layer,
-        sections=[Section(layer=layer_heater, width=heater_width)],
+        sections=(
+            Section(
+                layer=layer_heater,
+                width=heater_width,
+                port_names=port_names_electrical,
+                port_types=port_types_electrical,
+            ),
+        ),
         info=info,
         **kwargs,
     )
@@ -539,6 +553,7 @@ def heater_metal(
     Args:
         width: metal width.
         layer: heater layer.
+
 
     """
     return cross_section(
@@ -593,7 +608,7 @@ def strip_heater_doped(
     return cross_section(
         width=width,
         layer=layer,
-        sections=sections,
+        sections=tuple(sections),
         **kwargs,
     )
 
@@ -664,7 +679,7 @@ def rib_heater_doped(
     return cross_section(
         width=width,
         layer=layer,
-        sections=sections,
+        sections=tuple(sections),
         **kwargs,
     )
 
@@ -701,8 +716,8 @@ def rib_heater_doped_via_stack(
         via_stack_gap:
         layers_via_stack:
         bbox_offsets_via_stack:
-        slab_gap: from heater edge
-        slab_offset: over the center of the slab
+        slab_gap: from heater edge.
+        slab_offset: over the center of the slab.
         with_top_heater:
         with_bot_heater:
 
@@ -776,7 +791,7 @@ def rib_heater_doped_via_stack(
         ]
 
     return cross_section(
-        sections=sections,
+        sections=tuple(sections),
         width=width,
         layer=layer,
         **kwargs,
@@ -801,8 +816,6 @@ strip_rib_tip = partial(
     strip, sections=(Section(width=0.2, layer=LAYER.SLAB90, name="slab"),)
 )
 
-port_names_electrical = ("e1", "e2")
-port_types_electrical = ("electrical", "electrical")
 metal1 = partial(
     cross_section,
     layer=LAYER.M1,
