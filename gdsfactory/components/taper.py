@@ -52,9 +52,16 @@ def taper(
 
     c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
+
+    if x.cladding_layers and x.cladding_offsets:
+        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
+            y1 = width1 / 2 + offset
+            y2 = width2 / 2 + offset
+            ypts = [y1, y2, -y2, -y1]
+            c.add_polygon((xpts, ypts), layer=layer)
     c.add_port(
         name="o1",
-        midpoint=[0, 0],
+        midpoint=(0, 0),
         width=width1,
         orientation=180,
         layer=layer,
@@ -62,7 +69,7 @@ def taper(
     )
     c.add_port(
         name="o2",
-        midpoint=[length, 0],
+        midpoint=(length, 0),
         width=width2,
         orientation=0,
         layer=layer,
@@ -249,5 +256,6 @@ if __name__ == "__main__":
     # c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
     # c = gf.components.extend_ports(c)
     # c = taper_strip_to_ridge_trenches()
-    c = taper_sc_nc()
+    c = taper()
+    # c = taper_sc_nc()
     c.show()
