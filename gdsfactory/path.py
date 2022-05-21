@@ -210,14 +210,12 @@ def extrude(
     A path can be extruded using any CrossSection returning a Component
     The CrossSection defines the layer numbers, widths and offsetts
 
-    adapted from phidl.path
-
     Args:
-        p: a path is a list of points (arc, straight, euler)
-        cross_section: to extrude
-        layer:
-        width:
-        widths: tuple of starting and end width
+        p: a path is a list of points (arc, straight, euler).
+        cross_section: to extrude.
+        layer: optonal layer to extrude.
+        width: optonal width to extrude.
+        widths: tuple of starting and end width.
         simplify: Tolerance value for the simplification algorithm.
           All points that can be removed without changing the resulting.
           polygon by more than the value listed here will be removed.
@@ -259,6 +257,16 @@ def extrude(
                 port_names=x.port_names,
                 port_types=x.port_types,
             )
+        ]
+
+    if x.cladding_layers and x.cladding_offsets:
+        sections += [
+            Section(
+                width=x.width + 2 * cladding_offset,
+                offset=x.offset,
+                layer=layer,
+            )
+            for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets)
         ]
 
     for section in sections:

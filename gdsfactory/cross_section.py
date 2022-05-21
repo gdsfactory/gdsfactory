@@ -11,6 +11,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import pydantic
 from pydantic import BaseModel, Field
 
+from gdsfactory.add_pins import add_pins_siepic_optical_2nm
 from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
@@ -26,20 +27,21 @@ class CrossSection(BaseModel):
 
     Args:
         layer: main Section layer.
-        width: (um) or function that is parameterized from 0 to 1.
+        width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
-        offset: center offset (um) or function parameterized function from 0 to 1.
+        offset: main Section center offset (um) or function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
         radius: main Section bend radius (um).
-        layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -48,7 +50,7 @@ class CrossSection(BaseModel):
         end_straight_length: end length at the beginning of the route.
         snap_to_grid: can snap points to grid when extruding the path.
         aliases: dict of cross_section aliases.
-        decorator: function when extruding component.
+        decorator: function when extruding component. For example add_pins.
         info: dict with extra settings or useful information.
         name: cross_section name.
     """
@@ -57,13 +59,14 @@ class CrossSection(BaseModel):
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     radius: Optional[float] = None
-    layer_bbox: Optional[Tuple[int, int]] = None
     width_wide: Optional[float] = None
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
     bbox_layers: List[Layer] = Field(default_factory=list)
     bbox_offsets: List[float] = Field(default_factory=list)
+    cladding_layers: Optional[Layers] = ((68, 0),)  # for SiEPIC verification
+    cladding_offsets: Optional[Floats] = (0,)  # for SiEPIC verification
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
@@ -133,16 +136,18 @@ def cross_section(
     snap_to_grid: Optional[float] = None,
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
+    cladding_layers: Optional[Layers] = ((68, 0),),  # for SiEPIC verification
+    cladding_offsets: Optional[Floats] = (0,),  # for SiEPIC verification
     info: Optional[Dict[str, Any]] = None,
     decorator: Optional[Callable] = None,
 ) -> CrossSection:
     """Return CrossSection.
 
     Args:
-        width: (um) or function that is parameterized from 0 to 1.
+        width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
             the width at t==1 is the width at the end.
-        offset: center offset (um) or function parameterized function from 0 to 1.
+        offset: main Section center offset (um) or function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
         layer: main section layer.
@@ -160,6 +165,8 @@ def cross_section(
         snap_to_grid: can snap points to grid when extruding the path.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
         info: settings info.
         decorator: funcion to run when converting path to component.
     """
@@ -173,9 +180,11 @@ def cross_section(
         auto_widen_minimum_length=auto_widen_minimum_length,
         taper_length=taper_length,
         radius=radius,
-        bbox_layers=bbox_layers or [],
-        bbox_offsets=bbox_offsets or [],
-        sections=sections or [],
+        bbox_layers=bbox_layers or (),
+        bbox_offsets=bbox_offsets or (),
+        cladding_layers=cladding_layers,
+        cladding_offsets=cladding_offsets,
+        sections=sections or (),
         min_length=min_length,
         start_straight_length=start_straight_length,
         end_straight_length=end_straight_length,
@@ -798,12 +807,7 @@ def rib_heater_doped_via_stack(
     )
 
 
-# xs_optical = partial(
-#     cross_section, layer_bbox=(68, 0), decorator=add_pins_siepic_optical
-# )
-# strip = partial(cross_section, layer_bbox=(68, 0), decorator=add_pins_siepic_optical)
-
-strip = partial(cross_section)
+strip = partial(cross_section, decorator=add_pins_siepic_optical_2nm)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
 rib = partial(
     strip,
