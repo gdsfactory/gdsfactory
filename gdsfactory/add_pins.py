@@ -404,7 +404,8 @@ def add_bbox_siepic(
     padding: float = 0,
 ) -> Component:
     """Add bounding box device recognition layer."""
-    component.remove_layers(layers=[bbox_layer] + list(remove_layers))
+    bbox_layer = bbox_layer or []
+    component.remove_layers(layers=list(bbox_layer) + list(remove_layers))
     if bbox_layer:
         component.add_padding(default=padding, layers=(bbox_layer,))
     return component

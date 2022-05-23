@@ -17,7 +17,7 @@ def taper(
     port: Optional[Port] = None,
     with_bbox: bool = False,
     with_two_ports: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -122,14 +122,14 @@ def taper_strip_to_ridge(
     Deprecated, use gf.components.taper_cross_section instead
 
     Args:
-        length:
-        width1:
-        width2:
-        w_slab1
-        w_slab2
-        layer_wg:
-        layer_slab:
-        cross_section: for input waveguide
+        length: taper length (um).
+        width1: in um.
+        width2: in um.
+        w_slab1: slab width in um.
+        w_slab2: slab width in um.
+        layer_wg: for input waveguide.
+        layer_slab: for output waveguide with slab.
+        cross_section: for input waveguide.
 
     .. code::
 
@@ -185,6 +185,10 @@ def taper_strip_to_ridge(
         for layer, points in zip(x.bbox_layers, padding):
             c.add_polygon(points, layer=layer)
 
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
@@ -201,13 +205,13 @@ def taper_strip_to_ridge_trenches(
     """Defines taper using trenches to define the etch.
 
     Args:
-        length:
-        width:
-        slab_offset:
-        trench_width:
-        trench_layer:
-        layer_wg:
-        trench_offset: after waveguide
+        length: in um.
+        width: in um.
+        slab_offset: in um.
+        trench_width: in um.
+        trench_layer: trench layer.
+        layer_wg: waveguide layer.
+        trench_offset: after waveguide in um.
 
     """
 
@@ -231,9 +235,9 @@ def taper_strip_to_ridge_trenches(
     c.add_polygon((x, ytt), layer=trench_layer)
     c.add_polygon((x, ytb), layer=trench_layer)
 
-    c.add_port(name="o1", midpoint=[0, 0], width=width, orientation=180, layer=layer_wg)
+    c.add_port(name="o1", midpoint=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
-        name="o2", midpoint=[length, 0], width=width, orientation=0, layer=layer_wg
+        name="o2", midpoint=(length, 0), width=width, orientation=0, layer=layer_wg
     )
 
     return c
@@ -256,7 +260,7 @@ taper_sc_nc = gf.partial(
 
 if __name__ == "__main__":
     # c = taper(width2=1)
-    # c = taper_strip_to_ridge()
+    c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     # c = taper()
@@ -264,6 +268,6 @@ if __name__ == "__main__":
     # c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
     # c = gf.components.extend_ports(c)
     # c = taper_strip_to_ridge_trenches()
-    c = taper()
+    # c = taper()
     # c = taper_sc_nc()
     c.show()
