@@ -24,6 +24,7 @@ from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 
 Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
 nm = 1e-3
 
 
@@ -367,6 +368,7 @@ def add_pins_siepic(
     pin_length: float = 10 * nm,
 ) -> Component:
     """Add pins.
+
     Enables you to run SiEPIC verification tools:
     To Run verification install SiEPIC-tools klayout package
     then hit V shortcut in klayout to run verification
@@ -398,9 +400,11 @@ add_pins_siepic_electrical = partial(
 def add_bbox_siepic(
     component: Component,
     bbox_layer: Optional[Layer] = (68, 0),
+    remove_layers: Layers = (LAYER.PORT, LAYER.PORTE),
     padding: float = 0,
 ) -> Component:
     """Add bounding box device recognition layer."""
+    component.remove_layers(layers=[bbox_layer] + list(remove_layers))
     if bbox_layer:
         component.add_padding(default=padding, layers=(bbox_layer,))
     return component

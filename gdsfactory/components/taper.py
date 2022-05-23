@@ -93,6 +93,11 @@ def taper(
     c.info["length"] = length
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
+
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 

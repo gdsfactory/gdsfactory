@@ -1,12 +1,9 @@
-from typing import Callable
-
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
-from gdsfactory.add_pins import add_pins_bbox_siepic
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Optional
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -21,7 +18,6 @@ def mmi1x2(
     straight: CrossSectionSpec = straight_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
-    add_pins: Optional[Callable] = add_pins_bbox_siepic,
 ) -> Component:
     r"""Mmi 1x2.
 
@@ -35,7 +31,7 @@ def mmi1x2(
         taper: taper function.
         straight: straight function.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: specification (CrossSection, string or dict).
 
 
     .. code::
@@ -73,7 +69,9 @@ def mmi1x2(
     x = gf.get_cross_section(cross_section)
 
     a = gap_mmi / 2 + width_taper / 2
-    mmi = c << straight(length=length_mmi, width=w_mmi, cross_section=cross_section)
+    mmi = c << gf.get_component(
+        straight, length=length_mmi, width=w_mmi, cross_section=cross_section
+    )
 
     ports = [
         gf.Port(
@@ -121,8 +119,10 @@ def mmi1x2(
             c.add_polygon(points, layer=layer)
 
     c.absorb(mmi)
-    if add_pins:
-        c = add_pins(c) or c
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 

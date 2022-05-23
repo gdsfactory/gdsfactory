@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.7.2]
+
+- cross_section has optional add_pins and add_bbox, which can be used for verification.
+    - add `cladding_layers` and `cladding_offset`.
+    - cladding_layers follow path shape, while bbox_layers are rectangular.
+- add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
+
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
 - add cross_section_bot and cross_section_top to mzi, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/402)
