@@ -4,7 +4,6 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
-from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -16,7 +15,7 @@ def fanout2x2(
     bend_length: Optional[float] = None,
     npoints: int = 101,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """returns component with port_spacing.
@@ -28,7 +27,7 @@ def fanout2x2(
         npoints: for sbend.
         select_ports: function to select  optical_ports ports.
         cross_section: cross_section spec.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
     """
 
@@ -76,6 +75,16 @@ def fanout2x2(
             top=offset,
         )
         c.add_polygon(points, layer=layer)
+
+    if x.cladding_layers and x.cladding_offsets:
+        bend.unlock()
+        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
+            bend << bezier(
+                width=width + 2 * offset,
+                control_points=((0, 0), (dx / 2, 0), (dx / 2, dy), (dx, dy)),
+                npoints=npoints,
+                layer=layer,
+            )
     bend.lock()
 
     b_tr = bend.ref(port_id="o1", position=p_e1)

@@ -6,6 +6,8 @@
     - add `cladding_layers` and `cladding_offset`.
     - cladding_layers follow path shape, while bbox_layers are rectangular.
 - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
+- add `with_two_ports` to taper. False for edge couplers and terminators.
+- fix ring_double_heater open in the heater top waveguide.
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
