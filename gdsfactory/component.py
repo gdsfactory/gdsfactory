@@ -453,6 +453,7 @@ class Component(Device):
         Args:
             name: port name.
             midpoint: x, y.
+            width: in um.
             orientation: in deg.
             port: optional port.
             layer: port layer.
@@ -891,6 +892,7 @@ class Component(Device):
         self,
         show_ports: bool = True,
         show_subports: bool = False,
+        port_marker_layer: Layer = (1, 12),
     ) -> None:
         """Show component in klayout.
 
@@ -900,6 +902,7 @@ class Component(Device):
         Args:
             show_ports: shows component with port markers and labels.
             show_subports: add ports markers and labels to references.
+            port_marker_layer: for the ports.
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -908,14 +911,18 @@ class Component(Device):
             component = self.copy(suffix="", cache=False)
             for reference in component.references:
                 try:
-                    add_pins_triangle(component=component, reference=reference)
+                    add_pins_triangle(
+                        component=component,
+                        reference=reference,
+                        layer=port_marker_layer,
+                    )
                 except ValueError:
                     pass
 
         elif show_ports:
             component = self.copy(suffix="", cache=False)
             try:
-                add_pins_triangle(component=component)
+                add_pins_triangle(component=component, layer=port_marker_layer)
             except ValueError:
                 pass
         else:

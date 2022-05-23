@@ -24,13 +24,13 @@ def coupler(
     r"""Symmetric coupler.
 
     Args:
-        gap: between straights.
-        length: of coupling region.
+        gap: between straights in um.
+        length: of coupling region in um.
         coupler_symmetric.
         coupler_straight.
-        dy: port to port vertical spacing.
-        dx: length of bend in x direction.
-        cross_section: factory.
+        dy: port to port vertical spacing in um.
+        dx: length of bend in x direction in um.
+        cross_section: spec (CrossSection, string or dict).
         kwargs: cross_section settings.
 
     .. code::
@@ -76,6 +76,12 @@ def coupler(
     c.info["length"] = sbend.info["length"]
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.auto_rename_ports()
+
+    x = gf.get_cross_section(cross_section, **kwargs)
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 

@@ -72,7 +72,7 @@ def grating_coupler_elliptical_lumerical(
     taper_angle: float = 55,
     taper_length: float = 12.24 + 0.36,
     fiber_angle: float = 5,
-    info: Dict[str, Any] = None,
+    info: Optional[Dict[str, Any]] = None,
     bias_gap: float = 0,
     **kwargs,
 ) -> Component:
@@ -120,6 +120,7 @@ def grating_coupler_elliptical_lumerical(
         fiber_marker_width
         fiber_marker_layer
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
+        cross_section: cross_section spec for waveguide port.
 
     """
     parameters = (

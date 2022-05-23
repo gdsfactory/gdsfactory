@@ -22,11 +22,11 @@ def text(
     """Text shapes.
 
     Args:
-        text:
-        size:
-        position:
-        justify: left, right, center
-        layer:
+        text: string.
+        size: in um.
+        position: x, y position.
+        justify: left, right, center.
+        layer: for the text.
 
     """
     scaling = size / 1000
@@ -74,7 +74,7 @@ def text_lines(
     """Returns the a list of text lines.
 
     Args:
-        text: (gf.CONFIG['repo'][:6],)
+        text: list of strings.
         size: text size.
         layer: text layer.
 
