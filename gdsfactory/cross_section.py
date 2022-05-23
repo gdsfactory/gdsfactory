@@ -11,7 +11,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import pydantic
 from pydantic import BaseModel, Field
 
-from gdsfactory.add_pins import add_pins_siepic_optical_2nm
+from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
 from gdsfactory.tech import TECH, Section
 
 LAYER = TECH.layer
@@ -23,7 +23,9 @@ port_types_electrical = ("electrical", "electrical")
 
 
 class CrossSection(BaseModel):
-    """Extend phidl.device_layout.CrossSection with port_types.
+    """Waveguide information to extrude a path.
+
+    cladding_layers follow path shape, while bbox_layers are rectangular.
 
     Args:
         layer: main Section layer.
@@ -75,6 +77,8 @@ class CrossSection(BaseModel):
     end_straight_length: float = 10e-3
     snap_to_grid: Optional[float] = None
     decorator: Optional[Callable] = None
+    add_pins: Optional[Callable] = (None,)
+    add_bbox: Optional[Callable] = (None,)
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
 
@@ -140,6 +144,8 @@ def cross_section(
     cladding_offsets: Optional[Floats] = (0,),  # for SiEPIC verification
     info: Optional[Dict[str, Any]] = None,
     decorator: Optional[Callable] = None,
+    add_pins: Optional[Callable] = None,
+    add_bbox: Optional[Callable] = None,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -169,6 +175,8 @@ def cross_section(
         cladding_offsets: list of offset from main Section edge.
         info: settings info.
         decorator: funcion to run when converting path to component.
+        add_pins: optional function to add pins to component.
+        add_bbox: optional funcion to add bounding box to component.
     """
 
     return CrossSection(
@@ -193,6 +201,8 @@ def cross_section(
         port_names=port_names,
         info=info or {},
         decorator=decorator,
+        add_bbox=add_bbox,
+        add_pins=add_pins,
     )
 
 
@@ -327,24 +337,26 @@ def pn(
     """Rib PN doped cross_section.
 
     Args:
-        width: width of the ridge
-        layer: ridge llayer
-        layer_slab: slab layer
-        gap_low_doping: from waveguide center to low doping
+        width: width of the ridge in um.
+        layer: ridge layer.
+        layer_slab: slab layer.
+        gap_low_doping: from waveguide center to low doping.
         gap_medium_doping: from waveguide center to medium doping.
-            None removes medium doping
+            None removes medium doping.
         gap_high_doping: from center to high doping. None removes it.
-        width_doping:
-        width_slab:
-        layer_p:
-        layer_pp:
-        layer_ppp:
-        layer_n:
-        layer_np:
-        layer_npp:
+        width_doping: in um.
+        width_slab: in um.
+        layer_p: p doping layer.
+        layer_pp: p+ doping layer.
+        layer_ppp: p++ doping layer.
+        layer_n: n doping layer.
+        layer_np: n+ doping layer.
+        layer_npp: n++ doping layer.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
-        port_names:
+        port_names: for input and output ('o1', 'o2').
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
 
 
     .. code::
@@ -562,6 +574,31 @@ def heater_metal(
     Args:
         width: metal width.
         layer: heater layer.
+
+    Keyword Args:
+        offset: main Section center offset (um) or function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        radius: main Section bend radius (um).
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: can snap points to grid when extruding the path.
+        aliases: dict of cross_section aliases.
+        decorator: function when extruding component. For example add_pins.
+        info: dict with extra settings or useful information.
+        name: cross_section name.
 
 
     """
@@ -807,7 +844,9 @@ def rib_heater_doped_via_stack(
     )
 
 
-strip = partial(cross_section, decorator=add_pins_siepic_optical_2nm)
+strip = partial(
+    cross_section, add_pins=add_pins_siepic_optical_2nm, add_bbox=add_bbox_siepic
+)
 strip_auto_widen = partial(cross_section, width_wide=0.9, auto_widen=True)
 rib = partial(
     strip,

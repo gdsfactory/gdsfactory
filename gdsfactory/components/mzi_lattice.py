@@ -1,6 +1,6 @@
-from functools import partial
 from typing import Tuple
 
+import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler as coupler_function
@@ -20,21 +20,21 @@ def mzi_lattice(
     r"""Mzi lattice filter.
 
     Args:
-        coupler_lengths: list of length for each coupler
-        coupler_gaps: list of coupler gaps
-        delta_lengths: list of length differences
-        mzi: function for the mzi
-        splitter: splitter function
+        coupler_lengths: list of length for each coupler.
+        coupler_gaps: list of coupler gaps.
+        delta_lengths: list of length differences.
+        mzi: function for the mzi.
+        splitter: splitter function.
 
     keyword Args:
-        length_y: vertical length for both and top arms
-        length_x: horizontal length
-        bend: 90 degrees bend library
-        straight: straight function
-        straight_y: straight for length_y and delta_length
-        straight_x_top: top straight for length_x
-        straight_x_bot: bottom straight for length_x
-        cross_section: for routing (sxtop/sxbot to combiner)
+        length_y: vertical length for both and top arms.
+        length_x: horizontal length.
+        bend: 90 degrees bend library.
+        straight: straight function.
+        straight_y: straight for length_y and delta_length.
+        straight_x_top: top straight for length_x.
+        straight_x_bot: bottom straight for length_x.
+        cross_section: for routing (sxtop/sxbot to combiner).
 
     .. code::
 
@@ -58,12 +58,11 @@ def mzi_lattice(
     splitter_settings = dict(gap=coupler_gaps[0], length=coupler_lengths[0])
     combiner_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
 
-    splitter1 = partial(splitter, **splitter_settings)
-    combiner1 = partial(splitter, **combiner_settings)
+    cp1 = splitter1 = gf.get_component(splitter, **splitter_settings)
+    combiner1 = gf.get_component(splitter, **combiner_settings)
 
-    cp1 = splitter1()
-
-    sprevious = c << mzi(
+    sprevious = c << gf.get_component(
+        mzi,
         splitter=splitter1,
         combiner=combiner1,
         with_splitter=True,
@@ -80,10 +79,11 @@ def mzi_lattice(
 
         splitter_settings = dict(gap=coupler_gaps[1], length=coupler_lengths[1])
         combiner_settings = dict(length=length, gap=gap)
-        splitter1 = partial(splitter, **splitter_settings)
-        combiner1 = partial(splitter, **combiner_settings)
+        splitter1 = gf.get_component(splitter, **splitter_settings)
+        combiner1 = gf.get_component(splitter, **combiner_settings)
 
-        stage = c << mzi(
+        stage = c << gf.get_component(
+            mzi,
             splitter=splitter1,
             combiner=combiner1,
             with_splitter=False,

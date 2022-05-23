@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import DEG2RAD, extrude_path
 from gdsfactory.tech import LAYER
-from gdsfactory.types import Layer
+from gdsfactory.types import CrossSectionSpec, Layer
 
 
 def ellipse_arc(
@@ -25,8 +25,12 @@ def ellipse_arc(
     An ellipse with a = b has zero eccentricity (is a circle)
 
     Args:
-        a: ellipse semi-major axis
-        b: semi-minor axis
+        a: ellipse semi-major axis.
+        b: semi-minor axis.
+        x0: in um.
+        theta_min: in rad.
+        theta_max: in rad.
+        angle_step: in rad.
 
     """
     theta = np.arange(theta_min, theta_max + angle_step, angle_step) * DEG2RAD
@@ -82,10 +86,8 @@ def grating_coupler_elliptical(
     wavelength: float = 1.554,
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
-    wg_width: float = 0.5,
     neff: float = 2.638,  # tooth effective index
     nclad: float = 1.443,
-    layer: Tuple[int, int] = LAYER.WG,
     n_periods: int = 30,
     big_last_tooth: bool = False,
     layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
@@ -94,29 +96,30 @@ def grating_coupler_elliptical(
     fiber_marker_width: Optional[float] = 11.0,
     fiber_marker_layer: Layer = gf.LAYER.TE,
     spiked: bool = True,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     r"""Grating coupler with parametrization based on Lumerical FDTD simulation.
 
     Args:
-        polarization: te or tm
-        taper_length: taper length from input
-        taper_angle: grating flare angle
-        wavelength: grating transmission central wavelength (um)
-        fiber_angle: fibre angle in degrees determines ellipticity
-        grating_line_width
-        wg_width: waveguide width
-        neff: tooth effective index
-        nclad: cladding effective index
-        layer: LAYER.WG
-        n_periods: number of periods
-        big_last_tooth: adds a big_last_tooth
-        layer_slab: layer that protects the slab under the grating
-        slab_xmin: where 0 is at the start of the taper
-        slab_offset:
-        fiber_marker_width: width
+        polarization: te or tm.
+        taper_length: taper length from input.
+        taper_angle: grating flare angle.
+        wavelength: grating transmission central wavelength (um).
+        fiber_angle: fibre angle in degrees determines ellipticity.
+        grating_line_width: in um.
+        neff: tooth effective index.
+        nclad: cladding effective index.
+        n_periods: number of periods.
+        big_last_tooth: adds a big_last_tooth.
+        layer_slab: layer that protects the slab under the grating.
+        slab_xmin: where 0 is at the start of the taper.
+        slab_offset: in um.
+        fiber_marker_width: width in um.
         fiber_marker_layer: fiber marker layer.
         spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
-
+        cross_section: specification (CrossSection, string or dict).
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -130,6 +133,10 @@ def grating_coupler_elliptical(
             o1  ______________|
 
     """
+    xs = gf.get_cross_section(cross_section, **kwargs)
+
+    wg_width = xs.width
+    layer = xs.layer
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
@@ -207,10 +214,9 @@ def grating_coupler_elliptical(
         circle_ref.movex(x + fiber_marker_width / 2)
 
     name = f"vertical_{polarization.lower()}"
-
     c.add_port(
         name=name,
-        midpoint=[x + fiber_marker_width / 2, 0],
+        midpoint=(x + fiber_marker_width / 2, 0),
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
@@ -218,7 +224,7 @@ def grating_coupler_elliptical(
     )
 
     c.add_port(
-        name="o1", midpoint=[x_output, 0], width=wg_width, orientation=180, layer=layer
+        name="o1", midpoint=(x_output, 0), width=wg_width, orientation=180, layer=layer
     )
 
     if layer_slab:
@@ -235,6 +241,10 @@ def grating_coupler_elliptical(
             layer_slab,
         )
 
+    if xs.add_bbox:
+        c = xs.add_bbox(c)
+    if xs.add_pins:
+        c = xs.add_pins(c)
     return c
 
 
@@ -255,11 +265,12 @@ grating_coupler_elliptical_te = grating_coupler_elliptical
 
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_tm(taper_length=30)
-    # c = grating_coupler_elliptical_te(layer_slab=None, with_fiber_marker=False)
-    c = grating_coupler_elliptical(layer=(2, 0), taper_length=50, slab_xmin=-5)
+    c = grating_coupler_elliptical_te(cladding_layers=((2, 0), (3, 0)))
+    # c = grating_coupler_elliptical(layer=(2, 0), taper_length=50, slab_xmin=-5)
     # print(c.polarization)
     # print(c.wavelength)
     # print(c.ports)
     # c.pprint()
-    c = gf.c.extend_ports(c)
-    c.show()
+    # c = gf.c.extend_ports(c)
+    # c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical, with_loopback=False)
+    c.show(show_ports=True)
