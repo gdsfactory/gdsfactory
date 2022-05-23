@@ -1,14 +1,25 @@
-name: bend_euler_6d2857bb
+name: bend_euler_da1f7fd0
 settings:
   changed:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -30,11 +41,22 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -54,5 +76,5 @@ settings:
     radius_min: 7.061
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_6d2857bb
+  name: bend_euler_da1f7fd0
 version: 0.0.1

@@ -5,10 +5,9 @@ settings:
   child: null
   default:
     cross_section: null
-    cross_section_heater:
-      function: strip_heater_metal
-    cross_section_heater_undercut:
-      function: strip_heater_metal_undercut
+    cross_section_heater: heater_metal
+    cross_section_heater_undercut: straight_heater_metal_undercut
+    cross_section_waveguide_heater: strip_heater_metal
     heater_taper_length: 5
     heater_width: 2.5
     length: 320
@@ -43,10 +42,9 @@ settings:
     with_undercut: true
   full:
     cross_section: null
-    cross_section_heater:
-      function: strip_heater_metal
-    cross_section_heater_undercut:
-      function: strip_heater_metal_undercut
+    cross_section_heater: heater_metal
+    cross_section_heater_undercut: straight_heater_metal_undercut
+    cross_section_waveguide_heater: strip_heater_metal
     heater_taper_length: 5
     heater_width: 2.5
     length: 320

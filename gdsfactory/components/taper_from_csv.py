@@ -3,13 +3,13 @@
 import pathlib
 from functools import partial
 from pathlib import Path
-from typing import Tuple
 
 import numpy as np
 import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import CrossSectionSpec
 
 data = pathlib.Path(__file__).parent / "csv_data"
 
@@ -17,36 +17,45 @@ data = pathlib.Path(__file__).parent / "csv_data"
 @gf.cell
 def taper_from_csv(
     filepath: Path = data / "taper_strip_0p5_3_36.csv",
-    layer: Tuple[int, int] = (1, 0),
-    layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
-    cladding_offset: float = 3.0,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """Returns taper from CSV file.
 
     Args:
         filepath: for CSV file.
-        layer: for taper.
-        layer_cladding: for cladding.
-        cladding_offset: in um.
+        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
 
     """
     taper_data = pd.read_csv(filepath)
     xs = taper_data["x"].values * 1e6
     ys = np.round(taper_data["width"].values * 1e6 / 2.0, 3)
-    ys_trench = ys + cladding_offset
+
+    x = gf.get_cross_section(cross_section)
+    layer = x.layer
 
     c = gf.Component()
     c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
-    c.add_polygon(
-        list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1], layer=layer_cladding
-    )
 
     c.add_port(
-        name="o1", midpoint=(xs[0], 0), width=2 * ys[0], orientation=180, layer=layer
+        name="o1",
+        midpoint=(xs[0], 0),
+        width=2 * ys[0],
+        orientation=180,
+        layer=layer,
+        cross_section=x,
     )
     c.add_port(
-        name="o2", midpoint=(xs[-1], 0), width=2 * ys[-1], orientation=0, layer=layer
+        name="o2",
+        midpoint=(xs[-1], 0),
+        width=2 * ys[-1],
+        orientation=0,
+        layer=layer,
+        cross_section=x,
     )
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 

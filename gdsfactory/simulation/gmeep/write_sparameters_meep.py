@@ -217,22 +217,22 @@ def write_sparameters_meep(
 
     Args:
         component: to simulate.
-        resolution: in pixels/um (30: for coarse, 100: for fine)
-        port_symmetries: Dict to specify port symmetries, to save number of simulations
-        dirpath: directory to store Sparameters
-        layer_stack: LayerStack class
-        port_margin: margin on each side of the port
-        port_monitor_offset: offset between monitor Component port and monitor MEEP port
-        port_source_offset: offset between source Component port and source MEEP port
+        resolution: in pixels/um (30: for coarse, 100: for fine).
+        port_symmetries: Dict to specify port symmetries, to save number of simulations.
+        dirpath: directory to store Sparameters.
+        layer_stack: LayerStack class.
+        port_margin: margin on each side of the port.
+        port_monitor_offset: offset between monitor Component port and monitor MEEP port.
+        port_source_offset: offset between source Component port and source MEEP port.
         filepath: to store pandas Dataframe with Sparameters in CSV format.
-            Defaults to dirpath/component_.csv
+            Defaults to dirpath/component_.csv.
         overwrite: overwrites stored Sparameter CSV results.
         animate: saves a MP4 images of the simulation for inspection, and also
-            outputs during computation. The name of the file is the source index
+            outputs during computation. The name of the file is the source index.
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
-            perform the simulations with different sources in parallel
-        run: runs simulation, if False, only plots simulation
-        dispersive: use dispersive models for materials (requires higher resolution)
+            perform the simulations with different sources in parallel.
+        run: runs simulation, if False, only plots simulation.
+        dispersive: use dispersive models for materials (requires higher resolution).
         xmargin: left and right distance from component to PML.
         xmargin_left: west distance from component to PML.
         xmargin_right: east distance from component to PML.
@@ -243,20 +243,20 @@ def write_sparameters_meep(
     keyword Args:
         extend_ports_length: to extend ports beyond the PML (um).
         zmargin_top: thickness for cladding above core (um).
-        zmargin_bot: thickness for cladding below core (um)
+        zmargin_bot: thickness for cladding below core (um).
         tpml: PML thickness (um).
         clad_material: material for cladding.
-        is_3d: if True runs in 3D
+        is_3d: if True runs in 3D (much slower).
         wavelength_start: wavelength min (um).
         wavelength_stop: wavelength max (um).
-        wavelength_points: wavelength steps
-        dfcen: delta frequency
-        port_source_name: input port name
+        wavelength_points: wavelength steps.
+        dfcen: delta frequency.
+        port_source_name: input port name.
         port_field_monitor_name:
         port_margin: margin on each side of the port (um).
         distance_source_to_monitors: in (um).
-        port_source_offset: offset between source Component port and source MEEP port
-        port_monitor_offset: offset between monitor Component port and monitor MEEP port
+        port_source_offset: offset between source Component port and source MEEP port.
+        port_monitor_offset: offset between monitor Component port and monitor MEEP port.
         material_name_to_meep: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with meep material database names.
 

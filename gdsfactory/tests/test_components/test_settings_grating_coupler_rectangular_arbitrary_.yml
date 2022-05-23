@@ -3,6 +3,7 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: strip
     fiber_marker_layer:
     - 203
     - 0
@@ -17,9 +18,6 @@ settings:
     - 0.2
     - 0.2
     - 0.2
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -30,7 +28,6 @@ settings:
     taper:
       function: taper
     wavelength: 1.55
-    wg_width: 0.5
     width_grating: 11
     widths:
     - 0.5
@@ -44,6 +41,7 @@ settings:
     - 0.5
     - 0.5
   full:
+    cross_section: strip
     fiber_marker_layer:
     - 203
     - 0
@@ -58,9 +56,6 @@ settings:
     - 0.2
     - 0.2
     - 0.2
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -71,7 +66,6 @@ settings:
     taper:
       function: taper
     wavelength: 1.55
-    wg_width: 0.5
     width_grating: 11
     widths:
     - 0.5

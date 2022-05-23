@@ -1,4 +1,4 @@
-name: mzi_89c0cb48
+name: mzi_f2dac1ab
 settings:
   changed:
     bend:
@@ -7,11 +7,22 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
@@ -22,11 +33,22 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -39,11 +61,22 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
@@ -58,11 +91,22 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
@@ -77,7 +121,18 @@ settings:
     combiner: null
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10
@@ -103,11 +158,22 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
@@ -119,11 +185,22 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -146,11 +223,22 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
@@ -165,11 +253,22 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
@@ -185,5 +284,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_89c0cb48
+  name: mzi_f2dac1ab
 version: 0.0.1
