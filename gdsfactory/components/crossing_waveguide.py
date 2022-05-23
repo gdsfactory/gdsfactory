@@ -14,7 +14,6 @@ from gdsfactory.components.bezier import (
 )
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
-from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
 from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Layer
@@ -27,20 +26,20 @@ def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
 
 @cell
 def crossing_arm(
-    width: float = 0.5,
     r1: float = 3.0,
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
-    layer_wg: Layer = LAYER.WG,
     layer_slab: Layer = LAYER.SLAB150,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """arm of a crossing"""
     c = Component()
     c << ellipse(radii=(r1, r2), layer=layer_slab)
 
-    xs = cross_section()
+    xs = gf.get_cross_section(cross_section)
+    width = xs.width
+    layer_wg = xs.layer
 
     a = np.round(L + w / 2, 3)
     h = width / 2
@@ -79,22 +78,36 @@ def crossing_arm(
 
 
 @cell
-def crossing(arm: ComponentSpec = crossing_arm) -> Component:
-    """Waveguide crossing"""
-    cx = Component()
+def crossing(
+    arm: ComponentSpec = crossing_arm,
+    cross_section: CrossSectionSpec = "strip",
+) -> Component:
+    """Waveguide crossing.
+
+    Args:
+        arm: arm spec.
+        cross_section: spec.
+
+    """
+    x = gf.get_cross_section(cross_section)
+    c = Component()
     arm = gf.get_component(arm)
     arm_h = arm.ref()
     arm_v = arm.ref(rotation=90)
 
     port_id = 0
-    for c in [arm_h, arm_v]:
-        cx.add(c)
-        cx.absorb(c)
-        for p in c.ports.values():
-            cx.add_port(name=port_id, port=p)
+    for i in [arm_h, arm_v]:
+        c.add(i)
+        c.absorb(i)
+        for p in i.ports.values():
+            c.add_port(name=port_id, port=p)
             port_id += 1
-    cx.auto_rename_ports()
-    return cx
+    c.auto_rename_ports()
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
+    return c
 
 
 @cell
@@ -187,20 +200,21 @@ def crossing45(
     dx: Optional[float] = None,
     alpha: float = 0.08,
     npoints: int = 101,
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     r"""Returns 45deg crossing with bends.
 
     Args:
-        crossing: crossing function
-        port_spacing: target I/O port spacing
-        dx: target length
+        crossing: crossing function.
+        port_spacing: target I/O port spacing.
+        dx: target length.
         alpha: optimization parameter. diminish it for tight bends,
           increase it if raises assertion angle errors
         npoints: number of points.
 
 
-    Implementation note: The 45 Degree crossing CANNOT be kept as an SRef since
-    we only allow for multiples of 90Deg rotations in SRef
+    The 45 Degree crossing CANNOT be kept as an SRef since
+    we only allow for multiples of 90Deg rotations in SRef.
 
     .. code::
 
@@ -272,21 +286,29 @@ def crossing45(
     c.add_port("o3", port=b_tr.ports["o2"])
     c.add_port("o4", port=b_br.ports["o2"])
     c.snap_ports_to_grid()
+
+    x = gf.get_cross_section(cross_section)
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
 @cell
 def compensation_path(
-    crossing45: ComponentSpec = crossing45, direction: str = "top"
+    crossing45: ComponentSpec = crossing45,
+    direction: str = "top",
+    cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    r"""Returns Component Path with same path length as the crossing
+    r"""Returns Component Path with same path length as the crossing.
 
     with input and output ports having same y coordinates
 
     Args:
-        crossing45: component that we want to match in path length
-            needs to have .info["components"] with bends and crossing
-        direction: the direction in which the bend should go "top" / "bottom"
+        crossing45: component that we want to match in path length.
+            needs to have .info["components"] with bends and crossing.
+        direction: the direction in which the bend should go "top" / "bottom".
 
 
     .. code::
@@ -311,6 +333,8 @@ def compensation_path(
 
 
     """
+    x = gf.get_cross_section(cross_section)
+
     # Get total path length taken by the bends
     crossing45 = gf.get_component(crossing45)
     bezier_length = crossing45.info["bezier_length"]
@@ -379,6 +403,11 @@ def compensation_path(
 
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.info["sbend"] = sbend.info
+
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
