@@ -21,7 +21,8 @@ def ring_double_heater(
     coupler_ring: ComponentSpec = coupler_ring_function,
     straight: ComponentSpec = straight_function,
     bend: Optional[ComponentSpec] = None,
-    cross_section_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
+    cross_section_heater: CrossSectionSpec = gf.cross_section.heater_metal,
+    cross_section_waveguide_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionSpec = strip,
     via_stack: gf.types.ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: float = 90,
@@ -42,6 +43,7 @@ def ring_double_heater(
         straight: straight spec.
         bend: bend spec.
         cross_section_heater: for heater.
+        cross_section_waveguide_heater: for waveguide with heater.
         cross_section: for regular waveguide.
         via_stack: for heater to routing metal.
         port_orientation: for electrical ports to promote from via_stack.
@@ -68,11 +70,14 @@ def ring_double_heater(
         length_x=length_x,
         bend=bend,
         cross_section=cross_section,
-        bend_cross_section=cross_section_heater,
+        bend_cross_section=cross_section_waveguide_heater,
         **kwargs
     )
     straight_component = gf.get_component(
-        straight, length=length_y, cross_section=cross_section_heater, **kwargs
+        straight,
+        length=length_y,
+        cross_section=cross_section_waveguide_heater,
+        **kwargs
     )
 
     c = Component()
@@ -98,12 +103,20 @@ def ring_double_heater(
     c2.movey(via_stack_offset[1])
     c.add_ports(c1.get_ports_list(orientation=port_orientation), prefix="e1")
     c.add_ports(c2.get_ports_list(orientation=port_orientation), prefix="e2")
+
+    heater_top = c << gf.get_component(
+        straight,
+        length=length_x,
+        cross_section=cross_section_heater,
+    )
+    heater_top.connect("o1", ct.ports["e1"])
+
     c.auto_rename_ports()
     return c
 
 
 if __name__ == "__main__":
-
-    c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
-    c.show(show_subports=False)
-    c.pprint()
+    # c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
+    c = ring_double_heater(length_x=5)
+    c.show()
+    # c.pprint()

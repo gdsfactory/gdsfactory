@@ -16,6 +16,7 @@ def taper(
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_bbox: bool = False,
+    with_two_ports: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
@@ -29,6 +30,7 @@ def taper(
         width2: width of the east port.
         port: can taper from a port instead of defining width1.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        with_two_ports: includes a second port. False for terminator or fiber edge coupler.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
@@ -67,14 +69,15 @@ def taper(
         layer=layer,
         cross_section=x1,
     )
-    c.add_port(
-        name="o2",
-        midpoint=(length, 0),
-        width=width2,
-        orientation=0,
-        layer=layer,
-        cross_section=x2,
-    )
+    if with_two_ports:
+        c.add_port(
+            name="o2",
+            midpoint=(length, 0),
+            width=width2,
+            orientation=0,
+            layer=layer,
+            cross_section=x2,
+        )
 
     if with_bbox and length:
         padding = []
