@@ -4,6 +4,7 @@ settings:
   child: null
   default:
     alpha: 0.08
+    cross_section: strip
     crossing:
       function: crossing
     dx: null
@@ -11,6 +12,7 @@ settings:
     port_spacing: 40
   full:
     alpha: 0.08
+    cross_section: strip
     crossing:
       function: crossing
     dx: null

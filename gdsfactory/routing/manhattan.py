@@ -1031,7 +1031,7 @@ def route_manhattan(
 def test_manhattan() -> Component:
     top_cell = Component()
 
-    layer = (2, 0)
+    layer = (1, 0)
 
     inputs = [
         Port("in1", midpoint=(10, 5), width=0.5, orientation=90, layer=layer),

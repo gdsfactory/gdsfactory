@@ -3,6 +3,7 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: strip
     end_straight_length: 0.2
     fiber_angle: 15
     fiber_marker_layer:
@@ -10,9 +11,6 @@ settings:
     - 0
     fiber_marker_width: 11
     grating_line_width: 0.343
-    layer:
-    - 1
-    - 0
     layer_trench:
     - 2
     - 0
@@ -25,8 +23,8 @@ settings:
     taper_length: 16.6
     trenches_extra_angle: 9
     wavelength: 1.53
-    wg_width: 0.5
   full:
+    cross_section: strip
     end_straight_length: 0.2
     fiber_angle: 15
     fiber_marker_layer:
@@ -34,9 +32,6 @@ settings:
     - 0
     fiber_marker_width: 11
     grating_line_width: 0.343
-    layer:
-    - 1
-    - 0
     layer_trench:
     - 2
     - 0
@@ -49,7 +44,6 @@ settings:
     taper_length: 16.6
     trenches_extra_angle: 9
     wavelength: 1.53
-    wg_width: 0.5
   function_name: grating_coupler_elliptical_trenches
   info:
     period: 0.6759999999999999

@@ -1,14 +1,25 @@
-name: straight_6d2857bb
+name: straight_da1f7fd0
 settings:
   changed:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -20,7 +31,18 @@ settings:
   default:
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     length: 10
     npoints: 2
     with_bbox: false
@@ -28,11 +50,22 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -48,5 +81,5 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_6d2857bb
+  name: straight_da1f7fd0
 version: 0.0.1

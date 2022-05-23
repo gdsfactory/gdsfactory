@@ -218,7 +218,7 @@ strip = partial(
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 rib = partial(
     strip,
-    sections=[Section(width=6, layer=LAYER.SLAB90, name="slab")],
+    sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),),
     bbox_layers=[LAYER.SLAB90],
     bbox_offsets=[3],
 )

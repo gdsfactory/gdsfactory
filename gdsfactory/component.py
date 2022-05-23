@@ -1232,6 +1232,9 @@ def test_get_layers() -> Device:
         bbox_layers=[(111, 0)],
         bbox_offsets=[3],
         with_bbox=True,
+        cladding_layers=None,
+        add_pins=None,
+        add_bbox=None,
     )
     assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
     c.remove_layers((111, 0))
@@ -1330,6 +1333,9 @@ def test_extract() -> None:
         bbox_layers=[gf.LAYER.WGCLAD],
         bbox_offsets=[0],
         with_bbox=True,
+        cladding_layers=None,
+        add_pins=None,
+        add_bbox=None,
     )
     c2 = c.extract(layers=[gf.LAYER.WGCLAD])
 
@@ -1363,23 +1369,19 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # c = gf.Component("demo")
+    # c2 = gf.components.mmi1x2()
+    # c2.unlock()
+    # c2.add_label(text="a")
 
-    c = gf.Component("demo")
-
-    c2 = gf.components.mmi1x2()
-    c2.unlock()
-    c2.add_label(text="a")
-
-    ref = c << c2
-    ref.rotate(90)
-    print(c.get_labels())
-    c.show()
-    # [Label("a", (0.0, 0.0), None, None, False, 10, 0)]
+    # ref = c << c2
+    # ref.rotate(90)
+    # print(c.get_labels())
 
     # test_extract()
-    # c = test_get_layers()
-    # c.show()
+    c = test_get_layers()
+    c.show()
 
     # test_bbox_reference()
     # test_bbox_component()

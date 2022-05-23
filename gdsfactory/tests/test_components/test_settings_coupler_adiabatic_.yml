@@ -3,6 +3,7 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: strip
     direction: EAST
     dw: 0.1
     input_wg_sep: 3
@@ -17,6 +18,7 @@ settings:
       function: strip
     wg_sep: 1
   full:
+    cross_section: strip
     direction: EAST
     dw: 0.1
     input_wg_sep: 3
