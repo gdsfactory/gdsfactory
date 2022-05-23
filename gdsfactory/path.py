@@ -191,7 +191,11 @@ def transition(
             sections.append(s)
 
     return Transition(
-        cross_section1=X1, cross_section2=X2, width_type=width_type, sections=sections
+        cross_section1=X1,
+        cross_section2=X2,
+        width_type=width_type,
+        sections=sections,
+        width=max([X1.width, X2.width]),
     )
 
 

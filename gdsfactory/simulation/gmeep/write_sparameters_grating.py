@@ -52,21 +52,21 @@ def write_sparameters_grating(
     """Write sparameter simulation results from grating coupler with fiber.
 
     Args:
-        plot: plot simulation (do not run)
-        plot_contour:
-        animate:
-        overwrite: overwrites simulation if found
-        dirpath: directory path
-        decay_by: field decay to stop simulation
-        verbosity:
-        ncores:
+        plot: plot simulation (do not run).
+        plot_contour: show contours.
+        animate: create animation.
+        overwrite: overwrites simulation if found.
+        dirpath: directory path.
+        decay_by: field decay to stop simulation.
+        verbosity: print messages.
+        ncores: number of cores.
 
     Keyword Args:
-        period: fiber grating period
-        fill_factor:
-        n_periods: number of periods
-        widths: Optional list of widths. Overrides period, fill_factor, n_periods
-        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods
+        period: fiber grating period in um.
+        fill_factor: high/period.
+        n_periods: number of periods.
+        widths: Optional list of widths. Overrides period, fill_factor, n_periods.
+        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods.
         etch_depth: grating etch depth
         fiber_angle_deg: fiber angle in degrees
         fiber_xposition: xposition
@@ -81,17 +81,17 @@ def write_sparameters_grating(
         substrate_thickness: substrate_thickness (um)
         box_thickness: thickness for bottom cladding (um)
         core_thickness: core_thickness (um)
-        top_clad_thickness: float = 2.0,
-        air_gap_thickness: float = 1.0,
-        fiber_thickness: float = 2.0,
-        resolution: resolution pixels/um
-        wavelength_min: min wavelength (um)
-        wavelength_max: max wavelength (um)
+        top_clad_thickness: float = 2.0.
+        air_gap_thickness: float = 1.0.
+        fiber_thickness: float = 2.0.
+        resolution: resolution pixels/um.
+        wavelength_min: min wavelength (um).
+        wavelength_max: max wavelength (um).
         wavelength_points: wavelength points.
         eps_averaging: epsilon averaging.
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
-        waveguide_port_x_offset_from_grating_start:
-        fiber_port_x_size:
+        waveguide_port_x_offset_from_grating_start: in um.
+        fiber_port_x_size: in um.
     """
     mp.verbosity(verbosity)
 
@@ -234,11 +234,12 @@ def write_sparameters_grating_mpi(
     Returns the subprocess Popen object
 
     Args
-        instances (Dict): The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores (int): number of processors
-        temp_dir (FilePath): temporary directory to hold simulation files
-        temp_file_str (str): names of temporary files in temp_dir
-        verbosity (bool): progress messages
+        instances: keys are parameters names of write_sparameters_meep,
+            and entries the values.
+        cores (int): number of processors.
+        temp_dir (FilePath): temporary directory to hold simulation files.
+        temp_file_str (str): names of temporary files in temp_dir.
+        verbosity (bool): progress messages.
     """
 
     # Save the component object to simulation for later retrieval

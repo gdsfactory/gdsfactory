@@ -1,14 +1,25 @@
-name: mmi1x2_62e69d12
+name: mmi1x2_f0983cf7
 settings:
   changed:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -35,11 +46,22 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
@@ -61,5 +83,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_62e69d12
+  name: mmi1x2_f0983cf7
 version: 0.0.1

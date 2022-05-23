@@ -1,8 +1,8 @@
-name: straight_373b1ebb_add_t_1130d2b7
+name: straight_373b1ebb_add_t_7e25fa69
 settings:
   changed:
     component:
-      name: straight_373b1ebb_add_t_96dd4fc5
+      name: straight_373b1ebb_add_t_67afb5dd
       settings:
         changed:
           component:
@@ -15,14 +15,36 @@ settings:
               default:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 20
                 npoints: 2
                 width: 2
@@ -43,14 +65,36 @@ settings:
           default:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 10
             npoints: 2
             with_bbox: false
           full:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 20
             npoints: 2
             width: 2
@@ -82,14 +126,36 @@ settings:
               default:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 20
                 npoints: 2
                 width: 2
@@ -114,7 +180,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_96dd4fc5
+        name: straight_373b1ebb_add_t_67afb5dd
       version: 0.0.1
     optical_routing_type: 0
   child:
@@ -129,14 +195,36 @@ settings:
           default:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 10
             npoints: 2
             with_bbox: false
           full:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 20
             npoints: 2
             width: 2
@@ -157,14 +245,36 @@ settings:
       default:
         cross_section:
           function: cross_section
-          settings: {}
+          settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
         length: 10
         npoints: 2
         with_bbox: false
       full:
         cross_section:
           function: cross_section
-          settings: {}
+          settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins_siepic
+              settings:
+                pin_length: 0.002
+            cladding_layers:
+            - - 68
+              - 0
+            cladding_offsets:
+            - 0
         length: 20
         npoints: 2
         width: 2
@@ -196,14 +306,36 @@ settings:
           default:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 10
             npoints: 2
             with_bbox: false
           full:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 20
             npoints: 2
             width: 2
@@ -228,14 +360,25 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_96dd4fc5
+    name: straight_373b1ebb_add_t_67afb5dd
   default:
     bend: bend_euler
     component: mmi2x2
     component_name: null
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -257,7 +400,7 @@ settings:
   full:
     bend: bend_euler
     component:
-      name: straight_373b1ebb_add_t_96dd4fc5
+      name: straight_373b1ebb_add_t_67afb5dd
       settings:
         changed:
           component:
@@ -270,14 +413,36 @@ settings:
               default:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 20
                 npoints: 2
                 width: 2
@@ -298,14 +463,36 @@ settings:
           default:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 10
             npoints: 2
             with_bbox: false
           full:
             cross_section:
               function: cross_section
-              settings: {}
+              settings:
+                add_bbox:
+                  function: add_bbox_siepic
+                add_pins:
+                  function: add_pins_siepic
+                  settings:
+                    pin_length: 0.002
+                cladding_layers:
+                - - 68
+                  - 0
+                cladding_offsets:
+                - 0
             length: 20
             npoints: 2
             width: 2
@@ -337,14 +524,36 @@ settings:
               default:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
                 cross_section:
                   function: cross_section
-                  settings: {}
+                  settings:
+                    add_bbox:
+                      function: add_bbox_siepic
+                    add_pins:
+                      function: add_pins_siepic
+                      settings:
+                        pin_length: 0.002
+                    cladding_layers:
+                    - - 68
+                      - 0
+                    cladding_offsets:
+                    - 0
                 length: 20
                 npoints: 2
                 width: 2
@@ -369,12 +578,23 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_96dd4fc5
+        name: straight_373b1ebb_add_t_67afb5dd
       version: 0.0.1
     component_name: null
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -398,5 +618,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_1130d2b7
+  name: straight_373b1ebb_add_t_7e25fa69
 version: 0.0.1

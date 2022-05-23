@@ -16,7 +16,7 @@ def straight_heater_metal_undercut(
     heater_width: float = 2.5,
     cross_section_heater: CrossSectionSpec = "heater_metal",
     cross_section_waveguide_heater: CrossSectionSpec = "strip_heater_metal",
-    cross_section_heater_undercut: CrossSectionSpec = "straight_heater_metal_undercut",
+    cross_section_heater_undercut: CrossSectionSpec = "strip_heater_metal_undercut",
     with_undercut: bool = True,
     via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
     port_orientation1: int = 180,
@@ -154,7 +154,9 @@ if __name__ == "__main__":
     # c = straight_heater_metal_undercut()
     # print(c.ports['o2'].midpoint[0])
     # c.pprint_ports()
-    c = straight_heater_metal(heater_width=5, length=50.0)
+    # c = straight_heater_metal(heater_width=5, length=50.0)
+
+    c = straight_heater_metal_undercut()
     c.show()
     # scene = gf.to_trimesh(c, layer_set=gf.layers.LAYER_SET)
     # scene.show()

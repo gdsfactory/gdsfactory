@@ -7,10 +7,32 @@ settings:
       function: bend_euler
     cross_section_inner:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     cross_section_outer:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     gap: 0.2
     radius: 10
   full:
@@ -18,10 +40,32 @@ settings:
       function: bend_euler
     cross_section_inner:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     cross_section_outer:
       function: cross_section
-      settings: {}
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     gap: 0.2
     radius: 10
   function_name: coupler90bend
