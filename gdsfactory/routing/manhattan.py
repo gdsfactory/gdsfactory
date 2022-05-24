@@ -1054,7 +1054,6 @@ def test_manhattan() -> Component:
     lengths = [349.974]
 
     for input_port, output_port, length in zip(inputs, outputs, lengths):
-
         # input_port = Port("input_port", (10,5), 0.5, 90)
         # output_port = Port("output_port", (90,-60), 0.5, 180)
         # bend = bend_circular(radius=5.0)
@@ -1064,7 +1063,7 @@ def test_manhattan() -> Component:
             output_port=output_port,
             straight=straight_function,
             radius=5.0,
-            auto_widen=True,
+            # auto_widen=True,
             width_wide=2,
             layer=layer
             # width=0.2,
