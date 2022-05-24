@@ -29,7 +29,7 @@ def mmi1x2(
         taper: taper function.
         straight: straight function.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: specification (CrossSection, string or dict).
 
 
     .. code::
@@ -77,6 +77,7 @@ def mmi1x2(
             orientation=180,
             midpoint=(0, 0),
             width=w_taper,
+            layer=x.layer,
             cross_section=x,
         ),
         gf.Port(
@@ -84,6 +85,7 @@ def mmi1x2(
             orientation=0,
             midpoint=(+length_mmi, +a),
             width=w_taper,
+            layer=x.layer,
             cross_section=x,
         ),
         gf.Port(
@@ -91,6 +93,7 @@ def mmi1x2(
             orientation=0,
             midpoint=(+length_mmi, -a),
             width=w_taper,
+            layer=x.layer,
             cross_section=x,
         ),
     ]
@@ -102,7 +105,6 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     if with_bbox:
-        x = gf.get_cross_section(cross_section)
         padding = []
         for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
             points = get_padding_points(
@@ -117,11 +119,16 @@ def mmi1x2(
             c.add_polygon(points, layer=layer)
 
     c.absorb(mmi)
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
 if __name__ == "__main__":
-    c = mmi1x2(cross_section=dict(cross_section="rib"))
+    # c = mmi1x2(cross_section=dict(cross_section="rib"))
+    c = mmi1x2()
     c.show()
 
     # c.pprint_ports()

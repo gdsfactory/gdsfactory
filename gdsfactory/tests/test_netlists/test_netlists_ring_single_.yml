@@ -1,12 +1,12 @@
 connections:
-  bend_euler_2e0a66fe_5p125_16p425,o1: straight_15578a48_10p0_11p0,o1
-  bend_euler_2e0a66fe_5p125_16p425,o2: straight_0683f83e_m2p0_21p3,o1
-  bend_euler_2e0a66fe_m9p125_16p425,o1: straight_0683f83e_m2p0_21p3,o2
-  bend_euler_2e0a66fe_m9p125_16p425,o2: straight_15578a48_m14p0_11p0,o2
-  coupler_ring_5ab53b45_m2p0_5p225,o2: straight_15578a48_m14p0_11p0,o1
-  coupler_ring_5ab53b45_m2p0_5p225,o3: straight_15578a48_10p0_11p0,o2
+  bend_euler_2e0a66fe_5p124_16p425,o1: straight_15578a48_10p0_11p0,o1
+  bend_euler_2e0a66fe_5p124_16p425,o2: straight_0683f83e_m2p0_21p3,o1
+  bend_euler_2e0a66fe_m9p124_16p425,o1: straight_0683f83e_m2p0_21p3,o2
+  bend_euler_2e0a66fe_m9p124_16p425,o2: straight_15578a48_m14p0_11p0,o2
+  coupler_ring_5ab53b45_m2p0_5p226,o2: straight_15578a48_m14p0_11p0,o1
+  coupler_ring_5ab53b45_m2p0_5p226,o3: straight_15578a48_10p0_11p0,o2
 instances:
-  bend_euler_2e0a66fe_5p125_16p425:
+  bend_euler_2e0a66fe_5p124_16p425:
     component: bend_euler
     info:
       dy: 10
@@ -15,7 +15,7 @@ instances:
       radius_min: 7.061
     settings:
       radius: 10
-  bend_euler_2e0a66fe_m9p125_16p425:
+  bend_euler_2e0a66fe_m9p124_16p425:
     component: bend_euler
     info:
       dy: 10
@@ -24,7 +24,7 @@ instances:
       radius_min: 7.061
     settings:
       radius: 10
-  coupler_ring_5ab53b45_m2p0_5p225:
+  coupler_ring_5ab53b45_m2p0_5p226:
     component: coupler_ring
     settings:
       bend:
@@ -57,17 +57,17 @@ instances:
       length: 0.6
 name: ring_single
 placements:
-  bend_euler_2e0a66fe_5p125_16p425:
+  bend_euler_2e0a66fe_5p124_16p425:
     mirror: false
     rotation: 90
     x: 10.0
     y: 11.3
-  bend_euler_2e0a66fe_m9p125_16p425:
+  bend_euler_2e0a66fe_m9p124_16p425:
     mirror: false
     rotation: 180
     x: -4.0
     y: 21.3
-  coupler_ring_5ab53b45_m2p0_5p225:
+  coupler_ring_5ab53b45_m2p0_5p226:
     mirror: false
     rotation: 0
     x: 0.0
@@ -88,5 +88,5 @@ placements:
     x: -14.0
     y: 10.7
 ports:
-  o1: coupler_ring_5ab53b45_m2p0_5p225,o1
-  o2: coupler_ring_5ab53b45_m2p0_5p225,o4
+  o1: coupler_ring_5ab53b45_m2p0_5p226,o1
+  o2: coupler_ring_5ab53b45_m2p0_5p226,o4

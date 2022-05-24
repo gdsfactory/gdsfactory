@@ -13,15 +13,13 @@ settings:
   child: null
   default:
     big_last_tooth: false
+    cross_section: strip
     fiber_angle: 15
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11
     grating_line_width: 0.343
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -35,18 +33,15 @@ settings:
     taper_angle: 40
     taper_length: 16.6
     wavelength: 1.554
-    wg_width: 0.5
   full:
     big_last_tooth: false
+    cross_section: strip
     fiber_angle: 15
     fiber_marker_layer:
     - 204
     - 0
     fiber_marker_width: 11
     grating_line_width: 0.707
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -60,7 +55,6 @@ settings:
     taper_angle: 40
     taper_length: 30
     wavelength: 1.554
-    wg_width: 0.5
   function_name: grating_coupler_elliptical
   info:
     polarization: tm

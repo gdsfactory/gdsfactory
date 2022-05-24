@@ -1,20 +1,20 @@
 connections:
-  bend_euler_e3387fc7_154p875_145p125,o1: straight_a01b1c4b_150p0_70p0,o2
-  bend_euler_e3387fc7_154p875_145p125,o2: straight_152c11f4_350p0_150p0,o1
-  bend_euler_e3387fc7_395p125_304p875,o1: straight_152c11f4_200p0_300p0,o2
-  bend_euler_e3387fc7_395p125_304p875,o2: straight_2b932af0_400p0_350p0,o1
-  bend_euler_e3387fc7_395p125_395p125,o1: straight_2b932af0_400p0_350p0,o2
-  bend_euler_e3387fc7_395p125_395p125,o2: straight_b2910871_75p0_400p0,o1
-  bend_euler_e3387fc7_4p875_295p125,o1: straight_1efce1c9_0p0_145p0,o2
-  bend_euler_e3387fc7_4p875_295p125,o2: straight_152c11f4_200p0_300p0,o1
-  bend_euler_e3387fc7_545p125_154p875,o1: straight_152c11f4_350p0_150p0,o2
-  bend_euler_e3387fc7_545p125_154p875,o2: straight_152c11f4_550p0_350p0,o1
-  bend_euler_e3387fc7_545p125_545p125,o1: straight_152c11f4_550p0_350p0,o2
-  bend_euler_e3387fc7_545p125_545p125,o2: straight_b2910871_225p0_550p0,o1
-  bend_euler_e3387fc7_m245p125_404p875,o1: straight_b2910871_75p0_400p0,o2
-  bend_euler_e3387fc7_m245p125_404p875,o2: straight_a9485c4a_m250p0_705p0,o1
-  bend_euler_e3387fc7_m95p125_554p875,o1: straight_b2910871_225p0_550p0,o2
-  bend_euler_e3387fc7_m95p125_554p875,o2: straight_bda70908_m100p0_780p0,o1
+  bend_euler_fd5fb374_154p876_145p124,o1: straight_a01b1c4b_150p0_70p0,o2
+  bend_euler_fd5fb374_154p876_145p124,o2: straight_152c11f4_350p0_150p0,o1
+  bend_euler_fd5fb374_395p124_304p876,o1: straight_152c11f4_200p0_300p0,o2
+  bend_euler_fd5fb374_395p124_304p876,o2: straight_2b932af0_400p0_350p0,o1
+  bend_euler_fd5fb374_395p124_395p124,o1: straight_2b932af0_400p0_350p0,o2
+  bend_euler_fd5fb374_395p124_395p124,o2: straight_b2910871_75p0_400p0,o1
+  bend_euler_fd5fb374_4p876_295p124,o1: straight_1efce1c9_0p0_145p0,o2
+  bend_euler_fd5fb374_4p876_295p124,o2: straight_152c11f4_200p0_300p0,o1
+  bend_euler_fd5fb374_545p124_154p876,o1: straight_152c11f4_350p0_150p0,o2
+  bend_euler_fd5fb374_545p124_154p876,o2: straight_152c11f4_550p0_350p0,o1
+  bend_euler_fd5fb374_545p124_545p124,o1: straight_152c11f4_550p0_350p0,o2
+  bend_euler_fd5fb374_545p124_545p124,o2: straight_b2910871_225p0_550p0,o1
+  bend_euler_fd5fb374_m245p124_404p876,o1: straight_b2910871_75p0_400p0,o2
+  bend_euler_fd5fb374_m245p124_404p876,o2: straight_a9485c4a_m250p0_705p0,o1
+  bend_euler_fd5fb374_m95p124_554p876,o1: straight_b2910871_225p0_550p0,o2
+  bend_euler_fd5fb374_m95p124_554p876,o2: straight_bda70908_m100p0_780p0,o1
 instances:
   b:
     component: pad_array
@@ -24,7 +24,7 @@ instances:
       - 100.0
     settings:
       orientation: 90
-  bend_euler_e3387fc7_154p875_145p125:
+  bend_euler_fd5fb374_154p876_145p124:
     component: bend_euler
     info:
       dy: 10
@@ -35,8 +35,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_395p125_304p875:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_395p124_304p876:
     component: bend_euler
     info:
       dy: 10
@@ -47,8 +58,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_395p125_395p125:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_395p124_395p124:
     component: bend_euler
     info:
       dy: 10
@@ -59,8 +81,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_4p875_295p125:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_4p876_295p124:
     component: bend_euler
     info:
       dy: 10
@@ -71,8 +104,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_545p125_154p875:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_545p124_154p876:
     component: bend_euler
     info:
       dy: 10
@@ -83,8 +127,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_545p125_545p125:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_545p124_545p124:
     component: bend_euler
     info:
       dy: 10
@@ -95,8 +150,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_m245p125_404p875:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_m245p124_404p876:
     component: bend_euler
     info:
       dy: 10
@@ -107,8 +173,19 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
-  bend_euler_e3387fc7_m95p125_554p875:
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
+  bend_euler_fd5fb374_m95p124_554p876:
     component: bend_euler
     info:
       dy: 10
@@ -119,7 +196,18 @@ instances:
       auto_widen: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_bbox:
+            function: add_bbox_siepic
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
   straight_152c11f4_200p0_300p0:
     component: straight
     info:
@@ -214,42 +302,42 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  bend_euler_e3387fc7_154p875_145p125:
+  bend_euler_fd5fb374_154p876_145p124:
     mirror: true
     rotation: 90
     x: 150.0
     y: 140.0
-  bend_euler_e3387fc7_395p125_304p875:
+  bend_euler_fd5fb374_395p124_304p876:
     mirror: false
     rotation: 0
     x: 390.0
     y: 300.0
-  bend_euler_e3387fc7_395p125_395p125:
+  bend_euler_fd5fb374_395p124_395p124:
     mirror: false
     rotation: 90
     x: 400.0
     y: 390.0
-  bend_euler_e3387fc7_4p875_295p125:
+  bend_euler_fd5fb374_4p876_295p124:
     mirror: true
     rotation: 90
     x: 0.0
     y: 290.0
-  bend_euler_e3387fc7_545p125_154p875:
+  bend_euler_fd5fb374_545p124_154p876:
     mirror: false
     rotation: 0
     x: 540.0
     y: 150.0
-  bend_euler_e3387fc7_545p125_545p125:
+  bend_euler_fd5fb374_545p124_545p124:
     mirror: false
     rotation: 90
     x: 550.0
     y: 540.0
-  bend_euler_e3387fc7_m245p125_404p875:
+  bend_euler_fd5fb374_m245p124_404p876:
     mirror: true
     rotation: 180
     x: -240.0
     y: 400.0
-  bend_euler_e3387fc7_m95p125_554p875:
+  bend_euler_fd5fb374_m95p124_554p876:
     mirror: true
     rotation: 180
     x: -90.0

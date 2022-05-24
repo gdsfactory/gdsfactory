@@ -53,11 +53,11 @@ class Path(PathPhidl):
         adapted from phidl.path
 
         Args:
-            p: a path is a list of points (arc, straight, euler)
-            cross_section: to extrude
-            layer:
-            width:
-            widths: tuple of starting and end width
+            p: a path is a list of points (arc, straight, euler).
+            cross_section: to extrude.
+            layer: optional layer.
+            width: optional width in um.
+            widths: tuple of starting and end width for a linar taper.
             simplify: Tolerance value for the simplification algorithm.
               All points that can be removed without changing the resulting
               polygon by more than the value listed here will be removed.
@@ -94,9 +94,9 @@ def transition_exponential(y1, y2, exp=0.5):
     """Returns the function for an exponential transition
 
     Args:
-        y1: start width
-        y2: end width
-        exp: exponent
+        y1: start width in um.
+        y2: end width in um.
+        exp: exponent.
     """
     return lambda t: y1 + (y2 - y1) * t**exp
 
@@ -114,13 +114,13 @@ def transition(
     adapted from phidl.path
 
     Args:
-        cross_section1: First input CrossSection
-        cross_section2: Second input CrossSection
-        width_type: sine or linear
+        cross_section1: First input CrossSection.
+        cross_section2: Second input CrossSection.
+        width_type: sine or linear.
           Sets the type of width transition used if any widths are different
           between the two input CrossSections.
 
-    Returns A smoothly-transitioning CrossSection
+    Returns A smoothly-transitioning CrossSection.
     """
 
     X1 = cross_section1
@@ -191,7 +191,11 @@ def transition(
             sections.append(s)
 
     return Transition(
-        cross_section1=X1, cross_section2=X2, width_type=width_type, sections=sections
+        cross_section1=X1,
+        cross_section2=X2,
+        width_type=width_type,
+        sections=sections,
+        width=max([X1.width, X2.width]),
     )
 
 
@@ -210,14 +214,12 @@ def extrude(
     A path can be extruded using any CrossSection returning a Component
     The CrossSection defines the layer numbers, widths and offsetts
 
-    adapted from phidl.path
-
     Args:
-        p: a path is a list of points (arc, straight, euler)
-        cross_section: to extrude
-        layer:
-        width:
-        widths: tuple of starting and end width
+        p: a path is a list of points (arc, straight, euler).
+        cross_section: to extrude.
+        layer: optonal layer to extrude.
+        width: optonal width to extrude.
+        widths: tuple of starting and end width.
         simplify: Tolerance value for the simplification algorithm.
           All points that can be removed without changing the resulting.
           polygon by more than the value listed here will be removed.
@@ -260,6 +262,17 @@ def extrude(
                 port_types=x.port_types,
             )
         ]
+
+    if x.cladding_layers and x.cladding_offsets:
+        for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
+            width = x.width(1) if callable(x.width) else x.width
+            sections += [
+                Section(
+                    width=width + 2 * cladding_offset,
+                    offset=x.offset,
+                    layer=layer,
+                )
+            ]
 
     for section in sections:
         width = section.width
@@ -417,6 +430,9 @@ def extrude(
 
     if x.decorator:
         c = x.decorator(c) or c
+
+    if x.add_pins:
+        c = x.add_pins(c) or c
 
     return c
 
@@ -697,23 +713,25 @@ if __name__ == "__main__":
     # straight_transition.show()
 
     P = gf.path.straight(length=10, npoints=101)
+    c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
+    c.show()
 
-    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
-    X1 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=gf.LAYER.WG,
-        name="core",
-        ports=("o1", "o2"),
-        sections=[s],
-    )
-    c = gf.path.extrude(P, X1)
+    # s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
+    # X1 = gf.CrossSection(
+    #     width=1,
+    #     offset=0,
+    #     layer=gf.LAYER.WG,
+    #     name="core",
+    #     ports=("o1", "o2"),
+    #     sections=[s],
+    # )
+    # c = gf.path.extrude(P, X1)
 
-    X2 = gf.CrossSection(
-        width=3, offset=0, layer=gf.LAYER.WG, name="core", ports=("o1", "o2")
-    )
-    c2 = gf.path.extrude(P, X2)
+    # X2 = gf.CrossSection(
+    #     width=3, offset=0, layer=gf.LAYER.WG, name="core", ports=("o1", "o2")
+    # )
+    # c2 = gf.path.extrude(P, X2)
 
-    T = gf.path.transition(X1, X2)
-    c3 = gf.path.extrude(P, T)
-    c3.show()
+    # T = gf.path.transition(X1, X2)
+    # c3 = gf.path.extrude(P, T)
+    # c3.show()

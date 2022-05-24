@@ -47,7 +47,7 @@ def taper_cross_section(
     taper_path = gf.path.straight(length=length, npoints=npoints)
 
     c = gf.Component()
-    ref = c << gf.path.extrude(taper_path, transition)
+    ref = c << gf.path.extrude(taper_path, cross_section=transition)
     c.add_ports(ref.ports)
     return c
 

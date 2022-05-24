@@ -7,7 +7,7 @@ from gdsfactory.components.taper import taper
 from gdsfactory.components.text import text_rectangular
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2, Optional
 
-edge_coupler_silicon = gf.partial(taper, width2=0.2, length=100)
+edge_coupler_silicon = gf.partial(taper, width2=0.2, length=100, with_two_ports=False)
 
 
 @gf.cell

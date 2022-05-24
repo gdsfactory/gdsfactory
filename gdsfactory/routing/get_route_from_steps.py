@@ -25,21 +25,22 @@ def get_route_from_steps(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs
 ) -> Route:
-    """Returns a route formed by the given waypoints steps
-    bends instead of corners and optionally tapers in straight sections.
-    Tapering to wider straights reduces the optical loss.
+    """Returns a route formed by the given waypoints steps.
+
+    Uses smooth euler bends instead of corners and optionally tapers in straight sections.
+    Tapering to wider straights reduces the optical loss when auto_widen=True.
     `get_route_from_steps` is a manual version of `get_route`
     and a more concise and convenient version of `get_route_from_waypoints`
 
     Args:
-        port1: start port
-        port2: end port
-        steps: changes that define the route [{'dx': 5}, {'dy': 10}]
-        bend: function that returns bends
-        straight: function that returns straight waveguides
-        taper: function that returns tapers
-        cross_section
-        **kwargs: cross_section settings
+        port1: start port.
+        port2: end port.
+        steps: changes that define the route [{'dx': 5}, {'dy': 10}].
+        bend: function that returns bends.
+        straight: straight spec.
+        taper: taper spec.
+        cross_section: cross_section spec.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:
