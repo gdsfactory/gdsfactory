@@ -29,7 +29,7 @@ from gdsfactory.types import (
     Route,
 )
 
-TOLERANCE = 0.0001
+TOLERANCE = 0.001
 DEG2RAD = np.pi / 180
 RAD2DEG = 1 / DEG2RAD
 
@@ -691,6 +691,7 @@ def round_corners(
             bend_orientation = 180
 
     if bend_orientation is None:
+        print(f"bend_orientation is None {p0_straight} {p1}")
         return on_route_error(
             points=points, cross_section=x if not multi_cross_section else None
         )
@@ -750,7 +751,8 @@ def round_corners(
                     get_straight_distance(p0_straight, bend_origin),
                 )
             ]
-        except RouteError:
+        except RouteError as e:
+            print(e)
             on_route_error(
                 points=(p0_straight, bend_origin),
                 cross_section=x if not multi_cross_section else None,
@@ -770,7 +772,8 @@ def round_corners(
                 get_straight_distance(p0_straight, points[-1]),
             )
         ]
-    except RouteError:
+    except RouteError as e:
+        print(e)
         on_route_error(
             points=(p0_straight, points[-1]),
             cross_section=x if not multi_cross_section else None,
