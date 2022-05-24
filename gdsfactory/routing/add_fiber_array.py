@@ -4,8 +4,6 @@ from typing import Callable, Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -17,13 +15,13 @@ from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpe
 def add_fiber_array(
     component: ComponentSpec = "mmi2x2",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentSpec = "straight",
     bend: ComponentSpec = "bend_euler",
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     get_input_labels_function: Optional[Callable] = get_input_labels,
     layer_label: Optional[Tuple[int, int]] = (66, 0),
     **kwargs,
