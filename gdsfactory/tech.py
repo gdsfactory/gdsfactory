@@ -93,7 +93,7 @@ PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 class LayerLevel(BaseModel):
     """Layer For 3D LayerStack.
 
-    Args:
+    Attributes:
         layer: (GDSII Layer number, GDSII datatype)
         thickness: layer thickness
         zmin: height position where material starts
@@ -109,7 +109,11 @@ class LayerLevel(BaseModel):
 
 
 class LayerStack(BaseModel):
-    """For simulation and trimesh 3D rendering."""
+    """For simulation and 3D rendering.
+
+    Attributes:
+        layers: dict of layers.
+    """
 
     layers: Dict[str, LayerLevel]
 
@@ -185,7 +189,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             ge=LayerLevel(
                 layer=LAYER.GE,
                 thickness=500e-3,
-                zmin=220e-3,
+                zmin=thickness_silicon_core,
                 material="ge",
             ),
             via_contact=LayerLevel(
@@ -197,25 +201,25 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             metal1=LayerLevel(
                 layer=LAYER.M1,
                 thickness=750e-3,
-                zmin=220e-3 + 1100e-3,
+                zmin=thickness_silicon_core + 1100e-3,
                 material="Aluminum",
             ),
             heater=LayerLevel(
                 layer=LAYER.HEATER,
                 thickness=750e-3,
-                zmin=220e-3 + 1100e-3,
+                zmin=thickness_silicon_core + 1100e-3,
                 material="TiN",
             ),
             viac=LayerLevel(
                 layer=LAYER.VIA1,
                 thickness=1500e-3,
-                zmin=220e-3 + 1100e-3 + 750e-3,
+                zmin=thickness_silicon_core + 1100e-3 + 750e-3,
                 material="Aluminum",
             ),
             metal2=LayerLevel(
                 layer=LAYER.M2,
                 thickness=2000e-3,
-                zmin=220e-3 + 1100e-3 + 750e-3 + 1.5,
+                zmin=thickness_silicon_core + 1100e-3 + 750e-3 + 1.5,
                 material="Aluminum",
             ),
         )
