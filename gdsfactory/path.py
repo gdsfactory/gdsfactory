@@ -266,7 +266,6 @@ def extrude(
     if x.cladding_layers and x.cladding_offsets:
         for layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
             width = x.width(1) if callable(x.width) else x.width
-
             sections += [
                 Section(
                     width=width + 2 * cladding_offset,
