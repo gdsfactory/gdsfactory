@@ -456,14 +456,14 @@ def add_pins(
     function: Callable = add_pin_rectangle_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
-) -> None:
+) -> Component:
     """Add Pin port markers.
 
     Be careful with this function as it modifies the component
 
     Args:
         component: to add ports to.
-        reference: to add pins
+        reference: to add pins.
         function: to add each pin.
         select_ports: function to select_ports.
         kwargs: add pins function settings.
@@ -477,6 +477,7 @@ def add_pins(
     )
     for port in ports:
         function(component=component, port=port, **kwargs)
+    return component
 
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
@@ -490,7 +491,7 @@ def add_settings_label(
     """Add settings in label
 
     Args:
-        componnent: to add pins
+        componnent: to add pins.
         reference
         layer_label:
 

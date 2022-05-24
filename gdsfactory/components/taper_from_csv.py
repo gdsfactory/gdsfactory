@@ -36,6 +36,13 @@ def taper_from_csv(
     c = gf.Component()
     c.add_polygon(list(zip(xs, ys)) + list(zip(xs, -ys))[::-1], layer=layer)
 
+    # for cladding_layer, cladding_offset in zip(x.cladding_layers, x.cladding_offsets):
+    #     ys_trench = ys + cladding_offset
+    #     c.add_polygon(
+    #         list(zip(xs, ys_trench)) + list(zip(xs, -ys_trench))[::-1],
+    #         layer=cladding_layer,
+    #     )
+
     c.add_port(
         name="o1",
         midpoint=(xs[0], 0),

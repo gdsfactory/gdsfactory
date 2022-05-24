@@ -87,7 +87,6 @@ def crossing(
     Args:
         arm: arm spec.
         cross_section: spec.
-
     """
     x = gf.get_cross_section(cross_section)
     c = Component()
@@ -103,6 +102,12 @@ def crossing(
             c.add_port(name=port_id, port=p)
             port_id += 1
     c.auto_rename_ports()
+
+    x.add_bbox_layers(c)
+
+    if x.cladding_layers and x.cladding_offsets:
+        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
+            c.add_padding(default=offset, layers=(layer))
     if x.add_bbox:
         c = x.add_bbox(c)
     if x.add_pins:
@@ -139,18 +144,27 @@ def crossing_etched(
     layer_slab: Layer = LAYER.SLAB150,
 ) -> Component:
     """
-    Waveguide crossing:
+    Waveguide crossing.
     - The full crossing has to be on WG layer (to start with a 220nm slab)
     - Then we etch the ellipses down to 150nm slabs and we keep linear taper at 220nm.
     What we write is what we etch on this step
+
+    Args:
+        width: input waveguides width.
+        r1: radii.
+        r2: radii.
+        w: wide width.
+        L: length.
+        layer_wg: waveguide layer.
+        layer_slab: shallow etch layer.
     """
 
     # Draw the ellipses
     c = Component()
-    _ellipse1 = c << ellipse(radii=(r1, r2), layer=layer_wg)
-    _ellipse2 = c << ellipse(radii=(r2, r1), layer=layer_wg)
-    c.absorb(_ellipse1)
-    c.absorb(_ellipse2)
+    ellipse1 = c << ellipse(radii=(r1, r2), layer=layer_wg)
+    ellipse2 = c << ellipse(radii=(r2, r1), layer=layer_wg)
+    c.absorb(ellipse1)
+    c.absorb(ellipse2)
 
     a = L + w / 2
     h = width / 2
@@ -404,6 +418,9 @@ def compensation_path(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.info["sbend"] = sbend.info
 
+    for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
+        c.add_padding(default=offset, layers=(layer))
+
     if x.add_bbox:
         c = x.add_bbox(c)
     if x.add_pins:
@@ -439,13 +456,18 @@ def _demo() -> None:
 
 if __name__ == "__main__":
     # c = compensation_path()
-    # c = crossing()
+    c = crossing(
+        cross_section=dict(
+            cross_section="strip",
+            settings=dict(cladding_offsets=[0], cladding_layers=[(3, 0)]),
+        )
+    )
     # print(c.ports["E1"].y - c.ports['o2'].y)
     # print(c.get_ports_array())
     # _demo()
     # c = crossing_from_taper()
     # c.pprint()
     # c = crossing_etched()
-    c = compensation_path()
+    # c = compensation_path()
     # c = crossing45(port_spacing=40)
     c.show()

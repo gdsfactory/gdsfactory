@@ -4,6 +4,7 @@ import jsondiff
 from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
+from gdsfactory.cross_section import cross_section
 
 gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
 
@@ -23,7 +24,8 @@ def test_read_gds_with_settings2(data_regression: DataRegressionFixture) -> None
 
 def test_read_gds_equivalent2() -> None:
     """Ensures we can load it from GDS + YAML and get the same component settings"""
-    c1 = gf.components.mzi()
+    splitter = gf.components.mmi1x2(cross_section=cross_section)
+    c1 = gf.components.mzi(splitter=splitter, cross_section=cross_section)
     c2 = gf.import_gds(gdspath)
 
     d1 = c1.to_dict()
@@ -59,7 +61,8 @@ def test_mix_cells_from_gds_and_from_function2() -> None:
 
 
 def _write() -> None:
-    c1 = gf.components.mzi()
+    splitter = gf.components.mmi1x2(cross_section=cross_section)
+    c1 = gf.components.mzi(splitter=splitter, cross_section=cross_section)
     c1.write_gds_with_metadata(gdspath=gdspath)
     c1.show()
 

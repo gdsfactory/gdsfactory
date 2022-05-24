@@ -1,4 +1,4 @@
-name: bend_euler_da1f7fd0
+name: bend_euler_11aff456
 settings:
   changed:
     cross_section:
@@ -7,9 +7,7 @@ settings:
         add_bbox:
           function: add_bbox_siepic
         add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -24,8 +22,6 @@ settings:
         - 34
         - 0
         width: 1
-    decorator:
-      function: add_pins
     with_bbox: true
   child: null
   default:
@@ -44,9 +40,7 @@ settings:
         add_bbox:
           function: add_bbox_siepic
         add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -61,8 +55,6 @@ settings:
         - 34
         - 0
         width: 1
-    decorator:
-      function: add_pins
     direction: ccw
     npoints: 720
     p: 0.5
@@ -76,5 +68,5 @@ settings:
     radius_min: 7.061
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_da1f7fd0
+  name: bend_euler_11aff456
 version: 0.0.1
