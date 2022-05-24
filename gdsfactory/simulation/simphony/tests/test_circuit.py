@@ -19,7 +19,7 @@ def test_circuit_transmission(data_regression, check: bool = True):
     circuit.elements[splitter].pins["o1"] = "o1"
     circuit.elements[combiner].pins["o1"] = "o2"
     r = get_transmission(circuit, num=3)
-    s = np.round(r["s"], decimals=10).tolist()
+    s = np.round(r["s"], decimals=3).tolist()
     if check:
         data_regression.check(dict(w=r["wavelengths"].tolist(), s=s))
     return circuit
