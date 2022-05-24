@@ -8,6 +8,7 @@
 - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
 - add `with_two_ports` to taper. False for edge couplers and terminators.
 - fix ring_double_heater open in the heater top waveguide.
+- Make pdk from existing pdk [PR](https://github.com/gdsfactory/gdsfactory/pull/406)
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
