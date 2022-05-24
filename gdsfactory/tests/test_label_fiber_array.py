@@ -5,9 +5,17 @@ from gdsfactory.component import Component
 
 LENGTH = 0.5
 
+straight = gf.partial(
+    gf.components.straight,
+    with_bbox=True,
+    cladding_layers=None,
+    add_pins=None,
+    add_bbox=None,
+)
+
 
 def test_label_fiber_array(length=LENGTH) -> Component:
-    c = gf.components.straight(length=LENGTH)
+    c = straight(length=LENGTH)
     cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
@@ -34,7 +42,7 @@ def test_label_fiber_array(length=LENGTH) -> Component:
 
 def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     """Test that adds the correct label for measurements."""
-    c = gf.components.straight(length=length)
+    c = straight(length=length)
     cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
@@ -57,7 +65,7 @@ def test_label_fiber_single_loopback(length=LENGTH) -> Component:
 
 
 def test_labels_fiber_array(num_regression) -> None:
-    c = gf.components.straight(length=3)
+    c = straight(length=3)
     assert len(c.labels) == 0, len(c.labels)
 
     # Loopback does not have labels
@@ -78,7 +86,7 @@ def test_labels_fiber_array(num_regression) -> None:
 
 
 def test_labels_fiber_single(num_regression) -> None:
-    c = gf.components.straight(length=3)
+    c = straight(length=3)
     assert len(c.labels) == 0, len(c.labels)
 
     cte = gf.routing.add_fiber_single(component=c, with_loopback=True)

@@ -18,12 +18,13 @@ from numpy import ndarray
 from omegaconf import OmegaConf
 from phidl.device_layout import Device as Component
 from phidl.device_layout import DeviceReference as ComponentReference
+from phidl.device_layout import Port
 
-from gdsfactory.port import Port
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.tech import LAYER
 
 Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
 nm = 1e-3
 
 
@@ -367,6 +368,7 @@ def add_pins_siepic(
     pin_length: float = 10 * nm,
 ) -> Component:
     """Add pins.
+
     Enables you to run SiEPIC verification tools:
     To Run verification install SiEPIC-tools klayout package
     then hit V shortcut in klayout to run verification
@@ -398,9 +400,12 @@ add_pins_siepic_electrical = partial(
 def add_bbox_siepic(
     component: Component,
     bbox_layer: Optional[Layer] = (68, 0),
+    remove_layers: Layers = (LAYER.PORT, LAYER.PORTE),
     padding: float = 0,
 ) -> Component:
     """Add bounding box device recognition layer."""
+    bbox_layer = bbox_layer or []
+    component.remove_layers(layers=list(bbox_layer) + list(remove_layers))
     if bbox_layer:
         component.add_padding(default=padding, layers=(bbox_layer,))
     return component
@@ -421,10 +426,10 @@ def add_pins_bbox_siepic(
         component: to add pins.
         function: to add pins.
         port_type: optical, electrical...
-        layer_pin:
-        pin_length:
-        bbox_layer:
-        padding:
+        layer_pin: for pin.
+        pin_length: in um.
+        bbox_layer: bounding box layer.
+        padding: around device.
     """
     component = component.copy()
     component.remove_layers(layers=(layer_pin, bbox_layer))
@@ -440,23 +445,28 @@ def add_pins_bbox_siepic(
     return component
 
 
+add_pins_siepic_optical_2nm = partial(add_pins_siepic_optical, pin_length=2 * nm)
+add_pins_siepic_electrical_2nm = partial(add_pins_siepic_electrical, pin_length=2 * nm)
+add_pins_bbox_siepic_2nm = partial(add_pins_bbox_siepic, pin_length=2 * nm)
+
+
 def add_pins(
     component: Component,
     reference: Optional[ComponentReference] = None,
     function: Callable = add_pin_rectangle_inside,
     select_ports: Optional[Callable] = None,
     **kwargs,
-) -> None:
+) -> Component:
     """Add Pin port markers.
 
     Be careful with this function as it modifies the component
 
     Args:
-        component: to add ports to
-        reference:
-        function: to add each pin
-        select_ports: function to select_ports
-        kwargs: add pins function settings
+        component: to add ports to.
+        reference: to add pins.
+        function: to add each pin.
+        select_ports: function to select_ports.
+        kwargs: add pins function settings.
 
     """
     reference = reference or component
@@ -467,6 +477,7 @@ def add_pins(
     )
     for port in ports:
         function(component=component, port=port, **kwargs)
+    return component
 
 
 add_pins_triangle = partial(add_pins, function=add_pin_triangle)
@@ -480,7 +491,7 @@ def add_settings_label(
     """Add settings in label
 
     Args:
-        componnent
+        componnent: to add pins.
         reference
         layer_label:
 

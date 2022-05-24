@@ -89,6 +89,9 @@ def coupler_ring(
     c.add_port("o2", port=cbl.ports["o4"])
     c.add_port("o3", port=cbr.ports["o3"])
     c.add_port("o4", port=cbr.ports["o4"])
+
+    c.add_ports(cbl.get_ports_list(port_type="electrical"), prefix="cbl")
+    c.add_ports(cbr.get_ports_list(port_type="electrical"), prefix="cbr")
     c.auto_rename_ports()
     return c
 
@@ -96,5 +99,5 @@ def coupler_ring(
 if __name__ == "__main__":
 
     # c = coupler_ring(width=1, layer=(2, 0), length_x=20)
-    c = coupler_ring(cross_section="rib", length_x=20)
+    c = coupler_ring(cross_section="strip_heater_metal", length_x=20)
     c.show(show_subports=True)

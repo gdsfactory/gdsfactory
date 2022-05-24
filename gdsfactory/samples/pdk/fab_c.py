@@ -3,7 +3,7 @@
 import pathlib
 from typing import Callable
 
-import pydantic.dataclasses as dataclasses
+from pydantic import dataclasses
 
 import gdsfactory as gf
 import gdsfactory.simulation as sim
@@ -22,7 +22,7 @@ class LayerMap:
     WG_CLAD: Layer = (10, 2)
     WGN: Layer = (34, 0)
     WGN_CLAD: Layer = (36, 0)
-    PIN: Layer = (100, 0)
+    PIN: Layer = (1, 10)
 
 
 LAYER = LayerMap()
@@ -56,15 +56,15 @@ def add_pins(
     pin_length: float = 0.5,
     port_layer: Layer = LAYER.PIN,
     **kwargs,
-) -> None:
+) -> Component:
     """Add Pin port markers.
 
     Args:
-        component: to add ports
-        function:
-        pin_length:
-        port_layer:
-        function: kwargs
+        component: to add ports.
+        function: to add pins.
+        pin_length: pin length in um.
+        port_layer: for port.
+        function: kwargs.
 
     """
     for p in component.ports.values():
@@ -76,6 +76,7 @@ def add_pins(
             pin_length=pin_length,
             **kwargs,
         )
+    return component
 
 
 # cross_sections
@@ -86,6 +87,7 @@ xs_nc = gf.partial(
     layer=LAYER.WGN,
     bbox_layers=[LAYER.WGN_CLAD],
     bbox_offsets=[3],
+    add_pins=add_pins,
 )
 xs_no = gf.partial(
     strip,
@@ -93,45 +95,35 @@ xs_no = gf.partial(
     layer=LAYER.WGN,
     bbox_layers=[LAYER.WGN_CLAD],
     bbox_offsets=[3],
+    add_pins=add_pins,
 )
 
 
 # LEAF COMPONENTS have pins
-
 bend_euler_nc = gf.partial(
-    gf.components.bend_euler, cross_section=xs_nc, decorator=add_pins, with_bbox=True
+    gf.components.bend_euler, cross_section=xs_nc, with_bbox=True
 )
-straight_nc = gf.partial(
-    gf.components.straight, cross_section=xs_nc, decorator=add_pins, with_bbox=True
-)
-bend_euler_o = gf.partial(
-    gf.components.bend_euler, cross_section=xs_no, decorator=add_pins, with_bbox=True
-)
-straight_o = gf.partial(
-    gf.components.straight, cross_section=xs_no, decorator=add_pins, with_bbox=True
-)
+straight_nc = gf.partial(gf.components.straight, cross_section=xs_nc, with_bbox=True)
+bend_euler_o = gf.partial(gf.components.bend_euler, cross_section=xs_no, with_bbox=True)
+straight_o = gf.partial(gf.components.straight, cross_section=xs_no, with_bbox=True)
 
 mmi1x2_nc = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_CBAND,
     width_mmi=3,
     cross_section=xs_nc,
-    decorator=add_pins,
 )
 mmi1x2_no = gf.partial(
     gf.components.mmi1x2,
     width=WIDTH_NITRIDE_OBAND,
     cross_section=xs_no,
-    decorator=add_pins,
 )
 
 gc_nc = gf.partial(
     gf.components.grating_coupler_elliptical,
     grating_line_width=0.6,
-    wg_width=WIDTH_NITRIDE_CBAND,
-    layer=LAYER.WGN,
-    decorator=add_pins,
     layer_slab=None,
+    cross_section=xs_nc,
 )
 
 # HIERARCHICAL COMPONENTS made of leaf components
@@ -140,7 +132,6 @@ mzi_nc = gf.partial(
     gf.components.mzi,
     cross_section=xs_nc,
     splitter=mmi1x2_nc,
-    decorator=add_pins,
     straight=straight_nc,
     bend=bend_euler_nc,
 )
@@ -148,7 +139,6 @@ mzi_no = gf.partial(
     gf.components.mzi,
     cross_section=xs_no,
     splitter=mmi1x2_no,
-    decorator=add_pins,
     straight=straight_o,
     bend=bend_euler_o,
 )
@@ -175,11 +165,6 @@ write_sparameters_lumerical = gf.partial(
     dirpath=SPARAMETERS_PATH,
 )
 
-plot_sparameters = gf.partial(
-    sim.plot.plot_sparameters,
-    dirpath=SPARAMETERS_PATH,
-    write_sparameters_function=write_sparameters_lumerical,
-)
 
 get_sparameters_path_lumerical = gf.partial(
     sim.get_sparameters_data_lumerical,
@@ -189,6 +174,9 @@ get_sparameters_path_lumerical = gf.partial(
 
 
 if __name__ == "__main__":
+    c = mmi1x2_nc()
+    c.show()
+
     mzi = mzi_nc()
     mzi.show()
     mzi_gc = gf.routing.add_fiber_single(

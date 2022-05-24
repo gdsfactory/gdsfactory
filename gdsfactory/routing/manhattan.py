@@ -10,7 +10,6 @@ from numpy import bool_, ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
@@ -30,7 +29,7 @@ from gdsfactory.types import (
     Route,
 )
 
-TOLERANCE = 0.0001
+TOLERANCE = 0.001
 DEG2RAD = np.pi / 180
 RAD2DEG = 1 / DEG2RAD
 
@@ -576,7 +575,6 @@ def round_corners(
     points: Coordinates,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
-    bend_s_factory: Optional[ComponentSpec] = bend_s,
     taper: Optional[ComponentSpec] = None,
     straight_fall_back_no_taper: Optional[ComponentSpec] = None,
     mirror_straight: bool = False,
@@ -693,6 +691,7 @@ def round_corners(
             bend_orientation = 180
 
     if bend_orientation is None:
+        print(f"bend_orientation is None {p0_straight} {p1}")
         return on_route_error(
             points=points, cross_section=x if not multi_cross_section else None
         )
@@ -752,7 +751,8 @@ def round_corners(
                     get_straight_distance(p0_straight, bend_origin),
                 )
             ]
-        except RouteError:
+        except RouteError as e:
+            print(e)
             on_route_error(
                 points=(p0_straight, bend_origin),
                 cross_section=x if not multi_cross_section else None,
@@ -772,7 +772,8 @@ def round_corners(
                 get_straight_distance(p0_straight, points[-1]),
             )
         ]
-    except RouteError:
+    except RouteError as e:
+        print(e)
         on_route_error(
             points=(p0_straight, points[-1]),
             cross_section=x if not multi_cross_section else None,
@@ -1031,7 +1032,7 @@ def route_manhattan(
 def test_manhattan() -> Component:
     top_cell = Component()
 
-    layer = (2, 0)
+    layer = (1, 0)
 
     inputs = [
         Port("in1", midpoint=(10, 5), width=0.5, orientation=90, layer=layer),
@@ -1054,7 +1055,6 @@ def test_manhattan() -> Component:
     lengths = [349.974]
 
     for input_port, output_port, length in zip(inputs, outputs, lengths):
-
         # input_port = Port("input_port", (10,5), 0.5, 90)
         # output_port = Port("output_port", (90,-60), 0.5, 180)
         # bend = bend_circular(radius=5.0)
@@ -1064,7 +1064,7 @@ def test_manhattan() -> Component:
             output_port=output_port,
             straight=straight_function,
             radius=5.0,
-            auto_widen=True,
+            # auto_widen=True,
             width_wide=2,
             layer=layer
             # width=0.2,

@@ -104,10 +104,8 @@ def straight_heater_doped_rib(
     )
 
     if taper:
-        taper = (
-            taper(cross_section1=cross_section, cross_section2=cross_section_heater)
-            if callable(taper)
-            else taper
+        taper = gf.get_component(
+            taper, cross_section1=cross_section, cross_section2=cross_section_heater
         )
         length -= taper.get_ports_xsize() * 2
 

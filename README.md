@@ -46,7 +46,7 @@ gdsfactory is based on phidl, gdspy and klayout.
 
 - Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
 - [see slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
-- [read online docs](https://gdsfactory.github.io/gdsfactory/)
+- [read docs](https://gdsfactory.github.io/gdsfactory/)
 
 ## Acks
 

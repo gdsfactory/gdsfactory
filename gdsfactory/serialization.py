@@ -35,7 +35,7 @@ def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
 
     if isinstance(value, pydantic.BaseModel):
-        value = dict(value)
+        value = value.dict()
     elif isinstance(value, float) and int(value) == value:
         value = int(value)
     elif isinstance(value, (np.int64, np.int32)):
@@ -77,10 +77,14 @@ def clean_value_json(value: Any) -> Any:
     elif isinstance(value, DictConfig):
         value = clean_dict(OmegaConf.to_container(value))
     else:
-        value_json = orjson.dumps(
-            value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_json
-        )
-        value = orjson.loads(value_json)
+        try:
+            value_json = orjson.dumps(
+                value, option=orjson.OPT_SERIALIZE_NUMPY, default=clean_value_json
+            )
+            value = orjson.loads(value_json)
+        except TypeError as e:
+            print(f"Error serializing {value!r}")
+            raise e
     return value
 
     # elif isinstance(value, (tuple, list, ListConfig)):
@@ -116,4 +120,4 @@ if __name__ == "__main__":
     f = gf.partial(gf.c.straight, length=3)
     c = f()
     d = clean_value_json(c)
-    print(d, str(d))
+    print(d, d)

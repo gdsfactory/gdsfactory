@@ -22,15 +22,15 @@ def nxn(
     """returns a nxn component with nxn ports (west, east, north, south)
 
     Args:
-        west: number of west ports
-        east: number of east ports
-        north: number of north ports
-        south: number of south ports
-        xsize: size in X
-        ysize: size in Y
-        wg_width: width of the straight ports
-        wg_margin: margin from straight to component edge
-        **kwargs: port_settings
+        west: number of west ports.
+        east: number of east ports.
+        north: number of north ports.
+        south: number of south ports.
+        xsize: size in X.
+        ysize: size in Y.
+        wg_width: width of the straight ports.
+        wg_margin: margin from straight to component edge.
+        kwargs: port_settings.
 
 
     .. code::
