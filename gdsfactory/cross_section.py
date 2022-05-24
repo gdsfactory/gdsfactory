@@ -29,7 +29,7 @@ class CrossSection(BaseModel):
 
     cladding_layers follow path shape, while bbox_layers are rectangular.
 
-    Args:
+    Attributes:
         layer: main Section layer.
         width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
