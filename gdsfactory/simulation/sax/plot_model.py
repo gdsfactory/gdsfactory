@@ -69,7 +69,6 @@ def plot_model(
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylabel(ylabel)
     plt.legend()
-    plt.show()
     return ax
 
 
