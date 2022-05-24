@@ -30,7 +30,8 @@ def taper(
         width2: width of the east port.
         port: can taper from a port instead of defining width1.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        with_two_ports: includes a second port. False for terminator or fiber edge coupler.
+        with_two_ports: includes a second port.
+            False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
@@ -61,12 +62,13 @@ def taper(
             y2 = width2 / 2 + offset
             ypts = [y1, y2, -y2, -y1]
             c.add_polygon((xpts, ypts), layer=layer)
+
     c.add_port(
         name="o1",
         midpoint=(0, 0),
         width=width1,
         orientation=180,
-        layer=layer,
+        layer=x.layer,
         cross_section=x1,
     )
     if with_two_ports:
@@ -75,7 +77,7 @@ def taper(
             midpoint=(length, 0),
             width=width2,
             orientation=0,
-            layer=layer,
+            layer=x.layer,
             cross_section=x2,
         )
 
@@ -259,8 +261,8 @@ taper_sc_nc = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = taper(width2=1)
-    c = taper_strip_to_ridge()
+    c = taper(width2=1)
+    # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
     # c = taper()

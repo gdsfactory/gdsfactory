@@ -67,13 +67,14 @@ def get_bundle(
     Keyword Args:
         width: main layer waveguide width (um).
         layer: main layer for waveguide.
-        layer_bbox: optional bounding box layer for device recognition. (68, 0)
         width_wide: wide waveguides width (um) for low loss routing.
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
         bbox_layers: list of layers for rectangular bounding box.
         bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
         radius: bend radius (um).
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
@@ -208,18 +209,18 @@ def get_bundle_same_axis(
     r"""Semi auto-routing for two lists of ports.
 
     Args:
-        ports1: first list of ports
-        ports2: second list of ports
-        separation: minimum separation between two straights
+        ports1: first list of ports.
+        ports2: second list of ports.
+        separation: minimum separation between two straights.
         axis: specifies "X" or "Y"
             X (resp. Y) -> indicates that the ports should be sorted and
-            compared using the X (resp. Y) axis
-        route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight
-        end_straight_length: offset to add at the end of each straight
+            compared using the X (resp. Y) axis.
+        route_filter: filter to apply to the manhattan waypoints.
+            e.g `get_route_from_waypoints` for deep etch strip straight.
+        end_straight_length: offset to add at the end of each straight.
         sort_ports: sort the ports according to the axis.
         cross_section: CrossSection or function that returns a cross_section.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates
@@ -298,14 +299,14 @@ def _get_bundle_waypoints(
     """Returns route coordinates List
 
     Args:
-        ports1: list of starting ports
-        ports2: list of end ports
-        separation: route spacing
-        end_straight_length: adds a straigth
-        tol: tolerance
-        start_straight_length: length of straight
+        ports1: list of starting ports.
+        ports2: list of end ports.
+        separation: route spacing.
+        end_straight_length: adds a straigth.
+        tol: tolerance.
+        start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
     """
 
     if not ports1 and not ports2:
@@ -511,15 +512,15 @@ def get_bundle_same_axis_no_grouping(
         (as seen on the last 3 right ports)
 
     Args:
-        ports1: first list of optical ports
-        ports2: second list of optical ports
-        axis: specifies "X" or "Y" direction along which the port is going
-        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector
-            or any other connector function with the same input
-        radius: bend radius. If unspecified, uses the default radius
-        start_straight_length: offset on the starting length before the first bend
-        end_straight_length: offset on the ending length after the last bend
-        sort_ports: True -> sort the ports according to the axis. False -> no sort applied
+        ports1: first list of optical ports.
+        ports2: second list of optical ports.
+        axis: specifies "X" or "Y" direction along which the port is going.
+        route_filter: ManhattanExpandedWgConnector or ManhattanWgConnector.
+            or any other connector function with the same input.
+        radius: bend radius. If unspecified, uses the default radius.
+        start_straight_length: offset on the starting length before the first bend.
+        end_straight_length: offset on the ending length after the last bend.
+        sort_ports: True -> sort the ports according to the axis. False -> no sort applied.
         cross_section: CrossSection or function that returns a cross_section.
 
     Returns:
