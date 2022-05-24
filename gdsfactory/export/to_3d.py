@@ -18,10 +18,10 @@ def to_3d(
     """Return Component 3D trimesh Scene.
 
     Args:
-        component:
-        layer_set: layer colors from Klayout Layer Properties file
-        layer_stack: contains thickness and zmin for each layer
-        exclude_layers: layers to exclude
+        component: to exture in 3D.
+        layer_set: layer colors from Klayout Layer Properties file.
+        layer_stack: contains thickness and zmin for each layer.
+        exclude_layers: layers to exclude.
 
     """
     try:
