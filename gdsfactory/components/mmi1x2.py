@@ -79,6 +79,7 @@ def mmi1x2(
             orientation=180,
             midpoint=(0, 0),
             width=w_taper,
+            layer=x.layer,
             cross_section=x,
         ),
         gf.Port(
@@ -86,6 +87,7 @@ def mmi1x2(
             orientation=0,
             midpoint=(+length_mmi, +a),
             width=w_taper,
+            layer=x.layer,
             cross_section=x,
         ),
         gf.Port(
@@ -93,6 +95,7 @@ def mmi1x2(
             orientation=0,
             midpoint=(+length_mmi, -a),
             width=w_taper,
+            layer=x.layer,
             cross_section=x,
         ),
     ]
@@ -104,7 +107,6 @@ def mmi1x2(
         c.absorb(taper_ref)
 
     if with_bbox:
-        x = gf.get_cross_section(cross_section)
         padding = []
         for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
             points = get_padding_points(

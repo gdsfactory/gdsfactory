@@ -10,7 +10,6 @@ from numpy import bool_, ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.bend_euler import bend_euler
-from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.cross_section import strip
@@ -576,7 +575,6 @@ def round_corners(
     points: Coordinates,
     straight: ComponentSpec = straight_function,
     bend: ComponentSpec = bend_euler,
-    bend_s_factory: Optional[ComponentSpec] = bend_s,
     taper: Optional[ComponentSpec] = None,
     straight_fall_back_no_taper: Optional[ComponentSpec] = None,
     mirror_straight: bool = False,
