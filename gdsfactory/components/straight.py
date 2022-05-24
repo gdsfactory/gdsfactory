@@ -2,7 +2,6 @@
 import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec
 
@@ -12,7 +11,7 @@ def straight(
     length: float = 10.0,
     npoints: int = 2,
     with_bbox: bool = False,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Returns a Straight waveguide.
@@ -67,7 +66,7 @@ if __name__ == "__main__":
     # c = straight(cladding_offset=2.5)
     # c = straight(width=2.5)
 
-    strip2 = strip(layer=(2, 0))
+    strip2 = gf.get_cross_section("strip", layer=(2, 0))
     settings = dict(width=2)
 
     # c = straight(
