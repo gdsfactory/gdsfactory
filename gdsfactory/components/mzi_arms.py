@@ -27,23 +27,23 @@ def mzi_arms(
 ) -> Component:
     """Mzi made with arms.
 
-    This MZI code is slightly deprecated
+    This MZI code is slightly deprecated.
     You can find a more robust mzi in gf.components.mzi
 
     Args:
-        delta_length: bottom arm vertical extra length
-        length_y: vertical length for both and top arms
-        length_x: horizontal length
-        bend: 90 degrees bend library
-        straight: straight function
-        straight_y: straight for length_y and delta_length
-        straight_x_top: top straight for length_x
-        straight_x_bot: bottom straight for length_x
-        splitter: splitter function
-        combiner: combiner function
-        with_splitter: if False removes splitter
-        delta_yright: extra length for right y-oriented waveguide
-        kwargs: cross_section settings
+        delta_length: bottom arm vertical extra length.
+        length_y: vertical length for both and top arms.
+        length_x: horizontal length.
+        bend: 90 degrees bend library.
+        straight: straight spec.
+        straight_y: straight for length_y and delta_length.
+        straight_x_top: top straight for length_x.
+        straight_x_bot: bottom straight for length_x.
+        splitter: splitter spec.
+        combiner: combiner spec.
+        with_splitter: if False removes splitter.
+        delta_yright: extra length for right y-oriented waveguide.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -69,6 +69,8 @@ def mzi_arms(
             |          |          |
             |__________|          |__________
     """
+    from gdsfactory.pdk import get_component
+
     combiner = combiner or splitter
 
     straight_x_top = straight_x_top or straight
@@ -76,8 +78,8 @@ def mzi_arms(
     straight_y = straight_y or straight
 
     c = Component()
-    cp1 = splitter() if callable(splitter) else splitter
-    cp2 = combiner() if combiner else cp1
+    cp1 = get_component(splitter)
+    cp2 = get_component(combiner)
 
     if with_splitter:
         cin = c << cp1

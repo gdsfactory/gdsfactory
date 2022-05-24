@@ -1,4 +1,4 @@
-name: mmi1x2_63a5d53e
+name: mmi1x2_6d74ae09
 settings:
   changed:
     cross_section:
@@ -7,9 +7,7 @@ settings:
         add_bbox:
           function: add_bbox_siepic
         add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -24,8 +22,6 @@ settings:
         - 34
         - 0
         width: 0.9
-    decorator:
-      function: add_pins
     width: 0.9
   child: null
   default:
@@ -48,9 +44,7 @@ settings:
         add_bbox:
           function: add_bbox_siepic
         add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -65,8 +59,6 @@ settings:
         - 34
         - 0
         width: 0.9
-    decorator:
-      function: add_pins
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
@@ -82,5 +74,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_63a5d53e
+  name: mmi1x2_6d74ae09
 version: 0.0.1

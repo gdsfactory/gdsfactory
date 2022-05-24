@@ -22,7 +22,7 @@ class LayerMap:
     WG_CLAD: Layer = (10, 2)
     WGN: Layer = (34, 0)
     WGN_CLAD: Layer = (36, 0)
-    PIN: Layer = (100, 0)
+    PIN: Layer = (1, 10)
 
 
 LAYER = LayerMap()
@@ -60,11 +60,11 @@ def add_pins(
     """Add Pin port markers.
 
     Args:
-        component: to add ports
-        function:
-        pin_length:
-        port_layer:
-        function: kwargs
+        component: to add ports.
+        function: to add pins.
+        pin_length: pin length in um.
+        port_layer: for port.
+        function: kwargs.
 
     """
     for p in component.ports.values():
@@ -100,11 +100,12 @@ xs_no = gf.partial(
 
 
 # LEAF COMPONENTS have pins
-
-bend_euler_nc = gf.partial(gf.components.bend_euler, cross_section=xs_nc)
-straight_nc = gf.partial(gf.components.straight, cross_section=xs_nc)
-bend_euler_o = gf.partial(gf.components.bend_euler, cross_section=xs_no)
-straight_o = gf.partial(gf.components.straight, cross_section=xs_no)
+bend_euler_nc = gf.partial(
+    gf.components.bend_euler, cross_section=xs_nc, with_bbox=True
+)
+straight_nc = gf.partial(gf.components.straight, cross_section=xs_nc, with_bbox=True)
+bend_euler_o = gf.partial(gf.components.bend_euler, cross_section=xs_no, with_bbox=True)
+straight_o = gf.partial(gf.components.straight, cross_section=xs_no, with_bbox=True)
 
 mmi1x2_nc = gf.partial(
     gf.components.mmi1x2,
@@ -164,11 +165,6 @@ write_sparameters_lumerical = gf.partial(
     dirpath=SPARAMETERS_PATH,
 )
 
-plot_sparameters = gf.partial(
-    sim.plot.plot_sparameters,
-    dirpath=SPARAMETERS_PATH,
-    write_sparameters_function=write_sparameters_lumerical,
-)
 
 get_sparameters_path_lumerical = gf.partial(
     sim.get_sparameters_data_lumerical,
@@ -178,6 +174,9 @@ get_sparameters_path_lumerical = gf.partial(
 
 
 if __name__ == "__main__":
+    c = mmi1x2_nc()
+    c.show()
+
     mzi = mzi_nc()
     mzi.show()
     mzi_gc = gf.routing.add_fiber_single(

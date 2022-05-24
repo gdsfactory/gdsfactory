@@ -21,7 +21,7 @@ def bend_circular(
         angle: angle of arc (degrees).
         npoints: number of points.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
-        cross_section: specification (CrossSection, string, CrossSectionFactory dict).
+        cross_section: spec (CrossSection, string or dict).
         kwargs: cross_section settings.
 
     .. code::
@@ -71,8 +71,10 @@ bend_circular180 = gf.partial(bend_circular, angle=180)
 
 
 if __name__ == "__main__":
-    c = bend_circular(width=2, layer=gf.LAYER.M1, angle=30.5, cross_section="rib")
-    c = bend_circular()
+    c = bend_circular(
+        width=2, layer=gf.LAYER.M1, angle=90, cross_section="rib", with_bbox=True
+    )
+    # c = bend_circular()
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
     # c.pprint_ports()
     print(c.ports["o2"].orientation)

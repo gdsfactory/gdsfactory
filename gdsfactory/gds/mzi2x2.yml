@@ -22,8 +22,8 @@ ports:
     - 0
     port_type: optical
 cells:
-  mzi:
-    name: mzi
+  mzi_d0110bc9:
+    name: mzi_d0110bc9
     module: gdsfactory.components.mzi
     function_name: mzi
     info: {}
@@ -40,7 +40,45 @@ cells:
       straight_x_top: null
       straight_x_bot: null
       splitter:
-        function: mmi1x2
+        name: mmi1x2_be5e636a
+        version: 0.0.1
+        settings:
+          name: mmi1x2_be5e636a
+          module: gdsfactory.components.mmi1x2
+          function_name: mmi1x2
+          info: {}
+          info_version: 2
+          full:
+            width: 0.5
+            width_taper: 1
+            length_taper: 10
+            length_mmi: 5.5
+            width_mmi: 2.5
+            gap_mmi: 0.25
+            taper:
+              function: taper
+            straight:
+              function: straight
+            with_bbox: true
+            cross_section:
+              function: cross_section
+          changed:
+            cross_section:
+              function: cross_section
+          default:
+            width: 0.5
+            width_taper: 1
+            length_taper: 10
+            length_mmi: 5.5
+            width_mmi: 2.5
+            gap_mmi: 0.25
+            taper:
+              function: taper
+            straight:
+              function: straight
+            with_bbox: true
+            cross_section: strip
+          child: null
       combiner: null
       with_splitter: true
       port_e1_splitter: o2
@@ -50,10 +88,51 @@ cells:
       nbends: 2
       cross_section:
         function: cross_section
-        settings: {}
       cross_section_x_top: null
       cross_section_x_bot: null
-    changed: {}
+    changed:
+      cross_section:
+        function: cross_section
+      splitter:
+        name: mmi1x2_be5e636a
+        version: 0.0.1
+        settings:
+          name: mmi1x2_be5e636a
+          module: gdsfactory.components.mmi1x2
+          function_name: mmi1x2
+          info: {}
+          info_version: 2
+          full:
+            width: 0.5
+            width_taper: 1
+            length_taper: 10
+            length_mmi: 5.5
+            width_mmi: 2.5
+            gap_mmi: 0.25
+            taper:
+              function: taper
+            straight:
+              function: straight
+            with_bbox: true
+            cross_section:
+              function: cross_section
+          changed:
+            cross_section:
+              function: cross_section
+          default:
+            width: 0.5
+            width_taper: 1
+            length_taper: 10
+            length_mmi: 5.5
+            width_mmi: 2.5
+            gap_mmi: 0.25
+            taper:
+              function: taper
+            straight:
+              function: straight
+            with_bbox: true
+            cross_section: strip
+          child: null
     default:
       delta_length: 10
       length_y: 2
@@ -76,12 +155,23 @@ cells:
       nbends: 2
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
       cross_section_x_top: null
       cross_section_x_bot: null
     child: null
-  mmi1x2:
-    name: mmi1x2
+  mmi1x2_be5e636a:
+    name: mmi1x2_be5e636a
     module: gdsfactory.components.mmi1x2
     function_name: mmi1x2
     info: {}
@@ -98,8 +188,11 @@ cells:
       straight:
         function: straight
       with_bbox: true
-      cross_section: strip
-    changed: {}
+      cross_section:
+        function: cross_section
+    changed:
+      cross_section:
+        function: cross_section
     default:
       width: 0.5
       width_taper: 1
@@ -114,8 +207,8 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  bend_euler_9e0718a0:
-    name: bend_euler_9e0718a0
+  bend_euler_be5e636a:
+    name: bend_euler_be5e636a
     module: gdsfactory.components.bend_euler
     function_name: bend_euler
     info:
@@ -133,11 +226,9 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
     changed:
       cross_section:
         function: cross_section
-        settings: {}
     default:
       angle: 90
       p: 0.5
@@ -147,8 +238,8 @@ cells:
       with_bbox: false
       cross_section: strip
     child: null
-  straight_a4be237b:
-    name: straight_a4be237b
+  straight_c5a89844:
+    name: straight_c5a89844
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -161,8 +252,9 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
     changed:
+      cross_section:
+        function: cross_section
       length: 7
     default:
       length: 10
@@ -170,10 +262,21 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-  straight_6870e926:
-    name: straight_6870e926
+  straight_dcfdf04b:
+    name: straight_dcfdf04b
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -186,8 +289,9 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
     changed:
+      cross_section:
+        function: cross_section
       length: 0.1
     default:
       length: 10
@@ -195,10 +299,21 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-  straight_fba69bc3:
-    name: straight_fba69bc3
+  straight_711fdeaf:
+    name: straight_711fdeaf
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -211,8 +326,9 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
     changed:
+      cross_section:
+        function: cross_section
       length: 2
     default:
       length: 10
@@ -220,10 +336,21 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-  straight_fa3a3f2f:
-    name: straight_fa3a3f2f
+  straight_26742f6a:
+    name: straight_26742f6a
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -241,13 +368,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -259,7 +387,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
     changed:
@@ -270,13 +397,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -288,7 +416,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
       length: 0.09
@@ -298,10 +425,21 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-  straight_c804d8bd:
-    name: straight_c804d8bd
+  straight_d407f458:
+    name: straight_d407f458
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -319,13 +457,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -337,7 +476,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
     changed:
@@ -348,13 +486,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -366,7 +505,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
       length: 2
@@ -376,10 +514,21 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-  straight_4ae164bc:
-    name: straight_4ae164bc
+  straight_c98cb056:
+    name: straight_c98cb056
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -397,13 +546,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -415,7 +565,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
     changed:
@@ -426,13 +575,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -444,7 +594,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
       length: 0.01
@@ -454,10 +603,21 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-  straight_32d14105:
-    name: straight_32d14105
+  straight_3b051317:
+    name: straight_3b051317
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -475,13 +635,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -493,7 +654,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
     changed:
@@ -504,13 +664,14 @@ cells:
         width: 0.5
         offset: 0
         radius: 10
-        layer_bbox: null
         width_wide: null
         auto_widen: false
         auto_widen_minimum_length: 200
         taper_length: 10
         bbox_layers: []
         bbox_offsets: []
+        cladding_layers: null
+        cladding_offsets: null
         sections: []
         port_names:
         - o1
@@ -522,7 +683,6 @@ cells:
         start_straight_length: 0.01
         end_straight_length: 0.01
         snap_to_grid: null
-        decorator: null
         info: {}
         name: null
       length: 7
@@ -532,12 +692,23 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
-name: mzi
+name: mzi_d0110bc9
 version: 0.0.1
 settings:
-  name: mzi
+  name: mzi_d0110bc9
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
@@ -554,7 +725,45 @@ settings:
     straight_x_top: null
     straight_x_bot: null
     splitter:
-      function: mmi1x2
+      name: mmi1x2_be5e636a
+      version: 0.0.1
+      settings:
+        name: mmi1x2_be5e636a
+        module: gdsfactory.components.mmi1x2
+        function_name: mmi1x2
+        info: {}
+        info_version: 2
+        full:
+          width: 0.5
+          width_taper: 1
+          length_taper: 10
+          length_mmi: 5.5
+          width_mmi: 2.5
+          gap_mmi: 0.25
+          taper:
+            function: taper
+          straight:
+            function: straight
+          with_bbox: true
+          cross_section:
+            function: cross_section
+        changed:
+          cross_section:
+            function: cross_section
+        default:
+          width: 0.5
+          width_taper: 1
+          length_taper: 10
+          length_mmi: 5.5
+          width_mmi: 2.5
+          gap_mmi: 0.25
+          taper:
+            function: taper
+          straight:
+            function: straight
+          with_bbox: true
+          cross_section: strip
+        child: null
     combiner: null
     with_splitter: true
     port_e1_splitter: o2
@@ -564,10 +773,51 @@ settings:
     nbends: 2
     cross_section:
       function: cross_section
-      settings: {}
     cross_section_x_top: null
     cross_section_x_bot: null
-  changed: {}
+  changed:
+    cross_section:
+      function: cross_section
+    splitter:
+      name: mmi1x2_be5e636a
+      version: 0.0.1
+      settings:
+        name: mmi1x2_be5e636a
+        module: gdsfactory.components.mmi1x2
+        function_name: mmi1x2
+        info: {}
+        info_version: 2
+        full:
+          width: 0.5
+          width_taper: 1
+          length_taper: 10
+          length_mmi: 5.5
+          width_mmi: 2.5
+          gap_mmi: 0.25
+          taper:
+            function: taper
+          straight:
+            function: straight
+          with_bbox: true
+          cross_section:
+            function: cross_section
+        changed:
+          cross_section:
+            function: cross_section
+        default:
+          width: 0.5
+          width_taper: 1
+          length_taper: 10
+          length_mmi: 5.5
+          width_mmi: 2.5
+          gap_mmi: 0.25
+          taper:
+            function: taper
+          straight:
+            function: straight
+          with_bbox: true
+          cross_section: strip
+        child: null
   default:
     delta_length: 10
     length_y: 2
@@ -590,7 +840,18 @@ settings:
     nbends: 2
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        add_bbox:
+          function: add_bbox_siepic
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
     cross_section_x_top: null
     cross_section_x_bot: null
   child: null

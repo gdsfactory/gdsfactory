@@ -30,7 +30,7 @@ def _get_sparameters_path(
 
     Args:
         component: component or component factory.
-        dirpath: directory path to store sparameters
+        dirpath: directory path to store sparameters.
         kwargs: simulation settings.
     """
 
@@ -86,12 +86,12 @@ def test_get_sparameters_path(test: bool = True) -> None:
     p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
 
     if test:
-        name1 = "straight_a819ff51"
-        assert p1.stem == name1, p1.stem
-        name2 = "straight_b18ef775"
-        assert p2.stem == name2, p2.stem
-        name3 = "straight_8da6acc3"
+        name1 = "straight_24e96fd6"
+        name2 = "straight_6b279ab9"
+        name3 = "straight_791f2fdf"
 
+        assert p1.stem == name1, p1.stem
+        assert p2.stem == name2, p2.stem
         assert p3.stem == name3, p3.stem
     else:
         print(f"name1 = {p1.stem!r}")
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     # print(p)
 
     test_get_sparameters_path(test=False)
-    test_get_sparameters_path(test=True)
+    # test_get_sparameters_path(test=True)

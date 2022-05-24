@@ -87,6 +87,11 @@ class CrossSection(BaseModel):
     class Config:
         frozen = True
         extra = "forbid"
+        fields = {
+            "decorator": {"exclude": True},
+            "add_pins": {"exclude": True},
+            "add_bbox": {"exclude": True},
+        }
 
     def get_copy(self, width: Optional[float] = None):
         if not width:
@@ -112,6 +117,45 @@ class CrossSection(BaseModel):
             if section.name:
                 s[section.name] = section
         return s
+
+    def add_bbox_layers(
+        self,
+        component,
+        top: Optional[float] = None,
+        bottom: Optional[float] = None,
+        right: Optional[float] = None,
+        left: Optional[float] = None,
+    ):
+        """Add bounding box layers to a component.
+
+        Args:
+            component: to add layers.
+            top: top padding.
+            bottom: bottom padding.
+            right: right padding.
+            left: left padding.
+        """
+
+        from gdsfactory.add_padding import get_padding_points
+
+        c = component
+        x = self
+        if x.bbox_layers and x.bbox_offsets:
+            padding = []
+            for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+                points = get_padding_points(
+                    component=c,
+                    default=0,
+                    top=top or offset,
+                    bottom=bottom or offset,
+                    left=left or offset,
+                    right=right or offset,
+                )
+                padding.append(points)
+
+            for layer, points in zip(x.bbox_layers, padding):
+                c.add_polygon(points, layer=layer)
+        return c
 
 
 class Transition(CrossSection):

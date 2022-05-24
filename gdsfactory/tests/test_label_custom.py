@@ -2,6 +2,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.cross_section import cross_section
 
 LENGTH = 0.5
 CELL_NAME = "straight_L500n"
@@ -9,12 +10,15 @@ CUSTOM_LABEL = "straight_cband"
 
 
 def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Component:
-    c = gf.components.straight(length=LENGTH)
+    c = gf.components.straight(length=LENGTH, cross_section=cross_section)
 
     assert len(c.labels) == 0, len(c.labels)
 
     cte = gf.routing.add_fiber_array(
-        component=c, with_loopback=False, component_name=CUSTOM_LABEL
+        component=c,
+        with_loopback=False,
+        component_name=CUSTOM_LABEL,
+        cross_section=cross_section,
     )
     assert len(cte.labels) == 2, len(cte.labels)
     l0 = cte.labels[0].text
@@ -26,11 +30,14 @@ def test_label_fiber_array_custom(length=LENGTH, cell_name=CELL_NAME) -> Compone
 
 
 def test_label_fiber_single_custom(num_regression, check=True):
-    c = gf.components.straight(length=3)
+    c = gf.components.straight(length=3, cross_section=cross_section)
     assert len(c.labels) == 0
 
     cte = gf.routing.add_fiber_single(
-        component=c, with_loopback=True, component_name=CUSTOM_LABEL
+        component=c,
+        with_loopback=True,
+        component_name=CUSTOM_LABEL,
+        cross_section=cross_section,
     )
     assert len(cte.labels) == 4
     labels = {
