@@ -3,10 +3,18 @@ from gdsfactory.component import Component
 
 LENGTH = 0.5
 
+straight = gf.partial(
+    gf.components.straight,
+    with_bbox=True,
+    cladding_layers=None,
+    add_pins=None,
+    add_bbox=None,
+)
+
 
 def test_label_fiber_single(length=LENGTH) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
-    c = gf.components.straight(length=length)
+    c = straight(length=length)
     cell_name = c.name
 
     assert len(c.labels) == 0
@@ -24,7 +32,7 @@ def test_label_fiber_single(length=LENGTH) -> Component:
 
 def test_label_fiber_single_loopback(length=LENGTH) -> Component:
     """Test that add_fiber single adds the correct label for measurements."""
-    c = gf.components.straight(length=length)
+    c = straight(length=length)
     cell_name = c.name
 
     assert len(c.labels) == 0, len(c.labels)
