@@ -20,4 +20,5 @@ exclude =
     deprecated,
     gdslib,
     .tox,
-    .mypy_cache
+    .mypy_cache,
+    venv

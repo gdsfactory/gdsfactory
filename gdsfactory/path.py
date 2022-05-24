@@ -94,9 +94,9 @@ def transition_exponential(y1, y2, exp=0.5):
     """Returns the function for an exponential transition
 
     Args:
-        y1: start width
-        y2: end width
-        exp: exponent
+        y1: start width in um.
+        y2: end width in um.
+        exp: exponent.
     """
     return lambda t: y1 + (y2 - y1) * t**exp
 
@@ -114,13 +114,13 @@ def transition(
     adapted from phidl.path
 
     Args:
-        cross_section1: First input CrossSection
-        cross_section2: Second input CrossSection
+        cross_section1: First input CrossSection.
+        cross_section2: Second input CrossSection.
         width_type: sine or linear
           Sets the type of width transition used if any widths are different
           between the two input CrossSections.
 
-    Returns A smoothly-transitioning CrossSection
+    Returns A smoothly-transitioning CrossSection.
     """
 
     X1 = cross_section1

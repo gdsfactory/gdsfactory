@@ -15,8 +15,8 @@ def plot_sparameters(
     """Plots Sparameters from a pandas DataFrame.
 
     Args:
-        df: Sparameters pandas DataFrame
-        logscale: plots 20*log10(S)
+        df: Sparameters pandas DataFrame.
+        logscale: plots 20*log10(S).
         keys: list of keys to plot, plots all by default.
     """
 

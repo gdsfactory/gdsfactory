@@ -1,4 +1,4 @@
-name: straight_da1f7fd0
+name: straight_11aff456
 settings:
   changed:
     cross_section:
@@ -7,9 +7,7 @@ settings:
         add_bbox:
           function: add_bbox_siepic
         add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -24,8 +22,6 @@ settings:
         - 34
         - 0
         width: 1
-    decorator:
-      function: add_pins
     with_bbox: true
   child: null
   default:
@@ -53,9 +49,7 @@ settings:
         add_bbox:
           function: add_bbox_siepic
         add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
@@ -70,8 +64,6 @@ settings:
         - 34
         - 0
         width: 1
-    decorator:
-      function: add_pins
     length: 10
     npoints: 2
     with_bbox: true
@@ -81,5 +73,5 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_da1f7fd0
+  name: straight_11aff456
 version: 0.0.1

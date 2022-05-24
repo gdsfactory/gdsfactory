@@ -13,7 +13,7 @@ gdspaths = [gf.CONFIG["gdsdir"] / name for name in ["mzi2x2.gds"]]
 @pytest.mark.parametrize("gdspath", gdspaths)
 def test_components_ports(
     gdspath: Path, data_regression: DataRegressionFixture
-) -> gf.Component:
+) -> None:
     """Read ports from markers."""
     c = gf.import_gds(gdspath, decorator=add_ports_from_markers_center)
     data_regression.check(c.to_dict())

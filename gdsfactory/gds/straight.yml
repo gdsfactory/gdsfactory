@@ -36,7 +36,18 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     changed:
       length: 1.234
     default:
@@ -45,8 +56,20 @@ cells:
       with_bbox: false
       cross_section:
         function: cross_section
-        settings: {}
+        settings:
+          add_pins:
+            function: add_pins_siepic
+            settings:
+              pin_length: 0.002
+          add_bbox:
+            function: add_bbox_siepic
+          cladding_layers:
+          - - 68
+            - 0
+          cladding_offsets:
+          - 0
     child: null
+name: straight_189d2d09
 version: 0.0.1
 settings:
   name: straight_189d2d09
@@ -62,7 +85,18 @@ settings:
     with_bbox: false
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        add_bbox:
+          function: add_bbox_siepic
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
   changed:
     length: 1.234
   default:
@@ -71,5 +105,16 @@ settings:
     with_bbox: false
     cross_section:
       function: cross_section
-      settings: {}
+      settings:
+        add_pins:
+          function: add_pins_siepic
+          settings:
+            pin_length: 0.002
+        add_bbox:
+          function: add_bbox_siepic
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
   child: null
