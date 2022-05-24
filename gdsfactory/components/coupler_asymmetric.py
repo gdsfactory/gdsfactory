@@ -20,12 +20,12 @@ def coupler_asymmetric(
 
     Args:
         bend: spec.
-        straight: straight library.
+        straight: straight spec.
         gap: um.
         dy: port to port vertical spacing.
         dx: bend length in x direction.
         cross_section: spec.
-        **kwargs: cross_section settings.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -38,7 +38,7 @@ def coupler_asymmetric(
                             o3
 
     """
-    x = cross_section(**kwargs)
+    x = gf.get_cross_section(cross_section, **kwargs)
     width = x.width
     bend_component = (
         bend(size=(dx, dy - gap - width), cross_section=cross_section, **kwargs)

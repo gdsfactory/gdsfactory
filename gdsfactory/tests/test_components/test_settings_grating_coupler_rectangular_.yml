@@ -3,13 +3,11 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: strip
     fiber_marker_layer:
     - 203
     - 0
     fill_factor: 0.5
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -22,16 +20,13 @@ settings:
     taper:
       function: taper
     wavelength: 1.55
-    wg_width: 0.5
     width_grating: 11
   full:
+    cross_section: strip
     fiber_marker_layer:
     - 203
     - 0
     fill_factor: 0.5
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -44,7 +39,6 @@ settings:
     taper:
       function: taper
     wavelength: 1.55
-    wg_width: 0.5
     width_grating: 11
   function_name: grating_coupler_rectangular
   info:

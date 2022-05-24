@@ -23,12 +23,12 @@ def bend_circular_heater(
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
 
     Args:
-        radius:
-        angle: angle of arc (degrees)
-        npoints: Number of points used per 360 degrees
-        heater_to_wg_distance:
-        heater_width:
-        layer_heater:
+        radius: in um.
+        angle: angle of arc (degrees).
+        npoints: Number of points used per 360 degrees.
+        heater_to_wg_distance: in um.
+        heater_width: in um.
+        layer_heater: for heater.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.

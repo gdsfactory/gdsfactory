@@ -1,26 +1,39 @@
-name: grating_coupler_ellipti_596d0092
+name: grating_coupler_ellipti_bc230c78
 settings:
   changed:
-    decorator:
-      function: add_pins
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1
     grating_line_width: 0.6
-    layer:
-    - 34
-    - 0
     layer_slab: null
-    wg_width: 1
   child: null
   default:
     big_last_tooth: false
+    cross_section: strip
     fiber_angle: 15
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11
     grating_line_width: 0.343
-    layer:
-    - 1
-    - 0
     layer_slab:
     - 2
     - 0
@@ -34,20 +47,35 @@ settings:
     taper_angle: 40
     taper_length: 16.6
     wavelength: 1.554
-    wg_width: 0.5
   full:
     big_last_tooth: false
-    decorator:
-      function: add_pins
+    cross_section:
+      function: cross_section
+      settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
+        bbox_layers:
+        - - 36
+          - 0
+        bbox_offsets:
+        - 3
+        cladding_layers:
+        - - 68
+          - 0
+        cladding_offsets:
+        - 0
+        layer:
+        - 34
+        - 0
+        width: 1
     fiber_angle: 15
     fiber_marker_layer:
     - 203
     - 0
     fiber_marker_width: 11
     grating_line_width: 0.6
-    layer:
-    - 34
-    - 0
     layer_slab: null
     n_periods: 30
     nclad: 1.443
@@ -59,12 +87,11 @@ settings:
     taper_angle: 40
     taper_length: 16.6
     wavelength: 1.554
-    wg_width: 1
   function_name: grating_coupler_elliptical
   info:
     polarization: te
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_596d0092
+  name: grating_coupler_ellipti_bc230c78
 version: 0.0.1

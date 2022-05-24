@@ -1,12 +1,12 @@
 connections:
-  bend_euler_67p115_m5p5,o1: straight_5f7d3a14_51p995_m0p625,o2
-  bend_euler_67p115_m5p5,o2: straight_8124c601_71p99_m20p0,o1
-  bend_euler_76p865_m34p5,o1: straight_8124c601_71p99_m20p0,o2
-  bend_euler_76p865_m34p5,o2: straight_1c2065ee_81p995_m39p375,o1
+  bend_euler_67p114_m5p5,o1: straight_5f7d3a14_51p995_m0p625,o2
+  bend_euler_67p114_m5p5,o2: straight_8124c601_71p99_m20p0,o1
+  bend_euler_76p866_m34p5,o1: straight_8124c601_71p99_m20p0,o2
+  bend_euler_76p866_m34p5,o2: straight_1c2065ee_81p995_m39p375,o1
   mmi_bot,o1: straight_1c2065ee_81p995_m39p375,o2
   mmi_top,o3: straight_5f7d3a14_51p995_m0p625,o1
 instances:
-  bend_euler_67p115_m5p5:
+  bend_euler_67p114_m5p5:
     component: bend_euler
     info:
       dy: 10
@@ -14,7 +14,7 @@ instances:
       radius: 10
       radius_min: 7.061
     settings: {}
-  bend_euler_76p865_m34p5:
+  bend_euler_76p866_m34p5:
     component: bend_euler
     info:
       dy: 10
@@ -58,12 +58,12 @@ instances:
       length: 18.75
 name: sample_docstring_5eb0f802
 placements:
-  bend_euler_67p115_m5p5:
+  bend_euler_67p114_m5p5:
     mirror: true
     rotation: 0
     x: 61.99
     y: -0.625
-  bend_euler_76p865_m34p5:
+  bend_euler_76p866_m34p5:
     mirror: false
     rotation: 270
     x: 71.99

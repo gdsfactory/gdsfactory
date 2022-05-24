@@ -9,6 +9,7 @@ settings:
       settings:
         length: 100
         width2: 0.2
+        with_two_ports: false
     extension_length: 1
     h_mirror: false
     n: 8
@@ -28,6 +29,7 @@ settings:
       settings:
         length: 100
         width2: 0.2
+        with_two_ports: false
     extension_length: 1
     h_mirror: false
     n: 8

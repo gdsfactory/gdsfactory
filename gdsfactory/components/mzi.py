@@ -192,11 +192,10 @@ mzi_coupler = partial(
 if __name__ == "__main__":
     # from gdsfactory.cross_section import heater_metal
     # c = mzi(cross_section=heater_metal)
+    # from gdsfactory.cross_section import strip_heater_metal
+    # c = mzi(cross_section_x_top=strip_heater_metal, length_x=100)
 
-    from gdsfactory.cross_section import strip_heater_metal
-
-    c = mzi(cross_section_x_top=strip_heater_metal, length_x=100)
-
+    c = mzi()
     c.show()
 
     # WIDTH = 2

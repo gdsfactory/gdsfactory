@@ -14,7 +14,6 @@ from gdsfactory.geometry.functions import (
     path_length,
     snap_angle,
 )
-from gdsfactory.hash_points import hash_points
 from gdsfactory.types import Coordinate, Coordinates, Number
 
 
@@ -44,7 +43,6 @@ def bezier_points(control_points: Coordinates, width: Number, npoints: int = 101
 
 @gf.cell
 def bezier(
-    name: Optional[str] = None,
     width: float = 0.5,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
@@ -70,11 +68,7 @@ def bezier(
         grid: in um.
     """
 
-    if name is None:
-        points_hash = hash_points(control_points)
-        name = f"bezier_w{int(width*1e3)}_{points_hash}_{layer[0]}_{layer[1]}"
-
-    c = gf.Component(name=name)
+    c = gf.Component()
     t = np.linspace(0, 1, npoints)
     path_points = bezier_curve(t, control_points)
     polygon_points = extrude_path(

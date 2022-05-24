@@ -4,6 +4,7 @@ settings:
   child: null
   default:
     angle: 0.5235987755982988
+    cross_section: strip
     direction: EAST
     dw: 0.1
     gap: 0.5
@@ -16,6 +17,7 @@ settings:
       function: strip
   full:
     angle: 0.5235987755982988
+    cross_section: strip
     direction: EAST
     dw: 0.1
     gap: 0.5
