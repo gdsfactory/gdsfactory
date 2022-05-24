@@ -14,7 +14,7 @@ def test_settings(data_regression, check: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    # c = demo_cross_section_setting()
-    # d = c.to_dict()
+    c = demo_cross_section_setting()
+    d = c.to_dict()
     # c.show()
-    test_settings()
+    # test_settings()
