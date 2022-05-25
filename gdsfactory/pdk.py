@@ -20,6 +20,8 @@ from gdsfactory.types import (
     CrossSectionFactory,
     CrossSectionSpec,
     Dict,
+    Layer,
+    LayerSpec,
     PathType,
 )
 
@@ -302,6 +304,10 @@ def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
     return _ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
+
+
+def get_layer(layer: LayerSpec) -> Layer:
+    return _ACTIVE_PDK.get_layer(layer)
 
 
 def get_active_pdk() -> Pdk:
