@@ -11,6 +11,7 @@ from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -37,14 +38,17 @@ class Pdk(BaseModel):
         name: PDK name.
         cross_sections: cross_sections.
         cells: pcells.
+        layers: layers dict.
         containers: pcells that contain other cells.
+        base_pdk: pdk.
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
+    layers: Dict[str, Layer]
     containers: Dict[str, ComponentFactory] = containers_default
-    base_pdk: "Pdk" = None
+    base_pdk: Optional["Pdk"] = None
 
     def activate(self) -> None:
         if self.base_pdk:
@@ -247,7 +251,7 @@ class Pdk(BaseModel):
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
     ) -> CrossSection:
-        """Returns component from a cross_section spec."""
+        """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
             if kwargs:
                 raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
@@ -289,8 +293,23 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, string or dict), got {type(cross_section)}"
             )
 
+    def get_layer(self, layer: LayerSpec) -> Layer:
+        """Returns layer from a layer spec."""
+        if isinstance(layer, Layer):
+            return layer
+        elif isinstance(layer, int):
+            return (layer, 0)
+        elif isinstance(layer, str):
+            if layer not in self.layers:
+                raise ValueError(f"{layer} not in {self.layers.keys()}")
+            return self.layers[layer]
+        else:
+            raise ValueError(f"{layer} needs to be a LayerSpec (string, int or Layer)")
 
-GENERIC = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
+
+GENERIC = Pdk(
+    name="generic", cross_sections=cross_sections, cells=cells, layers=LAYER.dict()
+)
 _ACTIVE_PDK = GENERIC
 
 
