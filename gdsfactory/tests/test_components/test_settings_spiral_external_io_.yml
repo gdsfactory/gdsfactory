@@ -16,8 +16,7 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
     length: null
@@ -40,8 +39,7 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
     length: null

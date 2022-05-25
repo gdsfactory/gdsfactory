@@ -8,7 +8,6 @@ from gdsfactory.components.coupler_straight import (
     coupler_straight as coupler_straight_function,
 )
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -22,7 +21,7 @@ def coupler_ring(
     bend: Optional[ComponentSpec] = None,
     straight: ComponentSpec = straight_function,
     coupler_straight: ComponentSpec = coupler_straight_function,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     bend_cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:

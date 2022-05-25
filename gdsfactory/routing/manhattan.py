@@ -605,6 +605,8 @@ def round_corners(
         snap_to_grid_nm: nm to snap to grid.
         kwargs: cross_section settings.
     """
+    from gdsfactory.pdk import get_layer
+
     multi_cross_section = isinstance(cross_section, list)
     if multi_cross_section:
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
@@ -613,6 +615,7 @@ def round_corners(
         x = gf.get_cross_section(cross_section, **kwargs)
         layer = x.layer
 
+    layer = get_layer(layer)
     points = (
         gf.snap.snap_to_grid(points, nm=snap_to_grid_nm) if snap_to_grid_nm else points
     )
@@ -831,7 +834,7 @@ def round_corners(
             taper_origin = straight_origin
 
             pname_west, pname_east = [
-                p.name for p in _get_straight_ports(taper, layer=x.layer)
+                p.name for p in _get_straight_ports(taper, layer=layer)
             ]
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_west, rotation=angle
@@ -863,7 +866,7 @@ def round_corners(
             )
 
         if straight_ports is None:
-            straight_ports = [p.name for p in _get_straight_ports(wg, layer=x.layer)]
+            straight_ports = [p.name for p in _get_straight_ports(wg, layer=layer)]
         pname_west, pname_east = straight_ports
 
         wg_ref = wg.ref()
@@ -885,7 +888,7 @@ def round_corners(
 
             taper_origin = wg_ref.ports[pname_east]
             pname_west, pname_east = [
-                p.name for p in _get_straight_ports(taper, layer=x.layer)
+                p.name for p in _get_straight_ports(taper, layer=layer)
             ]
 
             taper_ref = taper.ref(

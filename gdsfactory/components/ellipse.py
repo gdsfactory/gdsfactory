@@ -5,13 +5,14 @@ from numpy import cos, pi, sin, sqrt
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def ellipse(
     radii: Tuple[float, float] = (10.0, 5.0),
     angle_resolution: float = 2.5,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Generate an ellipse geometry.
 

@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_bc230c78
+name: grating_coupler_ellipti_c5e81e42
 settings:
   changed:
     cross_section:
@@ -14,8 +14,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -29,14 +28,10 @@ settings:
     big_last_tooth: false
     cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     grating_line_width: 0.343
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     n_periods: 30
     nclad: 1.443
     neff: 2.638
@@ -62,8 +57,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -71,9 +65,7 @@ settings:
         - 0
         width: 1
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     grating_line_width: 0.6
     layer_slab: null
@@ -93,5 +85,5 @@ settings:
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_bc230c78
+  name: grating_coupler_ellipti_c5e81e42
 version: 0.0.1

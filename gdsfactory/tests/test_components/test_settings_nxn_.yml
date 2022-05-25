@@ -4,9 +4,7 @@ settings:
   child: null
   default:
     east: 4
-    layer:
-    - 1
-    - 0
+    layer: WG
     north: 0
     south: 0
     west: 1
@@ -16,9 +14,7 @@ settings:
     ysize: 8
   full:
     east: 4
-    layer:
-    - 1
-    - 0
+    layer: WG
     north: 0
     south: 0
     west: 1

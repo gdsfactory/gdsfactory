@@ -15,8 +15,7 @@ from gdsfactory.components.bezier import (
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
 from gdsfactory.geometry.functions import path_length
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Layer
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -30,11 +29,13 @@ def crossing_arm(
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
-    layer_slab: Layer = LAYER.SLAB150,
+    layer_slab: LayerSpec = "SLAB150",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
     """arm of a crossing"""
     c = Component()
+
+    layer_slab = gf.get_layer(layer_slab)
     c << ellipse(radii=(r1, r2), layer=layer_slab)
 
     xs = gf.get_cross_section(cross_section)
@@ -140,8 +141,8 @@ def crossing_etched(
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
-    layer_wg: Layer = LAYER.WG,
-    layer_slab: Layer = LAYER.SLAB150,
+    layer_wg: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB150",
 ) -> Component:
     """
     Waveguide crossing.
@@ -158,6 +159,8 @@ def crossing_etched(
         layer_wg: waveguide layer.
         layer_slab: shallow etch layer.
     """
+    layer_wg = gf.get_layer(layer_wg)
+    layer_slab = gf.get_layer(layer_slab)
 
     # Draw the ellipses
     c = Component()

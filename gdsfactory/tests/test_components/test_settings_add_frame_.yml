@@ -5,17 +5,13 @@ settings:
   default:
     component:
       function: rectangle
-    layer:
-    - 1
-    - 0
+    layer: WG
     spacing: 10
     width: 10
   full:
     component:
       function: rectangle
-    layer:
-    - 1
-    - 0
+    layer: WG
     spacing: 10
     width: 10
   function_name: add_frame

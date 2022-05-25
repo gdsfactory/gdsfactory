@@ -13,26 +13,25 @@ def bend_port(
     port_name2: str = "e2",
     port_name1_bend: Optional[str] = None,
     port_name2_bend: Optional[str] = None,
-    cross_section: CrossSectionSpec = gf.cross_section.metal3,
+    cross_section: CrossSectionSpec = "metal3",
     bend: ComponentSpec = bend_circular,
     angle: float = 180,
     extension_length: Optional[float] = None,
     **kwargs,
 ) -> gf.Component:
-    """
-    Returns a component that contains a component with a bend and a straight
+    """Returns a component with a bend and a straight extension.
 
     Args:
-        component:
-        port_name: of the component
-        port_name2: of the component, to extend to
-        port_name1_bend:
-        port_name2_bend:
-        cross_section: for the bend
-        bend: factory for the bend
-        angle: for the bend
-        extension_length: for the straight after the bend
-        kwargs: cross_section settings
+        component: to bend.
+        port_name: of the component.
+        port_name2: of the component, to extend to.
+        port_name1_bend: for bend port.
+        port_name2_bend: for bend port.
+        cross_section: for the bend.
+        bend: factory for the bend.
+        angle: for the bend.
+        extension_length: for the straight after the bend.
+        kwargs: cross_section settings.
 
     """
     c = gf.Component()

@@ -3,18 +3,14 @@ settings:
   changed: {}
   child: null
   default:
-    layer:
-    - 49
-    - 0
+    layer: M3
     port_type: electrical
     size:
     - 10
     - 20
     width: 1
   full:
-    layer:
-    - 49
-    - 0
+    layer: M3
     port_type: electrical
     size:
     - 10

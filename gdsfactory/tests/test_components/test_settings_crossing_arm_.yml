@@ -5,18 +5,14 @@ settings:
   default:
     L: 3.4
     cross_section: strip
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     r1: 3
     r2: 1.1
     w: 1.2
   full:
     L: 3.4
     cross_section: strip
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     r1: 3
     r2: 1.1
     w: 1.2

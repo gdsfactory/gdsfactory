@@ -1,19 +1,17 @@
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.types import CrossSectionSpec, Layer, Optional
+from gdsfactory.types import CrossSectionSpec, LayerSpec, Optional
 
 
 @gf.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
+    fiber_marker_layer: Optional[LayerSpec] = "TE",
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
@@ -22,7 +20,7 @@ def grating_coupler_elliptical_trenches(
     grating_line_width: float = 0.343,
     neff: float = 2.638,  # tooth effective index
     ncladding: float = 1.443,  # cladding index
-    layer_trench: Tuple[int, int] = gf.LAYER.SLAB150,
+    layer_trench: LayerSpec = "SLAB150",
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
@@ -156,7 +154,7 @@ grating_coupler_tm = gf.partial(
     polarization="tm",
     neff=1.8,
     grating_line_width=0.6,
-    fiber_marker_layer=gf.LAYER.TM,
+    fiber_marker_layer="TM",
 )
 
 
