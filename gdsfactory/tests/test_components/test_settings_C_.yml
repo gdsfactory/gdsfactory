@@ -3,17 +3,13 @@ settings:
   changed: {}
   child: null
   default:
-    layer:
-    - 49
-    - 0
+    layer: WG
     size:
     - 10.0
     - 20.0
     width: 1
   full:
-    layer:
-    - 49
-    - 0
+    layer: WG
     size:
     - 10.0
     - 20.0

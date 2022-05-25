@@ -8,9 +8,7 @@ settings:
       - 0
     child: null
     default:
-      layer:
-      - 1
-      - 0
+      layer: WG
       length: 10
       port_type: null
       width: 3

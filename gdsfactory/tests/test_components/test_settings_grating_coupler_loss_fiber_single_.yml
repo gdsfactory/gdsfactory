@@ -9,14 +9,10 @@ settings:
       cross_section: strip
       end_straight_length: 0.2
       fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
+      fiber_marker_layer: TE
       fiber_marker_width: 11
       grating_line_width: 0.343
-      layer_trench:
-      - 2
-      - 0
+      layer_trench: SLAB150
       n_periods: 30
       ncladding: 1.443
       neff: 2.638
@@ -30,14 +26,10 @@ settings:
       cross_section: strip
       end_straight_length: 0.2
       fiber_angle: 15
-      fiber_marker_layer:
-      - 203
-      - 0
+      fiber_marker_layer: TE
       fiber_marker_width: 11
       grating_line_width: 0.343
-      layer_trench:
-      - 2
-      - 0
+      layer_trench: SLAB150
       n_periods: 30
       ncladding: 1.443
       neff: 2.638
@@ -56,40 +48,14 @@ settings:
     module: gdsfactory.components.grating_coupler_elliptical_trenches
     name: grating_coupler_ellipti_db285fcb
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:
         polarization: te
         taper_angle: 35
   full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:

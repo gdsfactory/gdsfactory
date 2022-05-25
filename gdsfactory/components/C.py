@@ -2,21 +2,21 @@ from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def C(
     width: float = 1.0,
     size: Tuple[float, float] = (10.0, 20.0),
-    layer: Tuple[int, int] = LAYER.M3,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Generates a 'C' geometry with ports on both ends. Adapted from phidl
 
     Args:
         width: of the line.
         size: length and height of the base.
-        layer: to draw.
+        layer: layer spec.
 
     .. code::
          ______
@@ -28,7 +28,8 @@ def C(
         |______ o2
 
     """
-    D = Component()
+    layer = gf.get_layer(layer)
+    c = Component()
     w = width / 2
     s1, s2 = size
     points = [
@@ -42,10 +43,10 @@ def C(
         (-w, s2 + w),
         (-w, -w),
     ]
-    D.add_polygon(points, layer=layer)
-    D.add_port(name="o1", midpoint=(s1, s2), width=width, orientation=0, layer=layer)
-    D.add_port(name="o2", midpoint=(s1, 0), width=width, orientation=0, layer=layer)
-    return D
+    c.add_polygon(points, layer=layer)
+    c.add_port(name="o1", midpoint=(s1, s2), width=width, orientation=0, layer=layer)
+    c.add_port(name="o2", midpoint=(s1, 0), width=width, orientation=0, layer=layer)
+    return c
 
 
 if __name__ == "__main__":

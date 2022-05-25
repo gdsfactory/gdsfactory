@@ -1,4 +1,4 @@
-name: mzi_6c43704d
+name: mzi_e004bb2d
 settings:
   changed:
     bend:
@@ -17,8 +17,7 @@ settings:
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             layer:
@@ -39,8 +38,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -63,8 +61,7 @@ settings:
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             layer:
@@ -89,8 +86,7 @@ settings:
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             layer:
@@ -100,23 +96,9 @@ settings:
         with_bbox: true
   child: null
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     combiner: null
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10
@@ -127,10 +109,8 @@ settings:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
-    splitter:
-      function: mmi1x2
-    straight:
-      function: straight
+    splitter: mmi1x2
+    straight: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -152,8 +132,7 @@ settings:
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             layer:
@@ -175,8 +154,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -209,8 +187,7 @@ settings:
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             layer:
@@ -235,8 +212,7 @@ settings:
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             layer:
@@ -252,5 +228,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_6c43704d
+  name: mzi_e004bb2d
 version: 0.0.1

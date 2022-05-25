@@ -3,13 +3,13 @@ from typing import Optional, Tuple
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.types import Ints, Layer
+from gdsfactory.types import Ints, LayerSpec
 
 
 @cell
 def rectangle(
     size: Tuple[float, float] = (4.0, 2.0),
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
     centered: bool = False,
     port_type: Optional[str] = "electrical",
     port_orientations: Optional[Ints] = (180, 90, 0, -90),

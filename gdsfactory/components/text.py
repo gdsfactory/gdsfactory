@@ -7,8 +7,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
 from gdsfactory.name import clean_name
-from gdsfactory.tech import LAYER
-from gdsfactory.types import Coordinate, Layer
+from gdsfactory.types import Coordinate, LayerSpec
 
 
 @gf.cell
@@ -17,7 +16,7 @@ def text(
     size: float = 10.0,
     position: Coordinate = (0, 0),
     justify: str = "left",
-    layer: Tuple[int, int] = LAYER.TEXT,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Text shapes.
 
@@ -69,7 +68,7 @@ def text(
 def text_lines(
     text: Tuple[str, ...] = ("",),
     size: float = 0.4,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Returns the a list of text lines.
 

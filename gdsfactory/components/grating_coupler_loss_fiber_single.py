@@ -2,17 +2,17 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @cell
 def grating_coupler_loss_fiber_single(
     grating_coupler: ComponentSpec = grating_coupler_te,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Returns grating coupler test structure
+    """Returns grating coupler test structure.
+
     for testing with single fiber input/output
 
     Args:
@@ -46,7 +46,7 @@ def grating_coupler_loss_fiber_single(
 
 
 if __name__ == "__main__":
-    xs_strip2 = gf.partial(strip, layer=(2, 0))
+    xs_strip2 = gf.partial(gf.cross_section.strip, layer=(2, 0))
     c = grating_coupler_loss_fiber_single(
         min_input_to_output_spacing=300, cross_section=xs_strip2
     )

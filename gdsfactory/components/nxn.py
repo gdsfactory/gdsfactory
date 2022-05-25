@@ -1,9 +1,8 @@
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -15,7 +14,7 @@ def nxn(
     xsize: float = 8.0,
     ysize: float = 8.0,
     wg_width: float = 0.5,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
     wg_margin: float = 1.0,
     **kwargs,
 ) -> Component:

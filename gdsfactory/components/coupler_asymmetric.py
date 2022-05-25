@@ -2,7 +2,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_s import bend_s
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -13,7 +12,7 @@ def coupler_asymmetric(
     gap: float = 0.234,
     dy: float = 5.0,
     dx: float = 10.0,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """bend coupled to straight waveguide
@@ -68,7 +67,7 @@ def coupler_asymmetric(
 
     port_width = 2 * w + gap
     c.add_port(
-        name="o1", midpoint=[0, 0], width=port_width, orientation=180, cross_section=x
+        name="o1", midpoint=(0, 0), width=port_width, orientation=180, cross_section=x
     )
     c.add_port(name="o3", port=bottom_bend.ports["o2"])
     c.add_port(name="o2", port=wg.ports["o2"])

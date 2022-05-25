@@ -1,8 +1,7 @@
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.fiber import circle
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -11,8 +10,8 @@ def fiber_array(
     pitch: float = 127.0,
     core_diameter: float = 10,
     cladding_diameter: float = 125,
-    layer_core: Tuple[int, int] = gf.LAYER.WG,
-    layer_cladding: Tuple[int, int] = gf.LAYER.WGCLAD,
+    layer_core: LayerSpec = "WG",
+    layer_cladding: LayerSpec = "WGCLAD",
 ) -> Component:
     """Returns a fiber array
 
@@ -21,8 +20,8 @@ def fiber_array(
         pitch: spacing.
         core_diameter: 10um.
         cladding_diameter: in um.
-        layer_core: tuple.
-        layer_cladding: tuple.
+        layer_core: layer spec for fiber core.
+        layer_cladding: layer spec for fiber cladding.
 
     .. code::
 
@@ -37,6 +36,7 @@ def fiber_array(
 
     """
     c = Component()
+    layer_core = gf.get_layer(layer_core)
 
     for i in range(n):
         core = c.add_ref(circle(radius=core_diameter / 2, layer=layer_core))

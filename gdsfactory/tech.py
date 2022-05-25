@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
+LayerSpec = Union[int, Layer, str, None]
 
 
 def make_empty_dict() -> Dict[str, Callable]:
@@ -46,6 +47,7 @@ class LayerMap(BaseModel):
     VIA2: Layer = (43, 0)
     PADOPEN: Layer = (46, 0)
 
+    DICING: Layer = (100, 0)
     NO_TILE_SI: Layer = (71, 0)
     PADDING: Layer = (67, 0)
     DEVREC: Layer = (68, 0)
@@ -239,7 +241,7 @@ class Section(BaseModel):
         offset: center offset (um) or function parameterized function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
-        layer:
+        layer: layer spec.
         port_names: Optional port names
         port_types: optical, electrical, ...
         name: Optional Section name.
@@ -260,7 +262,7 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    layer: Union[Layer, Tuple[Layer, Layer]]
+    layer: Union[LayerSpec, Tuple[LayerSpec, LayerSpec]]
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None

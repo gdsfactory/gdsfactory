@@ -4,18 +4,14 @@ settings:
   child: null
   default:
     cross_length: 80
-    layer:
-    - 1
-    - 0
+    layer: WG
     layer_cladding: null
     spacing: 10
     square_corner: bottom_left
     width: 10
   full:
     cross_length: 80
-    layer:
-    - 1
-    - 0
+    layer: WG
     layer_cladding: null
     spacing: 10
     square_corner: bottom_left
