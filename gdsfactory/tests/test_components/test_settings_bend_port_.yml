@@ -93,19 +93,7 @@ settings:
       function: straight_heater_metal_undercut
       settings:
         with_undercut: false
-    cross_section:
-      function: cross_section
-      settings:
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
+    cross_section: metal3
     extension_length: null
     port_name: e1
     port_name1_bend: null
@@ -119,19 +107,7 @@ settings:
       function: straight_heater_metal_undercut
       settings:
         with_undercut: false
-    cross_section:
-      function: cross_section
-      settings:
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
+    cross_section: metal3
     extension_length: null
     port_name: e1
     port_name1_bend: null

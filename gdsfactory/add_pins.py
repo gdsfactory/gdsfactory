@@ -10,7 +10,7 @@ They without modifying the cell name
 """
 import json
 from functools import partial
-from typing import Callable, List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple, Union
 
 import gdspy
 import numpy as np
@@ -25,6 +25,7 @@ from gdsfactory.tech import LAYER
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+LayerSpec = Union[Layer, str, int]
 nm = 1e-3
 
 
@@ -486,16 +487,20 @@ add_pins_triangle = partial(add_pins, function=add_pin_triangle)
 def add_settings_label(
     component: Component,
     reference: ComponentReference,
-    layer_label: Tuple[int, int] = LAYER.LABEL_SETTINGS,
+    layer_label: LayerSpec = "LABEL_SETTINGS",
 ) -> None:
     """Add settings in label
 
     Args:
         componnent: to add pins.
-        reference
-        layer_label:
+        reference: ComponentReference.
+        layer_label: layer spec.
 
     """
+    from gdsfactory.pdk import get_layer
+
+    layer_label = get_layer(layer_label)
+
     settings_dict = OmegaConf.to_container(reference.settings.full)
     settings_string = f"settings={json.dumps(settings_dict)}"
     print(settings_string)

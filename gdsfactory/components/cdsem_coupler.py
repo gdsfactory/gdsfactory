@@ -7,7 +7,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.coupler_straight import coupler_straight
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.cross_section import strip
 from gdsfactory.grid import grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -19,7 +18,7 @@ def cdsem_coupler(
     width: float = 0.45,
     length: float = 420.0,
     gaps: Tuple[float, ...] = (0.15, 0.2, 0.25),
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     text: Optional[ComponentSpec] = text_rectangular_mini,
     spacing: float = 3,
 ) -> Component:

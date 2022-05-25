@@ -7,7 +7,6 @@ from gdsfactory.components.array_component import array
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.pad import pad
 from gdsfactory.components.straight import straight
-from gdsfactory.cross_section import strip
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.routing.sort_ports import sort_ports_x
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
@@ -26,7 +25,7 @@ def array_with_fanout(
     bend: ComponentSpec = bend_euler,
     bend_port_name1: Optional[str] = None,
     bend_port_name2: Optional[str] = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
     """Returns an array of components in X axis with west facing waveguides fanout.

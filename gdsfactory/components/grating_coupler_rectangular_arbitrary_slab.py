@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper_strip_to_slab150
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Floats, Layer
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -21,9 +21,9 @@ def grating_coupler_rectangular_arbitrary_slab(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_strip_to_slab150,
-    layer_slab: Optional[Layer] = gf.LAYER.SLAB150,
+    layer_slab: Optional[LayerSpec] = "SLAB150",
     slab_offset: float = 2.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: LayerSpec = "TE",
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:

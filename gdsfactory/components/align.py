@@ -4,7 +4,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.types import ComponentSpec, Layer
+from gdsfactory.types import ComponentSpec, LayerSpec
 
 
 @cell
@@ -12,7 +12,7 @@ def align_wafer(
     width: float = 10.0,
     spacing: float = 10.0,
     cross_length: float = 80.0,
-    layer: Tuple[int, int] = (1, 0),
+    layer: LayerSpec = "WG",
     layer_cladding: Optional[Tuple[int, int]] = None,
     square_corner: str = "bottom_left",
 ) -> Component:
@@ -26,6 +26,7 @@ def align_wafer(
         layer_cladding: optional.
         square_corner: bottom_left, bottom_right, top_right, top_left.
     """
+    layer = gf.get_layer(layer)
     c = Component()
     cross = gf.components.cross(length=cross_length, width=width, layer=layer)
     c.add_ref(cross)
@@ -74,7 +75,7 @@ def add_frame(
     component: ComponentSpec = rectangle,
     width: float = 10.0,
     spacing: float = 10.0,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Returns component with a frame around it.
 
@@ -85,6 +86,7 @@ def add_frame(
         layer: frame layer.
     """
     c = Component()
+    layer = gf.get_layer(layer)
     component = gf.get_component(component)
     cref = c.add_ref(component)
     cref.move(-c.size_info.center)

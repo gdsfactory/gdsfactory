@@ -3,16 +3,12 @@ settings:
   changed: {}
   child: null
   default:
-    layer:
-    - 1
-    - 0
+    layer: WG
     length: 10
     port_type: optical
     width: 0.5
   full:
-    layer:
-    - 1
-    - 0
+    layer: WG
     length: 10
     port_type: optical
     width: 0.5

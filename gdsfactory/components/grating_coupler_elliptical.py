@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 from numpy import ndarray
@@ -6,8 +6,7 @@ from numpy import ndarray
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.geometry.functions import DEG2RAD, extrude_path
-from gdsfactory.tech import LAYER
-from gdsfactory.types import CrossSectionSpec, Layer
+from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 
 def ellipse_arc(
@@ -90,11 +89,11 @@ def grating_coupler_elliptical(
     nclad: float = 1.443,
     n_periods: int = 30,
     big_last_tooth: bool = False,
-    layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
+    layer_slab: LayerSpec = "SLAB150",
     slab_xmin: float = -1.0,
     slab_offset: float = 2.0,
     fiber_marker_width: Optional[float] = 11.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: LayerSpec = "TE",
     spiked: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -137,6 +136,8 @@ def grating_coupler_elliptical(
 
     wg_width = xs.width
     layer = xs.layer
+
+    print(layer)
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
@@ -251,7 +252,7 @@ def grating_coupler_elliptical(
 grating_coupler_elliptical_tm = gf.partial(
     grating_coupler_elliptical,
     grating_line_width=0.707,
-    fiber_marker_layer=gf.LAYER.TM,
+    fiber_marker_layer="TM",
     polarization="tm",
     taper_length=30,
     slab_xmin=-2,

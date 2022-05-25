@@ -4,6 +4,7 @@ import warnings
 from functools import partial
 from typing import Optional
 
+import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel
 
@@ -295,7 +296,7 @@ class Pdk(BaseModel):
 
     def get_layer(self, layer: LayerSpec) -> Layer:
         """Returns layer from a layer spec."""
-        if isinstance(layer, Layer):
+        if isinstance(layer, tuple):
             return layer
         elif isinstance(layer, int):
             return (layer, 0)
@@ -303,6 +304,10 @@ class Pdk(BaseModel):
             if layer not in self.layers:
                 raise ValueError(f"{layer} not in {self.layers.keys()}")
             return self.layers[layer]
+        elif layer is np.nan:
+            return np.nan
+        elif layer is None:
+            return
         else:
             raise ValueError(f"{layer} needs to be a LayerSpec (string, int or Layer)")
 

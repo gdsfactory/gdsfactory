@@ -98,7 +98,7 @@ class Component(Device):
         if "with_uuid" in kwargs or name == "Unnamed":
             name += f"_{self.uid}"
 
-        super(Component, self).__init__(name=name, exclude_from_current=True)
+        super().__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
         self.info: Dict[str, Any] = {}
 
@@ -145,7 +145,7 @@ class Component(Device):
         magnification: Optional[float] = None,
         rotation: Optional[float] = None,
         anchor: str = "o",
-        layer: Tuple[int, int] = (10, 0),
+        layer="TEXT",
     ) -> Label:
         """Adds a Label to the Device.
 
@@ -157,6 +157,9 @@ class Component(Device):
             anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...} Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
         """
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
 
         gds_layer, gds_datatype = layer
 
@@ -601,6 +604,19 @@ class Component(Device):
             if _parse_layer(layer) in parsed_layer_list:
                 component.add_polygon(polys, layer=layer)
         return component
+
+    def add_polygon(self, points, layer=np.nan):
+        """Adds a Polygon to the Component.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
+
+        return super().add_polygon(points=points, layer=get_layer(layer))
 
     def copy(
         self, prefix: str = "", suffix: str = "_copy", cache: bool = True

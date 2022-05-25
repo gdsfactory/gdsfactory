@@ -17,6 +17,9 @@ from gdsfactory.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+
+LayerSpec = Union[Layer, int, str, None]
+LayerSpecs = List[LayerSpec]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
@@ -59,7 +62,7 @@ class CrossSection(BaseModel):
         name: cross_section name.
     """
 
-    layer: Layer
+    layer: LayerSpec
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     radius: Optional[float] = None
@@ -67,10 +70,10 @@ class CrossSection(BaseModel):
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
-    bbox_layers: List[Layer] = Field(default_factory=list)
+    bbox_layers: List[LayerSpec] = Field(default_factory=list)
     bbox_offsets: List[float] = Field(default_factory=list)
-    cladding_layers: Optional[Layers] = ((68, 0),)  # for SiEPIC verification
-    cladding_offsets: Optional[Floats] = (0,)  # for SiEPIC verification
+    cladding_layers: Optional[LayerSpecs] = None
+    cladding_offsets: Optional[Floats] = None
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
@@ -163,7 +166,7 @@ class Transition(CrossSection):
     cross_section2: CrossSection
     width_type: str = "sine"
     sections: List[Section]
-    layer: Optional[Layer] = None
+    layer: Optional[LayerSpec] = None
     width: Optional[Union[float, Callable]] = None
 
 
@@ -171,7 +174,7 @@ class Transition(CrossSection):
 def cross_section(
     width: Union[Callable, float] = 0.5,
     offset: Union[float, Callable] = 0,
-    layer: Tuple[int, int] = (1, 0),
+    layer: LayerSpec = "WG",
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -184,9 +187,9 @@ def cross_section(
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
-    bbox_layers: Optional[List[Layer]] = None,
+    bbox_layers: Optional[List[LayerSpec]] = None,
     bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = None,
+    cladding_layers: Optional[LayerSpecs] = None,
     cladding_offsets: Optional[Floats] = None,
     info: Optional[Dict[str, Any]] = None,
     decorator: Optional[Callable] = None,
@@ -234,8 +237,8 @@ def cross_section(
         auto_widen_minimum_length=auto_widen_minimum_length,
         taper_length=taper_length,
         radius=radius,
-        bbox_layers=bbox_layers or (),
-        bbox_offsets=bbox_offsets or (),
+        bbox_layers=bbox_layers or [],
+        bbox_offsets=bbox_offsets or [],
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
         sections=sections or (),
@@ -256,42 +259,42 @@ strip = partial(
     cross_section,
     add_pins=add_pins_siepic_optical_2nm,
     add_bbox=add_bbox_siepic,
-    cladding_layers=((68, 0),),  # for SiEPIC verification
+    cladding_layers=("DEVREC",),  # for SiEPIC verification
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 rib = partial(
     strip,
-    sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),),
-    bbox_layers=[LAYER.SLAB90],
+    sections=(Section(width=6, layer="SLAB90", name="slab"),),
+    bbox_layers=["SLAB90"],
     bbox_offsets=[3],
 )
-nitride = partial(strip, layer=LAYER.WGN, width=1.0)
+nitride = partial(strip, layer="WGN", width=1.0)
 strip_rib_tip = partial(
-    strip, sections=(Section(width=0.2, layer=LAYER.SLAB90, name="slab"),)
+    strip, sections=(Section(width=0.2, layer="SLAB90", name="slab"),)
 )
 
 metal1 = partial(
     cross_section,
-    layer=LAYER.M1,
+    layer="M1",
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
 )
 metal2 = partial(
     metal1,
-    layer=LAYER.M2,
+    layer="M2",
 )
 metal3 = partial(
     metal1,
-    layer=LAYER.M3,
+    layer="M3",
 )
 
 
 @pydantic.validate_arguments
 def heater_metal(
     width: float = 2.5,
-    layer: Layer = LAYER.HEATER,
+    layer: LayerSpec = "HEATER",
     **kwargs,
 ) -> CrossSection:
     """Returns metal heater cross_section.
@@ -339,16 +342,16 @@ def heater_metal(
 @pydantic.validate_arguments
 def pin(
     width: float = 0.5,
-    layer: Tuple[int, int] = LAYER.WG,
-    layer_slab: Tuple[int, int] = LAYER.SLAB90,
-    layers_via_stack1: Layers = (LAYER.PPP,),
-    layers_via_stack2: Layers = (LAYER.NPP,),
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
+    layers_via_stack1: LayerSpecs = ("PPP",),
+    layers_via_stack2: LayerSpecs = ("NPP",),
     bbox_offsets_via_stack1: Tuple[float, ...] = (0, -0.2),
     bbox_offsets_via_stack2: Tuple[float, ...] = (0, -0.2),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
-    layer_via: Optional[Layer] = None,
+    layer_via: LayerSpec = None,
     via_width: float = 1,
     via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
@@ -447,7 +450,7 @@ def pin(
 @pydantic.validate_arguments
 def pn(
     width: float = 0.5,
-    layer: Tuple[int, int] = LAYER.WG,
+    layer: LayerSpec = LAYER.WG,
     layer_slab: Tuple[int, int] = LAYER.SLAB90,
     gap_low_doping: float = 0.0,
     gap_medium_doping: Optional[float] = 0.5,
