@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.7.2]
+## 5.8.0
 
 - works with siepic verification [PR](https://github.com/gdsfactory/gdsfactory/pull/410)
     * cross_section has optional add_pins and add_bbox, which can be used for verification.
@@ -10,6 +10,8 @@
     * add `with_two_ports` to taper. False for edge couplers and terminators.
     * fix ring_double_heater open in the heater top waveguide.
 - Make pdk from existing pdk [PR](https://github.com/gdsfactory/gdsfactory/pull/406)
+- add LayerSpec as Union[int, Tuple[int,int], str, None]
+    - add layers dict to Pdk(layers=LAYER.dict()), and add `pdk.get_layer`
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
