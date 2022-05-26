@@ -93,6 +93,7 @@ def grating_coupler_circular(
     widths = np.array(widths) - bias_gap
     teeth_list = list(zip(gaps, widths))
 
+    layer = gf.get_layer(layer)
     layer_slab = gf.get_layer(layer_slab)
     layer_cladding = gf.get_layer(layer_cladding)
 

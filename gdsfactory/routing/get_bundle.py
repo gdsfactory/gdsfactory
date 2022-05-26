@@ -520,11 +520,12 @@ def get_bundle_same_axis_no_grouping(
         radius: bend radius. If unspecified, uses the default radius.
         start_straight_length: offset on the starting length before the first bend.
         end_straight_length: offset on the ending length after the last bend.
-        sort_ports: True -> sort the ports according to the axis. False -> no sort applied.
+        sort_ports: True -> sort the ports according to the axis.
+            False -> no sort applied.
         cross_section: CrossSection or function that returns a cross_section.
 
     Returns:
-        a list of routes the connecting straights
+        a list of routes the connecting straights.
 
     """
 

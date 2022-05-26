@@ -1,11 +1,11 @@
 from functools import lru_cache
-from typing import Dict, Tuple
+from typing import Dict
 
 import numpy as np
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 character_a = """
  XXX
@@ -21,7 +21,7 @@ X   X
 def pixel_array(
     pixels: str = character_a,
     pixel_size: float = 10.0,
-    layer: Tuple[int, int] = LAYER.M1,
+    layer: LayerSpec = "M1",
 ) -> Component:
     """Returns a pixel component from a string representing the pixels.
 

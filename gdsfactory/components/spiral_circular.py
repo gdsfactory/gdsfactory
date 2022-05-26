@@ -8,7 +8,7 @@ from numpy import float64
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 def taper(
@@ -16,8 +16,10 @@ def taper(
     end_width: Union[float, float64],
     length: Union[float, float64],
     start_coord: Tuple[float64, float64],
-    layer: Layer = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
+
+    layer = gf.get_layer(layer)
     s = start_coord
     top_left = (s[0], s[1] + start_width / 2.0)
     bot_left = (s[0], s[1] - start_width / 2.0)
@@ -34,8 +36,9 @@ def straight(
     width: Union[float, float64],
     length: Union[float, float64],
     start_coord: Tuple[float64, float64],
-    layer: Layer = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Tuple[Polygon, Tuple[float64, float64], Tuple[float64, float64]]:
+    layer = gf.get_layer(layer)
     t, s, e = taper(width, width, length, start_coord, layer=layer)
     return t, s, e
 
@@ -47,20 +50,21 @@ def spiral_circular(
     spacing: float = 3.0,
     min_bend_radius: float = 5.0,
     points: int = 1000,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Returns a circular spiral.
 
-    FIXME, has some issues
+    FIXME, has a notch in the inner loop.
 
     Args:
-        length: length in um
-        wg_width:
-        spacing: between straights
-        min_bend_radius:
-        points:
-        layer:
+        length: length in um.
+        wg_width: width.
+        spacing: between straights.
+        min_bend_radius: in um.
+        points: number of points.
+        layer: layer spec.
     """
+    layer = gf.get_layer(layer)
     wg_datatype = layer[1]
     wg_layer = layer[0]
 

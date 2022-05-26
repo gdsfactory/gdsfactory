@@ -9,7 +9,7 @@ from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.path import Path, transition
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionSpec, Layer
+from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 
 def path_straight(port1: Port, port2: Port) -> Path:
@@ -271,7 +271,7 @@ def route_sharp(
     width: Optional[float] = None,
     path_type: str = "manhattan",
     manual_path=None,
-    layer: Optional[Layer] = None,
+    layer: Optional[LayerSpec] = None,
     cross_section: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:

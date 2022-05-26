@@ -79,7 +79,7 @@ def loss_deembedding_ch13_24(
         ).references
     )
 
-    x = cross_section(**kwargs)
+    x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
     gsi = gc.size_info

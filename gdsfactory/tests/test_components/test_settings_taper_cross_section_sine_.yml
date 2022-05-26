@@ -14,15 +14,12 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         sections:
         - hidden: false
-          layer:
-          - 3
-          - 0
+          layer: SLAB90
           name: slab
           offset: 0
           port_names:
@@ -42,20 +39,16 @@ settings:
           settings:
             pin_length: 0.002
         bbox_layers:
-        - - 3
-          - 0
+        - SLAB90
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         sections:
         - hidden: false
-          layer:
-          - 3
-          - 0
+          layer: SLAB90
           name: slab
           offset: 0
           port_names:
@@ -79,15 +72,12 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         sections:
         - hidden: false
-          layer:
-          - 3
-          - 0
+          layer: SLAB90
           name: slab
           offset: 0
           port_names:
@@ -107,20 +97,16 @@ settings:
           settings:
             pin_length: 0.002
         bbox_layers:
-        - - 3
-          - 0
+        - SLAB90
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         sections:
         - hidden: false
-          layer:
-          - 3
-          - 0
+          layer: SLAB90
           name: slab
           offset: 0
           port_names:
