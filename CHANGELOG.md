@@ -13,7 +13,7 @@
 - add events module and events relating to Pdk modifications [PR](https://github.com/gdsfactory/gdsfactory/pull/412)
     - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
 - add LayerSpec as Union[int, Tuple[int,int], str, None] [PR](https://github.com/gdsfactory/gdsfactory/pull/413/)
-    - add layers dict to Pdk(layers=LAYER.dict()), and add `pdk.get_layer`
+    - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
