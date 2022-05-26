@@ -31,7 +31,7 @@ It enables both layout and netlist driven flows and is all code driven.
 
 As input, you write python or YAML code.
 
-As output it creates a GDSII file which is the most common filetype used by CMOS foundries.
+As output it creates a GDSII file which is the most common file format used by CMOS foundries.
 It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). And you can easily adapt any outputs to your needs, thanks to being all natively written in python.
 
 ![](https://i.imgur.com/XbhWJDz.png)
