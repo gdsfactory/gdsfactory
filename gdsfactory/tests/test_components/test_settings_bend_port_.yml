@@ -33,14 +33,10 @@ settings:
           - function: via
             settings:
               enclosure: 2
-              layer:
-              - 44
-              - 0
+              layer: VIA1
           - function: via
             settings:
-              layer:
-              - 43
-              - 0
+              layer: VIA2
       with_undercut: true
     full:
       cross_section: null
@@ -70,14 +66,10 @@ settings:
           - function: via
             settings:
               enclosure: 2
-              layer:
-              - 44
-              - 0
+              layer: VIA1
           - function: via
             settings:
-              layer:
-              - 43
-              - 0
+              layer: VIA2
       with_undercut: false
     function_name: straight_heater_metal_undercut
     info:

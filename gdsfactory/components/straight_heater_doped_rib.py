@@ -35,8 +35,6 @@ def straight_heater_doped_rib(
     r"""Returns a doped thermal phase shifter.
     dimensions from https://doi.org/10.1364/OE.27.010456
 
-    FIXME! taper may be missing.
-
     Args:
         length: of the waveguide.
         nsections: between via_stacks.

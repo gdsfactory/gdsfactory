@@ -124,9 +124,7 @@ settings:
     name: mzi_2e88f57c
   default:
     component: straight
-    layer:
-    - 31
-    - 0
+    layer: M3
     pad_array:
       function: pad_array
     select_ports:
@@ -199,9 +197,7 @@ settings:
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
       version: 0.0.1
-    layer:
-    - 31
-    - 0
+    layer: M3
     pad_array:
       function: pad_array
     select_ports:

@@ -1,4 +1,4 @@
-name: component_yaml_ports_111d1053
+name: component_yaml_ports_59255cd0
 settings:
   changed:
     conf:
@@ -13,7 +13,7 @@ settings:
       name: component_yaml_ports
       ports:
         o1:
-          layer: strip
+          layer: WG
           midpoint:
           - -0.5
           - 0.225
@@ -103,7 +103,7 @@ settings:
       name: component_yaml_ports
       ports:
         o1:
-          layer: strip
+          layer: WG
           midpoint:
           - -0.5
           - 0.225
@@ -182,5 +182,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.read.from_yaml
-  name: component_yaml_ports_111d1053
+  name: component_yaml_ports_59255cd0
 version: 0.0.1

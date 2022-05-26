@@ -5,12 +5,8 @@ settings:
   default:
     cladding_offset: 3
     direction: WEST
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
+    layer: WG
+    layer_cladding: WGCLAD
     length: 10000
     parity: 1
     port:
@@ -25,12 +21,8 @@ settings:
   full:
     cladding_offset: 3
     direction: WEST
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
+    layer: WG
+    layer_cladding: WGCLAD
     length: 10000
     parity: 1
     port:

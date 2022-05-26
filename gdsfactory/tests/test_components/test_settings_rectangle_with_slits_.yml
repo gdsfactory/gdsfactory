@@ -4,12 +4,8 @@ settings:
   child: null
   default:
     centered: false
-    layer:
-    - 1
-    - 0
-    layer_slit:
-    - 2
-    - 0
+    layer: WG
+    layer_slit: SLAB150
     port_type: null
     size:
     - 100.0
@@ -23,12 +19,8 @@ settings:
     - 20
   full:
     centered: false
-    layer:
-    - 1
-    - 0
-    layer_slit:
-    - 2
-    - 0
+    layer: WG
+    layer_slit: SLAB150
     port_type: null
     size:
     - 100.0

@@ -124,11 +124,8 @@ settings:
     name: mzi_2e88f57c
   default:
     component: straight
-    layer:
-    - 31
-    - 0
-    pad:
-      function: pad
+    layer: M3
+    pad: pad
     pad_port_spacing: 50
     port_orientation: 90
     select_ports:
@@ -198,11 +195,8 @@ settings:
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
       version: 0.0.1
-    layer:
-    - 31
-    - 0
-    pad:
-      function: pad
+    layer: M3
+    pad: pad
     pad_port_spacing: 50
     port_orientation: 90
     select_ports:
