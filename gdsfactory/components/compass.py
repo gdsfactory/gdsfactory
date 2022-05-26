@@ -3,13 +3,13 @@ from typing import Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.types import Ints, Layer
+from gdsfactory.types import Ints, LayerSpec
 
 
 @cell
 def compass(
     size: Tuple[float, float] = (4.0, 2.0),
-    layer: Layer = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
     port_type: Optional[str] = "electrical",
     port_inclusion: float = 0.0,
     port_orientations: Optional[Ints] = (180, 90, 0, -90),
@@ -88,5 +88,5 @@ def compass(
 
 
 if __name__ == "__main__":
-    c = compass(size=(1, 2), layer=gf.LAYER.WG, port_type="optical", port_inclusion=0.5)
+    c = compass(size=(1, 2), layer="WG", port_type="optical", port_inclusion=0.5)
     c.show()

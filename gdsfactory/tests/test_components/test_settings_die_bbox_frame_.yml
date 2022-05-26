@@ -9,9 +9,7 @@ settings:
     - - 3.0
       - 4.0
     die_name: null
-    layer:
-    - 49
-    - 0
+    layer: M3
     padding: 10
     street_length: 1000
     street_width: 100
@@ -24,9 +22,7 @@ settings:
     - - 3.0
       - 4.0
     die_name: null
-    layer:
-    - 49
-    - 0
+    layer: M3
     padding: 10
     street_length: 1000
     street_width: 100

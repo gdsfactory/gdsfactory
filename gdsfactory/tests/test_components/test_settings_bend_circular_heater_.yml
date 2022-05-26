@@ -4,20 +4,7 @@ settings:
   child: null
   default:
     angle: 90
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater:
@@ -28,20 +15,7 @@ settings:
     with_bbox: false
   full:
     angle: 90
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater:

@@ -48,6 +48,7 @@ PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+LayerSpec = Union[str, int, Layer, None]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
 tmp.mkdir(exist_ok=True, parents=True)
@@ -98,7 +99,7 @@ class Component(Device):
         if "with_uuid" in kwargs or name == "Unnamed":
             name += f"_{self.uid}"
 
-        super(Component, self).__init__(name=name, exclude_from_current=True)
+        super().__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
         self.info: Dict[str, Any] = {}
 
@@ -145,7 +146,7 @@ class Component(Device):
         magnification: Optional[float] = None,
         rotation: Optional[float] = None,
         anchor: str = "o",
-        layer: Tuple[int, int] = (10, 0),
+        layer="TEXT",
     ) -> Label:
         """Adds a Label to the Device.
 
@@ -154,9 +155,13 @@ class Component(Device):
             position: x-, y-coordinates of the Label location.
             magnification:int, float, or None Magnification factor for the Label text.
             rotation: Angle rotation of the Label text.
-            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...} Position of the anchor relative to the text.
+            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
+                Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
         """
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
 
         gds_layer, gds_datatype = layer
 
@@ -440,7 +445,7 @@ class Component(Device):
         width: Optional[float] = None,
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
-        layer: Optional[Tuple[int, int]] = None,
+        layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
@@ -461,6 +466,9 @@ class Component(Device):
             cross_section: port cross_section.
 
         """
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
 
         if port:
             if not isinstance(port, Port):
@@ -540,7 +548,9 @@ class Component(Device):
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
-        layers = [_parse_layer(layer) for layer in layers]
+        from gdsfactory.pdk import get_layer
+
+        layers = [_parse_layer(get_layer(layer)) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
         all_D += [self]
         for D in all_D:
@@ -601,6 +611,17 @@ class Component(Device):
             if _parse_layer(layer) in parsed_layer_list:
                 component.add_polygon(polys, layer=layer)
         return component
+
+    def add_polygon(self, points, layer=np.nan):
+        """Adds a Polygon to the Component.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        return super().add_polygon(points=points, layer=get_layer(layer))
 
     def copy(
         self, prefix: str = "", suffix: str = "_copy", cache: bool = True

@@ -1,15 +1,15 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def cross(
     length: float = 10.0,
     width: float = 3.0,
-    layer: Tuple[int, int] = LAYER.WG,
+    layer: LayerSpec = "WG",
     port_type: Optional[str] = None,
 ) -> Component:
     """Returns a cross from two rectangles of length and width.
@@ -20,6 +20,7 @@ def cross(
         layer: layer for geometry.
         port_type: None, optical, electrical.
     """
+    layer = gf.get_layer(layer)
     c = gf.Component()
     R = gf.components.rectangle(size=(width, length), layer=layer)
     r1 = c.add_ref(R).rotate(90)

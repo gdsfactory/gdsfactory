@@ -7,14 +7,14 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.array_component import array
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.types import Float2, Layer
+from gdsfactory.types import Float2, LayerSpec
 
 
 @cell
 def rectangle_with_slits(
     size: Tuple[float, float] = (100.0, 200.0),
-    layer: Layer = (1, 0),
-    layer_slit: Optional[Layer] = (2, 0),
+    layer: LayerSpec = "WG",
+    layer_slit: LayerSpec = "SLAB150",
     centered: bool = False,
     port_type: Optional[str] = None,
     slit_size: Tuple[float, float] = (1.0, 1.0),
@@ -59,6 +59,8 @@ def rectangle_with_slits(
 
     """
     c = Component()
+    layer = gf.get_layer(layer)
+
     r = rectangle(size=size, layer=layer, port_type=port_type, centered=centered)
     c.add_ports(r.ports)
     slit = rectangle(size=slit_size, port_type=None, layer=layer_slit or layer)

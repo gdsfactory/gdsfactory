@@ -3,11 +3,7 @@ from typing import List, Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.tech import TECH
-from gdsfactory.types import ComponentSpec
-
-LAYER = TECH.layer
-Layer = Tuple[int, int]
+from gdsfactory.types import ComponentSpec, LayerSpec
 
 
 def get_padding_points(
@@ -43,7 +39,7 @@ def get_padding_points(
 
 def add_padding(
     component: ComponentSpec = "mmi2x2",
-    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
+    layers: Tuple[LayerSpec, ...] = ("PADDING",),
     **kwargs,
 ) -> Component:
     """Adds padding layers to a component inside a container.
@@ -73,7 +69,7 @@ def add_padding(
 @cell
 def add_padding_container(
     component: ComponentSpec,
-    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
+    layers: Tuple[LayerSpec, ...] = ("PADDING",),
     **kwargs,
 ) -> Component:
     """Returns new component with padding added.
@@ -104,7 +100,7 @@ def add_padding_container(
 
 def add_padding_to_size(
     component: ComponentSpec,
-    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
+    layers: Tuple[LayerSpec, ...] = ("PADDING",),
     xsize: Optional[float] = None,
     ysize: Optional[float] = None,
     left: float = 0,
@@ -112,7 +108,15 @@ def add_padding_to_size(
 ) -> Component:
     """Returns component with padding layers on each side.
 
-    New size is multiple of grid size
+    New size is multiple of grid size.
+
+    Args:
+        component: to add padding.
+        layers: list of layers.
+        xsize: x size to fill up.
+        ysize: y size to fill up.
+        left: left padding in um to fill up.
+        bottom: bottom padding in um to fill up.
     """
     component = gf.get_component(component)
 
@@ -135,7 +139,7 @@ def add_padding_to_size(
 @cell
 def add_padding_to_size_container(
     component: ComponentSpec,
-    layers: Tuple[Layer, ...] = (LAYER.PADDING,),
+    layers: Tuple[LayerSpec, ...] = ("PADDING",),
     xsize: Optional[float] = None,
     ysize: Optional[float] = None,
     left: float = 0,
@@ -147,10 +151,10 @@ def add_padding_to_size_container(
     Args:
         component: to add padding.
         layers: list of layers.
-        xsize: to fill up.
-        ysize: to fill up.
-        left: to fill up.
-        bottom: to fill up.
+        xsize: x size to fill up.
+        ysize: y size to fill up.
+        left: left padding in um to fill up.
+        bottom: bottom padding in um to fill up.
     """
     component = gf.get_component(component)
 
@@ -176,9 +180,11 @@ def add_padding_to_size_container(
 
 if __name__ == "__main__":
     # test_container()
-    # c = gf.components.straight(length=128)
-    # cc = add_padding(component=c, layers=[(2, 0)])
+    c = gf.components.straight(length=10)
+    c.unlock()
+    cc = add_padding(component=c, layers=["DEVREC"])
 
-    c = gf.components.straight(length=5)
-    cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
+    # c = gf.components.straight(length=5)
+    # c.unlock()
+    # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
     cc.show()

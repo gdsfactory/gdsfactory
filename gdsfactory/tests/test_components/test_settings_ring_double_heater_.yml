@@ -16,8 +16,7 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
     cross_section_heater:
@@ -48,14 +47,10 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_offset:
     - 0
     - 0
@@ -73,8 +68,7 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
     cross_section_heater:
@@ -105,14 +99,10 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_offset:
     - 0
     - 0

@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Tuple
+from typing import Callable, Optional
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label_text, get_input_label_text_loopback
@@ -13,14 +13,19 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.route_fiber_single import route_fiber_single
-from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
+from gdsfactory.types import (
+    ComponentSpec,
+    ComponentSpecOrList,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
 @cell
 def add_fiber_single(
     component: ComponentSpec = "mmi2x2",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
-    layer_label: Tuple[int, int] = TECH.layer_label,
+    layer_label: LayerSpec = "LABEL",
     fiber_spacing: float = TECH.fiber_spacing,
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,

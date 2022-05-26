@@ -1,4 +1,4 @@
-name: mmi1x2_a0af36ce
+name: mmi1x2_a3504368
 settings:
   changed:
     cross_section:
@@ -14,8 +14,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -30,10 +29,8 @@ settings:
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
-    straight:
-      function: straight
-    taper:
-      function: taper
+    straight: straight
+    taper: taper
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
@@ -52,8 +49,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -63,10 +59,8 @@ settings:
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
-    straight:
-      function: straight
-    taper:
-      function: taper
+    straight: straight
+    taper: taper
     width: 1
     width_mmi: 3
     width_taper: 1
@@ -75,5 +69,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_a0af36ce
+  name: mmi1x2_a3504368
 version: 0.0.1

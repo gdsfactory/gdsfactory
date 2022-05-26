@@ -21,7 +21,13 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
 from gdsfactory.port import Port
-from gdsfactory.types import Coordinates, CrossSectionSpec, Float2, Layer, PathFactory
+from gdsfactory.types import (
+    Coordinates,
+    CrossSectionSpec,
+    Float2,
+    LayerSpec,
+    PathFactory,
+)
 
 
 class Path(PathPhidl):
@@ -41,7 +47,7 @@ class Path(PathPhidl):
     def extrude(
         self,
         cross_section: Optional[CrossSectionSpec] = None,
-        layer: Optional[Layer] = None,
+        layer: Optional[LayerSpec] = None,
         width: Optional[float] = None,
         widths: Optional[Float2] = None,
         simplify: Optional[float] = None,
@@ -122,6 +128,7 @@ def transition(
 
     Returns A smoothly-transitioning CrossSection.
     """
+    from gdsfactory.pdk import get_layer
 
     X1 = cross_section1
     X2 = cross_section2
@@ -132,10 +139,10 @@ def transition(
         or both inputs (cross_section1/cross_section2)."""
         )
 
-    layers1 = {section.layer for section in X1.sections}
-    layers2 = {section.layer for section in X2.sections}
-    layers1.add(X1.layer)
-    layers2.add(X2.layer)
+    layers1 = {get_layer(section.layer) for section in X1.sections}
+    layers2 = {get_layer(section.layer) for section in X2.sections}
+    layers1.add(get_layer(X1.layer))
+    layers2.add(get_layer(X2.layer))
 
     has_common_layers = bool(layers1.intersection(layers2))
     if not has_common_layers:
@@ -174,10 +181,12 @@ def transition(
 
             if section1.layer != section2.layer:
                 hidden = True
-                layer = (section1.layer, section2.layer)
+                layer1 = get_layer(section1.layer)
+                layer2 = get_layer(section2.layer)
+                layer = (layer1, layer2)
             else:
                 hidden = False
-                layer = section1.layer
+                layer = get_layer(section1.layer)
 
             s = Section(
                 width=width_fun,
@@ -203,7 +212,7 @@ def transition(
 def extrude(
     p: Path,
     cross_section: Optional[CrossSectionSpec] = None,
-    layer: Optional[Layer] = None,
+    layer: Optional[LayerSpec] = None,
     width: Optional[float] = None,
     widths: Optional[Float2] = None,
     simplify: Optional[float] = None,
@@ -226,7 +235,7 @@ def extrude(
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
-    from gdsfactory.pdk import get_cross_section
+    from gdsfactory.pdk import get_cross_section, get_layer
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -257,7 +266,7 @@ def extrude(
             Section(
                 width=x.width,
                 offset=x.offset,
-                layer=x.layer,
+                layer=get_layer(x.layer),
                 port_names=x.port_names,
                 port_types=x.port_types,
             )
@@ -270,14 +279,14 @@ def extrude(
                 Section(
                     width=width + 2 * cladding_offset,
                     offset=x.offset,
-                    layer=layer,
+                    layer=get_layer(layer),
                 )
             ]
 
     for section in sections:
         width = section.width
         offset = section.offset
-        layer = section.layer
+        layer = get_layer(section.layer)
         port_names = section.port_names
         port_types = section.port_types
         hidden = section.hidden
@@ -396,7 +405,7 @@ def extrude(
             c.add_port(
                 port=Port(
                     name=port_names[0],
-                    layer=layers[0],
+                    layer=get_layer(layers[0]),
                     port_type=port_types[0],
                     width=port_width,
                     orientation=port_orientation,
@@ -414,7 +423,7 @@ def extrude(
             c.add_port(
                 port=Port(
                     name=port_names[1],
-                    layer=layers[1],
+                    layer=get_layer(layers[1]),
                     port_type=port_types[1],
                     width=port_width,
                     midpoint=midpoint,
@@ -713,25 +722,31 @@ if __name__ == "__main__":
     # straight_transition.show()
 
     P = gf.path.straight(length=10, npoints=101)
-    c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
-    c.show()
+    # c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
+    # c.show()
 
-    # s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90)
-    # X1 = gf.CrossSection(
-    #     width=1,
-    #     offset=0,
-    #     layer=gf.LAYER.WG,
-    #     name="core",
-    #     ports=("o1", "o2"),
-    #     sections=[s],
-    # )
-    # c = gf.path.extrude(P, X1)
+    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X1 = gf.CrossSection(
+        width=1,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s],
+    )
+    c = gf.path.extrude(P, X1)
 
-    # X2 = gf.CrossSection(
-    #     width=3, offset=0, layer=gf.LAYER.WG, name="core", ports=("o1", "o2")
-    # )
-    # c2 = gf.path.extrude(P, X2)
+    s = gf.Section(width=0.1, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    X2 = gf.CrossSection(
+        width=3,
+        offset=0,
+        layer=gf.LAYER.WG,
+        name="core",
+        port_names=("o1", "o2"),
+        sections=[s],
+    )
+    c2 = gf.path.extrude(P, X2)
 
-    # T = gf.path.transition(X1, X2)
-    # c3 = gf.path.extrude(P, T)
-    # c3.show()
+    T = gf.path.transition(X1, X2)
+    c3 = gf.path.extrude(P, T)
+    c3.show()

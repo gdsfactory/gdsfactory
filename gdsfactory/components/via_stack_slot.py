@@ -6,18 +6,17 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, viac
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Float2, Floats, Layer, Layers
+from gdsfactory.types import ComponentSpec, Float2, Floats, LayerSpec, LayerSpecs
 
 
 @gf.cell
 def via_stack_slot(
     size: Float2 = (11.0, 11.0),
-    layers: Layers = (LAYER.M1, LAYER.M2),
+    layers: LayerSpecs = ("M1", "M2"),
     layer_offsets: Optional[Floats] = (0, 1.0),
     layer_offsetsx: Optional[Floats] = None,
     layer_offsetsy: Optional[Floats] = None,
-    layer_port: Optional[Layer] = None,
+    layer_port: LayerSpec = None,
     via: ComponentSpec = via1,
     enclosure: float = 1.0,
     ysize: float = 0.5,
@@ -103,9 +102,9 @@ def via_stack_slot(
     return c
 
 
-via_stack_slot_m1_m2 = gf.partial(via_stack_slot, layers=(LAYER.M1, LAYER.M2), via=via1)
+via_stack_slot_m1_m2 = gf.partial(via_stack_slot, layers=("M1", "M2"), via=via1)
 
-via_stack_slot_slab_m1 = gf.partial(via_stack_slot, layers=(LAYER.M1,), via=viac)
+via_stack_slot_slab_m1 = gf.partial(via_stack_slot, layers=("M1",), via=viac)
 
 
 if __name__ == "__main__":

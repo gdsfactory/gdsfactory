@@ -1,16 +1,17 @@
-from typing import List, Tuple
+from typing import Tuple
 
 import gdsfactory as gf
 from gdsfactory import components as pc
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def litho_steps(
-    line_widths: List[float] = (1.0, 2.0, 4.0, 8.0, 16.0),
+    line_widths: Tuple[float, ...] = (1.0, 2.0, 4.0, 8.0, 16.0),
     line_spacing: float = 10.0,
     height: float = 100.0,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Positive + negative tone linewidth test
 
@@ -18,10 +19,10 @@ def litho_steps(
     adapted from phidl
 
     Args:
-        line_widths:
-        line_spacing:
-        height:
-        layer:
+        line_widths: in um.
+        line_spacing: in um.
+        height: in um.
+        layer: Specific layer to put the ruler geometry on.
 
     """
     D = gf.Component()

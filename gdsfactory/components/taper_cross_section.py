@@ -1,7 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import rib, strip, strip_rib_tip
+from gdsfactory.cross_section import rib, strip_rib_tip
 from gdsfactory.types import CrossSectionSpec
 
 
@@ -61,7 +61,9 @@ if __name__ == "__main__":
     # x2 = gf.partial(strip, width=2.5)
     # c = taper_cross_section_linear(x1, x2)
 
-    x1 = gf.partial(strip, width=0.5)
-    x2 = gf.partial(rib, width=2.5)
-    c = taper_cross_section_linear(x1, x2)
+    # x1 = gf.partial(strip, width=0.5)
+    # x2 = gf.partial(rib, width=2.5)
+    # c = taper_cross_section_linear(x1, x2)
+
+    c = taper_cross_section()
     c.show()

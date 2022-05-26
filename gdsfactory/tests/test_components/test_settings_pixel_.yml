@@ -3,14 +3,10 @@ settings:
   changed: {}
   child: null
   default:
-    layer:
-    - 1
-    - 0
+    layer: WG
     size: 1
   full:
-    layer:
-    - 1
-    - 0
+    layer: WG
     size: 1
   function_name: pixel
   info: {}

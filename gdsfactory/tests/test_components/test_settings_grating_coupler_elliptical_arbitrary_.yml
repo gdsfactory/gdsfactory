@@ -6,9 +6,7 @@ settings:
     bias_gap: 0
     cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     gaps:
     - 0.1
@@ -21,9 +19,7 @@ settings:
     - 0.1
     - 0.1
     - 0.1
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     nclad: 1.443
     neff: 2.638
     polarization: te
@@ -47,9 +43,7 @@ settings:
     bias_gap: 0
     cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     gaps:
     - 0.1
@@ -62,9 +56,7 @@ settings:
     - 0.1
     - 0.1
     - 0.1
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     nclad: 1.443
     neff: 2.638
     polarization: te

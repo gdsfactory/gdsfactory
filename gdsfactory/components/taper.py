@@ -4,9 +4,8 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionSpec, Layer
+from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 
 @cell
@@ -61,7 +60,7 @@ def taper(
             y1 = width1 / 2 + offset
             y2 = width2 / 2 + offset
             ypts = [y1, y2, -y2, -y1]
-            c.add_polygon((xpts, ypts), layer=layer)
+            c.add_polygon((xpts, ypts), layer=gf.get_layer(layer))
 
     c.add_port(
         name="o1",
@@ -113,10 +112,10 @@ def taper_strip_to_ridge(
     width2: float = 0.5,
     w_slab1: float = 0.15,
     w_slab2: float = 6.0,
-    layer_wg: Layer = gf.LAYER.WG,
-    layer_slab: Layer = gf.LAYER.SLAB90,
-    cross_section: CrossSectionSpec = strip,
-    bbox_layers: Optional[List[Layer]] = None,
+    layer_wg: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
+    cross_section: CrossSectionSpec = "strip",
+    bbox_layers: Optional[List[LayerSpec]] = None,
     bbox_offsets: Optional[List[float]] = None,
 ) -> Component:
     r"""Linear taper from strip to rib
@@ -200,8 +199,8 @@ def taper_strip_to_ridge_trenches(
     width: float = 0.5,
     slab_offset: float = 3.0,
     trench_width: float = 2.0,
-    trench_layer: Layer = gf.LAYER.SLAB90,
-    layer_wg: Layer = gf.LAYER.WG,
+    trench_layer: LayerSpec = "SLAB90",
+    layer_wg: LayerSpec = "WG",
     trench_offset: float = 0.1,
 ) -> gf.Component:
     """Defines taper using trenches to define the etch.
@@ -245,13 +244,13 @@ def taper_strip_to_ridge_trenches(
     return c
 
 
-taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab=gf.LAYER.SLAB150)
+taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 # taper StripCband to NitrideCband
 taper_sc_nc = gf.partial(
     taper_strip_to_ridge,
-    layer_wg=gf.LAYER.WG,
-    layer_slab=gf.LAYER.WGN,
+    layer_wg="WG",
+    layer_slab="WGN",
     length=20.0,
     width1=0.5,
     width2=0.15,

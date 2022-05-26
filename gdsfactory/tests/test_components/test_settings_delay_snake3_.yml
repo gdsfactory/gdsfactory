@@ -7,20 +7,7 @@ settings:
       function: bend_euler
       settings:
         angle: 180
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: 1600
     length0: 0
     n: 2
@@ -29,20 +16,7 @@ settings:
       function: bend_euler
       settings:
         angle: 180
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: 1600
     length0: 0
     n: 2

@@ -1,52 +1,15 @@
-name: straight_6805f5ea
+name: straight_a7b3969c
 settings:
   changed:
-    cross_section:
-      function: cross_section
-      settings:
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
+    cross_section: metal3
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: 10
     npoints: 2
     with_bbox: false
   full:
-    cross_section:
-      function: cross_section
-      settings:
-        layer:
-        - 49
-        - 0
-        port_names:
-        - e1
-        - e2
-        port_types:
-        - electrical
-        - electrical
-        width: 10
+    cross_section: metal3
     length: 10
     npoints: 2
     with_bbox: false
@@ -56,5 +19,5 @@ settings:
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_6805f5ea
+  name: straight_a7b3969c
 version: 0.0.1

@@ -45,7 +45,7 @@ def straight(
 
     if with_bbox and length:
         padding = []
-        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        for offset in x.bbox_offsets:
             points = get_padding_points(
                 component=c,
                 default=0,

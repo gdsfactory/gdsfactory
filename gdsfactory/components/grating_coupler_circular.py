@@ -7,7 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import Coordinate, CrossSectionSpec, Floats, Layer
+from gdsfactory.types import Coordinate, CrossSectionSpec, Floats, LayerSpec
 
 
 @cell
@@ -20,15 +20,15 @@ def grating_coupler_circular(
     n_periods: int = 30,
     bias_gap: float = 0,
     port: Coordinate = (0.0, 0.0),
-    layer_slab: Optional[Layer] = None,
-    layer_cladding: Layer = gf.LAYER.WGCLAD,
+    layer_slab: Optional[LayerSpec] = None,
+    layer_cladding: LayerSpec = "WGCLAD",
     gaps: Optional[Floats] = None,
     widths: Optional[Floats] = None,
     direction: str = "EAST",
     polarization: str = "te",
     wavelength: float = 1.55,
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
+    fiber_marker_layer: Optional[LayerSpec] = "TE",
     cladding_offset: float = 2.0,
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
@@ -45,16 +45,16 @@ def grating_coupler_circular(
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
         port: (x, y) for input port.
-        layer_slab: slab layer for partial etched gratings
-        layer_cladding: for the cladding (using cladding_offset)
+        layer_slab: slab layer for partial etched gratings.
+        layer_cladding: for the cladding (using cladding_offset).
         gaps: optional gap list (um). Overrides period, fill_factor and n_periods.
         widths: optional width list (um). Overrides period, fill_factor and n_periods.
         direction: Direction that the component will point *towards*,
-          can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians)
+          can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians).
         polarization: te or tm.
-        wavelength: wavelength um
-        fiber_marker_width: (um)
-        cladding_offset: (um)
+        wavelength: wavelength um.
+        fiber_marker_width: (um).
+        cladding_offset: (um).
         cross_section: for input waveguide port.
         kwargs: cross_section settings.
 
@@ -91,8 +91,11 @@ def grating_coupler_circular(
 
     gaps = np.array(gaps) + bias_gap
     widths = np.array(widths) - bias_gap
-
     teeth_list = list(zip(gaps, widths))
+
+    layer = gf.get_layer(layer)
+    layer_slab = gf.get_layer(layer_slab)
+    layer_cladding = gf.get_layer(layer_cladding)
 
     c = pc.GratingCoupler(
         gf.call_if_func(

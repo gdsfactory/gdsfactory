@@ -4,9 +4,7 @@ settings:
   child: null
   default:
     gap: 0.1
-    layer_label:
-    - 201
-    - 0
+    layer_label: LABEL
     widths:
     - 0.1
     - 0.2
@@ -16,9 +14,7 @@ settings:
     xsize: 100
   full:
     gap: 0.1
-    layer_label:
-    - 201
-    - 0
+    layer_label: LABEL
     widths:
     - 0.1
     - 0.2

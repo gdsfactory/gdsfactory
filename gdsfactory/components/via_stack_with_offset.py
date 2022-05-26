@@ -5,13 +5,12 @@ from numpy import floor
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via import viac
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Layers
+from gdsfactory.types import ComponentSpec, LayerSpecs
 
 
 @gf.cell
 def via_stack_with_offset(
-    layers: Layers = (LAYER.PPP, LAYER.M1),
+    layers: LayerSpecs = ("PPP", "M1"),
     sizes: Tuple[Tuple[float, float], ...] = ((10, 10), (10, 10)),
     vias: Tuple[Optional[ComponentSpec], ...] = (None, viac),
     offsets: Optional[Tuple[float, ...]] = None,
@@ -86,14 +85,14 @@ def via_stack_with_offset(
 
 via_stack_with_offset_ppp_m1 = gf.partial(
     via_stack_with_offset,
-    layers=(LAYER.PPP, LAYER.M1),
+    layers=("PPP", "M1"),
     vias=(None, viac),
 )
 
 
 if __name__ == "__main__":
     c = via_stack_with_offset_ppp_m1(
-        layers=(LAYER.SLAB90, LAYER.M1),
+        layers=("SLAB90", "M1"),
         sizes=((20, 10), (20, 10)),
         vias=(viac(size=(18, 2), spacing=(5, 5)), None),
     )

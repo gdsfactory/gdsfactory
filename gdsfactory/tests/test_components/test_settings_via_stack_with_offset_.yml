@@ -4,10 +4,8 @@ settings:
   child: null
   default:
     layers:
-    - - 25
-      - 0
-    - - 41
-      - 0
+    - PPP
+    - M1
     offsets: null
     port_orientation: 180
     sizes:
@@ -19,15 +17,11 @@ settings:
     - null
     - function: via
       settings:
-        layer:
-        - 40
-        - 0
+        layer: VIAC
   full:
     layers:
-    - - 25
-      - 0
-    - - 41
-      - 0
+    - PPP
+    - M1
     offsets: null
     port_orientation: 180
     sizes:
@@ -39,9 +33,7 @@ settings:
     - null
     - function: via
       settings:
-        layer:
-        - 40
-        - 0
+        layer: VIAC
   function_name: via_stack_with_offset
   info: {}
   info_version: 2

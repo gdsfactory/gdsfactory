@@ -11,10 +11,8 @@ settings:
     layer_offsetsy: null
     layer_port: null
     layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
+    - M1
+    - M2
     size:
     - 11.0
     - 11.0
@@ -22,9 +20,7 @@ settings:
       function: via
       settings:
         enclosure: 2
-        layer:
-        - 44
-        - 0
+        layer: VIA1
     ysize: 0.5
     yspacing: 2
   full:
@@ -36,10 +32,8 @@ settings:
     layer_offsetsy: null
     layer_port: null
     layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
+    - M1
+    - M2
     size:
     - 11.0
     - 11.0
@@ -47,9 +41,7 @@ settings:
       function: via
       settings:
         enclosure: 2
-        layer:
-        - 44
-        - 0
+        layer: VIA1
     ysize: 0.5
     yspacing: 2
   function_name: via_stack_slot

@@ -24,10 +24,10 @@ def add_electrical_pads_top_dc(
     Args:
         component: to connect to.
         spacing: component to pad spacing.
-        pad_array: function for pad_array
-        select_ports: function to select_ports
-        get_bundle_function: function to route bundle of ports
-        kwargs: route settings
+        pad_array: function for pad_array.
+        select_ports: function to select_ports.
+        get_bundle_function: function to route bundle of ports.
+        kwargs: route settings.
     """
     c = Component()
     component = gf.get_component(component)

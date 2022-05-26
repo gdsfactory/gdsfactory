@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 from numpy import ndarray
@@ -14,7 +14,7 @@ from gdsfactory.geometry.functions import (
     path_length,
     snap_angle,
 )
-from gdsfactory.types import Coordinate, Coordinates, Number
+from gdsfactory.types import Coordinate, Coordinates, LayerSpec, Number
 
 
 def bezier_curve(t: ndarray, control_points: Coordinates) -> ndarray:
@@ -46,7 +46,7 @@ def bezier(
     width: float = 0.5,
     control_points: Coordinates = ((0.0, 0.0), (5.0, 0.0), (5.0, 2.0), (10.0, 2.0)),
     npoints: int = 201,
-    layer: Tuple[int, int] = (1, 0),
+    layer: LayerSpec = "WG",
     with_manhattan_facing_angles: bool = True,
     spike_length: float = 0.0,
     start_angle: Optional[int] = None,
@@ -56,17 +56,17 @@ def bezier(
     """Returns Bezier bend.
 
     Args:
-        name: for the cell.
         width: straight width (um)
         control_points: list of points.
         npoints: number of points varying between 0 and 1.
-        layer: layer.
+        layer: layer spec.
         with_manhattan_facing_angles: bool.
         spike_length: um.
         start_angle: deg.
         end_angle: deg.
         grid: in um.
     """
+    layer = gf.get_layer(layer)
 
     c = gf.Component()
     t = np.linspace(0, 1, npoints)

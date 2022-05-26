@@ -71,6 +71,8 @@ Ints = Tuple[int, ...]
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+LayerSpec = Union[Layer, int, str, None]
+LayerSpecs = Tuple[LayerSpec, ...]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]

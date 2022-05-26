@@ -13,7 +13,7 @@ def route_quad(
     port2: Port,
     width1: Optional[float] = None,
     width2: Optional[float] = None,
-    layer: gf.types.Layer = (31, 0),
+    layer: gf.types.LayerSpec = "M1",
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 
@@ -44,6 +44,7 @@ def route_quad(
     # sort vertices by angle from center of quadrilateral to make convex polygon
     angles = np.array([np.arctan2(disp[0], disp[1]) for disp in displacements])
     vertices = [vert for _, vert in sorted(zip(angles, vertices), key=lambda x: x[0])]
+
     component = gf.Component()
     component.add_polygon(points=vertices, layer=layer)
     component.add_port(
