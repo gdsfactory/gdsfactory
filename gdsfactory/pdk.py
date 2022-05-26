@@ -53,7 +53,6 @@ class Pdk(BaseModel):
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
 
-
     def activate(self) -> None:
         if self.base_pdk:
             _cross_sections = self.base_pdk.cross_sections
