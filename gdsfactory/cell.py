@@ -70,6 +70,8 @@ def cell_without_validator(func):
 
     @functools.wraps(func)
     def _cell(*args, **kwargs):
+        from gdsfactory.pdk import get_active_pdk
+
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
@@ -122,7 +124,7 @@ def cell_without_validator(func):
         changed = {k: changed[k] for k in changed_arg_names}
 
         name = name or name_signature
-        decorator = kwargs.pop("decorator", None)
+        decorator = kwargs.pop("decorator", get_active_pdk().default_decorator)
         name = get_name_short(name, max_name_length=max_name_length)
 
         if (
