@@ -291,7 +291,7 @@ def add_pin_path(
         port: Port.
         pin_length: length of the pin marker for the port.
         layer: for the pin marker.
-        layer_label: for the label. Defaults to layer.
+        layer_label: optional layer label. Defaults to layer.
 
 
     .. code::
