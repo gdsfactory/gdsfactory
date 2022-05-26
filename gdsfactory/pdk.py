@@ -2,7 +2,7 @@ import logging
 import pathlib
 import warnings
 from functools import partial
-from typing import Optional
+from typing import Callable, Optional
 
 from omegaconf import DictConfig
 from pydantic import BaseModel
@@ -44,6 +44,7 @@ class Pdk(BaseModel):
     cells: Dict[str, ComponentFactory]
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: "Pdk" = None
+    default_decorator: Optional[Callable[[Component], None]] = None
 
     def activate(self) -> None:
         if self.base_pdk:
@@ -72,7 +73,7 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting cell {name!r}")
 
             self.cells[name] = cell
-            on_cell_registered.fire(name=name, cell=cell)
+            on_cell_registered.fire(name=name, cell=cell, pdk=self)
 
     def register_containers(self, **kwargs) -> None:
         """Register container factories."""
@@ -86,7 +87,7 @@ class Pdk(BaseModel):
                 warnings.warn(f"Overwriting container {name!r}")
 
             self.containers[name] = cell
-            on_container_registered.fire(name=name, cell=cell)
+            on_container_registered.fire(name=name, cell=cell, pdk=self)
 
     def register_cross_sections(self, **kwargs) -> None:
         """Register cross_sections factories."""
@@ -99,7 +100,9 @@ class Pdk(BaseModel):
             if name in self.cross_sections:
                 warnings.warn(f"Overwriting cross_section {name!r}")
             self.cross_sections[name] = cross_section
-            on_cross_section_registered.fire(name=name, cross_section=cross_section)
+            on_cross_section_registered.fire(
+                name=name, cross_section=cross_section, pdk=self
+            )
 
     def register_cells_yaml(
         self,
@@ -132,7 +135,7 @@ class Pdk(BaseModel):
                         f"ERROR: Cell name {name!r} from {filepath} already registered."
                     )
                 self.cells[name] = partial(from_yaml, filepath)
-
+                on_yaml_cell_registered.fire(name=name, cell=self.cells[name], pdk=self)
                 logger.info(f"{message} cell {name!r}")
 
         for k, v in kwargs.items():
@@ -291,6 +294,27 @@ class Pdk(BaseModel):
                 "get_cross_section expects a CrossSectionSpec (CrossSection, "
                 f"CrossSectionFactory, string or dict), got {type(cross_section)}"
             )
+
+    # _on_cell_registered = Event()
+    # _on_container_registered: Event = Event()
+    # _on_yaml_cell_registered: Event = Event()
+    # _on_cross_section_registered: Event = Event()
+    #
+    # @property
+    # def on_cell_registered(self) -> Event:
+    #     return self._on_cell_registered
+    #
+    # @property
+    # def on_container_registered(self) -> Event:
+    #     return self._on_container_registered
+    #
+    # @property
+    # def on_yaml_cell_registered(self) -> Event:
+    #     return self._on_yaml_cell_registered
+    #
+    # @property
+    # def on_cross_section_registered(self) -> Event:
+    #     return self._on_cross_section_registered
 
 
 GENERIC = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
