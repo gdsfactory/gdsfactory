@@ -1,17 +1,13 @@
-name: via_fd13653e
+name: via_3f12b27e
 settings:
   changed:
-    layer:
-    - 43
-    - 0
+    layer: VIA2
   child: null
   default:
     bbox_layers: null
     bbox_offset: 0
     enclosure: 1
-    layer:
-    - 40
-    - 0
+    layer: VIAC
     size:
     - 0.7
     - 0.7
@@ -22,9 +18,7 @@ settings:
     bbox_layers: null
     bbox_offset: 0
     enclosure: 1
-    layer:
-    - 43
-    - 0
+    layer: VIA2
     size:
     - 0.7
     - 0.7
@@ -42,5 +36,5 @@ settings:
     - 2.0
   info_version: 2
   module: gdsfactory.components.via
-  name: via_fd13653e
+  name: via_3f12b27e
 version: 0.0.1

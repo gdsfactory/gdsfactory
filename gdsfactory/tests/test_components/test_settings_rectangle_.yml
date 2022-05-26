@@ -4,9 +4,7 @@ settings:
   child: null
   default:
     centered: false
-    layer:
-    - 1
-    - 0
+    layer: WG
     port_orientations:
     - 180
     - 90
@@ -18,9 +16,7 @@ settings:
     - 2.0
   full:
     centered: false
-    layer:
-    - 1
-    - 0
+    layer: WG
     port_orientations:
     - 180
     - 90

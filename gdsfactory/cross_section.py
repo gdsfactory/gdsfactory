@@ -17,6 +17,9 @@ from gdsfactory.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+
+LayerSpec = Union[Layer, int, str, None]
+LayerSpecs = List[LayerSpec]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
@@ -59,7 +62,7 @@ class CrossSection(BaseModel):
         name: cross_section name.
     """
 
-    layer: Layer
+    layer: LayerSpec
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
     radius: Optional[float] = None
@@ -67,10 +70,10 @@ class CrossSection(BaseModel):
     auto_widen: bool = False
     auto_widen_minimum_length: float = 200.0
     taper_length: float = 10.0
-    bbox_layers: List[Layer] = Field(default_factory=list)
+    bbox_layers: List[LayerSpec] = Field(default_factory=list)
     bbox_offsets: List[float] = Field(default_factory=list)
-    cladding_layers: Optional[Layers] = ((68, 0),)  # for SiEPIC verification
-    cladding_offsets: Optional[Floats] = (0,)  # for SiEPIC verification
+    cladding_layers: Optional[LayerSpecs] = None
+    cladding_offsets: Optional[Floats] = None
     sections: List[Section] = Field(default_factory=list)
     port_names: Tuple[str, str] = ("o1", "o2")
     port_types: Tuple[str, str] = ("optical", "optical")
@@ -163,7 +166,7 @@ class Transition(CrossSection):
     cross_section2: CrossSection
     width_type: str = "sine"
     sections: List[Section]
-    layer: Optional[Layer] = None
+    layer: Optional[LayerSpec] = None
     width: Optional[Union[float, Callable]] = None
 
 
@@ -171,7 +174,7 @@ class Transition(CrossSection):
 def cross_section(
     width: Union[Callable, float] = 0.5,
     offset: Union[float, Callable] = 0,
-    layer: Tuple[int, int] = (1, 0),
+    layer: LayerSpec = "WG",
     width_wide: Optional[float] = None,
     auto_widen: bool = False,
     auto_widen_minimum_length: float = 200.0,
@@ -184,9 +187,9 @@ def cross_section(
     start_straight_length: float = 10e-3,
     end_straight_length: float = 10e-3,
     snap_to_grid: Optional[float] = None,
-    bbox_layers: Optional[List[Layer]] = None,
+    bbox_layers: Optional[List[LayerSpec]] = None,
     bbox_offsets: Optional[List[float]] = None,
-    cladding_layers: Optional[Layers] = None,
+    cladding_layers: Optional[LayerSpecs] = None,
     cladding_offsets: Optional[Floats] = None,
     info: Optional[Dict[str, Any]] = None,
     decorator: Optional[Callable] = None,
@@ -234,8 +237,8 @@ def cross_section(
         auto_widen_minimum_length=auto_widen_minimum_length,
         taper_length=taper_length,
         radius=radius,
-        bbox_layers=bbox_layers or (),
-        bbox_offsets=bbox_offsets or (),
+        bbox_layers=bbox_layers or [],
+        bbox_offsets=bbox_offsets or [],
         cladding_layers=cladding_layers,
         cladding_offsets=cladding_offsets,
         sections=sections or (),
@@ -256,42 +259,42 @@ strip = partial(
     cross_section,
     add_pins=add_pins_siepic_optical_2nm,
     add_bbox=add_bbox_siepic,
-    cladding_layers=((68, 0),),  # for SiEPIC verification
+    cladding_layers=("DEVREC",),  # for SiEPIC verification
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
 rib = partial(
     strip,
-    sections=(Section(width=6, layer=LAYER.SLAB90, name="slab"),),
-    bbox_layers=[LAYER.SLAB90],
+    sections=(Section(width=6, layer="SLAB90", name="slab"),),
+    bbox_layers=["SLAB90"],
     bbox_offsets=[3],
 )
-nitride = partial(strip, layer=LAYER.WGN, width=1.0)
+nitride = partial(strip, layer="WGN", width=1.0)
 strip_rib_tip = partial(
-    strip, sections=(Section(width=0.2, layer=LAYER.SLAB90, name="slab"),)
+    strip, sections=(Section(width=0.2, layer="SLAB90", name="slab"),)
 )
 
 metal1 = partial(
     cross_section,
-    layer=LAYER.M1,
+    layer="M1",
     width=10.0,
     port_names=port_names_electrical,
     port_types=port_types_electrical,
 )
 metal2 = partial(
     metal1,
-    layer=LAYER.M2,
+    layer="M2",
 )
 metal3 = partial(
     metal1,
-    layer=LAYER.M3,
+    layer="M3",
 )
 
 
 @pydantic.validate_arguments
 def heater_metal(
     width: float = 2.5,
-    layer: Layer = LAYER.HEATER,
+    layer: LayerSpec = "HEATER",
     **kwargs,
 ) -> CrossSection:
     """Returns metal heater cross_section.
@@ -339,16 +342,16 @@ def heater_metal(
 @pydantic.validate_arguments
 def pin(
     width: float = 0.5,
-    layer: Tuple[int, int] = LAYER.WG,
-    layer_slab: Tuple[int, int] = LAYER.SLAB90,
-    layers_via_stack1: Layers = (LAYER.PPP,),
-    layers_via_stack2: Layers = (LAYER.NPP,),
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
+    layers_via_stack1: LayerSpecs = ("PPP",),
+    layers_via_stack2: LayerSpecs = ("NPP",),
     bbox_offsets_via_stack1: Tuple[float, ...] = (0, -0.2),
     bbox_offsets_via_stack2: Tuple[float, ...] = (0, -0.2),
     via_stack_width: float = 9.0,
     via_stack_gap: float = 0.55,
     slab_gap: float = -0.2,
-    layer_via: Optional[Layer] = None,
+    layer_via: LayerSpec = None,
     via_width: float = 1,
     via_offsets: Optional[Tuple[float, ...]] = None,
     **kwargs,
@@ -447,19 +450,19 @@ def pin(
 @pydantic.validate_arguments
 def pn(
     width: float = 0.5,
-    layer: Tuple[int, int] = LAYER.WG,
-    layer_slab: Tuple[int, int] = LAYER.SLAB90,
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
     gap_low_doping: float = 0.0,
     gap_medium_doping: Optional[float] = 0.5,
     gap_high_doping: Optional[float] = 1.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
-    layer_p: Tuple[int, int] = LAYER.P,
-    layer_pp: Tuple[int, int] = LAYER.PP,
-    layer_ppp: Tuple[int, int] = LAYER.PPP,
-    layer_n: Tuple[int, int] = LAYER.N,
-    layer_np: Tuple[int, int] = LAYER.NP,
-    layer_npp: Tuple[int, int] = LAYER.NPP,
+    layer_p: LayerSpec = "P",
+    layer_pp: LayerSpec = "PP",
+    layer_ppp: LayerSpec = "PPP",
+    layer_n: LayerSpec = "N",
+    layer_np: LayerSpec = "NP",
+    layer_npp: LayerSpec = "NPP",
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -583,12 +586,12 @@ def pn(
 @pydantic.validate_arguments
 def strip_heater_metal_undercut(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.5,
     trench_width: float = 6.5,
     trench_gap: float = 2.0,
-    layer_heater: Layer = LAYER.HEATER,
-    layer_trench: Layer = LAYER.DEEPTRENCH,
+    layer_heater: LayerSpec = "HEATER",
+    layer_trench: LayerSpec = "DEEPTRENCH",
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both sides.
@@ -656,9 +659,9 @@ def strip_heater_metal_undercut(
 @pydantic.validate_arguments
 def strip_heater_metal(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.5,
-    layer_heater: Layer = LAYER.HEATER,
+    layer_heater: LayerSpec = "HEATER",
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
@@ -699,10 +702,10 @@ def strip_heater_metal(
 @pydantic.validate_arguments
 def strip_heater_doped(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
-    layers_heater: Layers = (LAYER.WG, LAYER.NPP),
+    layers_heater: LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: Tuple[float, ...] = (0, 0.1),
     **kwargs,
 ) -> CrossSection:
@@ -756,11 +759,11 @@ strip_heater_doped_via_stack = partial(
 @pydantic.validate_arguments
 def rib_heater_doped(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
-    layer_heater: Layer = LAYER.NPP,
-    layer_slab: Layer = LAYER.SLAB90,
+    layer_heater: LayerSpec = "NPP",
+    layer_slab: LayerSpec = "SLAB90",
     slab_gap: float = 0.2,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
@@ -820,14 +823,14 @@ def rib_heater_doped(
 @pydantic.validate_arguments
 def rib_heater_doped_via_stack(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 1.0,
     heater_gap: float = 0.8,
-    layer_slab: Layer = LAYER.SLAB90,
-    layer_heater: Layer = LAYER.NPP,
+    layer_slab: LayerSpec = "SLAB90",
+    layer_heater: LayerSpec = "NPP",
     via_stack_width: float = 2.0,
     via_stack_gap: float = 0.8,
-    layers_via_stack: Layers = (LAYER.NPP, LAYER.VIAC),
+    layers_via_stack: LayerSpecs = ("NPP", "VIAC"),
     bbox_offsets_via_stack: Tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     slab_offset: float = 0,
@@ -839,20 +842,20 @@ def rib_heater_doped_via_stack(
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
-        width:
-        layer:
-        heater_width:
-        heater_gap:
-        layer_slab:
-        layer_heater:
-        via_stack_width:
-        via_stack_gap:
-        layers_via_stack:
-        bbox_offsets_via_stack:
+        width: in um.
+        layer: for main waveguide section.
+        heater_width: in um.
+        heater_gap: in um.
+        layer_slab: for pedestal.
+        layer_heater: for doped heater.
+        via_stack_width: for the contact.
+        via_stack_gap: in um.
+        layers_via_stack: for the contact.
+        bbox_offsets_via_stack: for the contact.
         slab_gap: from heater edge.
         slab_offset: over the center of the slab.
-        with_top_heater:
-        with_bot_heater:
+        with_top_heater: adds top/left heater.
+        with_bot_heater: adds bottom/right heater.
 
     .. code::
 

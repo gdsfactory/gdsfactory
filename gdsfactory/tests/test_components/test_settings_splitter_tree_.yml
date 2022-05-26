@@ -8,20 +8,7 @@ settings:
     bend_s_xsize: null
     coupler:
       function: mmi1x2
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     noutputs: 4
     spacing:
     - 90.0
@@ -32,20 +19,7 @@ settings:
     bend_s_xsize: null
     coupler:
       function: mmi1x2
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     noutputs: 4
     spacing:
     - 90.0

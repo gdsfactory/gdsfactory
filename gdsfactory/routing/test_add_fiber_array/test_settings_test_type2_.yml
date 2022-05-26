@@ -73,20 +73,7 @@ settings:
     bend: bend_euler
     component: mmi2x2
     component_name: null
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -96,15 +83,12 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     select_ports:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
+    straight: straight
   full:
     bend: bend_euler
     component:
@@ -143,20 +127,7 @@ settings:
         name: coupler_a078f3c8
       version: 0.0.1
     component_name: null
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -166,16 +137,13 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     optical_routing_type: 2
     select_ports:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
+    straight: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2

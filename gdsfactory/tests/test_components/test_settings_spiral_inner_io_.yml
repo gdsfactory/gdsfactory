@@ -10,20 +10,7 @@ settings:
         angle: 180
     bend90:
       function: bend_euler
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     cross_section_bend: null
     grating_spacing: 127
     length: null
@@ -42,20 +29,7 @@ settings:
         angle: 180
     bend90:
       function: bend_euler
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     cross_section_bend: null
     grating_spacing: 127
     length: null

@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_electr_57f085bc
+name: mzi_2e88f57c_add_electr_c27b6acd
 settings:
   changed:
     component:
@@ -16,23 +16,9 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner: null
-          cross_section:
-            function: cross_section
-            settings:
-              add_bbox:
-                function: add_bbox_siepic
-              add_pins:
-                function: add_pins_siepic
-                settings:
-                  pin_length: 0.002
-              cladding_layers:
-              - - 68
-                - 0
-              cladding_offsets:
-              - 0
+          cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
           delta_length: 10
@@ -43,33 +29,17 @@ settings:
           port_e0_splitter: o3
           port_e1_combiner: o2
           port_e1_splitter: o2
-          splitter:
-            function: mmi1x2
-          straight:
-            function: straight
+          splitter: mmi1x2
+          straight: straight
           straight_x_bot: null
           straight_x_top: null
           straight_y: null
           with_splitter: true
         full:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner:
             function: mmi2x2
-          cross_section:
-            function: cross_section
-            settings:
-              add_bbox:
-                function: add_bbox_siepic
-              add_pins:
-                function: add_pins_siepic
-                settings:
-                  pin_length: 0.002
-              cladding_layers:
-              - - 68
-                - 0
-              cladding_offsets:
-              - 0
+          cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
           delta_length: 10
@@ -82,8 +52,7 @@ settings:
           port_e1_splitter: o3
           splitter:
             function: mmi2x2
-          straight:
-            function: straight
+          straight: straight
           straight_x_bot: null
           straight_x_top: straight_heater_metal
           straight_y: null
@@ -107,23 +76,9 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend:
-        function: bend_euler
+      bend: bend_euler
       combiner: null
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - - 68
-            - 0
-          cladding_offsets:
-          - 0
+      cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10
@@ -134,33 +89,17 @@ settings:
       port_e0_splitter: o3
       port_e1_combiner: o2
       port_e1_splitter: o2
-      splitter:
-        function: mmi1x2
-      straight:
-        function: straight
+      splitter: mmi1x2
+      straight: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
       with_splitter: true
     full:
-      bend:
-        function: bend_euler
+      bend: bend_euler
       combiner:
         function: mmi2x2
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - - 68
-            - 0
-          cladding_offsets:
-          - 0
+      cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
       delta_length: 10
@@ -173,8 +112,7 @@ settings:
       port_e1_splitter: o3
       splitter:
         function: mmi2x2
-      straight:
-        function: straight
+      straight: straight
       straight_x_bot: null
       straight_x_top: straight_heater_metal
       straight_y: null
@@ -186,9 +124,7 @@ settings:
     name: mzi_2e88f57c
   default:
     component: straight
-    layer:
-    - 31
-    - 0
+    layer: M3
     pad_array:
       function: pad_array
     select_ports:
@@ -214,23 +150,9 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner: null
-          cross_section:
-            function: cross_section
-            settings:
-              add_bbox:
-                function: add_bbox_siepic
-              add_pins:
-                function: add_pins_siepic
-                settings:
-                  pin_length: 0.002
-              cladding_layers:
-              - - 68
-                - 0
-              cladding_offsets:
-              - 0
+          cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
           delta_length: 10
@@ -241,33 +163,17 @@ settings:
           port_e0_splitter: o3
           port_e1_combiner: o2
           port_e1_splitter: o2
-          splitter:
-            function: mmi1x2
-          straight:
-            function: straight
+          splitter: mmi1x2
+          straight: straight
           straight_x_bot: null
           straight_x_top: null
           straight_y: null
           with_splitter: true
         full:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner:
             function: mmi2x2
-          cross_section:
-            function: cross_section
-            settings:
-              add_bbox:
-                function: add_bbox_siepic
-              add_pins:
-                function: add_pins_siepic
-                settings:
-                  pin_length: 0.002
-              cladding_layers:
-              - - 68
-                - 0
-              cladding_offsets:
-              - 0
+          cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
           delta_length: 10
@@ -280,8 +186,7 @@ settings:
           port_e1_splitter: o3
           splitter:
             function: mmi2x2
-          straight:
-            function: straight
+          straight: straight
           straight_x_bot: null
           straight_x_top: straight_heater_metal
           straight_y: null
@@ -292,9 +197,7 @@ settings:
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
       version: 0.0.1
-    layer:
-    - 31
-    - 0
+    layer: M3
     pad_array:
       function: pad_array
     select_ports:
@@ -308,5 +211,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_2e88f57c_add_electr_57f085bc
+  name: mzi_2e88f57c_add_electr_c27b6acd
 version: 0.0.1

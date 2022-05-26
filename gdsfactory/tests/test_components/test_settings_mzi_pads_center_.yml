@@ -13,16 +13,13 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
     cross_section_metal:
       function: cross_section
       settings:
-        layer:
-        - 49
-        - 0
+        layer: M3
         port_names:
         - e1
         - e2
@@ -67,16 +64,13 @@ settings:
           settings:
             pin_length: 0.002
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
     cross_section_metal:
       function: cross_section
       settings:
-        layer:
-        - 49
-        - 0
+        layer: M3
         port_names:
         - e1
         - e2

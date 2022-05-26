@@ -1,4 +1,4 @@
-name: straight_59a376de_exten_5eaa4c49
+name: straight_12b36814_exten_e754dd93
 settings:
   changed:
     component:
@@ -14,20 +14,16 @@ settings:
               settings:
                 pin_length: 0.002
             bbox_layers:
-            - - 3
-              - 0
+            - SLAB90
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             sections:
             - hidden: false
-              layer:
-              - 3
-              - 0
+              layer: SLAB90
               name: slab
               offset: 0
               port_names:
@@ -53,20 +49,16 @@ settings:
             settings:
               pin_length: 0.002
           bbox_layers:
-          - - 3
-            - 0
+          - SLAB90
           bbox_offsets:
           - 3
           cladding_layers:
-          - - 68
-            - 0
+          - DEVREC
           cladding_offsets:
           - 0
           sections:
           - hidden: false
-            layer:
-            - 3
-            - 0
+            layer: SLAB90
             name: slab
             offset: 0
             port_names:
@@ -78,20 +70,7 @@ settings:
             width: 6.0
     child: null
     default:
-      cross_section:
-        function: cross_section
-        settings:
-          add_bbox:
-            function: add_bbox_siepic
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          cladding_layers:
-          - - 68
-            - 0
-          cladding_offsets:
-          - 0
+      cross_section: strip
       length: 10
       npoints: 2
       with_bbox: false
@@ -106,20 +85,16 @@ settings:
             settings:
               pin_length: 0.002
           bbox_layers:
-          - - 3
-            - 0
+          - SLAB90
           bbox_offsets:
           - 3
           cladding_layers:
-          - - 68
-            - 0
+          - DEVREC
           cladding_offsets:
           - 0
           sections:
           - hidden: false
-            layer:
-            - 3
-            - 0
+            layer: SLAB90
             name: slab
             offset: 0
             port_names:
@@ -138,7 +113,7 @@ settings:
       width: 0.5
     info_version: 2
     module: gdsfactory.components.straight
-    name: straight_59a376de
+    name: straight_12b36814
   default:
     centered: false
     component:
@@ -165,20 +140,16 @@ settings:
               settings:
                 pin_length: 0.002
             bbox_layers:
-            - - 3
-              - 0
+            - SLAB90
             bbox_offsets:
             - 3
             cladding_layers:
-            - - 68
-              - 0
+            - DEVREC
             cladding_offsets:
             - 0
             sections:
             - hidden: false
-              layer:
-              - 3
-              - 0
+              layer: SLAB90
               name: slab
               offset: 0
               port_names:
@@ -200,5 +171,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_59a376de_exten_5eaa4c49
+  name: straight_12b36814_exten_e754dd93
 version: 0.0.1

@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
 
@@ -17,7 +16,7 @@ def splitter_tree(
     spacing: Float2 = (90.0, 50.0),
     bend_s: Optional[ComponentSpec] = bend_s_function,
     bend_s_xsize: Optional[float] = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
     """Tree of power splitters.
 

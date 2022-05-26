@@ -22,26 +22,19 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_slab:
       function: via_stack_slot
       settings:
         layers:
-        - - 41
-          - 0
+        - M1
         via:
           function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
     via_stack_slab_bot: null
     via_stack_slab_spacing: 2
     via_stack_slab_top: null
@@ -68,26 +61,19 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_slab:
       function: via_stack_slot
       settings:
         layers:
-        - - 41
-          - 0
+        - M1
         via:
           function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
     via_stack_slab_bot: null
     via_stack_slab_spacing: 2
     via_stack_slab_top: null

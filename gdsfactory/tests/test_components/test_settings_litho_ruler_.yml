@@ -4,9 +4,7 @@ settings:
   child: null
   default:
     height: 2
-    layer:
-    - 1
-    - 0
+    layer: WG
     num_marks: 21
     scale:
     - 3
@@ -23,9 +21,7 @@ settings:
     width: 0.5
   full:
     height: 2
-    layer:
-    - 1
-    - 0
+    layer: WG
     num_marks: 21
     scale:
     - 3

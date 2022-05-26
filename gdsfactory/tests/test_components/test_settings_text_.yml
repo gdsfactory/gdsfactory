@@ -4,9 +4,7 @@ settings:
   child: null
   default:
     justify: left
-    layer:
-    - 66
-    - 0
+    layer: WG
     position:
     - 0
     - 0
@@ -14,9 +12,7 @@ settings:
     text: abcd
   full:
     justify: left
-    layer:
-    - 66
-    - 0
+    layer: WG
     position:
     - 0
     - 0

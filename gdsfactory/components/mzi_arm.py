@@ -22,14 +22,14 @@ def mzi_arm(
     """Mzi.
 
     Args:
-        length_y_left: vertical length
-        length_y_rigth: vertical length
-        length_x: horizontal length
-        bend: 90 degrees bend library
-        straight: straight function
-        straight_x: straight for length_x
-        straight_y: straight for length_y
-        kwargs: cross_section settings
+        length_y_left: vertical length.
+        length_y_rigth: vertical length.
+        length_x: horizontal length.
+        bend: 90 degrees bend library.
+        straight: straight function.
+        straight_x: straight for length_x.
+        straight_y: straight for length_y.
+        kwargs: cross_section settings.
 
     .. code::
 

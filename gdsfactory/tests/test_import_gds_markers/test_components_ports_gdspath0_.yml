@@ -1,4 +1,4 @@
-name: mzi_d0110bc9
+name: mzi_9454bc1a
 settings:
   changed:
     cross_section:
@@ -15,10 +15,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight:
-            function: straight
-          taper:
-            function: taper
+          straight: straight
+          taper: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -29,10 +27,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight:
-            function: straight
-          taper:
-            function: taper
+          straight: straight
+          taper: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -45,23 +41,9 @@ settings:
       version: 0.0.1
   child: null
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     combiner: null
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     cross_section_x_bot: null
     cross_section_x_top: null
     delta_length: 10
@@ -72,17 +54,14 @@ settings:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
-    splitter:
-      function: mmi1x2
-    straight:
-      function: straight
+    splitter: mmi1x2
+    straight: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
     with_splitter: true
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     combiner: null
     cross_section:
       function: cross_section
@@ -108,10 +87,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight:
-            function: straight
-          taper:
-            function: taper
+          straight: straight
+          taper: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -122,10 +99,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight:
-            function: straight
-          taper:
-            function: taper
+          straight: straight
+          taper: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -136,8 +111,7 @@ settings:
         module: gdsfactory.components.mmi1x2
         name: mmi1x2_be5e636a
       version: 0.0.1
-    straight:
-      function: straight
+    straight: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -146,5 +120,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_d0110bc9
+  name: mzi_9454bc1a
 version: 0.0.1

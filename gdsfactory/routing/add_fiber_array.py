@@ -8,7 +8,12 @@ from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
+from gdsfactory.types import (
+    ComponentSpec,
+    ComponentSpecOrList,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
 @gf.cell
@@ -23,7 +28,7 @@ def add_fiber_array(
     select_ports: Callable = select_ports_optical,
     cross_section: CrossSectionSpec = "strip",
     get_input_labels_function: Optional[Callable] = get_input_labels,
-    layer_label: Optional[Tuple[int, int]] = (66, 0),
+    layer_label: LayerSpec = "TEXT",
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).

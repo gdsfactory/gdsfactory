@@ -3,7 +3,7 @@
 import gdsfactory as gf
 from gdsfactory.components.pad import pad as pad_function
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.types import ComponentSpec, Float2, Layer
+from gdsfactory.types import ComponentSpec, Float2, LayerSpec
 
 rectangle_m3 = gf.partial(rectangle, layer=gf.LAYER.M3)
 
@@ -12,7 +12,7 @@ rectangle_m3 = gf.partial(rectangle, layer=gf.LAYER.M3)
 def pad_gsg_short(
     via_stack: ComponentSpec = rectangle_m3,
     size: Float2 = (22, 7),
-    layer_metal: Layer = gf.LAYER.M3,
+    layer_metal: LayerSpec = "M3",
     metal_spacing: float = 5.0,
     short: bool = True,
     pad: ComponentSpec = pad_function,

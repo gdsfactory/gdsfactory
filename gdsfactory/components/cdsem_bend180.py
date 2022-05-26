@@ -7,7 +7,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 LINE_LENGTH = 420.0
@@ -22,7 +21,7 @@ def cdsem_bend180(
     wg_length: float = LINE_LENGTH,
     straight: ComponentSpec = straight_function,
     bend90: ComponentSpec = bend_circular,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     text: ComponentSpec = text_rectangular_mini,
 ) -> Component:
     """Returns CDSEM structures.

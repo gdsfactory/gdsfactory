@@ -1,4 +1,4 @@
-name: bend_euler_11aff456
+name: bend_euler_f983bc29
 settings:
   changed:
     cross_section:
@@ -14,8 +14,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -47,8 +46,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -68,5 +66,5 @@ settings:
     radius_min: 7.061
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_11aff456
+  name: bend_euler_f983bc29
 version: 0.0.1

@@ -6,7 +6,6 @@ from typing import Optional, Tuple
 import numpy as np
 from numpy import float64
 
-import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -30,7 +29,7 @@ def spiral_external_io(
     yspacing: float = 3.0,
     bend: ComponentSpec = bend_euler,
     length: Optional[float] = None,
-    cross_section: CrossSectionSpec = gf.cross_section.strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Returns spiral with input and output ports outside the spiral.

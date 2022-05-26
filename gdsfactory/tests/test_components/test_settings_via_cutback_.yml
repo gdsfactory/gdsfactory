@@ -3,12 +3,8 @@ settings:
   changed: {}
   child: null
   default:
-    layer1:
-    - 47
-    - 0
-    layer2:
-    - 41
-    - 0
+    layer1: HEATER
+    layer2: M1
     min_pad_spacing: 0
     num_vias: 100
     pad:
@@ -25,31 +21,21 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     pad_size:
     - 150
     - 150
-    via_layer:
-    - 40
-    - 0
+    via_layer: VIAC
     via_spacing: 40
     via_width: 5
     wire_pad_inclusion: 12
     wire_width: 10
   full:
-    layer1:
-    - 47
-    - 0
-    layer2:
-    - 41
-    - 0
+    layer1: HEATER
+    layer2: M1
     min_pad_spacing: 0
     num_vias: 100
     pad:
@@ -66,20 +52,14 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     pad_size:
     - 150
     - 150
-    via_layer:
-    - 40
-    - 0
+    via_layer: VIAC
     via_spacing: 40
     via_width: 5
     wire_pad_inclusion: 12

@@ -34,40 +34,14 @@ cells:
       length: 1.234
       npoints: 2
       with_bbox: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          add_bbox:
-            function: add_bbox_siepic
-          cladding_layers:
-          - - 68
-            - 0
-          cladding_offsets:
-          - 0
+      cross_section: strip
     changed:
       length: 1.234
     default:
       length: 10
       npoints: 2
       with_bbox: false
-      cross_section:
-        function: cross_section
-        settings:
-          add_pins:
-            function: add_pins_siepic
-            settings:
-              pin_length: 0.002
-          add_bbox:
-            function: add_bbox_siepic
-          cladding_layers:
-          - - 68
-            - 0
-          cladding_offsets:
-          - 0
+      cross_section: strip
     child: null
 name: straight_189d2d09
 version: 0.0.1
@@ -83,38 +57,12 @@ settings:
     length: 1.234
     npoints: 2
     with_bbox: false
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        add_bbox:
-          function: add_bbox_siepic
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
   changed:
     length: 1.234
   default:
     length: 10
     npoints: 2
     with_bbox: false
-    cross_section:
-      function: cross_section
-      settings:
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        add_bbox:
-          function: add_bbox_siepic
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
   child: null
