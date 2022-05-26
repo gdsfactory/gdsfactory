@@ -450,19 +450,19 @@ def pin(
 @pydantic.validate_arguments
 def pn(
     width: float = 0.5,
-    layer: LayerSpec = LAYER.WG,
-    layer_slab: Tuple[int, int] = LAYER.SLAB90,
+    layer: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
     gap_low_doping: float = 0.0,
     gap_medium_doping: Optional[float] = 0.5,
     gap_high_doping: Optional[float] = 1.0,
     width_doping: float = 8.0,
     width_slab: float = 7.0,
-    layer_p: Tuple[int, int] = LAYER.P,
-    layer_pp: Tuple[int, int] = LAYER.PP,
-    layer_ppp: Tuple[int, int] = LAYER.PPP,
-    layer_n: Tuple[int, int] = LAYER.N,
-    layer_np: Tuple[int, int] = LAYER.NP,
-    layer_npp: Tuple[int, int] = LAYER.NPP,
+    layer_p: LayerSpec = "P",
+    layer_pp: LayerSpec = "PP",
+    layer_ppp: LayerSpec = "PPP",
+    layer_n: LayerSpec = "N",
+    layer_np: LayerSpec = "NP",
+    layer_npp: LayerSpec = "NPP",
     port_names: Tuple[str, str] = ("o1", "o2"),
     bbox_layers: Optional[List[Layer]] = None,
     bbox_offsets: Optional[List[float]] = None,
@@ -586,12 +586,12 @@ def pn(
 @pydantic.validate_arguments
 def strip_heater_metal_undercut(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.5,
     trench_width: float = 6.5,
     trench_gap: float = 2.0,
-    layer_heater: Layer = LAYER.HEATER,
-    layer_trench: Layer = LAYER.DEEPTRENCH,
+    layer_heater: LayerSpec = "HEATER",
+    layer_trench: LayerSpec = "DEEPTRENCH",
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both sides.
@@ -659,9 +659,9 @@ def strip_heater_metal_undercut(
 @pydantic.validate_arguments
 def strip_heater_metal(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.5,
-    layer_heater: Layer = LAYER.HEATER,
+    layer_heater: LayerSpec = "HEATER",
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top heater metal.
@@ -702,10 +702,10 @@ def strip_heater_metal(
 @pydantic.validate_arguments
 def strip_heater_doped(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
-    layers_heater: Layers = (LAYER.WG, LAYER.NPP),
+    layers_heater: LayerSpecs = ("WG", "NPP"),
     bbox_offsets_heater: Tuple[float, ...] = (0, 0.1),
     **kwargs,
 ) -> CrossSection:
@@ -759,11 +759,11 @@ strip_heater_doped_via_stack = partial(
 @pydantic.validate_arguments
 def rib_heater_doped(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 2.0,
     heater_gap: float = 0.8,
-    layer_heater: Layer = LAYER.NPP,
-    layer_slab: Layer = LAYER.SLAB90,
+    layer_heater: LayerSpec = "NPP",
+    layer_slab: LayerSpec = "SLAB90",
     slab_gap: float = 0.2,
     with_top_heater: bool = True,
     with_bot_heater: bool = True,
@@ -823,14 +823,14 @@ def rib_heater_doped(
 @pydantic.validate_arguments
 def rib_heater_doped_via_stack(
     width: float = 0.5,
-    layer: Layer = LAYER.WG,
+    layer: LayerSpec = "WG",
     heater_width: float = 1.0,
     heater_gap: float = 0.8,
-    layer_slab: Layer = LAYER.SLAB90,
-    layer_heater: Layer = LAYER.NPP,
+    layer_slab: LayerSpec = "SLAB90",
+    layer_heater: LayerSpec = "NPP",
     via_stack_width: float = 2.0,
     via_stack_gap: float = 0.8,
-    layers_via_stack: Layers = (LAYER.NPP, LAYER.VIAC),
+    layers_via_stack: LayerSpecs = ("NPP", "VIAC"),
     bbox_offsets_via_stack: Tuple[float, ...] = (0, -0.2),
     slab_gap: float = 0.2,
     slab_offset: float = 0,
@@ -842,20 +842,20 @@ def rib_heater_doped_via_stack(
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
-        width:
-        layer:
-        heater_width:
-        heater_gap:
-        layer_slab:
-        layer_heater:
-        via_stack_width:
-        via_stack_gap:
-        layers_via_stack:
-        bbox_offsets_via_stack:
+        width: in um.
+        layer: for main waveguide section.
+        heater_width: in um.
+        heater_gap: in um.
+        layer_slab: for pedestal.
+        layer_heater: for doped heater.
+        via_stack_width: for the contact.
+        via_stack_gap: in um.
+        layers_via_stack: for the contact.
+        bbox_offsets_via_stack: for the contact.
         slab_gap: from heater edge.
         slab_offset: over the center of the slab.
-        with_top_heater:
-        with_bot_heater:
+        with_top_heater: adds top/left heater.
+        with_bot_heater: adds bottom/right heater.
 
     .. code::
 
