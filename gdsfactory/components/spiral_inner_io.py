@@ -7,7 +7,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler, bend_euler180
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.routing.manhattan import round_corners
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
@@ -31,7 +30,7 @@ def spiral_inner_io(
     bend180: ComponentSpec = bend_euler180,
     straight: ComponentSpec = straight_function,
     length: Optional[float] = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     cross_section_bend: Optional[CrossSectionSpec] = None,
     **kwargs
 ) -> Component:
@@ -164,7 +163,7 @@ def spiral_inner_io(
 
 @gf.cell
 def spiral_inner_io_fiber_single(
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     cross_section_bend: Optional[CrossSectionSpec] = None,
     cross_section_ports: Optional[CrossSectionSpec] = None,
     x_straight_inner_right: float = 40.0,

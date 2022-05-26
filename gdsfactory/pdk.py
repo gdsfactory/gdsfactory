@@ -302,14 +302,16 @@ class Pdk(BaseModel):
             return (layer, 0)
         elif isinstance(layer, str):
             if layer not in self.layers:
-                raise ValueError(f"{layer} not in {self.layers.keys()}")
+                raise ValueError(f"{layer!r} not in {self.layers.keys()}")
             return self.layers[layer]
         elif layer is np.nan:
             return np.nan
         elif layer is None:
             return
         else:
-            raise ValueError(f"{layer} needs to be a LayerSpec (string, int or Layer)")
+            raise ValueError(
+                f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
+            )
 
 
 GENERIC = Pdk(

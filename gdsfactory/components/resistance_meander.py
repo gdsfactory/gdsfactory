@@ -1,12 +1,12 @@
 from typing import Tuple
 
 import numpy as np
-from phidl.geometry import offset
 
-from gdsfactory import components as pc
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.components.rectangle import rectangle
+from gdsfactory.geometry.offset import offset
+from gdsfactory.types import LayerSpec
 
 
 @cell
@@ -14,9 +14,9 @@ def resistance_meander(
     pad_size: Tuple[float, float] = (50.0, 50.0),
     num_squares: int = 1000,
     width: float = 1.0,
-    res_layer: Tuple[int, int] = LAYER.M3,
-    pad_layer: Tuple[int, int] = LAYER.M3,
-    gnd_layer: Tuple[int, int] = LAYER.M3,
+    res_layer: LayerSpec = "M3",
+    pad_layer: LayerSpec = "M3",
+    gnd_layer: LayerSpec = "M3",
 ) -> Component:
     """Return meander to test resistance.
 
@@ -64,8 +64,8 @@ def resistance_meander(
 
     # Creating row/column corner combination structure
     T = Component()
-    Row = pc.rectangle(size=(length_row, width), layer=res_layer)
-    Col = pc.rectangle(size=(width, width), layer=res_layer)
+    Row = rectangle(size=(length_row, width), layer=res_layer)
+    Col = rectangle(size=(width, width), layer=res_layer)
 
     T.add_ref(Row)
     col = T.add_ref(Col)
@@ -85,8 +85,8 @@ def resistance_meander(
 
     # Creating pads
     P = Component()
-    pad1 = pc.rectangle(size=(x, z), layer=pad_layer)
-    pad2 = pc.rectangle(size=(x + 5, z), layer=pad_layer)
+    pad1 = rectangle(size=(x, z), layer=pad_layer)
+    pad2 = rectangle(size=(x + 5, z), layer=pad_layer)
     gnd1 = offset(pad1, distance=-5, layer=gnd_layer)
     gnd2 = offset(pad2, distance=-5, layer=gnd_layer)
     pad1_ref = P.add_ref(pad1)

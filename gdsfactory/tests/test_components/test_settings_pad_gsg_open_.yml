@@ -4,9 +4,7 @@ settings:
     short: false
   child: null
   default:
-    layer_metal:
-    - 49
-    - 0
+    layer_metal: M3
     metal_spacing: 5
     pad:
       function: pad
@@ -22,9 +20,7 @@ settings:
         - 49
         - 0
   full:
-    layer_metal:
-    - 49
-    - 0
+    layer_metal: M3
     metal_spacing: 5
     pad:
       function: pad

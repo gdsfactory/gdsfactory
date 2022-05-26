@@ -1,18 +1,17 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Layer, Optional
+from gdsfactory.types import ComponentSpec, LayerSpec, Optional
 
 
 @gf.cell
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.types.CrossSectionSpec = gf.cross_section.strip,
+    cross_section: gf.types.CrossSectionSpec = "strip",
     heater_width: float = 2.5,
     extension_length: float = 15.0,
-    layer_heater: Optional[Layer] = LAYER.HEATER,
+    layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
     via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
     port_orientation1: int = 180,
