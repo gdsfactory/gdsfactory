@@ -3,13 +3,15 @@
 ## 5.8.0
 
 - works with siepic verification [PR](https://github.com/gdsfactory/gdsfactory/pull/410)
-    * cross_section has optional add_pins and add_bbox, which can be used for verification.
-        + add `cladding_layers` and `cladding_offset`.
-        + cladding_layers follow path shape, while bbox_layers are rectangular.
-    * add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
-    * add `with_two_ports` to taper. False for edge couplers and terminators.
-    * fix ring_double_heater open in the heater top waveguide.
+    - cross_section has optional add_pins and add_bbox, which can be used for verification.
+        - add `cladding_layers` and `cladding_offset`.
+        - cladding_layers follow path shape, while bbox_layers are rectangular.
+    - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
+    - add `with_two_ports` to taper. False for edge couplers and terminators.
+    - fix ring_double_heater open in the heater top waveguide.
 - Make pdk from existing pdk [PR](https://github.com/gdsfactory/gdsfactory/pull/406)
+- add events module and events relating to Pdk modifications [PR](https://github.com/gdsfactory/gdsfactory/pull/412)
+    - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
 - add LayerSpec as Union[int, Tuple[int,int], str, None]
     - add layers dict to Pdk(layers=LAYER.dict()), and add `pdk.get_layer`
 
