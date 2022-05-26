@@ -23,9 +23,7 @@ settings:
     taper:
       function: taper_strip_to_ridge
       settings:
-        layer_slab:
-        - 2
-        - 0
+        layer_slab: SLAB150
     wavelength: 1.55
     width_grating: 11
     widths:
@@ -60,9 +58,7 @@ settings:
     taper:
       function: taper_strip_to_ridge
       settings:
-        layer_slab:
-        - 2
-        - 0
+        layer_slab: SLAB150
     wavelength: 1.55
     width_grating: 11
     widths:

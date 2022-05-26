@@ -6,19 +6,7 @@ settings:
     N: 6
     bend:
       function: bend_euler
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: null
     x_inner_length_cutback: 300
     x_inner_offset: 0
@@ -29,19 +17,7 @@ settings:
     N: 6
     bend:
       function: bend_euler
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: null
     x_inner_length_cutback: 300
     x_inner_offset: 0

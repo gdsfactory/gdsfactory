@@ -52,9 +52,7 @@ settings:
         - null
         - function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
     via_stack_gap: 0
     via_stack_metal:
       function: via_stack
@@ -70,14 +68,10 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_metal_size:
     - 10.0
     - 10.0
@@ -139,9 +133,7 @@ settings:
         - null
         - function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
     via_stack_gap: 0
     via_stack_metal:
       function: via_stack
@@ -157,14 +149,10 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_metal_size:
     - 10.0
     - 10.0

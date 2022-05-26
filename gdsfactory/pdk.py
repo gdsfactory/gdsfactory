@@ -296,7 +296,9 @@ class Pdk(BaseModel):
 
     def get_layer(self, layer: LayerSpec) -> Layer:
         """Returns layer from a layer spec."""
-        if isinstance(layer, tuple):
+        if isinstance(layer, (tuple, list)):
+            if len(layer) != 2:
+                raise ValueError(f"{layer!r} needs two integer numbers.")
             return layer
         elif isinstance(layer, int):
             return (layer, 0)

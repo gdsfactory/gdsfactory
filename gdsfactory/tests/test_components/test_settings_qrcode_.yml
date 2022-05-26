@@ -4,15 +4,11 @@ settings:
   child: null
   default:
     data: mask01
-    layer:
-    - 1
-    - 0
+    layer: WG
     psize: 1
   full:
     data: mask01
-    layer:
-    - 1
-    - 0
+    layer: WG
     psize: 1
   function_name: qrcode
   info: {}

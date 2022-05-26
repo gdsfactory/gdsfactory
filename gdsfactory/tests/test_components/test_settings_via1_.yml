@@ -1,18 +1,14 @@
-name: via_ebd8e362
+name: via_a3e7ab9f
 settings:
   changed:
     enclosure: 2
-    layer:
-    - 44
-    - 0
+    layer: VIA1
   child: null
   default:
     bbox_layers: null
     bbox_offset: 0
     enclosure: 1
-    layer:
-    - 40
-    - 0
+    layer: VIAC
     size:
     - 0.7
     - 0.7
@@ -23,9 +19,7 @@ settings:
     bbox_layers: null
     bbox_offset: 0
     enclosure: 2
-    layer:
-    - 44
-    - 0
+    layer: VIA1
     size:
     - 0.7
     - 0.7
@@ -43,5 +37,5 @@ settings:
     - 2.0
   info_version: 2
   module: gdsfactory.components.via
-  name: via_ebd8e362
+  name: via_a3e7ab9f
 version: 0.0.1
