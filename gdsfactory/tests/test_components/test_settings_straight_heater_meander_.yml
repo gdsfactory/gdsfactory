@@ -3,25 +3,11 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     extension_length: 15
     heater_taper_length: 10
     heater_width: 2.5
-    layer_heater:
-    - 47
-    - 0
+    layer_heater: HEATER
     length: 300
     port_orientation1: 180
     port_orientation2: 0
@@ -43,34 +29,16 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
   full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - DEVREC
-        cladding_offsets:
-        - 0
+    cross_section: strip
     extension_length: 15
     heater_taper_length: 10
     heater_width: 2.5
-    layer_heater:
-    - 47
-    - 0
+    layer_heater: HEATER
     length: 300
     port_orientation1: 180
     port_orientation2: 0
@@ -92,14 +60,10 @@ settings:
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
   function_name: straight_heater_meander
   info: {}
   info_version: 2

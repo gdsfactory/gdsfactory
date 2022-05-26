@@ -12,7 +12,7 @@ def add_electrical_pads_shortest(
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,
     port_orientation: float = 90,
-    layer: gf.types.LayerSpec = "M1",
+    layer: gf.types.LayerSpec = "M3",
     **kwargs,
 ) -> Component:
     """Add pad to each closest electrical port.

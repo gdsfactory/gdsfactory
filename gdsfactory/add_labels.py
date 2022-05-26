@@ -121,6 +121,7 @@ def get_input_label_electrical(
         name = port.parent.ref_cell.name
 
     text = f"elec_{gc_index}_({name})_{port.name}"
+    layer_label = gf.get_layer(layer_label)
     layer, texttype = pd._parse_layer(layer_label)
     return Label(
         text=text,
