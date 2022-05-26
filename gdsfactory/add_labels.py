@@ -7,7 +7,7 @@ import phidl.device_layout as pd
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port
-from gdsfactory.types import Label, Layer
+from gdsfactory.types import Label, LayerSpec
 
 
 def get_input_label_text(
@@ -59,7 +59,7 @@ def get_input_label(
     gc: ComponentReference,
     gc_index: Optional[int] = None,
     gc_port_name: str = "o1",
-    layer_label: Layer = gf.LAYER.LABEL,
+    layer_label: LayerSpec = "LABEL",
     component_name: Optional[str] = None,
     get_input_label_text_function=get_input_label_text,
 ) -> Label:
@@ -83,6 +83,7 @@ def get_input_label(
     if gc_port_name is None:
         gc_port_name = list(gc.ports.values())[0].name
 
+    layer_label = gf.get_layer(layer_label)
     layer, texttype = pd._parse_layer(layer_label)
     return Label(
         text=text,
@@ -97,7 +98,7 @@ def get_input_label_electrical(
     port: Port,
     gc_index: int = 0,
     component_name: Optional[str] = None,
-    layer_label: Layer = gf.LAYER.LABEL,
+    layer_label: LayerSpec = "LABEL",
     gc: Optional[ComponentReference] = None,
 ) -> Label:
     """Returns a label to test component info for a given electrical port.
@@ -105,7 +106,7 @@ def get_input_label_electrical(
     and match it to the component.
 
     Args:
-        port: to label
+        port: to label.
         gc_index: index of the label.
         component_name: Optional component_name.
         layer_label: for label.
@@ -133,7 +134,7 @@ def get_input_label_electrical(
 def add_labels(
     component: Component,
     get_label_function: Callable = get_input_label_electrical,
-    layer_label: Layer = gf.LAYER.LABEL,
+    layer_label: LayerSpec = "LABEL",
     gc: Optional[Component] = None,
     **kwargs,
 ) -> Component:
@@ -177,7 +178,7 @@ def add_siepic_labels(
     component: Component,
     model: str = "auto",
     library: str = "auto",
-    label_layer: Layer = (68, 0),
+    label_layer: LayerSpec = "DEVREC",
     spice_params: Optional[Union[Dict, List, str]] = None,
     label_sep: float = 0.2,
 ) -> Component:
@@ -185,12 +186,15 @@ def add_siepic_labels(
 
     Args:
         component: component.
-        model: Lumerical Interconnect model. 'auto' attempts to extract this from the cross_section.
-        library: Lumerical Interconnect library. 'auto' attempts to extract this from the cross_section.
+        model: Lumerical Interconnect model.
+            'auto' attempts to extract this from the cross_section.
+        library: Lumerical Interconnect library.
+            'auto' attempts to extract this from the cross_section.
         label_layer: layer for writing SiEPIC labels.
-        spice_params: spice parameters (in microns). Either pass in a dict with parameter, value pairs, or pass.
-            in a list of values to extract from component info.
-        label_sep: separation distance between labels.
+        spice_params: spice parameters (in microns).
+            Either pass in a dict with parameter, value pairs, or pass
+            a list of values to extract from component info.
+        label_sep: separation distance between labels in um.
     """
 
     c = component

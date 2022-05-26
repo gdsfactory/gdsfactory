@@ -7,15 +7,15 @@ from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via import via1, via2, viac
 from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Layer
+from gdsfactory.types import ComponentSpec, LayerSpec, LayerSpecs
 
 
 @gf.cell
 def via_stack(
     size: Tuple[float, float] = (11.0, 11.0),
-    layers: Tuple[Layer, ...] = (LAYER.M1, LAYER.M2, LAYER.M3),
+    layers: LayerSpecs = ("M1", "M2", "M3"),
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
-    layer_port: Optional[Layer] = None,
+    layer_port: LayerSpec = None,
 ) -> Component:
     """Rectangular via array stack
 
