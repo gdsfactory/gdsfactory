@@ -89,11 +89,11 @@ def text_lines(
 
 
 if __name__ == "__main__":
-    c = text(
-        text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-        size=4.0,
-        justify="right",
-        position=(120.5, 3),
-    )
-    # c = githash(text=["a", "b"], size=10)
+    # c = text(
+    #     text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
+    #     size=4.0,
+    #     justify="right",
+    #     position=(120.5, 3),
+    # )
+    c = text_lines(text=["a", "b"], size=10)
     c.show()
