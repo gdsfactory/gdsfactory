@@ -1,15 +1,13 @@
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def hline(
     length: float = 10.0,
     width: float = 0.5,
-    layer: Tuple[int, int] = LAYER.WG,
+    layer: LayerSpec = "WG",
     port_type: str = "optical",
 ) -> Component:
     """Horizonal line straight, with ports on east and west sides"""

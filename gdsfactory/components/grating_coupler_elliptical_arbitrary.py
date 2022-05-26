@@ -1,5 +1,3 @@
-from typing import Optional, Tuple
-
 import numpy as np
 
 import gdsfactory as gf
@@ -9,8 +7,7 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_tooth_points,
 )
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.tech import LAYER
-from gdsfactory.types import CrossSectionSpec, Floats, Layer
+from gdsfactory.types import CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.1,) * 10
 _widths = (0.5,) * 10
@@ -26,11 +23,11 @@ def grating_coupler_elliptical_arbitrary(
     fiber_angle: float = 15.0,
     neff: float = 2.638,  # tooth effective index
     nclad: float = 1.443,
-    layer_slab: Optional[Tuple[int, int]] = LAYER.SLAB150,
+    layer_slab: LayerSpec = "SLAB150",
     slab_xmin: float = -3.0,
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
+    fiber_marker_layer: LayerSpec = "TE",
     spiked: bool = True,
     bias_gap: float = 0,
     cross_section: CrossSectionSpec = "strip",

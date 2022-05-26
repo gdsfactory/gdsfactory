@@ -8,13 +8,13 @@ from numpy import arctan2, degrees, isclose
 from gdsfactory.component import Component
 from gdsfactory.port import Port, read_port_markers, sort_ports_clockwise
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 def add_ports_from_markers_square(
     component: Component,
-    pin_layer: Layer = (69, 0),
-    port_layer: Optional[Layer] = None,
+    pin_layer: LayerSpec = "DEVREC",
+    port_layer: Optional[LayerSpec] = None,
     orientation: Optional[int] = 90,
     min_pin_area_um2: float = 0,
     max_pin_area_um2: float = 150 * 150,
@@ -64,8 +64,8 @@ def add_ports_from_markers_square(
 
 def add_ports_from_markers_center(
     component: Component,
-    pin_layer: Layer = (1, 10),
-    port_layer: Optional[Layer] = None,
+    pin_layer: LayerSpec = "PORT",
+    port_layer: Optional[LayerSpec] = None,
     inside: bool = False,
     tol: float = 0.1,
     pin_extra_width: float = 0.0,
@@ -274,12 +274,12 @@ add_ports_from_markers_inside = partial(add_ports_from_markers_center, inside=Tr
 def add_ports_from_labels(
     component: Component,
     port_width: float,
-    port_layer: Layer,
+    port_layer: LayerSpec,
     xcenter: Optional[float] = None,
     port_name_prefix: Optional[str] = None,
     port_type: str = "optical",
     get_name_from_label: bool = False,
-    layer_label: Optional[Layer] = None,
+    layer_label: Optional[LayerSpec] = None,
     fail_on_duplicates: bool = False,
     port_orientation: Optional[float] = None,
     guess_port_orientation: bool = True,
@@ -362,10 +362,10 @@ def add_ports_from_labels(
 
 def add_ports_from_siepic_pins(
     component: Component,
-    pin_layer_optical: Layer = (1, 10),
-    port_layer_optical: Optional[Layer] = None,
-    pin_layer_electrical: Layer = (1, 11),
-    port_layer_electrical: Optional[Layer] = None,
+    pin_layer_optical: LayerSpec = "PORT",
+    port_layer_optical: Optional[LayerSpec] = None,
+    pin_layer_electrical: LayerSpec = "PORTE",
+    port_layer_electrical: Optional[LayerSpec] = None,
 ) -> Component:
     """Add ports from SiEPIC-type cells.
 

@@ -3,38 +3,12 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: 10
     npoints: 2
     with_bbox: false
   full:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: 10
     npoints: 2
     with_bbox: false

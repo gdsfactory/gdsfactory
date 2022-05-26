@@ -34,7 +34,7 @@ import functools
 import typing
 from copy import deepcopy
 from functools import partial
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import phidl.geometry as pg
@@ -50,6 +50,9 @@ if typing.TYPE_CHECKING:
     from gdsfactory.component import Component
 
 Layer = Tuple[int, int]
+Layers = Tuple[Layer, ...]
+LayerSpec = Union[Layer, int, str, None]
+LayerSpecs = Tuple[LayerSpec, ...]
 
 
 class PortNotOnGridError(ValueError):
@@ -327,16 +330,16 @@ def port_array(
     ]
 
 
-def read_port_markers(
-    component: object, layers: Tuple[Tuple[int, int], ...] = ((1, 10),)
-) -> Component:
+def read_port_markers(component: object, layers: LayerSpecs = ((1, 10),)) -> Component:
     """Loads a GDS and returns the extracted ports from layer markers
 
     Args:
         component: or Component
         layers: Iterable of GDS layers
     """
-    return pg.extract(component, layers=layers)
+    from gdsfactory.pdk import get_layer
+
+    return pg.extract(component, layers=[get_layer(layer) for layer in layers])
 
 
 def csv2port(csvpath) -> Dict[str, Port]:
@@ -666,7 +669,7 @@ def _rename_ports_clockwise_top_right(
 
 def rename_ports_by_orientation(
     component: Component,
-    layers_excluded: Tuple[Tuple[int, int], ...] = None,
+    layers_excluded: LayerSpec = None,
     select_ports: Optional[Callable[..., List[Port]]] = None,
     function=_rename_ports_facing_side,
     prefix: str = "o",

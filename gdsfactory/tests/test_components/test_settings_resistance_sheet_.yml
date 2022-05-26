@@ -7,10 +7,8 @@ settings:
     - 0
     - 0.2
     layers:
-    - - 3
-      - 0
-    - - 24
-      - 0
+    - SLAB90
+    - NPP
     ohms_per_square: null
     pad:
       function: via_stack
@@ -30,9 +28,7 @@ settings:
         - null
         - function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
     pad_pitch: 100
     port_orientation1: 180
     port_orientation2: 0
@@ -42,10 +38,8 @@ settings:
     - 0
     - 0.2
     layers:
-    - - 3
-      - 0
-    - - 24
-      - 0
+    - SLAB90
+    - NPP
     ohms_per_square: null
     pad:
       function: via_stack
@@ -65,9 +59,7 @@ settings:
         - null
         - function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
     pad_pitch: 100
     port_orientation1: 180
     port_orientation2: 0

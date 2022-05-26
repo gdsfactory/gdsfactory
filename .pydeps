@@ -1,0 +1,15 @@
+[pydeps]
+max_bacon = 2
+no_show = True
+verbose = 0
+pylib = False
+exclude =
+    os
+    re
+    sys
+    collections
+    __future__
+    gdsfactory/components
+    gdsfactory/simulation
+    gdsfactory/tests
+    gdsfactory/samples

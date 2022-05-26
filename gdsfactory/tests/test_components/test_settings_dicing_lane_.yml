@@ -3,29 +3,21 @@ settings:
   changed: {}
   child: null
   default:
-    layer_dicing:
-    - 100
-    - 0
+    layer_dicing: DICING
     marker:
       function: triangle
       settings:
-        layer:
-        - 49
-        - 0
+        layer: M3
         xtop: 2
     size:
     - 50
     - 300
   full:
-    layer_dicing:
-    - 100
-    - 0
+    layer_dicing: DICING
     marker:
       function: triangle
       settings:
-        layer:
-        - 49
-        - 0
+        layer: M3
         xtop: 2
     size:
     - 50

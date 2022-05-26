@@ -5,6 +5,7 @@ import scipy.optimize as so
 from numpy import float64
 
 import gdsfactory as gf
+from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import (
@@ -15,8 +16,7 @@ from gdsfactory.components.bezier import (
 from gdsfactory.components.ellipse import ellipse
 from gdsfactory.components.taper import taper
 from gdsfactory.geometry.functions import path_length
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Layer
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 def snap_to_grid(p: float, grid_per_unit: int = 1000) -> float64:
@@ -30,16 +30,27 @@ def crossing_arm(
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
-    layer_slab: Layer = LAYER.SLAB150,
+    layer_slab: LayerSpec = "SLAB150",
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
-    """arm of a crossing"""
+    """Returns crossing arm.
+
+    Args:
+        r1: ellipse radius1.
+        r2: ellipse radius2.
+        w: width in um.
+        L: length in um.
+        layer_slab: for the shallow etch.
+        cross_section: spec.
+    """
     c = Component()
+
+    layer_slab = gf.get_layer(layer_slab)
     c << ellipse(radii=(r1, r2), layer=layer_slab)
 
     xs = gf.get_cross_section(cross_section)
     width = xs.width
-    layer_wg = xs.layer
+    layer_wg = gf.get_layer(xs.layer)
 
     a = np.round(L + w / 2, 3)
     h = width / 2
@@ -106,8 +117,12 @@ def crossing(
     x.add_bbox_layers(c)
 
     if x.cladding_layers and x.cladding_offsets:
-        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
-            c.add_padding(default=offset, layers=(layer))
+        padding = []
+        for offset in x.cladding_offsets:
+            points = get_padding_points(component=c, default=offset)
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
+
     if x.add_bbox:
         c = x.add_bbox(c)
     if x.add_pins:
@@ -117,8 +132,10 @@ def crossing(
 
 @cell
 def crossing_from_taper(taper=lambda: taper(width2=2.5, length=3.0)) -> Component:
-    """
-    Crossing based on a taper. The default is a dummy taper
+    """Returns Crossing based on a taper. The default is a dummy taper
+
+    Args:
+        taper: taper function.
     """
     taper = gf.get_component(taper)
 
@@ -140,8 +157,8 @@ def crossing_etched(
     r2: float = 1.1,
     w: float = 1.2,
     L: float = 3.4,
-    layer_wg: Layer = LAYER.WG,
-    layer_slab: Layer = LAYER.SLAB150,
+    layer_wg: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB150",
 ) -> Component:
     """
     Waveguide crossing.
@@ -158,6 +175,8 @@ def crossing_etched(
         layer_wg: waveguide layer.
         layer_slab: shallow etch layer.
     """
+    layer_wg = gf.get_layer(layer_wg)
+    layer_slab = gf.get_layer(layer_slab)
 
     # Draw the ellipses
     c = Component()
@@ -418,8 +437,12 @@ def compensation_path(
     c.info["min_bend_radius"] = sbend.info["min_bend_radius"]
     c.info["sbend"] = sbend.info
 
-    for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
-        c.add_padding(default=offset, layers=(layer))
+    if x.cladding_layers and x.cladding_offsets:
+        padding = []
+        for offset in x.cladding_offsets:
+            points = get_padding_points(component=c, default=offset)
+        for layer, points in zip(x.bbox_layers, padding):
+            c.add_polygon(points, layer=layer)
 
     if x.add_bbox:
         c = x.add_bbox(c)
@@ -455,13 +478,14 @@ def _demo() -> None:
 
 
 if __name__ == "__main__":
+    c = crossing45()
     # c = compensation_path()
-    c = crossing(
-        cross_section=dict(
-            cross_section="strip",
-            settings=dict(cladding_offsets=[0], cladding_layers=[(3, 0)]),
-        )
-    )
+    # c = crossing(
+    #     cross_section=dict(
+    #         cross_section="strip",
+    #         settings=dict(cladding_offsets=[0], cladding_layers=[(3, 0)]),
+    #     )
+    # )
     # print(c.ports["E1"].y - c.ports['o2'].y)
     # print(c.get_ports_array())
     # _demo()

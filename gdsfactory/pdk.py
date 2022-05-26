@@ -4,6 +4,7 @@ import warnings
 from functools import partial
 from typing import Callable, Optional
 
+import numpy as np
 from omegaconf import DictConfig
 from pydantic import BaseModel
 
@@ -12,6 +13,7 @@ from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
 from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -21,6 +23,8 @@ from gdsfactory.types import (
     CrossSectionFactory,
     CrossSectionSpec,
     Dict,
+    Layer,
+    LayerSpec,
     PathType,
 )
 
@@ -36,15 +40,19 @@ class Pdk(BaseModel):
         name: PDK name.
         cross_sections: cross_sections.
         cells: pcells.
+        layers: layers dict.
         containers: pcells that contain other cells.
+        base_pdk: pdk.
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
+    layers: Dict[str, Layer]
     containers: Dict[str, ComponentFactory] = containers_default
-    base_pdk: "Pdk" = None
+    base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
+
 
     def activate(self) -> None:
         if self.base_pdk:
@@ -253,7 +261,7 @@ class Pdk(BaseModel):
     def get_cross_section(
         self, cross_section: CrossSectionSpec, **kwargs
     ) -> CrossSection:
-        """Returns component from a cross_section spec."""
+        """Returns cross_section from a cross_section spec."""
         if isinstance(cross_section, CrossSection):
             if kwargs:
                 raise ValueError(f"Cannot apply {kwargs} to a defined CrossSection")
@@ -295,6 +303,27 @@ class Pdk(BaseModel):
                 f"CrossSectionFactory, string or dict), got {type(cross_section)}"
             )
 
+    def get_layer(self, layer: LayerSpec) -> Layer:
+        """Returns layer from a layer spec."""
+        if isinstance(layer, (tuple, list)):
+            if len(layer) != 2:
+                raise ValueError(f"{layer!r} needs two integer numbers.")
+            return layer
+        elif isinstance(layer, int):
+            return (layer, 0)
+        elif isinstance(layer, str):
+            if layer not in self.layers:
+                raise ValueError(f"{layer!r} not in {self.layers.keys()}")
+            return self.layers[layer]
+        elif layer is np.nan:
+            return np.nan
+        elif layer is None:
+            return
+        else:
+            raise ValueError(
+                f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
+            )
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -317,7 +346,9 @@ class Pdk(BaseModel):
     #     return self._on_cross_section_registered
 
 
-GENERIC = Pdk(name="generic", cross_sections=cross_sections, cells=cells)
+GENERIC = Pdk(
+    name="generic", cross_sections=cross_sections, cells=cells, layers=LAYER.dict()
+)
 _ACTIVE_PDK = GENERIC
 
 
@@ -331,6 +362,10 @@ def get_cell(cell: CellSpec, **kwargs) -> ComponentFactory:
 
 def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection:
     return _ACTIVE_PDK.get_cross_section(cross_section, **kwargs)
+
+
+def get_layer(layer: LayerSpec) -> Layer:
+    return _ACTIVE_PDK.get_layer(layer)
 
 
 def get_active_pdk() -> Pdk:

@@ -3,17 +3,13 @@ settings:
   changed: {}
   child: null
   default:
-    layer:
-    - 1
-    - 0
+    layer: WG
     x: 10
     xtop: 0
     y: 20
     ybot: 0
   full:
-    layer:
-    - 1
-    - 0
+    layer: WG
     x: 10
     xtop: 0
     y: 20

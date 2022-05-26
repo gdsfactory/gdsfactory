@@ -6,8 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper as taper_function
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Layer
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, LayerSpec
 
 
 @gf.cell
@@ -20,8 +19,8 @@ def grating_coupler_rectangular(
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_function,
-    layer_slab: Optional[Layer] = LAYER.SLAB150,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    layer_slab: Optional[LayerSpec] = "SLAB150",
+    fiber_marker_layer: LayerSpec = "TE",
     slab_xmin: float = -1.0,
     slab_offset: float = 1.0,
     cross_section: CrossSectionSpec = "strip",

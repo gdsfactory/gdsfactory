@@ -1,27 +1,4 @@
-import pytest
-from phidl.path import transition
-
 import gdsfactory as gf
-
-
-def test_transition_unamed_fails() -> None:
-    """raises error when transitioning un-named cross_sections"""
-    with pytest.raises(ValueError):
-
-        path = gf.Path()
-        path.append(gf.path.arc(radius=10, angle=90))
-        path.append(gf.path.straight(length=10))
-        path.append(gf.path.euler(radius=3, angle=-90))
-        path.append(gf.path.straight(length=40))
-        path.append(gf.path.arc(radius=8, angle=-45))
-        path.append(gf.path.straight(length=10))
-        path.append(gf.path.arc(radius=8, angle=45))
-        path.append(gf.path.straight(length=10))
-
-        X = gf.CrossSection(width=1, offset=0, layer=0)
-        x2 = gf.CrossSection(width=2, offset=0, layer=0)
-
-        transition(X, x2)
 
 
 def test_transition_ports() -> None:
@@ -44,20 +21,9 @@ if __name__ == "__main__":
     x1 = gf.cross_section.strip(width=0.5)
     x2 = gf.cross_section.strip(width=1.0)
 
-    # path = gf.path.straight(length=5)
-    # c = gf.path.extrude(path, x1)
-    # assert c.ports["o1"].cross_section.info["width"] == width1, c.ports[
-    #     "o1"
-    # ].cross_section.info["width"]
-    # assert c.ports["o2"].cross_section.info["width"] == width1, c.ports[
-    #     "o2"
-    # ].cross_section.info["width"]
-
     xt = gf.path.transition(cross_section1=x1, cross_section2=x2, width_type="linear")
     path = gf.path.straight(length=5)
     c = gf.path.extrude(path, xt)
     assert c.ports["o1"].cross_section.cross_section1.width == width1
     assert c.ports["o2"].cross_section.cross_section2.width == width2
     c.show()
-
-    # test_transition_ports()

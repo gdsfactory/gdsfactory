@@ -3,26 +3,18 @@ settings:
   changed: {}
   child: null
   default:
-    layer_wg:
-    - 1
-    - 0
+    layer_wg: WG
     length: 10
     slab_offset: 3
-    trench_layer:
-    - 3
-    - 0
+    trench_layer: SLAB90
     trench_offset: 0.1
     trench_width: 2
     width: 0.5
   full:
-    layer_wg:
-    - 1
-    - 0
+    layer_wg: WG
     length: 10
     slab_offset: 3
-    trench_layer:
-    - 3
-    - 0
+    trench_layer: SLAB90
     trench_offset: 0.1
     trench_width: 2
     width: 0.5

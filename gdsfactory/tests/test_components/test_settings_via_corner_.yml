@@ -6,9 +6,7 @@ settings:
     cross_section:
     - - function: cross_section
         settings:
-          layer:
-          - 45
-          - 0
+          layer: M2
           port_names:
           - e1
           - e2
@@ -20,9 +18,7 @@ settings:
         - 180
     - - function: cross_section
         settings:
-          layer:
-          - 49
-          - 0
+          layer: M3
           port_names:
           - e1
           - e2
@@ -39,16 +35,12 @@ settings:
     - function: via
       settings:
         enclosure: 2
-        layer:
-        - 44
-        - 0
+        layer: VIA1
   full:
     cross_section:
     - - function: cross_section
         settings:
-          layer:
-          - 45
-          - 0
+          layer: M2
           port_names:
           - e1
           - e2
@@ -60,9 +52,7 @@ settings:
         - 180
     - - function: cross_section
         settings:
-          layer:
-          - 49
-          - 0
+          layer: M3
           port_names:
           - e1
           - e2
@@ -79,9 +69,7 @@ settings:
     - function: via
       settings:
         enclosure: 2
-        layer:
-        - 44
-        - 0
+        layer: VIA1
   function_name: via_corner
   info:
     length: 10.0

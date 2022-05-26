@@ -2,7 +2,6 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.config import TECH
-from gdsfactory.cross_section import strip
 from gdsfactory.path import arc, extrude
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import CrossSectionSpec
@@ -17,7 +16,7 @@ def bend_circular_heater(
     heater_width: float = 0.5,
     layer_heater=TECH.layer.HEATER,
     with_bbox: bool = False,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Creates an arc of arclength ``theta`` starting at angle ``start_angle``
@@ -60,7 +59,7 @@ def bend_circular_heater(
 
     if with_bbox:
         padding = []
-        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        for offset in x.bbox_offsets:
             top = offset if angle == 180 else 0
             points = get_padding_points(
                 component=c,

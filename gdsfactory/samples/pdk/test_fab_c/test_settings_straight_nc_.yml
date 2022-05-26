@@ -1,4 +1,4 @@
-name: straight_11aff456
+name: straight_f983bc29
 settings:
   changed:
     cross_section:
@@ -14,8 +14,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -25,20 +24,7 @@ settings:
     with_bbox: true
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings:
-        add_bbox:
-          function: add_bbox_siepic
-        add_pins:
-          function: add_pins_siepic
-          settings:
-            pin_length: 0.002
-        cladding_layers:
-        - - 68
-          - 0
-        cladding_offsets:
-        - 0
+    cross_section: strip
     length: 10
     npoints: 2
     with_bbox: false
@@ -56,8 +42,7 @@ settings:
         bbox_offsets:
         - 3
         cladding_layers:
-        - - 68
-          - 0
+        - DEVREC
         cladding_offsets:
         - 0
         layer:
@@ -73,5 +58,5 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_11aff456
+  name: straight_f983bc29
 version: 0.0.1

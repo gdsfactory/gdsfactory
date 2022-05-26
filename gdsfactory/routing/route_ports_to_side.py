@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.port import Port, flipped
 from gdsfactory.routing.get_route import get_route
-from gdsfactory.tech import LAYER
 from gdsfactory.types import Route
 
 
@@ -488,9 +487,9 @@ def _sample_route_side() -> Component:
     yb = min(ys) - a
     yt = max(ys) + a
 
-    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], LAYER.WG)
-
     layer = (1, 0)
+
+    c.add_polygon([(xl, yb), (xl, yt), (xr, yt), (xr, yb)], layer)
 
     for i, y in enumerate(ys):
         p0 = (xl, y)

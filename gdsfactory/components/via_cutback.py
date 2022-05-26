@@ -1,8 +1,7 @@
 """Via cutback."""
 
-from typing import Tuple
-
 import gdsfactory as gf
+from gdsfactory.add_pins import LayerSpec
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via_stack import via_stack_heater_m3
@@ -13,9 +12,9 @@ from gdsfactory.types import ComponentSpec, Float2
 def _via_iterable(
     via_spacing: float,
     wire_width: float,
-    layer1: Tuple[int, int],
-    layer2: Tuple[int, int],
-    via_layer: Tuple[int, int],
+    layer1: LayerSpec,
+    layer2: LayerSpec,
+    via_layer: LayerSpec,
     via_width: float,
 ) -> Component:
     """Via chain.
@@ -71,9 +70,9 @@ def via_cutback(
     min_pad_spacing: float = 0.0,
     pad: ComponentSpec = via_stack_heater_m3,
     pad_size: Float2 = (150, 150),
-    layer1: Tuple[int, int] = gf.LAYER.HEATER,
-    layer2: Tuple[int, int] = gf.LAYER.M1,
-    via_layer: Tuple[int, int] = gf.LAYER.VIAC,
+    layer1: LayerSpec = "HEATER",
+    layer2: LayerSpec = "M1",
+    via_layer: LayerSpec = "VIAC",
     wire_pad_inclusion: float = 12.0,
 ) -> Component:
     """Via cutback to extract via resistance
