@@ -413,6 +413,17 @@ class ComponentReference(DeviceReference):
             x0 = position.x
         self.reflect((x0, 1), (x0, 0))
 
+    def mirror(
+        self, port_name: Optional[str] = None, x0: Optional[Coordinate] = None
+    ) -> None:
+        if port_name is None and x0 is None:
+            x0 = -self.x
+
+        if port_name is not None:
+            position = self.ports[port_name]
+            x0 = position.x
+        self.reflect((x0, 1), (x0, 0))
+
     def reflect_v(
         self, port_name: Optional[str] = None, y0: Optional[float] = None
     ) -> None:
