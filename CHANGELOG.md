@@ -4,6 +4,7 @@
 
 - add layers as a default empty dict for Pdk
 - improve documentation
+- mzi uses straight function instead of 'straight' string
 
 ## 5.8.0
 

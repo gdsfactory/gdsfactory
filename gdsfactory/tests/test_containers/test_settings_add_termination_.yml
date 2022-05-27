@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_termin_998e5d1f
+name: mzi_2e88f57c_add_termin_48985eb2
 settings:
   changed:
     component:
@@ -30,7 +30,8 @@ settings:
           port_e1_combiner: o2
           port_e1_splitter: o2
           splitter: mmi1x2
-          straight: straight
+          straight:
+            function: straight
           straight_x_bot: null
           straight_x_top: null
           straight_y: null
@@ -52,7 +53,8 @@ settings:
           port_e1_splitter: o3
           splitter:
             function: mmi2x2
-          straight: straight
+          straight:
+            function: straight
           straight_x_bot: null
           straight_x_top: straight_heater_metal
           straight_y: null
@@ -90,7 +92,8 @@ settings:
       port_e1_combiner: o2
       port_e1_splitter: o2
       splitter: mmi1x2
-      straight: straight
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: null
       straight_y: null
@@ -112,7 +115,8 @@ settings:
       port_e1_splitter: o3
       splitter:
         function: mmi2x2
-      straight: straight
+      straight:
+        function: straight
       straight_x_bot: null
       straight_x_top: straight_heater_metal
       straight_y: null
@@ -160,7 +164,8 @@ settings:
           port_e1_combiner: o2
           port_e1_splitter: o2
           splitter: mmi1x2
-          straight: straight
+          straight:
+            function: straight
           straight_x_bot: null
           straight_x_top: null
           straight_y: null
@@ -182,7 +187,8 @@ settings:
           port_e1_splitter: o3
           splitter:
             function: mmi2x2
-          straight: straight
+          straight:
+            function: straight
           straight_x_bot: null
           straight_x_top: straight_heater_metal
           straight_y: null
@@ -204,5 +210,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.add_termination
-  name: mzi_2e88f57c_add_termin_998e5d1f
+  name: mzi_2e88f57c_add_termin_48985eb2
 version: 0.0.1

@@ -15,7 +15,7 @@ ports:
     width: 0.5
     midpoint:
     - 81.2
-    - 0.0
+    - -0.0
     orientation: 0
     layer:
     - 1
@@ -33,7 +33,8 @@ cells:
       length_y: 2
       length_x: 0.1
       bend: bend_euler
-      straight: straight
+      straight:
+        function: straight
       straight_y: null
       straight_x_top: null
       straight_x_bot: null
@@ -128,7 +129,8 @@ cells:
       length_y: 2
       length_x: 0.1
       bend: bend_euler
-      straight: straight
+      straight:
+        function: straight
       straight_y: null
       straight_x_top: null
       straight_x_bot: null
@@ -581,7 +583,8 @@ settings:
     length_y: 2
     length_x: 0.1
     bend: bend_euler
-    straight: straight
+    straight:
+      function: straight
     straight_y: null
     straight_x_top: null
     straight_x_bot: null
@@ -676,7 +679,8 @@ settings:
     length_y: 2
     length_x: 0.1
     bend: bend_euler
-    straight: straight
+    straight:
+      function: straight
     straight_y: null
     straight_x_top: null
     straight_x_bot: null
