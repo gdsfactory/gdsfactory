@@ -60,6 +60,7 @@ gdsfactory top contributors:
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters
 - Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path
+- Igal Bayn (Google): for documentation improvements and suggestions.
 
 Open source heroes:
 
