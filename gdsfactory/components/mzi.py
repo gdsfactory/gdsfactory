@@ -7,6 +7,7 @@ from gdsfactory.component import Component
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -17,7 +18,7 @@ def mzi(
     length_y: float = 2.0,
     length_x: Optional[float] = 0.1,
     bend: ComponentSpec = "bend_euler",
-    straight: ComponentSpec = "straight",
+    straight: ComponentSpec = straight_function,
     straight_y: Optional[ComponentSpec] = None,
     straight_x_top: Optional[ComponentSpec] = None,
     straight_x_bot: Optional[ComponentSpec] = None,
