@@ -55,6 +55,6 @@ def grating_coupler_tree(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_tree(layer=(2, 0))
+    c = grating_coupler_tree()
     # print(c.settings)
     c.show()

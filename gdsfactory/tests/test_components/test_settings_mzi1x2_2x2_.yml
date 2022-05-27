@@ -21,7 +21,8 @@ settings:
     port_e1_combiner: o2
     port_e1_splitter: o2
     splitter: mmi1x2
-    straight: straight
+    straight:
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
@@ -42,7 +43,8 @@ settings:
     port_e1_combiner: o3
     port_e1_splitter: o2
     splitter: mmi1x2
-    straight: straight
+    straight:
+      function: straight
     straight_x_bot: null
     straight_x_top: null
     straight_y: null
