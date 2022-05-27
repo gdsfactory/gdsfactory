@@ -8,7 +8,7 @@ Gdsfactory
    README
    git
    notebooks
-   component_intro
+   workflow
    routing
    components
    plugins_mode_solver
