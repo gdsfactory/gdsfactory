@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.8.1
+
+- add layers as a default empty dict for Pdk
+- improve documentation
+
 ## 5.8.0
 
 - works with siepic verification [PR](https://github.com/gdsfactory/gdsfactory/pull/410)

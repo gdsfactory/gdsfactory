@@ -6,13 +6,14 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
 from gdsfactory.read.from_yaml import from_yaml
+from gdsfactory.show import show
 from gdsfactory.tech import LAYER
 from gdsfactory.types import (
     CellSpec,
@@ -48,7 +49,7 @@ class Pdk(BaseModel):
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
-    layers: Dict[str, Layer]
+    layers: Dict[str, Layer] = Field(default_factory=list)
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
@@ -382,10 +383,13 @@ on_pdk_activated: Event = Event()
 on_cell_registered: Event = Event()
 on_container_registered: Event = Event()
 on_yaml_cell_registered: Event = Event()
+on_yaml_cell_modified: Event = Event()
 on_cross_section_registered: Event = Event()
 
 on_container_registered.add_handler(on_cell_registered.fire)
 on_yaml_cell_registered.add_handler(on_cell_registered.fire)
+on_yaml_cell_modified.add_handler(show)
+
 
 if __name__ == "__main__":
     c = _ACTIVE_PDK.get_component("straight")
