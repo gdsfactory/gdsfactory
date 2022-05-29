@@ -16,8 +16,8 @@ def test_circuit_transmission(data_regression, check: bool = True):
     for element in circuit._get_components():
         print(element)
 
-    circuit._get_components()[0][0].rename("o1")
-    circuit._get_components()[-1][-1].rename("o2")
+    circuit._get_components()[8]._get_next_unconnected_pin().rename("o1")
+    circuit._get_components()[9]._get_next_unconnected_pin().rename("o2")
     r = get_transmission(circuit.to_subcircuit(), num=3)
     s = np.round(r["s"], decimals=10).tolist()
     if check:
