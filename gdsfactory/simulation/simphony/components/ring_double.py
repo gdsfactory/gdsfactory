@@ -69,17 +69,14 @@ def ring_double(
         gs.plot_circuit(c)
     """
 
-
     wg1 = straight(length=length_y) if callable(straight) else straight
     wg2 = straight(length=length_y) if callable(straight) else straight
     halfring1 = (
-
         coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
         if callable(coupler)
         else coupler
     )
     halfring2 = (
-
         coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
         if callable(coupler)
         else coupler
