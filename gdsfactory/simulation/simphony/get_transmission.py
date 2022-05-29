@@ -22,7 +22,9 @@ def get_transmission(
 
     """
     simulation = SweepSimulator(start, stop, num)
-    simulation.multiconnect(subcircuit.circuit.pins[0], subcircuit.circuit.pins[-1])
+    simulation.multiconnect(
+        subcircuit.circuit.pins[pin_in], subcircuit.circuit.pins[pin_out]
+    )
     w, s = simulation.simulate()
     w *= 1e9
 
