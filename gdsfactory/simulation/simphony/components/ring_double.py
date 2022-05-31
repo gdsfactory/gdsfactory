@@ -1,4 +1,4 @@
-from simphony.netlist import Subcircuit
+from simphony.models import Subcircuit
 
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 from gdsfactory.simulation.simphony.components.straight import (
@@ -76,17 +76,19 @@ def ring_double(
         if callable(coupler)
         else coupler
     )
-
     halfring2 = (
         coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
         if callable(coupler)
         else coupler
     )
-    circuit.elements["cb"].pins["o1"] = "o1"
-    circuit.elements["cb"].pins["o4"] = "o4"
-    circuit.elements["ct"].pins["o4"] = "o2"
-    circuit.elements["ct"].pins["o1"] = "o3"
-    return circuit
+    halfring1["o2"].connect(wg1["o1"])
+    halfring2["o3"].connect(wg1["o2"])
+    halfring1["o3"].connect(wg2["o1"])
+    halfring2["o2"].connect(wg2["o2"])
+    halfring2["o1"].rename("o2")
+    halfring2["o4"].rename("o3")
+
+    return halfring1.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":

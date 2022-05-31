@@ -1,5 +1,3 @@
-from simphony.netlist import Subcircuit
-
 from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
 from gdsfactory.simulation.simphony.components.straight import straight
 
@@ -35,21 +33,26 @@ def ring_single(
         else coupler
     )
 
-    # Create the circuit, add all individual instances
-    circuit = Subcircuit("ring_double")
-    circuit.add([(coupler, "cb"), (straight, "wt")])
+    cb = coupler
+    wt = straight
 
-    circuit.connect_many([("cb", "N0", "wt", "W0"), ("wt", "E0", "cb", "N1")])
-    circuit.elements["cb"].pins["W0"] = "input"
-    circuit.elements["cb"].pins["E0"] = "output"
-    return circuit
+    cb.rename_pins("W0", "N0", "N1", "E0")
+    wt.rename_pins("n1", "n2")
+
+    cb["N0"].connect(wt["n1"])
+    cb["N1"].connect(wt["n2"])
+
+    cb["W0"].rename("input")
+    cb["E0"].rename("output")
+
+    return cb.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulationsimphony import plot_circuit
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = ring_single()
-    plot_circuit(c)
+    plot_circuit(c, pin_in="input", pins_out=("output",))
     plt.show()
