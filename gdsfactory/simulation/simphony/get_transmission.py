@@ -1,9 +1,10 @@
-from simphony.models import Subcircuit
-from simphony.simulators import SweepSimulator
+from simphony.netlist import Subcircuit
+from simphony.simulation import SweepSimulation
+from simphony.tools import freq2wl
 
 
 def get_transmission(
-    subcircuit: Subcircuit,
+    circuit: Subcircuit,
     pin_in: str = "o1",
     pin_out: str = "o2",
     start: float = 1500e-9,
@@ -28,4 +29,7 @@ def get_transmission(
     w, s = simulation.simulate()
     w *= 1e9
 
+
+    f, s = result.data(pin_in, pin_out)
+    w = freq2wl(f) * 1e9
     return dict(wavelengths=w, s=s)

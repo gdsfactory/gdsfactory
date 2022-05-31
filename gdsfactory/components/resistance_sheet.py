@@ -4,8 +4,7 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Floats, Layers, Optional
+from gdsfactory.types import ComponentSpec, Floats, LayerSpecs, Optional
 
 pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 
@@ -13,7 +12,7 @@ pad_via_stack_slab_npp = partial(via_stack_slab_npp_m3, size=(80, 80))
 @cell
 def resistance_sheet(
     width: float = 10,
-    layers: Layers = (LAYER.SLAB90, LAYER.NPP),
+    layers: LayerSpecs = ("SLAB90", "NPP"),
     layer_offsets: Floats = (0, 0.2),
     pad: ComponentSpec = pad_via_stack_slab_npp,
     pad_pitch: float = 100.0,
@@ -21,16 +20,17 @@ def resistance_sheet(
     port_orientation1: int = 180,
     port_orientation2: int = 0,
 ) -> Component:
-    """Sheet resistance.
+    """Returns Sheet resistance.
+
     keeps connectivity for pads and first layer in layers
 
     Args:
-        width:
-        layers: for the middle part
-        layer_offsets: from edge, positive: over, negative: inclusion
-        pad: function to create a pad
-        pad_pitch:
-        ohms_per_square: optional sheet resistance to compute info.resistance
+        width: in um.
+        layers: for the middle part.
+        layer_offsets: from edge, positive: over, negative: inclusion.
+        pad: function to create a pad.
+        pad_pitch: in um.
+        ohms_per_square: optional sheet resistance to compute info.resistance.
         port_orientation1: in degrees.
         port_orientation2: in degrees.
     """
@@ -73,6 +73,10 @@ def resistance_sheet(
 
 
 if __name__ == "__main__":
+    # import gdsfactory as gf
+    # sweep = [resistance_sheet(width=width, layers=((1,0), (1,1))) for width in [1, 10, 100]]
+    # c = gf.pack(sweep)[0]
+
     c = resistance_sheet(width=40)
     c.show()
 

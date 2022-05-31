@@ -6,7 +6,7 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -19,6 +19,7 @@ def coupler_full(
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
     waveguide_template: ComponentSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Adiabatic Full Coupler.
@@ -37,25 +38,26 @@ def coupler_full(
     specified in the straight template.
 
     Args:
-       length: Length of the coupling region.
-       gap: Distance between the two straights.
-       dw: Change in straight width. Top arm tapers to width - dw, bottom to width - dw.
-       angle: Angle in radians at which the straight bends towards the coupling region.
-       parity (integer -1 or 1): If -1, mirror-flips the structure so that input port
-        is actually the *bottom* port.
-       port: Cartesian coordinate for input port (AT TOP if parity=1, AT BOTTOM if parity=-1).
-       direction: Direction that the component points *towards*,
-        can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`, OR an angle (float, in radians).
-       waveguide_template: function that returns Picwriter WaveguideTemplate object
+        length: Length of the coupling region.
+        gap: Distance between the two straights.
+        dw: Change in straight width. Top arm tapers to width - dw, bottom to width - dw.
+        angle: Angle in radians at which the straight bends towards the coupling region.
+        parity (integer -1 or 1): If -1, mirror-flips the structure so that input port
+         is actually the *bottom* port.
+        port: Cartesian coordinate for input port
+            (AT TOP if parity=1, AT BOTTOM if parity=-1).
+        direction: Direction that the component points *towards*,
+         can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float in radians).
+        waveguide_template: function that returns Picwriter WaveguideTemplate object
 
     Keyword Args:
-       wg_width: 0.5
-       wg_layer: gf.LAYER.WG[0]
-       wg_datatype: gf.LAYER.WG[1]
-       clad_layer: gf.LAYER.WGCLAD[0]
-       clad_datatype: gf.LAYER.WGCLAD[1]
-       bend_radius: 10
-       cladding_offset: 3
+        wg_width: 0.5.
+        wg_layer: gf.LAYER.WG[0].
+        wg_datatype: gf.LAYER.WG[1].
+        clad_layer: gf.LAYER.WGCLAD[0].
+        clad_datatype: gf.LAYER.WGCLAD[1].
+        bend_radius: in um.
+        cladding_offset: in um.
 
     """
 
@@ -70,7 +72,13 @@ def coupler_full(
         direction=direction,
     )
 
-    return gf.read.from_picwriter(c)
+    c = gf.read.from_picwriter(c)
+    x = gf.get_cross_section(cross_section)
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
+    return c
 
 
 if __name__ == "__main__":

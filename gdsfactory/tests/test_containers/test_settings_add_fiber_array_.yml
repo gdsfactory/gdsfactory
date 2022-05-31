@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_fiber__0c6fc058
+name: mzi_2e88f57c_add_fiber__ef10a3bb
 settings:
   changed:
     component:
@@ -16,12 +16,11 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner: null
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -30,8 +29,7 @@ settings:
           port_e0_splitter: o3
           port_e1_combiner: o2
           port_e1_splitter: o2
-          splitter:
-            function: mmi1x2
+          splitter: mmi1x2
           straight:
             function: straight
           straight_x_bot: null
@@ -39,13 +37,12 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner:
             function: mmi2x2
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -81,12 +78,11 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend:
-        function: bend_euler
+      bend: bend_euler
       combiner: null
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -95,8 +91,7 @@ settings:
       port_e0_splitter: o3
       port_e1_combiner: o2
       port_e1_splitter: o2
-      splitter:
-        function: mmi1x2
+      splitter: mmi1x2
       straight:
         function: straight
       straight_x_bot: null
@@ -104,13 +99,12 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend:
-        function: bend_euler
+      bend: bend_euler
       combiner:
         function: mmi2x2
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -136,9 +130,7 @@ settings:
     bend: bend_euler
     component: mmi2x2
     component_name: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -148,15 +140,12 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     select_ports:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
+    straight: straight
   full:
     bend: bend_euler
     component:
@@ -174,12 +163,11 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner: null
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -188,8 +176,7 @@ settings:
           port_e0_splitter: o3
           port_e1_combiner: o2
           port_e1_splitter: o2
-          splitter:
-            function: mmi1x2
+          splitter: mmi1x2
           straight:
             function: straight
           straight_x_bot: null
@@ -197,13 +184,12 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner:
             function: mmi2x2
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -227,9 +213,7 @@ settings:
         name: mzi_2e88f57c
       version: 0.0.1
     component_name: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -239,18 +223,15 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     select_ports:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
+    straight: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: mzi_2e88f57c_add_fiber__0c6fc058
+  name: mzi_2e88f57c_add_fiber__ef10a3bb
 version: 0.0.1

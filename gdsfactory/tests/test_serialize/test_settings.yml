@@ -8,13 +8,13 @@ settings:
       auto_widen_minimum_length: 200.0
       bbox_layers: []
       bbox_offsets: []
-      decorator: null
+      cladding_layers:
+      - DEVREC
+      cladding_offsets:
+      - 0.0
       end_straight_length: 0.01
       info: {}
-      layer:
-      - 1
-      - 0
-      layer_bbox: null
+      layer: WG
       min_length: 0.01
       name: null
       offset: 0.0
@@ -37,13 +37,13 @@ settings:
       auto_widen_minimum_length: 200.0
       bbox_layers: []
       bbox_offsets: []
-      decorator: null
+      cladding_layers:
+      - DEVREC
+      cladding_offsets:
+      - 0.0
       end_straight_length: 0.01
       info: {}
-      layer:
-      - 1
-      - 0
-      layer_bbox: null
+      layer: WG
       min_length: 0.01
       name: null
       offset: 0.0

@@ -5,15 +5,9 @@ settings:
   default:
     bbox_layers: null
     bbox_offsets: null
-    cross_section:
-      function: cross_section
-      settings: {}
-    layer_slab:
-    - 3
-    - 0
-    layer_wg:
-    - 1
-    - 0
+    cross_section: strip
+    layer_slab: SLAB90
+    layer_wg: WG
     length: 10
     w_slab1: 0.15
     w_slab2: 6
@@ -22,15 +16,9 @@ settings:
   full:
     bbox_layers: null
     bbox_offsets: null
-    cross_section:
-      function: cross_section
-      settings: {}
-    layer_slab:
-    - 3
-    - 0
-    layer_wg:
-    - 1
-    - 0
+    cross_section: strip
+    layer_slab: SLAB90
+    layer_wg: WG
     length: 10
     w_slab1: 0.15
     w_slab2: 6

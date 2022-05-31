@@ -1,33 +1,31 @@
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical import grating_tooth_points
 from gdsfactory.geometry.functions import DEG2RAD
-from gdsfactory.types import Layer, Optional
+from gdsfactory.types import CrossSectionSpec, LayerSpec, Optional
 
 
 @gf.cell
 def grating_coupler_elliptical_trenches(
     polarization: str = "te",
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
+    fiber_marker_layer: Optional[LayerSpec] = "TE",
     taper_length: float = 16.6,
     taper_angle: float = 30.0,
     trenches_extra_angle: float = 9.0,
     wavelength: float = 1.53,
     fiber_angle: float = 15.0,
     grating_line_width: float = 0.343,
-    wg_width: float = 0.5,
     neff: float = 2.638,  # tooth effective index
     ncladding: float = 1.443,  # cladding index
-    layer: Tuple[int, int] = gf.LAYER.WG,
-    layer_trench: Tuple[int, int] = gf.LAYER.SLAB150,
+    layer_trench: LayerSpec = "SLAB150",
     p_start: int = 26,
     n_periods: int = 30,
     end_straight_length: float = 0.2,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     r"""Returns Grating coupler with defined trenches.
 
@@ -41,14 +39,13 @@ def grating_coupler_elliptical_trenches(
         wavelength: grating transmission central wavelength.
         fiber_angle: fibre polish angle in degrees.
         grating_line_width: of the 220 ridge.
-        wg_width: straight width.
         neff: tooth effective index.
         ncladding: cladding index.
-        layer: for the grating teeth.
         layer_trench: for the trench.
         p_start: first tooth.
         n_periods: number of grating teeth.
-        end_straight_length: at the end of.
+        end_straight_length: at the end of straight.
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -62,7 +59,9 @@ def grating_coupler_elliptical_trenches(
 
     """
 
-    # Define some constants
+    xs = gf.get_cross_section(cross_section, **kwargs)
+    wg_width = xs.width
+    layer = xs.layer
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)
@@ -121,7 +120,7 @@ def grating_coupler_elliptical_trenches(
     name = f"vertical_{polarization.lower()}"
     c.add_port(
         name=name,
-        midpoint=[x, 0],
+        midpoint=(x, 0),
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
@@ -129,11 +128,20 @@ def grating_coupler_elliptical_trenches(
     )
 
     c.add_port(
-        name="o1", midpoint=[x_output, 0], width=wg_width, orientation=180, layer=layer
+        name="o1",
+        midpoint=(x_output, 0),
+        width=wg_width,
+        orientation=180,
+        layer=layer,
+        cross_section=xs,
     )
     c.info["period"] = period
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
+    if xs.add_bbox:
+        c = xs.add_bbox(c)
+    if xs.add_pins:
+        c = xs.add_pins(c)
     return c
 
 
@@ -146,7 +154,7 @@ grating_coupler_tm = gf.partial(
     polarization="tm",
     neff=1.8,
     grating_line_width=0.6,
-    fiber_marker_layer=gf.LAYER.TM,
+    fiber_marker_layer="TM",
 )
 
 
@@ -154,6 +162,7 @@ if __name__ == "__main__":
     # c = grating_coupler_elliptical_trenches(polarization="TE")
     # print(c.polarization)
     # c = grating_coupler_te(end_straight_length=10, fiber_marker_layer=None)
-    c = grating_coupler_tm()
-    print(c.ports.keys())
+    # c = grating_coupler_tm()
+    # print(c.ports.keys())
+    c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_trenches)
     c.show()

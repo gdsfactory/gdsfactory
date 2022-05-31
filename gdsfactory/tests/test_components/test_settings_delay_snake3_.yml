@@ -7,9 +7,7 @@ settings:
       function: bend_euler
       settings:
         angle: 180
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     length: 1600
     length0: 0
     n: 2
@@ -18,9 +16,7 @@ settings:
       function: bend_euler
       settings:
         angle: 180
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     length: 1600
     length0: 0
     n: 2

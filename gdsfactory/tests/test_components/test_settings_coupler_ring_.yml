@@ -9,9 +9,7 @@ settings:
       function: coupler90
     coupler_straight:
       function: coupler_straight
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gap: 0.2
     length_x: 4
     radius: 5
@@ -24,9 +22,7 @@ settings:
       function: coupler90
     coupler_straight:
       function: coupler_straight
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gap: 0.2
     length_x: 4
     radius: 5

@@ -5,9 +5,7 @@ settings:
   default:
     bbox_layers: null
     bbox_offsets: null
-    layer:
-    - 49
-    - 0
+    layer: M3
     port_inclusion: 0
     port_orientation: 0
     size:
@@ -16,9 +14,7 @@ settings:
   full:
     bbox_layers: null
     bbox_offsets: null
-    layer:
-    - 49
-    - 0
+    layer: M3
     port_inclusion: 0
     port_orientation: 0
     size:

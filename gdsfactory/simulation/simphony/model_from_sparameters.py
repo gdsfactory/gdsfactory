@@ -3,7 +3,7 @@ from typing import Tuple
 
 import numpy as np
 from scipy.constants import speed_of_light
-from simphony import Model
+from simphony.elements import Model
 from simphony.tools import freq2wl, interpolate, wl2freq
 
 import gdsfactory as gf

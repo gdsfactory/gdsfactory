@@ -5,7 +5,6 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler180
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -15,14 +14,11 @@ def delay_snake3(
     length0: float = 0.0,
     n: int = 2,
     bend180: ComponentSpec = bend_euler180,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    r"""Snake input facing west
+    r"""Snake input facing west.
 
-    Snake output facing east
-
-    This snake
 
     Args:
         length: total length.

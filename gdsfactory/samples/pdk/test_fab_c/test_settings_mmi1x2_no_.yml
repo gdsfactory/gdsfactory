@@ -1,20 +1,26 @@
-name: mmi1x2_9be21ac9
+name: mmi1x2_3325f8fb
 settings:
   changed:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
         width: 0.9
-    decorator:
-      function: add_pins
     width: 0.9
   child: null
   default:
@@ -22,10 +28,8 @@ settings:
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
-    straight:
-      function: straight
-    taper:
-      function: taper
+    straight: straight
+    taper: taper
     width: 0.5
     width_mmi: 2.5
     width_taper: 1
@@ -34,24 +38,28 @@ settings:
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
         width: 0.9
-    decorator:
-      function: add_pins
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
-    straight:
-      function: straight
-    taper:
-      function: taper
+    straight: straight
+    taper: taper
     width: 0.9
     width_mmi: 2.5
     width_taper: 1
@@ -60,5 +68,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mmi1x2
-  name: mmi1x2_9be21ac9
+  name: mmi1x2_3325f8fb
 version: 0.0.1

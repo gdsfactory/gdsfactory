@@ -3,10 +3,12 @@ settings:
   changed: {}
   child: null
   default:
+    cross_section: strip
     crossing45:
       function: crossing45
     direction: top
   full:
+    cross_section: strip
     crossing45:
       function: crossing45
     direction: top

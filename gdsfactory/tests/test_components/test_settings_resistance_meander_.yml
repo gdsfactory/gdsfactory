@@ -3,34 +3,22 @@ settings:
   changed: {}
   child: null
   default:
-    gnd_layer:
-    - 49
-    - 0
+    gnd_layer: M3
     num_squares: 1000
-    pad_layer:
-    - 49
-    - 0
+    pad_layer: M3
     pad_size:
     - 50.0
     - 50.0
-    res_layer:
-    - 49
-    - 0
+    res_layer: M3
     width: 1
   full:
-    gnd_layer:
-    - 49
-    - 0
+    gnd_layer: M3
     num_squares: 1000
-    pad_layer:
-    - 49
-    - 0
+    pad_layer: M3
     pad_size:
     - 50.0
     - 50.0
-    res_layer:
-    - 49
-    - 0
+    res_layer: M3
     width: 1
   function_name: resistance_meander
   info: {}

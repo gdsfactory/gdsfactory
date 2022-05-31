@@ -5,9 +5,11 @@ settings:
   default:
     arm:
       function: crossing_arm
+    cross_section: strip
   full:
     arm:
       function: crossing_arm
+    cross_section: strip
   function_name: crossing
   info: {}
   info_version: 2

@@ -4,12 +4,10 @@ from typing import Optional
 import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler import coupler
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -19,12 +17,12 @@ def mzi(
     delta_length: float = 10.0,
     length_y: float = 2.0,
     length_x: Optional[float] = 0.1,
-    bend: ComponentSpec = bend_euler,
+    bend: ComponentSpec = "bend_euler",
     straight: ComponentSpec = straight_function,
     straight_y: Optional[ComponentSpec] = None,
     straight_x_top: Optional[ComponentSpec] = None,
     straight_x_bot: Optional[ComponentSpec] = None,
-    splitter: ComponentSpec = mmi1x2,
+    splitter: ComponentSpec = "mmi1x2",
     combiner: Optional[ComponentSpec] = None,
     with_splitter: bool = True,
     port_e1_splitter: str = "o2",
@@ -32,7 +30,9 @@ def mzi(
     port_e1_combiner: str = "o2",
     port_e0_combiner: str = "o3",
     nbends: int = 2,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
+    cross_section_x_top: Optional[CrossSectionSpec] = None,
+    cross_section_x_bot: Optional[CrossSectionSpec] = None,
 ) -> Component:
     """Mzi.
 
@@ -54,6 +54,8 @@ def mzi(
         port_e0_combiner: east bot combiner port.
         nbends: from straight top/bot to combiner (at least 2).
         cross_section: for routing (sxtop/sxbot to combiner).
+        cross_section_x_top: optional top cross_section (defaults to cross_section).
+        cross_section_x_bot: optional bottom cross_section (defaults to cross_section).
 
     .. code::
 
@@ -78,6 +80,9 @@ def mzi(
     straight_x_bot = straight_x_bot or straight
     straight_y = straight_y or straight
 
+    cross_section_x_bot = cross_section_x_bot or cross_section
+    cross_section_x_top = cross_section_x_top or cross_section
+
     bend_spec = bend
     bend = gf.get_component(bend, cross_section=cross_section)
 
@@ -101,7 +106,9 @@ def mzi(
     b6.connect("o1", syl.ports["o2"])
 
     straight_x_bot = (
-        gf.get_component(straight_x_bot, length=length_x)
+        gf.get_component(
+            straight_x_bot, length=length_x, cross_section=cross_section_x_bot
+        )
         if length_x
         else gf.get_component(straight_x_bot)
     )
@@ -117,7 +124,9 @@ def mzi(
     b2 = c << bend
     b2.connect("o2", sy.ports["o2"])
     straight_x_top = (
-        gf.get_component(straight_x_top, length=length_x)
+        gf.get_component(
+            straight_x_top, length=length_x, cross_section=cross_section_x_top
+        )
         if length_x
         else gf.get_component(straight_x_top)
     )
@@ -182,6 +191,14 @@ mzi_coupler = partial(
 
 
 if __name__ == "__main__":
+    # from gdsfactory.cross_section import heater_metal
+    # c = mzi(cross_section=heater_metal)
+    # from gdsfactory.cross_section import strip_heater_metal
+    # c = mzi(cross_section_x_top=strip_heater_metal, length_x=100)
+
+    c = mzi()
+    c.show()
+
     # WIDTH = 2
     # LAYER = (34, 0)
     # xs_metal = gf.partial(strip, width=WIDTH, layer=LAYER)
@@ -195,8 +212,8 @@ if __name__ == "__main__":
     # mzi = gf.partial(gf.components.mzi, cross_section=xs_metal, splitter=mmi1x2)
     # c = mzi()
 
-    c = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    c.show()
+    # c = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
+    # c.show()
 
     # extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
 

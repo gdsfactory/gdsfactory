@@ -8,9 +8,8 @@ import gdsfactory as gf
 def test_read_gds_hash() -> gf.Component:
     gdspath = gf.CONFIG["gdsdir"] / "straight.gds"
     c = gf.import_gds(gdspath)
-    assert (
-        c.hash_geometry() == "8f0e7c4660c98d810082e85203013134614611bf"
-    ), c.hash_geometry()
+    h = "3c03925d5918cbd6458f995c7703b298920d98e4"
+    assert c.hash_geometry() == h, f"h = {c.hash_geometry()!r}"
     return c
 
 
@@ -57,11 +56,11 @@ def _write() -> None:
 
 
 if __name__ == "__main__":
-    # _write()
+    _write()
 
     # test_mix_cells_from_gds_and_from_function()
     test_read_gds_equivalent()
-    # test_read_gds_hash()
+    test_read_gds_hash()
 
     # c1 = gf.components.straight(length=1.234)
     # gdspath = gf.CONFIG["gdsdir"] / "straight.gds"

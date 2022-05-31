@@ -2,7 +2,7 @@ from functools import partial
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 @cell
@@ -11,7 +11,7 @@ def triangle(
     xtop: float = 0,
     y: float = 20,
     ybot: float = 0,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> Component:
     r"""Return triangle.
 

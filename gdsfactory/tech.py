@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
+LayerSpec = Union[int, Layer, str, None]
 
 
 def make_empty_dict() -> Dict[str, Callable]:
@@ -46,6 +47,7 @@ class LayerMap(BaseModel):
     VIA2: Layer = (43, 0)
     PADOPEN: Layer = (46, 0)
 
+    DICING: Layer = (100, 0)
     NO_TILE_SI: Layer = (71, 0)
     PADDING: Layer = (67, 0)
     DEVREC: Layer = (68, 0)
@@ -93,7 +95,7 @@ PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 class LayerLevel(BaseModel):
     """Layer For 3D LayerStack.
 
-    Args:
+    Attributes:
         layer: (GDSII Layer number, GDSII datatype)
         thickness: layer thickness
         zmin: height position where material starts
@@ -109,7 +111,11 @@ class LayerLevel(BaseModel):
 
 
 class LayerStack(BaseModel):
-    """For simulation and trimesh 3D rendering."""
+    """For simulation and 3D rendering.
+
+    Attributes:
+        layers: dict of layers.
+    """
 
     layers: Dict[str, LayerLevel]
 
@@ -185,7 +191,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             ge=LayerLevel(
                 layer=LAYER.GE,
                 thickness=500e-3,
-                zmin=220e-3,
+                zmin=thickness_silicon_core,
                 material="ge",
             ),
             via_contact=LayerLevel(
@@ -197,25 +203,25 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             metal1=LayerLevel(
                 layer=LAYER.M1,
                 thickness=750e-3,
-                zmin=220e-3 + 1100e-3,
+                zmin=thickness_silicon_core + 1100e-3,
                 material="Aluminum",
             ),
             heater=LayerLevel(
                 layer=LAYER.HEATER,
                 thickness=750e-3,
-                zmin=220e-3 + 1100e-3,
+                zmin=thickness_silicon_core + 1100e-3,
                 material="TiN",
             ),
             viac=LayerLevel(
                 layer=LAYER.VIA1,
                 thickness=1500e-3,
-                zmin=220e-3 + 1100e-3 + 750e-3,
+                zmin=thickness_silicon_core + 1100e-3 + 750e-3,
                 material="Aluminum",
             ),
             metal2=LayerLevel(
                 layer=LAYER.M2,
                 thickness=2000e-3,
-                zmin=220e-3 + 1100e-3 + 750e-3 + 1.5,
+                zmin=thickness_silicon_core + 1100e-3 + 750e-3 + 1.5,
                 material="Aluminum",
             ),
         )
@@ -226,7 +232,7 @@ LAYER_STACK = get_layer_stack_generic()
 
 
 class Section(BaseModel):
-    """
+    """CrossSection to extrude a path with a waveguide.
 
     Args:
         width: of the section (um) or parameterized function from 0 to 1.
@@ -235,7 +241,7 @@ class Section(BaseModel):
         offset: center offset (um) or function parameterized function from 0 to 1.
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
-        layer:
+        layer: layer spec.
         port_names: Optional port names
         port_types: optical, electrical, ...
         name: Optional Section name.
@@ -256,7 +262,7 @@ class Section(BaseModel):
 
     width: Union[float, Callable]
     offset: Union[float, Callable] = 0
-    layer: Union[Layer, Tuple[Layer, Layer]]
+    layer: Union[LayerSpec, Tuple[LayerSpec, LayerSpec]]
     port_names: Tuple[Optional[str], Optional[str]] = (None, None)
     port_types: Tuple[str, str] = ("optical", "optical")
     name: Optional[str] = None

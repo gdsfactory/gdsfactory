@@ -44,7 +44,8 @@ def mzit_lattice(
 
     c = Component()
 
-    cp1 = coupler0 = c << mzi(
+    cp1 = coupler0 = c << gf.get_component(
+        mzi,
         coupler_gap1=coupler_gaps[0],
         coupler_gap2=coupler_gaps[1],
         coupler_length1=coupler_lengths[0],
@@ -54,7 +55,8 @@ def mzit_lattice(
 
     couplers = [
         c
-        << mzi(
+        << gf.get_component(
+            mzi,
             coupler_gap2=coupler_gap,
             coupler_length2=coupler_length,
             coupler1=None,

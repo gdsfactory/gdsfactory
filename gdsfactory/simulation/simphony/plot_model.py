@@ -3,7 +3,7 @@ from typing import Tuple
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.constants import speed_of_light
-from simphony import Model
+from simphony.elements import Model
 
 
 def plot_model(
@@ -43,7 +43,7 @@ def plot_model(
         else:
             wavelengths = np.linspace(1520e-9, 1580e-9, 2000)
     f = speed_of_light / wavelengths
-    s = m.s_parameters(f)
+    s = m.s_parameters(freq=f)
 
     pins = pins or m.pins
     if not isinstance(pins, (tuple, set, list)):
@@ -52,15 +52,10 @@ def plot_model(
         if pin not in m.pins:
             raise ValueError(f"{pin} not in {m.pins}")
 
-    pin_names = []
-    [pin_names.append(p.name) for p in m.pins]
-
-    if pin_in not in pin_names:
+    if pin_in not in m.pins:
         raise ValueError(f"pin_in = `{pin_in}` not in {m.pins}")
 
-    for index, p in enumerate(m.pins):
-        if pin_in == p.name:
-            pin_in_index = index
+    pin_in_index = m.pins.index(pin_in)
 
     fig = fig or plt.subplot()
     ax = fig.axes
@@ -74,7 +69,7 @@ def plot_model(
             y = np.abs(s[:, pin_out_index, pin_in_index]) ** 2
             y = 10 * np.log10(y) if logscale else y
             ylabel = "|S (dB)|" if logscale else "|S|"
-        ax.plot(wavelengths * 1e9, y, label=pin_out.name)
+        ax.plot(wavelengths * 1e9, y, label=pin_out)
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylabel(ylabel)
     plt.legend()
@@ -83,18 +78,18 @@ def plot_model(
 
 
 if __name__ == "__main__":
-    from simphony.libraries import siepic
+    from simphony.library import siepic
 
     from gdsfactory.simulation.simphony.components.straight import straight
 
     w = np.linspace(1520, 1570, 1024) * 1e-9
-    coupler = siepic.HalfRing(
+    coupler = siepic.ebeam_dc_halfring_straight(
         gap=200e-9, radius=10e-6, width=500e-9, thickness=220e-9, couple_length=0.0
     )
-    coupler["pin1"].rename("n1")
-    plot_model(coupler, pin_in="n1")
-    plt.legend()
-    plt.show()
+
+    # plot_model(coupler, pin_in="n1")
+    # plt.legend()
+    # plt.show()
 
     m = straight()
     plot_model(m, phase=False)

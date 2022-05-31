@@ -2,7 +2,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.path import transition_exponential
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -12,17 +12,17 @@ def taper_parabolic(
     width2: float = 5.0,
     exp: float = 0.5,
     npoints: int = 100,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> gf.Component:
     """Returns a parabolic_taper
 
     Args:
-        length:
-        width1:
-        width2:
-        exp: exponent
-        npoints: number of points
-        layer
+        length: in um.
+        width1: in um.
+        width2: in um.
+        exp: exponent.
+        npoints: number of points.
+        layer: layer spec.
     """
     x = np.linspace(0, 1, npoints)
     y = transition_exponential(y1=width1, y2=width2, exp=exp)(x) / 2

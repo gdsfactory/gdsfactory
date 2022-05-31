@@ -4,17 +4,13 @@ settings:
   child: null
   default:
     angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
+    layer: WG
     radii:
     - 10.0
     - 5.0
   full:
     angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
+    layer: WG
     radii:
     - 10.0
     - 5.0

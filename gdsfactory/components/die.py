@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -15,8 +15,8 @@ def die(
     die_name: Optional[str] = "chip99",
     text_size: float = 100.0,
     text_location: str = "SW",
-    layer: Layer = gf.LAYER.FLOORPLAN,
-    bbox_layer: Optional[Layer] = gf.LAYER.FLOORPLAN,
+    layer: LayerSpec = "FLOORPLAN",
+    bbox_layer: Optional[LayerSpec] = "FLOORPLAN",
     draw_corners: bool = False,
     draw_dicing_lane: bool = False,
 ) -> gf.Component:

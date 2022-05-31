@@ -5,7 +5,7 @@ import picwriter.components as pc
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
@@ -20,6 +20,7 @@ def coupler_adiabatic(
     port: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
     waveguide_template: ComponentSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Returns 50/50 adiabatic coupler.
@@ -40,7 +41,8 @@ def coupler_adiabatic(
     Args:
         length1: region that gradually brings the two assymetric straights together.
             In this region the straight widths gradually change to be different by `dw`.
-        length2: coupling region, where asymmetric straights gradually become the same width.
+        length2: coupling region, where asymmetric straights gradually
+            become the same width.
         length3: output region where the two straights separate.
         wg_sep: Distance between center-to-center in the coupling region (Region 2).
         input_wg_sep: Separation of the two straights at the input, center-to-center.
@@ -48,17 +50,17 @@ def coupler_adiabatic(
         dw: Change in straight width.
             In Region 1, top arm tapers to width+dw/2.0, bottom taper to width-dw/2.0.
         port: coordinate of the input port (top left).
-        direction: for component NORTH, WEST, SOUTH, EAST,or angle in radians
-        waveguide_template: object or function
+        direction: for component NORTH, WEST, SOUTH, EAST,or angle in radians.
+        waveguide_template: object or function.
 
-    Other Parameters:
-       wg_width: 0.5
-       wg_layer: gf.LAYER.WG[0]
-       wg_datatype: gf.LAYER.WG[1]
-       clad_layer: gf.LAYER.WGCLAD[0]
-       clad_datatype: gf.LAYER.WGCLAD[1]
-       bend_radius: 10
-       cladding_offset: 3
+    Keyword Args:
+       wg_width: in um.
+       wg_layer: gf.LAYER.WG[0].
+       wg_datatype: gf.LAYER.WG[1].
+       clad_layer: gf.LAYER.WGCLAD[0].
+       clad_datatype: gf.LAYER.WGCLAD[1].
+       bend_radius: in um.
+       cladding_offset: in um.
 
     """
 
@@ -75,7 +77,14 @@ def coupler_adiabatic(
         direction=direction,
     )
 
-    return gf.read.from_picwriter(c)
+    c = gf.read.from_picwriter(c)
+
+    x = gf.get_cross_section(cross_section)
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
+    return c
 
 
 if __name__ == "__main__":

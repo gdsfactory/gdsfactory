@@ -7,8 +7,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.waveguide_template import strip
-from gdsfactory.cross_section import strip as xs_strip
-from gdsfactory.types import Coordinate, CrossSectionSpec, Floats, Layer
+from gdsfactory.types import Coordinate, CrossSectionSpec, Floats, LayerSpec
 
 
 @cell
@@ -21,19 +20,18 @@ def grating_coupler_circular(
     n_periods: int = 30,
     bias_gap: float = 0,
     port: Coordinate = (0.0, 0.0),
-    layer: Layer = gf.LAYER.WG,
-    layer_slab: Optional[Layer] = None,
-    layer_cladding: Layer = gf.LAYER.WGCLAD,
+    layer_slab: Optional[LayerSpec] = None,
+    layer_cladding: LayerSpec = "WGCLAD",
     gaps: Optional[Floats] = None,
     widths: Optional[Floats] = None,
     direction: str = "EAST",
     polarization: str = "te",
     wavelength: float = 1.55,
     fiber_marker_width: float = 11.0,
-    fiber_marker_layer: Optional[Layer] = gf.LAYER.TE,
-    wg_width: float = 0.5,
+    fiber_marker_layer: Optional[LayerSpec] = "TE",
     cladding_offset: float = 2.0,
-    cross_section: CrossSectionSpec = xs_strip,
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     r"""Return circular Grating coupler.
 
@@ -47,19 +45,18 @@ def grating_coupler_circular(
         bias_gap: etch gap (um).
             Positive bias increases gap and reduces width to keep period constant.
         port: (x, y) for input port.
-        layer: waveguide layer
-        layer_slab: slab layer for partial etched gratings
-        layer_cladding: for the cladding (using cladding_offset)
+        layer_slab: slab layer for partial etched gratings.
+        layer_cladding: for the cladding (using cladding_offset).
         gaps: optional gap list (um). Overrides period, fill_factor and n_periods.
         widths: optional width list (um). Overrides period, fill_factor and n_periods.
         direction: Direction that the component will point *towards*,
-          can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians)
+          can be of type NORTH, WEST, SOUTH, EAST, OR an angle (float, in radians).
         polarization: te or tm.
-        wavelength: wavelength um
-        fiber_marker_width: (um)
-        wg_width: input waveguide width (um).
-        cladding_offset: (um)
+        wavelength: wavelength um.
+        fiber_marker_width: (um).
+        cladding_offset: (um).
         cross_section: for input waveguide port.
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -85,17 +82,20 @@ def grating_coupler_circular(
                  <-->
                 taper_length
     """
-    x = gf.get_cross_section(
-        cross_section, bbox_layers=[layer_cladding], bbox_offsets=[cladding_offset]
-    )
+    x = gf.get_cross_section(cross_section, **kwargs)
+    layer = x.layer
+    wg_width = x.width
 
     widths = widths or n_periods * [period * fill_factor]
     gaps = gaps or n_periods * [period * (1 - fill_factor)]
 
     gaps = np.array(gaps) + bias_gap
     widths = np.array(widths) - bias_gap
-
     teeth_list = list(zip(gaps, widths))
+
+    layer = gf.get_layer(layer)
+    layer_slab = gf.get_layer(layer_slab)
+    layer_cladding = gf.get_layer(layer_cladding)
 
     c = pc.GratingCoupler(
         gf.call_if_func(
@@ -138,6 +138,10 @@ def grating_coupler_circular(
         orientation=0,
         layer=fiber_marker_layer,
     )
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 

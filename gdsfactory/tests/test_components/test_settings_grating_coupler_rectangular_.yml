@@ -3,16 +3,10 @@ settings:
   changed: {}
   child: null
   default:
-    fiber_marker_layer:
-    - 203
-    - 0
+    cross_section: strip
+    fiber_marker_layer: TE
     fill_factor: 0.5
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     length_taper: 150
     n_periods: 20
     period: 0.75
@@ -22,19 +16,12 @@ settings:
     taper:
       function: taper
     wavelength: 1.55
-    wg_width: 0.5
     width_grating: 11
   full:
-    fiber_marker_layer:
-    - 203
-    - 0
+    cross_section: strip
+    fiber_marker_layer: TE
     fill_factor: 0.5
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     length_taper: 150
     n_periods: 20
     period: 0.75
@@ -44,7 +31,6 @@ settings:
     taper:
       function: taper
     wavelength: 1.55
-    wg_width: 0.5
     width_grating: 11
   function_name: grating_coupler_rectangular
   info:

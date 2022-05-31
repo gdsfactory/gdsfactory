@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_electr_202f85bf
+name: mzi_2e88f57c_add_electr_32d54d96
 settings:
   changed:
     component:
@@ -16,12 +16,11 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner: null
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -30,8 +29,7 @@ settings:
           port_e0_splitter: o3
           port_e1_combiner: o2
           port_e1_splitter: o2
-          splitter:
-            function: mmi1x2
+          splitter: mmi1x2
           straight:
             function: straight
           straight_x_bot: null
@@ -39,13 +37,12 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner:
             function: mmi2x2
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -81,12 +78,11 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend:
-        function: bend_euler
+      bend: bend_euler
       combiner: null
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -95,8 +91,7 @@ settings:
       port_e0_splitter: o3
       port_e1_combiner: o2
       port_e1_splitter: o2
-      splitter:
-        function: mmi1x2
+      splitter: mmi1x2
       straight:
         function: straight
       straight_x_bot: null
@@ -104,13 +99,12 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend:
-        function: bend_euler
+      bend: bend_euler
       combiner:
         function: mmi2x2
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
+      cross_section_x_bot: null
+      cross_section_x_top: null
       delta_length: 10
       length_x: 0.1
       length_y: 2
@@ -134,9 +128,7 @@ settings:
     name: mzi_2e88f57c
   default:
     component: straight
-    layer:
-    - 31
-    - 0
+    layer: M3
     pad_array:
       function: pad_array
     select_ports:
@@ -162,12 +154,11 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner: null
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -176,8 +167,7 @@ settings:
           port_e0_splitter: o3
           port_e1_combiner: o2
           port_e1_splitter: o2
-          splitter:
-            function: mmi1x2
+          splitter: mmi1x2
           straight:
             function: straight
           straight_x_bot: null
@@ -185,13 +175,12 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend:
-            function: bend_euler
+          bend: bend_euler
           combiner:
             function: mmi2x2
-          cross_section:
-            function: cross_section
-            settings: {}
+          cross_section: strip
+          cross_section_x_bot: null
+          cross_section_x_top: null
           delta_length: 10
           length_x: 0.1
           length_y: 2
@@ -214,9 +203,7 @@ settings:
         module: gdsfactory.components.mzi
         name: mzi_2e88f57c
       version: 0.0.1
-    layer:
-    - 31
-    - 0
+    layer: M3
     pad_array:
       function: pad_array
     select_ports:
@@ -230,5 +217,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_2e88f57c_add_electr_202f85bf
+  name: mzi_2e88f57c_add_electr_32d54d96
 version: 0.0.1

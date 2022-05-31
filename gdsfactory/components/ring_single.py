@@ -31,7 +31,7 @@ def ring_single(
         straight: straight spec.
         bend: 90 degrees bend spec.
         cross_section: cross_section spec.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -70,7 +70,6 @@ def ring_single(
     bl = c << b
     br = c << b
     st = c << sx
-    # st.mirror(p1=(0, 0), p2=(1, 0))
 
     sl.connect(port="o1", destination=cb.ports["o2"])
     bl.connect(port="o2", destination=sl.ports["o2"])
@@ -87,10 +86,11 @@ def ring_single(
 
 if __name__ == "__main__":
     # c = ring_single(layer=(2, 0), cross_section_factory=gf.cross_section.pin, width=1)
+    # c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
+    # print(c.ports)
 
-    c = ring_single(width=2, gap=1, layer=(2, 0), radius=7, length_y=1)
-    print(c.ports)
-    c.show(show_subports=False)
+    c = gf.routing.add_fiber_array(ring_single)
+    c.show()
 
     # cc = gf.add_pins(c)
     # print(c.settings)

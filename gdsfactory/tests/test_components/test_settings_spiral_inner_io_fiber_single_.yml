@@ -11,15 +11,13 @@ settings:
     child: null
     default:
       N: 6
-      bend180_function:
+      bend180:
         function: bend_euler
         settings:
           angle: 180
-      bend90_function:
+      bend90:
         function: bend_euler
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
       cross_section_bend: null
       grating_spacing: 127
       length: null
@@ -32,15 +30,13 @@ settings:
       y_straight_inner_top: 50
     full:
       N: 6
-      bend180_function:
+      bend180:
         function: bend_euler
         settings:
           angle: 180
-      bend90_function:
+      bend90:
         function: bend_euler
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
       cross_section_bend: null
       grating_spacing: 200
       length: null
@@ -58,9 +54,7 @@ settings:
     module: gdsfactory.components.spiral_inner_io
     name: spiral_inner_io_50517bc3
   default:
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
@@ -69,9 +63,7 @@ settings:
     y_straight_inner_bottom: 0
     y_straight_inner_top: 10
   full:
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     cross_section_bend: null
     cross_section_ports: null
     grating_spacing: 200
