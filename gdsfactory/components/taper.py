@@ -46,8 +46,8 @@ def taper(
     y1 = width1 / 2
     y2 = width2 / 2
 
-    x1 = x.get_copy(width=width1)
-    x2 = x.get_copy(width=width2)
+    x1 = x.copy(width=width1)
+    x2 = x.copy(width=width2)
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
