@@ -1,5 +1,4 @@
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.libraries import siepic
 
 
 def ring_double_siepic(
@@ -8,9 +7,9 @@ def ring_double_siepic(
     length_x=4,
     bend_radius=5,
     length_y=2,
-    coupler=siepic.ebeam_dc_halfring_straight,
-    straight=siepic.ebeam_wg_integral_1550,
-    terminator=siepic.ebeam_terminator_te1550,
+    coupler=siepic.DirectionalCoupler,
+    straight=siepic.Waveguide,
+    terminator=siepic.Terminator,
 ):
     r"""Return double bus ring made of two couplers (ct: top, cb: bottom).
 
@@ -41,32 +40,32 @@ def ring_double_siepic(
     """
     straight = straight() if callable(straight) else straight
     coupler = coupler() if callable(coupler) else coupler
+    ct = cb = coupler
+    wl = wr = straight
 
-    # Create the circuit, add all individual instances
-    circuit = Subcircuit("mzi")
-    circuit.add([(coupler, "ct"), (coupler, "cb"), (straight, "wl"), (straight, "wr")])
+    cb.rename_pins("n2", "n1", "n4", "n3")
+    ct.rename_pins("n2", "n1", "n4", "n3")
+    wl.rename_pins("n1", "n2")
+    wr.rename_pins("n1", "n2")
 
-    # Circuits can be connected using the elements' string names:
-    circuit.connect_many(
-        [
-            ("cb", "n1", "wl", "n1"),
-            ("wl", "n2", "ct", "n2"),
-            ("ct", "n4", "wr", "n1"),
-            ("wr", "n2", "cb", "n3"),
-        ]
-    )
-    circuit.elements["cb"].pins["n2"] = "input"
-    circuit.elements["cb"].pins["n4"] = "output"
-    circuit.elements["ct"].pins["n1"] = "drop"
-    circuit.elements["ct"].pins["n3"] = "cdrop"
-    return circuit
+    ct["n2"].connect(wl["n2"])
+    ct["n4"].connect(wr["n1"])
+    cb["n1"].connect(wl["n1"])
+    cb["n3"].connect(wr["n2"])
+
+    cb["n2"].rename("input")
+    cb["n4"].rename("output")
+    ct["n1"].rename("drop")
+    ct["n3"].rename("cdrop")
+
+    return cb.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
-    from gdsfactory.simulationsimphony import plot_circuit
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = ring_double_siepic()
-    plot_circuit(c)
+    plot_circuit(c, pin_in="input", pins_out=("output",))
     plt.show()
