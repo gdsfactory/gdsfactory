@@ -43,13 +43,14 @@ class Pdk(BaseModel):
         cells: pcells.
         layers: layers dict.
         containers: pcells that contain other cells.
-        base_pdk: pdk.
+        base_pdk: a pdk to copy from and extend.
+        default_decorator: the default decorator to use for all cells in this PDK, if not otherwise defined on the cell.
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
-    layers: Dict[str, Layer] = Field(default_factory=list)
+    layers: Dict[str, Layer] = Field(default_factory=dict)
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
@@ -67,6 +68,13 @@ class Pdk(BaseModel):
             _containers = self.base_pdk.containers
             _containers |= self.containers
             self.containers |= _containers
+
+            _layers = self.base_pdk.layers
+            _layers |= self.layers
+            self.layers |= _layers
+
+            if not self.default_decorator:
+                self.default_decorator = self.base_pdk.default_decorator
         set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
