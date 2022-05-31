@@ -54,7 +54,13 @@ def coupler_ring(
     length = length_x * 1e3
     radius *= 1e3
 
-    s = HalfRacetrack(
+    width *= 1e-6
+    thickness *= 1e-6
+    gap *= 1e-6
+    length = length_x * 1e-6
+    radius *= 1e-6
+
+    model = sipann.HalfRacetrack(
         radius=radius,
         width=width,
         thickness=thickness,
