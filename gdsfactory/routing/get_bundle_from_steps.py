@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import numpy as np
 
@@ -6,11 +6,17 @@ import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.taper import taper as taper_function
+from gdsfactory.components.via_corner import via_corner
 from gdsfactory.components.wire import wire_corner
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
-from gdsfactory.types import ComponentSpec, CrossSectionSpec, Route
+from gdsfactory.types import (
+    ComponentSpec,
+    CrossSectionSpec,
+    MultiCrossSectionAngleSpec,
+    Route,
+)
 
 
 def get_bundle_from_steps(
@@ -20,7 +26,7 @@ def get_bundle_from_steps(
     bend: ComponentSpec = bend_euler,
     straight: ComponentSpec = straight_function,
     taper: Optional[ComponentSpec] = taper_function,
-    cross_section: CrossSectionSpec = "strip",
+    cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     sort_ports: bool = True,
     separation: Optional[float] = None,
     **kwargs
@@ -32,16 +38,16 @@ def get_bundle_from_steps(
     and a more convenient version of `get_bundle_from_waypoints`
 
     Args:
-        port1: start ports (list or dict)
-        port2: end ports (list or dict)
-        steps: changes that define the route [{'dx': 5}, {'dy': 10}]
-        bend: function that returns bends
-        straight: function that returns straight waveguides
-        taper: function that returns tapers
-        cross_section: for routes
-        sort_ports: if True sort ports
-        separation: center to center, defaults to ports1 separation
-        kwargs: cross_section settings
+        port1: start ports (list or dict).
+        port2: end ports (list or dict).
+        steps: changes that define the route [{'dx': 5}, {'dy': 10}].
+        bend: function that returns bends.
+        straight: function that returns straight waveguides.
+        taper: function that returns tapers.
+        cross_section: for routes.
+        sort_ports: if True sort ports.
+        separation: center to center, defaults to ports1 separation.
+        kwargs: cross_section settings.
 
     .. plot::
         :include-source:
@@ -105,27 +111,30 @@ def get_bundle_from_steps(
     x2, y2 = port2.midpoint
     orientation = port2.orientation
 
+    # if orientation is None:
+    #     waypoints += [(x2, y2)]
+
     if int(orientation) in {0, 180}:
         waypoints += [(x, y2)]
     elif int(orientation) in {90, 270}:
         waypoints += [(x2, y)]
-
-    x = gf.get_cross_section(cross_section, **kwargs)
-    auto_widen = x.auto_widen
-    width1 = x.width
-    width2 = x.width_wide if auto_widen else width1
-    taper_length = x.taper_length
     waypoints = np.array(waypoints)
 
-    if auto_widen:
-        taper = gf.get_component(
-            taper,
-            length=taper_length,
-            width1=width1,
-            width2=width2,
-            cross_section=cross_section,
-            **kwargs,
-        )
+    if not isinstance(cross_section, list):
+        x = gf.get_cross_section(cross_section, **kwargs)
+        auto_widen = x.auto_widen
+
+        if auto_widen:
+            taper = gf.get_component(
+                taper,
+                length=x.taper_length,
+                width1=x.width,
+                width2=x.width_wide,
+                cross_section=cross_section,
+                **kwargs,
+            )
+        else:
+            taper = None
     else:
         taper = None
 
@@ -144,6 +153,15 @@ def get_bundle_from_steps(
 
 get_bundle_from_steps_electrical = gf.partial(
     get_bundle_from_steps, bend=wire_corner, cross_section=gf.cross_section.metal3
+)
+
+get_bundle_from_steps_electrical_multilayer = gf.partial(
+    get_bundle_from_steps,
+    bend=via_corner,
+    cross_section=[
+        (gf.cross_section.metal2, (90, 270)),
+        (gf.cross_section.metal3, (0, 180)),
+    ],
 )
 
 
@@ -188,7 +206,7 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((300, 500))
 
-    routes = gf.routing.get_bundle_from_steps_electrical(
+    routes = get_bundle_from_steps_electrical_multilayer(
         pb.ports, pt.ports, end_straight_length=60, separation=30, steps=[{"dy": 100}]
     )
 

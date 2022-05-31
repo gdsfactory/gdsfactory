@@ -16,10 +16,10 @@ def straight_array(
     useful to align the 4 corners of the chip
 
     Args:
-        n: number of straights
-        spacing: edge to edge straight spacing
-        straigth: straigth straight Component or library
-        **kwargs
+        n: number of straights.
+        spacing: edge to edge straight spacing.
+        straigth: straigth straight Component or library.
+        kwargs: straigth settings.
     """
 
     c = Component()

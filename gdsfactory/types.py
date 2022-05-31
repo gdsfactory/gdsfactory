@@ -71,6 +71,8 @@ Ints = Tuple[int, ...]
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+LayerSpec = Union[Layer, int, str, None]
+LayerSpecs = Tuple[LayerSpec, ...]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]
@@ -87,12 +89,15 @@ ComponentOrPath = Union[Component, PathType]
 CrossSectionFactory = Callable[..., CrossSection]
 CrossSectionOrFactory = Union[CrossSection, Callable[..., CrossSection]]
 PortSymmetries = Dict[str, Dict[str, List[str]]]
+PortsDict = Dict[str, Port]
+PortsList = Dict[str, Port]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 
 class Route(BaseModel):
@@ -221,6 +226,7 @@ __all__ = (
     "Coordinates",
     "CrossSectionFactory",
     "CrossSectionOrFactory",
+    "MultiCrossSectionAngleSpec",
     "Float2",
     "Float3",
     "Floats",

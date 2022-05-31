@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.components.text import text
-from gdsfactory.types import Anchor, Layer
+from gdsfactory.types import Anchor, LayerSpec
 
 Coordinate = Union[Tuple[float, float], Tuple[int, int]]
 
@@ -17,7 +17,7 @@ def die_bbox_frame(
     die_name: Optional[str] = None,
     text_size: float = 100.0,
     text_anchor: Anchor = "sw",
-    layer: Layer = (49, 0),
+    layer: LayerSpec = "M3",
     padding: float = 10.0,
 ) -> gf.Component:
     """Return boundary box frame. Perfect for defining dicing lanes.

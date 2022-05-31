@@ -3,9 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:
@@ -16,9 +14,7 @@ settings:
     - 1
     pitch: 127
   full:
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     grating_coupler:
       function: grating_coupler_elliptical_trenches
       settings:

@@ -4,16 +4,12 @@ settings:
   child: null
   default:
     angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
+    layer: WG
     radius: 10
     width: 0.5
   full:
     angle_resolution: 2.5
-    layer:
-    - 1
-    - 0
+    layer: WG
     radius: 10
     width: 0.5
   function_name: ring

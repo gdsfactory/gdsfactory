@@ -1,9 +1,7 @@
-name: grating_coupler_ellipti_2e0a058f
+name: grating_coupler_ellipti_92eb3d05
 settings:
   changed:
-    fiber_marker_layer:
-    - 204
-    - 0
+    fiber_marker_layer: TM
     grating_line_width: 0.707
     n_periods: 16
     neff: 1.8
@@ -13,18 +11,12 @@ settings:
   child: null
   default:
     big_last_tooth: false
+    cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     grating_line_width: 0.343
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     n_periods: 30
     nclad: 1.443
     neff: 2.638
@@ -35,21 +27,14 @@ settings:
     taper_angle: 40
     taper_length: 16.6
     wavelength: 1.554
-    wg_width: 0.5
   full:
     big_last_tooth: false
+    cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 204
-    - 0
+    fiber_marker_layer: TM
     fiber_marker_width: 11
     grating_line_width: 0.707
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     n_periods: 16
     nclad: 1.443
     neff: 1.8
@@ -60,12 +45,11 @@ settings:
     taper_angle: 40
     taper_length: 30
     wavelength: 1.554
-    wg_width: 0.5
   function_name: grating_coupler_elliptical
   info:
     polarization: tm
     wavelength: 1.554
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical
-  name: grating_coupler_ellipti_2e0a058f
+  name: grating_coupler_ellipti_92eb3d05
 version: 0.0.1

@@ -12,6 +12,7 @@ skip_test = {
     "mzi_arm",
     "pack_doe",
     "pack_doe_grid",
+    "crossing",
 }
 
 cells_to_test = set(cells.keys()) - skip_test

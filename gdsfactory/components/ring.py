@@ -1,10 +1,9 @@
-from typing import Tuple
-
 import numpy as np
 from numpy import cos, pi, sin
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -12,15 +11,15 @@ def ring(
     radius: float = 10.0,
     width: float = 0.5,
     angle_resolution: float = 2.5,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Returns a ring.
 
     Args:
-        radius: ring radius
-        width: of the ring
-        angle_resolution: number of points per degree
-        layer: layer
+        radius: ring radius.
+        width: of the ring.
+        angle_resolution: number of points per degree.
+        layer: layer.
 
     """
 

@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 
@@ -6,7 +6,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
 from gdsfactory.components.taper import taper_strip_to_slab150
-from gdsfactory.types import ComponentSpec, Floats, Layer
+from gdsfactory.types import ComponentSpec, CrossSectionSpec, Floats, LayerSpec
 
 _gaps = (0.2,) * 10
 _widths = (0.5,) * 10
@@ -16,16 +16,16 @@ _widths = (0.5,) * 10
 def grating_coupler_rectangular_arbitrary_slab(
     gaps: Floats = _gaps,
     widths: Floats = _widths,
-    wg_width: float = 0.5,
     width_grating: float = 11.0,
     length_taper: float = 150.0,
-    layer: Tuple[int, int] = gf.LAYER.WG,
     polarization: str = "te",
     wavelength: float = 1.55,
     taper: ComponentSpec = taper_strip_to_slab150,
-    layer_slab: Optional[Layer] = gf.LAYER.SLAB150,
+    layer_slab: Optional[LayerSpec] = "SLAB150",
     slab_offset: float = 2.0,
-    fiber_marker_layer: Layer = gf.LAYER.TE,
+    fiber_marker_layer: LayerSpec = "TE",
+    cross_section: CrossSectionSpec = "strip",
+    **kwargs,
 ) -> Component:
     r"""Grating coupler uniform (grating with rectangular shape not elliptical).
     Therefore it needs a longer taper.
@@ -34,16 +34,16 @@ def grating_coupler_rectangular_arbitrary_slab(
     Args:
         gaps: list of gaps.
         widths: list of widths.
-        wg_width: input waveguide width.
         width_grating: um.
         length_taper: um.
-        layer: for grating teeth.
         polarization: 'te' or 'tm'.
         wavelength: in um.
         taper: function.
         layer_slab: for pedestal.
         slab_offset: from edge.
         fiber_marker_layer: layer for fiber.
+        cross_section: for input waveguide port.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -72,9 +72,13 @@ def grating_coupler_rectangular_arbitrary_slab(
                 taper_length
 
     """
-    c = Component()
+    xs = gf.get_cross_section(cross_section, **kwargs)
+    wg_width = xs.width
+    layer = xs.layer
 
-    taper = taper(
+    c = Component()
+    taper = gf.get_component(
+        taper,
         length=length_taper,
         width2=width_grating,
         width1=wg_width,
@@ -129,6 +133,10 @@ def grating_coupler_rectangular_arbitrary_slab(
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
     gf.asserts.grating_coupler(c)
+    if xs.add_bbox:
+        c = xs.add_bbox(c)
+    if xs.add_pins:
+        c = xs.add_pins(c)
     return c
 
 

@@ -6,7 +6,6 @@ import gdsfactory as gf
 from gdsfactory.components.bend_s import bend_s as bend_s_function
 from gdsfactory.components.mmi1x2 import mmi1x2
 from gdsfactory.components.mmi2x2 import mmi2x2
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Float2
 
 
@@ -17,17 +16,17 @@ def splitter_tree(
     spacing: Float2 = (90.0, 50.0),
     bend_s: Optional[ComponentSpec] = bend_s_function,
     bend_s_xsize: Optional[float] = None,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
 ) -> gf.Component:
     """Tree of power splitters.
 
     Args:
-        coupler: coupler factory
-        noutputs: number of outputs
-        spacing: x, y spacing between couplers
-        bend_s: Sbend function for termination
-        bend_s_xsize: xsize for the sbend
-        cross_section: cross_section
+        coupler: coupler factory.
+        noutputs: number of outputs.
+        spacing: x, y spacing between couplers.
+        bend_s: Sbend function for termination.
+        bend_s_xsize: xsize for the sbend.
+        cross_section: cross_section.
 
     .. code::
 
@@ -43,7 +42,7 @@ def splitter_tree(
 
     dx, dy = spacing
 
-    coupler = coupler()
+    coupler = gf.get_component(coupler)
     coupler_ports_west = coupler.get_ports_list(port_type="optical", orientation=180)
     coupler_ports_east = coupler.get_ports_list(port_type="optical", orientation=0)
 
@@ -58,7 +57,8 @@ def splitter_tree(
         )
         bend_s_ysize = dy / 4 - dy_coupler_ports / 2
         bend_s_xsize = bend_s_xsize or dx
-        bend_s = bend_s(
+        bend_s = gf.get_component(
+            bend_s,
             cross_section=cross_section,
             size=(bend_s_xsize, bend_s_ysize),
         )

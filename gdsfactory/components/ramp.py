@@ -2,7 +2,7 @@ from typing import Optional
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -10,7 +10,7 @@ def ramp(
     length: float = 10.0,
     width1: float = 5.0,
     width2: Optional[float] = 8.0,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Return a ramp component. Based on phidl.
 

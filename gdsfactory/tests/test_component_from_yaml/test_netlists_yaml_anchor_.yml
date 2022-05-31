@@ -15,7 +15,7 @@ placements:
   mmi_long:
     mirror: false
     rotation: 0
-    x: 20.0
+    x: 20.001
     y: 12.875
   mmi_short:
     mirror: false

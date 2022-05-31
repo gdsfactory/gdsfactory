@@ -17,7 +17,7 @@ from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "5.6.8"
+VERSION = "5.8.2"
 log_directory = CONFIG.get("log_directory")
 LAYER_LABEL = LAYER.LABEL
 

@@ -5,12 +5,9 @@ settings:
   default:
     layer_port: null
     layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
+    - M1
+    - M2
+    - M3
     size:
     - 11.0
     - 11.0
@@ -18,23 +15,16 @@ settings:
     - function: via
       settings:
         enclosure: 2
-        layer:
-        - 44
-        - 0
+        layer: VIA1
     - function: via
       settings:
-        layer:
-        - 43
-        - 0
+        layer: VIA2
   full:
     layer_port: null
     layers:
-    - - 41
-      - 0
-    - - 45
-      - 0
-    - - 49
-      - 0
+    - M1
+    - M2
+    - M3
     size:
     - 11.0
     - 11.0
@@ -42,19 +32,13 @@ settings:
     - function: via
       settings:
         enclosure: 2
-        layer:
-        - 44
-        - 0
+        layer: VIA1
     - function: via
       settings:
-        layer:
-        - 43
-        - 0
+        layer: VIA2
   function_name: via_stack
   info:
-    layer:
-    - 49
-    - 0
+    layer: M3
     size:
     - 11.0
     - 11.0

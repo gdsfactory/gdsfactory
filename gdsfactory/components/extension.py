@@ -180,11 +180,20 @@ def test_extend_ports() -> Component:
     import gdsfactory.components as pc
 
     width = 0.5
-    xs_strip = gf.partial(gf.cross_section.strip, width=width)
+    xs_strip = gf.partial(
+        gf.cross_section.strip,
+        width=width,
+        cladding_layers=None,
+        add_pins=None,
+        add_bbox=None,
+    )
 
     c = pc.cross(width=width, port_type="optical")
 
-    c1 = extend_ports(component=c, cross_section=xs_strip)
+    c1 = extend_ports(
+        component=c,
+        cross_section=xs_strip,
+    )
     assert len(c.ports) == len(c1.ports)
     p = len(c1.polygons)
     assert p == 4, p

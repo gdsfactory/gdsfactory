@@ -4,9 +4,8 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
-from gdsfactory.types import CrossSectionSpec, Layer
+from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 
 @cell
@@ -16,7 +15,8 @@ def taper(
     width2: Optional[float] = None,
     port: Optional[Port] = None,
     with_bbox: bool = False,
-    cross_section: CrossSectionSpec = strip,
+    with_two_ports: bool = True,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Linear taper.
@@ -29,6 +29,8 @@ def taper(
         width2: width of the east port.
         port: can taper from a port instead of defining width1.
         with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        with_two_ports: includes a second port.
+            False for terminator and edge coupler fiber interface.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
         kwargs: cross_section settings.
 
@@ -44,30 +46,39 @@ def taper(
     y1 = width1 / 2
     y2 = width2 / 2
 
-    x1 = x.get_copy(width=width1)
-    x2 = x.get_copy(width=width2)
+    x1 = x.copy(width=width1)
+    x2 = x.copy(width=width2)
 
     xpts = [0, length, length, 0]
     ypts = [y1, y2, -y2, -y1]
 
     c = gf.Component()
     c.add_polygon((xpts, ypts), layer=layer)
+
+    if x.cladding_layers and x.cladding_offsets:
+        for layer, offset in zip(x.cladding_layers, x.cladding_offsets):
+            y1 = width1 / 2 + offset
+            y2 = width2 / 2 + offset
+            ypts = [y1, y2, -y2, -y1]
+            c.add_polygon((xpts, ypts), layer=gf.get_layer(layer))
+
     c.add_port(
         name="o1",
-        midpoint=[0, 0],
+        midpoint=(0, 0),
         width=width1,
         orientation=180,
-        layer=layer,
+        layer=x.layer,
         cross_section=x1,
     )
-    c.add_port(
-        name="o2",
-        midpoint=[length, 0],
-        width=width2,
-        orientation=0,
-        layer=layer,
-        cross_section=x2,
-    )
+    if with_two_ports:
+        c.add_port(
+            name="o2",
+            midpoint=(length, 0),
+            width=width2,
+            orientation=0,
+            layer=x.layer,
+            cross_section=x2,
+        )
 
     if with_bbox and length:
         padding = []
@@ -86,6 +97,11 @@ def taper(
     c.info["length"] = length
     c.info["width1"] = float(width1)
     c.info["width2"] = float(width2)
+
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
@@ -96,10 +112,10 @@ def taper_strip_to_ridge(
     width2: float = 0.5,
     w_slab1: float = 0.15,
     w_slab2: float = 6.0,
-    layer_wg: Layer = gf.LAYER.WG,
-    layer_slab: Layer = gf.LAYER.SLAB90,
-    cross_section: CrossSectionSpec = strip,
-    bbox_layers: Optional[List[Layer]] = None,
+    layer_wg: LayerSpec = "WG",
+    layer_slab: LayerSpec = "SLAB90",
+    cross_section: CrossSectionSpec = "strip",
+    bbox_layers: Optional[List[LayerSpec]] = None,
     bbox_offsets: Optional[List[float]] = None,
 ) -> Component:
     r"""Linear taper from strip to rib
@@ -107,14 +123,14 @@ def taper_strip_to_ridge(
     Deprecated, use gf.components.taper_cross_section instead
 
     Args:
-        length:
-        width1:
-        width2:
-        w_slab1
-        w_slab2
-        layer_wg:
-        layer_slab:
-        cross_section: for input waveguide
+        length: taper length (um).
+        width1: in um.
+        width2: in um.
+        w_slab1: slab width in um.
+        w_slab2: slab width in um.
+        layer_wg: for input waveguide.
+        layer_slab: for output waveguide with slab.
+        cross_section: for input waveguide.
 
     .. code::
 
@@ -170,6 +186,10 @@ def taper_strip_to_ridge(
         for layer, points in zip(x.bbox_layers, padding):
             c.add_polygon(points, layer=layer)
 
+    if x.add_bbox:
+        c = x.add_bbox(c)
+    if x.add_pins:
+        c = x.add_pins(c)
     return c
 
 
@@ -179,20 +199,20 @@ def taper_strip_to_ridge_trenches(
     width: float = 0.5,
     slab_offset: float = 3.0,
     trench_width: float = 2.0,
-    trench_layer: Layer = gf.LAYER.SLAB90,
-    layer_wg: Layer = gf.LAYER.WG,
+    trench_layer: LayerSpec = "SLAB90",
+    layer_wg: LayerSpec = "WG",
     trench_offset: float = 0.1,
 ) -> gf.Component:
     """Defines taper using trenches to define the etch.
 
     Args:
-        length:
-        width:
-        slab_offset:
-        trench_width:
-        trench_layer:
-        layer_wg:
-        trench_offset: after waveguide
+        length: in um.
+        width: in um.
+        slab_offset: in um.
+        trench_width: in um.
+        trench_layer: trench layer.
+        layer_wg: waveguide layer.
+        trench_offset: after waveguide in um.
 
     """
 
@@ -216,21 +236,21 @@ def taper_strip_to_ridge_trenches(
     c.add_polygon((x, ytt), layer=trench_layer)
     c.add_polygon((x, ytb), layer=trench_layer)
 
-    c.add_port(name="o1", midpoint=[0, 0], width=width, orientation=180, layer=layer_wg)
+    c.add_port(name="o1", midpoint=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
-        name="o2", midpoint=[length, 0], width=width, orientation=0, layer=layer_wg
+        name="o2", midpoint=(length, 0), width=width, orientation=0, layer=layer_wg
     )
 
     return c
 
 
-taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab=gf.LAYER.SLAB150)
+taper_strip_to_slab150 = gf.partial(taper_strip_to_ridge, layer_slab="SLAB150")
 
 # taper StripCband to NitrideCband
 taper_sc_nc = gf.partial(
     taper_strip_to_ridge,
-    layer_wg=gf.LAYER.WG,
-    layer_slab=gf.LAYER.WGN,
+    layer_wg="WG",
+    layer_slab="WGN",
     length=20.0,
     width1=0.5,
     width2=0.15,
@@ -240,7 +260,7 @@ taper_sc_nc = gf.partial(
 
 
 if __name__ == "__main__":
-    # c = taper(width2=1)
+    c = taper(width2=1)
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
@@ -249,5 +269,6 @@ if __name__ == "__main__":
     # c = gf.components.taper_strip_to_ridge(width1=1, width2=2)
     # c = gf.components.extend_ports(c)
     # c = taper_strip_to_ridge_trenches()
-    c = taper_sc_nc()
+    # c = taper()
+    # c = taper_sc_nc()
     c.show()

@@ -4,34 +4,18 @@ settings:
   child: null
   default:
     L: 3.4
-    cross_section:
-      function: cross_section
-      settings: {}
-    layer_slab:
-    - 2
-    - 0
-    layer_wg:
-    - 1
-    - 0
+    cross_section: strip
+    layer_slab: SLAB150
     r1: 3
     r2: 1.1
     w: 1.2
-    width: 0.5
   full:
     L: 3.4
-    cross_section:
-      function: cross_section
-      settings: {}
-    layer_slab:
-    - 2
-    - 0
-    layer_wg:
-    - 1
-    - 0
+    cross_section: strip
+    layer_slab: SLAB150
     r1: 3
     r2: 1.1
     w: 1.2
-    width: 0.5
   function_name: crossing_arm
   info: {}
   info_version: 2

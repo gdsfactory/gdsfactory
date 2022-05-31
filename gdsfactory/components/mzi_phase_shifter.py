@@ -11,10 +11,8 @@ mzi_phase_shifter_top_heater_metal = gf.partial(
 )
 
 if __name__ == "__main__":
-    c = mzi_phase_shifter(splitter="mmi2x2")
-
+    # c = mzi_phase_shifter(splitter="mmi2x2")
     # c = mzi_phase_shifter_top_heater_metal(splitter="mmi2x2")
-
     # c = mzi_phase_shifter(splitter='mmi2x2')
     # c = mzi_phase_shifter(
     #     straight_x_top=gf.components.straight_pin, straight_x_bot=gf.components.straight_pin
@@ -26,5 +24,8 @@ if __name__ == "__main__":
     #     length_x=600,
     # )
     # c = mzi_phase_shifter()
+
+    # c = mzi_phase_shifter()
+    c = mzi_phase_shifter()
     c.show()
     print(c.name)

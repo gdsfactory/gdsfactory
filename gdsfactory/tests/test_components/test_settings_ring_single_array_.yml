@@ -8,10 +8,10 @@ settings:
       radius: 5.0
     - length_x: 20.0
       radius: 10.0
-    ring_function:
+    ring:
       function: ring_single
     spacing: 5
-    straight_function:
+    straight:
       function: straight
   full:
     list_of_dicts:
@@ -19,10 +19,10 @@ settings:
       radius: 5.0
     - length_x: 20.0
       radius: 10.0
-    ring_function:
+    ring:
       function: ring_single
     spacing: 5
-    straight_function:
+    straight:
       function: straight
   function_name: ring_single_array
   info: {}

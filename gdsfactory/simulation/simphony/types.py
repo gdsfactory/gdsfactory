@@ -1,6 +1,6 @@
 from typing import Callable
 
-from simphony import Model
+from simphony.elements import Model
 
 ModelFactory = Callable[..., Model]
 

@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import gdsfactory as gf
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -10,7 +11,7 @@ def litho_ruler(
     spacing: float = 2.0,
     scale: Tuple[float] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
     num_marks: int = 21,
-    layer: Tuple[int, int] = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> gf.Component:
     """Creates a ruler structure for lithographic measurement with marks of
     varying scales to allow for easy reading by eye.

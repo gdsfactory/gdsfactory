@@ -1,18 +1,17 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.via_stack import via_stack_heater_m3
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Layer, Optional
+from gdsfactory.types import ComponentSpec, LayerSpec, Optional
 
 
 @gf.cell
 def straight_heater_meander(
     length: float = 300.0,
     spacing: float = 2.0,
-    cross_section: gf.types.CrossSectionSpec = gf.cross_section.strip,
+    cross_section: gf.types.CrossSectionSpec = "strip",
     heater_width: float = 2.5,
     extension_length: float = 15.0,
-    layer_heater: Optional[Layer] = LAYER.HEATER,
+    layer_heater: LayerSpec = "HEATER",
     radius: float = 5.0,
     via_stack: Optional[ComponentSpec] = via_stack_heater_m3,
     port_orientation1: int = 180,
@@ -30,19 +29,19 @@ def straight_heater_meander(
     FIXME: only works for 3 rows.
 
     Args:
-        length: total length of the optical path
-        spacing: waveguide spacing (center to center)
-        cross_section: for waveguide
-        heater_width: for heater
-        extension_length: of input and output optical ports
-        layer_heater: for top heater, if None, it does not add a heater
-        radius: for the meander bends
-        via_stack: for the heater to via_stack metal
-        port_orientation1:
-        port_orientation2:
-        heater_taper_length: minimizes current concentrations from heater to via_stack
-        straight_width: width of the straight section
-        taper_length: from the cross_section
+        length: total length of the optical path.
+        spacing: waveguide spacing (center to center).
+        cross_section: for waveguide.
+        heater_width: for heater.
+        extension_length: of input and output optical ports.
+        layer_heater: for top heater, if None, it does not add a heater.
+        radius: for the meander bends.
+        via_stack: for the heater to via_stack metal.
+        port_orientation1: in degrees.
+        port_orientation2: in degrees.
+        heater_taper_length: minimizes current concentrations from heater to via_stack.
+        straight_width: width of the straight section.
+        taper_length: from the cross_section.
     """
     rows = 3
     c = Component()
@@ -57,7 +56,7 @@ def straight_heater_meander(
     )
     route = gf.routing.get_route(p1, p2, radius=radius)
 
-    cross_section1 = gf.partial(cross_section, width=straight_width)
+    cross_section1 = x.copy(width=straight_width)
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)

@@ -11,12 +11,11 @@ settings:
       function: mmi2x2
   child: null
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     combiner: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -25,8 +24,7 @@ settings:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
-    splitter:
-      function: mmi1x2
+    splitter: mmi1x2
     straight:
       function: straight
     straight_x_bot: null
@@ -34,13 +32,12 @@ settings:
     straight_y: null
     with_splitter: true
   full:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     combiner:
       function: mmi2x2
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2

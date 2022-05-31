@@ -23,11 +23,9 @@ settings:
     bend:
       function: bend_euler
     fanout_length: 0
-    grating_coupler_function:
+    grating_coupler:
       function: grating_coupler_elliptical
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     n: 4
     straight_spacing: 4
     with_loopback: false
@@ -35,11 +33,9 @@ settings:
     bend:
       function: bend_euler
     fanout_length: 0
-    grating_coupler_function:
+    grating_coupler:
       function: grating_coupler_elliptical
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     n: 4
     straight_spacing: 4
     with_loopback: false

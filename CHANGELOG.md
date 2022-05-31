@@ -1,5 +1,73 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.8.3
+
+- update to latest simphony
+
+## 5.8.2
+
+- Fix factory default for Pdk.layers [PR](https://github.com/gdsfactory/gdsfactory/pull/418)
+- Use shapely's implementation of simplify when extruding paths [PR](https://github.com/gdsfactory/gdsfactory/pull/419)
+- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/415) with fill
+- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/417) where copying a cross_section, does not include `add_bbox`, `add_pins` and `decorator`
+
+## [5.8.1](https://github.com/gdsfactory/gdsfactory/pull/414)
+
+- add layers as a default empty dict for Pdk
+- improve documentation
+- mzi uses straight function instead of 'straight' string
+
+## 5.8.0
+
+- works with siepic verification [PR](https://github.com/gdsfactory/gdsfactory/pull/410)
+    - cross_section has optional add_pins and add_bbox, which can be used for verification.
+        - add `cladding_layers` and `cladding_offset`.
+        - cladding_layers follow path shape, while bbox_layers are rectangular.
+    - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
+    - add `with_two_ports` to taper. False for edge couplers and terminators.
+    - fix ring_double_heater open in the heater top waveguide.
+- Make pdk from existing pdk [PR](https://github.com/gdsfactory/gdsfactory/pull/406)
+- add events module and events relating to Pdk modifications [PR](https://github.com/gdsfactory/gdsfactory/pull/412)
+    - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
+- add LayerSpec as Union[int, Tuple[int,int], str, None] [PR](https://github.com/gdsfactory/gdsfactory/pull/413/)
+    - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
+
+## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
+
+- add cross_section_bot and cross_section_top to mzi, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/402)
+- add electrical ports to heater cross_sections, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/394)
+
+## [5.7.0](https://github.com/gdsfactory/gdsfactory/pull/400)
+
+- tidy3d mode solver accepts ncore and nclad floats.
+- add file cache to tidy3d to `gt.modes.find_modes`
+- fix get_bundle [issue](https://github.com/gdsfactory/gdsfactory/issues/396)
+- clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)
+- fix N/S routing in route_ports_to_side [PR](https://github.com/gdsfactory/gdsfactory/pull/395)
+- Add basic multilayer electrical routing to most routing functions [PR](https://github.com/gdsfactory/gdsfactory/pull/392)
+   - Use via_corner instead of wire_corner for bend function
+   - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
+   - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
+
+## [5.6.12](https://github.com/gdsfactory/gdsfactory/pull/397)
+
+- improve types and docs
+
+## [5.6.11](https://github.com/gdsfactory/gdsfactory/pull/391)
+
+- add python3.6 deprecation notice in the docs [issue](https://github.com/gdsfactory/gdsfactory/issues/384)
+- add edge_coupler, edge_coupler_array and edge_coupler_array_with_loopback
+- add python3.10 tests
+
+## [5.6.10](https://github.com/gdsfactory/gdsfactory/pull/390)
+
+- add_fiber_single and add_fiber_array tries to add port with `vertical` prefix to the new component. It not adds the regular first port. This Keeps backwards compatibility with grating couplers that have no defined verical ports.
+- rename spiral_inner_io functions
+
+## [5.6.9](https://github.com/gdsfactory/gdsfactory/pull/389)
+
+-  add_port_from_marker function only allows for ports to be created parallel to the long side of the pin marker. [PR](https://github.com/gdsfactory/gdsfactory/pull/386)
+
 ## [5.6.7](https://github.com/gdsfactory/gdsfactory/pull/385)
 
 - fix some pydocstyle errors

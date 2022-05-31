@@ -6,11 +6,11 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.text import text
 from gdsfactory.config import __version__
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
-def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
+def pixel(size: int = 1.0, layer: LayerSpec = "WG") -> Component:
     c = gf.Component()
     a = size / 2
     c.add_polygon([(a, a), (a, -a), (-a, -a), (-a, a)], layer)
@@ -18,9 +18,7 @@ def pixel(size: int = 1.0, layer: Tuple[int, int] = LAYER.WG) -> Component:
 
 
 @gf.cell
-def qrcode(
-    data: str = "mask01", psize: int = 1, layer: Tuple[int, int] = LAYER.WG
-) -> Component:
+def qrcode(data: str = "mask01", psize: int = 1, layer: LayerSpec = "WG") -> Component:
     """Returns QRCode."""
     import qrcode
 
@@ -42,7 +40,7 @@ def qrcode(
 def version_stamp(
     labels: Tuple[str, ...] = ("demo_label",),
     with_qr_code: bool = False,
-    layer: Tuple[int, int] = LAYER.WG,
+    layer: LayerSpec = "WG",
     pixel_size: int = 1,
     version: Optional[str] = __version__,
     text_size: int = 10,
@@ -95,7 +93,7 @@ def version_stamp(
 if __name__ == "__main__":
     c = version_stamp(
         pixel_size=4,
-        layer=LAYER.M1,
+        layer="M1",
         with_qr_code=True,
         # text=["b1", "demo"],
         text_size=20,

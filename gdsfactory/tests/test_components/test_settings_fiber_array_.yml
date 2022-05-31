@@ -5,23 +5,15 @@ settings:
   default:
     cladding_diameter: 125
     core_diameter: 10
-    layer_cladding:
-    - 111
-    - 0
-    layer_core:
-    - 1
-    - 0
+    layer_cladding: WGCLAD
+    layer_core: WG
     n: 8
     pitch: 127
   full:
     cladding_diameter: 125
     core_diameter: 10
-    layer_cladding:
-    - 111
-    - 0
-    layer_core:
-    - 1
-    - 0
+    layer_cladding: WGCLAD
+    layer_core: WG
     n: 8
     pitch: 127
   function_name: fiber_array

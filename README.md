@@ -1,4 +1,4 @@
-# gdsfactory 5.6.8
+# gdsfactory 5.8.2
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![pypi](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -31,7 +31,7 @@ It enables both layout and netlist driven flows and is all code driven.
 
 As input, you write python or YAML code.
 
-As output it creates a GDSII file which is the most common filetype used by CMOS foundries.
+As output it creates a GDSII file which is the most common file format used by CMOS foundries.
 It also can output components settings (that you can use for measurement and data analysis) or netlists (for circuit simulations). And you can easily adapt any outputs to your needs, thanks to being all natively written in python.
 
 ![](https://i.imgur.com/XbhWJDz.png)
@@ -46,7 +46,7 @@ gdsfactory is based on phidl, gdspy and klayout.
 
 - Run notebooks on [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD)
 - [see slides](https://docs.google.com/presentation/d/1_ZmUxbaHWo_lQP17dlT1FWX-XD8D9w7-FcuEih48d_0/edit#slide=id.g11711f50935_0_5)
-- [read online docs](https://gdsfactory.github.io/gdsfactory/)
+- [read docs](https://gdsfactory.github.io/gdsfactory/)
 
 ## Acks
 
@@ -60,6 +60,7 @@ gdsfactory top contributors:
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters
 - Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path
+- Igal Bayn (Google): for documentation improvements and suggestions.
 
 Open source heroes:
 

@@ -34,19 +34,16 @@ cells:
       length: 1.234
       npoints: 2
       with_bbox: false
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
     changed:
       length: 1.234
     default:
       length: 10
       npoints: 2
       with_bbox: false
-      cross_section:
-        function: cross_section
-        settings: {}
+      cross_section: strip
     child: null
+name: straight_189d2d09
 version: 0.0.1
 settings:
   name: straight_189d2d09
@@ -60,16 +57,12 @@ settings:
     length: 1.234
     npoints: 2
     with_bbox: false
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
   changed:
     length: 1.234
   default:
     length: 10
     npoints: 2
     with_bbox: false
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
   child: null

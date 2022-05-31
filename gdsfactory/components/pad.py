@@ -5,15 +5,14 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.compass import compass
-from gdsfactory.tech import LAYER
-from gdsfactory.types import ComponentSpec, Layer
+from gdsfactory.types import ComponentSpec, LayerSpec
 
 
 @cell
 def pad(
     size: Tuple[float, float] = (100.0, 100.0),
-    layer: Layer = LAYER.M3,
-    bbox_layers: Optional[Tuple[Layer, ...]] = None,
+    layer: LayerSpec = "M3",
+    bbox_layers: Optional[Tuple[LayerSpec, ...]] = None,
     bbox_offsets: Optional[Tuple[float, ...]] = None,
     port_inclusion: float = 0,
     port_orientation: Optional[float] = 0,
@@ -21,7 +20,7 @@ def pad(
     """Returns rectangular pad with 4 ports (1, 2, 3, 4).
 
     Args:
-        size: x,y size.
+        size: x, y size.
         layer: pad layer.
         bbox_layers: list of layers.
         bbox_offsets: list of offsets.
@@ -29,6 +28,7 @@ def pad(
         port_orientation: in degrees.
     """
     c = Component()
+    layer = gf.get_layer(layer)
     rect = compass(size=size, layer=layer, port_inclusion=port_inclusion)
     c_ref = c.add_ref(rect)
     c.add_ports(c_ref.ports)
