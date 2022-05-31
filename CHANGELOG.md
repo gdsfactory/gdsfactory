@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.8.3
+
+- update to latest simphony
+
 ## 5.8.2
 
 - Fix factory default for Pdk.layers [PR](https://github.com/gdsfactory/gdsfactory/pull/418)
