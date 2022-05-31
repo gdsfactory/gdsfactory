@@ -6,12 +6,8 @@ settings:
     bias_gap: 0
     fiber_angle: 5
     info: null
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer: WG
+    layer_slab: SLAB150
     parameters:
     - -2.4298362615732447
     - 0.1
@@ -69,12 +65,8 @@ settings:
     bias_gap: 0
     fiber_angle: 5
     info: null
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer: WG
+    layer_slab: SLAB150
     parameters:
     - -2.4298362615732447
     - 0.1

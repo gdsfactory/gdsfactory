@@ -23,20 +23,14 @@ settings:
         vias:
         - function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_spacing: 2
     via_stack_width: 10
   full:
@@ -60,20 +54,14 @@ settings:
         vias:
         - function: via
           settings:
-            layer:
-            - 40
-            - 0
+            layer: VIAC
         - function: via
           settings:
             enclosure: 2
-            layer:
-            - 44
-            - 0
+            layer: VIA1
         - function: via
           settings:
-            layer:
-            - 43
-            - 0
+            layer: VIA2
     via_stack_spacing: 2
     via_stack_width: 10
   function_name: straight_pin

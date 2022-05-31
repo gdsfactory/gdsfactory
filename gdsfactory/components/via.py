@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -10,7 +10,7 @@ def via(
     size: Tuple[float, float] = (0.7, 0.7),
     spacing: Tuple[float, float] = (2.0, 2.0),
     enclosure: float = 1.0,
-    layer: Tuple[int, int] = LAYER.VIAC,
+    layer: LayerSpec = "VIAC",
     bbox_layers: Optional[Tuple[Tuple[int, int], ...]] = None,
     bbox_offset: float = 0,
 ) -> Component:
@@ -59,9 +59,9 @@ def via(
     return c
 
 
-viac = gf.partial(via, layer=LAYER.VIAC)
-via1 = gf.partial(via, layer=LAYER.VIA1, enclosure=2)
-via2 = gf.partial(via, layer=LAYER.VIA2)
+viac = gf.partial(via, layer="VIAC")
+via1 = gf.partial(via, layer="VIA1", enclosure=2)
+via2 = gf.partial(via, layer="VIA2")
 
 
 if __name__ == "__main__":

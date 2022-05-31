@@ -1,4 +1,4 @@
-name: mzi_89c0cb48
+name: mzi_e004bb2d
 settings:
   changed:
     bend:
@@ -7,49 +7,67 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - DEVREC
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
             width: 1
-        decorator:
-          function: add_pins
         with_bbox: true
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
         width: 1
-    decorator:
-      function: add_pins
     splitter:
       function: mmi1x2
       settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - DEVREC
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
             width: 1
-        decorator:
-          function: add_pins
         width: 1
         width_mmi: 3
     straight:
@@ -58,26 +76,31 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - DEVREC
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
             width: 1
-        decorator:
-          function: add_pins
         with_bbox: true
   child: null
   default:
-    bend:
-      function: bend_euler
+    bend: bend_euler
     combiner: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
+    cross_section_x_bot: null
+    cross_section_x_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -86,8 +109,7 @@ settings:
     port_e0_splitter: o3
     port_e1_combiner: o2
     port_e1_splitter: o2
-    splitter:
-      function: mmi1x2
+    splitter: mmi1x2
     straight:
       function: straight
     straight_x_bot: null
@@ -101,33 +123,47 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - DEVREC
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
             width: 1
-        decorator:
-          function: add_pins
         with_bbox: true
     combiner: null
     cross_section:
       function: cross_section
       settings:
+        add_bbox:
+          function: add_bbox_siepic
+        add_pins:
+          function: add_pins
         bbox_layers:
         - - 36
           - 0
         bbox_offsets:
         - 3
+        cladding_layers:
+        - DEVREC
+        cladding_offsets:
+        - 0
         layer:
         - 34
         - 0
         width: 1
-    decorator:
-      function: add_pins
+    cross_section_x_bot: null
+    cross_section_x_top: null
     delta_length: 10
     length_x: 0.1
     length_y: 2
@@ -142,17 +178,23 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - DEVREC
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
             width: 1
-        decorator:
-          function: add_pins
         width: 1
         width_mmi: 3
     straight:
@@ -161,17 +203,23 @@ settings:
         cross_section:
           function: cross_section
           settings:
+            add_bbox:
+              function: add_bbox_siepic
+            add_pins:
+              function: add_pins
             bbox_layers:
             - - 36
               - 0
             bbox_offsets:
             - 3
+            cladding_layers:
+            - DEVREC
+            cladding_offsets:
+            - 0
             layer:
             - 34
             - 0
             width: 1
-        decorator:
-          function: add_pins
         with_bbox: true
     straight_x_bot: null
     straight_x_top: null
@@ -181,5 +229,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_89c0cb48
+  name: mzi_e004bb2d
 version: 0.0.1

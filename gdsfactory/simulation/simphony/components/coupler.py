@@ -1,4 +1,5 @@
-from simphony.libraries.sipann import Standard
+from SiPANN.scee import Standard
+from SiPANN.scee_int import SimphonyWrapper
 
 
 def coupler(
@@ -71,11 +72,13 @@ def coupler(
         thickness=thickness,
         gap=gap,
         length=length,
-        horizontal=H,
-        vertical=V,
+        H=H,
+        V=V,
         sw_angle=sw_angle,
     )
-    model.rename_pins("o1", "o2", "o4", "o3")
+    model = SimphonyWrapper(s)
+    model.pins = ("o1", "o2", "o4", "o3")
+    model.sipann = s
     return model
 
 

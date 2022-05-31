@@ -1,8 +1,8 @@
-name: straight_373b1ebb_add_t_1130d2b7
+name: straight_373b1ebb_add_t_7af861f9
 settings:
   changed:
     component:
-      name: straight_373b1ebb_add_t_96dd4fc5
+      name: straight_373b1ebb_add_t_0521a25f
       settings:
         changed:
           component:
@@ -13,16 +13,12 @@ settings:
                 width: 2
               child: null
               default:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
@@ -41,16 +37,12 @@ settings:
             width: 2
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 10
             npoints: 2
             with_bbox: false
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 20
             npoints: 2
             width: 2
@@ -80,16 +72,12 @@ settings:
                 width: 2
               child: null
               default:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
@@ -114,7 +102,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_96dd4fc5
+        name: straight_373b1ebb_add_t_0521a25f
       version: 0.0.1
     optical_routing_type: 0
   child:
@@ -127,16 +115,12 @@ settings:
             width: 2
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 10
             npoints: 2
             with_bbox: false
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 20
             npoints: 2
             width: 2
@@ -155,16 +139,12 @@ settings:
         width: 2
       child: null
       default:
-        cross_section:
-          function: cross_section
-          settings: {}
+        cross_section: strip
         length: 10
         npoints: 2
         with_bbox: false
       full:
-        cross_section:
-          function: cross_section
-          settings: {}
+        cross_section: strip
         length: 20
         npoints: 2
         width: 2
@@ -194,16 +174,12 @@ settings:
             width: 2
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 10
             npoints: 2
             with_bbox: false
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 20
             npoints: 2
             width: 2
@@ -228,14 +204,12 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_96dd4fc5
+    name: straight_373b1ebb_add_t_0521a25f
   default:
     bend: bend_euler
     component: mmi2x2
     component_name: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -245,19 +219,16 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     select_ports:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
+    straight: straight
   full:
     bend: bend_euler
     component:
-      name: straight_373b1ebb_add_t_96dd4fc5
+      name: straight_373b1ebb_add_t_0521a25f
       settings:
         changed:
           component:
@@ -268,16 +239,12 @@ settings:
                 width: 2
               child: null
               default:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
@@ -296,16 +263,12 @@ settings:
             width: 2
           child: null
           default:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 10
             npoints: 2
             with_bbox: false
           full:
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             length: 20
             npoints: 2
             width: 2
@@ -335,16 +298,12 @@ settings:
                 width: 2
               child: null
               default:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 10
                 npoints: 2
                 with_bbox: false
               full:
-                cross_section:
-                  function: cross_section
-                  settings: {}
+                cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
@@ -369,12 +328,10 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_96dd4fc5
+        name: straight_373b1ebb_add_t_0521a25f
       version: 0.0.1
     component_name: null
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     gc_port_labels: null
     gc_port_name: o1
     get_input_labels_function:
@@ -384,19 +341,16 @@ settings:
       settings:
         polarization: te
         taper_angle: 35
-    layer_label:
-    - 66
-    - 0
+    layer_label: TEXT
     optical_routing_type: 0
     select_ports:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
+    straight: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_1130d2b7
+  name: straight_373b1ebb_add_t_7af861f9
 version: 0.0.1

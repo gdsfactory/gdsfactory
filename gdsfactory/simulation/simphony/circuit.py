@@ -3,10 +3,12 @@ from typing import Dict
 from simphony import Model
 from simphony.layout import Circuit
 
+
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.simulation.simphony.components import model_factory
 from gdsfactory.simulation.simphony.types import ModelFactory
+
 
 
 def connect_pins(connections, model_names, components, circuit: Circuit):
@@ -49,10 +51,11 @@ def rename_pins(circuit, components):
     return circuit
 
 
+
 def component_to_circuit(
     component: Component,
     model_factory: Dict[str, ModelFactory] = model_factory,
-) -> Circuit:
+) -> Subcircuit:
     """Returns Simphony circuit from a gdsfactory component netlist.
 
     Args:

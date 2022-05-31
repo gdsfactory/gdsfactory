@@ -1,12 +1,11 @@
 import inspect
-from typing import Tuple
+from typing import List, Tuple
 
 import gdsfactory as gf
 from gdsfactory.add_labels import get_input_label
 from gdsfactory.cell import cell
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.routing.manhattan import round_corners
@@ -19,9 +18,9 @@ def connect_loopback(
     a: float,
     b: float,
     y_bot_align_route: float,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
-) -> ComponentReference:
+) -> List[ComponentReference]:
     p0 = port0.position
     p1 = port1.position
     points = [
@@ -46,7 +45,7 @@ def loss_deembedding_ch13_24(
     pitch: float = 127.0,
     grating_coupler: ComponentSpec = grating_coupler_te,
     input_port_indexes: Tuple[int, ...] = (0, 1),
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Grating coupler test structure for fiber array.
@@ -61,7 +60,7 @@ def loss_deembedding_ch13_24(
         kwargs: cross_section settings.
     """
 
-    gc = grating_coupler()
+    gc = gf.get_component(grating_coupler)
     c = gf.Component()
     dx = pitch
     gcs = [gc.ref(position=(i * dx, 0), port_id="o1", rotation=-90) for i in range(4)]
@@ -80,7 +79,7 @@ def loss_deembedding_ch13_24(
         ).references
     )
 
-    x = cross_section(**kwargs)
+    x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
     gsi = gc.size_info
@@ -117,13 +116,15 @@ def loss_deembedding_ch12_34(
     Connects channel 1->2, 3->4
 
     Args:
-        pitch:
-        grating_coupler:
-        input_port_indexes:
-        cross_section:
-        kwargs: cross_section settings
+        pitch: um.
+        grating_coupler: spec.
+        input_port_indexes: for grating couplers.
+
+    Keyword Args:
+        cross_section: spec.
+        kwargs: cross_section settings.
     """
-    gc = grating_coupler()
+    gc = gf.get_component(grating_coupler)
 
     c = gf.Component()
     dx = pitch
@@ -163,14 +164,15 @@ def loss_deembedding_ch14_23(
     Connects channel 1->4, 2->3
 
     Args:
-        pitch:
-        grating_coupler:
-        input_port_indexes:
+        pitch: um.
+        grating_coupler: spec.
+        input_port_indexes: for grating couplers.
 
     Keyword Args:
-        cross_section settings
+        cross_section: spec.
+        kwargs: cross_section settings.
     """
-    gc = grating_coupler()
+    gc = gf.get_component(grating_coupler)
 
     c = gf.Component()
     dx = pitch
@@ -208,13 +210,15 @@ def grating_coupler_loss_fiber_array(
     """Returns Grating coupler fiber array loopback.
 
     Args:
-        pitch:
-        grating_coupler:
-        cross_section:
-        input_port_indexes: adds test labels
-        kwargs: cross_section settings
+        pitch: spacing.
+        grating_coupler: spec for grating coupler.
+        input_port_indexes: for grating couplers.
+
+    Keyword Args:
+        cross_section: spec.
+        kwargs: cross_section settings.
     """
-    gc = grating_coupler()
+    gc = gf.get_component(grating_coupler)
 
     c = gf.Component()
     dx = pitch
@@ -241,7 +245,7 @@ def grating_coupler_loss_fiber_array(
 def grating_coupler_loss_fiber_array4(
     pitch: float = 127.0, grating_coupler: ComponentSpec = grating_coupler_te, **kwargs
 ) -> Component:
-    """Returns a grating coupler test structure for fiber array
+    """Returns a grating coupler test structure for fiber array.
 
     Measures all combinations for a 4 fiber fiber_array
 
@@ -250,9 +254,9 @@ def grating_coupler_loss_fiber_array4(
     Connects channel 1->2, 3->4
 
     Args:
-        pitch: grating_coupler_pitch
-        grating_coupler: function
-        kwargs: cross_section settings
+        pitch: grating_coupler_pitch.
+        grating_coupler: function.
+        kwargs: cross_section settings.
 
     """
     c = gf.Component()
@@ -272,6 +276,6 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch14_23()
     # c = loss_deembedding_ch12_34()
     # c = loss_deembedding_ch13_24()
-    # c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
-    c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
+    c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
+    # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
     c.show()

@@ -14,14 +14,13 @@ r"""SIEPIC coupler sample.
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
-    from simphony.libraries import siepic
+    from simphony.library import siepic
 
-    from gdsfactory.simulation.simphony import plot_model
+    from gdsfactory.simulationsimphony import plot_model
 
-    c = siepic.HalfRing(
+    c = siepic.ebeam_dc_halfring_straight(
         gap=200e-9, radius=12e-6, width=500e-9, thickness=220e-9, couple_length=0.0
     )
-    c.rename_pins("n1", "n2", "n4", "n3")
-    plot_model(c, pin_in="n1")
+    plot_model(c)
     print(c)
     plt.show()

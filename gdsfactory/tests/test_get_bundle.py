@@ -239,6 +239,7 @@ def test_get_bundle_u_indirect(
         bend=gf.components.bend_circular,
         end_straight_length=15,
         start_straight_length=5,
+        radius=5,
     )
     lengths = {}
     for i, route in enumerate(routes):
@@ -290,9 +291,8 @@ if __name__ == "__main__":
 
     # c = test_get_bundle(None, check=False)
     # c = test_connect_corner(None, config="A", check=False)
-    # c = test_connect_corner(None, config="C", check=False) # FIXME
     # c = test_get_bundle_udirect(None, check=False)
-    c = test_get_bundle_u_indirect(None, check=False, angle=90)
-    # c = test_get_bundle_u_indirect(None, angle=0, check=False)
+    # c = test_get_bundle_u_indirect(None, check=False, angle=90)
+    c = test_get_bundle_u_indirect(None, angle=0, check=False)
     # c = test_facing_ports(None, check=False)
     c.show()

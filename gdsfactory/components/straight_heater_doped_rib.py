@@ -36,20 +36,23 @@ def straight_heater_doped_rib(
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
-        length: of the waveguide
-        nsections: between via_stacks
-        cross_section: for the input/output ports
-        cross_section_heater: for the heater
-        via_stack: function to connect the heated strip
-        via_stack_metal: function to connect the metal area
-        via_stack_metal_size:
-        via_stack_size:
-        taper: optional taper function
-        heater_width:
-        heater_gap:
-        via_stack_gap: from edge of via_stack to waveguide
-        width: waveguide width on the ridge
-        kwargs: cross_section settings
+        length: of the waveguide.
+        nsections: between via_stacks.
+        cross_section: for the input/output ports.
+        cross_section_heater: for the heater.
+        via_stack: function to connect the heated strip.
+        via_stack_metal: function to connect the metal area.
+        via_stack_metal_size: x, y.
+        via_stack_size: x, y.
+        taper: optional taper spec.
+        heater_width: in um.
+        heater_gap: in um.
+        via_stack_gap: from edge of via_stack to waveguide.
+        width: waveguide width on the ridge.
+        with_top_via_stack: adds via_stack at the top.
+        with_bot_via_stack: adds via_stack at the bottom.
+        straight: spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -101,10 +104,8 @@ def straight_heater_doped_rib(
     )
 
     if taper:
-        taper = (
-            taper(cross_section1=cross_section, cross_section2=cross_section_heater)
-            if callable(taper)
-            else taper
+        taper = gf.get_component(
+            taper, cross_section1=cross_section, cross_section2=cross_section_heater
         )
         length -= taper.get_ports_xsize() * 2
 
@@ -194,6 +195,6 @@ def test_straight_heater_doped_rib_ports() -> Component:
 
 if __name__ == "__main__":
     # c = straight_heater_doped_rib(with_top_heater=False, with_top_via_stack=False)
-    c = straight_heater_doped_rib(with_taper1=False)
-    # c = straight_heater_doped_rib()
+    # c = straight_heater_doped_rib(with_taper1=False)
+    c = straight_heater_doped_rib()
     c.show()

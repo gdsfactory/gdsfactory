@@ -1,8 +1,4 @@
 from setuptools import find_packages, setup
-import sys
-
-if sys.version_info < (3, 7):
-    raise RuntimeError("This package requres Python 3.7 or newer")
 
 with open("requirements.txt") as f:
     requirements = [
@@ -31,7 +27,7 @@ with open("README.md") as f:
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="5.6.8",
+    version="5.8.2",
     author="gdsfactory community",
     scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",

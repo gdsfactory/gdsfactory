@@ -4,18 +4,14 @@ settings:
   child: null
   default:
     exp: 0.5
-    layer:
-    - 1
-    - 0
+    layer: WG
     length: 20
     npoints: 100
     width1: 0.5
     width2: 5
   full:
     exp: 0.5
-    layer:
-    - 1
-    - 0
+    layer: WG
     length: 20
     npoints: 100
     width1: 0.5

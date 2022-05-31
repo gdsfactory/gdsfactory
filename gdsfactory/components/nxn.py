@@ -1,9 +1,8 @@
-from typing import Tuple
-
 import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
@@ -15,22 +14,22 @@ def nxn(
     xsize: float = 8.0,
     ysize: float = 8.0,
     wg_width: float = 0.5,
-    layer: Tuple[int, int] = gf.LAYER.WG,
+    layer: LayerSpec = "WG",
     wg_margin: float = 1.0,
     **kwargs,
 ) -> Component:
     """returns a nxn component with nxn ports (west, east, north, south)
 
     Args:
-        west: number of west ports
-        east: number of east ports
-        north: number of north ports
-        south: number of south ports
-        xsize: size in X
-        ysize: size in Y
-        wg_width: width of the straight ports
-        wg_margin: margin from straight to component edge
-        **kwargs: port_settings
+        west: number of west ports.
+        east: number of east ports.
+        north: number of north ports.
+        south: number of south ports.
+        xsize: size in X.
+        ysize: size in Y.
+        wg_width: width of the straight ports.
+        wg_margin: margin from straight to component edge.
+        kwargs: port_settings.
 
 
     .. code::

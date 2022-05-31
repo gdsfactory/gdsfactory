@@ -1,13 +1,13 @@
 import picwriter.components as pc
 from picwriter.components.waveguide import WaveguideTemplate
 
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 def strip(
     wg_width: float = 0.5,
-    layer: Layer = (1, 0),
-    layer_cladding: Layer = (111, 0),
+    layer: LayerSpec = "WG",
+    layer_cladding: LayerSpec = "WGCLAD",
     radius: float = 10.0,
     cladding_offset: float = 3.0,
     euler_bend: bool = True,
@@ -17,6 +17,10 @@ def strip(
     wg_type: strip, slot, and swg (subwavelength)
     resist: Specifies the type of photoresist used (+ or -)
     """
+    from gdsfactory.pdk import get_layer
+
+    layer = get_layer(layer)
+    layer_cladding = get_layer(layer_cladding)
 
     return pc.WaveguideTemplate(
         bend_radius=radius,

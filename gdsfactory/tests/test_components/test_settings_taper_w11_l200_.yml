@@ -4,23 +4,11 @@ settings:
     filepath: taper_strip_0p5_11_200
   child: null
   default:
-    cladding_offset: 3
+    cross_section: strip
     filepath: taper_strip_0p5_3_36
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
   full:
-    cladding_offset: 3
+    cross_section: strip
     filepath: taper_strip_0p5_11_200
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
   function_name: taper_from_csv
   info: {}
   info_version: 2

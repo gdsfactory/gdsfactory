@@ -16,14 +16,14 @@ def array(
     """Returns an array of components.
 
     Args:
-        component: to replicate
-        spacing: x, y spacing
-        columns: in x
-        rows: in y
+        component: to replicate.
+        spacing: x, y spacing.
+        columns: in x.
+        rows: in y.
 
     Raises:
-        ValueError: If columns > 1 and spacing[0] = 0
-        ValueError: If rows > 1 and spacing[1] = 0
+        ValueError: If columns > 1 and spacing[0] = 0.
+        ValueError: If rows > 1 and spacing[1] = 0.
 
     .. code::
 

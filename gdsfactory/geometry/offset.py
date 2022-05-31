@@ -12,7 +12,7 @@ from phidl.geometry import (
 )
 
 import gdsfactory as gf
-from gdsfactory.types import Component, Layer
+from gdsfactory.types import Component, LayerSpec
 
 
 @gf.cell
@@ -25,7 +25,7 @@ def offset(
     join: str = "miter",
     tolerance: int = 2,
     max_points: int = 4000,
-    layer: Layer = (1, 0),
+    layer: LayerSpec = "WG",
 ) -> Component:
     """Returns an element containing all polygons with an offset
     Shrinks or expands a polygon or set of polygons.
@@ -66,6 +66,8 @@ def offset(
     polygons_to_offset = _merge_floating_point_errors(
         polygons_to_offset, tol=precision / 1000
     )
+
+    layer = gf.get_layer(layer)
     gds_layer, gds_datatype = _parse_layer(layer)
     if all(np.array(num_divisions) == np.array([1, 1])):
         p = gdspy.offset(

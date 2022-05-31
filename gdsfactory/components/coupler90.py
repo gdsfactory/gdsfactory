@@ -57,10 +57,9 @@ def coupler90(
     pbw = bend_ref.ports["o1"]
     bend_ref.movey(pbw.midpoint[1] + gap + width)
 
-    c.add_port("o1", port=wg_ref.ports["o1"])
-    c.add_port("o4", port=wg_ref.ports["o2"])
-    c.add_port("o2", port=bend_ref.ports["o1"])
-    c.add_port("o3", port=bend_ref.ports["o2"])
+    c.add_ports(wg_ref.ports, prefix="wg")
+    c.add_ports(bend_ref.ports, prefix="bend")
+    c.auto_rename_ports()
     return c
 
 
@@ -71,7 +70,7 @@ if __name__ == "__main__":
     # c = coupler90circular(gap=0.3)
     # c << coupler90(gap=0.3)
     c = coupler90(radius=3, layer=(2, 0))
-    c = coupler90(radius=10, cross_section="rib")
+    c = coupler90(radius=10, cross_section="strip_heater_metal")
     c.show()
     c.pprint()
     # print(c.ports)

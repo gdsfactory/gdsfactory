@@ -1,17 +1,36 @@
 # Workflow
 
-you'll need to keep 3 windows open:
+You'll need 2 windows:
 
 1. A text editor or IDE (Visual Studio Code, Pycharm, Spyder, neovim, Atom, Jupyterlab ...)
-2. A python / Ipython terminal / jupyter notebook (interactive python to run).
-3. Klayout to Visualize the GDS files.
+2. Klayout to Visualize the GDS files.
 
 `Component.show()` will stream the GDS to klayout so klayout needs to be open.
 Make sure you also ran `gf tool install` from the terminal to install the `gdsfactory` to `klayout` interface.
 
 
-![windows](https://i.imgur.com/inzGBb5.png)
+## 1. Python Driven flow
 
+1. You write your Pcells in python.
+2. You execute the python code.
+3. You visualize the GDS Layout in Klayout.
+
+![windows](https://i.imgur.com/ZHEAotn.png)
+
+
+
+## 2. YAML driven flow
+
+For building masks and complex circuits you can also use the `netlist` driven flow.
+
+The best way to run the netlist driven flow is using a file watcher, where you keep a live process that updates your GDS file live.
+
+
+1. You write your netlist in YAML. It's basically a Place and Auto-Route.
+2. You execute the file watcher `gf yaml watch FolderName`.
+3. You visualize the GDS Layout in Klayout.
+
+![yaml](https://i.imgur.com/h1ABhJ9.png)
 
 ## Layers
 
@@ -71,63 +90,4 @@ What are the common data types?
 
 ```{eval-rst}
 .. automodule:: gdsfactory.types
-```
-
-
-## Tests
-
-As you write your own component factories you want to make sure you do not break them later on.
-The best way of doing that is writing tests to avoid unwanted regressions.
-
-Here is an example on how to group your functions in a dict.
-
-Make sure you create a test like this an name it with `test_` prefix so Pytest can find it.
-
-```python
-import pathlib
-
-import pytest
-from pytest_regressions.data_regression import DataRegressionFixture
-
-import gdsfactory as gf
-from gdsfactory.difftest import difftest
-
-dirpath = pathlib.Path(__file__).absolute().with_suffix(".gds")
-
-
-mmi_long = gf.partial(gf.components.mmi, length_mmi=40)
-mmi_short = gf.partial(gf.components.mmi, length_mmi=20)
-
-factory = dict(
-    mmi_short=mmi_short,
-    mmi_long=mmi_long,
-)
-
-
-component_names = list(factory.keys())
-
-
-@pytest.fixture(params=component_names, scope="function")
-def component_name(request) -> str:
-    return request.param
-
-
-def test_gds(component_name: str) -> None:
-    """Avoid regressions in GDS names, shapes and layers.
-    Runs XOR and computes the area."""
-    component = factory[component_name]()
-    test_name = f"fabc_{component_name}"
-    difftest(component, test_name=test_name, dirpath=dirpath)
-
-
-def test_settings(component_name: str, data_regression: DataRegressionFixture) -> None:
-    """Avoid regressions in component settings and ports."""
-    component = factory[component_name]()
-    data_regression.check(component.to_dict())
-
-
-def test_assert_ports_on_grid(component_name: str):
-    """Ensures all ports are on grid to avoid 1nm gaps"""
-    component = factory[component_name]()
-    component.assert_ports_on_grid()
 ```

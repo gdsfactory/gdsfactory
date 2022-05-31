@@ -2,22 +2,25 @@ from typing import Tuple, Union
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def L(
     width: Union[int, float] = 1,
     size: Tuple[int, int] = (10, 20),
-    layer: Tuple[int, int] = LAYER.M3,
+    layer: LayerSpec = "M3",
     port_type: str = "electrical",
 ) -> Component:
-    """Generates an 'L' geometry with ports on both ends. Based on phidl.
+    """Generates an 'L' geometry with ports on both ends.
+
+    Based on phidl.
 
     Args:
-        width: of the line
-        size: length and height of the base
-        layer:
+        width: of the line.
+        size: length and height of the base.
+        layer: spec.
+        port_type: for port.
 
     """
     D = Component()

@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
@@ -7,32 +5,33 @@ from gdsfactory.components.grating_coupler_elliptical import (
     grating_coupler_elliptical_te,
 )
 from gdsfactory.components.straight_array import straight_array
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, LayerSpec
 
 
 @gf.cell
 def grating_coupler_tree(
     n: int = 4,
     straight_spacing: float = 4.0,
-    grating_coupler_function: ComponentSpec = grating_coupler_elliptical_te,
+    grating_coupler: ComponentSpec = grating_coupler_elliptical_te,
     with_loopback: bool = False,
     bend: ComponentSpec = bend_euler,
     fanout_length: float = 0.0,
-    layer_label: Tuple[int, int] = (66, 0),
+    layer_label: LayerSpec = "TEXT",
     **kwargs
 ) -> Component:
-    """Array of straights connected with grating couplers
+    """Array of straights connected with grating couplers.
+
     useful to align the 4 corners of the chip
 
     Args:
         n: number of gratings.
-        straight_spacing:
-        grating_coupler_function:
-        with_loopback:
-        bend:
-        fanout_length:
-        layer_label:
-        kwargs: cross_section settings
+        straight_spacing: in um.
+        grating_coupler: spec.
+        with_loopback: adds loopback.
+        bend: bend spec.
+        fanout_length: in um
+        layer_label: for layer.
+        kwargs: cross_section settings.
 
     """
     c = straight_array(
@@ -45,7 +44,7 @@ def grating_coupler_tree(
         component=c,
         with_loopback=with_loopback,
         optical_routing_type=0,
-        grating_coupler=grating_coupler_function,
+        grating_coupler=grating_coupler,
         fanout_length=fanout_length,
         component_name=c.name,
         bend=bend,
@@ -56,6 +55,6 @@ def grating_coupler_tree(
 
 
 if __name__ == "__main__":
-    c = grating_coupler_tree(layer=(2, 0))
+    c = grating_coupler_tree()
     # print(c.settings)
     c.show()

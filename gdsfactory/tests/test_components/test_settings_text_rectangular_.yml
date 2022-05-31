@@ -6,9 +6,7 @@ settings:
     font:
       function: rectangular_font
     justify: left
-    layer:
-    - 1
-    - 0
+    layer: WG
     position:
     - 0.0
     - 0.0
@@ -18,9 +16,7 @@ settings:
     font:
       function: rectangular_font
     justify: left
-    layer:
-    - 1
-    - 0
+    layer: WG
     position:
     - 0.0
     - 0.0

@@ -3,9 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    layer:
-    - 1
-    - 0
+    layer: WG
     port_inclusion: 0
     port_orientations:
     - 180
@@ -17,9 +15,7 @@ settings:
     - 4.0
     - 2.0
   full:
-    layer:
-    - 1
-    - 0
+    layer: WG
     port_inclusion: 0
     port_orientations:
     - 180

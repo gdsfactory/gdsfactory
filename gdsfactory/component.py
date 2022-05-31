@@ -48,6 +48,7 @@ PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+LayerSpec = Union[str, int, Layer, None]
 
 tmp = pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
 tmp.mkdir(exist_ok=True, parents=True)
@@ -98,7 +99,7 @@ class Component(Device):
         if "with_uuid" in kwargs or name == "Unnamed":
             name += f"_{self.uid}"
 
-        super(Component, self).__init__(name=name, exclude_from_current=True)
+        super().__init__(name=name, exclude_from_current=True)
         self.name = name  # overwrite PHIDL's incremental naming convention
         self.info: Dict[str, Any] = {}
 
@@ -145,7 +146,7 @@ class Component(Device):
         magnification: Optional[float] = None,
         rotation: Optional[float] = None,
         anchor: str = "o",
-        layer: Tuple[int, int] = (10, 0),
+        layer="TEXT",
     ) -> Label:
         """Adds a Label to the Device.
 
@@ -154,9 +155,13 @@ class Component(Device):
             position: x-, y-coordinates of the Label location.
             magnification:int, float, or None Magnification factor for the Label text.
             rotation: Angle rotation of the Label text.
-            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...} Position of the anchor relative to the text.
+            anchor: {'n', 'e', 's', 'w', 'o', 'ne', 'nw', ...}
+                Position of the anchor relative to the text.
             layer: Specific layer(s) to put Label on.
         """
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
 
         gds_layer, gds_datatype = layer
 
@@ -440,7 +445,7 @@ class Component(Device):
         width: Optional[float] = None,
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
-        layer: Optional[Tuple[int, int]] = None,
+        layer: LayerSpec = None,
         port_type: str = "optical",
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
@@ -453,6 +458,7 @@ class Component(Device):
         Args:
             name: port name.
             midpoint: x, y.
+            width: in um.
             orientation: in deg.
             port: optional port.
             layer: port layer.
@@ -460,6 +466,9 @@ class Component(Device):
             cross_section: port cross_section.
 
         """
+        from gdsfactory.pdk import get_layer
+
+        layer = get_layer(layer)
 
         if port:
             if not isinstance(port, Port):
@@ -539,7 +548,9 @@ class Component(Device):
             invert_selection: removes all layers except layers specified.
             recursive: operate on the cells included in this cell.
         """
-        layers = [_parse_layer(layer) for layer in layers]
+        from gdsfactory.pdk import get_layer
+
+        layers = [_parse_layer(get_layer(layer)) for layer in layers]
         all_D = list(self.get_dependencies(recursive))
         all_D += [self]
         for D in all_D:
@@ -600,6 +611,17 @@ class Component(Device):
             if _parse_layer(layer) in parsed_layer_list:
                 component.add_polygon(polys, layer=layer)
         return component
+
+    def add_polygon(self, points, layer=np.nan):
+        """Adds a Polygon to the Component.
+
+        Args:
+            points: Coordinates of the vertices of the Polygon.
+            layer: layer spec to add polygon on.
+        """
+        from gdsfactory.pdk import get_layer
+
+        return super().add_polygon(points=points, layer=get_layer(layer))
 
     def copy(
         self, prefix: str = "", suffix: str = "_copy", cache: bool = True
@@ -891,6 +913,7 @@ class Component(Device):
         self,
         show_ports: bool = True,
         show_subports: bool = False,
+        port_marker_layer: Layer = (1, 12),
     ) -> None:
         """Show component in klayout.
 
@@ -900,6 +923,7 @@ class Component(Device):
         Args:
             show_ports: shows component with port markers and labels.
             show_subports: add ports markers and labels to references.
+            port_marker_layer: for the ports.
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -908,14 +932,18 @@ class Component(Device):
             component = self.copy(suffix="", cache=False)
             for reference in component.references:
                 try:
-                    add_pins_triangle(component=component, reference=reference)
+                    add_pins_triangle(
+                        component=component,
+                        reference=reference,
+                        layer=port_marker_layer,
+                    )
                 except ValueError:
                     pass
 
         elif show_ports:
             component = self.copy(suffix="", cache=False)
             try:
-                add_pins_triangle(component=component)
+                add_pins_triangle(component=component, layer=port_marker_layer)
             except ValueError:
                 pass
         else:
@@ -1225,6 +1253,9 @@ def test_get_layers() -> Device:
         bbox_layers=[(111, 0)],
         bbox_offsets=[3],
         with_bbox=True,
+        cladding_layers=None,
+        add_pins=None,
+        add_bbox=None,
     )
     assert c.get_layers() == {(2, 0), (111, 0)}, c.get_layers()
     c.remove_layers((111, 0))
@@ -1323,6 +1354,9 @@ def test_extract() -> None:
         bbox_layers=[gf.LAYER.WGCLAD],
         bbox_offsets=[0],
         with_bbox=True,
+        cladding_layers=None,
+        add_pins=None,
+        add_bbox=None,
     )
     c2 = c.extract(layers=[gf.LAYER.WGCLAD])
 
@@ -1356,23 +1390,19 @@ def test_bbox_component() -> None:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    # import gdsfactory as gf
+    # c = gf.Component("demo")
+    # c2 = gf.components.mmi1x2()
+    # c2.unlock()
+    # c2.add_label(text="a")
 
-    c = gf.Component("demo")
-
-    c2 = gf.components.mmi1x2()
-    c2.unlock()
-    c2.add_label(text="a")
-
-    ref = c << c2
-    ref.rotate(90)
-    print(c.get_labels())
-    c.show()
-    # [Label("a", (0.0, 0.0), None, None, False, 10, 0)]
+    # ref = c << c2
+    # ref.rotate(90)
+    # print(c.get_labels())
 
     # test_extract()
-    # c = test_get_layers()
-    # c.show()
+    c = test_get_layers()
+    c.show()
 
     # test_bbox_reference()
     # test_bbox_component()

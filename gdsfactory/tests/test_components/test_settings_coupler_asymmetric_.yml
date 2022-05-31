@@ -5,9 +5,7 @@ settings:
   default:
     bend:
       function: bend_s
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     dx: 10
     dy: 5
     gap: 0.234
@@ -16,9 +14,7 @@ settings:
   full:
     bend:
       function: bend_s
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     dx: 10
     dy: 5
     gap: 0.234

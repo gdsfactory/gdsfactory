@@ -11,12 +11,12 @@ def splitter_chain(
     columns: int = 3,
     bend: ComponentSpec = bend_s,
 ) -> Component:
-    """Chain of splitters
+    """Chain of splitters.
 
     Args:
-        splitter: splitter to chain
-        columns: number of splitters to chain
-        bend: bend to connect splitters
+        splitter: splitter to chain.
+        columns: number of splitters to chain.
+        bend: bend to connect splitters.
 
     .. code::
 

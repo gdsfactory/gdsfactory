@@ -14,7 +14,7 @@ ports:
     width: 0.45
     orientation: 180
     port_type: optical
-    layer: strip
+    layer: WG
   o2:
     name: o2
     midpoint:
@@ -53,4 +53,5 @@ def test_component_from_yaml_ports(
 
 
 if __name__ == "__main__":
-    test_component_from_yaml_ports(None, check=False)
+    # test_component_from_yaml_ports(None, check=False)
+    c = gf.read.from_yaml(yaml_str)

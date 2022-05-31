@@ -4,9 +4,7 @@ settings:
   child: null
   default:
     angle: 90
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater:
@@ -17,9 +15,7 @@ settings:
     with_bbox: false
   full:
     angle: 90
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     heater_to_wg_distance: 1.2
     heater_width: 0.5
     layer_heater:

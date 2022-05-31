@@ -5,22 +5,13 @@ settings:
   default:
     bias_gap: 0
     cladding_offset: 2
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     direction: EAST
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     fill_factor: 0.7
     gaps: null
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
+    layer_cladding: WGCLAD
     layer_slab: null
     length: 30
     n_periods: 30
@@ -32,27 +23,17 @@ settings:
     taper_angle: 30
     taper_length: 10
     wavelength: 1.55
-    wg_width: 0.5
     widths: null
   full:
     bias_gap: 0
     cladding_offset: 2
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     direction: EAST
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     fill_factor: 0.7
     gaps: null
-    layer:
-    - 1
-    - 0
-    layer_cladding:
-    - 111
-    - 0
+    layer_cladding: WGCLAD
     layer_slab: null
     length: 30
     n_periods: 30
@@ -64,7 +45,6 @@ settings:
     taper_angle: 30
     taper_length: 10
     wavelength: 1.55
-    wg_width: 0.5
     widths: null
   function_name: grating_coupler_circular
   info:

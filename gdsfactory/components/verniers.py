@@ -1,7 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
-from gdsfactory.types import Floats, Layer
+from gdsfactory.types import Floats, LayerSpec
 
 
 @gf.cell
@@ -9,7 +8,7 @@ def verniers(
     widths: Floats = (0.1, 0.2, 0.3, 0.4, 0.5),
     gap: float = 0.1,
     xsize: int = 100,
-    layer_label: Layer = LAYER.LABEL,
+    layer_label: LayerSpec = "LABEL",
     **kwargs
 ) -> Component:
     c = gf.Component()

@@ -4,15 +4,13 @@ settings:
   child: null
   default:
     N: 6
-    bend180_function:
+    bend180:
       function: bend_euler
       settings:
         angle: 180
-    bend90_function:
+    bend90:
       function: bend_euler
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     cross_section_bend: null
     grating_spacing: 127
     length: null
@@ -25,15 +23,13 @@ settings:
     y_straight_inner_top: 50
   full:
     N: 6
-    bend180_function:
+    bend180:
       function: bend_euler
       settings:
         angle: 180
-    bend90_function:
+    bend90:
       function: bend_euler
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     cross_section_bend: null
     grating_spacing: 127
     length: null

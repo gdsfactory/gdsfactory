@@ -95,9 +95,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -107,15 +105,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -156,9 +151,7 @@ instances:
                 name: ring_single_15a01d93
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -169,15 +162,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -261,9 +251,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -273,15 +261,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -322,9 +307,7 @@ instances:
                 name: ring_single_36bf9679
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -335,15 +318,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -427,9 +407,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -439,15 +417,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -488,9 +463,7 @@ instances:
                 name: ring_single_4f2b93e6
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -501,15 +474,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -593,9 +563,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -605,15 +573,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -654,9 +619,7 @@ instances:
                 name: ring_single_557cf3bf
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -667,15 +630,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -759,9 +719,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -771,15 +729,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -820,9 +775,7 @@ instances:
                 name: ring_single_5d6e411b
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -833,15 +786,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -925,9 +875,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -937,15 +885,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -986,9 +931,7 @@ instances:
                 name: ring_single_97963132
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -999,15 +942,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1091,9 +1031,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1103,15 +1041,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -1152,9 +1087,7 @@ instances:
                 name: ring_single_b1b00c28
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1165,15 +1098,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1257,9 +1187,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1269,15 +1197,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -1318,9 +1243,7 @@ instances:
                 name: ring_single_b4c8763a
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1331,15 +1254,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1423,9 +1343,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1435,15 +1353,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -1484,9 +1399,7 @@ instances:
                 name: ring_single_b5de162f
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1497,15 +1410,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1589,9 +1499,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1601,15 +1509,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -1650,9 +1555,7 @@ instances:
                 name: ring_single_cb0f7119
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1663,15 +1566,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1755,9 +1655,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1767,15 +1665,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -1816,9 +1711,7 @@ instances:
                 name: ring_single_f56e8ae9
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1829,15 +1722,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1921,9 +1811,7 @@ instances:
             bend: bend_euler
             component: mmi2x2
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             gc_port_labels: null
             gc_port_name: o1
             get_input_labels_function:
@@ -1933,15 +1821,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           full:
             bend: bend_euler
             component:
@@ -1982,9 +1867,7 @@ instances:
                 name: ring_single_f72b5eef
               version: 0.0.1
             component_name: null
-            cross_section:
-              function: cross_section
-              settings: {}
+            cross_section: strip
             fanout_length: 200
             gc_port_labels: null
             gc_port_name: o1
@@ -1995,15 +1878,12 @@ instances:
               settings:
                 polarization: te
                 taper_angle: 35
-            layer_label:
-            - 66
-            - 0
+            layer_label: TEXT
             select_ports:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
+            straight: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2

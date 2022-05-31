@@ -6,7 +6,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.cross_section import strip
 from gdsfactory.types import ComponentSpec, CrossSectionSpec, Floats, Optional
 
 text_rectangular_mini = partial(text_rectangular, size=1)
@@ -21,7 +20,7 @@ def cdsem_straight_density(
     gaps: Floats = gaps,
     length: float = 420.0,
     label: str = "",
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     text: Optional[ComponentSpec] = text_rectangular_mini,
 ) -> Component:
     """Returns sweep of dense straight lines

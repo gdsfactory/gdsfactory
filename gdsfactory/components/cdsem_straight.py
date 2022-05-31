@@ -6,7 +6,6 @@ from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.components.text_rectangular import text_rectangular
-from gdsfactory.cross_section import strip
 from gdsfactory.grid import grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
@@ -19,7 +18,7 @@ LINE_LENGTH = 420.0
 def cdsem_straight(
     widths: Tuple[float, ...] = (0.4, 0.45, 0.5, 0.6, 0.8, 1.0),
     length: float = LINE_LENGTH,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     text: Optional[ComponentSpec] = text_rectangular_mini,
     spacing: float = 3,
 ) -> Component:

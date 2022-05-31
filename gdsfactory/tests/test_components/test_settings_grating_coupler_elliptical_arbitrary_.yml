@@ -4,13 +4,9 @@ settings:
   child: null
   default:
     bias_gap: 0
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     gaps:
     - 0.1
@@ -23,12 +19,7 @@ settings:
     - 0.1
     - 0.1
     - 0.1
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     nclad: 1.443
     neff: 2.638
     polarization: te
@@ -37,7 +28,6 @@ settings:
     taper_angle: 60
     taper_length: 16.6
     wavelength: 1.554
-    wg_width: 0.5
     widths:
     - 0.5
     - 0.5
@@ -51,13 +41,9 @@ settings:
     - 0.5
   full:
     bias_gap: 0
-    cross_section:
-      function: cross_section
-      settings: {}
+    cross_section: strip
     fiber_angle: 15
-    fiber_marker_layer:
-    - 203
-    - 0
+    fiber_marker_layer: TE
     fiber_marker_width: 11
     gaps:
     - 0.1
@@ -70,12 +56,7 @@ settings:
     - 0.1
     - 0.1
     - 0.1
-    layer:
-    - 1
-    - 0
-    layer_slab:
-    - 2
-    - 0
+    layer_slab: SLAB150
     nclad: 1.443
     neff: 2.638
     polarization: te
@@ -84,7 +65,6 @@ settings:
     taper_angle: 60
     taper_length: 16.6
     wavelength: 1.554
-    wg_width: 0.5
     widths:
     - 0.5
     - 0.5

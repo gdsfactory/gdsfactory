@@ -4,28 +4,31 @@ from typing import Callable, Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
-from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.cross_section import strip
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
 from gdsfactory.routing.sort_ports import sort_ports_x
-from gdsfactory.types import ComponentSpec, ComponentSpecOrList, CrossSectionSpec
+from gdsfactory.types import (
+    ComponentSpec,
+    ComponentSpecOrList,
+    CrossSectionSpec,
+    LayerSpec,
+)
 
 
 @gf.cell
 def add_fiber_array(
     component: ComponentSpec = "mmi2x2",
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
-    straight: ComponentSpec = straight_function,
+    straight: ComponentSpec = "straight",
     bend: ComponentSpec = "bend_euler",
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
     select_ports: Callable = select_ports_optical,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     get_input_labels_function: Optional[Callable] = get_input_labels,
-    layer_label: Optional[Tuple[int, int]] = (66, 0),
+    layer_label: LayerSpec = "TEXT",
     **kwargs,
 ) -> Component:
     """Returns component with optical IO (tapers, south routes and grating_couplers).
@@ -41,8 +44,8 @@ def add_fiber_array(
         component_name: for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
-        layer_label: LAYER.LABEL
         get_input_labels_function: function to get input labels for grating couplers.
+        layer_label: optional layer for grating coupler label.
 
     Keyword Args:
         taper: taper spec.
@@ -58,7 +61,7 @@ def add_fiber_array(
         force_manhattan: False
         excluded_ports: list of port names to exclude when adding gratings.
         grating_indices: list of grating coupler indices.
-        routing_straight: function .
+        routing_straight: function to route.
         routing_method: get_route.
         optical_routing_type: None: auto, 0: no extension, 1: standard, 2: check.
         gc_rotation: fiber coupler rotation in degrees. Defaults to -90.
@@ -149,13 +152,14 @@ def add_fiber_array(
 
     if gc_port_labels:
         for gc_port_label, port in zip(gc_port_labels, ports):
-            component_new.add_label(
-                text=gc_port_label, layer=layer_label, position=port.midpoint
-            )
+            if layer_label:
+                component_new.add_label(
+                    text=gc_port_label, layer=layer_label, position=port.midpoint
+                )
 
     for i, io_row in enumerate(io_gratings_lines):
         for j, io in enumerate(io_row):
-            ports = io.get_ports_list(prefix="vertical")
+            ports = io.get_ports_list(prefix="vertical") or io.get_ports_list()
             if ports:
                 port = ports[0]
                 component_new.add_port(f"{port.name}_{i}{j}", port=port)

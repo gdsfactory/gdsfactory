@@ -1,4 +1,5 @@
-from simphony.libraries.sipann import Waveguide
+from SiPANN.scee import Waveguide
+from SiPANN.scee_int import SimphonyWrapper
 
 from gdsfactory.config import logger
 
@@ -21,12 +22,14 @@ def straight(
 
     """
     logger.info(f"igoring {kwargs.keys()}")
-    width *= 1e-6
-    thickness *= 1e-6
-    length *= 1e-6
+    width *= 1e3
+    thickness *= 1e3
+    length *= 1e3
 
-    model = Waveguide(width=width, thickness=thickness, sw_angle=sw_angle, length=length)
-    model.rename_pins("o1", "o2")
+    s = Waveguide(width=width, thickness=thickness, sw_angle=sw_angle, length=length)
+    model = SimphonyWrapper(s)
+    model.pins = ("o1", "o2")
+    model.sipann = s
     return model
 
 
