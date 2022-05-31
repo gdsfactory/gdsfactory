@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.8.3](https://github.com/gdsfactory/gdsfactory/pull/422)
+
+- Allow user to specify steps or waypoints in the call to get_bundle
+- Add path length matching keyword arguments to functions called by get_bundle
+
 ## 5.8.2
 
 - Fix factory default for Pdk.layers [PR](https://github.com/gdsfactory/gdsfactory/pull/418)
