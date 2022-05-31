@@ -25,11 +25,12 @@ from gdsfactory.config import TECH
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
-from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
 from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
 from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
+from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
+from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
 from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.types import (
@@ -213,6 +214,9 @@ def get_bundle_same_axis(
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
+    path_length_match_loops: int = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs,
 ) -> List[Route]:
@@ -269,6 +273,8 @@ def get_bundle_same_axis(
     This method deals with different metal track/wg/wire widths too.
 
     """
+    if "straight" in kwargs.keys():
+        _ = kwargs.pop("straight")
     assert len(ports1) == len(
         ports2
     ), f"ports1={len(ports1)} and ports2={len(ports2)} must be equal"
@@ -285,6 +291,17 @@ def get_bundle_same_axis(
         start_straight_length=start_straight_length,
         **kwargs,
     )
+    if path_length_match_loops:
+        routes = [np.array(route) for route in routes]
+        routes = path_length_matched_points(
+            routes,
+            extra_length=path_length_match_extra_length,
+            bend=bend,
+            nb_loops=path_length_match_loops,
+            modify_segment_i=path_length_match_modify_segment_i,
+            cross_section=cross_section,
+            **kwargs,
+        )
     return [
         get_route_from_waypoints(
             route,
