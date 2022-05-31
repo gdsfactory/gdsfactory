@@ -86,14 +86,14 @@ def get_bundle(
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
         snap_to_grid: can snap points to grid when extruding the path.
-        steps: specify waypoint steps to route using get_bundle_from_steps
-        waypoints: specify waypoints to route using get_bundle_from_steps
-        path_length_match_loops: Integer number of loops to add to bundle for path length matching
-            (won't try to match if None)
-        path_length_match_extra_length: Extra length to add to path length matching loops
-            (requires path_length_match_loops != None)
-        path_length_match_modify_segment_i: Index of straight segment to add path length matching loops to
-            (requires path_length_match_loops != None)
+        steps: specify waypoint steps to route using get_bundle_from_steps.
+        waypoints: specify waypoints to route using get_bundle_from_steps.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
     """
     # convert single port to list
     if isinstance(ports1, Port):
@@ -218,7 +218,7 @@ def get_bundle_same_axis(
     start_straight_length: float = 0.0,
     bend: ComponentSpec = bend_euler,
     sort_ports: bool = True,
-    path_length_match_loops: int = None,
+    path_length_match_loops: Optional[int] = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
@@ -230,15 +230,19 @@ def get_bundle_same_axis(
         ports1: first list of ports.
         ports2: second list of ports.
         separation: minimum separation between two straights.
-        axis: specifies "X" or "Y"
-            X (resp. Y) -> indicates that the ports should be sorted and
-            compared using the X (resp. Y) axis.
-        route_filter: filter to apply to the manhattan waypoints.
-            e.g `get_route_from_waypoints` for deep etch strip straight.
         end_straight_length: offset to add at the end of each straight.
+        start_straight_length: in um.
+        bend: spec.
         sort_ports: sort the ports according to the axis.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
         cross_section: CrossSection or function that returns a cross_section.
         kwargs: cross_section settings.
+
 
     Returns:
         `[route_filter(r) for r in routes]` list of lists of coordinates
@@ -464,7 +468,7 @@ def get_min_spacing(
     sort_ports: bool = True,
 ) -> float:
     """
-    Returns the minimum amount of spacing required to create a given fanout"
+    Returns the minimum amount of spacing in um required to create a fanout."
     """
 
     axis = "X" if ports1[0].orientation in [0, 180] else "Y"

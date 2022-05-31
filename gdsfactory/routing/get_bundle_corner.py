@@ -65,14 +65,16 @@ def get_bundle_corner(
     **kwargs,
 ) -> List[Route]:
     r"""
+
     Args:
-        ports1: list of start ports
-        ports2: list of end ports
+        ports1: list of start ports.
+        ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight
+            e.g `get_route_from_waypoints` for deep etch strip straight.
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
-        e.g with default `get_route_from_waypoints`, returns a list of elements which can be added to a component
+        e.g with default `get_route_from_waypoints`,
+        returns a list of elements which can be added to a component.
 
 
     ::
