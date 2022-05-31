@@ -26,6 +26,8 @@ from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.get_bundle_corner import get_bundle_corner
 from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindirect
+from gdsfactory.routing.get_bundle_from_steps import get_bundle_from_steps
+from gdsfactory.routing.get_bundle_from_waypoints import get_bundle_from_waypoints
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.sort_ports import get_port_x, get_port_y
@@ -83,6 +85,8 @@ def get_bundle(
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
         snap_to_grid: can snap points to grid when extruding the path.
+        steps: specify waypoint steps to route using get_bundle_from_steps
+        waypoints: specify waypoints to route using get_bundle_from_steps
 
 
     """
@@ -144,6 +148,12 @@ def get_bundle(
 
     y_start = np.mean([p.y for p in ports1])
     y_end = np.mean([p.y for p in ports2])
+
+    if "steps" in kwargs.keys():
+        return get_bundle_from_steps(**params)
+
+    elif "waypoints" in kwargs.keys():
+        return get_bundle_from_waypoints(**params)
 
     if start_axis != end_axis:
         return get_bundle_corner(**params)
