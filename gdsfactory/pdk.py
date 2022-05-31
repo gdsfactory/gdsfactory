@@ -49,7 +49,7 @@ class Pdk(BaseModel):
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
-    layers: Dict[str, Layer] = Field(default_factory=list)
+    layers: Dict[str, Layer] = Field(default_factory=dict)
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
