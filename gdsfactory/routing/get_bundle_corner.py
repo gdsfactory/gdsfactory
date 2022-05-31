@@ -6,6 +6,7 @@ from phidl.device_layout import _rotate_points
 from gdsfactory.port import Port
 from gdsfactory.routing.get_route import get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
+from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.types import Route
 
 
@@ -58,6 +59,9 @@ def get_bundle_corner(
     ports2: List[Port],
     route_filter: Callable[..., Route] = get_route_from_waypoints,
     separation: float = 5.0,
+    path_length_match_loops: int = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
     r"""
@@ -105,6 +109,8 @@ def get_bundle_corner(
 
     Connect banks of ports with either 90Deg or 270Deg angle between them
     """
+    if "straight" in kwargs.keys():
+        _ = kwargs.pop("straight")
 
     routes = _get_bundle_corner_waypoints(
         ports1,
@@ -113,6 +119,15 @@ def get_bundle_corner(
         separation=separation,
         **kwargs,
     )
+    if path_length_match_loops:
+        routes = [np.array(route) for route in routes]
+        routes = path_length_matched_points(
+            routes,
+            extra_length=path_length_match_extra_length,
+            nb_loops=path_length_match_loops,
+            modify_segment_i=path_length_match_modify_segment_i,
+            **kwargs,
+        )
 
     return [route_filter(r, **kwargs) for r in routes]
 
@@ -209,8 +224,8 @@ def _get_bundle_corner_waypoints(
         end_angle_sort_index = end_angle_sort_index + 2
         end_angle_sort_index = end_angle_sort_index % 4
 
-    start_angle_sort_type = start_sort_type[start_angle_sort_index]
-    end_angle_sort_type = end_sort_type[end_angle_sort_index]
+    start_angle_sort_type = start_sort_type[int(start_angle_sort_index)]
+    end_angle_sort_type = end_sort_type[int(end_angle_sort_index)]
 
     type2key = {
         "X": lambda p: p.x,
@@ -223,10 +238,9 @@ def _get_bundle_corner_waypoints(
     ports1.sort(key=type2key[start_angle_sort_type])
     ports2.sort(key=type2key[end_angle_sort_type])
 
-    i = 0
     kwargs.pop("start_straight_length", "")
     kwargs.pop("end_straight_length", "")
-    for p1, p2 in zip(ports1, ports2):
+    for i, (p1, p2) in enumerate(zip(ports1, ports2)):
         conn = routing_func(
             p1,
             p2,
@@ -235,8 +249,6 @@ def _get_bundle_corner_waypoints(
             **kwargs,
         )
         connections += [conn]
-        i += 1
-
     return connections
 
 
