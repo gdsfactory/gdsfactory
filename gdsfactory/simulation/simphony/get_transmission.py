@@ -22,8 +22,13 @@ def get_transmission(
         num: number of points
 
     """
-    simulation = SweepSimulation(circuit, start, stop, num)
-    result = simulation.simulate()
+    simulation = SweepSimulator(start, stop, num)
+    simulation.multiconnect(
+        subcircuit.circuit.pins[pin_in], subcircuit.circuit.pins[pin_out]
+    )
+    w, s = simulation.simulate()
+    w *= 1e9
+
 
     f, s = result.data(pin_in, pin_out)
     w = freq2wl(f) * 1e9
