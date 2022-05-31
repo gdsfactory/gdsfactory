@@ -28,6 +28,6 @@ def test_elements(component_type, data_regression) -> None:
 @pytest.mark.parametrize("component_type", circuit_names)
 def test_circuits(component_type, data_regression) -> None:
     c = circuit_factory[component_type]()
-    r = get_transmission(c, num=3)
+    r = get_transmission(c, pin_in=c.pins[0].name, pin_out=c.pins[-1].name, num=3)
     s = np.round(r["s"], decimals=3).tolist()
     data_regression.check(dict(w=r["wavelengths"].tolist(), s=s))

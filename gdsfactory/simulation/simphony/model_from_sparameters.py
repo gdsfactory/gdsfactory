@@ -36,6 +36,7 @@ def model_from_sparameters(
     def interpolate_sp(freq):
         return interpolate(freq, f, s)
 
+    Model.pin_count = len(pins)
     m = Model()
     m.pins = pins
     m.s_params = (f, s)

@@ -68,25 +68,19 @@ def ring_double(
         c = gc.ring_double()
         gs.plot_circuit(c)
     """
-    straight = straight(length=length_y) if callable(straight) else straight
-    coupler = (
+
+    wg1 = straight(length=length_y) if callable(straight) else straight
+    wg2 = straight(length=length_y) if callable(straight) else straight
+    halfring1 = (
         coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
         if callable(coupler)
         else coupler
     )
 
-    # Create the circuit, add all individual instances
-    circuit = Subcircuit("ring_double")
-    circuit.add([(coupler, "ct"), (coupler, "cb"), (straight, "wl"), (straight, "wr")])
-
-    # Circuits can be connected using the elements' string names:
-    circuit.connect_many(
-        [
-            ("cb", "o2", "wl", "o1"),
-            ("wl", "o2", "ct", "o3"),
-            ("ct", "o2", "wr", "o2"),
-            ("wr", "o1", "cb", "o3"),
-        ]
+    halfring2 = (
+        coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
+        if callable(coupler)
+        else coupler
     )
     circuit.elements["cb"].pins["o1"] = "o1"
     circuit.elements["cb"].pins["o4"] = "o4"
