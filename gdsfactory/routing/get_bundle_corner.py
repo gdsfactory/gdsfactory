@@ -238,10 +238,9 @@ def _get_bundle_corner_waypoints(
     ports1.sort(key=type2key[start_angle_sort_type])
     ports2.sort(key=type2key[end_angle_sort_type])
 
-    i = 0
     kwargs.pop("start_straight_length", "")
     kwargs.pop("end_straight_length", "")
-    for p1, p2 in zip(ports1, ports2):
+    for i, (p1, p2) in enumerate(zip(ports1, ports2)):
         conn = routing_func(
             p1,
             p2,
@@ -250,8 +249,6 @@ def _get_bundle_corner_waypoints(
             **kwargs,
         )
         connections += [conn]
-        i += 1
-
     return connections
 
 
