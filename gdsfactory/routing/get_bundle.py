@@ -88,8 +88,12 @@ def get_bundle(
         snap_to_grid: can snap points to grid when extruding the path.
         steps: specify waypoint steps to route using get_bundle_from_steps
         waypoints: specify waypoints to route using get_bundle_from_steps
-
-
+        path_length_match_loops: Integer number of loops to add to bundle for path length matching
+            (won't try to match if None)
+        path_length_match_extra_length: Extra length to add to path length matching loops
+            (requires path_length_match_loops != None)
+        path_length_match_modify_segment_i: Index of straight segment to add path length matching loops to
+            (requires path_length_match_loops != None)
     """
     # convert single port to list
     if isinstance(ports1, Port):
