@@ -88,7 +88,6 @@ class CrossSection(BaseModel):
     name: Optional[str] = None
 
     class Config:
-        frozen = True
         extra = "forbid"
         fields = {
             "decorator": {"exclude": True},
@@ -96,12 +95,15 @@ class CrossSection(BaseModel):
             "add_bbox": {"exclude": True},
         }
 
-    def get_copy(self, width: Optional[float] = None):
-        if not width:
-            return self.copy()
-        settings = dict(self)
-        settings.update(width=width)
-        return CrossSection(**settings)
+    def copy(self, width: Optional[float] = None):
+        xs = super().copy()
+        xs.decorator = self.decorator
+        xs.add_pins = self.add_pins
+        xs.add_bbox = self.add_bbox
+
+        if width:
+            xs.width = width
+        return xs
 
     @property
     def aliases(self) -> Dict[str, Section]:
@@ -965,14 +967,28 @@ def get_cross_section_factories(
 
 cross_sections = get_cross_section_factories(sys.modules[__name__])
 
+
+def test_copy():
+    import gdsfactory as gf
+
+    p = gf.path.straight()
+    copied_cs = gf.cross_section.strip().copy()
+    gf.path.extrude(p, cross_section=copied_cs)
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
     p = gf.path.straight()
-    x = CrossSection(name="strip", layer=(1, 0), width=0.5)
-    x = x.get_copy(width=3)
-    c = p.extrude(x)
+    copied_cs = gf.cross_section.strip().copy()
+    c = gf.path.extrude(p, cross_section=copied_cs)
     c.show()
+
+    # p = gf.path.straight()
+    # x = CrossSection(name="strip", layer=(1, 0), width=0.5)
+    # x = x.copy(width=3)
+    # c = p.extrude(x)
+    # c.show()
 
     # P = gf.path.euler(radius=10, use_eff=True)
     # P = euler()
