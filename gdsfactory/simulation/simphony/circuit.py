@@ -9,6 +9,46 @@ from gdsfactory.simulation.simphony.components import model_factory
 from gdsfactory.simulation.simphony.types import ModelFactory
 
 
+def connect_pins(connections, model_names, components, circuit: Circuit):
+    for k, v in connections.items():
+        model1_name, port1_name = k.split(",")
+        model2_name, port2_name = v.split(",")
+
+        if model1_name in model_names and model2_name in model_names:
+            index1 = [i for i, c in enumerate(components) if c.name == model1_name]
+            p1_name = [
+                i
+                for c in components
+                if c.name == model1_name
+                for i, p in enumerate(c.pins)
+                if p.name == port1_name
+            ]
+            index2 = [i for i, c in enumerate(components) if c.name == model2_name]
+            p2_name = [
+                i
+                for c in components
+                if c.name == model2_name
+                for i, p in enumerate(c.pins)
+                if p.name == port2_name
+            ]
+
+            circuit._get_components()[index1[0]][p1_name[0]].connect(
+                circuit._get_components()[index2[0]][p2_name[0]]
+            )
+    return circuit
+
+
+def rename_pins(circuit, components):
+    for p in circuit._get_components()[8].pins:
+        print(p.name)
+    a = 0
+    for c in components:
+        for p in c.pins:
+            c[p.name].rename(f"pin{a}")
+            a += 1
+    return circuit
+
+
 def component_to_circuit(
     component: Component,
     model_factory: Dict[str, ModelFactory] = model_factory,
@@ -53,41 +93,9 @@ def component_to_circuit(
 
     components = circuit._get_components()
 
-    for k, v in connections.items():
-        model1_name, port1_name = k.split(",")
-        model2_name, port2_name = v.split(",")
+    circuit = connect_pins(connections, model_names, components, circuit)
 
-        if model1_name in model_names and model2_name in model_names:
-            index1 = [i for i, c in enumerate(components) if c.name == model1_name]
-            p1_name = [
-                i
-                for c in components
-                if c.name == model1_name
-                for i, p in enumerate(c.pins)
-                if p.name == port1_name
-            ]
-            index2 = [i for i, c in enumerate(components) if c.name == model2_name]
-            p2_name = [
-                i
-                for c in components
-                if c.name == model2_name
-                for i, p in enumerate(c.pins)
-                if p.name == port2_name
-            ]
-
-            circuit._get_components()[index1[0]][p1_name[0]].connect(
-                circuit._get_components()[index2[0]][p2_name[0]]
-            )
-
-    for p in circuit._get_components()[8].pins:
-        print(p.name)
-    a = 0
-    for c in components:
-        for p in c.pins:
-            c[p.name].rename(f"pin{a}")
-            a += 1
-
-    return circuit
+    return rename_pins(circuit, components)
 
 
 if __name__ == "__main__":
