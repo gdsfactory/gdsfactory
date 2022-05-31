@@ -4,7 +4,8 @@
 
 - Fix factory default for Pdk.layers [PR](https://github.com/gdsfactory/gdsfactory/pull/418)
 - Use shapely's implementation of simplify when extruding paths [PR](https://github.com/gdsfactory/gdsfactory/pull/419)
-- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/415)
+- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/415) with fill
+- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/417) where copying a cross_section, does not include `add_bbox`, `add_pins` and `decorator`
 
 ## [5.8.1](https://github.com/gdsfactory/gdsfactory/pull/414)
 
