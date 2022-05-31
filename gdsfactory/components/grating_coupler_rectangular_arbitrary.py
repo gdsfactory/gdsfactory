@@ -137,6 +137,7 @@ def grating_coupler_rectangular_arbitrary(
     )
     c.info["polarization"] = polarization
     c.info["wavelength"] = wavelength
+
     gf.asserts.grating_coupler(c)
     if xs.add_bbox:
         c = xs.add_bbox(c)
