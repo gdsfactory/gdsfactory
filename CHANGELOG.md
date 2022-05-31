@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.8.2
+
+- Fix factory default for Pdk.layers [PR](https://github.com/gdsfactory/gdsfactory/pull/418)
+- Use shapely's implementation of simplify when extruding paths [PR](https://github.com/gdsfactory/gdsfactory/pull/419)
+- fix [issue](https://github.com/gdsfactory/gdsfactory/issues/415)
+
 ## [5.8.1](https://github.com/gdsfactory/gdsfactory/pull/414)
 
 - add layers as a default empty dict for Pdk
