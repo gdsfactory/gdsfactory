@@ -11,6 +11,7 @@ from gdsfactory.routing.manhattan import (
     generate_manhattan_waypoints,
     remove_flat_angles,
 )
+from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.route_ports_to_side import route_ports_to_side
 from gdsfactory.types import ComponentSpec, Route
 
@@ -35,7 +36,10 @@ def get_bundle_udirect(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     bend: ComponentSpec = bend_euler,
-    **routing_params,
+    path_length_match_loops: int = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
+    **kwargs,
 ) -> List[Route]:
     r"""
 
@@ -86,7 +90,8 @@ def get_bundle_udirect(
                                   |
                            X------/
     """
-
+    if "straight" in kwargs.keys():
+        _ = kwargs.pop("straight")
     routes = _get_bundle_udirect_waypoints(
         ports1,
         ports2,
@@ -95,10 +100,21 @@ def get_bundle_udirect(
         end_straight_offset=end_straight_length,
         routing_func=generate_manhattan_waypoints,
         bend=bend,
-        **routing_params,
+        **kwargs,
     )
+    if path_length_match_loops:
+        routes = [np.array(route) for route in routes]
+        routes = path_length_matched_points(
+            routes,
+            extra_length=path_length_match_extra_length,
+            bend=bend,
+            nb_loops=path_length_match_loops,
+            modify_segment_i=path_length_match_modify_segment_i,
+            # cross_section=cross_section,
+            **kwargs,
+        )
 
-    return [route_filter(route, bend=bend, **routing_params) for route in routes]
+    return [route_filter(route, bend=bend, **kwargs) for route in routes]
 
 
 def _get_bundle_udirect_waypoints(
