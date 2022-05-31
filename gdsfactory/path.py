@@ -14,7 +14,6 @@ import numpy as np
 import shapely.ops
 from phidl import path
 from phidl.device_layout import Path as PathPhidl
-from phidl.device_layout import _simplify
 from phidl.path import smooth as smooth_phidl
 
 from gdsfactory.cell import cell
@@ -28,6 +27,14 @@ from gdsfactory.types import (
     LayerSpec,
     PathFactory,
 )
+
+
+def _simplify(points, tolerance):
+    import shapely.geometry as sg
+
+    ls = sg.LineString(points)
+    ls_simple = ls.simplify(tolerance=tolerance)
+    return np.asarray(ls_simple.coords)
 
 
 class Path(PathPhidl):
