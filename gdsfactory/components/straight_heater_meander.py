@@ -56,7 +56,7 @@ def straight_heater_meander(
     )
     route = gf.routing.get_route(p1, p2, radius=radius)
 
-    cross_section1 = x.get_copy(width=straight_width)
+    cross_section1 = x.copy(width=straight_width)
     cross_section2 = cross_section
 
     straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
