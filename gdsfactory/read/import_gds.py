@@ -88,7 +88,6 @@ def import_gds(
 
         if hashed_name:
             D.name = get_name_short(D.name)
-        D.unlock()
 
         cell_to_device[c] = D
         D_list += [D]
@@ -157,7 +156,6 @@ def import_gds(
 
     component.info.update(**kwargs)
     component.imported_gds = True
-    component.lock()
     return component
 
 
