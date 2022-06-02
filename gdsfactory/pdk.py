@@ -38,12 +38,12 @@ layers_required = ["DEVREC", "PORT", "PORTE"]
 class Pdk(BaseModel):
     """Pdk Library to store cell and cross_section functions.
 
-    Args:
+    Attributes:
         name: PDK name.
-        cross_sections: cross_sections.
-        cells: pcells.
+        cross_sections: dict of cross_sections factories.
+        cells: dict of parametric cells that return Components.
         layers: layers dict.
-        containers: pcells that contain other cells.
+        containers: dict of parametric that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: default decorator for all cells, if not otherwise defined on the cell.
     """
@@ -64,6 +64,7 @@ class Pdk(BaseModel):
         return v
 
     def activate(self) -> None:
+        """Set current pdk to as the active pdk."""
         if self.base_pdk:
             _cross_sections = self.base_pdk.cross_sections
             _cross_sections |= self.cross_sections
@@ -83,7 +84,7 @@ class Pdk(BaseModel):
 
             if not self.default_decorator:
                 self.default_decorator = self.base_pdk.default_decorator
-        set_active_pdk(self)
+        _set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
         """Register cell factories."""
@@ -388,7 +389,7 @@ def get_active_pdk() -> Pdk:
     return _ACTIVE_PDK
 
 
-def set_active_pdk(pdk: Pdk) -> None:
+def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
     old_pdk = _ACTIVE_PDK
     _ACTIVE_PDK = pdk
