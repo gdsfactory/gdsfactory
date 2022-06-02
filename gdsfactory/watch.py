@@ -88,7 +88,7 @@ class YamlEventHandler(FileSystemEventHandler):
                 c.show()
                 # on_yaml_cell_modified.fire(c)
                 return c
-        except (ValueError, KeyError, Exception) as e:
+        except Exception as e:
             traceback.print_exc(file=sys.stdout)
             print(e)
 
