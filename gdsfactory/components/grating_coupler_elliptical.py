@@ -116,7 +116,7 @@ def grating_coupler_elliptical(
         slab_offset: in um.
         fiber_marker_width: width in um.
         fiber_marker_layer: fiber marker layer.
-        spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors
+        spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
         cross_section: specification (CrossSection, string or dict).
         kwargs: cross_section settings.
 
@@ -136,8 +136,6 @@ def grating_coupler_elliptical(
 
     wg_width = xs.width
     layer = xs.layer
-
-    print(layer)
 
     # Compute some ellipse parameters
     sthc = np.sin(fiber_angle * DEG2RAD)

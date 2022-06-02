@@ -1,24 +1,7 @@
-name: straight_array_grating__b29c362b
+name: grating_coupler_tree
 settings:
   changed: {}
-  child:
-    changed: {}
-    child: null
-    default:
-      n: 4
-      spacing: 4
-      straigth:
-        function: straight
-    full:
-      n: 4
-      spacing: 4
-      straigth:
-        function: straight
-    function_name: straight_array
-    info: {}
-    info_version: 2
-    module: gdsfactory.components.straight_array
-    name: straight_array
+  child: null
   default:
     bend:
       function: bend_euler
@@ -43,5 +26,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.grating_coupler_tree
-  name: straight_array_grating__b29c362b
+  name: grating_coupler_tree
 version: 0.0.1
