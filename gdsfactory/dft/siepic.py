@@ -10,6 +10,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components import grating_coupler_te
+from gdsfactory.components.straight import straight
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentReference, ComponentSpec, CrossSectionSpec, Layer
 
@@ -95,7 +96,7 @@ def get_input_labels(
 
 @cell
 def add_fiber_array_siepic(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec = straight,
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     get_input_labels_function: Callable = get_input_labels,

@@ -23,7 +23,7 @@ from gdsfactory.types import (
 
 @cell
 def add_fiber_single(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     layer_label: LayerSpec = "LABEL",
     fiber_spacing: float = TECH.fiber_spacing,
