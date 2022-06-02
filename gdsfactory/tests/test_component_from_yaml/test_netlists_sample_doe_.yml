@@ -14,7 +14,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 2.5
@@ -25,7 +24,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 4
@@ -46,7 +44,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 2.5
@@ -57,7 +54,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 4
@@ -78,7 +74,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 2.5
@@ -89,7 +84,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 10
@@ -110,7 +104,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 2.5
@@ -121,7 +114,6 @@ instances:
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10
-            straight: straight
             taper: taper
             width: 0.5
             width_mmi: 10
