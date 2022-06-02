@@ -150,6 +150,12 @@ def cell_without_validator(func):
             )
 
         component = func(*args, **kwargs)
+
+        # if the component is already in the cache, but under a different alias,
+        # make sure we use a copy, so we don't run into mutability errors
+        if id(component) in [id(v) for v in CACHE.values()]:
+            component = component.copy()
+
         metadata_child = (
             dict(component.child.settings) if hasattr(component, "child") else None
         )
