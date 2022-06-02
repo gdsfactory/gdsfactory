@@ -6,7 +6,7 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 
 from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
@@ -32,7 +32,7 @@ from gdsfactory.types import (
 logger = logging.root
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
-layers = ["DEVREC", "PORT", "PORTE"]
+layers_required = ["DEVREC", "PORT", "PORTE"]
 
 
 class Pdk(BaseModel):
@@ -56,12 +56,18 @@ class Pdk(BaseModel):
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
 
-    @validator("layers")
-    def validate_layers(cls, v):
-        for layer in layers:
-            if layer not in v:
-                raise ValueError(f"{layer!r} not in layers {list(v.keys())}")
-        return v
+    def __init__(self, layers: Dict[str, Layer], **data) -> None:
+        """Custom ensures"""
+        super().__init__(layers=layers, **data)
+
+        for layer in layers_required:
+            if layer not in self.layers:
+                default = getattr(LAYER, layer)
+                warnings.warn(
+                    f"{layer!r} not in {list(self.layers.keys())}, adding {layer} = {default} "
+                    "to layers."
+                )
+                self.layers[layer] = default
 
     def activate(self) -> None:
         if self.base_pdk:
@@ -408,7 +414,14 @@ on_yaml_cell_modified.add_handler(show)
 
 
 if __name__ == "__main__":
-    c = _ACTIVE_PDK.get_component("straight")
-    print(c.settings)
+    # c = _ACTIVE_PDK.get_component("straight")
+    # print(c.settings)
     # on_pdk_activated += print
     # set_active_pdk(GENERIC)
+    c = Pdk(
+        name="demo",
+        cells=cells,
+        cross_sections=cross_sections,
+        layers=dict(DEVREC=(3, 0)),
+    )
+    print(c.layers)
