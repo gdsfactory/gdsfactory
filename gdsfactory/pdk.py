@@ -43,7 +43,7 @@ class Pdk(BaseModel):
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
         layers: layers dict.
-        containers: dict of parametric that contain other cells.
+        containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: default decorator for all cells, if not otherwise defined on the cell.
     """
@@ -66,21 +66,21 @@ class Pdk(BaseModel):
     def activate(self) -> None:
         """Set current pdk to as the active pdk."""
         if self.base_pdk:
-            _cross_sections = self.base_pdk.cross_sections
-            _cross_sections |= self.cross_sections
-            self.cross_sections = _cross_sections
+            cross_sections = self.base_pdk.cross_sections
+            cross_sections.update(self.cross_sections)
+            self.cross_sections = cross_sections
 
-            _cells = self.base_pdk.cells
-            _cells |= self.cells
-            self.cells |= _cells
+            cells = self.base_pdk.cells
+            cells.update(self.cells)
+            self.cells.update(cells)
 
-            _containers = self.base_pdk.containers
-            _containers |= self.containers
-            self.containers |= _containers
+            containers = self.base_pdk.containers
+            containers.update(self.containers)
+            self.containers.update(containers)
 
-            _layers = self.base_pdk.layers
-            _layers |= self.layers
-            self.layers |= _layers
+            layers = self.base_pdk.layers
+            layers.update(self.layers)
+            self.layers.update(layers)
 
             if not self.default_decorator:
                 self.default_decorator = self.base_pdk.default_decorator
