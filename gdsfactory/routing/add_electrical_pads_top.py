@@ -8,7 +8,7 @@ from gdsfactory.types import ComponentSpec, Float2
 
 @gf.cell
 def add_electrical_pads_top(
-    component: ComponentSpec = "straight",
+    component: ComponentSpec = "mmi2x2",
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
     select_ports=select_ports_electrical,

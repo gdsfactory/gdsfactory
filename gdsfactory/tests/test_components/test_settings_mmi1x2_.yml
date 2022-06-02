@@ -7,7 +7,6 @@ settings:
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
-    straight: straight
     taper: taper
     width: 0.5
     width_mmi: 2.5
@@ -18,7 +17,6 @@ settings:
     gap_mmi: 0.25
     length_mmi: 5.5
     length_taper: 10
-    straight: straight
     taper: taper
     width: 0.5
     width_mmi: 2.5

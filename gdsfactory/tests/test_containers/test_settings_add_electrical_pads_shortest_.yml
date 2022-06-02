@@ -127,7 +127,7 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_2e88f57c
   default:
-    component: straight
+    component: mmi2x2
     layer: M3
     pad: pad
     pad_port_spacing: 50
