@@ -71,7 +71,8 @@ settings:
     name: coupler_a078f3c8
   default:
     bend: bend_euler
-    component: mmi2x2
+    component:
+      function: straight
     component_name: null
     cross_section: strip
     gc_port_labels: null

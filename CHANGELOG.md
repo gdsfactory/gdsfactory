@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.8.6]
+
+- remove gf.set_active_pdk(), as we should only be using pdk.activate(), so there is only one way to activate a PDK.
+- change default ComponentFactory from 'mmi2x2' string to straight componentFactory.
+
 ## [5.8.5](https://github.com/gdsfactory/gdsfactory/pull/433)
 
 - bring back layer validator to ensure DEVREC, PORTE and PORT are defined in the pdk

@@ -589,7 +589,7 @@ def _from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
     """
-    from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
+    from gdsfactory.pdk import GENERIC, get_active_pdk
 
     c = Component()
     instances = {}
@@ -604,14 +604,14 @@ def _from_yaml(
     c.info = conf.get("info", {})
 
     if pdk and pdk == "generic":
-        set_active_pdk(GENERIC)
+        GENERIC.activate()
 
     elif pdk:
         module = importlib.import_module(pdk)
         pdk = getattr(module, "PDK")
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
-        set_active_pdk(pdk)
+        pdk.activate()
 
     pdk = get_active_pdk()
 

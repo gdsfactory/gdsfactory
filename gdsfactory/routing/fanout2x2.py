@@ -4,13 +4,14 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.bezier import bezier
+from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_optical
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
 @gf.cell
 def fanout2x2(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec = straight,
     port_spacing: float = 20.0,
     bend_length: Optional[float] = None,
     npoints: int = 101,
