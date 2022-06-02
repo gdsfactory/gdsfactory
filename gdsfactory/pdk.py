@@ -6,7 +6,7 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, validator
 
 from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
@@ -32,6 +32,7 @@ from gdsfactory.types import (
 logger = logging.root
 component_settings = ["function", "component", "settings"]
 cross_section_settings = ["function", "cross_section", "settings"]
+layers = ["DEVREC", "PORT", "PORTE"]
 
 
 class Pdk(BaseModel):
@@ -44,16 +45,23 @@ class Pdk(BaseModel):
         layers: layers dict.
         containers: pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
-        default_decorator: the default decorator to use for all cells in this PDK, if not otherwise defined on the cell.
+        default_decorator: default decorator for all cells, if not otherwise defined on the cell.
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
-    layers: Dict[str, Layer] = Field(default_factory=dict)
+    layers: Dict[str, Layer]
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
+
+    @validator("layers")
+    def validate_layers(cls, v):
+        for layer in layers:
+            if layer not in v:
+                raise ValueError(f"{layer!r} not in layers {list(v.keys())}")
+        return v
 
     def activate(self) -> None:
         if self.base_pdk:
