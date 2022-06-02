@@ -207,7 +207,8 @@ settings:
     name: straight_373b1ebb_add_t_0521a25f
   default:
     bend: bend_euler
-    component: mmi2x2
+    component:
+      function: straight
     component_name: null
     cross_section: strip
     gc_port_labels: null
