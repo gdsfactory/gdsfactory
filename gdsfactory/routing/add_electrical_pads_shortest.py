@@ -7,7 +7,7 @@ from gdsfactory.types import ComponentSpec
 
 @gf.cell
 def add_electrical_pads_shortest(
-    component: ComponentSpec = "straight",
+    component: ComponentSpec = "mmi2x2",
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,
