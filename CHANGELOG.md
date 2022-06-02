@@ -2,9 +2,11 @@
 
 ## [5.8.4]
 
+- remove default layers dict for pdk.
 - validate layers to ensure you define layers for connectivity checks (DEVREC, PORT, PORTE). Fix [comment](https://github.com/gdsfactory/gdsfactory/discussions/409#discussioncomment-2862105).
 - extend ports do not absorb extension references.
 - fix filewatcher. Make sure it shows only components that exist.
+- Prevent mutation of double-cached cells [PR](https://github.com/gdsfactory/gdsfactory/pull/429)
 
 ## [5.8.3](https://github.com/gdsfactory/gdsfactory/pull/422)
 
