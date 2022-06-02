@@ -415,8 +415,16 @@ def add_bbox_siepic(
         remove_layers: remove other layers.
         padding: around layer.
     """
-    bbox_layer = bbox_layer or []
-    component.remove_layers(layers=[bbox_layer] + list(remove_layers))
+    layers = component.get_layers()
+    if bbox_layer and bbox_layer in layers:
+        component.remove_layers(layers=(bbox_layer,))
+
+    remove_layers = remove_layers or []
+
+    for layer in remove_layers:
+        if layer in layers:
+            component.remove_layers(layers=(layer,))
+
     if bbox_layer:
         component.add_padding(default=padding, layers=(bbox_layer,))
     return component
@@ -443,7 +451,12 @@ def add_pins_bbox_siepic(
         padding: around device.
     """
     component = component.copy()
-    component.remove_layers(layers=(layer_pin, bbox_layer))
+    layers = component.get_layers()
+    remove_layers = (layer_pin, bbox_layer)
+
+    for layer in remove_layers:
+        if layer in layers:
+            component.remove_layers(layers=(layer,))
     component.add_padding(default=padding, layers=(bbox_layer,))
 
     component = add_pins_siepic(
