@@ -19,7 +19,7 @@ from gdsfactory.types import (
 
 @gf.cell
 def add_fiber_array(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec = straight,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     bend: ComponentSpec = "bend_euler",
     gc_port_name: str = "o1",

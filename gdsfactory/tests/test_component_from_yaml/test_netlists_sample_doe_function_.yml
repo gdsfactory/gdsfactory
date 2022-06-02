@@ -93,7 +93,8 @@ instances:
             name: ring_single_15a01d93
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -247,7 +248,8 @@ instances:
             name: ring_single_36bf9679
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -401,7 +403,8 @@ instances:
             name: ring_single_4f2b93e6
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -555,7 +558,8 @@ instances:
             name: ring_single_557cf3bf
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -709,7 +713,8 @@ instances:
             name: ring_single_5d6e411b
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -863,7 +868,8 @@ instances:
             name: ring_single_97963132
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -1017,7 +1023,8 @@ instances:
             name: ring_single_b1b00c28
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -1171,7 +1178,8 @@ instances:
             name: ring_single_b4c8763a
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -1325,7 +1333,8 @@ instances:
             name: ring_single_b5de162f
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -1479,7 +1488,8 @@ instances:
             name: ring_single_cb0f7119
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -1633,7 +1643,8 @@ instances:
             name: ring_single_f56e8ae9
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null
@@ -1787,7 +1798,8 @@ instances:
             name: ring_single_f72b5eef
           default:
             bend: bend_euler
-            component: mmi2x2
+            component:
+              function: straight
             component_name: null
             cross_section: strip
             gc_port_labels: null

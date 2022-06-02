@@ -275,7 +275,8 @@ settings:
   default:
     bend:
       function: bend_euler
-    component: mmi2x2
+    component:
+      function: straight
     component_name: null
     cross_section: strip
     fiber_spacing: 50

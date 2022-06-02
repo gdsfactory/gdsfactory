@@ -128,7 +128,8 @@ settings:
     name: mzi_2e88f57c
   default:
     bend_length: null
-    component: mmi2x2
+    component:
+      function: straight
     cross_section: strip
     npoints: 101
     port_spacing: 20
