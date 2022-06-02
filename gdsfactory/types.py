@@ -1,20 +1,29 @@
-"""In programming, a factory is a function that returns an Object.
+"""In programming, a factory is a function that returns an object.
 
 Functions are easy to understand because they have clear inputs and outputs.
 Most gdsfactory functions take some inputs and return a Component object.
 Some of these inputs parameters are also functions.
 
 - Component: Object with.
-    - name
-    - references to other components (x, y, rotation)
-    - polygons in different layers
-    - ports dictionary
-- ComponentFactory: function that returns a Component.
+    - name.
+    - references: to other components (x, y, rotation).
+    - polygons in different layers.
+    - ports dict.
 - Route: dataclass with 3 attributes.
-    - references: list of references (straights, bends and tapers)
-    - ports: dict(input=PortIn, output=PortOut)
-    - length: float (how long is this route)
+    - references: list of references (straights, bends and tapers).
+    - ports: dict(input=PortIn, output=PortOut).
+    - length: how long is this route?
+
+Factories:
+
+- ComponentFactory: function that returns a Component.
 - RouteFactory: function that returns a Route.
+
+
+Specs:
+
+- ComponentSpec: Component, ComponentFactory or dict(component=mzi, settings=dict(delta_length=20)).
+- LayerSpec: (3, 0), 3 (asumes 0 as datatype) or string.
 
 """
 import json
