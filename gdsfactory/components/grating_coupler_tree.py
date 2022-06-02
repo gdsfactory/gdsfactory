@@ -29,7 +29,7 @@ def grating_coupler_tree(
         grating_coupler: spec.
         with_loopback: adds loopback.
         bend: bend spec.
-        fanout_length: in um
+        fanout_length: in um.
         layer_label: for layer.
         kwargs: cross_section settings.
 
