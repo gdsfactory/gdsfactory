@@ -28,7 +28,7 @@ Specs:
 """
 import json
 import pathlib
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -80,7 +80,7 @@ Ints = Tuple[int, ...]
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
-LayerSpec = Union[Layer, int, str, None]
+LayerSpec = NewType("LayerSpec", Union[Layer, int, str, None])
 LayerSpecs = Tuple[LayerSpec, ...]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
@@ -101,11 +101,15 @@ PortSymmetries = Dict[str, Dict[str, List[str]]]
 PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
-ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
+ComponentSpec = NewType(
+    "ComponentSpec", Union[str, ComponentFactory, Component, Dict[str, Any]]
+)
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
 ComponentSpecDict = Dict[str, ComponentSpec]
-CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+CrossSectionSpec = NewType(
+    "CrossSectionSpec", Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+)
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 
