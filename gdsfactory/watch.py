@@ -65,10 +65,11 @@ class YamlEventHandler(FileSystemEventHandler):
         what = "directory" if event.is_directory else "file"
         self.logger.info("Deleted %s: %s", what, event.src_path)
 
-        pdk = get_active_pdk()
-        filepath = pathlib.Path(event.src_path)
-        cell_name = filepath.stem.split(".")[0]
-        pdk.remove_cell(cell_name)
+        if what == "file" and event.src_path.endswith(".pic.yml"):
+            pdk = get_active_pdk()
+            filepath = pathlib.Path(event.src_path)
+            cell_name = filepath.stem.split(".")[0]
+            pdk.remove_cell(cell_name)
 
     def on_modified(self, event):
         super().on_modified(event)
@@ -80,11 +81,13 @@ class YamlEventHandler(FileSystemEventHandler):
 
     def get_component(self, filepath):
         try:
-            c = from_yaml(filepath)
-            self.update_cell(filepath, update=True)
-            c.show()
-            # on_yaml_cell_modified.fire(c)
-            return c
+            filepath = pathlib.Path(filepath)
+            if filepath.exists():
+                c = from_yaml(filepath)
+                self.update_cell(filepath, update=True)
+                c.show()
+                # on_yaml_cell_modified.fire(c)
+                return c
         except (ValueError, KeyError, Exception) as e:
             traceback.print_exc(file=sys.stdout)
             print(e)
