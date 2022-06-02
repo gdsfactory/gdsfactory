@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.8.5](https://github.com/gdsfactory/gdsfactory/pull/433)
+
+- bring back layer validator to ensure DEVREC, PORTE and PORT are defined in the pdk
+
 ## [5.8.4](https://github.com/gdsfactory/gdsfactory/pull/430)
 
 - remove default layers dict for pdk.
