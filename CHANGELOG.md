@@ -1,9 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.8.4]
+## [5.8.4](https://github.com/gdsfactory/gdsfactory/pull/430)
 
 - remove default layers dict for pdk.
-- validate layers to ensure you define layers for connectivity checks (DEVREC, PORT, PORTE). Fix [comment](https://github.com/gdsfactory/gdsfactory/discussions/409#discussioncomment-2862105).
+- validate layers to ensure you define layers for connectivity checks (DEVREC, PORT, PORTE). Fix [comment](https://github.com/gdsfactory/gdsfactory/discussions/409#discussioncomment-2862105). Add default layers if they don't exist [PR](https://github.com/gdsfactory/gdsfactory/pull/432)
 - extend ports do not absorb extension references.
 - fix filewatcher. Make sure it shows only components that exist.
 - Prevent mutation of double-cached cells [PR](https://github.com/gdsfactory/gdsfactory/pull/429)
