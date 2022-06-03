@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.8.8](https://github.com/gdsfactory/gdsfactory/pull/436)
+
+- assert ports on grid works with None orientation ports.
+
 ## [5.8.7](https://github.com/gdsfactory/gdsfactory/pull/435)
 
 - bring back python3.8 compatibility
