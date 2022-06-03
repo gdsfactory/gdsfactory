@@ -146,6 +146,8 @@ settings:
       function: select_ports
       settings:
         port_type: optical
+    straight:
+      function: straight
   full:
     bend: bend_euler
     component:
@@ -228,6 +230,8 @@ settings:
       function: select_ports
       settings:
         port_type: optical
+    straight:
+      function: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2
