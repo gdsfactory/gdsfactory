@@ -275,7 +275,10 @@ class Port(PortPhidl):
         if self.port_type.startswith("vertical"):
             return
 
-        if self.orientation in [0, 180]:
+        if self.orientation is None:
+            return
+
+        elif self.orientation in [0, 180]:
             x = self.y + self.width / 2
             if not np.isclose(snap_to_grid(x, nm=nm), x):
                 raise PortNotOnGridError(
