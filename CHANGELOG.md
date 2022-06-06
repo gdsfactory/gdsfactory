@@ -1,10 +1,26 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.8.10]
+
+- add `SHOW_PORTS = (1, 12)` layer.
+- document needed layers for the pdk.
+
+| Layer          | Purpose                                                      |
+| -------------- | ------------------------------------------------------------ |
+| PORT           | optical port pins. For connectivity checks.                  |
+| PORTE          | electrical port pins. For connectivity checks.               |
+| DEVREC         | device recognition layer. For connectivity checks.           |
+| SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
+| LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
+| LABEL          | for adding labels to grating couplers for automatic testing. |
+| TE             | for TE polarization fiber marker.                            |
+| TM             | for TM polarization fiber marker.                            |
+
 ## 5.8.9
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/440)
-    * add default layers to pdk. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/437)
-    * apply default_decorator before returning component if pdk.default_decorator is defined.
+  - add default layers to pdk. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/437)
+  - apply default_decorator before returning component if pdk.default_decorator is defined.
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/441) Component.show(show_ports=False) `show_ports=False` and use `LAYER.PORT`, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/438)
 
 ## [5.8.8](https://github.com/gdsfactory/gdsfactory/pull/436)
@@ -53,17 +69,17 @@
 ## 5.8.0
 
 - works with siepic verification [PR](https://github.com/gdsfactory/gdsfactory/pull/410)
-    - cross_section has optional add_pins and add_bbox, which can be used for verification.
-        - add `cladding_layers` and `cladding_offset`.
-        - cladding_layers follow path shape, while bbox_layers are rectangular.
-    - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
-    - add `with_two_ports` to taper. False for edge couplers and terminators.
-    - fix ring_double_heater open in the heater top waveguide.
+  - cross_section has optional add_pins and add_bbox, which can be used for verification.
+    - add `cladding_layers` and `cladding_offset`.
+    - cladding_layers follow path shape, while bbox_layers are rectangular.
+  - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
+  - add `with_two_ports` to taper. False for edge couplers and terminators.
+  - fix ring_double_heater open in the heater top waveguide.
 - Make pdk from existing pdk [PR](https://github.com/gdsfactory/gdsfactory/pull/406)
 - add events module and events relating to Pdk modifications [PR](https://github.com/gdsfactory/gdsfactory/pull/412)
-    - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
-- add LayerSpec as Union[int, Tuple[int,int], str, None] [PR](https://github.com/gdsfactory/gdsfactory/pull/413/)
-    - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
+  - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
+- add LayerSpec as Union[int, Tuple[int,int], str, None][pr](https://github.com/gdsfactory/gdsfactory/pull/413/)
+  - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
@@ -78,9 +94,9 @@
 - clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)
 - fix N/S routing in route_ports_to_side [PR](https://github.com/gdsfactory/gdsfactory/pull/395)
 - Add basic multilayer electrical routing to most routing functions [PR](https://github.com/gdsfactory/gdsfactory/pull/392)
-   - Use via_corner instead of wire_corner for bend function
-   - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
-   - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
+  - Use via_corner instead of wire_corner for bend function
+  - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
+  - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
 
 ## [5.6.12](https://github.com/gdsfactory/gdsfactory/pull/397)
 
@@ -99,7 +115,7 @@
 
 ## [5.6.9](https://github.com/gdsfactory/gdsfactory/pull/389)
 
--  add_port_from_marker function only allows for ports to be created parallel to the long side of the pin marker. [PR](https://github.com/gdsfactory/gdsfactory/pull/386)
+- add_port_from_marker function only allows for ports to be created parallel to the long side of the pin marker. [PR](https://github.com/gdsfactory/gdsfactory/pull/386)
 
 ## [5.6.7](https://github.com/gdsfactory/gdsfactory/pull/385)
 
@@ -107,7 +123,6 @@
 - write_gds creates a new file per save
 - improve filewatcher for YAML files
 - add python_requires = >= 3.7 in setup.cfg
-
 
 ## [5.6.6](https://github.com/gdsfactory/gdsfactory/pull/382)
 
@@ -161,7 +176,6 @@
 - expose `gf.add_pins` module instead of `add_pins` function. So you can use any of the functions inside the module.
 - improve tutorial
 
-
 ## [5.5.5](https://github.com/gdsfactory/gdsfactory/pull/360)
 
 - add `gdsdir` to write_cells CLI command
@@ -206,7 +220,7 @@
 
 - bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
 - rename `vars` to `settings` in `read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/339)
-    - use settings combined with kwargs for getting component name
+  - use settings combined with kwargs for getting component name
 - fix mirror isse in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
 
 ## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
@@ -219,9 +233,9 @@
 - update netlist driven flow tutorial with ipywidgets, so you can live update the YAML and see it in matplotlib and Klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/329)
 - [PR fixes problem with showing new layers, not in the previous layer props](https://github.com/gdsfactory/gdsfactory/pull/328)
 - [fix show](https://github.com/gdsfactory/gdsfactory/pull/326)
- - Fixes gf.show() when gdsdir is passed as a kwarg (for cases when the user wants to retain the output gds file at a specific directory)
- - Changes the default behavior to use a context manager to clean up the temp directory after it is created
- - Adds tests for the two different invocation types
+- Fixes gf.show() when gdsdir is passed as a kwarg (for cases when the user wants to retain the output gds file at a specific directory)
+- Changes the default behavior to use a context manager to clean up the temp directory after it is created
+- Adds tests for the two different invocation types
 
 ## [5.3.7](https://github.com/gdsfactory/gdsfactory/pull/325)
 
@@ -255,8 +269,8 @@
 - enable Component.plot() with ports with orientation = None
 - add gf.routing.get_route_from_steps_electrical
 - rename ComponentFactory to ComponentSpec and ComponentOrFactory to ComponentSpec [PR](https://github.com/gdsfactory/gdsfactory/pull/313)
-    * replace callable(component) with gf.get_component(component)
-    * replace some call_if_func(component) with gf.get_component(component)
+  - replace callable(component) with gf.get_component(component)
+  - replace some call_if_func(component) with gf.get_component(component)
 
 ## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 
@@ -266,7 +280,6 @@
 
 - add more type annotations. To reduce the number of mypy errors.
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/306)
-
 
 ## [5.2.7](https://github.com/gdsfactory/gdsfactory/pull/305)
 
@@ -300,16 +313,15 @@
 ## [5.2.1](https://github.com/gdsfactory/gdsfactory/pull/289)
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/289)
-    * rename cladding_offsets as bbox_offsets
-    * copy_child_info propagates polarization and wavelength info
+
+  - rename cladding_offsets as bbox_offsets
+  - copy_child_info propagates polarization and wavelength info
 
 - make sure 0 or None is 0 in `xmin` or `xmax` keys from component_from_yaml
-
 
 ## [5.2.0](https://github.com/gdsfactory/gdsfactory/pull/287)
 
 - rename `contact` to `via_stack`
-
 
 ## [5.1.2](https://github.com/gdsfactory/gdsfactory/pull/286)
 
@@ -324,6 +336,7 @@
 ## [5.1.0](https://github.com/gdsfactory/gdsfactory/pull/284)
 
 - improve shear angle algorithm to work with waveguides at any angle [PR](https://github.com/gdsfactory/gdsfactory/pull/283)
+
   - add examples in notebooks
   - add tests
   - add shear_angle attribute to Port
