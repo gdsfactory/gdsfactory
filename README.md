@@ -61,6 +61,7 @@ gdsfactory top contributors:
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters
 - Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path
 - Igal Bayn (Google): for documentation improvements and suggestions.
+- Alex Sludds (MIT): for tiling fixes.
 
 Open source heroes:
 
@@ -74,6 +75,4 @@ Open source heroes:
 
 - [gdsfactory github repo](https://github.com/gdsfactory/gdsfactory) and [docs](https://gdsfactory.github.io/gdsfactory/)
 - [ubc PDK](https://github.com/gdsfactory/ubc): sample open source PDK from edx course.
-- [miniforge install instructions](https://github.com/conda-forge/miniforge#mambaforge)
-- [SAX](https://flaport.github.io/sax): separate package for circuit simulations
 - [awesome photonics list](https://github.com/joamatab/awesome_photonics)

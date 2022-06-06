@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.8.9]
+
+- add default layers to pdk. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/437)
+- apply default_decorator before returning component if pdk.default_decorator is defined.
+
 ## [5.8.8](https://github.com/gdsfactory/gdsfactory/pull/436)
 
 - assert ports on grid works with None orientation ports.
