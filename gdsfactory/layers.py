@@ -89,7 +89,7 @@ class LayerSet(LayerSetPhidl):
         alpha: float = 0.6,
         dither: bool = None,
     ) -> None:
-        """Adds a layer to an existing LayerSet object for nice colors.
+        """Adds a layer to LayerSet object for nice colors.
 
         Args:
             name: Name of the Layer.
