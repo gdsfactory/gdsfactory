@@ -6,7 +6,7 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, Field, validator
 
 from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
@@ -45,13 +45,13 @@ class Pdk(BaseModel):
         layers: layers dict.
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
-        default_decorator: default decorator for all cells, if not otherwise defined on the cell.
+        default_decorator: decorate all cells, if not otherwise defined on the cell.
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory]
     cells: Dict[str, ComponentFactory]
-    layers: Dict[str, Layer]
+    layers: Dict[str, Layer] = Field(dict)
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
@@ -268,7 +268,13 @@ class Pdk(BaseModel):
                 if cell_name in self.cells
                 else self.containers[cell_name]
             )
-            return cell(**settings)
+            component = cell(**settings)
+            component = (
+                self.default_decorator(component) or component
+                if self.default_decorator
+                else component
+            )
+            return component
         else:
             raise ValueError(
                 "get_component expects a ComponentSpec (Component, ComponentFactory, "
