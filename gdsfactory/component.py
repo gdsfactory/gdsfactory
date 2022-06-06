@@ -911,9 +911,9 @@ class Component(Device):
 
     def show(
         self,
-        show_ports: bool = True,
+        show_ports: bool = False,
         show_subports: bool = False,
-        port_marker_layer: Layer = (1, 12),
+        port_marker_layer: Layer = "PORT",
     ) -> None:
         """Show component in klayout.
 
