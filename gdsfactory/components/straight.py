@@ -80,5 +80,5 @@ if __name__ == "__main__":
         # bbox_offsets=[3],
     )
     c.assert_ports_on_grid()
-    c.show()
+    c.show(show_ports=True)
     c.pprint()
