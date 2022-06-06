@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.8.10]
+## [5.8.10](https://github.com/gdsfactory/gdsfactory/pull/443)
 
 - add `SHOW_PORTS = (1, 12)` layer.
 - document needed layers for the pdk.
