@@ -76,6 +76,16 @@ import gdsfactory as gf
 class LayerMap(BaseModel):
     WGCORE = (3, 0)
     LABEL = (100, 0)
+    DEVREC: Layer = (68, 0)
+    LABEL: Layer = (10, 0)
+    PORT: Layer = (1, 10)  # PinRec
+    PORTE: Layer = (1, 11)  # PinRecM
+    FLOORPLAN: Layer = (99, 0)
+
+    TE: Layer = (203, 0)
+    TM: Layer = (204, 0)
+    TEXT: Layer = (66, 0)
+    LABEL_INSTANCE: Layer = (66, 0)
 
 
 LAYER = LayerMap()
