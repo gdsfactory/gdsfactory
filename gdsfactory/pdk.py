@@ -6,7 +6,7 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 
 from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
@@ -49,19 +49,19 @@ class Pdk(BaseModel):
     """
 
     name: str
-    cross_sections: Dict[str, CrossSectionFactory]
-    cells: Dict[str, ComponentFactory]
-    layers: Dict[str, Layer] = Field(dict)
+    cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
+    cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
+    layers: Dict[str, Layer] = Field(default_factory=dict)
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
 
-    @validator("layers")
-    def validate_layers(cls, v):
+    def validate_layers(self):
         for layer in layers_required:
-            if layer not in v:
-                raise ValueError(f"{layer!r} not in Pdk.layers {list(v.keys())}")
-        return v
+            if layer not in self.layers:
+                raise ValueError(
+                    f"{layer!r} not in Pdk.layers {list(self.layers.keys())}"
+                )
 
     def activate(self) -> None:
         """Set current pdk to as the active pdk."""
@@ -84,6 +84,7 @@ class Pdk(BaseModel):
 
             if not self.default_decorator:
                 self.default_decorator = self.base_pdk.default_decorator
+        self.validate_layers()
         _set_active_pdk(self)
 
     def register_cells(self, **kwargs) -> None:
