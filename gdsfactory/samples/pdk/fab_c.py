@@ -3,7 +3,7 @@
 import pathlib
 from typing import Callable
 
-from pydantic import dataclasses
+from pydantic import BaseModel
 
 import gdsfactory as gf
 import gdsfactory.simulation as sim
@@ -16,8 +16,7 @@ from gdsfactory.tech import LayerLevel, LayerStack
 from gdsfactory.types import Layer
 
 
-@dataclasses.dataclass(frozen=True)
-class LayerMap:
+class LayerMap(BaseModel):
     WG: Layer = (10, 1)
     WG_CLAD: Layer = (10, 2)
     WGN: Layer = (34, 0)
