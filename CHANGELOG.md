@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.8.11]
+## [5.8.11](https://github.com/gdsfactory/gdsfactory/pull/445)
 
 - validate pdk layers after activate the pdk
 - pdk layers, cells and cross_sections are an empty dict by default
