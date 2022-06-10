@@ -4,6 +4,7 @@
 
 - validate pdk layers after activate the pdk
 - pdk layers, cells and cross_sections are an empty dict by default
+- fix [spiral](https://github.com/gdsfactory/gdsfactory/pull/444)
 
 ## [5.8.10](https://github.com/gdsfactory/gdsfactory/pull/443)
 
