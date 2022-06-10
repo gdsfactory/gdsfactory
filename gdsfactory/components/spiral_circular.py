@@ -54,8 +54,6 @@ def spiral_circular(
 ) -> Component:
     """Returns a circular spiral.
 
-    FIXME, has a notch in the inner loop.
-
     Args:
         length: length in um.
         wg_width: width.
@@ -123,7 +121,9 @@ def spiral_circular(
     x_sp = np.concatenate([x_1[:0:-1], x_inner_1[:-1], x_inner_2[-2:0:-1], x_2])
     y_sp = np.concatenate([y_1[:0:-1], y_inner_1[:-1], y_inner_2[-2:0:-1], y_2])
 
-    p_spiral = gds.PolyPath(np.c_[x_sp, y_sp], wg_width, layer=wg_layer, datatype=wg_datatype)
+    p_spiral = gds.PolyPath(
+        np.c_[x_sp, y_sp], wg_width, layer=wg_layer, datatype=wg_datatype
+    )
     ps.append(p_spiral)
 
     # Output straight
