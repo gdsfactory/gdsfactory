@@ -4,7 +4,7 @@
 
 - add doe_settings and doe_names to pack_doe and pack_doe_grid
 - add with_hash setting to `gf.cell` that hashes parameters. By default `with_hash=False`, which gives meaningful name to component.
-- update to tidy3d 1.4.0 [PR]()
+- update to tidy3d 1.4.0, add erosion, dilation and sidewall_angle_deg [PR](https://github.com/gdsfactory/gdsfactory/pull/447)
 
 
 ## [5.8.11](https://github.com/gdsfactory/gdsfactory/pull/445)
