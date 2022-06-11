@@ -1,4 +1,4 @@
-name: pad_array_b84950ef
+name: pad_array_orientation90
 settings:
   changed:
     orientation: 90
@@ -26,5 +26,5 @@ settings:
     - 100.0
   info_version: 2
   module: gdsfactory.components.pad
-  name: pad_array_b84950ef
+  name: pad_array_orientation90
 version: 0.0.1

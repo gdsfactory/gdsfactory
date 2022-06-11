@@ -1,4 +1,4 @@
-name: text_rectangular_3d1824_b598f616
+name: text_rectangular_layerM_02fd6d01
 settings:
   changed:
     factory:
@@ -38,7 +38,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.text_rectangular
-    name: text_rectangular_3d182411
+    name: text_rectangular_layerM3
   default:
     factory:
       function: cross
@@ -61,5 +61,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: text_rectangular_3d1824_b598f616
+  name: text_rectangular_layerM_02fd6d01
 version: 0.0.1

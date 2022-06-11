@@ -177,14 +177,16 @@ if __name__ == "__main__":
     c.show()
 
     mzi = mzi_nc()
-    mzi.show()
-    mzi_gc = gf.routing.add_fiber_single(
-        component=mzi,
-        grating_coupler=gc_nc,
-        cross_section=xs_nc,
-        optical_routing_type=1,
-        straight=straight_nc,
-        bend=bend_euler_nc,
-        select_ports=select_ports_optical,
-    )
-    mzi_gc.show()
+    print(mzi.name)
+
+    # mzi.show()
+    # mzi_gc = gf.routing.add_fiber_single(
+    #     component=mzi,
+    #     grating_coupler=gc_nc,
+    #     cross_section=xs_nc,
+    #     optical_routing_type=1,
+    #     straight=straight_nc,
+    #     bend=bend_euler_nc,
+    #     select_ports=select_ports_optical,
+    # )
+    # mzi_gc.show()

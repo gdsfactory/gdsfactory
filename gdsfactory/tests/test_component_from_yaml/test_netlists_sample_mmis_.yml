@@ -1,10 +1,10 @@
 connections:
-  bend_euler_115p144_5p5,o1: straight_dee7a506_62p51_0p625,o2
-  bend_euler_115p144_5p5,o2: straight_e4b574c8_120p02_50p312,o1
-  bend_euler_115p144_95p124,o1: straight_e4b574c8_120p02_50p312,o2
-  bend_euler_115p144_95p124,o2: straight_2d58b973_110p01_100p0,o1
-  mmi_long,o1: straight_2d58b973_110p01_100p0,o2
-  mmi_short,o2: straight_dee7a506_62p51_0p625,o1
+  bend_euler_115p144_5p5,o1: straight_length95p02_62p51_0p625,o2
+  bend_euler_115p144_5p5,o2: straight_length79p375_120p02_50p312,o1
+  bend_euler_115p144_95p124,o1: straight_length79p375_120p02_50p312,o2
+  bend_euler_115p144_95p124,o2: straight_length0p02_110p01_100p0,o1
+  mmi_long,o1: straight_length0p02_110p01_100p0,o2
+  mmi_short,o2: straight_length95p02_62p51_0p625,o1
 instances:
   bend_euler_115p144_5p5:
     component: bend_euler
@@ -32,27 +32,27 @@ instances:
     settings:
       length_mmi: 5
       width_mmi: 4.5
-  straight_2d58b973_110p01_100p0:
+  straight_length0p02_110p01_100p0:
     component: straight
     info:
       length: 0.02
       width: 0.5
     settings:
       length: 0.02
-  straight_dee7a506_62p51_0p625:
-    component: straight
-    info:
-      length: 95.02
-      width: 0.5
-    settings:
-      length: 95.02
-  straight_e4b574c8_120p02_50p312:
+  straight_length79p375_120p02_50p312:
     component: straight
     info:
       length: 79.375
       width: 0.5
     settings:
       length: 79.375
+  straight_length95p02_62p51_0p625:
+    component: straight
+    info:
+      length: 95.02
+      width: 0.5
+    settings:
+      length: 95.02
 name: sample_mmis_8ba5a8e2
 placements:
   bend_euler_115p144_5p5:
@@ -75,21 +75,21 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_2d58b973_110p01_100p0:
+  straight_length0p02_110p01_100p0:
     mirror: false
     rotation: 180
     x: 110.02
     y: 100.0
-  straight_dee7a506_62p51_0p625:
-    mirror: false
-    rotation: 0
-    x: 15.0
-    y: 0.625
-  straight_e4b574c8_120p02_50p312:
+  straight_length79p375_120p02_50p312:
     mirror: false
     rotation: 90
     x: 120.02
     y: 10.625
+  straight_length95p02_62p51_0p625:
+    mirror: false
+    rotation: 0
+    x: 15.0
+    y: 0.625
 ports:
   o1: mmi_short,o1
   o2: mmi_long,o2
