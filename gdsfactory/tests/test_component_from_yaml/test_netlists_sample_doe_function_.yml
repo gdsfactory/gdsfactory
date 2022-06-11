@@ -1,15 +1,426 @@
 connections: {}
 instances:
   mzis:
-    component: pack_doe_grid
+    component: grid
     settings:
-      do_permutations: true
-      doe: mzi
-      function: add_fiber_array
-      settings:
-        delta_length:
-        - 10
-        - 100
+      components:
+      - name: mzi_add_fiber_array_2512c309
+        settings:
+          changed:
+            component:
+              name: mzi
+              settings:
+                changed: {}
+                child: null
+                default:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 10
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                full:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 10
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                function_name: mzi
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.mzi
+                name: mzi
+              version: 0.0.1
+          child:
+            changed: {}
+            child: null
+            default:
+              bend: bend_euler
+              combiner: null
+              cross_section: strip
+              cross_section_x_bot: null
+              cross_section_x_top: null
+              delta_length: 10
+              length_x: 0.1
+              length_y: 2
+              nbends: 2
+              port_e0_combiner: o3
+              port_e0_splitter: o3
+              port_e1_combiner: o2
+              port_e1_splitter: o2
+              splitter: mmi1x2
+              straight:
+                function: straight
+              straight_x_bot: null
+              straight_x_top: null
+              straight_y: null
+              with_splitter: true
+            full:
+              bend: bend_euler
+              combiner: null
+              cross_section: strip
+              cross_section_x_bot: null
+              cross_section_x_top: null
+              delta_length: 10
+              length_x: 0.1
+              length_y: 2
+              nbends: 2
+              port_e0_combiner: o3
+              port_e0_splitter: o3
+              port_e1_combiner: o2
+              port_e1_splitter: o2
+              splitter: mmi1x2
+              straight:
+                function: straight
+              straight_x_bot: null
+              straight_x_top: null
+              straight_y: null
+              with_splitter: true
+            function_name: mzi
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.mzi
+            name: mzi
+          default:
+            bend: bend_euler
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+            straight:
+              function: straight
+          full:
+            bend: bend_euler
+            component:
+              name: mzi
+              settings:
+                changed: {}
+                child: null
+                default:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 10
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                full:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 10
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                function_name: mzi
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.mzi
+                name: mzi
+              version: 0.0.1
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+            straight:
+              function: straight
+          function_name: add_fiber_array
+          info: {}
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: mzi_add_fiber_array_2512c309
+        version: 0.0.1
+      - name: mzi_9f5eba71_add_fiber__fab96f2d
+        settings:
+          changed:
+            component:
+              name: mzi_9f5eba71
+              settings:
+                changed:
+                  delta_length: 100
+                child: null
+                default:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 10
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                full:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 100
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                function_name: mzi
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.mzi
+                name: mzi_9f5eba71
+              version: 0.0.1
+          child:
+            changed:
+              delta_length: 100
+            child: null
+            default:
+              bend: bend_euler
+              combiner: null
+              cross_section: strip
+              cross_section_x_bot: null
+              cross_section_x_top: null
+              delta_length: 10
+              length_x: 0.1
+              length_y: 2
+              nbends: 2
+              port_e0_combiner: o3
+              port_e0_splitter: o3
+              port_e1_combiner: o2
+              port_e1_splitter: o2
+              splitter: mmi1x2
+              straight:
+                function: straight
+              straight_x_bot: null
+              straight_x_top: null
+              straight_y: null
+              with_splitter: true
+            full:
+              bend: bend_euler
+              combiner: null
+              cross_section: strip
+              cross_section_x_bot: null
+              cross_section_x_top: null
+              delta_length: 100
+              length_x: 0.1
+              length_y: 2
+              nbends: 2
+              port_e0_combiner: o3
+              port_e0_splitter: o3
+              port_e1_combiner: o2
+              port_e1_splitter: o2
+              splitter: mmi1x2
+              straight:
+                function: straight
+              straight_x_bot: null
+              straight_x_top: null
+              straight_y: null
+              with_splitter: true
+            function_name: mzi
+            info: {}
+            info_version: 2
+            module: gdsfactory.components.mzi
+            name: mzi_9f5eba71
+          default:
+            bend: bend_euler
+            component:
+              function: straight
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+            straight:
+              function: straight
+          full:
+            bend: bend_euler
+            component:
+              name: mzi_9f5eba71
+              settings:
+                changed:
+                  delta_length: 100
+                child: null
+                default:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 10
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                full:
+                  bend: bend_euler
+                  combiner: null
+                  cross_section: strip
+                  cross_section_x_bot: null
+                  cross_section_x_top: null
+                  delta_length: 100
+                  length_x: 0.1
+                  length_y: 2
+                  nbends: 2
+                  port_e0_combiner: o3
+                  port_e0_splitter: o3
+                  port_e1_combiner: o2
+                  port_e1_splitter: o2
+                  splitter: mmi1x2
+                  straight:
+                    function: straight
+                  straight_x_bot: null
+                  straight_x_top: null
+                  straight_y: null
+                  with_splitter: true
+                function_name: mzi
+                info: {}
+                info_version: 2
+                module: gdsfactory.components.mzi
+                name: mzi_9f5eba71
+              version: 0.0.1
+            component_name: null
+            cross_section: strip
+            gc_port_labels: null
+            gc_port_name: o1
+            get_input_labels_function:
+              function: get_input_labels
+            grating_coupler:
+              function: grating_coupler_elliptical_trenches
+              settings:
+                polarization: te
+                taper_angle: 35
+            layer_label: TEXT
+            select_ports:
+              function: select_ports
+              settings:
+                port_type: optical
+            straight:
+              function: straight
+          function_name: add_fiber_array
+          info: {}
+          info_version: 2
+          module: gdsfactory.routing.add_fiber_array
+          name: mzi_9f5eba71_add_fiber__fab96f2d
+        version: 0.0.1
       spacing:
       - 10
       - 10
