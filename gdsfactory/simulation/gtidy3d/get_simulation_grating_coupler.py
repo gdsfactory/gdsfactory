@@ -57,6 +57,8 @@ def get_simulation_grating_coupler(
     is_3d: bool = True,
     with_all_monitors: bool = False,
     boundary_spec=td.BoundarySpec.all_sides(boundary=td.PML()),
+    sidewall_angle_deg: float = 0,
+    dilation: float = 0.0,
     **kwargs,
 ) -> td.Simulation:
     r"""Returns Simulation object from a gdsfactory grating coupler component.
@@ -160,7 +162,15 @@ def get_simulation_grating_coupler(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False collapses the Y direction for a 2D simulation.
-        with_all_monitors: if True, includes field monitors which increase results file size.
+        with_all_monitors: True includes field monitors which increase results file size.
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        sidewall_angle_deg : float = 0
+            Angle of the sidewall.
+            ``sidewall_angle=0`` (default) specifies vertical wall,
+            while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     keyword Args:
         grid_spec:
@@ -301,6 +311,8 @@ def get_simulation_grating_coupler(
                     gds_dtype=layer[1],
                     axis=2,
                     slab_bounds=(zmin, zmax),
+                    sidewall_angle=np.deg2rad(sidewall_angle_deg),
+                    dilation=dilation,
                 )
 
                 for polygon in polygons:
