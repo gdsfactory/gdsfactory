@@ -39,7 +39,6 @@ def get_simulation_grating_coupler(
     port_margin: float = 0.5,
     port_waveguide_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
-    resolution: float = 50,
     wavelength: Optional[float] = 1.55,
     wavelength_start: float = 1.20,
     wavelength_stop: float = 1.80,
@@ -57,9 +56,12 @@ def get_simulation_grating_coupler(
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
+    boundary_spec=td.BoundarySpec.all_sides(boundary=td.PML()),
+    sidewall_angle_deg: float = 0,
+    dilation: float = 0.0,
     **kwargs,
 ) -> td.Simulation:
-    r"""Returns Simulation object from a gdsfactory grating coupler component
+    r"""Returns Simulation object from a gdsfactory grating coupler component.
 
     injects a Gaussian beam from above and monitors the transmission into the waveguide.
 
@@ -131,15 +133,14 @@ def get_simulation_grating_coupler(
         clad_material: material for cladding.
         box_material:
         substrate_material:
-        box_thickness: (um)
-        substrate_thickness: (um)
+        box_thickness: (um).
+        substrate_thickness: (um).
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
-        wavelength: source center wavelength (um)
+        wavelength: source center wavelength (um).
             if None takes mean between wavelength_start, wavelength_stop
         wavelength_start: in (um).
         wavelength_stop: in (um).
@@ -148,10 +149,10 @@ def get_simulation_grating_coupler(
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and automatic shutoff stops earlier if needed.
-        fiber_port_name:
-        fiber_xoffset: fiber center xoffset to fiber_port_name
-        fiber_z: fiber zoffset from grating zmax
-        fiber_mfd: fiber mode field diameter (um)
+        fiber_port_name: for the component.
+        fiber_xoffset: fiber center xoffset to fiber_port_name.
+        fiber_z: fiber zoffset from grating zmax.
+        fiber_mfd: fiber mode field diameter (um).
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
             Positive for west facing, Negative for east facing sources.
         dispersive: False uses constant refractive index materials.
@@ -161,7 +162,15 @@ def get_simulation_grating_coupler(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False collapses the Y direction for a 2D simulation.
-        with_all_monitors: if True, includes field monitors which increase results file size.
+        with_all_monitors: True includes field monitors which increase results file size.
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        sidewall_angle_deg : float = 0
+            Angle of the sidewall.
+            ``sidewall_angle=0`` (default) specifies vertical wall,
+            while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     keyword Args:
         grid_spec:
@@ -242,7 +251,7 @@ def get_simulation_grating_coupler(
     sim_zsize = (
         thickness_pml + box_thickness + wg_thickness + thickness_pml + 2 * zmargin
     )
-    sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 1 / resolution
+    sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 0
     sim_size = [
         sim_xsize,
         sim_ysize,
@@ -302,6 +311,8 @@ def get_simulation_grating_coupler(
                     gds_dtype=layer[1],
                     axis=2,
                     slab_bounds=(zmin, zmax),
+                    sidewall_angle=np.deg2rad(sidewall_angle_deg),
+                    dilation=dilation,
                 )
 
                 for polygon in polygons:
@@ -397,8 +408,8 @@ def get_simulation_grating_coupler(
         structures=structures,
         sources=[gaussian_beam],
         monitors=monitors,
-        run_time=20 * run_time_ps / fwidth,
-        pml_layers=3 * [td.PML()] if is_3d else [td.PML(), None, td.PML()],
+        run_time=run_time_ps * 1e-12,
+        boundary_spec=boundary_spec,
         **kwargs,
     )
 
