@@ -206,7 +206,6 @@ settings:
     module: gdsfactory.add_tapers
     name: straight_length20_width_dd675920
   default:
-    bend: bend_euler
     component:
       function: straight
     component_name: null
@@ -225,10 +224,7 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
   full:
-    bend: bend_euler
     component:
       name: straight_length20_width_dd675920
       settings:
@@ -349,8 +345,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight:
-      function: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2

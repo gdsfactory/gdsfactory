@@ -111,7 +111,6 @@ instances:
             module: gdsfactory.components.mzi
             name: mzi
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -130,10 +129,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: mzi
               settings:
@@ -203,8 +199,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -320,7 +314,6 @@ instances:
             module: gdsfactory.components.mzi
             name: mzi_delta_length100
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -339,10 +332,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: mzi_delta_length100
               settings:
@@ -413,8 +403,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -503,7 +491,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x1_radius40
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -522,10 +509,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x1_radius40
               settings:
@@ -580,8 +564,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -662,7 +644,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x1_radius20
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -681,10 +662,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x1_radius20
               settings:
@@ -739,8 +717,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -821,7 +797,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x1_radius50
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -840,10 +815,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x1_radius50
               settings:
@@ -898,8 +870,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -980,7 +950,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x1_radius30
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -999,10 +968,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x1_radius30
               settings:
@@ -1057,8 +1023,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1139,7 +1103,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x2_radius40
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -1158,10 +1121,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x2_radius40
               settings:
@@ -1216,8 +1176,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1298,7 +1256,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x2_radius20
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -1317,10 +1274,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x2_radius20
               settings:
@@ -1375,8 +1329,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1457,7 +1409,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x2_radius30
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -1476,10 +1427,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x2_radius30
               settings:
@@ -1534,8 +1482,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1616,7 +1562,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x2_radius50
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -1635,10 +1580,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x2_radius50
               settings:
@@ -1693,8 +1635,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1775,7 +1715,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x3_radius50
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -1794,10 +1733,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x3_radius50
               settings:
@@ -1852,8 +1788,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -1934,7 +1868,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x3_radius20
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -1953,10 +1886,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x3_radius20
               settings:
@@ -2011,8 +1941,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -2093,7 +2021,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x3_radius40
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -2112,10 +2039,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x3_radius40
               settings:
@@ -2170,8 +2094,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
@@ -2252,7 +2174,6 @@ instances:
             module: gdsfactory.components.ring_single
             name: ring_single_length_x3_radius30
           default:
-            bend: bend_euler
             component:
               function: straight
             component_name: null
@@ -2271,10 +2192,7 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           full:
-            bend: bend_euler
             component:
               name: ring_single_length_x3_radius30
               settings:
@@ -2329,8 +2247,6 @@ instances:
               function: select_ports
               settings:
                 port_type: optical
-            straight:
-              function: straight
           function_name: add_fiber_array
           info: {}
           info_version: 2
