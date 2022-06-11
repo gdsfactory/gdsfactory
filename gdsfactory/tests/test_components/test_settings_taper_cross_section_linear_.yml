@@ -1,4 +1,4 @@
-name: taper_cross_section_f1747efd
+name: taper_cross_section_lin_fb44ec23
 settings:
   changed:
     linear: true
@@ -124,5 +124,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.taper_cross_section
-  name: taper_cross_section_f1747efd
+  name: taper_cross_section_lin_fb44ec23
 version: 0.0.1

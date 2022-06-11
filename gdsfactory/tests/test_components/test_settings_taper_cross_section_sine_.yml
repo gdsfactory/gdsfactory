@@ -1,4 +1,4 @@
-name: taper_cross_section_f6e3006a
+name: taper_cross_section_npoints101
 settings:
   changed:
     npoints: 101
@@ -123,5 +123,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.taper_cross_section
-  name: taper_cross_section_f6e3006a
+  name: taper_cross_section_npoints101
 version: 0.0.1

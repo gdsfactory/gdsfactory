@@ -1,4 +1,4 @@
-name: straight_heater_metal_u_d78c69b7
+name: straight_heater_metal_u_b8c91210
 settings:
   changed: {}
   child:
@@ -76,7 +76,7 @@ settings:
       resistance: null
     info_version: 2
     module: gdsfactory.components.straight_heater_metal
-    name: straight_heater_metal_u_6e8de97e
+    name: straight_heater_metal_u_5d466884
   default:
     angle: 180
     bend:
@@ -109,5 +109,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.bend_port
-  name: straight_heater_metal_u_d78c69b7
+  name: straight_heater_metal_u_b8c91210
 version: 0.0.1

@@ -1,4 +1,4 @@
-name: bend_circular_8d359e58
+name: bend_circular_angle180
 settings:
   changed:
     angle: 180
@@ -44,5 +44,5 @@ settings:
     radius: 10.0
   info_version: 2
   module: gdsfactory.components.bend_circular
-  name: bend_circular_8d359e58
+  name: bend_circular_angle180
 version: 0.0.1

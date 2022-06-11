@@ -1,17 +1,17 @@
 connections:
-  ring_single_a371eccc_m5p0_5p65,o2: straight_b3dac65b_7p5_0p0,o1
-  ring_single_fdbd008a_30p0_10p65,o1: straight_b3dac65b_7p5_0p0,o2
+  ring_single_length_x10_radius5_m5p0_5p65,o2: straight_length5_7p5_0p0,o1
+  ring_single_length_x20_30p0_10p65,o1: straight_length5_7p5_0p0,o2
 instances:
-  ring_single_a371eccc_m5p0_5p65:
+  ring_single_length_x10_radius5_m5p0_5p65:
     component: ring_single
     settings:
       length_x: 10
       radius: 5
-  ring_single_fdbd008a_30p0_10p65:
+  ring_single_length_x20_30p0_10p65:
     component: ring_single
     settings:
       length_x: 20
-  straight_b3dac65b_7p5_0p0:
+  straight_length5_7p5_0p0:
     component: straight
     info:
       length: 5
@@ -20,21 +20,21 @@ instances:
       length: 5
 name: ring_single_array
 placements:
-  ring_single_a371eccc_m5p0_5p65:
+  ring_single_length_x10_radius5_m5p0_5p65:
     mirror: false
     rotation: 0
     x: 0.0
     y: 0.0
-  ring_single_fdbd008a_30p0_10p65:
+  ring_single_length_x20_30p0_10p65:
     mirror: false
     rotation: 0
     x: 40.0
     y: 0.0
-  straight_b3dac65b_7p5_0p0:
+  straight_length5_7p5_0p0:
     mirror: false
     rotation: 0
     x: 5.0
     y: 0.0
 ports:
-  o1: ring_single_a371eccc_m5p0_5p65,o1
-  o2: ring_single_fdbd008a_30p0_10p65,o2
+  o1: ring_single_length_x10_radius5_m5p0_5p65,o1
+  o2: ring_single_length_x20_30p0_10p65,o2

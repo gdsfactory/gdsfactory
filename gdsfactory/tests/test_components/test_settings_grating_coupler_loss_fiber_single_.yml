@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_1460ca4e
+name: grating_coupler_ellipti_7645ee14
 settings:
   changed: {}
   child:
@@ -46,7 +46,7 @@ settings:
       wavelength: 1.53
     info_version: 2
     module: gdsfactory.components.grating_coupler_elliptical_trenches
-    name: grating_coupler_ellipti_db285fcb
+    name: grating_coupler_ellipti_dd7f7af4
   default:
     cross_section: strip
     grating_coupler:
@@ -67,5 +67,5 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.grating_coupler_loss_fiber_single
-  name: grating_coupler_ellipti_1460ca4e
+  name: grating_coupler_ellipti_7645ee14
 version: 0.0.1
