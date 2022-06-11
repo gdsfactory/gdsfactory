@@ -1,17 +1,137 @@
 connections: {}
 instances:
   mmi1x2_sweep:
-    component: pack_doe_grid
+    component: grid
     settings:
-      do_permutations: true
-      doe: mmi1x2
-      settings:
-        length_mmi:
-        - 2
-        - 100
-        width_mmi:
-        - 4
-        - 10
+      components:
+      - name: mmi1x2_length_mmi2_width_mmi4
+        settings:
+          changed:
+            length_mmi: 2
+            width_mmi: 4
+          child: null
+          default:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 5.5
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 2.5
+            width_taper: 1
+            with_bbox: true
+          full:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 2
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 4
+            width_taper: 1
+            with_bbox: true
+          function_name: mmi1x2
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.mmi1x2
+          name: mmi1x2_length_mmi2_width_mmi4
+        version: 0.0.1
+      - name: mmi1x2_length_mmi2_width_mmi10
+        settings:
+          changed:
+            length_mmi: 2
+            width_mmi: 10
+          child: null
+          default:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 5.5
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 2.5
+            width_taper: 1
+            with_bbox: true
+          full:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 2
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 10
+            width_taper: 1
+            with_bbox: true
+          function_name: mmi1x2
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.mmi1x2
+          name: mmi1x2_length_mmi2_width_mmi10
+        version: 0.0.1
+      - name: mmi1x2_length_mmi100_width_mmi4
+        settings:
+          changed:
+            length_mmi: 100
+            width_mmi: 4
+          child: null
+          default:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 5.5
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 2.5
+            width_taper: 1
+            with_bbox: true
+          full:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 100
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 4
+            width_taper: 1
+            with_bbox: true
+          function_name: mmi1x2
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.mmi1x2
+          name: mmi1x2_length_mmi100_width_mmi4
+        version: 0.0.1
+      - name: mmi1x2_length_mmi100_width_mmi10
+        settings:
+          changed:
+            length_mmi: 100
+            width_mmi: 10
+          child: null
+          default:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 5.5
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 2.5
+            width_taper: 1
+            with_bbox: true
+          full:
+            cross_section: strip
+            gap_mmi: 0.25
+            length_mmi: 100
+            length_taper: 10
+            taper: taper
+            width: 0.5
+            width_mmi: 10
+            width_taper: 1
+            with_bbox: true
+          function_name: mmi1x2
+          info: {}
+          info_version: 2
+          module: gdsfactory.components.mmi1x2
+          name: mmi1x2_length_mmi100_width_mmi10
+        version: 0.0.1
       shape:
       - 2
       - 2

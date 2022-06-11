@@ -1,4 +1,4 @@
-name: via_a3e7ab9f
+name: via_enclosure2_layerVIA1
 settings:
   changed:
     enclosure: 2
@@ -37,5 +37,5 @@ settings:
     - 2.0
   info_version: 2
   module: gdsfactory.components.via
-  name: via_a3e7ab9f
+  name: via_enclosure2_layerVIA1
 version: 0.0.1

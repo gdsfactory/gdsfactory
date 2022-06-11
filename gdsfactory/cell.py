@@ -72,6 +72,7 @@ def cell_without_validator(func):
     def _cell(*args, **kwargs):
         from gdsfactory.pdk import get_active_pdk
 
+        with_hash = kwargs.pop("with_hash", False)
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
@@ -114,8 +115,15 @@ def cell_without_validator(func):
         # else, keep only the base name
         if changed_arg_list:
             named_args_string = "_".join(changed_arg_list)
-            named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
-            name_signature = clean_name(f"{prefix}_{named_args_hash}")
+            named_args_string = (
+                hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+                if with_hash
+                or len(named_args_string) > 28
+                or "'" in named_args_string
+                or "{" in named_args_string
+                else named_args_string
+            )
+            name_signature = clean_name(f"{prefix}_{named_args_string}")
         else:
             name_signature = prefix
 

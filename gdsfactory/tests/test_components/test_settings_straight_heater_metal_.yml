@@ -1,4 +1,4 @@
-name: straight_heater_metal_u_6e8de97e
+name: straight_heater_metal_u_5d466884
 settings:
   changed:
     with_undercut: false
@@ -74,5 +74,5 @@ settings:
     resistance: null
   info_version: 2
   module: gdsfactory.components.straight_heater_metal
-  name: straight_heater_metal_u_6e8de97e
+  name: straight_heater_metal_u_5d466884
 version: 0.0.1

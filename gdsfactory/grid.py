@@ -16,7 +16,7 @@ def grid(
     components: Tuple[ComponentSpec, ...],
     spacing: Tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
-    shape: Tuple[int, int] = None,
+    shape: Optional[Tuple[int, int]] = None,
     align_x: str = "x",
     align_y: str = "y",
     edge_x: str = "x",
@@ -81,7 +81,7 @@ def grid(
             )
     device_array = np.reshape(device_array, shape)
 
-    D = Component("grid")
+    D = Component()
     ref_array = np.empty(device_array.shape, dtype=object)
     dummy = Component()
     for idx, d in np.ndenumerate(device_array):
@@ -111,7 +111,6 @@ def grid(
     Group(rows[::-1]).distribute(
         direction="y", spacing=spacing[1], separation=separation, edge=edge_y
     )
-
     return D
 
 
@@ -124,7 +123,7 @@ def grid_with_text(
     text: Optional[ComponentSpec] = text_rectangular,
     **kwargs,
 ) -> Component:
-    """Returns Grid with text labels
+    """Returns Grid with text labels.
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).

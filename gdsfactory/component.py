@@ -932,21 +932,15 @@ class Component(Device):
         if show_subports:
             component = self.copy(suffix="", cache=False)
             for reference in component.references:
-                try:
-                    add_pins_triangle(
-                        component=component,
-                        reference=reference,
-                        layer=port_marker_layer,
-                    )
-                except ValueError:
-                    pass
+                add_pins_triangle(
+                    component=component,
+                    reference=reference,
+                    layer=port_marker_layer,
+                )
 
         elif show_ports:
             component = self.copy(suffix="", cache=False)
-            try:
-                add_pins_triangle(component=component, layer=port_marker_layer)
-            except ValueError:
-                pass
+            add_pins_triangle(component=component, layer=port_marker_layer)
         else:
             component = self
 
