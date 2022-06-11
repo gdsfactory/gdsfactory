@@ -62,11 +62,11 @@ def straight(
 
 if __name__ == "__main__":
     # c = straight(cross_section=gf.partial(gf.cross_section.metal3, width=2), with_hash=False)
-    c = straight(
-        cross_section=gf.partial(gf.cross_section.strip, width=2), with_hash=False
-    )
+    # c = straight(
+    #     cross_section=gf.partial(gf.cross_section.strip, width=2), with_hash=False
+    # )
     # c = straight(cladding_offset=2.5)
-    # c = straight(width=2.5, hash_settings=False)
+    c = straight(width=2.5)
     print(c.name)
 
     # strip2 = gf.get_cross_section("strip", layer=(2, 0))

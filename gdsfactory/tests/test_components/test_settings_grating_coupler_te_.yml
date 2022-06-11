@@ -1,4 +1,4 @@
-name: grating_coupler_ellipti_db285fcb
+name: grating_coupler_ellipti_dd7f7af4
 settings:
   changed:
     taper_angle: 35
@@ -44,5 +44,5 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.components.grating_coupler_elliptical_trenches
-  name: grating_coupler_ellipti_db285fcb
+  name: grating_coupler_ellipti_dd7f7af4
 version: 0.0.1

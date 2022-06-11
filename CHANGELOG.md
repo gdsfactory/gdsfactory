@@ -1,9 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.8.12]
+## [5.9.0]
 
 - add doe_settings and doe_names to pack_doe and pack_doe_grid
-- add with_hash setting to `gf.cell` that when False gives meaningful name to component.
+- add with_hash setting to `gf.cell` that hashes parameters. By default `with_hash=False`, which gives meaningful name to component.
 
 
 ## [5.8.11](https://github.com/gdsfactory/gdsfactory/pull/445)
