@@ -1,4 +1,4 @@
-name: taper_2e9853cc
+name: taper_width23
 settings:
   changed:
     width2: 3
@@ -26,5 +26,5 @@ settings:
     width2: 3.0
   info_version: 2
   module: gdsfactory.components.taper
-  name: taper_2e9853cc
+  name: taper_width23
 version: 0.0.1

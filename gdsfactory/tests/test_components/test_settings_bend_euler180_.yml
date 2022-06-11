@@ -1,4 +1,4 @@
-name: bend_euler_8d359e58
+name: bend_euler_angle180
 settings:
   changed:
     angle: 180
@@ -27,5 +27,5 @@ settings:
     radius_min: 9.086
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_8d359e58
+  name: bend_euler_angle180
 version: 0.0.1

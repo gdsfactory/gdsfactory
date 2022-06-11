@@ -4,7 +4,7 @@ instances:
     component: grid
     settings:
       components:
-      - name: mmi1x2_5329808d
+      - name: mmi1x2_length_mmi2_width_mmi4
         settings:
           changed:
             length_mmi: 2
@@ -34,9 +34,9 @@ instances:
           info: {}
           info_version: 2
           module: gdsfactory.components.mmi1x2
-          name: mmi1x2_5329808d
+          name: mmi1x2_length_mmi2_width_mmi4
         version: 0.0.1
-      - name: mmi1x2_dedc212c
+      - name: mmi1x2_length_mmi2_width_mmi10
         settings:
           changed:
             length_mmi: 2
@@ -66,9 +66,9 @@ instances:
           info: {}
           info_version: 2
           module: gdsfactory.components.mmi1x2
-          name: mmi1x2_dedc212c
+          name: mmi1x2_length_mmi2_width_mmi10
         version: 0.0.1
-      - name: mmi1x2_8da5838f
+      - name: mmi1x2_length_mmi100_width_mmi4
         settings:
           changed:
             length_mmi: 100
@@ -98,9 +98,9 @@ instances:
           info: {}
           info_version: 2
           module: gdsfactory.components.mmi1x2
-          name: mmi1x2_8da5838f
+          name: mmi1x2_length_mmi100_width_mmi4
         version: 0.0.1
-      - name: mmi1x2_bf444554
+      - name: mmi1x2_length_mmi100_width_mmi10
         settings:
           changed:
             length_mmi: 100
@@ -130,7 +130,7 @@ instances:
           info: {}
           info_version: 2
           module: gdsfactory.components.mmi1x2
-          name: mmi1x2_bf444554
+          name: mmi1x2_length_mmi100_width_mmi10
         version: 0.0.1
       shape:
       - 2

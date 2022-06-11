@@ -1,12 +1,12 @@
-name: straight_373b1ebb_add_t_7af861f9
+name: straight_length20_width_d8f97ce0
 settings:
   changed:
     component:
-      name: straight_373b1ebb_add_t_0521a25f
+      name: straight_length20_width_dd675920
       settings:
         changed:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -29,7 +29,7 @@ settings:
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
         child:
           changed:
@@ -53,7 +53,7 @@ settings:
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         default:
           select_ports:
             function: select_ports
@@ -65,7 +65,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -88,7 +88,7 @@ settings:
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
           select_ports:
             function: select_ports
@@ -102,13 +102,13 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_0521a25f
+        name: straight_length20_width_dd675920
       version: 0.0.1
     optical_routing_type: 0
   child:
     changed:
       component:
-        name: straight_373b1ebb
+        name: straight_length20_width2
         settings:
           changed:
             length: 20
@@ -131,7 +131,7 @@ settings:
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         version: 0.0.1
     child:
       changed:
@@ -155,7 +155,7 @@ settings:
         width: 2.0
       info_version: 2
       module: gdsfactory.components.straight
-      name: straight_373b1ebb
+      name: straight_length20_width2
     default:
       select_ports:
         function: select_ports
@@ -167,7 +167,7 @@ settings:
       taper_port_name2: o2
     full:
       component:
-        name: straight_373b1ebb
+        name: straight_length20_width2
         settings:
           changed:
             length: 20
@@ -190,7 +190,7 @@ settings:
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         version: 0.0.1
       select_ports:
         function: select_ports
@@ -204,7 +204,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_0521a25f
+    name: straight_length20_width_dd675920
   default:
     bend: bend_euler
     component:
@@ -230,11 +230,11 @@ settings:
   full:
     bend: bend_euler
     component:
-      name: straight_373b1ebb_add_t_0521a25f
+      name: straight_length20_width_dd675920
       settings:
         changed:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -257,7 +257,7 @@ settings:
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
         child:
           changed:
@@ -281,7 +281,7 @@ settings:
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         default:
           select_ports:
             function: select_ports
@@ -293,7 +293,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -316,7 +316,7 @@ settings:
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
           select_ports:
             function: select_ports
@@ -330,7 +330,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_0521a25f
+        name: straight_length20_width_dd675920
       version: 0.0.1
     component_name: null
     cross_section: strip
@@ -355,5 +355,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_7af861f9
+  name: straight_length20_width_d8f97ce0
 version: 0.0.1
