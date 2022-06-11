@@ -1,9 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.9.0]
+## [5.9.0](https://github.com/gdsfactory/gdsfactory/pull/446)
 
 - add doe_settings and doe_names to pack_doe and pack_doe_grid
 - add with_hash setting to `gf.cell` that hashes parameters. By default `with_hash=False`, which gives meaningful name to component.
+- update to tidy3d 1.4.0 [PR]()
 
 
 ## [5.8.11](https://github.com/gdsfactory/gdsfactory/pull/445)
