@@ -1,4 +1,4 @@
-name: via_3f12b27e
+name: via_layerVIA2
 settings:
   changed:
     layer: VIA2
@@ -36,5 +36,5 @@ settings:
     - 2.0
   info_version: 2
   module: gdsfactory.components.via
-  name: via_3f12b27e
+  name: via_layerVIA2
 version: 0.0.1

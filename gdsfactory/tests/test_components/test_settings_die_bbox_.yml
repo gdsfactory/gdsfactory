@@ -1,4 +1,4 @@
-name: rectangle_5992b8ec_die_bbox
+name: rectangle_size1300__260_516de578
 settings:
   changed: {}
   child:
@@ -35,7 +35,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.rectangle
-    name: rectangle_5992b8ec
+    name: rectangle_size1300__2600
   default:
     component:
       function: rectangle
@@ -68,5 +68,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.die_bbox
-  name: rectangle_5992b8ec_die_bbox
+  name: rectangle_size1300__260_516de578
 version: 0.0.1

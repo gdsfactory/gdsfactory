@@ -1,4 +1,4 @@
-name: straight_a7b3969c
+name: straight_cross_sectionmetal3
 settings:
   changed:
     cross_section: metal3
@@ -19,5 +19,5 @@ settings:
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_a7b3969c
+  name: straight_cross_sectionmetal3
 version: 0.0.1

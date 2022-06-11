@@ -21,8 +21,6 @@ from gdsfactory.types import (
 def add_fiber_array(
     component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
-    straight: ComponentSpec = straight_function,
-    bend: ComponentSpec = "bend_euler",
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
@@ -38,8 +36,6 @@ def add_fiber_array(
     Args:
         component: component spec to connect to grating couplers.
         grating_coupler: fiber coupler instance, function or list of functions.
-        straight: straight spec.
-        bend: bend spec.
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
         component_name: for the label.
@@ -49,6 +45,8 @@ def add_fiber_array(
         layer_label: optional layer for grating coupler label.
 
     Keyword Args:
+        bend: for bends.
+        straight: straight.
         taper: taper spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
@@ -125,8 +123,6 @@ def add_fiber_array(
     elements, io_gratings_lines, ports = route_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
-        bend=bend,
-        straight=straight,
         gc_port_name=gc_port_name,
         component_name=component_name,
         cross_section=cross_section,

@@ -1,4 +1,4 @@
-name: taper_2e9853cc_ring_single_dut
+name: taper_width23_ring_single_dut
 settings:
   changed: {}
   child:
@@ -28,7 +28,7 @@ settings:
       width2: 3.0
     info_version: 2
     module: gdsfactory.components.taper
-    name: taper_2e9853cc
+    name: taper_width23
   default:
     bend:
       function: bend_euler
@@ -67,5 +67,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.ring_single_dut
-  name: taper_2e9853cc_ring_single_dut
+  name: taper_width23_ring_single_dut
 version: 0.0.1
