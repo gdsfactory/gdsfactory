@@ -14,7 +14,7 @@ from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
-from gdsfactory.tech import LAYER
+from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -55,6 +55,7 @@ class Pdk(BaseModel):
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
+    layer_stack: Optional[LayerStack] = None
 
     def validate_layers(self):
         for layer in layers_required:
@@ -371,7 +372,11 @@ class Pdk(BaseModel):
 
 
 GENERIC = Pdk(
-    name="generic", cross_sections=cross_sections, cells=cells, layers=LAYER.dict()
+    name="generic",
+    cross_sections=cross_sections,
+    cells=cells,
+    layers=LAYER.dict(),
+    layer_stack=LAYER_STACK,
 )
 _ACTIVE_PDK = GENERIC
 
