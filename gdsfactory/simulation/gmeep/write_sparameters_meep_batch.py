@@ -6,7 +6,7 @@ import shutil
 import time
 from pathlib import Path
 from pprint import pprint
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import numpy as np
 import pydantic
@@ -15,6 +15,7 @@ from tqdm import tqdm
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger, sparameters_path
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
@@ -23,7 +24,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import remove_simulation
 from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import (
     write_sparameters_meep_mpi,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.tech import LayerStack
 
 ncores = multiprocessing.cpu_count()
 
@@ -38,7 +39,7 @@ def write_sparameters_meep_batch(
     temp_dir: Path = temp_dir_default,
     delete_temp_files: bool = True,
     dirpath: Path = sparameters_path,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_stack: Optional[LayerStack] = None,
     **kwargs,
 ) -> List[Path]:
     """Write Sparameters for a batch of jobs using MPI and returns results filepaths.
@@ -50,28 +51,28 @@ def write_sparameters_meep_batch(
 
     Args
         jobs: list of Dicts containing the simulation settings for each job.
-            for write_sparameters_meep
-        cores_per_run: number of processors to assign to each component simulation
-        total_cores: total number of cores to use
-        temp_dir: temporary directory to hold simulation files
-        delete_temp_files: deletes temp_dir when done
-        dirpath: directory to store Sparameters
-        layer_stack:
+            for write_sparameters_meep.
+        cores_per_run: number of processors to assign to each component simulation.
+        total_cores: total number of cores to use.
+        temp_dir: temporary directory to hold simulation files.
+        delete_temp_files: deletes temp_dir when done.
+        dirpath: directory to store Sparameters.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
 
     keyword Args:
-        resolution: in pixels/um (30: for coarse, 100: for fine)
-        port_symmetries: Dict to specify port symmetries, to save number of simulations
-        dirpath: directory to store Sparameters
-        layer_stack: LayerStack class
-        port_margin: margin on each side of the port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        port_source_offset: offset between source GDS port and source MEEP port
-        filepath: to store pandas Dataframe with Sparameters in CSV format.
+        resolution: in pixels/um (30: for coarse, 100: for fine).
+        port_symmetries: Dict to specify port symmetries, to save number of simulations.
+        dirpath: directory to store Sparameters.
+        port_margin: margin on each side of the port.
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
+        port_source_offset: offset between source GDS port and source MEEP port.
+        filepath: to store pandas Dataframe with Sparameters in CSV format..
         animate: saves a MP4 images of the simulation for inspection, and also
-            outputs during computation. The name of the file is the source index
+            outputs during computation. The name of the file is the source index.
         lazy_parallelism: toggles the flag "meep.divide_parallel_processes" to
-            perform the simulations with different sources in parallel
-        dispersive: use dispersive models for materials (requires higher resolution)
+            perform the simulations with different sources in parallel.
+        dispersive: use dispersive models for materials (requires higher resolution).
         xmargin: left and right distance from component to PML.
         xmargin_left: west distance from component to PML.
         xmargin_right: east distance from component to PML.
@@ -79,28 +80,31 @@ def write_sparameters_meep_batch(
         ymargin_top: north distance from component to PML.
         ymargin_bot: south distance from component to PML.
         extend_ports_length: to extend ports beyond the PML
-        layer_stack: Dict of layer number (int, int) to thickness (um)
-        zmargin_top: thickness for cladding above core
-        zmargin_bot: thickness for cladding below core
-        tpml: PML thickness (um)
-        clad_material: material for cladding
-        is_3d: if True runs in 3D
-        wavelength_start: wavelength min (um)
-        wavelength_stop: wavelength max (um)
-        wavelength_points: wavelength steps
-        dfcen: delta frequency
-        port_source_name: input port name
-        port_field_monitor_name:
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before
-        port_source_offset: offset between source GDS port and source MEEP port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
+        layer_stack: Dict of layer number (int, int) to thickness (um).
+        zmargin_top: thickness for cladding above core.
+        zmargin_bot: thickness for cladding below core.
+        tpml: PML thickness (um).
+        clad_material: material for cladding.
+        is_3d: if True runs in 3D.
+        wavelength_start: wavelength min (um).
+        wavelength_stop: wavelength max (um).
+        wavelength_points: wavelength steps.
+        dfcen: delta frequency.
+        port_source_name: input port name.
+        port_field_monitor_name: from component port.
+        port_margin: margin on each side of the port.
+        distance_source_to_monitors: in (um) source goes before.
+        port_source_offset: offset between source GDS port and source MEEP port.
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
 
     Returns:
         filepath list for sparameters CSV (wavelengths, s11a, s12m, ...)
             where `a` is the angle in radians and `m` the module
 
     """
+
+    layer_stack = layer_stack or get_layer_stack()
+
     # Parse jobs
     jobs_to_run = []
     for job in jobs:
