@@ -8,7 +8,7 @@ from omegaconf import OmegaConf
 from tqdm import tqdm
 
 import gdsfactory as gf
-from gdsfactory.config import logger, sparameters_path
+from gdsfactory.config import logger
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
@@ -77,7 +77,7 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
 def write_sparameters(
     component: ComponentSpec,
     port_symmetries: Optional[PortSymmetries] = None,
-    dirpath: PathType = sparameters_path,
+    dirpath: Optional[PathType] = None,
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
@@ -102,6 +102,7 @@ def write_sparameters(
         component: to simulate.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
         dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         overwrite: overwrites stored Sparameter CSV results.
 
     Keyword Args:

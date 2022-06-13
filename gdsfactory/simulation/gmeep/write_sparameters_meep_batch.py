@@ -38,7 +38,7 @@ def write_sparameters_meep_batch(
     total_cores: int = 4,
     temp_dir: Path = temp_dir_default,
     delete_temp_files: bool = True,
-    dirpath: Path = sparameters_path,
+    dirpath: Optional[Path] = None,
     layer_stack: Optional[LayerStack] = None,
     **kwargs,
 ) -> List[Path]:
