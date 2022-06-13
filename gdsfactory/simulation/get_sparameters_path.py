@@ -3,12 +3,13 @@ import pathlib
 from copy import deepcopy
 from functools import partial
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.config import sparameters_path
 from gdsfactory.name import clean_value
+from gdsfactory.pdk import get_sparameters_path
 from gdsfactory.tech import LAYER_STACK
 from gdsfactory.types import ComponentSpec
 
@@ -22,18 +23,20 @@ def get_kwargs_hash(**kwargs) -> str:
 
 def _get_sparameters_path(
     component: ComponentSpec,
-    dirpath: Path = sparameters_path,
+    dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
     """Return Sparameters CSV filepath.
-    hashes of all simulation settings to get a consitent and unique name.
+    hashes of all simulation settings to get a consitent unique name.
 
     Args:
         component: component or component factory.
-        dirpath: directory path to store sparameters.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         kwargs: simulation settings.
     """
 
+    dirpath = dirpath or get_sparameters_path()
     component = gf.get_component(component)
 
     dirpath = pathlib.Path(dirpath)

@@ -1,5 +1,5 @@
 import time
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ import tidy3d as td
 from omegaconf import OmegaConf
 
 import gdsfactory as gf
-from gdsfactory.config import logger, sparameters_path
+from gdsfactory.config import logger
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
@@ -21,7 +21,7 @@ from gdsfactory.types import Component, ComponentSpec, List, PathType
 
 def write_sparameters_grating_coupler(
     component: ComponentSpec,
-    dirpath: PathType = sparameters_path,
+    dirpath: Optional[PathType] = None,
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
@@ -33,6 +33,7 @@ def write_sparameters_grating_coupler(
     Args:
         component: grating coupler gdsfactory Component to simulate.
         dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         overwrite: overwrites stored Sparameter CSV results.
 
     Keyword Args:

@@ -1,7 +1,6 @@
 """Write Sparameters with Lumerical FDTD."""
 import shutil
 import time
-from pathlib import Path
 from typing import Dict, Optional
 
 import numpy as np
@@ -20,7 +19,7 @@ from gdsfactory.tech import (
     MaterialSpec,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, PathType
 
 run_false_warning = """
 You have passed run=False to debug the simulation
@@ -74,7 +73,7 @@ def write_sparameters_lumerical(
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
-    dirpath: Path = gf.CONFIG["sparameters"],
+    dirpath: Optional[PathType] = None,
     layer_stack: Optional[LayerStack] = None,
     simulation_settings: SimulationSettingsLumericalFdtd = SIMULATION_SETTINGS_LUMERICAL_FDTD,
     material_name_to_lumerical: Optional[Dict[str, MaterialSpec]] = None,
@@ -113,7 +112,8 @@ def write_sparameters_lumerical(
         session: you can pass a session=lumapi.FDTD() or it will create one.
         run: True runs Lumerical, False only draws simulation.
         overwrite: run even if simulation results already exists.
-        dirpath: where to store the Sparameters.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         layer_stack: contains layer to thickness, zmin and material.
             Defaults to active pdk.layer_stack.
         simulation_settings: dataclass with all simulation_settings.

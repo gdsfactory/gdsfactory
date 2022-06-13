@@ -25,7 +25,7 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     settings_write_sparameters_meep,
 )
 from gdsfactory.tech import LayerStack
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, PathType
 
 ncores = multiprocessing.cpu_count()
 
@@ -37,8 +37,8 @@ def write_sparameters_meep_mpi(
     component: ComponentSpec,
     layer_stack: Optional[LayerStack] = None,
     cores: int = ncores,
-    filepath: Optional[Path] = None,
-    dirpath: Path = sparameters_path,
+    filepath: Optional[PathType] = None,
+    dirpath: Optional[PathType] = None,
     temp_dir: Path = temp_dir_default,
     temp_file_str: str = "write_sparameters_meep_mpi",
     overwrite: bool = False,
@@ -67,7 +67,8 @@ def write_sparameters_meep_mpi(
         cores: number of processors.
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv.
-        dirpath: directory to store Sparameters.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         layer_stack: contains layer to thickness, zmin and material.
             Defaults to active pdk.layer_stack.
         temp_dir: temporary directory to hold simulation files.
