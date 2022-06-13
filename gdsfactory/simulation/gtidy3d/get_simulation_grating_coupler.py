@@ -211,7 +211,7 @@ def get_simulation_grating_coupler(
 
         import matplotlib.pyplot as plt
         import gdsfactory as gf
-        import gdsfactory.simulation.tidy3d as gt
+        import gdsfactory.simulation.gtidy3d as gt
 
         c = gf.components.grating_coupler_elliptical_arbitrary(
             widths=[0.343] * 25, gaps=[0.345] * 25
