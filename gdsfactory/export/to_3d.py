@@ -4,15 +4,15 @@ import matplotlib.colors
 import shapely
 
 from gdsfactory.component import Component
-from gdsfactory.layers import LayerSet
-from gdsfactory.pdk import get_layer_set, get_layer_stack
+from gdsfactory.layers import LayerColors
+from gdsfactory.pdk import get_layer_colors, get_layer_stack
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import Layer
 
 
 def to_3d(
     component: Component,
-    layer_set: Optional[LayerSet] = None,
+    layer_colors: Optional[LayerColors] = None,
     layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
@@ -20,8 +20,8 @@ def to_3d(
 
     Args:
         component: to exture in 3D.
-        layer_set: layer colors from Klayout Layer Properties file.
-            Defaults to active PDK.layer_set.
+        layer_colors: layer colors from Klayout Layer Properties file.
+            Defaults to active PDK.layer_colors.
         layer_stack: contains thickness and zmin for each layer.
             Defaults to active PDK.layer_stack.
         exclude_layers: layers to exclude.
@@ -33,7 +33,7 @@ def to_3d(
     except ImportError:
         print("you need to `pip install trimesh`")
 
-    layer_set = layer_set or get_layer_set()
+    layer_colors = layer_colors or get_layer_colors()
     layer_stack = layer_stack or get_layer_stack()
 
     scene = Scene()
@@ -49,7 +49,7 @@ def to_3d(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_hex = layer_set.get_from_tuple(layer).color
+            color_hex = layer_colors.get_from_tuple(layer).color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
             for polygon in polygons:

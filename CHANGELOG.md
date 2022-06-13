@@ -2,16 +2,17 @@
 
 ## 5.10.0
 
+- rename LayerSet to LayerColors, as it is a more intuitive name. We only use this for defining 3D and 2D plot colors.
 - add Pdk attributes
     - layer_stack: Optional[LayerStack] = None
-    - layer_set: Optional[LayerSet] = None
+    - layer_colors: Optional[LayerColors] = None
     - sparameters_path: PathType
 - add Component.to_3d()
 - add gf.pdk.get_layer_stack() for 3D rendering and simulation plugins
     - gf.simulation.lumerical.write_sparameters_lumerical
     - gf.simulation.gmeep.write_sparameters_meep
     - gf.simulation.tidy3d.write_sparameters
-- modify Component.plot() to use colors from gf.pdk.get_layer_set()
+- modify Component.plot() to use colors from gf.pdk.get_layer_colors()
 
 ## [5.9.0](https://github.com/gdsfactory/gdsfactory/pull/446)
 
@@ -1519,7 +1520,7 @@
 - remove `gf.bias`
 - remove `gf.filecache`
 - add `get_layer_to_sidewall_angle` in layer_stack
-- rename `gf.lys` to `gf.layers.LAYER_SET` to be consistent
+- rename `gf.lys` to `gf.layers.LAYER_COLORS` to be consistent
 
 ## 3.2.8
 
@@ -1980,7 +1981,7 @@ from pydantic import validate_arguments
 
 - added pp.components.path to easily extrude CrossSections
 - added more pp.types (ComponentFactory, RouteFactory) as Callable[..., Component]
-- Load a LayerSet object from a Klayout lyp file
+- Load a LayerColors object from a Klayout lyp file
 - clean lyp from generic tech
 - bend_euler accepts similar parameters as bend_circular (layers_cladding, cladding_offset)
 - renamed bend_euler90 as bend_euler

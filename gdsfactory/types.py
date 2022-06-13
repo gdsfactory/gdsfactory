@@ -40,7 +40,7 @@ from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.layers import LayerColor, LayerSet
+from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
 from gdsfactory.tech import LayerLevel, LayerStack
 
@@ -255,7 +255,7 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
-    "LayerSet",
+    "LayerColors",
     "LayerColor",
     "LayerStack",
     "LayerLevel",
