@@ -5,7 +5,7 @@ You can:
 - Define your layers in a dataclass
 - Load it from Klayout XML file (.lyp)
 
-LayerSet adapted from phidl.device_layout
+LayerColors adapted from phidl.device_layout
 load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
 preview_layerset adapted from phidl.geometry
 """
@@ -27,11 +27,11 @@ layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
     """Generates a preview Device with representations of all the layers,
-    used for previewing LayerSet color schemes in quickplot or saved .gds
+    used for previewing LayerColors color schemes in quickplot or saved .gds
     files
 
     Args:
-        ls: LayerSet.
+        ls: LayerColors.
         size: square size.
         spacing: spacing between each square.
     """
@@ -125,11 +125,11 @@ class LayerColor(BaseModel):
         return color
 
 
-class LayerSet(BaseModel):
+class LayerColors(BaseModel):
     """LayerColor dict.
 
     Attributes:
-        layers: dict of LayerColor.
+        layers: dict of LayerColors.
 
     """
 
@@ -146,7 +146,7 @@ class LayerSet(BaseModel):
         alpha: float = 0.6,
         dither: Optional[str] = None,
     ) -> None:
-        """Adds a layer to LayerSet object for nice colors.
+        """Adds a layer to LayerColors object for nice colors.
 
         Args:
             name: Name of the Layer.
@@ -177,9 +177,9 @@ class LayerSet(BaseModel):
             self.layers[name] = new_layer
 
     def __repr__(self):
-        """Prints the number of Layers in the LayerSet object."""
+        """Prints the number of Layers in the LayerColors object."""
         return (
-            f"LayerSet ({len(self.layers)} layers total) \n"
+            f"LayerColors ({len(self.layers)} layers total) \n"
             f"{list(self.layers.keys())}"
         )
 
@@ -194,16 +194,16 @@ class LayerSet(BaseModel):
         """allows access to the layer names like ls['gold2'].
 
         Args:
-            val: Layer name to access within the LayerSet.
+            val: Layer name to access within the LayerColors.
 
         Returns
-            self.layers[val]: Accessed Layer in the LayerSet.
+            self.layers[val]: Accessed Layer in the LayerColors.
         """
         try:
             return self.layers[val]
         except Exception:
             raise ValueError(
-                f"Layer {val!r} not in LayerSet {list(self.layers.keys())}"
+                f"Layer {val!r} not in LayerColors {list(self.layers.keys())}"
             )
 
     def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerColor:
@@ -218,7 +218,7 @@ class LayerSet(BaseModel):
         return self.layers[name]
 
     def clear(self) -> None:
-        """Deletes all entries in the LayerSet"""
+        """Deletes all entries in the LayerColors"""
         self.layers = {}
 
     def preview(self):
@@ -257,7 +257,9 @@ def _name_to_description(name_str) -> str:
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
 
-def _add_layer(entry, lys: LayerSet, shorten_names: bool = True) -> Optional[LayerSet]:
+def _add_layer(
+    entry, lys: LayerColors, shorten_names: bool = True
+) -> Optional[LayerColors]:
     """Entry is a dict of one element of 'properties'.
     No return value. It adds it to the lys variable directly
 
@@ -310,8 +312,8 @@ def _add_layer(entry, lys: LayerSet, shorten_names: bool = True) -> Optional[Lay
     return lys
 
 
-def load_lyp(filepath: Path) -> LayerSet:
-    """Returns a LayerSet object from a Klayout lyp file in XML format."""
+def load_lyp(filepath: Path) -> LayerColors:
+    """Returns a LayerColors object from a Klayout lyp file in XML format."""
     with open(filepath, "r") as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
     # lyp files have a top level that just has one dict: layer-properties
@@ -320,7 +322,7 @@ def load_lyp(filepath: Path) -> LayerSet:
     if not isinstance(lyp_list, list):
         lyp_list = [lyp_list]
 
-    lys = LayerSet()
+    lys = LayerColors()
 
     for entry in lyp_list:
         try:
@@ -383,21 +385,21 @@ def test_load_lyp():
 
 
 try:
-    LAYER_SET = load_lyp_generic()
+    LAYER_COLORS = load_lyp_generic()
 except Exception:
     print(f"Error loading generic layermap in {layer_path!r}")
-    LAYER_SET = LayerSet()
+    LAYER_COLORS = LayerColors()
 
 
 if __name__ == "__main__":
-    # print(LAYER_SET)
+    # print(LAYER_COLORS)
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
     layer = LayerColor(color="gold")
     print(layer)
 
     # lys = test_load_lyp()
-    # c = preview_layerset(LAYER_SET)
+    # c = preview_layerset(LAYER_COLORS)
     # c.show()
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
