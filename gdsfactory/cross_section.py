@@ -265,11 +265,18 @@ strip = partial(
     cladding_offsets=(0,),  # for SiEPIC verification
 )
 strip_auto_widen = partial(strip, width_wide=0.9, auto_widen=True)
+
+# Rib with rectangular slab
 rib = partial(
     strip,
-    sections=(Section(width=6, layer="SLAB90", name="slab"),),
     bbox_layers=["SLAB90"],
     bbox_offsets=[3],
+)
+
+# Rib with with slab that follows the waveguide core
+rib_conformal = partial(
+    strip,
+    sections=(Section(width=6, layer="SLAB90", name="slab"),),
 )
 nitride = partial(strip, layer="WGN", width=1.0)
 strip_rib_tip = partial(
