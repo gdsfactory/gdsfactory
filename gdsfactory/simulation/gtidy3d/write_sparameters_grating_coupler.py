@@ -38,7 +38,8 @@ def write_sparameters_grating_coupler(
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
-        layer_stack: contains layer numbers (int, int) to thickness, zmin.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
@@ -49,15 +50,14 @@ def write_sparameters_grating_coupler(
         zmargin: thickness for cladding above and below core.
         clad_material: material for cladding.
         box_material: for bottom cladding.
-        substrate_material: for cladding.
-        box_thickness: (um).
+        substrate_material: for substrate.
+        box_thickness: bottom cladding thickness in (um).
         substrate_thickness: (um).
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength: source center wavelength (um).
             if None takes mean between wavelength_start, wavelength_stop.
         wavelength_start: in (um).
@@ -66,17 +66,18 @@ def write_sparameters_grating_coupler(
         plot_modes: plot source modes.
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
-            defaults to 10ps and counts on the automatic shutoff to stop earlier if needed.
-        fiber_port_name:
-        fiber_xoffset: fiber center xoffset to fiber_port_name
-        fiber_z: fiber zoffset from grating zmax
-        fiber_mfd: fiber mode field diameter (um)
+            defaults to 10ps and counts on the automatic shutoff
+            to stop earlier if needed.
+        fiber_port_name: from component ports.
+        fiber_xoffset: fiber center xoffset to fiber_port_name.
+        fiber_z: fiber zoffset from grating zmax.
+        fiber_mfd: fiber mode field diameter (um).
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
         dispersive: False uses constant refractive index materials.
             True adds wavelength depending materials.
             Dispersive materials require more computation.
         material_name_to_tidy3d_index: not dispersive materials have a constant index.
-        material_name_to_tidy3d_name: dispersive materials have a wavelength
+        material_name_to_tidy3d_name: dispersive materials have a wavelength.
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: True by default runs in 3D.
         with_all_monitors: stores all monitor fields.
