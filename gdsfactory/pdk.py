@@ -6,9 +6,10 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from gdsfactory.components import cells
+from gdsfactory.config import sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
@@ -37,7 +38,8 @@ layers_required = ["DEVREC", "PORT", "PORTE"]
 
 
 class Pdk(BaseModel):
-    """Pdk Library to store cell and cross_section functions.
+    """Store layers, cross_sections, cell functions, simulation_settings ...
+    only one Pdk can be active at a given time.
 
     Attributes:
         name: PDK name.
@@ -47,8 +49,9 @@ class Pdk(BaseModel):
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
-        layer_stack: includes information of layer numbers, thickness and zmin.
-        layer_set: incldes layer colors.
+        layer_stack: includes layer numbers, thickness and zmin.
+        layer_set: includes layer colors, opacity and pattern.
+        sparameters_path: to store Sparameters simulations.
     """
 
     name: str
@@ -60,6 +63,11 @@ class Pdk(BaseModel):
     default_decorator: Optional[Callable[[Component], None]] = None
     layer_stack: Optional[LayerStack] = None
     layer_set: Optional[LayerSet] = None
+    sparameters_path: PathType
+
+    @validator("sparameters_path")
+    def is_pathlib_path(cls, path):
+        return pathlib.Path(path)
 
     def validate_layers(self):
         for layer in layers_required:
@@ -392,6 +400,7 @@ GENERIC = Pdk(
     layers=LAYER.dict(),
     layer_stack=LAYER_STACK,
     layer_set=LAYER_SET,
+    sparameters_path=sparameters_path,
 )
 _ACTIVE_PDK = GENERIC
 
@@ -424,6 +433,10 @@ def get_active_pdk() -> Pdk:
     return _ACTIVE_PDK
 
 
+def get_sparameters_path() -> Pdk:
+    return _ACTIVE_PDK.sparameters_path
+
+
 def _set_active_pdk(pdk: Pdk) -> None:
     global _ACTIVE_PDK
     old_pdk = _ACTIVE_PDK
@@ -453,5 +466,6 @@ if __name__ == "__main__":
         cells=cells,
         cross_sections=cross_sections,
         # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
+        sparameters_path="/home",
     )
     print(c.layers)

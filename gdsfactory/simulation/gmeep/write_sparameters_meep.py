@@ -17,7 +17,7 @@ from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import logger, sparameters_path
+from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
@@ -136,7 +136,7 @@ def write_sparameters_meep(
     wavelength_start: float = 1.5,
     wavelength_stop: float = 1.6,
     wavelength_points: int = 50,
-    dirpath: PathType = sparameters_path,
+    dirpath: Optional[PathType] = None,
     layer_stack: Optional[LayerStack] = None,
     port_margin: float = 2,
     port_monitor_offset: float = -0.1,
