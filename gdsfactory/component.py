@@ -21,7 +21,7 @@ from typing_extensions import Literal
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.layers import LAYER_SET, LayerPhidl, LayerSet
+from gdsfactory.layers import LAYER_SET, LayerColor, LayerSet
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -873,7 +873,7 @@ class Component(Device):
             except ValueError:
                 layers = list(layer_set._layers.keys())
                 warnings.warn(f"{layer!r} not defined in {layers}")
-                layer = LayerPhidl(gds_layer=layer[0], gds_datatype=layer[1])
+                layer = LayerColor(gds_layer=layer[0], gds_datatype=layer[1])
 
             plots_to_overlay.append(
                 hv.Polygons(polygon, label=str(layer.name)).opts(
