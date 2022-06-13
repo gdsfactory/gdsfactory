@@ -1,5 +1,18 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.10.0
+
+- add Pdk attributes
+    - layer_stack: Optional[LayerStack] = None
+    - layer_set: Optional[LayerSet] = None
+    - sparameters_path: PathType
+- add Component.to_3d()
+- add gf.pdk.get_layer_stack() for 3D rendering and simulation plugins
+    - gf.simulation.lumerical.write_sparameters_lumerical
+    - gf.simulation.gmeep.write_sparameters_meep
+    - gf.simulation.tidy3d.write_sparameters
+- modify Component.plot() to use colors from gf.pdk.get_layer_set()
+
 ## [5.9.0](https://github.com/gdsfactory/gdsfactory/pull/446)
 
 - add doe_settings and doe_names to pack_doe and pack_doe_grid
