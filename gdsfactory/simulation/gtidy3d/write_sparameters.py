@@ -107,7 +107,8 @@ def write_sparameters(
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
-        layer_stack: contains layer numbers (int, int) to thickness, zmin
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
@@ -120,7 +121,6 @@ def write_sparameters(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        resolution: in pixels/um (20: for coarse, 120: for fine).
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: in (um).
@@ -136,6 +136,23 @@ def write_sparameters(
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
         with_all_monitors: True adds field monitor which increases results file size.
+        grid_spec: defaults to automatic td.GridSpec.auto(wavelength=wavelength)
+            td.GridSpec.uniform(dl=20*nm)
+            td.GridSpec(
+                grid_x = td.UniformGrid(dl=0.04),
+                grid_y = td.AutoGrid(min_steps_per_wvl=20),
+                grid_z = td.AutoGrid(min_steps_per_wvl=20),
+                wavelength=wavelength,
+                override_structures=[refine_box]
+            )
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        sidewall_angle_deg : float = 0
+            Angle of the sidewall.
+            ``sidewall_angle=0`` (default) specifies vertical wall,
+            while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     """
     component = gf.get_component(component)
