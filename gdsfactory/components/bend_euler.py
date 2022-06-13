@@ -15,7 +15,7 @@ def bend_euler(
     with_arc_floorplan: bool = True,
     npoints: int = 720,
     direction: str = "ccw",
-    with_bbox: bool = False,
+    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
