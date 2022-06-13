@@ -29,7 +29,8 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg.
         taper: taper function.
         straight: straight function.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        with_bbox: add rectangular box in cross_section
+            bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
 
 
