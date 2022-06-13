@@ -12,6 +12,7 @@ from gdsfactory.components import cells
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
+from gdsfactory.layers import LAYER_SET, LayerSet
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
@@ -46,6 +47,8 @@ class Pdk(BaseModel):
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
+        layer_stack: includes information of layer numbers, thickness and zmin.
+        layer_set: incldes layer colors.
     """
 
     name: str
@@ -56,6 +59,7 @@ class Pdk(BaseModel):
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
     layer_stack: Optional[LayerStack] = None
+    layer_set: Optional[LayerSet] = None
 
     def validate_layers(self):
         for layer in layers_required:
@@ -349,6 +353,16 @@ class Pdk(BaseModel):
                 f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
             )
 
+    def get_layer_set(self) -> LayerSet:
+        if self.layer_set is None:
+            raise ValueError(f"layer_set for Pdk {self.name!r} is None")
+        return self.layer_set
+
+    def get_layer_stack(self) -> LayerStack:
+        if self.layer_stack is None:
+            raise ValueError(f"layer_stack for Pdk {self.name!r} is None")
+        return self.layer_stack
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -377,6 +391,7 @@ GENERIC = Pdk(
     cells=cells,
     layers=LAYER.dict(),
     layer_stack=LAYER_STACK,
+    layer_set=LAYER_SET,
 )
 _ACTIVE_PDK = GENERIC
 
@@ -395,6 +410,14 @@ def get_cross_section(cross_section: CrossSectionSpec, **kwargs) -> CrossSection
 
 def get_layer(layer: LayerSpec) -> Layer:
     return _ACTIVE_PDK.get_layer(layer)
+
+
+def get_layer_set() -> LayerSet:
+    return _ACTIVE_PDK.get_layer_set()
+
+
+def get_layer_stack() -> LayerStack:
+    return _ACTIVE_PDK.get_layer_stack()
 
 
 def get_active_pdk() -> Pdk:
