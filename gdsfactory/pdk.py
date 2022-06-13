@@ -13,7 +13,7 @@ from gdsfactory.config import sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
-from gdsfactory.layers import LAYER_SET, LayerSet
+from gdsfactory.layers import LAYER_COLORS, LayerColors
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
 from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
@@ -50,7 +50,7 @@ class Pdk(BaseModel):
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
         layer_stack: includes layer numbers, thickness and zmin.
-        layer_set: includes layer colors, opacity and pattern.
+        layer_colors: includes layer colors, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
     """
 
@@ -62,7 +62,7 @@ class Pdk(BaseModel):
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
     layer_stack: Optional[LayerStack] = None
-    layer_set: Optional[LayerSet] = None
+    layer_colors: Optional[LayerColors] = None
     sparameters_path: PathType
 
     @validator("sparameters_path")
@@ -361,10 +361,10 @@ class Pdk(BaseModel):
                 f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
             )
 
-    def get_layer_set(self) -> LayerSet:
-        if self.layer_set is None:
-            raise ValueError(f"layer_set for Pdk {self.name!r} is None")
-        return self.layer_set
+    def get_layer_colors(self) -> LayerColors:
+        if self.layer_colors is None:
+            raise ValueError(f"layer_colors for Pdk {self.name!r} is None")
+        return self.layer_colors
 
     def get_layer_stack(self) -> LayerStack:
         if self.layer_stack is None:
@@ -399,7 +399,7 @@ GENERIC = Pdk(
     cells=cells,
     layers=LAYER.dict(),
     layer_stack=LAYER_STACK,
-    layer_set=LAYER_SET,
+    layer_colors=LAYER_COLORS,
     sparameters_path=sparameters_path,
 )
 _ACTIVE_PDK = GENERIC
@@ -421,8 +421,8 @@ def get_layer(layer: LayerSpec) -> Layer:
     return _ACTIVE_PDK.get_layer(layer)
 
 
-def get_layer_set() -> LayerSet:
-    return _ACTIVE_PDK.get_layer_set()
+def get_layer_colors() -> LayerColors:
+    return _ACTIVE_PDK.get_layer_colors()
 
 
 def get_layer_stack() -> LayerStack:
