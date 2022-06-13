@@ -10,7 +10,6 @@ from phidl.device_layout import (
     CellArray,
     Device,
     DeviceReference,
-    Layer,
     Path,
     Polygon,
     _rotate_points,
@@ -184,10 +183,9 @@ def quickplot(items):  # noqa: C901
     plots them. Use `set_quickplot_options()` to modify the viewer behavior
     (e.g. displaying ports, creating new windows, etc)
 
-    Parameters
-    ----------
-    items : PHIDL object or list of PHIDL objects
-        The item(s) which are to be plotted
+    Args:
+        items: object or list of objects
+            The item(s) which are to be plotted
 
     Examples
     --------
@@ -208,19 +206,19 @@ def quickplot(items):  # noqa: C901
 
     if not matplotlib_imported:
         raise ImportError(
-            "PHIDL tried to import matplotlib but it failed. PHIDL "
-            + "will still work but quickplot() will not"
+            "quickplot tried to import matplotlib but it failed. gdsfactory "
+            "will still work but quickplot() will not"
         )
 
     if new_window:
         fig, ax = plt.subplots(1)
         ax.autoscale(enable=True, tight=True)
-    elif plt.fignum_exists(num="PHIDL quickplot"):
-        fig = plt.figure("PHIDL quickplot")
+    elif plt.fignum_exists(num="quickplot"):
+        fig = plt.figure("quickplot")
         plt.clf()  # Erase figure so toolbar at top works correctly
         ax = fig.add_subplot(111)
     else:
-        fig, ax = plt.subplots(num="PHIDL quickplot")
+        fig, ax = plt.subplots(num="quickplot")
 
     ax.axis("equal")
     ax.grid(True, which="both", alpha=0.4)
@@ -349,6 +347,8 @@ def _update_bbox(bbox, new_bbox):
 
 
 def _get_layerprop(layer, datatype):
+    from gdsfactory.pdk import get_layer_set
+
     # Colors generated from here: http://phrogz.net/css/distinct-colors.html
     layer_colors = [
         "#3dcc5c",
@@ -364,8 +364,8 @@ def _get_layerprop(layer, datatype):
         "#3d87cc",
         "#e5520e",
     ]
-
-    _layer = Layer.layer_dict.get((layer, datatype))
+    LAYER_SET = get_layer_set()
+    _layer = LAYER_SET.get_from_tuple((layer, datatype))
     if _layer is not None:
         color = _layer.color
         alpha = _layer.alpha
@@ -929,9 +929,9 @@ class Viewer(QGraphicsView):
 def quickplot2(item_list, *args, **kwargs):
     if not qt_imported:
         raise ImportError(
-            "PHIDL tried to import PyQt5 but it failed. PHIDL will"
-            + "still work but quickplot2() may not.  Try using"
-            + "quickplot() instead (based on matplotlib)"
+            "quickplot2 tried to import PyQt5 but it failed. gdsfactory will"
+            "still work but quickplot2() may not.  Try using"
+            "quickplot() instead (based on matplotlib)"
         )
 
     global app

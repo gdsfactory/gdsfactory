@@ -10,7 +10,7 @@ from gdsfactory.types import CrossSectionSpec
 def straight(
     length: float = 10.0,
     npoints: int = 2,
-    with_bbox: bool = False,
+    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
@@ -84,4 +84,5 @@ if __name__ == "__main__":
     # )
     # c.assert_ports_on_grid()
     c.show(show_ports=True)
+    c.plot()
     # c.pprint()

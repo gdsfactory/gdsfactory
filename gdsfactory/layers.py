@@ -70,7 +70,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
 
 
 class LayerColor(BaseModel):
-    """Layer object with color, opacity and dither.
+    """Layer object with color, alpha (opacity) and dither.
 
     Attributes:
         gds_layer : int
@@ -171,7 +171,7 @@ class LayerSet(BaseModel):
         )
         if name in self.layers:
             raise ValueError(
-                f"Adding {name} already defined {list(self.layers.keys())}"
+                f"Adding {name!r} already defined {list(self.layers.keys())}"
             )
         else:
             self.layers[name] = new_layer
@@ -180,13 +180,13 @@ class LayerSet(BaseModel):
         """Prints the number of Layers in the LayerSet object."""
         return (
             f"LayerSet ({len(self.layers)} layers total) \n"
-            + f"{list(self.layers.keys())}"
+            f"{list(self.layers.keys())}"
         )
 
     def get(self, name: str) -> LayerColor:
         """Returns Layer from name."""
         if name not in self.layers:
-            raise ValueError(f"Layer {name} not in {list(self.layers.keys())}")
+            raise ValueError(f"Layer {name!r} not in {list(self.layers.keys())}")
         else:
             return self.layers[name]
 
@@ -252,7 +252,7 @@ def _name_to_description(name_str) -> str:
 
     """
     if name_str is None:
-        raise IOError(f"layer {name_str} has no name")
+        raise IOError(f"layer {name_str!r} has no name")
     fields = name_str.split()
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
