@@ -48,18 +48,18 @@ def write_sparameters_grating_coupler(
         ymargin_bot: bottom distance from component to PML.
         zmargin: thickness for cladding above and below core.
         clad_material: material for cladding.
-        box_material:
-        substrate_material:
-        box_thickness: (um)
-        substrate_thickness: (um)
+        box_material: for bottom cladding.
+        substrate_material: for cladding.
+        box_thickness: (um).
+        substrate_thickness: (um).
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
         resolution: in pixels/um (20: for coarse, 120: for fine)
-        wavelength: source center wavelength (um)
-            if None takes mean between wavelength_start, wavelength_stop
+        wavelength: source center wavelength (um).
+            if None takes mean between wavelength_start, wavelength_stop.
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: number of wavelengths.
@@ -78,8 +78,8 @@ def write_sparameters_grating_coupler(
         material_name_to_tidy3d_index: not dispersive materials have a constant index.
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
-        is_3d: True by default runs in 3D
-        with_all_monitors: stores all monitor fields
+        is_3d: True by default runs in 3D.
+        with_all_monitors: stores all monitor fields.
 
     """
     component = gf.get_component(component)
@@ -150,8 +150,8 @@ def write_sparameters_grating_coupler_batch(
     settings where it simulation runs in paralell.
 
     Args:
-        jobs: list of kwargs for write_sparameters_grating_coupler
-        kwargs: simulation settings
+        jobs: list of kwargs for write_sparameters_grating_coupler.
+        kwargs: simulation settings.
 
     """
     sp = [

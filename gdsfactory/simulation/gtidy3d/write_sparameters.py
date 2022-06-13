@@ -33,9 +33,9 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     relative to whether the wavevector is entering or exiting simulation
 
     Args:
-        port_index: index of port
-        ports: component_ref.ports
-        sim_data: simulation data
+        port_index: index of port.
+        ports: component_ref.ports.
+        sim_data: simulation data.
     """
     if f"o{port_index}" not in ports:
         raise ValueError(
@@ -120,12 +120,12 @@ def write_sparameters(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
+        resolution: in pixels/um (20: for coarse, 120: for fine).
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: in (um).
         plot_modes: plot source modes.
-        num_modes: number of modes to plot
+        num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and counts on automatic shutoff to stop earlier if needed.
         dispersive: False uses constant refractive index materials.
@@ -176,17 +176,17 @@ def write_sparameters(
         """Return Component sparameter for a particular port Index n
 
         Args:
-            n: port_index
-            component:
-            port_symmetries:
-            monitor_indices:
-            kwargs: simulation settings
+            n: port_index.
+            component: to simulate.
+            port_symmetries: to save simulations.
+            monitor_indices: for the ports.
+            kwargs: simulation settings.
 
         """
         sim = get_simulation(
             component, port_source_name=f"o{monitor_indices[n]}", **kwargs
         )
-        sim_data = get_results(sim)
+        sim_data = get_results(sim, overwrite=overwrite)
         sim_data = sim_data.result()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             monitor_indices[n], component_ref.ports, sim_data
@@ -256,8 +256,8 @@ def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[pd.Dat
     kwargs where it runs each simulation in paralell.
 
     Args:
-        jobs: list of kwargs for write_sparameters_grating_coupler
-        kwargs: simulation settings
+        jobs: list of kwargs for write_sparameters_grating_coupler.
+        kwargs: simulation settings.
 
     """
     sp = [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]
