@@ -946,6 +946,22 @@ class Component(Device):
 
         show(component)
 
+    def to_3d(self, **kwargs):
+        """Return Component 3D trimesh Scene.
+
+        Keyword Args:
+            component: to exture in 3D.
+            layer_set: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_set.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_3d import to_3d
+
+        return to_3d(self, **kwargs)
+
     def write_gds(
         self,
         gdspath: Optional[PathType] = None,

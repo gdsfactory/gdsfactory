@@ -126,10 +126,10 @@ class LayerColor(BaseModel):
 
 
 class LayerSet(BaseModel):
-    """Store layers and colors.
+    """LayerColor dict.
 
     Attributes:
-        layers: dict of layers.
+        layers: dict of LayerColor.
 
     """
 
