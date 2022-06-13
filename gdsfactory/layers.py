@@ -73,18 +73,12 @@ class LayerColor(BaseModel):
     """Layer object with color, alpha (opacity) and dither.
 
     Attributes:
-        gds_layer : int
-            GDSII Layer number.
-        gds_datatype : int
-            GDSII datatype.
-        name : str
-            Name of the Layer.
-        color : str
-            Hex code of color for the Layer.
-        alpha : int or float
-            Alpha parameter (opacity) for the Layer.
-        dither : str
-            KLayout dither parameter (texture) for the Layer
+        gds_layer: int GDSII Layer number.
+        gds_datatype: int GDSII datatype.
+        name: str Name of the Layer.
+        color: str Hex code of color for the Layer.
+        alpha: Alpha parameter (opacity) for the Layer.
+        dither: str KLayout dither parameter (texture) for the Layer
             (only used in phidl.utilities.write_lyp)
     """
 
@@ -313,7 +307,7 @@ def _add_layer(
 
 
 def load_lyp(filepath: Path) -> LayerColors:
-    """Returns a LayerColors object from a Klayout lyp file in XML format."""
+    """Returns a LayerColors object from a Klayout lyp file layer properties file."""
     with open(filepath, "r") as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
     # lyp files have a top level that just has one dict: layer-properties
@@ -344,6 +338,7 @@ load_lyp_generic = partial(load_lyp, filepath=layer_path)
 
 
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
+    """Returns python script to define LayerMap from a klayout layer properties file lyp."""
     filepathin = pathlib.Path(lyp_filepath)
     filepathout = filepathin.with_suffix(".py")
 

@@ -156,18 +156,19 @@ def get_simulation(
             Tuple of integers defining reflection symmetry across a plane
             bisecting the simulation domain normal to the x-, y-, and z-axis
             at the simulation center of each axis, respectvely.
-            Each element can be ``0`` (no symmetry), ``1`` (even, i.e. 'PMC' symmetry) or
-            ``-1`` (odd, i.e. 'PEC' symmetry).
-            Note that the vectorial nature of the fields must be taken into account to correctly
-            determine the symmetry value.
+            Each element can be `0` (no symmetry), `1` (even, i.e. 'PMC' symmetry) or
+            `-1` (odd, i.e. 'PEC' symmetry).
+            Note that the vectorial nature of the fields must be taken into account
+            to correctly determine the symmetry value.
         medium: Background medium of simulation, defaults to vacuum if not specified.
         shutoff: shutoff condition
             Ratio of the instantaneous integrated E-field intensity to the maximum value
             at which the simulation will automatically terminate time stepping.
-            Used to prevent extraneous run time of simulations with fully decayed fields.
+            prevents extraneous run time of simulations with fully decayed fields.
             Set to ``0`` to disable this feature.
         subpixel: subpixel averaging.If ``True``, uses subpixel averaging of the permittivity
-        based on structure definition, resulting in much higher accuracy for a given grid size.
+            based on structure definition,
+            resulting in much higher accuracy for a given grid size.
         courant: courant factor.
             Courant stability factor, controls time step to spatial step ratio.
             Lower values lead to more stable simulations for dispersive materials,
@@ -209,11 +210,11 @@ def get_simulation(
     ), f"component needs to be a gf.Component, got Type {type(component)}"
     if port_source_name not in component.ports:
         warnings.warn(
-            f"port_source_name={port_source_name} not in {component.ports.keys()}"
+            f"port_source_name={port_source_name!r} not in {list(component.ports.keys())}"
         )
         port_source = component.get_ports_list(port_type="optical")[0]
         port_source_name = port_source.name
-        warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
+        warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
 
     component_padding = gf.add_padding_container(
         component,
@@ -224,15 +225,15 @@ def get_simulation(
         right=xmargin or xmargin_right,
     )
     component_extended = (
-        gf.components.extension.extend_ports(
+        gf.components.extend_ports(
             component=component_padding, length=port_extension, centered=True
         )
         if port_extension
         else component_padding
     )
 
-    gf.show(component_extended)
     component_extended = component_extended.flatten()
+    gf.show(component_extended)
 
     component_ref = component_padding.ref()
     component_ref.x = 0
@@ -297,13 +298,10 @@ def get_simulation(
                 )
 
                 for polygon in polygons:
-                    geometry = td.Structure(
-                        geometry=polygon,
-                        medium=medium,
-                    )
+                    geometry = td.Structure(geometry=polygon, medium=medium)
                     structures.append(geometry)
             elif layer not in layer_to_material:
-                logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
+                logger.debug(f"Layer {layer} not in {list(layer_to_material.keys())}")
             elif layer_to_material[layer] not in material_name_to_tidy3d:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
@@ -509,15 +507,16 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-    # c = gf.components.mmi1x2()
+    c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    c = gf.c.straight(length=3)
+    # c = gf.c.straight(length=3)
     # sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+    # sim = get_simulation(c, dilation=-0.2, is_3d=False)
 
-    sim = get_simulation(c, dilation=-0.2, is_3d=False)
+    sim = get_simulation(c, is_3d=True)
     plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
