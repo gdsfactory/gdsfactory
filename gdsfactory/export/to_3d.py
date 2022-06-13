@@ -52,8 +52,6 @@ def to_3d(
             color_hex = layer_set.get_from_tuple(layer).color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
-            print(layer, color_hex, color_rgb, height, zmin)
-
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
@@ -66,7 +64,7 @@ def to_3d(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    # c = gf.components.taper_strip_to_ridge()
-    c = gf.components.straight()
+    c = gf.components.taper_strip_to_ridge()
+    # c = gf.components.straight()
     s = to_3d(c)
     s.show()
