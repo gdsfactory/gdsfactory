@@ -50,26 +50,20 @@ def _get_sparameters_data(**kwargs) -> pd.DataFrame:
     """Returns Sparameters data in a pandas DataFrame.
 
     Keyword Args:
-        component: component
-        dirpath: directory path to store sparameters
-        kwargs: simulation settings
+        component: component.
+        dirpath: directory path to store sparameters.
+        kwargs: simulation settings.
     """
     filepath = _get_sparameters_path(**kwargs)
     return pd.read_csv(filepath)
 
 
 get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
-get_sparameters_path_lumerical = partial(
-    _get_sparameters_path, layer_stack=LAYER_STACK, tool="lumerical"
-)
-get_sparameters_path_tidy3d = partial(
-    _get_sparameters_path, layer_stack=LAYER_STACK, tool="tidy3d"
-)
+get_sparameters_path_lumerical = partial(_get_sparameters_path, tool="lumerical")
+get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
 
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
-get_sparameters_data_lumerical = partial(
-    _get_sparameters_data, layer_stack=LAYER_STACK, tool="lumerical"
-)
+get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
 
 
 def test_get_sparameters_path(test: bool = True) -> None:
