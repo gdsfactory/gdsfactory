@@ -1,4 +1,4 @@
-name: straight_12b36814
+name: straight_d1e9c63d
 settings:
   changed:
     cross_section:
@@ -18,24 +18,12 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-        sections:
-        - hidden: false
-          layer: SLAB90
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          width: 6.0
   child: null
   default:
     cross_section: strip
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   full:
     cross_section:
       function: cross_section
@@ -54,26 +42,14 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-        sections:
-        - hidden: false
-          layer: SLAB90
-          name: slab
-          offset: 0
-          port_names:
-          - null
-          - null
-          port_types:
-          - optical
-          - optical
-          width: 6.0
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   function_name: straight
   info:
     length: 10.0
     width: 0.5
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_12b36814
+  name: straight_d1e9c63d
 version: 0.0.1
