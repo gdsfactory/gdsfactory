@@ -9,8 +9,9 @@ import numpy as np
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmeep.get_material import get_material
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.tech import LayerStack
 
 mp.verbosity(0)
 
@@ -22,7 +23,7 @@ def get_simulation(
     component: Component,
     resolution: int = 30,
     extend_ports_length: Optional[float] = 10.0,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_stack: Optional[LayerStack] = None,
     zmargin_top: float = 3.0,
     zmargin_bot: float = 3.0,
     tpml: float = 1.5,
@@ -85,26 +86,27 @@ def get_simulation(
 
 
     Args:
-        component: gf.Component
-        resolution: in pixels/um (20: for coarse, 120: for fine)
-        extend_ports_length: to extend ports beyond the PML
-        layer_stack: Dict of layer number (int, int) to thickness (um)
-        zmargin_top: thickness for cladding above core
-        zmargin_bot: thickness for cladding below core
-        tpml: PML thickness (um)
-        clad_material: material for cladding
-        is_3d: if True runs in 3D
-        wavelength_start: wavelength min (um)
-        wavelength_stop: wavelength max (um)
-        wavelength_points: wavelength steps
-        dfcen: delta frequency
-        port_source_name: input port name
-        port_field_monitor_name:
-        port_margin: margin on each side of the port
-        distance_source_to_monitors: in (um) source goes before
-        port_source_offset: offset between source GDS port and source MEEP port
-        port_monitor_offset: offset between monitor GDS port and monitor MEEP port
-        dispersive: use dispersive material models (requires higher resolution)
+        component: gdsfactory Component.
+        resolution: in pixels/um (20: for coarse, 120: for fine).
+        extend_ports_length: to extend ports beyond the PML.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
+        zmargin_top: thickness for cladding above core.
+        zmargin_bot: thickness for cladding below core.
+        tpml: PML thickness (um).
+        clad_material: material for cladding.
+        is_3d: if True runs in 3D.
+        wavelength_start: wavelength min (um).
+        wavelength_stop: wavelength max (um).
+        wavelength_points: wavelength steps.
+        dfcen: delta frequency.
+        port_source_name: input port name.
+        port_field_monitor_name: for component port.
+        port_margin: margin on each side of the port.
+        distance_source_to_monitors: in (um) source goes before.
+        port_source_offset: offset between source GDS port and source MEEP port.
+        port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
+        dispersive: use dispersive material models (requires higher resolution).
         material_name_to_meep: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with meep material database names.
 
@@ -112,7 +114,7 @@ def get_simulation(
         settings: other parameters for sim object (resolution, symmetries, etc.)
 
     Returns:
-        simulation dict: sim, monitors, sources
+        simulation dict: sim, monitors, sources.
 
     Make sure you review the simulation before you simulate a component
 
@@ -129,6 +131,8 @@ def get_simulation(
     for setting in settings.keys():
         if setting not in settings_meep:
             raise ValueError(f"{setting} not in {settings_meep}")
+
+    layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
