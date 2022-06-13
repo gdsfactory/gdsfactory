@@ -142,6 +142,7 @@ def get_simulation(
                 wavelength=wavelength,
                 override_structures=[refine_box]
             )
+        boundary_spec: Specification of boundary conditions along each dimension.
         dilation: float = 0.0
             Dilation of the polygon in the base by shifting each edge along its
             normal outwards direction by a distance;
