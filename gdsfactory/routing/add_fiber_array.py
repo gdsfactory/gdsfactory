@@ -184,6 +184,15 @@ if __name__ == "__main__":
     # test_type0()
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm
+    strip = gf.partial(
+        gf.cross_section.cross_section,
+        width=1,
+        layer=(2, 0),
+        bbox_layers=((61, 0), (62, 0)),
+        bbox_offsets=(3, 3)
+        # cladding_layers=((61, 0), (62, 0)),
+        # cladding_offsets=(3, 3)
+    )
 
     # from pprint import pprint
     # layer_label = gf.LAYER.TEXT
@@ -212,5 +221,6 @@ if __name__ == "__main__":
         auto_widen=True,
         # layer=(2, 0),
         gc_port_labels=["loop_in", "in", "out", "loop_out"],
+        cross_section=strip,
     )
     cc.show()

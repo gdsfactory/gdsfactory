@@ -152,4 +152,8 @@ git-rm-merged:
 link:
 	ln -sf $(PWD)/gdsfactory/klayout/tech $(HOME)/.klayout/tech/generic
 
+pyglet:
+	pip install pyglet==1.2.4
+
+
 .PHONY: gdsdiff build conda

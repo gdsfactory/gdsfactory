@@ -1,7 +1,6 @@
 """Write Sparameters with Lumerical FDTD."""
 import shutil
 import time
-from pathlib import Path
 from typing import Dict, Optional
 
 import numpy as np
@@ -10,17 +9,17 @@ import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.config import __version__, logger
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
 from gdsfactory.tech import (
-    LAYER_STACK,
     SIMULATION_SETTINGS_LUMERICAL_FDTD,
     LayerStack,
     MaterialSpec,
     SimulationSettingsLumericalFdtd,
 )
-from gdsfactory.types import ComponentSpec
+from gdsfactory.types import ComponentSpec, PathType
 
 run_false_warning = """
 You have passed run=False to debug the simulation
@@ -74,8 +73,8 @@ def write_sparameters_lumerical(
     session: Optional[object] = None,
     run: bool = True,
     overwrite: bool = False,
-    dirpath: Path = gf.CONFIG["sparameters"],
-    layer_stack: LayerStack = LAYER_STACK,
+    dirpath: Optional[PathType] = None,
+    layer_stack: Optional[LayerStack] = None,
     simulation_settings: SimulationSettingsLumericalFdtd = SIMULATION_SETTINGS_LUMERICAL_FDTD,
     material_name_to_lumerical: Optional[Dict[str, MaterialSpec]] = None,
     delete_fsp_files: bool = True,
@@ -109,34 +108,36 @@ def write_sparameters_lumerical(
     You can use this function for inspiration to create your own.
 
     Args:
-        component: Component to simulate
-        session: you can pass a session=lumapi.FDTD() or it will create one
-        run: True runs Lumerical, False only draws simulation
-        overwrite: run even if simulation results already exists
-        dirpath: where to store the Sparameters
-        layer_stack: layer_stack
-        simulation_settings: dataclass with all simulation_settings
+        component: Component to simulate.
+        session: you can pass a session=lumapi.FDTD() or it will create one.
+        run: True runs Lumerical, False only draws simulation.
+        overwrite: run even if simulation results already exists.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
+        simulation_settings: dataclass with all simulation_settings.
         material_name_to_lumerical: alias to lumerical material's database name
             or refractive index.
             translate material name in LayerStack to lumerical's database name.
-        delete_fsp_files: deletes lumerical fsp files after simulation
+        delete_fsp_files: deletes lumerical fsp files after simulation.
 
     Keyword Args:
-        background_material: for the background
-        port_margin: on both sides of the port width (um)
-        port_height: port height (um)
-        port_extension: port extension (um)
-        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-        zmargin: for the FDTD region (um)
-        ymargin: for the FDTD region (um)
-        xmargin: for the FDTD region (um)
-        wavelength_start: 1.2 (um)
-        wavelength_stop: 1.6 (um)
-        wavelength_points: 500
-        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
-        simulation_temperature: in kelvin (default = 300)
-        frequency_dependent_profile: computes mode profiles for different wavelengths
-        field_profile_samples: number of wavelengths to compute field profile
+        background_material: for the background.
+        port_margin: on both sides of the port width (um).
+        port_height: port height (um).
+        port_extension: port extension (um).
+        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine).
+        zmargin: for the FDTD region (um).
+        ymargin: for the FDTD region (um).
+        xmargin: for the FDTD region (um).
+        wavelength_start: 1.2 (um).
+        wavelength_stop: 1.6 (um).
+        wavelength_points: 500.
+        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm.
+        simulation_temperature: in kelvin (default = 300).
+        frequency_dependent_profile: computes mode profiles for different wavelengths.
+        field_profile_samples: number of wavelengths to compute field profile.
 
 
     .. code::
@@ -177,11 +178,13 @@ def write_sparameters_lumerical(
 
     Return:
         Sparameters pandas DataFrame (wavelengths, s11m, s11a, s12a ...)
-        suffix `a` for angle in radians and `m` for module
+            suffix `a` for angle in radians and `m` for module.
 
     """
     component = gf.get_component(component)
     sim_settings = dict(simulation_settings)
+
+    layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()

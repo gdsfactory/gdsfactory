@@ -15,7 +15,7 @@ def bend_circular_heater(
     heater_to_wg_distance: float = 1.2,
     heater_width: float = 0.5,
     layer_heater=TECH.layer.HEATER,
-    with_bbox: bool = False,
+    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:

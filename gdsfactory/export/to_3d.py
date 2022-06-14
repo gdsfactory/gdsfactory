@@ -4,23 +4,26 @@ import matplotlib.colors
 import shapely
 
 from gdsfactory.component import Component
-from gdsfactory.layers import LayerSet
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.layers import LayerColors
+from gdsfactory.pdk import get_layer_colors, get_layer_stack
+from gdsfactory.tech import LayerStack
 from gdsfactory.types import Layer
 
 
 def to_3d(
     component: Component,
-    layer_set: LayerSet,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_colors: Optional[LayerColors] = None,
+    layer_stack: Optional[LayerStack] = None,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ):
     """Return Component 3D trimesh Scene.
 
     Args:
         component: to exture in 3D.
-        layer_set: layer colors from Klayout Layer Properties file.
+        layer_colors: layer colors from Klayout Layer Properties file.
+            Defaults to active PDK.layer_colors.
         layer_stack: contains thickness and zmin for each layer.
+            Defaults to active PDK.layer_stack.
         exclude_layers: layers to exclude.
 
     """
@@ -29,6 +32,9 @@ def to_3d(
         from trimesh.scene import Scene
     except ImportError:
         print("you need to `pip install trimesh`")
+
+    layer_colors = layer_colors or get_layer_colors()
+    layer_stack = layer_stack or get_layer_stack()
 
     scene = Scene()
     layer_to_thickness = layer_stack.get_layer_to_thickness()
@@ -43,8 +49,9 @@ def to_3d(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_hex = layer_set.get_from_tuple(layer).color
+            color_hex = layer_colors.get_from_tuple(layer).color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
+
             for polygon in polygons:
                 p = shapely.geometry.Polygon(polygon)
                 mesh = extrude_polygon(p, height=height)
@@ -58,5 +65,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.taper_strip_to_ridge()
-    s = to_3d(c, layer_set=gf.layers.LAYER_SET)
+    # c = gf.components.straight()
+    s = to_3d(c)
     s.show()

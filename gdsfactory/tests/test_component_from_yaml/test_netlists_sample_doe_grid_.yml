@@ -15,7 +15,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 2.5
             width_taper: 1
@@ -25,7 +26,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 4
             width_taper: 1
@@ -47,7 +49,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 2.5
             width_taper: 1
@@ -57,7 +60,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 2
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 10
             width_taper: 1
@@ -79,7 +83,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 2.5
             width_taper: 1
@@ -89,7 +94,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 4
             width_taper: 1
@@ -111,7 +117,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 5.5
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 2.5
             width_taper: 1
@@ -121,7 +128,8 @@ instances:
             gap_mmi: 0.25
             length_mmi: 100
             length_taper: 10
-            taper: taper
+            taper:
+              function: taper
             width: 0.5
             width_mmi: 10
             width_taper: 1

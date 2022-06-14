@@ -22,13 +22,14 @@ Factories:
 
 Specs:
 
-- ComponentSpec: Component, ComponentFactory or dict(component=mzi, settings=dict(delta_length=20)).
+- ComponentSpec: Component, function, string or dict
+    (component=mzi, settings=dict(delta_length=20)).
 - LayerSpec: (3, 0), 3 (asumes 0 as datatype) or string.
 
 """
 import json
 import pathlib
-from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -39,7 +40,9 @@ from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.cross_section import CrossSection
+from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
+from gdsfactory.tech import LayerLevel, LayerStack
 
 Anchor = Literal[
     "ce",
@@ -80,7 +83,7 @@ Ints = Tuple[int, ...]
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
-LayerSpec = NewType("LayerSpec", Union[Layer, int, str, None])
+LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Tuple[LayerSpec, ...]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
@@ -101,15 +104,11 @@ PortSymmetries = Dict[str, Dict[str, List[str]]]
 PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
-ComponentSpec = NewType(
-    "ComponentSpec", Union[str, ComponentFactory, Component, Dict[str, Any]]
-)
+ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
 ComponentSpecDict = Dict[str, ComponentSpec]
-CrossSectionSpec = NewType(
-    "CrossSectionSpec", Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
-)
+CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 
@@ -256,6 +255,10 @@ __all__ = (
     "RouteFactory",
     "Routes",
     "Strs",
+    "LayerColors",
+    "LayerColor",
+    "LayerStack",
+    "LayerLevel",
 )
 
 

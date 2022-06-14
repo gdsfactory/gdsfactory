@@ -1,4 +1,4 @@
-name: straight_f983bc29
+name: straight_7114c317
 settings:
   changed:
     cross_section:
@@ -21,13 +21,12 @@ settings:
         - 34
         - 0
         width: 1
-    with_bbox: true
   child: null
   default:
     cross_section: strip
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   full:
     cross_section:
       function: cross_section
@@ -58,5 +57,5 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_f983bc29
+  name: straight_7114c317
 version: 0.0.1
