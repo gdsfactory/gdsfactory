@@ -1,4 +1,4 @@
-name: cross_2976c617_copy_layers
+name: cross_layer2__0_copy_layers
 settings:
   changed: {}
   child:
@@ -23,7 +23,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.components.cross
-    name: cross_2976c617
+    name: cross_layer2__0
   default:
     factory:
       function: cross
@@ -44,5 +44,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.copy_layers
-  name: cross_2976c617_copy_layers
+  name: cross_layer2__0_copy_layers
 version: 0.0.1

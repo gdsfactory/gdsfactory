@@ -36,5 +36,5 @@ def straight_array(
 
 if __name__ == "__main__":
     c = straight_array()
-    c.pprint_ports()
+    # c.pprint_ports()
     c.show(show_ports=True)

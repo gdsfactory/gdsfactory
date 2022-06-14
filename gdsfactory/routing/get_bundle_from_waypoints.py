@@ -17,6 +17,7 @@ from gdsfactory.routing.manhattan import (
     remove_flat_angles,
     round_corners,
 )
+from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.utils import get_list_ports_angle
 from gdsfactory.types import (
     ComponentSpec,
@@ -84,6 +85,9 @@ def get_bundle_from_waypoints(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     separation: Optional[float] = None,
     on_route_error: Callable = get_route_error,
+    path_length_match_loops: int = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
     """Returns list of routes that connect bundle of ports with bundle of routes
@@ -165,9 +169,9 @@ def get_bundle_from_waypoints(
     except RouteError:
         return [on_route_error(waypoints)]
 
-    bends90 = [
-        gf.get_component(bend, cross_section=cross_section, **kwargs) for p in ports1
-    ]
+    # bends90 = [
+    #     gf.get_component(bend, cross_section=cross_section, **kwargs) for p in ports1
+    # ]
 
     if taper and not isinstance(cross_section, list):
         x = gf.get_cross_section(cross_section, **kwargs)
@@ -181,16 +185,28 @@ def get_bundle_from_waypoints(
             )
     else:
         taper = None
+
+    if path_length_match_loops:
+        routes = [np.array(route) for route in routes]
+        routes = path_length_matched_points(
+            routes,
+            extra_length=path_length_match_extra_length,
+            bend=bend,
+            nb_loops=path_length_match_loops,
+            modify_segment_i=path_length_match_modify_segment_i,
+            cross_section=cross_section,
+            **kwargs,
+        )
     return [
         round_corners(
             points=pts,
-            bend=bend90,
+            bend=bend,
             straight=straight,
             taper=taper,
             cross_section=cross_section,
             **kwargs,
         )
-        for pts, bend90 in zip(routes, bends90)
+        for pts in routes
     ]
 
 

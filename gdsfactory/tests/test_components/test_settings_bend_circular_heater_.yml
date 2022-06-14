@@ -12,7 +12,7 @@ settings:
     - 0
     npoints: 720
     radius: 10
-    with_bbox: false
+    with_bbox: true
   full:
     angle: 90
     cross_section: strip
@@ -23,7 +23,7 @@ settings:
     - 0
     npoints: 720
     radius: 10
-    with_bbox: false
+    with_bbox: true
   function_name: bend_circular_heater
   info:
     length: 15.708

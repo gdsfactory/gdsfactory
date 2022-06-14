@@ -15,21 +15,22 @@ Assumes two ports are connected when they have same width, x, y
 
 """
 
-from typing import Callable, Dict, Tuple
+from typing import Callable, Dict
 
 import omegaconf
 
 from gdsfactory.component import Component, ComponentReference
 from gdsfactory.name import clean_name
+from gdsfactory.pdk import get_layer
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.snap import snap_to_grid
-from gdsfactory.tech import LAYER
+from gdsfactory.types import LayerSpec
 
 
 def get_instance_name(
     component: Component,
     reference: ComponentReference,
-    layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
+    layer_label: LayerSpec = "LABEL_INSTANCE",
 ) -> str:
     """Returns the instance name from the label.
     If no label returns to instanceName_x_y
@@ -39,6 +40,8 @@ def get_instance_name(
         reference: reference that needs naming.
         layer_label: ignores layer_label[1].
     """
+
+    layer_label = get_layer(layer_label)
 
     x = snap_to_grid(reference.x)
     y = snap_to_grid(reference.y)
@@ -64,7 +67,7 @@ def get_instance_name(
 def get_netlist(
     component: Component,
     full_settings: bool = False,
-    layer_label: Tuple[int, int] = LAYER.LABEL_INSTANCE,
+    layer_label: LayerSpec = "LABEL_INSTANCE",
     tolerance: int = 1,
 ) -> omegaconf.DictConfig:
     """From a component returns instances, connections and placements dict. It
@@ -87,6 +90,7 @@ def get_netlist(
     instances = {}
     connections = {}
     top_ports = {}
+    layer_label = get_layer(layer_label)
 
     for reference in component.references:
         c = reference.parent

@@ -159,14 +159,14 @@ def place(
     """Place instance_name based on placements_conf config.
 
     Args:
-        placements_conf: Dict of instance_name to placement (x, y, rotation ...)
+        placements_conf: Dict of instance_name to placement (x, y, rotation ...).
         connections_by_transformed_inst: Dict of connection attributes.
-            keyed by the name of the instance which should be transformed
-        instances: Dict of references
-        encountered_insts: list of encountered_instances
-        instance_name: instance_name to place
+            keyed by the name of the instance which should be transformed.
+        instances: Dict of references.
+        encountered_insts: list of encountered_instances.
+        instance_name: instance_name to place.
         all_remaining_insts: list of all the remaining instances to place
-            instances pop from this instrance as they are placed
+            instances pop from this instrance as they are placed.
     """
     if not all_remaining_insts:
         return
@@ -397,6 +397,16 @@ def make_connection(
     port_dst_name: str,
     instances: Dict[str, ComponentReference],
 ) -> None:
+    """Connect instance_src_name,port to instance_dst_name,port.
+
+    Args:
+        instance_src_name: source instance name.
+        port_src_name: from instance_src_name.
+        instance_dst_name: destination instance name.
+        port_dst_name: from instance_dst_name.
+        instances: dict of instances.
+
+    """
     instance_src_name = instance_src_name.strip()
     instance_dst_name = instance_dst_name.strip()
     port_src_name = port_src_name.strip()
@@ -589,7 +599,7 @@ def _from_yaml(
         routing_strategy: for each route.
         label_instance_function: to label each instance.
     """
-    from gdsfactory.pdk import GENERIC, get_active_pdk, set_active_pdk
+    from gdsfactory.pdk import GENERIC, get_active_pdk
 
     c = Component()
     instances = {}
@@ -604,14 +614,14 @@ def _from_yaml(
     c.info = conf.get("info", {})
 
     if pdk and pdk == "generic":
-        set_active_pdk(GENERIC)
+        GENERIC.activate()
 
     elif pdk:
         module = importlib.import_module(pdk)
         pdk = getattr(module, "PDK")
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
-        set_active_pdk(pdk)
+        pdk.activate()
 
     pdk = get_active_pdk()
 
@@ -1237,7 +1247,6 @@ if __name__ == "__main__":
     # c = from_yaml(sample_yaml_xmin)
     # n = c.get_netlist()
     # print(n)
-
     # c = from_yaml(sample_doe)
 
     # c = from_yaml(sample_mirror)

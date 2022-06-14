@@ -1,5 +1,6 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.types import ComponentSpec
@@ -7,7 +8,7 @@ from gdsfactory.types import ComponentSpec
 
 @gf.cell
 def add_electrical_pads_shortest(
-    component: ComponentSpec = "straight",
+    component: ComponentSpec = straight,
     pad: ComponentSpec = "pad",
     pad_port_spacing: float = 50.0,
     select_ports=select_ports_electrical,

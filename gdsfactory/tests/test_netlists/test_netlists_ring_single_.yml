@@ -1,12 +1,12 @@
 connections:
-  bend_euler_2e0a66fe_5p124_16p425,o1: straight_c1e7b81b_10p0_11p0,o1
-  bend_euler_2e0a66fe_5p124_16p425,o2: straight_defbc978_m2p0_21p3,o1
-  bend_euler_2e0a66fe_m9p124_16p425,o1: straight_defbc978_m2p0_21p3,o2
-  bend_euler_2e0a66fe_m9p124_16p425,o2: straight_c1e7b81b_m14p0_11p0,o2
-  coupler_ring_3363c15c_m2p0_5p226,o2: straight_c1e7b81b_m14p0_11p0,o1
-  coupler_ring_3363c15c_m2p0_5p226,o3: straight_c1e7b81b_10p0_11p0,o2
+  bend_euler_radius10_5p124_16p425,o1: straight_length0p6_10p0_11p0,o1
+  bend_euler_radius10_5p124_16p425,o2: straight_length4_m2p0_21p3,o1
+  bend_euler_radius10_m9p124_16p425,o1: straight_length4_m2p0_21p3,o2
+  bend_euler_radius10_m9p124_16p425,o2: straight_length0p6_m14p0_11p0,o2
+  coupler_ring_3363c15c_m2p0_5p226,o2: straight_length0p6_m14p0_11p0,o1
+  coupler_ring_3363c15c_m2p0_5p226,o3: straight_length0p6_10p0_11p0,o2
 instances:
-  bend_euler_2e0a66fe_5p124_16p425:
+  bend_euler_radius10_5p124_16p425:
     component: bend_euler
     info:
       dy: 10
@@ -15,7 +15,7 @@ instances:
       radius_min: 7.061
     settings:
       radius: 10
-  bend_euler_2e0a66fe_m9p124_16p425:
+  bend_euler_radius10_m9p124_16p425:
     component: bend_euler
     info:
       dy: 10
@@ -30,21 +30,21 @@ instances:
       bend:
         function: bend_euler
       radius: 10
-  straight_c1e7b81b_10p0_11p0:
+  straight_length0p6_10p0_11p0:
     component: straight
     info:
       length: 0.6
       width: 0.5
     settings:
       length: 0.6
-  straight_c1e7b81b_m14p0_11p0:
+  straight_length0p6_m14p0_11p0:
     component: straight
     info:
       length: 0.6
       width: 0.5
     settings:
       length: 0.6
-  straight_defbc978_m2p0_21p3:
+  straight_length4_m2p0_21p3:
     component: straight
     info:
       length: 4
@@ -53,12 +53,12 @@ instances:
       length: 4
 name: ring_single
 placements:
-  bend_euler_2e0a66fe_5p124_16p425:
+  bend_euler_radius10_5p124_16p425:
     mirror: false
     rotation: 90
     x: 10.0
     y: 11.3
-  bend_euler_2e0a66fe_m9p124_16p425:
+  bend_euler_radius10_m9p124_16p425:
     mirror: false
     rotation: 180
     x: -4.0
@@ -68,17 +68,17 @@ placements:
     rotation: 0
     x: 0.0
     y: 0.0
-  straight_c1e7b81b_10p0_11p0:
+  straight_length0p6_10p0_11p0:
     mirror: false
     rotation: 270
     x: 10.0
     y: 11.3
-  straight_c1e7b81b_m14p0_11p0:
+  straight_length0p6_m14p0_11p0:
     mirror: false
     rotation: 90
     x: -14.0
     y: 10.7
-  straight_defbc978_m2p0_21p3:
+  straight_length4_m2p0_21p3:
     mirror: false
     rotation: 180
     x: 0.0

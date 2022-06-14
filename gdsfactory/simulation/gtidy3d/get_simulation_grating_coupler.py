@@ -10,19 +10,20 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gtidy3d.materials import (
     MATERIAL_NAME_TO_TIDY3D_INDEX,
     MATERIAL_NAME_TO_TIDY3D_NAME,
     get_index,
     get_medium,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.tech import LayerStack
 
 
 def get_simulation_grating_coupler(
     component: Component,
     port_extension: Optional[float] = 15.0,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_stack: Optional[LayerStack] = None,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
     ymargin: float = 0,
@@ -39,7 +40,6 @@ def get_simulation_grating_coupler(
     port_margin: float = 0.5,
     port_waveguide_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
-    resolution: float = 50,
     wavelength: Optional[float] = 1.55,
     wavelength_start: float = 1.20,
     wavelength_stop: float = 1.80,
@@ -57,9 +57,13 @@ def get_simulation_grating_coupler(
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
+    boundary_spec=td.BoundarySpec.all_sides(boundary=td.PML()),
+    grid_spec: Optional[td.GridSpec] = None,
+    sidewall_angle_deg: float = 0,
+    dilation: float = 0.0,
     **kwargs,
 ) -> td.Simulation:
-    r"""Returns Simulation object from a gdsfactory grating coupler component
+    r"""Returns Simulation object from a gdsfactory grating coupler component.
 
     injects a Gaussian beam from above and monitors the transmission into the waveguide.
 
@@ -119,7 +123,8 @@ def get_simulation_grating_coupler(
     Args:
         component: gdsfactory Component.
         port_extension: extend ports beyond the PML.
-        layer_stack: contains layer numbers (int, int) to thickness, zmin.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
@@ -131,15 +136,14 @@ def get_simulation_grating_coupler(
         clad_material: material for cladding.
         box_material:
         substrate_material:
-        box_thickness: (um)
-        substrate_thickness: (um)
+        box_thickness: (um).
+        substrate_thickness: (um).
         port_waveguide_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
         port_waveguide_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
-        wavelength: source center wavelength (um)
+        wavelength: source center wavelength (um).
             if None takes mean between wavelength_start, wavelength_stop
         wavelength_start: in (um).
         wavelength_stop: in (um).
@@ -148,10 +152,10 @@ def get_simulation_grating_coupler(
         num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and automatic shutoff stops earlier if needed.
-        fiber_port_name:
-        fiber_xoffset: fiber center xoffset to fiber_port_name
-        fiber_z: fiber zoffset from grating zmax
-        fiber_mfd: fiber mode field diameter (um)
+        fiber_port_name: for the component.
+        fiber_xoffset: fiber center xoffset to fiber_port_name.
+        fiber_z: fiber zoffset from grating zmax.
+        fiber_mfd: fiber mode field diameter (um).
         fiber_angle_deg: fiber_angle in degrees with respect to normal.
             Positive for west facing, Negative for east facing sources.
         dispersive: False uses constant refractive index materials.
@@ -161,16 +165,53 @@ def get_simulation_grating_coupler(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False collapses the Y direction for a 2D simulation.
-        with_all_monitors: if True, includes field monitors which increase results file size.
+        with_all_monitors: True includes field monitors which increase results filesize.
+        grid_spec: defaults to automatic td.GridSpec.auto(wavelength=wavelength)
+            td.GridSpec.uniform(dl=20*nm)
+            td.GridSpec(
+                grid_x = td.UniformGrid(dl=0.04),
+                grid_y = td.AutoGrid(min_steps_per_wvl=20),
+                grid_z = td.AutoGrid(min_steps_per_wvl=20),
+                wavelength=wavelength,
+                override_structures=[refine_box]
+            )
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        sidewall_angle_deg : float = 0
+            Angle of the sidewall.
+            ``sidewall_angle=0`` (default) specifies vertical wall,
+            while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     keyword Args:
-        grid_spec:
+        symmetry: Define Symmetries.
+            Tuple of integers defining reflection symmetry across a plane
+            bisecting the simulation domain normal to the x-, y-, and z-axis
+            at the simulation center of each axis, respectvely.
+            Each element can be ``0`` (no symmetry), ``1`` (even, i.e. 'PMC' symmetry) or
+            ``-1`` (odd, i.e. 'PEC' symmetry).
+            Note that the vectorial nature of the fields must be taken into account to correctly
+            determine the symmetry value.
+        medium: Background medium of simulation, defaults to vacuum if not specified.
+        shutoff: shutoff condition
+            Ratio of the instantaneous integrated E-field intensity to the maximum value
+            at which the simulation will automatically terminate time stepping.
+            Used to prevent extraneous run time of simulations with fully decayed fields.
+            Set to ``0`` to disable this feature.
+        subpixel: subpixel averaging.If ``True``, uses subpixel averaging of the permittivity
+        based on structure definition, resulting in much higher accuracy for a given grid size.
+        courant: courant factor.
+            Courant stability factor, controls time step to spatial step ratio.
+            Lower values lead to more stable simulations for dispersive materials,
+            but result in longer simulation times.
+        version: String specifying the front end version number.
 
     .. code::
 
         import matplotlib.pyplot as plt
         import gdsfactory as gf
-        import gdsfactory.simulation.tidy3d as gt
+        import gdsfactory.simulation.gtidy3d as gt
 
         c = gf.components.grating_coupler_elliptical_arbitrary(
             widths=[0.343] * 25, gaps=[0.345] * 25
@@ -179,10 +220,14 @@ def get_simulation_grating_coupler(
         gt.plot_simulation(sim)
 
     """
+    layer_stack = layer_stack or get_layer_stack()
+
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
+
+    grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
     if dispersive:
         material_name_to_tidy3d = material_name_to_tidy3d_name
@@ -242,7 +287,7 @@ def get_simulation_grating_coupler(
     sim_zsize = (
         thickness_pml + box_thickness + wg_thickness + thickness_pml + 2 * zmargin
     )
-    sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 1 / resolution
+    sim_ysize = component_ref.ysize + 2 * thickness_pml if is_3d else 0
     sim_size = [
         sim_xsize,
         sim_ysize,
@@ -302,6 +347,8 @@ def get_simulation_grating_coupler(
                     gds_dtype=layer[1],
                     axis=2,
                     slab_bounds=(zmin, zmax),
+                    sidewall_angle=np.deg2rad(sidewall_angle_deg),
+                    dilation=dilation,
                 )
 
                 for polygon in polygons:
@@ -397,8 +444,8 @@ def get_simulation_grating_coupler(
         structures=structures,
         sources=[gaussian_beam],
         monitors=monitors,
-        run_time=20 * run_time_ps / fwidth,
-        pml_layers=3 * [td.PML()] if is_3d else [td.PML(), None, td.PML()],
+        run_time=run_time_ps * 1e-12,
+        boundary_spec=boundary_spec,
         **kwargs,
     )
 

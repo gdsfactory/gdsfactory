@@ -1,6 +1,5 @@
-"""
-SiEPIC  labels one of the grating couplers from the fiber array using a GDS label (not fabricated)
-"""
+"""SiEPIC labels one grating coupler from the fiber array using a GDS label
+(not fabricated) """
 
 from typing import Callable, List, Optional, Tuple
 
@@ -11,6 +10,7 @@ import gdsfactory as gf
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components import grating_coupler_te
+from gdsfactory.components.straight import straight
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentReference, ComponentSpec, CrossSectionSpec, Layer
 
@@ -27,7 +27,7 @@ def get_input_label_text(
     Args:
         port: component port.
         gc: grating coupler reference.
-        gc_index: grating coupler index
+        gc_index: grating coupler index.
         component_name: optional component name.
         username: for the label.
     """
@@ -96,7 +96,7 @@ def get_input_labels(
 
 @cell
 def add_fiber_array_siepic(
-    component: ComponentSpec = "straight",
+    component: ComponentSpec = straight,
     component_name: Optional[str] = None,
     gc_port_name: str = "o1",
     get_input_labels_function: Callable = get_input_labels,
@@ -114,16 +114,16 @@ def add_fiber_array_siepic(
     Can add align_ports loopback reference structure on the edges.
 
     Args:
-        component: to connect
-        component_name: for the label
-        gc_port_name: grating coupler input port name 'o1'
-        get_input_labels_function: function to get input labels for grating couplers
-        with_loopback: True, adds loopback structures
-        optical_routing_type: None: autoselection, 0: no extension
-        fanout_length: None  # if None, automatic calculation of fanout length
-        grating_coupler: grating coupler instance, function or list of functions
-        cross_section:
-        layer_label:
+        component: to connect.
+        component_name: for the label.
+        gc_port_name: grating coupler input port name 'o1'.
+        get_input_labels_function: function to get input labels for grating couplers.
+        with_loopback: True, adds loopback structures.
+        optical_routing_type: None: autoselection, 0: no extension.
+        fanout_length: None  # if None, automatic calculation of fanout length.
+        grating_coupler: grating coupler instance, function or list of functions.
+        cross_section: spec.
+        layer_label: for label.
     """
     c = gf.Component()
 

@@ -1,12 +1,12 @@
-name: straight_373b1ebb_add_t_7af861f9
+name: straight_length20_width_83d5e85f
 settings:
   changed:
     component:
-      name: straight_373b1ebb_add_t_0521a25f
+      name: straight_length20_width_a7215fe6
       settings:
         changed:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -16,20 +16,20 @@ settings:
                 cross_section: strip
                 length: 10
                 npoints: 2
-                with_bbox: false
+                with_bbox: true
               full:
                 cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
-                with_bbox: false
+                with_bbox: true
               function_name: straight
               info:
                 length: 20.0
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
         child:
           changed:
@@ -40,20 +40,20 @@ settings:
             cross_section: strip
             length: 10
             npoints: 2
-            with_bbox: false
+            with_bbox: true
           full:
             cross_section: strip
             length: 20
             npoints: 2
             width: 2
-            with_bbox: false
+            with_bbox: true
           function_name: straight
           info:
             length: 20.0
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         default:
           select_ports:
             function: select_ports
@@ -65,7 +65,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -75,20 +75,20 @@ settings:
                 cross_section: strip
                 length: 10
                 npoints: 2
-                with_bbox: false
+                with_bbox: true
               full:
                 cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
-                with_bbox: false
+                with_bbox: true
               function_name: straight
               info:
                 length: 20.0
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
           select_ports:
             function: select_ports
@@ -102,13 +102,13 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_0521a25f
+        name: straight_length20_width_a7215fe6
       version: 0.0.1
     optical_routing_type: 0
   child:
     changed:
       component:
-        name: straight_373b1ebb
+        name: straight_length20_width2
         settings:
           changed:
             length: 20
@@ -118,20 +118,20 @@ settings:
             cross_section: strip
             length: 10
             npoints: 2
-            with_bbox: false
+            with_bbox: true
           full:
             cross_section: strip
             length: 20
             npoints: 2
             width: 2
-            with_bbox: false
+            with_bbox: true
           function_name: straight
           info:
             length: 20.0
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         version: 0.0.1
     child:
       changed:
@@ -142,20 +142,20 @@ settings:
         cross_section: strip
         length: 10
         npoints: 2
-        with_bbox: false
+        with_bbox: true
       full:
         cross_section: strip
         length: 20
         npoints: 2
         width: 2
-        with_bbox: false
+        with_bbox: true
       function_name: straight
       info:
         length: 20.0
         width: 2.0
       info_version: 2
       module: gdsfactory.components.straight
-      name: straight_373b1ebb
+      name: straight_length20_width2
     default:
       select_ports:
         function: select_ports
@@ -167,7 +167,7 @@ settings:
       taper_port_name2: o2
     full:
       component:
-        name: straight_373b1ebb
+        name: straight_length20_width2
         settings:
           changed:
             length: 20
@@ -177,20 +177,20 @@ settings:
             cross_section: strip
             length: 10
             npoints: 2
-            with_bbox: false
+            with_bbox: true
           full:
             cross_section: strip
             length: 20
             npoints: 2
             width: 2
-            with_bbox: false
+            with_bbox: true
           function_name: straight
           info:
             length: 20.0
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         version: 0.0.1
       select_ports:
         function: select_ports
@@ -204,10 +204,10 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_373b1ebb_add_t_0521a25f
+    name: straight_length20_width_a7215fe6
   default:
-    bend: bend_euler
-    component: mmi2x2
+    component:
+      function: straight
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -224,15 +224,13 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight: straight
   full:
-    bend: bend_euler
     component:
-      name: straight_373b1ebb_add_t_0521a25f
+      name: straight_length20_width_a7215fe6
       settings:
         changed:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -242,20 +240,20 @@ settings:
                 cross_section: strip
                 length: 10
                 npoints: 2
-                with_bbox: false
+                with_bbox: true
               full:
                 cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
-                with_bbox: false
+                with_bbox: true
               function_name: straight
               info:
                 length: 20.0
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
         child:
           changed:
@@ -266,20 +264,20 @@ settings:
             cross_section: strip
             length: 10
             npoints: 2
-            with_bbox: false
+            with_bbox: true
           full:
             cross_section: strip
             length: 20
             npoints: 2
             width: 2
-            with_bbox: false
+            with_bbox: true
           function_name: straight
           info:
             length: 20.0
             width: 2.0
           info_version: 2
           module: gdsfactory.components.straight
-          name: straight_373b1ebb
+          name: straight_length20_width2
         default:
           select_ports:
             function: select_ports
@@ -291,7 +289,7 @@ settings:
           taper_port_name2: o2
         full:
           component:
-            name: straight_373b1ebb
+            name: straight_length20_width2
             settings:
               changed:
                 length: 20
@@ -301,20 +299,20 @@ settings:
                 cross_section: strip
                 length: 10
                 npoints: 2
-                with_bbox: false
+                with_bbox: true
               full:
                 cross_section: strip
                 length: 20
                 npoints: 2
                 width: 2
-                with_bbox: false
+                with_bbox: true
               function_name: straight
               info:
                 length: 20.0
                 width: 2.0
               info_version: 2
               module: gdsfactory.components.straight
-              name: straight_373b1ebb
+              name: straight_length20_width2
             version: 0.0.1
           select_ports:
             function: select_ports
@@ -328,7 +326,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_373b1ebb_add_t_0521a25f
+        name: straight_length20_width_a7215fe6
       version: 0.0.1
     component_name: null
     cross_section: strip
@@ -347,10 +345,9 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_373b1ebb_add_t_7af861f9
+  name: straight_length20_width_83d5e85f
 version: 0.0.1

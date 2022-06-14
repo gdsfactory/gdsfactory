@@ -3,12 +3,13 @@ import pathlib
 from copy import deepcopy
 from functools import partial
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 
 import gdsfactory as gf
-from gdsfactory.config import sparameters_path
 from gdsfactory.name import clean_value
+from gdsfactory.pdk import get_sparameters_path
 from gdsfactory.tech import LAYER_STACK
 from gdsfactory.types import ComponentSpec
 
@@ -22,18 +23,20 @@ def get_kwargs_hash(**kwargs) -> str:
 
 def _get_sparameters_path(
     component: ComponentSpec,
-    dirpath: Path = sparameters_path,
+    dirpath: Optional[Path] = None,
     **kwargs,
 ) -> Path:
     """Return Sparameters CSV filepath.
-    hashes of all simulation settings to get a consitent and unique name.
+    hashes of all simulation settings to get a consitent unique name.
 
     Args:
         component: component or component factory.
-        dirpath: directory path to store sparameters.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         kwargs: simulation settings.
     """
 
+    dirpath = dirpath or get_sparameters_path()
     component = gf.get_component(component)
 
     dirpath = pathlib.Path(dirpath)
@@ -50,26 +53,20 @@ def _get_sparameters_data(**kwargs) -> pd.DataFrame:
     """Returns Sparameters data in a pandas DataFrame.
 
     Keyword Args:
-        component: component
-        dirpath: directory path to store sparameters
-        kwargs: simulation settings
+        component: component.
+        dirpath: directory path to store sparameters.
+        kwargs: simulation settings.
     """
     filepath = _get_sparameters_path(**kwargs)
     return pd.read_csv(filepath)
 
 
 get_sparameters_path_meep = partial(_get_sparameters_path, tool="meep")
-get_sparameters_path_lumerical = partial(
-    _get_sparameters_path, layer_stack=LAYER_STACK, tool="lumerical"
-)
-get_sparameters_path_tidy3d = partial(
-    _get_sparameters_path, layer_stack=LAYER_STACK, tool="tidy3d"
-)
+get_sparameters_path_lumerical = partial(_get_sparameters_path, tool="lumerical")
+get_sparameters_path_tidy3d = partial(_get_sparameters_path, tool="tidy3d")
 
 get_sparameters_data_meep = partial(_get_sparameters_data, tool="meep")
-get_sparameters_data_lumerical = partial(
-    _get_sparameters_data, layer_stack=LAYER_STACK, tool="lumerical"
-)
+get_sparameters_data_lumerical = partial(_get_sparameters_data, tool="lumerical")
 
 
 def test_get_sparameters_path(test: bool = True) -> None:
@@ -86,9 +83,9 @@ def test_get_sparameters_path(test: bool = True) -> None:
     p3 = get_sparameters_path_lumerical(c, material_name_to_lumerical=dict(si=3.6))
 
     if test:
-        name1 = "straight_24e96fd6"
+        name1 = "straight_1f90b7ca"
         name2 = "straight_6b279ab9"
-        name3 = "straight_791f2fdf"
+        name3 = "straight_c752dd0a"
 
         assert p1.stem == name1, p1.stem
         assert p2.stem == name2, p2.stem
@@ -107,4 +104,4 @@ if __name__ == "__main__":
     # print(p)
 
     test_get_sparameters_path(test=False)
-    # test_get_sparameters_path(test=True)
+    test_get_sparameters_path(test=True)

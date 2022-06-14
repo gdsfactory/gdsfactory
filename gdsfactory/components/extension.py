@@ -133,7 +133,7 @@ def extend_ports(
 
     ports_to_extend = cref.get_ports_list(port_type=port_type, **kwargs)
     ports_to_extend_names = [p.name for p in ports_to_extend]
-    ports_to_extend_names = port_names or ports_to_extend_names or port_names_all
+    ports_to_extend_names = port_names or ports_to_extend_names
 
     for port_name in ports_to_extend_names:
         if port_name not in port_names_all:
@@ -167,7 +167,6 @@ def extend_ports(
             extension = c << extension_component
             extension.connect(port1, port)
             c.add_port(port_name, port=extension.ports[port2])
-            c.absorb(extension)
         else:
             c.add_port(port_name, port=component.ports[port_name])
 
@@ -176,7 +175,6 @@ def extend_ports(
 
 
 def test_extend_ports() -> Component:
-    import gdsfactory as gf
     import gdsfactory.components as pc
 
     width = 0.5
@@ -188,7 +186,7 @@ def test_extend_ports() -> Component:
         add_bbox=None,
     )
 
-    c = pc.cross(width=width, port_type="optical")
+    c = pc.straight(cross_section=xs_strip)
 
     c1 = extend_ports(
         component=c,
@@ -196,19 +194,22 @@ def test_extend_ports() -> Component:
     )
     assert len(c.ports) == len(c1.ports)
     p = len(c1.polygons)
-    assert p == 4, p
+    assert p == 0, p
+    assert len(c1.references) == 3, len(c1.references)
 
-    c2 = extend_ports(component=c, cross_section=xs_strip, port_names=("o1", "o2"))
+    c2 = extend_ports(component=c, cross_section=xs_strip, port_names=("o1",))
     p = len(c2.polygons)
-    assert p == 2, p
+    assert p == 0, p
+    assert len(c2.references) == 2, len(c2.references)
 
     c3 = extend_ports(component=c, cross_section=xs_strip)
     p = len(c3.polygons)
-    assert p == 4, p
+    assert p == 0, p
 
-    c4 = extend_ports(gf.components.cross(port_type="optical"), cross_section=xs_strip)
+    c4 = extend_ports(component=c, port_type="electrical")
     p = len(c4.polygons)
-    assert p == 4, p
+    assert p == 0, p
+    assert len(c4.references) == 1, len(c4.references)
 
     return c4
 
@@ -221,23 +222,16 @@ if __name__ == "__main__":
     # c = extend_ports(gf.components.mzi_phase_shifter_top_heater_metal)
     c = test_extend_ports()
 
-    # c = extend_ports(gf.components.cross(port_type="optical"))
-    c.show()
+    # width = 0.5
+    # xs_strip = gf.partial(
+    #     gf.cross_section.strip,
+    #     width=width,
+    #     cladding_layers=None,
+    #     add_pins=None,
+    #     add_bbox=None,
+    # )
 
-    # c = gf.components.bend_circular()
-    # ce = extend_ports(component=c, port_names=list(c.ports.keys()) + ["hi"])
-    # ce.show()
-
-    # c = gf.components.straight_pin(length=40)
-    # ce = extend_ports(c, port_names=("o1", "o2"))
-    # ce = extend_ports(c, port_names=("top_e1", "bot_e3"))
-    # ce = extend_ports(c, port_names=("bad", "worse"))
-    # ce.show()
-    # wg_pin.show()
-
-    # c = pc.straight(layer=(3, 0))
-    # print(ce)
-    # print(len(ce.ports))
-    # c = pc.straight()
-    # ce = extend_ports(component=c)
-    # ce.show()
+    # import gdsfactory.components as pc
+    # c = pc.straight(cross_section=xs_strip)
+    # c4 = extend_ports(component=c, port_type='electrical')
+    # c4.show()

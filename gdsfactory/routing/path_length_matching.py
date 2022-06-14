@@ -3,6 +3,7 @@ from typing import List, Union
 import numpy as np
 from numpy import ndarray
 
+import gdsfactory as gf
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.cross_section import strip
 from gdsfactory.geometry.functions import path_length
@@ -215,7 +216,7 @@ def path_length_matched_points_add_waypoints(
         )
 
     # Get the points for the segment we need to modify
-    bend90 = bend(cross_section=cross_section, **kwargs)
+    bend90 = gf.get_component(bend, cross_section=cross_section, **kwargs)
 
     a = margin + bend90.info["dy"]
     if modify_segment_i < 0:
@@ -285,8 +286,6 @@ def path_length_matched_points_add_waypoints(
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
-
     c = gf.Component()
     c1 = c << gf.components.straight_array(n=4, spacing=50)
     c2 = c << gf.components.straight_array(n=4, spacing=20)

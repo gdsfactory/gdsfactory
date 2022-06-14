@@ -1,8 +1,8 @@
-name: coupler_bcc4a0b5_add_fi_19b29abd
+name: coupler_gap0p2_length5__eecdafd6
 settings:
   changed:
     component:
-      name: coupler_bcc4a0b5
+      name: coupler_gap0p2_length5
       settings:
         changed:
           gap: 0.2
@@ -34,7 +34,7 @@ settings:
           min_bend_radius: 9.387
         info_version: 2
         module: gdsfactory.components.coupler
-        name: coupler_bcc4a0b5
+        name: coupler_gap0p2_length5
       version: 0.0.1
     optical_routing_type: 1
   child:
@@ -68,10 +68,10 @@ settings:
       min_bend_radius: 9.387
     info_version: 2
     module: gdsfactory.components.coupler
-    name: coupler_bcc4a0b5
+    name: coupler_gap0p2_length5
   default:
-    bend: bend_euler
-    component: mmi2x2
+    component:
+      function: straight
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -88,11 +88,9 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight: straight
   full:
-    bend: bend_euler
     component:
-      name: coupler_bcc4a0b5
+      name: coupler_gap0p2_length5
       settings:
         changed:
           gap: 0.2
@@ -124,7 +122,7 @@ settings:
           min_bend_radius: 9.387
         info_version: 2
         module: gdsfactory.components.coupler
-        name: coupler_bcc4a0b5
+        name: coupler_gap0p2_length5
       version: 0.0.1
     component_name: null
     cross_section: strip
@@ -143,10 +141,9 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_bcc4a0b5_add_fi_19b29abd
+  name: coupler_gap0p2_length5__eecdafd6
 version: 0.0.1

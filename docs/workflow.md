@@ -69,17 +69,26 @@ Or you can fork the UBC PDK and create new cell functions that use the correct l
 
 ```
 
-import dataclasses
+from pydantic import BaseModel
 import gdsfactory as gf
 
 
-@dataclasses.dataclass(frozen=True)
-class Layer:
+class LayerMap(BaseModel):
     WGCORE = (3, 0)
     LABEL = (100, 0)
+    DEVREC: Layer = (68, 0)
+    LABEL: Layer = (10, 0)
+    PORT: Layer = (1, 10)  # PinRec
+    PORTE: Layer = (1, 11)  # PinRecM
+    FLOORPLAN: Layer = (99, 0)
+
+    TE: Layer = (203, 0)
+    TM: Layer = (204, 0)
+    TEXT: Layer = (66, 0)
+    LABEL_INSTANCE: Layer = (66, 0)
 
 
-LAYER = Layer()
+LAYER = LayerMap()
 
 
 ```
