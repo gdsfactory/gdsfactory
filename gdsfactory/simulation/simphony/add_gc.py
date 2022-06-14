@@ -1,5 +1,5 @@
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.libraries import siepic
+from simphony.models import Subcircuit
 
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.components.gc import gc1550te
@@ -32,25 +32,19 @@ def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2")
     return c
 
 
-def add_gc_siepic(circuit, gc=siepic.ebeam_gc_te1550):
+def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
     """Add input and output gratings.
 
     Args:
         circuit: needs to have `o1` and `o2` pins
         gc: grating coupler
     """
-    c = Subcircuit(f"{circuit}_gc")
-    gc = gf.call_if_func(gc)
-    c.add([(gc, "gci"), (gc, "gco"), (circuit, "circuit")])
-    c.connect_many(
-        [("gci", "n1", "circuit", "input"), ("gco", "n1", "circuit", "output")]
-    )
+    gci = gco = gc
+    gci["n1"].connect(gco["n1"])
+    gci["n2"].rename("o1")
+    gco["n1"].rename("o2")
 
-    # c.elements["circuit"].pins["input"] = "input_circuit"
-    # c.elements["circuit"].pins["output"] = "output_circuit"
-    c.elements["gci"].pins["n2"] = "o1"
-    c.elements["gco"].pins["n2"] = "o2"
-    return c
+    return gci.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
