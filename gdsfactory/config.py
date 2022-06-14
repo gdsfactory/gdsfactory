@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "5.9.0"
+__version__ = "5.10.0"
 import io
 import json
 import os
