@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.10.0
+## [5.10.0](https://github.com/gdsfactory/gdsfactory/pull/449)
 
 - rename LayerSet to LayerColors, as it is a more intuitive name. We only use this for defining 3D and 2D plot colors.
 - add Pdk attributes
