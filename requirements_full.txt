@@ -5,7 +5,7 @@ ipywidgets
 klayout
 pyglet
 pyyaml
-simphony==0.3.0
+simphony==0.6.1
 SiPANN==1.3.1
 sklearn
 tidy3d-beta==1.4.0
