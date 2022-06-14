@@ -21,7 +21,7 @@ from typing_extensions import Literal
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
 from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
-from gdsfactory.layers import LAYER_SET, LayerPhidl, LayerSet
+from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
 from gdsfactory.port import (
     Port,
     auto_rename_ports,
@@ -793,7 +793,7 @@ class Component(Device):
 
         KeyError Args:
             layers_excluded: list of layers to exclude.
-            layer_set: layer_set colors loaded from Klayout.
+            layer_colors: layer_colors colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
 
         """
@@ -821,7 +821,7 @@ class Component(Device):
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
-        layer_set: LayerSet = LAYER_SET,
+        layer_colors: LayerColors = LAYER_COLORS,
         min_aspect: float = 0.25,
         padding: float = 0.5,
     ):
@@ -831,7 +831,7 @@ class Component(Device):
 
         Args:
             layers_excluded: list of layers to exclude.
-            layer_set: layer_set colors loaded from Klayout.
+            layer_colors: layer_colors colors loaded from Klayout.
             min_aspect: minimum aspect ratio.
             padding: around bounding box.
 
@@ -869,11 +869,11 @@ class Component(Device):
                 continue
 
             try:
-                layer = layer_set.get_from_tuple(layer)
+                layer = layer_colors.get_from_tuple(layer)
             except ValueError:
-                layers = list(layer_set._layers.keys())
+                layers = list(layer_colors._layers.keys())
                 warnings.warn(f"{layer!r} not defined in {layers}")
-                layer = LayerPhidl(gds_layer=layer[0], gds_datatype=layer[1])
+                layer = LayerColor(gds_layer=layer[0], gds_datatype=layer[1])
 
             plots_to_overlay.append(
                 hv.Polygons(polygon, label=str(layer.name)).opts(
@@ -945,6 +945,22 @@ class Component(Device):
             component = self
 
         show(component)
+
+    def to_3d(self, **kwargs):
+        """Return Component 3D trimesh Scene.
+
+        Keyword Args:
+            component: to exture in 3D.
+            layer_colors: layer colors from Klayout Layer Properties file.
+                Defaults to active PDK.layer_colors.
+            layer_stack: contains thickness and zmin for each layer.
+                Defaults to active PDK.layer_stack.
+            exclude_layers: layers to exclude.
+
+        """
+        from gdsfactory.export.to_3d import to_3d
+
+        return to_3d(self, **kwargs)
 
     def write_gds(
         self,

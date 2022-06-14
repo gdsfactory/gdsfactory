@@ -5,7 +5,7 @@ import matplotlib.colors
 import shapely
 
 from gdsfactory.component import Component
-from gdsfactory.layers import LayerSet
+from gdsfactory.layers import LayerColors
 from gdsfactory.tech import LAYER_STACK, LayerStack
 from gdsfactory.types import Layer
 
@@ -13,7 +13,7 @@ from gdsfactory.types import Layer
 def to_stl(
     component: Component,
     filepath: str,
-    layer_set: LayerSet,
+    layer_colors: LayerColors,
     layer_stack: LayerStack = LAYER_STACK,
     exclude_layers: Optional[Tuple[Layer, ...]] = None,
 ) -> None:
@@ -22,7 +22,7 @@ def to_stl(
     Args:
         component:
         filepath:
-        layer_set: layer colors from Klayout Layer Properties file
+        layer_colors: layer colors from Klayout Layer Properties file
         layer_stack: contains thickness and zmin for each layer
         exclude_layers: layers to exclude
 
@@ -42,7 +42,7 @@ def to_stl(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_hex = layer_set.get_from_tuple(layer).color
+            color_hex = layer_colors.get_from_tuple(layer).color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
             filepath_layer = (
                 filepath.parent
@@ -62,4 +62,4 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.taper_strip_to_ridge()
-    to_stl(c, layer_set=gf.layers.LAYER_SET, filepath="a.stl")
+    to_stl(c, layer_colors=gf.layers.LAYER_COLORS, filepath="a.stl")

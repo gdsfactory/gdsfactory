@@ -12,6 +12,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import (
     MATERIAL_NAME_TO_TIDY3D_INDEX,
@@ -19,7 +20,7 @@ from gdsfactory.simulation.gtidy3d.materials import (
     get_index,
     get_medium,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentSpec, Float2
 
 
@@ -27,7 +28,7 @@ from gdsfactory.types import ComponentSpec, Float2
 def get_simulation(
     component: ComponentSpec,
     port_extension: Optional[float] = 4.0,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_stack: Optional[LayerStack] = None,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
     ymargin: float = 0,
@@ -101,7 +102,8 @@ def get_simulation(
     Args:
         component: gdsfactory Component.
         port_extension: extend ports beyond the PML.
-        layer_stack: contains layer numbers (int, int) to thickness, zmin.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
@@ -130,8 +132,8 @@ def get_simulation(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
-        with_all_monitors: if True, includes field monitors which increase results file size.
-        grid_spec: defaults to automatic grid_spec. td.GridSpec.auto(wavelength=wavelength)
+        with_all_monitors: True includes field monitors which increase results filesize.
+        grid_spec: defaults to automatic td.GridSpec.auto(wavelength=wavelength)
             td.GridSpec.uniform(dl=20*nm)
             td.GridSpec(
                 grid_x = td.UniformGrid(dl=0.04),
@@ -140,6 +142,7 @@ def get_simulation(
                 wavelength=wavelength,
                 override_structures=[refine_box]
             )
+        boundary_spec: Specification of boundary conditions along each dimension.
         dilation: float = 0.0
             Dilation of the polygon in the base by shifting each edge along its
             normal outwards direction by a distance;
@@ -150,7 +153,28 @@ def get_simulation(
             while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     keyword Args:
-        symmetry.
+        symmetry: Define Symmetries.
+            Tuple of integers defining reflection symmetry across a plane
+            bisecting the simulation domain normal to the x-, y-, and z-axis
+            at the simulation center of each axis, respectvely.
+            Each element can be `0` (no symmetry), `1` (even, i.e. 'PMC' symmetry) or
+            `-1` (odd, i.e. 'PEC' symmetry).
+            Note that the vectorial nature of the fields must be taken into account
+            to correctly determine the symmetry value.
+        medium: Background medium of simulation, defaults to vacuum if not specified.
+        shutoff: shutoff condition
+            Ratio of the instantaneous integrated E-field intensity to the maximum value
+            at which the simulation will automatically terminate time stepping.
+            prevents extraneous run time of simulations with fully decayed fields.
+            Set to ``0`` to disable this feature.
+        subpixel: subpixel averaging.If ``True``, uses subpixel averaging of the permittivity
+            based on structure definition,
+            resulting in much higher accuracy for a given grid size.
+        courant: courant factor.
+            Courant stability factor, controls time step to spatial step ratio.
+            Lower values lead to more stable simulations for dispersive materials,
+            but result in longer simulation times.
+        version: String specifying the front end version number.
 
 
     .. code::
@@ -166,6 +190,8 @@ def get_simulation(
     """
     component = gf.get_component(component)
     assert isinstance(component, Component)
+
+    layer_stack = layer_stack or get_layer_stack()
 
     wavelength = (wavelength_start + wavelength_stop) / 2
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
@@ -185,11 +211,11 @@ def get_simulation(
     ), f"component needs to be a gf.Component, got Type {type(component)}"
     if port_source_name not in component.ports:
         warnings.warn(
-            f"port_source_name={port_source_name} not in {component.ports.keys()}"
+            f"port_source_name={port_source_name!r} not in {list(component.ports.keys())}"
         )
         port_source = component.get_ports_list(port_type="optical")[0]
         port_source_name = port_source.name
-        warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
+        warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
 
     component_padding = gf.add_padding_container(
         component,
@@ -200,15 +226,15 @@ def get_simulation(
         right=xmargin or xmargin_right,
     )
     component_extended = (
-        gf.components.extension.extend_ports(
+        gf.components.extend_ports(
             component=component_padding, length=port_extension, centered=True
         )
         if port_extension
         else component_padding
     )
 
-    gf.show(component_extended)
     component_extended = component_extended.flatten()
+    gf.show(component_extended)
 
     component_ref = component_padding.ref()
     component_ref.x = 0
@@ -273,13 +299,10 @@ def get_simulation(
                 )
 
                 for polygon in polygons:
-                    geometry = td.Structure(
-                        geometry=polygon,
-                        medium=medium,
-                    )
+                    geometry = td.Structure(geometry=polygon, medium=medium)
                     structures.append(geometry)
             elif layer not in layer_to_material:
-                logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
+                logger.debug(f"Layer {layer} not in {list(layer_to_material.keys())}")
             elif layer_to_material[layer] not in material_name_to_tidy3d:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
@@ -485,15 +508,16 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-    # c = gf.components.mmi1x2()
+    c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    c = gf.c.straight(length=3)
+    # c = gf.c.straight(length=3)
     # sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+    # sim = get_simulation(c, dilation=-0.2, is_3d=False)
 
-    sim = get_simulation(c, dilation=-0.2, is_3d=False)
+    sim = get_simulation(c, is_3d=True)
     plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"

@@ -7,12 +7,12 @@ settings:
     cross_section: strip
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   full:
     cross_section: metal3
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   function_name: straight
   info:
     length: 10.0

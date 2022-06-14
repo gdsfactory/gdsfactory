@@ -158,5 +158,5 @@ if __name__ == "__main__":
 
     c = straight_heater_metal_undercut()
     c.show()
-    # scene = gf.to_trimesh(c, layer_set=gf.layers.LAYER_SET)
+    # scene = gf.to_trimesh(c, layer_colors=gf.layers.LAYER_COLORS)
     # scene.show()

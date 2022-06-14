@@ -38,8 +38,8 @@ def get_epsilon(
 
     Args:
         name_or_index: material name or refractive index.
-        wavelength: wavelength (um)
-        material_name_to_medium:
+        wavelength: wavelength (um).
+        material_name_to_medium: map name to medium.
     """
     medium = get_medium(
         name_or_index=name_or_index, material_name_to_medium=material_name_to_medium
@@ -56,9 +56,9 @@ def get_index(
     """Return refractive index from material database.
 
     Args:
-        wavelength: wavelength (um)
+        wavelength: wavelength (um).
         name_or_index: material name or refractive index.
-        material_name_to_medium:
+        material_name_to_medium: map name to medium.
     """
 
     eps_complex = get_epsilon(
@@ -78,7 +78,7 @@ def get_medium(
 
     Args:
         name_or_index: material name or refractive index.
-        material_name_to_medium:
+        material_name_to_medium: map name to medium.
     """
 
     name_or_index = (

@@ -33,9 +33,9 @@ def _get_results(
     Finally, submits simulation to run remotely
 
     Args:
-        sim: Simulation
-        dirpath: to store results locally
-        overwrite: overwrites the data even if path exists
+        sim: tidy3d Simulation.
+        dirpath: to store results locally.
+        overwrite: overwrites the data even when path exists.
     """
     task_name = sim_hash = get_sim_hash(sim)
     sim_path = dirpath / f"{sim_hash}.hdf5"

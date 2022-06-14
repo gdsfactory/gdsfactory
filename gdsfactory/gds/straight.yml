@@ -33,14 +33,14 @@ cells:
     full:
       length: 1.234
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     changed:
       length: 1.234
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
 name: straight_length1p234
@@ -56,13 +56,13 @@ settings:
   full:
     length: 1.234
     npoints: 2
-    with_bbox: false
+    with_bbox: true
     cross_section: strip
   changed:
     length: 1.234
   default:
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
     cross_section: strip
   child: null
