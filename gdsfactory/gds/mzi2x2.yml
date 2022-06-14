@@ -15,15 +15,15 @@ ports:
     width: 0.5
     midpoint:
     - 81.2
-    - -0.0
+    - 0.0
     orientation: 0
     layer:
     - 1
     - 0
     port_type: optical
 cells:
-  mzi_9454bc1a:
-    name: mzi_9454bc1a
+  mzi_0eeaa28f:
+    name: mzi_0eeaa28f
     module: gdsfactory.components.mzi
     function_name: mzi
     info: {}
@@ -54,8 +54,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
-            straight: straight
+            taper:
+              function: taper
             with_bbox: true
             cross_section:
               function: cross_section
@@ -69,8 +69,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
-            straight: straight
+            taper:
+              function: taper
             with_bbox: true
             cross_section: strip
           child: null
@@ -104,8 +104,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
-            straight: straight
+            taper:
+              function: taper
             with_bbox: true
             cross_section:
               function: cross_section
@@ -119,8 +119,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
-            straight: straight
+            taper:
+              function: taper
             with_bbox: true
             cross_section: strip
           child: null
@@ -159,8 +159,8 @@ cells:
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
-      taper: taper
-      straight: straight
+      taper:
+        function: taper
       with_bbox: true
       cross_section:
         function: cross_section
@@ -174,8 +174,8 @@ cells:
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
-      taper: taper
-      straight: straight
+      taper:
+        function: taper
       with_bbox: true
       cross_section: strip
     child: null
@@ -570,10 +570,10 @@ cells:
       with_bbox: false
       cross_section: strip
     child: null
-name: mzi_9454bc1a
+name: mzi_0eeaa28f
 version: 0.0.1
 settings:
-  name: mzi_9454bc1a
+  name: mzi_0eeaa28f
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
@@ -604,8 +604,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
-          straight: straight
+          taper:
+            function: taper
           with_bbox: true
           cross_section:
             function: cross_section
@@ -619,8 +619,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
-          straight: straight
+          taper:
+            function: taper
           with_bbox: true
           cross_section: strip
         child: null
@@ -654,8 +654,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
-          straight: straight
+          taper:
+            function: taper
           with_bbox: true
           cross_section:
             function: cross_section
@@ -669,8 +669,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
-          straight: straight
+          taper:
+            function: taper
           with_bbox: true
           cross_section: strip
         child: null

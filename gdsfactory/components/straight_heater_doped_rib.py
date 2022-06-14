@@ -2,6 +2,7 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.components.via_stack import via_stack_m1_m3 as via_stack_metal_function
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
@@ -29,7 +30,6 @@ def straight_heater_doped_rib(
     width: float = 0.5,
     with_top_via_stack: bool = True,
     with_bot_via_stack: bool = True,
-    straight: ComponentSpec = "straight",
     **kwargs
 ) -> Component:
     r"""Returns a doped thermal phase shifter.

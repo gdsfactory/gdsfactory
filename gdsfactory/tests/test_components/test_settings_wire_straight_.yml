@@ -1,4 +1,4 @@
-name: straight_a7b3969c
+name: straight_cross_sectionmetal3
 settings:
   changed:
     cross_section: metal3
@@ -7,17 +7,17 @@ settings:
     cross_section: strip
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   full:
     cross_section: metal3
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
   function_name: straight
   info:
     length: 10.0
     width: 10.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_a7b3969c
+  name: straight_cross_sectionmetal3
 version: 0.0.1

@@ -23,7 +23,7 @@ from gdsfactory.types import (
 
 @cell
 def add_fiber_single(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
     layer_label: LayerSpec = "LABEL",
     fiber_spacing: float = TECH.fiber_spacing,
@@ -290,19 +290,21 @@ if __name__ == "__main__":
         c.add_ports(ref.ports)
         return c
 
-    c = gf.components.ring_single(length_x=167)
+    # c = gf.components.ring_single(length_x=167)
     # c = gf.components.spiral(direction="NORTH")
     # c = gf.components.spiral_inner_io_fiber_single()
+    # c = 'mmi2x2'
     cc = add_fiber_single(
         # component=gf.components.straight_heater_metal(width=2),
-        component=c,
+        component="mmi2x2",
         auto_widen=False,
         with_loopback=True,
         layer=(1, 0),
         zero_port="o2",
-        loopback_xspacing=-50,
+        # loopback_xspacing=-50,
         # grating_coupler=[gf.components.grating_coupler_te, gf.components.grating_coupler_tm],
         get_input_label_text_function=None,
+        radius=20,
     )
 
     gf.dft.add_label_ehva(cc, die="demo")

@@ -1,6 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.pad import pad_array as pad_array_function
+from gdsfactory.components.straight import straight
 from gdsfactory.port import select_ports_electrical
 from gdsfactory.routing.route_quad import route_quad
 from gdsfactory.types import ComponentSpec, Float2
@@ -8,7 +9,7 @@ from gdsfactory.types import ComponentSpec, Float2
 
 @gf.cell
 def add_electrical_pads_top(
-    component: ComponentSpec = "straight",
+    component: ComponentSpec = straight,
     spacing: Float2 = (0.0, 100.0),
     pad_array: ComponentSpec = pad_array_function,
     select_ports=select_ports_electrical,

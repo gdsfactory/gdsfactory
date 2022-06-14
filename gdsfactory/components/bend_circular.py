@@ -11,7 +11,7 @@ from gdsfactory.types import CrossSectionSpec
 def bend_circular(
     angle: float = 90.0,
     npoints: int = 720,
-    with_bbox: bool = False,
+    with_bbox: bool = True,
     cross_section: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:

@@ -22,8 +22,8 @@ ports:
     - 0
     port_type: optical
 cells:
-  straight_189d2d09:
-    name: straight_189d2d09
+  straight_length1p234:
+    name: straight_length1p234
     module: gdsfactory.components.straight
     function_name: straight
     info:
@@ -33,20 +33,20 @@ cells:
     full:
       length: 1.234
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     changed:
       length: 1.234
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
-name: straight_189d2d09
+name: straight_length1p234
 version: 0.0.1
 settings:
-  name: straight_189d2d09
+  name: straight_length1p234
   module: gdsfactory.components.straight
   function_name: straight
   info:
@@ -56,13 +56,13 @@ settings:
   full:
     length: 1.234
     npoints: 2
-    with_bbox: false
+    with_bbox: true
     cross_section: strip
   changed:
     length: 1.234
   default:
     length: 10
     npoints: 2
-    with_bbox: false
+    with_bbox: true
     cross_section: strip
   child: null

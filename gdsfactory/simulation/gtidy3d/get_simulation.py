@@ -12,6 +12,7 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import (
     MATERIAL_NAME_TO_TIDY3D_INDEX,
@@ -19,7 +20,7 @@ from gdsfactory.simulation.gtidy3d.materials import (
     get_index,
     get_medium,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentSpec, Float2
 
 
@@ -27,7 +28,7 @@ from gdsfactory.types import ComponentSpec, Float2
 def get_simulation(
     component: ComponentSpec,
     port_extension: Optional[float] = 4.0,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_stack: Optional[LayerStack] = None,
     thickness_pml: float = 1.0,
     xmargin: float = 0,
     ymargin: float = 0,
@@ -41,7 +42,6 @@ def get_simulation(
     port_margin: float = 0.5,
     port_source_offset: float = 0.1,
     distance_source_to_monitors: float = 0.2,
-    resolution: float = 50,
     wavelength_start: float = 1.50,
     wavelength_stop: float = 1.60,
     wavelength_points: int = 50,
@@ -53,9 +53,13 @@ def get_simulation(
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
+    boundary_spec=td.BoundarySpec.all_sides(boundary=td.PML()),
+    grid_spec: Optional[td.GridSpec] = None,
+    sidewall_angle_deg: float = 0,
+    dilation: float = 0.0,
     **kwargs,
 ) -> td.Simulation:
-    r"""Returns Simulation object from gdsfactory.component
+    r"""Returns tidy3d Simulation object from a gdsfactory Component.
 
     based on GDS example
     https://simulation.cloud/docs/html/examples/ParameterScan.html
@@ -98,7 +102,8 @@ def get_simulation(
     Args:
         component: gdsfactory Component.
         port_extension: extend ports beyond the PML.
-        layer_stack: contains layer numbers (int, int) to thickness, zmin.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
@@ -113,7 +118,6 @@ def get_simulation(
         distance_source_to_monitors: in (um) source goes before monitors.
         port_source_offset: mode solver workaround.
             positive moves source forward, negative moves source backward.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: number of wavelengths.
@@ -128,10 +132,50 @@ def get_simulation(
         material_name_to_tidy3d_name: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
-        with_all_monitors: if True, includes field monitors which increase results file size.
+        with_all_monitors: True includes field monitors which increase results filesize.
+        grid_spec: defaults to automatic td.GridSpec.auto(wavelength=wavelength)
+            td.GridSpec.uniform(dl=20*nm)
+            td.GridSpec(
+                grid_x = td.UniformGrid(dl=0.04),
+                grid_y = td.AutoGrid(min_steps_per_wvl=20),
+                grid_z = td.AutoGrid(min_steps_per_wvl=20),
+                wavelength=wavelength,
+                override_structures=[refine_box]
+            )
+        boundary_spec: Specification of boundary conditions along each dimension.
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        sidewall_angle_deg : float = 0
+            Angle of the sidewall.
+            ``sidewall_angle=0`` (default) specifies vertical wall,
+            while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     keyword Args:
-        grid_spec:
+        symmetry: Define Symmetries.
+            Tuple of integers defining reflection symmetry across a plane
+            bisecting the simulation domain normal to the x-, y-, and z-axis
+            at the simulation center of each axis, respectvely.
+            Each element can be `0` (no symmetry), `1` (even, i.e. 'PMC' symmetry) or
+            `-1` (odd, i.e. 'PEC' symmetry).
+            Note that the vectorial nature of the fields must be taken into account
+            to correctly determine the symmetry value.
+        medium: Background medium of simulation, defaults to vacuum if not specified.
+        shutoff: shutoff condition
+            Ratio of the instantaneous integrated E-field intensity to the maximum value
+            at which the simulation will automatically terminate time stepping.
+            prevents extraneous run time of simulations with fully decayed fields.
+            Set to ``0`` to disable this feature.
+        subpixel: subpixel averaging.If ``True``, uses subpixel averaging of the permittivity
+            based on structure definition,
+            resulting in much higher accuracy for a given grid size.
+        courant: courant factor.
+            Courant stability factor, controls time step to spatial step ratio.
+            Lower values lead to more stable simulations for dispersive materials,
+            but result in longer simulation times.
+        version: String specifying the front end version number.
+
 
     .. code::
 
@@ -146,6 +190,11 @@ def get_simulation(
     """
     component = gf.get_component(component)
     assert isinstance(component, Component)
+
+    layer_stack = layer_stack or get_layer_stack()
+
+    wavelength = (wavelength_start + wavelength_stop) / 2
+    grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_material = layer_stack.get_layer_to_material()
@@ -162,11 +211,11 @@ def get_simulation(
     ), f"component needs to be a gf.Component, got Type {type(component)}"
     if port_source_name not in component.ports:
         warnings.warn(
-            f"port_source_name={port_source_name} not in {component.ports.keys()}"
+            f"port_source_name={port_source_name!r} not in {list(component.ports.keys())}"
         )
         port_source = component.get_ports_list(port_type="optical")[0]
         port_source_name = port_source.name
-        warnings.warn(f"Selecting port_source_name={port_source_name} instead.")
+        warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
 
     component_padding = gf.add_padding_container(
         component,
@@ -177,15 +226,15 @@ def get_simulation(
         right=xmargin or xmargin_right,
     )
     component_extended = (
-        gf.components.extension.extend_ports(
+        gf.components.extend_ports(
             component=component_padding, length=port_extension, centered=True
         )
         if port_extension
         else component_padding
     )
 
-    gf.show(component_extended)
     component_extended = component_extended.flatten()
+    gf.show(component_extended)
 
     component_ref = component_padding.ref()
     component_ref.x = 0
@@ -212,9 +261,7 @@ def get_simulation(
 
     t_core = max(layers_thickness)
     cell_thickness = (
-        thickness_pml + t_core + thickness_pml + 2 * zmargin
-        if is_3d
-        else 1 / resolution
+        thickness_pml + t_core + thickness_pml + 2 * zmargin if is_3d else 0
     )
 
     sim_size = [
@@ -247,16 +294,15 @@ def get_simulation(
                     gds_dtype=layer[1],
                     axis=2,
                     slab_bounds=(zmin, zmax),
+                    sidewall_angle=np.deg2rad(sidewall_angle_deg),
+                    dilation=dilation,
                 )
 
                 for polygon in polygons:
-                    geometry = td.Structure(
-                        geometry=polygon,
-                        medium=medium,
-                    )
+                    geometry = td.Structure(geometry=polygon, medium=medium)
                     structures.append(geometry)
             elif layer not in layer_to_material:
-                logger.debug(f"Layer {layer} not in {layer_to_material.keys()}")
+                logger.debug(f"Layer {layer} not in {list(layer_to_material.keys())}")
             elif layer_to_material[layer] not in material_name_to_tidy3d:
                 materials = list(material_name_to_tidy3d.keys())
                 logger.debug(f"material {layer_to_material[layer]} not in {materials}")
@@ -334,8 +380,8 @@ def get_simulation(
         structures=structures,
         sources=[msource],
         monitors=monitors,
-        run_time=20 * run_time_ps / fwidth,
-        pml_layers=3 * [td.PML()] if is_3d else [td.PML(), td.PML(), None],
+        run_time=run_time_ps * 1e-12,
+        boundary_spec=boundary_spec,
         **kwargs,
     )
 
@@ -387,11 +433,11 @@ def plot_simulation_yz(
     returns two views for 3D component and one view for 2D
 
     Args:
-        sim: simulation object
-        z: (um)
-        y: (um)
+        sim: simulation object.
+        z: (um).
+        y: (um).
         wavelength: (um) for epsilon plot if None plot structures.
-        figsize: figure size
+        figsize: figure size.
     """
     fig = plt.figure(figsize=figsize)
     if sim.size[2] > 0.1 and sim.size[1] > 0.1:
@@ -437,11 +483,11 @@ def plot_simulation_xz(
     """Returns figure with two axis of the Simulation.
 
     Args:
-        sim: simulation object
-        x: (um)
-        z: (um)
+        sim: simulation object.
+        x: (um).
+        z: (um).
         wavelength: (um) for epsilon plot if None plot structures.
-        figsize: figure size
+        figsize: figure size.
     """
     fig = plt.figure(figsize=figsize)
     gs = mpl.gridspec.GridSpec(1, 2, figure=fig, width_ratios=[1, 1.4])
@@ -462,14 +508,17 @@ plot_simulation = plot_simulation_yz
 
 
 if __name__ == "__main__":
-    # c = gf.components.mmi1x2()
+    c = gf.components.mmi1x2()
     # c = gf.components.bend_circular(radius=2)
     # c = gf.components.crossing()
     # c = gf.c.straight_rib()
 
-    c = gf.c.straight(length=3)
-    sim = get_simulation(c, plot_modes=True, is_3d=False)
-    # plot_simulation(sim)
+    # c = gf.c.straight(length=3)
+    # sim = get_simulation(c, plot_modes=True, is_3d=True, sidewall_angle_deg=30)
+    # sim = get_simulation(c, dilation=-0.2, is_3d=False)
+
+    sim = get_simulation(c, is_3d=True)
+    plot_simulation(sim)
 
     # filepath = pathlib.Path(__file__).parent / "extra" / "wg2d.json"
     # filepath.write_text(sim.json())

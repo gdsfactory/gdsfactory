@@ -118,6 +118,8 @@ def clean_name(name: str, remove_dots: bool = False) -> str:
         "@": "_",
         "[": "",
         "]": "",
+        "{": "",
+        "}": "",
         "$": "",
     }
 

@@ -127,8 +127,8 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_2e88f57c
   default:
-    bend: bend_euler
-    component: mmi2x2
+    component:
+      function: straight
     component_name: null
     cross_section: strip
     gc_port_labels: null
@@ -145,9 +145,7 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight: straight
   full:
-    bend: bend_euler
     component:
       name: mzi_2e88f57c
       settings:
@@ -228,7 +226,6 @@ settings:
       function: select_ports
       settings:
         port_type: optical
-    straight: straight
   function_name: add_fiber_array
   info: {}
   info_version: 2

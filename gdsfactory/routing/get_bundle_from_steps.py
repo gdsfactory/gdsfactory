@@ -29,6 +29,9 @@ def get_bundle_from_steps(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     sort_ports: bool = True,
     separation: Optional[float] = None,
+    path_length_match_loops: int = None,
+    path_length_match_extra_length: float = 0.0,
+    path_length_match_modify_segment_i: int = -2,
     **kwargs
 ) -> List[Route]:
     """Returns a list of routes formed by the given waypoints steps
@@ -147,6 +150,9 @@ def get_bundle_from_steps(
         taper=taper,
         cross_section=cross_section,
         separation=separation,
+        path_length_match_extra_length=path_length_match_extra_length,
+        path_length_match_modify_segment_i=path_length_match_modify_segment_i,
+        path_length_match_loops=path_length_match_loops,
         **kwargs,
     )
 
@@ -206,7 +212,7 @@ if __name__ == "__main__":
     pb = c << gf.components.pad_array(orientation=90, columns=3)
     pt.move((300, 500))
 
-    routes = get_bundle_from_steps_electrical_multilayer(
+    routes = get_bundle_from_steps_electrical(
         pb.ports, pt.ports, end_straight_length=60, separation=30, steps=[{"dy": 100}]
     )
 

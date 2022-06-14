@@ -1,4 +1,4 @@
-name: taper_2e9853cc
+name: taper_width23
 settings:
   changed:
     width2: 3
@@ -9,7 +9,7 @@ settings:
     port: null
     width1: 0.5
     width2: null
-    with_bbox: false
+    with_bbox: true
     with_two_ports: true
   full:
     cross_section: strip
@@ -17,7 +17,7 @@ settings:
     port: null
     width1: 0.5
     width2: 3
-    with_bbox: false
+    with_bbox: true
     with_two_ports: true
   function_name: taper
   info:
@@ -26,5 +26,5 @@ settings:
     width2: 3.0
   info_version: 2
   module: gdsfactory.components.taper
-  name: taper_2e9853cc
+  name: taper_width23
 version: 0.0.1

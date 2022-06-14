@@ -60,15 +60,18 @@ def pack_doe(
         ]
 
     c = pack(component_list=component_list, **kwargs)
+
     if len(c) > 1:
         raise ValueError(
             f"failed to pack in one Component, it created {len(c)} Components"
         )
     else:
-        return c[0]
+        c = c[0]
+        c.doe_names = [component.name for component in component_list]
+        c.doe_settings = settings_list
+        return c
 
 
-@cell
 def pack_doe_grid(
     doe: ComponentSpec,
     settings: Dict[str, List[Any]],
@@ -119,10 +122,14 @@ def pack_doe_grid(
         ]
 
     if with_text:
-        return grid_with_text(component_list, **kwargs)
+        c = grid_with_text(component_list, **kwargs)
 
     else:
-        return grid(component_list, **kwargs)
+        c = grid(component_list, **kwargs)
+
+    c.doe_names = [component.name for component in component_list]
+    c.doe_settings = settings_list
+    return c
 
 
 if __name__ == "__main__":
@@ -130,13 +137,14 @@ if __name__ == "__main__":
         # doe=gf.c.mmi1x2,
         doe="mmi1x2",
         # doe=dict(component='mmi1x2', settings=dict(length_taper=50)),
-        settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
+        settings=dict(length_mmi=[2.5, 100], width_mmi=[4, 10], hash_settings=[False]),
         with_text=True,
         spacing=(100, 100),
         shape=(2, 2),
         # settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
         do_permutations=True,
     )
+    print(c.doe_names)
     c.show()
-    # settings = dict(length_mmi=[2, 100], width_mmi=[4, 10])
-    # settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+
+    # c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
