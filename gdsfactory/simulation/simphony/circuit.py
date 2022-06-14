@@ -39,8 +39,6 @@ def connect_pins(connections, model_names, components, circuit: Circuit):
 
 
 def rename_pins(circuit, components):
-    for p in circuit._get_components()[8].pins:
-        print(p.name)
     a = 0
     for c in components:
         for p in c.pins:
