@@ -127,7 +127,8 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_2e88f57c
   default:
-    component: straight
+    component:
+      function: straight
     layer: M3
     pad_array:
       function: pad_array

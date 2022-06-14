@@ -54,8 +54,6 @@ def spiral_circular(
 ) -> Component:
     """Returns a circular spiral.
 
-    FIXME, has a notch in the inner loop.
-
     Args:
         length: length in um.
         wg_width: width.
@@ -94,41 +92,39 @@ def spiral_circular(
     x_1 = np.append(x_1, x_1[-1] + 0.03)
     y_1 = np.append(y_1, y_1[-1])
 
-    p = gds.PolyPath(np.c_[x_1, y_1], wg_width, layer=wg_layer, datatype=wg_datatype)
-    ps.append(p)
     x_2, y_2 = pol_to_rect(radii_2, theta_2)
     x_2 = np.append(x_2, x_2[-1])
     y_2 = np.append(y_2, y_2[-1] - 0.03)
-    p = gds.PolyPath(np.c_[x_2, y_2], wg_width, layer=wg_layer, datatype=wg_datatype)
-    ps.append(p)
 
     start_1 = (x_1[-1], y_1[-1])
     start_2 = (x_2[-1], y_2[-1])
     end_1 = (x_1[0], y_1[0])
     end_2 = (x_2[0], y_2[0])
 
-    length_1 = np.sum(np.hypot(np.diff(x_1), np.diff(y_1)))
-    length_2 = np.sum(np.hypot(np.diff(x_2), np.diff(y_2)))
-
     # Inner bend
-    theta_inner = np.linspace(360.0 * inner_revs, 360.0 * inner_revs + 180.0, 50)
+    theta_inner = np.linspace(360.0 * inner_revs, 360.0 * inner_revs - 180.0, 50)
     radii_inner_1 = min_bend_radius
     radii_inner_2 = -min_bend_radius
-    x_1, y_1 = pol_to_rect(radii_inner_1, theta_inner)
-    x_1 -= end_1[0] / 2.0
-    y_1 -= end_1[1] / 2.0
-    x_1 = np.append(x_1, x_1[-1])
-    y_1 = np.append(y_1, y_1[-1] - 0.03)
-    p = gds.PolyPath(np.c_[x_1, y_1], wg_width, layer=wg_layer, datatype=wg_datatype)
-    ps.append(p)
-    x_2, y_2 = pol_to_rect(radii_inner_2, theta_inner)
-    x_2 -= end_2[0] / 2.0
-    y_2 -= end_2[1] / 2.0
-    x_2 = np.append(x_2, x_2[-1])
-    y_2 = np.append(y_2, y_2[-1] + 0.03)
-    p = gds.PolyPath(np.c_[x_2, y_2], wg_width, layer=wg_layer, datatype=wg_datatype)
-    ps.append(p)
-    length_3 = np.sum(np.hypot(np.diff(x_2), np.diff(y_2)))
+    x_inner_1, y_inner_1 = pol_to_rect(radii_inner_1, theta_inner)
+    x_inner_1 += end_1[0] / 2.0
+    y_inner_1 += end_1[1] / 2.0
+    x_inner_1 = np.append(x_inner_1, x_inner_1[-1])
+    y_inner_1 = np.append(y_inner_1, y_inner_1[-1])
+
+    x_inner_2, y_inner_2 = pol_to_rect(radii_inner_2, theta_inner)
+    x_inner_2 += end_2[0] / 2.0
+    y_inner_2 += end_2[1] / 2.0
+    x_inner_2 = np.append(x_inner_2, x_inner_2[-1])
+    y_inner_2 = np.append(y_inner_2, y_inner_2[-1])
+
+    # Spiral path
+    x_sp = np.concatenate([x_1[:0:-1], x_inner_1[:-1], x_inner_2[-2:0:-1], x_2])
+    y_sp = np.concatenate([y_1[:0:-1], y_inner_1[:-1], y_inner_2[-2:0:-1], y_2])
+
+    p_spiral = gds.PolyPath(
+        np.c_[x_sp, y_sp], wg_width, layer=wg_layer, datatype=wg_datatype
+    )
+    ps.append(p_spiral)
 
     # Output straight
     p, _, e = straight(wg_width, radii_1[-1], start_1, layer=layer)
@@ -159,7 +155,7 @@ def spiral_circular(
     )
     ps.append(p)
 
-    length = length_1 + length_2 + length_3
+    length = np.sum(np.hypot(np.diff(x_sp), np.diff(y_sp)))
 
     # Electrode ring
     # inner_radius = min_bend_radius * 2.

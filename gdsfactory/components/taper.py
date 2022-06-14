@@ -14,7 +14,7 @@ def taper(
     width1: float = 0.5,
     width2: Optional[float] = None,
     port: Optional[Port] = None,
-    with_bbox: bool = False,
+    with_bbox: bool = True,
     with_two_ports: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs

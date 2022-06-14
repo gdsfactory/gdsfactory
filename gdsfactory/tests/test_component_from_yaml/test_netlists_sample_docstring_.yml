@@ -1,10 +1,10 @@
 connections:
-  bend_euler_67p114_m5p5,o1: straight_775184d2_51p995_m0p625,o2
-  bend_euler_67p114_m5p5,o2: straight_720ba455_71p99_m20p0,o1
-  bend_euler_76p866_m34p5,o1: straight_720ba455_71p99_m20p0,o2
-  bend_euler_76p866_m34p5,o2: straight_c49ce9c6_81p995_m39p375,o1
-  mmi_bot,o1: straight_c49ce9c6_81p995_m39p375,o2
-  mmi_top,o3: straight_775184d2_51p995_m0p625,o1
+  bend_euler_67p114_m5p5,o1: straight_length19p99_51p995_m0p625,o2
+  bend_euler_67p114_m5p5,o2: straight_length18p75_71p99_m20p0,o1
+  bend_euler_76p866_m34p5,o1: straight_length18p75_71p99_m20p0,o2
+  bend_euler_76p866_m34p5,o2: straight_length0p01_81p995_m39p375,o1
+  mmi_bot,o1: straight_length0p01_81p995_m39p375,o2
+  mmi_top,o3: straight_length19p99_51p995_m0p625,o1
 instances:
   bend_euler_67p114_m5p5:
     component: bend_euler
@@ -32,27 +32,27 @@ instances:
     settings:
       length_mmi: 22
       width_mmi: 6
-  straight_720ba455_71p99_m20p0:
-    component: straight
-    info:
-      length: 18.75
-      width: 0.5
-    settings:
-      length: 18.75
-  straight_775184d2_51p995_m0p625:
-    component: straight
-    info:
-      length: 19.99
-      width: 0.5
-    settings:
-      length: 19.99
-  straight_c49ce9c6_81p995_m39p375:
+  straight_length0p01_81p995_m39p375:
     component: straight
     info:
       length: 0.01
       width: 0.5
     settings:
       length: 0.01
+  straight_length18p75_71p99_m20p0:
+    component: straight
+    info:
+      length: 18.75
+      width: 0.5
+    settings:
+      length: 18.75
+  straight_length19p99_51p995_m0p625:
+    component: straight
+    info:
+      length: 19.99
+      width: 0.5
+    settings:
+      length: 19.99
 name: sample_docstring_5eb0f802
 placements:
   bend_euler_67p114_m5p5:
@@ -75,19 +75,19 @@ placements:
     rotation: 0
     x: 10.0
     y: 0.0
-  straight_720ba455_71p99_m20p0:
-    mirror: false
-    rotation: 270
-    x: 71.99
-    y: -10.625
-  straight_775184d2_51p995_m0p625:
-    mirror: false
-    rotation: 0
-    x: 42.0
-    y: -0.625
-  straight_c49ce9c6_81p995_m39p375:
+  straight_length0p01_81p995_m39p375:
     mirror: false
     rotation: 0
     x: 81.99
     y: -39.375
+  straight_length18p75_71p99_m20p0:
+    mirror: false
+    rotation: 270
+    x: 71.99
+    y: -10.625
+  straight_length19p99_51p995_m0p625:
+    mirror: false
+    rotation: 0
+    x: 42.0
+    y: -0.625
 ports: {}

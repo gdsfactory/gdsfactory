@@ -72,6 +72,7 @@ def cell_without_validator(func):
     def _cell(*args, **kwargs):
         from gdsfactory.pdk import get_active_pdk
 
+        with_hash = kwargs.pop("with_hash", False)
         autoname = kwargs.pop("autoname", True)
         name = kwargs.pop("name", None)
         cache = kwargs.pop("cache", True)
@@ -114,8 +115,15 @@ def cell_without_validator(func):
         # else, keep only the base name
         if changed_arg_list:
             named_args_string = "_".join(changed_arg_list)
-            named_args_hash = hashlib.md5(named_args_string.encode()).hexdigest()[:8]
-            name_signature = clean_name(f"{prefix}_{named_args_hash}")
+            named_args_string = (
+                hashlib.md5(named_args_string.encode()).hexdigest()[:8]
+                if with_hash
+                or len(named_args_string) > 28
+                or "'" in named_args_string
+                or "{" in named_args_string
+                else named_args_string
+            )
+            name_signature = clean_name(f"{prefix}_{named_args_string}")
         else:
             name_signature = prefix
 
@@ -150,6 +158,12 @@ def cell_without_validator(func):
             )
 
         component = func(*args, **kwargs)
+
+        # if the component is already in the cache, but under a different alias,
+        # make sure we use a copy, so we don't run into mutability errors
+        if id(component) in [id(v) for v in CACHE.values()]:
+            component = component.copy()
+
         metadata_child = (
             dict(component.child.settings) if hasattr(component, "child") else None
         )
@@ -188,7 +202,6 @@ def cell_without_validator(func):
         if decorator:
             if not callable(decorator):
                 raise ValueError(f"decorator = {type(decorator)} needs to be callable")
-            component.unlock()
             component_new = decorator(component)
             component = component_new or component
 

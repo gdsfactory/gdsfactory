@@ -109,9 +109,11 @@ def route_fiber_array(
         component_name: name of component.
         x_grating_offset: x offset.
         optical_port_labels: port labels to route_to_fiber_array.
-        select_ports: function to select ports for which to add grating couplers.
         get_input_label_text_loopback_function: function to get input labels for grating couplers.
-        get_input_label_text_function
+        get_input_label_text_function: for the label.
+        get_input_labels_function: for the label.
+        select_ports: function to select ports for which to add grating couplers.
+        kwargs: cross_section settings.
 
     Returns:
         elements: list of references.
@@ -119,7 +121,7 @@ def route_fiber_array(
         list of ports: to connect to.
     """
 
-    x = gf.get_cross_section(cross_section, **kwargs)
+    cross_section = x = gf.get_cross_section(cross_section, **kwargs)
     radius = x.radius
 
     assert isinstance(
@@ -164,7 +166,7 @@ def route_fiber_array(
     # - grating_couplers is a list of grating couplers
     # Define the route filter to apply to connection methods
 
-    bend90 = gf.get_component(bend, cross_section=cross_section)
+    bend90 = gf.get_component(bend, cross_section=x)
 
     # `delta_gr_min` Used to avoid crossing between straights in special cases
     # This could happen when abs(x_port - x_grating) <= 2 * radius

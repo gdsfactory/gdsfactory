@@ -75,7 +75,6 @@ from gdsfactory.pdk import (
     get_cross_section,
     get_layer,
     get_active_pdk,
-    set_active_pdk,
     get_cell,
 )
 from gdsfactory.get_factories import get_cells
@@ -140,7 +139,6 @@ __all__ = [
     "Label",
     "Pdk",
     "get_active_pdk",
-    "set_active_pdk",
     "get_component",
     "get_cross_section",
     "get_cell",
@@ -151,4 +149,4 @@ __all__ = [
     "quickplot2",
     "set_quickplot_options",
 ]
-__version__ = "5.8.2"
+__version__ = "5.10.0"

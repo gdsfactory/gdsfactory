@@ -1,8 +1,84 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.8.3
+## [5.10.0](https://github.com/gdsfactory/gdsfactory/pull/449)
 
-- update to latest simphony
+- rename LayerSet to LayerColors, as it is a more intuitive name. We only use this for defining 3D and 2D plot colors.
+- add Pdk attributes
+    - layer_stack: Optional[LayerStack] = None
+    - layer_colors: Optional[LayerColors] = None
+    - sparameters_path: PathType
+- add Component.to_3d()
+- add gf.pdk.get_layer_stack() for 3D rendering and simulation plugins
+    - gf.simulation.lumerical.write_sparameters_lumerical
+    - gf.simulation.gmeep.write_sparameters_meep
+    - gf.simulation.tidy3d.write_sparameters
+- modify Component.plot() to use colors from gf.pdk.get_layer_colors()
+
+## [5.9.0](https://github.com/gdsfactory/gdsfactory/pull/446)
+
+- add doe_settings and doe_names to pack_doe and pack_doe_grid
+- add with_hash setting to `gf.cell` that hashes parameters. By default `with_hash=False`, which gives meaningful name to component.
+- update to tidy3d 1.4.0, add erosion, dilation and sidewall_angle_deg [PR](https://github.com/gdsfactory/gdsfactory/pull/447)
+
+
+## [5.8.11](https://github.com/gdsfactory/gdsfactory/pull/445)
+
+- validate pdk layers after activate the pdk
+- pdk layers, cells and cross_sections are an empty dict by default
+- fix [spiral](https://github.com/gdsfactory/gdsfactory/pull/444)
+
+## [5.8.10](https://github.com/gdsfactory/gdsfactory/pull/443)
+
+- add `SHOW_PORTS = (1, 12)` layer.
+- document needed layers for the pdk.
+
+| Layer          | Purpose                                                      |
+| -------------- | ------------------------------------------------------------ |
+| PORT           | optical port pins. For connectivity checks.                  |
+| PORTE          | electrical port pins. For connectivity checks.               |
+| DEVREC         | device recognition layer. For connectivity checks.           |
+| SHOW_PORTS     | add port pin markers when `Component.show(show_ports=True)`  |
+| LABEL_INSTANCE | for adding instance labels on `gf.read.from_yaml`            |
+| LABEL          | for adding labels to grating couplers for automatic testing. |
+| TE             | for TE polarization fiber marker.                            |
+| TM             | for TM polarization fiber marker.                            |
+
+## 5.8.9
+
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/440)
+  - add default layers to pdk. fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/437)
+  - apply default_decorator before returning component if pdk.default_decorator is defined.
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/441) Component.show(show_ports=False) `show_ports=False` and use `LAYER.PORT`, fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/438)
+
+## [5.8.8](https://github.com/gdsfactory/gdsfactory/pull/436)
+
+- assert ports on grid works with None orientation ports.
+
+## [5.8.7](https://github.com/gdsfactory/gdsfactory/pull/435)
+
+- bring back python3.8 compatibility
+
+## [5.8.6](https://github.com/gdsfactory/gdsfactory/pull/434)
+
+- remove gf.set_active_pdk(), as we should only be using pdk.activate(), so there is only one way to activate a PDK.
+- change default ComponentFactory from 'mmi2x2' string to straight componentFactory.
+
+## [5.8.5](https://github.com/gdsfactory/gdsfactory/pull/433)
+
+- bring back layer validator to ensure DEVREC, PORTE and PORT are defined in the pdk
+
+## [5.8.4](https://github.com/gdsfactory/gdsfactory/pull/430)
+
+- remove default layers dict for pdk.
+- validate layers to ensure you define layers for connectivity checks (DEVREC, PORT, PORTE). Fix [comment](https://github.com/gdsfactory/gdsfactory/discussions/409#discussioncomment-2862105). Add default layers if they don't exist [PR](https://github.com/gdsfactory/gdsfactory/pull/432)
+- extend ports do not absorb extension references.
+- fix filewatcher. Make sure it shows only components that exist.
+- Prevent mutation of double-cached cells [PR](https://github.com/gdsfactory/gdsfactory/pull/429)
+
+## [5.8.3](https://github.com/gdsfactory/gdsfactory/pull/422)
+
+- Allow user to specify steps or waypoints in the call to get_bundle
+- Add path length matching keyword arguments to functions called by get_bundle
 
 ## 5.8.2
 
@@ -20,17 +96,17 @@
 ## 5.8.0
 
 - works with siepic verification [PR](https://github.com/gdsfactory/gdsfactory/pull/410)
-    - cross_section has optional add_pins and add_bbox, which can be used for verification.
-        - add `cladding_layers` and `cladding_offset`.
-        - cladding_layers follow path shape, while bbox_layers are rectangular.
-    - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
-    - add `with_two_ports` to taper. False for edge couplers and terminators.
-    - fix ring_double_heater open in the heater top waveguide.
+  - cross_section has optional add_pins and add_bbox, which can be used for verification.
+    - add `cladding_layers` and `cladding_offset`.
+    - cladding_layers follow path shape, while bbox_layers are rectangular.
+  - add 2nm siepic pins and siepic DeviceRecognition layer in cladding_layers, to allow SiEPIC verification scripts.
+  - add `with_two_ports` to taper. False for edge couplers and terminators.
+  - fix ring_double_heater open in the heater top waveguide.
 - Make pdk from existing pdk [PR](https://github.com/gdsfactory/gdsfactory/pull/406)
 - add events module and events relating to Pdk modifications [PR](https://github.com/gdsfactory/gdsfactory/pull/412)
-    - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
-- add LayerSpec as Union[int, Tuple[int,int], str, None] [PR](https://github.com/gdsfactory/gdsfactory/pull/413/)
-    - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
+  - add default_decorator attribute to Pdk. adding pdk argument to pdk-related events
+- add LayerSpec as Union[int, Tuple[int,int], str, None][pr](https://github.com/gdsfactory/gdsfactory/pull/413/)
+  - add layers dict to Pdk(layers=LAYER.dict()), and `pdk.get_layer`
 
 ## [5.7.1](https://github.com/gdsfactory/gdsfactory/pull/403)
 
@@ -45,9 +121,9 @@
 - clean cross-sections [PR](https://github.com/gdsfactory/gdsfactory/pull/398/files)
 - fix N/S routing in route_ports_to_side [PR](https://github.com/gdsfactory/gdsfactory/pull/395)
 - Add basic multilayer electrical routing to most routing functions [PR](https://github.com/gdsfactory/gdsfactory/pull/392)
-   - Use via_corner instead of wire_corner for bend function
-   - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
-   - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
+  - Use via_corner instead of wire_corner for bend function
+  - Use MultiCrossSectionAngleSpec instead of CrossSectionSpec to define multiple cross sections
+  - Avoids refactoring as much as possible so it doesn't interfere with current single-layer routing
 
 ## [5.6.12](https://github.com/gdsfactory/gdsfactory/pull/397)
 
@@ -66,7 +142,7 @@
 
 ## [5.6.9](https://github.com/gdsfactory/gdsfactory/pull/389)
 
--  add_port_from_marker function only allows for ports to be created parallel to the long side of the pin marker. [PR](https://github.com/gdsfactory/gdsfactory/pull/386)
+- add_port_from_marker function only allows for ports to be created parallel to the long side of the pin marker. [PR](https://github.com/gdsfactory/gdsfactory/pull/386)
 
 ## [5.6.7](https://github.com/gdsfactory/gdsfactory/pull/385)
 
@@ -74,7 +150,6 @@
 - write_gds creates a new file per save
 - improve filewatcher for YAML files
 - add python_requires = >= 3.7 in setup.cfg
-
 
 ## [5.6.6](https://github.com/gdsfactory/gdsfactory/pull/382)
 
@@ -128,7 +203,6 @@
 - expose `gf.add_pins` module instead of `add_pins` function. So you can use any of the functions inside the module.
 - improve tutorial
 
-
 ## [5.5.5](https://github.com/gdsfactory/gdsfactory/pull/360)
 
 - add `gdsdir` to write_cells CLI command
@@ -173,7 +247,7 @@
 
 - bring back python3.7 compatibility [PR](https://github.com/gdsfactory/gdsfactory/pull/338)
 - rename `vars` to `settings` in `read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/339)
-    - use settings combined with kwargs for getting component name
+  - use settings combined with kwargs for getting component name
 - fix mirror isse in `gf.read.from_yaml` [PR](https://github.com/gdsfactory/gdsfactory/pull/341)
 
 ## [5.4.0](https://github.com/gdsfactory/gdsfactory/pull/337)
@@ -186,9 +260,9 @@
 - update netlist driven flow tutorial with ipywidgets, so you can live update the YAML and see it in matplotlib and Klayout [PR](https://github.com/gdsfactory/gdsfactory/pull/329)
 - [PR fixes problem with showing new layers, not in the previous layer props](https://github.com/gdsfactory/gdsfactory/pull/328)
 - [fix show](https://github.com/gdsfactory/gdsfactory/pull/326)
- - Fixes gf.show() when gdsdir is passed as a kwarg (for cases when the user wants to retain the output gds file at a specific directory)
- - Changes the default behavior to use a context manager to clean up the temp directory after it is created
- - Adds tests for the two different invocation types
+- Fixes gf.show() when gdsdir is passed as a kwarg (for cases when the user wants to retain the output gds file at a specific directory)
+- Changes the default behavior to use a context manager to clean up the temp directory after it is created
+- Adds tests for the two different invocation types
 
 ## [5.3.7](https://github.com/gdsfactory/gdsfactory/pull/325)
 
@@ -222,8 +296,8 @@
 - enable Component.plot() with ports with orientation = None
 - add gf.routing.get_route_from_steps_electrical
 - rename ComponentFactory to ComponentSpec and ComponentOrFactory to ComponentSpec [PR](https://github.com/gdsfactory/gdsfactory/pull/313)
-    * replace callable(component) with gf.get_component(component)
-    * replace some call_if_func(component) with gf.get_component(component)
+  - replace callable(component) with gf.get_component(component)
+  - replace some call_if_func(component) with gf.get_component(component)
 
 ## [5.2.9](https://github.com/gdsfactory/gdsfactory/pull/308)
 
@@ -233,7 +307,6 @@
 
 - add more type annotations. To reduce the number of mypy errors.
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/306)
-
 
 ## [5.2.7](https://github.com/gdsfactory/gdsfactory/pull/305)
 
@@ -267,16 +340,15 @@
 ## [5.2.1](https://github.com/gdsfactory/gdsfactory/pull/289)
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/289)
-    * rename cladding_offsets as bbox_offsets
-    * copy_child_info propagates polarization and wavelength info
+
+  - rename cladding_offsets as bbox_offsets
+  - copy_child_info propagates polarization and wavelength info
 
 - make sure 0 or None is 0 in `xmin` or `xmax` keys from component_from_yaml
-
 
 ## [5.2.0](https://github.com/gdsfactory/gdsfactory/pull/287)
 
 - rename `contact` to `via_stack`
-
 
 ## [5.1.2](https://github.com/gdsfactory/gdsfactory/pull/286)
 
@@ -291,6 +363,7 @@
 ## [5.1.0](https://github.com/gdsfactory/gdsfactory/pull/284)
 
 - improve shear angle algorithm to work with waveguides at any angle [PR](https://github.com/gdsfactory/gdsfactory/pull/283)
+
   - add examples in notebooks
   - add tests
   - add shear_angle attribute to Port
@@ -1447,7 +1520,7 @@
 - remove `gf.bias`
 - remove `gf.filecache`
 - add `get_layer_to_sidewall_angle` in layer_stack
-- rename `gf.lys` to `gf.layers.LAYER_SET` to be consistent
+- rename `gf.lys` to `gf.layers.LAYER_COLORS` to be consistent
 
 ## 3.2.8
 
@@ -1908,7 +1981,7 @@ from pydantic import validate_arguments
 
 - added pp.components.path to easily extrude CrossSections
 - added more pp.types (ComponentFactory, RouteFactory) as Callable[..., Component]
-- Load a LayerSet object from a Klayout lyp file
+- Load a LayerColors object from a Klayout lyp file
 - clean lyp from generic tech
 - bend_euler accepts similar parameters as bend_circular (layers_cladding, cladding_offset)
 - renamed bend_euler90 as bend_euler

@@ -15,6 +15,7 @@ import pydantic
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.config import logger, sparameters_path
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
@@ -23,8 +24,8 @@ from gdsfactory.simulation.gmeep.write_sparameters_meep import (
     remove_simulation_kwargs,
     settings_write_sparameters_meep,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
-from gdsfactory.types import ComponentSpec
+from gdsfactory.tech import LayerStack
+from gdsfactory.types import ComponentSpec, PathType
 
 ncores = multiprocessing.cpu_count()
 
@@ -34,10 +35,10 @@ temp_dir_default = Path(sparameters_path) / "temp"
 @pydantic.validate_arguments
 def write_sparameters_meep_mpi(
     component: ComponentSpec,
-    layer_stack: LayerStack = LAYER_STACK,
+    layer_stack: Optional[LayerStack] = None,
     cores: int = ncores,
-    filepath: Optional[Path] = None,
-    dirpath: Path = sparameters_path,
+    filepath: Optional[PathType] = None,
+    dirpath: Optional[PathType] = None,
     temp_dir: Path = temp_dir_default,
     temp_file_str: str = "write_sparameters_meep_mpi",
     overwrite: bool = False,
@@ -66,8 +67,10 @@ def write_sparameters_meep_mpi(
         cores: number of processors.
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv.
-        dirpath: directory to store Sparameters.
-        layer_stack: with thickness and material information.
+        dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         temp_dir: temporary directory to hold simulation files.
         temp_file_str: names of temporary files in temp_dir.
         overwrite: overwrites stored simulation results.
@@ -77,7 +80,6 @@ def write_sparameters_meep_mpi(
         resolution: in pixels/um (30: for coarse, 100: for fine).
         port_symmetries: Dict to specify port symmetries, to save number of simulations.
         dirpath: directory to store Sparameters.
-        layer_stack: LayerStack class.
         port_margin: margin on each side of the port.
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
         port_source_offset: offset between source GDS port and source MEEP port.
@@ -94,7 +96,6 @@ def write_sparameters_meep_mpi(
         ymargin_top: north distance from component to PML.
         ymargin_bot: south distance from component to PML.
         extend_ports_length: to extend ports beyond the PML.
-        layer_stack: Dict of layer number (int, int) to thickness (um).
         zmargin_top: thickness for cladding above core.
         zmargin_bot: thickness for cladding below core.
         tpml: PML thickness (um).
@@ -124,6 +125,8 @@ def write_sparameters_meep_mpi(
 
     component = gf.get_component(component)
     assert isinstance(component, Component)
+
+    layer_stack = layer_stack or get_layer_stack()
 
     settings = remove_simulation_kwargs(kwargs)
     filepath = filepath or get_sparameters_path(

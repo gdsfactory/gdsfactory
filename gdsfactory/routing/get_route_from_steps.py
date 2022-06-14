@@ -20,7 +20,6 @@ def get_route_from_steps(
     port2: Port,
     steps: Optional[List[Dict[str, float]]] = None,
     bend: ComponentSpec = "bend_euler",
-    straight: ComponentSpec = "straight",
     taper: Optional[ComponentSpec] = "taper",
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     **kwargs
@@ -113,7 +112,6 @@ def get_route_from_steps(
     return round_corners(
         points=waypoints,
         bend=bend,
-        straight=straight,
         taper=taper,
         cross_section=cross_section,
         **kwargs,

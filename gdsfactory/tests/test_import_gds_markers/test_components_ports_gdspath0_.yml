@@ -1,4 +1,4 @@
-name: mzi_9454bc1a
+name: mzi_0eeaa28f
 settings:
   changed:
     cross_section:
@@ -15,8 +15,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight: straight
-          taper: taper
+          taper:
+            function: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -27,8 +27,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight: straight
-          taper: taper
+          taper:
+            function: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -88,8 +88,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight: straight
-          taper: taper
+          taper:
+            function: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -100,8 +100,8 @@ settings:
           gap_mmi: 0.25
           length_mmi: 5.5
           length_taper: 10
-          straight: straight
-          taper: taper
+          taper:
+            function: taper
           width: 0.5
           width_mmi: 2.5
           width_taper: 1
@@ -122,5 +122,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_9454bc1a
+  name: mzi_0eeaa28f
 version: 0.0.1

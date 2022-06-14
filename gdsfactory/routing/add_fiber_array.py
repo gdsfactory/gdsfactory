@@ -4,6 +4,7 @@ from typing import Callable, Optional, Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.grating_coupler_elliptical_trenches import grating_coupler_te
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.port import select_ports_optical
 from gdsfactory.routing.get_input_labels import get_input_labels
 from gdsfactory.routing.route_fiber_array import route_fiber_array
@@ -18,10 +19,8 @@ from gdsfactory.types import (
 
 @gf.cell
 def add_fiber_array(
-    component: ComponentSpec = "mmi2x2",
+    component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpecOrList = grating_coupler_te,
-    straight: ComponentSpec = "straight",
-    bend: ComponentSpec = "bend_euler",
     gc_port_name: str = "o1",
     gc_port_labels: Optional[Tuple[str, ...]] = None,
     component_name: Optional[str] = None,
@@ -37,8 +36,6 @@ def add_fiber_array(
     Args:
         component: component spec to connect to grating couplers.
         grating_coupler: fiber coupler instance, function or list of functions.
-        straight: straight spec.
-        bend: bend spec.
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
         component_name: for the label.
@@ -48,6 +45,8 @@ def add_fiber_array(
         layer_label: optional layer for grating coupler label.
 
     Keyword Args:
+        bend: for bends.
+        straight: straight.
         taper: taper spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
@@ -124,8 +123,6 @@ def add_fiber_array(
     elements, io_gratings_lines, ports = route_fiber_array(
         component=component,
         grating_coupler=grating_coupler,
-        bend=bend,
-        straight=straight,
         gc_port_name=gc_port_name,
         component_name=component_name,
         cross_section=cross_section,
@@ -187,6 +184,15 @@ if __name__ == "__main__":
     # test_type0()
     gcte = gf.components.grating_coupler_te
     gctm = gf.components.grating_coupler_tm
+    strip = gf.partial(
+        gf.cross_section.cross_section,
+        width=1,
+        layer=(2, 0),
+        bbox_layers=((61, 0), (62, 0)),
+        bbox_offsets=(3, 3)
+        # cladding_layers=((61, 0), (62, 0)),
+        # cladding_offsets=(3, 3)
+    )
 
     # from pprint import pprint
     # layer_label = gf.LAYER.TEXT
@@ -215,5 +221,6 @@ if __name__ == "__main__":
         auto_widen=True,
         # layer=(2, 0),
         gc_port_labels=["loop_in", "in", "out", "loop_out"],
+        cross_section=strip,
     )
     cc.show()

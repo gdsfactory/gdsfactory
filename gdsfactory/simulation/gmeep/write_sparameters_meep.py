@@ -17,7 +17,8 @@ from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.config import logger, sparameters_path
+from gdsfactory.config import logger
+from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_meep as get_sparameters_path,
@@ -26,7 +27,7 @@ from gdsfactory.simulation.gmeep.get_simulation import (
     get_simulation,
     settings_get_simulation,
 )
-from gdsfactory.tech import LAYER_STACK, LayerStack
+from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentSpec, PathType, PortSymmetries
 
 ncores = multiprocessing.cpu_count()
@@ -135,8 +136,8 @@ def write_sparameters_meep(
     wavelength_start: float = 1.5,
     wavelength_stop: float = 1.6,
     wavelength_points: int = 50,
-    dirpath: PathType = sparameters_path,
-    layer_stack: LayerStack = LAYER_STACK,
+    dirpath: Optional[PathType] = None,
+    layer_stack: Optional[LayerStack] = None,
     port_margin: float = 2,
     port_monitor_offset: float = -0.1,
     port_source_offset: float = -0.1,
@@ -220,10 +221,11 @@ def write_sparameters_meep(
         resolution: in pixels/um (30: for coarse, 100: for fine).
         port_symmetries: Dict to specify port symmetries, to save number of simulations.
         dirpath: directory to store Sparameters.
-        layer_stack: LayerStack class.
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         port_margin: margin on each side of the port.
-        port_monitor_offset: offset between monitor Component port and monitor MEEP port.
-        port_source_offset: offset between source Component port and source MEEP port.
+        port_monitor_offset: offset between Component and monitor port in um.
+        port_source_offset: offset between Component and source port in um.
         filepath: to store pandas Dataframe with Sparameters in CSV format.
             Defaults to dirpath/component_.csv.
         overwrite: overwrites stored Sparameter CSV results.
@@ -267,6 +269,7 @@ def write_sparameters_meep(
     """
     component = gf.get_component(component)
     assert isinstance(component, Component)
+    layer_stack = layer_stack or get_layer_stack()
 
     for setting in settings.keys():
         if setting not in settings_get_simulation:

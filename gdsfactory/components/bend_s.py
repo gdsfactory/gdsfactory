@@ -11,7 +11,7 @@ from gdsfactory.types import CrossSectionSpec, Float2
 def bend_s(
     size: Float2 = (10.0, 2.0),
     nb_points: int = 99,
-    with_bbox: bool = False,
+    with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:

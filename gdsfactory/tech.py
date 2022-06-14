@@ -56,6 +56,7 @@ class LayerMap(BaseModel):
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
     PORTH: Layer = (70, 0)
+    SHOW_PORTS: Layer = (1, 12)
     LABEL: Layer = (201, 0)
     LABEL_SETTINGS: Layer = (202, 0)
     TE: Layer = (203, 0)
@@ -96,11 +97,11 @@ class LayerLevel(BaseModel):
     """Layer For 3D LayerStack.
 
     Attributes:
-        layer: (GDSII Layer number, GDSII datatype)
-        thickness: layer thickness
-        zmin: height position where material starts
-        material: material name
-        sidewall_angle: in degrees with respect to normal
+        layer: (GDSII Layer number, GDSII datatype).
+        thickness: layer thickness.
+        zmin: height position where material starts.
+        material: material name.
+        sidewall_angle: in degrees with respect to normal.
     """
 
     layer: Tuple[int, int]

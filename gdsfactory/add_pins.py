@@ -24,7 +24,7 @@ from gdsfactory.snap import snap_to_grid
 
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
-LayerSpec = Union[Layer, str, int]
+LayerSpec = Optional[Union[Layer, str, int]]
 LayerSpecs = Tuple[LayerSpec, ...]
 nm = 1e-3
 
@@ -405,7 +405,6 @@ def add_bbox_siepic(
     component: Component,
     bbox_layer: LayerSpec = "DEVREC",
     remove_layers: LayerSpecs = ("PORT", "PORTE"),
-    padding: float = 0,
 ) -> Component:
     """Add bounding box device recognition layer.
 
@@ -413,12 +412,24 @@ def add_bbox_siepic(
         component: to add bbox.
         bbox_layer: bounding box.
         remove_layers: remove other layers.
-        padding: around layer.
     """
-    bbox_layer = bbox_layer or []
-    component.remove_layers(layers=[bbox_layer] + list(remove_layers))
+    from gdsfactory.pdk import get_layer
+
+    bbox_layer = get_layer(bbox_layer)
+    layers = component.get_layers()
+
+    if bbox_layer and bbox_layer in layers:
+        component.remove_layers(layers=(bbox_layer,))
+
+    remove_layers = remove_layers or []
+
+    for layer in remove_layers:
+        layer = get_layer(layer)
+        if layer in layers:
+            component.remove_layers(layers=(layer,))
+
     if bbox_layer:
-        component.add_padding(default=padding, layers=(bbox_layer,))
+        component.add_padding(default=0, layers=(bbox_layer,))
     return component
 
 
@@ -443,7 +454,12 @@ def add_pins_bbox_siepic(
         padding: around device.
     """
     component = component.copy()
-    component.remove_layers(layers=(layer_pin, bbox_layer))
+    layers = component.get_layers()
+    remove_layers = (layer_pin, bbox_layer)
+
+    for layer in remove_layers:
+        if layer in layers:
+            component.remove_layers(layers=(layer,))
     component.add_padding(default=padding, layers=(bbox_layer,))
 
     component = add_pins_siepic(
@@ -513,7 +529,6 @@ def add_settings_label(
 
     settings_dict = OmegaConf.to_container(reference.settings.full)
     settings_string = f"settings={json.dumps(settings_dict)}"
-    print(settings_string)
     if len(settings_string) > 1024:
         raise ValueError(f"label > 1024 characters: {settings_string}")
     component.add_label(
