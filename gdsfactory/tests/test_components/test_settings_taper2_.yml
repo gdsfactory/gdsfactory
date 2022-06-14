@@ -9,7 +9,7 @@ settings:
     port: null
     width1: 0.5
     width2: null
-    with_bbox: false
+    with_bbox: true
     with_two_ports: true
   full:
     cross_section: strip
@@ -17,7 +17,7 @@ settings:
     port: null
     width1: 0.5
     width2: 3
-    with_bbox: false
+    with_bbox: true
     with_two_ports: true
   function_name: taper
   info:

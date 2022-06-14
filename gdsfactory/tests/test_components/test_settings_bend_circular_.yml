@@ -18,7 +18,7 @@ settings:
         cladding_offsets:
         - 0
     npoints: 720
-    with_bbox: false
+    with_bbox: true
   full:
     angle: 90
     cross_section:
@@ -35,7 +35,7 @@ settings:
         cladding_offsets:
         - 0
     npoints: 720
-    with_bbox: false
+    with_bbox: true
   function_name: bend_circular
   info:
     dy: 10.0

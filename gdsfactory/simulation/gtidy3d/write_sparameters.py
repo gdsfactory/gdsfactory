@@ -8,7 +8,7 @@ from omegaconf import OmegaConf
 from tqdm import tqdm
 
 import gdsfactory as gf
-from gdsfactory.config import logger, sparameters_path
+from gdsfactory.config import logger
 from gdsfactory.serialization import clean_value_json
 from gdsfactory.simulation import port_symmetries
 from gdsfactory.simulation.get_sparameters_path import (
@@ -33,9 +33,9 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
     relative to whether the wavevector is entering or exiting simulation
 
     Args:
-        port_index: index of port
-        ports: component_ref.ports
-        sim_data: simulation data
+        port_index: index of port.
+        ports: component_ref.ports.
+        sim_data: simulation data.
     """
     if f"o{port_index}" not in ports:
         raise ValueError(
@@ -77,7 +77,7 @@ def get_wavelengths(port_index, sim_data: td.SimulationData):
 def write_sparameters(
     component: ComponentSpec,
     port_symmetries: Optional[PortSymmetries] = None,
-    dirpath: PathType = sparameters_path,
+    dirpath: Optional[PathType] = None,
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
@@ -102,11 +102,13 @@ def write_sparameters(
         component: to simulate.
         port_symmetries: Dict to specify port symmetries, to save number of simulations
         dirpath: directory to store sparameters in CSV.
+            Defaults to active Pdk.sparameters_path.
         overwrite: overwrites stored Sparameter CSV results.
 
     Keyword Args:
         port_extension: extend ports beyond the PML.
-        layer_stack: contains layer numbers (int, int) to thickness, zmin
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
         thickness_pml: PML thickness (um).
         xmargin: left/right distance from component to PML.
         xmargin_left: left distance from component to PML.
@@ -119,12 +121,11 @@ def write_sparameters(
         port_source_name: input port name.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before monitors.
-        resolution: in pixels/um (20: for coarse, 120: for fine)
         wavelength_start: in (um).
         wavelength_stop: in (um).
         wavelength_points: in (um).
         plot_modes: plot source modes.
-        num_modes: number of modes to plot
+        num_modes: number of modes to plot.
         run_time_ps: make sure it's sufficient for the fields to decay.
             defaults to 10ps and counts on automatic shutoff to stop earlier if needed.
         dispersive: False uses constant refractive index materials.
@@ -135,6 +136,23 @@ def write_sparameters(
             dependent index. Maps layer_stack names with tidy3d material database names.
         is_3d: if False, does not consider Z dimension for faster simulations.
         with_all_monitors: True adds field monitor which increases results file size.
+        grid_spec: defaults to automatic td.GridSpec.auto(wavelength=wavelength)
+            td.GridSpec.uniform(dl=20*nm)
+            td.GridSpec(
+                grid_x = td.UniformGrid(dl=0.04),
+                grid_y = td.AutoGrid(min_steps_per_wvl=20),
+                grid_z = td.AutoGrid(min_steps_per_wvl=20),
+                wavelength=wavelength,
+                override_structures=[refine_box]
+            )
+        dilation: float = 0.0
+            Dilation of the polygon in the base by shifting each edge along its
+            normal outwards direction by a distance;
+            a negative value corresponds to erosion.
+        sidewall_angle_deg : float = 0
+            Angle of the sidewall.
+            ``sidewall_angle=0`` (default) specifies vertical wall,
+            while ``0<sidewall_angle_deg<90`` for the base to be larger than the top.
 
     """
     component = gf.get_component(component)
@@ -175,17 +193,17 @@ def write_sparameters(
         """Return Component sparameter for a particular port Index n
 
         Args:
-            n: port_index
-            component:
-            port_symmetries:
-            monitor_indices:
-            kwargs: simulation settings
+            n: port_index.
+            component: to simulate.
+            port_symmetries: to save simulations.
+            monitor_indices: for the ports.
+            kwargs: simulation settings.
 
         """
         sim = get_simulation(
             component, port_source_name=f"o{monitor_indices[n]}", **kwargs
         )
-        sim_data = get_results(sim)
+        sim_data = get_results(sim, overwrite=overwrite)
         sim_data = sim_data.result()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             monitor_indices[n], component_ref.ports, sim_data
@@ -255,8 +273,8 @@ def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[pd.Dat
     kwargs where it runs each simulation in paralell.
 
     Args:
-        jobs: list of kwargs for write_sparameters_grating_coupler
-        kwargs: simulation settings
+        jobs: list of kwargs for write_sparameters_grating_coupler.
+        kwargs: simulation settings.
 
     """
     sp = [_executor.submit(write_sparameters, **job, **kwargs) for job in jobs]

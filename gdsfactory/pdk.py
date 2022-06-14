@@ -6,15 +6,17 @@ from typing import Callable, Optional
 
 import numpy as np
 from omegaconf import DictConfig
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 from gdsfactory.components import cells
+from gdsfactory.config import sparameters_path
 from gdsfactory.containers import containers as containers_default
 from gdsfactory.cross_section import cross_sections
 from gdsfactory.events import Event
+from gdsfactory.layers import LAYER_COLORS, LayerColors
 from gdsfactory.read.from_yaml import from_yaml
 from gdsfactory.show import show
-from gdsfactory.tech import LAYER
+from gdsfactory.tech import LAYER, LAYER_STACK, LayerStack
 from gdsfactory.types import (
     CellSpec,
     Component,
@@ -36,7 +38,8 @@ layers_required = ["DEVREC", "PORT", "PORTE"]
 
 
 class Pdk(BaseModel):
-    """Pdk Library to store cell and cross_section functions.
+    """Store layers, cross_sections, cell functions, simulation_settings ...
+    only one Pdk can be active at a given time.
 
     Attributes:
         name: PDK name.
@@ -46,6 +49,9 @@ class Pdk(BaseModel):
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
+        layer_stack: includes layer numbers, thickness and zmin.
+        layer_colors: includes layer colors, opacity and pattern.
+        sparameters_path: to store Sparameters simulations.
     """
 
     name: str
@@ -55,6 +61,13 @@ class Pdk(BaseModel):
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
+    layer_stack: Optional[LayerStack] = None
+    layer_colors: Optional[LayerColors] = None
+    sparameters_path: PathType
+
+    @validator("sparameters_path")
+    def is_pathlib_path(cls, path):
+        return pathlib.Path(path)
 
     def validate_layers(self):
         for layer in layers_required:
@@ -348,6 +361,16 @@ class Pdk(BaseModel):
                 f"{layer!r} needs to be a LayerSpec (string, int or Layer)"
             )
 
+    def get_layer_colors(self) -> LayerColors:
+        if self.layer_colors is None:
+            raise ValueError(f"layer_colors for Pdk {self.name!r} is None")
+        return self.layer_colors
+
+    def get_layer_stack(self) -> LayerStack:
+        if self.layer_stack is None:
+            raise ValueError(f"layer_stack for Pdk {self.name!r} is None")
+        return self.layer_stack
+
     # _on_cell_registered = Event()
     # _on_container_registered: Event = Event()
     # _on_yaml_cell_registered: Event = Event()
@@ -371,7 +394,13 @@ class Pdk(BaseModel):
 
 
 GENERIC = Pdk(
-    name="generic", cross_sections=cross_sections, cells=cells, layers=LAYER.dict()
+    name="generic",
+    cross_sections=cross_sections,
+    cells=cells,
+    layers=LAYER.dict(),
+    layer_stack=LAYER_STACK,
+    layer_colors=LAYER_COLORS,
+    sparameters_path=sparameters_path,
 )
 _ACTIVE_PDK = GENERIC
 
@@ -392,8 +421,20 @@ def get_layer(layer: LayerSpec) -> Layer:
     return _ACTIVE_PDK.get_layer(layer)
 
 
+def get_layer_colors() -> LayerColors:
+    return _ACTIVE_PDK.get_layer_colors()
+
+
+def get_layer_stack() -> LayerStack:
+    return _ACTIVE_PDK.get_layer_stack()
+
+
 def get_active_pdk() -> Pdk:
     return _ACTIVE_PDK
+
+
+def get_sparameters_path() -> Pdk:
+    return _ACTIVE_PDK.sparameters_path
 
 
 def _set_active_pdk(pdk: Pdk) -> None:
@@ -425,5 +466,6 @@ if __name__ == "__main__":
         cells=cells,
         cross_sections=cross_sections,
         # layers=dict(DEVREC=(3, 0), PORTE=(3, 5)),
+        sparameters_path="/home",
     )
     print(c.layers)

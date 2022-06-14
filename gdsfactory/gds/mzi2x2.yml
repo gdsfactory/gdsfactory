@@ -22,8 +22,8 @@ ports:
     - 0
     port_type: optical
 cells:
-  mzi_879d2be0:
-    name: mzi_879d2be0
+  mzi_0eeaa28f:
+    name: mzi_0eeaa28f
     module: gdsfactory.components.mzi
     function_name: mzi
     info: {}
@@ -54,7 +54,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
+            taper:
+              function: taper
             with_bbox: true
             cross_section:
               function: cross_section
@@ -68,7 +69,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
+            taper:
+              function: taper
             with_bbox: true
             cross_section: strip
           child: null
@@ -102,7 +104,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
+            taper:
+              function: taper
             with_bbox: true
             cross_section:
               function: cross_section
@@ -116,7 +119,8 @@ cells:
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
-            taper: taper
+            taper:
+              function: taper
             with_bbox: true
             cross_section: strip
           child: null
@@ -155,7 +159,8 @@ cells:
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
-      taper: taper
+      taper:
+        function: taper
       with_bbox: true
       cross_section:
         function: cross_section
@@ -169,7 +174,8 @@ cells:
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
-      taper: taper
+      taper:
+        function: taper
       with_bbox: true
       cross_section: strip
     child: null
@@ -564,10 +570,10 @@ cells:
       with_bbox: false
       cross_section: strip
     child: null
-name: mzi_879d2be0
+name: mzi_0eeaa28f
 version: 0.0.1
 settings:
-  name: mzi_879d2be0
+  name: mzi_0eeaa28f
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
@@ -598,7 +604,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
+          taper:
+            function: taper
           with_bbox: true
           cross_section:
             function: cross_section
@@ -612,7 +619,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
+          taper:
+            function: taper
           with_bbox: true
           cross_section: strip
         child: null
@@ -646,7 +654,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
+          taper:
+            function: taper
           with_bbox: true
           cross_section:
             function: cross_section
@@ -660,7 +669,8 @@ settings:
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
-          taper: taper
+          taper:
+            function: taper
           with_bbox: true
           cross_section: strip
         child: null

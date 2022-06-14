@@ -2,6 +2,7 @@ import gdsfactory as gf
 from gdsfactory.add_padding import get_padding_points
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
+from gdsfactory.components.taper import taper as taper_function
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
 
 
@@ -13,7 +14,7 @@ def mmi1x2(
     length_mmi: float = 5.5,
     width_mmi: float = 2.5,
     gap_mmi: float = 0.25,
-    taper: ComponentSpec = "taper",
+    taper: ComponentSpec = taper_function,
     with_bbox: bool = True,
     cross_section: CrossSectionSpec = "strip",
 ) -> Component:
@@ -28,7 +29,8 @@ def mmi1x2(
         gap_mmi:  gap between tapered wg.
         taper: taper function.
         straight: straight function.
-        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        with_bbox: add rectangular box in cross_section
+            bbox_layers and bbox_offsets to avoid DRC sharp edges.
         cross_section: specification (CrossSection, string or dict).
 
 
@@ -127,8 +129,8 @@ def mmi1x2(
 
 
 if __name__ == "__main__":
-    # c = mmi1x2(cross_section=dict(cross_section="rib"))
-    c = mmi1x2()
+    c = mmi1x2(cross_section=dict(cross_section="rib"))
+    # c = mmi1x2()
     c.show()
 
     # c.pprint_ports()
