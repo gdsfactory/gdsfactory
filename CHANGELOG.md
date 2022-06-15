@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.10.2]
+## [5.10.2](https://github.com/gdsfactory/gdsfactory/pull/453)
 
 - fix tidy3d port orientation '+' or '-'
 
