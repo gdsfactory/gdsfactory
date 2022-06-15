@@ -55,16 +55,10 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
         direction_inp = "+"
         direction_out = "-"
     else:
-        raise ValueError(
-            "Port orientation = {orientation} is not 0, 90, 180, or 270 degrees"
-        )
+        raise ValueError("Port orientation = {orientation} is not 0, 90, 180, or 270 degrees")
 
-    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(
-        direction=direction_inp
-    )
-    coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(
-        direction=direction_out
-    )
+    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction=direction_inp)
+    coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction=direction_out)
     return coeff_inp.values.flatten(), coeff_out.values.flatten()
 
 
@@ -185,7 +179,7 @@ def write_sparameters(
 
     def get_sparameter(
         n: int,
-        component: Component,
+        sim_data: td.SimulationData,
         port_symmetries=port_symmetries,
         monitor_indices=monitor_indices,
         **kwargs,
@@ -194,17 +188,11 @@ def write_sparameters(
 
         Args:
             n: port_index.
-            component: to simulate.
             port_symmetries: to save simulations.
             monitor_indices: for the ports.
             kwargs: simulation settings.
 
         """
-        sim = get_simulation(
-            component, port_source_name=f"o{monitor_indices[n]}", **kwargs
-        )
-        sim_data = get_results(sim, overwrite=overwrite)
-        sim_data = sim_data.result()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             monitor_indices[n], component_ref.ports, sim_data
         )
@@ -245,16 +233,14 @@ def write_sparameters(
 
     start = time.time()
 
-    # Compute each Sparameter on a separate thread
-    sparameters = [
-        _executor.submit(
-            get_sparameter, n, component, port_symmetries, monitor_indices, **kwargs
-        )
+    # Run all simulations
+    sims = [
+        get_simulation(component, port_source_name=f"o{monitor_indices[n]}", **kwargs)
         for n in range(num_sims)
     ]
-
-    for sparameter in tqdm(sparameters):
-        sp.update(sparameter.result())
+    batch_data = get_results(sims, overwrite=overwrite)
+    for isim, (sim_name, sim_data) in enumerate(batch_data.items()):
+        sp.update(get_sparameter(isim, sim_data))
 
     end = time.time()
     df = pd.DataFrame(sp)
