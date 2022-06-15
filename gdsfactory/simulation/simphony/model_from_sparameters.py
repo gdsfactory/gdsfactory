@@ -3,7 +3,7 @@ from typing import Tuple
 
 import numpy as np
 from scipy.constants import speed_of_light
-from simphony.elements import Model
+from simphony import Model
 from simphony.tools import freq2wl, interpolate, wl2freq
 
 import gdsfactory as gf
@@ -14,9 +14,9 @@ def model_from_filepath(filepath: PosixPath, numports: int, name: str = "model")
     """Returns a Simphony Model.
 
     Args:
-        filepath: path to Sparameters in Lumerical interconnect format
-        numports: numer of ports
-        name: model name
+        filepath: path to Sparameters in Lumerical interconnect format.
+        numports: numer of ports.
+        name: model name.
 
     """
     pins, f, s = read_sparameters_file(filepath=filepath, numports=numports)
@@ -36,8 +36,9 @@ def model_from_sparameters(
     def interpolate_sp(freq):
         return interpolate(freq, f, s)
 
+    Model.pin_count = len(pins)
     m = Model()
-    m.pins = pins
+    m.rename_pins(*pins)
     m.s_params = (f, s)
     m.s_parameters = interpolate_sp
     m.freq_range = (min(f), max(f))
