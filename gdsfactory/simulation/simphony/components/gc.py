@@ -28,5 +28,5 @@ if __name__ == "__main__":
 
     plt.plot(wav, np.abs(s[:, 1] ** 2))
     print(c.pins)
-    plt.legend()
-    plt.show()
+    # plt.legend()
+    # plt.show()
