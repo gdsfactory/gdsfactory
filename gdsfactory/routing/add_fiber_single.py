@@ -45,7 +45,8 @@ def add_fiber_single(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    r"""Returns component with grating couplers and labels on each port.
+    r"""Returns component with grating couplers and labels on each port. It returns grating couplers in north-south orientation.
+    First it routes the input port gc_port_name south, and the rest of the ports north. You can always rotate it for East-West orientation.
 
     Args:
         component: component or component function to connect to grating couplers.
