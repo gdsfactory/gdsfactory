@@ -2,9 +2,8 @@ from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
-from simphony.netlist import Subcircuit
-from simphony.simulation import SweepSimulation
-from simphony.tools import freq2wl
+from simphony.models import Subcircuit
+from simphony.simulators import SweepSimulator
 
 
 def plot_circuit(
@@ -33,17 +32,19 @@ def plot_circuit(
     """
     if not isinstance(pins_out, (set, list, tuple)):
         raise ValueError("pins out is not iterable")
-    circuit = circuit() if callable(circuit) else circuit
 
-    simulation = SweepSimulation(circuit, start, stop, num)
-    result = simulation.simulate()
+    circuit = circuit() if callable(circuit) else circuit
 
     fig = fig or plt.subplot()
     ax = fig.axes
 
-    for pin_out in pins_out:
-        f, s = result.data(pin_in, pin_out)
-        w = freq2wl(f) * 1e9
+    simulation = SweepSimulator(start, stop, num)
+
+    for p in pins_out:
+        simulation.multiconnect(circuit.pins[0], circuit.pins[p])
+        wl, s = simulation.simulate()
+
+        wl *= 1e9
 
         if phase:
             y = np.angle(s)
@@ -53,10 +54,11 @@ def plot_circuit(
             y = 10 * np.log10(y) if logscale else y
             ylabel = "|S|" if logscale else "|S (dB)|"
 
-        ax.plot(w, y, label=pin_out)
+        ax.plot(wl, y, label=pins_out[0])
     ax.set_xlabel("wavelength (nm)")
     ax.set_ylabel(ylabel)
-    ax.set_title(circuit.name)
+    if hasattr(circuit, "name"):
+        ax.set_title(circuit.name)
     ax.legend()
     plt.show()
     return ax

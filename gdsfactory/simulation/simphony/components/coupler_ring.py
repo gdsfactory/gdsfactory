@@ -1,5 +1,4 @@
-from SiPANN.scee import HalfRacetrack
-from SiPANN.scee_int import SimphonyWrapper
+from simphony.libraries import sipann
 
 
 def coupler_ring(
@@ -48,13 +47,14 @@ def coupler_ring(
         gs.plot_model(m)
 
     """
-    width *= 1e3
-    thickness *= 1e3
-    gap *= 1e3
-    length = length_x * 1e3
-    radius *= 1e3
 
-    s = HalfRacetrack(
+    width *= 1e-6
+    thickness *= 1e-6
+    gap *= 1e-6
+    length = length_x * 1e-6
+    radius *= 1e-6
+
+    model = sipann.HalfRacetrack(
         radius=radius,
         width=width,
         thickness=thickness,
@@ -62,9 +62,8 @@ def coupler_ring(
         length=length,
         sw_angle=sw_angle,
     )
-    model = SimphonyWrapper(s)
-    model.pins = ("o1", "o2", "o4", "o3")
-    model.sipann = s
+    model.rename_pins("o1", "o2", "o4", "o3")
+
     return model
 
 

@@ -1,56 +1,52 @@
-from simphony.library import siepic
-from simphony.netlist import Subcircuit
+from simphony.layout import Circuit
+from simphony.libraries import siepic
 
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.components.gc import gc1550te
 
 
-def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2"):
+def add_gc(circuit, gc=gc1550te, ci="o1", co="o2", gi="port 1", go="port 2"):
     """Add input and output gratings.
 
+    FIXME: does not work.
+
     Args:
-        circuit: needs to have `input` and `output` pins
-        gc: grating coupler
-        cpi: circuit pin input name
-        cpo: circuit pin output name
-        gpi: grating pin input name
-        gpo: grating pin output name
+        circuit: needs to have input ci and output co pins.
+        gc: grating coupler.
+        ci: circuit pin input name.
+        co: circuit pin output name.
+        gi: grating pin input name.
+        go: grating pin output name.
 
     .. code::
                     _______
                    |       |
-        gpi-> gpo--|cpi cpo|--gpo <-gpi
+        gi-> gpo--|cpi cpo|--gpo <-gpi
                    |_______|
     """
     gc = gf.call_if_func(gc)
-    c = Subcircuit(f"{circuit.name}_{gc.name}")
-    c.add([(gc, "gci"), (gc, "gco"), (circuit, "circuit")])
-    c.connect_many([("gci", gpo, "circuit", cpi), ("gco", gpo, "circuit", cpo)])
+    c = Circuit(circuit)
+    c._add(gc)
+    c._add(gc)
 
-    c.elements["gci"].pins[gpi] = "o1"
-    c.elements["gco"].pins[gpi] = "o2"
+    circuit[ci].connect(gc[go])
+    circuit[co].connect(gc[go])
     return c
 
 
-def add_gc_siepic(circuit, gc=siepic.ebeam_gc_te1550):
+def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
     """Add input and output gratings.
 
     Args:
-        circuit: needs to have `o1` and `o2` pins
-        gc: grating coupler
+        circuit: needs to have `o1` and `o2` pins.
+        gc: grating coupler.
     """
-    c = Subcircuit(f"{circuit}_gc")
-    gc = gf.call_if_func(gc)
-    c.add([(gc, "gci"), (gc, "gco"), (circuit, "circuit")])
-    c.connect_many(
-        [("gci", "n1", "circuit", "input"), ("gco", "n1", "circuit", "output")]
-    )
+    gci = gco = gc
+    gci["n1"].connect(gco["n1"])
+    gci["n2"].rename("o1")
+    gco["n1"].rename("o2")
 
-    # c.elements["circuit"].pins["input"] = "input_circuit"
-    # c.elements["circuit"].pins["output"] = "output_circuit"
-    c.elements["gci"].pins["n2"] = "o1"
-    c.elements["gco"].pins["n2"] = "o2"
-    return c
+    return gci.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
@@ -61,5 +57,5 @@ if __name__ == "__main__":
 
     c1 = mzi()
     c2 = add_gc(c1)
-    plot_circuit(c2)
+    plot_circuit(c2, port_in="o1")
     plt.show()
