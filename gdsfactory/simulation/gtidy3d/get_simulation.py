@@ -334,7 +334,7 @@ def get_simulation(
         size=source_size,
         center=source_center,
         source_time=td.GaussianPulse(freq0=freq0, fwidth=fwidth),
-        direction="+",
+        direction="-" if int(angle) in [0, 90] else "+",
     )
 
     # Add port monitors
