@@ -3,8 +3,7 @@
 ## [5.10.4](https://github.com/gdsfactory/gdsfactory/pull/456)
 
 - Use tidy3d.webapi.Batch instead of pool executor [PR](https://github.com/gdsfactory/gdsfactory/pull/455)
-- pin Shapely==1.7.1.
-- pin tidy3d==1.4.1
+- update to latest tidy3d==1.4.1
 
 ## [5.10.3](https://github.com/gdsfactory/gdsfactory/pull/454)
 
