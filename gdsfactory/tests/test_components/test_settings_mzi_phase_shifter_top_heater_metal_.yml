@@ -8,7 +8,8 @@ settings:
         with_undercut: false
   child: null
   default:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null
@@ -29,7 +30,8 @@ settings:
     straight_y: null
     with_splitter: true
   full:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null

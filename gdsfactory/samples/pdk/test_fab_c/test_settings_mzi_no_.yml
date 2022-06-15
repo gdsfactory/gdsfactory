@@ -95,7 +95,8 @@ settings:
         with_bbox: true
   child: null
   default:
-    bend: bend_euler
+    bend:
+      function: bend_euler
     combiner: null
     cross_section: strip
     cross_section_x_bot: null

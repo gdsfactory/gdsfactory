@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_gratin_355db3b3
+name: mzi_2e88f57c_add_gratin_8d63edd6
 settings:
   changed:
     component:
@@ -16,7 +16,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -37,7 +38,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -78,7 +80,8 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
@@ -99,7 +102,8 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner:
         function: mmi2x2
       cross_section: strip
@@ -159,7 +163,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -180,7 +185,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -230,5 +236,5 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.add_grating_couplers
-  name: mzi_2e88f57c_add_gratin_355db3b3
+  name: mzi_2e88f57c_add_gratin_8d63edd6
 version: 0.0.1

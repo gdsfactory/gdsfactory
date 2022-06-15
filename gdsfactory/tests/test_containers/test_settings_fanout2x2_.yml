@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_fanout2x2_8fe62227
+name: mzi_2e88f57c_fanout2x2_6f52042b
 settings:
   changed:
     component:
@@ -16,7 +16,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -37,7 +38,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -78,7 +80,8 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
@@ -99,7 +102,8 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner:
         function: mmi2x2
       cross_section: strip
@@ -154,7 +158,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -175,7 +180,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -214,5 +220,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.fanout2x2
-  name: mzi_2e88f57c_fanout2x2_8fe62227
+  name: mzi_2e88f57c_fanout2x2_6f52042b
 version: 0.0.1
