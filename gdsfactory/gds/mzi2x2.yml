@@ -32,7 +32,8 @@ cells:
       delta_length: 10
       length_y: 2
       length_x: 0.1
-      bend: bend_euler
+      bend:
+        function: bend_euler
       straight:
         function: straight
       straight_y: null
@@ -128,7 +129,8 @@ cells:
       delta_length: 10
       length_y: 2
       length_x: 0.1
-      bend: bend_euler
+      bend:
+        function: bend_euler
       straight:
         function: straight
       straight_y: null
@@ -195,7 +197,7 @@ cells:
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
-      with_bbox: false
+      with_bbox: true
       cross_section:
         function: cross_section
     changed:
@@ -207,7 +209,7 @@ cells:
       with_arc_floorplan: true
       npoints: 720
       direction: ccw
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_c5a89844:
@@ -221,7 +223,7 @@ cells:
     full:
       length: 7
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         function: cross_section
     changed:
@@ -231,7 +233,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_dcfdf04b:
@@ -245,7 +247,7 @@ cells:
     full:
       length: 0.1
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         function: cross_section
     changed:
@@ -255,7 +257,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_711fdeaf:
@@ -269,7 +271,7 @@ cells:
     full:
       length: 2
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         function: cross_section
     changed:
@@ -279,7 +281,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_5d389797:
@@ -293,7 +295,7 @@ cells:
     full:
       length: 0.09
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         layer: WG
         width: 0.5
@@ -351,7 +353,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_67583201:
@@ -365,7 +367,7 @@ cells:
     full:
       length: 2
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         layer: WG
         width: 0.5
@@ -423,7 +425,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_bfd4636d:
@@ -437,7 +439,7 @@ cells:
     full:
       length: 0.01
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         layer: WG
         width: 0.5
@@ -495,7 +497,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
   straight_bcba7b1c:
@@ -509,7 +511,7 @@ cells:
     full:
       length: 7
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section:
         layer: WG
         width: 0.5
@@ -567,7 +569,7 @@ cells:
     default:
       length: 10
       npoints: 2
-      with_bbox: false
+      with_bbox: true
       cross_section: strip
     child: null
 name: mzi_0eeaa28f
@@ -582,7 +584,8 @@ settings:
     delta_length: 10
     length_y: 2
     length_x: 0.1
-    bend: bend_euler
+    bend:
+      function: bend_euler
     straight:
       function: straight
     straight_y: null
@@ -678,7 +681,8 @@ settings:
     delta_length: 10
     length_y: 2
     length_x: 0.1
-    bend: bend_euler
+    bend:
+      function: bend_euler
     straight:
       function: straight
     straight_y: null

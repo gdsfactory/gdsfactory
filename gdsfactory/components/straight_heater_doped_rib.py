@@ -51,7 +51,6 @@ def straight_heater_doped_rib(
         width: waveguide width on the ridge.
         with_top_via_stack: adds via_stack at the top.
         with_bot_via_stack: adds via_stack at the bottom.
-        straight: spec.
         kwargs: cross_section settings.
 
     .. code::

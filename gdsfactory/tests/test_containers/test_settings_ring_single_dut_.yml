@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_ring_singl_3c26e925
+name: mzi_2e88f57c_ring_singl_a3edd461
 settings:
   changed:
     component:
@@ -16,7 +16,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -37,7 +38,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -78,7 +80,8 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
@@ -99,7 +102,8 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner:
         function: mmi2x2
       cross_section: strip
@@ -161,7 +165,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -182,7 +187,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -224,5 +230,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.ring_single_dut
-  name: mzi_2e88f57c_ring_singl_3c26e925
+  name: mzi_2e88f57c_ring_singl_a3edd461
 version: 0.0.1
