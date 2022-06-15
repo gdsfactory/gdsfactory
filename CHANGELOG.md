@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.2]
+
+- fix tidy3d port orientation '+' or '-'
+
 ## [5.10.1](https://github.com/gdsfactory/gdsfactory/pull/452)
 
 - works with latest simphony and Sipann
