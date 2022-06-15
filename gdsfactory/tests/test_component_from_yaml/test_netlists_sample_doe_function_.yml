@@ -4,7 +4,7 @@ instances:
     component: grid
     settings:
       components:
-      - name: mzi_add_fiber_array_2512c309
+      - name: mzi_add_fiber_array_6f43a803
         settings:
           changed:
             component:
@@ -13,7 +13,8 @@ instances:
                 changed: {}
                 child: null
                 default:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -34,7 +35,8 @@ instances:
                   straight_y: null
                   with_splitter: true
                 full:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -64,7 +66,8 @@ instances:
             changed: {}
             child: null
             default:
-              bend: bend_euler
+              bend:
+                function: bend_euler
               combiner: null
               cross_section: strip
               cross_section_x_bot: null
@@ -85,7 +88,8 @@ instances:
               straight_y: null
               with_splitter: true
             full:
-              bend: bend_euler
+              bend:
+                function: bend_euler
               combiner: null
               cross_section: strip
               cross_section_x_bot: null
@@ -136,7 +140,8 @@ instances:
                 changed: {}
                 child: null
                 default:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -157,7 +162,8 @@ instances:
                   straight_y: null
                   with_splitter: true
                 full:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -203,9 +209,9 @@ instances:
           info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: mzi_add_fiber_array_2512c309
+          name: mzi_add_fiber_array_6f43a803
         version: 0.0.1
-      - name: mzi_delta_length100_add_6fa89d2e
+      - name: mzi_delta_length100_add_b715beb9
         settings:
           changed:
             component:
@@ -215,7 +221,8 @@ instances:
                   delta_length: 100
                 child: null
                 default:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -236,7 +243,8 @@ instances:
                   straight_y: null
                   with_splitter: true
                 full:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -267,7 +275,8 @@ instances:
               delta_length: 100
             child: null
             default:
-              bend: bend_euler
+              bend:
+                function: bend_euler
               combiner: null
               cross_section: strip
               cross_section_x_bot: null
@@ -288,7 +297,8 @@ instances:
               straight_y: null
               with_splitter: true
             full:
-              bend: bend_euler
+              bend:
+                function: bend_euler
               combiner: null
               cross_section: strip
               cross_section_x_bot: null
@@ -340,7 +350,8 @@ instances:
                   delta_length: 100
                 child: null
                 default:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -361,7 +372,8 @@ instances:
                   straight_y: null
                   with_splitter: true
                 full:
-                  bend: bend_euler
+                  bend:
+                    function: bend_euler
                   combiner: null
                   cross_section: strip
                   cross_section_x_bot: null
@@ -407,7 +419,7 @@ instances:
           info: {}
           info_version: 2
           module: gdsfactory.routing.add_fiber_array
-          name: mzi_delta_length100_add_6fa89d2e
+          name: mzi_delta_length100_add_b715beb9
         version: 0.0.1
       spacing:
       - 10
