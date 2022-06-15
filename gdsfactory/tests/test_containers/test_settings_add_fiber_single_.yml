@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_move_3cc75_1d071cd2
+name: mzi_2e88f57c_move_13c62_d41a09ce
 settings:
   changed:
     component:
@@ -16,7 +16,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -37,7 +38,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -82,7 +84,8 @@ settings:
             straight_x_top: straight_heater_metal
           child: null
           default:
-            bend: bend_euler
+            bend:
+              function: bend_euler
             combiner: null
             cross_section: strip
             cross_section_x_bot: null
@@ -103,7 +106,8 @@ settings:
             straight_y: null
             with_splitter: true
           full:
-            bend: bend_euler
+            bend:
+              function: bend_euler
             combiner:
               function: mmi2x2
             cross_section: strip
@@ -145,7 +149,8 @@ settings:
         straight_x_top: straight_heater_metal
       child: null
       default:
-        bend: bend_euler
+        bend:
+          function: bend_euler
         combiner: null
         cross_section: strip
         cross_section_x_bot: null
@@ -166,7 +171,8 @@ settings:
         straight_y: null
         with_splitter: true
       full:
-        bend: bend_euler
+        bend:
+          function: bend_euler
         combiner:
           function: mmi2x2
         cross_section: strip
@@ -216,7 +222,8 @@ settings:
             straight_x_top: straight_heater_metal
           child: null
           default:
-            bend: bend_euler
+            bend:
+              function: bend_euler
             combiner: null
             cross_section: strip
             cross_section_x_bot: null
@@ -237,7 +244,8 @@ settings:
             straight_y: null
             with_splitter: true
           full:
-            bend: bend_euler
+            bend:
+              function: bend_euler
             combiner:
               function: mmi2x2
             cross_section: strip
@@ -271,7 +279,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.functions
-    name: mzi_2e88f57c_move_3cc75bab
+    name: mzi_2e88f57c_move_13c620c8
   default:
     bend:
       function: bend_euler
@@ -322,7 +330,8 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
@@ -343,7 +352,8 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
@@ -402,5 +412,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_single
-  name: mzi_2e88f57c_move_3cc75_1d071cd2
+  name: mzi_2e88f57c_move_13c62_d41a09ce
 version: 0.0.1
