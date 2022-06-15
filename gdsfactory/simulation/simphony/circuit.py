@@ -39,11 +39,11 @@ def connect_pins(connections, model_names, components, circuit: Circuit):
 
 
 def rename_pins(circuit, components):
-    a = 0
+    i = 0
     for c in components:
         for p in c.pins:
-            c[p.name].rename(f"pin{a}")
-            a += 1
+            c[p.name].rename(f"pin{i}")
+            i += 1
     return circuit
 
 
@@ -92,7 +92,12 @@ def component_to_circuit(
     components = circuit._get_components()
 
     circuit = connect_pins(connections, model_names, components, circuit)
-    return rename_pins(circuit, components)
+
+    i = 1
+    for pin in circuit.pins:
+        pin.rename(f"o{i}")
+        i += 1
+    return circuit
 
 
 if __name__ == "__main__":
