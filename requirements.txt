@@ -23,7 +23,7 @@ rectpack
 scikit-image
 scipy
 semantic_version
-Shapely
+Shapely==1.7.1
 toolz
 tqdm
 trimesh

@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import tidy3d as td
 from omegaconf import OmegaConf
-from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -18,7 +17,6 @@ from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
 from gdsfactory.types import (
     Any,
-    Component,
     ComponentSpec,
     Dict,
     List,
@@ -55,10 +53,16 @@ def parse_port_eigenmode_coeff(port_index: int, ports, sim_data: td.SimulationDa
         direction_inp = "+"
         direction_out = "-"
     else:
-        raise ValueError("Port orientation = {orientation} is not 0, 90, 180, or 270 degrees")
+        raise ValueError(
+            "Port orientation = {orientation} is not 0, 90, 180, or 270 degrees"
+        )
 
-    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction=direction_inp)
-    coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(direction=direction_out)
+    coeff_inp = sim_data.monitor_data[f"o{port_index}"].amps.sel(
+        direction=direction_inp
+    )
+    coeff_out = sim_data.monitor_data[f"o{port_index}"].amps.sel(
+        direction=direction_out
+    )
     return coeff_inp.values.flatten(), coeff_out.values.flatten()
 
 
