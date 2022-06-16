@@ -206,7 +206,9 @@ class LayerColors(BaseModel):
             (v.gds_layer, v.gds_datatype): k for k, v in self.layers.items()
         }
         if layer_tuple not in tuple_to_name:
-            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
+            raise ValueError(
+                f"Layer color from {layer_tuple} not in {list(tuple_to_name.keys())}"
+            )
 
         name = tuple_to_name[layer_tuple]
         return self.layers[name]
@@ -387,11 +389,16 @@ except Exception:
 
 
 if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.components.rectangle(layer=(123, 0))
+    c.plot()
+
     # print(LAYER_COLORS)
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
-    layer = LayerColor(color="gold")
-    print(layer)
+    # layer = LayerColor(color="gold")
+    # print(layer)
 
     # lys = test_load_lyp()
     # c = preview_layerset(LAYER_COLORS)
