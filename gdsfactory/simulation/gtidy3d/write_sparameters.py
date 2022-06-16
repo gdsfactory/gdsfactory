@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import tidy3d as td
 from omegaconf import OmegaConf
-from tqdm import tqdm
 
 import gdsfactory as gf
 from gdsfactory.config import logger
@@ -18,7 +17,6 @@ from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
 from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
 from gdsfactory.types import (
     Any,
-    Component,
     ComponentSpec,
     Dict,
     List,
@@ -185,7 +183,7 @@ def write_sparameters(
 
     def get_sparameter(
         n: int,
-        component: Component,
+        sim_data: td.SimulationData,
         port_symmetries=port_symmetries,
         monitor_indices=monitor_indices,
         **kwargs,
@@ -194,17 +192,11 @@ def write_sparameters(
 
         Args:
             n: port_index.
-            component: to simulate.
             port_symmetries: to save simulations.
             monitor_indices: for the ports.
             kwargs: simulation settings.
 
         """
-        sim = get_simulation(
-            component, port_source_name=f"o{monitor_indices[n]}", **kwargs
-        )
-        sim_data = get_results(sim, overwrite=overwrite)
-        sim_data = sim_data.result()
         source_entering, source_exiting = parse_port_eigenmode_coeff(
             monitor_indices[n], component_ref.ports, sim_data
         )
@@ -245,16 +237,14 @@ def write_sparameters(
 
     start = time.time()
 
-    # Compute each Sparameter on a separate thread
-    sparameters = [
-        _executor.submit(
-            get_sparameter, n, component, port_symmetries, monitor_indices, **kwargs
-        )
+    # Run all simulations
+    sims = [
+        get_simulation(component, port_source_name=f"o{monitor_indices[n]}", **kwargs)
         for n in range(num_sims)
     ]
-
-    for sparameter in tqdm(sparameters):
-        sp.update(sparameter.result())
+    batch_data = get_results(sims, overwrite=overwrite)
+    for isim, (sim_name, sim_data) in enumerate(batch_data.items()):
+        sp.update(get_sparameter(isim, sim_data))
 
     end = time.time()
     df = pd.DataFrame(sp)
