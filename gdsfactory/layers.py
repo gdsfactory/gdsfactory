@@ -390,6 +390,7 @@ except Exception:
 
 if __name__ == "__main__":
     import gdsfactory as gf
+
     c = gf.components.rectangle(layer=(123, 0))
     c.plot()
 
