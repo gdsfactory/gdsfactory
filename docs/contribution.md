@@ -50,7 +50,7 @@ Pytest-regressions automatically creates the CSV and YAML files for you, as well
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.10.4` replacing `5.10.4` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.10.5` replacing `5.10.5` by whatever version you end up using.
 2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
 
 
