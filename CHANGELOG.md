@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.5](https://github.com/gdsfactory/gdsfactory/pull/457)
+
+- quickplotter picks a random color if layer not defined in pdk.get_layer_color(). Before it was raising a ValueError.
+
+
 ## [5.10.4](https://github.com/gdsfactory/gdsfactory/pull/456)
 
 - Use tidy3d.webapi.Batch instead of pool executor [PR](https://github.com/gdsfactory/gdsfactory/pull/455)

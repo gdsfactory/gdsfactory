@@ -365,7 +365,11 @@ def _get_layerprop(layer, datatype):
         "#e5520e",
     ]
     LAYER_COLORS = get_layer_colors()
-    _layer = LAYER_COLORS.get_from_tuple((layer, datatype))
+    _layer = (
+        LAYER_COLORS.get_from_tuple((layer, datatype))
+        if (layer, datatype) in LAYER_COLORS.layers.values()
+        else None
+    )
     if _layer is not None:
         color = _layer.color
         alpha = _layer.alpha

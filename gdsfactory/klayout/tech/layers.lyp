@@ -739,7 +739,7 @@
   <dither-pattern>I1</dither-pattern>
   <line-style/>
   <valid>true</valid>
-  <visible>true</visible>
+  <visible>false</visible>
   <transparent>false</transparent>
   <width/>
   <marked>false</marked>
@@ -1512,6 +1512,40 @@
   <animation>0</animation>
   <name/>
   <source>1/12@1</source>
+ </properties>
+ <properties>
+  <frame-color>#008050</frame-color>
+  <fill-color>#008050</fill-color>
+  <frame-brightness>0</frame-brightness>
+  <fill-brightness>0</fill-brightness>
+  <dither-pattern>I9</dither-pattern>
+  <line-style/>
+  <valid>true</valid>
+  <visible>true</visible>
+  <transparent>false</transparent>
+  <width/>
+  <marked>false</marked>
+  <xfill>false</xfill>
+  <animation>0</animation>
+  <name/>
+  <source>31/0@1</source>
+ </properties>
+ <properties>
+  <frame-color>#ddff00</frame-color>
+  <fill-color>#ddff00</fill-color>
+  <frame-brightness>0</frame-brightness>
+  <fill-brightness>0</fill-brightness>
+  <dither-pattern>I5</dither-pattern>
+  <line-style/>
+  <valid>true</valid>
+  <visible>true</visible>
+  <transparent>false</transparent>
+  <width/>
+  <marked>false</marked>
+  <xfill>false</xfill>
+  <animation>0</animation>
+  <name/>
+  <source>99/0@1</source>
  </properties>
  <name>all</name>
  <custom-dither-pattern>
