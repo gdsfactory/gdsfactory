@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.4](https://github.com/gdsfactory/gdsfactory/pull/456)
+
+- Use tidy3d.webapi.Batch instead of pool executor [PR](https://github.com/gdsfactory/gdsfactory/pull/455)
+- update to latest tidy3d==1.4.1
+
 ## [5.10.3](https://github.com/gdsfactory/gdsfactory/pull/454)
 
 - replace 'bend_euler' string with function in mzi
