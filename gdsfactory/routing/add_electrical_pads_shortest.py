@@ -26,7 +26,6 @@ def add_electrical_pads_shortest(
         port_orientation: in degrees.
         layer: for the routing.
         kwargs: pad_settings.
-
     """
     c = Component()
     component = gf.get_component(component)
