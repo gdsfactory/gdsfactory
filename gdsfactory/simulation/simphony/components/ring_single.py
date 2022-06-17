@@ -1,8 +1,6 @@
+from simphony.libraries.sipann import Racetrack
 from simphony.models import Subcircuit
 
-from gdsfactory.simulation.simphony.components.bend_circular import bend_circular
-from gdsfactory.simulation.simphony.components.coupler_ring import coupler_ring
-from gdsfactory.simulation.simphony.components.straight import straight
 from gdsfactory.simulation.simphony.plot_circuit import plot_circuit
 
 
@@ -12,9 +10,6 @@ def ring_single(
     length_x=4,
     radius=5,
     length_y=2,
-    coupler=coupler_ring,
-    straight=straight,
-    bend=bend_circular,
 ) -> Subcircuit:
     r"""Return single bus ring Model made of a ring coupler (cb: bottom).
 
@@ -63,27 +58,22 @@ def ring_single(
         c = gc.ring_single()
         gs.plot_circuit(c)
     """
-    straight = (
-        straight(width=wg_width, length=length_y) if callable(straight) else straight
-    )
-    bend = bend(width=wg_width, radius=radius) if callable(bend) else bend
-    coupler = (
-        coupler(length_x=length_x, radius=radius, gap=gap, wg_width=wg_width)
-        if callable(coupler)
-        else coupler
-    )
-    wg1 = straight
-    wg2 = straight
-    bend.connect(wg1)
-    bend.connect(wg2)
-    coupler.multiconnect(wg1["o2"], wg2["o2"])
+    wg_width *= 1e-6
+    gap *= 1e-6
+    length_x *= 1e-6
+    radius *= 1e-6
+    length_y *= 1e-6
 
-    return coupler.circuit.to_subcircuit()
+    racetrack = Racetrack(wg_width, 0.22e-6, radius, gap, length_x)
+
+    racetrack.rename_pins("o1", "o2")
+
+    return racetrack.circuit.to_subcircuit()
 
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
     c = ring_single()
-    plot_circuit(c, pins_out=("o4",))
+    plot_circuit(c)
     plt.show()
