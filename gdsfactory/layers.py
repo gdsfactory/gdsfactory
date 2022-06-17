@@ -26,9 +26,7 @@ layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 
 def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
-    """Generates a preview Device with representations of all the layers,
-    used for previewing LayerColors color schemes in quickplot or saved .gds
-    files
+    """Generates a Component with all the layers.
 
     Args:
         ls: LayerColors.
@@ -185,7 +183,7 @@ class LayerColors(BaseModel):
             return self.layers[name]
 
     def __getitem__(self, val):
-        """allows access to the layer names like ls['gold2'].
+        """Allows accessing to the layer names like ls['gold2'].
 
         Args:
             val: Layer name to access within the LayerColors.
@@ -207,14 +205,14 @@ class LayerColors(BaseModel):
         }
         if layer_tuple not in tuple_to_name:
             raise ValueError(
-                f"Layer color from {layer_tuple} not in {list(tuple_to_name.keys())}"
+                f"Layer color {layer_tuple} not in {list(tuple_to_name.keys())}"
             )
 
         name = tuple_to_name[layer_tuple]
         return self.layers[name]
 
     def clear(self) -> None:
-        """Deletes all entries in the LayerColors"""
+        """Deletes all layers in the LayerColors."""
         self.layers = {}
 
     def preview(self):
