@@ -148,7 +148,7 @@ class Component(Device):
         anchor: str = "o",
         layer="TEXT",
     ) -> Label:
-        """Adds a Label to the Device.
+        """Adds Label to the Component.
 
         Args:
             text: Label text.
