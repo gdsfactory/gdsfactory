@@ -39,8 +39,9 @@ def add_electrical_pads_shortest(
 
     pad_port_spacing += pad.metadata_child["full"]["size"][0] / 2
 
-    for port in ports:
+    for i, port in enumerate(ports):
         p = c << pad
+
         if port_orientation == 0:
             p.x = port.x + pad_port_spacing
             p.y = port.y
@@ -58,7 +59,13 @@ def add_electrical_pads_shortest(
             p.x = port.x
             c.add(route_quad(port, p.ports["e2"], layer=layer))
 
+        # add pad ports
+        c.add_ports(p.ports, prefix=f"pad{i+1}_")
+
+    # add component ports
     c.add_ports(ref.ports)
+
+    # remove electrical ports
     for port in ports:
         c.ports.pop(port.name)
     c.copy_child_info(component)
@@ -72,4 +79,4 @@ if __name__ == "__main__":
     c = add_electrical_pads_shortest(component=c)
 
     # c = add_electrical_pads_shortest()
-    c.show()
+    c.show(show_ports=True)

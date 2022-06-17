@@ -18,14 +18,16 @@ def get_input_label_text(
     prefix: str = "",
     label_prefix: str = "opt",
 ) -> str:
-    """Get text string for an optical port based on grating coupler.
+    """Returns text string for an optical port based on grating coupler.
+
+    {label_prefix}_{polarization}_{wavelength_nm}_({prefix}{component_name})
 
     Args:
         port: to label.
         gc: grating coupler.
         gc_index: grating_coupler index, which grating_coupler we are labelling.
         component_name: optional name.
-        prefix: cell name prefix on the label.
+        prefix: prefix on the label cell_name.
         label_prefix: prefix to add.
 
     """
@@ -157,7 +159,7 @@ def add_labels(
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     Returns:
-        original component with labels
+        original component with labels.
 
     """
     ports = component.get_ports_list(**kwargs)
@@ -229,11 +231,58 @@ def add_siepic_labels(
     return c
 
 
+def add_labels_to_ports(
+    component: Component,
+    label_layer: LayerSpec = "LABEL",
+    prefix: str = "opt_",
+    port_type: str = "optical",
+    **kwargs,
+) -> Component:
+    """Add labels to component ports.
+
+    Args:
+        component: to add labels.
+        label_layer: layer spec for the label.
+        prefix: for the label.
+        port_type: to select ports.
+
+    keyword Args:
+        layer: port GDS layer.
+        prefix: with in port name.
+        orientation: port orientation in degrees.
+        width: port width.
+        layers_excluded: List of port layers to exclude.
+        clockwise: if True, sort ports clockwise, False: counter-clockwise.
+
+    """
+    ports = component.get_ports_list(port_type=port_type, **kwargs)
+    component.unlock()
+    for port in ports:
+        text = f"{prefix}{port.name}"
+        component.add_label(text=text, position=port.midpoint, layer=label_layer)
+
+    return component
+
+
+add_labels_to_ports_electrical = gf.partial(
+    add_labels_to_ports, port_type="electrical", prefix="elec-"
+)
+add_labels_to_ports_optical = gf.partial(
+    add_labels_to_ports, port_type="optical", prefix="opt-"
+)
+add_labels_to_ports_vertical_dc = gf.partial(
+    add_labels_to_ports, port_type="vertical_dc", prefix="elec-"
+)
+
+
 if __name__ == "__main__":
-    c = gf.components.mzi_phase_shifter()
+    # c = gf.components.mzi_phase_shifter()
     # add_labels_ports(c, c.get_ports_list(port_type="electrical"), prefix="pad_")
     # from gdsfactory.tests.test_labels import test_add_labels_electrical
     # c = test_add_labels_optical()
     # c = test_add_labels_electrical()
-    c = gf.routing.add_fiber_single(c)
+    # c = gf.routing.add_fiber_single(c)
+
+    c = gf.components.pad()
+    add_labels_to_ports_vertical_dc(c)
     c.show()
