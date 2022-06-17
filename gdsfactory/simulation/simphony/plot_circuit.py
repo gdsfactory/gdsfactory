@@ -41,7 +41,7 @@ def plot_circuit(
     simulation = SweepSimulator(start, stop, num)
 
     for p in pins_out:
-        simulation.multiconnect(circuit.pins[0], circuit.pins[p])
+        simulation.multiconnect(circuit.pins[pin_in], circuit.pins[p])
         wl, s = simulation.simulate()
 
         wl *= 1e9
