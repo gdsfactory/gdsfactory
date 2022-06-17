@@ -52,8 +52,7 @@ def plot_model(
         if pin not in m.pins:
             raise ValueError(f"{pin} not in {m.pins}")
 
-    pin_names = []
-    [pin_names.append(p.name) for p in m.pins]
+    pin_names = [p.name for p in m.pins]
 
     if pin_in not in pin_names:
         raise ValueError(f"pin_in = `{pin_in}` not in {m.pins}")
