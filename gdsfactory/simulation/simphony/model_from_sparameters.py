@@ -4,6 +4,7 @@ from typing import Tuple
 import numpy as np
 from scipy.constants import speed_of_light
 from simphony import Model
+from simphony.pins import Pin, PinList
 from simphony.tools import freq2wl, interpolate, wl2freq
 
 import gdsfactory as gf
@@ -38,7 +39,7 @@ def model_from_sparameters(
 
     Model.pin_count = len(pins)
     m = Model()
-    m.pins = pins
+    m.pins = PinList([Pin(m, pname) for i, pname in enumerate(pins)])
     m.s_params = (f, s)
     m.s_parameters = interpolate_sp
     m.freq_range = (min(f), max(f))
