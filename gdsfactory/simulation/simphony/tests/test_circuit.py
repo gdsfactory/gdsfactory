@@ -6,7 +6,7 @@ from gdsfactory.simulation.simphony.get_transmission import get_transmission
 
 mmi_name = "mmi1x2"
 splitter = f"{mmi_name}_2p75_0p0"
-combiner = f"{mmi_name}_68p45_0p0"
+combiner = f"{mmi_name}_68p41_0p0"
 
 
 def test_circuit_transmission(data_regression, check: bool = True):
