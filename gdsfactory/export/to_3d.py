@@ -41,6 +41,8 @@ def to_3d(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     exclude_layers = exclude_layers or []
 
+    has_polygons = False
+
     for layer, polygons in component.get_polygons(by_spec=True).items():
         if (
             layer not in exclude_layers
@@ -49,7 +51,8 @@ def to_3d(
         ):
             height = layer_to_thickness[layer]
             zmin = layer_to_zmin[layer]
-            color_hex = layer_colors.get_from_tuple(layer).color
+            layer_color = layer_colors.get_from_tuple(layer)
+            color_hex = layer_color.color
             color_rgb = matplotlib.colors.to_rgb(color_hex)
 
             for polygon in polygons:
@@ -58,6 +61,13 @@ def to_3d(
                 mesh.apply_translation((0, 0, zmin))
                 mesh.visual.face_colors = (*color_rgb, 0.5)
                 scene.add_geometry(mesh)
+                has_polygons = True
+
+    if not has_polygons:
+        raise ValueError(
+            f"{component.name!r} does not have polygons defined in the "
+            "layer_stack or layer_colors for the active Pdk {get_active_pdk().name!r}"
+        )
     return scene
 
 
