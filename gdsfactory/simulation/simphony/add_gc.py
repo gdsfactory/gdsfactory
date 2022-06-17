@@ -1,5 +1,4 @@
 from simphony.libraries import siepic
-from simphony.models import Subcircuit
 
 import gdsfactory as gf
 from gdsfactory.simulation.simphony.components.gc import gc1550te
@@ -22,14 +21,15 @@ def add_gc(circuit, gc=gc1550te, cpi="o1", cpo="o2", gpi="port 1", gpo="port 2")
         gpi-> gpo--|cpi cpo|--gpo <-gpi
                    |_______|
     """
-    gc = gf.call_if_func(gc)
-    c = Subcircuit(f"{circuit.name}_{gc.name}")
-    c.add([(gc, "gci"), (gc, "gco"), (circuit, "circuit")])
-    c.connect_many([("gci", gpo, "circuit", cpi), ("gco", gpo, "circuit", cpo)])
+    gc_input = gf.call_if_func(gc)
+    gc_input.rename_pins("o1", "o2")
+    gc_output = gf.call_if_func(gc)
+    gc_output.rename_pins("o1", "o2")
 
-    c.elements["gci"].pins[gpi] = "o1"
-    c.elements["gco"].pins[gpi] = "o2"
-    return c
+    circuit.pins[cpi].connect(gc_input)
+    circuit.pins[cpo].connect(gc_output)
+
+    return circuit
 
 
 def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
