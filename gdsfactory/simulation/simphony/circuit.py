@@ -102,6 +102,4 @@ if __name__ == "__main__":
     n = c.get_netlist_dict()
 
     cm = component_to_circuit(c)
-    p2 = cm.pins.pop()
-    p2.name = "o2"
-    gs.plot_circuit(cm)
+    gs.plot_circuit(cm, pin_in=cm.pins[0].name, pins_out=[cm.pins[-1].name])
