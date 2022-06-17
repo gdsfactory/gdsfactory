@@ -85,8 +85,8 @@ def ring_double(
     halfring2["o3"].connect(wg1["o2"])
     halfring1["o3"].connect(wg2["o1"])
     halfring2["o2"].connect(wg2["o2"])
-    halfring2["o1"].rename("o2")
-    halfring2["o4"].rename("o3")
+    halfring2["o1"].rename("o3")
+    halfring2["o4"].rename("o2")
 
     return halfring1.circuit.to_subcircuit()
 
