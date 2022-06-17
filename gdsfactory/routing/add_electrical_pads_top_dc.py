@@ -20,7 +20,7 @@ def add_electrical_pads_top_dc(
     get_bundle_function: Callable = get_bundle_electrical,
     **kwargs,
 ) -> Component:
-    """connects component electrical ports with pad array at the top
+    """Returns new component with electrical ports connected to a pad array at the top.
 
     Args:
         component: to connect to.
@@ -55,9 +55,12 @@ def add_electrical_pads_top_dc(
         c.add(route.references)
 
     c.add_ports(cref.ports)
+
+    # remove electrical ports
     for port in ports_component:
         c.ports.pop(port.name)
 
+    c.add_ports(pads.ports)
     c.copy_child_info(component)
     return c
 
@@ -65,4 +68,4 @@ def add_electrical_pads_top_dc(
 if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=100.0)
     cc = add_electrical_pads_top_dc(component=c, width=10)
-    cc.show()
+    cc.show(show_ports=True)
