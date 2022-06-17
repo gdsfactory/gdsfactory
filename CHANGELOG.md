@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/457)
+
+- raise ValueError if no polygons to render in 3D.
+
 ## [5.10.5](https://github.com/gdsfactory/gdsfactory/pull/457)
 
 - quickplotter picks a random color if layer not defined in pdk.get_layer_color(). Before it was raising a ValueError.
