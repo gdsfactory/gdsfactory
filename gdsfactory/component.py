@@ -946,7 +946,7 @@ class Component(Device):
 
         show(component)
 
-    def to_3d(self, **kwargs):
+    def to_3d(self, *args, **kwargs):
         """Return Component 3D trimesh Scene.
 
         Keyword Args:
@@ -960,7 +960,7 @@ class Component(Device):
         """
         from gdsfactory.export.to_3d import to_3d
 
-        return to_3d(self, **kwargs)
+        return to_3d(self, *args, **kwargs)
 
     def write_gds(
         self,
