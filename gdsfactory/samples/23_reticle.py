@@ -1,6 +1,4 @@
-"""
-Sample of a reticle
-"""
+"""Sample of a reticle top level Component."""
 
 import gdsfactory as gf
 

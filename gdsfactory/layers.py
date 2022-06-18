@@ -211,6 +211,9 @@ class LayerColors(BaseModel):
         name = tuple_to_name[layer_tuple]
         return self.layers[name]
 
+    def get_layer_tuples(self):
+        return {(layer.gds_layer, layer.gds_datatype) for layer in self.layers.values()}
+
     def clear(self) -> None:
         """Deletes all layers in the LayerColors."""
         self.layers = {}
