@@ -148,7 +148,7 @@ class Component(Device):
         anchor: str = "o",
         layer="TEXT",
     ) -> Label:
-        """Adds a Label to the Device.
+        """Adds Label to the Component.
 
         Args:
             text: Label text.
@@ -818,6 +818,11 @@ class Component(Device):
 
             return quickplot2(self)
 
+    def plotqt(self):
+        from gdsfactory.quickplotter import quickplot2
+
+        return quickplot2(self)
+
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
@@ -946,7 +951,7 @@ class Component(Device):
 
         show(component)
 
-    def to_3d(self, **kwargs):
+    def to_3d(self, *args, **kwargs):
         """Return Component 3D trimesh Scene.
 
         Keyword Args:
@@ -960,7 +965,7 @@ class Component(Device):
         """
         from gdsfactory.export.to_3d import to_3d
 
-        return to_3d(self, **kwargs)
+        return to_3d(self, *args, **kwargs)
 
     def write_gds(
         self,

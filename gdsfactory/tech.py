@@ -98,8 +98,8 @@ class LayerLevel(BaseModel):
 
     Attributes:
         layer: (GDSII Layer number, GDSII datatype).
-        thickness: layer thickness.
-        zmin: height position where material starts.
+        thickness: layer thickness in um.
+        zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
     """
