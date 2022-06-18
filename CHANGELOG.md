@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/457)
+## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/459)
 
 - raise ValueError if no polygons to render in 3D.
 - add pad ports to functions that route to electrical pads, so new Component can still access the pad ports.
