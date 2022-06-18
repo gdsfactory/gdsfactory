@@ -189,12 +189,13 @@ def quickplot(items):  # noqa: C901
 
     Examples
     --------
-    >>> R = pg.rectangle()
-    >>> quickplot(R)
+    >>> import gdsfactory as gf
+    >>> R = gf.components.rectangle()
+    >>> gf.plot(R)
 
-    >>> R = pg.rectangle()
-    >>> E = pg.ellipse()
-    >>> quickplot([R, E])
+    >>> R = gf.components.rectangle()
+    >>> E = gf.components.ellipse()
+    >>> gf.plot([R, E])
     """
 
     # Override default options with _quickplot_options
@@ -367,7 +368,7 @@ def _get_layerprop(layer, datatype):
     LAYER_COLORS = get_layer_colors()
     _layer = (
         LAYER_COLORS.get_from_tuple((layer, datatype))
-        if (layer, datatype) in LAYER_COLORS.layers.values()
+        if (layer, datatype) in LAYER_COLORS.get_layer_tuples()
         else None
     )
     if _layer is not None:
@@ -991,3 +992,10 @@ def quickplot2(item_list, *args, **kwargs):
     viewer_window.show()
     viewer_window.raise_()
     return viewer
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.components.straight()
+    c.plotqt()
