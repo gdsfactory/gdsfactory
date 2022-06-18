@@ -609,23 +609,6 @@
   <marked>false</marked>
   <xfill>false</xfill>
   <animation>0</animation>
-  <name>TEXT 66/0</name>
-  <source>66/0@1</source>
- </properties>
- <properties>
-  <frame-color>#0000ff</frame-color>
-  <fill-color>#0000ff</fill-color>
-  <frame-brightness>0</frame-brightness>
-  <fill-brightness>0</fill-brightness>
-  <dither-pattern>I1</dither-pattern>
-  <line-style/>
-  <valid>true</valid>
-  <visible>true</visible>
-  <transparent>false</transparent>
-  <width>1</width>
-  <marked>false</marked>
-  <xfill>false</xfill>
-  <animation>0</animation>
   <name>LABEL OPTICAL IO 201/0</name>
   <source>201/0@1</source>
  </properties>
@@ -967,7 +950,7 @@
   <xfill>false</xfill>
   <animation>0</animation>
   <name>Errors</name>
-  <source>66/0@1</source>
+  <source>69/0@1</source>
  </properties>
  <properties>
   <frame-color>#004080</frame-color>

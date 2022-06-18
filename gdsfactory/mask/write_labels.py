@@ -87,10 +87,11 @@ def write_labels(
 
 def write_labels_gdspy(
     gdspath: Path,
+    prefix: str = "opt_",
     layer_label: Optional[Tuple[int, int]] = LAYER.TEXT,
     filepath: Optional[PathType] = None,
-    prefix: str = "opt_",
     debug: bool = False,
+    set_transform: bool = True,
 ) -> Path:
     """Load GDS and extracts label text and coordinates.
 
@@ -98,10 +99,13 @@ def write_labels_gdspy(
 
     Args:
         gdspath: for the mask.
+        prefix: for the labels to write.
         layer_label: for labels to write.
         filepath: for CSV file. Defaults to gdspath with CSV suffix.
-        prefix: for the labels to write.
         debug: prints the label.
+        set_transform: bool
+            If True, labels will include the transformations from
+            the references they are from.
     """
 
     gdspath = pathlib.Path(gdspath)
@@ -111,7 +115,7 @@ def write_labels_gdspy(
 
     labels = []
 
-    for label in c.get_labels(set_transform=True):
+    for label in c.get_labels(set_transform=set_transform):
         if (
             layer_label
             and label.layer == layer_label[0]
