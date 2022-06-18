@@ -39,8 +39,8 @@ def read_labels_yaml(
     return cells
 
 
-def overlay_ports(gdspath, csvpath, marker_size=20, marker_layer=(203, 0)):
-    """Overlay ports extracted from a csvpath into a gdspath."""
+def add_port_markers(gdspath, csvpath, marker_size=20, marker_layer=(203, 0)):
+    """Add port markers from port info extracted from a gdspath and csvpath."""
     c = gf.Component("overlay")
     c << gf.import_gds(gdspath)
     cells = read_labels_yaml(csvpath=csvpath)

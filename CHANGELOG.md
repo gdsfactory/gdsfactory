@@ -11,6 +11,9 @@
     - add `gf.add_labels.add_labels_to_ports_electrical`
     - add `gf.add_labels.add_labels_to_ports_optical`
     - add `gf.add_labels.add_labels_to_ports_vertical_dc` for pads
+- fix colors in Component.plot()
+- add `Component.plotqt()`
+- add add_port_markers and read_labels_yaml to gf.read.labels
 
 ## [5.10.5](https://github.com/gdsfactory/gdsfactory/pull/457)
 

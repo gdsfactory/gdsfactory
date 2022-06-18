@@ -818,6 +818,11 @@ class Component(Device):
 
             return quickplot2(self)
 
+    def plotqt(self):
+        from gdsfactory.quickplotter import quickplot2
+
+        return quickplot2(self)
+
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
