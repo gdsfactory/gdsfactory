@@ -1,6 +1,4 @@
-"""
-Sample of a reticle
-"""
+"""Write a sample reticle together with GDS file."""
 
 import gdsfactory as gf
 
@@ -17,6 +15,7 @@ def mzi_te(**kwargs):
 
 
 if __name__ == "__main__":
+    # Lets write a mask
     c = gf.grid(
         [
             mzi_te(),
@@ -29,4 +28,9 @@ if __name__ == "__main__":
     )
     gdspath = c.write_gds("mask.gds")
     csvpath = gf.mask.write_labels_gdspy(gdspath, prefix="component_name")
-    c.show()
+
+    from gdsfactory.read.labels import add_port_markers
+
+    # You can make sure that all the ports will be tested by adding port markers
+    c2 = add_port_markers(gdspath=gdspath, csvpath=csvpath, marker_size=40)
+    c2.show()
