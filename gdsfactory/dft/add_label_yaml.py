@@ -8,7 +8,8 @@ import pydantic
 
 import gdsfactory as gf
 from gdsfactory.name import clean_name
-from gdsfactory.types import Layer
+from gdsfactory.pdk import get_layer
+from gdsfactory.types import LayerSpec
 
 ignore = [
     "cross_section",
@@ -32,12 +33,12 @@ port_types_to_label = [
 def add_label_yaml(
     component: gf.Component,
     port_types: List[str] = port_types_to_label,
-    layer: Layer = (66, 0),
+    layer: LayerSpec = "TEXT",
     metadata_ignore: Optional[List[str]] = ignore,
     metadata_include_parent: Optional[List[str]] = None,
     metadata_include_child: Optional[List[str]] = None,
 ) -> gf.Component:
-    """Returns Component with measurement labels.
+    """Returns Component with measurement label.
 
     Args:
         component: to add labels to.
@@ -59,6 +60,7 @@ wavelength: {component.metadata.get('wavelength')}
 settings:
 """
     info = []
+    layer = get_layer(layer)
 
     # metadata = component.metadata_child.changed
     metadata = component.metadata_child.get("changed")

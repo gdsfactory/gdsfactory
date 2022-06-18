@@ -237,7 +237,6 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         port = wg.ports["o2"]
-
         ports = gc.get_ports_list(prefix="vertical") or gc.get_ports_list()
         pname = ports[0].name
         p1 = c.add_port(name="loopback1", port=gci.ports[pname])

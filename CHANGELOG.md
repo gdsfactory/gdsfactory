@@ -1,5 +1,20 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/457)
+
+- raise ValueError if no polygons to render in 3D.
+- add pad ports to functions that route to electrical pads, so new Component can still access the pad ports.
+    - `gf.routing.add_electrical_pads_shortest`
+    - `gf.routing.add_electrical_pads_top`
+    - `gf.routing.add_electrical_pads_top_dc`
+- add `gf.add_labels.add_labels_to_ports`
+    - add `gf.add_labels.add_labels_to_ports_electrical`
+    - add `gf.add_labels.add_labels_to_ports_optical`
+    - add `gf.add_labels.add_labels_to_ports_vertical_dc` for pads
+- fix colors in Component.plot()
+- add `Component.plotqt()`
+- add add_port_markers and read_labels_yaml to gf.read.labels
+
 ## [5.10.5](https://github.com/gdsfactory/gdsfactory/pull/457)
 
 - quickplotter picks a random color if layer not defined in pdk.get_layer_color(). Before it was raising a ValueError.
