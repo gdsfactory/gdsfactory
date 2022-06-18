@@ -32,8 +32,8 @@ if __name__ == "__main__":
 
     # for element in m._get_components():
     #     print(element)
-    m.elements[splitter].pins["o1"] = "o1"
-    m.elements[combiner].pins["o1"] = "o2"
+    m.pins[0].rename("o1")
+    m.pins[-1].rename("o2")
 
     # plot_circuit(m)
     # plt.show()
