@@ -22,10 +22,10 @@ def coupling_length(
     to achieve power_ratio
 
     Args:
-        wavelength: in um
-        neff1: even supermode of the directional coupler.
+        wavelength: in um.
+        neff1: even supermode of the directional coupler..
         neff2: odd supermode of the directional coupler.
-        power_ratio: p2/p1, where 1 means 100% power transfer
+        power_ratio: p2/p1, where 1 means 100% power transfer.
 
     """
     dneff = (neff1 - neff2).real
@@ -73,12 +73,12 @@ def find_coupling_vs_gap(
     """Returns coupling vs gap pandas DataFrame.
 
     Args:
-        gap1: starting gap
-        gap2: end gap
-        steps: numbe of steps
-        nmodes: number of modes
-        wavelength: wavelength (um)
-        parity:
+        gap1: starting gap in um.
+        gap2: end gap in um.
+        steps: number of steps.
+        nmodes: number of modes.
+        wavelength: wavelength (um).
+        parity: for symmetries.
         filepath: optional filepath to cache results on disk.
         overwrite: overwrites results even if found on disk.
 
@@ -93,11 +93,11 @@ def find_coupling_vs_gap(
         nclad: clad material refractive index
         nslab: Optional slab material refractive index. Defaults to ncore.
         ymargin: margin in y.
-        sz: simulation region thickness (um)
-        resolution: resolution (pixels/um)
-        nmodes: number of modes
+        sz: simulation region thickness (um).
+        resolution: resolution (pixels/um).
+        nmodes: number of modes.
         sidewall_angles: waveguide sidewall angle (radians),
-            tapers from wg_width at top of slab, upwards, to top of waveguide
+            tapers from wg_width at top of slab, upwards, to top of waveguide.
     """
     if filepath and not overwrite and pathlib.Path(filepath).exists():
         return pd.read_csv(filepath)
