@@ -51,9 +51,10 @@ def cutback_bend(
         _ this is a row
 
     """
+    from gdsfactory.pdk import get_component
 
-    bend90 = bend90(**kwargs) if callable(bend90) else bend90
-    straightx = straight(length=straight_length, **kwargs)
+    bend90 = get_component(bend90, **kwargs)
+    straightx = get_component(straight, length=straight_length, **kwargs)
 
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
@@ -102,12 +103,13 @@ def cutback_bend90(
         |_| |
 
     """
-    bend90 = bend90(**kwargs) if callable(bend90) else bend90
+    from gdsfactory.pdk import get_component
 
-    straightx = straight(length=straight_length, **kwargs)
-
+    bend90 = get_component(bend90, **kwargs)
+    straightx = get_component(straight, length=straight_length, **kwargs)
     straight_length = 2 * _get_bend_size(bend90) + spacing + straight_length
-    straighty = straight(length=straight_length, **kwargs)
+    straighty = get_component(straight, length=straight_length, **kwargs)
+
     # Define a map between symbols and (component, input port, output port)
     symbol_to_component = {
         "A": (bend90, "o1", "o2"),
@@ -121,7 +123,6 @@ def cutback_bend90(
         "A-A-B-B-" * rows + "|" if i % 2 == 0 else "B-B-A-A-" * rows + "|"
         for i in range(columns)
     )
-
     s = s[:-1]
 
     # Create the component from the sequence
@@ -145,7 +146,8 @@ def staircase(
 
     Args:
         bend90:
-        straight_length:
+        length_v: vertical length.
+        length_h: vertical length.
         rows:
         columns:
         straight: function for straight
@@ -204,11 +206,14 @@ def cutback_bend180(
         _ this is a column
 
     """
-    bend180 = bend180(**kwargs) if callable(bend180) else bend180
+    from gdsfactory.pdk import get_component
 
-    straightx = straight(length=straight_length, **kwargs)
-    wg_vertical = straight(
-        length=2 * bend180.size_info.width + straight_length + spacing, **kwargs
+    bend180 = get_component(bend180, **kwargs)
+    straightx = get_component(straight, length=straight_length, **kwargs)
+    wg_vertical = get_component(
+        straight,
+        length=2 * bend180.size_info.width + straight_length + spacing,
+        **kwargs
     )
 
     # Define a map between symbols and (component, input port, output port)
