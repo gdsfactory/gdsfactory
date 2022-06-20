@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_ring_singl_a3edd461
+name: mzi_2e88f57c_ring_singl_40a82f39
 settings:
   changed:
     component:
@@ -22,9 +22,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -45,9 +45,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -86,9 +86,9 @@ settings:
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o3
       port_e0_splitter: o3
@@ -109,9 +109,9 @@ settings:
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o4
       port_e0_splitter: o4
@@ -143,7 +143,7 @@ settings:
     length_x: 4
     length_y: 0
     port_name: o1
-    radius: 5
+    radius: 5.0
     straight:
       function: straight
     with_component: true
@@ -171,9 +171,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -194,9 +194,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -222,7 +222,7 @@ settings:
     length_x: 4
     length_y: 0
     port_name: o1
-    radius: 5
+    radius: 5.0
     straight:
       function: straight
     with_component: true
@@ -230,5 +230,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.ring_single_dut
-  name: mzi_2e88f57c_ring_singl_a3edd461
+  name: mzi_2e88f57c_ring_singl_40a82f39
 version: 0.0.1

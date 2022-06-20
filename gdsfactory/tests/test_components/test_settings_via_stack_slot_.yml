@@ -3,7 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    enclosure: 1
+    enclosure: 1.0
     layer_offsets:
     - 0
     - 1.0
@@ -22,9 +22,9 @@ settings:
         enclosure: 2
         layer: VIA1
     ysize: 0.5
-    yspacing: 2
+    yspacing: 2.0
   full:
-    enclosure: 1
+    enclosure: 1.0
     layer_offsets:
     - 0
     - 1.0
@@ -43,7 +43,7 @@ settings:
         enclosure: 2
         layer: VIA1
     ysize: 0.5
-    yspacing: 2
+    yspacing: 2.0
   function_name: via_stack_slot
   info:
     size:

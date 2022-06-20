@@ -8,8 +8,8 @@ settings:
       settings:
         angle: 180
     cross_section: strip
-    length: 1600
-    length0: 0
+    length: 1600.0
+    length0: 0.0
     n: 2
   full:
     bend180:
@@ -17,8 +17,8 @@ settings:
       settings:
         angle: 180
     cross_section: strip
-    length: 1600
-    length0: 0
+    length: 1600.0
+    length0: 0.0
     n: 2
   function_name: delay_snake2
   info: {}

@@ -9,9 +9,9 @@ settings:
       function: coupler_ring
     cross_section: strip
     gap: 0.2
-    length_x: 4
+    length_x: 4.0
     length_y: 0.6
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
   full:
@@ -21,9 +21,9 @@ settings:
       function: coupler_ring
     cross_section: strip
     gap: 0.2
-    length_x: 4
+    length_x: 4.0
     length_y: 0.6
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
   function_name: ring_single
