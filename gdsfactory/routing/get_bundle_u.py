@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Tuple, Union
+from typing import Any, Callable, List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import float64, ndarray
@@ -36,7 +36,7 @@ def get_bundle_udirect(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     bend: ComponentSpec = bend_euler,
-    path_length_match_loops: int = None,
+    path_length_match_loops: Optional[int] = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
@@ -335,7 +335,7 @@ def _get_bundle_uindirect_waypoints(
     start_straight_length: float = 0.01,
     end_straight_length: float = 0.01,
     **routing_func_params,
-):
+) -> List[ndarray]:
 
     nb_ports = len(ports1)
 
@@ -351,27 +351,15 @@ def _get_bundle_uindirect_waypoints(
 
     if len(ports2) != nb_ports:
         raise ValueError(
-            "Number of start ports should match number of end ports.\
-        Got {} {}".format(
-                len(ports1), len(ports2)
-            )
+            "Number of start ports should match number of end ports."
+            "Got {} {}".format(len(ports1), len(ports2))
         )
 
     if len({p.orientation for p in ports1}) > 1:
-        raise ValueError(
-            "All start port angles should be the same.\
-        Got {}".format(
-                ports1
-            )
-        )
+        raise ValueError(f"All start port angles should be the same. Got {ports1}")
 
     if len({p.orientation for p in ports2}) > 1:
-        raise ValueError(
-            "All end port angles should be the same.\
-        Got {}".format(
-                ports2
-            )
-        )
+        raise ValueError(f"All end port angles should be the same. Got {ports2}")
 
     xs_end = [p.x for p in ports2]
     ys_end = [p.y for p in ports2]
@@ -544,6 +532,3 @@ def _get_bundle_uindirect_waypoints(
 
     connections = [_merge_connections(c) for c in dict_connections.values()]
     return connections
-
-
-pass

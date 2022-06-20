@@ -1,5 +1,4 @@
-"""
-lets create a crossing component with two references to other components (crossing_arm)
+"""Lets create a crossing component with two references to other components (crossing_arm)
 
 - add references to a component (one of the arm references rotated)
 - add ports from the child references into the parent cell
@@ -8,15 +7,23 @@ lets create a crossing component with two references to other components (crossi
 """
 
 import gdsfactory as gf
-from gdsfactory import LAYER
 from gdsfactory.component import Component
+from gdsfactory.types import Layer
 
 
 @gf.cell
-def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_length=3.4):
+def test_crossing_arm(
+    wg_width: float = 0.5,
+    r1: float = 3.0,
+    r2: float = 1.1,
+    taper_width: float = 1.2,
+    taper_length: float = 3.4,
+    layer_wg: Layer = (1, 0),
+    layer_slab: Layer = (2, 0),
+) -> Component:
     """crossing arm"""
     c = gf.Component()
-    c << gf.components.ellipse(radii=(r1, r2), layer=LAYER.SLAB150)
+    c << gf.components.ellipse(radii=(r1, r2), layer=layer_slab)
 
     xmax = taper_length + taper_width / 2
     h = wg_width / 2
@@ -31,14 +38,14 @@ def test_crossing_arm(wg_width=0.5, r1=3.0, r2=1.1, taper_width=1.2, taper_lengt
         (-xmax, -h),
     ]
 
-    c.add_polygon(taper_points, layer=LAYER.WG)
+    c.add_polygon(taper_points, layer=layer_wg)
 
     c.add_port(
-        name="o1", midpoint=(-xmax, 0), orientation=180, width=wg_width, layer=LAYER.WG
+        name="o1", midpoint=(-xmax, 0), orientation=180, width=wg_width, layer=layer_wg
     )
 
     c.add_port(
-        name="o2", midpoint=(xmax, 0), orientation=0, width=wg_width, layer=LAYER.WG
+        name="o2", midpoint=(xmax, 0), orientation=0, width=wg_width, layer=layer_wg
     )
     return c
 

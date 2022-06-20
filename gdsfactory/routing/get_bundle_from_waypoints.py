@@ -356,11 +356,3 @@ def _generate_manhattan_bundle_waypoints(
         routes += [route]
 
     return routes
-
-
-if __name__ == "__main__":
-    import gdsfactory.tests.test_get_bundle_from_waypoints as t
-
-    # c = t.test_get_bundle_from_waypointsC(None, check=False)
-    c = t.test_get_bundle_from_waypointsB(None, check=False)
-    c.show()

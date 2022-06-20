@@ -11,7 +11,7 @@ import gdsfactory as gf
 
 
 @gf.cell
-def straight_sample(length=5, width=1):
+def straight_sample(length: float = 5.0, width: float = 1.0) -> gf.Component:
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
     wg.add_port(name="o1", midpoint=[0, width / 2], width=width, orientation=180)

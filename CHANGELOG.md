@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.8](https://github.com/gdsfactory/gdsfactory/pull/461)
+
+- fix documentation (add `pip install jaxlib jax`) to `make plugins`
+- fix some mypy issues
+
 ## [5.10.7](https://github.com/gdsfactory/gdsfactory/pull/460)
 
 - [repo improvements](https://scikit-hep.org/developer/reporeview)
