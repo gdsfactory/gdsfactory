@@ -3,6 +3,7 @@ holoviews
 ipympl
 ipywidgets
 klayout
+lytest==0.0.20
 pyglet
 pyyaml
 shapely==1.7.1
