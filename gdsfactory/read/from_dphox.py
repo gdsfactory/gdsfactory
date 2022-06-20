@@ -1,12 +1,5 @@
 from gdsfactory.component import Component, ComponentReference
 
-try:
-    import dphox as dp
-
-    DPHOX_IMPORTED = True
-except ImportError:
-    DPHOX_IMPORTED = False
-
 
 def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
     """Converts a Dphox Device into a gdsfactory Component.
@@ -16,9 +9,10 @@ def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
     https://dphox.readthedocs.io/en/latest/index.html
 
     Args:
-        device: Dphox device
-        foundry: Dphox foundry object
+        device: Dphox device.
+        foundry: Dphox foundry object.
     """
+
     c = Component(device.name)
 
     for layer_name, shapely_multipolygon in device.layer_to_polys.items():
@@ -51,6 +45,7 @@ def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
 
 
 if __name__ == "__main__":
+    import dphox as dp
     from dphox.demo import mzi
 
     c = from_dphox(mzi, foundry=dp.foundry.FABLESS)

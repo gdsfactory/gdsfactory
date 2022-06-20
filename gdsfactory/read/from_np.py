@@ -2,7 +2,6 @@
 from typing import Tuple
 
 import numpy as np
-from skimage import measure
 
 from gdsfactory.component import Component
 from gdsfactory.geometry.boolean import boolean
@@ -34,6 +33,8 @@ def from_np(
         threshold: value along which to find contours in the array
 
     """
+    from skimage import measure
+
     c = Component()
     d = Component()
     ndarray = np.pad(ndarray, 2)
