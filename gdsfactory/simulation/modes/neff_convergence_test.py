@@ -29,23 +29,23 @@ def neff_domain_convergence_test(
         mode_number: mode order of the first mode
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
         rel_conv_tol: relative tolerance on hyperparameters
-            (# decimal places; cannot be too demanding, since solver is iterative)
+            (# decimal places; cannot be too demanding, since solver is iterative).
         rel_conv_step: relative increase in hyperparameters from initial values
-        stdout: convergence test output
+        stdout: convergence test output.
 
     Keyword Args:
-        wg_width: wg_width (um)
-        wg_thickness: wg height (um)
-        slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        sy: INITIAL simulation region width (um)
-        sz: INITIAL simulation region height (um)
-        resolution: INITIAL resolution (pixels/um)
-        nmodes: number of modes
-        tol: tolerance when finding modes,
-        wavelength: wavelength,
-        mode_number: mode order of the first mode,
+        wg_width: wg_width (um).
+        wg_thickness: wg height (um).
+        slab_thickness: thickness for the waveguide slab.
+        ncore: core material refractive index.
+        nclad: clad material refractive index.
+        sy: INITIAL simulation region width (um).
+        sz: INITIAL simulation region height (um).
+        resolution: INITIAL resolution (pixels/um).
+        nmodes: number of modes.
+        tol: tolerance when finding modes.
+        wavelength: wavelength.
+        mode_number: mode order of the first mode.
         parity= mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     Returns: Dict[mode_number, Mode], sy, sz, resolution

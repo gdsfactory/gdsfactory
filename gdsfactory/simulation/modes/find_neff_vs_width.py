@@ -37,12 +37,12 @@ def find_neff_vs_width(
 
 
     Keyword Args:
-        slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        sy: simulation region width (um)
-        sz: simulation region height (um)
-        resolution: resolution (pixels/um)
+        slab_thickness: thickness for the waveguide slab.
+        ncore: core material refractive index.
+        nclad: clad material refractive index.
+        sy: simulation region width (um).
+        sz: simulation region height (um).
+        resolution: resolution (pixels/um).
 
     """
 
