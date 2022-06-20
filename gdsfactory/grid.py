@@ -121,6 +121,7 @@ def grid_with_text(
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
     text: Optional[ComponentSpec] = text_rectangular,
+    labels: Optional[Tuple[str, ...]] = None,
     **kwargs,
 ) -> Component:
     """Returns Grid with text labels.
@@ -156,7 +157,14 @@ def grid_with_text(
     if text:
         for i, ref in enumerate(g.aliases.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):
-                t = c << text(f"{text_prefix}{i}")
+                if labels:
+                    if len(labels) > i:
+                        label = labels[i]
+                    else:
+                        continue
+                else:
+                    label = f"{text_prefix}{i}"
+                t = c << text(label)
                 t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
     return c
 
