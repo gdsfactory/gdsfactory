@@ -20,6 +20,7 @@ def delay_snake_sbend(
     **kwargs,
 ) -> Component:
     r"""Return compact Snake with sbend in the middle.
+
     Input port faces west and output port faces east.
 
     Args:

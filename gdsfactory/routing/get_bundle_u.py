@@ -41,18 +41,18 @@ def get_bundle_udirect(
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
-    r"""
+    r"""Returns list of routes.
 
     Args:
-        ports1: list of start ports
-        ports2: list of end ports
+        ports1: list of start ports.
+        ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
-            e.g `get_route_from_waypoints` for deep etch strip straight
-        separation: between straights
-        start_straight_length:
-        end_straight_length
-        start_straight_offset
-        end_straight_offset
+            e.g `get_route_from_waypoints` for deep etch strip straight.
+        separation: between straights.
+        start_straight_length: in um.
+        end_straight_length: in um.
+        start_straight_offset: in um.
+        end_straight_offset: in um.
 
     Returns:
         [route_filter(r) for r in routes] where routes is a list of lists of coordinates
@@ -253,20 +253,20 @@ def get_bundle_uindirect(
     end_straight_length: float = 0.01,
     **routing_params,
 ) -> List[Route]:
-    r"""
+    r"""Returns list of routes.
 
     Args:
-        ports1: list of start ports
-        ports2: list of end ports
+        ports1: list of start ports.
+        ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight
-        separation: center to center waveguide spacing
-        extension_length:
-        start_straight_length: extends
-        end_straight_length:
+        separation: center to center waveguide spacing.
+        extension_length: in um.
+        start_straight_length: extends in um.
+        end_straight_length: in um.
 
     Returns:
-        list of routes, where each route has references, ports and length
+        list of routes, where each route has references, ports and length.
 
 
     Used for routing multiple ports back to a bundled input in a component
@@ -464,8 +464,9 @@ def _get_bundle_uindirect_waypoints(
     dict_connections = {i: [] for i in range(nb_ports)}
 
     def add_connections(conns) -> None:
-        """
-        Ensure that each section in a batch of connection
+        """Adds connections.
+
+        Ensures that each section in a batch of connection.
         is added to the correct route. Also we don't know in which order the
         routes are given (from beginning to end or vice versa)
         """
