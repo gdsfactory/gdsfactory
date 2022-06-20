@@ -180,7 +180,7 @@
 
 ## [5.6.10](https://github.com/gdsfactory/gdsfactory/pull/390)
 
-- add_fiber_single and add_fiber_array tries to add port with `vertical` prefix to the new component. It not adds the regular first port. This Keeps backwards compatibility with grating couplers that have no defined verical ports.
+- add_fiber_single and add_fiber_array tries to add port with `vertical` prefix to the new component. It not adds the regular first port. This Keeps backwards compatibility with grating couplers that have no defined vertical ports.
 - rename spiral_inner_io functions
 
 ## [5.6.9](https://github.com/gdsfactory/gdsfactory/pull/389)
@@ -1773,7 +1773,7 @@
 
 - fix print_config asdict(TECH)
 - cell decorator validates arguments by default using pydantic, cell_without_validator does not
-- add pydantic.vaidate method to Port
+- add pydantic.validate method to Port
 
 ## 2.7.1
 

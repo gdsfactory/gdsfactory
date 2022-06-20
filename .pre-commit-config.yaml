@@ -44,13 +44,13 @@ repos:
         args: [--py37-plus, --keep-runtime-typing]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.1.0
+    rev: 4d782511b3999c243feb3858cd7062270eb13291
     hooks:
       - id: codespell
-        args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing"]
+        args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro"]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.8.0.4
+    rev: f87a493c6596a5338d69395905a4e13ed65584f6
     hooks:
       - id: shellcheck
   # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks

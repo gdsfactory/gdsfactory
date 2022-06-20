@@ -44,7 +44,7 @@ def path_length_matched_points(
         nb_loops: number of extra loops added in the path
             if nb_loops==0, no extra loop is added, instead, in each route,
             the segment indexed by `modify_segment_i` is elongated to match
-            the longuest route in `list_of_waypoints`
+            the longest route in `list_of_waypoints`
         bend: bend function
         cross_section: cross_section factory
         **kwargs
