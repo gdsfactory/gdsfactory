@@ -8,7 +8,7 @@ settings:
     position:
     - 0
     - 0
-    size: 10
+    size: 10.0
     text: abcd
   full:
     justify: left
@@ -16,7 +16,7 @@ settings:
     position:
     - 0
     - 0
-    size: 10
+    size: 10.0
     text: abcd
   function_name: text
   info: {}

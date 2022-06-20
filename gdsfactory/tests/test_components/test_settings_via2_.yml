@@ -6,7 +6,7 @@ settings:
   default:
     bbox_layers: null
     bbox_offset: 0
-    enclosure: 1
+    enclosure: 1.0
     layer: VIAC
     size:
     - 0.7
@@ -17,7 +17,7 @@ settings:
   full:
     bbox_layers: null
     bbox_offset: 0
-    enclosure: 1
+    enclosure: 1.0
     layer: VIA2
     size:
     - 0.7

@@ -11,10 +11,10 @@ settings:
     size:
     - 10000.0
     - 10000.0
-    street_length: 1000
-    street_width: 100
+    street_length: 1000.0
+    street_width: 100.0
     text_location: SW
-    text_size: 100
+    text_size: 100.0
   full:
     bbox_layer: FLOORPLAN
     die_name: chip99
@@ -24,10 +24,10 @@ settings:
     size:
     - 10000.0
     - 10000.0
-    street_length: 1000
-    street_width: 100
+    street_length: 1000.0
+    street_width: 100.0
     text_location: SW
-    text_size: 100
+    text_size: 100.0
   function_name: die
   info: {}
   info_version: 2

@@ -1,4 +1,4 @@
-name: mzi_e004bb2d
+name: mzi_94684115
 settings:
   changed:
     bend:
@@ -23,7 +23,7 @@ settings:
             layer:
             - 34
             - 0
-            width: 1
+            width: 1.0
         with_bbox: true
     cross_section:
       function: cross_section
@@ -44,7 +44,7 @@ settings:
         layer:
         - 34
         - 0
-        width: 1
+        width: 1.0
     splitter:
       function: mmi1x2
       settings:
@@ -67,8 +67,8 @@ settings:
             layer:
             - 34
             - 0
-            width: 1
-        width: 1
+            width: 1.0
+        width: 1.0
         width_mmi: 3
     straight:
       function: straight
@@ -92,7 +92,7 @@ settings:
             layer:
             - 34
             - 0
-            width: 1
+            width: 1.0
         with_bbox: true
   child: null
   default:
@@ -102,9 +102,9 @@ settings:
     cross_section: strip
     cross_section_x_bot: null
     cross_section_x_top: null
-    delta_length: 10
+    delta_length: 10.0
     length_x: 0.1
-    length_y: 2
+    length_y: 2.0
     nbends: 2
     port_e0_combiner: o3
     port_e0_splitter: o3
@@ -140,7 +140,7 @@ settings:
             layer:
             - 34
             - 0
-            width: 1
+            width: 1.0
         with_bbox: true
     combiner: null
     cross_section:
@@ -162,12 +162,12 @@ settings:
         layer:
         - 34
         - 0
-        width: 1
+        width: 1.0
     cross_section_x_bot: null
     cross_section_x_top: null
-    delta_length: 10
+    delta_length: 10.0
     length_x: 0.1
-    length_y: 2
+    length_y: 2.0
     nbends: 2
     port_e0_combiner: o3
     port_e0_splitter: o3
@@ -195,8 +195,8 @@ settings:
             layer:
             - 34
             - 0
-            width: 1
-        width: 1
+            width: 1.0
+        width: 1.0
         width_mmi: 3
     straight:
       function: straight
@@ -220,7 +220,7 @@ settings:
             layer:
             - 34
             - 0
-            width: 1
+            width: 1.0
         with_bbox: true
     straight_x_bot: null
     straight_x_top: null
@@ -230,5 +230,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_e004bb2d
+  name: mzi_94684115
 version: 0.0.1

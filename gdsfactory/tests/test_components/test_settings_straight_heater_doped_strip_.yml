@@ -49,8 +49,8 @@ settings:
     cross_section_heater:
       function: rib_heater_doped
     heater_gap: 0.8
-    heater_width: 2
-    length: 320
+    heater_width: 2.0
+    length: 320.0
     nsections: 3
     taper:
       function: taper_cross_section
@@ -70,7 +70,7 @@ settings:
         - function: via
           settings:
             layer: VIAC
-    via_stack_gap: 0
+    via_stack_gap: 0.0
     via_stack_metal:
       function: via_stack
       settings:
@@ -129,8 +129,8 @@ settings:
     cross_section_heater:
       function: strip_heater_doped
     heater_gap: 0.8
-    heater_width: 2
-    length: 320
+    heater_width: 2.0
+    length: 320.0
     nsections: 3
     taper:
       function: taper_cross_section
@@ -150,7 +150,7 @@ settings:
         - function: via
           settings:
             layer: VIAC
-    via_stack_gap: 0
+    via_stack_gap: 0.0
     via_stack_metal:
       function: via_stack
       settings:

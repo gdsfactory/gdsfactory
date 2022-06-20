@@ -4,12 +4,12 @@ settings:
   child: null
   default:
     gap: 0.27
-    length: 10
+    length: 10.0
     straight:
       function: straight
   full:
     gap: 0.27
-    length: 10
+    length: 10.0
     straight:
       function: straight
   function_name: coupler_straight

@@ -1,4 +1,4 @@
-name: bend_euler_7114c317
+name: bend_euler_c80f6a22
 settings:
   changed:
     cross_section:
@@ -20,10 +20,10 @@ settings:
         layer:
         - 34
         - 0
-        width: 1
+        width: 1.0
   child: null
   default:
-    angle: 90
+    angle: 90.0
     cross_section: strip
     direction: ccw
     npoints: 720
@@ -31,7 +31,7 @@ settings:
     with_arc_floorplan: true
     with_bbox: true
   full:
-    angle: 90
+    angle: 90.0
     cross_section:
       function: cross_section
       settings:
@@ -51,7 +51,7 @@ settings:
         layer:
         - 34
         - 0
-        width: 1
+        width: 1.0
     direction: ccw
     npoints: 720
     p: 0.5
@@ -65,5 +65,5 @@ settings:
     radius_min: 7.061
   info_version: 2
   module: gdsfactory.components.bend_euler
-  name: bend_euler_7114c317
+  name: bend_euler_c80f6a22
 version: 0.0.1

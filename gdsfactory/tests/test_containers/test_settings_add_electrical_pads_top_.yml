@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_electr_64f9ae21
+name: mzi_2e88f57c_add_electr_060b3c55
 settings:
   changed:
     component:
@@ -22,9 +22,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -45,9 +45,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -86,9 +86,9 @@ settings:
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o3
       port_e0_splitter: o3
@@ -109,9 +109,9 @@ settings:
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o4
       port_e0_splitter: o4
@@ -165,9 +165,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -188,9 +188,9 @@ settings:
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -224,5 +224,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_electrical_pads_top
-  name: mzi_2e88f57c_add_electr_64f9ae21
+  name: mzi_2e88f57c_add_electr_060b3c55
 version: 0.0.1

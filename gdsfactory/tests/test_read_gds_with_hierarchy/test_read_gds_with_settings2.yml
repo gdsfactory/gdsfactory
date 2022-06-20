@@ -1,4 +1,4 @@
-name: mzi_0eeaa28f
+name: mzi_6bc7cdfa
 settings:
   changed:
     cross_section:
@@ -14,24 +14,24 @@ settings:
           cross_section: strip
           gap_mmi: 0.25
           length_mmi: 5.5
-          length_taper: 10
+          length_taper: 10.0
           taper:
             function: taper
           width: 0.5
           width_mmi: 2.5
-          width_taper: 1
+          width_taper: 1.0
           with_bbox: true
         full:
           cross_section:
             function: cross_section
           gap_mmi: 0.25
           length_mmi: 5.5
-          length_taper: 10
+          length_taper: 10.0
           taper:
             function: taper
           width: 0.5
           width_mmi: 2.5
-          width_taper: 1
+          width_taper: 1.0
           with_bbox: true
         function_name: mmi1x2
         info: {}
@@ -47,9 +47,9 @@ settings:
     cross_section: strip
     cross_section_x_bot: null
     cross_section_x_top: null
-    delta_length: 10
+    delta_length: 10.0
     length_x: 0.1
-    length_y: 2
+    length_y: 2.0
     nbends: 2
     port_e0_combiner: o3
     port_e0_splitter: o3
@@ -70,9 +70,9 @@ settings:
       function: cross_section
     cross_section_x_bot: null
     cross_section_x_top: null
-    delta_length: 10
+    delta_length: 10.0
     length_x: 0.1
-    length_y: 2
+    length_y: 2.0
     nbends: 2
     port_e0_combiner: o3
     port_e0_splitter: o3
@@ -89,24 +89,24 @@ settings:
           cross_section: strip
           gap_mmi: 0.25
           length_mmi: 5.5
-          length_taper: 10
+          length_taper: 10.0
           taper:
             function: taper
           width: 0.5
           width_mmi: 2.5
-          width_taper: 1
+          width_taper: 1.0
           with_bbox: true
         full:
           cross_section:
             function: cross_section
           gap_mmi: 0.25
           length_mmi: 5.5
-          length_taper: 10
+          length_taper: 10.0
           taper:
             function: taper
           width: 0.5
           width_mmi: 2.5
-          width_taper: 1
+          width_taper: 1.0
           with_bbox: true
         function_name: mmi1x2
         info: {}
@@ -124,5 +124,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.mzi
-  name: mzi_0eeaa28f
+  name: mzi_6bc7cdfa
 version: 0.0.1

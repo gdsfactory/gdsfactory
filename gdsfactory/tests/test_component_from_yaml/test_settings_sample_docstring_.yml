@@ -51,7 +51,7 @@ settings:
               port_types:
               - electrical
               - electrical
-              width: 10
+              width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -69,7 +69,7 @@ settings:
               port_types:
               - electrical
               - electrical
-              width: 10
+              width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:
@@ -125,7 +125,7 @@ settings:
               port_types:
               - electrical
               - electrical
-              width: 10
+              width: 10.0
       get_bundle_from_steps:
         function: get_bundle_from_steps
       get_bundle_from_steps_electrical:
@@ -143,7 +143,7 @@ settings:
               port_types:
               - electrical
               - electrical
-              width: 10
+              width: 10.0
       get_bundle_from_waypoints:
         function: get_bundle_from_waypoints
       get_bundle_path_length_match:

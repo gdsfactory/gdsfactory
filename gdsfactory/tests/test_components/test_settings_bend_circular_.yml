@@ -3,7 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    angle: 90
+    angle: 90.0
     cross_section:
       function: cross_section
       settings:
@@ -20,7 +20,7 @@ settings:
     npoints: 720
     with_bbox: true
   full:
-    angle: 90
+    angle: 90.0
     cross_section:
       function: cross_section
       settings:
