@@ -19,7 +19,7 @@ def fanout2x2(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """returns component with port_spacing.
+    """Returns component with port_spacing.
 
     Args:
         component: to fanout.

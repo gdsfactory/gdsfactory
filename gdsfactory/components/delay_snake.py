@@ -22,8 +22,7 @@ def delay_snake(
     straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
-    """Snake input facing west
-    Snake output facing east
+    """Snake input facing west output facing east.
 
     Args:
         wg_width: waveguide width.
