@@ -106,7 +106,7 @@ conda:
 	echo 'conda env installed, run `conda activate gdsfactory` to activate it'
 
 mypy:
-	mypy gdsfactory
+	mypy gdsfactory --ignore-missing-imports
 
 build:
 	python setup.py sdist bdist_wheel
