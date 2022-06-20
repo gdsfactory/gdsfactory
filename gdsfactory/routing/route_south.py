@@ -116,7 +116,7 @@ def route_south(
 
     west_ports.reverse()
 
-    y0 = min([p.y for p in ordered_ports]) - dy - 0.5
+    y0 = min(p.y for p in ordered_ports) - dy - 0.5
 
     ports_to_route = []
 
@@ -167,7 +167,7 @@ def route_south(
     # This ensures that north ports are routed above the top west one
     north_start.reverse()  # We need them from left to right
     if len(north_start) > 0:
-        y_max = max([p.y for p in west_ports + north_start])
+        y_max = max(p.y for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
 
@@ -227,7 +227,7 @@ def route_south(
     # Route the remaining north ports
     start_straight_length = 0.5
     if len(north_finish) > 0:
-        y_max = max([p.y for p in east_ports + north_finish])
+        y_max = max(p.y for p in east_ports + north_finish)
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)

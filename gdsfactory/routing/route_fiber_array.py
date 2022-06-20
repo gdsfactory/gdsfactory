@@ -175,7 +175,7 @@ def route_fiber_array(
     delta_gr_min = 2 * dy + 1
 
     # Get the center along x axis
-    x_c = round(sum([p.x for p in optical_ports]) / N, 1)
+    x_c = round(sum(p.x for p in optical_ports) / N, 1)
     y_min = component.ymin  # min([p.y for p in optical_ports])
 
     # Sort the list of optical ports:
@@ -406,7 +406,7 @@ def route_fiber_array(
                 del to_route[n0 - dn : n0 + dn]
 
     if with_loopback:
-        gca1, gca2 = [
+        gca1, gca2 = (
             grating_coupler.ref(
                 position=(
                     x_c - offset + ii * fiber_spacing,
@@ -416,7 +416,7 @@ def route_fiber_array(
                 port_id=gc_port_name,
             )
             for ii in [grating_indices[0] - 1, grating_indices[-1] + 1]
-        ]
+        )
         port0 = gca1.ports[gc_port_name]
         port1 = gca2.ports[gc_port_name]
         ports.append(port0)
@@ -428,7 +428,7 @@ def route_fiber_array(
         dy = bend90.info["dy"]
         dx = max(2 * dy, fiber_spacing / 2)
 
-        gc_east = max([gci.size_info.east for gci in grating_couplers])
+        gc_east = max(gci.size_info.east for gci in grating_couplers)
         y_bot_align_route = gc_east + straight_to_grating_spacing
 
         points = [

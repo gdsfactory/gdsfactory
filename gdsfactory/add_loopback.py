@@ -73,10 +73,10 @@ def add_loopback(
     else:
         x1 = port2[0] + grating_separation
 
-    gca1, gca2 = [
+    gca1, gca2 = (
         gc.ref(position=(x, y0), rotation=grating_rotation, port_id=grating_port_name)
         for x in [x0, x1]
-    ]
+    )
 
     gsi = gc.size_info
     p0 = gca1.ports[grating_port_name].position

@@ -184,7 +184,7 @@ def pack(
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     label = packed << text(f"{text_prefix}{index}")
                     label.move(
-                        (np.array(text_offset) + getattr(d.size_info, text_anchor))
+                        np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
                 index += 1
 
