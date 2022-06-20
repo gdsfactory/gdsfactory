@@ -1,4 +1,4 @@
-""" DBR gratings
+""" DBR gratings.
 wavelength = 2*period*neff
 period = wavelength/2/neff
 
@@ -28,13 +28,36 @@ def dbr_cell(
     l2: float = period / 2,
     straight: ComponentSpec = straight_function,
 ) -> Component:
+    """Distributed Bragg Reflector unit cell.
+
+    Args:
+        w1: thin width in um.
+        l1: thin length in um.
+        w2: thick width in um.
+        l2: thick length in um.
+        n: number of periods.
+        straight: spec in um.
+
+    .. code::
+
+           l1      l2
+        <-----><-------->
+                _________
+        _______|
+
+          w1       w2
+        _______
+               |_________
+
+
+    """
     l1 = gf.snap.snap_to_grid(l1)
     l2 = gf.snap.snap_to_grid(l2)
     w1 = gf.snap.snap_to_grid(w1, 2)
     w2 = gf.snap.snap_to_grid(w2, 2)
     c = Component()
-    c1 = c << straight(length=l1, width=w1)
-    c2 = c << straight(length=l2, width=w2)
+    c1 = c << gf.get_component(straight, length=l1, width=w1)
+    c2 = c << gf.get_component(straight, length=l2, width=w2)
     c2.connect(port="o1", destination=c1.ports["o2"])
     c.add_port("o1", port=c1.ports["o1"])
     c.add_port("o2", port=c2.ports["o2"])
@@ -50,15 +73,15 @@ def dbr(
     n: int = 10,
     straight: ComponentSpec = straight_function,
 ) -> Component:
-    """Distributed Bragg Reflector
+    """Distributed Bragg Reflector.
 
     Args:
-        w1: thin width
-        l1: thin length
-        w2: thick width
-        l2: thick length
-        n: number of periods
-        straight: function
+        w1: thin width in um.
+        l1: thin length in um.
+        w2: thick width in um.
+        l2: thick length in um.
+        n: number of periods.
+        straight: spec in um.
 
     .. code::
 

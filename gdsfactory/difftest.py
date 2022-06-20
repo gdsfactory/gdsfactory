@@ -16,7 +16,6 @@ class GdsRegressionFixture(FileRegressionFixture):
             ):
         try:
             difftest(c)
-
 """
 import filecmp
 import pathlib
@@ -37,16 +36,19 @@ def difftest(
     dirpath: pathlib.Path = CONFIG["gdsdiff"],
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
-    Runs an XOR over a component and makes boolean comparison with a GDS reference.
-    If it runs for the fist time it just stores the GDS reference.
+
+    If files are the same it returns None. If files are different runs XOR
+    between new component and the GDS reference stored in dirpath and
     raises GeometryDifference if there are differences and show differences in klayout.
+
+    If it runs for the fist time it just stores the GDS reference.
 
 
     Args:
-        component:
-        test_name: used to store the GDS file
-        xor: runs xor if there is difference
-        dirpath: defaults to cwd refers to where the test is being invoked
+        component: to test if it has changed.
+        test_name: used to store the GDS file.
+        xor: runs xor if there is difference.
+        dirpath: defaults to cwd refers to where the test is being invoked.
     """
 
     # containers function_name is different from component.name

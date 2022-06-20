@@ -3,6 +3,7 @@ repos:
     rev: b0f06dc9f2260909f3423243de180edfc823ec5a
     hooks:
       - id: check-yaml
+        exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml)
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
@@ -58,6 +59,19 @@ repos:
     rev: v1.9.0 # Use the ref you want to point at
     hooks:
       - id: python-use-type-annotations
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        args: [--exit-zero]
+        # ignore all tests, not just tests data
+        exclude: ^tests/
+  # - repo: https://github.com/PyCQA/pylint
+  #   rev: v2.14.1
+  #   hooks:
+  #     - id: pylint
+  #       args: [--exit-zero]
   # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
   #   hooks:
