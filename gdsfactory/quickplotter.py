@@ -246,7 +246,7 @@ def quickplot(items):  # noqa: C901
                 bbox = _update_bbox(bbox, new_bbox)
             # If item is a Device or DeviceReference, draw ports
             if isinstance(item, (Device, DeviceReference)) and show_ports is True:
-                for name, port in item.ports.items():
+                for port in item.ports.values():
                     if (port.width is None) or (port.width == 0):
                         new_bbox = _draw_port_as_point(ax, port)
                     else:
@@ -255,7 +255,7 @@ def quickplot(items):  # noqa: C901
             if isinstance(item, Device) and show_subports is True:
                 for sd in item.references:
                     if not isinstance(sd, (gdspy.CellArray)):
-                        for name, port in sd.ports.items():
+                        for port in sd.ports.values():
                             new_bbox = _draw_port(
                                 ax,
                                 port,
@@ -970,14 +970,14 @@ def quickplot2(item_list, *args, **kwargs):
             if isinstance(element, phidl.device_layout.Device):
                 for ref in element.references:
                     if not isinstance(ref, gdspy.CellArray):
-                        for name, port in ref.ports.items():
+                        for port in ref.ports.values():
                             viewer.add_port(port, is_subport=True)
                 for name, port in element.ports.items():
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
             # If element is a DeviceReference, draw ports as subports
             if isinstance(element, phidl.device_layout.DeviceReference):
-                for name, port in element.ports.items():
+                for port in element.ports.values():
                     viewer.add_port(port, is_subport=True)
         elif isinstance(element, (phidl.device_layout.Polygon)):
             layerprop = _get_layerprop(
