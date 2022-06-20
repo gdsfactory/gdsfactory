@@ -22,14 +22,14 @@ def innerprod_trapz(
     but you can compute that to normalize other quantities
 
     Args:
-        mode1: Mode object
-        mode2: Mode object
-        ymin: lower y integration bound
-        ymax: upper y integration bound
-        zmin: lower z integration bound
-        zmax: upper z integration bound
-        trapz_num_y: number of points to resample the mode in y for integration
-        trapz_num_z: number of points to resample the mode in z for integration
+        mode1: Mode object.
+        mode2: Mode object.
+        ymin: lower y integration bound.
+        ymax: upper y integration bound.
+        zmin: lower z integration bound.
+        zmax: upper z integration bound.
+        trapz_num_y: number of points to resample the mode in y for integration.
+        trapz_num_z: number of points to resample the mode in z for integration.
     """
 
     # Form vector components
