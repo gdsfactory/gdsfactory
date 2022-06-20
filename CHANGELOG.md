@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.14](https://github.com/gdsfactory/gdsfactory/pull/468)
+
+- simpler serialization.py
+- difftest response is Yes by default
+
 ## [5.10.13](https://github.com/gdsfactory/gdsfactory/pull/467)
 
 - improve docs.
