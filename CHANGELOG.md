@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.10.8](https://github.com/gdsfactory/gdsfactory/pull/461)
+## [5.10.8](https://github.com/gdsfactory/gdsfactory/pull/462)
 
 - fix documentation (add `pip install jaxlib jax`) to `make plugins`
 - fix some mypy issues
