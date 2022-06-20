@@ -3,15 +3,12 @@
 the cell decorator gives unique names to components that depend on their parameters
 """
 
-
-from typing import Union
-
 import gdsfactory as gf
 from gdsfactory.component import Component
 
 
 @gf.cell
-def straight(width: Union[float, int] = 10, height: int = 1) -> Component:
+def straight(width: float = 10.0, height: float = 1.0) -> Component:
     """Returns straight with automatic name."""
     wg = gf.Component("ThisNameWillBeOverwriten")
     wg.add_polygon([(0, 0), (width, 0), (width, height), (0, height)])
