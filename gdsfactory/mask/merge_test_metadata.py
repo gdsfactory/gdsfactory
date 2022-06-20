@@ -34,8 +34,8 @@ def get_cell_from_label(label: str) -> str:
     """get cell name from the label (cell_name is in parenthesis)"""
     try:
         cell_name = label.split("(")[1].split(")")[0]
-    except IndexError:
-        raise ValueError(f"{label!r} needs (cell name) between parenthesis")
+    except IndexError as error:
+        raise ValueError(f"{label!r} needs (cell name) between parenthesis") from error
 
     if cell_name.startswith("loopback"):
         cell_name = "_".join(cell_name.split("_")[1:])
