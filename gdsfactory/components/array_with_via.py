@@ -37,12 +37,12 @@ def array_with_via(
         via_spacing: for fanout.
         straight_length: lenght of the straight at the end.
         waveguide: waveguide definition.
-        cross_section:
-        via_stack:
-        via_stack_dy: via_stack offset
-        port_orientation: 180: facing west
-        port_offset: Optional port movement
-        kwargs: cross_section settings
+        cross_section: spec.
+        via_stack: spec.
+        via_stack_dy: via_stack offset.
+        port_orientation: 180: facing west.
+        port_offset: Optional port movement.
+        kwargs: cross_section settings.
     """
 
     c = Component()

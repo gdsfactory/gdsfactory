@@ -36,6 +36,11 @@ repos:
     hooks:
       - id: nbstripout
         files: .ipynb
+
+  # - repo: https://github.com/asottile/pyupgrade
+  #   rev: v2.34.0
+  #   hooks:
+  #   -   id: pyupgrade --py3-plus
   # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
   #   hooks:
