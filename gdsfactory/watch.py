@@ -93,7 +93,8 @@ class YamlEventHandler(FileSystemEventHandler):
             print(e)
 
 
-def watch(path=str(cwd)) -> None:
+def watch(path=cwd) -> None:
+    path = str(path)
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(message)s",

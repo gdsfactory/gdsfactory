@@ -3,7 +3,7 @@ from gdsfactory.cross_section import strip
 
 
 @gf.cell
-def demo_cross_section_setting(cross_section=strip()) -> gf.Component:
+def demo_cross_section_setting(cross_section=strip) -> gf.Component:
     return gf.components.straight(cross_section=cross_section)
 
 

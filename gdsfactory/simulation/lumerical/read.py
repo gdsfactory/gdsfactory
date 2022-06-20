@@ -42,7 +42,7 @@ def read_sparameters_file(
     S = []
     port_names = []
 
-    with open(filepath, "r") as fid:
+    with open(filepath) as fid:
         for _i in range(numports):
             port_line = fid.readline()
             m = re.search(r'\[".*",', port_line)

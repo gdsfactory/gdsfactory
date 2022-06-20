@@ -19,8 +19,8 @@ def check_space(
 
     If "whole_edges" is true, the resulting EdgePairs collection will receive the whole edges which contribute in the space check.
 
-    "metrics" can be one of the constants Euclidian, Square or Projection. See there for a description of these constants.
-    Use nil for this value to select the default (Euclidian metrics).
+    "metrics" can be one of the constants Euclidean, Square or Projection. See there for a description of these constants.
+    Use nil for this value to select the default (Euclidean metrics).
 
     "ignore_angle" specifies the angle limit of two edges. If two edges form an angle equal or above the given value, they will not contribute in
     the check. Setting this value to 90 (the default) will exclude edges with an angle of 90 degree or more from the check.
@@ -31,16 +31,16 @@ def check_space(
     ction". If you don't want to specify one limit, pass nil to the respective value.
 
     Args:
-        gdspath: path to GDS or Component
-        layer: tuple
-        min_space: in um
-        dbu: database units (1000 um/nm)
-        ignore_angle_deg: The angle above which no check is performed
-        other: The other region against which to check
-        whole_edges: If true, deliver the whole edges
-        metrics: Specify the metrics type 'Euclidian, square'
-        min_projection: lower threshold of the projected length of one edge onto another
-        max_projection: upper limit of the projected length of one edge onto another
+        gdspath: path to GDS or Component.
+        layer: tuple.
+        min_space: in um.
+        dbu: database units (1000 um/nm).
+        ignore_angle_deg: The angle above which no check is performed.
+        other: The other region against which to check.
+        whole_edges: If true, deliver the whole edges.
+        metrics: Specify the metrics type 'Euclidian, square'.
+        min_projection: lower threshold of the projected length of one edge onto another.
+        max_projection: upper limit of the projected length of one edge onto another.
 
     """
     import klayout.db as pya
@@ -53,7 +53,7 @@ def check_space(
     cell = layout.top_cell()
     region = pya.Region(cell.begin_shapes_rec(layout.layer(layer[0], layer[1])))
 
-    valid_metrics = ["Square", "Euclidian"]
+    valid_metrics = ["Square", "Euclidean"]
 
     if metrics not in valid_metrics:
         raise ValueError("metrics = {metrics!r} not in {valid_metrics}")

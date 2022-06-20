@@ -24,7 +24,7 @@ Specs:
 
 - ComponentSpec: Component, function, string or dict
     (component=mzi, settings=dict(delta_length=20)).
-- LayerSpec: (3, 0), 3 (asumes 0 as datatype) or string.
+- LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
 import json

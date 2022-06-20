@@ -496,7 +496,7 @@ def from_yaml(
 
         name: Optional Component name
         settings: Optional variables
-        pdk: overides
+        pdk: overrides
         info: Optional component info
             description: just a demo
             polarization: TE
@@ -618,7 +618,7 @@ def _from_yaml(
 
     elif pdk:
         module = importlib.import_module(pdk)
-        pdk = getattr(module, "PDK")
+        pdk = module.PDK
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
         pdk.activate()
@@ -696,14 +696,14 @@ def _from_yaml(
             for port_src_string, port_dst_string in links_dict.items():
 
                 if ":" in port_src_string:
-                    src, src0, src1 = [s.strip() for s in port_src_string.split(":")]
-                    dst, dst0, dst1 = [s.strip() for s in port_dst_string.split(":")]
-                    instance_src_name, port_src_name = [
+                    src, src0, src1 = (s.strip() for s in port_src_string.split(":"))
+                    dst, dst0, dst1 = (s.strip() for s in port_dst_string.split(":"))
+                    instance_src_name, port_src_name = (
                         s.strip() for s in src.split(",")
-                    ]
-                    instance_dst_name, port_dst_name = [
+                    )
+                    instance_dst_name, port_dst_name = (
                         s.strip() for s in dst.split(",")
-                    ]
+                    )
 
                     src0 = int(src0)
                     src1 = int(src1)

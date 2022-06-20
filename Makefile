@@ -106,7 +106,7 @@ conda:
 	echo 'conda env installed, run `conda activate gdsfactory` to activate it'
 
 mypy:
-	mypy gdsfactory
+	mypy gdsfactory --ignore-missing-imports
 
 build:
 	python setup.py sdist bdist_wheel
@@ -154,6 +154,9 @@ link:
 
 pyglet:
 	pip install pyglet==1.2.4
+
+spell:
+	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
 
 .PHONY: gdsdiff build conda

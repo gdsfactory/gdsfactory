@@ -225,14 +225,14 @@ get_bundle_from_waypoints_electrical_multilayer = gf.partial(
 
 
 def snap_route_to_end_point_x(route, x):
-    y1, y2 = [p[1] for p in route[-2:]]
+    y1, y2 = (p[1] for p in route[-2:])
     return route[:-2] + [(x, y1), (x, y2)]
 
 
 def snap_route_to_end_point_y(
     route: List[Union[ndarray, Tuple[float64, float64]]], y: float64
 ) -> List[Union[ndarray, Tuple[float64, float64]]]:
-    x1, x2 = [p[0] for p in route[-2:]]
+    x1, x2 = (p[0] for p in route[-2:])
     return route[:-2] + [(x1, y), (x2, y)]
 
 

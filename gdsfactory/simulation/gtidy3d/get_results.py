@@ -78,7 +78,7 @@ def get_results(
     """Return a List of SimulationData from a list of Simulation.
 
     Works with Pool of threads.
-    Each thread can run in paralell and only becomes blocking when you ask
+    Each thread can run in parallel and only becomes blocking when you ask
     for .result()
 
     Args:

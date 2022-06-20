@@ -147,7 +147,7 @@ class CrossSection(BaseModel):
         x = self
         if x.bbox_layers and x.bbox_offsets:
             padding = []
-            for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            for offset in x.bbox_offsets:
                 points = get_padding_points(
                     component=c,
                     default=0,
@@ -225,9 +225,9 @@ def cross_section(
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
         info: settings info.
-        decorator: funcion to run when converting path to component.
+        decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
-        add_bbox: optional funcion to add bounding box to component.
+        add_bbox: optional function to add bounding box to component.
     """
 
     return CrossSection(

@@ -466,7 +466,7 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = [p.midpoint for p in _get_bend_ports(bend=bend_cell, layer=port_layer)]
+    b1, b2 = (p.midpoint for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -700,9 +700,9 @@ def round_corners(
         )
 
     try:
-        pname_west, pname_north = [
+        pname_west, pname_north = (
             p.name for p in _get_bend_ports(bend=bend90, layer=layer)
-        ]
+        )
     except ValueError as exc:
         raise ValueError(
             f"Did not find 2 ports on layer {layer}. Got {list(bend90.ports.values())}"
@@ -833,9 +833,9 @@ def round_corners(
             length = length - 2 * taper_length
             taper_origin = straight_origin
 
-            pname_west, pname_east = [
+            pname_west, pname_east = (
                 p.name for p in _get_straight_ports(taper, layer=layer)
-            ]
+            )
             taper_ref = taper.ref(
                 position=taper_origin, port_id=pname_west, rotation=angle
             )
@@ -887,9 +887,9 @@ def round_corners(
             # Origin at end of straight waveguide, starting from east side of taper
 
             taper_origin = wg_ref.ports[pname_east]
-            pname_west, pname_east = [
+            pname_west, pname_east = (
                 p.name for p in _get_straight_ports(taper, layer=layer)
-            ]
+            )
 
             taper_ref = taper.ref(
                 position=taper_origin,
@@ -954,11 +954,9 @@ def generate_manhattan_waypoints(
     )
     if isinstance(cross_section, list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
-        start_straight_length = start_straight_length or min(
-            [_x.min_length for _x in x]
-        )
-        end_straight_length = end_straight_length or min([_x.min_length for _x in x])
-        min_straight_length = min_straight_length or min([_x.min_length for _x in x])
+        start_straight_length = start_straight_length or min(_x.min_length for _x in x)
+        end_straight_length = end_straight_length or min(_x.min_length for _x in x)
+        min_straight_length = min_straight_length or min(_x.min_length for _x in x)
     else:
         x = gf.get_cross_section(cross_section, **kwargs)
         start_straight_length = start_straight_length or x.min_length
@@ -1002,11 +1000,9 @@ def route_manhattan(
     """
     if isinstance(cross_section, list):
         x = [gf.get_cross_section(xsection[0], **kwargs) for xsection in cross_section]
-        start_straight_length = start_straight_length or min(
-            [_x.min_length for _x in x]
-        )
-        end_straight_length = end_straight_length or min([_x.min_length for _x in x])
-        min_straight_length = min_straight_length or min([_x.min_length for _x in x])
+        start_straight_length = start_straight_length or min(_x.min_length for _x in x)
+        end_straight_length = end_straight_length or min(_x.min_length for _x in x)
+        min_straight_length = min_straight_length or min(_x.min_length for _x in x)
     else:
         x = gf.get_cross_section(cross_section, **kwargs)
         start_straight_length = start_straight_length or x.min_length

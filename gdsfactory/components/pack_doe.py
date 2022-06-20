@@ -92,7 +92,7 @@ def pack_doe_grid(
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
             different distances in height and width.
-        separation: If True, guarantees elements are speparated with fixed spacing
+        separation: If True, guarantees elements are separated with fixed spacing
             if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
             If no shape and the list is 1D, if np.reshape were run with (1, -1).

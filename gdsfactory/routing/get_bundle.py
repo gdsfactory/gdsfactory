@@ -337,7 +337,7 @@ def _get_bundle_waypoints(
         ports1: list of starting ports.
         ports2: list of end ports.
         separation: route spacing.
-        end_straight_length: adds a straigth.
+        end_straight_length: adds a straight.
         tol: tolerance.
         start_straight_length: length of straight.
         cross_section: CrossSection or function that returns a cross_section.

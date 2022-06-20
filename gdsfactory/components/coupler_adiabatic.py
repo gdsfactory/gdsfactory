@@ -39,7 +39,7 @@ def coupler_adiabatic(
     IV is the output S-bend straight.
 
     Args:
-        length1: region that gradually brings the two assymetric straights together.
+        length1: region that gradually brings the two asymmetric straights together.
             In this region the straight widths gradually change to be different by `dw`.
         length2: coupling region, where asymmetric straights gradually
             become the same width.

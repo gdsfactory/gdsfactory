@@ -27,7 +27,7 @@ def _get_sparameters_path(
     **kwargs,
 ) -> Path:
     """Return Sparameters CSV filepath.
-    hashes of all simulation settings to get a consitent unique name.
+    hashes of all simulation settings to get a consistent unique name.
 
     Args:
         component: component or component factory.

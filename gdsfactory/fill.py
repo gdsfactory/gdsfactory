@@ -84,7 +84,7 @@ def fill_rectangle(
         component: Component to fill.
         fill_size: Rectangular size of the fill element.
         avoid_layers: Layers to be avoided (not filled) in D.
-        include_layers: Layers to be filled, supercedes avoid_layers.
+        include_layers: Layers to be filled, supersedes avoid_layers.
         margin:
             Margin spacing around avoided areas -- fill will not come within.
             `margin` of the geometry in D.
