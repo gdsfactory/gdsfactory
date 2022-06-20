@@ -4,12 +4,12 @@ settings:
   child: null
   default:
     layer: WG
-    length: 10
+    length: 10.0
     port_type: optical
     width: 0.5
   full:
     layer: WG
-    length: 10
+    length: 10.0
     port_type: optical
     width: 0.5
   function_name: hline

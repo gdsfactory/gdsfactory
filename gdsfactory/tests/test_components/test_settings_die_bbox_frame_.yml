@@ -10,11 +10,11 @@ settings:
       - 4.0
     die_name: null
     layer: M3
-    padding: 10
-    street_length: 1000
-    street_width: 100
+    padding: 10.0
+    street_length: 1000.0
+    street_width: 100.0
     text_anchor: sw
-    text_size: 100
+    text_size: 100.0
   full:
     bbox:
     - - -1.0
@@ -23,11 +23,11 @@ settings:
       - 4.0
     die_name: null
     layer: M3
-    padding: 10
-    street_length: 1000
-    street_width: 100
+    padding: 10.0
+    street_length: 1000.0
+    street_width: 100.0
     text_anchor: sw
-    text_size: 100
+    text_size: 100.0
   function_name: die_bbox_frame
   info: {}
   info_version: 2

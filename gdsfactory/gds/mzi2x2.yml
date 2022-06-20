@@ -16,21 +16,21 @@ ports:
     midpoint:
     - 81.2
     - 0.0
-    orientation: 0
+    orientation: 0.0
     layer:
     - 1
     - 0
     port_type: optical
 cells:
-  mzi_0eeaa28f:
-    name: mzi_0eeaa28f
+  mzi_6bc7cdfa:
+    name: mzi_6bc7cdfa
     module: gdsfactory.components.mzi
     function_name: mzi
     info: {}
     info_version: 2
     full:
-      delta_length: 10
-      length_y: 2
+      delta_length: 10.0
+      length_y: 2.0
       length_x: 0.1
       bend:
         function: bend_euler
@@ -50,8 +50,8 @@ cells:
           info_version: 2
           full:
             width: 0.5
-            width_taper: 1
-            length_taper: 10
+            width_taper: 1.0
+            length_taper: 10.0
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
@@ -65,8 +65,8 @@ cells:
               function: cross_section
           default:
             width: 0.5
-            width_taper: 1
-            length_taper: 10
+            width_taper: 1.0
+            length_taper: 10.0
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
@@ -100,8 +100,8 @@ cells:
           info_version: 2
           full:
             width: 0.5
-            width_taper: 1
-            length_taper: 10
+            width_taper: 1.0
+            length_taper: 10.0
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
@@ -115,8 +115,8 @@ cells:
               function: cross_section
           default:
             width: 0.5
-            width_taper: 1
-            length_taper: 10
+            width_taper: 1.0
+            length_taper: 10.0
             length_mmi: 5.5
             width_mmi: 2.5
             gap_mmi: 0.25
@@ -126,8 +126,8 @@ cells:
             cross_section: strip
           child: null
     default:
-      delta_length: 10
-      length_y: 2
+      delta_length: 10.0
+      length_y: 2.0
       length_x: 0.1
       bend:
         function: bend_euler
@@ -156,8 +156,8 @@ cells:
     info_version: 2
     full:
       width: 0.5
-      width_taper: 1
-      length_taper: 10
+      width_taper: 1.0
+      length_taper: 10.0
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
@@ -171,8 +171,8 @@ cells:
         function: cross_section
     default:
       width: 0.5
-      width_taper: 1
-      length_taper: 10
+      width_taper: 1.0
+      length_taper: 10.0
       length_mmi: 5.5
       width_mmi: 2.5
       gap_mmi: 0.25
@@ -187,12 +187,12 @@ cells:
     function_name: bend_euler
     info:
       length: 16.637
-      dy: 10
+      dy: 10.0
       radius_min: 7.061
-      radius: 10
+      radius: 10.0
     info_version: 2
     full:
-      angle: 90
+      angle: 90.0
       p: 0.5
       with_arc_floorplan: true
       npoints: 720
@@ -204,7 +204,7 @@ cells:
       cross_section:
         function: cross_section
     default:
-      angle: 90
+      angle: 90.0
       p: 0.5
       with_arc_floorplan: true
       npoints: 720
@@ -212,16 +212,16 @@ cells:
       with_bbox: true
       cross_section: strip
     child: null
-  straight_c5a89844:
-    name: straight_c5a89844
+  straight_5d53fdc2:
+    name: straight_5d53fdc2
     module: gdsfactory.components.straight
     function_name: straight
     info:
-      length: 7
+      length: 7.0
       width: 0.5
     info_version: 2
     full:
-      length: 7
+      length: 7.0
       npoints: 2
       with_bbox: true
       cross_section:
@@ -229,9 +229,9 @@ cells:
     changed:
       cross_section:
         function: cross_section
-      length: 7
+      length: 7.0
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
@@ -255,21 +255,21 @@ cells:
         function: cross_section
       length: 0.1
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
     child: null
-  straight_711fdeaf:
-    name: straight_711fdeaf
+  straight_ebcc6dc8:
+    name: straight_ebcc6dc8
     module: gdsfactory.components.straight
     function_name: straight
     info:
-      length: 2
+      length: 2.0
       width: 0.5
     info_version: 2
     full:
-      length: 2
+      length: 2.0
       npoints: 2
       with_bbox: true
       cross_section:
@@ -277,9 +277,9 @@ cells:
     changed:
       cross_section:
         function: cross_section
-      length: 2
+      length: 2.0
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
@@ -299,12 +299,12 @@ cells:
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -326,12 +326,12 @@ cells:
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -351,32 +351,32 @@ cells:
         name: null
       length: 0.09
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
     child: null
-  straight_67583201:
-    name: straight_67583201
+  straight_e08fd4d2:
+    name: straight_e08fd4d2
     module: gdsfactory.components.straight
     function_name: straight
     info:
-      length: 2
+      length: 2.0
       width: 0.5
     info_version: 2
     full:
-      length: 2
+      length: 2.0
       npoints: 2
       with_bbox: true
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -398,12 +398,12 @@ cells:
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -421,9 +421,9 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
-      length: 2
+      length: 2.0
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
@@ -443,12 +443,12 @@ cells:
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -470,12 +470,12 @@ cells:
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -495,32 +495,32 @@ cells:
         name: null
       length: 0.01
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
     child: null
-  straight_bcba7b1c:
-    name: straight_bcba7b1c
+  straight_2d1b2620:
+    name: straight_2d1b2620
     module: gdsfactory.components.straight
     function_name: straight
     info:
-      length: 7
+      length: 7.0
       width: 0.5
     info_version: 2
     full:
-      length: 7
+      length: 7.0
       npoints: 2
       with_bbox: true
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -542,12 +542,12 @@ cells:
       cross_section:
         layer: WG
         width: 0.5
-        offset: 0
-        radius: 10
+        offset: 0.0
+        radius: 10.0
         width_wide: null
         auto_widen: false
-        auto_widen_minimum_length: 200
-        taper_length: 10
+        auto_widen_minimum_length: 200.0
+        taper_length: 10.0
         bbox_layers: []
         bbox_offsets: []
         cladding_layers: null
@@ -565,24 +565,24 @@ cells:
         snap_to_grid: null
         info: {}
         name: null
-      length: 7
+      length: 7.0
     default:
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
       cross_section: strip
     child: null
-name: mzi_0eeaa28f
+name: mzi_6bc7cdfa
 version: 0.0.1
 settings:
-  name: mzi_0eeaa28f
+  name: mzi_6bc7cdfa
   module: gdsfactory.components.mzi
   function_name: mzi
   info: {}
   info_version: 2
   full:
-    delta_length: 10
-    length_y: 2
+    delta_length: 10.0
+    length_y: 2.0
     length_x: 0.1
     bend:
       function: bend_euler
@@ -602,8 +602,8 @@ settings:
         info_version: 2
         full:
           width: 0.5
-          width_taper: 1
-          length_taper: 10
+          width_taper: 1.0
+          length_taper: 10.0
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
@@ -617,8 +617,8 @@ settings:
             function: cross_section
         default:
           width: 0.5
-          width_taper: 1
-          length_taper: 10
+          width_taper: 1.0
+          length_taper: 10.0
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
@@ -652,8 +652,8 @@ settings:
         info_version: 2
         full:
           width: 0.5
-          width_taper: 1
-          length_taper: 10
+          width_taper: 1.0
+          length_taper: 10.0
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
@@ -667,8 +667,8 @@ settings:
             function: cross_section
         default:
           width: 0.5
-          width_taper: 1
-          length_taper: 10
+          width_taper: 1.0
+          length_taper: 10.0
           length_mmi: 5.5
           width_mmi: 2.5
           gap_mmi: 0.25
@@ -678,8 +678,8 @@ settings:
           cross_section: strip
         child: null
   default:
-    delta_length: 10
-    length_y: 2
+    delta_length: 10.0
+    length_y: 2.0
     length_x: 0.1
     bend:
       function: bend_euler

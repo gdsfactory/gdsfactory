@@ -3,9 +3,9 @@ settings:
   changed: {}
   child: null
   default:
-    height: 100
+    height: 100.0
     layer: WG
-    line_spacing: 10
+    line_spacing: 10.0
     line_widths:
     - 1.0
     - 2.0
@@ -13,9 +13,9 @@ settings:
     - 8.0
     - 16.0
   full:
-    height: 100
+    height: 100.0
     layer: WG
-    line_spacing: 10
+    line_spacing: 10.0
     line_widths:
     - 1.0
     - 2.0

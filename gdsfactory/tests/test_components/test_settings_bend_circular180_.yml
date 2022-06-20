@@ -4,7 +4,7 @@ settings:
     angle: 180
   child: null
   default:
-    angle: 90
+    angle: 90.0
     cross_section:
       function: cross_section
       settings:
