@@ -618,7 +618,7 @@ def _from_yaml(
 
     elif pdk:
         module = importlib.import_module(pdk)
-        pdk = getattr(module, "PDK")
+        pdk = module.PDK
         if pdk is None:
             raise ValueError(f"'from {pdk} import PDK' failed")
         pdk.activate()

@@ -2,6 +2,7 @@ autotyping
 doc8
 docutils
 flake8
+flake8-bugbear
 furo
 ipykernel
 mypy
