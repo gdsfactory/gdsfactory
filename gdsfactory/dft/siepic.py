@@ -1,5 +1,4 @@
-"""SiEPIC labels one grating coupler from the fiber array using a GDS label
-(not fabricated) """
+"""SiEPIC labels one grating coupler from the fiber array using a GDS label."""
 
 from typing import Callable, List, Optional, Tuple
 
@@ -37,7 +36,7 @@ def get_input_label_text(
     assert polarization.upper() in [
         "TE",
         "TM",
-    ], f"Not valid polarization {polarization.upper()} in [TE, TM]"
+    ], f"Not valid polarization {polarization.upper()!r} in [TE, TM]"
     assert (
         isinstance(wavelength, (int, float)) and 1.0 < wavelength < 2.0
     ), f"{wavelength} is Not valid 1000 < wavelength < 2000"
@@ -69,13 +68,13 @@ def get_input_labels(
     """Return list of labels for all component ports.
 
     Args:
-        io_gratings:
-        ordered_ports:
-        component_name:
-        layer_label:
-        gc_port_name:
-        port_index:
-        get_input_label_text_function:
+        io_gratings: list of grating_coupler references.
+        ordered_ports: list of ports.
+        component_name: name.
+        layer_label: for the label.
+        gc_port_name: grating_coupler port.
+        port_index: index of the port.
+        get_input_label_text_function: function.
     """
     gc = io_gratings[port_index]
     port = ordered_ports[1]

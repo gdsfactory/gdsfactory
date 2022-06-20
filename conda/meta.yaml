@@ -1,0 +1,71 @@
+{% set name = "gdsfactory" %}
+{% set version = "5.10.10" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+build:
+  skip: true  # [py<37]
+  script: {{ PYTHON }} -m pip install . -vv
+  number: 0
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/gdsfactory-{{ version }}.tar.gz
+  sha256: e9d1cc9a2a1279833d46ae11a22902203ef9c24e337d0cc93c8ddbab8bb82e11
+
+requirements:
+  host:
+    - pip
+    - python >=3.7
+  run:
+    - click
+    - flatdict
+    - gdspy
+    - jsondiff
+    - jsonschema
+    - loguru
+    - matplotlib-base
+    - networkx
+    - numpy
+    - omegaconf
+    - orjson
+    - pandas
+    - phidl ==1.6.1
+    - picwriter ==0.5
+    - pydantic
+    - pyqtree
+    - pytest
+    - pytest-regressions
+    - python >=3.7
+    - qrcode
+    - rectpack
+    - scikit-image
+    - scipy
+    - semantic_version
+    - shapely
+    - toolz
+    - tqdm
+    - trimesh
+    - types-pyyaml
+    - typing-extensions
+    - watchdog
+    - xmltodict
+
+test:
+  imports:
+    - gdsfactory
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/gdsfactory/gdsfactory
+  summary: python library to generate GDS layouts
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - joamatab
