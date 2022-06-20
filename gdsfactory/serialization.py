@@ -38,7 +38,11 @@ def clean_value_json(value: Any) -> Any:
         value = value.dict()
     elif isinstance(value, float) and int(value) == value:
         value = int(value)
-    elif isinstance(value, (np.int64, np.int32)):
+    # Any numpy float or integer should be covered by inexact and integer types, respectively
+    # https://numpy.org/doc/stable/reference/arrays.scalars.html
+    elif isinstance(value, np.inexact):
+        value = float(value)
+    elif isinstance(value, np.integer):
         value = int(value)
     elif isinstance(value, float):
         value = float(value)
@@ -59,8 +63,6 @@ def clean_value_json(value: Any) -> Any:
 
     elif hasattr(value, "to_dict"):
         value = value.to_dict()
-    elif isinstance(value, np.float64):
-        value = float(value)
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs

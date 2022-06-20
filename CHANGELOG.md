@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.13](https://github.com/gdsfactory/gdsfactory/pull/467)
+
+- improve docs.
+- add conda package.
+
+
 ## [5.10.12](https://github.com/gdsfactory/gdsfactory/pull/463)
 
 - speed up module gf/__init__.py thanks to scalene python profiler

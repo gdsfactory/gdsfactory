@@ -31,16 +31,13 @@ def fill_cell_rectangle(
     based on phidl.geometry
 
     Args:
-        size: array-like of int or float
-            x, y dimensions of the fill area for all layers.
-        layers: int, array-like[2], or set
-            Specific layer(s) to put fill cell rectangle geometry on.
-        densities: array-like of int or float
-            Fill densities for each layer specified in ``layers``. Must be the same
-            size as ``layers``.
+        size: x, y dimensions of the fill area for all layers.
+        layers: Specific layer(s) to put fill cell rectangle geometry on.
+        densities: Fill densities for each layer specified in ``layers``.
+            Must be the same size as ``layers``.
         inverted: array-like or bool
-            If true, inverts the fill area for corresponding layer. Must be the
-            same size as ``layers``.
+            If true, inverts the fill area for corresponding layer.
+            Must be the same size as ``layers``.
 
     """
 
@@ -77,7 +74,7 @@ def fill_rectangle(
 ) -> Component:
     """Creates a rectangular fill pattern and fills all empty areas.
 
-    in the input component and returns a component that contains just the fill
+    In the input component and returns a component that contains just the fill
     Dummy fill keeps density constant during fabrication
 
     Args:
