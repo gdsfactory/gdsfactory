@@ -1,4 +1,4 @@
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -6,16 +6,18 @@ from gdsfactory.components.ring_single import ring_single
 from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentFactory
 
+_list_of_dicts = (
+    dict(length_x=10.0, radius=5.0),
+    dict(length_x=20.0, radius=10.0),
+)
+
 
 @gf.cell
 def ring_single_array(
     ring: ComponentFactory = ring_single,
     straight: ComponentFactory = straight_function,
     spacing: float = 5.0,
-    list_of_dicts: Tuple[Dict[str, float], ...] = (
-        dict(length_x=10.0, radius=5.0),
-        dict(length_x=20.0, radius=10.0),
-    ),
+    list_of_dicts: Optional[Tuple[Dict[str, float], ...]] = None,
 ) -> Component:
     """Ring of single bus connected with straights.
 
@@ -36,6 +38,7 @@ def ring_single_array(
           length_x
 
     """
+    list_of_dicts = list_of_dicts or _list_of_dicts
     c = Component()
     settings0 = list_of_dicts[0]
     ring1 = c << ring(**settings0)
