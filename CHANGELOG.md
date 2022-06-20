@@ -4,7 +4,8 @@
 
 - improve docs.
 - add conda package.
-
+- Cover any numpy numbers in serialization [PR](https://github.com/gdsfactory/gdsfactory/pull/466)
+- Custom component labels in grid_with_text [PR](https://github.com/gdsfactory/gdsfactory/pull/465)
 
 ## [5.10.12](https://github.com/gdsfactory/gdsfactory/pull/463)
 
