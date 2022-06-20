@@ -1,7 +1,6 @@
 from typing import Optional
 
 import numpy as np
-import skimage.draw as skdraw
 
 from gdsfactory.component import Component
 from gdsfactory.types import Floats, Layers
@@ -17,13 +16,15 @@ def to_np(
     """Returns a pixelated numpy array from Component polygons.
 
     Args:
-        component: Component
-        nm_per_pixel: you can go from 20 (coarse) to 4 (fine)
-        layers: to convert. Order matters (latter overwrite former)
-        values: associated to each layer (defaults to 1)
-        pad_width: padding pixels around the image
+        component: Component.
+        nm_per_pixel: you can go from 20 (coarse) to 4 (fine).
+        layers: to convert. Order matters (latter overwrite former).
+        values: associated to each layer (defaults to 1).
+        pad_width: padding pixels around the image.
 
     """
+    import skimage.draw as skdraw
+
     pixels_per_um = (1 / nm_per_pixel) * 1e3
     xmin, ymin = component.bbox[0]
     xmax, ymax = component.bbox[1]
