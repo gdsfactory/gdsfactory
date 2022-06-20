@@ -243,7 +243,7 @@ def write_sparameters(
         for n in range(num_sims)
     ]
     batch_data = get_results(sims, overwrite=overwrite)
-    for isim, (sim_name, sim_data) in enumerate(batch_data.items()):
+    for isim, (_sim_name, sim_data) in enumerate(batch_data.items()):
         sp.update(get_sparameter(isim, sim_data))
 
     end = time.time()
@@ -260,7 +260,7 @@ def write_sparameters(
 
 def write_sparameters_batch(jobs: List[Dict[str, Any]], **kwargs) -> List[pd.DataFrame]:
     """Returns Sparameters for a list of write_sparameters_grating_coupler
-    kwargs where it runs each simulation in paralell.
+    kwargs where it runs each simulation in parallel.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.

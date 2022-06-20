@@ -71,7 +71,7 @@ def straight_heater_meander(
         length=taper_length,
     )
 
-    straight_with_tapers = gf.components.extend_ports(straight, extension_factory=taper)
+    straight_with_tapers = gf.components.extend_ports(straight, extension=taper)
 
     straight_array = c << gf.components.array(
         straight_with_tapers, spacing=(0, spacing), columns=1, rows=rows

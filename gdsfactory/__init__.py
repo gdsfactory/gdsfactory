@@ -84,7 +84,7 @@ from gdsfactory.cross_section import get_cross_section_factories
 c = components
 plot = quickplot
 
-__all__ = [
+__all__ = (
     "CONFIG",
     "CONF",
     "Component",
@@ -148,5 +148,5 @@ __all__ = [
     "quickplot",
     "quickplot2",
     "set_quickplot_options",
-]
+)
 __version__ = "5.10.6"

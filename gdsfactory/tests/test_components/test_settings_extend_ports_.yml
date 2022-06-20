@@ -36,7 +36,7 @@ settings:
     component:
       function: mmi1x2
     cross_section: null
-    extension_factory: null
+    extension: null
     length: 5
     port1: null
     port2: null
@@ -47,7 +47,7 @@ settings:
     component:
       function: mmi1x2
     cross_section: null
-    extension_factory: null
+    extension: null
     length: 5
     port1: null
     port2: null

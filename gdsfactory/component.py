@@ -1296,8 +1296,8 @@ def recurse_structures(
 
     Args:
         component: component to recurse.
-        ignore_components_prefix: list of prefix to ingore.
-        ignore_functions_prefix: list of prefix to ingore.
+        ignore_components_prefix: list of prefix to ignore.
+        ignore_functions_prefix: list of prefix to ignore.
     """
 
     ignore_functions_prefix = ignore_functions_prefix or []

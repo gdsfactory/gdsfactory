@@ -132,7 +132,7 @@ def pack(
             "The density argument must be >= 1.01"
         )
 
-    # Santize max_size variable
+    # Sanitize max_size variable
     max_size = [np.inf if v is None else v for v in max_size]
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision
@@ -184,7 +184,7 @@ def pack(
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     label = packed << text(f"{text_prefix}{index}")
                     label.move(
-                        (np.array(text_offset) + getattr(d.size_info, text_anchor))
+                        np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
                 index += 1
 

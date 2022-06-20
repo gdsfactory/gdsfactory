@@ -27,13 +27,14 @@ def add_interconnect_element(
     rotation: float = 0.0,
     extra_props: OrderedDict = None,
 ):
-    """
-    Add an element to the Interconnect session.
-    TODO: Need to connect this to generated s-parameters and add them to the model as well
+    """Add an element to the Interconnect session.
+
+    TODO: Need to connect this to generated s-parameters
+    and add them to the model as well.
 
     Args:
-        session: Interconnect session
-        label: label for Interconnect component
+        session: Interconnect session.
+        label: label for Interconnect component.
         model:
         loc:
         flip_vert:
@@ -65,26 +66,27 @@ def send_to_interconnect(
     drop_port_prefix: str = None,
     component_distance_scaling: float = 1,
 ) -> object:
-    """Send all components in netlist to Interconnect and make connections according to netlist.
+    """Add all netlist components to Interconnect and connect them.
 
     Args:
-        component: component from which to extract netlist
-        session: Interconnect session
-        placements: x,y pairs for where to place the components in the Interconnect GUI
-        simulation_settings: global settings for Interconnect simulation
-        drop_port_prefix: if components are written with some prefix, drop up to and including
-            the prefix character.  (i.e. "c1_input" -> "input")
-        component_distance_scaling: scaling factor for component distances when laying out Interconnect schematic
+        component: component from which to extract netlist.
+        session: Interconnect session.
+        placements: x,y pairs for where to place the components in the Interconnect GUI.
+        simulation_settings: global settings for Interconnect simulation.
+        drop_port_prefix: if components are written with some prefix, drop up
+            to and sluding the prefix character.  (i.e. "c1_input" -> "input").
+        component_distance_scaling: scaling factor for component distances when
+            laying out Interconnect schematic.
     """
     import sys
 
     if "lumapi" not in sys.modules.keys():
         import lumapi
 
-    inc = session or lumapi.INTERCONNECT(hide=False)
+    s = session or lumapi.INTERCONNECT(hide=False)
 
-    inc.switchtolayout()
-    inc.deleteall()
+    s.switchtolayout()
+    s.deleteall()
 
     c = component
 
@@ -98,7 +100,7 @@ def send_to_interconnect(
         info = instances[instance].info
         extra_props = info["interconnect"] if "interconnect" in info.keys() else None
         add_interconnect_element(
-            session=inc,
+            session=s,
             label=instance,
             model=info.model,
             loc=(
@@ -126,11 +128,11 @@ def send_to_interconnect(
         if hasattr(instances[element2].info, port2):
             port2 = instances[element2].info[port2]
 
-        inc.connect(element1, port1, element2, port2)
+        s.connect(element1, port1, element2, port2)
 
     if simulation_settings:
-        set_global_settings(inc, simulation_settings)
-    return inc
+        set_global_settings(s, simulation_settings)
+    return s
 
 
 def run_wavelength_sweep(
@@ -159,18 +161,18 @@ def run_wavelength_sweep(
     """
     import lumapi
 
-    inc = session or lumapi.INTERCONNECT()
+    s = session or lumapi.INTERCONNECT()
 
     # Add Monte-Carlo params
-    inc.addproperty("::Root Element", "MC_uniformity_thickness", "wafer", "Matrix")
-    inc.addproperty("::Root Element", "MC_uniformity_width", "wafer", "Matrix")
-    inc.addproperty("::Root Element", "MC_non_uniform", "wafer", "Number")
-    inc.addproperty("::Root Element", "MC_grid", "wafer", "Number")
-    inc.addproperty("::Root Element", "MC_resolution_x", "wafer", "Number")
-    inc.addproperty("::Root Element", "MC_resolution_y", "wafer", "Number")
+    s.addproperty("::Root Element", "MC_uniformity_thickness", "wafer", "Matrix")
+    s.addproperty("::Root Element", "MC_uniformity_width", "wafer", "Matrix")
+    s.addproperty("::Root Element", "MC_non_uniform", "wafer", "Number")
+    s.addproperty("::Root Element", "MC_grid", "wafer", "Number")
+    s.addproperty("::Root Element", "MC_resolution_x", "wafer", "Number")
+    s.addproperty("::Root Element", "MC_resolution_y", "wafer", "Number")
 
     # send circuit to interconnect
-    inc = send_to_interconnect(component=component, session=inc, **kwargs)
+    s = send_to_interconnect(component=component, session=s, **kwargs)
 
     ona_props = OrderedDict(
         [
@@ -187,21 +189,21 @@ def run_wavelength_sweep(
         ona_props.update(extra_ona_props)
 
     ona = add_interconnect_element(
-        session=inc,
+        session=s,
         model="Optical Network Analyzer",
         label="ONA_1",
         loc=(0, -50),
         extra_props=ona_props,
     )
 
-    inc.connect(ona.name, "output", *port_in)
-    for i, port in enumerate(ports_out):
-        inc.connect(ona.name, f"input {i+1}", *ports_out[i])
+    s.connect(ona.name, "output", *port_in)
+    for i in range(len(ports_out)):
+        s.connect(ona.name, f"input {i+1}", *ports_out[i])
 
-    inc.run()
+    s.run()
     return {
         result: {
-            port: inc.getresult(ona.name, f"input {i+1}/mode 1/{result}")
+            port: s.getresult(ona.name, f"input {i+1}/mode 1/{result}")
             for i, port in enumerate(ports_out)
         }
         for result in results

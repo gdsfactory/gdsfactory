@@ -49,7 +49,7 @@ def get_bundle_path_length_match(
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
         nb_loops: number of extra loops added in the path
-        modify_segment_i: index of the segment that accomodates the new turns
+        modify_segment_i: index of the segment that accommodates the new turns
             default is next to last segment
         bend: for bends
         straight: for straights

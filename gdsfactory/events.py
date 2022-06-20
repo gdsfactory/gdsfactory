@@ -1,7 +1,7 @@
 from typing import Callable
 
 
-class Event(object):
+class Event:
     def __init__(self):
         self._handlers = []
 
