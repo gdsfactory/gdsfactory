@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.7](https://github.com/gdsfactory/gdsfactory/pull/460)
+
+- [repo improvements](https://scikit-hep.org/developer/reporeview)
+
 ## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/459)
 
 - raise ValueError if no polygons to render in 3D.
