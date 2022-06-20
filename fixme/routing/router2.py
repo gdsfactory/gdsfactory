@@ -33,7 +33,7 @@ if __name__ == "__main__":
     splitters.movey(-30)
     splitters.xmax = 0
 
-    extension_factory = gf.partial(
+    extension = gf.partial(
         gf.components.straight_heater_metal,
         length=length,
         port_orientation1=180,
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     ps = c << extend_ports_list(
         ports=splitters.get_ports_list(orientation=0),
-        extension_factory=extension_factory,
+        extension=extension,
     )
 
     if with_pads:
