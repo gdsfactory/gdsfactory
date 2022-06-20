@@ -11,7 +11,7 @@ instances:
   wgw:
     component: straight
     info:
-      length: 1
+      length: 1.0
       width: 0.5
     settings:
       length: 1

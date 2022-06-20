@@ -9,17 +9,17 @@ instances:
   bend_euler_67p114_m5p5:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
     settings: {}
   bend_euler_76p866_m34p5:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
     settings: {}
   mmi_bot:

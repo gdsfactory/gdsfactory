@@ -12,7 +12,7 @@ settings:
     input_port_indexes:
     - 0
     - 1
-    pitch: 127
+    pitch: 127.0
   full:
     cross_section: strip
     grating_coupler:
@@ -23,7 +23,7 @@ settings:
     input_port_indexes:
     - 0
     - 1
-    pitch: 127
+    pitch: 127.0
   function_name: loss_deembedding_ch13_24
   info: {}
   info_version: 2

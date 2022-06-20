@@ -4,19 +4,19 @@ settings:
   child: null
   default:
     layer_wg: WG
-    length: 10
-    slab_offset: 3
+    length: 10.0
+    slab_offset: 3.0
     trench_layer: SLAB90
     trench_offset: 0.1
-    trench_width: 2
+    trench_width: 2.0
     width: 0.5
   full:
     layer_wg: WG
-    length: 10
-    slab_offset: 3
+    length: 10.0
+    slab_offset: 3.0
     trench_layer: SLAB90
     trench_offset: 0.1
-    trench_width: 2
+    trench_width: 2.0
     width: 0.5
   function_name: taper_strip_to_ridge_trenches
   info: {}

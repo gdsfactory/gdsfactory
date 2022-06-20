@@ -9,7 +9,7 @@ settings:
       function: crossing
     dx: null
     npoints: 101
-    port_spacing: 40
+    port_spacing: 40.0
   full:
     alpha: 0.08
     cross_section: strip
@@ -17,7 +17,7 @@ settings:
       function: crossing
     dx: null
     npoints: 101
-    port_spacing: 40
+    port_spacing: 40.0
   function_name: crossing45
   info:
     bezier_length: 42.085

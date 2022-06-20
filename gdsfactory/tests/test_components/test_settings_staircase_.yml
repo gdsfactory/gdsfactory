@@ -5,16 +5,16 @@ settings:
   default:
     bend90:
       function: bend_euler
-    length_h: 5
-    length_v: 5
+    length_h: 5.0
+    length_v: 5.0
     rows: 4
     straight:
       function: straight
   full:
     bend90:
       function: bend_euler
-    length_h: 5
-    length_v: 5
+    length_h: 5.0
+    length_v: 5.0
     rows: 4
     straight:
       function: straight
