@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta:__legacy__"
 
 [tool.pytest.ini_options]
-testpaths = 'gdsfactory'
+testpaths = ['gdsfactory']
 addopts = '--tb=short'
 collect_ignore = "gdsfactory/difftest.py"
 norecursedirs = [
@@ -20,6 +20,7 @@ norecursedirs = [
 # addopts = '--html=test_report.html' '--self-contained-html'
 
 [tool.mypy]
+strict = true
 exclude = [
     'gdsfactory/icyaml/',
     'gdsfactory/simulation/',

@@ -18,11 +18,11 @@ def big_device(
     """Big component with N ports on each side
 
     Args:
-        size:
-        nports: number of ports
-        spacing:
-        layer:
-        wg_width: waveguide width
+        size: x, y.
+        nports: number of ports.
+        spacing: in um.
+        layer: spec.
+        wg_width: waveguide width in um.
     """
     component = gf.Component()
     p0 = np.array((0, 0))
@@ -34,6 +34,7 @@ def big_device(
 
     points = [[dx, dy], [dx, -dy], [-dx, -dy], [-dx, dy]]
     component.add_polygon(points, layer=layer)
+
     for i in range(N):
         port = Port(
             name=f"W{i}",
