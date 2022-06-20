@@ -8,14 +8,21 @@ We write this one out fully just so it's explicitly clear what's happening
 """
 
 import gdsfactory as gf
+from gdsfactory.types import Layer
 
 
 @gf.cell
-def straight_sample(length: float = 5.0, width: float = 1.0) -> gf.Component:
+def straight_sample(
+    length: float = 5.0, width: float = 1.0, layer: Layer = (2, 0)
+) -> gf.Component:
     wg = gf.Component("straight_sample")
-    wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=(2, 0))
-    wg.add_port(name="o1", midpoint=[0, width / 2], width=width, orientation=180)
-    wg.add_port(name="o2", midpoint=[length, width / 2], width=width, orientation=0)
+    wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
+    wg.add_port(
+        name="o1", midpoint=(0, width / 2), width=width, orientation=180, layer=layer
+    )
+    wg.add_port(
+        name="o2", midpoint=(length, width / 2), width=width, orientation=0, layer=layer
+    )
     return wg
 
 
