@@ -53,6 +53,11 @@ repos:
     rev: f87a493c6596a5338d69395905a4e13ed65584f6
     hooks:
       - id: shellcheck
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0 # Use the ref you want to point at
+    hooks:
+      - id: python-use-type-annotations
   # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
   #   hooks:
