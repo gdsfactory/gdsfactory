@@ -9,11 +9,11 @@
 
 # Sample technology values, modify them to match your particular technology
 
-h_box = 1.0
-h_slab = 0.09
-h_si = 0.22
-hge = 0.4
-hnitride = 0.4
+t_box = 1.0
+t_slab = 0.09
+t_si = 0.22
+t_ge = 0.4
+t_nitride = 0.4
 
 h_etch1 = 0.07
 h_etch2 = 0.06  # 60nm etch after 70nm = 130nm etch (90nm slab)
@@ -72,8 +72,8 @@ l_open  = layer("46/0")
 
 ################ stack
 substrate = bulk
-box = deposit(h_box)
-si = deposit(h_si)
+box = deposit(t_box)
+si = deposit(t_si)
 
 ################ silicon etch to for the passives
 mask(l_wg_etch1).etch(h_etch1, 0.0, :mode => :round, :into => [si]) # 70nm etch for GC, rib and strip
@@ -84,26 +84,26 @@ output("300/0",box)
 output("301/0",si)
 
 ############### doping
-mask(l_bottom_implant).etch(h_si, 0.0, :mode => :round, :into => [si])
-bottom_implant = mask(l_bottom_implant).grow(h_si, 0.0, :mode => :round)
+mask(l_bottom_implant).etch(t_si, 0.0, :mode => :round, :into => [si])
+bottom_implant = mask(l_bottom_implant).grow(t_si, 0.0, :mode => :round)
 
-mask(l_n).etch(h_slab, 0.0, :mode => :round, :into => [si])
-n = mask(l_n).grow(h_slab, 0.0, :mode => :round)
+mask(l_n).etch(t_slab, 0.0, :mode => :round, :into => [si])
+n = mask(l_n).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_p).etch(h_slab, 0.0, :mode => :round, :into => [si])
-p = mask(l_p).grow(h_slab, 0.0, :mode => :round)
+mask(l_p).etch(t_slab, 0.0, :mode => :round, :into => [si])
+p = mask(l_p).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_np).etch(h_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant])
-np = mask(l_np).grow(h_slab, 0.0, :mode => :round)
+mask(l_np).etch(t_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant])
+np = mask(l_np).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_pp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant])
-gf.= mask(l_pp).grow(h_slab, 0.0, :mode => :round)
+mask(l_pp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant])
+gf.= mask(l_pp).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_npp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
-npp = mask(l_npp).grow(h_slab, 0.0, :mode => :round)
+mask(l_npp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
+npp = mask(l_npp).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_ppp).etch(h_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
-ppp = mask(l_ppp).grow(h_slab, 0.0, :mode => :round)
+mask(l_ppp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
+ppp = mask(l_ppp).grow(t_slab, 0.0, :mode => :round)
 
 output("327/0",bottom_implant)
 output("330/0",p)
@@ -112,21 +112,21 @@ output("321/0",npp)
 output("331/0",ppp)
 
 ################ Ge
-Ge = mask(l_Ge).grow(hge, 0, :bias => 0.0 , :taper => 10)
+Ge = mask(l_Ge).grow(t_ge, 0, :bias => 0.0 , :taper => 10)
 output("315/0", Ge)
 
 ################ Nitride
 ox_nitride = deposit(2*hoxidenitride, 2*hoxidenitride)
 planarize(:less=> hoxidenitride, :into=>[ox_nitride])
 output("302/0", ox_nitride)
-nitride = mask(l_nitride).grow(hnitride, 0, :bias => 0.0 , :taper => 10)
+nitride = mask(l_nitride).grow(t_nitride, 0, :bias => 0.0 , :taper => 10)
 output("305/0", nitride)
 
 ################# back-end
 ################# VIAC, M1 and MH
-ox_si = deposit(hoxidesi + hge + hnitride, hoxidesi + hge + hnitride, :mode => :round)
-planarize(:less=> hge + hnitride, :into=>[ox_si])
-mask(l_viac).etch(hoxidesi + hge + hnitride + hoxidenitride, :taper => 4, :into => [ox_si, ox_nitride])
+ox_si = deposit(hoxidesi + t_ge + t_nitride, hoxidesi + t_ge + t_nitride, :mode => :round)
+planarize(:less=> t_ge + t_nitride, :into=>[ox_si])
+mask(l_viac).etch(hoxidesi + t_ge + t_nitride + hoxidenitride, :taper => 4, :into => [ox_si, ox_nitride])
 
 viac = deposit(2*hoxidesi, 2* hoxidesi)
 planarize(:less=> 2*hoxidesi, :into=>[viac])

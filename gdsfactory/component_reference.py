@@ -165,7 +165,7 @@ class ComponentReference(DeviceReference):
     @property
     def bbox(self):
         """Return the bounding box of the DeviceReference.
-        it snaps to 3 decimals in um (0.001um = 1nm precission)
+        it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
         bbox = self.get_bounding_box()
         if bbox is None:

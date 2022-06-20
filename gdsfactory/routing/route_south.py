@@ -47,7 +47,7 @@ def route_south(
         list of references, list of ports
 
 
-    Works well if the component looks rougly like a rectangular box with
+    Works well if the component looks roughly like a rectangular box with
         north ports on the north of the box
         south ports on the south of the box
         east ports on the east of the box

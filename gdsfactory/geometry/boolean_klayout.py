@@ -22,11 +22,11 @@ def boolean_klayout(
     Uses klayout python API
 
     Args:
-        gdspath1: path to GDS or Component
-        gdspath2: path to GDS or Component
-        layer1: tuple for gdspath1
-        layer2: tuple for gdspath2
-        layer3: for the result of the operation
+        gdspath1: path to GDS or Component.
+        gdspath2: path to GDS or Component.
+        layer1: tuple for gdspath1.
+        layer2: tuple for gdspath2.
+        layer3: for the result of the operation.
     """
     import klayout.db as pya
 

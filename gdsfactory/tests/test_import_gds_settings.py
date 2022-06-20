@@ -33,7 +33,7 @@ def sort_dict(d: Dict[str, Any]) -> Dict[str, Any]:
 
 # @pytest.mark.parametrize("component_type", components_to_test)
 # def test_properties_components(component_type: str) -> Component:
-#     """Write component to GDS with setttings written on a label.
+#     """Write component to GDS with settings written on a label.
 #     Then import the GDS and check that the settings imported match the original settings.
 #     """
 #     cnew = gf.Component()

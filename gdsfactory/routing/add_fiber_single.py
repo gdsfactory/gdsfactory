@@ -84,7 +84,7 @@ def add_fiber_single(
 
     .. code::
 
-        asumes grating coupler has o1 input port facing west at xmin = 0
+        assumes grating coupler has o1 input port facing west at xmin = 0
              ___________
             /| | | | | |
            / | | | | | |
