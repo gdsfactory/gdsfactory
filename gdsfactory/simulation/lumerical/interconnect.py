@@ -27,13 +27,14 @@ def add_interconnect_element(
     rotation: float = 0.0,
     extra_props: OrderedDict = None,
 ):
-    """
-    Add an element to the Interconnect session.
-    TODO: Need to connect this to generated s-parameters and add them to the model as well
+    """Add an element to the Interconnect session.
+
+    TODO: Need to connect this to generated s-parameters
+    and add them to the model as well.
 
     Args:
-        session: Interconnect session
-        label: label for Interconnect component
+        session: Interconnect session.
+        label: label for Interconnect component.
         model:
         loc:
         flip_vert:
@@ -65,16 +66,17 @@ def send_to_interconnect(
     drop_port_prefix: str = None,
     component_distance_scaling: float = 1,
 ) -> object:
-    """Send all components in netlist to Interconnect and make connections according to netlist.
+    """Add all netlist components to Interconnect and connect them.
 
     Args:
-        component: component from which to extract netlist
-        session: Interconnect session
-        placements: x,y pairs for where to place the components in the Interconnect GUI
-        simulation_settings: global settings for Interconnect simulation
-        drop_port_prefix: if components are written with some prefix, drop up to and sluding
-            the prefix character.  (i.e. "c1_input" -> "input")
-        component_distance_scaling: scaling factor for component distances when laying out Interconnect schematic
+        component: component from which to extract netlist.
+        session: Interconnect session.
+        placements: x,y pairs for where to place the components in the Interconnect GUI.
+        simulation_settings: global settings for Interconnect simulation.
+        drop_port_prefix: if components are written with some prefix, drop up
+            to and sluding the prefix character.  (i.e. "c1_input" -> "input").
+        component_distance_scaling: scaling factor for component distances when
+            laying out Interconnect schematic.
     """
     import sys
 
