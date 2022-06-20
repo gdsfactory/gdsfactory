@@ -28,7 +28,7 @@ def cdc(
     waveguide_template: Callable = strip,
     **kwargs
 ) -> Component:
-    """Grating-Assisted Contra-Directional Coupler
+    """Grating-Assisted Contra-Directional Coupler.
 
     Args:
        length : Length of the coupling region.
@@ -38,23 +38,22 @@ def cdc(
        angle: in radians at which the straight bends towards the coupling region.
        width_top: Width of the top straight in the coupling region.
        width_bot: Width of the bottom straight in the coupling region.
-       dw_top: Amplitude of the width variation on the top.  Default=gap/2.0.
-       dw_bot: Amplitude of the width variation on the bottom.  Default=gap/2.0.
-       input_bot: True makes the default input the bottom straight (rather than top)
+       dw_top: Amplitude of the width variation on the top. Default=gap/2.0.
+       dw_bot: Amplitude of the width variation on the bottom. Default=gap/2.0.
+       input_bot: True makes the default input the bottom straight (rather than top).
        fins: If `True`, adds fins to the input/output straights.
         In this case a different template for the component must be specified.
         This feature is useful when performing electron-beam lithography
         and using different beam currents
         for fine features (helps to reduce stitching errors).
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
-       contradc_wgt:
+       contradc_wgt: waveguide_template.
        port_midpoint: Cartesian coordinate of the input port
         (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).
        direction: Direction that the component will point *towards*,
         can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
         OR an angle (float, in radians).
-       waveguide_template: Picwriter WaveguideTemplate function
-
+       waveguide_template: Picwriter WaveguideTemplate function.
 
     """
 
