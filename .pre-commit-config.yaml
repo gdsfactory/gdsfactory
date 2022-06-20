@@ -1,29 +1,29 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: 5d1ab6d7f3e8f928c896232d2fb0ff95b3563ca6
+    rev: b0f06dc9f2260909f3423243de180edfc823ec5a
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
   - repo: https://github.com/hakancelik96/unimport
-    rev: 039c9bb2940e95c16d8169053a7b301e4b20eecc
+    rev: df8eb1a4c91acb84da197828af8157708968b596
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
   - repo: https://github.com/pycqa/isort
-    rev: c6a41965247a858a0afd848fbebfca18b8983917
+    rev: 12cc5fbd67eebf92eb2213b03c07b138ae1fb448
     hooks:
       - id: isort
         files: gdsfactory/.*
         args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: 8ed3e3d07ea3e6d62e3e533e69f96a0ff148cd5d
+    rev: e3c9b0430eae5de35fdbeed047f9b2f07f9b78de
     hooks:
       - id: black
   - repo: https://github.com/asottile/blacken-docs
-    rev: a81d04b5e58701f87f357976c2cc146ae0a4fcfd
+    rev: 0e6f86e0e6d8554b77c4bb1d434c4bad0ea40c8a
     hooks:
       - id: blacken-docs
         additional_dependencies: [black==21.9b0]
@@ -38,7 +38,7 @@ repos:
         files: .ipynb
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.34.0
+    rev: 85f02f45f0d2889f3826f16b60f27188ea84c1ae
     hooks:
       - id: pyupgrade
         args: [--py37-plus, --keep-runtime-typing]
