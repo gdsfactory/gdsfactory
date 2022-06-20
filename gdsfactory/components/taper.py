@@ -82,7 +82,7 @@ def taper(
 
     if with_bbox and length:
         padding = []
-        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        for offset in x.bbox_offsets:
             points = get_padding_points(
                 component=c,
                 default=0,
@@ -118,9 +118,9 @@ def taper_strip_to_ridge(
     bbox_layers: Optional[List[LayerSpec]] = None,
     bbox_offsets: Optional[List[float]] = None,
 ) -> Component:
-    r"""Linear taper from strip to rib
+    r"""Linear taper from strip to rib.
 
-    Deprecated, use gf.components.taper_cross_section instead
+    Deprecated, use gf.components.taper_cross_section instead.
 
     Args:
         length: taper length (um).
@@ -172,9 +172,10 @@ def taper_strip_to_ridge(
     x = gf.get_cross_section(cross_section)
     if length:
         padding = []
-        for layer, offset in zip(
-            bbox_layers or x.bbox_layers, bbox_offsets or x.bbox_offsets
-        ):
+        bbox_offsets = bbox_offsets or x.bbox_offsets
+        bbox_layers = bbox_layers or x.bbox_layers
+
+        for offset in bbox_offsets:
             points = get_padding_points(
                 component=c,
                 default=0,
@@ -183,7 +184,7 @@ def taper_strip_to_ridge(
             )
             padding.append(points)
 
-        for layer, points in zip(x.bbox_layers, padding):
+        for layer, points in zip(bbox_layers, padding):
             c.add_polygon(points, layer=layer)
 
     if x.add_bbox:
