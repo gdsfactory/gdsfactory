@@ -42,6 +42,17 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py37-plus, --keep-runtime-typing]
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.1.0
+    hooks:
+      - id: codespell
+        args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing"]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.8.0.4
+    hooks:
+      - id: shellcheck
   # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
   #   hooks:
