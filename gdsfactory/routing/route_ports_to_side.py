@@ -173,9 +173,9 @@ def route_ports_to_x(
         extension_length = -extension_length
 
     if x == "east":
-        x = max([p.x for p in list_ports]) + bx
+        x = max(p.x for p in list_ports) + bx
     elif x == "west":
-        x = min([p.x for p in list_ports]) - bx
+        x = min(p.x for p in list_ports) - bx
     elif isinstance(x, (float, int)):
         pass
     else:
@@ -365,12 +365,12 @@ def route_ports_to_y(
 
     if y == "north":
         y = (
-            max([p.y + a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
+            max(p.y + a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports)
             + by
         )
     elif y == "south":
         y = (
-            min([p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports])
+            min(p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports)
             - by
         )
     elif isinstance(y, (float, int)):
@@ -433,8 +433,10 @@ def route_ports_to_y(
             ]
             l_ports += [flipped(new_port)]
 
-        except Exception:
-            raise ValueError(f"Could not connect {p} to \n {new_port}")
+        except Exception as error:
+            raise ValueError(
+                f"Could not connect {p.name!r} to {new_port.name!r}"
+            ) from error
 
     x_optical_left = x0_left
     for p in west_ports:

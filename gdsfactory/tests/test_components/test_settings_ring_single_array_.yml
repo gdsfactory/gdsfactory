@@ -3,22 +3,14 @@ settings:
   changed: {}
   child: null
   default:
-    list_of_dicts:
-    - length_x: 10.0
-      radius: 5.0
-    - length_x: 20.0
-      radius: 10.0
+    list_of_dicts: null
     ring:
       function: ring_single
     spacing: 5
     straight:
       function: straight
   full:
-    list_of_dicts:
-    - length_x: 10.0
-      radius: 5.0
-    - length_x: 20.0
-      radius: 10.0
+    list_of_dicts: null
     ring:
       function: ring_single
     spacing: 5

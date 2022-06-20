@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.7](https://github.com/gdsfactory/gdsfactory/pull/460)
+
+- [repo improvements](https://scikit-hep.org/developer/reporeview)
+    - move mypy and pytest config to pyproject.toml
+- rename extension_factory to extension
+
 ## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/459)
 
 - raise ValueError if no polygons to render in 3D.
@@ -174,7 +180,7 @@
 
 ## [5.6.10](https://github.com/gdsfactory/gdsfactory/pull/390)
 
-- add_fiber_single and add_fiber_array tries to add port with `vertical` prefix to the new component. It not adds the regular first port. This Keeps backwards compatibility with grating couplers that have no defined verical ports.
+- add_fiber_single and add_fiber_array tries to add port with `vertical` prefix to the new component. It not adds the regular first port. This Keeps backwards compatibility with grating couplers that have no defined vertical ports.
 - rename spiral_inner_io functions
 
 ## [5.6.9](https://github.com/gdsfactory/gdsfactory/pull/389)
@@ -712,8 +718,8 @@
 
 ## [4.2.9](https://github.com/gdsfactory/gdsfactory/pull/199)
 
-- thread each tidy3d.write_sparameters simulation, so they run in paralell
-- add tidy3d.write_sparameters_batch to run multiple sparameters simulations in paralell
+- thread each tidy3d.write_sparameters simulation, so they run in parallel
+- add tidy3d.write_sparameters_batch to run multiple sparameters simulations in parallel
 
 ## [4.2.8](https://github.com/gdsfactory/gdsfactory/pull/198)
 
@@ -1064,7 +1070,7 @@
 
 - meep interface improvements
   - add test Sparameters file dataframe
-- lumerical interface improvements (consitent with meep)
+- lumerical interface improvements (consistent with meep)
   - wavelengths in um
   - Sparameters starts with lowercase
 
@@ -1116,14 +1122,14 @@
 
 ## 3.9.6
 
-- Component.show() writes component in a different tempfile everytime. This avoids the `reload` question prompt from klayout.
+- Component.show() writes component in a different tempfile every time. This avoids the `reload` question prompt from klayout.
 - update klive to 0.0.7 to keep the same layers active between sessions
 
 ## 3.9.5
 
 - imported cell names get incremented (starting on index = 1) with a `$` (based on Klayout naming convention)
 - add test for flatten = True
-- raise ValueError if the passed name is already on any CAHE (CACHE_IMPORTED or CACHE)
+- raise ValueError if the passed name is already on any CACHE (CACHE_IMPORTED or CACHE)
 - avoid duplicate cells decorating import_gds with functools.lru_cache
 - show accepts `**kwargs` for write_gds
 - simplify decorator in @cell (does not change name)
@@ -1481,7 +1487,7 @@
 - add `tests/test_rotate.py` to ensure cache is working
 - add cache to component_from_yaml
 - add `tests/test_component_from_yaml_uid.py`
-- ensure consitent name in YAML by hashing the dict in case no name is provided
+- ensure consistent name in YAML by hashing the dict in case no name is provided
 - `component.settings` contains input settings (full, changed, default)
 - `component.info` contains derived settings (including module_name, parent settings, ...)
 - `component.to_dict` returns a dict with all information (info, settings, ports)
@@ -1500,7 +1506,7 @@
 - Component.rotate() returns a new Component with a rotated reference of itself
 - increase simulation_time in lumerical `simulation_settings` from 1ps to 10ps, so max simulation region increased 10x
 - write_sparameters_lumerical returns session if run=False. Nice to debug sims.
-- make consitent names in gf.read: `gf.read.from_phidl` `gf.read.from_picwriter` `gf.read.from_gds`
+- make consistent names in gf.read: `gf.read.from_phidl` `gf.read.from_picwriter` `gf.read.from_gds`
 
 ## 3.3.5
 
@@ -1511,7 +1517,7 @@
 - replace `get_route_electrical_shortest_path` by `route_quad`
 - gf.components.array raises error if columns > 1 and xspacing = 0
 - gf.components.array raises error if rows > 1 and yspacing = 0
-- simplify `gf.components.rectangle` defintion, by default it gets 4 ports
+- simplify `gf.components.rectangle` definition, by default it gets 4 ports
 - containers use Component.copy_settings_from(old_Component), and they keep their parent settings in `parent`, as well as `parent_name`
 - `Component.get_parent_name()` returns the original parent name for hierarchical components and for non-hierarchical it just returns the component name
 
@@ -1676,7 +1682,7 @@
 
 - move components python files to the same folder
 - add components.write_factory function to generate dict
-- added filecmp for testing components widht difftest, only does XOR if files are different. This speeds the check for larger files.
+- added filecmp for testing components width difftest, only does XOR if files are different. This speeds the check for larger files.
 
 ## 3.0.3
 
@@ -1767,7 +1773,7 @@
 
 - fix print_config asdict(TECH)
 - cell decorator validates arguments by default using pydantic, cell_without_validator does not
-- add pydantic.vaidate method to Port
+- add pydantic.validate method to Port
 
 ## 2.7.1
 
@@ -2169,7 +2175,7 @@ else:
     - mirror: boolean or float (x axis for the mirror)
     - x: number or can also be a port from another instance
   - routes:
-    - you can define a route range (left,E:0:3 : rigth,W:0:3)
+    - you can define a route range (left,E:0:3 : right,W:0:3)
 - connect bundle is now the default way to connect groups of ports in component_from_yaml
 - coupler: can change the vertical distance (dy) between outputs
 - replace @pp.autoname with @pp.cell as a decorator with cells options (autoname, pins ...)
@@ -2209,7 +2215,7 @@ else:
 
 ## 2.0.0
 
-- addded grating coupler decorator to assert polarization and wavelength
+- added grating coupler decorator to assert polarization and wavelength
 - component_from_yaml function allows route filter input
 - routes_factory: in pp.routing (optical, electrical)
 - routes: in component_from_yaml allows route_factory
@@ -2284,7 +2290,7 @@ else:
 - added a jupyter notebook tutorial for references and array of references
 - added dbr and cavity components
 - rotate is now a container
-- addapted pp.pack from phidl as an easier way to pack masks
+- adapted pp.pack from phidl as an easier way to pack masks
 - Autoname also has now a build in cache to avoid having two different cells with the same name
 - added type annotations
 
@@ -2340,7 +2346,7 @@ with_settings_label: False
 ## 1.1.4
 
 - bug fixes
-- new coupler with less snaping errors
+- new coupler with less snapping errors
 - adding Klayout generic DRC rule deck
 
 ## 1.1.1

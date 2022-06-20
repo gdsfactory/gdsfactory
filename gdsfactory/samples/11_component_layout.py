@@ -2,7 +2,7 @@
 
 We create a function which returns a gf.Component.
 
-Lets build straight crossing out of a vertical and horizonal arm
+Lets build straight crossing out of a vertical and horizontal arm
 
 - Create a component using a function with the cell decorator to define the name automatically and uniquely.
 - Define the polygons in the component

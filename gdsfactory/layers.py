@@ -49,7 +49,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
         layer_tuple = (gds_layer, gds_datatype)
         R = gf.components.rectangle(size=(100 * scale, 100 * scale), layer=layer_tuple)
         T = gf.components.text(
-            text="%s\n%s / %s" % (layer.name, layer.gds_layer, layer.gds_datatype),
+            text=f"{layer.name}\n{layer.gds_layer} / {layer.gds_datatype}",
             size=20 * scale,
             position=(50 * scale, -20 * scale),
             justify="center",
@@ -107,13 +107,13 @@ class LayerColor(BaseModel):
                 color = color
             else:  # in named format 'gold'
                 color = _CSS3_NAMES_TO_HEX[color.lower()]
-        except Exception:
+        except Exception as error:
             raise ValueError(
                 "LayerColor() color must be specified as a "
                 "0-1 RGB triplet, (e.g. [0.5, 0.1, 0.9]), an HTML hex color string "
                 "(e.g. '#a31df4'), or a CSS3 color name (e.g. 'gold' or "
                 "see http://www.w3schools.com/colors/colors_names.asp )"
-            )
+            ) from error
         return color
 
 
@@ -193,10 +193,10 @@ class LayerColors(BaseModel):
         """
         try:
             return self.layers[val]
-        except Exception:
+        except Exception as error:
             raise ValueError(
                 f"Layer {val!r} not in LayerColors {list(self.layers.keys())}"
-            )
+            ) from error
 
     def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerColor:
         """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
@@ -232,7 +232,7 @@ def _name_to_short_name(name_str: str) -> str:
 
     """
     if name_str is None:
-        raise IOError(f"layer {name_str} has no name")
+        raise OSError(f"layer {name_str} has no name")
     fields = name_str.split("-")
     name = fields[0].split()[0].strip()
     return clean_name(name, remove_dots=True)
@@ -249,7 +249,7 @@ def _name_to_description(name_str) -> str:
 
     """
     if name_str is None:
-        raise IOError(f"layer {name_str!r} has no name")
+        raise OSError(f"layer {name_str!r} has no name")
     fields = name_str.split()
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
@@ -311,7 +311,7 @@ def _add_layer(
 
 def load_lyp(filepath: Path) -> LayerColors:
     """Returns a LayerColors object from a Klayout lyp file layer properties file."""
-    with open(filepath, "r") as fx:
+    with open(filepath) as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
     # lyp files have a top level that just has one dict: layer-properties
     # That has multiple children 'properties', each for a layer. So it gives a list

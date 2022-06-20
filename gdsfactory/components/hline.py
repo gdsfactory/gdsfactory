@@ -10,7 +10,7 @@ def hline(
     layer: LayerSpec = "WG",
     port_type: str = "optical",
 ) -> Component:
-    """Horizonal line straight, with ports on east and west sides"""
+    """Horizontal line straight, with ports on east and west sides"""
     c = gf.Component()
     if length > 0 and width > 0:
         a = width / 2

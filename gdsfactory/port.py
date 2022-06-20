@@ -348,7 +348,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ((1, 10),)) -> Com
 def csv2port(csvpath) -> Dict[str, Port]:
     """Reads ports from a CSV file and returns a Dict"""
     ports = {}
-    with open(csvpath, "r") as csvfile:
+    with open(csvpath) as csvfile:
         rows = csv.reader(csvfile, delimiter=",", quotechar="|")
         for row in rows:
             ports[row[0]] = row[1:]
@@ -737,7 +737,7 @@ def auto_rename_ports(
     prefix_electrical: str = "e",
     **kwargs,
 ) -> Component:
-    """Adds prefix for optical and electical.
+    """Adds prefix for optical and electrical.
 
     Args:
         component: to auto_rename_ports.

@@ -39,29 +39,29 @@ def find_neff_ng_dw_dh(
     """Computes group and effective index for different widths and heights.
 
     Args:
-        width: nominal waveguide width
-        thickness: nominal waveguide thickness
-        delta_width: delta width max
-        delta_thickness: delta thickness max
-        wavelength: center wavelength (um)
+        width: nominal waveguide width.
+        thickness: nominal waveguide thickness.
+        delta_width: delta width max.
+        delta_thickness: delta thickness max.
+        wavelength: center wavelength (um).
         steps: number of steps to sweep in width and thickness.
-        mode_number: mode index to compute (1: fundanmental mode)
-        core: core material name
-        clad: clad material name
+        mode_number: mode index to compute (1: fundanmental mode).
+        core: core material name.
+        clad: clad material name.
 
     Keyword Args:
-        wg_thickness: wg height (um)
-        sx: supercell width (um)
-        sy: supercell height (um)
-        resolution: (pixels/um)
-        wavelength: wavelength
-        num_bands: mode order
-        plot: if True plots mode
-        logscale: plots in logscale
-        plotH: plot magnetic field
-        cache: path to save the modes
-        polarization: prefix when saving the modes
-        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM
+        wg_thickness: wg height (um).
+        sx: supercell width (um).
+        sy: supercell height (um).
+        resolution: (pixels/um).
+        wavelength: wavelength.
+        num_bands: mode order.
+        plot: if True plots mode.
+        logscale: plots in logscale.
+        plotH: plot magnetic field.
+        cache: path to save the modes.
+        polarization: prefix when saving the modes.
+        paririty: symmetries mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
 
     """
     dw = np.linspace(-delta_width, delta_width, steps)
@@ -101,10 +101,10 @@ def plot_neff_ng_dw_dh(
     """
 
     Args:
-        width: center width
-        thickness: center height
-        wavelength:
-        mode_number: 1 is the fundamental first order mode
+        width: waveguide width in um.
+        thickness: waveguide thickness in um.
+        wavelength: in um.
+        mode_number: 1 is the fundamental first order mode.
 
     """
 

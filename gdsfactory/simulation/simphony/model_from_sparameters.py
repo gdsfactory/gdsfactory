@@ -15,7 +15,7 @@ def model_from_filepath(filepath: PosixPath, numports: int, name: str = "model")
 
     Args:
         filepath: path to Sparameters in Lumerical interconnect format.
-        numports: numer of ports.
+        numports: number of ports.
         name: model name.
 
     """

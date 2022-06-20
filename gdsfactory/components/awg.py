@@ -106,11 +106,11 @@ def awg(
     """Returns a basic Arrayed Waveguide grating.
 
     Args:
-        arms: number of arms
-        outputs: number of outputs
-        free_propagation_region_input_function: for input
-        free_propagation_region_output_function: for output
-        fpr_spacing: x separation between input/output FPR
+        arms: number of arms.
+        outputs: number of outputs.
+        free_propagation_region_input_function: for input.
+        free_propagation_region_output_function: for output.
+        fpr_spacing: x separation between input/output free popagation region.
 
     """
     c = Component()

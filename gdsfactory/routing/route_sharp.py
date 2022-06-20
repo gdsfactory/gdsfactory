@@ -299,7 +299,7 @@ def route_sharp(
                         (see path_manhattan() ).
                 - 'L' - L-shaped path for orthogonal ports that can be directly
                         connected (see path_L() ).
-                - 'U' - U-shaped path for parrallel or facing ports
+                - 'U' - U-shaped path for parallel or facing ports
                         (see path_U() ).
                 - 'J' - J-shaped path for orthogonal ports that cannot be
                         directly connected (see path_J() ).

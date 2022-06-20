@@ -472,7 +472,7 @@ def write_sparameters_meep(
 
         return sp
 
-    # Since source is defined upon sim object instanciation, loop here
+    # Since source is defined upon sim object instantiation, loop here
     # for port_index in monitor_indices:
 
     num_sims = len(port_symmetries.keys()) or len(source_indices)

@@ -17,10 +17,9 @@ def delay_snake2(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Snake input facing west
+    """Snake input facing west.
 
     Snake output facing east
-
     This snakes can have a starting offset (length0)
 
     Args:
