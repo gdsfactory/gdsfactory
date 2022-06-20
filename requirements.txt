@@ -5,7 +5,6 @@ gdspy
 jsondiff
 jsonschema
 loguru
-lytest==0.0.20
 matplotlib
 networkx
 numpy
