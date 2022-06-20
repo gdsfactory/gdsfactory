@@ -8,26 +8,24 @@ Ports define where each port has:
     where 0 faces east, 90 (north), 180 (west), 270 (south)
 """
 
-
-from typing import Tuple
-
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
 def test_component_with_port(
-    length: float = 5.0, wg_width: float = 0.5, layer: Tuple[int, int] = gf.LAYER.WG
+    length: float = 5.0, width: float = 0.5, layer: LayerSpec = "WG"
 ) -> Component:
     """Returns a component with one port on the west side
 
     Args:
-        length:
-        wg_width: waveguide width
-        layer: layer
+        length: in um.
+        width: waveguide width in um.
+        layer: layer.
     """
 
-    y = wg_width
+    y = width
     x = length
 
     c = gf.Component()
@@ -35,7 +33,7 @@ def test_component_with_port(
     c.add_port(
         name="o1",
         midpoint=(0, y / 2),
-        width=y,
+        width=width,
         orientation=180,
         layer=layer,
     )
@@ -45,4 +43,4 @@ def test_component_with_port(
 
 if __name__ == "__main__":
     c = test_component_with_port()
-    c.show()
+    c.show(show_ports=True)

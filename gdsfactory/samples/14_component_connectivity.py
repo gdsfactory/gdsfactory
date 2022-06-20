@@ -5,7 +5,6 @@ from gdsfactory.component import Component
 from gdsfactory.components.bend_euler import bend_euler
 from gdsfactory.components.coupler_ring import coupler_ring as coupler_ring_function
 from gdsfactory.components.straight import straight as straight_function
-from gdsfactory.config import call_if_func
 from gdsfactory.cross_section import strip
 from gdsfactory.snap import assert_on_2nm_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec
@@ -28,15 +27,15 @@ def ring_single_sample(
     two bends (bl, br) and horizontal straight (wg: top)
 
     Args:
-        gap: gap between for coupler
-        radius: for the bend and coupler
-        length_x: ring coupler length
-        length_y: vertical straight length
-        coupler_ring: ring coupler function
-        straight: straight function
-        bend: 90 degrees bend function
-        cross_section:
-        kwargs: cross_section settings
+        gap: gap between for coupler.
+        radius: for the bend and coupler.
+        length_x: ring coupler length.
+        length_y: vertical straight length.
+        coupler_ring: ring coupler function.
+        straight: straight function.
+        bend: 90 degrees bend function.
+        cross_section: spec.
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -51,39 +50,33 @@ def ring_single_sample(
 
     """
     assert_on_2nm_grid(gap)
+    from gdsfactory.pdk import get_component
 
-    coupler_ring_component = (
-        coupler_ring(
-            bend=bend,
-            gap=gap,
-            radius=radius,
-            length_x=length_x,
-            cross_section=cross_section,
-            **kwargs
-        )
-        if callable(coupler_ring)
-        else coupler_ring
+    coupler_ring_component = get_component(
+        coupler_ring,
+        bend=bend,
+        gap=gap,
+        radius=radius,
+        length_x=length_x,
+        cross_section=cross_section,
+        **kwargs
     )
-    straight_side = call_if_func(
+    straight_side = get_component(
         straight, length=length_y, cross_section=cross_section, **kwargs
     )
-    straight_top = call_if_func(
+    straight_top = get_component(
         straight, length=length_x, cross_section=cross_section, **kwargs
     )
 
     bend = bend or bend_euler
-    bend_ref = (
-        bend(radius=radius, cross_section=cross_section, **kwargs)
-        if callable(bend)
-        else bend
-    )
+    bend = get_component(bend, radius=radius, cross_section=cross_section, **kwargs)
 
     c = Component()
     cb = c << coupler_ring_component
     wl = c << straight_side
     wr = c << straight_side
-    bl = c << bend_ref
-    br = c << bend_ref
+    bl = c << bend
+    br = c << bend
     wt = c << straight_top
     # wt.mirror(p1=(0, 0), p2=(1, 0))
 

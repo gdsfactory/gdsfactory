@@ -1,15 +1,16 @@
 import gdsfactory as gf
+from gdsfactory.component import Component
 
 layer = gf.LAYER.WG
 
 
 @gf.cell
-def width_min(size=(0.1, 0.1)):
+def width_min(size=(0.1, 0.1)) -> Component:
     return gf.components.rectangle(size=size, layer=layer)
 
 
 @gf.cell
-def gap_min(gap=0.1):
+def gap_min(gap=0.1) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer)
     r2 = c << gf.components.rectangle(size=(1, 1), layer=layer)
@@ -19,7 +20,7 @@ def gap_min(gap=0.1):
 
 
 @gf.cell
-def separation(gap=0.1, layer1=gf.LAYER.HEATER, layer2=gf.LAYER.M1):
+def separation(gap=0.1, layer1=gf.LAYER.HEATER, layer2=gf.LAYER.M1) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer1)
     r2 = c << gf.components.rectangle(size=(1, 1), layer=layer2)
@@ -29,7 +30,7 @@ def separation(gap=0.1, layer1=gf.LAYER.HEATER, layer2=gf.LAYER.M1):
 
 
 @gf.cell
-def enclosing(enclosing=0.1, layer1=gf.LAYER.M1, layer2=gf.LAYER.VIAC):
+def enclosing(enclosing=0.1, layer1=gf.LAYER.M1, layer2=gf.LAYER.VIAC) -> Component:
     """Layer1 must be enclosed by layer2 by value.
     checks if layer1 encloses (is bigger than) layer2 by value
     """
@@ -42,7 +43,7 @@ def enclosing(enclosing=0.1, layer1=gf.LAYER.M1, layer2=gf.LAYER.VIAC):
 
 
 @gf.cell
-def snapping_error(gap=1e-3):
+def snapping_error(gap=1e-3) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer)
     r2 = c << gf.components.rectangle(size=(1, 1), layer=layer)
@@ -52,9 +53,9 @@ def snapping_error(gap=1e-3):
 
 
 @gf.cell
-def errors():
-    D_list = [width_min(), gap_min(), separation(), enclosing()]
-    c = gf.pack(D_list, spacing=1.5)
+def errors() -> Component:
+    components = [width_min(), gap_min(), separation(), enclosing()]
+    c = gf.pack(components, spacing=1.5)
     return c[0]
 
 

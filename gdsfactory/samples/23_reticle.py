@@ -1,9 +1,10 @@
 """Sample of a reticle top level Component."""
 
 import gdsfactory as gf
+from gdsfactory.types import Component
 
 
-def mzi_te_pads1(**kwargs):
+def mzi_te_pads1(**kwargs) -> Component:
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
     c = gf.routing.add_fiber_single(c)
     c = c.rotate(-90)
@@ -12,7 +13,7 @@ def mzi_te_pads1(**kwargs):
     return c
 
 
-def mzi_te_pads2(**kwargs):
+def mzi_te_pads2(**kwargs) -> Component:
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
     c = gf.routing.add_fiber_single(c)
     c = c.rotate(-90)
@@ -21,7 +22,7 @@ def mzi_te_pads2(**kwargs):
     return c
 
 
-def mzi_te_pads3(**kwargs):
+def mzi_te_pads3(**kwargs) -> Component:
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
     c = gf.routing.add_fiber_single(c)
     c = c.rotate(-90)
