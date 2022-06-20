@@ -52,8 +52,8 @@ def version_stamp(
     """
 
     now = datetime.datetime.now()
-    timestamp = "{:%Y-%m-%d %H:%M:%S}".format(now)
-    short_stamp = "{:%y.%m.%d.%H.%M.%S}".format(now)
+    timestamp = f"{now:%Y-%m-%d %H:%M:%S}"
+    short_stamp = f"{now:%y.%m.%d.%H.%M.%S}"
 
     c = gf.Component()
     if with_qr_code:
