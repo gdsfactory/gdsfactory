@@ -1,3 +1,20 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta:__legacy__"
+
+[tool.pytest.ini_options]
+testpaths = 'gdsfactory'
+addopts = '--tb=short'
+collect_ignore = "gdsfactory/difftest.py"
+norecursedirs = [
+    'gdsfactory/simulation',
+    'gdsfactory/icyaml',
+    ]
+
+# filterwarnings =
+#     ignore::UserWarning
+#     ignore::DeprecationWarning
+# addopts = --tb=no
+#usefixtures =
+#    cleandir
+# addopts = '--html=test_report.html' '--self-contained-html'
