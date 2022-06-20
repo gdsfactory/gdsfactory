@@ -132,6 +132,7 @@ def grid_with_text(
         text_offsets: relative to component anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         text: function to add text labels.
+        labels: optional, specify a tuple of labels rather than using a text_prefix
 
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
@@ -160,6 +161,7 @@ def grid_with_text(
                 if labels:
                     if len(labels) > i:
                         label = labels[i]
+                    # grid will add dummy components so don't add labels for these
                     else:
                         continue
                 else:
