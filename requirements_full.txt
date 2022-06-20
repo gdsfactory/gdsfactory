@@ -5,7 +5,7 @@ ipywidgets
 klayout
 pyglet
 pyyaml
-shapely==1.7.1
+shapely==1.8.2
 simphony==0.6.1
 SiPANN==1.4.0
 sklearn
