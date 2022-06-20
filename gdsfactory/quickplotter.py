@@ -972,7 +972,7 @@ def quickplot2(item_list, *args, **kwargs):
                     if not isinstance(ref, gdspy.CellArray):
                         for port in ref.ports.values():
                             viewer.add_port(port, is_subport=True)
-                for name, port in element.ports.items():
+                for port in element.ports.values():
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
             # If element is a DeviceReference, draw ports as subports
