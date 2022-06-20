@@ -6,14 +6,14 @@ settings:
     list_of_dicts: null
     ring:
       function: ring_single
-    spacing: 5
+    spacing: 5.0
     straight:
       function: straight
   full:
     list_of_dicts: null
     ring:
       function: ring_single
-    spacing: 5
+    spacing: 5.0
     straight:
       function: straight
   function_name: ring_single_array

@@ -9,7 +9,7 @@ settings:
     rows: 6
     straight:
       function: straight
-    straight_length: 5
+    straight_length: 5.0
   full:
     bend90:
       function: bend_euler
@@ -17,7 +17,7 @@ settings:
     rows: 6
     straight:
       function: straight
-    straight_length: 5
+    straight_length: 5.0
   function_name: cutback_bend
   info:
     n_bends: 68

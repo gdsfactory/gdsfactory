@@ -4,12 +4,12 @@ settings:
   child: null
   default:
     n: 4
-    spacing: 4
+    spacing: 4.0
     straight:
       function: straight
   full:
     n: 4
-    spacing: 4
+    spacing: 4.0
     straight:
       function: straight
   function_name: straight_array

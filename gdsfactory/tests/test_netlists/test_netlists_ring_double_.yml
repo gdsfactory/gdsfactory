@@ -1,10 +1,10 @@
 connections:
-  coupler_ring_036cdf83_m0p005_16p184,o2: straight_08352659_10p0_10p705,o2
-  coupler_ring_036cdf83_m0p005_16p184,o3: straight_08352659_m10p01_10p705,o2
-  coupler_ring_036cdf83_m0p005_5p226,o2: straight_08352659_m10p01_10p705,o1
-  coupler_ring_036cdf83_m0p005_5p226,o3: straight_08352659_10p0_10p705,o1
+  coupler_ring_d2e9af6d_m0p005_16p184,o2: straight_08352659_10p0_10p705,o2
+  coupler_ring_d2e9af6d_m0p005_16p184,o3: straight_08352659_m10p01_10p705,o2
+  coupler_ring_d2e9af6d_m0p005_5p226,o2: straight_08352659_m10p01_10p705,o1
+  coupler_ring_d2e9af6d_m0p005_5p226,o3: straight_08352659_10p0_10p705,o1
 instances:
-  coupler_ring_036cdf83_m0p005_16p184:
+  coupler_ring_d2e9af6d_m0p005_16p184:
     component: coupler_ring
     settings:
       cross_section:
@@ -21,8 +21,8 @@ instances:
           cladding_offsets:
           - 0
       length_x: 0.01
-      radius: 10
-  coupler_ring_036cdf83_m0p005_5p226:
+      radius: 10.0
+  coupler_ring_d2e9af6d_m0p005_5p226:
     component: coupler_ring
     settings:
       cross_section:
@@ -39,7 +39,7 @@ instances:
           cladding_offsets:
           - 0
       length_x: 0.01
-      radius: 10
+      radius: 10.0
   straight_08352659_10p0_10p705:
     component: straight
     info:
@@ -82,12 +82,12 @@ instances:
       length: 0.01
 name: ring_double
 placements:
-  coupler_ring_036cdf83_m0p005_16p184:
+  coupler_ring_d2e9af6d_m0p005_16p184:
     mirror: false
     rotation: 180
     x: -0.01
     y: 21.41
-  coupler_ring_036cdf83_m0p005_5p226:
+  coupler_ring_d2e9af6d_m0p005_5p226:
     mirror: false
     rotation: 0
     x: 0.0
@@ -103,7 +103,7 @@ placements:
     x: -10.01
     y: 10.7
 ports:
-  o1: coupler_ring_036cdf83_m0p005_5p226,o1
-  o2: coupler_ring_036cdf83_m0p005_5p226,o4
-  o3: coupler_ring_036cdf83_m0p005_16p184,o4
-  o4: coupler_ring_036cdf83_m0p005_16p184,o1
+  o1: coupler_ring_d2e9af6d_m0p005_5p226,o1
+  o2: coupler_ring_d2e9af6d_m0p005_5p226,o4
+  o3: coupler_ring_d2e9af6d_m0p005_16p184,o4
+  o4: coupler_ring_d2e9af6d_m0p005_16p184,o1

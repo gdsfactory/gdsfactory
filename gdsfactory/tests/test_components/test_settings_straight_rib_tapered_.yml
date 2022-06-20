@@ -47,7 +47,7 @@ settings:
     child: null
     default:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
     full:
@@ -68,7 +68,7 @@ settings:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
     function_name: straight
@@ -84,7 +84,7 @@ settings:
       function: mmi1x2
     cross_section: null
     extension: null
-    length: 5
+    length: 5.0
     port1: null
     port2: null
     port_names: null
@@ -114,7 +114,7 @@ settings:
     cross_section: null
     extension:
       function: taper_strip_to_ridge
-    length: 5
+    length: 5.0
     port1: o2
     port2: o1
     port_names: null

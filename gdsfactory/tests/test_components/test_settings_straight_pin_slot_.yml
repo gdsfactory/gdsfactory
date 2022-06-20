@@ -5,7 +5,7 @@ settings:
   default:
     cross_section:
       function: pin
-    length: 500
+    length: 500.0
     taper:
       function: taper_strip_to_ridge
     via_stack:
@@ -36,15 +36,15 @@ settings:
           settings:
             layer: VIAC
     via_stack_slab_bot: null
-    via_stack_slab_spacing: 2
+    via_stack_slab_spacing: 2.0
     via_stack_slab_top: null
     via_stack_slab_width: null
-    via_stack_spacing: 3
-    via_stack_width: 10
+    via_stack_spacing: 3.0
+    via_stack_width: 10.0
   full:
     cross_section:
       function: pin
-    length: 500
+    length: 500.0
     taper:
       function: taper_strip_to_ridge
     via_stack:
@@ -75,11 +75,11 @@ settings:
           settings:
             layer: VIAC
     via_stack_slab_bot: null
-    via_stack_slab_spacing: 2
+    via_stack_slab_spacing: 2.0
     via_stack_slab_top: null
     via_stack_slab_width: null
-    via_stack_spacing: 3
-    via_stack_width: 10
+    via_stack_spacing: 3.0
+    via_stack_width: 10.0
   function_name: straight_pin_slot
   info: {}
   info_version: 2

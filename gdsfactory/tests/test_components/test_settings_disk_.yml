@@ -9,10 +9,10 @@ settings:
     port:
     - 0
     - 0
-    radius: 10
+    radius: 10.0
     waveguide_template:
       function: strip
-    wrap_angle_deg: 180
+    wrap_angle_deg: 180.0
   full:
     direction: EAST
     gap: 0.2
@@ -20,10 +20,10 @@ settings:
     port:
     - 0
     - 0
-    radius: 10
+    radius: 10.0
     waveguide_template:
       function: strip
-    wrap_angle_deg: 180
+    wrap_angle_deg: 180.0
   function_name: disk
   info: {}
   info_version: 2

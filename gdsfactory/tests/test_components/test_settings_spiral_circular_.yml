@@ -4,17 +4,17 @@ settings:
   child: null
   default:
     layer: WG
-    length: 1000
-    min_bend_radius: 5
+    length: 1000.0
+    min_bend_radius: 5.0
     points: 1000
-    spacing: 3
+    spacing: 3.0
     wg_width: 0.5
   full:
     layer: WG
-    length: 1000
-    min_bend_radius: 5
+    length: 1000.0
+    min_bend_radius: 5.0
     points: 1000
-    spacing: 3
+    spacing: 3.0
     wg_width: 0.5
   function_name: spiral_circular
   info:

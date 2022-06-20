@@ -3,7 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    angle: 90
+    angle: 90.0
     cross_section: strip
     direction: ccw
     npoints: 720
@@ -11,7 +11,7 @@ settings:
     with_arc_floorplan: true
     with_bbox: true
   full:
-    angle: 90
+    angle: 90.0
     cross_section: strip
     direction: ccw
     npoints: 720

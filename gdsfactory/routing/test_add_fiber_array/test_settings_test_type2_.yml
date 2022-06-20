@@ -1,4 +1,4 @@
-name: coupler_gap0p244_length_25400d4f
+name: coupler_gap0p244_length_4912d421
 settings:
   changed:
     component:
@@ -14,18 +14,18 @@ settings:
           coupler_symmetric:
             function: coupler_symmetric
           cross_section: strip
-          dx: 10
-          dy: 5
+          dx: 10.0
+          dy: 5.0
           gap: 0.236
-          length: 20
+          length: 20.0
         full:
           coupler_straight:
             function: coupler_straight
           coupler_symmetric:
             function: coupler_symmetric
           cross_section: strip
-          dx: 10
-          dy: 5
+          dx: 10.0
+          dy: 5.0
           gap: 0.244
           length: 5.67
         function_name: coupler
@@ -48,18 +48,18 @@ settings:
       coupler_symmetric:
         function: coupler_symmetric
       cross_section: strip
-      dx: 10
-      dy: 5
+      dx: 10.0
+      dy: 5.0
       gap: 0.236
-      length: 20
+      length: 20.0
     full:
       coupler_straight:
         function: coupler_straight
       coupler_symmetric:
         function: coupler_symmetric
       cross_section: strip
-      dx: 10
-      dy: 5
+      dx: 10.0
+      dy: 5.0
       gap: 0.244
       length: 5.67
     function_name: coupler
@@ -102,18 +102,18 @@ settings:
           coupler_symmetric:
             function: coupler_symmetric
           cross_section: strip
-          dx: 10
-          dy: 5
+          dx: 10.0
+          dy: 5.0
           gap: 0.236
-          length: 20
+          length: 20.0
         full:
           coupler_straight:
             function: coupler_straight
           coupler_symmetric:
             function: coupler_symmetric
           cross_section: strip
-          dx: 10
-          dy: 5
+          dx: 10.0
+          dy: 5.0
           gap: 0.244
           length: 5.67
         function_name: coupler
@@ -145,5 +145,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: coupler_gap0p244_length_25400d4f
+  name: coupler_gap0p244_length_4912d421
 version: 0.0.1
