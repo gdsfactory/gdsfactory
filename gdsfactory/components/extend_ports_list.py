@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.pdk import get_component
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentSpec, Strs
 
@@ -23,9 +24,7 @@ def extend_ports_list(
 
     """
     c = Component()
-    extension = (
-        extension_factory() if callable(extension_factory) else extension_factory
-    )
+    extension = get_component(extension_factory)
 
     extension_port_name = extension_port_name or list(extension.ports.keys())[0]
     ignore_ports = ignore_ports or []

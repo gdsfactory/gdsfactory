@@ -18,3 +18,13 @@ norecursedirs = [
 #usefixtures =
 #    cleandir
 # addopts = '--html=test_report.html' '--self-contained-html'
+
+[tool.mypy]
+exclude = [
+    'gdsfactory/icyaml/',
+    'gdsfactory/simulation/',
+    'gdsfactory/extra/',
+    'gdsfactory/tests/',
+    'extra/',
+    'gdsfactory/components/extra/',
+    ]
