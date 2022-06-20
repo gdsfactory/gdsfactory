@@ -1,9 +1,10 @@
 """Write a sample reticle together with GDS file."""
 
 import gdsfactory as gf
+from gdsfactory.types import Component
 
 
-def mzi_te(**kwargs):
+def mzi_te(**kwargs) -> Component:
     gc = gf.c.grating_coupler_elliptical_tm()
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
     c = gf.routing.add_fiber_single(
