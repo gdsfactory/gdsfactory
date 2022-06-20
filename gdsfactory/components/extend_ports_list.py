@@ -2,7 +2,6 @@ from typing import List, Optional
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.pdk import get_component
 from gdsfactory.port import Port
 from gdsfactory.types import ComponentSpec, Strs
 
@@ -10,7 +9,7 @@ from gdsfactory.types import ComponentSpec, Strs
 @cell
 def extend_ports_list(
     ports: List[Port],
-    extension_factory: ComponentSpec,
+    extension: ComponentSpec,
     extension_port_name: Optional[str] = None,
     ignore_ports: Optional[Strs] = None,
 ) -> Component:
@@ -18,13 +17,15 @@ def extend_ports_list(
 
     Args:
         ports: list of ports.
-        extension_factory: function for extension.
+        extension: function for extension.
         extension_port_name: to connect extension.
         ignore_ports: list of port names to ignore.
 
     """
+    from gdsfactory.pdk import get_component
+
     c = Component()
-    extension = get_component(extension_factory)
+    extension = get_component(extension)
 
     extension_port_name = extension_port_name or list(extension.ports.keys())[0]
     ignore_ports = ignore_ports or []
@@ -44,11 +45,14 @@ def extend_ports_list(
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    c = gf.components.mmi1x2()
-    t = gf.partial(gf.components.taper, width2=0.1)
+    c = gf.Component("mmi_extended")
 
-    cr = extend_ports_list(
-        ports=c.get_ports_list(), extension_factory=t, extension_port_name="o1"
+    m = gf.components.mmi1x2()
+    t = gf.partial(gf.components.taper, width2=0.1)
+    e = extend_ports_list(
+        ports=m.get_ports_list(), extension=t, extension_port_name="o1"
     )
-    c.add_ref(cr)
+
+    c << m
+    c << e
     c.show()

@@ -97,7 +97,7 @@ def edge_coupler_array_with_loopback(
             component=ec,
             port_names=("o1", "o2"),
             length=extension_length,
-            extension_factory=gf.partial(
+            extension=gf.partial(
                 gf.c.straight, cross_section=cross_section, length=extension_length
             ),
         )
