@@ -13,10 +13,10 @@ class SequenceGenerator:
         repeated_sequence: str = "ASASBSBS",
         end_sequence: str = "LO",
     ) -> None:
-        """sequence generator.
+        """Sequence generator.
+
         Main use case: any type of cascade of components with repeating patterns
         such as serpentine, cutbacks etc...
-
         Component sequences have two ports by default.
         it adds aliases for the components forming the sequence.
         They use the component local name and append a suffix index starting from 1,
@@ -84,8 +84,8 @@ def component_sequence(
         start_orientation: in degrees.
 
     Returns:
-        component containing the sequence of sub-components
-        instantiated and connected together in the sequence order
+        component: containing the sequence of sub-components
+            instantiated and connected together in the sequence order.
 
     .. plot::
         :include-source:
