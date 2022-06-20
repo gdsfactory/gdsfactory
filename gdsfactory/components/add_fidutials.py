@@ -26,8 +26,8 @@ def add_fidutials(
         right: optional right fidutial.
         top: optional top fidutial.
         bottom: optional bottom fidutial.
-        offset: component offset coordinate (x, y)
-        kwargs: fidutial settings
+        offset: component offset coordinate (x, y).
+        kwargs: fidutial settings.
 
     """
     c = Component()
@@ -69,19 +69,20 @@ def add_fidutials_offsets(
     """Returns new component with fidutials from a list of offsets.
 
     Args:
-        component: add reference to component to the new Component
-        fidutial: function to return fidutial
-        offsets: list of offsets
+        component: add reference to component to the new Component.
+        fidutial: function to return fidutial.
+        offsets: list of offsets.
     """
 
     c = Component()
     component = gf.get_component(component)
+    fidutial = gf.get_component(fidutial)
     r = c << component
     c.add_ports(r.ports)
     c.copy_child_info(component)
 
     for offset in offsets:
-        f = c << fidutial()
+        f = c << fidutial
         f.move(offset)
 
     return c
