@@ -1,11 +1,9 @@
 # TODO
 
-- add electrical router for DC where orientation is None
-- enable rich output?
+- flake8-bugbear
 - more explicit Sparameter data format. Consider TE/TM modes.
 - replace circular fiber marker by square
 - better netlist extraction
-- add DVC for version control data on GCS, instead of relying gdslib second repo.
 
 ## Plugins
 
@@ -24,6 +22,8 @@
 - add xdoctest
 - type checker passing (mypy, pyre, pytype)
 - klayout placer (north, west) does not work well with rotations
+- enable rich output?
+- add DVC for version control data on GCS, instead of relying gdslib second repo.
 
 ## Maybe not a good idea?
 

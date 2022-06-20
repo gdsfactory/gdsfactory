@@ -3,14 +3,14 @@ from typing import Dict, Tuple
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.ring_single import ring_single
-from gdsfactory.components.straight import straight
+from gdsfactory.components.straight import straight as straight_function
 from gdsfactory.types import ComponentFactory
 
 
 @gf.cell
 def ring_single_array(
     ring: ComponentFactory = ring_single,
-    straight: ComponentFactory = straight,
+    straight: ComponentFactory = straight_function,
     spacing: float = 5.0,
     list_of_dicts: Tuple[Dict[str, float], ...] = (
         dict(length_x=10.0, radius=5.0),
