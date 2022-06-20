@@ -496,7 +496,7 @@ def from_yaml(
 
         name: Optional Component name
         settings: Optional variables
-        pdk: overides
+        pdk: overrides
         info: Optional component info
             description: just a demo
             polarization: TE

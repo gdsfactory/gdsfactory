@@ -37,7 +37,7 @@ def path_length_matched_points(
             exception is if there are some flat angles)
         margin: some extra space to budget for in addition to the bend radius
             in most cases, the default is fine
-        modify_segment_i: index of the segment which accomodates the new turns
+        modify_segment_i: index of the segment which accommodates the new turns
             default is next to last segment (-2)
         extra_length: distance added to all path length compensation.
             Useful is we want to add space for extra taper on all branches
@@ -122,7 +122,7 @@ def path_length_matched_points_modify_segment(
         # Additional fixed length
         dL = dL + extra_length
 
-        # Modify the segment to accomodate for path length matching
+        # Modify the segment to accommodate for path length matching
         # Two cases: vertical or horizontal segment
         if _is_vertical(p_s0, p_s1):
             sx = np.sign(p_next[0] - p_s1[0])
@@ -161,7 +161,7 @@ def path_length_matched_points_add_waypoints(
             - the number of turns have to be identical
                 (usually means same number of points. exception is if there are
                 some flat angles)
-        modify_segment_i: index of the segment which accomodates the new turns
+        modify_segment_i: index of the segment which accommodates the new turns
             default is next to last segment
         bend: for bends
         margin: some extra space to budget for in addition to the bend radius

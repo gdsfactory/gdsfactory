@@ -10,7 +10,7 @@
 ## Plugins
 
 - snakemake: for cloud workflows
-- tidy3d: compute bend mode missmatch
+- tidy3d: compute bend mode mismatch
 - simphony, update to latest version?
 - sipann, equivalent for SAX?
 - Modes: include mode overlap examples, tidy3d and modesolverpy solver

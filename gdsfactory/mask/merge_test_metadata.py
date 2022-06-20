@@ -23,7 +23,7 @@ def parse_csv_data(
         # Split lines in fields
         lines = [line.split(",") for line in lines]
 
-        lines = [[s.strip() for s in splitted if s.strip()] for splitted in lines]
+        lines = [[s.strip() for s in split if s.strip()] for split in lines]
 
         # Remove empty lines
         lines = [line for line in lines if line]

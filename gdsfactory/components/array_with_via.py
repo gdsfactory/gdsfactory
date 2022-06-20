@@ -35,7 +35,7 @@ def array_with_via(
         columns: number of components.
         spacing: for the array.
         via_spacing: for fanout.
-        straight_length: lenght of the straight at the end.
+        straight_length: length of the straight at the end.
         waveguide: waveguide definition.
         cross_section: spec.
         via_stack: spec.
@@ -106,7 +106,7 @@ def array_with_via_2d(
             columns: number of components
             spacing: float
             via_spacing: for fanout
-            straight_length: lenght of the straight at the end
+            straight_length: length of the straight at the end
             via_stack_port_name:
             **kwargs
     """

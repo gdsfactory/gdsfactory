@@ -79,7 +79,7 @@ def get_simulation_grating_farfield(
         wavelength_points: wavelength points.
 
 
-    Some paraemeters are different from get_simulation_grating_fiber
+    Some parameters are different from get_simulation_grating_fiber
         fiber_thickness: fiber_thickness
     """
     wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
