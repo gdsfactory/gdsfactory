@@ -67,7 +67,7 @@ def get_bundle_udirect(
         X: start ports
         D: End ports
 
-        On this example bellow, the axis is along X
+        On this example below, the axis is along X
 
                            X------\
                                   |

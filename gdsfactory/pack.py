@@ -132,7 +132,7 @@ def pack(
             "The density argument must be >= 1.01"
         )
 
-    # Santize max_size variable
+    # Sanitize max_size variable
     max_size = [np.inf if v is None else v for v in max_size]
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision

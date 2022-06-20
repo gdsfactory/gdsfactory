@@ -398,7 +398,7 @@ def compensation_path(
         return path_length(path_points) - target_bend_length
 
     # the path length of the s-bend between two ports p0 and p1 is :
-    # - larger than the euclidian distance L2(p0, p1)
+    # - larger than the euclidean distance L2(p0, p1)
     # - smaller than the manhattan distance DL(p0, p1)
     #
     # This gives the bounds for the brentq root finding

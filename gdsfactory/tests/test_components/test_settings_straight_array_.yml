@@ -5,12 +5,12 @@ settings:
   default:
     n: 4
     spacing: 4
-    straigth:
+    straight:
       function: straight
   full:
     n: 4
     spacing: 4
-    straigth:
+    straight:
       function: straight
   function_name: straight_array
   info: {}

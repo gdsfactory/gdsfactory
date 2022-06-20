@@ -15,20 +15,20 @@ def check_exclusion(
     min_projection: None = None,
     max_projection: None = None,
 ) -> int:
-    """reads layer from top cell and returns a the area that violates min exclusion
+    """Reads layer from top cell and returns a the area that violates min exclusion
     if 0 no area violates exclusion
 
     Args:
-        gdspath: path to GDS
-        layer1: tuple
-        layer2: tuple
-        min_space: in um
-        dbu: database units (1000 um/nm)
-        ignore_angle_deg: The angle above which no check is performed
-        whole_edges: If true, deliver the whole edges
-        metrics: Specify the metrics type
-        min_projection: lower threshold of the projected length of one edge onto another
-        max_projection: upper limit of the projected length of one edge onto another
+        gdspath: path to GDS.
+        layer1: tuple.
+        layer2: tuple.
+        min_space: in um.
+        dbu: database units (1000 um/nm).
+        ignore_angle_deg: The angle above which no check is performed.
+        whole_edges: If true, deliver the whole edges.
+        metrics: Specify the metrics type.
+        min_projection: lower threshold of the projected length of one edge onto another.
+        max_projection: upper limit of the projected length of one edge onto another.
     """
     import klayout.db as pya
 
@@ -43,7 +43,7 @@ def check_exclusion(
     a = pya.Region(cell.begin_shapes_rec(layout.layer(layer1[0], layer1[1])))
     b = pya.Region(cell.begin_shapes_rec(layout.layer(layer2[0], layer2[1])))
 
-    valid_metrics = ["Square", "Euclidian"]
+    valid_metrics = ["Square", "Euclidean"]
     if metrics not in valid_metrics:
         raise ValueError("metrics = {metrics} not in {valid_metrics}")
     metrics = getattr(pya.Region, metrics)

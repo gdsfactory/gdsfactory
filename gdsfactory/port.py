@@ -737,7 +737,7 @@ def auto_rename_ports(
     prefix_electrical: str = "e",
     **kwargs,
 ) -> Component:
-    """Adds prefix for optical and electical.
+    """Adds prefix for optical and electrical.
 
     Args:
         component: to auto_rename_ports.

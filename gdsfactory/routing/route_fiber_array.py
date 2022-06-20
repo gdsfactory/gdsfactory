@@ -65,7 +65,7 @@ def route_fiber_array(
     Many components are fine with the defaults.
 
     Args:
-        component: compoent spec to connect to.
+        component: component spec to connect to.
         fiber_spacing: the wanted spacing between the optical I/O.
         grating_coupler: grating coupler instance, function or list of functions.
         bend: for bends.

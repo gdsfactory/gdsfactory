@@ -1,4 +1,4 @@
-"""Some waveguides make unecessary crossings."""
+"""Some waveguides make unnecessary crossings."""
 
 import gdsfactory as gf
 from gdsfactory.samples.big_device import big_device

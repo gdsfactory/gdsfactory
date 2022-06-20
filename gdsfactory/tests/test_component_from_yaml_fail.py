@@ -57,7 +57,7 @@ placements:
 
 # def test_circular_import_fail():
 #     """Circular dependency should raise an error
-#     FIXME: this shoud raise an error
+#     FIXME: this should raise an error
 #     """
 #     with pytest.raises(ValueError):
 #         gf.read.from_yaml(yaml_fail)
