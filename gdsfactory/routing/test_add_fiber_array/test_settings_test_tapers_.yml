@@ -1,8 +1,8 @@
-name: straight_length20_width_83d5e85f
+name: straight_length20_width_232feb8c
 settings:
   changed:
     component:
-      name: straight_length20_width_a7215fe6
+      name: straight_length20_width_4d410313
       settings:
         changed:
           component:
@@ -14,7 +14,7 @@ settings:
               child: null
               default:
                 cross_section: strip
-                length: 10
+                length: 10.0
                 npoints: 2
                 with_bbox: true
               full:
@@ -38,7 +38,7 @@ settings:
           child: null
           default:
             cross_section: strip
-            length: 10
+            length: 10.0
             npoints: 2
             with_bbox: true
           full:
@@ -73,7 +73,7 @@ settings:
               child: null
               default:
                 cross_section: strip
-                length: 10
+                length: 10.0
                 npoints: 2
                 with_bbox: true
               full:
@@ -102,7 +102,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_length20_width_a7215fe6
+        name: straight_length20_width_4d410313
       version: 0.0.1
     optical_routing_type: 0
   child:
@@ -116,7 +116,7 @@ settings:
           child: null
           default:
             cross_section: strip
-            length: 10
+            length: 10.0
             npoints: 2
             with_bbox: true
           full:
@@ -140,7 +140,7 @@ settings:
       child: null
       default:
         cross_section: strip
-        length: 10
+        length: 10.0
         npoints: 2
         with_bbox: true
       full:
@@ -175,7 +175,7 @@ settings:
           child: null
           default:
             cross_section: strip
-            length: 10
+            length: 10.0
             npoints: 2
             with_bbox: true
           full:
@@ -204,7 +204,7 @@ settings:
     info: {}
     info_version: 2
     module: gdsfactory.add_tapers
-    name: straight_length20_width_a7215fe6
+    name: straight_length20_width_4d410313
   default:
     component:
       function: straight
@@ -226,7 +226,7 @@ settings:
         port_type: optical
   full:
     component:
-      name: straight_length20_width_a7215fe6
+      name: straight_length20_width_4d410313
       settings:
         changed:
           component:
@@ -238,7 +238,7 @@ settings:
               child: null
               default:
                 cross_section: strip
-                length: 10
+                length: 10.0
                 npoints: 2
                 with_bbox: true
               full:
@@ -262,7 +262,7 @@ settings:
           child: null
           default:
             cross_section: strip
-            length: 10
+            length: 10.0
             npoints: 2
             with_bbox: true
           full:
@@ -297,7 +297,7 @@ settings:
               child: null
               default:
                 cross_section: strip
-                length: 10
+                length: 10.0
                 npoints: 2
                 with_bbox: true
               full:
@@ -326,7 +326,7 @@ settings:
         info: {}
         info_version: 2
         module: gdsfactory.add_tapers
-        name: straight_length20_width_a7215fe6
+        name: straight_length20_width_4d410313
       version: 0.0.1
     component_name: null
     cross_section: strip
@@ -349,5 +349,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.routing.add_fiber_array
-  name: straight_length20_width_83d5e85f
+  name: straight_length20_width_232feb8c
 version: 0.0.1

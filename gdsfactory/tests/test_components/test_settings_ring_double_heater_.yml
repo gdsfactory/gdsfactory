@@ -27,7 +27,7 @@ settings:
     length_x: 0.01
     length_y: 0.01
     port_orientation: 90
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
     via_stack:
@@ -79,7 +79,7 @@ settings:
     length_x: 0.01
     length_y: 0.01
     port_orientation: 90
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
     via_stack:

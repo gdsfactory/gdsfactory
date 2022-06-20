@@ -4,14 +4,14 @@ instances:
   b:
     component: bend_circular
     info:
-      dy: 10
+      dy: 10.0
       length: 15.708
-      radius: 10
+      radius: 10.0
     settings: {}
   s:
     component: straight
     info:
-      length: 10
+      length: 10.0
       width: 0.5
     settings: {}
 name: sample_mirror_simple_1bddf846

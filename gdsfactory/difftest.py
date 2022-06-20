@@ -95,12 +95,13 @@ def difftest(
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [y/N] "
+                "Would you like to save current GDS as the new reference? [Y/n] "
             )
-            if val.upper().startswith("Y"):
-                logger.info(f"deleting file {str(ref_file)!r}")
-                ref_file.unlink()
-                shutil.copy(run_file, ref_file)
+            if val.upper().startswith("N"):
+                return
+            logger.info(f"deleting file {str(ref_file)!r}")
+            ref_file.unlink()
+            shutil.copy(run_file, ref_file)
             raise
         except OSError as exc:
             raise GeometryDifference(

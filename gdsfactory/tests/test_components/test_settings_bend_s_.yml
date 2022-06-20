@@ -29,7 +29,7 @@ settings:
       grid: 0.001
       layer: WG
       npoints: 201
-      spike_length: 0
+      spike_length: 0.0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true
@@ -47,7 +47,7 @@ settings:
       grid: 0.001
       layer: DEVREC
       npoints: 99
-      spike_length: 0
+      spike_length: 0.0
       start_angle: null
       width: 0.5
       with_manhattan_facing_angles: true

@@ -1,4 +1,4 @@
-name: straight_7114c317
+name: straight_c80f6a22
 settings:
   changed:
     cross_section:
@@ -20,11 +20,11 @@ settings:
         layer:
         - 34
         - 0
-        width: 1
+        width: 1.0
   child: null
   default:
     cross_section: strip
-    length: 10
+    length: 10.0
     npoints: 2
     with_bbox: true
   full:
@@ -47,8 +47,8 @@ settings:
         layer:
         - 34
         - 0
-        width: 1
-    length: 10
+        width: 1.0
+    length: 10.0
     npoints: 2
     with_bbox: true
   function_name: straight
@@ -57,5 +57,5 @@ settings:
     width: 1.0
   info_version: 2
   module: gdsfactory.components.straight
-  name: straight_7114c317
+  name: straight_c80f6a22
 version: 0.0.1
