@@ -357,7 +357,7 @@ def _get_bundle_uindirect_waypoints(
             )
         )
 
-    if len(set([p.orientation for p in ports1])) > 1:
+    if len({p.orientation for p in ports1}) > 1:
         raise ValueError(
             "All start port angles should be the same.\
         Got {}".format(
@@ -365,7 +365,7 @@ def _get_bundle_uindirect_waypoints(
             )
         )
 
-    if len(set([p.orientation for p in ports2])) > 1:
+    if len({p.orientation for p in ports2}) > 1:
         raise ValueError(
             "All end port angles should be the same.\
         Got {}".format(

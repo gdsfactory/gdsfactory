@@ -37,10 +37,11 @@ repos:
       - id: nbstripout
         files: .ipynb
 
-  # - repo: https://github.com/asottile/pyupgrade
-  #   rev: v2.34.0
-  #   hooks:
-  #   -   id: pyupgrade --py3-plus
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.34.0
+    hooks:
+      - id: pyupgrade
+        args: [--py37-plus, --keep-runtime-typing]
   # - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
   #   rev: 6565d773ca281682d7062d4c0be74538cc474cc9
   #   hooks:
@@ -50,18 +51,15 @@ repos:
   #       args: [--autofix]
   #     - id: pretty-format-yaml
   #       args: [--autofix, --indent, "2"]
-
   # - repo: https://github.com/adrienverge/yamllint.git
   #   rev: v1.21.0 # or higher tag
   #   hooks:
   #       - id: yamllint
   #         args: [--format, parsable, --strict]
-
   # - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
   #   rev: 0.1.0 # or specific tag
   #   hooks:
   #       - id: yamlfmt
-
   # - repo: https://github.com/pre-commit/mirrors-mypy
   #   rev: "214c33306afe17f1cc7d2d55e4da705b6ebe0627"
   #   hooks:
@@ -69,7 +67,6 @@ repos:
   #       exclude: ^(docs/|example-plugin/|tests/fixtures)
   #       additional_dependencies:
   #         - "pydantic"
-
   # - repo: https://github.com/terrencepreilly/darglint
   #   rev: master
   #   hooks:

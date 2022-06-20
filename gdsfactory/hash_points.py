@@ -5,7 +5,7 @@ Floats = Tuple[float, ...]
 
 
 def format_float(x: float) -> str:
-    return "{:.3f}".format(x).rstrip("0").rstrip(".")
+    return f"{x:.3f}".rstrip("0").rstrip(".")
 
 
 def _fmt_cp(cps: Floats) -> str:

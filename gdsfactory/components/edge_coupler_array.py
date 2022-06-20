@@ -47,7 +47,7 @@ def edge_coupler_array(
 
         if text:
             t = c << gf.get_component(text, text=str(i + 1))
-            t.move((np.array(text_offset) + (0, i * pitch)))
+            t.move(np.array(text_offset) + (0, i * pitch))
 
     c.auto_rename_ports()
     return c

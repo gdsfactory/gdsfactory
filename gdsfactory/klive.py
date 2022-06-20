@@ -36,7 +36,7 @@ def show(
         )
         conn.sendall(data_string)
         conn.close()
-    except socket.error:
+    except OSError:
         pass
 
 

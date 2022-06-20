@@ -25,7 +25,7 @@ def merge_json(
 
     for filename in doe_directory.glob("**/*.json"):
         logger.debug(f"merging {filename}")
-        with open(filename, "r") as f:
+        with open(filename) as f:
             data = json.load(f)
             cells.update(data.get("cells"))
 
