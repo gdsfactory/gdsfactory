@@ -12,14 +12,14 @@ straight_rib = gf.partial(straight, cross_section=rib)
 straight_rib_tapered = gf.partial(
     extend_ports,
     component=straight_rib,
-    extension_factory=taper_strip_to_ridge,
+    extension=taper_strip_to_ridge,
     port1="o2",
     port2="o1",
 )
 
 
 if __name__ == "__main__":
-    c = straight_rib()
-    # c = straight_rib_tapered()
+    # c = straight_rib()
+    c = straight_rib_tapered()
     c.ploth()
     c.show()

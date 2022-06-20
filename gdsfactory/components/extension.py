@@ -86,7 +86,7 @@ def extend_ports(
     component: ComponentSpec = mmi1x2,
     port_names: Optional[Tuple[str, ...]] = None,
     length: float = 5.0,
-    extension_factory: Optional[ComponentSpec] = None,
+    extension: Optional[ComponentSpec] = None,
     port1: Optional[str] = None,
     port2: Optional[str] = None,
     port_type: str = "optical",
@@ -95,14 +95,14 @@ def extend_ports(
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended
-    you can define an extension_factory
+    you can define an extension
     otherwise, defaults to the port cross_section of each port to extend
 
     Args:
         component: component to extend ports.
         port_names: list of ports names to extend, if None it extends all ports.
         length: extension length.
-        extension_factory: function to extend ports (defaults to a straight).
+        extension: function to extend ports (defaults to a straight).
         port1: input port name.
         port2: output port name.
         port_type: type of the ports to extend.
@@ -144,8 +144,8 @@ def extend_ports(
         port = cref.ports[port_name]
 
         if port_name in ports_to_extend_names:
-            if extension_factory:
-                extension_component = gf.get_component(extension_factory)
+            if extension:
+                extension = gf.get_component(extension)
             else:
                 cross_section_extension = (
                     cross_section
@@ -156,17 +156,17 @@ def extend_ports(
                 if cross_section_extension is None:
                     raise ValueError("cross_section=None for extend_ports")
 
-                extension_component = gf.components.straight(
+                extension = gf.components.straight(
                     length=length,
                     cross_section=cross_section_extension,
                 )
-            port_labels = list(extension_component.ports.keys())
+            port_labels = list(extension.ports.keys())
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
 
-            extension = c << extension_component
-            extension.connect(port1, port)
-            c.add_port(port_name, port=extension.ports[port2])
+            extension_ref = c << extension
+            extension_ref.connect(port1, port)
+            c.add_port(port_name, port=extension_ref.ports[port2])
         else:
             c.add_port(port_name, port=component.ports[port_name])
 

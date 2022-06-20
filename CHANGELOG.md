@@ -3,6 +3,8 @@
 ## [5.10.7](https://github.com/gdsfactory/gdsfactory/pull/460)
 
 - [repo improvements](https://scikit-hep.org/developer/reporeview)
+    - move mypy and pytest config to pyproject.toml
+- rename extension_factory to extension
 
 ## [5.10.6](https://github.com/gdsfactory/gdsfactory/pull/459)
 

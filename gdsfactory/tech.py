@@ -105,8 +105,8 @@ class LayerLevel(BaseModel):
     """
 
     layer: Tuple[int, int]
-    thickness: Optional[float] = None
-    zmin: Optional[float] = None
+    thickness: float
+    zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
 
@@ -154,7 +154,9 @@ class LayerStack(BaseModel):
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
 
-def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStack:
+def get_layer_stack_generic(
+    thickness_silicon_core: float = 220e-3, thickness_clad: float = 3.0
+) -> LayerStack:
     """Returns generic LayerStack.
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
     """
@@ -170,6 +172,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
                 layer=LAYER.WGCLAD,
                 zmin=0.0,
                 material="sio2",
+                thickness=thickness_clad,
             ),
             slab150=LayerLevel(
                 layer=LAYER.SLAB150,

@@ -135,7 +135,7 @@ settings:
     component:
       function: mmi1x2
     cross_section: null
-    extension_factory: null
+    extension: null
     length: 5
     port1: null
     port2: null
@@ -210,7 +210,7 @@ settings:
         name: mzi_2e88f57c
       version: 0.0.1
     cross_section: null
-    extension_factory: null
+    extension: null
     length: 5
     port1: null
     port2: null
