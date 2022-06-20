@@ -27,7 +27,7 @@ meep:
 	mamba install pymeep=*=mpi_mpich_* -y
 
 sax:
-	pip install sax
+	pip install sax jax
 
 update:
 	pur
