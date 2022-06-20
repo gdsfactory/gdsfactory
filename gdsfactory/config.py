@@ -217,6 +217,9 @@ def set_plot_options(
     )
 
 
+__all__ = ["logger", "PATH", "CONFIG", "get_git_hash", "write_tech"]
+
+
 if __name__ == "__main__":
     # print(TECH.layer.WG)
     # print(TECH)

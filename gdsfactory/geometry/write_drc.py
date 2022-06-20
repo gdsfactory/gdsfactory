@@ -67,7 +67,7 @@ def rule_enclosing(
     )
 
 
-def write_layer_definition(layer_map: Dict[str, Layer]) -> str:
+def write_layer_definition(layer_map: Dict[str, Layer]) -> List[str]:
     """Returns layer_map definition script for klayout
 
     Args:
