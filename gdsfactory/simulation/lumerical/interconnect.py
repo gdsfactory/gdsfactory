@@ -19,13 +19,9 @@ def install_design_kit(
     install_dir: pathlib.Path = CONFIG["interconnect"],
     overwrite: bool = True,
 ):
-    from gdsfactory.pdk import get_active_pdk
+    from gdsfactory.pdk import get_interconnect_cml_path
 
-    _pdk = get_active_pdk()
-    cml_path = _pdk.interconnect_cml_path
-    if cml_path is None:
-        raise ValueError("Interconnect CML path (cml_path) was not found!")
-
+    cml_path = get_interconnect_cml_path()
     session.installdesignkit(str(cml_path), str(install_dir), overwrite)
 
 
@@ -50,18 +46,19 @@ def add_interconnect_element(
     session: object,
     label: str,
     model: str,
-    loc: Tuple[int, int] = (200.0, 200.0),
+    loc: Tuple[float, float] = (200.0, 200.0),
     flip_vert: bool = False,
     flip_horiz: bool = False,
     rotation: float = 0.0,
-    simulation_props: OrderedDict = None,
+    simulation_props: Optional[OrderedDict] = None,
 ):
-    """
-    Add an element to the Interconnect session.
+    """Add an element to the Interconnect session.
+
     TODO: Need to connect this to generated s-parameters and add them to the model as well
+
     Args:
-        session: Interconnect session
-        label: label for Interconnect component
+        session: Interconnect session.
+        label: label for Interconnect component.
         model:
         loc:
         flip_vert:
@@ -121,15 +118,17 @@ def send_to_interconnect(
     exclude_electrical: bool = True,
     **settings,
 ) -> object:
-    """Send all components in netlist to Interconnect and make connections according to netlist.
+    """Send netlist components to Interconnect and connect them according to netlist.
+
     Args:
-        component: component from which to extract netlist
-        session: Interconnect session
-        placements: x,y pairs for where to place the components in the Interconnect GUI
-        simulation_settings: global settings for Interconnect simulation
+        component: component from which to extract netlist.
+        session: Interconnect session.
+        placements: x,y pairs for where to place the components in the Interconnect GUI.
+        simulation_settings: global settings for Interconnect simulation.
         drop_port_prefix: if components are written with some prefix, drop up to and including
-            the prefix character.  (i.e. "c1_input" -> "input")
-        component_distance_scaling: scaling factor for component distances when laying out Interconnect schematic
+            the prefix character.  (i.e. "c1_input" -> "input").
+        component_distance_scaling: scaling factor for component distances when
+            laying out Interconnect schematic.
     """
     if not session:
         import lumapi
@@ -353,13 +352,13 @@ def run_wavelength_sweep(
     session: Optional[object] = None,
     setup_simulation: bool = True,
     is_top_level: bool = False,
-    ports_in: dict = None,
-    ports_out: dict = None,
+    ports_in: Optional[dict] = None,
+    ports_out: Optional[dict] = None,
     mode: int = 1,
-    wavelength_range: Tuple = (1.500, 1.600),
+    wavelength_range: Tuple[float, float] = (1.500, 1.600),
     n_points: int = 1000,
-    results: Tuple = ("transmission",),
-    extra_ona_props: dict = None,
+    results: Tuple[str, ...] = ("transmission",),
+    extra_ona_props: Optional[dict] = None,
     **kwargs,
 ) -> dict:
     """
