@@ -7,7 +7,7 @@
 ## [5.10.14](https://github.com/gdsfactory/gdsfactory/pull/468)
 
 - simpler serialization.py
-- difftest response is Yes by default
+- difftest response is Yes by default when there is a GDSdiff error
 
 ## [5.10.13](https://github.com/gdsfactory/gdsfactory/pull/467)
 
