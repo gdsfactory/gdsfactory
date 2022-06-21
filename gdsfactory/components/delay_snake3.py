@@ -95,4 +95,4 @@ if __name__ == "__main__":
     # c = test_delay_snake3_length()
     length = 200.0
     c = delay_snake3(n=2, length=length, length0=50)
-    c.show()
+    c.show(show_ports=True)

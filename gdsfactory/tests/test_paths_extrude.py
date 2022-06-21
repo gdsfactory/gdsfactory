@@ -25,4 +25,4 @@ def test_path_extrude_multiple_ports() -> gf.Component:
 
 if __name__ == "__main__":
     c = test_path_extrude_multiple_ports()
-    c.show()
+    c.show(show_ports=True)

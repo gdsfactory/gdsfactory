@@ -160,7 +160,7 @@ if __name__ == "__main__":
     # c.pprint_netlist()
     mmi2x2 = gf.partial(gf.components.mmi2x2, width_mmi=5, gap_mmi=2)
     c = mzi_arms(delta_length=10, combiner=mmi2x2)
-    c.show()
+    c.show(show_ports=True)
 
     def bend_s(length: float = 10, **kwargs):
         return gf.components.bend_s(size=(length, 10), **kwargs)

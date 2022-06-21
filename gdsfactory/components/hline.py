@@ -41,4 +41,4 @@ def hline(
 if __name__ == "__main__":
     c = hline(width=10)
     print(c)
-    c.show()
+    c.show(show_ports=True)

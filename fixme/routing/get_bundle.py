@@ -26,4 +26,4 @@ if __name__ == "__main__":
     # )
     # c.add(routes.references)
 
-    c.show()
+    c.show(show_ports=True)

@@ -63,4 +63,4 @@ if __name__ == "__main__":
     e1 = gf.components.ellipse(radii=(6, 6))
     e2 = gf.components.ellipse(radii=(10, 4))
     c = outline([e1, e2])
-    c.show()
+    c.show(show_ports=True)

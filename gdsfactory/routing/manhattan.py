@@ -1128,7 +1128,7 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     # c = gf.routing.add_fiber_array(c)
     # c = gf.components.delay_snake()
-    c.show()
+    c.show(show_ports=True)
 
     # c = gf.Component("pads_route_from_steps")
     # pt = c << gf.components.pad_array(orientation=270, columns=3)
@@ -1144,4 +1144,4 @@ if __name__ == "__main__":
     #     bend=gf.components.wire_corner,
     # )
     # c.add(route.references)
-    # c.show()
+    # c.show(show_ports=True)

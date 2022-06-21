@@ -95,6 +95,6 @@ def test_delay_snake2_length() -> Component:
 
 if __name__ == "__main__":
     # c = test_delay_snake2_length()
-    # c.show()
+    # c.show(show_ports=True)
     c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
-    c.show()
+    c.show(show_ports=True)

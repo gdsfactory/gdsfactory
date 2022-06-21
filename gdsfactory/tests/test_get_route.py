@@ -10,7 +10,7 @@ def test_route() -> None:
         mmi1.ports["o3"], mmi2.ports["o1"], cross_section=gf.cross_section.metal1
     )
     c.add(route.references)
-    c.show()
+    c.show(show_ports=True)
 
 
 if __name__ == "__main__":
@@ -22,4 +22,4 @@ if __name__ == "__main__":
         mmi1.ports["o3"], mmi2.ports["o1"], cross_section=gf.cross_section.metal1
     )
     c.add(route.references)
-    c.show()
+    c.show(show_ports=True)

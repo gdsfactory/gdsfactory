@@ -7,4 +7,4 @@ if __name__ == "__main__":
 
     c << c1
     c << c2
-    c.show()
+    c.show(show_ports=True)

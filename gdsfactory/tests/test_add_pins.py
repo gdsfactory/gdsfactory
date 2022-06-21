@@ -33,7 +33,7 @@ def test_add_pins() -> None:
 if __name__ == "__main__":
     test_add_pins()
     # c = test_add_pins_with_routes(0)
-    # c.show()
+    # c.show(show_ports=True)
 
     # test_add_pins_with_routes(1)
 
@@ -45,6 +45,6 @@ if __name__ == "__main__":
     #     straight=straight_nc,
     #     optical_routing_type=1,
     # )
-    # cc.show()
+    # cc.show(show_ports=True)
     # pins_component = cc.extract(layers=(LAYER.PIN,))
     # print(len(pins_component.polygons))

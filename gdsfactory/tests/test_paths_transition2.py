@@ -26,4 +26,4 @@ if __name__ == "__main__":
     c = gf.path.extrude(path, xt)
     assert c.ports["o1"].cross_section.cross_section1.width == width1
     assert c.ports["o2"].cross_section.cross_section2.width == width2
-    c.show()
+    c.show(show_ports=True)

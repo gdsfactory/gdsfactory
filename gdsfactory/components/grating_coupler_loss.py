@@ -278,4 +278,4 @@ if __name__ == "__main__":
     # c = loss_deembedding_ch13_24()
     c = grating_coupler_loss_fiber_array4(layer=(2, 0), radius=30)
     # c = grating_coupler_loss_fiber_array(layer=(2, 0), radius=30)
-    c.show()
+    c.show(show_ports=True)

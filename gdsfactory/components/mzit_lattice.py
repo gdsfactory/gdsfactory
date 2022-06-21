@@ -92,4 +92,4 @@ if __name__ == "__main__":
 
     c = mzit_lattice(coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0)
     # c = mzit_lattice()
-    c.show()
+    c.show(show_ports=True)

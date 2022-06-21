@@ -157,6 +157,6 @@ if __name__ == "__main__":
     # c = straight_heater_metal(heater_width=5, length=50.0)
 
     c = straight_heater_metal_undercut()
-    c.show()
+    c.show(show_ports=True)
     # scene = gf.to_trimesh(c, layer_colors=gf.layers.LAYER_COLORS)
     # scene.show()

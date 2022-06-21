@@ -52,4 +52,4 @@ def test_get_bundle_u_direct_different_x(
 
 if __name__ == "__main__":
     c = test_get_bundle_u_direct_different_x(None, check=False)
-    c.show()
+    c.show(show_ports=True)

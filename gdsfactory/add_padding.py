@@ -187,4 +187,4 @@ if __name__ == "__main__":
     # c = gf.components.straight(length=5)
     # c.unlock()
     # cc = add_padding_to_size(component=c, xsize=10, layers=[(2, 0)])
-    cc.show()
+    cc.show(show_ports=True)

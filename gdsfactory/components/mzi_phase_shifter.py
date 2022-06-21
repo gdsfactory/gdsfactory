@@ -27,5 +27,5 @@ if __name__ == "__main__":
 
     # c = mzi_phase_shifter()
     c = mzi_phase_shifter()
-    c.show()
+    c.show(show_ports=True)
     print(c.name)
