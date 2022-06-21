@@ -80,4 +80,4 @@ if __name__ == "__main__":
         width2=None,
     )
 
-    c.show()
+    c.show(show_ports=True)

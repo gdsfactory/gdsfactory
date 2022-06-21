@@ -145,6 +145,6 @@ if __name__ == "__main__":
         do_permutations=True,
     )
     print(c.doe_names)
-    c.show()
+    c.show(show_ports=True)
 
     # c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))

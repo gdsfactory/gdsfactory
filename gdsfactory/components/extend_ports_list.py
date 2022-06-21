@@ -50,7 +50,7 @@ if __name__ == "__main__":
     e = extend_ports_list(c0.get_ports_list(), extension="straight")
     c << c0
     c << e
-    c.show()
+    c.show(show_ports=True)
 
     # c = gf.Component("mmi_extended")
     # m = gf.components.mmi1x2()
@@ -61,4 +61,4 @@ if __name__ == "__main__":
 
     # c << m
     # c << e
-    # c.show()
+    # c.show(show_ports=True)

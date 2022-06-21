@@ -15,4 +15,4 @@ def test_fiber_single() -> Component:
 
 if __name__ == "__main__":
     c = test_fiber_single()
-    c.show()
+    c.show(show_ports=True)

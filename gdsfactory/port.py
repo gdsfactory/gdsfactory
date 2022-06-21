@@ -930,7 +930,7 @@ if __name__ == "__main__":
     # auto_rename_ports_layer_orientation(c)
     # m = map_ports_layer_to_orientation(c.ports)
     # pprint(m)
-    # c.show()
+    # c.show(show_ports=True)
     # print(p0)
     p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
     print(p0)

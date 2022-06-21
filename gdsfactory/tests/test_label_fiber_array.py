@@ -109,11 +109,11 @@ if __name__ == "__main__":
     # c = test_label_fiber_array()
     # c = test_label_fiber_array()
     c = test_label_fiber_single_loopback()
-    c.show()
+    c.show(show_ports=True)
 
     # c = gf.components.straight()
     # assert len(c.labels) == 0
 
     # c = gf.routing.add_fiber_array(component=c, with_loopback=True)
     # print(len(c.labels))
-    # c.show()
+    # c.show(show_ports=True)

@@ -22,4 +22,4 @@ def test_label_move() -> Component:
 
 if __name__ == "__main__":
     c = test_label_move()
-    c.show()
+    c.show(show_ports=True)

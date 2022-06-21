@@ -14,9 +14,9 @@ from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_lumerical as get_sparameters_path,
 )
 from gdsfactory.tech import (
-    SIMULATION_SETTINGS_LUMERICAL_FDTD,
     LayerStack,
     MaterialSpec,
+    SIMULATION_SETTINGS_LUMERICAL_FDTD,
     SimulationSettingsLumericalFdtd,
 )
 from gdsfactory.types import ComponentSpec, PathType

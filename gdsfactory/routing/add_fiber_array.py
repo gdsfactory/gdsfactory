@@ -223,4 +223,4 @@ if __name__ == "__main__":
         gc_port_labels=["loop_in", "in", "out", "loop_out"],
         cross_section=strip,
     )
-    cc.show()
+    cc.show(show_ports=True)

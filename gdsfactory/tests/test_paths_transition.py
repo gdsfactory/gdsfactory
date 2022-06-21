@@ -99,7 +99,7 @@ if __name__ == "__main__":
     # c = test_path_transitions()
     # c= test_path_transition_function()
     c = test_path_transition_class()
-    c.show()
+    c.show(show_ports=True)
 
     # test_path_transition_class()
 

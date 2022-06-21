@@ -20,4 +20,4 @@ if __name__ == "__main__":
         bend=gf.components.wire_corner,
     )
     c.add(route.references)
-    c.show()
+    c.show(show_ports=True)

@@ -159,6 +159,6 @@ if __name__ == "__main__":
     # c = gf.components.mzi()
     # print(compute_area(c, layer=(1, 0)))
     # d = compute_area_hierarchical(c, layer=(1, 0))
-    # c.show()
+    # c.show(show_ports=True)
     # test_compute_area_hierarchical()
     # test_compute_area()

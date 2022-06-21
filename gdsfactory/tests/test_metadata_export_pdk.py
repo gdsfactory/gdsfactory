@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     c = gf.components.mzi(straight=straight_with_pins)
     print(c.settings.full["straight"])
-    c.show()
+    c.show(show_ports=True)
 
     # df = d.settings.full
     # sf = df.straight

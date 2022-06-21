@@ -171,4 +171,4 @@ def grating_coupler_elliptical_arbitrary(
 if __name__ == "__main__":
     # c = grating_coupler_elliptical_arbitrary(fiber_angle=8, bias_gap=-0.05)
     c = gf.routing.add_fiber_array(grating_coupler=grating_coupler_elliptical_arbitrary)
-    c.show()
+    c.show(show_ports=True)

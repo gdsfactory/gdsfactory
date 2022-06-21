@@ -85,7 +85,7 @@ class YamlEventHandler(FileSystemEventHandler):
             if filepath.exists():
                 c = from_yaml(filepath)
                 self.update_cell(filepath, update=True)
-                c.show()
+                c.show(show_ports=True)
                 # on_yaml_cell_modified.fire(c)
                 return c
         except Exception as e:

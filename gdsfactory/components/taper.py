@@ -272,4 +272,4 @@ if __name__ == "__main__":
     # c = taper_strip_to_ridge_trenches()
     # c = taper()
     # c = taper_sc_nc()
-    c.show()
+    c.show(show_ports=True)

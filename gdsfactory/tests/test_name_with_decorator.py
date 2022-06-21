@@ -66,4 +66,4 @@ if __name__ == "__main__":
     assert (
         not no_name_cells
     ), f"Component {c.name!r} contains {len(no_name_cells)} Unnamed cells"
-    c.show()
+    c.show(show_ports=True)

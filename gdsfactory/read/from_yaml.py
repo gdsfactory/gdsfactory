@@ -50,7 +50,7 @@ import importlib
 import io
 import pathlib
 import warnings
-from typing import IO, Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, IO, List, Optional, Union
 
 import numpy as np
 from omegaconf import OmegaConf
@@ -1252,7 +1252,7 @@ if __name__ == "__main__":
     # c = from_yaml(sample_mirror)
     # c = from_yaml(sample_doe_function)
     c = from_yaml(sample_pdk_mzi_settings, dy=-500)
-    c.show()
+    c.show(show_ports=True)
 
     # c = test_connections_regex()
     # c = from_yaml(sample_regex_connections)

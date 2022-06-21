@@ -131,7 +131,7 @@ def mmi1x2(
 if __name__ == "__main__":
     c = mmi1x2(cross_section=dict(cross_section="rib"))
     # c = mmi1x2()
-    c.show()
+    c.show(show_ports=True)
 
     # c.pprint_ports()
 

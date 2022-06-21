@@ -60,7 +60,7 @@ if __name__ == "__main__":
     # FIXME
     # c = demo_mzi()
     # c = demo_straight()
-    # c.show()
+    # c.show(show_ports=True)
     import gdsfactory as gf
 
     c = gf.components.straight_heater_metal()

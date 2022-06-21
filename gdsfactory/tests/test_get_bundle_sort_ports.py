@@ -37,4 +37,4 @@ def test_get_bundle_sort_ports(
 
 if __name__ == "__main__":
     c = test_get_bundle_sort_ports(None, check=False)
-    c.show()
+    c.show(show_ports=True)
