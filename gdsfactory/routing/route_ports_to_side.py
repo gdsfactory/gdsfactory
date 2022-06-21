@@ -538,9 +538,9 @@ if __name__ == "__main__":
             c.add(route.references)
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
-    c.show()
+    c.show(show_ports=True)
 
 
 if __name__ == "__main__":
     c = _sample_route_sides()
-    c.show()
+    c.show(show_ports=True)

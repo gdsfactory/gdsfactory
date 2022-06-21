@@ -49,4 +49,4 @@ if __name__ == "__main__":
     from dphox.demo import mzi
 
     c = from_dphox(mzi, foundry=dp.foundry.FABLESS)
-    c.show()
+    c.show(show_ports=True)

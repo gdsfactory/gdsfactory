@@ -57,4 +57,4 @@ def test_add_labels_electrical() -> Component:
 if __name__ == "__main__":
     c = test_add_labels_electrical()
     # c = test_add_labels_optical()
-    c.show()
+    c.show(show_ports=True)

@@ -150,6 +150,6 @@ if __name__ == "__main__":
     # cc = add_fiber_single(component=c)
     # gdspath = cc.write_gds()
     # print(len(list(find_labels(gdspath))))
-    # cc.show()
+    # cc.show(show_ports=True)
     # gdspath = CONFIG["samples_path"] / "mask" / "build" / "mask" / "sample.gds"
     # write_labels(gdspath)

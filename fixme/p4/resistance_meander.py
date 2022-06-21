@@ -111,4 +111,4 @@ def resistance_meander(
 
 if __name__ == "__main__":
     c = resistance_meander()
-    c.show()
+    c.show(show_ports=True)

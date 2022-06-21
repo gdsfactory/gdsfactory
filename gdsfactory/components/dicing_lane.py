@@ -48,4 +48,4 @@ def dicing_lane(
 
 if __name__ == "__main__":
     c = dicing_lane()
-    c.show()
+    c.show(show_ports=True)

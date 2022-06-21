@@ -301,4 +301,4 @@ if __name__ == "__main__":
     # c= crossing45(port_spacing=40.0)
     # c = compensation_path(crossing45=crossing45(port_spacing=40.0))
     c.pprint_ports()
-    c.show()
+    c.show(show_ports=True)

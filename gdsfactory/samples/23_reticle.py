@@ -33,7 +33,7 @@ def mzi_te_pads3(**kwargs) -> Component:
 
 if __name__ == "__main__":
     # c = mzi_te_pads3()
-    # c.show()
+    # c.show(show_ports=True)
 
     gc = gf.c.grating_coupler_elliptical_tm()
     c = gf.c.mzi_phase_shifter_top_heater_metal(delta_length=40)
@@ -49,4 +49,4 @@ if __name__ == "__main__":
     gf.add_labels.add_labels_to_ports(
         component=c, port_type="vertical_tm", prefix=f"opttm1500-{c.name}-"
     )
-    c.show()
+    c.show(show_ports=True)

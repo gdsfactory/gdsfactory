@@ -565,7 +565,7 @@ def _demo_netlist() -> None:
     # c = from_yaml(sample_2x2_connections)
     c = from_yaml(sample_waypoints)
     c = from_yaml(sample_different_factory)
-    c.show()
+    c.show(show_ports=True)
     n = c.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
     c2 = from_yaml(yaml_str)
@@ -580,7 +580,7 @@ if __name__ == "__main__":
     # c = from_yaml(sample_different_factory)
     # c = test_sample()
     # c = test_netlists("sample_docstring", None, check=False)
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = test_connections_regex()
     # c = test_connections_regex_backwargs()
@@ -613,7 +613,7 @@ if __name__ == "__main__":
     # c = test_netlists("sample_doe", None, check=False)
 
     # c = from_yaml(sample_different_factory)
-    # c.show()
+    # c.show(show_ports=True)
 
     # yaml_key = "sample_mmis"
     yaml_key = "sample_doe"

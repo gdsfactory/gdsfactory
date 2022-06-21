@@ -69,4 +69,4 @@ if __name__ == "__main__":
 
     c = errors()
     c.write_gds("errors.gds")
-    c.show()
+    c.show(show_ports=True)

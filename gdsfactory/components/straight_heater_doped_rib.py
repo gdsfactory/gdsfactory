@@ -198,4 +198,4 @@ if __name__ == "__main__":
     # c = straight_heater_doped_rib(with_top_heater=False, with_top_via_stack=False)
     # c = straight_heater_doped_rib(with_taper1=False)
     c = straight_heater_doped_rib()
-    c.show()
+    c.show(show_ports=True)

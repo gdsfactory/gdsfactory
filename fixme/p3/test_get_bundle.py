@@ -49,4 +49,4 @@ def test_get_bundle_u_indirect(angle=0):
 
 if __name__ == "__main__":
     c = test_get_bundle_u_indirect(angle=90)
-    c.show()
+    c.show(show_ports=True)
