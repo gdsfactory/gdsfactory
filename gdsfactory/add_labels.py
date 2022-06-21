@@ -285,4 +285,4 @@ if __name__ == "__main__":
 
     c = gf.components.pad()
     add_labels_to_ports_vertical_dc(c)
-    c.show()
+    c.show(show_ports=True)

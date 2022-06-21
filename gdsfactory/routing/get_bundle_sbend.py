@@ -55,4 +55,4 @@ if __name__ == "__main__":
 
     routes = get_bundle_sbend(right_ports, left_ports)
     c.add(routes.references)
-    c.show()
+    c.show(show_ports=True)

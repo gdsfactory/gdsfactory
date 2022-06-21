@@ -631,7 +631,7 @@ def _demo() -> None:
     print(wg1)
     print(wg2)
     print(wg_trans)
-    c.show()
+    c.show(show_ports=True)
 
 
 def _my_custom_width_fun(t):
@@ -651,7 +651,7 @@ def _demo_variable_width() -> None:
 
     # Extrude the Path to create the Component
     c = extrude(P, cross_section=X)
-    c.show()
+    c.show(show_ports=True)
 
 
 def _my_custom_offset_fun(t):
@@ -671,7 +671,7 @@ def _demo_variable_offset() -> None:
 
     # Extrude the Path to create the Component
     c = extrude(P, cross_section=X)
-    c.show()
+    c.show(show_ports=True)
 
 
 if __name__ == "__main__":
@@ -730,7 +730,7 @@ if __name__ == "__main__":
 
     P = gf.path.straight(length=10, npoints=101)
     # c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
-    # c.show()
+    # c.show(show_ports=True)
 
     s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
     X1 = gf.CrossSection(

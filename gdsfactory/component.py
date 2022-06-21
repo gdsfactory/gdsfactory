@@ -1421,7 +1421,7 @@ if __name__ == "__main__":
 
     # test_extract()
     c = test_get_layers()
-    c.show()
+    c.show(show_ports=True)
 
     # test_bbox_reference()
     # test_bbox_component()
@@ -1433,7 +1433,7 @@ if __name__ == "__main__":
     # output_file("plot.html")
 
     # c = gf.components.rectangle(size=(4, 2), layer=(0, 0))
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
     # p = c.ploth()
@@ -1443,14 +1443,14 @@ if __name__ == "__main__":
     # c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     # c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     # c2.xmin = c1.xmax
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = gf.Component("component_with_offgrid_polygons")
     # c1 = c << gf.components.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
     # c2 = c << gf.components.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
     # print(c1.xmax)
     # c2.xmin = c1.xmax
-    # c.show()
+    # c.show(show_ports=True)
 
     # c2 = gf.components.mzi()
     # c2.show(show_subports=True)

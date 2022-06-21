@@ -31,6 +31,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -53,6 +54,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -75,6 +77,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -97,6 +100,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -119,6 +123,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -141,6 +146,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -163,6 +169,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -185,6 +192,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       auto_widen: false
       cross_section:
@@ -420,7 +428,7 @@ instances:
 name: sample_waypoints_51e45344
 placements:
   b:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
@@ -430,12 +438,12 @@ placements:
     x: 150.0
     y: 140.0
   bend_euler_0f5b95a9_395p124_304p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 390.0
     y: 300.0
   bend_euler_0f5b95a9_395p124_395p124:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 400.0
     y: 390.0
@@ -445,12 +453,12 @@ placements:
     x: 0.0
     y: 290.0
   bend_euler_0f5b95a9_545p124_154p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 540.0
     y: 150.0
   bend_euler_0f5b95a9_545p124_545p124:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 550.0
     y: 540.0
@@ -465,57 +473,57 @@ placements:
     x: -90.0
     y: 550.0
   straight_40b4fefb_225p0_550p0:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 540.0
     y: 550.0
   straight_40b4fefb_75p0_400p0:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 390.0
     y: 400.0
   straight_7c200db3_400p0_350p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 400.0
     y: 310.0
   straight_9014c07d_0p0_145p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 0.0
     y: 0.0
   straight_9e654160_m250p0_705p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: -250.0
     y: 410.0
   straight_d2434c44_200p0_300p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 10.0
     y: 300.0
   straight_d2434c44_350p0_150p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 160.0
     y: 150.0
   straight_d2434c44_550p0_350p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 550.0
     y: 160.0
   straight_e2779672_m100p0_780p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: -100.0
     y: 560.0
   straight_e8fb74e1_150p0_70p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 150.0
     y: 0.0
   t:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: -250.0
     y: 1000.0

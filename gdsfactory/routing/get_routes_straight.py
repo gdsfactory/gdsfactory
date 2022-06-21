@@ -44,4 +44,4 @@ def test_get_routes_straight(check: bool = True):
 
 if __name__ == "__main__":
     c = test_get_routes_straight(False)
-    c.show()
+    c.show(show_ports=True)

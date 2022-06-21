@@ -73,4 +73,4 @@ def test_get_bundle_west_to_north2(
 if __name__ == "__main__":
     # c = test_get_bundle_west_to_north(None, check=False)
     c = test_get_bundle_west_to_north2(None, check=False)
-    c.show()
+    c.show(show_ports=True)

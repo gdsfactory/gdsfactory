@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.15](https://github.com/gdsfactory/gdsfactory/pull/470)
+
+- Update and document Interconnect plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/469)
+
 ## [5.10.14](https://github.com/gdsfactory/gdsfactory/pull/468)
 
 - simpler serialization.py
@@ -2077,7 +2081,7 @@ from pydantic import validate_arguments
 - rename from `from pp.testing import difftest` to `from pp.difftest import difftest`
 - remove pp.container containerize
 - better type annontations
-- replace some `c.show()` by a simpler `c.show()`
+- replace some `c.show(show_ports=True)` by a simpler `c.show()`
 
 ## 2.2.9
 

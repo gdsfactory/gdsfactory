@@ -81,4 +81,4 @@ if __name__ == "__main__":
 
     # gdspath2 = c.write_gds("extra/mzis.gds")
     # geometry.check_duplicated_cells(gdspath2)
-    # c.show()
+    # c.show(show_ports=True)

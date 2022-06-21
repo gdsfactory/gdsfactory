@@ -295,4 +295,4 @@ if __name__ == "__main__":
     # c = test_get_bundle_u_indirect(None, check=False, angle=90)
     c = test_get_bundle_u_indirect(None, angle=0, check=False)
     # c = test_facing_ports(None, check=False)
-    c.show()
+    c.show(show_ports=True)

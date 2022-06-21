@@ -6,8 +6,8 @@ import numpy as np
 from gdsfactory import components as pc
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
-from gdsfactory.tech import LAYER
 from gdsfactory.components.pad import pad as pad_function
+from gdsfactory.tech import LAYER
 from gdsfactory.types import ComponentSpec
 
 
@@ -111,4 +111,4 @@ def resistance_meander(
 
 if __name__ == "__main__":
     c = resistance_meander()
-    c.show()
+    c.show(show_ports=True)

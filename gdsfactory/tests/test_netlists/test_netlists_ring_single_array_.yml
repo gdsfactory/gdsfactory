@@ -21,17 +21,17 @@ instances:
 name: ring_single_array
 placements:
   ring_single_length_x10p_7562016f_m5p0_5p65:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
   ring_single_length_x20p0_30p0_10p65:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 40.0
     y: 0.0
   straight_length5p0_7p5_0p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 5.0
     y: 0.0

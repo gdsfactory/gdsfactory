@@ -85,4 +85,4 @@ straight_pn = gf.partial(straight_pin, cross_section=pn)
 if __name__ == "__main__":
     c = straight_pin(length=40)
     # print(c.ports.keys())
-    c.show()
+    c.show(show_ports=True)

@@ -90,9 +90,9 @@ if __name__ == "__main__":
     # print(c.ports)
 
     c = gf.routing.add_fiber_array(ring_single)
-    c.show()
+    c.show(show_ports=True)
 
     # cc = gf.add_pins(c)
     # print(c.settings)
     # print(c.settings)
-    # cc.show()
+    # cc.show(show_ports=True)

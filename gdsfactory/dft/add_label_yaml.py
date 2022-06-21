@@ -138,4 +138,4 @@ if __name__ == "__main__":
     )
     print(c.labels)
     d = OmegaConf.create(c.labels[0].text)
-    c.show()
+    c.show(show_ports=True)

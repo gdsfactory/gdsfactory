@@ -309,9 +309,9 @@ if __name__ == "__main__":
 
     gf.dft.add_label_ehva(cc, die="demo")
     print(cc.get_labels())
-    cc.show()
+    cc.show(show_ports=True)
 
     # c = gf.components.straight(length=20)
     # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
     # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, )
-    # cc.show()
+    # cc.show(show_ports=True)

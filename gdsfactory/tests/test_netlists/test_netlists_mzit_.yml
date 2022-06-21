@@ -24,6 +24,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.45
     settings:
       width: 0.45
   bend_euler_width0p45_30p112_6p288:
@@ -33,6 +34,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.45
     settings:
       width: 0.45
   bend_euler_width0p55_33p137_18p537:
@@ -42,6 +44,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.55
     settings:
       width: 0.55
   bend_euler_width0p55_33p137_4p263:
@@ -51,6 +54,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.55
     settings:
       width: 0.55
   coupler_dy2p0_gap0p2_length5p0_1p5_22p4:
@@ -172,87 +176,87 @@ instances:
 name: mzit
 placements:
   bend_euler_width0p45_30p112_16p512:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 35.0
     y: 11.4
   bend_euler_width0p45_30p112_6p288:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 25.0
     y: 1.4
   bend_euler_width0p55_33p137_18p537:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 38.0
     y: 13.4
   bend_euler_width0p55_33p137_4p263:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 28.0
     y: -0.6
   coupler_dy2p0_gap0p2_length5p0_1p5_22p4:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: -1.0
     y: 22.05
   coupler_dy2p0_gap0p3_length10p0_5p0_0p4:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
   straight_length1p0_width0p45_19p5_23p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 20.0
     y: 23.4
   straight_length1p0_width0p55_19p5_21p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 20.0
     y: 21.4
   straight_length3p0_width0p55_26p5_23p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 28.0
     y: 23.4
   straight_length3p0_width0p55_26p5_m0p6:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 25.0
     y: -0.6
   straight_length4p0_width0p55_38p0_11p4:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 38.0
     y: 9.4
   taper_0243e137_22p5_21p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 25.0
     y: 21.4
   taper_0869daad_22p5_23p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 25.0
     y: 23.4
   taper_3d1f6a02_16p5_23p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 19.0
     y: 23.4
   taper_6da5c651_16p5_21p4:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 19.0
     y: 21.4
   taper_length5p0_width20p45_22p5_1p4:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 20.0
     y: 1.4
   taper_length5p0_width20p55_22p5_m0p6:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 20.0
     y: -0.6
