@@ -1,6 +1,7 @@
+import numpy as np
+
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
-import numpy as np
 
 
 def test_sparameters_straight() -> None:

@@ -1,14 +1,14 @@
-from typing import Any, cast, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from phidl.device_layout import Device, DeviceReference
 
 from gdsfactory.port import (
+    Port,
     map_ports_layer_to_orientation,
     map_ports_to_orientation_ccw,
     map_ports_to_orientation_cw,
-    Port,
     select_ports,
 )
 from gdsfactory.snap import snap_to_grid

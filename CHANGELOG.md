@@ -3,6 +3,7 @@
 ## [5.10.15](https://github.com/gdsfactory/gdsfactory/pull/469)
 
 - replace black and isort pre-commit by [ufmt](https://github.com/omnilib/ufmt)
+- Update and document Interconnect plugin [PR](https://github.com/gdsfactory/gdsfactory/pull/469)
 
 ## [5.10.14](https://github.com/gdsfactory/gdsfactory/pull/468)
 
