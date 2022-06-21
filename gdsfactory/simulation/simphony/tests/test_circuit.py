@@ -1,5 +1,6 @@
-import gdsfactory as gf
 import numpy as np
+
+import gdsfactory as gf
 from gdsfactory.simulation.simphony.circuit import component_to_circuit
 from gdsfactory.simulation.simphony.get_transmission import get_transmission
 

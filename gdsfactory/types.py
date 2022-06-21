@@ -33,7 +33,8 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 from omegaconf import OmegaConf
-from phidl.device_layout import Label as LabelPhidl, Path
+from phidl.device_layout import Label as LabelPhidl
+from phidl.device_layout import Path
 from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 

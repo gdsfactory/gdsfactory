@@ -7,12 +7,12 @@ import numpy as np
 import phidl
 from matplotlib.lines import Line2D
 from phidl.device_layout import (
-    _rotate_points,
     CellArray,
     Device,
     DeviceReference,
     Path,
     Polygon,
+    _rotate_points,
 )
 
 _SUBPORT_RGB = (0, 120, 120)

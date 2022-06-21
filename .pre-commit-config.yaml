@@ -12,22 +12,22 @@ repos:
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
-  # - repo: https://github.com/pycqa/isort
-  #   rev: 12cc5fbd67eebf92eb2213b03c07b138ae1fb448
-  #   hooks:
-  #     - id: isort
-  #       files: gdsfactory/.*
-  #       args: [--profile, black, --filter-files]
-
-  # - repo: https://github.com/psf/black
-  #   rev: e3c9b0430eae5de35fdbeed047f9b2f07f9b78de
-  #   hooks:
-  #     - id: black
-
-  - repo: https://github.com/omnilib/ufmt
-    rev: v2.0.0b1
+  - repo: https://github.com/pycqa/isort
+    rev: 12cc5fbd67eebf92eb2213b03c07b138ae1fb448
     hooks:
-      - id: ufmt
+      - id: isort
+        files: gdsfactory/.*
+        args: [--profile, black, --filter-files]
+
+  - repo: https://github.com/psf/black
+    rev: e3c9b0430eae5de35fdbeed047f9b2f07f9b78de
+    hooks:
+      - id: black
+
+  # - repo: https://github.com/omnilib/ufmt
+  #   rev: v2.0.0b1
+  #   hooks:
+  #     - id: ufmt
   - repo: https://github.com/asottile/blacken-docs
     rev: 0e6f86e0e6d8554b77c4bb1d434c4bad0ea40c8a
     hooks:

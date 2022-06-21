@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.port import flipped, Port
+from gdsfactory.port import Port, flipped
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import Route
 
