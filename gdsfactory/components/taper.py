@@ -261,7 +261,17 @@ taper_sc_nc = gf.partial(
 
 
 if __name__ == "__main__":
-    c = taper(width2=1)
+    c = gf.grid(
+        [
+            taper_sc_nc(
+                length=length, info=dict(doe="taper_length", taper_length=length)
+            )
+            for length in [1, 2, 3]
+        ]
+    )
+    c.write_gds_with_metadata("extra/tapers.gds")
+
+    # c = taper(width2=1)
     # c = taper_strip_to_ridge()
     # print(c.get_optical_ports())
     # c = taper_strip_to_ridge_trenches()
