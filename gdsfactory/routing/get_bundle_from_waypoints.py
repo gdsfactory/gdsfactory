@@ -12,10 +12,10 @@ from gdsfactory.components.wire import wire_corner
 from gdsfactory.cross_section import strip
 from gdsfactory.port import Port
 from gdsfactory.routing.manhattan import (
+    RouteError,
     get_route_error,
     remove_flat_angles,
     round_corners,
-    RouteError,
 )
 from gdsfactory.routing.path_length_matching import path_length_matched_points
 from gdsfactory.routing.utils import get_list_ports_angle

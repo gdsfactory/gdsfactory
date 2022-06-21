@@ -16,11 +16,9 @@ import gdspy
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
-from phidl.device_layout import (
-    Device as Component,
-    DeviceReference as ComponentReference,
-    Port,
-)
+from phidl.device_layout import Device as Component
+from phidl.device_layout import DeviceReference as ComponentReference
+from phidl.device_layout import Port
 
 from gdsfactory.snap import snap_to_grid
 

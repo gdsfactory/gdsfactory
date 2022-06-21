@@ -10,7 +10,7 @@ get_bundle calls different function depending on the port orientation.
 
 """
 from functools import partial
-from typing import Callable, cast, List, Optional, Union
+from typing import Callable, List, Optional, Union, cast
 
 import numpy as np
 from numpy import ndarray
@@ -31,11 +31,8 @@ from gdsfactory.routing.get_bundle_u import get_bundle_udirect, get_bundle_uindi
 from gdsfactory.routing.get_route import get_route, get_route_from_waypoints
 from gdsfactory.routing.manhattan import generate_manhattan_waypoints
 from gdsfactory.routing.path_length_matching import path_length_matched_points
-from gdsfactory.routing.sort_ports import (
-    get_port_x,
-    get_port_y,
-    sort_ports as sort_ports_function,
-)
+from gdsfactory.routing.sort_ports import get_port_x, get_port_y
+from gdsfactory.routing.sort_ports import sort_ports as sort_ports_function
 from gdsfactory.types import (
     ComponentSpec,
     CrossSectionSpec,

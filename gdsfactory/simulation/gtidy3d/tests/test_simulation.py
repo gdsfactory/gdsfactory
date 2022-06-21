@@ -1,11 +1,11 @@
 import pathlib
 
+from jsondiff import diff
+from omegaconf import OmegaConf
+
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 from gdsfactory.simulation.gtidy3d.get_results import get_sim_hash
-
-from jsondiff import diff
-from omegaconf import OmegaConf
 
 
 def test_simulation_hash() -> None:
