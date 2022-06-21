@@ -4,7 +4,7 @@ from pathlib import Path
 
 from omegaconf import OmegaConf
 
-from gdsfactory.config import CONFIG, TECH, logger
+from gdsfactory.config import CONFIG, logger, TECH
 
 
 def merge_markdown(

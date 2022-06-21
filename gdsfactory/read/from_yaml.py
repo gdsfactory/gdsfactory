@@ -50,7 +50,7 @@ import importlib
 import io
 import pathlib
 import warnings
-from typing import IO, Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, IO, List, Optional, Union
 
 import numpy as np
 from omegaconf import OmegaConf

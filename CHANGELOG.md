@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.15](https://github.com/gdsfactory/gdsfactory/pull/469)
+
+- replace black and isort pre-commit by [ufmt](https://github.com/omnilib/ufmt)
+
 ## [5.10.14](https://github.com/gdsfactory/gdsfactory/pull/468)
 
 - simpler serialization.py

@@ -5,6 +5,7 @@ when we auto_rename_ports_layer_orientation we get the wrong mapping
 """
 
 from typing import Dict
+
 from gdsfactory.types import Port
 
 
@@ -61,6 +62,7 @@ def map_ports_layer_to_orientation(ports: Dict[str, Port]) -> Dict[str, str]:
 
 if __name__ == "__main__":
     from pprint import pprint
+
     import gdsfactory as gf
 
     # c = gf.Component()
