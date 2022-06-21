@@ -12,7 +12,7 @@ import pydantic
 from pydantic import BaseModel, Field
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import TECH, Section
+from gdsfactory.tech import Section, TECH
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]

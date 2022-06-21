@@ -12,17 +12,22 @@ repos:
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
-  - repo: https://github.com/pycqa/isort
-    rev: 12cc5fbd67eebf92eb2213b03c07b138ae1fb448
-    hooks:
-      - id: isort
-        files: gdsfactory/.*
-        args: [--profile, black, --filter-files]
+  # - repo: https://github.com/pycqa/isort
+  #   rev: 12cc5fbd67eebf92eb2213b03c07b138ae1fb448
+  #   hooks:
+  #     - id: isort
+  #       files: gdsfactory/.*
+  #       args: [--profile, black, --filter-files]
 
-  - repo: https://github.com/psf/black
-    rev: e3c9b0430eae5de35fdbeed047f9b2f07f9b78de
+  # - repo: https://github.com/psf/black
+  #   rev: e3c9b0430eae5de35fdbeed047f9b2f07f9b78de
+  #   hooks:
+  #     - id: black
+
+  - repo: https://github.com/omnilib/ufmt
+    rev: v2.0.0b1
     hooks:
-      - id: black
+      - id: ufmt
   - repo: https://github.com/asottile/blacken-docs
     rev: 0e6f86e0e6d8554b77c4bb1d434c4bad0ea40c8a
     hooks:
@@ -56,12 +61,12 @@ repos:
       - id: shellcheck
 
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0 # Use the ref you want to point at
+    rev: 8e68d79b05355c9e107f81fc267f2bfc3e9e5a04 # Use the ref you want to point at
     hooks:
       - id: python-use-type-annotations
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.4
+    rev: 44c05fcac53de3a39589173177c931b38de5bb0f
     hooks:
       - id: bandit
         args: [--exit-zero]

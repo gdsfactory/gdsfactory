@@ -4,8 +4,10 @@ import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.straight import straight
 from gdsfactory.components.taper_cross_section import taper_cross_section
-from gdsfactory.components.via_stack import via_stack_m1_m3 as via_stack_metal_function
-from gdsfactory.components.via_stack import via_stack_slab_npp_m3
+from gdsfactory.components.via_stack import (
+    via_stack_m1_m3 as via_stack_metal_function,
+    via_stack_slab_npp_m3,
+)
 from gdsfactory.cross_section import rib_heater_doped, strip_rib_tip
 from gdsfactory.snap import snap_to_grid
 from gdsfactory.types import ComponentSpec, CrossSectionSpec

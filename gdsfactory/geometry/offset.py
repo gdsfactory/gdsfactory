@@ -3,12 +3,12 @@ from typing import Tuple
 import gdspy
 import numpy as np
 from phidl.geometry import (
-    Device,
-    DeviceReference,
-    Polygon,
     _merge_floating_point_errors,
     _offset_polygons_parallel,
     _parse_layer,
+    Device,
+    DeviceReference,
+    Polygon,
 )
 
 import gdsfactory as gf
