@@ -20,7 +20,7 @@ norecursedirs = [
 # addopts = '--html=test_report.html' '--self-contained-html'
 
 [tool.mypy]
-strict = true
+# strict = true
 exclude = [
     'gdsfactory/icyaml/',
     'gdsfactory/simulation/',
