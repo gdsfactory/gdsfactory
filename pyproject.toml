@@ -29,3 +29,9 @@ exclude = [
     'extra/',
     'gdsfactory/components/extra/',
     ]
+
+
+[tool.ufmt]
+excludes = [
+    "gdsfactory/__init__.py",
+]

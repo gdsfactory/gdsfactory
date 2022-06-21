@@ -15,7 +15,7 @@ import numpy as np
 import yaml
 from numpy import int64
 from omegaconf import DictConfig, OmegaConf
-from phidl.device_layout import CellArray, Device, Label, _parse_layer
+from phidl.device_layout import _parse_layer, CellArray, Device, Label
 from typing_extensions import Literal
 
 from gdsfactory.component_reference import ComponentReference, Coordinate, SizeInfo
@@ -23,7 +23,6 @@ from gdsfactory.config import CONF, logger
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.layers import LAYER_COLORS, LayerColor, LayerColors
 from gdsfactory.port import (
-    Port,
     auto_rename_ports,
     auto_rename_ports_counter_clockwise,
     auto_rename_ports_layer_orientation,
@@ -31,6 +30,7 @@ from gdsfactory.port import (
     map_ports_layer_to_orientation,
     map_ports_to_orientation_ccw,
     map_ports_to_orientation_cw,
+    Port,
     select_ports,
 )
 from gdsfactory.serialization import clean_dict

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Union, cast
+from typing import cast, Optional, Union
 
 import gdspy
 import numpy as np
