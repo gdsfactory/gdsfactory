@@ -198,7 +198,7 @@ if __name__ == "__main__":
     # c = mzi(cross_section_x_top=strip_heater_metal, length_x=100)
 
     c = mzi()
-    c.show()
+    c.show(show_ports=True)
 
     # WIDTH = 2
     # LAYER = (34, 0)
@@ -214,7 +214,7 @@ if __name__ == "__main__":
     # c = mzi()
 
     # c = gf.c.mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c.show()
+    # c.show(show_ports=True)
 
     # extend_ports2 = gf.partial(gf.components.extend_ports, length=10)
 
@@ -222,7 +222,7 @@ if __name__ == "__main__":
     #     extend_ports2, gf.partial(gf.components.straight, width=0.9)
     # )
     # c = straigth_extended2()
-    # c.show()
+    # c.show(show_ports=True)
 
     # delta_length = 116.8 / 2
     # print(delta_length)
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     # c = mzi2x2()
 
     # c = mzi2x2_2x2(straight_x_top="straight_heater_metal")
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = mzi(
     #     delta_length=100,

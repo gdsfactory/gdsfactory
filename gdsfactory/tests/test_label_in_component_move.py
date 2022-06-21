@@ -36,4 +36,4 @@ if __name__ == "__main__":
     # test_move_int_with_float()
     # c = component_with_label()
     # c.x = 10.0
-    c.show()
+    c.show(show_ports=True)

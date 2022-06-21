@@ -19,4 +19,4 @@ if __name__ == "__main__":
     c.add_ports(w2.ports, prefix="top")
 
     c.auto_rename_ports()
-    c.show()
+    c.show(show_ports=True)

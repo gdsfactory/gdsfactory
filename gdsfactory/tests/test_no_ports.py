@@ -64,4 +64,4 @@ def test_path() -> gf.Component:
 if __name__ == "__main__":
     # c = test_no_ports()
     c = test_path()
-    c.show()
+    c.show(show_ports=True)

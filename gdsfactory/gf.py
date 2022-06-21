@@ -103,7 +103,7 @@ def merge_gds(
 
     c = gdsfactory.read.from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
-    c.show()
+    c.show(show_ports=True)
 
 
 # netlist driven flow in YAML

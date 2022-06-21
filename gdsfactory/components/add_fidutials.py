@@ -91,4 +91,4 @@ def add_fidutials_offsets(
 if __name__ == "__main__":
     # c = add_fidutials(top=cross)
     c = add_fidutials_offsets()
-    c.show()
+    c.show(show_ports=True)

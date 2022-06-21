@@ -50,4 +50,4 @@ if __name__ == "__main__":
     c.pprint()
     # c = test_type2()
     # c = test_tapers()
-    c.show()
+    c.show(show_ports=True)

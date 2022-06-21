@@ -24,4 +24,4 @@ def test_route_south(
 
 if __name__ == "__main__":
     c = test_route_south(None, check=False)
-    c.show()
+    c.show(show_ports=True)

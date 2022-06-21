@@ -105,4 +105,4 @@ via_stack_heater_m3 = gf.partial(
 
 if __name__ == "__main__":
     c = via_stack()
-    c.show()
+    c.show(show_ports=True)

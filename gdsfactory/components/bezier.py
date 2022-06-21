@@ -164,4 +164,4 @@ if __name__ == "__main__":
     # print(c.ports)
     # print(c.ports["0"].y - c.ports["1"].y)
     # c.write_gds()
-    c.show()
+    c.show(show_ports=True)
