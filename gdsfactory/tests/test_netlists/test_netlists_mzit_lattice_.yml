@@ -8,7 +8,7 @@ instances:
 name: mzit_lattice
 placements:
   mzit_69aaef87_19p137_11p4:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0

@@ -146,7 +146,7 @@ instances:
 name: mask_c9e6af3d
 placements:
   mmi1x2_sweep:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0

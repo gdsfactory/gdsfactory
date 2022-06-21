@@ -37,13 +37,13 @@ def clean_value_json(value: Any) -> Any:
     if isinstance(value, pydantic.BaseModel):
         return value.dict()
 
-    elif isinstance(value, (bool, int, float)):
+    elif isinstance(value, bool):
         return value
 
-    elif isinstance(value, np.integer):
+    elif isinstance(value, (np.integer, int)):
         return int(value)
 
-    elif isinstance(value, np.inexact):
+    elif isinstance(value, (float, np.inexact, np.float64)):
         return float(value)
 
     elif isinstance(value, np.ndarray):

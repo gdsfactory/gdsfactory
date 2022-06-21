@@ -170,7 +170,7 @@ def send_to_interconnect(
 
     relay_count = 1
     excluded = list()
-    for i, instance in enumerate(instances):
+    for instance in instances:
         if exclude_electrical:
             # Exclude if purely electrical
             with contextlib.suppress(Exception):
@@ -187,7 +187,7 @@ def send_to_interconnect(
         sim_props = get_interconnect_settings(instances[instance])
 
         if "model" not in sim_props.keys():
-            raise KeyError(f"Please specify an interconnect model for {instance}!")
+            raise KeyError(f"Please specify an interconnect model for {instance!r}")
         model = sim_props.pop("model")
 
         if "layout_model_port_pairs" in sim_props.keys():
@@ -365,9 +365,9 @@ def run_wavelength_sweep(
     Args:
         component:
         session:
-        setup_simulation: whether to send the component to interconnect before running the sweep
-        ports_in: specify the port in the Interconnect model to attach the ONA output to
-        ports_out: specify the ports in the Interconnect models to attach the ONA input to
+        setup_simulation: whether to send the component to interconnect before running the sweep.
+        ports_in: specify the port in the Interconnect model to attach the ONA output to.
+        ports_out: specify the ports in the Interconnect models to attach the ONA input to.
         wavelength_range:
         n_points:
         results:

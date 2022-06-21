@@ -31,7 +31,7 @@ def xor_polygons(A: Component, B: Component, hash_geometry: bool = True):
     all_layers.update(B_layers)
     for layer in all_layers:
         if (layer in A_layers) and (layer in B_layers):
-            p = gdspy.fast_boolean(
+            p = gdspy.boolean(
                 A_polys[layer],
                 B_polys[layer],
                 operation="xor",
@@ -58,10 +58,10 @@ def gdsdiff(
     """Compare two Components.
 
     Args:
-        component1: Component or path to gds file (reference)
-        component2: Component or path to gds file (run)
-        name: name of the top cell
-        xor: makes boolean operation
+        component1: Component or path to gds file (reference).
+        component2: Component or path to gds file (run).
+        name: name of the top cell.
+        xor: makes boolean operation.
 
     Returns:
         Component with both cells (xor, common and diffs)
