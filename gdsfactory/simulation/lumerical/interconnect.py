@@ -17,21 +17,12 @@ um = 1e-6
 def install_design_kit(
     session: object,
     install_dir: pathlib.Path = CONFIG["interconnect"],
-    overwrite: bool = True,
+    overwrite: bool = False,
 ):
     from gdsfactory.pdk import get_interconnect_cml_path
 
     cml_path = get_interconnect_cml_path()
     session.installdesignkit(str(cml_path), str(install_dir), overwrite)
-
-
-def initialize_design_kit(
-    session: object,
-    install_dir: pathlib.Path = CONFIG["interconnect"],
-    overwrite: bool = True,
-):
-    if not install_dir.exists():
-        install_design_kit(session=session, overwrite=overwrite)
 
 
 def set_named_settings(session: object, simulation_settings: dict, element: str):
@@ -135,7 +126,7 @@ def send_to_interconnect(
 
         session = lumapi.INTERCONNECT()
 
-    initialize_design_kit(session=session, overwrite=True)
+    install_design_kit(session=session)
 
     session.switchtolayout()
     session.deleteall()
@@ -382,7 +373,7 @@ def run_wavelength_sweep(
     if not session:
         session = lumapi.INTERCONNECT()
 
-    initialize_design_kit(session=session)
+    install_design_kit(session=session)
 
     if setup_simulation:
         session = send_to_interconnect(
