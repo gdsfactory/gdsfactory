@@ -58,7 +58,7 @@ def test_compose1() -> None:
 if __name__ == "__main__":
     test_compose1()
     # c = straigth_extended1()
-    # c.show()
+    # c.show(show_ports=True)
 
     # mzi500 = gf.partial(gf.components.mzi, straight=straigth_extended3)
     # mzi900 = gf.partial(gf.components.mzi, straight=straigth_extended2)
@@ -70,6 +70,6 @@ if __name__ == "__main__":
     # r500 = c << c500
     # r900 = c << c900
     # r900.ymin = r500.ymax + 10
-    # c.show()
+    # c.show(show_ports=True)
 
     # assert c900.name != c500.name, f"{c500.name} must be different from {c900.name}"

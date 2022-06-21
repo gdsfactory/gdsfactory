@@ -96,4 +96,4 @@ if __name__ == "__main__":
                 c.add(metal_route.references)
 
     c.write_gds(name)
-    c.show()
+    c.show(show_ports=True)

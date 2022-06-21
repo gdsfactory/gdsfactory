@@ -80,7 +80,7 @@ def validate_yaml(yaml_text, output):
     try:
         # jsonschema.validate(yaml_dict, schema_dict)
         c = from_yaml(yaml_text)
-        c.show()
+        c.show(show_ports=True)
         return f"{class_name} is-valid", ""
     except (Exception, jsonschema.exceptions.ValidationError) as e:
         return f"{class_name} is-invalid", f"Error {e}"

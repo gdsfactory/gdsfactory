@@ -99,4 +99,4 @@ def die(
 
 if __name__ == "__main__":
     c = die(size=(3000, 5000), draw_dicing_lane=True)
-    c.show()
+    c.show(show_ports=True)

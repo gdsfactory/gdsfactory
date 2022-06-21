@@ -76,4 +76,4 @@ def test_crossing() -> Component:
 
 if __name__ == "__main__":
     c = test_crossing()
-    c.show()
+    c.show(show_ports=True)

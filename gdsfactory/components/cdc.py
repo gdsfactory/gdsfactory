@@ -83,4 +83,4 @@ if __name__ == "__main__":
 
     c = cdc()
     print(c.ports.keys())
-    c.show()
+    c.show(show_ports=True)

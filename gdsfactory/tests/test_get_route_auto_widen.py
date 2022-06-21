@@ -56,4 +56,4 @@ if __name__ == "__main__":
         radius=30,
     )
     c.add(route.references)
-    c.show()
+    c.show(show_ports=True)

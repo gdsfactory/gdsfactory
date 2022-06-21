@@ -72,7 +72,7 @@ def get_route_from_steps(
         )
         c.add(route.references)
         c.plot()
-        c.show()
+        c.show(show_ports=True)
 
     """
     x, y = port1.midpoint
@@ -202,7 +202,7 @@ if __name__ == "__main__":
     #     ],
     # )
     # c.add(route.references)
-    # c.show()
+    # c.show(show_ports=True)
 
     c = gf.Component("pads_route_from_steps")
     pt = c << gf.components.pad_array(orientation=270, columns=3)
@@ -218,4 +218,4 @@ if __name__ == "__main__":
         # bend=gf.components.wire_corner,
     )
     c.add(route.references)
-    c.show()
+    c.show(show_ports=True)

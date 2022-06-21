@@ -98,4 +98,4 @@ if __name__ == "__main__":
         # text=["b1", "demo"],
         text_size=20,
     )
-    c.show()
+    c.show(show_ports=True)

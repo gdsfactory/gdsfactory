@@ -164,7 +164,7 @@ def spiral_circular(
     # thickness = outer_radius - mid_radius
     # r = gds.Round((0.,0.), outer_radius, inner_radius, layer=1, max_points=1000)
 
-    ps = gds.fast_boolean(ps, None, "or")
+    ps = gds.boolean(ps, None, "or")
 
     c = gf.Component()
     c.info["length"] = snap_to_grid(length)
@@ -191,5 +191,5 @@ if __name__ == "__main__":
     c = spiral_circular(length=1e3)
     print(c.ports)
     print(c.ports.keys())
-    c.show()
+    c.show(show_ports=True)
     c.write_gds()

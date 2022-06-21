@@ -102,4 +102,4 @@ if __name__ == "__main__":
         layers=(LAYER.SLAB90, LAYER.M2),
         justify="center",
     )
-    c.show()
+    c.show(show_ports=True)
