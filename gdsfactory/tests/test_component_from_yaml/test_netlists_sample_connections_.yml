@@ -18,12 +18,12 @@ instances:
 name: sample_connections_93c0d1e7
 placements:
   wgn:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
   wgw:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.5
     y: 0.0

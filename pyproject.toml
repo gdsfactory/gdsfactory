@@ -5,7 +5,6 @@ build-backend = "setuptools.build_meta:__legacy__"
 [tool.pytest.ini_options]
 testpaths = ['gdsfactory']
 addopts = '--tb=short'
-collect_ignore = "gdsfactory/difftest.py"
 norecursedirs = [
     'gdsfactory/simulation',
     'gdsfactory/icyaml',

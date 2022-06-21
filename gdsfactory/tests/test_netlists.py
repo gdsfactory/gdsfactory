@@ -90,6 +90,7 @@ if __name__ == "__main__":
 
     component_type = "ring_double"
     component_type = "ring_single"
+    component_type = "ring_single_array"
     c1 = components[component_type]()
     n = c1.get_netlist()
     yaml_str = OmegaConf.to_yaml(n, sort_keys=True)
