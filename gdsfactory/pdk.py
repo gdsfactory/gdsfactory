@@ -52,6 +52,7 @@ class Pdk(BaseModel):
         layer_stack: includes layer numbers, thickness and zmin.
         layer_colors: includes layer colors, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
+        interconnect_cml_path: path to interconnect CML (optional)
     """
 
     name: str
@@ -64,6 +65,7 @@ class Pdk(BaseModel):
     layer_stack: Optional[LayerStack] = None
     layer_colors: Optional[LayerColors] = None
     sparameters_path: PathType
+    interconnect_cml_path: PathType = None
 
     @validator("sparameters_path")
     def is_pathlib_path(cls, path):
