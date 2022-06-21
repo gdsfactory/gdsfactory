@@ -121,7 +121,7 @@ def spiral_circular(
     x_sp = np.concatenate([x_1[:0:-1], x_inner_1[:-1], x_inner_2[-2:0:-1], x_2])
     y_sp = np.concatenate([y_1[:0:-1], y_inner_1[:-1], y_inner_2[-2:0:-1], y_2])
 
-    p_spiral = gds.PolyPath(
+    p_spiral = gds.FlexPath(
         np.c_[x_sp, y_sp], wg_width, layer=wg_layer, datatype=wg_datatype
     )
     ps.append(p_spiral)
@@ -142,7 +142,7 @@ def spiral_circular(
     y_input = np.append(y_input[0] + 0.03, y_input)
     x_input = np.append(x_input, x_input[-1] - 0.03)
     y_input = np.append(y_input, y_input[-1])
-    p = gds.PolyPath(
+    p = gds.FlexPath(
         np.c_[x_input, y_input], wg_width, layer=wg_layer, datatype=wg_datatype
     )
     ps.append(p)
@@ -164,7 +164,7 @@ def spiral_circular(
     # thickness = outer_radius - mid_radius
     # r = gds.Round((0.,0.), outer_radius, inner_radius, layer=1, max_points=1000)
 
-    ps = gds.fast_boolean(ps, None, "or")
+    ps = gds.boolean(ps, None, "or")
 
     c = gf.Component()
     c.info["length"] = snap_to_grid(length)

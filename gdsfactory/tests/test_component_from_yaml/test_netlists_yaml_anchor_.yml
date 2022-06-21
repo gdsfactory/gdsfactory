@@ -13,12 +13,12 @@ instances:
 name: yaml_anchor_4d75d577
 placements:
   mmi_long:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 20.001
     y: 12.875
   mmi_short:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: -15.0
     y: 0.625

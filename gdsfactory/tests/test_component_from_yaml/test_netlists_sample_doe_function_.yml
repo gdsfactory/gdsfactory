@@ -2287,12 +2287,12 @@ instances:
 name: mask_compact_c65fc3af
 placements:
   mzis:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 1458.699
     y: 0.0
   rings:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 44.953
     y: 0.0

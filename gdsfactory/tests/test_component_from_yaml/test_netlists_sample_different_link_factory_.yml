@@ -27,6 +27,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -49,6 +50,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -71,6 +73,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -93,6 +96,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -115,6 +119,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -137,6 +142,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -159,6 +165,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -181,6 +188,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -203,6 +211,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -225,6 +234,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -247,6 +257,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -269,6 +280,7 @@ instances:
       length: 16.637
       radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -537,7 +549,7 @@ instances:
 name: sample_path_length_matc_80997953
 placements:
   bend_euler_1c0827cd_225p124_204p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 220.0
     y: 200.0
@@ -557,7 +569,7 @@ placements:
     x: 230.0
     y: 590.0
   bend_euler_1c0827cd_255p124_4p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 250.0
     y: 0.0
@@ -577,92 +589,92 @@ placements:
     x: 260.0
     y: 390.0
   bend_euler_1c0827cd_495p124_564p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 490.0
     y: 560.0
   bend_euler_1c0827cd_495p124_575p124:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 500.0
     y: 570.0
   bend_euler_1c0827cd_525p124_364p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 520.0
     y: 360.0
   bend_euler_1c0827cd_525p124_375p124:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 530.0
     y: 370.0
   bl:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
   br:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 900.0
     y: 400.0
   straight_11ae13cd_545p0_600p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 240.0
     y: 600.0
   straight_49585107_560p0_400p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 270.0
     y: 400.0
   straight_53c35efb_150p0_0p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 50.0
     y: 0.0
   straight_936f36dd_365p0_560p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 240.0
     y: 560.0
   straight_936f36dd_365p0_580p0:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 490.0
     y: 580.0
   straight_936f36dd_395p0_360p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 270.0
     y: 360.0
   straight_936f36dd_395p0_380p0:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: 520.0
     y: 380.0
   straight_eaee84f9_135p0_200p0:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 50.0
     y: 200.0
   straight_f44bc04e_230p0_380p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 230.0
     y: 210.0
   straight_f44bc04e_260p0_180p0:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 260.0
     y: 10.0
   tl:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 200.0
   tr:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 900.0
     y: 600.0

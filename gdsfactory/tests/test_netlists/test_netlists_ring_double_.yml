@@ -83,22 +83,22 @@ instances:
 name: ring_double
 placements:
   coupler_ring_d2e9af6d_m0p005_16p184:
-    mirror: false
+    mirror: 0
     rotation: 180
     x: -0.01
     y: 21.41
   coupler_ring_d2e9af6d_m0p005_5p226:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
   straight_08352659_10p0_10p705:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 10.0
     y: 10.7
   straight_08352659_m10p01_10p705:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: -10.01
     y: 10.7
