@@ -98,4 +98,4 @@ if __name__ == "__main__":
     c = cutback_component()
     # c = cutback_component_mirror(component=component_flipped)
     # c = gf.routing.add_fiber_single(c)
-    c.show()
+    c.show(show_ports=True)

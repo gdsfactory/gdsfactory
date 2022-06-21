@@ -83,4 +83,4 @@ if __name__ == "__main__":
     e3.movex(5)
     e2.movex(2)
     c = boolean(A=[e1, e3], B=e2, operation="A-B")
-    c.show()
+    c.show(show_ports=True)

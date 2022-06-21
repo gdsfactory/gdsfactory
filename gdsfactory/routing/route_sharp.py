@@ -381,4 +381,4 @@ if __name__ == "__main__":
     c2.movey(-200)
 
     route = c << route_sharp(c1.ports["e4"], c2.ports["e1"], path_type="L")
-    c.show()
+    c.show(show_ports=True)

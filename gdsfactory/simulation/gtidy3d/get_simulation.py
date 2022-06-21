@@ -15,10 +15,10 @@ from gdsfactory.config import logger
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.routing.sort_ports import sort_ports_x, sort_ports_y
 from gdsfactory.simulation.gtidy3d.materials import (
-    MATERIAL_NAME_TO_TIDY3D_INDEX,
-    MATERIAL_NAME_TO_TIDY3D_NAME,
     get_index,
     get_medium,
+    MATERIAL_NAME_TO_TIDY3D_INDEX,
+    MATERIAL_NAME_TO_TIDY3D_NAME,
 )
 from gdsfactory.tech import LayerStack
 from gdsfactory.types import ComponentSpec, Float2

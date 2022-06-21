@@ -185,4 +185,4 @@ if __name__ == "__main__":
         # length=600,
         # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
     )
-    c.show()
+    c.show(show_ports=True)

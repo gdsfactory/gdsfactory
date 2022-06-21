@@ -124,4 +124,4 @@ if __name__ == "__main__":
     # cc = gf.add_pins(c)
     # print(c.settings)
     # print(c.settings)
-    # cc.show()
+    # cc.show(show_ports=True)

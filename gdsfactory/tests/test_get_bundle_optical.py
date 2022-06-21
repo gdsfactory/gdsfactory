@@ -65,4 +65,4 @@ def test_get_bundle_optical2(
 if __name__ == "__main__":
     c = test_get_bundle_optical(None, check=False)
     # c = test_get_bundle_optical2(None, check=False)
-    c.show()
+    c.show(show_ports=True)

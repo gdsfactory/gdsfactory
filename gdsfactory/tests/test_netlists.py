@@ -78,7 +78,7 @@ if __name__ == "__main__":
     # print(n.connections)
     # n = c.get_netlist_yaml()
     # print(n)
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = components["ring_single"]()
     # n.pop("connections")

@@ -40,4 +40,4 @@ def ring(
 
 if __name__ == "__main__":
     c = ring(radius=5)
-    c.show()
+    c.show(show_ports=True)

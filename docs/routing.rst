@@ -55,7 +55,7 @@ Example with two arrays of ports connected using `get_bundle`
 
 
     c = test_north_to_south()
-    c.show()
+    c.show(show_ports=True)
     c.plot()
 
 

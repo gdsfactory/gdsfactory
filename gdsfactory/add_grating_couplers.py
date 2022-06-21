@@ -375,4 +375,4 @@ if __name__ == "__main__":
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 
-    c.show()
+    c.show(show_ports=True)

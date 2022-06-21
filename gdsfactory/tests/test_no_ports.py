@@ -1,6 +1,5 @@
 import gdsfactory as gf
-from gdsfactory import CrossSection
-from gdsfactory import path as pa
+from gdsfactory import CrossSection, path as pa
 
 
 def test_no_ports() -> gf.Component:
@@ -65,4 +64,4 @@ def test_path() -> gf.Component:
 if __name__ == "__main__":
     # c = test_no_ports()
     c = test_path()
-    c.show()
+    c.show(show_ports=True)

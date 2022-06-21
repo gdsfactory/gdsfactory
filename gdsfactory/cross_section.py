@@ -12,7 +12,7 @@ import pydantic
 from pydantic import BaseModel, Field
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
-from gdsfactory.tech import TECH, Section
+from gdsfactory.tech import Section, TECH
 
 LAYER = TECH.layer
 Layer = Tuple[int, int]
@@ -989,13 +989,13 @@ if __name__ == "__main__":
     p = gf.path.straight()
     copied_cs = gf.cross_section.strip().copy()
     c = gf.path.extrude(p, cross_section=copied_cs)
-    c.show()
+    c.show(show_ports=True)
 
     # p = gf.path.straight()
     # x = CrossSection(name="strip", layer=(1, 0), width=0.5)
     # x = x.copy(width=3)
     # c = p.extrude(x)
-    # c.show()
+    # c.show(show_ports=True)
 
     # P = gf.path.euler(radius=10, use_eff=True)
     # P = euler()

@@ -28,4 +28,4 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = copy_layers(gf.components.rectangle)
-    c.show()
+    c.show(show_ports=True)

@@ -183,4 +183,4 @@ if __name__ == "__main__":
         avoid_layers=((1, 0),),
         # bbox=(100.0, 100.0),
     )
-    c.show()
+    c.show(show_ports=True)

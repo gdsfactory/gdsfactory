@@ -9,7 +9,7 @@ import toolz
 from pydantic import BaseModel, validate_arguments
 
 from gdsfactory.component import Component
-from gdsfactory.name import MAX_NAME_LENGTH, clean_name, get_name_short
+from gdsfactory.name import clean_name, get_name_short, MAX_NAME_LENGTH
 from gdsfactory.serialization import clean_dict, clean_value_name
 
 CACHE: Dict[str, Component] = {}
