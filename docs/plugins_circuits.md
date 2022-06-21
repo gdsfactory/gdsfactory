@@ -7,5 +7,5 @@
 
    notebooks/plugins/sax/sax.ipynb
    notebooks/plugins/simphony/01_components.ipynb
-   notebooks/plugins/lumerical/interconnect/2_interconnect.ipynb
+   notebooks/plugins/lumerical/2_interconnect.ipynb
 ```
