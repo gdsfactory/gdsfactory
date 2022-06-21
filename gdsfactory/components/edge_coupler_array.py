@@ -133,4 +133,4 @@ if __name__ == "__main__":
     # c = edge_coupler_silicon()
     # c = edge_coupler_array()
     c = edge_coupler_array_with_loopback()
-    c.show()
+    c.show(show_ports=True)

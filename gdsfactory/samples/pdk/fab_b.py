@@ -49,4 +49,4 @@ if __name__ == "__main__":
     wg_gc = gf.routing.add_fiber_array(
         component=c, grating_coupler=gc, cross_section=fab_b_metal
     )
-    wg_gc.show()
+    wg_gc.show(show_ports=True)

@@ -191,5 +191,5 @@ if __name__ == "__main__":
     c = spiral_circular(length=1e3)
     print(c.ports)
     print(c.ports.keys())
-    c.show()
+    c.show(show_ports=True)
     c.write_gds()

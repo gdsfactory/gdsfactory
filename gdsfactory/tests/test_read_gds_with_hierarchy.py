@@ -57,7 +57,7 @@ def test_mix_cells_from_gds_and_from_function2() -> None:
     c << gf.components.mzi()
     c << gf.import_gds(gdspath)
     c.write_gds()
-    c.show()
+    c.show(show_ports=True)
 
 
 def _write() -> None:
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     test_read_gds_equivalent2()
 
     # c = test_read_gds_hash2()
-    # c.show()
+    # c.show(show_ports=True)
     # test_mix_cells_from_gds_and_from_function2()
 
     # test_read_gds_with_settings2()

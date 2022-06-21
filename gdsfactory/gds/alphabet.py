@@ -20,4 +20,4 @@ def alphabet(dx=10):
 if __name__ == "__main__":
     c = alphabet()
     c.write_gds("alphabet.gds")
-    c.show()
+    c.show(show_ports=True)

@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
     # c = test_pack_with_settings()
     # c = test_pack()
-    # c.show()
+    # c.show(show_ports=True)
     # c.pprint()
     # c.write_gds_with_metadata("mask.gds")
 
@@ -263,4 +263,4 @@ if __name__ == "__main__":
     )
     c = p[0]
     print(c.name)
-    c.show()
+    c.show(show_ports=True)

@@ -149,4 +149,4 @@ def grating_coupler_rectangular_arbitrary(
 if __name__ == "__main__":
     c = grating_coupler_rectangular_arbitrary()
     print(c.ports)
-    c.show()
+    c.show(show_ports=True)

@@ -148,4 +148,4 @@ def add_fiber_array_siepic(
 
 if __name__ == "__main__":
     c = add_fiber_array_siepic()
-    c.show()
+    c.show(show_ports=True)

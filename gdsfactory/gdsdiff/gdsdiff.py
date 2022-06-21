@@ -97,4 +97,4 @@ if __name__ == "__main__":
         print("Note that you need to have KLayout opened with klive running")
         sys.exit()
     c = gdsdiff(sys.argv[1], sys.argv[2])
-    c.show()
+    c.show(show_ports=True)

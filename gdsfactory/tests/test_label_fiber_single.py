@@ -56,7 +56,7 @@ def test_label_fiber_single_loopback(length=LENGTH) -> Component:
 if __name__ == "__main__":
     # c = test_label_fiber_single()
     c = test_label_fiber_single_loopback()
-    # c.show()
+    # c.show(show_ports=True)
 
     # c1 = gf.components.straight(width=2)
     # c2 = gf.add_tapers(c1)

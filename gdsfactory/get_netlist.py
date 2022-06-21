@@ -264,7 +264,7 @@ if __name__ == "__main__":
 
     # c = gf.read.from_yaml(sample_2x2_connections)
     # c = gf.components.ring_single()
-    # c.show()
+    # c.show(show_ports=True)
     # pprint(c.get_netlist())
 
     # n = c.get_netlist()

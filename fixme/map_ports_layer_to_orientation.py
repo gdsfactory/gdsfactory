@@ -73,4 +73,4 @@ if __name__ == "__main__":
     c.auto_rename_ports_layer_orientation()
     m = map_ports_layer_to_orientation(c.ports)
     pprint(m)
-    c.show()
+    c.show(show_ports=True)
