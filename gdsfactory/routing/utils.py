@@ -69,4 +69,4 @@ if __name__ == "__main__":
 
     c = gf.components.mmi1x2()
     d = direction_ports_from_list_ports(c.get_ports_list())
-    c.show()
+    c.show(show_ports=True)

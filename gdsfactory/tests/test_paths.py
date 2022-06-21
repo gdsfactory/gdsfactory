@@ -195,7 +195,7 @@ if __name__ == "__main__":
     # c = rename()
     # c.pprint()
 
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = gf.Component()
     # s1 = gf.Section(width=2.2, offset=0, layer=(3, 0), name="etch")
@@ -243,4 +243,4 @@ if __name__ == "__main__":
 
     # wg2_ref = c << wg2
     # wg2_ref.connect("in1", wgt_ref.ports["out1"])
-    # c.show()
+    # c.show(show_ports=True)

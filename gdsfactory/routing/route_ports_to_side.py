@@ -4,7 +4,7 @@ import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.port import Port, flipped
+from gdsfactory.port import flipped, Port
 from gdsfactory.routing.get_route import get_route
 from gdsfactory.types import Route
 
@@ -538,9 +538,9 @@ if __name__ == "__main__":
             c.add(route.references)
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
-    c.show()
+    c.show(show_ports=True)
 
 
 if __name__ == "__main__":
     c = _sample_route_sides()
-    c.show()
+    c.show(show_ports=True)

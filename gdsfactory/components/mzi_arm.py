@@ -82,4 +82,4 @@ if __name__ == "__main__":
 
     c = mzi_arm(straight_x=gf.components.straight_heater_metal)
     c.pprint_ports()
-    c.show()
+    c.show(show_ports=True)

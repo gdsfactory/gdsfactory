@@ -160,4 +160,4 @@ if __name__ == "__main__":
     c1 = c << demo_connect_corner(config="A")
     c2 = c << demo_connect_corner(config="C")
     c2.xmin = c1.xmax + 5
-    c.show()
+    c.show(show_ports=True)

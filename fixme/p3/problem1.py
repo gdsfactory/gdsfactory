@@ -63,4 +63,4 @@ if __name__ == "__main__":
     c.write_gds("solution1.gds")
     c = problem1()
     c.write_gds("problem1.gds")
-    c.show()
+    c.show(show_ports=True)

@@ -16,9 +16,11 @@ import gdspy
 import numpy as np
 from numpy import ndarray
 from omegaconf import OmegaConf
-from phidl.device_layout import Device as Component
-from phidl.device_layout import DeviceReference as ComponentReference
-from phidl.device_layout import Port
+from phidl.device_layout import (
+    Device as Component,
+    DeviceReference as ComponentReference,
+    Port,
+)
 
 from gdsfactory.snap import snap_to_grid
 
@@ -596,7 +598,7 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     # c = test_add_pins()
-    # c.show()
+    # c.show(show_ports=True)
     # c = gf.components.straight(length=2)
     # c.show(show_ports_suborts=True)
     # p1 = len(c1.get_polygons())

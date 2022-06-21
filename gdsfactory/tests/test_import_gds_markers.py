@@ -27,4 +27,4 @@ if __name__ == "__main__":
     # print(c.ports.keys())
     # print(c.name)
     d = c.to_dict()
-    c.show()
+    c.show(show_ports=True)

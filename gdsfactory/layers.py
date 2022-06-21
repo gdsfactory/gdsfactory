@@ -403,7 +403,7 @@ if __name__ == "__main__":
 
     # lys = test_load_lyp()
     # c = preview_layerset(LAYER_COLORS)
-    # c.show()
+    # c.show(show_ports=True)
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))

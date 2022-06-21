@@ -52,4 +52,4 @@ def cdsem_coupler(
 
 if __name__ == "__main__":
     c = cdsem_coupler()
-    c.show()
+    c.show(show_ports=True)

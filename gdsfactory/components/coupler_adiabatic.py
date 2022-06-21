@@ -91,4 +91,4 @@ if __name__ == "__main__":
 
     c = coupler_adiabatic(length3=5)
     print(c.ports)
-    c.show()
+    c.show(show_ports=True)

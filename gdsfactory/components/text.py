@@ -96,4 +96,4 @@ if __name__ == "__main__":
     #     position=(120.5, 3),
     # )
     c = text_lines(text=["a", "b"], size=10)
-    c.show()
+    c.show(show_ports=True)
