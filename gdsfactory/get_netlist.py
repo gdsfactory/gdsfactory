@@ -120,8 +120,8 @@ def get_netlist(
         placements[reference_name] = dict(
             x=x,
             y=y,
-            rotation=int(reference.rotation),
-            mirror=reference.x_reflection,
+            rotation=int(reference.rotation or 0),
+            mirror=reference.x_reflection or 0,
         )
 
     # store where ports are located
