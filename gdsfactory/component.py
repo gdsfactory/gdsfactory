@@ -642,11 +642,14 @@ class Component(Device):
 
         polarization = component.info.get("polarization")
         wavelength = component.info.get("wavelength")
+        interconnect = component.info.get("interconnect")
 
         if polarization:
             self.info["polarization"] = polarization
         if wavelength:
             self.info["wavelength"] = wavelength
+        if interconnect:
+            self.info["interconnect"] = interconnect
 
     @property
     def size_info(self) -> SizeInfo:
