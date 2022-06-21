@@ -52,7 +52,7 @@ class Pdk(BaseModel):
         layer_stack: includes layer numbers, thickness and zmin.
         layer_colors: includes layer colors, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
-        interconnect_cml_path: path to interconnect CML (optional)
+        interconnect_cml_path: path to interconnect CML (optional).
     """
 
     name: str
@@ -64,8 +64,8 @@ class Pdk(BaseModel):
     default_decorator: Optional[Callable[[Component], None]] = None
     layer_stack: Optional[LayerStack] = None
     layer_colors: Optional[LayerColors] = None
-    sparameters_path: PathType
-    interconnect_cml_path: PathType = None
+    sparameters_path: Optional[PathType] = None
+    interconnect_cml_path: Optional[PathType] = None
 
     @validator("sparameters_path")
     def is_pathlib_path(cls, path):
@@ -435,8 +435,16 @@ def get_active_pdk() -> Pdk:
     return _ACTIVE_PDK
 
 
-def get_sparameters_path() -> Pdk:
+def get_sparameters_path() -> pathlib.Path:
+    if _ACTIVE_PDK.sparameters_path is None:
+        raise ValueError(f"{_ACTIVE_PDK.name!r} has no sparameters_path")
     return _ACTIVE_PDK.sparameters_path
+
+
+def get_interconnect_cml_path() -> pathlib.Path:
+    if _ACTIVE_PDK.interconnect_cml_path is None:
+        raise ValueError(f"{_ACTIVE_PDK.name!r} has no interconnect_cml_path")
+    return _ACTIVE_PDK.interconnect_cml_path
 
 
 def _set_active_pdk(pdk: Pdk) -> None:
