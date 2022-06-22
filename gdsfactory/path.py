@@ -266,7 +266,7 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    snap_to_grid_nm = int(x.snap_to_grid or get_grid_size())
+    snap_to_grid_nm = int(1e3 * (x.snap_to_grid or get_grid_size()))
     sections = x.sections or []
     sections = list(sections)
 
