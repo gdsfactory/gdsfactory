@@ -773,4 +773,5 @@ if __name__ == "__main__":
     b = c << gf.components.bend_circular(angle=30)
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
+    # c = c.flatten()
     c.show(show_ports=True)
