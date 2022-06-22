@@ -17,21 +17,12 @@ um = 1e-6
 def install_design_kit(
     session: object,
     install_dir: pathlib.Path = CONFIG["interconnect"],
-    overwrite: bool = True,
+    overwrite: bool = False,
 ):
     from gdsfactory.pdk import get_interconnect_cml_path
 
     cml_path = get_interconnect_cml_path()
     session.installdesignkit(str(cml_path), str(install_dir), overwrite)
-
-
-def initialize_design_kit(
-    session: object,
-    install_dir: pathlib.Path = CONFIG["interconnect"],
-    overwrite: bool = True,
-):
-    if not install_dir.exists():
-        install_design_kit(session=session, overwrite=overwrite)
 
 
 def set_named_settings(session: object, simulation_settings: dict, element: str):
@@ -83,25 +74,21 @@ def add_interconnect_element(
             props.update(simulation_props["properties"])
         else:
             props.update(simulation_props)
-    # print(f'Adding component: {label} with model: {model} and properties: {props}')
-    element = session.addelement(model, properties=props)
-    return element
+    return session.addelement(model, properties=props)
 
 
 def get_interconnect_settings(instance):
     info = instance.info.copy()
-    if "interconnect" in info.keys():
-
-        settings = info["interconnect"]
-        if "properties" not in settings:
-            settings["properties"] = []
-        if "layout_model_property_pairs" in settings.keys():
-            pairs = settings.pop("layout_model_property_pairs")
-            for inc_name, (layout_name, scale) in pairs.items():
-                settings["properties"][inc_name] = info[layout_name] * scale
-        return settings
-    else:
+    if "interconnect" not in info.keys():
         return dict()
+    settings = info["interconnect"]
+    if "properties" not in settings:
+        settings["properties"] = []
+    if "layout_model_property_pairs" in settings.keys():
+        pairs = settings.pop("layout_model_property_pairs")
+        for inc_name, (layout_name, scale) in pairs.items():
+            settings["properties"][inc_name] = info[layout_name] * scale
+    return settings
 
 
 def send_to_interconnect(
@@ -135,7 +122,7 @@ def send_to_interconnect(
 
         session = lumapi.INTERCONNECT()
 
-    initialize_design_kit(session=session, overwrite=True)
+    install_design_kit(session=session)
 
     session.switchtolayout()
     session.deleteall()
@@ -169,7 +156,7 @@ def send_to_interconnect(
     ports: DictConfig = netlist["ports"]
 
     relay_count = 1
-    excluded = list()
+    excluded = []
     for instance in instances:
         if exclude_electrical:
             # Exclude if purely electrical
@@ -201,7 +188,7 @@ def send_to_interconnect(
             model=model,
             simulation_props=sim_props,
         )
-        if instance in ports_in.keys():
+        if instance in ports_in:
             # Add input port and connect to the compound element input port
             session.addport(
                 f"::Root Element::{compound_element.name}",
@@ -227,7 +214,7 @@ def send_to_interconnect(
                 loc[0] - 50,
             )
             relay_count += 1
-        elif instance in ports_out.keys():
+        elif instance in ports_out:
             session.addport(
                 f"::Root Element::{compound_element.name}",
                 f"{instance}.{ports_out[instance]}",
@@ -382,7 +369,7 @@ def run_wavelength_sweep(
     if not session:
         session = lumapi.INTERCONNECT()
 
-    initialize_design_kit(session=session)
+    install_design_kit(session=session)
 
     if setup_simulation:
         session = send_to_interconnect(
@@ -423,15 +410,16 @@ def run_wavelength_sweep(
 
     session.run()
 
-    data = dict()
-    for result in results:
-        data[result] = {
-            port: session.getresult(ona.name, f"input {i+1}/mode {mode}/{result}")
+    # inc.close()
+    return {
+        result: {
+            port: session.getresult(
+                ona.name, f"input {i+1}/mode {mode}/{result}"
+            )
             for i, port in enumerate(ports_out)
         }
-
-    # inc.close()
-    return data
+        for result in results
+    }
 
 
 def plot_wavelength_sweep(
