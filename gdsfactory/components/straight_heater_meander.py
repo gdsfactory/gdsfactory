@@ -186,3 +186,5 @@ if __name__ == "__main__":
         # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
     )
     c.show(show_ports=True)
+    scene = c.to_3d()
+    scene.show()
