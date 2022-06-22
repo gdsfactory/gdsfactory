@@ -1,3 +1,4 @@
+import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
@@ -459,9 +460,12 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(
-        self, port: Union[str, Port], destination: Port, overlap: float = 0.0
+        self,
+        port: Union[str, Port],
+        destination: Port,
+        overlap: float = 0.0,
     ) -> "ComponentReference":
-        """Return Component reference where a port or port_name connects to a destination
+        """Return ComponentReference where port connects to a destination.
 
         Args:
             port: origin (port or port_name) to connect.
@@ -469,9 +473,10 @@ class ComponentReference(DeviceReference):
             overlap: how deep does the port go inside.
 
         Returns:
-            ComponentReference
+            ComponentReference: with correct rotation to connect to destination.
         """
-        # ``port`` can either be a string with the name or an actual Port
+
+        # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
         elif isinstance(port, Port):
@@ -484,8 +489,14 @@ class ComponentReference(DeviceReference):
 
         angle = 180 + destination.orientation - p.orientation
         angle = angle % 360
-        self.rotate(angle=angle, center=p.midpoint)
 
+        if int(angle) not in (0, 90, 180, 270):
+            warnings.warn(
+                f"destination port {angle} not on manhattan grid (0, 90, 180, 270). "
+                "You may have to flatten the component to avoid gaps."
+            )
+
+        self.rotate(angle=angle, center=p.midpoint)
         self.move(origin=p, destination=destination)
         self.move(
             -overlap
