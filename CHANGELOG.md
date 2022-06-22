@@ -4,6 +4,9 @@
 
 - rename triangle to triangles, to avoid conflict names with triangle module [PR](https://github.com/gdsfactory/gdsfactory/pull/475)
 - fix interconnect plugin notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/473/files)
+- add `Pdk.grid_size = 0.001` (1nm by default)
+- raise warning when extruding paths with off-grid points
+- raise warning when connecting components with non-manhattan (0, 90, 180, 270) orientation
 
 ## [5.10.15](https://github.com/gdsfactory/gdsfactory/pull/470)
 
