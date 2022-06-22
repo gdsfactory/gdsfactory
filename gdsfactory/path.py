@@ -266,7 +266,7 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    snap_to_grid_nm = (x.snap_to_grid or get_grid_size()) * 1e3
+    snap_to_grid_nm = int(x.snap_to_grid or get_grid_size())
     sections = x.sections or []
     sections = list(sections)
 
@@ -383,21 +383,9 @@ def extrude(
             points2 = _simplify(points2, tolerance=simplify)
 
         if x.snap_to_grid:
-            points = (
-                snap_to_grid_nm
-                * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
-                / 1e3
-            )
-            points1 = (
-                snap_to_grid_nm
-                * np.round(np.array(points1) * 1e3 / snap_to_grid_nm)
-                / 1e3
-            )
-            points2 = (
-                snap_to_grid_nm
-                * np.round(np.array(points2) * 1e3 / snap_to_grid_nm)
-                / 1e3
-            )
+            points = snap.snap_to_grid(points, snap_to_grid_nm)
+            points1 = snap.snap_to_grid(points1, snap_to_grid_nm)
+            points2 = snap.snap_to_grid(points2, snap_to_grid_nm)
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
