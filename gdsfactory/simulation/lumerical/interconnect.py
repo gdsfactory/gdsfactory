@@ -413,9 +413,7 @@ def run_wavelength_sweep(
     # inc.close()
     return {
         result: {
-            port: session.getresult(
-                ona.name, f"input {i+1}/mode {mode}/{result}"
-            )
+            port: session.getresult(ona.name, f"input {i+1}/mode {mode}/{result}")
             for i, port in enumerate(ports_out)
         }
         for result in results
