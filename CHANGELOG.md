@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.10.16](https://github.com/gdsfactory/gdsfactory/pull/476)
+## [5.10.16](https://github.com/gdsfactory/gdsfactory/pull/477)
 
 - rename triangle to triangles, to avoid conflict names with triangle module [PR](https://github.com/gdsfactory/gdsfactory/pull/475)
 - fix interconnect plugin notebook [PR](https://github.com/gdsfactory/gdsfactory/pull/473/files)
