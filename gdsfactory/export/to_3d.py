@@ -39,7 +39,7 @@ def to_3d(
     scene = Scene()
     layer_to_thickness = layer_stack.get_layer_to_thickness()
     layer_to_zmin = layer_stack.get_layer_to_zmin()
-    exclude_layers = exclude_layers or []
+    exclude_layers = exclude_layers or ()
 
     has_polygons = False
 
