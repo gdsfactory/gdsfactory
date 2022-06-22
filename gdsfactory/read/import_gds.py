@@ -34,11 +34,11 @@ def import_gds(
     Args:
         gdspath: path of GDS file.
         cellname: cell of the name to import (None) imports top cell.
-        snap_to_grid_nm: snap to different nm grid (does not snap if False)
+        snap_to_grid_nm: snap to different nm grid (does not snap if False).
         gdsdir: optional GDS directory.
         read_metadata: loads metadata if it exists.
-        hashed_name: appends a hash to a shortened component name
-        kwargs: extra info for the imported component (polarization, wavelength ...).
+        hashed_name: appends a hash to a shortened component name.
+        kwargs: extra to add to component.info (polarization, wavelength ...).
     """
     gdspath = Path(gdsdir) / Path(gdspath) if gdsdir else Path(gdspath)
     if not gdspath.exists():
