@@ -401,7 +401,7 @@ def extrude(
             midpoint = points[0]
             midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
 
-            if midpoint[0] != midpoint_snap[0] and midpoint[1] != midpoint_snap[1]:
+            if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
                 warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
 
             c.add_port(
@@ -424,7 +424,7 @@ def extrude(
             midpoint = points[-1]
             midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
 
-            if midpoint[0] != midpoint_snap[0] and midpoint[1] != midpoint_snap[1]:
+            if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
                 warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
             c.add_port(
                 port=Port(
