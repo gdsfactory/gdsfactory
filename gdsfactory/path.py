@@ -7,6 +7,7 @@ The CrossSection defines the layer numbers, widths and offsetts
 Based on phidl.path
 """
 
+import warnings
 from collections.abc import Iterable
 from typing import Optional
 
@@ -16,6 +17,7 @@ from phidl import path
 from phidl.device_layout import Path as PathPhidl
 from phidl.path import smooth as smooth_phidl
 
+from gdsfactory import snap
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
@@ -242,7 +244,7 @@ def extrude(
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
-    from gdsfactory.pdk import get_cross_section, get_layer
+    from gdsfactory.pdk import get_cross_section, get_grid_size, get_layer
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -264,7 +266,7 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    snap_to_grid = x.snap_to_grid
+    snap_to_grid_nm = (x.snap_to_grid or get_grid_size()) * 1e3
     sections = x.sections or []
     sections = list(sections)
 
@@ -375,12 +377,12 @@ def extrude(
         # Simplify lines using the Ramer–Douglas–Peucker algorithm
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
+
         if simplify is not None:
             points1 = _simplify(points1, tolerance=simplify)
             points2 = _simplify(points2, tolerance=simplify)
 
-        if snap_to_grid:
-            snap_to_grid_nm = snap_to_grid * 1e3
+        if x.snap_to_grid:
             points = (
                 snap_to_grid_nm
                 * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
@@ -409,6 +411,11 @@ def extrude(
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
             midpoint = points[0]
+            midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+
+            if midpoint[0] != midpoint_snap[0] and midpoint[1] != midpoint_snap[1]:
+                warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
+
             c.add_port(
                 port=Port(
                     name=port_names[0],
@@ -427,6 +434,10 @@ def extrude(
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
             midpoint = points[-1]
+            midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+
+            if midpoint[0] != midpoint_snap[0] and midpoint[1] != midpoint_snap[1]:
+                warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
             c.add_port(
                 port=Port(
                     name=port_names[1],
@@ -541,13 +552,13 @@ def euler(
     al. https://dx.doi.org/10.1364/oe.27.031394
 
     Args:
-        radius: minimum radius of curvature
-        angle: total angle of the curve
-        p: Proportion of the curve that is an Euler curve
-        use_eff: If False: `radius` is the minimum radius of curvature of the bend
-            If True: The curve will be scaled such that the endpoints match an arc
-            with parameters `radius` and `angle`
-        npoints: Number of points used per 360 degrees
+        radius: minimum radius of curvature.
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
+        use_eff: If False: `radius` is the minimum radius of curvature of the bend.
+            If True: The curve will be scaled such that the endpoints match an arc.
+            with parameters `radius` and `angle`.
+        npoints: Number of points used per 360 degrees.
 
     """
     p = path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
@@ -561,8 +572,8 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     For transitions you should increase have at least 100 points
 
     Args:
-        length: of straight
-        npoints: number of points
+        length: of straight.
+        npoints: number of points.
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
@@ -586,10 +597,10 @@ def smooth(
     `use_eff = True` for `bend = gf.path.euler`)
 
     Args:
-        points: array-like[N][2] List of waypoints for the path to follow
-        radius: radius of curvature, passed to `bend`
-        bend: bend function to round corners
-        **kwargs: Extra keyword arguments that will be passed to `bend`
+        points: array-like[N][2] List of waypoints for the path to follow.
+        radius: radius of curvature, passed to `bend`.
+        bend: bend function to round corners.
+        **kwargs: Extra keyword arguments that will be passed to `bend`.
     """
     return smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
 
@@ -732,28 +743,34 @@ if __name__ == "__main__":
     # c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
     # c.show(show_ports=True)
 
-    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-    X1 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=gf.LAYER.WG,
-        name="core",
-        port_names=("o1", "o2"),
-        sections=[s],
-    )
-    c = gf.path.extrude(P, X1)
+    # s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    # X1 = gf.CrossSection(
+    #     width=1,
+    #     offset=0,
+    #     layer=gf.LAYER.WG,
+    #     name="core",
+    #     port_names=("o1", "o2"),
+    #     sections=[s],
+    # )
+    # c = gf.path.extrude(P, X1)
 
-    s = gf.Section(width=0.1, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-    X2 = gf.CrossSection(
-        width=3,
-        offset=0,
-        layer=gf.LAYER.WG,
-        name="core",
-        port_names=("o1", "o2"),
-        sections=[s],
-    )
-    c2 = gf.path.extrude(P, X2)
+    # s = gf.Section(width=0.1, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    # X2 = gf.CrossSection(
+    #     width=3,
+    #     offset=0,
+    #     layer=gf.LAYER.WG,
+    #     name="core",
+    #     port_names=("o1", "o2"),
+    #     sections=[s],
+    # )
+    # c2 = gf.path.extrude(P, X2)
 
-    T = gf.path.transition(X1, X2)
-    c3 = gf.path.extrude(P, T)
-    c3.show()
+    # T = gf.path.transition(X1, X2)
+    # c3 = gf.path.extrude(P, T)
+    # c3.show()
+
+    c = gf.Component("bend")
+    b = c << gf.components.bend_circular(angle=30)
+    s = c << gf.components.straight(length=5)
+    s.connect("o1", b.ports["o2"])
+    c.show(show_ports=True)
