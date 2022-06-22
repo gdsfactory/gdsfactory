@@ -733,7 +733,7 @@ class Component(Device):
         If single_layer is specified, all polygons are moved to that layer.
 
         Args:
-            single_layer: move all polygons are moved to the specified
+            single_layer: move all polygons are moved to the specified.
         """
 
         component_flat = self.copy()
@@ -980,7 +980,7 @@ class Component(Device):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
     ) -> Path:
-        """Write component to GDS and returns gdspath
+        """Write component to GDS and returns gdspath.
 
         Args:
             gdspath: GDS file path to write to.
@@ -1156,8 +1156,8 @@ class Component(Device):
         """Rename ports by orientation NSEW (north, south, east, west).
 
         Keyword Args:
-            function: to rename ports
-            select_ports_optical:
+            function: to rename ports.
+            select_ports_optical: to select ports.
             select_ports_electrical:
             prefix_optical:
             prefix_electrical:
@@ -1201,8 +1201,8 @@ class Component(Device):
         """Return new Component with a mirrored reference.
 
         Args:
-            p1: first point to define mirror axis
-            p2: second point to define mirror axis
+            p1: first point to define mirror axis.
+            p2: second point to define mirror axis.
         """
         from gdsfactory.functions import mirror
 
@@ -1212,7 +1212,7 @@ class Component(Device):
         """Return a new component with a rotated reference to the original component
 
         Args:
-            angle: in degrees
+            angle: in degrees.
         """
         from gdsfactory.functions import rotate
 
