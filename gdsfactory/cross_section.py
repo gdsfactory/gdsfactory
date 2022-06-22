@@ -55,7 +55,7 @@ class CrossSection(BaseModel):
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
-        snap_to_grid: can snap points to grid when extruding the path.
+        snap_to_grid: Optional snap points to grid when extruding paths (um).
         aliases: dict of cross_section aliases.
         decorator: function when extruding component. For example add_pins.
         info: dict with extra settings or useful information.

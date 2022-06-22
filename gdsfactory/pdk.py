@@ -53,6 +53,7 @@ class Pdk(BaseModel):
         layer_colors: includes layer colors, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
+        grid_size: in um. Defaults to 1nm.
     """
 
     name: str
@@ -66,6 +67,7 @@ class Pdk(BaseModel):
     layer_colors: Optional[LayerColors] = None
     sparameters_path: Optional[PathType] = None
     interconnect_cml_path: Optional[PathType] = None
+    grid_size: float = 0.001
 
     @validator("sparameters_path")
     def is_pathlib_path(cls, path):
@@ -433,6 +435,10 @@ def get_layer_stack() -> LayerStack:
 
 def get_active_pdk() -> Pdk:
     return _ACTIVE_PDK
+
+
+def get_grid_size() -> float:
+    return _ACTIVE_PDK.grid_size
 
 
 def get_sparameters_path() -> pathlib.Path:
