@@ -15,6 +15,7 @@ pydocstyle
 pytest
 pytest-cov
 pytest-regressions
+qrcode
 recommonmark
 sphinx>=4.4.0
 sphinx-autodoc-typehints
