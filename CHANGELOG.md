@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.11.1](https://github.com/gdsfactory/gdsfactory/pull/481)
+
+- add pytest and pytest-regressions to requirements
+
 ## [5.11.0](https://github.com/gdsfactory/gdsfactory/pull/480)
 
 - add Pdk.warn_offgrid_ports
