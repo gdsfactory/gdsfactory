@@ -20,6 +20,11 @@ with open("requirements_exp.txt") as f:
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
     ]
 
+with open("requirements_sipann.txt") as f:
+    requirements_sipann = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
+
 with open("README.md") as f:
     long_description = f.read()
 
@@ -44,8 +49,8 @@ setup(
     """,
     extras_require={
         "full": list(set(requirements + requirements_full)),
-        "basic": requirements,
-        "dev": list(set(requirements + requirements_dev + requirements_full)),
+        "sipann": requirements_sipann,
+        "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },
     package_data={
