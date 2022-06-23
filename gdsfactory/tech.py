@@ -6,6 +6,7 @@ from pydantic import BaseModel
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
 LayerSpec = Union[int, Layer, str, None]
+nm = 1e-3
 
 
 def make_empty_dict() -> Dict[str, Callable]:
@@ -13,7 +14,8 @@ def make_empty_dict() -> Dict[str, Callable]:
 
 
 class LayerMap(BaseModel):
-    """Generic layermap based on Textbook:
+    """Generic layermap based on book.
+
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
 
@@ -155,7 +157,10 @@ class LayerStack(BaseModel):
 
 
 def get_layer_stack_generic(
-    thickness_silicon_core: float = 220e-3, thickness_clad: float = 3.0
+    thickness_silicon_core: float = 220 * nm,
+    thickness_clad: float = 3.0,
+    thickness_nitride: float = 350 * nm,
+    gap_silicon_to_nitride: float = 100 * nm,
 ) -> LayerStack:
     """Returns generic LayerStack.
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
@@ -188,8 +193,8 @@ def get_layer_stack_generic(
             ),
             nitride=LayerLevel(
                 layer=LAYER.WGN,
-                thickness=350e-3,
-                zmin=220e-3 + 100e-3,
+                thickness=thickness_nitride,
+                zmin=thickness_silicon_core + gap_silicon_to_nitride,
                 material="sin",
             ),
             ge=LayerLevel(
@@ -246,10 +251,10 @@ class Section(BaseModel):
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
         layer: layer spec.
-        port_names: Optional port names
+        port_names: Optional port names.
         port_types: optical, electrical, ...
         name: Optional Section name.
-        hidden:
+        hidden: hide layer.
 
     .. code::
 
@@ -282,22 +287,22 @@ MaterialSpec = Union[str, float, complex, Tuple[float, float]]
 class SimulationSettingsLumericalFdtd(BaseModel):
     """Lumerical FDTD simulation_settings
 
-    Args:
-        background_material: for the background
-        port_margin: on both sides of the port width (um)
-        port_height: port height (um)
-        port_extension: port extension (um)
-        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-        zmargin: for the FDTD region (um)
-        ymargin: for the FDTD region (um)
-        xmargin: for the FDTD region (um)
-        wavelength_start: 1.2 (um)
-        wavelength_stop: 1.6 (um)
-        wavelength_points: 500
-        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
-        simulation_temperature: in kelvin (default = 300)
-        frequency_dependent_profile: computes mode profiles for different wavelengths
-        field_profile_samples: number of wavelengths to compute field profile
+    Attributes:
+        background_material: for the background.
+        port_margin: on both sides of the port width (um).
+        port_height: port height (um).
+        port_extension: port extension (um).
+        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine).
+        zmargin: for the FDTD region (um).
+        ymargin: for the FDTD region (um).
+        xmargin: for the FDTD region (um).
+        wavelength_start: 1.2 (um).
+        wavelength_stop: 1.6 (um).
+        wavelength_points: 500.
+        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm.
+        simulation_temperature: in kelvin (default = 300).
+        frequency_dependent_profile: computes mode profiles for different wavelengths.
+        field_profile_samples: number of wavelengths to compute field profile.
     """
 
     background_material: str = "sio2"
