@@ -109,8 +109,12 @@ class Component(Device):
         self.version = version
         self.changelog = changelog
 
+    def __lshift__(self, element):
+        """Convenience operator equivalent to add_ref()."""
+        return self.add_ref(element)
+
     def unlock(self) -> None:
-        """I recommend doing this only if you know what you are doing."""
+        """only do this if you know what you are doing."""
         self._locked = False
 
     def lock(self) -> None:
@@ -623,12 +627,10 @@ class Component(Device):
 
         return super().add_polygon(points=points, layer=get_layer(layer))
 
-    def copy(
-        self, prefix: str = "", suffix: str = "_copy", cache: bool = True
-    ) -> Device:
+    def copy(self, prefix: str = "", suffix: str = "_copy") -> "Component":
         from gdsfactory.copy import copy
 
-        return copy(self, prefix=prefix, suffix=suffix, cache=cache)
+        return copy(self, prefix=prefix, suffix=suffix)
 
     def copy_child_info(self, component: "Component") -> None:
         """Copy info from child component into parent.
@@ -754,6 +756,7 @@ class Component(Device):
         if not isinstance(component, Device):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
+        ref.owner = self
         self.add(ref)
 
         if alias is not None:
@@ -761,7 +764,7 @@ class Component(Device):
         return ref
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
-        """Return a set of (layer, datatype)
+        """Return a set of (layer, datatype).
 
         .. code ::
 
@@ -922,6 +925,7 @@ class Component(Device):
         show_ports: bool = False,
         show_subports: bool = False,
         port_marker_layer: Layer = "SHOW_PORTS",
+        **kwargs,
     ) -> None:
         """Show component in klayout.
 
@@ -933,12 +937,20 @@ class Component(Device):
             show_ports: shows component with port markers and labels.
             show_subports: add ports markers and labels to references.
             port_marker_layer: for the ports.
+
+        Keyword Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/.
+            unit: unit size for objects in library. 1um by default.
+            precision: for object dimensions in the library (m). 1nm by default.
+            timestamp: Defaults to 2019-10-25. If None uses current time.
+
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy(suffix="", cache=False)
+            component = self.copy(suffix="")
             for reference in component.references:
                 add_pins_triangle(
                     component=component,
@@ -947,12 +959,12 @@ class Component(Device):
                 )
 
         elif show_ports:
-            component = self.copy(suffix="", cache=False)
+            component = self.copy(suffix="")
             add_pins_triangle(component=component, layer=port_marker_layer)
         else:
             component = self
 
-        show(component)
+        show(component, **kwargs)
 
     def to_3d(self, *args, **kwargs):
         """Return Component 3D trimesh Scene.

@@ -28,6 +28,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          make meep
           make install
           pip install -r requirements_full.txt
       - name: Test with pytest
@@ -37,5 +38,4 @@ jobs:
         run: |
           mkdir -p $HOME/.tidy3d
           echo ${{ secrets.TIDY3D_AUTH }} > $HOME/.tidy3d/auth.json
-          make meep
           make test-plugins

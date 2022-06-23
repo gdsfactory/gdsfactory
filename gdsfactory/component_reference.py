@@ -1,7 +1,7 @@
-import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
+from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from phidl.device_layout import Device, DeviceReference
 
@@ -120,16 +120,18 @@ class ComponentReference(DeviceReference):
         x_reflection: bool = False,
         visual_label: str = "",
     ) -> None:
-        super().__init__(
-            device=component,
+        CellReference.__init__(
+            self,
+            ref_cell=component,
             origin=origin,
             rotation=rotation,
             magnification=magnification,
             x_reflection=x_reflection,
+            ignore_missing=False,
         )
-        self.parent = component
-        # The ports of a DeviceReference have their own unique id (uid),
-        # since two DeviceReferences of the same parent Device can be
+        self.owner = None
+        # The ports of a ComponentReference have their own unique id (uid),
+        # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
             name: port._copy(new_uid=True) for name, port in component.ports.items()
@@ -137,9 +139,17 @@ class ComponentReference(DeviceReference):
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
 
+    @property
+    def parent(self):
+        return self.ref_cell
+
+    @parent.setter
+    def parent(self, value):
+        self.ref_cell = value
+
     def __repr__(self) -> str:
         return (
-            'DeviceReference (parent Device "%s", ports %s, origin %s, rotation %s,'
+            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
             " x_reflection %s)"
             % (
                 self.parent.name,
@@ -475,6 +485,7 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
+        from gdsfactory.functions import rotate
 
         # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
@@ -490,13 +501,14 @@ class ComponentReference(DeviceReference):
         angle = 180 + destination.orientation - p.orientation
         angle = angle % 360
 
-        if int(angle) not in (0, 90, 180, 270):
-            warnings.warn(
-                f"destination port {angle} not on manhattan grid (0, 90, 180, 270). "
-                "You may have to flatten the component to avoid gaps."
-            )
+        if angle not in (0, 90, 180, 270):
+            new = rotate(self.parent, angle=angle).flatten()
+            self.parent = new
+            p = new.ports[port]
 
-        self.rotate(angle=angle, center=p.midpoint)
+        else:
+            self.rotate(angle=angle, center=p.midpoint)
+
         self.move(origin=p, destination=destination)
         self.move(
             -overlap
@@ -507,6 +519,15 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
+
+        if angle not in (0, 90, 180, 270):
+            origin_snapped = np.round(self.origin, 3)
+            shift = origin_snapped - self.origin
+            if any(shift):
+                self.origin = origin_snapped
+                for e in new.polygons:
+                    e.translate(*-shift)
+
         return self
 
     def get_ports_list(self, **kwargs) -> List[Port]:
