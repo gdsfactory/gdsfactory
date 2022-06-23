@@ -5,7 +5,8 @@
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/478) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/474)
     - Use snap.snap_to_grid() to snap cross section points
     - Warning was not being raised if only one coordinate was off-grid
-- [PR](https://github.com/gdsfactory/gdsfactory/pull/479) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/476)
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/479) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/476) offgrid manhattan connection gaps
+- remove unused cache setting from Component.copy()
 
 ## [5.10.16](https://github.com/gdsfactory/gdsfactory/pull/477)
 
