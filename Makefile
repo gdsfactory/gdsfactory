@@ -22,6 +22,7 @@ major:
 	python docs/write_components_doc.py
 
 plugins: meep sax
+	pip install -r requirements_sipann.txt
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
