@@ -1,7 +1,5 @@
 import warnings
 
-import semantic_version
-
 from gdsfactory.component import Component
 from gdsfactory.config import __version__
 
@@ -33,6 +31,7 @@ def version(
     requirement: str, current: str = __version__, package_name="gdsfactory"
 ) -> None:
     """Raises error if current version does not match requirement."""
+    import semantic_version
 
     s = semantic_version.SimpleSpec(requirement)
     if not s.match(semantic_version.Version(current)):

@@ -15,7 +15,6 @@ pydantic
 pyyaml
 rectpack
 scipy
-semantic_version
 shapely
 toolz
 tqdm
