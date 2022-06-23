@@ -126,7 +126,6 @@ def transition():
 
     wg2_ref = c << wg2
     wg2_ref.connect("in1", wgt_ref.ports["out1"])
-    print(wg2_ref.parent.name)
     return c
 
 
@@ -158,7 +157,7 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 def test_layers1():
     P = gf.path.straight(length=10.001)
     X = gf.CrossSection(
-        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=["in", "out"]
+        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
     )
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == gf.LAYER.SLAB90
@@ -177,7 +176,7 @@ def test_layers2():
 
 def test_copy() -> None:
     x1 = gf.CrossSection(
-        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=["in", "out"]
+        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
     )
     x2 = x1.copy()
 
@@ -187,7 +186,6 @@ def test_copy() -> None:
 
 if __name__ == "__main__":
     c = transition()
-    print(c.references)
     c.show()
 
     # c = test_path()

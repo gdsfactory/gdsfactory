@@ -25,7 +25,7 @@ def test_add_labels_optical() -> Component:
         port=c.ports["o2"], gc=gc, gc_index=1, layer_label=gf.LAYER.LABEL
     )
 
-    c = c.copy(cache=False, suffix="")
+    c = c.copy(suffix="")
     add_labels(c, get_label_function=get_input_label, gc=gc)
     labels_text = [c.labels[0].text, c.labels[1].text]
     # print(label1)
@@ -45,7 +45,7 @@ def test_add_labels_electrical() -> Component:
         port=c.ports["e2"], layer_label=gf.LAYER.LABEL, gc_index=1
     )
 
-    c = c.copy(cache=False, suffix="")
+    c = c.copy(suffix="")
     add_labels(component=c, get_label_function=get_input_label_electrical)
     labels_text = [c.labels[0].text, c.labels[1].text]
 
