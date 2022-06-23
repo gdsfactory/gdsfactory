@@ -12,7 +12,9 @@ nbval
 pre-commit
 pur
 pydocstyle
+pytest
 pytest-cov
+pytest-regressions
 recommonmark
 sphinx>=4.4.0
 sphinx-autodoc-typehints
