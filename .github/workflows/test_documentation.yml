@@ -30,7 +30,6 @@ jobs:
           pip install -e .[dev]
           sudo apt install pandoc
           make gdslib plugins
-          pip install -r requirements_sipann.txt
       - name: Test documentation
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
