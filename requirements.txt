@@ -12,6 +12,8 @@ pandas
 phidl==1.6.1
 picwriter==0.5
 pydantic
+pytest
+pytest-regressions
 pyyaml
 rectpack
 scipy
