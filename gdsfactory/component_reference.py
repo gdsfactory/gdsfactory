@@ -1,4 +1,3 @@
-import warnings
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
@@ -475,6 +474,7 @@ class ComponentReference(DeviceReference):
         Returns:
             ComponentReference: with correct rotation to connect to destination.
         """
+        from gdsfactory.functions import rotate
 
         # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
@@ -490,13 +490,14 @@ class ComponentReference(DeviceReference):
         angle = 180 + destination.orientation - p.orientation
         angle = angle % 360
 
-        if int(angle) not in (0, 90, 180, 270):
-            warnings.warn(
-                f"destination port {angle} not on manhattan grid (0, 90, 180, 270). "
-                "You may have to flatten the component to avoid gaps."
-            )
+        if angle not in (0, 90, 180, 270):
+            new = rotate(self.parent, angle=angle).flatten()
+            self.parent = new
+            p = new.ports[port]
 
-        self.rotate(angle=angle, center=p.midpoint)
+        else:
+            self.rotate(angle=angle, center=p.midpoint)
+
         self.move(origin=p, destination=destination)
         self.move(
             -overlap
@@ -507,6 +508,15 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
+
+        if angle not in (0, 90, 180, 270):
+            origin_snapped = np.round(self.origin, 3)
+            shift = origin_snapped - self.origin
+            if any(shift):
+                self.origin = origin_snapped
+                for e in new.polygons:
+                    e.translate(*-shift)
+
         return self
 
     def get_ports_list(self, **kwargs) -> List[Port]:
