@@ -110,11 +110,11 @@ class Component(Device):
         self.changelog = changelog
 
     def __lshift__(self, element):
-        """Convenience operator equivalent to add_ref()"""
+        """Convenience operator equivalent to add_ref()."""
         return self.add_ref(element)
 
     def unlock(self) -> None:
-        """I recommend doing this only if you know what you are doing."""
+        """only do this if you know what you are doing."""
         self._locked = False
 
     def lock(self) -> None:
