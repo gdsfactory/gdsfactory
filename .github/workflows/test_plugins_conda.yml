@@ -31,7 +31,6 @@ jobs:
           make gdslib plugins
           make install
           pip install -r requirements_full.txt
-          pip install -r requirements_sipann.txt
       - name: Test with pytest
         env:
           TIDY3D_USER: ${{ secrets.TIDY3D_EMAIL }}
