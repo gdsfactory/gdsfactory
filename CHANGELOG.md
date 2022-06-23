@@ -8,6 +8,7 @@
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/479) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/476) offgrid manhattan connection gaps
 - remove unused cache setting from Component.copy()
 - fix phidl [issue](https://github.com/amccaugh/phidl/issues/154)
+- make lytest as an optional dependency
 
 ## [5.10.16](https://github.com/gdsfactory/gdsfactory/pull/477)
 
