@@ -104,6 +104,7 @@ def transition():
     )
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+    # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
 
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
@@ -125,6 +126,7 @@ def transition():
 
     wg2_ref = c << wg2
     wg2_ref.connect("in1", wgt_ref.ports["out1"])
+    print(wg2_ref.parent.name)
     return c
 
 
@@ -184,11 +186,14 @@ def test_copy() -> None:
 
 
 if __name__ == "__main__":
-    # c = transition()
+    c = transition()
+    print(c.references)
+    c.show()
+
     # c = test_path()
     # print(c.name)
 
-    test_copy()
+    # test_copy()
     # c = test_layers2()
     # c = transition()
     # c = double_loop()
