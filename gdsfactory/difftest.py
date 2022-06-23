@@ -22,8 +22,6 @@ import pathlib
 import shutil
 from typing import Optional
 
-from lytest.kdb_xor import GeometryDifference, run_xor
-
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
@@ -50,6 +48,7 @@ def difftest(
         xor: runs xor if there is difference.
         dirpath: defaults to cwd refers to where the test is being invoked.
     """
+    from lytest.kdb_xor import GeometryDifference, run_xor
 
     # containers function_name is different from component.name
     # we store the container with a different name from original component
