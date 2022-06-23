@@ -50,7 +50,7 @@ setup(
     extras_require={
         "full": list(set(requirements + requirements_full)),
         "sipann": requirements_sipann,
-        "dev": list(set(requirements + requirements_dev + requirements_full)),
+        "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },
     package_data={
