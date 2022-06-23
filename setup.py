@@ -49,15 +49,8 @@ setup(
     """,
     extras_require={
         "full": list(set(requirements + requirements_full)),
-        "sipann": list(set(requirements + requirements_full + requirements_sipann)),
-        "dev": list(
-            set(
-                requirements
-                + requirements_dev
-                + requirements_full
-                + requirements_sipann
-            )
-        ),
+        "sipann": requirements_sipann,
+        "dev": list(set(requirements + requirements_dev + requirements_full)),
         "exp": list(set(requirements + requirements_exp)),
     },
     package_data={
