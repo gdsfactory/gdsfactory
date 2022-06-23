@@ -5,7 +5,12 @@ try:
 except ImportError:
     print("To install simphony plugin make sure you `pip install gdsfactory[full]`")
 
-import gdsfactory.simulation.simphony.components as components
+try:
+    import SiPANN as _SIPANN
+except ImportError:
+    print("To install sipann plugin make sure you `pip install gdsfactory[sipann]`")
+
+from gdsfactory.simulation.simphony import components
 from gdsfactory.simulation.simphony.add_gc import add_gc
 from gdsfactory.simulation.simphony.circuit import component_to_circuit
 from gdsfactory.simulation.simphony.components import model_factory
@@ -33,4 +38,5 @@ __all__ = [
     "plot_circuit_montecarlo",
     "freq2wl",
     "wl2freq",
+    "_SIPANN",
 ]

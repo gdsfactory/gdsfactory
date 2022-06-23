@@ -10,7 +10,6 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdspy
 import matplotlib.pyplot as plt
-import networkx as nx
 import numpy as np
 import yaml
 from numpy import int64
@@ -244,15 +243,15 @@ class Component(Device):
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
 
-    def plot_netlist(
-        self, with_labels: bool = True, font_weight: str = "normal"
-    ) -> nx.Graph:
+    def plot_netlist(self, with_labels: bool = True, font_weight: str = "normal"):
         """plots a netlist graph with networkx
 
         Args:
             with_labels: add label to each node.
             font_weight: normal, bold.
         """
+        import networkx as nx
+
         plt.figure()
         netlist = self.get_netlist()
         connections = netlist["connections"]
