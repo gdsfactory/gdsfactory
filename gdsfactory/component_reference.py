@@ -138,7 +138,7 @@ class ComponentReference(DeviceReference):
 
     def __repr__(self) -> str:
         return (
-            'DeviceReference (parent Device "%s", ports %s, origin %s, rotation %s,'
+            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
             " x_reflection %s)"
             % (
                 self.parent.name,
