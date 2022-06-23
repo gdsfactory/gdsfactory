@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.11.0](https://github.com/gdsfactory/gdsfactory/pull/480)
+
+- add Pdk.warn_offgrid_ports
+- move optional dependencies to `pip install gdsfactory[full]`
+- move sipann dependency to `pip install gdsfactory[sipann]`
+
 ## [5.10.17](https://github.com/gdsfactory/gdsfactory/pull/479)
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/478) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/474)
