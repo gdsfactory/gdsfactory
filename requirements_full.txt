@@ -6,8 +6,6 @@ klayout
 lytest==0.0.20
 networkx
 pyglet
-pytest
-pytest-regressions
 qrcode
 sax
 scikit-image
