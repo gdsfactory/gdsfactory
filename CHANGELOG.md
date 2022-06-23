@@ -5,6 +5,7 @@
 - add Pdk.warn_offgrid_ports
 - move optional dependencies to `pip install gdsfactory[full]`
 - move sipann dependency to `pip install gdsfactory[sipann]`
+- parametric layer_stack
 
 ## [5.10.17](https://github.com/gdsfactory/gdsfactory/pull/479)
 
