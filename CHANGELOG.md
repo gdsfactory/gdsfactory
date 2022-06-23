@@ -1,5 +1,15 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.10.17](https://github.com/gdsfactory/gdsfactory/pull/480)
+
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/478) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/474)
+    - Use snap.snap_to_grid() to snap cross section points
+    - Warning was not being raised if only one coordinate was off-grid
+- [PR](https://github.com/gdsfactory/gdsfactory/pull/479) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/476) offgrid manhattan connection gaps
+- remove unused cache setting from Component.copy()
+- fix phidl [issue](https://github.com/amccaugh/phidl/issues/154)
+- make lytest as an optional dependency
+
 ## [5.10.16](https://github.com/gdsfactory/gdsfactory/pull/477)
 
 - rename triangle to triangles, to avoid conflict names with triangle module [PR](https://github.com/gdsfactory/gdsfactory/pull/475)

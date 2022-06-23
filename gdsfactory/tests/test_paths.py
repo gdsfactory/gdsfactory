@@ -104,6 +104,7 @@ def transition():
     )
 
     Xtrans = gf.path.transition(cross_section1=X1, cross_section2=X2, width_type="sine")
+    # Xtrans = gf.cross_section.strip(port_names=('in1', 'out1'))
 
     P1 = gf.path.straight(length=5)
     P2 = gf.path.straight(length=5)
@@ -113,11 +114,6 @@ def transition():
 
     P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
     wg_trans = gf.path.extrude(P4, Xtrans)
-
-    # print("wg1", wg1)
-    # print("wg2", wg2)
-    # print("wg3", wg_trans)
-    # wg_trans.pprint()
 
     wg1_ref = c << wg1
     wgt_ref = c << wg_trans
@@ -156,7 +152,7 @@ def test_settings(component: Component, data_regression: DataRegressionFixture) 
 def test_layers1():
     P = gf.path.straight(length=10.001)
     X = gf.CrossSection(
-        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=["in", "out"]
+        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
     )
     c = gf.path.extrude(P, X, simplify=5e-3)
     assert c.ports["in"].layer == gf.LAYER.SLAB90
@@ -175,7 +171,7 @@ def test_layers2():
 
 def test_copy() -> None:
     x1 = gf.CrossSection(
-        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=["in", "out"]
+        width=0.5, offset=0, layer=gf.LAYER.SLAB90, port_names=("in", "out")
     )
     x2 = x1.copy()
 
@@ -184,11 +180,14 @@ def test_copy() -> None:
 
 
 if __name__ == "__main__":
-    # c = transition()
+    c = transition()
+    # c.plot()
+    c.show(show_ports=False)
+
     # c = test_path()
     # print(c.name)
 
-    test_copy()
+    # test_copy()
     # c = test_layers2()
     # c = transition()
     # c = double_loop()
