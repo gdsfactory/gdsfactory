@@ -756,6 +756,7 @@ class Component(Device):
         if not isinstance(component, Device):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
+        ref.owner = self
         self.add(ref)
 
         if alias is not None:
