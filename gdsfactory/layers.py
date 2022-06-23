@@ -223,7 +223,8 @@ class LayerColors(BaseModel):
 
 
 def _name_to_short_name(name_str: str) -> str:
-    """Maps the name entry of the lyp element to a name of the layer,
+    """Maps the name entry of the lyp element to a name of the layer.
+
     i.e. the dictionary key used to access it.
     Default format of the lyp name is
         key - layer/datatype - description
@@ -240,6 +241,7 @@ def _name_to_short_name(name_str: str) -> str:
 
 def _name_to_description(name_str) -> str:
     """Gets the description of the layer contained in the lyp name field.
+
     It is not strictly necessary to have a description. If none there, it returns ''.
 
     Default format of the lyp name is
@@ -341,7 +343,7 @@ load_lyp_generic = partial(load_lyp, filepath=layer_path)
 
 
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
-    """Returns python script to define LayerMap from a klayout layer properties file lyp."""
+    """Returns python LayerMap script from a klayout layer properties file lyp."""
     filepathin = pathlib.Path(lyp_filepath)
     filepathout = filepathin.with_suffix(".py")
 
