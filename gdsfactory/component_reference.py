@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
+from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
 from phidl.device_layout import Device, DeviceReference
 
@@ -119,22 +120,32 @@ class ComponentReference(DeviceReference):
         x_reflection: bool = False,
         visual_label: str = "",
     ) -> None:
-        super().__init__(
-            device=component,
+        CellReference.__init__(
+            self,
+            ref_cell=component,
             origin=origin,
             rotation=rotation,
             magnification=magnification,
             x_reflection=x_reflection,
+            ignore_missing=False,
         )
-        self.parent = component
-        # The ports of a DeviceReference have their own unique id (uid),
-        # since two DeviceReferences of the same parent Device can be
+        self.owner = None
+        # The ports of a ComponentReference have their own unique id (uid),
+        # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
             name: port._copy(new_uid=True) for name, port in component.ports.items()
         }
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
+
+    @property
+    def parent(self):
+        return self.ref_cell
+
+    @parent.setter
+    def parent(self, value):
+        self.ref_cell = value
 
     def __repr__(self) -> str:
         return (

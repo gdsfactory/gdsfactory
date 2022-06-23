@@ -115,11 +115,6 @@ def transition():
     P4 = gf.path.euler(radius=25, angle=45, p=0.5, use_eff=False)
     wg_trans = gf.path.extrude(P4, Xtrans)
 
-    # print("wg1", wg1)
-    # print("wg2", wg2)
-    # print("wg3", wg_trans)
-    # wg_trans.pprint()
-
     wg1_ref = c << wg1
     wgt_ref = c << wg_trans
     wgt_ref.connect("in1", wg1_ref.ports["out1"])
@@ -186,7 +181,8 @@ def test_copy() -> None:
 
 if __name__ == "__main__":
     c = transition()
-    c.show()
+    # c.plot()
+    c.show(show_ports=False)
 
     # c = test_path()
     # print(c.name)
