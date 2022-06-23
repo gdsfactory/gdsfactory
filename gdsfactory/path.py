@@ -774,4 +774,4 @@ if __name__ == "__main__":
     s = c << gf.components.straight(length=5)
     s.connect("o1", b.ports["o2"])
     # c = c.flatten()
-    c.show(show_ports=True)
+    c.show(show_ports=True, precision=1e-10)
