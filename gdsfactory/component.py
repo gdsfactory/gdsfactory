@@ -922,17 +922,26 @@ class Component(Device):
         show_ports: bool = False,
         show_subports: bool = False,
         port_marker_layer: Layer = "SHOW_PORTS",
+        **kwargs,
     ) -> None:
         """Show component in klayout.
 
-        returns a copy of the Component, so the original component remains intact.
-        with pins markers on each port show_ports = True, and optionally also
-        the ports from the references (show_subports=True)
+            returns a copy of the Component, so the original component remains intact.
+            with pins markers on each port show_ports = True, and optionally also
+            the ports from the references (show_subports=True)
 
-        Args:
-            show_ports: shows component with port markers and labels.
-            show_subports: add ports markers and labels to references.
-            port_marker_layer: for the ports.
+            Args:
+                show_ports: shows component with port markers and labels.
+                show_subports: add ports markers and labels to references.
+                port_marker_layer: for the ports.
+
+        Keyword Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/.
+            unit: unit size for objects in library. 1um by default.
+            precision: for object dimensions in the library (m). 1nm by default.
+            timestamp: Defaults to 2019-10-25. If None uses current time.
+
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
@@ -952,7 +961,7 @@ class Component(Device):
         else:
             component = self
 
-        show(component)
+        show(component, **kwargs)
 
     def to_3d(self, *args, **kwargs):
         """Return Component 3D trimesh Scene.
