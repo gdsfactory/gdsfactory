@@ -54,6 +54,7 @@ class Pdk(BaseModel):
         sparameters_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
         grid_size: in um. Defaults to 1nm.
+        warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
     """
 
     name: str
@@ -68,6 +69,7 @@ class Pdk(BaseModel):
     sparameters_path: Optional[PathType] = None
     interconnect_cml_path: Optional[PathType] = None
     grid_size: float = 0.001
+    warn_off_grid_ports: bool = False
 
     @validator("sparameters_path")
     def is_pathlib_path(cls, path):

@@ -44,7 +44,7 @@ setup(
     """,
     extras_require={
         "full": list(set(requirements + requirements_full)),
-        "basic": requirements,
+        "sipann": list(set(requirements + requirements_full + "SIPANN==1.4.0")),
         "dev": list(set(requirements + requirements_dev + requirements_full)),
         "exp": list(set(requirements + requirements_exp)),
     },
