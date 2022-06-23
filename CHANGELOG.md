@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.10.17](https://github.com/gdsfactory/gdsfactory/pull/480)
+## [5.10.17](https://github.com/gdsfactory/gdsfactory/pull/479)
 
 - [PR](https://github.com/gdsfactory/gdsfactory/pull/478) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/474)
     - Use snap.snap_to_grid() to snap cross section points
