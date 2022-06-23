@@ -21,8 +21,10 @@ major:
 	bumpversion major
 	python docs/write_components_doc.py
 
-plugins: meep sax
+plugins:
 	pip install -r requirements_sipann.txt
+	pip install sax jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
