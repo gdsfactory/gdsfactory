@@ -244,7 +244,12 @@ def extrude(
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
-    from gdsfactory.pdk import get_cross_section, get_grid_size, get_layer
+    from gdsfactory.pdk import (
+        get_active_pdk,
+        get_cross_section,
+        get_grid_size,
+        get_layer,
+    )
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -394,15 +399,19 @@ def extrude(
         if not hidden and p.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
+        pdk = get_active_pdk()
+        warn_off_grid_ports = pdk.warn_off_grid_ports
+
         # Add port_names if they were specified
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
             midpoint = points[0]
-            midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
 
-            if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
-                warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
+            if warn_off_grid_ports:
+                midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+                if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
+                    warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
 
             c.add_port(
                 port=Port(
@@ -422,10 +431,13 @@ def extrude(
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
             midpoint = points[-1]
-            midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
 
-            if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
-                warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
+            if warn_off_grid_ports:
+
+                midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+
+                if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
+                    warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
             c.add_port(
                 port=Port(
                     name=port_names[1],
