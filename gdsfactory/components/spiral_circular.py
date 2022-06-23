@@ -164,8 +164,6 @@ def spiral_circular(
     # thickness = outer_radius - mid_radius
     # r = gds.Round((0.,0.), outer_radius, inner_radius, layer=1, max_points=1000)
 
-    ps = gds.boolean(ps, None, "or")
-
     c = gf.Component()
     c.info["length"] = snap_to_grid(length)
     c.add_polygon(ps, layer=layer)
