@@ -38,7 +38,6 @@ from gdsfactory.types import Label
 from gdsfactory import cross_section
 from gdsfactory import asserts
 from gdsfactory import components
-from gdsfactory import dft
 from gdsfactory import routing
 from gdsfactory import types
 from gdsfactory import path
@@ -109,7 +108,6 @@ __all__ = (
     "clear_cache",
     "components",
     "cross_section",
-    "dft",
     "export",
     "fill_rectangle",
     "functions",

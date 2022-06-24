@@ -7,6 +7,7 @@
     - remove port
     - remove klive
     - remove plot, quickplot, quickplot2, set_quickplot_options
+    - dft
 
 
 ## [5.11.1](https://github.com/gdsfactory/gdsfactory/pull/481)
