@@ -479,16 +479,16 @@ def from_yaml(
     prefix: Optional[str] = None,
     **kwargs,
 ) -> Component:
-    """Returns a Component defined in YAML string or file.
+    """Returns a Component defined in YAML syntax.
 
     Args:
-        yaml: YAML IO describing Component file or string (with newlines)
+        yaml: YAML file or string.
           (instances, placements, routes, ports, connections, names).
         routing_strategy: for each route.
         label_instance_function: to label each instance.
         name: Optional name.
         prefix: name prefix.
-        kwargs: function settings. Overwrite settings from YAML.
+        kwargs: function settings for creating YAML Pcells.
 
     .. code::
 

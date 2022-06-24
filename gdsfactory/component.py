@@ -56,16 +56,20 @@ MAX_NAME_LENGTH = 32
 
 
 class Component(Device):
-    """Extend phidl.Device
-
-    Allow name to be set like Component('arc') or Component(name = 'arc')
+    """A Component is like an empty canvas, where you can add
+    polygons, references to other Components and ports (to connect to other components).
 
     - get/write YAML metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
     Args:
-        name: component_name
+        name: component_name. Use @cell decorator for auto-naming.
+        version: component version.
+        changelog: changes from the last version.
+
+    Keyword Args:
+        with_uuid: adds unique identifier.
 
 
     Properties:
@@ -77,10 +81,10 @@ class Component(Device):
             - name: for the component
 
         settings:
-            full: full settings passed to the function to create component
-            changed: changed settings
-            default: default component settings
-            child: dict info from the children, if any
+            full: full settings passed to the function to create component.
+            changed: changed settings.
+            default: default component settings.
+            child: dict info from the children, if any.
 
     """
 

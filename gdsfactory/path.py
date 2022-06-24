@@ -62,10 +62,9 @@ class Path(PathPhidl):
         simplify: Optional[float] = None,
     ) -> Component:
         """Returns Component extruding a Path with a cross_section.
-        A path can be extruded using any CrossSection returning a Component
-        The CrossSection defines the layer numbers, widths and offsetts
 
-        adapted from phidl.path
+        A path can be extruded using any CrossSection returning a Component
+        The CrossSection defines the layer numbers, widths and offsetts.
 
         Args:
             p: a path is a list of points (arc, straight, euler).
@@ -229,6 +228,7 @@ def extrude(
     shear_angle_end: Optional[float] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
+
     A path can be extruded using any CrossSection returning a Component
     The CrossSection defines the layer numbers, widths and offsetts
 
@@ -545,6 +545,7 @@ def euler(
     npoints: int = 720,
 ) -> Path:
     """Returns an euler bend that adiabatically transitions from straight to curved.
+
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
     However, if `use_eff` is set to True, `radius` corresponds to the effective
     radius of curvature (making the curve a drop-in replacement for an arc). If
