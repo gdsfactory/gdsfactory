@@ -46,7 +46,21 @@ def plot(
     title=None,
     normalize_mode=False,
 ) -> None:
-    """Plot mode in matplotlib"""
+    """Plot mode in matplotlib.
+
+    Args:
+        X: x array.
+        Y: y array.
+        n: refractive index.
+        mode: mode number.
+        num_levels: for plot.
+        n_cmap: refractive index color map.
+        mode_cmap: mode color map.
+        axes: "xy".
+        title: for the plot.
+        normalize_mode: divide by maximum value.
+
+    """
     x, y = axes
     if n_cmap is None:
         n_cmap = colors.LinearSegmentedColormap.from_list(
@@ -145,7 +159,7 @@ SETTINGS = [
 class Waveguide(BaseModel):
     """Waveguide Model.
 
-    Args:
+    Attributes:
         wavelength: (um).
         wg_width: waveguide width.
         t_wg: thickness waveguide (um).
@@ -353,22 +367,33 @@ def sweep_bend_loss(
     r = np.linspace(rmin, rmax, steps)
     integral = np.zeros_like(r)
 
-    strip = Waveguide(**kwargs)
-    strip.compute_modes()
+    wg = Waveguide(**kwargs)
+    wg.compute_modes()
 
     for i, radius in enumerate(r):
         strip_bend = Waveguide(bend_radius=radius, **kwargs)
         strip_bend.compute_modes()
 
-        mode1_Ey = strip.Ey[index]
-        mode1_Ex = strip.Ex[index]
-        mode1_Hx = strip.Hx[index]
-        mode1_Hy = strip.Hy[index]
+        mode1_Ey = wg.Ey[index]
+        mode1_Ex = wg.Ex[index]
+        mode1_Hx = wg.Hx[index]
+        mode1_Hy = wg.Hy[index]
 
         mode2_Ey = strip_bend.Ey[index]
         mode2_Ex = strip_bend.Ex[index]
         mode2_Hx = strip_bend.Hx[index]
         mode2_Hy = strip_bend.Hy[index]
+
+        # x_min = (-wg.w_sim / 2,)
+        # x_max = (+wg.w_sim / 2,)
+        # y_min = 0
+        # y_max = wg.t_sim
+        # mesh_y = mesh_x = wg.resolution
+
+        # x = np.linspace(x_min, x_max, mesh_x + 1)
+        # y = np.linspace(y_min, y_max, mesh_y + 1)
+        # cross = mode1_Ex * mode2_Hy.conj() - mode1_Ey * mode2_Hx.conj()
+        # integral[i] = 0.25 * np.trapz(np.trapz(cross, y), x)
 
         integrand = (
             np.conj(mode1_Ex) * mode2_Hy
@@ -379,6 +404,7 @@ def sweep_bend_loss(
 
         # square because you hit the bend loss twice
         integral[i] = np.trapz(np.trapz(integrand, axis=0), axis=0) ** 2
+
     return r, integral
 
 
@@ -450,8 +476,8 @@ if __name__ == "__main__":
     # c = Waveguide(t_slab=0, ncore=2.00, nclad=1.44, w_sim=5)
     # c.plot_index()
 
-    nitride = find_modes(wavelength=1.55, wg_width=1.0, t_wg=0.4, ncore=2.0, w_sim=5)
-    nitride.plot_index()
+    # nitride = find_modes(wavelength=1.55, wg_width=1.0, t_wg=0.4, ncore=2.0, w_sim=5)
+    # nitride.plot_index()
 
     # c = pickle_load("strip.pkl")
 
@@ -466,7 +492,7 @@ if __name__ == "__main__":
     # c = Waveguide(t_slab=90e-3, bend_radius=5)
     # c.plot_index()
 
-    # r, integral = sweep_bend_loss()
-    # plt.plot(r, integral / max(integral), ".")
-    # plt.xlabel("bend radius (um)")
-    # plt.show()
+    r, integral = sweep_bend_loss()
+    plt.plot(r, integral / max(integral), ".")
+    plt.xlabel("bend radius (um)")
+    plt.show()
