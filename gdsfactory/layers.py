@@ -70,7 +70,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
 class LayerColor(BaseModel):
     """Layer object with color, alpha (opacity) and dither.
 
-    Attributes:
+    Parameters:
         gds_layer: int GDSII Layer number.
         gds_datatype: int GDSII datatype.
         name: str Name of the Layer.
@@ -120,7 +120,7 @@ class LayerColor(BaseModel):
 class LayerColors(BaseModel):
     """LayerColor dict.
 
-    Attributes:
+    Parameters:
         layers: dict of LayerColors.
 
     """
