@@ -53,6 +53,12 @@ class Path(PathPhidl):
     def to_dict(self):
         return self.hash_geometry()
 
+    def plot(self):
+        """Plot path in matplotlib."""
+        from gdsfactory.quickplotter import quickplot
+
+        return quickplot(self)
+
     def extrude(
         self,
         cross_section: Optional[CrossSectionSpec] = None,
@@ -84,6 +90,23 @@ class Path(PathPhidl):
             widths=widths,
             simplify=simplify,
         )
+
+    def copy(self):
+        """Returns a copy of the Path."""
+        p = Path()
+        p.info = self.info.copy()
+        p.points = np.array(self.points)
+        p.start_angle = self.start_angle
+        p.end_angle = self.end_angle
+        return p
+
+    def from_phidl(self, p0):
+        p = Path()
+        p.info = p0.info.copy()
+        p.points = np.array(p0.points)
+        p.start_angle = p0.start_angle
+        p.end_angle = p0.end_angle
+        return p
 
 
 def _sinusoidal_transition(y1, y2):
@@ -532,9 +555,7 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
         npoints: Number of points used per 360 degrees
 
     """
-    p = path.arc(radius=radius, angle=angle, num_pts=npoints)
-    p.extrude = extrude
-    return p
+    return Path().from_phidl(path.arc(radius=radius, angle=angle, num_pts=npoints))
 
 
 def euler(
@@ -562,9 +583,9 @@ def euler(
         npoints: Number of points used per 360 degrees.
 
     """
-    p = path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
-    p.extrude = extrude
-    return p
+    return Path().from_phidl(
+        path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
+    )
 
 
 def straight(length: float = 10.0, npoints: int = 2) -> Path:
@@ -593,17 +614,21 @@ def smooth(
     bend: PathFactory = euler,
     **kwargs,
 ) -> Path:
-    """Returns a smooth Path from a series of waypoints. Corners will be rounded
-    using `bend` and any additional key word arguments (for example,
-    `use_eff = True` for `bend = gf.path.euler`)
+    """Returns a smooth Path from a series of waypoints.
+
+    you can round corners using `bend` and any additional key word arguments
+    (for example, `use_eff = True` for `bend = gf.path.euler`)
 
     Args:
         points: array-like[N][2] List of waypoints for the path to follow.
         radius: radius of curvature, passed to `bend`.
         bend: bend function to round corners.
-        **kwargs: Extra keyword arguments that will be passed to `bend`.
+        kwargs: Extra keyword arguments that will be passed to `bend`.
     """
-    return smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
+
+    return Path().from_phidl(
+        smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
+    )
 
 
 __all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"]
@@ -770,9 +795,12 @@ if __name__ == "__main__":
     # c3 = gf.path.extrude(P, T)
     # c3.show()
 
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=40)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
+    # c = gf.Component("bend")
+    # b = c << gf.components.bend_circular(angle=40)
+    # s = c << gf.components.straight(length=5)
+    # s.connect("o1", b.ports["o2"])
     # c = c.flatten()
-    c.show(show_ports=True, precision=1e-9)
+    # c.show(show_ports=True, precision=1e-9)
+
+    P3 = arc()
+    P3.plot()

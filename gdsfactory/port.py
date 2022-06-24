@@ -148,7 +148,9 @@ class Port(PortPhidl):
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
-        return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
+        s = f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
+        s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
+        return s
 
     @classmethod
     def __get_validators__(cls):
