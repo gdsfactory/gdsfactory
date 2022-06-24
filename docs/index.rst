@@ -16,3 +16,5 @@ Gdsfactory
    plugins_circuits
    contribution
    CHANGELOG
+   api
+   cli

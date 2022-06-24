@@ -98,7 +98,7 @@ PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 class LayerLevel(BaseModel):
     """Layer For 3D LayerStack.
 
-    Attributes:
+    Parameters:
         layer: (GDSII Layer number, GDSII datatype).
         thickness: layer thickness in um.
         zmin: height position where material starts in um.
@@ -116,7 +116,7 @@ class LayerLevel(BaseModel):
 class LayerStack(BaseModel):
     """For simulation and 3D rendering.
 
-    Attributes:
+    Parameters:
         layers: dict of layers.
     """
 
@@ -287,7 +287,7 @@ MaterialSpec = Union[str, float, complex, Tuple[float, float]]
 class SimulationSettingsLumericalFdtd(BaseModel):
     """Lumerical FDTD simulation_settings
 
-    Attributes:
+    Parameters:
         background_material: for the background.
         port_margin: on both sides of the port width (um).
         port_height: port height (um).

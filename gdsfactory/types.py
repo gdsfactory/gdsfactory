@@ -169,7 +169,7 @@ class RouteModel(BaseModel):
 class NetlistModel(BaseModel):
     """Netlist defined component.
 
-    Attributes:
+    Parameters:
         instances: dict of instances (name, settings, component).
         placements: dict of placements.
         connections: dict of connections.
