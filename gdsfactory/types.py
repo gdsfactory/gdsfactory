@@ -82,8 +82,12 @@ Int3 = Tuple[int, int, int]
 Ints = Tuple[int, ...]
 
 Layer = Tuple[int, int]
+"""Tuple of integers (layer, datatype)."""
 Layers = Tuple[Layer, ...]
+
 LayerSpec = Union[Layer, int, str, None]
+"""Description capable of generating a Layer. Can be a tuple of integers (layer, datatype), a integer (layer, 0) or a string (layer_name)."""
+
 LayerSpecs = Tuple[LayerSpec, ...]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
@@ -105,10 +109,16 @@ PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
+"""Description capable of generating a component. Can be a Pcell function, function name, dict or Component."""
+
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
+"""Description capable of generating a cell function. Can be a Pcell function, function name or dict."""
+
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+"""Description capable of generating a cross_section function. Can be a cross_section function, function name or dict."""
+
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 
