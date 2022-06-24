@@ -1,14 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.11.2](https://github.com/gdsfactory/gdsfactory/pull/482)
+## [5.11.2](https://github.com/gdsfactory/gdsfactory/pull/484)
 
 - better docs
-- simpler gf module namespace
-    - remove port
-    - remove klive
-    - remove plot, quickplot, quickplot2, set_quickplot_options
+- simpler gf module namespace. unexpose some functions from module
+    - port
+    - klive
+    - plot, quickplot, quickplot2, set_quickplot_options
     - dft
-
+- add shear angle to Port.__str__
 
 ## [5.11.1](https://github.com/gdsfactory/gdsfactory/pull/481)
 
