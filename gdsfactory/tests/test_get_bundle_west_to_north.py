@@ -2,6 +2,7 @@ from pytest_regressions.data_regression import DataRegressionFixture
 
 import gdsfactory as gf
 from gdsfactory.component import Component
+from gdsfactory.port import port_array
 
 
 def test_get_bundle_west_to_north(
@@ -48,10 +49,10 @@ def test_get_bundle_west_to_north2(
 
     lengths = {}
     c = gf.Component("test_get_bundle_west_to_north2")
-    pbottom_facing_north = gf.port.port_array(
+    pbottom_facing_north = port_array(
         midpoint=(0, 0), orientation=90, pitch=(30, 0), layer=layer
     )
-    ptop_facing_west = gf.port.port_array(
+    ptop_facing_west = port_array(
         midpoint=(100, 100), orientation=180, pitch=(0, -30), layer=layer
     )
 
