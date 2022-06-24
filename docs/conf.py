@@ -63,7 +63,7 @@ myst_html_meta = {
 html_theme_options = {
     "path_to_docs": "docs",
     "repository_url": "https://github.com/gdsfactory/gdsfactory",
-    "repository_branch": "main",
+    "repository_branch": "master",
     "launch_buttons": {
         "binderhub_url": "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD",
         "notebook_interface": "jupyterlab",

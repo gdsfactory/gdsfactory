@@ -1,6 +1,7 @@
 """Write a sample reticle together with GDS file."""
 
 import gdsfactory as gf
+from gdsfactory.dft import add_label_yaml
 from gdsfactory.types import Component
 
 
@@ -10,7 +11,7 @@ def mzi_te(**kwargs) -> Component:
     c = gf.routing.add_fiber_single(
         c, get_input_label_text_function=None, grating_coupler=gc
     )
-    gf.dft.add_label_yaml(c)
+    add_label_yaml(c)
     c = c.rotate(-90)
     return c
 
@@ -22,7 +23,7 @@ if __name__ == "__main__":
             mzi_te(),
             mzi_te(),
             gf.functions.rotate(mzi_te),
-            gf.dft.add_label_yaml(
+            add_label_yaml(
                 gf.functions.mirror(gf.routing.add_fiber_single(gf.components.mmi1x2))
             ),
         ]
