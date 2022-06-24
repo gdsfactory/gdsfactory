@@ -41,7 +41,7 @@ class Pdk(BaseModel):
     """Store layers, cross_sections, cell functions, simulation_settings ...
     only one Pdk can be active at a given time.
 
-    Attributes:
+    Parameters:
         name: PDK name.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
@@ -70,6 +70,15 @@ class Pdk(BaseModel):
     interconnect_cml_path: Optional[PathType] = None
     grid_size: float = 0.001
     warn_off_grid_ports: bool = False
+
+    class Config:
+        extra = "forbid"
+        fields = {
+            "cross_sections": {"exclude": True},
+            "cells": {"exclude": True},
+            "containers": {"exclude": True},
+            "default_decorator": {"exclude": True},
+        }
 
     @validator("sparameters_path")
     def is_pathlib_path(cls, path):

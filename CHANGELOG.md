@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.11.2](https://github.com/gdsfactory/gdsfactory/pull/482)
+
+- better docs
+
 ## [5.11.1](https://github.com/gdsfactory/gdsfactory/pull/481)
 
 - add pytest and pytest-regressions to requirements
