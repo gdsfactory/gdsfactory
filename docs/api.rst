@@ -63,6 +63,19 @@ Classes and functions for construction and manipulation of geometric objects.
    cell_without_validator
 
 
+.. currentmodule:: gdsfactory.types
+.. rubric:: types
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   Layer
+   ComponentSpec
+   LayerSpec
+   CrossSectionSpec
+   CellSpec
+
+
 .. currentmodule:: gdsfactory.routing
 
 .. rubric:: routing
