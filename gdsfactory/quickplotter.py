@@ -191,11 +191,10 @@ def quickplot(items):  # noqa: C901
     --------
     >>> import gdsfactory as gf
     >>> R = gf.components.rectangle()
-    >>> gf.plot(R)
+    >>> R.plot()
 
-    >>> R = gf.components.rectangle()
     >>> E = gf.components.ellipse()
-    >>> gf.plot([R, E])
+    >>> E.plot()
     """
 
     # Override default options with _quickplot_options

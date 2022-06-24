@@ -68,11 +68,9 @@ def delay_snake3(
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
-    c = gf.components.component_sequence(
+    return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    gf.port.auto_rename_ports(c)
-    return c
 
 
 def test_delay_snake3_length() -> Component:

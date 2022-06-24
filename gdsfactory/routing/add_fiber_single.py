@@ -272,6 +272,8 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
+    from gdsfactory.dft.ehva import add_label_ehva
+
     # c = gf.components.crossing()
     # c = gf.components.mmi1x2()
     # c = gf.components.rectangle()
@@ -307,7 +309,7 @@ if __name__ == "__main__":
         radius=20,
     )
 
-    gf.dft.add_label_ehva(cc, die="demo")
+    add_label_ehva(cc, die="demo")
     print(cc.get_labels())
     cc.show(show_ports=True)
 
