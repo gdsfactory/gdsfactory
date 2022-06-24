@@ -41,8 +41,6 @@ from gdsfactory import asserts
 from gdsfactory import components
 from gdsfactory import dft
 from gdsfactory import routing
-from gdsfactory import klive
-from gdsfactory import port
 from gdsfactory import types
 from gdsfactory import path
 from gdsfactory import snap

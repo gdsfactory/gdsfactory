@@ -3,6 +3,9 @@
 ## [5.11.2](https://github.com/gdsfactory/gdsfactory/pull/482)
 
 - better docs
+- simpler gf module
+    - remove port
+    - remove klive
 
 ## [5.11.1](https://github.com/gdsfactory/gdsfactory/pull/481)
 
