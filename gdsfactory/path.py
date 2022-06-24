@@ -53,6 +53,12 @@ class Path(PathPhidl):
     def to_dict(self):
         return self.hash_geometry()
 
+    def plot(self):
+        """Plot path in matplotlib."""
+        from gdsfactory.quickplotter import quickplot
+
+        return quickplot(self)
+
     def extrude(
         self,
         cross_section: Optional[CrossSectionSpec] = None,
@@ -770,9 +776,12 @@ if __name__ == "__main__":
     # c3 = gf.path.extrude(P, T)
     # c3.show()
 
-    c = gf.Component("bend")
-    b = c << gf.components.bend_circular(angle=40)
-    s = c << gf.components.straight(length=5)
-    s.connect("o1", b.ports["o2"])
+    # c = gf.Component("bend")
+    # b = c << gf.components.bend_circular(angle=40)
+    # s = c << gf.components.straight(length=5)
+    # s.connect("o1", b.ports["o2"])
     # c = c.flatten()
-    c.show(show_ports=True, precision=1e-9)
+    # c.show(show_ports=True, precision=1e-9)
+
+    P3 = arc()
+    P.plot(P3)

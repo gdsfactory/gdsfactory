@@ -20,7 +20,6 @@ isort:skip_file
 from functools import partial
 from toolz import compose
 from phidl.device_layout import Group
-from gdsfactory.quickplotter import quickplot, quickplot2, set_quickplot_options
 from gdsfactory.path import Path
 
 # NOTE: import order matters. Only change the order if you know what you are doing
@@ -80,7 +79,6 @@ from gdsfactory.cross_section import get_cross_section_factories
 
 
 c = components
-plot = quickplot
 
 __all__ = (
     "CONFIG",
@@ -124,7 +122,6 @@ __all__ = (
     "pack",
     "path",
     "partial",
-    "plot",
     "read",
     "routing",
     "show",
@@ -141,8 +138,5 @@ __all__ = (
     "get_cells",
     "get_layer",
     "get_cross_section_factories",
-    "quickplot",
-    "quickplot2",
-    "set_quickplot_options",
 )
 __version__ = "5.11.1"
