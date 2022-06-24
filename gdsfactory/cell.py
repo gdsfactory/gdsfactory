@@ -234,7 +234,7 @@ def cell(func: _F, *args, **kwargs) -> _F:
     - adds Component.info with default, changed and full component settings.
 
     Keyword Args:
-        autoname (bool): if True renames component based on args and kwargs
+        autoname (bool): if True renames component based on args and kwargs.
         name (str): Optional (ignored when autoname=True).
         cache (bool): returns component from the cache if it already exists.
             if False creates a new component.
@@ -244,22 +244,6 @@ def cell(func: _F, *args, **kwargs) -> _F:
         max_name_length: truncates name beyond some characters (32) with a hash.
         decorator: function to run over the component.
 
-
-    .. plot::
-      :include-source:
-
-      import gdsfactory as gf
-
-      @gf.cell
-      def rectangle(size=(4,2), layer=0)->gf.Component:
-          c = gf.Component()
-          w, h = size
-          points = [[w, h], [w, 0], [0, 0], [0, h]]
-          c.add_polygon(points, layer=layer)
-          return c
-
-      c = rectangle(layer=(1,0))
-      c.plot()
     """
     return cell_without_validator(validate_arguments(func), *args, **kwargs)
 

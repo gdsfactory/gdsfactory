@@ -159,7 +159,7 @@ SETTINGS = [
 class Waveguide(BaseModel):
     """Waveguide Model.
 
-    Attributes:
+    Parameters:
         wavelength: (um).
         wg_width: waveguide width.
         t_wg: thickness waveguide (um).
