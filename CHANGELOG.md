@@ -6,6 +6,7 @@
 - simpler gf module
     - remove port
     - remove klive
+    - remove plot, quickplot, quickplot2
 
 ## [5.11.1](https://github.com/gdsfactory/gdsfactory/pull/481)
 
