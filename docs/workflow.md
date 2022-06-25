@@ -90,13 +90,4 @@ class LayerMap(BaseModel):
 
 LAYER = LayerMap()
 
-
-```
-
-## Types
-
-What are the common data types?
-
-```{eval-rst}
-.. automodule:: gdsfactory.types
 ```
