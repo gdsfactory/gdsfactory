@@ -1,3 +1,4 @@
+""" Route for electrical based on phidl.routing.route_quad. """
 from typing import Optional
 
 import numpy as np
@@ -17,11 +18,9 @@ def route_quad(
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 
-    based on phidl.routing.route_quad
-
     Args:
-        port1: Port to start route
-        port2 : Port objects to end route
+        port1: Port to start route.
+        port2 : Port objects to end route.
         width1: Width of quadrilateral at ports. If None, uses port widths.
         width2: Width of quadrilateral at ports. If None, uses port widths.
         layer: Layer to put the route on.

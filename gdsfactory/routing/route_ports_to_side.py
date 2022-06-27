@@ -33,24 +33,24 @@ def route_ports_to_side(
     routing_func=get_route,
     **kwargs,
 ) -> Tuple[List[Route], List[Port]]:
-    """Routes ports to a given side
+    """Routes ports to a given side.
 
     Args:
         ports: list/dict/Component/ComponentReference to route to a side.
         side: 'north', 'south', 'east' or 'west'.
         x: position to route ports for east/west. None, uses most east/west value
         y: position to route ports for south/north. None, uses most north/south value
-
         routing_func: the routing function. By default uses `get_route`
-        kwargs:
-          radius
-          separation
-          extend_bottom/extend_top for east/west routing
-          extend_left, extend_right for south/north routing
+
+    Keyword Args:
+      radius: in um.
+      separation: in um.
+      extend_bottom/extend_top for east/west routing.
+      extend_left, extend_right for south/north routing.
 
     Returns:
-        List of routes:
-        List of ports:
+        List of routes: with routing elements.
+        List of ports: of the new ports.
     """
 
     if not ports:
@@ -109,7 +109,8 @@ def route_ports_to_x(
     dy_start: float = None,
     **routing_func_args,
 ) -> Tuple[List[Route], List[Port]]:
-    """
+    """Returns route to x.
+
     Args:
         list_ports: reasonably well behaved list of ports
            i.e
