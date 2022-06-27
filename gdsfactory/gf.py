@@ -115,17 +115,17 @@ def yaml() -> None:
     pass
 
 
-@click.option("--debug", "-d", default=False, help="debug", is_flag=True)
-@click.command()
-def webapp(debug: bool = False) -> None:
-    """Opens YAML based webapp."""
-    from gdsfactory.icyaml import app
+# @click.option("--debug", "-d", default=False, help="debug", is_flag=True)
+# @click.command()
+# def webapp(debug: bool = False) -> None:
+#     """Opens YAML based webapp."""
+#     from gdsfactory.icyaml import app
 
-    if debug:
-        app.run_debug()
+#     if debug:
+#         app.run_debug()
 
-    else:
-        app.run()
+#     else:
+#         app.run()
 
 
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
@@ -198,7 +198,7 @@ tool.add_command(config_get)
 tool.add_command(test)
 tool.add_command(install)
 
-yaml.add_command(webapp)
+# yaml.add_command(webapp)
 yaml.add_command(watch)
 
 gf.add_command(gds)

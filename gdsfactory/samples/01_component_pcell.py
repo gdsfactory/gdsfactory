@@ -8,13 +8,20 @@ We write this one out fully just so it's explicitly clear what's happening
 """
 
 import gdsfactory as gf
-from gdsfactory.types import Layer
+from gdsfactory.types import LayerSpec
 
 
 @gf.cell
-def straight_sample(
-    length: float = 5.0, width: float = 1.0, layer: Layer = (2, 0)
+def straight(
+    length: float = 5.0, width: float = 1.0, layer: LayerSpec = (2, 0)
 ) -> gf.Component:
+    """Returns straight Component.
+
+    Args:
+        length: of the straight.
+        width: in um.
+        layer: layer spec
+    """
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     wg.add_port(
@@ -24,6 +31,12 @@ def straight_sample(
         name="o2", midpoint=(length, width / 2), width=width, orientation=0, layer=layer
     )
     return wg
+
+
+def test_straight(data_regression):
+    component = straight()
+    data_regression.check(component.to_dict())
+    assert straight()
 
 
 # ==============================================================================
@@ -43,8 +56,8 @@ if __name__ == "__main__":
     # only this one has some geometry inside it.
     #
     # Let's create two of these Devices by calling the straight() function
-    WG1 = straight_sample(length=10, width=1)
-    WG2 = straight_sample(length=12, width=2)
+    WG1 = straight(length=10, width=1)
+    WG2 = straight(length=12, width=2)
 
     # Now we've made two straights Component WG1 and WG2, and we have a blank
     # Component c. We can add references from the devices WG1 and WG2 to our blank
@@ -56,6 +69,6 @@ if __name__ == "__main__":
     wg2 = c << WG2  # Using the << operator which is identical to add_ref()
 
     # Alternatively, we can do this all on one line
-    wg3 = c.add_ref(straight_sample(length=14, width=3))
+    wg3 = c.add_ref(straight(length=14, width=3))
 
     c.show(show_ports=True)  # show it in Klayout
