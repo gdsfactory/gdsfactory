@@ -17,7 +17,6 @@ pytest-regressions
 pyyaml
 qrcode
 rectpack
-scikit-image
 scipy
 shapely
 toolz
