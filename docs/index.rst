@@ -9,7 +9,6 @@ Gdsfactory
    git
    notebooks
    workflow
-   routing
    components
    plugins_mode_solver
    plugins_fdtd
@@ -17,4 +16,5 @@ Gdsfactory
    contribution
    CHANGELOG
    api
+   routing
    cli

@@ -287,7 +287,7 @@ def route_sharp(
     Args:
         port1: start port.
         port2: end port.
-        width : None, int, float, array-like[2], or CrossSection
+        width: None, int, float, array-like[2], or CrossSection
             If None, the route linearly tapers between the widths the ports
             If set to a single number (e.g. `width=1.7`): makes a fixed-width route
             If set to a 2-element array (e.g. `width=[1.8,2.5]`): makes a route
@@ -321,6 +321,23 @@ def route_sharp(
 
     Returns
         D: Component containing the route and two ports (`1` and `2`) on either end.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.Component("pads")
+        c1 = c << gf.components.pad(port_orientation=None)
+        c2 = c << gf.components.pad(port_orientation=None)
+
+        c2.movex(400)
+        c2.movey(-200)
+
+        route = c << gf.routing.route_sharp(c1.ports["e4"], c2.ports["e1"], path_type="L")
+        c.show(show_ports=True)
+        c.plot()
+
     """
     if path_type == "C":
         P = path_C(port1, port2, **kwargs)
@@ -343,7 +360,7 @@ def route_sharp(
         P = path_straight(port1, port2)
     else:
         raise ValueError(
-            """[PHIDL] route_sharp() received an invalid path_type.  Must be one of
+            """route_sharp() received an invalid path_type. Must be one of
         {'manhattan', 'L', 'U', 'J', 'C', 'V', 'Z', 'straight', 'manual'}"""
         )
 

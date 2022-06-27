@@ -19,12 +19,37 @@ def get_routes_bend180(
     """Returns routes made by 180 degree bends.
 
     Args:
-        ports: List or dict of ports
-        bend: function for bend
-        cross_section:
-        bend_port1:
-        bend_port2:
-        **kwargs: bend settings
+        ports: List or dict of ports.
+        bend: function for bend.
+        cross_section: spec.
+        bend_port1: name.
+        bend_port2: name.
+        kwargs: bend settings.
+
+    .. plot::
+        :include-source:
+
+        c = gf.Component("get_routes_bend180")
+        pad_array = gf.components.pad_array(orientation=270)
+        c1 = c << pad_array
+        c2 = c << pad_array
+        c2.rotate(90)
+        c2.movex(1000)
+        c2.ymax = -200
+        layer = (2, 0)
+        routes_bend180 = gf.routing.get_routes_bend180(
+            ports=c2.get_ports_list(), radius=75 / 2, layer=layer
+        )
+        c.add(routes_bend180.references)
+
+        routes = gf.routing.get_bundle(
+            c1.get_ports_list(), routes_bend180.ports, layer=layer
+        )
+        for route in routes:
+            c.add(route.references)
+        c.show(show_ports=True)
+        c.plot()
+
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     bend = bend(angle=180, cross_section=cross_section, **kwargs)
@@ -74,7 +99,6 @@ if __name__ == "__main__":
     c2.movex(1000)
     c2.ymax = -200
     layer = (2, 0)
-
     routes_bend180 = get_routes_bend180(
         ports=c2.get_ports_list(), radius=75 / 2, layer=layer
     )
