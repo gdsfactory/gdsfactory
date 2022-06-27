@@ -85,25 +85,27 @@ def get_bundle_from_waypoints(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = strip,
     separation: Optional[float] = None,
     on_route_error: Callable = get_route_error,
-    path_length_match_loops: int = None,
+    path_length_match_loops: Optional[int] = None,
     path_length_match_extra_length: float = 0.0,
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
-    """Returns list of routes that connect bundle of ports with bundle of routes
-    where routes follow a list of waypoints.
+    """Returns list of routes that connect bundle of ports with bundle of routes.
+
+    Routes follow a list of waypoints.
+    Take a look at get_bundle_from_steps for easier definition.
 
     Args:
-        ports1: list of ports
-        ports2: list of ports
-        waypoints: list of points defining a route
-        straight: function that returns straights
-        taper: function that returns tapers
-        bend: function that returns bends
-        sort_ports: sorts ports
-        cross_section: cross_section
-        separation: center to center, defaults to ports1 separation
-        **kwargs: cross_section settings
+        ports1: list of ports.
+        ports2: list of ports.
+        waypoints: list of points defining a route.
+        straight: function that returns straights.
+        taper: function that returns tapers.
+        bend: function that returns bends.
+        sort_ports: sorts ports.
+        cross_section: cross_section.
+        separation: center to center, defaults to ports1 separation.
+        **kwargs: cross_section settings.
 
     """
     if len(ports2) != len(ports1):

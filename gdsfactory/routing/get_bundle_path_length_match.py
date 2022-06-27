@@ -42,23 +42,23 @@ def get_bundle_path_length_match(
     """Returns list of routes that are path length matched.
 
     Args:
-        ports1: list of ports
-        ports2: list of ports
-        separation: between the loops
-        end_straight_length: if None tries to determine it
+        ports1: list of ports.
+        ports2: list of ports.
+        separation: between the loops.
+        end_straight_length: if None tries to determine it.
         extra_length: distance added to all path length compensation.
-            Useful is we want to add space for extra taper on all branches
-        nb_loops: number of extra loops added in the path
+            Useful is we want to add space for extra taper on all branches.
+        nb_loops: number of extra loops added in the path.
         modify_segment_i: index of the segment that accommodates the new turns
-            default is next to last segment
-        bend: for bends
-        straight: for straights
-        taper:
-        start_straight_length:
-        route_filter: get_route_from_waypoints
-        sort_ports: sorts ports before routing
-        cross_section: factory
-        **kwargs: cross_section settings
+            default is next to last segment.
+        bend: for bends.
+        straight: for straights.
+        taper: spec.
+        start_straight_length: in um.
+        route_filter: get_route_from_waypoints.
+        sort_ports: sorts ports before routing.
+        cross_section: factory.
+        kwargs: cross_section settings.
 
     Tips:
 
@@ -82,14 +82,14 @@ def get_bundle_path_length_match(
 
       a1 = 90
       a2 = a1 + 180
-      ports1 = [gf.Port(f"top_{i}", (xs1[i], 0), 0.5, a1) for i in range(N)]
-      ports2 = [gf.Port(f"bottom_{i}", (xs2[i], dy), 0.5, a2) for i in range(N)]
+      ports1 = [gf.Port(f"top_{i}", (xs1[i], +0), 0.5, a1, layer="WG") for i in range(N)]
+      ports2 = [gf.Port(f"bot_{i}", (xs2[i], dy), 0.5, a2, layer="WG") for i in range(N)]
 
-      routes = gf.routing.get_bundle_path_length_match(
-          ports1, ports2, extra_length=44
-      )
+      routes = gf.routing.get_bundle_path_length_match(ports1, ports2, extra_length=44)
       for route in routes:
           c.add(route.references)
+
+      gf.config.set_plot_options(show_subports=False)
       c.plot()
 
     """
