@@ -7,7 +7,6 @@ lytest==0.0.20
 networkx
 pyglet
 sax
-scikit-image
 simphony==0.6.1
 sklearn
 tidy3d-beta==1.4.1
