@@ -1,7 +1,4 @@
-"""When you create components you have to make sure they have unique names.
-
-the cell decorator gives unique names to components that depend on their parameters
-"""
+"""You can add pins in a pin layer to clearly see the component ports."""
 
 import gdsfactory as gf
 from gdsfactory.types import LayerSpec
@@ -29,12 +26,14 @@ def straight(
     return wg
 
 
-def test_autoname() -> None:
-    c1 = straight(length=5)
-    assert c1.name.split("_")[0] == "straight"
+def test_straight(data_regression):
+    component = straight()
+    data_regression.check(component.to_dict())
+    assert straight()
 
 
 if __name__ == "__main__":
-    c1 = straight(length=5)
-    print(c1)
-    c1.show()
+    wg = straight(decorator=gf.add_pins.add_pins)
+
+    # By default show adds pins, so you don't need it to show_ports
+    wg.show(show_ports=False)

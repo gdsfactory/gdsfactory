@@ -2,14 +2,13 @@
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta:__legacy__"
 
-[tool.pytest.ini_options]
-testpaths = ['gdsfactory']
-addopts = '--tb=short'
-norecursedirs = [
-    'gdsfactory/simulation',
-    'gdsfactory/icyaml',
-    ]
-
+# [tool.pytest.ini_options]
+# testpaths = ['gdsfactory']
+# addopts = '--tb=short'
+# norecursedirs = [
+#     'gdsfactory/simulation',
+#     'gdsfactory/icyaml',
+#     ]
 # filterwarnings =
 #     ignore::UserWarning
 #     ignore::DeprecationWarning

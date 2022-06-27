@@ -1,8 +1,9 @@
 """Group references. Distribute them as you want
 
-Lets distribute different references in the X direction
+Distribute different references in the X direction.
 
 """
+
 
 if __name__ == "__main__":
 
