@@ -492,7 +492,13 @@ if __name__ == "__main__":
     # c = Waveguide(t_slab=90e-3, bend_radius=5)
     # c.plot_index()
 
-    r, integral = sweep_bend_loss()
-    plt.plot(r, integral / max(integral), ".")
-    plt.xlabel("bend radius (um)")
-    plt.show()
+    # r, integral = sweep_bend_loss()
+    # plt.plot(r, integral / max(integral), ".")
+    # plt.xlabel("bend radius (um)")
+    # plt.show()
+
+    rib = find_modes(wavelength=1.55, wg_width=0.5, t_wg=0.22, t_slab=0.15)
+    nitride = find_modes(wavelength=1.55, wg_width=1.0, t_wg=0.4, ncore=2.0, w_sim=5)
+
+    # nitride.plot_index()
+    # nitride.plot_Ex(index=0)

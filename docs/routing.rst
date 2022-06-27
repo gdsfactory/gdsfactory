@@ -18,10 +18,7 @@ single route
 bundle route
 ---------------------------------------------------------------------------------------------------
 
-Often, several ports have to be linked together without them crossing each other. One way to tackle
-simple cases is to use bundle routing. Several functions are available depending on the use case:
-
-
+When you need to route groups of ports together without them crossing each other You can use a bundle/river/bus router.
 `get bundle` is the generic river bundle bus routing function that will call different function depending on
 the port orientation. Get bundle acts as a high level entry point. Based on the angle
 configurations of the banks of ports, it decides which sub-routine to call:
@@ -83,8 +80,7 @@ fanout
 add_fiber_array / add_fiber_single
 ---------------------------------------------------------------------------------------------------
 
-In cases where individual components have to be tested, you can generate the array of optical I/O
-and connect them to the component.
+In cases where individual components have to be tested, you can generate the array of optical I/O and connect them to the component.
 
 You can connect the waveguides to a 127um pitch fiber array or to individual fibers for input and output.
 
