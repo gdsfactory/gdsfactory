@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.11.3](https://github.com/gdsfactory/gdsfactory/pull/485)
+
+- move watchdog and qrcode dependencies from `pip install gdsfactory[full]`  to `pip install gdsfactory`
+- increase test coverage
+- remove `icyaml` webapp
+
 ## [5.11.2](https://github.com/gdsfactory/gdsfactory/pull/484)
 
 - better docs
