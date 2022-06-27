@@ -88,7 +88,7 @@ Layers = Tuple[Layer, ...]
 LayerSpec = Union[Layer, int, str, None]
 """Description capable of generating a Layer. Can be a tuple of integers (layer, datatype), a integer (layer, 0) or a string (layer_name)."""
 
-LayerSpecs = Tuple[LayerSpec, ...]
+LayerSpecs = Optional[Tuple[LayerSpec, ...]]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]

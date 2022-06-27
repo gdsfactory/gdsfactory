@@ -25,8 +25,8 @@ def fill_cell_rectangle(
     layers: LayerSpecs = (0, 1, 3),
     densities: Floats = (0.5, 0.25, 0.7),
     inverted=(False, False, False),
-):
-    """Creates a single Device on multiple layers to be used as fill
+) -> Component:
+    """Returns Component on multiple layers to be used as fill.
 
     based on phidl.geometry
 
@@ -72,7 +72,7 @@ def fill_rectangle(
     fill_inverted: bool = False,
     bbox: Optional[Float2] = None,
 ) -> Component:
-    """Creates a rectangular fill pattern and fills all empty areas.
+    """Returns rectangular fill pattern and fills all empty areas.
 
     In the input component and returns a component that contains just the fill
     Dummy fill keeps density constant during fabrication
@@ -169,11 +169,29 @@ def fill_rectangle(
     return F
 
 
+def test_fill():
+    import gdsfactory as gf
+    from gdsfactory.difftest import difftest
+
+    c = gf.components.straight()
+    c = gf.add_padding_container(c, default=15)
+    c.unlock()
+    c << fill_rectangle(
+        c,
+        fill_layers=((2, 0),),
+        # fill_densities=(1.0,),
+        fill_densities=0.5,
+        avoid_layers=((1, 0),),
+        # bbox=(100.0, 100.0),
+    )
+    difftest(c)
+
+
 if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight()
-    c = gf.add_padding_container(c)
+    c = gf.add_padding_container(c, default=15)
     c.unlock()
     c << fill_rectangle(
         c,

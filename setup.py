@@ -34,7 +34,6 @@ setup(
     url="https://github.com/gdsfactory/gdsfactory",
     version="5.11.2",
     author="gdsfactory community",
-    scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",
     long_description=long_description,
     long_description_content_type="text/markdown",

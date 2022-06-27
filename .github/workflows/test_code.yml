@@ -35,7 +35,7 @@ jobs:
           pip install flake8
           make gdslib
           pip install -e .[dev]
-          pip install klayout lytest
+          pip install klayout lytest scikit-image
       - name: Lint with flake8
         run: |
           flake8 .
