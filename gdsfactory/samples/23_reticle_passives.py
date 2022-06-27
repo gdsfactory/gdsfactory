@@ -2,6 +2,7 @@
 
 import gdsfactory as gf
 from gdsfactory.dft import add_label_yaml
+from gdsfactory.read.labels import add_port_markers
 from gdsfactory.types import Component
 
 
@@ -16,8 +17,7 @@ def mzi_te(**kwargs) -> Component:
     return c
 
 
-if __name__ == "__main__":
-    # Lets write a mask
+def test_mask() -> Component:
     c = gf.grid(
         [
             mzi_te(),
@@ -31,8 +31,11 @@ if __name__ == "__main__":
     gdspath = c.write_gds("mask.gds")
     csvpath = gf.mask.write_labels_gdspy(gdspath, prefix="component_name")
 
-    from gdsfactory.read.labels import add_port_markers
-
-    # You can make sure that all the ports will be tested by adding port markers
+    # make sure that all the ports will be tested by adding port markers
     c2 = add_port_markers(gdspath=gdspath, csvpath=csvpath, marker_size=40)
-    c2.show()
+    return c2
+
+
+if __name__ == "__main__":
+    c = test_mask()
+    c.show()

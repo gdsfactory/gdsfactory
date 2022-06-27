@@ -1,3 +1,5 @@
+"""Generate the code from a GDS file based PDK."""
+
 import pathlib
 from typing import Optional
 
