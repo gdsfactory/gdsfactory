@@ -70,7 +70,6 @@ Or you can fork the UBC PDK and create new cell functions that use the correct l
 ```
 
 from pydantic import BaseModel
-import gdsfactory as gf
 
 
 class LayerMap(BaseModel):
