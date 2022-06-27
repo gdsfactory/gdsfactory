@@ -23,13 +23,13 @@ def fanout_component(
     """Returns component with Sbend fanout routes.
 
     Args:
-        component: to fanout ports
-        port_names: list of port names
-        pitch: target port spacing for new component
-        dx: how far the fanout in x direction
-        sort_ports:
-        auto_rename_ports:
-        kwargs: for get_route_sbend
+        component: to fanout ports.
+        port_names: list of port names.
+        pitch: target port spacing for new component.
+        dx: how far the fanout in x direction.
+        sort_ports: sort ports.
+        auto_rename_ports: auto_rename_ports.
+        kwargs: for get_route_sbend.
     """
 
     c = Component()
@@ -78,10 +78,10 @@ def fanout_ports(
     """Returns fanout Sbend routes.
 
     Args:
-        ports: list of ports
-        pitch: target port spacing for new component
-        dx: how far the fanout
-        kwargs: for route_basic
+        ports: list of ports.
+        pitch: target port spacing for new component.
+        dx: how far the fanout.
+        kwargs: for route_basic.
     """
     routes = []
     ports1 = ports
