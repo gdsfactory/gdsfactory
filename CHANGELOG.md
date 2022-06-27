@@ -2,7 +2,9 @@
 
 ## [5.11.3](https://github.com/gdsfactory/gdsfactory/pull/485)
 
-- move watchdog and qrcode dependencies from `pip install gdsfactory[full]`  to `pip install gdsfactory`
+- move dependencies from `pip install gdsfactory[full]`  to `pip install gdsfactory`
+    - watchdog
+    - qrcode
 - increase test coverage
 - remove `icyaml` webapp
 
