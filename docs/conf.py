@@ -1,6 +1,6 @@
 project = "gdsfactory"
 release = "5.11.3"
-copyright = "2019, PsiQ"
+copyright = "2022"
 
 html_theme = "sphinx_book_theme"
 source_suffix = {

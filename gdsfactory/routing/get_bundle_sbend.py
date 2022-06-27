@@ -10,14 +10,15 @@ def get_bundle_sbend(
     """Returns a Dict with the routes from ports1 to ports2
 
     Args:
-        ports1: start ports
-        ports2: end ports
-        **kwargs: cross_section settings
+        ports1: start ports.
+        ports2: end ports.
+        sort_ports: sort ports.
+        kwargs: cross_section settings.
 
     Returns:
-        references: List of route references
-        lengths: list of floats
-        bend_radius: list of min bend_radius
+        references: List of route references.
+        lengths: list of floats.
+        bend_radius: list of min bend_radius.
 
     """
     if sort_ports:
@@ -49,8 +50,13 @@ if __name__ == "__main__":
     N = len(ys_left)
     ys_right = [(i - N / 2) * pitch for i in range(N)]
 
-    right_ports = [gf.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180) for i in range(N)]
-    left_ports = [gf.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0) for i in range(N)]
+    layer = (1, 0)
+    right_ports = [
+        gf.Port(f"R_{i}", (0, ys_right[i]), 0.5, 180, layer=layer) for i in range(N)
+    ]
+    left_ports = [
+        gf.Port(f"L_{i}", (-50, ys_left[i]), 0.5, 0, layer=layer) for i in range(N)
+    ]
     left_ports.reverse()
 
     routes = get_bundle_sbend(right_ports, left_ports)

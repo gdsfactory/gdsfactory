@@ -8,14 +8,15 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
     """Returns an Sbend Route to connect two ports.
 
     Args:
-        port1: start port
-        port2: end port
+        port1: start port.
+        port2: end port.
 
     keyword Args:
-        nb_points: number of points
-        with_cladding_box: square bounding box to avoid DRC errors
-        cross_section: function
-        kwargs: cross_section settings
+        nb_points: number of points.
+        with_cladding_box: square bounding box to avoid DRC errors.
+        cross_section: function.
+        kwargs: cross_section settings.
+
     """
     ysize = port2.midpoint[1] - port1.midpoint[1]
     xsize = port2.midpoint[0] - port1.midpoint[0]
