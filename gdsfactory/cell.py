@@ -303,7 +303,7 @@ def test_names() -> None:
     demo2 = functools.partial(demo, length=3)
     c1 = demo2(length=3)
     c2 = demo(length=3)
-    assert c1.name == c2.name
+    assert c1.name == c2.name, "{c1.name} != {c2.name}"
 
     c1 = demo(length=3, wg_width=0.5).name
     c2 = demo(wg_width=0.5, length=3).name
@@ -315,15 +315,6 @@ def test_names() -> None:
     name_args = demo(3).name
     name_kwargs = demo(length=3).name
     assert name_args == name_kwargs, name_with_prefix
-
-    c1name = wg(length=3).name
-    c2name = wg(length=3.0).name
-    assert c1name == c2name
-
-    # c1name = wg(length=3).name
-    # c2name = wg(length=3.0).name
-    # c3name = wg().name
-    # assert c1name == c2name == c3name
 
     c = wg(length=3.1)
     assert c.settings.changed["length"] == 3.1
@@ -341,7 +332,7 @@ def straight_with_pins(**kwargs) -> Component:
 
 
 def test_import_gds_settings() -> None:
-    """Sometimes it fails for files imported from GDS"""
+    """Sometimes it fails for files imported from GDS."""
     import gdsfactory as gf
 
     gdspath = gf.CONFIG["gdsdir"] / "mzi2x2.gds"
@@ -350,8 +341,8 @@ def test_import_gds_settings() -> None:
 
 
 if __name__ == "__main__":
-    # test_names()
-    test_import_gds_settings()
+    test_names()
+    # test_import_gds_settings()
 
     # import gdsfactory as gf
 

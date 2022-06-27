@@ -5,8 +5,8 @@ from gdsfactory.types import LayerSpec
 
 
 @gf.cell
-def straight(
-    length: float = 5.0, width: float = 1.0, layer: LayerSpec = (2, 0)
+def straight_narrow(
+    length: float = 5.0, width: float = 0.3, layer: LayerSpec = (2, 0)
 ) -> gf.Component:
     """Returns straight Component.
 
@@ -26,14 +26,13 @@ def straight(
     return wg
 
 
-def test_straight(data_regression):
-    component = straight()
+def test_straight_narrow(data_regression):
+    component = straight_narrow()
     data_regression.check(component.to_dict())
-    assert straight()
 
 
 if __name__ == "__main__":
-    wg = straight(decorator=gf.add_pins.add_pins)
+    wg = straight_narrow(decorator=gf.add_pins.add_pins)
 
     # By default show adds pins, so you don't need it to show_ports
     wg.show(show_ports=False)
