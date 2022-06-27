@@ -15,7 +15,7 @@ from gdsfactory.read.from_yaml import from_yaml
 
 
 class YamlEventHandler(FileSystemEventHandler):
-    """Captures pic.yml events."""
+    """Captures pic.yml file change events."""
 
     def __init__(self, logger=None, path: Optional[str] = None):
         super().__init__()
