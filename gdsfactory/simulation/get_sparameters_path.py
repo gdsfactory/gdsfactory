@@ -84,7 +84,7 @@ def test_get_sparameters_path(test: bool = True) -> None:
 
     if test:
         name1 = "straight_1f90b7ca"
-        name2 = "straight_6b279ab9"
+        name2 = "straight_9b7c7e58"
         name3 = "straight_c752dd0a"
 
         assert p1.stem == name1, p1.stem
