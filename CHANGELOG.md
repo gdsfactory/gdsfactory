@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.0](https://github.com/gdsfactory/gdsfactory/pull/491)
+
+- remove `gf.simulation.gtidy3d.modes.find_modes`, add cache and filepath to Waveguide
+- replace from pickle to np.savez_compressed()
+- replace `from tqdm import tqdm` to `from tqdm.auto import tqdm`
+- add Optional refractive_index to LayerLevel
+- add doc to overwrite docstring to `gf.partial`
+
 ## [5.11.4](https://github.com/gdsfactory/gdsfactory/pull/491)
 
 - add opacity 0.5 for dither I1

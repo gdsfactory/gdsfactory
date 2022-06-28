@@ -10,7 +10,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import pydantic
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
