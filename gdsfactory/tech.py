@@ -112,7 +112,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
-    refractive_index: Optional[Callable[[float], float]] = None
+    # refractive_index: Optional[Callable[[float], float]] = None
 
 
 class LayerStack(BaseModel):
