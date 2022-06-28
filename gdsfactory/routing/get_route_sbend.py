@@ -29,6 +29,7 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
         route = gf.routing.get_route_sbend(mmi1.ports['o2'], mmi2.ports['o1'])
         c.add(route.references)
         c.show()
+        c.plot()
 
     """
     ysize = port2.midpoint[1] - port1.midpoint[1]
