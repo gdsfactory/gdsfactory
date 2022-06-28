@@ -374,20 +374,20 @@ def sweep_bend_loss(
 
         def get_overlap(wg1, wg2, index1, index2):
             return np.sum(
-                    np.conj(wg1.Ex[..., index1]) * wg2.Hy[..., index2]
-                    - np.conj(wg1.Ey[..., index1]) * wg2.Hx[..., index2]
-                    + wg2.Ex[..., index2] * np.conj(wg1.Hy[..., index1])
-                    - wg2.Ey[..., index2] * np.conj(wg1.Hx[..., index1])
+                np.conj(wg1.Ex[..., index1]) * wg2.Hy[..., index2]
+                - np.conj(wg1.Ey[..., index1]) * wg2.Hx[..., index2]
+                + wg2.Ex[..., index2] * np.conj(wg1.Hy[..., index1])
+                - wg2.Ey[..., index2] * np.conj(wg1.Hx[..., index1])
             )
 
         # normalized overlap integral
         integral[i] = np.abs(
-            get_overlap(wg, strip_bend, index, index) ** 2 /
-            get_overlap(wg, wg, index, index) /
-            get_overlap(strip_bend, strip_bend, index, index)
+            get_overlap(wg, strip_bend, index, index) ** 2
+            / get_overlap(wg, wg, index, index)
+            / get_overlap(strip_bend, strip_bend, index, index)
         )
 
-    return r, integral ** 2
+    return r, integral**2
 
 
 def find_modes(
