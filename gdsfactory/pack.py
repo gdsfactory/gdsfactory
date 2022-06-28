@@ -177,7 +177,7 @@ def pack(
             d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             packed.add(d)
             if hasattr(component, "settings"):
-                packed.info["components"][component.name] = component.settings
+                packed.info["components"][component.name] = dict(component.settings)
             d.center = (xcenter * precision, ycenter * precision)
 
             if text:
