@@ -1,9 +1,10 @@
+import typing
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
 from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
-from phidl.device_layout import Device, DeviceReference
+from phidl.device_layout import DeviceReference
 
 from gdsfactory.port import (
     Port,
@@ -13,6 +14,9 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.snap import snap_to_grid
+
+if typing.TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
@@ -111,9 +115,11 @@ def _rotate_points(
 
 
 class ComponentReference(DeviceReference):
+    """A ComponentReference is a pointer to a Component with x, y, rotation, mirror."""
+
     def __init__(
         self,
-        component: Device,
+        component: "Component",
         origin: Coordinate = (0, 0),
         rotation: float = 0,
         magnification: None = None,
@@ -130,6 +136,7 @@ class ComponentReference(DeviceReference):
             ignore_missing=False,
         )
         self.owner = None
+
         # The ports of a ComponentReference have their own unique id (uid),
         # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
@@ -175,7 +182,7 @@ class ComponentReference(DeviceReference):
 
     @property
     def bbox(self):
-        """Return the bounding box of the DeviceReference.
+        """Return the bounding box of the ComponentReference.
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
         bbox = self.get_bounding_box()
@@ -324,7 +331,7 @@ class ComponentReference(DeviceReference):
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Move the DeviceReference from the origin point to the destination.
+        """Move the ComponentReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
 
