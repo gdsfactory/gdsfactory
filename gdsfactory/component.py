@@ -56,8 +56,8 @@ MAX_NAME_LENGTH = 32
 
 
 class Component(Device):
-    """A Component is like an empty canvas, where you can add
-    polygons, references to other Components and ports (to connect to other components).
+    """A Component is like an empty canvas, where you can add polygons,
+    references to other Components and ports (to connect to other components).
 
     - get/write YAML metadata
     - get ports by type (optical, electrical ...)
