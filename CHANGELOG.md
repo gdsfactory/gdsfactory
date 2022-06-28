@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.11.4
+## [5.11.4](https://github.com/gdsfactory/gdsfactory/pull/491)
 
 - add opacity 0.5 for dither I1
 - Fix sweep_bend_loss, overlap integral code in gtidy3d.modes [PR](https://github.com/gdsfactory/gdsfactory/pull/490)
