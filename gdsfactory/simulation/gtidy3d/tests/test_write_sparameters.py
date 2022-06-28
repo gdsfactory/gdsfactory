@@ -1,13 +1,11 @@
-import numpy as np
-
 import gdsfactory as gf
 import gdsfactory.simulation.gtidy3d as gt
 
 
-def test_sparameters_straight() -> None:
+def test_sparameters_straight(overwrite=False) -> None:
     """Checks Sparameters for a straight waveguide in 2D."""
     c = gf.components.straight(length=2)
-    df = gt.write_sparameters_1x1(c, overwrite=True, is_3d=False)
+    df = gt.write_sparameters_1x1(c, overwrite=overwrite, is_3d=False)
 
     # Check reasonable reflection/transmission
     assert df["s12m"].min() > 0.89, df["s12m"].min()
@@ -22,13 +20,13 @@ def test_sparameters_straight() -> None:
 
 
 if __name__ == "__main__":
-    # test_sparameters_straight(None)
+    test_sparameters_straight()
 
-    c = gf.components.straight(length=2)
-    df = gt.write_sparameters_1x1(c, overwrite=True)
+    # c = gf.components.straight(length=2)
+    # df = gt.write_sparameters_1x1(c, overwrite=True)
 
-    # Check reasonable reflection/transmission
-    assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
-    assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
-    assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
-    assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]
+    # # Check reasonable reflection/transmission
+    # assert np.allclose(df["s12m"], 1, atol=1e-02), df["s12m"]
+    # assert np.allclose(df["s21m"], 1, atol=1e-02), df["s21m"]
+    # assert np.allclose(df["s11m"], 0, atol=5e-02), df["s11m"]
+    # assert np.allclose(df["s22m"], 0, atol=5e-02), df["s22m"]

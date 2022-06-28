@@ -26,7 +26,7 @@ def boolean(
 
     gdsfactory wrapper for phidl.geometry.boolean
 
-    You can also use gdsfactory.drc.boolean that uses Klayout backend
+    You can also use gdsfactory.drc.boolean_klayout
 
     Args:
         A: Component(/Reference) or list of Component(/References).
