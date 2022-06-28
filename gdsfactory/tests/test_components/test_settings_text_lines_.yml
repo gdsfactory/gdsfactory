@@ -6,12 +6,14 @@ settings:
     layer: WG
     size: 0.4
     text:
-    - ''
+    - Chip
+    - '01'
   full:
     layer: WG
     size: 0.4
     text:
-    - ''
+    - Chip
+    - '01'
   function_name: text_lines
   info: {}
   info_version: 2
