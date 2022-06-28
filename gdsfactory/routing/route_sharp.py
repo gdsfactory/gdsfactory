@@ -32,9 +32,7 @@ def path_straight(port1: Port, port2: Port) -> Path:
         np.dot(displacement, e2), 3
     )  # relative position of port 2, left/right
     if (delta_orientation not in (0, 180, 360)) or (yrel != 0) or (xrel <= 0):
-        raise ValueError(
-            "[PHIDL] path_straight(): ports must point directly at each other."
-        )
+        raise ValueError("path_straight(): ports must point directly at each other.")
     return Path(np.array([port1.midpoint, port2.midpoint]))
 
 
@@ -50,7 +48,7 @@ def path_L(port1: Port, port2: Port) -> Path:
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     if delta_orientation not in (90, 270):
-        raise ValueError("[PHIDL] path_L(): ports must be orthogonal.")
+        raise ValueError("path_L(): ports must be orthogonal.")
     e1, e2 = _get_rotated_basis(port1.orientation)
     # assemble waypoints
     pt1 = port1.midpoint
@@ -75,7 +73,7 @@ def path_U(port1: Port, port2: Port, length1=200) -> Path:
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     if delta_orientation not in (0, 180, 360):
-        raise ValueError("[PHIDL] path_U(): ports must be parallel.")
+        raise ValueError("path_U(): ports must be parallel.")
     theta = np.radians(port1.orientation)
     e1 = np.array([np.cos(theta), np.sin(theta)])
     e2 = np.array([-1 * np.sin(theta), np.cos(theta)])
@@ -105,7 +103,7 @@ def path_J(port1: Port, port2: Port, length1=200, length2=200) -> Path:
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     if delta_orientation not in (90, 270):
-        raise ValueError("[PHIDL] path_J(): ports must be orthogonal.")
+        raise ValueError("path_J(): ports must be orthogonal.")
     e1, _ = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble waypoints
@@ -137,7 +135,7 @@ def path_C(port1: Port, port2: Port, length1=100, left1=100, length2=100) -> Pat
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     if delta_orientation not in (0, 180, 360):
-        raise ValueError("[PHIDL] path_C(): ports must be parallel.")
+        raise ValueError("path_C(): ports must be parallel.")
     e1, e_left = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble route points
@@ -176,7 +174,7 @@ def path_manhattan(port1: Port, port2: Port, radius) -> Path:
     )  # relative orientation
     if orel not in (0, 90, 180, 270, 360):
         raise ValueError(
-            "[PHIDL] path_manhattan(): ports must face parallel or orthogonal directions."
+            "path_manhattan(): ports must face parallel or orthogonal directions."
         )
     if orel in (90, 270):
         # Orthogonal case
@@ -282,7 +280,6 @@ def route_sharp(
         >>> P = pr.path_manhattan(port1, port2, radius)
         >>> D = P.extrude(width)
 
-    adapted from phidl.routing
 
     Args:
         port1: start port.
@@ -319,7 +316,7 @@ def route_sharp(
         **kwargs :
             Keyword arguments passed to the waypoint path function.
 
-    Returns
+    Returns:
         D: Component containing the route and two ports (`1` and `2`) on either end.
 
     .. plot::

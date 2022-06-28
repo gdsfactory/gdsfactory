@@ -55,7 +55,7 @@ def get_bundle(
     cross_section: Union[CrossSectionSpec, MultiCrossSectionAngleSpec] = "strip",
     **kwargs,
 ) -> List[Route]:
-    """Returns a list of routes.
+    """Returns list of routes to connect two groups of ports.
 
     Routes connect a bundle of ports with a river router.
     Chooses the correct routing function depending on port angles.
