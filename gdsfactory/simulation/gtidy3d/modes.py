@@ -342,8 +342,6 @@ def sweep_bend_loss(
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend)
 
-    FIXME! fix overlap integral code.
-
     Args:
         rmin: min bend radius (um).
         rmax: max bend radius (um).
@@ -374,38 +372,22 @@ def sweep_bend_loss(
         strip_bend = Waveguide(bend_radius=radius, **kwargs)
         strip_bend.compute_modes()
 
-        mode1_Ey = wg.Ey[index]
-        mode1_Ex = wg.Ex[index]
-        mode1_Hx = wg.Hx[index]
-        mode1_Hy = wg.Hy[index]
+        def get_overlap(wg1, wg2, index1, index2):
+            return np.sum(
+                    np.conj(wg1.Ex[..., index1]) * wg2.Hy[..., index2]
+                    - np.conj(wg1.Ey[..., index1]) * wg2.Hx[..., index2]
+                    + wg2.Ex[..., index2] * np.conj(wg1.Hy[..., index1])
+                    - wg2.Ey[..., index2] * np.conj(wg1.Hx[..., index1])
+            )
 
-        mode2_Ey = strip_bend.Ey[index]
-        mode2_Ex = strip_bend.Ex[index]
-        mode2_Hx = strip_bend.Hx[index]
-        mode2_Hy = strip_bend.Hy[index]
-
-        # x_min = (-wg.w_sim / 2,)
-        # x_max = (+wg.w_sim / 2,)
-        # y_min = 0
-        # y_max = wg.t_sim
-        # mesh_y = mesh_x = wg.resolution
-
-        # x = np.linspace(x_min, x_max, mesh_x + 1)
-        # y = np.linspace(y_min, y_max, mesh_y + 1)
-        # cross = mode1_Ex * mode2_Hy.conj() - mode1_Ey * mode2_Hx.conj()
-        # integral[i] = 0.25 * np.trapz(np.trapz(cross, y), x)
-
-        integrand = (
-            np.conj(mode1_Ex) * mode2_Hy
-            - np.conj(mode1_Ey) * mode2_Hx
-            + mode2_Ex * np.conj(mode1_Hy)
-            - mode2_Ey * np.conj(mode1_Hx)
+        # normalized overlap integral
+        integral[i] = np.abs(
+            get_overlap(wg, strip_bend, index, index) ** 2 /
+            get_overlap(wg, wg, index, index) /
+            get_overlap(strip_bend, strip_bend, index, index)
         )
 
-        # square because you hit the bend loss twice
-        integral[i] = np.trapz(np.trapz(integrand, axis=0), axis=0) ** 2
-
-    return r, integral
+    return r, integral ** 2
 
 
 def find_modes(
