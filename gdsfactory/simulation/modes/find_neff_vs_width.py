@@ -5,7 +5,7 @@ import meep as mp
 import numpy as np
 import pandas as pd
 import pydantic
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 from gdsfactory.types import Optional, PathType

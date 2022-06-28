@@ -99,6 +99,7 @@ def get_medium(
 
 si = partial(get_index, "si")
 sio2 = partial(get_index, "sio2")
+sin = partial(get_index, "sin")
 
 if __name__ == "__main__":
     print(si(1.55))

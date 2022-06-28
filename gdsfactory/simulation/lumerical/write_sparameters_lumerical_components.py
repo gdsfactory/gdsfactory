@@ -1,7 +1,7 @@
 """Write Sparameters with for different components."""
 from typing import Optional
 
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.simulation.lumerical.write_sparameters_lumerical import (

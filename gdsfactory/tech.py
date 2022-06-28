@@ -104,6 +104,7 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+        refractive_index: optional index as a function of wavelength (um).
     """
 
     layer: Tuple[int, int]
@@ -111,13 +112,14 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
+    refractive_index: Optional[Callable[[float], float]] = None
 
 
 class LayerStack(BaseModel):
     """For simulation and 3D rendering.
 
     Parameters:
-        layers: dict of layers.
+        layers: dict of layer_levels.
     """
 
     layers: Dict[str, LayerLevel]
