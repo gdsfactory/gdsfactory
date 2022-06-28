@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import pydantic
 from omegaconf import OmegaConf
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
