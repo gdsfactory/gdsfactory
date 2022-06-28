@@ -722,7 +722,7 @@
   <dither-pattern>I1</dither-pattern>
   <line-style/>
   <valid>true</valid>
-  <visible>false</visible>
+  <visible>true</visible>
   <transparent>false</transparent>
   <width/>
   <marked>false</marked>

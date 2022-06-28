@@ -26,19 +26,15 @@ def cutback_bend(
     straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
-    """Deprecated! use cutback_bend90 instead,
-    which has smaller footprint
+    """Deprecated. Use cutback_bend90 instead with smaller footprint.
 
     Args:
-        bend90:
-        straight_length:
-        rows:
-        columns:
-        straight: function for straight
-        kwargs: cross_section settings
-
-    keyword args:
-        cross_section:
+        bend90: bend spec.
+        straight_length: in um.
+        rows: number of rows.
+        columns: number of columns.
+        straight: straight spec.
+        kwargs: cross_section settings.
 
 
     .. code::
@@ -87,15 +83,15 @@ def cutback_bend90(
     straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
-    """Returns bend90 loss.
+    """Returns bend90 cutback.
 
     Args:
-        bend90:
-        straight_length:
-        rows:
-        columns:
-        straight: function for straight
-        kwargs: cross_section settings
+        bend90: bend spec.
+        straight_length: in um.
+        rows: number of rows.
+        columns: number of columns.
+        straight: straight spec.
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -145,13 +141,13 @@ def staircase(
     """Returns staircase.
 
     Args:
-        bend90:
+        bend90: bend spec.
         length_v: vertical length.
         length_h: vertical length.
-        rows:
-        columns:
-        straight: function for straight
-        kwargs: cross_section settings
+        rows: number of rows.
+        columns: number of columns.
+        straight: straight spec.
+        kwargs: cross_section settings.
 
     """
     bend90 = bend90(**kwargs) if callable(bend90) else bend90
@@ -187,16 +183,16 @@ def cutback_bend180(
     straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
-    """Return cutback to measure u bend loss.
+    """Returns cutback to measure u bend loss.
 
     Args:
-        bend180:
-        straight_length:
-        rows:
-        columns:
-        spacing:
-        straight:
-        kwargs: cross_section settings
+        bend180: bend spec.
+        straight_length: in um.
+        rows: number of rows.
+        columns: number of columns.
+        spacing: in um.
+        straight: straight spec.
+        kwargs: cross_section settings.
 
     .. code::
 
