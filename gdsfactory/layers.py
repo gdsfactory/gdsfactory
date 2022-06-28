@@ -290,10 +290,16 @@ def _add_layer(
     # print(name, entry["xfill"], entry["fill-color"])
     # if entry["visible"] == "false" or entry["xfill"] == "false":
 
+    name = _name_to_short_name(name) if shorten_names else name
+    dither = entry["dither-pattern"]
+
     if ("visible" in entry.keys()) and (entry["visible"] == "false"):
         alpha = 0.0
     elif ("transparent" in entry.keys()) and (entry["transparent"] == "false"):
-        alpha = 1.0
+        if dither == "I1":
+            alpha = 0.1
+        else:
+            alpha = 1.0
     else:
         alpha = 0.5
 
@@ -301,8 +307,8 @@ def _add_layer(
         "gds_layer": int(gds_layer),
         "gds_datatype": int(gds_datatype),
         "color": entry["fill-color"],
-        "dither": entry["dither-pattern"],
-        "name": _name_to_short_name(name) if shorten_names else name,
+        "dither": dither,
+        "name": name,
     }
 
     settings["description"] = _name_to_description(name)
@@ -315,8 +321,10 @@ def load_lyp(filepath: Path) -> LayerColors:
     """Returns a LayerColors object from a Klayout lyp file layer properties file."""
     with open(filepath) as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
+
     # lyp files have a top level that just has one dict: layer-properties
-    # That has multiple children 'properties', each for a layer. So it gives a list
+    # That has multiple children 'properties', each for a layer. So it gives a list.
+
     lyp_list = lyp_dict["layer-properties"]["properties"]
     if not isinstance(lyp_list, list):
         lyp_list = [lyp_list]
@@ -392,10 +400,11 @@ except Exception:
 
 
 if __name__ == "__main__":
-    import gdsfactory as gf
+    LAYER_COLORS = load_lyp_generic()
+    # import gdsfactory as gf
 
-    c = gf.components.rectangle(layer=(123, 0))
-    c.plot()
+    # c = gf.components.rectangle(layer=(123, 0))
+    # c.plot()
 
     # print(LAYER_COLORS)
     # print(LAYER_STACK.get_from_tuple((1, 0)))

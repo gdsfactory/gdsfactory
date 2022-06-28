@@ -66,11 +66,11 @@ def text(
 
 @gf.cell
 def text_lines(
-    text: Tuple[str, ...] = ("",),
+    text: Tuple[str, ...] = ("Chip", "01"),
     size: float = 0.4,
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Returns the a list of text lines.
+    """Returns a Component from a text lines.
 
     Args:
         text: list of strings.
@@ -84,16 +84,17 @@ def text_lines(
         t = text_rectangular(text=texti, size=size, layer=layer)
         tref = c.add_ref(t)
         tref.movey(-6 * size * (i + 1))
-        c.absorb(tref)
     return c
 
 
 if __name__ == "__main__":
-    # c = text(
-    #     text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
-    #     size=4.0,
-    #     justify="right",
-    #     position=(120.5, 3),
-    # )
-    c = text_lines(text=["a", "b"], size=10)
+    c = text(
+        text=".[,ABCDEFGHIKKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:/",
+        size=4.0,
+        justify="right",
+        position=(120.5, 3),
+    )
+    # c = text_lines(text=["a", "b"], size=10)
+    # c = text_lines()
     c.show(show_ports=True)
+    c.plot()
