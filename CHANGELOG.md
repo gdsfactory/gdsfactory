@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.11.4
+
+- add opacity 0.5 for dither I1
+- Fix sweep_bend_loss, overlap integral code in gtidy3d.modes [PR](https://github.com/gdsfactory/gdsfactory/pull/490)
+- replace Settings object in packed info by dict [PR](https://github.com/gdsfactory/gdsfactory/pull/489) fixes [issue](https://github.com/gdsfactory/gdsfactory/issues/488)
+
 ## [5.11.3](https://github.com/gdsfactory/gdsfactory/pull/485)
 
 - move dependencies from `pip install gdsfactory[full]`  to `pip install gdsfactory`
