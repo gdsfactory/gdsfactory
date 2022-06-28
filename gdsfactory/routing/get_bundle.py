@@ -128,7 +128,6 @@ def get_bundle(
 
         gf.config.set_plot_options(show_subports=False)
         c = test_north_to_south()
-        c.show(show_ports=True)
         c.plot()
 
     """

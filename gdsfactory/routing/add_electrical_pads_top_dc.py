@@ -29,6 +29,15 @@ def add_electrical_pads_top_dc(
         select_ports: function to select_ports.
         get_bundle_function: function to route bundle of ports.
         kwargs: route settings.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+        c = gf.components.straight_heater_metal(length=100)
+        c = gf.routing.add_electrical_pads_top_dc(c, width=10)
+        c.plot()
+
     """
     c = Component()
     component = gf.get_component(component)

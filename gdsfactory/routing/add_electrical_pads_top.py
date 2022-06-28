@@ -23,6 +23,15 @@ def add_electrical_pads_top(
         pad_array: function for pad_array.
         select_ports: function to select electrical ports.
         layer: for the routes.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.components.straight_heater_metal()
+        cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
+        cc.plot()
     """
     c = Component()
     component = gf.get_component(component)
@@ -64,6 +73,6 @@ if __name__ == "__main__":
     import gdsfactory as gf
 
     c = gf.components.straight_heater_metal()
-    c = gf.components.mzi_phase_shifter_top_heater_metal()
-    cc = add_electrical_pads_top(component=c, spacing=(-150, 30))
+    # c = gf.components.mzi_phase_shifter_top_heater_metal()
+    cc = gf.routing.add_electrical_pads_top(component=c, spacing=(-150, 30))
     cc.show(show_ports=True)
