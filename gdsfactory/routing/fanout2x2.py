@@ -19,7 +19,7 @@ def fanout2x2(
     cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
-    """Returns component with port_spacing.
+    """Returns component with Sbend fanout routes.
 
     Args:
         component: to fanout.
@@ -30,6 +30,14 @@ def fanout2x2(
         cross_section: cross_section spec.
         kwargs: cross_section settings.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+        c = gf.components.nxn(west=2, east=2)
+
+        cc = gf.routing.fanout2x2(component=c, port_spacing=20)
+        cc.plot()
     """
 
     c = gf.Component()
@@ -114,7 +122,7 @@ if __name__ == "__main__":
     # c =gf.components.coupler(gap=1.0)
     c = gf.components.nxn(west=2, east=2)
 
-    cc = fanout2x2(component=c)
+    cc = fanout2x2(component=c, port_spacing=20)
     print(cc.ports["o3"].y - cc.ports["o4"].y)
     # print(cc.ports)
     cc.show(show_ports=True)
