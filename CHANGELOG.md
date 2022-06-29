@@ -3,6 +3,7 @@
 ## [5.12.0](https://github.com/gdsfactory/gdsfactory/pull/493)
 
 - remove `gf.simulation.gtidy3d.modes.find_modes`, add cache and filepath to Waveguide
+- remove many default parameters from `Waveguide`
 - replace from pickle to np.savez_compressed()
 - replace `from tqdm import tqdm` to `from tqdm.auto import tqdm`
 - add Optional refractive_index to LayerLevel
