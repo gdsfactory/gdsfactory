@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.1](https://github.com/gdsfactory/gdsfactory/pull/494)
+
+- layer_stack has a 2.5D information.
+- fix xsection_planarized script
+- add 2.5 info to generic.
+
 ## [5.12.0](https://github.com/gdsfactory/gdsfactory/pull/493)
 
 - remove `gf.simulation.gtidy3d.modes.find_modes`, add cache and filepath to Waveguide
