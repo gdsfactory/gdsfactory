@@ -1,5 +1,5 @@
 import itertools as it
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -7,6 +7,40 @@ from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
 from gdsfactory.types import CellSpec, ComponentSpec, Optional
+
+
+def generate_doe(
+    doe: ComponentSpec,
+    settings: Dict[str, List[Any]],
+    do_permutations: bool = False,
+    function: Optional[CellSpec] = None,
+) -> Tuple[List[Component], List[Dict]]:
+    """generates a component DOE (Design of Experiment),
+    which can then be packed, or used elsewhere.
+
+    Args:
+        doe: function to return Components.
+        settings: component settings.
+        do_permutations: for each setting.
+        function: for the component (add padding, grating couplers ...)
+    """
+    if do_permutations:
+        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+    else:
+        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+
+    if function:
+        function = gf.get_cell(function)
+        if not callable(function):
+            raise ValueError(f"Error {function!r} needs to be callable.")
+        component_list = [
+            function(gf.get_component(doe, **settings)) for settings in settings_list
+        ]
+    else:
+        component_list = [
+            gf.get_component(doe, **settings) for settings in settings_list
+        ]
+    return component_list, settings_list
 
 
 @cell
@@ -42,22 +76,9 @@ def pack_doe(
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y)
     """
-    if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
-    else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
-
-    if function:
-        function = gf.get_cell(function)
-        if not callable(function):
-            raise ValueError(f"Error {function!r} needs to be callable.")
-        component_list = [
-            function(gf.get_component(doe, **settings)) for settings in settings_list
-        ]
-    else:
-        component_list = [
-            gf.get_component(doe, **settings) for settings in settings_list
-        ]
+    component_list, settings_list = generate_doe(
+        doe, settings, do_permutations, function
+    )
 
     c = pack(component_list=component_list, **kwargs)
 
