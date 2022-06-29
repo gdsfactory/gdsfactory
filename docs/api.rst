@@ -32,6 +32,7 @@ Classes and functions for construction and manipulation of geometric objects.
    straight
    euler
    arc
+   spiral_archimedean
    smooth
 
 .. currentmodule:: gdsfactory.cross_section

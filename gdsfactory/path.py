@@ -560,6 +560,13 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
         angle: total angle of the curve.
         npoints: Number of points used per 360 degrees.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.arc(radius=10, angle=45)
+        p.plot()
     """
     return Path().from_phidl(path.arc(radius=radius, angle=angle, num_pts=npoints))
 
@@ -588,6 +595,13 @@ def euler(
             with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.euler(radius=10, angle=45, p=1)
+        p.plot()
     """
     return Path().from_phidl(
         path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
@@ -617,17 +631,21 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
 def spiral_archimedean(
     inner_radius: float, separation: float, number_of_loops: float, npoints: int
 ) -> Path:
-    """
-    Returns an Archimedean spiral
+    """Returns an Archimedean spiral.
 
     Args:
-        inner_radius: Inner radius of the spiral
-        separation: Separation between the loops
-        number_of_loops: Number of loops
-        npoints: Number of Points
+        inner_radius: Inner radius of the spiral.
+        separation: Separation between the loops.
+        number_of_loops: Number of loops.
+        npoints: Number of Points.
 
-    Returns:
-        Path of an archimedean spiral
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.spiral_archimedean()
+        p.plot()
     """
     return Path(
         [
