@@ -32,7 +32,8 @@ hoxidem3 = 0.5
 hm2   = 0.5
 hm3   = 2.0
 
-delta(dbu) # Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
+# Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
+delta(dbu)
 depth(12.0)
 height(12.0)
 
@@ -97,12 +98,12 @@ mask(l_np).etch(t_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant
 np = mask(l_np).grow(t_slab, 0.0, :mode => :round)
 
 mask(l_pp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, si, bottom_implant])
-gf.= mask(l_pp).grow(t_slab, 0.0, :mode => :round)
+pp = mask(l_pp).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_npp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
+mask(l_npp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, np, pp, si, bottom_implant])
 npp = mask(l_npp).grow(t_slab, 0.0, :mode => :round)
 
-mask(l_ppp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, np, gf. si, bottom_implant])
+mask(l_ppp).etch(t_slab, 0.0, :mode => :round, :into => [n, p, np, pp, si, bottom_implant])
 ppp = mask(l_ppp).grow(t_slab, 0.0, :mode => :round)
 
 output("327/0",bottom_implant)
@@ -164,5 +165,5 @@ output("310/0",via2)
 
 ################# passivation and ML Open
 ox_m3 = deposit(hoxidem3, hoxidem3, :mode => :round)
-mask(l_open).etch(hoxidem3 + hoxidem3, :into=>[ox_m3], :taper=>5) # etch oxide open
+mask(l_open).etch(hoxidem3 + hoxidem3, :into=>[ox_m3], :taper=>5)
 output("311/0",ox_m3)
