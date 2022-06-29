@@ -17,7 +17,6 @@ Maybe:
 """
 
 import pathlib
-import pickle
 from types import SimpleNamespace
 from typing import Callable, Optional, Tuple, Union
 
@@ -27,10 +26,11 @@ from matplotlib import colors
 from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
 from tidy3d.plugins.mode.solver import compute_modes
+from tqdm.auto import tqdm
 
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
-from gdsfactory.simulation.gtidy3d.materials import si, sio2
+from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
 
 
@@ -121,8 +121,8 @@ def get_n(
     nclad: float,
     wg_width: float,
     t_box: float,
-    t_wg: float,
-    t_slab: float,
+    wg_thickness: float,
+    slab_thickness: float,
     t_clad: float,
 ):
     """Return index matrix."""
@@ -132,24 +132,24 @@ def get_n(
         (-w / 2 - t_clad / 2 <= Y)
         & (Y <= w / 2 + t_clad / 2)
         & (Z >= t_box)
-        & (Z <= t_box + t_wg + t_clad)
+        & (Z <= t_box + wg_thickness + t_clad)
     ] = nclad
-    n[(Z <= 1.0 + t_slab + t_clad)] = nclad
-    n[(-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + t_wg)] = ncore
-    n[(Z >= t_box) & (Z <= t_box + t_slab)] = ncore if t_slab else nclad
+    n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
+    n[(-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)] = ncore
+    n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = ncore if slab_thickness else nclad
     return n
 
 
 SETTINGS = [
     "wavelength",
     "wg_width",
-    "t_wg",
-    "t_slab",
-    "t_box",
-    "t_clad",
+    "wg_thickness",
     "ncore",
     "nclad",
-    "w_sim",
+    "slab_thickness",
+    "t_box",
+    "t_clad",
+    "xmargin",
     "resolution",
     "nmodes",
     "bend_radius",
@@ -162,37 +162,85 @@ class Waveguide(BaseModel):
     Parameters:
         wavelength: (um).
         wg_width: waveguide width.
-        t_wg: thickness waveguide (um).
-        t_slab: thickness slab (um).
-        t_box: thickness BOX (um).
-        t_clad: thickness cladding (um).
+        wg_thickness: thickness waveguide (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
-        w_sim: width simulation (um).
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
+        cache: filepath for caching modes.
+
+    ::
+
+          __________________________
+          |
+          |
+          |         width     xmargin
+          |     <----------> <------>
+          |      ___________   _ _ _
+          |     |           |       |
+          |_____|  ncore    |_______|
+          |                         | wg_thickness
+          |slab_thickness    nslab  |
+          |_________________________|
+          |
+          |        nclad
+          |__________________________
+          <------------------------>
+                   w_sim
+
     """
 
-    wavelength: float = 1.55
-    wg_width: float = 0.45
-    t_wg: float = 0.22
-    t_slab: float = 0.0
+    wavelength: float
+    wg_width: float
+    wg_thickness: float
+    ncore: Union[float, Callable[[str], float]]
+    nclad: Union[float, Callable[[str], float]]
+    slab_thickness: float
     t_box: float = 2.0
     t_clad: float = 2.0
-    ncore: Union[float, Callable[[str], float]] = si
-    nclad: Union[float, Callable[[str], float]] = sio2
-    w_sim: float = 2.0
+    xmargin: float = 1.0
     resolution: int = 100
     nmodes: int = 4
     bend_radius: Optional[float] = None
+    cache: Optional[PathType] = CONFIG["modes"]
 
     class Config:
         extra = Extra.allow
 
     @property
     def t_sim(self):
-        return self.t_box + self.t_wg + self.t_clad
+        return self.t_box + self.wg_thickness + self.t_clad
+
+    @property
+    def w_sim(self):
+        return self.wg_width + 2 * self.xmargin
+
+    @property
+    def filepath(self) -> pathlib.Path:
+        if self.cache is None:
+            return
+        cache = pathlib.Path(self.cache)
+        cache.mkdir(exist_ok=True, parents=True)
+        settings = dict(
+            wavelength=self.wavelength,
+            wg_width=self.wg_width,
+            wg_thickness=self.wg_thickness,
+            slab_thickness=self.slab_thickness,
+            t_box=self.t_box,
+            t_clad=self.t_clad,
+            ncore=self.ncore,
+            nclad=self.nclad,
+            xmargin=self.xmargin,
+            resolution=self.resolution,
+            nmodes=self.nmodes,
+            bend_radius=self.bend_radius,
+        )
+        return cache / f"{get_hash(settings)}.npz"
 
     def get_ncore(self, wavelength):
         return self.ncore(wavelength) if callable(self.ncore) else self.ncore
@@ -218,15 +266,21 @@ class Waveguide(BaseModel):
             ncore=self.get_ncore(wavelength),
             nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
-            t_slab=self.t_slab,
-            t_wg=self.t_wg,
+            slab_thickness=self.slab_thickness,
+            wg_thickness=self.wg_thickness,
             t_clad=self.t_clad,
         )
         plot(Xx, Yx, nx)
         plt.show()
 
-    def compute_modes(self, wavelength: Optional[float] = None) -> None:
-        wavelength = wavelength or self.wavelength
+    def compute_modes(
+        self,
+        overwrite: bool = False,
+    ) -> None:
+        if hasattr(self, "neffs") and not overwrite:
+            return
+
+        wavelength = self.wavelength
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
             -self.w_sim / 2,
             0.0,
@@ -243,8 +297,8 @@ class Waveguide(BaseModel):
             ncore=self.get_ncore(wavelength),
             nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
-            t_slab=self.t_slab,
-            t_wg=self.t_wg,
+            slab_thickness=self.slab_thickness,
+            wg_thickness=self.wg_thickness,
             t_clad=self.t_clad,
         )
         ny = get_n(
@@ -254,8 +308,8 @@ class Waveguide(BaseModel):
             ncore=self.get_ncore(wavelength),
             nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
-            t_slab=self.t_slab,
-            t_wg=self.t_wg,
+            slab_thickness=self.slab_thickness,
+            wg_thickness=self.wg_thickness,
             t_clad=self.t_clad,
         )
         nz = get_n(
@@ -265,10 +319,24 @@ class Waveguide(BaseModel):
             ncore=self.get_ncore(wavelength),
             nclad=self.get_nclad(wavelength),
             t_box=self.t_box,
-            t_slab=self.t_slab,
-            t_wg=self.t_wg,
+            slab_thickness=self.slab_thickness,
+            wg_thickness=self.wg_thickness,
             t_clad=self.t_clad,
         )
+        self.nx, self.ny, self.nz = nx, ny, nz
+        self.Xx, self.Yx, self.Xy, self.Yy, self.Xz, self.Yz = Xx, Yx, Xy, Yy, Xz, Yz
+
+        if self.cache and self.filepath.exists():
+            data = np.load(self.filepath)
+            self.Ex = data["Ex"]
+            self.Ey = data["Ey"]
+            self.Ez = data["Ez"]
+            self.Hx = data["Hx"]
+            self.Hy = data["Hy"]
+            self.Hz = data["Hz"]
+            self.neffs = data["neffs"]
+            logger.info(f"load {self.filepath} mode data from file cache.")
+            return
 
         ((Ex, Ey, Ez), (Hx, Hy, Hz)), neffs = (
             x.squeeze()
@@ -289,27 +357,37 @@ class Waveguide(BaseModel):
             )
         )
 
-        self.nx, self.ny, self.nz = nx, ny, nz
-        self.Xx, self.Yx, self.Xy, self.Yy, self.Xz, self.Yz = Xx, Yx, Xy, Yy, Xz, Yz
         self.Ex, self.Ey, self.Ez = Ex, Ey, Ez
         self.Hx, self.Hy, self.Hz = Hx, Hy, Hz
         self.neffs = neffs
 
-    def plot_Ex(self, index: int = 0) -> None:
+        data = dict(
+            Ex=self.Ex,
+            Ey=self.Ey,
+            Ez=self.Ez,
+            Hx=self.Hx,
+            Hy=self.Hy,
+            Hz=self.Hz,
+            neffs=self.neffs,
+        )
+        np.savez_compressed(self.filepath, **data)
+        logger.info(f"write {self.filepath} mode data to file cache.")
+
+    def plot_Ex(self, mode_index: int = 0) -> None:
         if not hasattr(self, "neffs"):
             self.compute_modes()
 
         nx, neffs, Ex = self.nx, self.neffs, self.Ex
-        neff_, Ex_ = np.real(neffs[index]), Ex[..., index]
+        neff_, Ex_ = np.real(neffs[mode_index]), Ex[..., mode_index]
         plot(self.Xx, self.Yx, nx, mode=np.abs(Ex_) ** 2, title=f"Ex::{neff_:.3f}")
         plt.show()
 
-    def plot_Ey(self, index: int = 0) -> None:
+    def plot_Ey(self, mode_index: int = 0) -> None:
         if not hasattr(self, "neffs"):
             self.compute_modes()
 
         nx, neffs, Ey = self.nx, self.neffs, self.Ey
-        neff_, Ey_ = np.real(neffs[index]), Ey[..., index]
+        neff_, Ey_ = np.real(neffs[mode_index]), Ey[..., mode_index]
         plot(self.Xx, self.Yx, nx, mode=np.abs(Ey_) ** 2, title=f"Ey::{neff_:.3f}")
         plt.show()
 
@@ -322,165 +400,130 @@ class Waveguide(BaseModel):
         """Show index in matplotlib for jupyter notebooks."""
         return ", ".join([f"{k}:{getattr(self, k)!r}" for k in SETTINGS])
 
-    def pickle_dump(self, filepath: PathType) -> None:
-        data = pickle.dumps(self)
-        filepath = pathlib.Path(filepath)
-        filepath.write_bytes(data)
-        logger.info(f"write {filepath} waveguide to file cache.")
+    def get_overlap(
+        self, wg: "Waveguide", mode_index1: int = 0, mode_index2: int = 0
+    ) -> float:
+        """Returns mode overlap integral.
 
+        Args:
+            wg: other waveguide.
+        """
+        wg1 = self
+        wg2 = wg
 
-def pickle_load(filepath: PathType) -> Waveguide:
-    filepath = pathlib.Path(filepath)
-    return pickle.loads(filepath.read_bytes())
+        wg1.compute_modes()
+        wg2.compute_modes()
+
+        return np.sum(
+            np.conj(wg1.Ex[..., mode_index1]) * wg2.Hy[..., mode_index2]
+            - np.conj(wg1.Ey[..., mode_index1]) * wg2.Hx[..., mode_index2]
+            + wg2.Ex[..., mode_index2] * np.conj(wg1.Hy[..., mode_index1])
+            - wg2.Ey[..., mode_index2] * np.conj(wg1.Hx[..., mode_index1])
+        )
 
 
 def sweep_bend_loss(
-    rmin: float = 1.0, rmax: float = 5, steps: int = 3, index: int = 0, **kwargs
+    bend_radius_min: float = 2.0,
+    bend_radius_max: float = 5,
+    steps: int = 4,
+    mode_index: int = 0,
+    **kwargs,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Returns overlap integral loss.
 
     The loss is squared because you hit the bend loss twice
-    (from bend to straight and from straight to bend)
+    (from bend to straight and from straight to bend).
 
     Args:
-        rmin: min bend radius (um).
-        rmax: max bend radius (um).
+        bend_radius_min: min bend radius (um).
+        bend_radius_max: max bend radius (um).
         steps: number of steps.
-        index: mode index.
+        mode_index: where 0 is the fundamental mode.
 
     Keyword Args:
         wavelength: (um).
         wg_width: waveguide width.
-        t_wg: thickness waveguide (um).
-        t_slab: thickness slab (um).
+        wg_thickness: thickness waveguide (um).
+        slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
         t_clad: thickness cladding (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
-        w_sim: width simulation (um).
+        xmargin: margin from waveguide edge to each side (um).
         resolution: pixels/um.
         nmodes: number of modes to compute.
     """
 
-    r = np.linspace(rmin, rmax, steps)
+    r = np.linspace(bend_radius_min, bend_radius_max, steps)
     integral = np.zeros_like(r)
 
     wg = Waveguide(**kwargs)
-    wg.compute_modes()
 
-    for i, radius in enumerate(r):
-        strip_bend = Waveguide(bend_radius=radius, **kwargs)
-        strip_bend.compute_modes()
-
-        def get_overlap(wg1, wg2, index1, index2):
-            return np.sum(
-                np.conj(wg1.Ex[..., index1]) * wg2.Hy[..., index2]
-                - np.conj(wg1.Ey[..., index1]) * wg2.Hx[..., index2]
-                + wg2.Ex[..., index2] * np.conj(wg1.Hy[..., index1])
-                - wg2.Ey[..., index2] * np.conj(wg1.Hx[..., index1])
-            )
+    for i, radius in tqdm(enumerate(r)):
+        wg_bent = Waveguide(bend_radius=radius, **kwargs)
+        wg.get_overlap(wg_bent, mode_index1=mode_index, mode_index2=mode_index)
 
         # normalized overlap integral
         integral[i] = np.abs(
-            get_overlap(wg, strip_bend, index, index) ** 2
-            / get_overlap(wg, wg, index, index)
-            / get_overlap(strip_bend, strip_bend, index, index)
+            wg.get_overlap(wg_bent, mode_index, mode_index) ** 2
+            / wg.get_overlap(wg, mode_index, mode_index)
+            / wg.get_overlap(wg_bent, mode_index, mode_index)
         )
 
     return r, integral**2
 
 
-def find_modes(
-    wavelength: float = 1.55,
-    wg_width: float = 0.45,
-    t_wg: float = 0.22,
-    t_slab: float = 0.0,
-    t_box: float = 2.0,
-    t_clad: float = 2.0,
-    ncore: Union[float, Callable[[str], float]] = si,
-    nclad: Union[float, Callable[[str], float]] = sio2,
-    w_sim: float = 2.0,
-    resolution: int = 100,
-    nmodes: int = 4,
-    bend_radius: Optional[float] = None,
-    cache: Optional[PathType] = CONFIG["modes"],
-) -> Waveguide:
-    """
-    Args:
-        wavelength: (um).
-        wg_width: waveguide width.
-        t_wg: thickness waveguide (um).
-        t_slab: thickness slab (um).
-        t_box: thickness BOX (um).
-        t_clad: thickness cladding (um).
-        ncore: core refractive index.
-        nclad: cladding refractive index.
-        w_sim: width simulation (um).
-        resolution: pixels/um.
-        nmodes: number of modes to compute.
-        bend_radius: optional bend radius (um).
-        cache: directory path to cache modes. None disables the file cache.
-
-    """
-    settings = dict(
-        wavelength=wavelength,
-        wg_width=wg_width,
-        t_wg=t_wg,
-        t_slab=t_slab,
-        t_box=t_box,
-        t_clad=t_clad,
-        ncore=ncore,
-        nclad=nclad,
-        w_sim=w_sim,
-        resolution=resolution,
-        nmodes=nmodes,
-        bend_radius=bend_radius,
-    )
-
-    if cache:
-        cache = pathlib.Path(cache)
-        cache.mkdir(exist_ok=True, parents=True)
-        filepath = cache / f"{get_hash(settings)}.pkl"
-        if filepath.exists():
-            logger.info(f"load {filepath} waveguide from file cache.")
-            return pickle_load(filepath)
-        else:
-            waveguide = Waveguide(**settings)
-            waveguide.compute_modes()
-            waveguide.pickle_dump(filepath=filepath)
-
-    waveguide = Waveguide(**settings)
-    waveguide.compute_modes()
-    return waveguide
-
+__all__ = ("sweep_bend_loss", "Waveguide", "si", "sio2", "sin")
 
 if __name__ == "__main__":
-    # c = Waveguide(t_slab=0, ncore=2.00, nclad=1.44, w_sim=5)
-    # c.plot_index()
+    c = Waveguide(
+        wavelength=1.55,
+        wg_width=0.5,
+        wg_thickness=0.22,
+        slab_thickness=0.0,
+        ncore=si,
+        nclad=sio2,
+    )
+    c.plot_Ex(0)
 
-    # nitride = find_modes(wavelength=1.55, wg_width=1.0, t_wg=0.4, ncore=2.0, w_sim=5)
+    # nitride = find_modes(wavelength=1.55, wg_width=1.0, wg_thickness=0.4, ncore=2.0)
     # nitride.plot_index()
 
     # c = pickle_load("strip.pkl")
 
-    # c0 = Waveguide(t_slab=0)
+    # c0 = Waveguide(slab_thickness=0)
     # c0.plot_Ex(index=0)
     # c0.pickle_dump("strip.pkl")
 
-    # c1 = Waveguide(t_slab=0, bend_radius=5)
+    # c1 = Waveguide(slab_thickness=0, bend_radius=5)
     # c1.plot_Ex()
     # c1.pickle_dump("strip_bend5.pkl")
 
-    # c = Waveguide(t_slab=90e-3, bend_radius=5)
+    # c = Waveguide(slab_thickness=90e-3, bend_radius=5)
     # c.plot_index()
 
-    # r, integral = sweep_bend_loss()
+    # r, integral = sweep_bend_loss(
+    #     wavelength=1.55,
+    #     wg_width=0.5,
+    #     wg_thickness=0.22,
+    #     slab_thickness=0.0,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
     # plt.plot(r, integral / max(integral), ".")
     # plt.xlabel("bend radius (um)")
     # plt.show()
 
-    rib = find_modes(wavelength=1.55, wg_width=0.5, t_wg=0.22, t_slab=0.15)
-    nitride = find_modes(wavelength=1.55, wg_width=1.0, t_wg=0.4, ncore=2.0, w_sim=5)
+    # rib = find_modes(
+    #     wavelength=1.55, wg_width=0.5, wg_thickness=0.22, slab_thickness=0.15, ncore=3.4, nclad=1.44
+    # )
+    # nitride = find_modes(
+    #     wavelength=1.55,
+    #     wg_width=1.0,
+    #     wg_thickness=0.4,
+    #     ncore=2.0,
+    #     nclad=sio2,
+    # )
 
     # nitride.plot_index()
     # nitride.plot_Ex(index=0)
