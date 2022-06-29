@@ -24,6 +24,14 @@ The workflow is:
 - `git add`,`git commit`, `git push` your work as many times as needed (make sure tests are passing)
 - open a Pull request (PR)
 
+## Style
+
+
+- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other Pcell docstrings.
+- You should make sure tests pass.
+- You should install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
+
+
 ## Tests
 
 `pytest` runs 3 types of tests:

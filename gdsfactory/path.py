@@ -40,13 +40,22 @@ def _simplify(points, tolerance):
 
 
 class Path(PathPhidl):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
+    """Path object for smooth Paths.
+
+    You can extrude a Path with a CrossSection to create a Component.
+
+    Parameters:
+        path: array-like[N][2], Path, or list of Paths.
+            Points or Paths to append() initially.
+    """
 
     @classmethod
-    def validate(cls, v):
-        """check Path has the correct type."""
+    def __get_validators__(cls):
+        yield cls._validate
+
+    @classmethod
+    def _validate(cls, v):
+        """Pydantic path validator."""
         assert isinstance(v, PathPhidl), f"TypeError, Got {type(v)}, expecting Path"
         return v
 
@@ -67,7 +76,7 @@ class Path(PathPhidl):
         widths: Optional[Float2] = None,
         simplify: Optional[float] = None,
     ) -> Component:
-        """Returns Component extruding a Path with a cross_section.
+        """Returns Component by extruding a Path with a CrossSection.
 
         A path can be extruded using any CrossSection returning a Component
         The CrossSection defines the layer numbers, widths and offsetts.
@@ -100,12 +109,13 @@ class Path(PathPhidl):
         p.end_angle = self.end_angle
         return p
 
-    def from_phidl(self, p0):
+    def from_phidl(self, path_phidl: PathPhidl):
+        """Returns a path from a phidl path."""
         p = Path()
-        p.info = p0.info.copy()
-        p.points = np.array(p0.points)
-        p.start_angle = p0.start_angle
-        p.end_angle = p0.end_angle
+        p.info = path_phidl.info.copy()
+        p.points = np.array(path_phidl.points)
+        p.start_angle = path_phidl.start_angle
+        p.end_angle = path_phidl.end_angle
         return p
 
 
@@ -143,21 +153,19 @@ def transition(
     cross_section2: CrossSection,
     width_type: str = "sine",
 ) -> Transition:
-    """Creates a CrossSection that smoothly transitions between two input
-    CrossSections. Only cross-sectional elements that have the `name` (as in
-    X.add(..., name = 'wg') ) parameter specified in both input CrosSections
-    will be created. Port names will be cloned from the input CrossSections in
-    reverse.
-    adapted from phidl.path
+    """Returns a smoothly-transitioning between two CrossSections.
+
+    Only cross-sectional elements that have the `name` (as in X.add(..., name = 'wg') )
+    parameter specified in both input CrosSections will be created.
+    Port names will be cloned from the input CrossSections in reverse.
 
     Args:
-        cross_section1: First input CrossSection.
-        cross_section2: Second input CrossSection.
+        cross_section1: First CrossSection.
+        cross_section2: Second CrossSection.
         width_type: sine or linear.
           Sets the type of width transition used if any widths are different
           between the two input CrossSections.
 
-    Returns A smoothly-transitioning CrossSection.
     """
     from gdsfactory.pdk import get_layer
 
@@ -550,9 +558,9 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
     """Returns a radial arc.
 
     Args:
-        radius: minimum radius of curvature
-        angle: total angle of the curve
-        npoints: Number of points used per 360 degrees
+        radius: minimum radius of curvature.
+        angle: total angle of the curve.
+        npoints: Number of points used per 360 degrees.
 
     """
     return Path().from_phidl(path.arc(radius=radius, angle=angle, num_pts=npoints))
@@ -567,11 +575,11 @@ def euler(
 ) -> Path:
     """Returns an euler bend that adiabatically transitions from straight to curved.
 
-    By default, `radius` corresponds to the minimum radius of curvature of the bend.
+    `radius` is the minimum radius of curvature of the bend.
     However, if `use_eff` is set to True, `radius` corresponds to the effective
-    radius of curvature (making the curve a drop-in replacement for an arc). If
-    p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
-    al. https://dx.doi.org/10.1364/oe.27.031394
+    radius of curvature (making the curve a drop-in replacement for an arc).
+    If p < 1.0, will create a "partial euler" curve as described in Vogelbacher et. al.
+    https://dx.doi.org/10.1364/oe.27.031394
 
     Args:
         radius: minimum radius of curvature.
@@ -589,7 +597,7 @@ def euler(
 
 
 def straight(length: float = 10.0, npoints: int = 2) -> Path:
-    """Returns a straight path
+    """Returns a straight path.
 
     For transitions you should increase have at least 100 points
 
