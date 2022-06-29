@@ -138,7 +138,7 @@ def _linear_transition(y1, y2):
 
 
 def transition_exponential(y1, y2, exp=0.5):
-    """Returns the function for an exponential transition
+    """Returns the function for an exponential transition.
 
     Args:
         y1: start width in um.
@@ -501,10 +501,8 @@ def _cut_path_with_ray(
     end_point: np.ndarray,
     end_angle: Optional[float],
     path: np.ndarray,
-):
-    """
-    Cuts or extends a path given a point and angle to project with
-    """
+) -> np.ndarray:
+    """Cuts or extends a path given a point and angle to project."""
     import shapely.geometry as sg
 
     # a distance to approximate infinity to find ray-segment intersections
@@ -624,16 +622,12 @@ def smooth(
 ) -> Path:
     """Returns a smooth Path from a series of waypoints.
 
-    you can round corners using `bend` and any additional key word arguments
-    (for example, `use_eff = True` for `bend = gf.path.euler`)
-
     Args:
         points: array-like[N][2] List of waypoints for the path to follow.
         radius: radius of curvature, passed to `bend`.
         bend: bend function to round corners.
         kwargs: Extra keyword arguments that will be passed to `bend`.
     """
-
     return Path().from_phidl(
         smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
     )
