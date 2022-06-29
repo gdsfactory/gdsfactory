@@ -2,7 +2,22 @@ import configparser
 import os
 import pathlib
 import shutil
+import subprocess
 import sys
+
+
+def make_link(src, dest):
+    try:
+        os.symlink(src, dest)
+    except OSError as err:
+        print("Could not create symlink!")
+        print("     Error: ", err)
+        if sys.platform == "win32":
+            # https://stackoverflow.com/questions/32877260/privlege-error-trying-to-create-symlink-using-python-on-windows-10
+            print("Trying to create a junction instead of a symlink...")
+            proc = subprocess.check_call(f"mklink /J {dest} {src}", shell=True)
+            if proc != 0:
+                print("Could not create link!")
 
 
 def install_gdsdiff() -> None:
@@ -20,7 +35,7 @@ def install_gdsdiff() -> None:
     )
 
     if "gds_diff" not in git_config_str:
-        _extracted_from_install_gdsdiff_17(git_config_path)
+        write_git_config(git_config_path)
     if "gds_diff" not in git_attributes_str:
         print("Appending the gdsdiff command to your ~/.gitattributes")
 
@@ -28,8 +43,7 @@ def install_gdsdiff() -> None:
             f.write("*.gds diff=gds_diff\n")
 
 
-# TODO Rename this here and in `install_gdsdiff`
-def _extracted_from_install_gdsdiff_17(git_config_path):
+def write_git_config(git_config_path):
     print("gdsdiff shows boolean differences in Klayout")
     print("git diff FILE.GDS")
     print("Appending the gdsdiff command to your ~/.gitconfig")
@@ -94,11 +108,23 @@ def install_generic_tech() -> None:
     src = cwd / "klayout" / "tech"
     dest = home / klayout_folder / "tech" / "generic"
 
-    copy(src, dest)
+    if not dest.exists():
+        try:
+            make_link(src, dest)
+        except Exception:
+            os.remove(dest)
+            make_link(src, dest)
+        print(f"layermap installed to {dest}")
 
     src = cwd / "klayout" / "drc" / "generic.lydrc"
     dest = home / klayout_folder / "drc" / "generic.lydrc"
-    copy(src, dest)
+
+    if not dest.exists():
+        try:
+            make_link(src, dest)
+        except Exception:
+            os.remove(dest)
+            make_link(src, dest)
 
 
 if __name__ == "__main__":

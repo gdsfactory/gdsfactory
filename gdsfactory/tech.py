@@ -157,6 +157,13 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
+    def get_2p5D(self) -> str:
+        """Prints 2.5 view information for klayout."""
+        for level in self.layers.values():
+            print(
+                f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
+            )
+
 
 def get_layer_stack_generic(
     thickness_silicon_core: float = 220 * nm,
@@ -245,7 +252,7 @@ LAYER_STACK = get_layer_stack_generic()
 class Section(BaseModel):
     """CrossSection to extrude a path with a waveguide.
 
-    Args:
+    Parameters:
         width: of the section (um) or parameterized function from 0 to 1.
              the width at t==0 is the width at the beginning of the Path.
              the width at t==1 is the width at the end.
@@ -368,6 +375,7 @@ if __name__ == "__main__":
     #     return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     ls = LAYER_STACK
+    ls.get_2p5D()
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
 
