@@ -421,9 +421,6 @@ def write_sparameters_meep(
             animate.to_mp4(30, f"{monitor_indices[n]}.mp4")
         else:
             sim.run(until_after_sources=termination)
-        # call this function every 50 time spes
-        # look at simulation and measure Ez component
-        # when field_monitor_point decays below a certain 1e-9 field threshold
 
         # Calculate mode overlaps
         # Get source monitor results
