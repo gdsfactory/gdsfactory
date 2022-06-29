@@ -608,6 +608,21 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     return p
 
 
+def spiral_archimedean(inner_radius: float = 20, separation: float = 1, number_of_loops: float = 10,
+                       npoints: int = 1000) -> Path:
+    """
+    Returns an Archimedean spiral
+
+    :param inner_radius: Inner radius of the spiral
+    :param separation: Separation between the loops
+    :param number_of_loops: Number of loops
+    :param npoints: Number of Points
+    :return: Path of an archimedean spiral
+    """
+    return Path([(separation / np.pi * theta + inner_radius) * np.array((np.sin(theta), np.cos(theta)))
+                 for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)])
+
+
 def smooth(
     points: Coordinates,
     radius: float = 4.0,
