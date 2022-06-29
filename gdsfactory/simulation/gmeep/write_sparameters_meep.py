@@ -396,21 +396,12 @@ def write_sparameters_meep(
         )
 
         sim = sim_dict["sim"]
-        monitors = sim_dict["monitors"]
         # freqs = sim_dict["freqs"]
         # wavelengths = 1 / freqs
         # print(sim.resolution)
 
-        # Make termination when field decayed enough across ALL monitors
-        termination = [
-            mp.stop_when_fields_decayed(
-                dt=50,
-                c=mp.Ez,
-                pt=monitors[monitor_name].regions[0].center,
-                decay_by=1e-9,
-            )
-            for monitor_name in monitors
-        ]
+        # Terminate when the area in the whole area decayed
+        termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
 
         if animate:
             sim.use_output_directory()
@@ -430,9 +421,6 @@ def write_sparameters_meep(
             animate.to_mp4(30, f"{monitor_indices[n]}.mp4")
         else:
             sim.run(until_after_sources=termination)
-        # call this function every 50 time spes
-        # look at simulation and measure Ez component
-        # when field_monitor_point decays below a certain 1e-9 field threshold
 
         # Calculate mode overlaps
         # Get source monitor results
