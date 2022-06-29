@@ -13,9 +13,22 @@ settings:
     pad:
       function: via_stack
       settings:
+        layers:
+        - - 3
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
         size:
         - 80
         - 80
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
     pad_pitch: 100.0
     port_orientation1: 180
     port_orientation2: 0
@@ -31,9 +44,22 @@ settings:
     pad:
       function: via_stack
       settings:
+        layers:
+        - - 3
+          - 0
+        - - 24
+          - 0
+        - - 41
+          - 0
         size:
         - 80
         - 80
+        vias:
+        - null
+        - null
+        - function: via
+          settings:
+            layer: VIAC
     pad_pitch: 100.0
     port_orientation1: 180
     port_orientation2: 0
