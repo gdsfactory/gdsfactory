@@ -21,6 +21,19 @@ Classes and functions for construction and manipulation of geometric objects.
    read.from_np
    read.import_gds
 
+.. currentmodule:: gdsfactory.path
+
+.. rubric:: paths
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   Path
+   straight
+   euler
+   arc
+   smooth
+
 .. currentmodule:: gdsfactory.cross_section
 
 .. rubric:: cross_section functions
@@ -40,17 +53,15 @@ Classes and functions for construction and manipulation of geometric objects.
    rib_heater_doped
    rib_heater_doped_via_stack
 
+
 .. currentmodule:: gdsfactory.path
 
-.. rubric:: path functions
+.. rubric:: transitions
 
 .. autosummary::
    :toctree: _autosummary/
 
-   straight
-   euler
-   arc
-   smooth
+   transition
 
 
 .. currentmodule:: gdsfactory
