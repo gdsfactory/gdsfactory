@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.2](https://github.com/gdsfactory/gdsfactory/pull/494)
+
+- extract generating component list for doe into a separate function for use in pack_doe and elsewhere [fixes issue](https://github.com/gdsfactory/gdsfactory/issues/496)
+- meep 1.23 intoduced to use the energy in the whole simulation to determine when to terminate, which is a better termination condition than the energy at the ports. [PR](https://github.com/gdsfactory/gdsfactory/issues/496). Requires meep 1.23 or newer.
+
 ## [5.12.1](https://github.com/gdsfactory/gdsfactory/pull/494)
 
 - layer_stack has a 2.5D information.

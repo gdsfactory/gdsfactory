@@ -157,8 +157,11 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
-    def get_2p5D(self) -> str:
-        """Prints 2.5 view information for klayout."""
+    def get_klayout_2p5D_script(self) -> str:
+        """Prints script for 2.5 view klayout information.
+        You can add this information in your tech.lyt
+        take a look at gdsfactory/klayout/tech/tech.lyt
+        """
         for level in self.layers.values():
             print(
                 f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
@@ -166,19 +169,25 @@ class LayerStack(BaseModel):
 
 
 def get_layer_stack_generic(
-    thickness_silicon_core: float = 220 * nm,
+    thickness_wg: float = 220 * nm,
     thickness_clad: float = 3.0,
     thickness_nitride: float = 350 * nm,
     gap_silicon_to_nitride: float = 100 * nm,
 ) -> LayerStack:
     """Returns generic LayerStack.
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
+
+    Args:
+        thickness_wg: waveguide thickness.
+        thickness_clad: cladding.
+        thickness_nitride: for nitride.
+        gap_silicon_to_nitride: in um.
     """
     return LayerStack(
         layers=dict(
             core=LayerLevel(
                 layer=LAYER.WG,
-                thickness=thickness_silicon_core,
+                thickness=thickness_wg,
                 zmin=0.0,
                 material="si",
             ),
@@ -203,13 +212,13 @@ def get_layer_stack_generic(
             nitride=LayerLevel(
                 layer=LAYER.WGN,
                 thickness=thickness_nitride,
-                zmin=thickness_silicon_core + gap_silicon_to_nitride,
+                zmin=thickness_wg + gap_silicon_to_nitride,
                 material="sin",
             ),
             ge=LayerLevel(
                 layer=LAYER.GE,
                 thickness=500e-3,
-                zmin=thickness_silicon_core,
+                zmin=thickness_wg,
                 material="ge",
             ),
             via_contact=LayerLevel(
@@ -221,25 +230,25 @@ def get_layer_stack_generic(
             metal1=LayerLevel(
                 layer=LAYER.M1,
                 thickness=750e-3,
-                zmin=thickness_silicon_core + 1100e-3,
+                zmin=thickness_wg + 1100e-3,
                 material="Aluminum",
             ),
             heater=LayerLevel(
                 layer=LAYER.HEATER,
                 thickness=750e-3,
-                zmin=thickness_silicon_core + 1100e-3,
+                zmin=thickness_wg + 1100e-3,
                 material="TiN",
             ),
             viac=LayerLevel(
                 layer=LAYER.VIA1,
                 thickness=1500e-3,
-                zmin=thickness_silicon_core + 1100e-3 + 750e-3,
+                zmin=thickness_wg + 1100e-3 + 750e-3,
                 material="Aluminum",
             ),
             metal2=LayerLevel(
                 layer=LAYER.M2,
                 thickness=2000e-3,
-                zmin=thickness_silicon_core + 1100e-3 + 750e-3 + 1.5,
+                zmin=thickness_wg + 1100e-3 + 750e-3 + 1.5,
                 material="Aluminum",
             ),
         )
