@@ -45,25 +45,27 @@ class Pdk(BaseModel):
         name: PDK name.
         cross_sections: dict of cross_sections factories.
         cells: dict of parametric cells that return Components.
-        layers: layers dict.
         containers: dict of pcells that contain other cells.
         base_pdk: a pdk to copy from and extend.
         default_decorator: decorate all cells, if not otherwise defined on the cell.
-        layer_stack: includes layer numbers, thickness and zmin.
-        layer_colors: includes layer colors, opacity and pattern.
+        layers: maps name to gdslayer/datatype. For example dict(si=(1, 0), sin=(34, 0)).
+        layer_stack: maps name to layer numbers, thickness, zmin, sidewall_angle.
+            if can also contain material properties (refractive index, nonlinear coefficient, sheet resistance ...).
+        layer_colors: includes layer name to color, opacity and pattern.
         sparameters_path: to store Sparameters simulations.
         interconnect_cml_path: path to interconnect CML (optional).
         grid_size: in um. Defaults to 1nm.
         warn_off_grid_ports: raises warning when extruding paths with offgrid ports.
+            For example, if you try to create a waveguide with 1.5nm length.
     """
 
     name: str
     cross_sections: Dict[str, CrossSectionFactory] = Field(default_factory=dict)
     cells: Dict[str, ComponentFactory] = Field(default_factory=dict)
-    layers: Dict[str, Layer] = Field(default_factory=dict)
     containers: Dict[str, ComponentFactory] = containers_default
     base_pdk: Optional["Pdk"] = None
     default_decorator: Optional[Callable[[Component], None]] = None
+    layers: Dict[str, Layer] = Field(default_factory=dict)
     layer_stack: Optional[LayerStack] = None
     layer_colors: Optional[LayerColors] = None
     sparameters_path: Optional[PathType] = None
