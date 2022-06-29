@@ -9,6 +9,7 @@
 - add Optional refractive_index to LayerLevel
 - add Transition to docs API
 - add archimedean spiral [PR](https://github.com/gdsfactory/gdsfactory/pull/492)
+- add Google pydocstyle to docs/contribution.md
 
 ## [5.11.4](https://github.com/gdsfactory/gdsfactory/pull/491)
 
