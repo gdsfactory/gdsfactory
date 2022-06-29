@@ -18,13 +18,14 @@ modules:
 isort:skip_file
 """
 from toolz import compose
+from functools import partial
 from phidl.device_layout import Group
 from gdsfactory.path import Path
 
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.config import CONFIG, CONF, call_if_func, partial
+from gdsfactory.config import CONFIG, CONF, call_if_func
 from gdsfactory.port import Port
 from gdsfactory.cell import cell
 from gdsfactory.cell import cell_without_validator
