@@ -26,7 +26,8 @@ h_oxide_mh = 0.5
 h_metal2   = 2.0
 h_ox_m2    = 0.4
 
-delta(dbu) # Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
+# Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
+delta(dbu)
 depth(12.0)
 height(12.0)
 
