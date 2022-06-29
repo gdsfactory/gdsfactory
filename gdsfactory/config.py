@@ -19,7 +19,6 @@ import pathlib
 import subprocess
 import tempfile
 from dataclasses import asdict
-from functools import partial as _partial
 from pathlib import Path
 from pprint import pprint
 from typing import Any, Iterable, Optional, Union
@@ -30,13 +29,6 @@ from omegaconf import OmegaConf
 
 from gdsfactory.quickplotter import set_quickplot_options
 from gdsfactory.tech import TECH
-
-
-def partial(*args, doc: str = "", **kwargs):
-    f = _partial(*args, **kwargs)
-    f.__doc__ = doc
-    return f
-
 
 PathType = Union[str, pathlib.Path]
 
