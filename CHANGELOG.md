@@ -6,6 +6,9 @@
 - improve meep plugin.
     - remove port_field_monitor_name parameter (no longer needed) thanks to meep 1.23 introduced to use the energy in the whole simulation to determine when to terminate, which is a better termination condition than the energy at the ports. [PR](https://github.com/gdsfactory/gdsfactory/pull/495/files). Requires meep 1.23 or newer.
     - update termination condition for grating_coupler simulations.
+    - rename effective permitivity to get_effective index. Change units from meters to um, and permitivities to refractive_index to be consistent with gdsfactory units in um.
+- add `gf.generate_doe` [PR](https://github.com/gdsfactory/gdsfactory/pull/508/files)
+- add add_center_section to CrossSection and cross_section for slot cross_section [PR](https://github.com/gdsfactory/gdsfactory/pull/509) [fixes](https://github.com/gdsfactory/gdsfactory/issues/506)
 
 ## [5.12.4](https://github.com/gdsfactory/gdsfactory/pull/502)
 
