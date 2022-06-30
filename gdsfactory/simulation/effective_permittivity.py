@@ -1,10 +1,10 @@
 """Calculate the effective refractive index for a 1D mode."""
 
 from typing import List
-from typing_extensions import Literal
 
 import numpy as np
 from scipy.optimize import fsolve
+from typing_extensions import Literal
 
 
 def calculate_effective_permittivity(
@@ -14,7 +14,7 @@ def calculate_effective_permittivity(
     thickness: float,
     wavelength: float,
     polarization: Literal["te", "tm"],
-)-> List[float]:
+) -> List[float]:
     """
     Calculate the effective refractive index for a 1D mode.
 
