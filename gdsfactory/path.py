@@ -306,7 +306,7 @@ def extrude(
     sections = x.sections or []
     sections = list(sections)
 
-    if x.layer and x.width:
+    if x.layer and x.width and x.add_center_section:
         sections += [
             Section(
                 width=x.width,
