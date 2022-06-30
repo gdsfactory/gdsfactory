@@ -22,48 +22,33 @@ tmp.mkdir(exist_ok=True)
 @pydantic.validate_arguments
 def get_mode_solver_cross_section(
     cross_section: CrossSectionSpec = "strip",
-    wavelength: float = 1.55,
     sy: float = 2.0,
     sz: float = 2.0,
     resolution: int = 32,
     nmodes: int = 4,
+    wavelength: float = 1.55,
     clad_mat: str = "sio2",
-    dispersive: bool = False,
     layer_stack: Optional[LayerStack] = None,
+    dispersive: bool = False,
     material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
     **kwargs,
 ) -> mpb.ModeSolver:
     """Returns a mode_solver simulation.
 
-        Args:
-        cross_section: cross section
+    Args:
+        cross_section: CrossSection to solve
         sy: simulation region width (um)
         sz: simulation region height (um)
         resolution: resolution (pixels/um)
         nmodes: number of modes
-        sidewall_angle: waveguide sidewall angle (degrees),
-            tapers from wg_width at top of slab, upwards, to top of waveguide
-            with respect to the normal.
-            a sidewall_angle = 10, will have 80 degrees with respect to the substrate
+        wavelength: wavelength at which to compute mode (um)
+        clad_mat: cladding material around CrossSection
+        layer_stack: contains layer to thickness, zmin and material.
+            Defaults to active pdk.layer_stack.
+        dispersive: use dispersive material models (requires higher resolution).
+        material_name_to_meep: dispersive materials have a wavelength
+            dependent index. Maps layer_stack names with meep material database names.
 
-    ::
-
-          __________________________
-          |
-          |
-          |         width
-          |     <---------->
-          |      ___________   _ _ _
-          |     |           |       |
-        sz|_____|  ncore    |_______|
-          |                         | wg_thickness
-          |slab_thickness    nslab  |
-          |_________________________|
-          |
-          |        nclad
-          |__________________________
-          <------------------------>
-                        sy
     """
     x = gf.get_cross_section(cross_section=cross_section, **kwargs)
 
