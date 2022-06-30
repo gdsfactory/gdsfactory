@@ -131,7 +131,7 @@ def get_simulation(
 
     for setting in settings.keys():
         if setting not in settings_meep:
-            raise ValueError(f"{setting} not in {settings_meep}")
+            raise ValueError(f"{setting!r} not in {settings_meep}")
 
     layer_stack = layer_stack or get_layer_stack()
 
