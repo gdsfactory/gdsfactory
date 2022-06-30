@@ -1,6 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.12.5](https://github.com/gdsfactory/gdsfactory/pull/502)
+## [5.12.6](https://github.com/gdsfactory/gdsfactory/pull/511)
+
+- rename get_effective_index to get_effective_indices and add 2.5D FDTD demo
+- [fix issue](https://github.com/gdsfactory/gdsfactory/issues/511)
+
+
+## [5.12.5](https://github.com/gdsfactory/gdsfactory/pull/510)
 
 - better docstrings with autodoc_typehints = "description"
 - improve meep plugin.
