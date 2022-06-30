@@ -254,17 +254,16 @@ def write_sparameters_meep(
         wavelength_points: wavelength steps.
         dfcen: delta frequency.
         port_source_name: input port name.
-        port_field_monitor_name:
         port_margin: margin on each side of the port (um).
         distance_source_to_monitors: in (um).
         port_source_offset: offset between source Component port and source MEEP port.
-        port_monitor_offset: offset between monitor Component port and monitor MEEP port.
-        material_name_to_meep: dispersive materials have a wavelength
-            dependent index. Maps layer_stack names with meep material database names.
+        port_monitor_offset: offset between Component and MEEP port monitor.
+        material_name_to_meep: map layer_stack names with meep material database name
+            or refractive index. dispersive materials have a wavelength dependent index.
 
     Returns:
         sparameters in a pandas Dataframe (wavelengths, s11a, s12m, ...)
-            where `a` is the angle in radians and `m` the module
+            where `a` is the angle in radians and `m` the module.
 
     """
     component = gf.get_component(component)
@@ -273,7 +272,7 @@ def write_sparameters_meep(
 
     for setting in settings.keys():
         if setting not in settings_get_simulation:
-            raise ValueError(f"{setting} not in {settings_get_simulation}")
+            raise ValueError(f"{setting!r} not in {settings_get_simulation}")
 
     port_symmetries = port_symmetries or {}
 
