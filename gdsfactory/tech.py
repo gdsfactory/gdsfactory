@@ -1,3 +1,4 @@
+"""Technology settings."""
 import pathlib
 from typing import Any, Callable, Dict, Optional, Tuple, Union
 
@@ -69,6 +70,8 @@ class LayerMap(BaseModel):
     ERROR_PATH: Layer = (208, 0)
 
     class Config:
+        """pydantic config."""
+
         frozen = True
         extra = "forbid"
 
@@ -157,8 +160,9 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
-    def get_klayout_2p5D_script(self) -> str:
+    def get_klayout_3d_script(self) -> str:
         """Prints script for 2.5 view klayout information.
+
         You can add this information in your tech.lyt
         take a look at gdsfactory/klayout/tech/tech.lyt
         """
@@ -175,6 +179,7 @@ def get_layer_stack_generic(
     gap_silicon_to_nitride: float = 100 * nm,
 ) -> LayerStack:
     """Returns generic LayerStack.
+
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
 
     Args:
@@ -296,6 +301,8 @@ class Section(BaseModel):
     hidden: bool = False
 
     class Config:
+        """pydantic basemodel config."""
+
         extra = "forbid"
 
 
@@ -303,7 +310,7 @@ MaterialSpec = Union[str, float, complex, Tuple[float, float]]
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
-    """Lumerical FDTD simulation_settings
+    """Lumerical FDTD simulation_settings.
 
     Parameters:
         background_material: for the background.
@@ -345,6 +352,8 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     }
 
     class Config:
+        """pydantic basemodel config."""
+
         arbitrary_types_allowed = True
 
 
