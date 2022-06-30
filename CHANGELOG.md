@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.4](https://github.com/gdsfactory/gdsfactory/pull/502)
+
+- function to calculate_effective_permittivity [PR](https://github.com/gdsfactory/gdsfactory/pull/501)
+- Add MPB mode solver for cross sections [PR](https://github.com/gdsfactory/gdsfactory/pull/499)
+
 ## [5.12.2](https://github.com/gdsfactory/gdsfactory/pull/498)
 
 - extract generating component list for doe into a separate function for use in pack_doe and elsewhere [fixes issue](https://github.com/gdsfactory/gdsfactory/issues/496)
