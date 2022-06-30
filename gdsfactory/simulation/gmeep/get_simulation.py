@@ -37,7 +37,6 @@ def get_simulation(
     wavelength_points: int = 50,
     dfcen: float = 0.2,
     port_source_name: str = "o1",
-    port_field_monitor_name: str = "o2",
     port_margin: float = 3,
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
@@ -104,14 +103,13 @@ def get_simulation(
         wavelength_points: wavelength steps.
         dfcen: delta frequency.
         port_source_name: input port name.
-        port_field_monitor_name: for component port.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before.
         port_source_offset: offset between source GDS port and source MEEP port.
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
         dispersive: use dispersive material models (requires higher resolution).
-        material_name_to_meep: dispersive materials have a wavelength
-            dependent index. Maps layer_stack names with meep material database names.
+        material_name_to_meep: map layer_stack names with meep material database name
+            or refractive index. dispersive materials have a wavelength dependent index.
 
     Keyword Args:
         settings: other parameters for sim object (resolution, symmetries, etc.)
@@ -153,20 +151,6 @@ def get_simulation(
         port_source = component_ref.get_ports_list()[0]
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
-
-    if port_field_monitor_name not in component_ref.ports:
-        warnings.warn(
-            f"port_field_monitor_name={port_field_monitor_name!r} not in {port_names}"
-        )
-        port_field_monitor = (
-            component_ref.get_ports_list()[0]
-            if len(component.ports) < 2
-            else component.get_ports_list()[1]
-        )
-        port_field_monitor_name = port_field_monitor.name
-        warnings.warn(
-            f"Selecting port_field_monitor_name={port_field_monitor_name!r} instead."
-        )
 
     assert isinstance(
         component, Component
@@ -235,9 +219,6 @@ def get_simulation(
         np.array(port.center), angle=angle_rad, length=port_source_offset
     )
     center = xy_shifted.tolist() + [0]  # (x, y, z=0)
-
-    field_monitor_port = component_ref.ports[port_field_monitor_name]
-    field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
     if np.isclose(port.orientation, 0):
         direction = mp.X
@@ -312,7 +293,6 @@ def get_simulation(
         freqs=freqs,
         monitors=monitors,
         sources=sources,
-        field_monitor_point=field_monitor_point,
         port_source_name=port_source_name,
         initialized=False,
     )
