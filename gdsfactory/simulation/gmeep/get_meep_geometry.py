@@ -109,7 +109,7 @@ def get_meep_geometry_from_cross_section(
             # Don't need to use prism unless using sidewall angles
             if layer in layer_to_sidewall_angle:
                 # If using a prism, all dimensions need to be finite
-                xspan = extension_length if extension_length else 1
+                xspan = extension_length or 1
                 p = mp.Prism(
                     vertices=[
                         mp.Vector3(x=-xspan / 2, y=-width / 2, z=zmin_um),
@@ -125,7 +125,7 @@ def get_meep_geometry_from_cross_section(
                 geometry.append(p)
 
             else:
-                xspan = extension_length if extension_length else mp.inf
+                xspan = extension_length or mp.inf
                 geometry.append(
                     mp.Block(
                         size=mp.Vector3(xspan, width, height),
