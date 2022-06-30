@@ -41,7 +41,6 @@ def write_sparameters_meep_mpi(
     dirpath: Optional[PathType] = None,
     temp_dir: Path = temp_dir_default,
     temp_file_str: str = "write_sparameters_meep_mpi",
-    log_file_str: str = "write_sparameters_meep_mpi",
     live_output: bool = False,
     overwrite: bool = False,
     wait_to_finish: bool = True,
@@ -75,6 +74,8 @@ def write_sparameters_meep_mpi(
             Defaults to active pdk.layer_stack.
         temp_dir: temporary directory to hold simulation files.
         temp_file_str: names of temporary files in temp_dir.
+        live_output: stream output of mpirun command to file and print to console
+            (meep verbosity still needs to be set separately)
         overwrite: overwrites stored simulation results.
         wait_to_finish: if True makes the function call blocking.
 
@@ -190,7 +191,7 @@ def write_sparameters_meep_mpi(
 
         asyncio.run(
             execute_and_stream_output(
-                command, log_file_dir=temp_dir, log_file_str=log_file_str
+                command, log_file_dir=temp_dir, log_file_str=temp_file_str
             )
         )
     else:
