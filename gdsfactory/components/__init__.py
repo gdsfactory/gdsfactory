@@ -146,7 +146,7 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
-from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
+from gdsfactory.components.pack_doe import generate_doe, pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
     pad_array,
@@ -350,6 +350,7 @@ __all__ = [
     "fiber",
     "fiber_array",
     "text_lines",
+    "generate_doe",
     "grating_coupler_array",
     "grating_coupler_circular",
     "grating_coupler_elliptical",
