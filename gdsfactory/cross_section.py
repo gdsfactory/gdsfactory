@@ -60,6 +60,8 @@ class CrossSection(BaseModel):
         decorator: function when extruding component. For example add_pins.
         info: dict with extra settings or useful information.
         name: cross_section name.
+        add_center_section: whether a section with `width` and `layer`
+              is added during extrude
     """
 
     layer: LayerSpec
@@ -86,6 +88,7 @@ class CrossSection(BaseModel):
     add_bbox: Optional[Callable] = None
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
+    add_center_section: bool = True
 
     class Config:
         extra = "forbid"
@@ -197,6 +200,7 @@ def cross_section(
     decorator: Optional[Callable] = None,
     add_pins: Optional[Callable] = None,
     add_bbox: Optional[Callable] = None,
+    add_center_section: bool = True,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -228,6 +232,8 @@ def cross_section(
         decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
         add_bbox: optional function to add bounding box to component.
+        add_center_section: whether a section with `width` and `layer`
+              is added during extrude
     """
 
     return CrossSection(
@@ -254,6 +260,7 @@ def cross_section(
         decorator=decorator,
         add_bbox=add_bbox,
         add_pins=add_pins,
+        add_center_section=add_center_section,
     )
 
 
@@ -282,6 +289,39 @@ nitride = partial(strip, layer="WGN", width=1.0)
 strip_rib_tip = partial(
     strip, sections=(Section(width=0.2, layer="SLAB90", name="slab"),)
 )
+
+
+# Slot (with an etched region in the center)
+def slot(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    slot_width: float = 0.04,
+    **kwargs,
+) -> CrossSection:
+
+    rail_width = (width - slot_width) / 2
+    rail_offset = (rail_width + slot_width) / 2
+    sections = [
+        Section(width=rail_width, offset=rail_offset, layer=layer, name="left rail"),
+        Section(width=rail_width, offset=-rail_offset, layer=layer, name="right rail"),
+    ]
+
+    info = dict(
+        width=width,
+        layer=layer,
+        slot_width=slot_width,
+        **kwargs,
+    )
+
+    return strip(
+        width=width,
+        layer=layer,
+        sections=tuple(sections),
+        info=info,
+        add_center_section=False,
+        **kwargs,
+    )
+
 
 metal1 = partial(
     cross_section,
