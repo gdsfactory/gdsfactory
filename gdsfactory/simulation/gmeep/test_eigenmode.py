@@ -16,17 +16,17 @@ from gdsfactory.simulation.modes.types import Mode
 
 
 def lumerical_parser(E_1D, H_1D, y_1D, z_1D, res=50, z_offset=0.11 * 1e-6):
-    """
+    """Converts 1D arrays of fields to 2D arrays according to positions.
+
     Lumerical data is in 1D arrays, and over a nonregular mesh
-    Converts 1D arrays of fields to 2D arrays according to positions
 
     Args
-        E_1D: E array from Lumerical
-        H_1D: H array from Lumerical
-        y_1D: y array from Lumerical
-        z_1D: z array from Lumerical
-        res: desired resolution
-        z_offset: z offset to move the fields
+        E_1D: E array from Lumerical.
+        H_1D: H array from Lumerical.
+        y_1D: y array from Lumerical.
+        z_1D: z array from Lumerical.
+        res: desired resolution.
+        z_offset: z offset to move the fields.
     """
     # Make regular grid from resolution and range of domain
     y_1D = y_1D[...].flatten()
