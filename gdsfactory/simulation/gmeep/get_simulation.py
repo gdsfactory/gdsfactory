@@ -11,9 +11,12 @@ from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmeep.get_material import get_material
+from gdsfactory.simulation.gmeep.get_meep_geometry import (
+    get_meep_geometry_from_component,
+)
 from gdsfactory.tech import LayerStack
 
-mp.verbosity(0)
+# mp.verbosity(0)
 
 sig = inspect.signature(mp.Simulation)
 settings_meep = set(sig.parameters.keys())
@@ -135,9 +138,6 @@ def get_simulation(
     layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_material = layer_stack.get_layer_to_material()
-    layer_to_zmin = layer_stack.get_layer_to_zmin()
-    layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
     component_ref = component.ref()
     component_ref.x = 0
@@ -182,7 +182,6 @@ def get_simulation(
     gf.show(component_extended)
 
     component_extended.flatten()
-    component_extended = component_extended.ref()
 
     # geometry_center = [component_extended.x, component_extended.y]
     # geometry_center = [0, 0]
@@ -209,32 +208,14 @@ def get_simulation(
         cell_thickness,
     )
 
-    geometry = []
-    layer_to_polygons = component_extended.get_polygons(by_spec=True)
-    for layer, polygons in layer_to_polygons.items():
-        if layer in layer_to_thickness and layer in layer_to_material:
-            height = layer_to_thickness[layer] if is_3d else mp.inf
-            zmin_um = layer_to_zmin[layer] if is_3d else 0
-            # center = mp.Vector3(0, 0, (zmin_um + height) / 2)
-
-            for polygon in polygons:
-                vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
-                material_name = layer_to_material[layer]
-                material = get_material(
-                    name=material_name,
-                    dispersive=dispersive,
-                    material_name_to_meep=material_name_to_meep,
-                    wavelength=wavelength,
-                )
-                geometry.append(
-                    mp.Prism(
-                        vertices=vertices,
-                        height=height,
-                        sidewall_angle=layer_to_sidewall_angle[layer],
-                        material=material,
-                        # center=center
-                    )
-                )
+    geometry = get_meep_geometry_from_component(
+        component=component_extended,
+        layer_stack=layer_stack,
+        material_name_to_meep=material_name_to_meep,
+        wavelength=wavelength,
+        is_3d=is_3d,
+        dispersive=dispersive,
+    )
 
     freqs = 1 / wavelengths
     fcen = np.mean(freqs)
