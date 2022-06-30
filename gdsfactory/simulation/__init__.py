@@ -1,6 +1,7 @@
 """gdsfactory interface to simulations."""
 
 from gdsfactory.simulation import plot
+from gdsfactory.simulation.get_effective_indices import get_effective_indices
 from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_data_lumerical,
     get_sparameters_data_meep,
@@ -14,4 +15,5 @@ __all__ = [
     "get_sparameters_path_lumerical",
     "get_sparameters_data_meep",
     "get_sparameters_data_lumerical",
+    "get_effective_indices",
 ]

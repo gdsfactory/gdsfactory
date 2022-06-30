@@ -7,7 +7,7 @@ from scipy.optimize import fsolve
 from typing_extensions import Literal
 
 
-def get_effective_index(
+def get_effective_indices(
     ncore: float,
     nsubstrate: float,
     ncladding: float,
@@ -15,7 +15,7 @@ def get_effective_index(
     wavelength: float,
     polarization: Literal["te", "tm"],
 ) -> List[float]:
-    """Returns the effective refractive index for a 1D mode.
+    """Returns the effective refractive indices for a 1D mode.
 
     .. code::
 
@@ -81,11 +81,16 @@ def get_effective_index(
     # and then use fsolve to get exact indices
     indices_temp = fsolve(objective, indices_temp)
 
-    return np.sqrt(indices_temp[0])
+    indices = []
+    for index in indices_temp:
+        if not any(np.isclose(index, i, atol=1e-5) for i in indices):
+            indices.append(index)
+
+    return np.sqrt(indices).tolist()
 
 
 def test_effective_index():
-    neff = get_effective_index(
+    neff = get_effective_indices(
         ncore=3.4777,
         ncladding=1.444,
         nsubstrate=1.444,
@@ -93,12 +98,12 @@ def test_effective_index():
         wavelength=1.55,
         polarization="te",
     )
-    assert np.isclose(neff, 2.8494636999424405)
+    assert np.isclose(neff[0], 2.8494636999424405)
 
 
 if __name__ == "__main__":
     print(
-        get_effective_index(
+        get_effective_indices(
             ncore=3.4777,
             ncladding=1.444,
             nsubstrate=1.444,
