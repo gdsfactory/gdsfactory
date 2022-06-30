@@ -49,9 +49,9 @@ def mzi(
         splitter: splitter function.
         combiner: combiner function.
         with_splitter: if False removes splitter.
-        port_e1_combiner: east top combiner port.
-        port_e0_splitter: east bot splitter port.
         port_e1_splitter: east top splitter port.
+        port_e0_splitter: east bot splitter port.
+        port_e1_combiner: east top combiner port.
         port_e0_combiner: east bot combiner port.
         nbends: from straight top/bot to combiner (at least 2).
         cross_section: for routing (sxtop/sxbot to combiner).
