@@ -106,7 +106,6 @@ def write_sparameters_meep_mpi(
         wavelength_points: wavelength steps.
         dfcen: delta frequency.
         port_source_name: input port name.
-        port_field_monitor_name: for monitor field decay.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before.
         port_source_offset: offset between source GDS port and source MEEP port.
@@ -121,7 +120,7 @@ def write_sparameters_meep_mpi(
     """
     for setting in kwargs.keys():
         if setting not in settings_write_sparameters_meep:
-            raise ValueError(f"{setting} not in {settings_write_sparameters_meep}")
+            raise ValueError(f"{setting!r} not in {settings_write_sparameters_meep}")
 
     component = gf.get_component(component)
     assert isinstance(component, Component)

@@ -70,14 +70,14 @@ def get_index(
     """Returns refractive index from Meep's material database.
 
     Args:
-        name: material name
-        wavelength: wavelength (um)
+        name: material name.
+        wavelength: wavelength (um).
         dispersive: True for built-in Meep index model,
-            False for simple, non-dispersive model
+            False for simple, non-dispersive model.
 
     Note:
         Using the built-in models can be problematic at low resolution.
-        If fields are NaN or Inf, increase resolution or use a non-dispersive model
+        If fields are NaN or Inf, increase resolution or use a non-dispersive model.
 
     """
     medium = get_material(name=name, wavelength=wavelength, dispersive=dispersive)
