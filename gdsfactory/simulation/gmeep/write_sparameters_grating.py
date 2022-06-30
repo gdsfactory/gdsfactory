@@ -122,15 +122,7 @@ def write_sparameters_grating(
         plt.show()
         return
 
-    termination = [
-        mp.stop_when_fields_decayed(
-            dt=50,
-            c=mp.Ez,
-            pt=monitor.regions[0].center,
-            decay_by=decay_by,
-        )
-        for monitor in [sim_dict["waveguide_monitor"], sim_dict["fiber_monitor"]]
-    ]
+    termination = [mp.stop_when_energy_decayed(dt=50, decay_by=1e-3)]
 
     if animate:
         # Run while saving fields

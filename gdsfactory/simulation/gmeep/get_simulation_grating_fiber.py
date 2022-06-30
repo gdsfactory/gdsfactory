@@ -66,37 +66,37 @@ def get_simulation_grating_fiber(
     ncore = sqrt(na**2 + ncore**2)
 
     Args:
-        period: fiber grating period
+        period: fiber grating period.
         fill_factor: fraction of the grating period filled with the grating material.
-        n_periods: number of periods
-        widths: Optional list of widths. Overrides period, fill_factor, n_periods
-        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods
-        fiber_angle_deg: fiber angle in degrees
-        fiber_xposition: xposition
-        fiber_core_diameter: fiber diameter
-        fiber_numerical_aperture: NA
+        n_periods: number of periods.
+        widths: Optional list of widths. Overrides period, fill_factor, n_periods.
+        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods.
+        fiber_angle_deg: fiber angle in degrees.
+        fiber_xposition: xposition.
+        fiber_core_diameter: fiber diameter.
+        fiber_numerical_aperture: NA.
         fiber_nclad: fiber cladding index.
-        fiber_ncore: fiber core index
+        fiber_ncore: fiber core index.
         nwg: waveguide index.
         nclad: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
-        pml_thickness: pml_thickness (um)
-        substrate_thickness: substrate_thickness (um)
-        box_thickness: thickness for bottom cladding (um)
-        wg_thickness: wg_thickness (um)
+        pml_thickness: pml_thickness (um).
+        substrate_thickness: substrate_thickness (um).
+        box_thickness: thickness for bottom cladding (um).
+        wg_thickness: wg_thickness (um).
         top_clad_thickness: thickness of the top cladding.
         air_gap_thickness: air gap thickness.
-        fiber_thickness: fiber_thickness
-        resolution: resolution pixels/um
-        wavelength_start: min wavelength (um)
-        wavelength_stop: max wavelength (um)
+        fiber_thickness: fiber_thickness.
+        resolution: resolution pixels/um.
+        wavelength_start: min wavelength (um).
+        wavelength_stop: max wavelength (um).
         wavelength_points: wavelength points.
         eps_averaging: epsilon averaging.
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
-        waveguide_port_x_offset_from_grating_start:
-        fiber_port_x_size:
-        xmargin: margin from PML to grating end
+        waveguide_port_x_offset_from_grating_start: in um.
+        fiber_port_x_size: in um.
+        xmargin: margin from PML to grating end in um.
 
 
     .. code::

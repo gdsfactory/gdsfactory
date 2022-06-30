@@ -132,8 +132,8 @@ def test_sparameters_straight_batch(dataframe_regression) -> None:
 
 
 if __name__ == "__main__":
-    # test_sparameters_straight(None)
+    test_sparameters_straight(None)
     # test_sparameters_straight_symmetric(False)
-    test_sparameters_straight_batch(None)
+    # test_sparameters_straight_batch(None)
     # test_sparameters_straight_mpi(None)
     # test_sparameters_crossing_symmetric(False)
