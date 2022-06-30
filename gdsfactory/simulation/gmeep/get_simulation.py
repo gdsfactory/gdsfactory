@@ -16,7 +16,7 @@ from gdsfactory.simulation.gmeep.get_meep_geometry import (
 )
 from gdsfactory.tech import LayerStack
 
-# mp.verbosity(0)
+mp.verbosity(0)
 
 sig = inspect.signature(mp.Simulation)
 settings_meep = set(sig.parameters.keys())
