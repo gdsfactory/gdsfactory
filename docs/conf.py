@@ -10,6 +10,7 @@ source_suffix = {
 }
 
 html_static_path = ["_static"]
+html_css_files = ["css/custom.css"]
 
 extensions = [
     "matplotlib.sphinxext.plot_directive",
