@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.12.5](https://github.com/gdsfactory/gdsfactory/pull/502)
+## [5.12.5](https://github.com/gdsfactory/gdsfactory/pull/510)
 
 - better docstrings with autodoc_typehints = "description"
 - improve meep plugin.
