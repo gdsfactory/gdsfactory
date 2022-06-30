@@ -42,11 +42,8 @@ class YamlEventHandler(FileSystemEventHandler):
         super().on_moved(event)
 
         what = "directory" if event.is_directory else "file"
-        self.logger.info(
-            "Moved %s: from %s to %s", what, event.src_path, event.dest_path
-        )
         if what == "file" and event.dest_path.endswith(".pic.yml"):
-            self.logger.info("Created %s: %s", what, event.src_path)
+            self.logger.info("Moved %s: %s", what, event.src_path)
             self.update_cell(event.dest_path)
             self.get_component(event.src_path)
 
@@ -63,9 +60,9 @@ class YamlEventHandler(FileSystemEventHandler):
         super().on_deleted(event)
 
         what = "directory" if event.is_directory else "file"
-        self.logger.info("Deleted %s: %s", what, event.src_path)
 
         if what == "file" and event.src_path.endswith(".pic.yml"):
+            self.logger.info("Deleted %s: %s", what, event.src_path)
             pdk = get_active_pdk()
             filepath = pathlib.Path(event.src_path)
             cell_name = filepath.stem.split(".")[0]
