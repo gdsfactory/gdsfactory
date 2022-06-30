@@ -253,7 +253,7 @@ def write_sparameters_lumerical(
     if not layers_thickness:
         raise ValueError(
             f"no layers for component {component.get_layers()}"
-            f"in layer stack {layers_thickness.keys()}"
+            f"in layer stack {layer_stack}"
         )
     layers_zmin = [
         layer_to_zmin[layer]
