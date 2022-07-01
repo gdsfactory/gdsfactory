@@ -552,10 +552,9 @@ def test_netlists(
     # print(yaml_str)
     c2 = from_yaml(yaml_str, name=c.name)
     n2 = c2.get_netlist()
-    d = jsondiff.diff(n, n2)
     # pprint(d)
     # assert len(d) == 0, pprint(d)
-    return d
+    return jsondiff.diff(n, n2)
 
 
 def _demo_netlist() -> None:

@@ -47,7 +47,7 @@ def read_sparameters_file(
             port_line = fid.readline()
             m = re.search(r'\[".*",', port_line)
             if m:
-                port = m.group(0)
+                port = m[0]
                 port_names.append(port[2:-2])
         line = fid.readline()
         port1, port2 = get_ports(line)

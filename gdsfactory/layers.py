@@ -296,10 +296,7 @@ def _add_layer(
     if ("visible" in entry.keys()) and (entry["visible"] == "false"):
         alpha = 0.0
     elif ("transparent" in entry.keys()) and (entry["transparent"] == "false"):
-        if dither == "I1":
-            alpha = 0.1
-        else:
-            alpha = 1.0
+        alpha = 0.1 if dither == "I1" else 1.0
     else:
         alpha = 0.5
 
@@ -309,10 +306,10 @@ def _add_layer(
         "color": entry["fill-color"],
         "dither": dither,
         "name": name,
+        "description": _name_to_description(name),
+        "alpha": alpha,
     }
 
-    settings["description"] = _name_to_description(name)
-    settings["alpha"] = alpha
     lys.add_layer(**settings)
     return lys
 
