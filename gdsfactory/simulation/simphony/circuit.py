@@ -93,10 +93,8 @@ def component_to_circuit(
 
     circuit = connect_pins(connections, model_names, components, circuit)
 
-    i = 1
-    for pin in circuit.pins:
+    for i, pin in enumerate(circuit.pins, start=1):
         pin.rename(f"o{i}")
-        i += 1
     return circuit
 
 
