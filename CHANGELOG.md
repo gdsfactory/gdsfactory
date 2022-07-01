@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.7](https://github.com/gdsfactory/gdsfactory/pull/513)
+
+- get_sparameters_meep_mpi runs the mpirun command asynchronously. Direct stdout and stderr to a log file and console. [PR](https://github.com/gdsfactory/gdsfactory/pull/515)
+    - It can't replace the current Popen call, as it doesn't handle the case of wait_to_finish=False, so it won't work with the get_sparameters_meep_batch code as-is.
+
 ## [5.12.6](https://github.com/gdsfactory/gdsfactory/pull/513)
 
 - rename get_effective_index to get_effective_indices and add 2.5D FDTD demo
