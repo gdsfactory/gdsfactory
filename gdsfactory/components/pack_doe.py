@@ -86,11 +86,10 @@ def pack_doe(
         raise ValueError(
             f"failed to pack in one Component, it created {len(c)} Components"
         )
-    else:
-        c = c[0]
-        c.doe_names = [component.name for component in component_list]
-        c.doe_settings = settings_list
-        return c
+    c = c[0]
+    c.doe_names = [component.name for component in component_list]
+    c.doe_settings = settings_list
+    return c
 
 
 def pack_doe_grid(

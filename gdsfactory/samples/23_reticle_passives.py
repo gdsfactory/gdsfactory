@@ -31,9 +31,7 @@ def test_mask() -> Component:
     gdspath = c.write_gds("mask.gds")
     csvpath = gf.mask.write_labels_gdspy(gdspath, prefix="component_name")
 
-    # make sure that all the ports will be tested by adding port markers
-    c2 = add_port_markers(gdspath=gdspath, csvpath=csvpath, marker_size=40)
-    return c2
+    return add_port_markers(gdspath=gdspath, csvpath=csvpath, marker_size=40)
 
 
 if __name__ == "__main__":
