@@ -79,16 +79,13 @@ def fill_rectangle(
 
     Args:
         component: Component to fill.
+        fill_layers: list of layers. fill pattern layers.
         fill_size: Rectangular size of the fill element.
         avoid_layers: Layers to be avoided (not filled) in D.
         include_layers: Layers to be filled, supersedes avoid_layers.
-        margin:
-            Margin spacing around avoided areas -- fill will not come within.
-            `margin` of the geometry in D.
-        fill_layers: list of layers. fill pattern layers.
-        fill_densities: float between 0 and 1.
-            Defines the fill pattern density (1.0 == fully filled).
-        fill_inverted: Inverts the fill pattern.
+        margin: Margin spacing around avoided areas.
+        fill_densities: defines the fill pattern density (1.0 == fully filled).
+        fill_inverted: inverts the fill pattern.
         bbox: x, y limit the fill pattern to the area defined by this bounding box.
 
     """
@@ -198,7 +195,7 @@ if __name__ == "__main__":
         fill_layers=((2, 0),),
         # fill_densities=(1.0,),
         fill_densities=0.5,
-        avoid_layers=((1, 0),),
+        # avoid_layers=((1, 0),),
         # bbox=(100.0, 100.0),
     )
     c.show(show_ports=True)
