@@ -15,7 +15,8 @@ def generate_doe(
     do_permutations: bool = False,
     function: Optional[CellSpec] = None,
 ) -> Tuple[List[Component], List[Dict]]:
-    """generates a component DOE (Design of Experiment),
+    """Generates a component DOE (Design of Experiment).
+
     which can then be packed, or used elsewhere.
 
     Args:
@@ -153,18 +154,14 @@ def pack_doe_grid(
 
 
 if __name__ == "__main__":
-    c = pack_doe_grid(
-        # doe=gf.c.mmi1x2,
-        doe="mmi1x2",
-        # doe=dict(component='mmi1x2', settings=dict(length_taper=50)),
-        settings=dict(length_mmi=[2.5, 100], width_mmi=[4, 10], hash_settings=[False]),
-        with_text=True,
-        spacing=(100, 100),
-        shape=(2, 2),
-        # settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
-        do_permutations=True,
-    )
-    print(c.doe_names)
-    c.show(show_ports=True)
+    # c = pack_doe_grid(
+    #     doe="mmi1x2",
+    #     settings=dict(length_mmi=[2.5, 100], width_mmi=[4, 10]),
+    #     with_text=True,
+    #     spacing=(100, 100),
+    #     shape=(2, 2),
+    #     do_permutations=True,
+    # )
 
-    # c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    c.show(show_ports=True)
