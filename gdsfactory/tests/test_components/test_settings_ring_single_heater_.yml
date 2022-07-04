@@ -20,7 +20,7 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    cross_section_heater:
+    cross_section_waveguide_heater:
       function: strip_heater_metal
     gap: 0.2
     length_x: 4.0
@@ -71,7 +71,7 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    cross_section_heater:
+    cross_section_waveguide_heater:
       function: strip_heater_metal
     gap: 0.2
     length_x: 4.0
