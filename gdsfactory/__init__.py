@@ -138,4 +138,4 @@ __all__ = (
     "get_layer",
     "get_cross_section_factories",
 )
-__version__ = "5.12.9"
+__version__ = "5.12.10"
