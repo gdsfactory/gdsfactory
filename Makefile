@@ -124,6 +124,7 @@ upload-twine: build
 	twine upload dist/*
 
 release:
+	git push
 	git push origin --tags
 
 lint:
