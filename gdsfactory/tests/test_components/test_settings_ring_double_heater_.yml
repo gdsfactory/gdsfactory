@@ -20,7 +20,16 @@ settings:
         cladding_offsets:
         - 0
     cross_section_heater:
-      function: heater_metal
+      function: cross_section
+      settings:
+        layer: HEATER
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 2.5
     cross_section_waveguide_heater:
       function: strip_heater_metal
     gap: 0.2
@@ -72,7 +81,16 @@ settings:
         cladding_offsets:
         - 0
     cross_section_heater:
-      function: heater_metal
+      function: cross_section
+      settings:
+        layer: HEATER
+        port_names:
+        - e1
+        - e2
+        port_types:
+        - electrical
+        - electrical
+        width: 2.5
     cross_section_waveguide_heater:
       function: strip_heater_metal
     gap: 0.2
