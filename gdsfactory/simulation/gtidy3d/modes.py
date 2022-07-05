@@ -7,7 +7,6 @@ tidy3d can:
 - compute bend modes.
 - compute mode overlaps.
 
-
 TODO:
 
 - calculate dispersion
@@ -129,7 +128,19 @@ def get_n(
     slab_thickness: float,
     t_clad: float,
 ):
-    """Return index matrix."""
+    """Return index matrix for a waveguide.
+
+    Args:
+        Y: 2D array.
+        Z: 2D array.
+        ncore: core index.
+        nclad: cladding index.
+        wg_width: in um.
+        t_box: box thickness in um.
+        wg_thickness: in um.
+        slab_thickness: in um.
+        t_clad: thickness cladding in um.
+    """
     w = wg_width
     n = np.ones_like(Y) * nclad
     n[
@@ -665,7 +676,7 @@ if __name__ == "__main__":
     # nitride.plot_index()
     # nitride.plot_Ex(index=0)
 
-    df = plot_sweep_width(
+    plot_sweep_width(
         steps=3,
         wavelength=1.55,
         wg_thickness=220 * nm,
