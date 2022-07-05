@@ -23,6 +23,7 @@ from typing import Callable, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from matplotlib import colors
 from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
@@ -33,6 +34,8 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
+
+nm = 1e-3
 
 
 def plot(
@@ -461,19 +464,85 @@ def sweep_bend_loss(
     return r, integral**2
 
 
+def sweep_width(
+    width1: float = 200 * nm,
+    width2: float = 1000 * nm,
+    steps: int = 12,
+    nmodes: int = 4,
+    filepath: Optional[PathType] = None,
+    overwrite: bool = False,
+    **kwargs,
+) -> pd.DataFrame:
+    """Sweep waveguide width and compute effective index.
+
+    Args:
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
+        steps: number of points.
+        nmodes: number of modes to compute.
+        filepath: Optional filepath to store the results.
+        overwrite: overwrite file even if exists on disk.
+
+
+    Keyword Args:
+        wavelength: (um).
+        wg_width: waveguide width.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+
+    """
+    if filepath and not overwrite and pathlib.Path(filepath).exists():
+        return pd.read_csv(filepath)
+
+    width = np.linspace(width1, width2, steps)
+    neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
+    for wg_width in tqdm(width):
+        wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
+        wg.compute_modes()
+        for mode_number in range(1, nmodes + 1):
+            neff[mode_number].append(np.real(wg.neffs[mode_number]))
+
+    df = pd.DataFrame(neff)
+    df["width"] = width
+    if filepath:
+        filepath = pathlib.Path(filepath)
+        cache = filepath.parent
+        cache.mkdir(exist_ok=True, parents=True)
+        df.to_csv(filepath, index=False)
+    return df
+
+
+def plot_neff_vs_width(df: pd.DataFrame, **kwargs) -> None:
+    width = df.width
+    for mode_number, neff in df.items():
+        if mode_number != "width":
+            plt.plot(width, neff, ".-", label=str(mode_number))
+
+    plt.legend(**kwargs)
+    plt.xlabel("width (um)")
+    plt.ylabel("neff")
+
+
 __all__ = ("sweep_bend_loss", "Waveguide", "si", "sio2", "sin")
 
 if __name__ == "__main__":
-    nm = 1e-3
-    c = Waveguide(
-        wavelength=1.55,
-        wg_width=500 * nm,
-        wg_thickness=220 * nm,
-        slab_thickness=90 * nm,
-        ncore=si,
-        nclad=sio2,
-    )
-    c.plot_Ex(0)
+    # c = Waveguide(
+    #     wavelength=1.55,
+    #     wg_width=500 * nm,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=90 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # c.plot_Ex(0)
 
     # nitride = find_modes(wavelength=1.55, wg_width=1.0, wg_thickness=0.4, ncore=2.0)
     # nitride.plot_index()
@@ -516,3 +585,16 @@ if __name__ == "__main__":
 
     # nitride.plot_index()
     # nitride.plot_Ex(index=0)
+
+    df = sweep_width(
+        steps=3,
+        wavelength=1.55,
+        wg_thickness=220 * nm,
+        slab_thickness=90 * nm,
+        ncore=si,
+        nclad=sio2,
+        filepath="neff_vs_width.csv",
+        overwrite=True,
+    )
+    plot_neff_vs_width(df)
+    plt.show()
