@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.11](https://github.com/gdsfactory/gdsfactory/pull/514)
+
+- add `gdsfactory.simulation.gtidy3d.modes.group_index`
+- add `gdsfactory.simulation.gtidy3d.modes.sweep_width`
+- add `gdsfactory.simulation.gtidy3d.modes.plot_sweep_width`
+
 ## [5.12.7](https://github.com/gdsfactory/gdsfactory/pull/513)
 
 - get_sparameters_meep_mpi runs the mpirun command asynchronously. Direct stdout and stderr to a log file and console. [PR](https://github.com/gdsfactory/gdsfactory/pull/515)
