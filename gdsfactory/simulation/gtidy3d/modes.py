@@ -187,7 +187,7 @@ class Waveguide(BaseModel):
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-        cache: filepath for caching modes.
+        cache: filepath for caching modes. If None does not use file cache.
 
     ::
 
@@ -236,7 +236,7 @@ class Waveguide(BaseModel):
         return self.wg_width + 2 * self.xmargin
 
     @property
-    def filepath(self) -> pathlib.Path:
+    def filepath(self) -> Optional[pathlib.Path]:
         if self.cache is None:
             return
         cache = pathlib.Path(self.cache)
@@ -328,7 +328,7 @@ class Waveguide(BaseModel):
         self.nx, self.ny, self.nz = nx, ny, nz
         self.Xx, self.Yx, self.Xy, self.Yy, self.Xz, self.Yz = Xx, Yx, Xy, Yy, Xz, Yz
 
-        if self.cache and self.filepath.exists():
+        if self.cache and self.filepath and self.filepath.exists():
             data = np.load(self.filepath)
             self.Ex = data["Ex"]
             self.Ey = data["Ey"]
@@ -372,8 +372,49 @@ class Waveguide(BaseModel):
             Hz=self.Hz,
             neffs=self.neffs,
         )
-        np.savez_compressed(self.filepath, **data)
-        logger.info(f"write {self.filepath} mode data to file cache.")
+        if self.filepath:
+            np.savez_compressed(self.filepath, **data)
+            logger.info(f"write {self.filepath} mode data to file cache.")
+
+    def compute_mode_properties(self) -> Tuple[List[float], List[float], List[float]]:
+        """Computes mode areas, fraction_te and fraction_tm."""
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+        mode_areas = []
+        fraction_te = []
+        fraction_tm = []
+
+        for mode_index in range(self.nmodes):
+            e_fields = (
+                self.Ex[..., mode_index],
+                self.Ey[..., mode_index],
+                self.Ez[..., mode_index],
+            )
+            h_fields = (
+                self.Hx[..., mode_index],
+                self.Hy[..., mode_index],
+                self.Hz[..., mode_index],
+            )
+
+            areas_e = [np.sum(np.abs(e) ** 2) for e in e_fields]
+            areas_e /= np.sum(areas_e)
+            areas_e *= 100
+
+            areas_h = [np.sum(np.abs(h) ** 2) for h in h_fields]
+            areas_h /= np.sum(areas_h)
+            areas_h *= 100
+
+            fraction_te.append(areas_e[0] / (areas_e[0] + areas_e[1]))
+            fraction_tm.append(areas_e[1] / (areas_e[0] + areas_e[1]))
+
+            areas = areas_e.tolist()
+            areas.extend(areas_h)
+            mode_areas.append(areas)
+
+        self.mode_areas = mode_areas
+        self.fraction_te = fraction_te
+        self.fraction_tm = fraction_tm
+        return mode_areas, fraction_te, fraction_tm
 
     def plot_Ex(self, mode_index: int = 0) -> None:
         if not hasattr(self, "neffs"):
@@ -422,46 +463,6 @@ class Waveguide(BaseModel):
             + wg2.Ex[..., mode_index2] * np.conj(wg1.Hy[..., mode_index1])
             - wg2.Ey[..., mode_index2] * np.conj(wg1.Hx[..., mode_index1])
         )
-
-    def compute_mode_properties(self) -> Tuple[List[float], List[float], List[float]]:
-        """Computes mode areas, fraction_te and fraction_tm."""
-        if not hasattr(self, "neffs"):
-            self.compute_modes()
-        mode_areas = []
-        fraction_te = []
-        fraction_tm = []
-
-        for mode_index in range(self.nmodes):
-            e_fields = (
-                self.Ex[..., mode_index],
-                self.Ey[..., mode_index],
-                self.Ez[..., mode_index],
-            )
-            h_fields = (
-                self.Hx[..., mode_index],
-                self.Hy[..., mode_index],
-                self.Hz[..., mode_index],
-            )
-
-            areas_e = [np.sum(np.abs(e) ** 2) for e in e_fields]
-            areas_e /= np.sum(areas_e)
-            areas_e *= 100
-
-            areas_h = [np.sum(np.abs(h) ** 2) for h in h_fields]
-            areas_h /= np.sum(areas_h)
-            areas_h *= 100
-
-            fraction_te.append(areas_e[0] / (areas_e[0] + areas_e[1]))
-            fraction_tm.append(areas_e[1] / (areas_e[0] + areas_e[1]))
-
-            areas = areas_e.tolist()
-            areas.extend(areas_h)
-            mode_areas.append(areas)
-
-        self.mode_areas = mode_areas
-        self.fraction_te = fraction_te
-        self.fraction_tm = fraction_tm
-        return mode_areas, fraction_te, fraction_tm
 
 
 def sweep_bend_loss(
@@ -560,6 +561,49 @@ def sweep_width(
     return df
 
 
+def group_index(
+    wavelength: float, wavelength_step: float = 0.01, mode_index: int = 0, **kwargs
+) -> float:
+    """Returns group_index.
+
+    Args:
+        wavelength: (um).
+        wavelength_step: in um.
+        mode_index: integer.
+
+    Keyword Args:
+        wg_width: waveguide width.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+    """
+
+    wc = Waveguide(wavelength=wavelength, **kwargs)
+    wf = Waveguide(
+        wavelength=wavelength + wavelength_step,
+        **kwargs,
+    )
+    wb = Waveguide(
+        wavelength=wavelength - wavelength_step,
+        **kwargs,
+    )
+    wc.compute_modes()
+    wb.compute_modes()
+    wf.compute_modes()
+
+    nc = np.real(wc.neffs[mode_index])
+    nb = np.real(wb.neffs[mode_index])
+    nf = np.real(wf.neffs[mode_index])
+    return nc - wavelength * (nf - nb) / (2 * wavelength_step)
+
+
 def plot_sweep_width(
     width1: float = 200 * nm,
     width2: float = 1000 * nm,
@@ -621,6 +665,7 @@ __all__ = (
     "sio2",
     "sweep_bend_loss",
     "sweep_width",
+    "group_index",
 )
 
 if __name__ == "__main__":
@@ -676,12 +721,22 @@ if __name__ == "__main__":
     # nitride.plot_index()
     # nitride.plot_Ex(index=0)
 
-    plot_sweep_width(
-        steps=3,
+    # plot_sweep_width(
+    #     steps=3,
+    #     wavelength=1.55,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=0 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # plt.show()
+    ng = group_index(
+        wg_width=500 * nm,
         wavelength=1.55,
         wg_thickness=220 * nm,
         slab_thickness=0 * nm,
         ncore=si,
         nclad=sio2,
     )
-    plt.show()
+    print(ng)
+    # plt.show()
