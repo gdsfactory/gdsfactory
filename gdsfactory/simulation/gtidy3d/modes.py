@@ -5,10 +5,11 @@ tidy3d has a powerful open source mode solver.
 tidy3d can:
 
 - compute bend modes.
+- compute mode overlaps.
+
 
 TODO:
 
-- fix mode overlaps for bend loss
 - calculate dispersion
 
 Maybe:
@@ -226,20 +227,7 @@ class Waveguide(BaseModel):
             return
         cache = pathlib.Path(self.cache)
         cache.mkdir(exist_ok=True, parents=True)
-        settings = dict(
-            wavelength=self.wavelength,
-            wg_width=self.wg_width,
-            wg_thickness=self.wg_thickness,
-            slab_thickness=self.slab_thickness,
-            t_box=self.t_box,
-            t_clad=self.t_clad,
-            ncore=self.ncore,
-            nclad=self.nclad,
-            xmargin=self.xmargin,
-            resolution=self.resolution,
-            nmodes=self.nmodes,
-            bend_radius=self.bend_radius,
-        )
+        settings = {setting: getattr(self, setting) for setting in SETTINGS}
         return cache / f"{get_hash(settings)}.npz"
 
     def get_ncore(self, wavelength):
@@ -476,11 +464,12 @@ def sweep_bend_loss(
 __all__ = ("sweep_bend_loss", "Waveguide", "si", "sio2", "sin")
 
 if __name__ == "__main__":
+    nm = 1e-3
     c = Waveguide(
         wavelength=1.55,
-        wg_width=0.5,
-        wg_thickness=0.22,
-        slab_thickness=0.0,
+        wg_width=500 * nm,
+        wg_thickness=220 * nm,
+        slab_thickness=90 * nm,
         ncore=si,
         nclad=sio2,
     )
