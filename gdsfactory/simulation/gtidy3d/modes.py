@@ -469,8 +469,6 @@ def sweep_width(
     width2: float = 1000 * nm,
     steps: int = 12,
     nmodes: int = 4,
-    filepath: Optional[PathType] = None,
-    overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
     """Sweep waveguide width and compute effective index.
@@ -480,8 +478,6 @@ def sweep_width(
         width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
-        filepath: Optional filepath to store the results.
-        overwrite: overwrite file even if exists on disk.
 
 
     Keyword Args:
@@ -499,8 +495,6 @@ def sweep_width(
         bend_radius: optional bend radius (um).
 
     """
-    if filepath and not overwrite and pathlib.Path(filepath).exists():
-        return pd.read_csv(filepath)
 
     width = np.linspace(width1, width2, steps)
     neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
@@ -512,11 +506,6 @@ def sweep_width(
 
     df = pd.DataFrame(neff)
     df["width"] = width
-    if filepath:
-        filepath = pathlib.Path(filepath)
-        cache = filepath.parent
-        cache.mkdir(exist_ok=True, parents=True)
-        df.to_csv(filepath, index=False)
     return df
 
 
@@ -593,8 +582,6 @@ if __name__ == "__main__":
         slab_thickness=90 * nm,
         ncore=si,
         nclad=sio2,
-        filepath="neff_vs_width.csv",
-        overwrite=True,
     )
     plot_neff_vs_width(df)
     plt.show()
