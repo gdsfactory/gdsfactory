@@ -26,8 +26,8 @@ def find_neff_vs_width(
     """Seep waveguide width and computes effective index.
 
     Args:
-        width1: starting waveguide width.
-        width2: end waveguide width.
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
         wavelength: wavelength in um.
@@ -37,7 +37,7 @@ def find_neff_vs_width(
 
 
     Keyword Args:
-        slab_thickness: thickness for the waveguide slab.
+        slab_thickness: thickness for the waveguide slab in um.
         ncore: core material refractive index.
         nclad: clad material refractive index.
         sy: simulation region width (um).
