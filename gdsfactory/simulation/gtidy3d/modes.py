@@ -5,10 +5,10 @@ tidy3d has a powerful open source mode solver.
 tidy3d can:
 
 - compute bend modes.
+- compute mode overlaps.
 
 TODO:
 
-- fix mode overlaps for bend loss
 - calculate dispersion
 
 Maybe:
@@ -18,10 +18,11 @@ Maybe:
 
 import pathlib
 from types import SimpleNamespace
-from typing import Callable, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from matplotlib import colors
 from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
@@ -32,6 +33,8 @@ from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
 from gdsfactory.simulation.gtidy3d.materials import si, sin, sio2
 from gdsfactory.types import PathType
+
+nm = 1e-3
 
 
 def plot(
@@ -125,7 +128,19 @@ def get_n(
     slab_thickness: float,
     t_clad: float,
 ):
-    """Return index matrix."""
+    """Return index matrix for a waveguide.
+
+    Args:
+        Y: 2D array.
+        Z: 2D array.
+        ncore: core index.
+        nclad: cladding index.
+        wg_width: in um.
+        t_box: box thickness in um.
+        wg_thickness: in um.
+        slab_thickness: in um.
+        t_clad: thickness cladding in um.
+    """
     w = wg_width
     n = np.ones_like(Y) * nclad
     n[
@@ -172,7 +187,7 @@ class Waveguide(BaseModel):
         resolution: pixels/um.
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
-        cache: filepath for caching modes.
+        cache: filepath for caching modes. If None does not use file cache.
 
     ::
 
@@ -221,25 +236,12 @@ class Waveguide(BaseModel):
         return self.wg_width + 2 * self.xmargin
 
     @property
-    def filepath(self) -> pathlib.Path:
+    def filepath(self) -> Optional[pathlib.Path]:
         if self.cache is None:
             return
         cache = pathlib.Path(self.cache)
         cache.mkdir(exist_ok=True, parents=True)
-        settings = dict(
-            wavelength=self.wavelength,
-            wg_width=self.wg_width,
-            wg_thickness=self.wg_thickness,
-            slab_thickness=self.slab_thickness,
-            t_box=self.t_box,
-            t_clad=self.t_clad,
-            ncore=self.ncore,
-            nclad=self.nclad,
-            xmargin=self.xmargin,
-            resolution=self.resolution,
-            nmodes=self.nmodes,
-            bend_radius=self.bend_radius,
-        )
+        settings = {setting: getattr(self, setting) for setting in SETTINGS}
         return cache / f"{get_hash(settings)}.npz"
 
     def get_ncore(self, wavelength):
@@ -326,7 +328,7 @@ class Waveguide(BaseModel):
         self.nx, self.ny, self.nz = nx, ny, nz
         self.Xx, self.Yx, self.Xy, self.Yy, self.Xz, self.Yz = Xx, Yx, Xy, Yy, Xz, Yz
 
-        if self.cache and self.filepath.exists():
+        if self.cache and self.filepath and self.filepath.exists():
             data = np.load(self.filepath)
             self.Ex = data["Ex"]
             self.Ey = data["Ey"]
@@ -370,8 +372,49 @@ class Waveguide(BaseModel):
             Hz=self.Hz,
             neffs=self.neffs,
         )
-        np.savez_compressed(self.filepath, **data)
-        logger.info(f"write {self.filepath} mode data to file cache.")
+        if self.filepath:
+            np.savez_compressed(self.filepath, **data)
+            logger.info(f"write {self.filepath} mode data to file cache.")
+
+    def compute_mode_properties(self) -> Tuple[List[float], List[float], List[float]]:
+        """Computes mode areas, fraction_te and fraction_tm."""
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+        mode_areas = []
+        fraction_te = []
+        fraction_tm = []
+
+        for mode_index in range(self.nmodes):
+            e_fields = (
+                self.Ex[..., mode_index],
+                self.Ey[..., mode_index],
+                self.Ez[..., mode_index],
+            )
+            h_fields = (
+                self.Hx[..., mode_index],
+                self.Hy[..., mode_index],
+                self.Hz[..., mode_index],
+            )
+
+            areas_e = [np.sum(np.abs(e) ** 2) for e in e_fields]
+            areas_e /= np.sum(areas_e)
+            areas_e *= 100
+
+            areas_h = [np.sum(np.abs(h) ** 2) for h in h_fields]
+            areas_h /= np.sum(areas_h)
+            areas_h *= 100
+
+            fraction_te.append(areas_e[0] / (areas_e[0] + areas_e[1]))
+            fraction_tm.append(areas_e[1] / (areas_e[0] + areas_e[1]))
+
+            areas = areas_e.tolist()
+            areas.extend(areas_h)
+            mode_areas.append(areas)
+
+        self.mode_areas = mode_areas
+        self.fraction_te = fraction_te
+        self.fraction_tm = fraction_tm
+        return mode_areas, fraction_te, fraction_tm
 
     def plot_Ex(self, mode_index: int = 0) -> None:
         if not hasattr(self, "neffs"):
@@ -429,7 +472,7 @@ def sweep_bend_loss(
     mode_index: int = 0,
     **kwargs,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Returns overlap integral loss.
+    """Returns overlap integral squared for the bend mode mismatch loss.
 
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend).
@@ -442,7 +485,7 @@ def sweep_bend_loss(
 
     Keyword Args:
         wavelength: (um).
-        wg_width: waveguide width.
+        wg_width: waveguide width in um.
         wg_thickness: thickness waveguide (um).
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
@@ -473,19 +516,169 @@ def sweep_bend_loss(
     return r, integral**2
 
 
-__all__ = ("sweep_bend_loss", "Waveguide", "si", "sio2", "sin")
+def sweep_width(
+    width1: float = 200 * nm,
+    width2: float = 1000 * nm,
+    steps: int = 12,
+    nmodes: int = 4,
+    **kwargs,
+) -> pd.DataFrame:
+    """Sweep waveguide width and compute effective index.
+
+    Args:
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
+        steps: number of points.
+        nmodes: number of modes to compute.
+
+
+    Keyword Args:
+        wavelength: (um).
+        wg_width: waveguide width in um.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+
+    """
+
+    width = np.linspace(width1, width2, steps)
+    neff = {mode_number: [] for mode_number in range(1, nmodes + 1)}
+    for wg_width in tqdm(width):
+        wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
+        wg.compute_modes()
+        for mode_number in range(1, nmodes + 1):
+            neff[mode_number].append(np.real(wg.neffs[mode_number]))
+
+    df = pd.DataFrame(neff)
+    df["width"] = width
+    return df
+
+
+def group_index(
+    wavelength: float, wavelength_step: float = 0.01, mode_index: int = 0, **kwargs
+) -> float:
+    """Returns group_index.
+
+    Args:
+        wavelength: (um).
+        wavelength_step: in um.
+        mode_index: integer.
+
+    Keyword Args:
+        wg_width: waveguide width.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+    """
+
+    wc = Waveguide(wavelength=wavelength, **kwargs)
+    wf = Waveguide(
+        wavelength=wavelength + wavelength_step,
+        **kwargs,
+    )
+    wb = Waveguide(
+        wavelength=wavelength - wavelength_step,
+        **kwargs,
+    )
+    wc.compute_modes()
+    wb.compute_modes()
+    wf.compute_modes()
+
+    nc = np.real(wc.neffs[mode_index])
+    nb = np.real(wb.neffs[mode_index])
+    nf = np.real(wf.neffs[mode_index])
+    return nc - wavelength * (nf - nb) / (2 * wavelength_step)
+
+
+def plot_sweep_width(
+    width1: float = 200 * nm,
+    width2: float = 1000 * nm,
+    steps: int = 12,
+    nmodes: int = 4,
+    cmap: str = "magma",
+    **kwargs,
+) -> None:
+    """Sweep waveguide width and compute effective index.
+
+    Args:
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
+        steps: number of points.
+        nmodes: number of modes to compute.
+        cmap: colormap for the TE fraction.
+
+    Keyword Args:
+        wavelength: (um).
+        wg_width: waveguide width in um.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+    """
+    width = np.linspace(width1, width2, steps)
+    neff = {mode_number: [] for mode_number in range(nmodes)}
+
+    for wg_width in tqdm(width):
+        wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
+        wg.compute_modes()
+        wg.compute_mode_properties()
+        for mode_number in range(nmodes):
+            n = np.real(wg.neffs[mode_number])
+            neff[mode_number].append(n)
+
+            fraction_te = wg.fraction_te[mode_number]
+            plt.scatter(wg_width, n, c=fraction_te, vmin=0, vmax=1, cmap=cmap)
+
+    for mode_number in range(nmodes):
+        plt.plot(width, neff[mode_number], c="gray")
+
+    plt.colorbar().set_label("TE-Fraction")
+    plt.xlabel("width (um)")
+    plt.ylabel("neff")
+
+
+__all__ = (
+    "Waveguide",
+    "plot_sweep_width",
+    "si",
+    "sin",
+    "sio2",
+    "sweep_bend_loss",
+    "sweep_width",
+    "group_index",
+)
 
 if __name__ == "__main__":
-    c = Waveguide(
-        wavelength=1.55,
-        wg_width=0.5,
-        wg_thickness=0.22,
-        slab_thickness=0.0,
-        ncore=si,
-        nclad=sio2,
-    )
-    c.plot_Ex(0)
-
+    # c = Waveguide(
+    #     wavelength=1.55,
+    #     wg_width=500 * nm,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=0 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # mode_areas, te, tm = c.compute_mode_properties()
+    # c.plot_Ex(0)
     # nitride = find_modes(wavelength=1.55, wg_width=1.0, wg_thickness=0.4, ncore=2.0)
     # nitride.plot_index()
 
@@ -527,3 +720,23 @@ if __name__ == "__main__":
 
     # nitride.plot_index()
     # nitride.plot_Ex(index=0)
+
+    # plot_sweep_width(
+    #     steps=3,
+    #     wavelength=1.55,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=0 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # plt.show()
+    ng = group_index(
+        wg_width=500 * nm,
+        wavelength=1.55,
+        wg_thickness=220 * nm,
+        slab_thickness=0 * nm,
+        ncore=si,
+        nclad=sio2,
+    )
+    print(ng)
+    # plt.show()
