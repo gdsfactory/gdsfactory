@@ -19,7 +19,7 @@ Maybe:
 
 import pathlib
 from types import SimpleNamespace
-from typing import Callable, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -412,6 +412,46 @@ class Waveguide(BaseModel):
             - wg2.Ey[..., mode_index2] * np.conj(wg1.Hx[..., mode_index1])
         )
 
+    def compute_mode_properties(self) -> Tuple[List[float], List[float], List[float]]:
+        """Computes mode areas, fraction_te and fraction_tm."""
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+        mode_areas = []
+        fraction_te = []
+        fraction_tm = []
+
+        for mode_index in range(self.nmodes):
+            e_fields = (
+                self.Ex[..., mode_index],
+                self.Ey[..., mode_index],
+                self.Ez[..., mode_index],
+            )
+            h_fields = (
+                self.Hx[..., mode_index],
+                self.Hy[..., mode_index],
+                self.Hz[..., mode_index],
+            )
+
+            areas_e = [np.sum(np.abs(e) ** 2) for e in e_fields]
+            areas_e /= np.sum(areas_e)
+            areas_e *= 100
+
+            areas_h = [np.sum(np.abs(h) ** 2) for h in h_fields]
+            areas_h /= np.sum(areas_h)
+            areas_h *= 100
+
+            fraction_te.append(areas_e[0] / (areas_e[0] + areas_e[1]))
+            fraction_tm.append(areas_e[1] / (areas_e[0] + areas_e[1]))
+
+            areas = areas_e.tolist()
+            areas.extend(areas_h)
+            mode_areas.append(areas)
+
+        self.mode_areas = mode_areas
+        self.fraction_te = fraction_te
+        self.fraction_tm = fraction_tm
+        return mode_areas, fraction_te, fraction_tm
+
 
 def sweep_bend_loss(
     bend_radius_min: float = 2.0,
@@ -527,12 +567,12 @@ if __name__ == "__main__":
     #     wavelength=1.55,
     #     wg_width=500 * nm,
     #     wg_thickness=220 * nm,
-    #     slab_thickness=90 * nm,
+    #     slab_thickness=0 * nm,
     #     ncore=si,
     #     nclad=sio2,
     # )
+    # mode_areas, te, tm = c.compute_mode_properties()
     # c.plot_Ex(0)
-
     # nitride = find_modes(wavelength=1.55, wg_width=1.0, wg_thickness=0.4, ncore=2.0)
     # nitride.plot_index()
 
