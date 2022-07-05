@@ -23,7 +23,7 @@ def find_neff_vs_width(
     overwrite: bool = False,
     **kwargs
 ) -> pd.DataFrame:
-    """Seep waveguide width and computes effective index.
+    """Sweep waveguide width and compute effective index.
 
     Args:
         width1: starting waveguide width in um.
@@ -33,7 +33,7 @@ def find_neff_vs_width(
         wavelength: wavelength in um.
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
         filepath: Optional filepath to store the results.
-        overwrite:
+        overwrite: overwrite file even if exists on disk.
 
 
     Keyword Args:
