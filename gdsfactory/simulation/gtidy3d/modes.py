@@ -460,7 +460,7 @@ def sweep_bend_loss(
     mode_index: int = 0,
     **kwargs,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    """Returns overlap integral loss.
+    """Returns overlap integral squared for the bend mode mismatch loss.
 
     The loss is squared because you hit the bend loss twice
     (from bend to straight and from straight to bend).
@@ -473,7 +473,7 @@ def sweep_bend_loss(
 
     Keyword Args:
         wavelength: (um).
-        wg_width: waveguide width.
+        wg_width: waveguide width in um.
         wg_thickness: thickness waveguide (um).
         slab_thickness: thickness slab (um).
         t_box: thickness BOX (um).
@@ -522,7 +522,7 @@ def sweep_width(
 
     Keyword Args:
         wavelength: (um).
-        wg_width: waveguide width.
+        wg_width: waveguide width in um.
         wg_thickness: thickness waveguide (um).
         ncore: core refractive index.
         nclad: cladding refractive index.
@@ -549,18 +549,68 @@ def sweep_width(
     return df
 
 
-def plot_neff_vs_width(df: pd.DataFrame, **kwargs) -> None:
-    width = df.width
-    for mode_number, neff in df.items():
-        if mode_number != "width":
-            plt.plot(width, neff, ".-", label=str(mode_number))
+def plot_sweep_width(
+    width1: float = 200 * nm,
+    width2: float = 1000 * nm,
+    steps: int = 12,
+    nmodes: int = 4,
+    cmap: str = "magma",
+    **kwargs,
+) -> None:
+    """Sweep waveguide width and compute effective index.
 
-    plt.legend(**kwargs)
+    Args:
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
+        steps: number of points.
+        nmodes: number of modes to compute.
+        cmap: colormap for the TE fraction.
+
+    Keyword Args:
+        wavelength: (um).
+        wg_width: waveguide width in um.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+    """
+    width = np.linspace(width1, width2, steps)
+    neff = {mode_number: [] for mode_number in range(nmodes)}
+
+    for wg_width in tqdm(width):
+        wg = Waveguide(nmodes=nmodes, wg_width=wg_width, **kwargs)
+        wg.compute_modes()
+        wg.compute_mode_properties()
+        for mode_number in range(nmodes):
+            n = np.real(wg.neffs[mode_number])
+            neff[mode_number].append(n)
+
+            fraction_te = wg.fraction_te[mode_number]
+            plt.scatter(wg_width, n, c=fraction_te, vmin=0, vmax=1, cmap=cmap)
+
+    for mode_number in range(nmodes):
+        plt.plot(width, neff[mode_number], c="gray")
+
+    plt.colorbar().set_label("TE-Fraction")
     plt.xlabel("width (um)")
     plt.ylabel("neff")
 
 
-__all__ = ("sweep_bend_loss", "Waveguide", "si", "sio2", "sin")
+__all__ = (
+    "Waveguide",
+    "plot_sweep_width",
+    "si",
+    "sin",
+    "sio2",
+    "sweep_bend_loss",
+    "sweep_width",
+)
 
 if __name__ == "__main__":
     # c = Waveguide(
@@ -615,13 +665,12 @@ if __name__ == "__main__":
     # nitride.plot_index()
     # nitride.plot_Ex(index=0)
 
-    df = sweep_width(
+    df = plot_sweep_width(
         steps=3,
         wavelength=1.55,
         wg_thickness=220 * nm,
-        slab_thickness=90 * nm,
+        slab_thickness=0 * nm,
         ncore=si,
         nclad=sio2,
     )
-    plot_neff_vs_width(df)
     plt.show()
