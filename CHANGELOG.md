@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.12](https://github.com/gdsfactory/gdsfactory/pull/523)
+
+- add `gdsfactory.simulation.gtidy3d.modes.WaveguideCoupler`
+
 ## [5.12.11](https://github.com/gdsfactory/gdsfactory/pull/522)
 
 - add `gdsfactory.simulation.gtidy3d.modes.group_index`
