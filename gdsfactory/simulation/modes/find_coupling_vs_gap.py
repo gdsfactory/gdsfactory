@@ -17,9 +17,8 @@ def coupling_length(
     power_ratio: float = 1.0,
     wavelength: float = 1.55,
 ) -> float:
-    """
-    Returns the coupling length (um) of the directional coupler
-    to achieve power_ratio
+    """Returns the coupling length (um) of the directional coupler
+    to achieve power_ratio.
 
     Args:
         wavelength: in um.
