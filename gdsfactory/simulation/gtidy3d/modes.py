@@ -527,6 +527,16 @@ class WaveguideCoupler(Waveguide):
     def settings(self):
         return SETTINGS_COUPLER
 
+    def find_coupling(self, power_ratio: float = 1.0) -> float:
+        """Returns the coupling length (um) of the directional coupler
+        to achieve power_ratio, where 1 means 100% power transfer."""
+        if not hasattr(self, "neffs"):
+            self.compute_modes()
+        neff1 = self.neffs[0]
+        neff2 = self.neffs[1]
+        dneff = (neff1 - neff2).real
+        return self.wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
+
 
 def sweep_bend_loss(
     bend_radius_min: float = 2.0,
@@ -750,7 +760,7 @@ if __name__ == "__main__":
         ncore=si,
         nclad=sio2,
     )
-    print(c)
+    print(c.find_coupling())
     # c.plot_index()
 
     # mode_areas, te, tm = c.compute_mode_properties()
