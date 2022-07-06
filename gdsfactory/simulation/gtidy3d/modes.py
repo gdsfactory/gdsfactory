@@ -49,7 +49,7 @@ def plot(
     title=None,
     normalize_mode=False,
 ) -> None:
-    """Plot mode in matplotlib.
+    """Plot waveguide index or mode in matplotlib.
 
     Args:
         X: x array.
@@ -117,44 +117,6 @@ def create_mesh(x_min, y_min, x_max, y_max, mesh_x, mesh_y):
     return x, y, Xx, Yx, Xy, Yy, Xz, Yz
 
 
-def get_n(
-    Y,
-    Z,
-    ncore: float,
-    nclad: float,
-    wg_width: float,
-    t_box: float,
-    wg_thickness: float,
-    slab_thickness: float,
-    t_clad: float,
-):
-    """Return index matrix for a waveguide.
-
-    Args:
-        Y: 2D array.
-        Z: 2D array.
-        ncore: core index.
-        nclad: cladding index.
-        wg_width: in um.
-        t_box: box thickness in um.
-        wg_thickness: in um.
-        slab_thickness: in um.
-        t_clad: thickness cladding in um.
-    """
-    w = wg_width
-    n = np.ones_like(Y) * nclad
-    n[
-        (-w / 2 - t_clad / 2 <= Y)
-        & (Y <= w / 2 + t_clad / 2)
-        & (Z >= t_box)
-        & (Z <= t_box + wg_thickness + t_clad)
-    ] = nclad
-    n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
-    n[(-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)] = ncore
-    n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = ncore if slab_thickness else nclad
-    return n
-
-
 SETTINGS = [
     "wavelength",
     "wg_width",
@@ -169,6 +131,8 @@ SETTINGS = [
     "nmodes",
     "bend_radius",
 ]
+
+SETTINGS_COUPLER = set(SETTINGS + ["wg_width1", "wg_width2", "gap"])
 
 
 class Waveguide(BaseModel):
@@ -232,6 +196,10 @@ class Waveguide(BaseModel):
         return self.t_box + self.wg_thickness + self.t_clad
 
     @property
+    def settings(self):
+        return SETTINGS
+
+    @property
     def w_sim(self):
         return self.wg_width + 2 * self.xmargin
 
@@ -241,17 +209,50 @@ class Waveguide(BaseModel):
             return
         cache = pathlib.Path(self.cache)
         cache.mkdir(exist_ok=True, parents=True)
-        settings = {setting: getattr(self, setting) for setting in SETTINGS}
+        settings = {setting: getattr(self, setting) for setting in self.settings}
         return cache / f"{get_hash(settings)}.npz"
 
-    def get_ncore(self, wavelength):
+    def get_ncore(self, wavelength: Optional[float] = None):
+        wavelength = wavelength or self.wavelength
         return self.ncore(wavelength) if callable(self.ncore) else self.ncore
 
-    def get_nclad(self, wavelength):
+    def get_nclad(self, wavelength: Optional[float] = None):
+        wavelength = wavelength or self.wavelength
         return self.nclad(wavelength) if callable(self.nclad) else self.nclad
 
-    def plot_index(self, wavelength: Optional[float] = None) -> None:
-        wavelength = wavelength or self.wavelength
+    def get_n(self, Y, Z):
+        """Return index matrix for a waveguide.
+
+        Args:
+            Y: 2D array.
+            Z: 2D array.
+        """
+
+        w = self.wg_width
+        ncore = self.get_ncore()
+        nclad = self.get_nclad()
+        t_box = self.t_box
+        wg_thickness = self.wg_thickness
+        slab_thickness = self.slab_thickness
+        t_clad = self.t_clad
+
+        n = np.ones_like(Y) * nclad
+        n[
+            (-w / 2 - t_clad / 2 <= Y)
+            & (Y <= w / 2 + t_clad / 2)
+            & (Z >= t_box)
+            & (Z <= t_box + wg_thickness + t_clad)
+        ] = nclad
+        n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
+        n[
+            (-w / 2 <= Y) & (Y <= w / 2) & (Z >= t_box) & (Z <= t_box + wg_thickness)
+        ] = ncore
+        n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = (
+            ncore if slab_thickness else nclad
+        )
+        return n
+
+    def plot_index(self) -> None:
         x, y, Xx, Yx, Xy, Yy, Xz, Yz = create_mesh(
             -self.w_sim / 2,
             0.0,
@@ -261,16 +262,9 @@ class Waveguide(BaseModel):
             self.resolution,
         )
 
-        nx = get_n(
+        nx = self.get_n(
             Xx,
             Yx,
-            wg_width=self.wg_width,
-            ncore=self.get_ncore(wavelength),
-            nclad=self.get_nclad(wavelength),
-            t_box=self.t_box,
-            slab_thickness=self.slab_thickness,
-            wg_thickness=self.wg_thickness,
-            t_clad=self.t_clad,
         )
         plot(Xx, Yx, nx)
         plt.show()
@@ -279,6 +273,7 @@ class Waveguide(BaseModel):
         self,
         overwrite: bool = False,
     ) -> None:
+        """Compute modes."""
         if hasattr(self, "neffs") and not overwrite:
             return
 
@@ -292,38 +287,17 @@ class Waveguide(BaseModel):
             self.resolution,
         )
 
-        nx = get_n(
+        nx = self.get_n(
             Xx,
             Yx,
-            wg_width=self.wg_width,
-            ncore=self.get_ncore(wavelength),
-            nclad=self.get_nclad(wavelength),
-            t_box=self.t_box,
-            slab_thickness=self.slab_thickness,
-            wg_thickness=self.wg_thickness,
-            t_clad=self.t_clad,
         )
-        ny = get_n(
+        ny = self.get_n(
             Xy,
             Yy,
-            wg_width=self.wg_width,
-            ncore=self.get_ncore(wavelength),
-            nclad=self.get_nclad(wavelength),
-            t_box=self.t_box,
-            slab_thickness=self.slab_thickness,
-            wg_thickness=self.wg_thickness,
-            t_clad=self.t_clad,
         )
-        nz = get_n(
+        nz = self.get_n(
             Xz,
             Yz,
-            wg_width=self.wg_width,
-            ncore=self.get_ncore(wavelength),
-            nclad=self.get_nclad(wavelength),
-            t_box=self.t_box,
-            slab_thickness=self.slab_thickness,
-            wg_thickness=self.wg_thickness,
-            t_clad=self.t_clad,
         )
         self.nx, self.ny, self.nz = nx, ny, nz
         self.Xx, self.Yx, self.Xy, self.Yy, self.Xz, self.Yz = Xx, Yx, Xy, Yy, Xz, Yz
@@ -347,7 +321,7 @@ class Waveguide(BaseModel):
                 coords=[x, y],
                 freq=SPEED_OF_LIGHT / (wavelength * 1e-6),
                 mode_spec=SimpleNamespace(
-                    num_modes=10,
+                    num_modes=self.nmodes,
                     bend_radius=self.bend_radius,
                     bend_axis=1,
                     angle_theta=0.0,
@@ -440,8 +414,8 @@ class Waveguide(BaseModel):
         return self.__repr__()
 
     def __repr__(self) -> str:
-        """Show index in matplotlib for jupyter notebooks."""
-        return ", ".join([f"{k}:{getattr(self, k)!r}" for k in SETTINGS])
+        """Show waveguide name."""
+        return ", \n".join([f"{k} = {getattr(self, k)!r}" for k in self.settings])
 
     def get_overlap(
         self, wg: "Waveguide", mode_index1: int = 0, mode_index2: int = 0
@@ -463,6 +437,95 @@ class Waveguide(BaseModel):
             + wg2.Ex[..., mode_index2] * np.conj(wg1.Hy[..., mode_index1])
             - wg2.Ey[..., mode_index2] * np.conj(wg1.Hx[..., mode_index1])
         )
+
+
+class WaveguideCoupler(Waveguide):
+    """Waveguide coupler Model.
+
+    Parameters:
+        wavelength: (um).
+        wg_width1: left waveguide width in um.
+        wg_width2: right waveguide width in um.
+        wg_thickness: thickness waveguide (um).
+        ncore: core refractive index.
+        nclad: cladding refractive index.
+        slab_thickness: thickness slab (um).
+        t_box: thickness BOX (um).
+        t_clad: thickness cladding (um).
+        xmargin: margin from waveguide edge to each side (um).
+        resolution: pixels/um.
+        nmodes: number of modes to compute.
+        bend_radius: optional bend radius (um).
+        cache: filepath for caching modes. If None does not use file cache.
+
+    ::
+
+    -w1-gap/2
+
+        wg_width1     wg_width2
+        <------->     <------->
+         _______   |   _______   __
+        |       |  |  |       | |
+        |       |  |  |       | |
+        |       |_____|       | | wg_thickness
+        |slab_thickness       | |
+        |_____________________| |__
+                <----->
+                  gap
+        <--------------------->
+                 w_sim
+
+    """
+
+    wg_width: Optional[float] = None
+    wg_width1: float
+    wg_width2: float
+    gap: float
+
+    @property
+    def w_sim(self):
+        return self.wg_width1 + self.wg_width2 + self.gap + 2 * self.xmargin
+
+    def get_n(self, Y, Z):
+        """Return index matrix for a waveguide coupler.
+
+        Args:
+            Y: 2D array.
+            Z: 2D array.
+        """
+
+        w1 = self.wg_width1
+        w2 = self.wg_width2
+        gap = self.gap
+        ncore = self.get_ncore()
+        nclad = self.get_nclad()
+        t_box = self.t_box
+        wg_thickness = self.wg_thickness
+        slab_thickness = self.slab_thickness
+        t_clad = self.t_clad
+
+        n = np.ones_like(Y) * nclad
+        n[(Z <= 1.0 + slab_thickness + t_clad)] = nclad
+        n[
+            (-w1 - gap / 2 <= Y)
+            & (Y <= -gap / 2)
+            & (Z >= t_box)
+            & (Z <= t_box + wg_thickness)
+        ] = ncore
+        n[
+            (gap / 2 <= Y)
+            & (Y <= gap / 2 + w2)
+            & (Z >= t_box)
+            & (Z <= t_box + wg_thickness)
+        ] = ncore
+        n[(Z >= t_box) & (Z <= t_box + slab_thickness)] = (
+            ncore if slab_thickness else nclad
+        )
+        return n
+
+    @property
+    def settings(self):
+        return SETTINGS_COUPLER
 
 
 def sweep_bend_loss(
@@ -669,14 +732,27 @@ __all__ = (
 )
 
 if __name__ == "__main__":
-    # c = Waveguide(
-    #     wavelength=1.55,
-    #     wg_width=500 * nm,
-    #     wg_thickness=220 * nm,
-    #     slab_thickness=0 * nm,
-    #     ncore=si,
-    #     nclad=sio2,
-    # )
+    c = Waveguide(
+        wavelength=1.55,
+        wg_width=500 * nm,
+        wg_thickness=220 * nm,
+        slab_thickness=0 * nm,
+        ncore=si,
+        nclad=sio2,
+    )
+    c = WaveguideCoupler(
+        wavelength=1.55,
+        wg_width1=500 * nm,
+        wg_width2=500 * nm,
+        gap=200 * nm,
+        wg_thickness=220 * nm,
+        slab_thickness=100 * nm,
+        ncore=si,
+        nclad=sio2,
+    )
+    print(c)
+    # c.plot_index()
+
     # mode_areas, te, tm = c.compute_mode_properties()
     # c.plot_Ex(0)
     # nitride = find_modes(wavelength=1.55, wg_width=1.0, wg_thickness=0.4, ncore=2.0)
@@ -730,13 +806,13 @@ if __name__ == "__main__":
     #     nclad=sio2,
     # )
     # plt.show()
-    ng = group_index(
-        wg_width=500 * nm,
-        wavelength=1.55,
-        wg_thickness=220 * nm,
-        slab_thickness=0 * nm,
-        ncore=si,
-        nclad=sio2,
-    )
-    print(ng)
+    # ng = group_index(
+    #     wg_width=500 * nm,
+    #     wavelength=1.55,
+    #     wg_thickness=220 * nm,
+    #     slab_thickness=0 * nm,
+    #     ncore=si,
+    #     nclad=sio2,
+    # )
+    # print(ng)
     # plt.show()
