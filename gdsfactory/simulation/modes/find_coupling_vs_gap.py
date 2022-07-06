@@ -17,16 +17,14 @@ def coupling_length(
     power_ratio: float = 1.0,
     wavelength: float = 1.55,
 ) -> float:
-    """
-    Returns the coupling length (um) of the directional coupler
-    to achieve power_ratio
+    """Returns the coupling length (um) of the directional coupler
+    to achieve power_ratio.
 
     Args:
         wavelength: in um.
         neff1: even supermode of the directional coupler..
         neff2: odd supermode of the directional coupler.
         power_ratio: p2/p1, where 1 means 100% power transfer.
-
     """
     dneff = (neff1 - neff2).real
     return wavelength / (np.pi * dneff) * np.arcsin(np.sqrt(power_ratio))
@@ -38,7 +36,7 @@ def find_coupling(
 ) -> float:
     """
     Returns the coupling length (um) of the directional coupler
-    to achieve power_ratio
+    to achieve power_ratio, where 1 means 100% power transfer.
 
     Args:
         gap: in um
