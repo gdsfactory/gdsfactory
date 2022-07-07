@@ -107,7 +107,12 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
-        refractive_index: optional index as a function of wavelength (um).
+        simulation_info: contains information for simulating.
+            refractive_index: refractive_index
+                can be int, complex or function that depends on wavelength (um).
+            type: grow, etch, implant, or background.
+            doping_concentration: for implants.
+            resistiviy: for metals.
     """
 
     layer: Tuple[int, int]
@@ -115,6 +120,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
+    simulation_info: Dict[str, Any] = {}
     # refractive_index: Optional[Callable[[float], float]] = None
 
 
@@ -393,7 +399,7 @@ if __name__ == "__main__":
     #     return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     ls = LAYER_STACK
-    ls.get_2p5D()
+    ls.get_klayout_3d_script()
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
 
