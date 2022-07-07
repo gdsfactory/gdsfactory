@@ -36,7 +36,6 @@ if __name__ == "__main__":
     m.pins[0].rename("o1")
     m.pins[-1].rename("o2")
 
-
     plot_circuit(m)
     plt.show()
     test_circuit_transmission(None, False)
