@@ -5,29 +5,29 @@ settings:
   default:
     bend:
       function: bend_euler
-    length: 100
-    length1: 0
-    length4: 0
-    radius: 5
+    length: 100.0
+    length1: 0.0
+    length4: 0.0
+    radius: 5.0
     sbend:
       function: bend_s
-    sbend_xsize: 100
+    sbend_xsize: 100.0
     straight:
       function: straight
-    waveguide_spacing: 5
+    waveguide_spacing: 5.0
   full:
     bend:
       function: bend_euler
-    length: 100
-    length1: 0
-    length4: 0
-    radius: 5
+    length: 100.0
+    length1: 0.0
+    length4: 0.0
+    radius: 5.0
     sbend:
       function: bend_s
-    sbend_xsize: 100
+    sbend_xsize: 100.0
     straight:
       function: straight
-    waveguide_spacing: 5
+    waveguide_spacing: 5.0
   function_name: delay_snake_sbend
   info:
     bend180_radius: 5.0

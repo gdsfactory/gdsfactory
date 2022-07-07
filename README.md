@@ -1,4 +1,4 @@
-# gdsfactory 5.10.0
+# gdsfactory 5.12.12
 
 [![docs](https://github.com/gdsfactory/gdsfactory/actions/workflows/pages.yml/badge.svg)](https://gdsfactory.github.io/gdsfactory/)
 [![pypi](https://img.shields.io/pypi/v/gdsfactory)](https://pypi.org/project/gdsfactory/)
@@ -56,12 +56,13 @@ gdsfactory top contributors:
 - Damien Bonneau (PsiQ): cell decorator, Component routing functions, Klayout placer
 - Pete Shadbolt (PsiQ): Klayout auto-placer, Klayout GDS interface (klive)
 - Troy Tamas (Rockley): get_route_from_steps, netlist driven flow (from_yaml)
-- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with [SAX](https://flaport.github.io/sax)
+- Floris Laporte (Rockley): netlist extraction and circuit simulation interface with SAX
 - Alec Hammond (Georgia Tech): Meep and MPB interface
 - Simon Bilodeau (Princeton): Meep FDTD write Sparameters
 - Thomas Dorch (Freedom Photonics): for Meep's material database access, MPB sidewall angles, and add_pin_path
 - Igal Bayn (Google): for documentation improvements and suggestions.
 - Alex Sludds (MIT): for tiling fixes.
+- Skandan Chandrasekar (BYU): for simphony and SiPANN plugins.
 
 Open source heroes:
 

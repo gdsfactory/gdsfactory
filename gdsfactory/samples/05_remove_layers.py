@@ -22,4 +22,4 @@ def test_remove_layers() -> Component:
 
 if __name__ == "__main__":
     c = test_remove_layers()
-    c.show()
+    c.show(show_ports=True)

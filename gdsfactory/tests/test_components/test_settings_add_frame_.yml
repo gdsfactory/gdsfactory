@@ -6,14 +6,14 @@ settings:
     component:
       function: rectangle
     layer: WG
-    spacing: 10
-    width: 10
+    spacing: 10.0
+    width: 10.0
   full:
     component:
       function: rectangle
     layer: WG
-    spacing: 10
-    width: 10
+    spacing: 10.0
+    width: 10.0
   function_name: add_frame
   info: {}
   info_version: 2

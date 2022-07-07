@@ -22,11 +22,11 @@ def boolean_klayout(
     Uses klayout python API
 
     Args:
-        gdspath1: path to GDS or Component
-        gdspath2: path to GDS or Component
-        layer1: tuple for gdspath1
-        layer2: tuple for gdspath2
-        layer3: for the result of the operation
+        gdspath1: path to GDS or Component.
+        gdspath2: path to GDS or Component.
+        layer1: tuple for gdspath1.
+        layer2: tuple for gdspath2.
+        layer3: for the result of the operation.
     """
     import klayout.db as pya
 
@@ -129,4 +129,4 @@ if __name__ == "__main__":
     c1 = gf.components.ellipse(radii=[8, 8], layer=(1, 0))
     c2 = gf.components.ellipse(radii=[11, 4], layer=(1, 0))
     c = boolean_klayout(c1, c2, operation="not")
-    c.show()
+    c.show(show_ports=True)

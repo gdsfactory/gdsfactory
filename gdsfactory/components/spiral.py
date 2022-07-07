@@ -68,4 +68,4 @@ def spiral(
 if __name__ == "__main__":
     c = spiral(length=10e3, port_spacing=500, radius=20, direction="NORTH")
     c = spiral(length=10e3, port_spacing=500, radius=20, direction="EAST")
-    c.show()
+    c.show(show_ports=True)

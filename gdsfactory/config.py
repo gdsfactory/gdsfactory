@@ -11,7 +11,7 @@ You can access the config dictionary with `print_config`
 
 """
 
-__version__ = "5.10.0"
+__version__ = "5.12.12"
 import io
 import json
 import os
@@ -119,6 +119,7 @@ CONFIG["gdsdiff"] = repo_path / "gdslib" / "gds"
 CONFIG["modes"] = repo_path / "gdslib" / "modes"
 CONFIG["sparameters"] = CONFIG["gdslib"] / "sp"
 sparameters_path = CONFIG["sparameters"]
+CONFIG["interconnect"] = CONFIG["gdslib"] / "interconnect"
 
 CONFIG["build_directory"] = build_directory
 CONFIG["gds_directory"] = build_directory / "devices"
@@ -215,6 +216,9 @@ def set_plot_options(
         blocking=blocking,
         zoom_factor=zoom_factor,
     )
+
+
+__all__ = ["logger", "PATH", "CONFIG", "get_git_hash", "write_tech"]
 
 
 if __name__ == "__main__":

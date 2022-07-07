@@ -17,11 +17,11 @@ modules:
 
 isort:skip_file
 """
-from functools import partial
 from toolz import compose
+from functools import partial
 from phidl.device_layout import Group
-from gdsfactory.quickplotter import quickplot, quickplot2, set_quickplot_options
 from gdsfactory.path import Path
+
 
 # NOTE: import order matters. Only change the order if you know what you are doing
 from gdsfactory.component import Component, ComponentReference
@@ -39,10 +39,7 @@ from gdsfactory.types import Label
 from gdsfactory import cross_section
 from gdsfactory import asserts
 from gdsfactory import components
-from gdsfactory import dft
 from gdsfactory import routing
-from gdsfactory import klive
-from gdsfactory import port
 from gdsfactory import types
 from gdsfactory import path
 from gdsfactory import snap
@@ -82,9 +79,8 @@ from gdsfactory.cross_section import get_cross_section_factories
 
 
 c = components
-plot = quickplot
 
-__all__ = [
+__all__ = (
     "CONFIG",
     "CONF",
     "Component",
@@ -113,7 +109,6 @@ __all__ = [
     "clear_cache",
     "components",
     "cross_section",
-    "dft",
     "export",
     "fill_rectangle",
     "functions",
@@ -121,14 +116,11 @@ __all__ = [
     "grid",
     "grid_with_text",
     "import_gds",
-    "klive",
     "layers",
     "mask",
     "pack",
     "path",
     "partial",
-    "plot",
-    "port",
     "read",
     "routing",
     "show",
@@ -145,8 +137,5 @@ __all__ = [
     "get_cells",
     "get_layer",
     "get_cross_section_factories",
-    "quickplot",
-    "quickplot2",
-    "set_quickplot_options",
-]
-__version__ = "5.10.0"
+)
+__version__ = "5.12.12"

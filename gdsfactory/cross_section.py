@@ -32,7 +32,7 @@ class CrossSection(BaseModel):
 
     cladding_layers follow path shape, while bbox_layers are rectangular.
 
-    Attributes:
+    Parameters:
         layer: main Section layer. Main section name = '_default'.
         width: main Section width (um) or function parameterized from 0 to 1.
             the width at t==0 is the width at the beginning of the Path.
@@ -55,11 +55,13 @@ class CrossSection(BaseModel):
         min_length: defaults to 1nm = 10e-3um for routing.
         start_straight_length: straight length at the beginning of the route.
         end_straight_length: end length at the beginning of the route.
-        snap_to_grid: can snap points to grid when extruding the path.
+        snap_to_grid: Optional snap points to grid when extruding paths (um).
         aliases: dict of cross_section aliases.
         decorator: function when extruding component. For example add_pins.
         info: dict with extra settings or useful information.
         name: cross_section name.
+        add_center_section: whether a section with `width` and `layer`
+              is added during extrude
     """
 
     layer: LayerSpec
@@ -86,6 +88,7 @@ class CrossSection(BaseModel):
     add_bbox: Optional[Callable] = None
     info: Dict[str, Any] = Field(default_factory=dict)
     name: Optional[str] = None
+    add_center_section: bool = True
 
     class Config:
         extra = "forbid"
@@ -147,7 +150,7 @@ class CrossSection(BaseModel):
         x = self
         if x.bbox_layers and x.bbox_offsets:
             padding = []
-            for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+            for offset in x.bbox_offsets:
                 points = get_padding_points(
                     component=c,
                     default=0,
@@ -197,6 +200,7 @@ def cross_section(
     decorator: Optional[Callable] = None,
     add_pins: Optional[Callable] = None,
     add_bbox: Optional[Callable] = None,
+    add_center_section: bool = True,
 ) -> CrossSection:
     """Return CrossSection.
 
@@ -225,9 +229,11 @@ def cross_section(
         cladding_layers: list of layers to extrude.
         cladding_offsets: list of offset from main Section edge.
         info: settings info.
-        decorator: funcion to run when converting path to component.
+        decorator: function to run when converting path to component.
         add_pins: optional function to add pins to component.
-        add_bbox: optional funcion to add bounding box to component.
+        add_bbox: optional function to add bounding box to component.
+        add_center_section: whether a section with `width` and `layer`
+              is added during extrude
     """
 
     return CrossSection(
@@ -254,6 +260,7 @@ def cross_section(
         decorator=decorator,
         add_bbox=add_bbox,
         add_pins=add_pins,
+        add_center_section=add_center_section,
     )
 
 
@@ -283,6 +290,39 @@ strip_rib_tip = partial(
     strip, sections=(Section(width=0.2, layer="SLAB90", name="slab"),)
 )
 
+
+# Slot (with an etched region in the center)
+def slot(
+    width: float = 0.5,
+    layer: LayerSpec = "WG",
+    slot_width: float = 0.04,
+    **kwargs,
+) -> CrossSection:
+
+    rail_width = (width - slot_width) / 2
+    rail_offset = (rail_width + slot_width) / 2
+    sections = [
+        Section(width=rail_width, offset=rail_offset, layer=layer, name="left rail"),
+        Section(width=rail_width, offset=-rail_offset, layer=layer, name="right rail"),
+    ]
+
+    info = dict(
+        width=width,
+        layer=layer,
+        slot_width=slot_width,
+        **kwargs,
+    )
+
+    return strip(
+        width=width,
+        layer=layer,
+        sections=tuple(sections),
+        info=info,
+        add_center_section=False,
+        **kwargs,
+    )
+
+
 metal1 = partial(
     cross_section,
     layer="M1",
@@ -298,54 +338,11 @@ metal3 = partial(
     metal1,
     layer="M3",
 )
-
-
-@pydantic.validate_arguments
-def heater_metal(
-    width: float = 2.5,
-    layer: LayerSpec = "HEATER",
-    **kwargs,
-) -> CrossSection:
-    """Returns metal heater cross_section.
-
-    dimensions from https://doi.org/10.1364/OE.18.020298
-
-    Args:
-        width: metal width.
-        layer: heater layer.
-
-    Keyword Args:
-        offset: main Section center offset (um) or function from 0 to 1.
-             the offset at t==0 is the offset at the beginning of the Path.
-             the offset at t==1 is the offset at the end.
-        radius: main Section bend radius (um).
-        width_wide: wide waveguides width (um) for low loss routing.
-        auto_widen: taper to wide waveguides for low loss routing.
-        auto_widen_minimum_length: minimum straight length for auto_widen.
-        taper_length: taper_length for auto_widen.
-        bbox_layers: list of layers for rectangular bounding box.
-        bbox_offsets: list of bounding box offsets.
-        cladding_layers: list of layers to extrude.
-        cladding_offsets: list of offset from main Section edge.
-        sections: list of Sections(width, offset, layer, ports).
-        port_names: for input and output ('o1', 'o2').
-        port_types: for input and output: electrical, optical, vertical_te ...
-        min_length: defaults to 1nm = 10e-3um for routing.
-        start_straight_length: straight length at the beginning of the route.
-        end_straight_length: end length at the beginning of the route.
-        snap_to_grid: can snap points to grid when extruding the path.
-        aliases: dict of cross_section aliases.
-        decorator: function when extruding component. For example add_pins.
-        info: dict with extra settings or useful information.
-        name: cross_section name.
-
-
-    """
-    return cross_section(
-        width=width,
-        layer=layer,
-        **kwargs,
-    )
+heater_metal = partial(
+    metal1,
+    width=2.5,
+    layer="HEATER",
+)
 
 
 @pydantic.validate_arguments
@@ -989,13 +986,13 @@ if __name__ == "__main__":
     p = gf.path.straight()
     copied_cs = gf.cross_section.strip().copy()
     c = gf.path.extrude(p, cross_section=copied_cs)
-    c.show()
+    c.show(show_ports=True)
 
     # p = gf.path.straight()
     # x = CrossSection(name="strip", layer=(1, 0), width=0.5)
     # x = x.copy(width=3)
     # c = p.extrude(x)
-    # c.show()
+    # c.show(show_ports=True)
 
     # P = gf.path.euler(radius=10, use_eff=True)
     # P = euler()

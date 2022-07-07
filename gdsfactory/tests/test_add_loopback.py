@@ -27,4 +27,4 @@ def test_add_loopback() -> Component:
 
 if __name__ == "__main__":
     c = test_add_loopback()
-    c.show()
+    c.show(show_ports=True)

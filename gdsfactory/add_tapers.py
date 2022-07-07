@@ -75,10 +75,10 @@ if __name__ == "__main__":
 
     # print(cc.ports.keys())
     # print(cc.settings.keys())
-    # cc.show()
+    # cc.show(show_ports=True)
 
     # ports, elements = add_taper_elements(component=c, taper=t)
     # c.ports = ports
     # c.add(elements)
-    # c.show()
+    # c.show(show_ports=True)
     # print(c.ports)

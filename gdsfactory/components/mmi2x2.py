@@ -106,7 +106,7 @@ def mmi2x2(
     if with_bbox:
         x = gf.get_cross_section(cross_section)
         padding = []
-        for layer, offset in zip(x.bbox_layers, x.bbox_offsets):
+        for offset in x.bbox_offsets:
             points = get_padding_points(
                 component=c,
                 default=0,
@@ -129,5 +129,5 @@ def mmi2x2(
 if __name__ == "__main__":
     # c = mmi2x2(gap_mmi=0.252, cross_section="metal1")
     c = mmi2x2(gap_mmi=0.252)
-    c.show()
+    c.show(show_ports=True)
     c.pprint()

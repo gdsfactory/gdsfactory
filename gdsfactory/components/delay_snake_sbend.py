@@ -19,7 +19,8 @@ def delay_snake_sbend(
     straight: ComponentSpec = straight_function,
     **kwargs,
 ) -> Component:
-    r"""Return compact Snake with sbend in the middle.
+    r"""Returns compact Snake with sbend in the middle.
+
     Input port faces west and output port faces east.
 
     Args:
@@ -32,7 +33,7 @@ def delay_snake_sbend(
         sbend: sbend spec.
         sbend_size: sbend size.
         straight: straight spec.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -110,4 +111,4 @@ if __name__ == "__main__":
             for length in [500, 3000]
         ]
     )
-    c.show()
+    c.show(show_ports=True)

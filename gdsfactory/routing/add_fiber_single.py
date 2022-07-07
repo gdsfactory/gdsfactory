@@ -47,6 +47,10 @@ def add_fiber_single(
 ) -> Component:
     r"""Returns component with grating couplers and labels on each port.
 
+    It returns grating couplers in north-south orientation.
+    First it routes the input port gc_port_name south, and the rest of the ports north.
+    You can always rotate it for East-West orientation.
+
     Args:
         component: component or component function to connect to grating couplers.
         grating_coupler: grating coupler instance, function or list of functions.
@@ -83,7 +87,7 @@ def add_fiber_single(
 
     .. code::
 
-        asumes grating coupler has o1 input port facing west at xmin = 0
+        assumes grating coupler has o1 input port facing west at xmin = 0
              ___________
             /| | | | | |
            / | | | | | |
@@ -236,7 +240,6 @@ def add_fiber_single(
         gco.connect(gc_port_name, wg.ports["o2"])
 
         port = wg.ports["o2"]
-
         ports = gc.get_ports_list(prefix="vertical") or gc.get_ports_list()
         pname = ports[0].name
         p1 = c.add_port(name="loopback1", port=gci.ports[pname])
@@ -272,6 +275,8 @@ def add_fiber_single(
 
 
 if __name__ == "__main__":
+    from gdsfactory.dft.ehva import add_label_ehva
+
     # c = gf.components.crossing()
     # c = gf.components.mmi1x2()
     # c = gf.components.rectangle()
@@ -307,11 +312,11 @@ if __name__ == "__main__":
         radius=20,
     )
 
-    gf.dft.add_label_ehva(cc, die="demo")
+    add_label_ehva(cc, die="demo")
     print(cc.get_labels())
-    cc.show()
+    cc.show(show_ports=True)
 
     # c = gf.components.straight(length=20)
     # gc = gf.components.grating_coupler_elliptical_te(layer=gf.TECH.layer.WGN)
     # cc = add_fiber_single(component=c, grating_coupler=gc, with_loopback=True, )
-    # cc.show()
+    # cc.show(show_ports=True)

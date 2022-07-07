@@ -1,8 +1,10 @@
+import typing
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 import numpy as np
+from gdspy import CellReference
 from numpy import cos, float64, int64, mod, ndarray, pi, sin
-from phidl.device_layout import Device, DeviceReference
+from phidl.device_layout import DeviceReference
 
 from gdsfactory.port import (
     Port,
@@ -12,6 +14,9 @@ from gdsfactory.port import (
     select_ports,
 )
 from gdsfactory.snap import snap_to_grid
+
+if typing.TYPE_CHECKING:
+    from gdsfactory.component import Component
 
 Number = Union[float64, int64, float, int]
 Coordinate = Union[Tuple[Number, Number], ndarray, List[Number]]
@@ -64,9 +69,7 @@ class SizeInfo:
         return self.get_rect()
 
     def __str__(self) -> str:
-        return "w: {}\ne: {}\ns: {}\nn: {}\n".format(
-            self.west, self.east, self.south, self.north
-        )
+        return f"w: {self.west}\ne: {self.east}\ns: {self.south}\nn: {self.north}\n"
 
 
 def _rotate_points(
@@ -110,25 +113,30 @@ def _rotate_points(
 
 
 class ComponentReference(DeviceReference):
+    """A ComponentReference is a pointer to a Component with x, y, rotation, mirror."""
+
     def __init__(
         self,
-        component: Device,
+        component: "Component",
         origin: Coordinate = (0, 0),
         rotation: float = 0,
         magnification: None = None,
         x_reflection: bool = False,
         visual_label: str = "",
     ) -> None:
-        super().__init__(
-            device=component,
+        CellReference.__init__(
+            self,
+            ref_cell=component,
             origin=origin,
             rotation=rotation,
             magnification=magnification,
             x_reflection=x_reflection,
+            ignore_missing=False,
         )
-        self.parent = component
-        # The ports of a DeviceReference have their own unique id (uid),
-        # since two DeviceReferences of the same parent Device can be
+        self.owner = None
+
+        # The ports of a ComponentReference have their own unique id (uid),
+        # since two ComponentReferences of the same parent Component can be
         # in different locations and thus do not represent the same port
         self._local_ports = {
             name: port._copy(new_uid=True) for name, port in component.ports.items()
@@ -136,9 +144,17 @@ class ComponentReference(DeviceReference):
         self.visual_label = visual_label
         # self.uid = str(uuid.uuid4())[:8]
 
+    @property
+    def parent(self):
+        return self.ref_cell
+
+    @parent.setter
+    def parent(self, value):
+        self.ref_cell = value
+
     def __repr__(self) -> str:
         return (
-            'DeviceReference (parent Device "%s", ports %s, origin %s, rotation %s,'
+            'ComponentReference (parent Component "%s", ports %s, origin %s, rotation %s,'
             " x_reflection %s)"
             % (
                 self.parent.name,
@@ -164,8 +180,8 @@ class ComponentReference(DeviceReference):
 
     @property
     def bbox(self):
-        """Return the bounding box of the DeviceReference.
-        it snaps to 3 decimals in um (0.001um = 1nm precission)
+        """Return the bounding box of the ComponentReference.
+        it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
         bbox = self.get_bounding_box()
         if bbox is None:
@@ -313,7 +329,7 @@ class ComponentReference(DeviceReference):
         destination: Optional[Any] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
-        """Move the DeviceReference from the origin point to the destination.
+        """Move the ComponentReference from the origin point to the destination.
         Both origin and destination can be 1x2 array-like, Port, or a key
         corresponding to one of the Ports in this device_ref
 
@@ -459,9 +475,12 @@ class ComponentReference(DeviceReference):
         return self
 
     def connect(
-        self, port: Union[str, Port], destination: Port, overlap: float = 0.0
+        self,
+        port: Union[str, Port],
+        destination: Port,
+        overlap: float = 0.0,
     ) -> "ComponentReference":
-        """Return Component reference where a port or port_name connects to a destination
+        """Return ComponentReference where port connects to a destination.
 
         Args:
             port: origin (port or port_name) to connect.
@@ -469,9 +488,11 @@ class ComponentReference(DeviceReference):
             overlap: how deep does the port go inside.
 
         Returns:
-            ComponentReference
+            ComponentReference: with correct rotation to connect to destination.
         """
-        # ``port`` can either be a string with the name or an actual Port
+        from gdsfactory.functions import rotate
+
+        # port can either be a string with the name or an actual Port
         if port in self.ports:  # Then ``port`` is a key for the ports dict
             p = self.ports[port]
         elif isinstance(port, Port):
@@ -484,7 +505,14 @@ class ComponentReference(DeviceReference):
 
         angle = 180 + destination.orientation - p.orientation
         angle = angle % 360
-        self.rotate(angle=angle, center=p.midpoint)
+
+        if angle not in (0, 90, 180, 270):
+            new = rotate(self.parent, angle=angle).flatten()
+            self.parent = new
+            p = new.ports[port]
+
+        else:
+            self.rotate(angle=angle, center=p.midpoint)
 
         self.move(origin=p, destination=destination)
         self.move(
@@ -496,6 +524,15 @@ class ComponentReference(DeviceReference):
                 ]
             )
         )
+
+        if angle not in (0, 90, 180, 270):
+            origin_snapped = np.round(self.origin, 3)
+            shift = origin_snapped - self.origin
+            if any(shift):
+                self.origin = origin_snapped
+                for e in new.polygons:
+                    e.translate(*-shift)
+
         return self
 
     def get_ports_list(self, **kwargs) -> List[Port]:

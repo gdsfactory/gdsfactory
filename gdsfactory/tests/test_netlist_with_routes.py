@@ -29,4 +29,4 @@ def test_netlist_with_routes() -> Component:
 
 if __name__ == "__main__":
     c = test_netlist_with_routes()
-    c.show()
+    c.show(show_ports=True)

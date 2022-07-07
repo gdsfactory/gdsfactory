@@ -17,10 +17,9 @@ def delay_snake2(
     cross_section: CrossSectionSpec = "strip",
     **kwargs,
 ) -> Component:
-    """Snake input facing west
+    """Snake input facing west.
 
     Snake output facing east
-
     This snakes can have a starting offset (length0)
 
     Args:
@@ -72,11 +71,9 @@ def delay_snake2(
 
     sequence = "_)" + n // 2 * "-(-)"
     sequence = sequence[:-1]
-    c = gf.components.component_sequence(
+    return gf.components.component_sequence(
         sequence=sequence, symbol_to_component=symbol_to_component
     )
-    gf.port.auto_rename_ports(c)
-    return c
 
 
 def test_delay_snake2_length() -> Component:
@@ -96,6 +93,6 @@ def test_delay_snake2_length() -> Component:
 
 if __name__ == "__main__":
     # c = test_delay_snake2_length()
-    # c.show()
+    # c.show(show_ports=True)
     c = delay_snake2(n=2, length=500, layer=(2, 0), length0=100)
-    c.show()
+    c.show(show_ports=True)

@@ -1,6 +1,8 @@
-import pathlib
 import inspect
+import pathlib
+
 import gdsfactory as gf
+from gdsfactory.serialization import clean_value_json
 
 
 filepath = pathlib.Path(__file__).parent.absolute() / "components.rst"
@@ -47,7 +49,7 @@ Components
         sig = inspect.signature(gf.components.cells[name])
         kwargs = ", ".join(
             [
-                f"{p}={repr(sig.parameters[p].default)}"
+                f"{p}={repr(clean_value_json(sig.parameters[p].default))}"
                 for p in sig.parameters
                 if isinstance(sig.parameters[p].default, (int, float, str, tuple))
                 and p not in skip_settings

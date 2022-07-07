@@ -5,11 +5,11 @@ settings:
   default:
     angle_resolution: 2.5
     layer: WG
-    radius: 10
+    radius: 10.0
   full:
     angle_resolution: 2.5
     layer: WG
-    radius: 10
+    radius: 10.0
   function_name: circle
   info: {}
   info_version: 2

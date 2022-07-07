@@ -26,9 +26,7 @@ layer_path = module_path / "klayout" / "tech" / "layers.lyp"
 
 
 def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
-    """Generates a preview Device with representations of all the layers,
-    used for previewing LayerColors color schemes in quickplot or saved .gds
-    files
+    """Generates a Component with all the layers.
 
     Args:
         ls: LayerColors.
@@ -51,7 +49,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
         layer_tuple = (gds_layer, gds_datatype)
         R = gf.components.rectangle(size=(100 * scale, 100 * scale), layer=layer_tuple)
         T = gf.components.text(
-            text="%s\n%s / %s" % (layer.name, layer.gds_layer, layer.gds_datatype),
+            text=f"{layer.name}\n{layer.gds_layer} / {layer.gds_datatype}",
             size=20 * scale,
             position=(50 * scale, -20 * scale),
             justify="center",
@@ -72,7 +70,7 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
 class LayerColor(BaseModel):
     """Layer object with color, alpha (opacity) and dither.
 
-    Attributes:
+    Parameters:
         gds_layer: int GDSII Layer number.
         gds_datatype: int GDSII datatype.
         name: str Name of the Layer.
@@ -109,20 +107,20 @@ class LayerColor(BaseModel):
                 color = color
             else:  # in named format 'gold'
                 color = _CSS3_NAMES_TO_HEX[color.lower()]
-        except Exception:
+        except Exception as error:
             raise ValueError(
                 "LayerColor() color must be specified as a "
                 "0-1 RGB triplet, (e.g. [0.5, 0.1, 0.9]), an HTML hex color string "
                 "(e.g. '#a31df4'), or a CSS3 color name (e.g. 'gold' or "
                 "see http://www.w3schools.com/colors/colors_names.asp )"
-            )
+            ) from error
         return color
 
 
 class LayerColors(BaseModel):
     """LayerColor dict.
 
-    Attributes:
+    Parameters:
         layers: dict of LayerColors.
 
     """
@@ -185,7 +183,7 @@ class LayerColors(BaseModel):
             return self.layers[name]
 
     def __getitem__(self, val):
-        """allows access to the layer names like ls['gold2'].
+        """Allows accessing to the layer names like ls['gold2'].
 
         Args:
             val: Layer name to access within the LayerColors.
@@ -195,10 +193,10 @@ class LayerColors(BaseModel):
         """
         try:
             return self.layers[val]
-        except Exception:
+        except Exception as error:
             raise ValueError(
                 f"Layer {val!r} not in LayerColors {list(self.layers.keys())}"
-            )
+            ) from error
 
     def get_from_tuple(self, layer_tuple: Tuple[int, int]) -> LayerColor:
         """Returns Layer from layer tuple (gds_layer, gds_datatype)."""
@@ -206,13 +204,18 @@ class LayerColors(BaseModel):
             (v.gds_layer, v.gds_datatype): k for k, v in self.layers.items()
         }
         if layer_tuple not in tuple_to_name:
-            raise ValueError(f"Layer {layer_tuple} not in {list(tuple_to_name.keys())}")
+            raise ValueError(
+                f"Layer color {layer_tuple} not in {list(tuple_to_name.keys())}"
+            )
 
         name = tuple_to_name[layer_tuple]
         return self.layers[name]
 
+    def get_layer_tuples(self):
+        return {(layer.gds_layer, layer.gds_datatype) for layer in self.layers.values()}
+
     def clear(self) -> None:
-        """Deletes all entries in the LayerColors"""
+        """Deletes all layers in the LayerColors."""
         self.layers = {}
 
     def preview(self):
@@ -220,7 +223,8 @@ class LayerColors(BaseModel):
 
 
 def _name_to_short_name(name_str: str) -> str:
-    """Maps the name entry of the lyp element to a name of the layer,
+    """Maps the name entry of the lyp element to a name of the layer.
+
     i.e. the dictionary key used to access it.
     Default format of the lyp name is
         key - layer/datatype - description
@@ -229,7 +233,7 @@ def _name_to_short_name(name_str: str) -> str:
 
     """
     if name_str is None:
-        raise IOError(f"layer {name_str} has no name")
+        raise OSError(f"layer {name_str} has no name")
     fields = name_str.split("-")
     name = fields[0].split()[0].strip()
     return clean_name(name, remove_dots=True)
@@ -237,6 +241,7 @@ def _name_to_short_name(name_str: str) -> str:
 
 def _name_to_description(name_str) -> str:
     """Gets the description of the layer contained in the lyp name field.
+
     It is not strictly necessary to have a description. If none there, it returns ''.
 
     Default format of the lyp name is
@@ -246,7 +251,7 @@ def _name_to_description(name_str) -> str:
 
     """
     if name_str is None:
-        raise IOError(f"layer {name_str!r} has no name")
+        raise OSError(f"layer {name_str!r} has no name")
     fields = name_str.split()
     return " ".join(fields[1:]) if len(fields) > 1 else ""
 
@@ -285,10 +290,13 @@ def _add_layer(
     # print(name, entry["xfill"], entry["fill-color"])
     # if entry["visible"] == "false" or entry["xfill"] == "false":
 
+    name = _name_to_short_name(name) if shorten_names else name
+    dither = entry["dither-pattern"]
+
     if ("visible" in entry.keys()) and (entry["visible"] == "false"):
         alpha = 0.0
     elif ("transparent" in entry.keys()) and (entry["transparent"] == "false"):
-        alpha = 1.0
+        alpha = 0.1 if dither == "I1" else 1.0
     else:
         alpha = 0.5
 
@@ -296,22 +304,24 @@ def _add_layer(
         "gds_layer": int(gds_layer),
         "gds_datatype": int(gds_datatype),
         "color": entry["fill-color"],
-        "dither": entry["dither-pattern"],
-        "name": _name_to_short_name(name) if shorten_names else name,
+        "dither": dither,
+        "name": name,
+        "description": _name_to_description(name),
+        "alpha": alpha,
     }
 
-    settings["description"] = _name_to_description(name)
-    settings["alpha"] = alpha
     lys.add_layer(**settings)
     return lys
 
 
 def load_lyp(filepath: Path) -> LayerColors:
     """Returns a LayerColors object from a Klayout lyp file layer properties file."""
-    with open(filepath, "r") as fx:
+    with open(filepath) as fx:
         lyp_dict = xmltodict.parse(fx.read(), process_namespaces=True)
+
     # lyp files have a top level that just has one dict: layer-properties
-    # That has multiple children 'properties', each for a layer. So it gives a list
+    # That has multiple children 'properties', each for a layer. So it gives a list.
+
     lyp_list = lyp_dict["layer-properties"]["properties"]
     if not isinstance(lyp_list, list):
         lyp_list = [lyp_list]
@@ -338,7 +348,7 @@ load_lyp_generic = partial(load_lyp, filepath=layer_path)
 
 
 def lyp_to_dataclass(lyp_filepath: Union[str, Path], overwrite: bool = True) -> str:
-    """Returns python script to define LayerMap from a klayout layer properties file lyp."""
+    """Returns python LayerMap script from a klayout layer properties file lyp."""
     filepathin = pathlib.Path(lyp_filepath)
     filepathout = filepathin.with_suffix(".py")
 
@@ -387,15 +397,21 @@ except Exception:
 
 
 if __name__ == "__main__":
+    LAYER_COLORS = load_lyp_generic()
+    # import gdsfactory as gf
+
+    # c = gf.components.rectangle(layer=(123, 0))
+    # c.plot()
+
     # print(LAYER_COLORS)
     # print(LAYER_STACK.get_from_tuple((1, 0)))
     # print(LAYER_STACK.get_layer_to_material())
-    layer = LayerColor(color="gold")
-    print(layer)
+    # layer = LayerColor(color="gold")
+    # print(layer)
 
     # lys = test_load_lyp()
     # c = preview_layerset(LAYER_COLORS)
-    # c.show()
+    # c.show(show_ports=True)
     # print(LAYERS_OPTICAL)
     # print(layer("wgcore"))
     # print(layer("wgclad"))

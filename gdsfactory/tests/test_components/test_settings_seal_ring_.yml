@@ -8,7 +8,7 @@ settings:
       - -1.0
     - - 3.0
       - 4.0
-    padding: 10
+    padding: 10.0
     seal:
       function: via_stack
     width: 10
@@ -22,7 +22,7 @@ settings:
       - -1.0
     - - 3.0
       - 4.0
-    padding: 10
+    padding: 10.0
     seal:
       function: via_stack
     width: 10

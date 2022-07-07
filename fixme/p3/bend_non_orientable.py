@@ -11,4 +11,4 @@ import gdsfactory as gf
 if __name__ == "__main__":
 
     c = gf.components.bend_circular(cross_section=gf.cross_section.pin, radius=5)
-    c.show()
+    c.show(show_ports=True)

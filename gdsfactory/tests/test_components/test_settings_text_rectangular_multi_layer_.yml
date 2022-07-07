@@ -22,7 +22,7 @@ settings:
       position:
       - 0.0
       - 0.0
-      size: 10
+      size: 10.0
       text: abcd
     full:
       font:
@@ -32,7 +32,7 @@ settings:
       position:
       - 0.0
       - 0.0
-      size: 10
+      size: 10.0
       text: abcd
     function_name: text_rectangular
     info: {}

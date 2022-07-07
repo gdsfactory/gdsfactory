@@ -60,5 +60,5 @@ def disk(
 
 if __name__ == "__main__":
 
-    c = disk()
-    c.show()
+    c = disk(wrap_angle_deg=30)
+    c.show(show_ports=True)

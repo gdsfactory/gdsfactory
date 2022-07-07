@@ -49,4 +49,4 @@ def cdsem_straight(
 
 if __name__ == "__main__":
     c = cdsem_straight()
-    c.show()
+    c.show(show_ports=True)

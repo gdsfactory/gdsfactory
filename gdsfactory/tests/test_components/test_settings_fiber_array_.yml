@@ -8,14 +8,14 @@ settings:
     layer_cladding: WGCLAD
     layer_core: WG
     n: 8
-    pitch: 127
+    pitch: 127.0
   full:
     cladding_diameter: 125
     core_diameter: 10
     layer_cladding: WGCLAD
     layer_core: WG
     n: 8
-    pitch: 127
+    pitch: 127.0
   function_name: fiber_array
   info: {}
   info_version: 2

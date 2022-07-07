@@ -3,33 +3,33 @@ settings:
   changed: {}
   child: null
   default:
-    cladding_offset: 3
+    cladding_offset: 3.0
     direction: WEST
     layer: WG
     layer_cladding: WGCLAD
-    length: 10000
+    length: 10000.0
     parity: 1
     port:
     - 0
     - 0
-    port_spacing: 500
-    radius: 10
+    port_spacing: 500.0
+    radius: 10.0
     spacing: null
     waveguide_template:
       function: strip
     wg_width: 0.5
   full:
-    cladding_offset: 3
+    cladding_offset: 3.0
     direction: WEST
     layer: WG
     layer_cladding: WGCLAD
-    length: 10000
+    length: 10000.0
     parity: 1
     port:
     - 0
     - 0
-    port_spacing: 500
-    radius: 10
+    port_spacing: 500.0
+    radius: 10.0
     spacing: null
     waveguide_template:
       function: strip

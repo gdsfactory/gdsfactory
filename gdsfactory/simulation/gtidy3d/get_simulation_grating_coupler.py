@@ -57,7 +57,7 @@ def get_simulation_grating_coupler(
     material_name_to_tidy3d_name: Dict[str, str] = MATERIAL_NAME_TO_TIDY3D_NAME,
     is_3d: bool = True,
     with_all_monitors: bool = False,
-    boundary_spec=td.BoundarySpec.all_sides(boundary=td.PML()),
+    boundary_spec: Optional[td.BoundarySpec] = None,
     grid_spec: Optional[td.GridSpec] = None,
     sidewall_angle_deg: float = 0,
     dilation: float = 0.0,
@@ -175,6 +175,8 @@ def get_simulation_grating_coupler(
                 wavelength=wavelength,
                 override_structures=[refine_box]
             )
+        boundary_spec: Specification of boundary conditions along each dimension.
+            Defaults to td.BoundarySpec.all_sides(boundary=td.PML())
         dilation: float = 0.0
             Dilation of the polygon in the base by shifting each edge along its
             normal outwards direction by a distance;
@@ -227,6 +229,7 @@ def get_simulation_grating_coupler(
     layer_to_zmin = layer_stack.get_layer_to_zmin()
     # layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
+    boundary_spec = boundary_spec or td.BoundarySpec.all_sides(boundary=td.PML())
     grid_spec = grid_spec or td.GridSpec.auto(wavelength=wavelength)
 
     if dispersive:

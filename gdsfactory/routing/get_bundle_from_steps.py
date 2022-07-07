@@ -34,11 +34,12 @@ def get_bundle_from_steps(
     path_length_match_modify_segment_i: int = -2,
     **kwargs
 ) -> List[Route]:
-    """Returns a list of routes formed by the given waypoints steps
-    bends instead of corners and optionally tapers in straight sections.
+    """Returns a list of routes formed by the given waypoints steps.
+
+    Can add bends instead of corners and optionally tapers in straight sections.
     Tapering to wider straights reduces the optical loss and phase errors.
     `get_bundle_from_steps` is a manual version of `get_bundle`
-    and a more convenient version of `get_bundle_from_waypoints`
+    and a more convenient version of `get_bundle_from_waypoints`.
 
     Args:
         port1: start ports (list or dict).
@@ -71,7 +72,7 @@ def get_bundle_from_steps(
         p1 = left.get_ports_list(orientation=0)
         p2 = right.get_ports_list(orientation=180)
 
-        routes = get_bundle_from_steps(
+        routes = gf.routing.get_bundle_from_steps(
             p1,
             p2,
             steps=[{"x": 150}],
@@ -80,7 +81,7 @@ def get_bundle_from_steps(
         for route in routes:
             c.add(route.references)
         c.plot()
-        c.show()
+        c.show(show_ports=True)
 
     """
     if isinstance(ports1, Port):
@@ -196,7 +197,7 @@ def _demo() -> None:
     for route in routes:
         c.add(route.references)
 
-    c.show()
+    c.show(show_ports=True)
 
 
 if __name__ == "__main__":
@@ -219,4 +220,4 @@ if __name__ == "__main__":
     for route in routes:
         c.add(route.references)
 
-    c.show()
+    c.show(show_ports=True)

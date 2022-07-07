@@ -146,7 +146,7 @@ from gdsfactory.components.mzi_phase_shifter import (
 from gdsfactory.components.mzit import mzit
 from gdsfactory.components.mzit_lattice import mzit_lattice
 from gdsfactory.components.nxn import nxn
-from gdsfactory.components.pack_doe import pack_doe, pack_doe_grid
+from gdsfactory.components.pack_doe import generate_doe, pack_doe, pack_doe_grid
 from gdsfactory.components.pad import (
     pad,
     pad_array,
@@ -220,7 +220,7 @@ from gdsfactory.components.text_rectangular import (
     text_rectangular,
     text_rectangular_multi_layer,
 )
-from gdsfactory.components.triangle import triangle, triangle2, triangle4
+from gdsfactory.components.triangles import triangle, triangle2, triangle4
 from gdsfactory.components.verniers import verniers
 from gdsfactory.components.version_stamp import pixel, qrcode, version_stamp
 from gdsfactory.components.via import via, via1, via2, viac
@@ -350,6 +350,7 @@ __all__ = [
     "fiber",
     "fiber_array",
     "text_lines",
+    "generate_doe",
     "grating_coupler_array",
     "grating_coupler_circular",
     "grating_coupler_elliptical",
@@ -479,17 +480,8 @@ cells = get_cells(sys.modules[__name__])
 
 
 if __name__ == "__main__":
-    from gdsfactory.cell import CELLS
-
     print(len(cells.keys()))
-    print(len(CELLS.keys()))
-    print(set(CELLS.keys()) - set(cells.keys()))
 
     print("cells")
     for i in cells.keys():
-        print(i)
-
-    print()
-    print("CELLS")
-    for i in CELLS.keys():
         print(i)

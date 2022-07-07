@@ -12,15 +12,15 @@ settings:
       function: bend_euler
     cross_section: strip
     cross_section_bend: null
-    grating_spacing: 127
+    grating_spacing: 127.0
     length: null
     straight:
       function: straight
-    waveguide_spacing: 3
-    x_straight_inner_left: 50
-    x_straight_inner_right: 150
-    y_straight_inner_bottom: 10
-    y_straight_inner_top: 50
+    waveguide_spacing: 3.0
+    x_straight_inner_left: 50.0
+    x_straight_inner_right: 150.0
+    y_straight_inner_bottom: 10.0
+    y_straight_inner_top: 50.0
   full:
     N: 6
     bend180:
@@ -31,15 +31,15 @@ settings:
       function: bend_euler
     cross_section: strip
     cross_section_bend: null
-    grating_spacing: 127
+    grating_spacing: 127.0
     length: null
     straight:
       function: straight
-    waveguide_spacing: 3
-    x_straight_inner_left: 50
-    x_straight_inner_right: 150
-    y_straight_inner_bottom: 10
-    y_straight_inner_top: 50
+    waveguide_spacing: 3.0
+    x_straight_inner_left: 50.0
+    x_straight_inner_right: 150.0
+    y_straight_inner_bottom: 10.0
+    y_straight_inner_top: 50.0
   function_name: spiral_inner_io
   info:
     length: 11584.394

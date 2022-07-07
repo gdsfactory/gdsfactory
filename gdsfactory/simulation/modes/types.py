@@ -16,18 +16,18 @@ class Mode(BaseModel):
     """Mode object.
 
     Args:
-        mode_number:
-        wavelength: um
-        neff: effective index
-        ng: group index
-        fraction_te:
-        fraction_tm:
-        effective_area:
-        E:
-        H:
-        eps:
-        y:
-        z:
+        mode_number: for the mode.
+        wavelength: um for the mode.
+        neff: effective index.
+        ng: group index.
+        fraction_te: from 0 to 1.
+        fraction_tm: from 0 to 1.
+        effective_area: in um2.
+        E: field.
+        H: field.
+        eps: permitivity.
+        y: width.
+        z: thickness.
 
     """
 
@@ -53,8 +53,8 @@ class Mode(BaseModel):
         that can be used to interpolate the field on a new regular grid
 
         Args:
-            y_grid (np.array): y values where to evaluate, in increasing array
-            z_grid (np.array): z values where to evaluate, in increasing array
+            y_grid (np.array): y values where to evaluate, in increasing array.
+            z_grid (np.array): z values where to evaluate, in increasing array.
             index: 0: x, 1: y, 2: z
         """
 
@@ -87,8 +87,8 @@ class Mode(BaseModel):
         that can be used to interpolate the field on a new regular grid
 
         Args:
-            y_grid (np.array): y values where to evaluate, in increasing array
-            z_grid (np.array): z values where to evaluate, in increasing array
+            y_grid (np.array): y values where to evaluate, in increasing array.
+            z_grid (np.array): z values where to evaluate, in increasing array.
             index: 0: x, 1: y, 2: z
         """
         if index not in [0, 1, 2]:

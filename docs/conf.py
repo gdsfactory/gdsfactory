@@ -1,9 +1,8 @@
 project = "gdsfactory"
-release = "5.10.0"
-copyright = "2019, PsiQ"
-author = "PsiQ"
+release = "5.12.12"
+copyright = "2022"
 
-html_theme = "furo"
+html_theme = "sphinx_book_theme"
 source_suffix = {
     ".rst": "restructuredtext",
     ".txt": "markdown",
@@ -11,6 +10,7 @@ source_suffix = {
 }
 
 html_static_path = ["_static"]
+html_css_files = ["css/custom.css"]
 
 extensions = [
     "matplotlib.sphinxext.plot_directive",
@@ -25,6 +25,10 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinx_click",
     "sphinx_markdown_tables",
+    "sphinx_copybutton",
+    "sphinxcontrib.autodoc_pydantic",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.extlinks",
 ]
 
 autodoc_member_order = "bysource"
@@ -54,4 +58,37 @@ myst_html_meta = {
     "description lang=fr": "description des métadonnées",
     "keywords": "Sphinx, MyST",
     "property=og:locale": "en_US",
+}
+
+
+html_theme_options = {
+    "path_to_docs": "docs",
+    "repository_url": "https://github.com/gdsfactory/gdsfactory",
+    "repository_branch": "master",
+    "launch_buttons": {
+        "binderhub_url": "https://mybinder.org/v2/gh/gdsfactory/gdsfactory/HEAD",
+        "notebook_interface": "jupyterlab",
+    },
+    "use_edit_page_button": True,
+    "use_issues_button": True,
+    "use_repository_button": True,
+    "use_download_button": True,
+}
+
+autodoc_pydantic_model_signature_prefix = "class"
+autodoc_pydantic_field_signature_prefix = "attribute"
+autodoc_pydantic_model_show_config_member = False
+autodoc_pydantic_model_show_config_summary = False
+autodoc_pydantic_model_show_validator_summary = False
+autodoc_pydantic_model_show_validator_members = False
+autodoc_typehints = "description"
+
+
+autodoc_default_options = {
+    "member-order": "bysource",
+    "special-members": "__init__",
+    "undoc-members": True,
+    "exclude-members": "__weakref__",
+    "inherited-members": True,
+    "show-inheritance": True,
 }

@@ -26,13 +26,13 @@ def boolean(
 
     gdsfactory wrapper for phidl.geometry.boolean
 
-    You can also use gdsfactory.drc.boolean that uses Klayout backend
+    You can also use gdsfactory.drc.boolean_klayout
 
     Args:
-        A: Component(/Reference) or list of Component(/References)
-        B: Component(/Reference) or list of Component(/References)
-        operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}
-        precision: float Desired precision for rounding vertex coordinates.
+        A: Component(/Reference) or list of Component(/References).
+        B: Component(/Reference) or list of Component(/References).
+        operation: {'not', 'and', 'or', 'xor', 'A-B', 'B-A', 'A+B'}.
+        precision: float Desired precision for rounding vertex coordinates..
         num_divisions: number of divisions with which the geometry is divided into
           multiple rectangular regions. This allows for each region to be
           processed sequentially, which is more computationally efficient.
@@ -83,4 +83,4 @@ if __name__ == "__main__":
     e3.movex(5)
     e2.movex(2)
     c = boolean(A=[e1, e3], B=e2, operation="A-B")
-    c.show()
+    c.show(show_ports=True)

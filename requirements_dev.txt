@@ -1,8 +1,9 @@
+autodoc_pydantic
 autotyping
 doc8
 docutils
 flake8
-furo
+flake8-bugbear
 ipykernel
 mypy
 myst-parser
@@ -11,11 +12,16 @@ nbval
 pre-commit
 pur
 pydocstyle
+pytest
 pytest-cov
+pytest-regressions
+qrcode
 recommonmark
 sphinx>=4.4.0
 sphinx-autodoc-typehints
+sphinx-book-theme
 sphinx-click
+sphinx-copybutton
 sphinx-markdown-tables
 tox
 types-PyYAML

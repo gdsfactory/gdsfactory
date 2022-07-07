@@ -13,4 +13,4 @@ def test_netlist_write() -> Component:
 
 if __name__ == "__main__":
     c = test_netlist_write()
-    c.show()
+    c.show(show_ports=True)

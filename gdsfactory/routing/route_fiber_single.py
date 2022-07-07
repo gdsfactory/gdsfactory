@@ -202,7 +202,7 @@ if __name__ == "__main__":
         cc.add(e)
     for e in gc:
         cc.add(e)
-    cc.show()
+    cc.show(show_ports=True)
 
     # layer = (31, 0)
     # c = gf.components.mmi2x2()
@@ -220,4 +220,4 @@ if __name__ == "__main__":
     #     cc.add(e)
     # for e in gc:
     #     cc.add(e)
-    # cc.show()
+    # cc.show(show_ports=True)

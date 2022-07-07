@@ -30,20 +30,20 @@ def get_mode_solver_rib(
     """Returns a mode_solver simulation.
 
     Args:
-        wg_width: wg_width (um)
-        wg_thickness: wg height (um)
-        slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
+        wg_width: wg_width (um).
+        wg_thickness: wg thickness (um).
+        slab_thickness: thickness for the waveguide slab.
+        ncore: core material refractive index.
+        nclad: clad material refractive index.
         nslab: Optional slab material refractive index. Defaults to ncore.
-        sy: simulation region width (um)
-        sz: simulation region height (um)
-        resolution: resolution (pixels/um)
-        nmodes: number of modes
+        sy: simulation region width (um).
+        sz: simulation region height (um).
+        resolution: resolution (pixels/um).
+        nmodes: number of modes.
         sidewall_angle: waveguide sidewall angle (degrees),
             tapers from wg_width at top of slab, upwards, to top of waveguide
             with respect to the normal.
-            a sidewall_angle = 10, will have 80 degrees with respect to the substrate
+            a sidewall_angle = 10, will have 80 degrees with respect to the substrate.
 
     ::
 

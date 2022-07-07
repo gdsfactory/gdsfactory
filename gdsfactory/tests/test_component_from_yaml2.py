@@ -113,4 +113,4 @@ def test_components(
 if __name__ == "__main__":
     c = gf.read.from_yaml(mirror_port)
     c = gf.read.from_yaml(dxdy)
-    c.show()
+    c.show(show_ports=True)

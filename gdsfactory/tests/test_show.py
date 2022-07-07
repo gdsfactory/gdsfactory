@@ -5,7 +5,7 @@ import gdsfactory as gf
 
 def test_show():
     c = gf.components.straight()
-    c.show()
+    c.show(show_ports=True)
 
 
 def test_show_with_explicit_dir(tmpdir):

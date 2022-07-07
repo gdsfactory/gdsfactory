@@ -4,7 +4,7 @@ settings:
   child: null
   default:
     arms: 10
-    fpr_spacing: 50
+    fpr_spacing: 50.0
     free_propagation_region_input_function:
       function: free_propagation_region_input
     free_propagation_region_output_function:
@@ -12,7 +12,7 @@ settings:
     outputs: 3
   full:
     arms: 10
-    fpr_spacing: 50
+    fpr_spacing: 50.0
     free_propagation_region_input_function:
       function: free_propagation_region_input
     free_propagation_region_output_function:

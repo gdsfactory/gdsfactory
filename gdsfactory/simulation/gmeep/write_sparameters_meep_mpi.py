@@ -41,6 +41,7 @@ def write_sparameters_meep_mpi(
     dirpath: Optional[PathType] = None,
     temp_dir: Path = temp_dir_default,
     temp_file_str: str = "write_sparameters_meep_mpi",
+    live_output: bool = False,
     overwrite: bool = False,
     wait_to_finish: bool = True,
     **kwargs,
@@ -73,6 +74,8 @@ def write_sparameters_meep_mpi(
             Defaults to active pdk.layer_stack.
         temp_dir: temporary directory to hold simulation files.
         temp_file_str: names of temporary files in temp_dir.
+        live_output: stream output of mpirun command to file and print to console
+            (meep verbosity still needs to be set separately)
         overwrite: overwrites stored simulation results.
         wait_to_finish: if True makes the function call blocking.
 
@@ -106,7 +109,6 @@ def write_sparameters_meep_mpi(
         wavelength_points: wavelength steps.
         dfcen: delta frequency.
         port_source_name: input port name.
-        port_field_monitor_name: for monitor field decay.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before.
         port_source_offset: offset between source GDS port and source MEEP port.
@@ -121,7 +123,7 @@ def write_sparameters_meep_mpi(
     """
     for setting in kwargs.keys():
         if setting not in settings_write_sparameters_meep:
-            raise ValueError(f"{setting} not in {settings_write_sparameters_meep}")
+            raise ValueError(f"{setting!r} not in {settings_write_sparameters_meep}")
 
     component = gf.get_component(component)
     assert isinstance(component, Component)
@@ -182,25 +184,34 @@ def write_sparameters_meep_mpi(
     logger.info(command)
     logger.info(str(filepath))
 
-    with subprocess.Popen(
-        shlex.split(command),
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    ) as proc:
-        print(proc.stdout.read().decode())
-        print(proc.stderr.read().decode())
-        sys.stdout.flush()
-        sys.stderr.flush()
+    if live_output:
+        import asyncio
 
-    if wait_to_finish and not proc.stderr:
-        while not filepath.exists():
+        from gdsfactory.async_utils import execute_and_stream_output
+
+        asyncio.run(
+            execute_and_stream_output(
+                command, log_file_dir=temp_dir, log_file_str=temp_file_str
+            )
+        )
+    else:
+        with subprocess.Popen(
+            shlex.split(command),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        ) as proc:
             print(proc.stdout.read().decode())
             print(proc.stderr.read().decode())
             sys.stdout.flush()
             sys.stderr.flush()
-            time.sleep(1)
-
+        if wait_to_finish and not proc.stderr:
+            while not filepath.exists():
+                print(proc.stdout.read().decode())
+                print(proc.stderr.read().decode())
+                sys.stdout.flush()
+                sys.stderr.flush()
+                time.sleep(1)
     return filepath
 
 
@@ -225,6 +236,7 @@ if __name__ == "__main__":
         cores=2,
         run=True,
         overwrite=True,
+        live_output=True,
         # lazy_parallelism=True,
         lazy_parallelism=False,
         # filepath="instance_dict.csv",

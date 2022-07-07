@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
     # print(c.name)
     # print(c)
-    # c.show()
+    # c.show(show_ports=True)
 
     # print(clean_name("Waveguidenol1_(:_=_2852"))
     # print(clean_value(1.2))

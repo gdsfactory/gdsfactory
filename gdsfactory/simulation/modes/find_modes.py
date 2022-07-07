@@ -130,7 +130,7 @@ def find_modes_waveguide(
     through the y=0 and z=0 planes.
     mode_solver.run(mpb.display_yparities, mpb.display_zparities)
 
-    Above, we outputed the dispersion relation: frequency (omega) as a
+    Above, we outputted the dispersion relation: frequency (omega) as a
     function of wavevector kx (beta). Alternatively, you can compute
     beta for a given omega -- for example, you might want to find the
     modes and wavevectors at a fixed wavelength of 1.55 microns. You

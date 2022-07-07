@@ -8,7 +8,7 @@ from gdsfactory.types import ComponentSpec
 def straight_array(
     n: int = 4,
     spacing: float = 4.0,
-    straigth: ComponentSpec = straight_function,
+    straight: ComponentSpec = straight_function,
     **kwargs
 ) -> Component:
     """Array of straights connected with grating couplers.
@@ -18,12 +18,12 @@ def straight_array(
     Args:
         n: number of straights.
         spacing: edge to edge straight spacing.
-        straigth: straigth straight Component or library.
-        kwargs: straigth settings.
+        straight: straight straight Component or library.
+        kwargs: straight settings.
     """
 
     c = Component()
-    wg = gf.get_component(straigth, **kwargs)
+    wg = gf.get_component(straight, **kwargs)
 
     for i in range(n):
         wref = c.add_ref(wg)

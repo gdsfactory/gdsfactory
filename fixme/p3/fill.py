@@ -4,8 +4,8 @@ Maybe: create klayout dummy fill example
 
 """
 
-import toolz
 import gdsfactory as gf
+import toolz
 
 ring_te = toolz.compose(gf.routing.add_fiber_array, gf.components.ring_single)
 rings = gf.grid([ring_te(radius=r) for r in [10, 20, 50]])

@@ -12,7 +12,7 @@ settings:
     spacing: 5
     straight:
       function: straight
-    straight_length: 5
+    straight_length: 5.0
   full:
     bend90:
       function: bend_circular
@@ -21,7 +21,7 @@ settings:
     spacing: 5
     straight:
       function: straight
-    straight_length: 5
+    straight_length: 5.0
   function_name: cutback_bend90
   info:
     n_bends: 144

@@ -29,7 +29,7 @@ settings:
         - function: via
           settings:
             layer: VIAC
-    pad_pitch: 100
+    pad_pitch: 100.0
     port_orientation1: 180
     port_orientation2: 0
     width: 10
@@ -60,7 +60,7 @@ settings:
         - function: via
           settings:
             layer: VIAC
-    pad_pitch: 100
+    pad_pitch: 100.0
     port_orientation1: 180
     port_orientation2: 0
     width: 10

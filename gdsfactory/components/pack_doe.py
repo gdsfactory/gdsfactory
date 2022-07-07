@@ -1,5 +1,5 @@
 import itertools as it
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
 import gdsfactory as gf
 from gdsfactory.cell import cell
@@ -7,6 +7,41 @@ from gdsfactory.component import Component
 from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
 from gdsfactory.types import CellSpec, ComponentSpec, Optional
+
+
+def generate_doe(
+    doe: ComponentSpec,
+    settings: Dict[str, List[Any]],
+    do_permutations: bool = False,
+    function: Optional[CellSpec] = None,
+) -> Tuple[List[Component], List[Dict]]:
+    """Generates a component DOE (Design of Experiment).
+
+    which can then be packed, or used elsewhere.
+
+    Args:
+        doe: function to return Components.
+        settings: component settings.
+        do_permutations: for each setting.
+        function: for the component (add padding, grating couplers ...)
+    """
+    if do_permutations:
+        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
+    else:
+        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
+
+    if function:
+        function = gf.get_cell(function)
+        if not callable(function):
+            raise ValueError(f"Error {function!r} needs to be callable.")
+        component_list = [
+            function(gf.get_component(doe, **settings)) for settings in settings_list
+        ]
+    else:
+        component_list = [
+            gf.get_component(doe, **settings) for settings in settings_list
+        ]
+    return component_list, settings_list
 
 
 @cell
@@ -42,22 +77,9 @@ def pack_doe(
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y)
     """
-    if do_permutations:
-        settings_list = [dict(zip(settings, t)) for t in it.product(*settings.values())]
-    else:
-        settings_list = [dict(zip(settings, t)) for t in zip(*settings.values())]
-
-    if function:
-        function = gf.get_cell(function)
-        if not callable(function):
-            raise ValueError(f"Error {function!r} needs to be callable.")
-        component_list = [
-            function(gf.get_component(doe, **settings)) for settings in settings_list
-        ]
-    else:
-        component_list = [
-            gf.get_component(doe, **settings) for settings in settings_list
-        ]
+    component_list, settings_list = generate_doe(
+        doe, settings, do_permutations, function
+    )
 
     c = pack(component_list=component_list, **kwargs)
 
@@ -65,11 +87,10 @@ def pack_doe(
         raise ValueError(
             f"failed to pack in one Component, it created {len(c)} Components"
         )
-    else:
-        c = c[0]
-        c.doe_names = [component.name for component in component_list]
-        c.doe_settings = settings_list
-        return c
+    c = c[0]
+    c.doe_names = [component.name for component in component_list]
+    c.doe_settings = settings_list
+    return c
 
 
 def pack_doe_grid(
@@ -92,7 +113,7 @@ def pack_doe_grid(
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
             different distances in height and width.
-        separation: If True, guarantees elements are speparated with fixed spacing
+        separation: If True, guarantees elements are separated with fixed spacing
             if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
             If no shape and the list is 1D, if np.reshape were run with (1, -1).
@@ -133,18 +154,14 @@ def pack_doe_grid(
 
 
 if __name__ == "__main__":
-    c = pack_doe_grid(
-        # doe=gf.c.mmi1x2,
-        doe="mmi1x2",
-        # doe=dict(component='mmi1x2', settings=dict(length_taper=50)),
-        settings=dict(length_mmi=[2.5, 100], width_mmi=[4, 10], hash_settings=[False]),
-        with_text=True,
-        spacing=(100, 100),
-        shape=(2, 2),
-        # settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]),
-        do_permutations=True,
-    )
-    print(c.doe_names)
-    c.show()
+    # c = pack_doe_grid(
+    #     doe="mmi1x2",
+    #     settings=dict(length_mmi=[2.5, 100], width_mmi=[4, 10]),
+    #     with_text=True,
+    #     spacing=(100, 100),
+    #     shape=(2, 2),
+    #     do_permutations=True,
+    # )
 
-    # c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    c.show(show_ports=True)

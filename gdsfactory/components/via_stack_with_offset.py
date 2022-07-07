@@ -96,4 +96,4 @@ if __name__ == "__main__":
         sizes=((20, 10), (20, 10)),
         vias=(viac(size=(18, 2), spacing=(5, 5)), None),
     )
-    c.show()
+    c.show(show_ports=True)

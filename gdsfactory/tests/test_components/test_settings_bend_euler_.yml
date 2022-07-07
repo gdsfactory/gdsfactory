@@ -3,7 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    angle: 90
+    angle: 90.0
     cross_section: strip
     direction: ccw
     npoints: 720
@@ -11,7 +11,7 @@ settings:
     with_arc_floorplan: true
     with_bbox: true
   full:
-    angle: 90
+    angle: 90.0
     cross_section: strip
     direction: ccw
     npoints: 720
@@ -24,6 +24,7 @@ settings:
     length: 16.637
     radius: 10.0
     radius_min: 7.061
+    width: 0.5
   info_version: 2
   module: gdsfactory.components.bend_euler
   name: bend_euler

@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_extend_por_d725c7da
+name: mzi_2e88f57c_extend_por_86ad36dd
 settings:
   changed:
     component:
@@ -16,14 +16,15 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -37,15 +38,16 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -78,14 +80,15 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o3
       port_e0_splitter: o3
@@ -99,15 +102,16 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner:
         function: mmi2x2
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o4
       port_e0_splitter: o4
@@ -131,8 +135,8 @@ settings:
     component:
       function: mmi1x2
     cross_section: null
-    extension_factory: null
-    length: 5
+    extension: null
+    length: 5.0
     port1: null
     port2: null
     port_names: null
@@ -154,14 +158,15 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -175,15 +180,16 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -204,8 +210,8 @@ settings:
         name: mzi_2e88f57c
       version: 0.0.1
     cross_section: null
-    extension_factory: null
-    length: 5
+    extension: null
+    length: 5.0
     port1: null
     port2: null
     port_names: null
@@ -214,5 +220,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: mzi_2e88f57c_extend_por_d725c7da
+  name: mzi_2e88f57c_extend_por_86ad36dd
 version: 0.0.1

@@ -43,7 +43,7 @@ def move_polar_rad_copy(pos: Coordinate, angle: float, length: float) -> ndarray
     Args:
         pos: position.
         angle: in radians.
-        length: extension length.
+        length: extension length in um.
 
     """
     c = np.cos(angle)
@@ -57,7 +57,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 
     Args:
         port: port to extend.
-        length: extension length.
+        length: extension length in um.
         layer: for the straight section.
     """
     c = Component()
@@ -86,7 +86,7 @@ def extend_ports(
     component: ComponentSpec = mmi1x2,
     port_names: Optional[Tuple[str, ...]] = None,
     length: float = 5.0,
-    extension_factory: Optional[ComponentSpec] = None,
+    extension: Optional[ComponentSpec] = None,
     port1: Optional[str] = None,
     port2: Optional[str] = None,
     port_type: str = "optical",
@@ -94,15 +94,16 @@ def extend_ports(
     cross_section: Optional[CrossSectionSpec] = None,
     **kwargs,
 ) -> Component:
-    """Returns a new component with some ports extended
-    you can define an extension_factory
-    otherwise, defaults to the port cross_section of each port to extend
+    """Returns a new component with some ports extended.
+
+    you can define an extension otherwise, defaults to
+    the port cross_section of each port to extend
 
     Args:
         component: component to extend ports.
         port_names: list of ports names to extend, if None it extends all ports.
         length: extension length.
-        extension_factory: function to extend ports (defaults to a straight).
+        extension: function to extend ports (defaults to a straight).
         port1: input port name.
         port2: output port name.
         port_type: type of the ports to extend.
@@ -144,8 +145,8 @@ def extend_ports(
         port = cref.ports[port_name]
 
         if port_name in ports_to_extend_names:
-            if extension_factory:
-                extension_component = gf.get_component(extension_factory)
+            if extension:
+                extension_component = gf.get_component(extension)
             else:
                 cross_section_extension = (
                     cross_section
@@ -164,9 +165,9 @@ def extend_ports(
             port1 = port1 or port_labels[0]
             port2 = port2 or port_labels[-1]
 
-            extension = c << extension_component
-            extension.connect(port1, port)
-            c.add_port(port_name, port=extension.ports[port2])
+            extension_ref = c << extension_component
+            extension_ref.connect(port1, port)
+            c.add_port(port_name, port=extension_ref.ports[port2])
         else:
             c.add_port(port_name, port=component.ports[port_name])
 
@@ -218,9 +219,12 @@ __all__ = ["extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
-    # c = extend_ports()
+    c0 = gf.components.taper(width2=10)
+    c1 = extend_ports(c0)
+    c1.show()
+
     # c = extend_ports(gf.components.mzi_phase_shifter_top_heater_metal)
-    c = test_extend_ports()
+    # c = test_extend_ports()
 
     # width = 0.5
     # xs_strip = gf.partial(

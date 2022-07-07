@@ -174,7 +174,7 @@ get_sparameters_path_lumerical = gf.partial(
 
 if __name__ == "__main__":
     c = mmi1x2_nc()
-    c.show()
+    c.show(show_ports=True)
 
     mzi = mzi_nc()
     print(mzi.name)
@@ -189,4 +189,4 @@ if __name__ == "__main__":
     #     bend=bend_euler_nc,
     #     select_ports=select_ports_optical,
     # )
-    # mzi_gc.show()
+    # mzi_gc.show(show_ports=True)

@@ -1,7 +1,6 @@
+import gdsfactory as gf
 import jsondiff
 from pytest_regressions.data_regression import DataRegressionFixture
-
-import gdsfactory as gf
 
 
 def test_load_component_gds() -> gf.Component:

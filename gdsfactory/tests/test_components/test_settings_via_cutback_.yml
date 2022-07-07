@@ -5,8 +5,8 @@ settings:
   default:
     layer1: HEATER
     layer2: M1
-    min_pad_spacing: 0
-    num_vias: 100
+    min_pad_spacing: 0.0
+    num_vias: 100.0
     pad:
       function: via_stack
       settings:
@@ -29,15 +29,15 @@ settings:
     - 150
     - 150
     via_layer: VIAC
-    via_spacing: 40
-    via_width: 5
-    wire_pad_inclusion: 12
-    wire_width: 10
+    via_spacing: 40.0
+    via_width: 5.0
+    wire_pad_inclusion: 12.0
+    wire_width: 10.0
   full:
     layer1: HEATER
     layer2: M1
-    min_pad_spacing: 0
-    num_vias: 100
+    min_pad_spacing: 0.0
+    num_vias: 100.0
     pad:
       function: via_stack
       settings:
@@ -60,10 +60,10 @@ settings:
     - 150
     - 150
     via_layer: VIAC
-    via_spacing: 40
-    via_width: 5
-    wire_pad_inclusion: 12
-    wire_width: 10
+    via_spacing: 40.0
+    via_width: 5.0
+    wire_pad_inclusion: 12.0
+    wire_width: 10.0
   function_name: via_cutback
   info: {}
   info_version: 2

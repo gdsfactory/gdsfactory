@@ -159,4 +159,4 @@ if __name__ == "__main__":
     # c = gf.c.extend_ports(c)
     # print(len(c.name))
     # print(c.ports)
-    c.show()
+    c.show(show_ports=True)

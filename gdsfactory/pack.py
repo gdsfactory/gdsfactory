@@ -132,7 +132,7 @@ def pack(
             "The density argument must be >= 1.01"
         )
 
-    # Santize max_size variable
+    # Sanitize max_size variable
     max_size = [np.inf if v is None else v for v in max_size]
     max_size = np.asarray(max_size, dtype=np.float64)  # In case it's integers
     max_size = max_size / precision
@@ -177,14 +177,14 @@ def pack(
             d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             packed.add(d)
             if hasattr(component, "settings"):
-                packed.info["components"][component.name] = component.settings
+                packed.info["components"][component.name] = dict(component.settings)
             d.center = (xcenter * precision, ycenter * precision)
 
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
                     label = packed << text(f"{text_prefix}{index}")
                     label.move(
-                        (np.array(text_offset) + getattr(d.size_info, text_anchor))
+                        np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
                 index += 1
 
@@ -246,7 +246,7 @@ if __name__ == "__main__":
 
     # c = test_pack_with_settings()
     # c = test_pack()
-    # c.show()
+    # c.show(show_ports=True)
     # c.pprint()
     # c.write_gds_with_metadata("mask.gds")
 
@@ -263,4 +263,4 @@ if __name__ == "__main__":
     )
     c = p[0]
     print(c.name)
-    c.show()
+    c.show(show_ports=True)

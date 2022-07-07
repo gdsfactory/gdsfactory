@@ -26,8 +26,8 @@ settings:
         port_types:
         - electrical
         - electrical
-        width: 10
-    delta_length: 40
+        width: 10.0
+    delta_length: 40.0
     end_straight_length: 5
     length_x: 500
     length_y: 40
@@ -77,8 +77,8 @@ settings:
         port_types:
         - electrical
         - electrical
-        width: 10
-    delta_length: 40
+        width: 10.0
+    delta_length: 40.0
     end_straight_length: 5
     length_x: 500
     length_y: 40

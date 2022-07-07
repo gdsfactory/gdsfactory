@@ -24,6 +24,14 @@ The workflow is:
 - `git add`,`git commit`, `git push` your work as many times as needed (make sure tests are passing)
 - open a Pull request (PR)
 
+## Style
+
+
+- You need to follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). You can take a look at the other Pcell docstrings.
+- You should make sure tests pass.
+- You should install pre-commit to get the pre-commit checks passing (autoformat the code, run linter ...).
+
+
 ## Tests
 
 `pytest` runs 3 types of tests:
@@ -50,7 +58,7 @@ Pytest-regressions automatically creates the CSV and YAML files for you, as well
 
 gdsfactory is **not** backwards compatible, which means that the package will keep improving and evolving.
 
-1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.10.0` replacing `5.10.0` by whatever version you end up using.
+1. To make your work stable you should install a specific version and [pin the version](https://martin-thoma.com/python-requirements/) in your `requirements.txt` as `gdsfactory==5.12.12` replacing `5.12.12` by whatever version you end up using.
 2. Before you upgrade gdsfactory make sure you write and run regression tests on your work to check that things behave as expected
 
 
@@ -65,7 +73,7 @@ For example, if you changed the mmi1x2 and made it 5um longer by mistake, you co
 
 ## Why does gdsfactory exists?
 
-For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsys) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
+For Photonics IC layout I used [IPKISS](https://github.com/jtambasco/ipkiss) for 6 years. IPKISS is slow with big layouts, so in 2019 I tried all the commercial (Luceda, Cadence, Synopsis) and open source EDA tools (phidl, gdspy, picwriter, klayout-zero-pdk, nazca) looking for a fast and easy to use workflow.
 
 The metrics for the benchmark were:
 
@@ -126,3 +134,5 @@ gdsfactory is written in python and requires some basic knowledge of python. If 
     - [scientific computing](https://nbviewer.org/github/jrjohansson/scientific-python-lectures/blob/master/Lecture-0-Scientific-Computing-with-Python.ipynb)
     - [numerical python](http://jrjohansson.github.io/numericalpython.html)
     - [python](https://dabeaz-course.github.io/practical-python/Notes/01_Introduction/01_Python.html)
+
+- [open source best practices](https://opensource.guide/best-practices/)

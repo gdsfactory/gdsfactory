@@ -72,7 +72,7 @@ def coupler_symmetric(
 
 if __name__ == "__main__":
     c = coupler_symmetric(gap=0.2, width=0.9)
-    c.show()
+    c.show(show_ports=True)
     c.pprint()
 
     for dyi in [2, 3, 4, 5]:

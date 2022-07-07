@@ -7,6 +7,7 @@ The CrossSection defines the layer numbers, widths and offsetts
 Based on phidl.path
 """
 
+import warnings
 from collections.abc import Iterable
 from typing import Optional
 
@@ -16,6 +17,7 @@ from phidl import path
 from phidl.device_layout import Path as PathPhidl
 from phidl.path import smooth as smooth_phidl
 
+from gdsfactory import snap
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.cross_section import CrossSection, Section, Transition
@@ -38,18 +40,33 @@ def _simplify(points, tolerance):
 
 
 class Path(PathPhidl):
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate
+    """Path object for smooth Paths.
+
+    You can extrude a Path with a CrossSection to create a Component.
+
+    Parameters:
+        path: array-like[N][2], Path, or list of Paths.
+            Points or Paths to append() initially.
+    """
 
     @classmethod
-    def validate(cls, v):
-        """check Path has the correct type."""
+    def __get_validators__(cls):
+        yield cls._validate
+
+    @classmethod
+    def _validate(cls, v):
+        """Pydantic path validator."""
         assert isinstance(v, PathPhidl), f"TypeError, Got {type(v)}, expecting Path"
         return v
 
     def to_dict(self):
         return self.hash_geometry()
+
+    def plot(self):
+        """Plot path in matplotlib."""
+        from gdsfactory.quickplotter import quickplot
+
+        return quickplot(self)
 
     def extrude(
         self,
@@ -59,11 +76,10 @@ class Path(PathPhidl):
         widths: Optional[Float2] = None,
         simplify: Optional[float] = None,
     ) -> Component:
-        """Returns Component extruding a Path with a cross_section.
-        A path can be extruded using any CrossSection returning a Component
-        The CrossSection defines the layer numbers, widths and offsetts
+        """Returns Component by extruding a Path with a CrossSection.
 
-        adapted from phidl.path
+        A path can be extruded using any CrossSection returning a Component
+        The CrossSection defines the layer numbers, widths and offsetts.
 
         Args:
             p: a path is a list of points (arc, straight, euler).
@@ -83,6 +99,24 @@ class Path(PathPhidl):
             widths=widths,
             simplify=simplify,
         )
+
+    def copy(self):
+        """Returns a copy of the Path."""
+        p = Path()
+        p.info = self.info.copy()
+        p.points = np.array(self.points)
+        p.start_angle = self.start_angle
+        p.end_angle = self.end_angle
+        return p
+
+    def from_phidl(self, path_phidl: PathPhidl):
+        """Returns a path from a phidl path."""
+        p = Path()
+        p.info = path_phidl.info.copy()
+        p.points = np.array(path_phidl.points)
+        p.start_angle = path_phidl.start_angle
+        p.end_angle = path_phidl.end_angle
+        return p
 
 
 def _sinusoidal_transition(y1, y2):
@@ -104,7 +138,7 @@ def _linear_transition(y1, y2):
 
 
 def transition_exponential(y1, y2, exp=0.5):
-    """Returns the function for an exponential transition
+    """Returns the function for an exponential transition.
 
     Args:
         y1: start width in um.
@@ -119,21 +153,19 @@ def transition(
     cross_section2: CrossSection,
     width_type: str = "sine",
 ) -> Transition:
-    """Creates a CrossSection that smoothly transitions between two input
-    CrossSections. Only cross-sectional elements that have the `name` (as in
-    X.add(..., name = 'wg') ) parameter specified in both input CrosSections
-    will be created. Port names will be cloned from the input CrossSections in
-    reverse.
-    adapted from phidl.path
+    """Returns a smoothly-transitioning between two CrossSections.
+
+    Only cross-sectional elements that have the `name` (as in X.add(..., name = 'wg') )
+    parameter specified in both input CrosSections will be created.
+    Port names will be cloned from the input CrossSections in reverse.
 
     Args:
-        cross_section1: First input CrossSection.
-        cross_section2: Second input CrossSection.
+        cross_section1: First CrossSection.
+        cross_section2: Second CrossSection.
         width_type: sine or linear.
           Sets the type of width transition used if any widths are different
           between the two input CrossSections.
 
-    Returns A smoothly-transitioning CrossSection.
     """
     from gdsfactory.pdk import get_layer
 
@@ -227,6 +259,7 @@ def extrude(
     shear_angle_end: Optional[float] = None,
 ) -> Component:
     """Returns Component extruding a Path with a cross_section.
+
     A path can be extruded using any CrossSection returning a Component
     The CrossSection defines the layer numbers, widths and offsetts
 
@@ -242,7 +275,12 @@ def extrude(
         shear_angle_start: an optional angle to shear the starting face by (in degrees).
         shear_angle_end: an optional angle to shear the ending face by (in degrees).
     """
-    from gdsfactory.pdk import get_cross_section, get_layer
+    from gdsfactory.pdk import (
+        get_active_pdk,
+        get_cross_section,
+        get_grid_size,
+        get_layer,
+    )
 
     if cross_section is None and layer is None:
         raise ValueError("CrossSection or layer needed")
@@ -264,11 +302,11 @@ def extrude(
     c = Component()
 
     x = get_cross_section(cross_section)
-    snap_to_grid = x.snap_to_grid
+    snap_to_grid_nm = int(1e3 * (x.snap_to_grid or get_grid_size()))
     sections = x.sections or []
     sections = list(sections)
 
-    if x.layer and x.width:
+    if x.layer and x.width and x.add_center_section:
         sections += [
             Section(
                 width=x.width,
@@ -375,27 +413,15 @@ def extrude(
         # Simplify lines using the Ramer–Douglas–Peucker algorithm
         if isinstance(simplify, bool):
             raise ValueError("simplify argument must be a number (e.g. 1e-3) or None")
+
         if simplify is not None:
             points1 = _simplify(points1, tolerance=simplify)
             points2 = _simplify(points2, tolerance=simplify)
 
-        if snap_to_grid:
-            snap_to_grid_nm = snap_to_grid * 1e3
-            points = (
-                snap_to_grid_nm
-                * np.round(np.array(points) * 1e3 / snap_to_grid_nm)
-                / 1e3
-            )
-            points1 = (
-                snap_to_grid_nm
-                * np.round(np.array(points1) * 1e3 / snap_to_grid_nm)
-                / 1e3
-            )
-            points2 = (
-                snap_to_grid_nm
-                * np.round(np.array(points2) * 1e3 / snap_to_grid_nm)
-                / 1e3
-            )
+        if x.snap_to_grid:
+            points = snap.snap_to_grid(points, snap_to_grid_nm)
+            points1 = snap.snap_to_grid(points1, snap_to_grid_nm)
+            points2 = snap.snap_to_grid(points2, snap_to_grid_nm)
 
         # Join points together
         points_poly = np.concatenate([points1, points2[::-1, :]])
@@ -404,11 +430,20 @@ def extrude(
         if not hidden and p.length() > 1e-3:
             c.add_polygon(points_poly, layer=layer)
 
+        pdk = get_active_pdk()
+        warn_off_grid_ports = pdk.warn_off_grid_ports
+
         # Add port_names if they were specified
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
             midpoint = points[0]
+
+            if warn_off_grid_ports:
+                midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+                if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
+                    warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
+
             c.add_port(
                 port=Port(
                     name=port_names[0],
@@ -427,6 +462,13 @@ def extrude(
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
             midpoint = points[-1]
+
+            if warn_off_grid_ports:
+
+                midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+
+                if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
+                    warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
             c.add_port(
                 port=Port(
                     name=port_names[1],
@@ -459,10 +501,8 @@ def _cut_path_with_ray(
     end_point: np.ndarray,
     end_angle: Optional[float],
     path: np.ndarray,
-):
-    """
-    Cuts or extends a path given a point and angle to project with
-    """
+) -> np.ndarray:
+    """Cuts or extends a path given a point and angle to project."""
     import shapely.geometry as sg
 
     # a distance to approximate infinity to find ray-segment intersections
@@ -516,14 +556,19 @@ def arc(radius: float = 10.0, angle: float = 90, npoints: int = 720) -> Path:
     """Returns a radial arc.
 
     Args:
-        radius: minimum radius of curvature
-        angle: total angle of the curve
-        npoints: Number of points used per 360 degrees
+        radius: minimum radius of curvature.
+        angle: total angle of the curve.
+        npoints: Number of points used per 360 degrees.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.arc(radius=10, angle=45)
+        p.plot()
     """
-    p = path.arc(radius=radius, angle=angle, num_pts=npoints)
-    p.extrude = extrude
-    return p
+    return Path().from_phidl(path.arc(radius=radius, angle=angle, num_pts=npoints))
 
 
 def euler(
@@ -534,35 +579,43 @@ def euler(
     npoints: int = 720,
 ) -> Path:
     """Returns an euler bend that adiabatically transitions from straight to curved.
-    By default, `radius` corresponds to the minimum radius of curvature of the bend.
+
+    `radius` is the minimum radius of curvature of the bend.
     However, if `use_eff` is set to True, `radius` corresponds to the effective
-    radius of curvature (making the curve a drop-in replacement for an arc). If
-    p < 1.0, will create a "partial euler" curve as described in Vogelbacher et.
-    al. https://dx.doi.org/10.1364/oe.27.031394
+    radius of curvature (making the curve a drop-in replacement for an arc).
+    If p < 1.0, will create a "partial euler" curve as described in Vogelbacher et. al.
+    https://dx.doi.org/10.1364/oe.27.031394
 
     Args:
-        radius: minimum radius of curvature
-        angle: total angle of the curve
-        p: Proportion of the curve that is an Euler curve
-        use_eff: If False: `radius` is the minimum radius of curvature of the bend
-            If True: The curve will be scaled such that the endpoints match an arc
-            with parameters `radius` and `angle`
-        npoints: Number of points used per 360 degrees
+        radius: minimum radius of curvature.
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
+        use_eff: If False: `radius` is the minimum radius of curvature of the bend.
+            If True: The curve will be scaled such that the endpoints match an arc.
+            with parameters `radius` and `angle`.
+        npoints: Number of points used per 360 degrees.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.euler(radius=10, angle=45, p=1)
+        p.plot()
     """
-    p = path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
-    p.extrude = extrude
-    return p
+    return Path().from_phidl(
+        path.euler(radius=radius, angle=angle, p=p, use_eff=use_eff, num_pts=npoints)
+    )
 
 
 def straight(length: float = 10.0, npoints: int = 2) -> Path:
-    """Returns a straight path
+    """Returns a straight path.
 
     For transitions you should increase have at least 100 points
 
     Args:
-        length: of straight
-        npoints: number of points
+        length: of straight.
+        npoints: number of points.
     """
     if length < 0:
         raise ValueError(f"length = {length} needs to be > 0")
@@ -575,23 +628,51 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
     return p
 
 
+def spiral_archimedean(
+    inner_radius: float, separation: float, number_of_loops: float, npoints: int
+) -> Path:
+    """Returns an Archimedean spiral.
+
+    Args:
+        inner_radius: Inner radius of the spiral.
+        separation: Separation between the loops.
+        number_of_loops: Number of loops.
+        npoints: Number of Points.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.spiral_archimedean()
+        p.plot()
+    """
+    return Path(
+        [
+            (separation / np.pi * theta + inner_radius)
+            * np.array((np.sin(theta), np.cos(theta)))
+            for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
+        ]
+    )
+
+
 def smooth(
     points: Coordinates,
     radius: float = 4.0,
     bend: PathFactory = euler,
     **kwargs,
 ) -> Path:
-    """Returns a smooth Path from a series of waypoints. Corners will be rounded
-    using `bend` and any additional key word arguments (for example,
-    `use_eff = True` for `bend = gf.path.euler`)
+    """Returns a smooth Path from a series of waypoints.
 
     Args:
-        points: array-like[N][2] List of waypoints for the path to follow
-        radius: radius of curvature, passed to `bend`
-        bend: bend function to round corners
-        **kwargs: Extra keyword arguments that will be passed to `bend`
+        points: array-like[N][2] List of waypoints for the path to follow.
+        radius: radius of curvature, passed to `bend`.
+        bend: bend function to round corners.
+        kwargs: Extra keyword arguments that will be passed to `bend`.
     """
-    return smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
+    return Path().from_phidl(
+        smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
+    )
 
 
 __all__ = ["straight", "euler", "arc", "extrude", "path", "transition", "smooth"]
@@ -631,7 +712,7 @@ def _demo() -> None:
     print(wg1)
     print(wg2)
     print(wg_trans)
-    c.show()
+    c.show(show_ports=True)
 
 
 def _my_custom_width_fun(t):
@@ -651,7 +732,7 @@ def _demo_variable_width() -> None:
 
     # Extrude the Path to create the Component
     c = extrude(P, cross_section=X)
-    c.show()
+    c.show(show_ports=True)
 
 
 def _my_custom_offset_fun(t):
@@ -671,7 +752,7 @@ def _demo_variable_offset() -> None:
 
     # Extrude the Path to create the Component
     c = extrude(P, cross_section=X)
-    c.show()
+    c.show(show_ports=True)
 
 
 if __name__ == "__main__":
@@ -730,30 +811,40 @@ if __name__ == "__main__":
 
     P = gf.path.straight(length=10, npoints=101)
     # c = gf.path.extrude(P, layer=(1, 0), widths=(1, 3))
-    # c.show()
+    # c.show(show_ports=True)
 
-    s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-    X1 = gf.CrossSection(
-        width=1,
-        offset=0,
-        layer=gf.LAYER.WG,
-        name="core",
-        port_names=("o1", "o2"),
-        sections=[s],
-    )
-    c = gf.path.extrude(P, X1)
+    # s = gf.Section(width=3, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    # X1 = gf.CrossSection(
+    #     width=1,
+    #     offset=0,
+    #     layer=gf.LAYER.WG,
+    #     name="core",
+    #     port_names=("o1", "o2"),
+    #     sections=[s],
+    # )
+    # c = gf.path.extrude(P, X1)
 
-    s = gf.Section(width=0.1, offset=0, layer=gf.LAYER.SLAB90, name="slab")
-    X2 = gf.CrossSection(
-        width=3,
-        offset=0,
-        layer=gf.LAYER.WG,
-        name="core",
-        port_names=("o1", "o2"),
-        sections=[s],
-    )
-    c2 = gf.path.extrude(P, X2)
+    # s = gf.Section(width=0.1, offset=0, layer=gf.LAYER.SLAB90, name="slab")
+    # X2 = gf.CrossSection(
+    #     width=3,
+    #     offset=0,
+    #     layer=gf.LAYER.WG,
+    #     name="core",
+    #     port_names=("o1", "o2"),
+    #     sections=[s],
+    # )
+    # c2 = gf.path.extrude(P, X2)
 
-    T = gf.path.transition(X1, X2)
-    c3 = gf.path.extrude(P, T)
-    c3.show()
+    # T = gf.path.transition(X1, X2)
+    # c3 = gf.path.extrude(P, T)
+    # c3.show()
+
+    # c = gf.Component("bend")
+    # b = c << gf.components.bend_circular(angle=40)
+    # s = c << gf.components.straight(length=5)
+    # s.connect("o1", b.ports["o2"])
+    # c = c.flatten()
+    # c.show(show_ports=True, precision=1e-9)
+
+    P3 = arc()
+    P3.plot()

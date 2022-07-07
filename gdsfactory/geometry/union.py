@@ -14,23 +14,19 @@ def union(
     max_points: int = 4000,
     layer: Layer = (1, 0),
 ) -> Component:
-    """Creates an inverted version of the input shapes with an additional
-    border around the edges.
+    """Returns inverted union of Component polygons.
 
     adapted from phidl.geometry.invert
 
     Args:
-        D: Component(/Reference), list of Component(/Reference), or Polygon
-            A Component containing the polygons to perform union on.
+        component: Component(/Reference), list of Component(/Reference), or Polygon
+            A containing the polygons to perform union and inversion on.
         by_Layer: performs the union operation layer-wise so each layer can be
             individually combined.
         precision: Desired precision for rounding vertex coordinates.
         join_first: before offsetting to avoid unnecessary joins in adjacent polygon
         max_points: The maximum number of vertices within the resulting polygon.
-        layer : Specific layer to put polygon geometry on.
-
-    Returns
-        Component containing the  union of the polygons
+        layer: Specific layer to put polygon geometry on.
     """
     U = Component()
 

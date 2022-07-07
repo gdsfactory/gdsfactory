@@ -36,7 +36,7 @@ def array_with_fanout(
         pitch: for waveguides.
         waveguide_pitch: for output waveguides.
         start_straight_length: length of the start of the straight.
-        end_straight_length: lenght of the straight at the end.
+        end_straight_length: length of the straight at the end.
         radius: bend radius.
         component_port_name: for fanout.
         bend: spec.

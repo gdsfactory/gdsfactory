@@ -117,4 +117,4 @@ if __name__ == "__main__":
     # c = gf.components.straight()
     # c = add_frame(component=c)
     c = align_wafer()
-    c.show()
+    c.show(show_ports=True)

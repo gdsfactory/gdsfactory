@@ -69,4 +69,4 @@ if __name__ == "__main__":
     c = gf.read.from_yaml(yaml)
     n = c.get_netlist()
     print(n["placements"])
-    c.show()
+    c.show(show_ports=True)

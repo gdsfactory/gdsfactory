@@ -167,7 +167,7 @@ def _get_bundle_corner_waypoints(
 
     da = a_end - a_start
     assert (da) % 180 == 90, (
-        "corner_bundle can  only route port banks between orthogonal axises."
+        "corner_bundle can  only route port banks between orthogonal axes."
         f"Got angles of {a_start} and {a_end}"
     )
 
@@ -279,4 +279,4 @@ if __name__ == "__main__":
     for route in routes:
         c.add(route.references)
 
-    c.show()
+    c.show(show_ports=True)

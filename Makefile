@@ -21,13 +21,17 @@ major:
 	bumpversion major
 	python docs/write_components_doc.py
 
-plugins: meep sax
+plugins:
+	pip install -r requirements_sipann.txt
+	pip install sax jax jaxlib
+	mamba install pymeep=*=mpi_mpich_* -y
+	mamba install numpy==1.22 -y
 
 meep:
 	mamba install pymeep=*=mpi_mpich_* -y
 
 sax:
-	pip install sax
+	pip install sax jax jaxlib
 
 update:
 	pur
@@ -106,7 +110,7 @@ conda:
 	echo 'conda env installed, run `conda activate gdsfactory` to activate it'
 
 mypy:
-	mypy gdsfactory
+	mypy gdsfactory --ignore-missing-imports
 
 build:
 	python setup.py sdist bdist_wheel
@@ -120,6 +124,7 @@ upload-twine: build
 	twine upload dist/*
 
 release:
+	git push
 	git push origin --tags
 
 lint:
@@ -154,6 +159,9 @@ link:
 
 pyglet:
 	pip install pyglet==1.2.4
+
+spell:
+	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
 
 
 .PHONY: gdsdiff build conda

@@ -17,7 +17,7 @@ settings:
     - 1
     - 1
     - 1
-    spacing: 2
+    spacing: 2.0
     width: 0.5
   full:
     height: 2
@@ -34,7 +34,7 @@ settings:
     - 1
     - 1
     - 1
-    spacing: 2
+    spacing: 2.0
     width: 0.5
   function_name: litho_ruler
   info: {}

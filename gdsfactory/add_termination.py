@@ -54,4 +54,4 @@ def add_termination(
 if __name__ == "__main__":
     c = gf.components.straight_heater_metal(length=50)
     cc = add_termination(component=c, orientation=0)
-    cc.show()
+    cc.show(show_ports=True)

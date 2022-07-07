@@ -11,4 +11,4 @@ def test_sample_route_sides() -> None:
 
 if __name__ == "__main__":
     c = test_sample_route_sides()
-    c.show()
+    c.show(show_ports=True)

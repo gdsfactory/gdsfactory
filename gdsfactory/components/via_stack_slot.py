@@ -30,7 +30,7 @@ def via_stack_slot(
         layer_offsets: cladding_offset for each layer.
         layer_offsetsx: optional xoffset for layers, defaults to layer_offsets.
         layer_offsetsx: optional yoffset for layers, defaults to layer_offsets.
-        layer_port: if None asumes port is on the last layer.
+        layer_port: if None assumes port is on the last layer.
         via: via to use to fill the rectangles.
         enclosure: of the via by rectangle.
         ysize: via height in y.
@@ -111,4 +111,4 @@ if __name__ == "__main__":
     # c = via_stack_slot_m1_m2(layer_offsets=(0.5, 1), enclosure=1, size=(3, 3))
     # c = via_stack_slot_m1_m2()
     c = via_stack_slot_slab_m1()
-    c.show()
+    c.show(show_ports=True)

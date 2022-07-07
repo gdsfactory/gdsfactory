@@ -29,4 +29,4 @@ def test_component_from_yaml_bezier() -> Component:
 if __name__ == "__main__":
     c = test_component_from_yaml_bezier()
     print(c.name)
-    c.show()
+    c.show(show_ports=True)

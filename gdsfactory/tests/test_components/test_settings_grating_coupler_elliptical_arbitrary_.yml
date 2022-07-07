@@ -5,9 +5,9 @@ settings:
   default:
     bias_gap: 0
     cross_section: strip
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer: TE
-    fiber_marker_width: 11
+    fiber_marker_width: 11.0
     gaps:
     - 0.1
     - 0.1
@@ -23,9 +23,9 @@ settings:
     nclad: 1.443
     neff: 2.638
     polarization: te
-    slab_xmin: -3
+    slab_xmin: -3.0
     spiked: true
-    taper_angle: 60
+    taper_angle: 60.0
     taper_length: 16.6
     wavelength: 1.554
     widths:
@@ -42,9 +42,9 @@ settings:
   full:
     bias_gap: 0
     cross_section: strip
-    fiber_angle: 15
+    fiber_angle: 15.0
     fiber_marker_layer: TE
-    fiber_marker_width: 11
+    fiber_marker_width: 11.0
     gaps:
     - 0.1
     - 0.1
@@ -60,9 +60,9 @@ settings:
     nclad: 1.443
     neff: 2.638
     polarization: te
-    slab_xmin: -3
+    slab_xmin: -3.0
     spiked: true
-    taper_angle: 60
+    taper_angle: 60.0
     taper_length: 16.6
     wavelength: 1.554
     widths:

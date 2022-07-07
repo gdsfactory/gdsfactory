@@ -272,7 +272,7 @@ if __name__ == "__main__":
     # c << w
     # route = get_route(w.ports["o2"], w.ports["o1"], layer=(2, 0), width=2)
     # cc = c.add(route.references)
-    # cc.show()
+    # cc.show(show_ports=True)
 
     # c = gf.Component()
     # p1 = c << gf.components.pad_array()

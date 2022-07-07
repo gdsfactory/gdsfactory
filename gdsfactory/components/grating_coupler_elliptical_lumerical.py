@@ -173,4 +173,4 @@ def _compare() -> Component:
 if __name__ == "__main__":
     # c = _compare()
     c = grating_coupler_elliptical_lumerical_etch70()
-    c.show()
+    c.show(show_ports=True)

@@ -33,7 +33,7 @@ def grid(
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
         spacing: between adjacent elements on the grid, can be a tuple for
             different distances in height and width.
-        separation: If True, guarantees elements are speparated with fixed spacing
+        separation: If True, guarantees elements are separated with fixed spacing
             if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
             If no shape and the list is 1D, if np.reshape were run with (1, -1).
@@ -121,6 +121,7 @@ def grid_with_text(
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
     text: Optional[ComponentSpec] = text_rectangular,
+    labels: Optional[Tuple[str, ...]] = None,
     **kwargs,
 ) -> Component:
     """Returns Grid with text labels.
@@ -131,11 +132,12 @@ def grid_with_text(
         text_offsets: relative to component anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         text: function to add text labels.
+        labels: optional, specify a tuple of labels rather than using a text_prefix
 
     keyword Args:
         spacing: between adjacent elements on the grid, can be a tuple for
           different distances in height and width.
-        separation: If True, guarantees elements are speparated with fixed spacing
+        separation: If True, guarantees elements are separated with fixed spacing
           if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
           If no shape and the list is 1D, if np.reshape were run with (1, -1).
@@ -156,8 +158,16 @@ def grid_with_text(
     if text:
         for i, ref in enumerate(g.aliases.values()):
             for text_offset, text_anchor in zip(text_offsets, text_anchors):
-                t = c << text(f"{text_prefix}{i}")
-                t.move((np.array(text_offset) + getattr(ref.size_info, text_anchor)))
+                if labels:
+                    if len(labels) > i:
+                        label = labels[i]
+                    # grid will add dummy components so don't add labels for these
+                    else:
+                        continue
+                else:
+                    label = f"{text_prefix}{i}"
+                t = c << text(label)
+                t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
     return c
 
 
@@ -187,4 +197,4 @@ if __name__ == "__main__":
         text_offsets=((0, 100), (0, -100)),
         text_anchors=("nc", "sc"),
     )
-    c.show()
+    c.show(show_ports=True)

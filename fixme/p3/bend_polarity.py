@@ -17,4 +17,4 @@ if __name__ == "__main__":
         contact_width=2,
         waveguide_spacing=5,
     )
-    c.show()
+    c.show(show_ports=True)

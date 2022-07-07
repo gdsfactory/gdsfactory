@@ -21,7 +21,7 @@ settings:
   child: null
   default:
     cross_section: strip
-    length: 10
+    length: 10.0
     npoints: 2
     with_bbox: true
   full:
@@ -42,7 +42,7 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    length: 10
+    length: 10.0
     npoints: 2
     with_bbox: true
   function_name: straight

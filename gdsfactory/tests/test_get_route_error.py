@@ -32,4 +32,4 @@ def test_route_error():
 
 if __name__ == "__main__":
     c = test_route_error()
-    c.show()
+    c.show(show_ports=True)

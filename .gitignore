@@ -278,3 +278,6 @@ venv.bak/
 # netlist stuff
 *.spi # lumerical
 *.nst # json netlist format
+
+# lumerical interconnect
+*.ich

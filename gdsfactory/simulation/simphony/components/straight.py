@@ -20,7 +20,7 @@ def straight(
         kwargs: geometrical args that this model ignores
 
     """
-    logger.info(f"igoring {kwargs.keys()}")
+    logger.info(f"ignoring {kwargs.keys()}")
     width *= 1e-6
     thickness *= 1e-6
     length *= 1e-6

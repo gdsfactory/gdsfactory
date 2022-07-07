@@ -82,7 +82,7 @@ def add_ports_from_markers_center(
 ) -> Component:
     """Add ports from rectangular pin markers.
 
-    markers at port center, so half of the marker goes inside and half ouside the port.
+    markers at port center, so half of the marker goes inside and half outside the port.
 
     guess port orientation from the component center (xcenter)
 
@@ -300,7 +300,7 @@ def add_ports_from_labels(
         fail_on_duplicates: raises ValueError for duplicated port names.
             if False adds incremental suffix (1, 2 ...) to port name.
         port_orientation: None for electrical ports.
-        guess_port_orientation: asumes right: 0, left: 180, top: 90, bot: 270.
+        guess_port_orientation: assumes right: 0, left: 180, top: 90, bot: 270.
 
     """
     port_name_prefix_default = "o" if port_type == "optical" else "e"

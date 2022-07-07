@@ -148,7 +148,7 @@ def write_sparameters_grating_coupler_batch(
     jobs: List[Dict[str, Any]], **kwargs
 ) -> List[pd.DataFrame]:
     """Returns Sparameters for a list of write_sparameters_grating_coupler
-    settings where it simulation runs in paralell.
+    settings where it simulation runs in parallel.
 
     Args:
         jobs: list of kwargs for write_sparameters_grating_coupler.

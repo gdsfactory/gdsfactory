@@ -45,4 +45,4 @@ def test_cutback_pn() -> Component:
 
 if __name__ == "__main__":
     c = test_cutback_pn()
-    c.show()
+    c.show(show_ports=True)

@@ -3,7 +3,7 @@ from gdsfactory.cross_section import strip
 
 
 @gf.cell
-def demo_cross_section_setting(cross_section=strip()) -> gf.Component:
+def demo_cross_section_setting(cross_section=strip) -> gf.Component:
     return gf.components.straight(cross_section=cross_section)
 
 
@@ -16,5 +16,5 @@ def test_settings(data_regression, check: bool = True) -> None:
 if __name__ == "__main__":
     c = demo_cross_section_setting()
     d = c.to_dict()
-    # c.show()
+    # c.show(show_ports=True)
     # test_settings()

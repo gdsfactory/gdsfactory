@@ -1,3 +1,5 @@
+"""adapted from phidl.geometry """
+
 from typing import Optional, Tuple
 
 import numpy as np
@@ -17,13 +19,11 @@ def die(
     text_location: str = "SW",
     layer: LayerSpec = "FLOORPLAN",
     bbox_layer: Optional[LayerSpec] = "FLOORPLAN",
-    draw_corners: bool = False,
-    draw_dicing_lane: bool = False,
+    draw_corners: bool = True,
+    draw_dicing_lane: bool = True,
 ) -> gf.Component:
-    """Creates a basic chip/die template, with 4 right angle corners marking
+    """Returns basic die with 4 right angle corners marking
     the boundary of the chip/die and a label with the name of the die.
-
-    adapted from phidl.geometry
 
     Args:
         size: x, y dimensions of the die.
@@ -38,7 +38,7 @@ def die(
         draw_dicing_lane: around die.
 
     """
-    D = gf.Component(name="die")
+    c = gf.Component(name="die")
     sx, sy = size[0] / 2, size[1] / 2
 
     if draw_dicing_lane:
@@ -65,16 +65,16 @@ def die(
                 sy,
             ]
         )
-        D.add_polygon([xpts, ypts], layer=layer)
-        D.add_polygon([-xpts, ypts], layer=layer)
-        D.add_polygon([xpts, -ypts], layer=layer)
-        D.add_polygon([-xpts, -ypts], layer=layer)
+        c.add_polygon([xpts, ypts], layer=layer)
+        c.add_polygon([-xpts, ypts], layer=layer)
+        c.add_polygon([xpts, -ypts], layer=layer)
+        c.add_polygon([-xpts, -ypts], layer=layer)
 
     if bbox_layer:
-        D.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
+        c.add_polygon([[sx, sy], [sx, -sy], [-sx, -sy], [-sx, sy]], layer=bbox_layer)
 
     if die_name:
-        t = D.add_ref(text(text=die_name, size=text_size, layer=layer))
+        t = c.add_ref(text(text=die_name, size=text_size, layer=layer))
 
         d = street_width + 20
         if type(text_location) is str:
@@ -94,9 +94,12 @@ def die(
         else:
             t.x, t.y = text_location
 
-    return D
+    return c
 
 
 if __name__ == "__main__":
-    c = die(size=(3000, 5000), draw_dicing_lane=True)
+    # c = die(size=(3000, 5000), draw_dicing_lane=True)
+    c = die()
+    # c.show(show_ports=True)
+    c.plot()
     c.show()

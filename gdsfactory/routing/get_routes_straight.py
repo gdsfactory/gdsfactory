@@ -15,9 +15,24 @@ def get_routes_straight(
     """Returns routes made by 180 degree straights.
 
     Args:
-        ports: List or dict of ports
-        straight: function for straight
-        **kwargs: waveguide settings
+        ports: List or dict of ports.
+        straight: function for straight.
+        kwargs: waveguide settings.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.Component("get_routes_straight")
+        pad_array = gf.components.pad_array()
+        c1 = c << pad_array
+        c2 = c << pad_array
+        c2.ymax = -200
+
+        routes = gf.routing.get_routes_straight(ports=c1.get_ports_list(), length=200)
+        c.add(routes.references)
+        c.plot()
     """
     ports = list(ports.values()) if isinstance(ports, dict) else ports
     straight = straight(**kwargs)
@@ -44,4 +59,4 @@ def test_get_routes_straight(check: bool = True):
 
 if __name__ == "__main__":
     c = test_get_routes_straight(False)
-    c.show()
+    c.show(show_ports=True)

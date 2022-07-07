@@ -89,4 +89,4 @@ if __name__ == "__main__":
 
     # c = dbr_tapered(length=10, period=0.85, dc=0.5, w2=1, w1=0.4, taper_length=20, fins=True)
     c = dbr_tapered()
-    c.show()
+    c.show(show_ports=True)

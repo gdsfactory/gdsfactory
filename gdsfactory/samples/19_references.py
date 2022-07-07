@@ -22,4 +22,4 @@ placements:
 
 if __name__ == "__main__":
     c = gf.read.from_yaml(yaml)
-    c.show()
+    c.show(show_ports=True)

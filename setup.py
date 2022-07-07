@@ -20,6 +20,11 @@ with open("requirements_exp.txt") as f:
         line.strip() for line in f.readlines() if not line.strip().startswith("-")
     ]
 
+with open("requirements_sipann.txt") as f:
+    requirements_sipann = [
+        line.strip() for line in f.readlines() if not line.strip().startswith("-")
+    ]
+
 with open("README.md") as f:
     long_description = f.read()
 
@@ -27,9 +32,8 @@ with open("README.md") as f:
 setup(
     name="gdsfactory",
     url="https://github.com/gdsfactory/gdsfactory",
-    version="5.10.0",
+    version="5.12.12",
     author="gdsfactory community",
-    scripts=["gdsfactory/gf.py"],
     description="python library to generate GDS layouts",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -44,8 +48,8 @@ setup(
     """,
     extras_require={
         "full": list(set(requirements + requirements_full)),
-        "basic": requirements,
-        "dev": list(set(requirements + requirements_dev + requirements_full)),
+        "sipann": requirements_sipann,
+        "dev": list(set(requirements + requirements_dev)),
         "exp": list(set(requirements + requirements_exp)),
     },
     package_data={

@@ -11,7 +11,7 @@ settings:
     input_port_indexes:
     - 0
     - 2
-    pitch: 127
+    pitch: 127.0
   full:
     grating_coupler:
       function: grating_coupler_elliptical_trenches
@@ -21,7 +21,7 @@ settings:
     input_port_indexes:
     - 0
     - 2
-    pitch: 127
+    pitch: 127.0
   function_name: loss_deembedding_ch12_34
   info: {}
   info_version: 2

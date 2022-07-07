@@ -75,4 +75,4 @@ if __name__ == "__main__":
     # c = bend_port(component=c, port_name="e1")
     # c = bend_port(component=gf.components.mzi_phase_shifter)
     c = bend_port()
-    c.show()
+    c.show(show_ports=True)

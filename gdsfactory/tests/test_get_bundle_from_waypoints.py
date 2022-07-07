@@ -143,4 +143,4 @@ if __name__ == "__main__":
     # c = test_get_bundle_from_waypointsC(None, check=False)
     # c = test_get_bundle_from_waypointsB(None, check=False)
     c = test_get_bundle_from_waypoints_staggered(None, check=False)
-    c.show()
+    c.show(show_ports=True)

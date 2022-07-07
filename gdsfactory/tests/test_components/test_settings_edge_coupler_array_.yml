@@ -11,7 +11,7 @@ settings:
         with_two_ports: false
     h_mirror: false
     n: 5
-    pitch: 127
+    pitch: 127.0
     text:
       function: text_rectangular
     text_offset:
@@ -27,7 +27,7 @@ settings:
         with_two_ports: false
     h_mirror: false
     n: 5
-    pitch: 127
+    pitch: 127.0
     text:
       function: text_rectangular
     text_offset:

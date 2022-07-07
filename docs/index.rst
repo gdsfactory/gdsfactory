@@ -7,12 +7,14 @@ Gdsfactory
 
    README
    git
-   notebooks
    workflow
-   routing
-   components
+   notebooks
    plugins_mode_solver
    plugins_fdtd
    plugins_circuits
    contribution
    CHANGELOG
+   components
+   api
+   routing
+   cli

@@ -109,7 +109,7 @@ def ring_double_heater(
         length=length_x,
         cross_section=cross_section_heater,
     )
-    heater_top.connect("o1", ct.ports["e1"])
+    heater_top.connect("e1", ct.ports["e1"])
 
     c.auto_rename_ports()
     return c
@@ -118,5 +118,5 @@ def ring_double_heater(
 if __name__ == "__main__":
     # c = ring_double_heater(width=1, layer=(2, 0), length_y=3)
     c = ring_double_heater(length_x=5)
-    c.show()
+    c.show(show_ports=True)
     # c.pprint()

@@ -1,4 +1,4 @@
-name: mzi_2e88f57c_add_gratin_3d2986bf
+name: mzi_2e88f57c_add_gratin_f493dee2
 settings:
   changed:
     component:
@@ -16,14 +16,15 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -37,15 +38,16 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -78,14 +80,15 @@ settings:
       straight_x_top: straight_heater_metal
     child: null
     default:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner: null
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o3
       port_e0_splitter: o3
@@ -99,15 +102,16 @@ settings:
       straight_y: null
       with_splitter: true
     full:
-      bend: bend_euler
+      bend:
+        function: bend_euler
       combiner:
         function: mmi2x2
       cross_section: strip
       cross_section_x_bot: null
       cross_section_x_top: null
-      delta_length: 10
+      delta_length: 10.0
       length_x: 0.1
-      length_y: 2
+      length_y: 2.0
       nbends: 2
       port_e0_combiner: o4
       port_e0_splitter: o4
@@ -154,7 +158,7 @@ settings:
     layer_label:
     - 200
     - 0
-    loopback_xspacing: 5
+    loopback_xspacing: 5.0
     rotation: 90
     select_ports:
       function: select_ports
@@ -179,14 +183,15 @@ settings:
           straight_x_top: straight_heater_metal
         child: null
         default:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner: null
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o3
           port_e0_splitter: o3
@@ -200,15 +205,16 @@ settings:
           straight_y: null
           with_splitter: true
         full:
-          bend: bend_euler
+          bend:
+            function: bend_euler
           combiner:
             function: mmi2x2
           cross_section: strip
           cross_section_x_bot: null
           cross_section_x_top: null
-          delta_length: 10
+          delta_length: 10.0
           length_x: 0.1
-          length_y: 2
+          length_y: 2.0
           nbends: 2
           port_e0_combiner: o4
           port_e0_splitter: o4
@@ -255,7 +261,7 @@ settings:
     layer_label:
     - 200
     - 0
-    loopback_xspacing: 5
+    loopback_xspacing: 5.0
     rotation: 90
     select_ports:
       function: select_ports
@@ -270,5 +276,5 @@ settings:
     wavelength: 1.53
   info_version: 2
   module: gdsfactory.add_grating_couplers
-  name: mzi_2e88f57c_add_gratin_3d2986bf
+  name: mzi_2e88f57c_add_gratin_f493dee2
 version: 0.0.1

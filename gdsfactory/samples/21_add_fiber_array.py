@@ -16,4 +16,4 @@ def test_big_device() -> Component:
 if __name__ == "__main__":
     c = test_big_device()
 
-    c.show()
+    c.show(show_ports=True)

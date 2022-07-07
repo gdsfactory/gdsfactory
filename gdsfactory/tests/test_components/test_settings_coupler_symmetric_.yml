@@ -18,8 +18,8 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    dx: 10
-    dy: 5
+    dx: 10.0
+    dy: 5.0
     gap: 0.234
   full:
     bend:
@@ -37,8 +37,8 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    dx: 10
-    dy: 5
+    dx: 10.0
+    dy: 5.0
     gap: 0.234
   function_name: coupler_symmetric
   info:

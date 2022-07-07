@@ -1,7 +1,7 @@
 import gdsfactory as gf
 from gdsfactory.component import Component
 from gdsfactory.components.rectangle import rectangle
-from gdsfactory.components.triangle import triangle
+from gdsfactory.components.triangles import triangle
 from gdsfactory.types import ComponentSpec, Float2, LayerSpec
 
 triangle_metal = gf.partial(triangle, layer="M3", xtop=2)
@@ -48,4 +48,4 @@ def dicing_lane(
 
 if __name__ == "__main__":
     c = dicing_lane()
-    c.show()
+    c.show(show_ports=True)

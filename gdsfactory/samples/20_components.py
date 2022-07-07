@@ -19,4 +19,4 @@ straight_wide2 = gf.partial(gf.components.straight, width=10)
 if __name__ == "__main__":
     # c = straight_wide1()
     c = straight_wide2()
-    c.show()
+    c.show(show_ports=True)

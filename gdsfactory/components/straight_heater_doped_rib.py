@@ -51,7 +51,6 @@ def straight_heater_doped_rib(
         width: waveguide width on the ridge.
         with_top_via_stack: adds via_stack at the top.
         with_bot_via_stack: adds via_stack at the bottom.
-        straight: spec.
         kwargs: cross_section settings.
 
     .. code::
@@ -196,5 +195,5 @@ def test_straight_heater_doped_rib_ports() -> Component:
 if __name__ == "__main__":
     # c = straight_heater_doped_rib(with_top_heater=False, with_top_via_stack=False)
     # c = straight_heater_doped_rib(with_taper1=False)
-    c = straight_heater_doped_rib()
-    c.show()
+    c = straight_heater_doped_rib(length=500)
+    c.show(show_ports=True)

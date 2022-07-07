@@ -172,7 +172,7 @@ ring_with_labels:
         next_to: mmi1x2_width_length
 # Assuming I am working on this DOE, it is convenient to set cache to false here.
 # The full mask rebuilds quickly thanks to
-# the default cahe=true for all other DOEs, but all the changes to
+# the default cache=true for all other DOEs, but all the changes to
 # this DOE are captured at every iteration
 ```
 

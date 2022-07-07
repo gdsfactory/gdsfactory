@@ -25,22 +25,19 @@ def fill_cell_rectangle(
     layers: LayerSpecs = (0, 1, 3),
     densities: Floats = (0.5, 0.25, 0.7),
     inverted=(False, False, False),
-):
-    """Creates a single Device on multiple layers to be used as fill
+) -> Component:
+    """Returns Component on multiple layers to be used as fill.
 
     based on phidl.geometry
 
     Args:
-        size: array-like of int or float
-            x, y dimensions of the fill area for all layers.
-        layers: int, array-like[2], or set
-            Specific layer(s) to put fill cell rectangle geometry on.
-        densities: array-like of int or float
-            Fill densities for each layer specified in ``layers``. Must be the same
-            size as ``layers``.
+        size: x, y dimensions of the fill area for all layers.
+        layers: Specific layer(s) to put fill cell rectangle geometry on.
+        densities: Fill densities for each layer specified in ``layers``.
+            Must be the same size as ``layers``.
         inverted: array-like or bool
-            If true, inverts the fill area for corresponding layer. Must be the
-            same size as ``layers``.
+            If true, inverts the fill area for corresponding layer.
+            Must be the same size as ``layers``.
 
     """
 
@@ -75,23 +72,20 @@ def fill_rectangle(
     fill_inverted: bool = False,
     bbox: Optional[Float2] = None,
 ) -> Component:
-    """Creates a rectangular fill pattern and fills all empty areas.
+    """Returns rectangular fill pattern and fills all empty areas.
 
-    in the input component and returns a component that contains just the fill
+    In the input component and returns a component that contains just the fill
     Dummy fill keeps density constant during fabrication
 
     Args:
         component: Component to fill.
+        fill_layers: list of layers. fill pattern layers.
         fill_size: Rectangular size of the fill element.
         avoid_layers: Layers to be avoided (not filled) in D.
-        include_layers: Layers to be filled, supercedes avoid_layers.
-        margin:
-            Margin spacing around avoided areas -- fill will not come within.
-            `margin` of the geometry in D.
-        fill_layers: list of layers. fill pattern layers.
-        fill_densities: float between 0 and 1.
-            Defines the fill pattern density (1.0 == fully filled).
-        fill_inverted: Inverts the fill pattern.
+        include_layers: Layers to be filled, supersedes avoid_layers.
+        margin: Margin spacing around avoided areas.
+        fill_densities: defines the fill pattern density (1.0 == fully filled).
+        fill_inverted: inverts the fill pattern.
         bbox: x, y limit the fill pattern to the area defined by this bounding box.
 
     """
@@ -172,11 +166,12 @@ def fill_rectangle(
     return F
 
 
-if __name__ == "__main__":
+def test_fill():
     import gdsfactory as gf
+    from gdsfactory.difftest import difftest
 
     c = gf.components.straight()
-    c = gf.add_padding_container(c)
+    c = gf.add_padding_container(c, default=15)
     c.unlock()
     c << fill_rectangle(
         c,
@@ -186,4 +181,21 @@ if __name__ == "__main__":
         avoid_layers=((1, 0),),
         # bbox=(100.0, 100.0),
     )
-    c.show()
+    difftest(c)
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.components.straight()
+    c = gf.add_padding_container(c, default=15)
+    c.unlock()
+    c << fill_rectangle(
+        c,
+        fill_layers=((2, 0),),
+        # fill_densities=(1.0,),
+        fill_densities=0.5,
+        # avoid_layers=((1, 0),),
+        # bbox=(100.0, 100.0),
+    )
+    c.show(show_ports=True)

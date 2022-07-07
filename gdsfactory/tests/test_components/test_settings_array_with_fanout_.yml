@@ -12,11 +12,11 @@ settings:
       function: pad
     component_port_name: e4
     cross_section: strip
-    end_straight_length: 40
-    pitch: 150
-    radius: 5
-    start_straight_length: 5
-    waveguide_pitch: 10
+    end_straight_length: 40.0
+    pitch: 150.0
+    radius: 5.0
+    start_straight_length: 5.0
+    waveguide_pitch: 10.0
   full:
     bend:
       function: bend_euler
@@ -27,11 +27,11 @@ settings:
       function: pad
     component_port_name: e4
     cross_section: strip
-    end_straight_length: 40
-    pitch: 150
-    radius: 5
-    start_straight_length: 5
-    waveguide_pitch: 10
+    end_straight_length: 40.0
+    pitch: 150.0
+    radius: 5.0
+    start_straight_length: 5.0
+    waveguide_pitch: 10.0
   function_name: array_with_fanout
   info: {}
   info_version: 2

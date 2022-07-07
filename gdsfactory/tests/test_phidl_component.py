@@ -17,4 +17,4 @@ def test_import_component_phidl() -> gf.Component:
 
 if __name__ == "__main__":
     c = test_import_component_phidl()
-    c.show()
+    c.show(show_ports=True)

@@ -38,4 +38,4 @@ straight2b = gf.partial(
 if __name__ == "__main__":
     c = straight2a()  # works
     # c = straight2b()  # FIXME: does not work
-    c.show()
+    c.show(show_ports=True)()

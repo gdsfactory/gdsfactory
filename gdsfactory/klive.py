@@ -16,7 +16,7 @@ def show(
     """Show GDS in klayout.
 
     Args:
-        gds_filename:
+        gds_filename: to show.
         keep_position: keep position and active layers.
         port: klayout server port.
 
@@ -36,7 +36,7 @@ def show(
         )
         conn.sendall(data_string)
         conn.close()
-    except socket.error:
+    except OSError:
         pass
 
 

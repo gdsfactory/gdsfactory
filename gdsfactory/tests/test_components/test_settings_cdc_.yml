@@ -15,7 +15,7 @@ settings:
     fins: false
     gap: 0.5
     input_bot: false
-    length: 30
+    length: 30.0
     period: 0.22
     port_midpoint:
     - 0
@@ -23,7 +23,7 @@ settings:
     waveguide_template:
       function: strip
     width_bot: 0.75
-    width_top: 2
+    width_top: 2.0
   full:
     angle: 0.5235987755982988
     contradc_wgt: null
@@ -37,7 +37,7 @@ settings:
     fins: false
     gap: 0.5
     input_bot: false
-    length: 30
+    length: 30.0
     period: 0.22
     port_midpoint:
     - 0
@@ -45,7 +45,7 @@ settings:
     waveguide_template:
       function: strip
     width_bot: 0.75
-    width_top: 2
+    width_top: 2.0
   function_name: cdc
   info: {}
   info_version: 2

@@ -4,13 +4,13 @@ settings:
   child: null
   default:
     columns: 3
-    pitch: 150
+    pitch: 150.0
     pitch_x: null
     pitch_y: null
     rows: 2
   full:
     columns: 3
-    pitch: 150
+    pitch: 150.0
     pitch_x: null
     pitch_y: null
     rows: 2

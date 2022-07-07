@@ -35,4 +35,4 @@ def test_route_error_bundle():
 
 if __name__ == "__main__":
     c = test_route_error_bundle()
-    c.show()
+    c.show(show_ports=True)

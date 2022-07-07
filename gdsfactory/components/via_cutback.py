@@ -75,7 +75,7 @@ def via_cutback(
     via_layer: LayerSpec = "VIAC",
     wire_pad_inclusion: float = 12.0,
 ) -> Component:
-    """Via cutback to extract via resistance
+    """Via cutback to extract via resistance.
 
     adapted from phidl.geometry
 
@@ -173,4 +173,4 @@ def via_cutback(
 
 if __name__ == "__main__":
     c = via_cutback()
-    c.show()
+    c.show(show_ports=True)

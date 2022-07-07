@@ -1,3 +1,4 @@
+""" Route for electrical based on phidl.routing.route_quad. """
 from typing import Optional
 
 import numpy as np
@@ -17,14 +18,31 @@ def route_quad(
 ) -> gf.Component:
     """Routes a basic quadrilateral polygon directly between two ports.
 
-    based on phidl.routing.route_quad
-
     Args:
-        port1: Port to start route
-        port2 : Port objects to end route
+        port1: Port to start route.
+        port2 : Port objects to end route.
         width1: Width of quadrilateral at ports. If None, uses port widths.
         width2: Width of quadrilateral at ports. If None, uses port widths.
         layer: Layer to put the route on.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.Component()
+        pad1 = c << gf.components.pad(size=(50, 50))
+        pad2 = c << gf.components.pad(size=(10, 10))
+        pad2.movex(100)
+        pad2.movey(50)
+        route_gnd = c << gf.routing.route_quad(
+            pad1.ports["e2"],
+            pad2.ports["e4"],
+            width1=None,
+            width2=None,
+        )
+        c.show()
+        c.plot()
 
     """
 
@@ -65,19 +83,32 @@ def route_quad(
 
 
 if __name__ == "__main__":
+    # c = gf.Component()
+    # mzi = c << gf.components.mzi_phase_shifter()
+    # pads = c << gf.components.array(component=gf.components.pad, columns=3)
+    # pads.ymin = mzi.ymax + 30
+
+    # pads.movex(-pads.size_info.sc[0])
+    # mzi.movex(-mzi.size_info.sc[0])
+
+    # route_gnd = c << route_quad(
+    #     mzi.ports["e1"],
+    #     pads.ports["e4_1_1"],
+    #     width1=None,
+    #     width2=None,
+    # )
+
+    # c.show(show_ports=True)
+
     c = gf.Component()
-    mzi = c << gf.components.mzi_phase_shifter()
-    pads = c << gf.components.array(component=gf.components.pad, columns=3)
-    pads.ymin = mzi.ymax + 30
-
-    pads.movex(-pads.size_info.sc[0])
-    mzi.movex(-mzi.size_info.sc[0])
-
+    pad1 = c << gf.components.pad(size=(50, 50))
+    pad2 = c << gf.components.pad(size=(10, 10))
+    pad2.movex(100)
+    pad2.movey(50)
     route_gnd = c << route_quad(
-        mzi.ports["e1"],
-        pads.ports["e4_1_1"],
+        pad1.ports["e2"],
+        pad2.ports["e4"],
         width1=None,
         width2=None,
     )
-
     c.show()

@@ -20,7 +20,7 @@ def straight_heater_meander(
     straight_width: float = 0.9,
     taper_length: float = 10,
 ) -> Component:
-    """Returns a meander based heater
+    """Returns a meander based heater.
     based on SungWon Chung, Makoto Nakai, and Hossein Hashemi,
     Low-power thermo-optic silicon modulator for large-scale photonic integrated systems
     Opt. Express 27, 13430-13459 (2019)
@@ -71,7 +71,7 @@ def straight_heater_meander(
         length=taper_length,
     )
 
-    straight_with_tapers = gf.components.extend_ports(straight, extension_factory=taper)
+    straight_with_tapers = gf.components.extend_ports(straight, extension=taper)
 
     straight_array = c << gf.components.array(
         straight_with_tapers, spacing=(0, spacing), columns=1, rows=rows
@@ -185,4 +185,6 @@ if __name__ == "__main__":
         # length=600,
         # cross_section=gf.partial(gf.cross_section.strip, width=0.8),
     )
-    c.show()
+    c.show(show_ports=True)
+    scene = c.to_3d()
+    scene.show()

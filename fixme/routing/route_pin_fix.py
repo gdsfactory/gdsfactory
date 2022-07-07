@@ -33,4 +33,4 @@ if __name__ == "__main__":
     )
     path = gf.path.smooth(points, radius=radius - 10)
     route = c << gf.path.extrude(path, xs_pin)
-    c.show()
+    c.show(show_ports=True)

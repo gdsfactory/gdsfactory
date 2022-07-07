@@ -61,7 +61,7 @@ def add_text(
     ref = component_new.add_ref(component)
 
     t = component_new << text_factory(text)
-    t.move((np.array(text_offset) + getattr(ref.size_info, text_anchor)))
+    t.move(np.array(text_offset) + getattr(ref.size_info, text_anchor))
 
     component_new.add_ports(ref.ports)
     component_new.copy_child_info(component)
@@ -241,7 +241,7 @@ if __name__ == "__main__":
         length_mmi=10,
         decorator=partial(add_settings_label, settings=["name", "length_mmi"]),
     )
-    # c.show()
+    # c.show(show_ports=True)
 
     cr = rotate(component=c)
     cr.show()

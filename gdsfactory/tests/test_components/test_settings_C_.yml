@@ -7,13 +7,13 @@ settings:
     size:
     - 10.0
     - 20.0
-    width: 1
+    width: 1.0
   full:
     layer: WG
     size:
     - 10.0
     - 20.0
-    width: 1
+    width: 1.0
   function_name: C
   info: {}
   info_version: 2

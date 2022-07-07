@@ -24,7 +24,7 @@ Specs:
 
 - ComponentSpec: Component, function, string or dict
     (component=mzi, settings=dict(delta_length=20)).
-- LayerSpec: (3, 0), 3 (asumes 0 as datatype) or string.
+- LayerSpec: (3, 0), 3 (assumes 0 as datatype) or string.
 
 """
 import json
@@ -39,7 +39,7 @@ from pydantic import BaseModel, Extra
 from typing_extensions import Literal
 
 from gdsfactory.component import Component, ComponentReference
-from gdsfactory.cross_section import CrossSection
+from gdsfactory.cross_section import CrossSection, Section
 from gdsfactory.layers import LayerColor, LayerColors
 from gdsfactory.port import Port
 from gdsfactory.tech import LayerLevel, LayerStack
@@ -82,9 +82,13 @@ Int3 = Tuple[int, int, int]
 Ints = Tuple[int, ...]
 
 Layer = Tuple[int, int]
+"""Tuple of integers (layer, datatype)."""
 Layers = Tuple[Layer, ...]
+
 LayerSpec = Union[Layer, int, str, None]
-LayerSpecs = Tuple[LayerSpec, ...]
+"""Description capable of generating a Layer. Can be a tuple of integers (layer, datatype), a integer (layer, 0) or a string (layer_name)."""
+
+LayerSpecs = Optional[Tuple[LayerSpec, ...]]
 ComponentFactory = Callable[..., Component]
 ComponentFactoryDict = Dict[str, ComponentFactory]
 PathFactory = Callable[..., Path]
@@ -105,10 +109,16 @@ PortsDict = Dict[str, Port]
 PortsList = Dict[str, Port]
 
 ComponentSpec = Union[str, ComponentFactory, Component, Dict[str, Any]]
+"""Description capable of generating a component. Can be a Pcell function, function name, dict or Component."""
+
 ComponentSpecOrList = Union[ComponentSpec, List[ComponentSpec]]
 CellSpec = Union[str, ComponentFactory, Dict[str, Any]]
+"""Description capable of generating a cell function. Can be a Pcell function, function name or dict."""
+
 ComponentSpecDict = Dict[str, ComponentSpec]
 CrossSectionSpec = Union[str, CrossSectionFactory, CrossSection, Dict[str, Any]]
+"""Description capable of generating a cross_section function. Can be a cross_section function, function name or dict."""
+
 MultiCrossSectionAngleSpec = List[Tuple[CrossSectionSpec, Tuple[int, ...]]]
 
 
@@ -169,7 +179,7 @@ class RouteModel(BaseModel):
 class NetlistModel(BaseModel):
     """Netlist defined component.
 
-    Attributes:
+    Parameters:
         instances: dict of instances (name, settings, component).
         placements: dict of placements.
         connections: dict of connections.
@@ -259,6 +269,7 @@ __all__ = (
     "LayerColor",
     "LayerStack",
     "LayerLevel",
+    "Section",
 )
 
 

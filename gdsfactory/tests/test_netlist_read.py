@@ -29,11 +29,11 @@ if __name__ == "__main__":
     # regenerate_regression_test()
 
     # c = test_netlist_read_full()
-    c.show()
+    c.show(show_ports=True)
 
     # n = c.get_netlist()
     # i = n["instances"]
     # b = i["bend_circular_R10_17.873_-5.5"]
     # layer = b["settings"]["layer"]
     # print(type(layer))
-    # c.show()
+    # c.show(show_ports=True)

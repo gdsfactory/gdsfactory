@@ -16,12 +16,12 @@ settings:
         port_types:
         - electrical
         - electrical
-        width: 10
+        width: 10.0
     port_offset: null
     port_orientation: 180
-    spacing: 150
-    straight_length: 60
-    via_spacing: 10
+    spacing: 150.0
+    straight_length: 60.0
+    via_spacing: 10.0
     via_stack:
       function: via_stack
     via_stack_dy: 0
@@ -39,12 +39,12 @@ settings:
         port_types:
         - electrical
         - electrical
-        width: 10
+        width: 10.0
     port_offset: null
     port_orientation: 180
-    spacing: 150
-    straight_length: 60
-    via_spacing: 10
+    spacing: 150.0
+    straight_length: 60.0
+    via_spacing: 10.0
     via_stack:
       function: via_stack
     via_stack_dy: 0

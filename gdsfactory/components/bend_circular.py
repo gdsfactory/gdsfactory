@@ -78,7 +78,7 @@ if __name__ == "__main__":
     # c = bend_circular(cross_section=gf.cross_section.pin, radius=5)
     # c.pprint_ports()
     print(c.ports["o2"].orientation)
-    c.show()
+    c.show(show_ports=True)
 
     # c = bend_circular180()
     # c.plot("qt")

@@ -37,4 +37,4 @@ def test_get_bundle_udirect(
 
 if __name__ == "__main__":
     c = test_get_bundle_udirect(None, check=False)
-    c.show()
+    c.show(show_ports=True)

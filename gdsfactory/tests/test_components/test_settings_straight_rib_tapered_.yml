@@ -1,4 +1,4 @@
-name: straight_d1e9c63d_exten_1d5cbfa0
+name: straight_d1e9c63d_exten_7c9ddc51
 settings:
   changed:
     component:
@@ -21,7 +21,7 @@ settings:
             - DEVREC
             cladding_offsets:
             - 0
-    extension_factory:
+    extension:
       function: taper_strip_to_ridge
     port1: o2
     port2: o1
@@ -47,7 +47,7 @@ settings:
     child: null
     default:
       cross_section: strip
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
     full:
@@ -68,7 +68,7 @@ settings:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 10
+      length: 10.0
       npoints: 2
       with_bbox: true
     function_name: straight
@@ -83,8 +83,8 @@ settings:
     component:
       function: mmi1x2
     cross_section: null
-    extension_factory: null
-    length: 5
+    extension: null
+    length: 5.0
     port1: null
     port2: null
     port_names: null
@@ -112,9 +112,9 @@ settings:
             cladding_offsets:
             - 0
     cross_section: null
-    extension_factory:
+    extension:
       function: taper_strip_to_ridge
-    length: 5
+    length: 5.0
     port1: o2
     port2: o1
     port_names: null
@@ -123,5 +123,5 @@ settings:
   info: {}
   info_version: 2
   module: gdsfactory.components.extension
-  name: straight_d1e9c63d_exten_1d5cbfa0
+  name: straight_d1e9c63d_exten_7c9ddc51
 version: 0.0.1

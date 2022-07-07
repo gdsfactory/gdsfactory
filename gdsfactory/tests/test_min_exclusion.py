@@ -8,7 +8,8 @@ from gdsfactory.component import Component
 from gdsfactory.geometry import check_exclusion
 
 
-def get_device(
+@gf.cell
+def exclusion(
     space: float,
     width: float = 0.5,
     layer1: Tuple[int, int] = (1, 0),
@@ -26,7 +27,7 @@ def get_device(
     "space,min_space,area_expected", [(0.16, 0.1, 0), (0.1, 0.11, 50000)]
 )
 def test_exclusion(space: float, min_space: float, area_expected: int) -> None:
-    c = get_device(space=space)
+    c = exclusion(space=space)
     area = check_exclusion(c, min_space=min_space)
     assert np.isclose(area, area_expected)
 

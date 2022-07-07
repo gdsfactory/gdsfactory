@@ -33,4 +33,4 @@ def demo_get_bundle_sbend_routing(
 
 if __name__ == "__main__":
     c = demo_get_bundle_sbend_routing(None, check=False)
-    c.show()
+    c.show(show_ports=True)

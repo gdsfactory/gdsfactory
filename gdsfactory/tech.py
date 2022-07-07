@@ -1,3 +1,4 @@
+"""Technology settings."""
 import pathlib
 from typing import Any, Callable, Dict, Optional, Tuple, Union
 
@@ -6,6 +7,7 @@ from pydantic import BaseModel
 module_path = pathlib.Path(__file__).parent.absolute()
 Layer = Tuple[int, int]
 LayerSpec = Union[int, Layer, str, None]
+nm = 1e-3
 
 
 def make_empty_dict() -> Dict[str, Callable]:
@@ -13,7 +15,8 @@ def make_empty_dict() -> Dict[str, Callable]:
 
 
 class LayerMap(BaseModel):
-    """Generic layermap based on Textbook:
+    """Generic layermap based on book.
+
     Lukas Chrostowski, Michael Hochberg, "Silicon Photonics Design",
     Cambridge University Press 2015, page 353
 
@@ -51,7 +54,7 @@ class LayerMap(BaseModel):
     NO_TILE_SI: Layer = (71, 0)
     PADDING: Layer = (67, 0)
     DEVREC: Layer = (68, 0)
-    FLOORPLAN: Layer = (99, 0)
+    FLOORPLAN: Layer = (64, 0)
     TEXT: Layer = (66, 0)
     PORT: Layer = (1, 10)
     PORTE: Layer = (1, 11)
@@ -67,6 +70,8 @@ class LayerMap(BaseModel):
     ERROR_PATH: Layer = (208, 0)
 
     class Config:
+        """pydantic config."""
+
         frozen = True
         extra = "forbid"
 
@@ -96,26 +101,38 @@ PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 class LayerLevel(BaseModel):
     """Layer For 3D LayerStack.
 
-    Attributes:
+    Parameters:
         layer: (GDSII Layer number, GDSII datatype).
-        thickness: layer thickness.
-        zmin: height position where material starts.
+        thickness: layer thickness in um.
+        zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+
+    TODO:
+        figure out how to add simulation_info
+        simulation_info: contains information for simulating.
+            refractive_index: refractive_index
+                can be int, complex or function that depends on wavelength (um).
+            type: grow, etch, implant, or background.
+            doping_concentration: for implants.
+            resistiviy: for metals.
+            bias: in um for the etch.
     """
 
     layer: Tuple[int, int]
-    thickness: Optional[float] = None
-    zmin: Optional[float] = None
+    thickness: float
+    zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
+    # simulation_info: Dict[str, Any] = {}
+    # refractive_index: Optional[Callable[[float], float]] = None
 
 
 class LayerStack(BaseModel):
     """For simulation and 3D rendering.
 
-    Attributes:
-        layers: dict of layers.
+    Parameters:
+        layers: dict of layer_levels.
     """
 
     layers: Dict[str, LayerLevel]
@@ -153,16 +170,39 @@ class LayerStack(BaseModel):
     def to_dict(self) -> Dict[str, Dict[str, Any]]:
         return {level_name: dict(level) for level_name, level in self.layers.items()}
 
+    def get_klayout_3d_script(self) -> str:
+        """Prints script for 2.5 view klayout information.
 
-def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStack:
+        You can add this information in your tech.lyt
+        take a look at gdsfactory/klayout/tech/tech.lyt
+        """
+        for level in self.layers.values():
+            print(
+                f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
+            )
+
+
+def get_layer_stack_generic(
+    thickness_wg: float = 220 * nm,
+    thickness_clad: float = 3.0,
+    thickness_nitride: float = 350 * nm,
+    gap_silicon_to_nitride: float = 100 * nm,
+) -> LayerStack:
     """Returns generic LayerStack.
+
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
+
+    Args:
+        thickness_wg: waveguide thickness.
+        thickness_clad: cladding.
+        thickness_nitride: for nitride.
+        gap_silicon_to_nitride: in um.
     """
     return LayerStack(
         layers=dict(
             core=LayerLevel(
                 layer=LAYER.WG,
-                thickness=thickness_silicon_core,
+                thickness=thickness_wg,
                 zmin=0.0,
                 material="si",
             ),
@@ -170,6 +210,7 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
                 layer=LAYER.WGCLAD,
                 zmin=0.0,
                 material="sio2",
+                thickness=thickness_clad,
             ),
             slab150=LayerLevel(
                 layer=LAYER.SLAB150,
@@ -185,14 +226,14 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             ),
             nitride=LayerLevel(
                 layer=LAYER.WGN,
-                thickness=350e-3,
-                zmin=220e-3 + 100e-3,
+                thickness=thickness_nitride,
+                zmin=thickness_wg + gap_silicon_to_nitride,
                 material="sin",
             ),
             ge=LayerLevel(
                 layer=LAYER.GE,
                 thickness=500e-3,
-                zmin=thickness_silicon_core,
+                zmin=thickness_wg,
                 material="ge",
             ),
             via_contact=LayerLevel(
@@ -204,25 +245,25 @@ def get_layer_stack_generic(thickness_silicon_core: float = 220e-3) -> LayerStac
             metal1=LayerLevel(
                 layer=LAYER.M1,
                 thickness=750e-3,
-                zmin=thickness_silicon_core + 1100e-3,
+                zmin=thickness_wg + 1100e-3,
                 material="Aluminum",
             ),
             heater=LayerLevel(
                 layer=LAYER.HEATER,
                 thickness=750e-3,
-                zmin=thickness_silicon_core + 1100e-3,
+                zmin=thickness_wg + 1100e-3,
                 material="TiN",
             ),
             viac=LayerLevel(
                 layer=LAYER.VIA1,
                 thickness=1500e-3,
-                zmin=thickness_silicon_core + 1100e-3 + 750e-3,
+                zmin=thickness_wg + 1100e-3 + 750e-3,
                 material="Aluminum",
             ),
             metal2=LayerLevel(
                 layer=LAYER.M2,
                 thickness=2000e-3,
-                zmin=thickness_silicon_core + 1100e-3 + 750e-3 + 1.5,
+                zmin=thickness_wg + 1100e-3 + 750e-3 + 1.5,
                 material="Aluminum",
             ),
         )
@@ -235,7 +276,7 @@ LAYER_STACK = get_layer_stack_generic()
 class Section(BaseModel):
     """CrossSection to extrude a path with a waveguide.
 
-    Args:
+    Parameters:
         width: of the section (um) or parameterized function from 0 to 1.
              the width at t==0 is the width at the beginning of the Path.
              the width at t==1 is the width at the end.
@@ -243,10 +284,10 @@ class Section(BaseModel):
              the offset at t==0 is the offset at the beginning of the Path.
              the offset at t==1 is the offset at the end.
         layer: layer spec.
-        port_names: Optional port names
+        port_names: Optional port names.
         port_types: optical, electrical, ...
         name: Optional Section name.
-        hidden:
+        hidden: hide layer.
 
     .. code::
 
@@ -270,6 +311,8 @@ class Section(BaseModel):
     hidden: bool = False
 
     class Config:
+        """pydantic basemodel config."""
+
         extra = "forbid"
 
 
@@ -277,24 +320,24 @@ MaterialSpec = Union[str, float, complex, Tuple[float, float]]
 
 
 class SimulationSettingsLumericalFdtd(BaseModel):
-    """Lumerical FDTD simulation_settings
+    """Lumerical FDTD simulation_settings.
 
-    Args:
-        background_material: for the background
-        port_margin: on both sides of the port width (um)
-        port_height: port height (um)
-        port_extension: port extension (um)
-        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine)
-        zmargin: for the FDTD region (um)
-        ymargin: for the FDTD region (um)
-        xmargin: for the FDTD region (um)
-        wavelength_start: 1.2 (um)
-        wavelength_stop: 1.6 (um)
-        wavelength_points: 500
-        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm
-        simulation_temperature: in kelvin (default = 300)
-        frequency_dependent_profile: computes mode profiles for different wavelengths
-        field_profile_samples: number of wavelengths to compute field profile
+    Parameters:
+        background_material: for the background.
+        port_margin: on both sides of the port width (um).
+        port_height: port height (um).
+        port_extension: port extension (um).
+        mesh_accuracy: 2 (1: coarse, 2: fine, 3: superfine).
+        zmargin: for the FDTD region (um).
+        ymargin: for the FDTD region (um).
+        xmargin: for the FDTD region (um).
+        wavelength_start: 1.2 (um).
+        wavelength_stop: 1.6 (um).
+        wavelength_points: 500.
+        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm.
+        simulation_temperature: in kelvin (default = 300).
+        frequency_dependent_profile: computes mode profiles for different wavelengths.
+        field_profile_samples: number of wavelengths to compute field profile.
     """
 
     background_material: str = "sio2"
@@ -319,6 +362,8 @@ class SimulationSettingsLumericalFdtd(BaseModel):
     }
 
     class Config:
+        """pydantic basemodel config."""
+
         arbitrary_types_allowed = True
 
 
@@ -358,6 +403,7 @@ if __name__ == "__main__":
     #     return gf.components.mzi(splitter=mmi1x2_longer, **kwargs)
 
     ls = LAYER_STACK
+    ls.get_klayout_3d_script()
     # print(ls.get_layer_to_material())
     # print(ls.get_layer_to_thickness())
 

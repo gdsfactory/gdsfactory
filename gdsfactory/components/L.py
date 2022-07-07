@@ -50,4 +50,4 @@ def L(
 if __name__ == "__main__":
 
     c = L()
-    c.show()
+    c.show(show_ports=True)

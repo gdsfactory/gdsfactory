@@ -120,8 +120,8 @@ def get_netlist(
         placements[reference_name] = dict(
             x=x,
             y=y,
-            rotation=int(reference.rotation),
-            mirror=reference.x_reflection,
+            rotation=int(reference.rotation or 0),
+            mirror=reference.x_reflection or 0,
         )
 
     # store where ports are located
@@ -225,10 +225,12 @@ def get_netlist_recursive(
             all_netlists.update(grandchildren)
             if ref.ref_cell.references:
                 inst_name = get_instance_name(component, ref)
-                netlist["instances"][inst_name] = {
-                    "component": f"{rcell.name}{component_suffix}",
-                    "settings": rcell.settings.full,
-                }
+                netlist_dict = {"component": f"{rcell.name}{component_suffix}"}
+                if hasattr(rcell, "settings") and hasattr(rcell.settings, "full"):
+                    netlist_dict.update(settings=rcell.settings.full)
+                if hasattr(rcell, "info"):
+                    netlist_dict.update(info=rcell.info)
+                netlist["instances"][inst_name] = netlist_dict
 
     return all_netlists
 
@@ -264,7 +266,7 @@ if __name__ == "__main__":
 
     # c = gf.read.from_yaml(sample_2x2_connections)
     # c = gf.components.ring_single()
-    # c.show()
+    # c.show(show_ports=True)
     # pprint(c.get_netlist())
 
     # n = c.get_netlist()

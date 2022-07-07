@@ -5,7 +5,7 @@ import meep as mp
 import numpy as np
 import pandas as pd
 import pydantic
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from gdsfactory.simulation.modes.find_modes import find_modes_waveguide
 from gdsfactory.types import Optional, PathType
@@ -23,26 +23,26 @@ def find_neff_vs_width(
     overwrite: bool = False,
     **kwargs
 ) -> pd.DataFrame:
-    """Seep waveguide width and computes effective index.
+    """Sweep waveguide width and compute effective index.
 
     Args:
-        width1: starting waveguide width.
-        width2: end waveguide width.
+        width1: starting waveguide width in um.
+        width2: end waveguide width in um.
         steps: number of points.
         nmodes: number of modes to compute.
         wavelength: wavelength in um.
         parity: mp.ODD_Y mp.EVEN_X for TE, mp.EVEN_Y for TM.
         filepath: Optional filepath to store the results.
-        overwrite:
+        overwrite: overwrite file even if exists on disk.
 
 
     Keyword Args:
-        slab_thickness: thickness for the waveguide slab
-        ncore: core material refractive index
-        nclad: clad material refractive index
-        sy: simulation region width (um)
-        sz: simulation region height (um)
-        resolution: resolution (pixels/um)
+        slab_thickness: thickness for the waveguide slab in um.
+        ncore: core material refractive index.
+        nclad: clad material refractive index.
+        sy: simulation region width (um).
+        sz: simulation region height (um).
+        resolution: resolution (pixels/um).
 
     """
 

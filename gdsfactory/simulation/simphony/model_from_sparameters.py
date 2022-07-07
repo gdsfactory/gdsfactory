@@ -15,9 +15,9 @@ def model_from_filepath(filepath: PosixPath, numports: int, name: str = "model")
     """Returns a Simphony Model.
 
     Args:
-        filepath: path to Sparameters in Lumerical interconnect format
-        numports: numer of ports
-        name: model name
+        filepath: path to Sparameters in Lumerical interconnect format.
+        numports: number of ports.
+        name: model name.
 
     """
     pins, f, s = read_sparameters_file(filepath=filepath, numports=numports)

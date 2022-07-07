@@ -19,16 +19,16 @@ def check_inclusion(
     if 0 no area violates exclusion
 
     Args:
-        gdspath: path to GDS
-        layer_in: tuple
-        layer_out: tuple
-        min_inclusion: in um
-        dbu: database units (1000 um/nm)
-        ignore_angle_deg: The angle above which no check is performed
-        whole_edges: If true, deliver the whole edges
-        metrics: Specify the metrics type
-        min_projection: lower threshold of the projected length of one edge onto another
-        max_projection: upper limit of the projected length of one edge onto another
+        gdspath: path to GDS.
+        layer_in: tuple.
+        layer_out: tuple.
+        min_inclusion: in um.
+        dbu: database units (1000 um/nm).
+        ignore_angle_deg: The angle above which no check is performed.
+        whole_edges: If true, deliver the whole edges.
+        metrics: Specify the metrics type.
+        min_projection: lower threshold of the projected length of one edge onto another.
+        max_projection: upper limit of the projected length of one edge onto another.
     """
     import klayout.db as pya
 
@@ -43,7 +43,7 @@ def check_inclusion(
     a = pya.Region(cell.begin_shapes_rec(layout.layer(layer_in[0], layer_in[1])))
     b = pya.Region(cell.begin_shapes_rec(layout.layer(layer_out[0], layer_out[1])))
 
-    valid_metrics = ["Square", "Euclidian"]
+    valid_metrics = ["Square", "Euclidean"]
     if metrics not in valid_metrics:
         raise ValueError("metrics = {metrics!r} not in {valid_metrics}")
     metrics = getattr(pya.Region, metrics)

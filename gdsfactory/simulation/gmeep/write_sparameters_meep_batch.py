@@ -10,7 +10,7 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import pydantic
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -91,7 +91,6 @@ def write_sparameters_meep_batch(
         wavelength_points: wavelength steps.
         dfcen: delta frequency.
         port_source_name: input port name.
-        port_field_monitor_name: from component port.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before.
         port_source_offset: offset between source GDS port and source MEEP port.

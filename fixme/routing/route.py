@@ -24,4 +24,4 @@ if __name__ == "__main__":
         grating_coupler=gc,
         radius=40,
     )
-    cc.show()
+    cc.show(show_ports=True)

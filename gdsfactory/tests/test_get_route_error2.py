@@ -22,4 +22,4 @@ def test_route_error2():
 
 if __name__ == "__main__":
     c = test_route_error2()
-    c.show()
+    c.show(show_ports=True)

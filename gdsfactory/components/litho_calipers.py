@@ -58,4 +58,4 @@ def litho_calipers(
 
 if __name__ == "__main__":
     c = litho_calipers()
-    c.show()
+    c.show(show_ports=True)

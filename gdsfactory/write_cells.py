@@ -1,8 +1,10 @@
+"""Generate the code from a GDS file based PDK."""
+
 import pathlib
 from typing import Optional
 
 import gdspy
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import clean_name

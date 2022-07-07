@@ -3,11 +3,11 @@ settings:
   changed: {}
   child: null
   default:
-    dx: 20
-    dy: 10
+    dx: 20.0
+    dy: 10.0
   full:
-    dx: 20
-    dy: 10
+    dx: 20.0
+    dy: 10.0
   function_name: wire_sbend
   info: {}
   info_version: 2

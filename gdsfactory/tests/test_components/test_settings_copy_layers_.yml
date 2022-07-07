@@ -9,16 +9,16 @@ settings:
     child: null
     default:
       layer: WG
-      length: 10
+      length: 10.0
       port_type: null
-      width: 3
+      width: 3.0
     full:
       layer:
       - 2
       - 0
-      length: 10
+      length: 10.0
       port_type: null
-      width: 3
+      width: 3.0
     function_name: cross
     info: {}
     info_version: 2

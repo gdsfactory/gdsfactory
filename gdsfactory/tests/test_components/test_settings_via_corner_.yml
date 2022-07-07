@@ -13,7 +13,7 @@ settings:
           port_types:
           - electrical
           - electrical
-          width: 10
+          width: 10.0
       - - 0
         - 180
     - - function: cross_section
@@ -25,7 +25,7 @@ settings:
           port_types:
           - electrical
           - electrical
-          width: 10
+          width: 10.0
       - - 90
         - 270
     layers_labels:
@@ -47,7 +47,7 @@ settings:
           port_types:
           - electrical
           - electrical
-          width: 10
+          width: 10.0
       - - 0
         - 180
     - - function: cross_section
@@ -59,7 +59,7 @@ settings:
           port_types:
           - electrical
           - electrical
-          width: 10
+          width: 10.0
       - - 90
         - 270
     layers_labels:

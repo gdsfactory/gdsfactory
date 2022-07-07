@@ -19,7 +19,7 @@ def ring_single_heater(
     coupler_ring: ComponentSpec = _coupler_ring,
     straight: ComponentSpec = _straight,
     bend: ComponentSpec = bend_euler,
-    cross_section_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
+    cross_section_waveguide_heater: CrossSectionSpec = gf.cross_section.strip_heater_metal,
     cross_section: CrossSectionSpec = gf.cross_section.strip,
     via_stack: ComponentSpec = via_stack_heater_m3_mini,
     port_orientation: Optional[float] = 90,
@@ -40,7 +40,7 @@ def ring_single_heater(
         coupler_ring: ring coupler function.
         straight: straight function.
         bend: 90 degrees bend function.
-        cross_section_heater: for heater.
+        cross_section_waveguide_heater: for heater.
         cross_section: for regular waveguide.
         via_stack: for heater to routing metal.
         port_orientation: for electrical ports to promote from via_stack.
@@ -68,19 +68,25 @@ def ring_single_heater(
         radius=radius,
         length_x=length_x,
         cross_section=cross_section,
-        bend_cross_section=cross_section_heater,
+        bend_cross_section=cross_section_waveguide_heater,
         **kwargs
     )
 
     straight_side = gf.get_component(
-        straight, length=length_y, cross_section=cross_section_heater, **kwargs
+        straight,
+        length=length_y,
+        cross_section=cross_section_waveguide_heater,
+        **kwargs
     )
     straight_top = gf.get_component(
-        straight, length=length_x, cross_section=cross_section_heater, **kwargs
+        straight,
+        length=length_x,
+        cross_section=cross_section_waveguide_heater,
+        **kwargs
     )
 
     bend = gf.get_component(
-        bend, radius=radius, cross_section=cross_section_heater, **kwargs
+        bend, radius=radius, cross_section=cross_section_waveguide_heater, **kwargs
     )
 
     c = gf.Component()
@@ -124,4 +130,4 @@ if __name__ == "__main__":
     # cc = gf.add_pins(c)
     # print(c.settings)
     # print(c.settings)
-    # cc.show()
+    # cc.show(show_ports=True)

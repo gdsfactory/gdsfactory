@@ -28,4 +28,4 @@ placements:
 
 if __name__ == "__main__":
     c = gf.read.from_yaml(sample_rotation)
-    c.show()
+    c.show(show_ports=True)

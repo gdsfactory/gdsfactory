@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # c = test_import_gds_hierarchy()
     # c = test_import_ports()
     # c = test_import_gds_add_padding()
-    # c.show()
+    # c.show(show_ports=True)
     test_import_gds_snap_to_grid()
 
     cross_section = gf.cross_section.cross_section

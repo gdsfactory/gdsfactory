@@ -1,7 +1,7 @@
 """Waiting for https://github.com/omry/omegaconf/issues/725
 """
-import numpy as np
 import gdsfactory as gf
+import numpy as np
 
 
 @gf.cell

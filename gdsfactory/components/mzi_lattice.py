@@ -123,4 +123,4 @@ if __name__ == "__main__":
         coupler_lengths=cpl, coupler_gaps=cpg, delta_lengths=dl0, length_x=1
     )
     c = mzi_lattice(delta_lengths=(20,))
-    c.show()
+    c.show(show_ports=True)

@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: 0 2 * * * # run at 2 AM UTC
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -19,10 +23,10 @@ jobs:
 
     steps:
       - name: Cancel Workflow Action
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.10.0
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -30,8 +34,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8
           make gdslib
-          pip install -e .
-          pip install klayout
+          pip install -e .[dev]
+          pip install klayout lytest scikit-image
       - name: Lint with flake8
         run: |
           flake8 .

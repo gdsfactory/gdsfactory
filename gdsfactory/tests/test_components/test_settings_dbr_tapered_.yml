@@ -9,14 +9,14 @@ settings:
     - 0.2
     - 0.05
     fins: false
-    length: 10
+    length: 10.0
     period: 0.85
     port:
     - 0
     - 0
-    taper_length: 20
+    taper_length: 20.0
     w1: 0.4
-    w2: 1
+    w2: 1.0
     waveguide_template:
       function: strip
     waveguide_template_dbr: null
@@ -27,14 +27,14 @@ settings:
     - 0.2
     - 0.05
     fins: false
-    length: 10
+    length: 10.0
     period: 0.85
     port:
     - 0
     - 0
-    taper_length: 20
+    taper_length: 20.0
     w1: 0.4
-    w2: 1
+    w2: 1.0
     waveguide_template:
       function: strip
     waveguide_template_dbr: null

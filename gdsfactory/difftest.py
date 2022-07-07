@@ -16,14 +16,11 @@ class GdsRegressionFixture(FileRegressionFixture):
             ):
         try:
             difftest(c)
-
 """
 import filecmp
 import pathlib
 import shutil
 from typing import Optional
-
-from lytest.kdb_xor import GeometryDifference, run_xor
 
 from gdsfactory.component import Component
 from gdsfactory.config import CONFIG, logger
@@ -37,17 +34,21 @@ def difftest(
     dirpath: pathlib.Path = CONFIG["gdsdiff"],
 ) -> None:
     """Avoids GDS regressions tests on the GeometryDifference.
-    Runs an XOR over a component and makes boolean comparison with a GDS reference.
-    If it runs for the fist time it just stores the GDS reference.
+
+    If files are the same it returns None. If files are different runs XOR
+    between new component and the GDS reference stored in dirpath and
     raises GeometryDifference if there are differences and show differences in klayout.
+
+    If it runs for the fist time it just stores the GDS reference.
 
 
     Args:
-        component:
-        test_name: used to store the GDS file
-        xor: runs xor if there is difference
-        dirpath: defaults to cwd refers to where the test is being invoked
+        component: to test if it has changed.
+        test_name: used to store the GDS file.
+        xor: runs xor if there is difference.
+        dirpath: defaults to cwd refers to where the test is being invoked.
     """
+    from lytest.kdb_xor import GeometryDifference, run_xor
 
     # containers function_name is different from component.name
     # we store the container with a different name from original component
@@ -93,12 +94,13 @@ def difftest(
 
         try:
             val = input(
-                "Would you like to save current GDS as the new reference? [y/N] "
+                "Would you like to save current GDS as the new reference? [Y/n] "
             )
-            if val.upper().startswith("Y"):
-                logger.info(f"deleting file {str(ref_file)!r}")
-                ref_file.unlink()
-                shutil.copy(run_file, ref_file)
+            if val.upper().startswith("N"):
+                return
+            logger.info(f"deleting file {str(ref_file)!r}")
+            ref_file.unlink()
+            shutil.copy(run_file, ref_file)
             raise
         except OSError as exc:
             raise GeometryDifference(

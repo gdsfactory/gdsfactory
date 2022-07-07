@@ -22,6 +22,6 @@ if __name__ == "__main__":
         waypoints=[c1.ports["pad"]],
     )
     c.add(route.references)
-    c.show()
+    c.show(show_ports=True)
 
     # print(c2.ports['pad'].midpoint)

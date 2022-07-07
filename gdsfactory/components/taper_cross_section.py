@@ -67,4 +67,4 @@ if __name__ == "__main__":
 
     # c = taper_cross_section()
     c = taper_cross_section_sine()
-    c.show()
+    c.show(show_ports=True)

@@ -13,10 +13,10 @@ def check_width(
     """Reads layer from top cell and returns a number of edges violating min width
 
     Args:
-        gdspath: path to GDS or Component
-        layer: tuple (int, int)
-        min_width: in um
-        dbu: database units (1000 um/nm)
+        gdspath: path to GDS or Component.
+        layer: tuple (int, int).
+        min_width: in um.
+        dbu: database units (1000 um/nm).
     """
     import klayout.db as pya
 

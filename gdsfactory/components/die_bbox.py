@@ -1,3 +1,4 @@
+"""adapted from phidl.geometry """
 from typing import Optional
 
 import numpy as np
@@ -21,12 +22,12 @@ def die_bbox(
     layer: LayerSpec = "M3",
     padding: float = 10.0,
 ) -> gf.Component:
-    """Return component with boundary box frame around it.
+    """Returns component with boundary box frame around it.
+
     Perfect for defining the boundary of the chip/die
     it can also add a label with the name of the die.
-    similar to die and bbox
+    similar to die and bbox.
 
-    adapted from phidl.geometry
 
     Args:
         component: to frame.
@@ -101,5 +102,6 @@ def die_bbox(
 
 if __name__ == "__main__":
     mask = gf.components.array(rows=10, columns=10)
-    c = die_bbox(component=mask, die_name="chip99")
-    c.show()
+    # c = die_bbox(component=mask, die_name="chip99")
+    c = die_bbox()
+    # c.show(show_ports=True)

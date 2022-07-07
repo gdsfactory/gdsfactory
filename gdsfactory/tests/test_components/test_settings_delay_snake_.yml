@@ -3,7 +3,7 @@ settings:
   changed: {}
   child: null
   default:
-    L0: 5
+    L0: 5.0
     bend:
       function: bend_euler
     n: 2
@@ -11,12 +11,12 @@ settings:
       function: straight
     taper:
       function: taper
-    taper_length: 10
-    total_length: 1600
+    taper_length: 10.0
+    total_length: 1600.0
     wg_width: 0.5
-    wg_width_wide: 2
+    wg_width_wide: 2.0
   full:
-    L0: 5
+    L0: 5.0
     bend:
       function: bend_euler
     n: 2
@@ -24,10 +24,10 @@ settings:
       function: straight
     taper:
       function: taper
-    taper_length: 10
-    total_length: 1600
+    taper_length: 10.0
+    total_length: 1600.0
     wg_width: 0.5
-    wg_width_wide: 2
+    wg_width_wide: 2.0
   function_name: delay_snake
   info: {}
   info_version: 2

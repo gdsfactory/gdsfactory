@@ -17,7 +17,7 @@ from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
 from gdsfactory.write_cells import write_cells as write_cells_to_separate_gds
 
-VERSION = "5.10.0"
+VERSION = "5.12.12"
 log_directory = CONFIG.get("log_directory")
 LAYER_LABEL = LAYER.LABEL
 
@@ -103,7 +103,7 @@ def merge_gds(
 
     c = gdsfactory.read.from_gdsdir(dirpath=dirpath)
     c.write_gds(gdspath=gdspath)
-    c.show()
+    c.show(show_ports=True)
 
 
 # netlist driven flow in YAML
@@ -115,17 +115,17 @@ def yaml() -> None:
     pass
 
 
-@click.option("--debug", "-d", default=False, help="debug", is_flag=True)
-@click.command()
-def webapp(debug: bool = False) -> None:
-    """Opens YAML based webapp."""
-    from gdsfactory.icyaml import app
+# @click.option("--debug", "-d", default=False, help="debug", is_flag=True)
+# @click.command()
+# def webapp(debug: bool = False) -> None:
+#     """Opens YAML based webapp."""
+#     from gdsfactory.icyaml import app
 
-    if debug:
-        app.run_debug()
+#     if debug:
+#         app.run_debug()
 
-    else:
-        app.run()
+#     else:
+#         app.run()
 
 
 @click.argument("path", type=click.Path(exists=True), required=False, default=cwd)
@@ -198,7 +198,7 @@ tool.add_command(config_get)
 tool.add_command(test)
 tool.add_command(install)
 
-yaml.add_command(webapp)
+# yaml.add_command(webapp)
 yaml.add_command(watch)
 
 gf.add_command(gds)

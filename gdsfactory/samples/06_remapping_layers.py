@@ -29,4 +29,4 @@ def test_remap_layers() -> Component:
 
 if __name__ == "__main__":
     c = test_remap_layers()
-    c.show()
+    c.show(show_ports=True)

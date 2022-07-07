@@ -5,17 +5,17 @@ from gdsfactory.simulation.simphony.model_from_gdsfactory import model_from_gdsf
 def mmi2x2(**kwargs):
     r"""Return 2x2 MultiModeInterferometer Sparameter model.
 
-    Args:
-        width: input and output straight width
-        width_taper: interface between input straights and mmi region
-        length_taper: into the mmi region
-        length_mmi: in x direction
-        width_mmi: in y direction
-        gap_mmi:  gap between tapered wg
-        taper: taper function
-        layer:
-        layers_cladding:
-        cladding_offset
+    Keyword Args:
+        width: input and output straight width.
+        width_taper: interface between input straights and mmi region.
+        length_taper: into the mmi region.
+        length_mmi: in x direction.
+        width_mmi: in y direction.
+        gap_mmi: (width_taper + gap between tapered wg)/2.
+        taper: taper function.
+        straight: straight function.
+        with_bbox: box in bbox_layers and bbox_offsets to avoid DRC sharp edges.
+        cross_section: spec.
 
     .. code::
 

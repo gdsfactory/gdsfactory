@@ -27,7 +27,7 @@ def pixel_array(
 
     Args:
         pixels: string representing the pixels
-        pixel_size: widht/height for each pixel
+        pixel_size: width/height for each pixel
         layer: layer for each pixel
     """
     component = Component()
@@ -322,4 +322,4 @@ def rectangular_font() -> Dict[str, str]:
 
 if __name__ == "__main__":
     c = pixel_array()
-    c.show()
+    c.show(show_ports=True)

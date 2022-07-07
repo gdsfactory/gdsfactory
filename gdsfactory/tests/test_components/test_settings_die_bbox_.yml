@@ -45,11 +45,11 @@ settings:
         - 2600
     die_name: null
     layer: M3
-    padding: 10
+    padding: 10.0
     street_length: null
-    street_width: 100
+    street_width: 100.0
     text_anchor: sw
-    text_size: 100
+    text_size: 100.0
   full:
     component:
       function: rectangle
@@ -59,11 +59,11 @@ settings:
         - 2600
     die_name: null
     layer: M3
-    padding: 10
+    padding: 10.0
     street_length: null
-    street_width: 100
+    street_width: 100.0
     text_anchor: sw
-    text_size: 100
+    text_size: 100.0
   function_name: die_bbox
   info: {}
   info_version: 2

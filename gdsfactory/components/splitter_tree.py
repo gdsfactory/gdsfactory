@@ -160,7 +160,7 @@ if __name__ == "__main__":
         # bend_length=30,
         bend_s=None,
     )
-    c.show()
+    c.show(show_ports=True)
     # print(len(c.ports))
     # for port in c.get_ports_list():
     #     print(port)

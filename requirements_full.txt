@@ -3,10 +3,13 @@ holoviews
 ipympl
 ipywidgets
 klayout
+lytest==0.0.20
+networkx
 pyglet
-pyyaml
+sax
+scikit-image
 simphony==0.6.1
-SiPANN==2.0.0
 sklearn
-tidy3d-beta==1.4.0
+tidy3d-beta==1.4.1
 triangle
+trimesh

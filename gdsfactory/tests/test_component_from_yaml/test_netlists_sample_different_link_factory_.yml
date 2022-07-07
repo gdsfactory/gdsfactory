@@ -1,32 +1,33 @@
 connections:
-  bend_euler_1c0827cd_225p124_204p876,o1: straight_e696e1a6_135p0_200p0,o2
-  bend_euler_1c0827cd_225p124_204p876,o2: straight_7470c955_230p0_380p0,o1
-  bend_euler_1c0827cd_234p876_555p124,o1: straight_7470c955_230p0_380p0,o2
-  bend_euler_1c0827cd_234p876_555p124,o2: straight_e70c3494_365p0_560p0,o1
-  bend_euler_1c0827cd_234p876_584p876,o1: straight_e70c3494_365p0_580p0,o2
+  bend_euler_1c0827cd_225p124_204p876,o1: straight_eaee84f9_135p0_200p0,o2
+  bend_euler_1c0827cd_225p124_204p876,o2: straight_f44bc04e_230p0_380p0,o1
+  bend_euler_1c0827cd_234p876_555p124,o1: straight_f44bc04e_230p0_380p0,o2
+  bend_euler_1c0827cd_234p876_555p124,o2: straight_936f36dd_365p0_560p0,o1
+  bend_euler_1c0827cd_234p876_584p876,o1: straight_936f36dd_365p0_580p0,o2
   bend_euler_1c0827cd_234p876_584p876,o2: bend_euler_1c0827cd_234p876_595p124,o1
-  bend_euler_1c0827cd_234p876_595p124,o2: straight_ba3f7eb4_545p0_600p0,o1
-  bend_euler_1c0827cd_255p124_4p876,o1: straight_379589a8_150p0_0p0,o2
-  bend_euler_1c0827cd_255p124_4p876,o2: straight_7470c955_260p0_180p0,o1
-  bend_euler_1c0827cd_264p876_355p124,o1: straight_7470c955_260p0_180p0,o2
-  bend_euler_1c0827cd_264p876_355p124,o2: straight_e70c3494_395p0_360p0,o1
-  bend_euler_1c0827cd_264p876_384p876,o1: straight_e70c3494_395p0_380p0,o2
+  bend_euler_1c0827cd_234p876_595p124,o2: straight_11ae13cd_545p0_600p0,o1
+  bend_euler_1c0827cd_255p124_4p876,o1: straight_53c35efb_150p0_0p0,o2
+  bend_euler_1c0827cd_255p124_4p876,o2: straight_f44bc04e_260p0_180p0,o1
+  bend_euler_1c0827cd_264p876_355p124,o1: straight_f44bc04e_260p0_180p0,o2
+  bend_euler_1c0827cd_264p876_355p124,o2: straight_936f36dd_395p0_360p0,o1
+  bend_euler_1c0827cd_264p876_384p876,o1: straight_936f36dd_395p0_380p0,o2
   bend_euler_1c0827cd_264p876_384p876,o2: bend_euler_1c0827cd_264p876_395p124,o1
-  bend_euler_1c0827cd_264p876_395p124,o2: straight_6bc72b86_560p0_400p0,o1
-  bend_euler_1c0827cd_495p124_564p876,o1: straight_e70c3494_365p0_560p0,o2
+  bend_euler_1c0827cd_264p876_395p124,o2: straight_49585107_560p0_400p0,o1
+  bend_euler_1c0827cd_495p124_564p876,o1: straight_936f36dd_365p0_560p0,o2
   bend_euler_1c0827cd_495p124_564p876,o2: bend_euler_1c0827cd_495p124_575p124,o1
-  bend_euler_1c0827cd_495p124_575p124,o2: straight_e70c3494_365p0_580p0,o1
-  bend_euler_1c0827cd_525p124_364p876,o1: straight_e70c3494_395p0_360p0,o2
+  bend_euler_1c0827cd_495p124_575p124,o2: straight_936f36dd_365p0_580p0,o1
+  bend_euler_1c0827cd_525p124_364p876,o1: straight_936f36dd_395p0_360p0,o2
   bend_euler_1c0827cd_525p124_364p876,o2: bend_euler_1c0827cd_525p124_375p124,o1
-  bend_euler_1c0827cd_525p124_375p124,o2: straight_e70c3494_395p0_380p0,o1
+  bend_euler_1c0827cd_525p124_375p124,o2: straight_936f36dd_395p0_380p0,o1
 instances:
   bend_euler_1c0827cd_225p124_204p876:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -45,10 +46,11 @@ instances:
   bend_euler_1c0827cd_234p876_555p124:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -67,10 +69,11 @@ instances:
   bend_euler_1c0827cd_234p876_584p876:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -89,10 +92,11 @@ instances:
   bend_euler_1c0827cd_234p876_595p124:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -111,10 +115,11 @@ instances:
   bend_euler_1c0827cd_255p124_4p876:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -133,10 +138,11 @@ instances:
   bend_euler_1c0827cd_264p876_355p124:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -155,10 +161,11 @@ instances:
   bend_euler_1c0827cd_264p876_384p876:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -177,10 +184,11 @@ instances:
   bend_euler_1c0827cd_264p876_395p124:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -199,10 +207,11 @@ instances:
   bend_euler_1c0827cd_495p124_564p876:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -221,10 +230,11 @@ instances:
   bend_euler_1c0827cd_495p124_575p124:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -243,10 +253,11 @@ instances:
   bend_euler_1c0827cd_525p124_364p876:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -265,10 +276,11 @@ instances:
   bend_euler_1c0827cd_525p124_375p124:
     component: bend_euler
     info:
-      dy: 10
+      dy: 10.0
       length: 16.637
-      radius: 10
+      radius: 10.0
       radius_min: 7.061
+      width: 0.5
     settings:
       cross_section:
         function: cross_section
@@ -304,10 +316,10 @@ instances:
       - 100.0
       - 100.0
     settings: {}
-  straight_379589a8_150p0_0p0:
+  straight_11ae13cd_545p0_600p0:
     component: straight
     info:
-      length: 200
+      length: 610.0
       width: 0.5
     settings:
       cross_section:
@@ -323,12 +335,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 200
+      length: 610.0
       radius: 10
-  straight_6bc72b86_560p0_400p0:
+  straight_49585107_560p0_400p0:
     component: straight
     info:
-      length: 580
+      length: 580.0
       width: 0.5
     settings:
       cross_section:
@@ -344,12 +356,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 580
+      length: 580.0
       radius: 10
-  straight_7470c955_230p0_380p0:
+  straight_53c35efb_150p0_0p0:
     component: straight
     info:
-      length: 340
+      length: 200.0
       width: 0.5
     settings:
       cross_section:
@@ -365,12 +377,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 340
+      length: 200.0
       radius: 10
-  straight_7470c955_260p0_180p0:
+  straight_936f36dd_365p0_560p0:
     component: straight
     info:
-      length: 340
+      length: 250.0
       width: 0.5
     settings:
       cross_section:
@@ -386,12 +398,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 340
+      length: 250.0
       radius: 10
-  straight_ba3f7eb4_545p0_600p0:
+  straight_936f36dd_365p0_580p0:
     component: straight
     info:
-      length: 610
+      length: 250.0
       width: 0.5
     settings:
       cross_section:
@@ -407,12 +419,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 610
+      length: 250.0
       radius: 10
-  straight_e696e1a6_135p0_200p0:
+  straight_936f36dd_395p0_360p0:
     component: straight
     info:
-      length: 170
+      length: 250.0
       width: 0.5
     settings:
       cross_section:
@@ -428,12 +440,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 170
+      length: 250.0
       radius: 10
-  straight_e70c3494_365p0_560p0:
+  straight_936f36dd_395p0_380p0:
     component: straight
     info:
-      length: 250
+      length: 250.0
       width: 0.5
     settings:
       cross_section:
@@ -449,12 +461,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 250
+      length: 250.0
       radius: 10
-  straight_e70c3494_365p0_580p0:
+  straight_eaee84f9_135p0_200p0:
     component: straight
     info:
-      length: 250
+      length: 170.0
       width: 0.5
     settings:
       cross_section:
@@ -470,12 +482,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 250
+      length: 170.0
       radius: 10
-  straight_e70c3494_395p0_360p0:
+  straight_f44bc04e_230p0_380p0:
     component: straight
     info:
-      length: 250
+      length: 340.0
       width: 0.5
     settings:
       cross_section:
@@ -491,12 +503,12 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 250
+      length: 340.0
       radius: 10
-  straight_e70c3494_395p0_380p0:
+  straight_f44bc04e_260p0_180p0:
     component: straight
     info:
-      length: 250
+      length: 340.0
       width: 0.5
     settings:
       cross_section:
@@ -512,7 +524,7 @@ instances:
           - DEVREC
           cladding_offsets:
           - 0
-      length: 250
+      length: 340.0
       radius: 10
   tl:
     component: pad
@@ -537,7 +549,7 @@ instances:
 name: sample_path_length_matc_80997953
 placements:
   bend_euler_1c0827cd_225p124_204p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 220.0
     y: 200.0
@@ -557,7 +569,7 @@ placements:
     x: 230.0
     y: 590.0
   bend_euler_1c0827cd_255p124_4p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 250.0
     y: 0.0
@@ -577,92 +589,92 @@ placements:
     x: 260.0
     y: 390.0
   bend_euler_1c0827cd_495p124_564p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 490.0
     y: 560.0
   bend_euler_1c0827cd_495p124_575p124:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 500.0
     y: 570.0
   bend_euler_1c0827cd_525p124_364p876:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 520.0
     y: 360.0
   bend_euler_1c0827cd_525p124_375p124:
-    mirror: false
+    mirror: 0
     rotation: 90
     x: 530.0
     y: 370.0
   bl:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 0.0
   br:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 900.0
     y: 400.0
-  straight_379589a8_150p0_0p0:
-    mirror: false
-    rotation: 0
-    x: 50.0
-    y: 0.0
-  straight_6bc72b86_560p0_400p0:
-    mirror: false
-    rotation: 0
-    x: 270.0
-    y: 400.0
-  straight_7470c955_230p0_380p0:
-    mirror: false
-    rotation: 90
-    x: 230.0
-    y: 210.0
-  straight_7470c955_260p0_180p0:
-    mirror: false
-    rotation: 90
-    x: 260.0
-    y: 10.0
-  straight_ba3f7eb4_545p0_600p0:
-    mirror: false
+  straight_11ae13cd_545p0_600p0:
+    mirror: 0
     rotation: 0
     x: 240.0
     y: 600.0
-  straight_e696e1a6_135p0_200p0:
-    mirror: false
+  straight_49585107_560p0_400p0:
+    mirror: 0
+    rotation: 0
+    x: 270.0
+    y: 400.0
+  straight_53c35efb_150p0_0p0:
+    mirror: 0
     rotation: 0
     x: 50.0
-    y: 200.0
-  straight_e70c3494_365p0_560p0:
-    mirror: false
+    y: 0.0
+  straight_936f36dd_365p0_560p0:
+    mirror: 0
     rotation: 0
     x: 240.0
     y: 560.0
-  straight_e70c3494_365p0_580p0:
-    mirror: false
+  straight_936f36dd_365p0_580p0:
+    mirror: 0
     rotation: 180
     x: 490.0
     y: 580.0
-  straight_e70c3494_395p0_360p0:
-    mirror: false
+  straight_936f36dd_395p0_360p0:
+    mirror: 0
     rotation: 0
     x: 270.0
     y: 360.0
-  straight_e70c3494_395p0_380p0:
-    mirror: false
+  straight_936f36dd_395p0_380p0:
+    mirror: 0
     rotation: 180
     x: 520.0
     y: 380.0
+  straight_eaee84f9_135p0_200p0:
+    mirror: 0
+    rotation: 0
+    x: 50.0
+    y: 200.0
+  straight_f44bc04e_230p0_380p0:
+    mirror: 0
+    rotation: 90
+    x: 230.0
+    y: 210.0
+  straight_f44bc04e_260p0_180p0:
+    mirror: 0
+    rotation: 90
+    x: 260.0
+    y: 10.0
   tl:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 0.0
     y: 200.0
   tr:
-    mirror: false
+    mirror: 0
     rotation: 0
     x: 900.0
     y: 600.0

@@ -29,7 +29,7 @@ settings:
     mirror: false
     port1: o1
     port2: o2
-    radius: 5
+    radius: 5.0
     rows: 5
     straight:
       function: straight
@@ -47,7 +47,7 @@ settings:
     mirror: true
     port1: o1
     port2: o2
-    radius: 5
+    radius: 5.0
     rows: 5
     straight:
       function: straight

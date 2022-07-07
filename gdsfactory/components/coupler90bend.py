@@ -66,4 +66,4 @@ def coupler90bend(
 
 if __name__ == "__main__":
     c = coupler90bend(radius=3)
-    c.show()
+    c.show(show_ports=True)

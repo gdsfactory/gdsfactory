@@ -82,4 +82,4 @@ if __name__ == "__main__":
     c = big_square()
     c.unlock()
     c << seal_ring(c.bbox + ((0, 0), (10, 0)), with_south=False)
-    c.show()
+    c.show(show_ports=True)

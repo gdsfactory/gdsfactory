@@ -24,7 +24,8 @@ def coupler_adiabatic(
     **kwargs
 ) -> Component:
     """Returns 50/50 adiabatic coupler.
-    Design based on asymmetric adiabatic 3dB coupler designs, such as those
+
+    Design based on asymmetric adiabatic 3dB coupler designs, such as those.
 
     - https://doi.org/10.1364/CLEO.2010.CThAA2,
     - https://doi.org/10.1364/CLEO_SI.2017.SF1I.5
@@ -39,7 +40,7 @@ def coupler_adiabatic(
     IV is the output S-bend straight.
 
     Args:
-        length1: region that gradually brings the two assymetric straights together.
+        length1: region that gradually brings the two asymmetric straights together.
             In this region the straight widths gradually change to be different by `dw`.
         length2: coupling region, where asymmetric straights gradually
             become the same width.
@@ -91,4 +92,4 @@ if __name__ == "__main__":
 
     c = coupler_adiabatic(length3=5)
     print(c.ports)
-    c.show()
+    c.show(show_ports=True)

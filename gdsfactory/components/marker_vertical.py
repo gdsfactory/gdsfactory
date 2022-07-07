@@ -20,4 +20,4 @@ def marker_vertical_tm(width: float = 11.0, layer: LayerSpec = "TM") -> Componen
 
 if __name__ == "__main__":
     c = marker_vertical_te()
-    c.show()
+    c.show(show_ports=True)

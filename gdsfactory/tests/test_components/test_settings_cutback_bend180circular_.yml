@@ -16,7 +16,7 @@ settings:
     spacing: 3
     straight:
       function: straight
-    straight_length: 5
+    straight_length: 5.0
   full:
     bend180:
       function: bend_circular
@@ -27,7 +27,7 @@ settings:
     spacing: 3
     straight:
       function: straight
-    straight_length: 5
+    straight_length: 5.0
   function_name: cutback_bend180
   info:
     n_bends: 82

@@ -35,16 +35,20 @@ def clean_value_json(value: Any) -> Any:
     """Return JSON serializable object."""
 
     if isinstance(value, pydantic.BaseModel):
-        value = value.dict()
-    elif isinstance(value, float) and int(value) == value:
-        value = int(value)
-    elif isinstance(value, (np.int64, np.int32)):
-        value = int(value)
-    elif isinstance(value, float):
-        value = float(value)
+        return value.dict()
+
+    elif isinstance(value, bool):
+        return value
+
+    elif isinstance(value, (np.integer, int)):
+        return int(value)
+
+    elif isinstance(value, (float, np.inexact, np.float64)):
+        return float(value)
+
     elif isinstance(value, np.ndarray):
         value = np.round(value, 3)
-        value = orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY).decode()
+        return orjson.dumps(value, option=orjson.OPT_SERIALIZE_NUMPY).decode()
     elif callable(value) and isinstance(value, functools.partial):
         sig = inspect.signature(value.func)
         args_as_kwargs = dict(zip(sig.parameters.keys(), value.args))
@@ -55,12 +59,10 @@ def clean_value_json(value: Any) -> Any:
         func = value.func
         while hasattr(func, "func"):
             func = func.func
-        value = dict(function=func.__name__, settings=args_as_kwargs)
+        return dict(function=func.__name__, settings=args_as_kwargs)
 
     elif hasattr(value, "to_dict"):
-        value = value.to_dict()
-    elif isinstance(value, np.float64):
-        value = float(value)
+        return value.to_dict()
     elif callable(value) and isinstance(value, toolz.functoolz.Compose):
         value = [clean_value_json(value.first)] + [
             clean_value_json(func) for func in value.funcs

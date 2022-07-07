@@ -77,4 +77,4 @@ def coupler_asymmetric(
 
 if __name__ == "__main__":
     c = coupler_asymmetric(gap=0.4, layer=(2, 0))
-    c.show()
+    c.show(show_ports=True)

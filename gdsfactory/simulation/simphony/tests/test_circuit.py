@@ -23,8 +23,9 @@ def test_circuit_transmission(data_regression, check: bool = True):
 
 
 if __name__ == "__main__":
-    # import matplotlib.pyplot as plt
-    # from gdsfactory.simulation.simphony import plot_circuit
+    import matplotlib.pyplot as plt
+
+    from gdsfactory.simulation.simphony import plot_circuit
 
     c = gf.c.mzi(delta_length=10)
     n = c.get_netlist()
@@ -35,6 +36,7 @@ if __name__ == "__main__":
     m.pins[0].rename("o1")
     m.pins[-1].rename("o2")
 
-    # plot_circuit(m)
-    # plt.show()
+
+    plot_circuit(m)
+    plt.show()
     test_circuit_transmission(None, False)

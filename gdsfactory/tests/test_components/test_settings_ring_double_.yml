@@ -22,7 +22,7 @@ settings:
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
   full:
@@ -45,7 +45,7 @@ settings:
     gap: 0.2
     length_x: 0.01
     length_y: 0.01
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
   function_name: ring_double

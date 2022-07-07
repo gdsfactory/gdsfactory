@@ -39,4 +39,4 @@ def ellipse(
 
 if __name__ == "__main__":
     c = ellipse()
-    c.show()
+    c.show(show_ports=True)

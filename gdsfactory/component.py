@@ -10,7 +10,6 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import gdspy
 import matplotlib.pyplot as plt
-import networkx as nx
 import numpy as np
 import yaml
 from numpy import int64
@@ -57,16 +56,20 @@ MAX_NAME_LENGTH = 32
 
 
 class Component(Device):
-    """Extend phidl.Device
-
-    Allow name to be set like Component('arc') or Component(name = 'arc')
+    """A Component is like an empty canvas, where you can add polygons,
+    references to other Components and ports (to connect to other components).
 
     - get/write YAML metadata
     - get ports by type (optical, electrical ...)
     - set data_analysis and test_protocols
 
     Args:
-        name: component_name
+        name: component_name. Use @cell decorator for auto-naming.
+        version: component version.
+        changelog: changes from the last version.
+
+    Keyword Args:
+        with_uuid: adds unique identifier.
 
 
     Properties:
@@ -78,10 +81,10 @@ class Component(Device):
             - name: for the component
 
         settings:
-            full: full settings passed to the function to create component
-            changed: changed settings
-            default: default component settings
-            child: dict info from the children, if any
+            full: full settings passed to the function to create component.
+            changed: changed settings.
+            default: default component settings.
+            child: dict info from the children, if any.
 
     """
 
@@ -109,8 +112,12 @@ class Component(Device):
         self.version = version
         self.changelog = changelog
 
+    def __lshift__(self, element):
+        """Convenience operator equivalent to add_ref()."""
+        return self.add_ref(element)
+
     def unlock(self) -> None:
-        """I recommend doing this only if you know what you are doing."""
+        """only do this if you know what you are doing."""
         self._locked = False
 
     def lock(self) -> None:
@@ -148,7 +155,7 @@ class Component(Device):
         anchor: str = "o",
         layer="TEXT",
     ) -> Label:
-        """Adds a Label to the Device.
+        """Adds Label to the Component.
 
         Args:
             text: Label text.
@@ -181,7 +188,8 @@ class Component(Device):
 
     @property
     def bbox(self):
-        """Return the bounding box of the DeviceReference.
+        """Returns the bounding box of the ComponentReference.
+
         it snaps to 3 decimals in um (0.001um = 1nm precision)
         """
         bbox = self.get_bounding_box()
@@ -191,11 +199,11 @@ class Component(Device):
 
     @property
     def ports_layer(self) -> Dict[str, str]:
-        """Return a mapping from layer0_layer1_E0: portName"""
+        """Returns a mapping from layer0_layer1_E0: portName"""
         return map_ports_layer_to_orientation(self.ports)
 
     def port_by_orientation_cw(self, key: str, **kwargs):
-        """Return port by indexing them clockwise"""
+        """Returns port by indexing them clockwise"""
         m = map_ports_to_orientation_cw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -203,7 +211,7 @@ class Component(Device):
         return self.ports[key2]
 
     def port_by_orientation_ccw(self, key: str, **kwargs):
-        """Return port by indexing them clockwise"""
+        """Returns port by indexing them clockwise"""
         m = map_ports_to_orientation_ccw(self.ports, **kwargs)
         if key not in m:
             raise KeyError(f"{key} not in {list(m.keys())}")
@@ -211,7 +219,7 @@ class Component(Device):
         return self.ports[key2]
 
     def get_ports_xsize(self, **kwargs) -> float:
-        """Return xdistance from east to west ports
+        """Returns xdistance from east to west ports.
 
         Keyword Args:
             layer: port GDS layer.
@@ -226,7 +234,7 @@ class Component(Device):
         return snap_to_grid(ports_ccw[0].x - ports_cw[0].x)
 
     def get_ports_ysize(self, **kwargs) -> float:
-        """Return ydistance from east to west ports
+        """Returns ydistance from east to west ports.
 
         Keyword Args:
             layer: port GDS layer.
@@ -240,15 +248,15 @@ class Component(Device):
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
 
-    def plot_netlist(
-        self, with_labels: bool = True, font_weight: str = "normal"
-    ) -> nx.Graph:
+    def plot_netlist(self, with_labels: bool = True, font_weight: str = "normal"):
         """plots a netlist graph with networkx
 
         Args:
             with_labels: add label to each node.
             font_weight: normal, bold.
         """
+        import networkx as nx
+
         plt.figure()
         netlist = self.get_netlist()
         connections = netlist["connections"]
@@ -291,7 +299,7 @@ class Component(Device):
         write_dot(G, filepath)
 
     def get_netlist(self, **kwargs) -> DictConfig:
-        """Return netlist dict config (instances, placements, connections, ports)
+        """Returns netlist dict config (instances, placements, connections, ports)
 
         Keyword Args:
             component: to extract netlist.
@@ -338,7 +346,7 @@ class Component(Device):
             port.assert_on_grid(nm=nm)
 
     def get_ports_dict(self, **kwargs) -> Dict[str, Port]:
-        """Return a dict of ports.
+        """Returns a dict of ports.
 
         Keyword Args:
             layer: port GDS layer.
@@ -347,7 +355,7 @@ class Component(Device):
         return select_ports(self.ports, **kwargs)
 
     def get_ports_list(self, **kwargs) -> List[Port]:
-        """Return list of ports.
+        """Returns list of ports.
 
         Keyword Args:
             layer: port GDS layer.
@@ -539,7 +547,7 @@ class Component(Device):
         include_labels: bool = True,
         invert_selection: bool = False,
         recursive: bool = True,
-    ) -> Device:
+    ) -> "Component":
         """Remove a list of layers and returns the same Component.
 
         Args:
@@ -596,7 +604,7 @@ class Component(Device):
     def extract(
         self,
         layers: Union[List[Tuple[int, int]], Tuple[int, int]] = (),
-    ) -> Device:
+    ) -> "Component":
         """Extract polygons from a Component and returns a new Component.
         Adapted from phidl.geometry.
         """
@@ -623,12 +631,10 @@ class Component(Device):
 
         return super().add_polygon(points=points, layer=get_layer(layer))
 
-    def copy(
-        self, prefix: str = "", suffix: str = "_copy", cache: bool = True
-    ) -> Device:
+    def copy(self, prefix: str = "", suffix: str = "_copy") -> "Component":
         from gdsfactory.copy import copy
 
-        return copy(self, prefix=prefix, suffix=suffix, cache=cache)
+        return copy(self, prefix=prefix, suffix=suffix)
 
     def copy_child_info(self, component: "Component") -> None:
         """Copy info from child component into parent.
@@ -642,11 +648,14 @@ class Component(Device):
 
         polarization = component.info.get("polarization")
         wavelength = component.info.get("wavelength")
+        interconnect = component.info.get("interconnect")
 
         if polarization:
             self.info["polarization"] = polarization
         if wavelength:
             self.info["wavelength"] = wavelength
+        if interconnect:
+            self.info["interconnect"] = interconnect
 
     @property
     def size_info(self) -> SizeInfo:
@@ -689,7 +698,7 @@ class Component(Device):
 
     def add_array(
         self,
-        component: Device,
+        component: "Component",
         columns: int = 2,
         rows: int = 2,
         spacing: Tuple[float, float] = (100, 100),
@@ -703,7 +712,7 @@ class Component(Device):
             rows: Number of rows in the array.
             spacing: array-like[2] of int or float.
                 Distance between adjacent columns and adjacent rows.
-            alias: str or None. Alias of the referenced Device.
+            alias: str or None. Alias of the referenced Component.
 
         Returns
             a: CellArray containing references to the Component.
@@ -730,7 +739,7 @@ class Component(Device):
         If single_layer is specified, all polygons are moved to that layer.
 
         Args:
-            single_layer: move all polygons are moved to the specified
+            single_layer: move all polygons are moved to the specified.
         """
 
         component_flat = self.copy()
@@ -745,12 +754,13 @@ class Component(Device):
         return component_flat
 
     def add_ref(
-        self, component: Device, alias: Optional[str] = None
+        self, component: "Component", alias: Optional[str] = None
     ) -> "ComponentReference":
         """Add ComponentReference to the current Component."""
         if not isinstance(component, Device):
             raise TypeError(f"type = {type(Component)} needs to be a Component.")
         ref = ComponentReference(component)
+        ref.owner = self
         self.add(ref)
 
         if alias is not None:
@@ -758,7 +768,7 @@ class Component(Device):
         return ref
 
     def get_layers(self) -> Union[Set[Tuple[int, int]], Set[Tuple[int64, int64]]]:
-        """Return a set of (layer, datatype)
+        """Return a set of (layer, datatype).
 
         .. code ::
 
@@ -786,7 +796,7 @@ class Component(Device):
         return self.__repr__()
 
     def plot(self, plotter: Optional[Plotter] = None, **kwargs) -> None:
-        """Return component plot.
+        """Returns component plot.
 
         Args:
             plotter: backend ('holoviews', 'matplotlib', 'qt').
@@ -818,6 +828,11 @@ class Component(Device):
 
             return quickplot2(self)
 
+    def plotqt(self):
+        from gdsfactory.quickplotter import quickplot2
+
+        return quickplot2(self)
+
     def ploth(
         self,
         layers_excluded: Optional[Layers] = None,
@@ -826,8 +841,6 @@ class Component(Device):
         padding: float = 0.5,
     ):
         """Plot component in holoviews.
-
-        adapted from dphox.device.Device.hvplot
 
         Args:
             layers_excluded: list of layers to exclude.
@@ -914,6 +927,7 @@ class Component(Device):
         show_ports: bool = False,
         show_subports: bool = False,
         port_marker_layer: Layer = "SHOW_PORTS",
+        **kwargs,
     ) -> None:
         """Show component in klayout.
 
@@ -925,12 +939,20 @@ class Component(Device):
             show_ports: shows component with port markers and labels.
             show_subports: add ports markers and labels to references.
             port_marker_layer: for the ports.
+
+        Keyword Args:
+            gdspath: GDS file path to write to.
+            gdsdir: directory for the GDS file. Defaults to /tmp/.
+            unit: unit size for objects in library. 1um by default.
+            precision: for object dimensions in the library (m). 1nm by default.
+            timestamp: Defaults to 2019-10-25. If None uses current time.
+
         """
         from gdsfactory.add_pins import add_pins_triangle
         from gdsfactory.show import show
 
         if show_subports:
-            component = self.copy(suffix="", cache=False)
+            component = self.copy(suffix="")
             for reference in component.references:
                 add_pins_triangle(
                     component=component,
@@ -939,15 +961,15 @@ class Component(Device):
                 )
 
         elif show_ports:
-            component = self.copy(suffix="", cache=False)
+            component = self.copy(suffix="")
             add_pins_triangle(component=component, layer=port_marker_layer)
         else:
             component = self
 
-        show(component)
+        show(component, **kwargs)
 
-    def to_3d(self, **kwargs):
-        """Return Component 3D trimesh Scene.
+    def to_3d(self, *args, **kwargs):
+        """Returns Component 3D trimesh Scene.
 
         Keyword Args:
             component: to exture in 3D.
@@ -960,7 +982,7 @@ class Component(Device):
         """
         from gdsfactory.export.to_3d import to_3d
 
-        return to_3d(self, **kwargs)
+        return to_3d(self, *args, **kwargs)
 
     def write_gds(
         self,
@@ -972,7 +994,7 @@ class Component(Device):
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
     ) -> Path:
-        """Write component to GDS and returns gdspath
+        """Write component to GDS and returns gdspath.
 
         Args:
             gdspath: GDS file path to write to.
@@ -1055,7 +1077,7 @@ class Component(Device):
         with_cells: bool = False,
         with_ports: bool = False,
     ) -> Dict[str, Any]:
-        """Return Dict representation of a component.
+        """Returns Dict representation of a component.
 
         Args:
             ignore_components_prefix: for components to ignore when exporting.
@@ -1148,8 +1170,8 @@ class Component(Device):
         """Rename ports by orientation NSEW (north, south, east, west).
 
         Keyword Args:
-            function: to rename ports
-            select_ports_optical:
+            function: to rename ports.
+            select_ports_optical: to select ports.
             select_ports_electrical:
             prefix_optical:
             prefix_electrical:
@@ -1173,8 +1195,8 @@ class Component(Device):
         origin: Float2 = (0, 0),
         destination: Optional[Float2] = None,
         axis: Optional[Axis] = None,
-    ) -> Device:
-        """Return new Component with a moved reference to the original component.
+    ) -> "Component":
+        """Returns new Component with a moved reference to the original component.
 
         Args:
             origin: of component.
@@ -1189,29 +1211,29 @@ class Component(Device):
         self,
         p1: Float2 = (0, 1),
         p2: Float2 = (0, 0),
-    ) -> Device:
-        """Return new Component with a mirrored reference.
+    ) -> "Component":
+        """Returns new Component with a mirrored reference.
 
         Args:
-            p1: first point to define mirror axis
-            p2: second point to define mirror axis
+            p1: first point to define mirror axis.
+            p2: second point to define mirror axis.
         """
         from gdsfactory.functions import mirror
 
         return mirror(component=self, p1=p1, p2=p2)
 
-    def rotate(self, angle: float = 90) -> Device:
-        """Return a new component with a rotated reference to the original component
+    def rotate(self, angle: float = 90) -> "Component":
+        """Returns a new component with a rotated reference to the original component.
 
         Args:
-            angle: in degrees
+            angle: in degrees.
         """
         from gdsfactory.functions import rotate
 
         return rotate(component=self, angle=angle)
 
-    def add_padding(self, **kwargs) -> Device:
-        """Return component with padding
+    def add_padding(self, **kwargs) -> "Component":
+        """Returns new component with padding.
 
         Keyword Args:
             component: for padding.
@@ -1228,8 +1250,8 @@ class Component(Device):
         return add_padding(component=self, **kwargs)
 
     def absorb(self, reference):
-        """Flattens and absorbs polygons from an underlying DeviceReference
-        into the Device, destroying the reference in the process but keeping
+        """Flattens and absorbs polygons from an underlying ComponentReference.
+        into the Component, destroying the reference in the process but keeping
         the polygon geometry.
 
         remove when PR gets approved and there is a new release
@@ -1254,7 +1276,7 @@ class Component(Device):
         return self
 
 
-def test_get_layers() -> Device:
+def test_get_layers() -> Component:
     import gdsfactory as gf
 
     c = gf.components.straight(
@@ -1291,8 +1313,8 @@ def recurse_structures(
 
     Args:
         component: component to recurse.
-        ignore_components_prefix: list of prefix to ingore.
-        ignore_functions_prefix: list of prefix to ingore.
+        ignore_components_prefix: list of prefix to ignore.
+        ignore_functions_prefix: list of prefix to ignore.
     """
 
     ignore_functions_prefix = ignore_functions_prefix or []
@@ -1413,7 +1435,7 @@ if __name__ == "__main__":
 
     # test_extract()
     c = test_get_layers()
-    c.show()
+    c.show(show_ports=True)
 
     # test_bbox_reference()
     # test_bbox_component()
@@ -1425,7 +1447,7 @@ if __name__ == "__main__":
     # output_file("plot.html")
 
     # c = gf.components.rectangle(size=(4, 2), layer=(0, 0))
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = gf.components.straight(length=2, info=dict(ng=4.2, wavelength=1.55))
     # p = c.ploth()
@@ -1435,14 +1457,14 @@ if __name__ == "__main__":
     # c1 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     # c2 = c << gf.components.rectangle(size=(1.5e-3, 1.5e-3), port_type=None)
     # c2.xmin = c1.xmax
-    # c.show()
+    # c.show(show_ports=True)
 
     # c = gf.Component("component_with_offgrid_polygons")
     # c1 = c << gf.components.rectangle(size=(1.01e-3, 1.01e-3), port_type=None)
     # c2 = c << gf.components.rectangle(size=(1.1e-3, 1.1e-3), port_type=None)
     # print(c1.xmax)
     # c2.xmin = c1.xmax
-    # c.show()
+    # c.show(show_ports=True)
 
     # c2 = gf.components.mzi()
     # c2.show(show_subports=True)

@@ -16,4 +16,4 @@ def test_mutability() -> gf.Component:
 
 if __name__ == "__main__":
     c = test_mutability()
-    c.show()
+    c.show(show_ports=True)

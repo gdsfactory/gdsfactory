@@ -20,13 +20,13 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    cross_section_heater:
+    cross_section_waveguide_heater:
       function: strip_heater_metal
     gap: 0.2
-    length_x: 4
+    length_x: 4.0
     length_y: 0.6
     port_orientation: 90
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
     via_stack:
@@ -71,13 +71,13 @@ settings:
         - DEVREC
         cladding_offsets:
         - 0
-    cross_section_heater:
+    cross_section_waveguide_heater:
       function: strip_heater_metal
     gap: 0.2
-    length_x: 4
+    length_x: 4.0
     length_y: 0.6
     port_orientation: 90
-    radius: 10
+    radius: 10.0
     straight:
       function: straight
     via_stack:

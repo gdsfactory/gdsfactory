@@ -97,4 +97,4 @@ if __name__ == "__main__":
     # c = coupler(gap=0.300, layer=layer)
     # c = coupler(cross_section="rib")
     c = coupler()
-    c.show()
+    c.show(show_ports=True)

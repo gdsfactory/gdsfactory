@@ -189,12 +189,12 @@ def quickplot(items):  # noqa: C901
 
     Examples
     --------
-    >>> R = pg.rectangle()
-    >>> quickplot(R)
+    >>> import gdsfactory as gf
+    >>> R = gf.components.rectangle()
+    >>> R.plot()
 
-    >>> R = pg.rectangle()
-    >>> E = pg.ellipse()
-    >>> quickplot([R, E])
+    >>> E = gf.components.ellipse()
+    >>> E.plot()
     """
 
     # Override default options with _quickplot_options
@@ -245,7 +245,7 @@ def quickplot(items):  # noqa: C901
                 bbox = _update_bbox(bbox, new_bbox)
             # If item is a Device or DeviceReference, draw ports
             if isinstance(item, (Device, DeviceReference)) and show_ports is True:
-                for name, port in item.ports.items():
+                for port in item.ports.values():
                     if (port.width is None) or (port.width == 0):
                         new_bbox = _draw_port_as_point(ax, port)
                     else:
@@ -254,7 +254,7 @@ def quickplot(items):  # noqa: C901
             if isinstance(item, Device) and show_subports is True:
                 for sd in item.references:
                     if not isinstance(sd, (gdspy.CellArray)):
-                        for name, port in sd.ports.items():
+                        for port in sd.ports.values():
                             new_bbox = _draw_port(
                                 ax,
                                 port,
@@ -365,7 +365,11 @@ def _get_layerprop(layer, datatype):
         "#e5520e",
     ]
     LAYER_COLORS = get_layer_colors()
-    _layer = LAYER_COLORS.get_from_tuple((layer, datatype))
+    _layer = (
+        LAYER_COLORS.get_from_tuple((layer, datatype))
+        if (layer, datatype) in LAYER_COLORS.get_layer_tuples()
+        else None
+    )
     if _layer is not None:
         color = _layer.color
         alpha = _layer.alpha
@@ -965,14 +969,14 @@ def quickplot2(item_list, *args, **kwargs):
             if isinstance(element, phidl.device_layout.Device):
                 for ref in element.references:
                     if not isinstance(ref, gdspy.CellArray):
-                        for name, port in ref.ports.items():
+                        for port in ref.ports.values():
                             viewer.add_port(port, is_subport=True)
-                for name, port in element.ports.items():
+                for port in element.ports.values():
                     viewer.add_port(port)
                     viewer.add_aliases(element.aliases)
             # If element is a DeviceReference, draw ports as subports
             if isinstance(element, phidl.device_layout.DeviceReference):
-                for name, port in element.ports.items():
+                for port in element.ports.values():
                     viewer.add_port(port, is_subport=True)
         elif isinstance(element, (phidl.device_layout.Polygon)):
             layerprop = _get_layerprop(
@@ -987,3 +991,10 @@ def quickplot2(item_list, *args, **kwargs):
     viewer_window.show()
     viewer_window.raise_()
     return viewer
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.components.straight()
+    c.plotqt()

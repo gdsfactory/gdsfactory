@@ -71,6 +71,6 @@ if __name__ == "__main__":
     # c << coupler90(gap=0.3)
     c = coupler90(radius=3, layer=(2, 0))
     c = coupler90(radius=10, cross_section="strip_heater_metal")
-    c.show()
+    c.show(show_ports=True)
     c.pprint()
     # print(c.ports)

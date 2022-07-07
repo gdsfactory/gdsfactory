@@ -11,6 +11,9 @@ from gdsfactory.component import Component
 from gdsfactory.components.extension import move_polar_rad_copy
 from gdsfactory.pdk import get_layer_stack
 from gdsfactory.simulation.gmeep.get_material import get_material
+from gdsfactory.simulation.gmeep.get_meep_geometry import (
+    get_meep_geometry_from_component,
+)
 from gdsfactory.tech import LayerStack
 
 mp.verbosity(0)
@@ -34,7 +37,6 @@ def get_simulation(
     wavelength_points: int = 50,
     dfcen: float = 0.2,
     port_source_name: str = "o1",
-    port_field_monitor_name: str = "o2",
     port_margin: float = 3,
     distance_source_to_monitors: float = 0.2,
     port_source_offset: float = 0,
@@ -101,14 +103,13 @@ def get_simulation(
         wavelength_points: wavelength steps.
         dfcen: delta frequency.
         port_source_name: input port name.
-        port_field_monitor_name: for component port.
         port_margin: margin on each side of the port.
         distance_source_to_monitors: in (um) source goes before.
         port_source_offset: offset between source GDS port and source MEEP port.
         port_monitor_offset: offset between monitor GDS port and monitor MEEP port.
         dispersive: use dispersive material models (requires higher resolution).
-        material_name_to_meep: dispersive materials have a wavelength
-            dependent index. Maps layer_stack names with meep material database names.
+        material_name_to_meep: map layer_stack names with meep material database name
+            or refractive index. dispersive materials have a wavelength dependent index.
 
     Keyword Args:
         settings: other parameters for sim object (resolution, symmetries, etc.)
@@ -130,14 +131,11 @@ def get_simulation(
 
     for setting in settings.keys():
         if setting not in settings_meep:
-            raise ValueError(f"{setting} not in {settings_meep}")
+            raise ValueError(f"{setting!r} not in {settings_meep}")
 
     layer_stack = layer_stack or get_layer_stack()
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
-    layer_to_material = layer_stack.get_layer_to_material()
-    layer_to_zmin = layer_stack.get_layer_to_zmin()
-    layer_to_sidewall_angle = layer_stack.get_layer_to_sidewall_angle()
 
     component_ref = component.ref()
     component_ref.x = 0
@@ -154,20 +152,6 @@ def get_simulation(
         port_source_name = port_source.name
         warnings.warn(f"Selecting port_source_name={port_source_name!r} instead.")
 
-    if port_field_monitor_name not in component_ref.ports:
-        warnings.warn(
-            f"port_field_monitor_name={port_field_monitor_name!r} not in {port_names}"
-        )
-        port_field_monitor = (
-            component_ref.get_ports_list()[0]
-            if len(component.ports) < 2
-            else component.get_ports_list()[1]
-        )
-        port_field_monitor_name = port_field_monitor.name
-        warnings.warn(
-            f"Selecting port_field_monitor_name={port_field_monitor_name!r} instead."
-        )
-
     assert isinstance(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
@@ -182,7 +166,6 @@ def get_simulation(
     gf.show(component_extended)
 
     component_extended.flatten()
-    component_extended = component_extended.ref()
 
     # geometry_center = [component_extended.x, component_extended.y]
     # geometry_center = [0, 0]
@@ -209,32 +192,14 @@ def get_simulation(
         cell_thickness,
     )
 
-    geometry = []
-    layer_to_polygons = component_extended.get_polygons(by_spec=True)
-    for layer, polygons in layer_to_polygons.items():
-        if layer in layer_to_thickness and layer in layer_to_material:
-            height = layer_to_thickness[layer] if is_3d else mp.inf
-            zmin_um = layer_to_zmin[layer] if is_3d else 0
-            # center = mp.Vector3(0, 0, (zmin_um + height) / 2)
-
-            for polygon in polygons:
-                vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
-                material_name = layer_to_material[layer]
-                material = get_material(
-                    name=material_name,
-                    dispersive=dispersive,
-                    material_name_to_meep=material_name_to_meep,
-                    wavelength=wavelength,
-                )
-                geometry.append(
-                    mp.Prism(
-                        vertices=vertices,
-                        height=height,
-                        sidewall_angle=layer_to_sidewall_angle[layer],
-                        material=material,
-                        # center=center
-                    )
-                )
+    geometry = get_meep_geometry_from_component(
+        component=component_extended,
+        layer_stack=layer_stack,
+        material_name_to_meep=material_name_to_meep,
+        wavelength=wavelength,
+        is_3d=is_3d,
+        dispersive=dispersive,
+    )
 
     freqs = 1 / wavelengths
     fcen = np.mean(freqs)
@@ -254,9 +219,6 @@ def get_simulation(
         np.array(port.center), angle=angle_rad, length=port_source_offset
     )
     center = xy_shifted.tolist() + [0]  # (x, y, z=0)
-
-    field_monitor_port = component_ref.ports[port_field_monitor_name]
-    field_monitor_point = field_monitor_port.center.tolist() + [0]  # (x, y, z=0)
 
     if np.isclose(port.orientation, 0):
         direction = mp.X
@@ -331,7 +293,6 @@ def get_simulation(
         freqs=freqs,
         monitors=monitors,
         sources=sources,
-        field_monitor_point=field_monitor_point,
         port_source_name=port_source_name,
         initialized=False,
     )

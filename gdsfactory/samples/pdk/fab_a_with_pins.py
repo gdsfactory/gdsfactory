@@ -36,4 +36,4 @@ cells = dict(mmi2x2=mmi2x2, mmi1x2=mmi1x2, mzi=mzi)
 
 if __name__ == "__main__":
     c = mzi()
-    c.show()
+    c.show(show_ports=True)

@@ -81,4 +81,4 @@ def test_get_bundle_electrical2(
 if __name__ == "__main__":
     # c = test_get_bundle_electrical(None, check=False)
     c = test_get_bundle_electrical2(None, check=False)
-    c.show()
+    c.show(show_ports=True)

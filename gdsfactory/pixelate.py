@@ -21,11 +21,15 @@ def pixelate_path(
     theta_start: float = 0,
     theta_end: float = 90,
 ) -> Coordinates:
-    """
-    From a path, add one pixel per point on the path
+    """From a path add one pixel per point on the path.
 
     Args:
-        pts: points
+        pts: points.
+        pixel_size: in um.
+        snap_res: snap resolution.
+        middle_offset: in um.
+        theta_start: in degrees.
+        theta_end: in degrees.
     """
 
     thetas0 = [

@@ -296,10 +296,10 @@ def add_grating_couplers_with_loopback_fiber_array(
         x0 = min(xs) - grating_separation
         x1 = max(xs) + grating_separation
 
-        gca1, gca2 = [
+        gca1, gca2 = (
             gc.ref(position=(x, y0), rotation=gc_rotation, port_id=gc_port_name)
             for x in [x0, x1]
-        ]
+        )
 
         gsi = gc.size_info
         port0 = gca1.ports[gc_port_name]
@@ -375,4 +375,4 @@ if __name__ == "__main__":
     # c = add_grating_couplers_with_loopback_fiber_array(component=c)
     # c = add_grating_couplers(c)
 
-    c.show()
+    c.show(show_ports=True)

@@ -23,7 +23,7 @@ def parse_csv_data(
         # Split lines in fields
         lines = [line.split(",") for line in lines]
 
-        lines = [[s.strip() for s in splitted if s.strip()] for splitted in lines]
+        lines = [[s.strip() for s in split if s.strip()] for split in lines]
 
         # Remove empty lines
         lines = [line for line in lines if line]
@@ -34,8 +34,8 @@ def get_cell_from_label(label: str) -> str:
     """get cell name from the label (cell_name is in parenthesis)"""
     try:
         cell_name = label.split("(")[1].split(")")[0]
-    except IndexError:
-        raise ValueError(f"{label!r} needs (cell name) between parenthesis")
+    except IndexError as error:
+        raise ValueError(f"{label!r} needs (cell name) between parenthesis") from error
 
     if cell_name.startswith("loopback"):
         cell_name = "_".join(cell_name.split("_")[1:])

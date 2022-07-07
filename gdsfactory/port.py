@@ -148,7 +148,9 @@ class Port(PortPhidl):
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
-        return f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
+        s = f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
+        s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
+        return s
 
     @classmethod
     def __get_validators__(cls):
@@ -348,7 +350,7 @@ def read_port_markers(component: object, layers: LayerSpecs = ((1, 10),)) -> Com
 def csv2port(csvpath) -> Dict[str, Port]:
     """Reads ports from a CSV file and returns a Dict"""
     ports = {}
-    with open(csvpath, "r") as csvfile:
+    with open(csvpath) as csvfile:
         rows = csv.reader(csvfile, delimiter=",", quotechar="|")
         for row in rows:
             ports[row[0]] = row[1:]
@@ -737,7 +739,7 @@ def auto_rename_ports(
     prefix_electrical: str = "e",
     **kwargs,
 ) -> Component:
-    """Adds prefix for optical and electical.
+    """Adds prefix for optical and electrical.
 
     Args:
         component: to auto_rename_ports.
@@ -930,7 +932,7 @@ if __name__ == "__main__":
     # auto_rename_ports_layer_orientation(c)
     # m = map_ports_layer_to_orientation(c.ports)
     # pprint(m)
-    # c.show()
+    # c.show(show_ports=True)
     # print(p0)
     p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
     print(p0)

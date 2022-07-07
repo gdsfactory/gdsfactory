@@ -28,30 +28,39 @@ def route_south(
     cross_section: CrossSectionSpec = strip,
     **kwargs,
 ) -> Routes:
-    """Returns Routes
+    """Returns Routes to route a component ports to the south.
 
     Args:
-        component: component to route
+        component: component to route.
         optical_routing_type: routing heuristic `1` or `2`
             `1` uses the component size info to estimate the box size.
-            `2` only looks at the optical port positions to estimate the size
-        excluded_ports=[]: list of port names to NOT route
-        straight_separation
+            `2` only looks at the optical port positions to estimate the size.
+        excluded_ports: list of port names to NOT route.
+        straight_separation: in um.
         io_gratings_lines: list of ports to which the ports produced by this
             function will be connected. Supplying this information helps
-            avoiding straight collisions
-
-        gc_port_name: grating port name
-
-    Returns:
-        list of references, list of ports
+            avoiding straight collisions.
+        gc_port_name: grating coupler port name.
 
 
-    Works well if the component looks rougly like a rectangular box with
-        north ports on the north of the box
-        south ports on the south of the box
-        east ports on the east of the box
-        west ports on the west of the box
+    Works well if the component looks roughly like a rectangular box with:
+        north ports on the north of the box.
+        south ports on the south of the box.
+        east ports on the east of the box.
+        west ports on the west of the box.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        c = gf.components.ring_double()
+        c = gf.Component()
+        ref = c << gf.components.ring_double()
+        r = gf.routing.route_south(ref)
+        for e in r.references:
+            c.add(e)
+        c.plot()
     """
     xs = gf.get_cross_section(cross_section)
     excluded_ports = excluded_ports or []
@@ -116,7 +125,7 @@ def route_south(
 
     west_ports.reverse()
 
-    y0 = min([p.y for p in ordered_ports]) - dy - 0.5
+    y0 = min(p.y for p in ordered_ports) - dy - 0.5
 
     ports_to_route = []
 
@@ -137,7 +146,9 @@ def route_south(
         # use optical port to know how far to route
         x = x_optical_min - dy - 1
     else:
-        raise ValueError("Invalid optical routing type")
+        raise ValueError(
+            f"Invalid optical routing type {optical_routing_type!r} not in [1, 2]"
+        )
 
     # First route the ports facing west
     # In case we have to connect these ports to a line of gratings,
@@ -167,7 +178,7 @@ def route_south(
     # This ensures that north ports are routed above the top west one
     north_start.reverse()  # We need them from left to right
     if len(north_start) > 0:
-        y_max = max([p.y for p in west_ports + north_start])
+        y_max = max(p.y for p in west_ports + north_start)
         for p in north_start:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
 
@@ -227,7 +238,7 @@ def route_south(
     # Route the remaining north ports
     start_straight_length = 0.5
     if len(north_finish) > 0:
-        y_max = max([p.y for p in east_ports + north_finish])
+        y_max = max(p.y for p in east_ports + north_finish)
         for p in north_finish:
             tmp_port = gen_port_from_port(x, y0, p, cross_section=xs)
             ports_to_route.append(tmp_port)
@@ -250,19 +261,14 @@ def route_south(
 if __name__ == "__main__":
     # c = gf.components.mmi2x2()
     # c = gf.components.ring_single()
-    c = gf.components.ring_double()
 
+    c = gf.components.ring_double()
     layer = (2, 0)
     c = gf.Component()
-    ci = gf.components.ring_double(layer=layer)
-    c << ci
-    r = route_south(ci, bend=gf.components.bend_euler, layer=layer)
+    ref = c << gf.components.ring_double(layer=layer)
+    r = route_south(ref, bend=gf.components.bend_euler, layer=layer)
     for e in r.references:
-        if isinstance(e, list):
-            print(len(e))
-            print(e)
-        # print(e)
         c.add(e)
 
     print(r.lengths)
-    c.show()
+    c.show(show_ports=True)

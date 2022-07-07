@@ -68,9 +68,9 @@ def mzit(
                     \                /                       |
                      \    length2   /                        |
                       ============== gap2                    |
-                     /               \                       |
-                  __/                 \_                     |
-            1   1                      \ E0_w0__t2 __w1_____/
+                     /               \                       |                       |
+                  __/                 \ E0_w0__t2 __w1______/
+            1   1
                            cp2
 
 
@@ -211,4 +211,4 @@ if __name__ == "__main__":
     # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
     c = mzit(coupler_length1=200)
-    c.show()
+    c.show(show_ports=True)
