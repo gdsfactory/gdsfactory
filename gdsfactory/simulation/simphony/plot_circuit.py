@@ -20,15 +20,15 @@ def plot_circuit(
     """Plot Sparameter circuit transmission over wavelength.
 
     Args:
-        circuit:
-        pin_in: input port name
-        pins_out: iterable of pins out to plot
-        start: wavelength (m)
-        stop: wavelength (m)
-        num: number of sampled points
-        logscale: plot in dB scale
-        fig: matplotlib figure
-        phase: plots phase instead of module
+        circuit: to plot.
+        pin_in: input port name.
+        pins_out: iterable of pins out to plot.
+        start: wavelength (m).
+        stop: wavelength (m).
+        num: number of sampled points.
+        logscale: plot in dB scale.
+        fig: matplotlib figure.
+        phase: plots phase instead of module.
     """
     if not isinstance(pins_out, (set, list, tuple)):
         raise ValueError("pins out is not iterable")

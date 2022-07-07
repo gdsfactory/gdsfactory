@@ -13,12 +13,12 @@ def get_transmission(
     """Return transmission for a circuit.
 
     Args:
-        circuit:
-        pin_in: input pin
-        pin_out: output pin
-        start: start wavelength (m)
-        stop: stop wavelength (m)
-        num: number of points
+        circuit: for transmission.
+        pin_in: input pin.
+        pin_out: output pin.
+        start: start wavelength (m).
+        stop: stop wavelength (m).
+        num: number of points.
 
     """
     simulation = SweepSimulator(start, stop, num)

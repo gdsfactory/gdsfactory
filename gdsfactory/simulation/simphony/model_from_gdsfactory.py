@@ -15,9 +15,9 @@ def model_from_gdsfactory(
     """Return simphony model from gdsfactory Component Sparameters.
 
     Args:
-        component: component factory or instance
-        dirpath: sparameters directory
-        kwargs: settings
+        component: component factory or instance.
+        dirpath: sparameters directory.
+        kwargs: settings.
     """
     kwargs.pop("function_name", "")
     kwargs.pop("module", "")
