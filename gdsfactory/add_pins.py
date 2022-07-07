@@ -40,7 +40,7 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     orientation = p.orientation
 
     if orientation is None:
-        raise ValueError("Port {port.name} needs to have an orientation.")
+        raise ValueError("Port {port.name!r} needs to have an orientation.")
 
     ca = np.cos(orientation * np.pi / 180)
     sa = np.sin(orientation * np.pi / 180)
@@ -74,15 +74,16 @@ def add_pin_triangle(
         layer: for the pin marker.
         layer_label: for the label.
     """
-    polygon, ptip = get_pin_triangle_polygon_tip(port=port)
-    component.add_polygon(polygon, layer=layer)
+    if port.orientation is not None:
+        polygon, ptip = get_pin_triangle_polygon_tip(port=port)
+        component.add_polygon(polygon, layer=layer)
 
-    if layer_label:
-        component.add_label(
-            text=str(port.name),
-            position=ptip,
-            layer=layer_label,
-        )
+        if layer_label:
+            component.add_label(
+                text=str(port.name),
+                position=ptip,
+                layer=layer_label,
+            )
 
 
 def add_pin_rectangle_inside(

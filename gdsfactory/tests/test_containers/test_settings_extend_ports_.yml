@@ -136,6 +136,7 @@ settings:
       function: mmi1x2
     cross_section: null
     extension: null
+    extension_port_names: null
     length: 5.0
     port1: null
     port2: null
@@ -211,6 +212,7 @@ settings:
       version: 0.0.1
     cross_section: null
     extension: null
+    extension_port_names: null
     length: 5.0
     port1: null
     port2: null
