@@ -61,6 +61,11 @@ def array(
 
 
 if __name__ == "__main__":
+    from gdsfactory.components.pad import pad
 
-    c2 = array(rows=2, columns=2, spacing=(100, 100))
+    # c2 = array(rows=2, columns=2, spacing=(100, 100))
+    c2 = array(pad, rows=2, spacing=(200, 200), columns=1)
+
+    nports = len(c2.get_ports_list(orientation=0))
+    assert nports == 2, nports
     c2.show(show_ports=True)
