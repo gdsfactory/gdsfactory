@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.12.13
+
+- add extension_port_names to extend_ports [PR](https://github.com/gdsfactory/gdsfactory/pull/527)
+
 ## [5.12.12](https://github.com/gdsfactory/gdsfactory/pull/523)
 
 - add `gdsfactory.simulation.gtidy3d.modes.WaveguideCoupler`
