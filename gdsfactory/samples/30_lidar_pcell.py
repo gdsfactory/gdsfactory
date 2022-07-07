@@ -8,11 +8,10 @@ Exercise2. Make a Pcell.
 
 import gdsfactory as gf
 
-if __name__ == "__main__":
+
+@gf.cell
+def lidar(noutputs=2**2, antenna_pitch=2.0, splitter_tree_spacing=(50.0, 70.0)):
     c = gf.Component("lidar")
-    noutputs = 2**2
-    antenna_pitch = 2.0
-    splitter_tree_spacing = (50.0, 70.0)
 
     # power Splitter
     splitter_tree = c << gf.components.splitter_tree(
@@ -46,5 +45,9 @@ if __name__ == "__main__":
 
     for route in routes:
         c.add(route.references)
+    return c
 
+
+if __name__ == "__main__":
+    c = lidar(noutputs=2**4)
     c.show(show_ports=True)
