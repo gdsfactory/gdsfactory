@@ -54,8 +54,8 @@ def component_to_circuit(
     """Returns Simphony circuit from a gdsfactory component netlist.
 
     Args:
-        component: component factory or instance
-        model_factory: dict of component_type
+        component: component factory or instance.
+        model_factory: dict of component_type.
     """
     netlist = component.get_netlist_dict()
     instances = netlist["instances"]

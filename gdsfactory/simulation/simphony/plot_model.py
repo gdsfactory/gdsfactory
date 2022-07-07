@@ -49,12 +49,8 @@ def plot_model(
     pins = pins or pin_names
     if not isinstance(pins, (tuple, set, list)):
         raise ValueError(f"pins {pins} need to be a tuple, set or list")
-    for pin in pins:
-        if pin not in m.pins:
-            raise ValueError(f"{pin} not in {m.pins}")
 
     pin_names = [p.name for p in m.pins]
-
 
     if pin_in not in pin_names:
         raise ValueError(f"pin_in = {pin_in!r} not in {pin_names}")
@@ -91,17 +87,16 @@ def plot_model(
 if __name__ == "__main__":
     from simphony.libraries import siepic
 
-    from gdsfactory.simulation.simphony.components.straight import straight
-
     w = np.linspace(1520, 1570, 1024) * 1e-9
     coupler = siepic.HalfRing(
         gap=200e-9, radius=10e-6, width=500e-9, thickness=220e-9, couple_length=0.0
     )
     coupler["pin1"].rename("n1")
     plot_model(coupler, pin_in="n1")
-    plt.legend()
-    plt.show()
 
-    m = straight()
-    plot_model(m, phase=False)
-    plt.show()
+    # plt.legend()
+    # plt.show()
+
+    # m = straight()
+    # plot_model(m, phase=False)
+    # plt.show()

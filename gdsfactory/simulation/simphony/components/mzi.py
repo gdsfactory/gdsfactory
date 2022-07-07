@@ -21,17 +21,15 @@ def mzi(
     port_name_combiner_e1: str = "o2",
     port_name_combiner_e0: str = "o3",
 ):
-    """Mzi circuit model.
+    """Returns Mzi circuit model.
 
     Args:
-        delta_length: bottom arm vertical extra length
-        length_y: vertical length for both and top arms
-        length_x: horizontal length
-        splitter: model function for combiner
-        combiner: model function for combiner
-        wg: straight model function
-
-    Return: mzi circuit model
+        delta_length: bottom arm vertical extra length.
+        length_y: vertical length for both and top arms.
+        length_x: horizontal length.
+        splitter: model function for combiner.
+        combiner: model function for combiner.
+        wg: straight model function.
 
     .. code::
 

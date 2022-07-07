@@ -5,11 +5,11 @@ from gdsfactory.simulation.simphony.plot_circuit import plot_circuit
 
 
 def ring_single(
-    wg_width=0.5,
-    gap=0.2,
-    length_x=4,
-    radius=5,
-    length_y=2,
+    wg_width: float = 0.5,
+    gap: float = 0.2,
+    length_x: float = 4,
+    radius: float = 5,
+    length_y: float = 2,
 ) -> Subcircuit:
     r"""Return single bus ring Model made of a ring coupler (cb: bottom).
 
@@ -17,8 +17,6 @@ def ring_single(
     - 2 vertical straights (wl: left, wr: right)
     - 2 bend90 straights (bl: left, br: right)
     - 1 straight at the top (wt)
-
-    FIXME! Sparameters are zero
 
     .. code::
 
@@ -67,7 +65,6 @@ def ring_single(
     racetrack = Racetrack(wg_width, 0.22e-6, radius, gap, length_x)
 
     racetrack.rename_pins("o1", "o2")
-
     return racetrack.circuit.to_subcircuit()
 
 
