@@ -84,6 +84,7 @@ settings:
       function: mmi1x2
     cross_section: null
     extension: null
+    extension_port_names: null
     length: 5.0
     port1: null
     port2: null
@@ -114,6 +115,7 @@ settings:
     cross_section: null
     extension:
       function: taper_strip_to_ridge
+    extension_port_names: null
     length: 5.0
     port1: o2
     port2: o1
