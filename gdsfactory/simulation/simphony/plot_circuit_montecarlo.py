@@ -29,12 +29,12 @@ def plot_circuit_montecarlo(
     """
     circuit = circuit() if callable(circuit) else circuit
     simulation = MonteCarloSweepSimulator(start=start, stop=stop, num=num)
-    simulation.circuit = circuit.circuit
+    simulation.multiconnect(circuit.pins[pin_in], circuit.pins[pin_out])
     result = simulation.simulate(runs=runs)
 
-    for wl, s in result:
+    for i, (wl, s) in enumerate(result):
         s = 10 * np.log10(abs(s)) if logscale else abs(s)
-        plt.plot(wl, s)
+        plt.plot(wl, s, label=f'run={i}')
 
     # The data located at the 0 position is the ideal values.
     wl, s = result[0]
@@ -44,6 +44,7 @@ def plot_circuit_montecarlo(
     plt.xlabel("wavelength (m)")
     plt.ylabel(ylabel)
     plt.tight_layout()
+    plt.legend()
     plt.show()
 
 
