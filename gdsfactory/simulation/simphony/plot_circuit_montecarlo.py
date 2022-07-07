@@ -29,7 +29,7 @@ def plot_circuit_montecarlo(
     """
     circuit = circuit() if callable(circuit) else circuit
     simulation = MonteCarloSweepSimulator(start=start, stop=stop, num=num)
-    simulation.circuit = circuit.circuit
+    simulation.multiconnect(circuit.pins[pin_in], circuit.pins[pin_out])
     result = simulation.simulate(runs=runs)
 
     for wl, s in result:

@@ -49,6 +49,12 @@ def plot_model(
     pins = pins or pin_names
     if not isinstance(pins, (tuple, set, list)):
         raise ValueError(f"pins {pins} need to be a tuple, set or list")
+    for pin in pins:
+        if pin not in m.pins:
+            raise ValueError(f"{pin} not in {m.pins}")
+
+    pin_names = [p.name for p in m.pins]
+
 
     if pin_in not in pin_names:
         raise ValueError(f"pin_in = {pin_in!r} not in {pin_names}")
