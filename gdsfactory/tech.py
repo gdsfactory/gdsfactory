@@ -107,12 +107,16 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
+
+    TODO:
+        figure out how to add simulation_info
         simulation_info: contains information for simulating.
             refractive_index: refractive_index
                 can be int, complex or function that depends on wavelength (um).
             type: grow, etch, implant, or background.
             doping_concentration: for implants.
             resistiviy: for metals.
+            bias: in um for the etch.
     """
 
     layer: Tuple[int, int]
@@ -120,7 +124,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
-    simulation_info: Dict[str, Any] = {}
+    # simulation_info: Dict[str, Any] = {}
     # refractive_index: Optional[Callable[[float], float]] = None
 
 
