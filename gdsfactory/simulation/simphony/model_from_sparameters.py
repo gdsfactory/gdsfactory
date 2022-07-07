@@ -4,6 +4,7 @@ from typing import Tuple
 import numpy as np
 from scipy.constants import speed_of_light
 from simphony import Model
+from simphony.pins import Pin, PinList
 from simphony.tools import freq2wl, interpolate, wl2freq
 
 import gdsfactory as gf
@@ -38,7 +39,7 @@ def model_from_sparameters(
 
     Model.pin_count = len(pins)
     m = Model()
-    m.rename_pins(*pins)
+    m.pins = PinList([Pin(m, pname) for i, pname in enumerate(pins)])
     m.s_params = (f, s)
     m.s_parameters = interpolate_sp
     m.freq_range = (min(f), max(f))
@@ -58,7 +59,7 @@ if __name__ == "__main__":
     filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
     numports = 3
     c = model_from_filepath(filepath=filepath, numports=numports)
-    plot_model(c)
+    plot_model(c, pin_in="E0")
     plt.show()
 
     # wav = np.linspace(1520, 1570, 1024) * 1e-9

@@ -24,14 +24,16 @@ def add_gc(circuit, gc=gc1550te, ci="o1", co="o2", gi="port 1", go="port 2"):
         gi-> gpo--|cpi cpo|--gpo <-gpi
                    |_______|
     """
-    gc = gf.call_if_func(gc)
-    c = Circuit(circuit)
-    c._add(gc)
-    c._add(gc)
+    gc_input = gf.call_if_func(gc)
+    gc_input.rename_pins("o1", "o2")
+    gc_output = gf.call_if_func(gc)
+    gc_output.rename_pins("o1", "o2")
 
-    circuit[ci].connect(gc[go])
-    circuit[co].connect(gc[go])
-    return c
+    circuit.pins[cpi].connect(gc_input)
+    circuit.pins[cpo].connect(gc_output)
+
+    return circuit
+
 
 
 def add_gc_siepic(circuit, gc=siepic.GratingCoupler):
