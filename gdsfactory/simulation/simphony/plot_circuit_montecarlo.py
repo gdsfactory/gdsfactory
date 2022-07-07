@@ -17,15 +17,14 @@ def plot_circuit_montecarlo(
     """Plot MonterCarlo simulations variation.
 
     Args:
-        circuit:
-        pin_in: input port name
-        pin_out: iterable of pins out to plot
-        start: wavelength (m)
-        stop: wavelength (m)
-        num: number of sampled points
-        logscale: plot in dB scale
-        runs: number of runs
-
+        circuit: for simulating.
+        pin_in: input port name.
+        pin_out: iterable of pins out to plot.
+        start: wavelength (m).
+        stop: wavelength (m).
+        num: number of sampled points.
+        logscale: plot in dB scale.
+        runs: number of runs.
     """
     circuit = circuit() if callable(circuit) else circuit
     simulation = MonteCarloSweepSimulator(start=start, stop=stop, num=num)

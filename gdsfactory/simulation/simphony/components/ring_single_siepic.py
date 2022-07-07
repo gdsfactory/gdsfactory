@@ -25,7 +25,6 @@ def ring_single(
            ---=========---
         W0    length_x    E0
 
-
     """
     length = np.pi * bend_radius + length_x + 2 * length_y
     straight = straight(length=length * 1e-6) if callable(straight) else straight
