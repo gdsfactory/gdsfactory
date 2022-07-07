@@ -1,5 +1,5 @@
 import warnings
-from typing import Optional, Tuple, Union
+from typing import List, Optional, Tuple, Union
 
 import numpy as np
 from numpy import ndarray
@@ -92,24 +92,26 @@ def extend_ports(
     port_type: str = "optical",
     centered: bool = False,
     cross_section: Optional[CrossSectionSpec] = None,
+    extension_port_names: Optional[List[str]] = None,
     **kwargs,
 ) -> Component:
     """Returns a new component with some ports extended.
 
-    you can define an extension otherwise, defaults to
-    the port cross_section of each port to extend
+    You can define extension Spec
+    defaults to port cross_section of each port to extend.
 
     Args:
         component: component to extend ports.
         port_names: list of ports names to extend, if None it extends all ports.
         length: extension length.
         extension: function to extend ports (defaults to a straight).
-        port1: input port name.
-        port2: output port name.
+        port1: extension input port name.
+        port2: extension output port name.
         port_type: type of the ports to extend.
         centered: if True centers rectangle at (0, 0).
         cross_section: extension cross_section, defaults to port cross_section
             if port has no cross_section it creates one using width and layer.
+        extension_port_names: extension port names add to the new component.
 
     Keyword Args:
         layer: port GDS layer.
@@ -138,7 +140,7 @@ def extend_ports(
 
     for port_name in ports_to_extend_names:
         if port_name not in port_names_all:
-            warnings.warn(f"Port Name {port_name} not in {port_names_all}")
+            warnings.warn(f"Port Name {port_name!r} not in {port_names_all}")
 
     for port in ports_all:
         port_name = port.name
@@ -168,6 +170,11 @@ def extend_ports(
             extension_ref = c << extension_component
             extension_ref.connect(port1, port)
             c.add_port(port_name, port=extension_ref.ports[port2])
+            extension_port_names = extension_port_names or []
+            [
+                c.add_port(name, port=extension_ref.ports[name], prefix=port_name)
+                for name in extension_port_names
+            ]
         else:
             c.add_port(port_name, port=component.ports[port_name])
 
@@ -219,9 +226,21 @@ __all__ = ["extend_ports", "extend_port"]
 
 
 if __name__ == "__main__":
-    c0 = gf.components.taper(width2=10)
-    c1 = extend_ports(c0)
-    c1.show()
+    # c0 = gf.components.taper(width2=10)
+    extension = gf.components.straight_heater_meander()
+    c0 = gf.components.straight()
+    # c1 = extend_ports(c0, orientation=0, extension=extension)
+
+    c1 = extend_ports(
+        c0,
+        extension=extension,
+        orientation=0,
+        extension_port_names=["e1", "e2"],
+        port1="o1",
+        port2="o2",
+    )
+    c1.pprint_ports()
+    c1.show(show_ports=True)
 
     # c = extend_ports(gf.components.mzi_phase_shifter_top_heater_metal)
     # c = test_extend_ports()
