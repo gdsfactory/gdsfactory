@@ -6,7 +6,7 @@ from gdsfactory.simulation.simphony.get_transmission import get_transmission
 
 mmi_name = "mmi1x2"
 splitter = f"{mmi_name}_2p75_0p0"
-combiner = f"{mmi_name}_68p45_0p0"
+combiner = f"{mmi_name}_68p41_0p0"
 
 
 def test_circuit_transmission(data_regression, check: bool = True):
@@ -33,8 +33,9 @@ if __name__ == "__main__":
 
     # for element in m._get_components():
     #     print(element)
-    # m.elements[splitter].pins["o1"] = "o1"
-    # m.elements[combiner].pins["o1"] = "o2"
+    m.pins[0].rename("o1")
+    m.pins[-1].rename("o2")
+
 
     plot_circuit(m)
     plt.show()

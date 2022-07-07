@@ -3,6 +3,7 @@
 ## 5.12.13
 
 - add extension_port_names to extend_ports [PR](https://github.com/gdsfactory/gdsfactory/pull/527)
+- fix ring single simphony example [PR](https://github.com/gdsfactory/gdsfactory/pull/525)
 
 ## [5.12.12](https://github.com/gdsfactory/gdsfactory/pull/523)
 
