@@ -30,8 +30,9 @@ def to_3d(
     try:
         from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
-    except ImportError:
+    except ImportError as e:
         print("you need to `pip install trimesh`")
+        raise e
 
     layer_colors = layer_colors or get_layer_colors()
     layer_stack = layer_stack or get_layer_stack()
