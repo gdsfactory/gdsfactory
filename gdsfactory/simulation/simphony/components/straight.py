@@ -1,4 +1,4 @@
-from simphony.libraries.sipann import Waveguide
+from simphony.libraries.siepic import Waveguide
 
 from gdsfactory.config import logger
 

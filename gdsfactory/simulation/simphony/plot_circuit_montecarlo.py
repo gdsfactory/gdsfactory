@@ -14,7 +14,7 @@ def plot_circuit_montecarlo(
     logscale: bool = True,
     runs: int = 10,
 ) -> None:
-    """Plot MonterCarlo simulations variation.
+    """Plot MonteCarlo simulations variation.
 
     Args:
         circuit: for simulating.
