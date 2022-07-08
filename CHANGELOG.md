@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.12.14
+
+- fix simphony MZI model for montecarlo simulations [PR](https://github.com/gdsfactory/gdsfactory/pull/530)
+- add simphony montecarlo variability examples
+
 ## 5.12.13
 
 - add extension_port_names to extend_ports [PR](https://github.com/gdsfactory/gdsfactory/pull/527)
