@@ -14,7 +14,7 @@ def plot_circuit_montecarlo(
     logscale: bool = True,
     runs: int = 10,
 ) -> None:
-    """Plot MonterCarlo simulations variation.
+    """Plot MonteCarlo simulations variation.
 
     Args:
         circuit:
@@ -32,9 +32,9 @@ def plot_circuit_montecarlo(
     simulation.multiconnect(circuit.pins[pin_in], circuit.pins[pin_out])
     result = simulation.simulate(runs=runs)
 
-    for i, (wl, s) in enumerate(result):
+    for wl, s in result:
         s = 10 * np.log10(abs(s)) if logscale else abs(s)
-        plt.plot(wl, s, label=f'run={i}')
+        plt.plot(wl, s)
 
     # The data located at the 0 position is the ideal values.
     wl, s = result[0]
@@ -44,7 +44,6 @@ def plot_circuit_montecarlo(
     plt.xlabel("wavelength (m)")
     plt.ylabel(ylabel)
     plt.tight_layout()
-    plt.legend()
     plt.show()
 
 
