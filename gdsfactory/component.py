@@ -818,8 +818,9 @@ class Component(Device):
                 import holoviews as hv
 
                 hv.extension("bokeh")
-            except ImportError:
+            except ImportError as e:
                 print("you need to `pip install holoviews`")
+                raise e
 
             return self.ploth(**kwargs)
 
@@ -858,8 +859,9 @@ class Component(Device):
             import holoviews as hv
 
             hv.extension("bokeh")
-        except ImportError:
+        except ImportError as e:
             print("you need to `pip install holoviews`")
+            raise e
 
         self._bb_valid = False  # recompute the bounding box
         b = self.bbox + ((-padding, -padding), (padding, padding))
