@@ -2,14 +2,14 @@
 
 FDTD: Finite difference time domain wave propagation. Provides broadband wavelength spectrum for a component  described as Sparameters (ratio of output/input field for each port) as a function of wavelength.
   - lumerical Ansys FDTD. See `gdsfactory.simulation.lumerical`
-  - meep. See `gdsfactory.simulation.gmeep`
+  - meep. See `gdsfactory.simulation.gmeep` (open source)
   - tidy3d. See `gdsfactory.simulation.gtidy`
 
 FDTD simulators can compute the [Sparameters](https://en.wikipedia.org/wiki/Scattering_parameters) response of a component, which measures the input to output field relationship as a function of wavelength or frequency.
 
-Sparameters are common in RF and photonic simulation.
+![](https://i.imgur.com/RSOTDIN.png)
 
-Frequency circuit simulations solve the Sparameters of a circuit that connects several components, each of which is described by its Sparameters.
+Sparameters are common in RF and photonic simulation.
 
 
 ```{eval-rst}
