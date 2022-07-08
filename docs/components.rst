@@ -2746,7 +2746,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.11.3', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.12', text_size=10)
   c.plot()
 
 
@@ -2973,3 +2973,4 @@ wire_straight
 
   c = gf.components.wire_straight(length=10.0, npoints=2, with_bbox=True, cross_section='metal3')
   c.plot()
+
