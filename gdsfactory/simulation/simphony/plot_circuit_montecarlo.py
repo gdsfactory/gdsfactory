@@ -24,7 +24,7 @@ def plot_circuit_montecarlo(
         stop: wavelength (m).
         num: number of sampled points.
         logscale: plot in dB scale.
-        runs: number of runs.
+        runs: number of Monte Carlo iterations to run.
     """
     circuit = circuit() if callable(circuit) else circuit
     simulation = MonteCarloSweepSimulator(start=start, stop=stop, num=num)
