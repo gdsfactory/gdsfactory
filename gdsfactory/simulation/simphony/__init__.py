@@ -2,13 +2,15 @@
 
 try:
     from simphony.tools import freq2wl, wl2freq
-except ImportError:
+except ImportError as e:
     print("To install simphony plugin make sure you `pip install gdsfactory[full]`")
+    raise e
 
 try:
     import SiPANN as _SIPANN
-except ImportError:
+except ImportError as e:
     print("To install sipann plugin make sure you `pip install gdsfactory[sipann]`")
+    raise e
 
 from gdsfactory.simulation.simphony import components
 from gdsfactory.simulation.simphony.add_gc import add_gc
