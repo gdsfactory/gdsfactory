@@ -142,6 +142,28 @@ def write_drc_deck_macro(
         - experimental
         - preserves hierarchical
 
+    .. code::
+
+        from gdsfactory.geometry.write_drc import (
+            write_drc_deck_macro,
+            rule_enclosing,
+            rule_width,
+            rule_space,
+            rule_separation,
+        )
+        rules = [
+            rule_width(layer="WG", value=0.2),
+            rule_space(layer="WG", value=0.2),
+            rule_width(layer="M1", value=1),
+            rule_width(layer="M2", value=2),
+            rule_space(layer="M2", value=2),
+            rule_separation(layer1="HEATER", layer2="M1", value=1.0),
+            rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
+        ]
+
+        drc_rule_deck = write_drc_deck_macro(rules=rules, layer_map=gf.LAYER)
+        print(drc_rule_deck)
+
     """
 
     if mode not in modes:
