@@ -106,7 +106,9 @@ def install_generic_tech() -> None:
     cwd = pathlib.Path(__file__).resolve().parent
     home = pathlib.Path.home()
     src = cwd / "klayout" / "tech"
-    dest = home / klayout_folder / "tech" / "generic"
+    tech = home / klayout_folder / "tech"
+    dest = tech / "generic"
+    tech.mkdir(exist_ok=True, parents=True)
 
     if not dest.exists():
         try:
