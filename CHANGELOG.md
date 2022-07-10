@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## 5.12.16
+
+- add klayout python cross_section scripts
+- improve klayout drc decks
+
 ## 5.12.14
 
 - fix simphony MZI model for montecarlo simulations [PR](https://github.com/gdsfactory/gdsfactory/pull/530)
