@@ -1,9 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## 5.12.16
+## [5.12.16](https://github.com/gdsfactory/gdsfactory/pull/536)
 
 - add klayout python cross_section scripts
-- improve klayout drc decks
+- improve klayout drc decks. Add deep, tiled and default modes.
+- add klayout drc and simulation docs API
 
 ## 5.12.14
 
