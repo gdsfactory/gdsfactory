@@ -204,7 +204,7 @@ def add_settings_label(
     component: ComponentSpec = straight,
     layer_label: LayerSpec = (66, 0),
     settings: Optional[Strs] = None,
-    ignore: Optional[Strs] = None,
+    ignore: Optional[Strs] = ("decorator",),
 ) -> Component:
     """Add a settings label to a component.
 
