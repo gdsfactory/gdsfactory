@@ -204,6 +204,7 @@ def add_settings_label(
     component: ComponentSpec = straight,
     layer_label: Layer = (66, 0),
     settings: Optional[Strs] = None,
+    ignore: Optional[Strs] = None,
 ) -> Component:
     """Add a settings label to a component.
 
@@ -211,16 +212,20 @@ def add_settings_label(
         component: spec.
         layer_label: for label.
         settings: tuple or list of settings. if None, adds all changed settings.
+        ignore: list of settings to ignore.
 
     """
     from gdsfactory.pdk import get_component
 
+    ignore = ignore or []
+
     component = get_component(component)
-    d = (
-        {setting: component.get_setting(setting) for setting in settings}
-        if settings
-        else component.metadata.changed
-    )
+    component.unlock()
+
+    settings = settings or component.settings.changed.keys()
+    settings = set(settings) - set(ignore)
+
+    d = {setting: component.get_setting(setting) for setting in settings}
 
     component.add_label(text=OmegaConf.to_yaml(d), layer=layer_label)
     return component
