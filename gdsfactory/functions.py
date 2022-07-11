@@ -14,6 +14,7 @@ from pydantic import validate_arguments
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import (
@@ -200,7 +201,9 @@ def update_info(component: Component, **kwargs) -> Component:
 
 @validate_arguments
 def add_settings_label(
-    component: Component, layer_label: Layer = (66, 0), settings: Optional[Strs] = None
+    component: ComponentSpec = straight,
+    layer_label: Layer = (66, 0),
+    settings: Optional[Strs] = None,
 ) -> Component:
     """Add a settings label to a component.
 
@@ -210,6 +213,9 @@ def add_settings_label(
         settings: tuple or list of settings. if None, adds all changed settings.
 
     """
+    from gdsfactory.pdk import get_component
+
+    component = get_component(component)
     d = (
         {setting: component.get_setting(setting) for setting in settings}
         if settings
