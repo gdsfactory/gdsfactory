@@ -36,7 +36,7 @@ def straight_heater_doped_rib(
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
-        length: of the waveguide.
+        length: of the waveguide in um.
         nsections: between via_stacks.
         cross_section: for the input/output ports.
         cross_section_heater: for the heater.

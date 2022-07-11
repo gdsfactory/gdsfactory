@@ -131,6 +131,8 @@ settings:
     module: gdsfactory.components.mzi
     name: mzi_2e88f57c
   default:
+    component:
+      function: straight
     component_name: null
     cross_section:
       function: cross_section
