@@ -13,8 +13,8 @@ def xor_diff(A, B, precision: float = 1e-4) -> Component:
     gdsfactory wrapper for phidl.geometry.xor_diff
 
     Args:
-        A: Component(/Reference) or list of Component(/References)
-        B: Component(/Reference) or list of Component(/References)
+        A: Component(/Reference) or list of Component(/References).
+        B: Component(/Reference) or list of Component(/References).
         precision: Desired precision for rounding vertex coordinates.
 
     Returns
