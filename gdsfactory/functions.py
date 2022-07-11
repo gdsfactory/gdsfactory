@@ -22,7 +22,7 @@ from gdsfactory.types import (
     Axis,
     ComponentSpec,
     Float2,
-    Layer,
+    LayerSpec,
     List,
     Optional,
     Strs,
@@ -202,7 +202,7 @@ def update_info(component: Component, **kwargs) -> Component:
 @validate_arguments
 def add_settings_label(
     component: ComponentSpec = straight,
-    layer_label: Layer = (66, 0),
+    layer_label: LayerSpec = (66, 0),
     settings: Optional[Strs] = None,
     ignore: Optional[Strs] = None,
 ) -> Component:
@@ -211,22 +211,19 @@ def add_settings_label(
     Args:
         component: spec.
         layer_label: for label.
-        settings: tuple or list of settings. if None, adds all changed settings.
+        settings: list of settings to include. if None, adds all changed settings.
         ignore: list of settings to ignore.
 
     """
     from gdsfactory.pdk import get_component
 
-    ignore = ignore or []
-
     component = get_component(component)
-    component.unlock()
 
+    ignore = ignore or []
     settings = settings or component.settings.changed.keys()
     settings = set(settings) - set(ignore)
 
     d = {setting: component.get_setting(setting) for setting in settings}
-
     component.add_label(text=OmegaConf.to_yaml(d), layer=layer_label)
     return component
 
