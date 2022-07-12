@@ -1,5 +1,12 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.19](https://github.com/gdsfactory/gdsfactory/pull/537)
+
+- lazy load matplotlib
+- make port.orientation None marker to be a cross.
+- add settings label can ignore settings
+- better message for symlinks in `gf tool install`
+
 ## [5.12.16](https://github.com/gdsfactory/gdsfactory/pull/536)
 
 - add klayout python cross_section scripts
