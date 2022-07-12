@@ -12,7 +12,7 @@ def bend_circular(
     angle: float = 90.0,
     npoints: int = 720,
     with_bbox: bool = True,
-    cross_section: CrossSectionSpec = strip,
+    cross_section: CrossSectionSpec = "strip",
     **kwargs
 ) -> Component:
     """Returns a radial arc.
