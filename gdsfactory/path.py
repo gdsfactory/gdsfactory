@@ -600,7 +600,7 @@ def euler(
 
         import gdsfactory as gf
 
-        p = gf.path.euler(radius=10, angle=45, p=1)
+        p = gf.path.euler(radius=10, angle=45, p=1, use_eff=True, npoints=720)
         p.plot()
     """
     return Path().from_phidl(
@@ -644,7 +644,7 @@ def spiral_archimedean(
 
         import gdsfactory as gf
 
-        p = gf.path.spiral_archimedean()
+        p = gf.path.spiral_archimedean(inner_radius=5, separation=2, number_of_loops=3, npoints=200)
         p.plot()
     """
     return Path(
@@ -669,6 +669,14 @@ def smooth(
         radius: radius of curvature, passed to `bend`.
         bend: bend function to round corners.
         kwargs: Extra keyword arguments that will be passed to `bend`.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        p = gf.path.smooth(([0, 0], [0, 10], [10, 10]))
+        p.plot()
     """
     return Path().from_phidl(
         smooth_phidl(points=points, radius=radius, corner_fun=bend, **kwargs)
