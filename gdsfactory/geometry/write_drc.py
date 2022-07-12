@@ -10,22 +10,11 @@ import pathlib
 from dataclasses import asdict, is_dataclass
 from typing import List, Optional
 
-try:
-    from typing import Literal
-except ImportError:
-    from typing_extensions import Literal
-
 from gdsfactory.config import logger
 from gdsfactory.install import get_klayout_path
 from gdsfactory.types import Dict, Layer, PathType
 
 layer_name_to_min_width: Dict[str, float]
-
-RuleType = Literal[
-    "width",
-    "space",
-    "enclosing",
-]
 
 
 def rule_width(value: float, layer: str, angle_limit: float = 90) -> str:
@@ -109,6 +98,7 @@ def write_drc_deck_macro(
     **kwargs,
 ) -> str:
     """Write klayout DRC macro.
+
     You can customize the shortcut to run the DRC macro from the Klayout GUI.
 
     Args:
@@ -144,6 +134,7 @@ def write_drc_deck_macro(
 
     .. code::
 
+        import gdsfactory as gf
         from gdsfactory.geometry.write_drc import (
             write_drc_deck_macro,
             rule_enclosing,
