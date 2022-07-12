@@ -14,6 +14,7 @@ from pydantic import validate_arguments
 
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
+from gdsfactory.components.straight import straight
 from gdsfactory.components.text_rectangular import text_rectangular_multi_layer
 from gdsfactory.port import auto_rename_ports
 from gdsfactory.types import (
@@ -21,7 +22,7 @@ from gdsfactory.types import (
     Axis,
     ComponentSpec,
     Float2,
-    Layer,
+    LayerSpec,
     List,
     Optional,
     Strs,
@@ -200,22 +201,29 @@ def update_info(component: Component, **kwargs) -> Component:
 
 @validate_arguments
 def add_settings_label(
-    component: Component, layer_label: Layer = (66, 0), settings: Optional[Strs] = None
+    component: ComponentSpec = straight,
+    layer_label: LayerSpec = (66, 0),
+    settings: Optional[Strs] = None,
+    ignore: Optional[Strs] = ("decorator",),
 ) -> Component:
     """Add a settings label to a component.
 
     Args:
         component: spec.
         layer_label: for label.
-        settings: tuple or list of settings. if None, adds all changed settings.
+        settings: list of settings to include. if None, adds all changed settings.
+        ignore: list of settings to ignore.
 
     """
-    d = (
-        {setting: component.get_setting(setting) for setting in settings}
-        if settings
-        else component.metadata.changed
-    )
+    from gdsfactory.pdk import get_component
 
+    component = get_component(component)
+
+    ignore = ignore or []
+    settings = settings or component.settings.changed.keys()
+    settings = set(settings) - set(ignore)
+
+    d = {setting: component.get_setting(setting) for setting in settings}
     component.add_label(text=OmegaConf.to_yaml(d), layer=layer_label)
     return component
 
