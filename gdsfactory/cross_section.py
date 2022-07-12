@@ -19,7 +19,7 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 
 LayerSpec = Union[Layer, int, str, None]
-LayerSpecs = List[LayerSpec]
+LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
 Floats = Tuple[float, ...]
 port_names_electrical = ("e1", "e2")
 port_types_electrical = ("electrical", "electrical")
@@ -216,7 +216,7 @@ def cross_section(
         auto_widen: taper to wide waveguides for low loss routing.
         auto_widen_minimum_length: minimum straight length for auto_widen.
         taper_length: taper_length for auto_widen.
-        radius: bend radius (um)..
+        radius: bend radius (um).
         sections: list of Sections(width, offset, layer, ports).
         port_names: for input and output ('o1', 'o2').
         port_types: for input and output: electrical, optical, vertical_te ...
@@ -233,7 +233,17 @@ def cross_section(
         add_pins: optional function to add pins to component.
         add_bbox: optional function to add bounding box to component.
         add_center_section: whether a section with `width` and `layer`
-              is added during extrude
+              is added during extrude.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.cross_section(width=0.5, offset=0, layer='WG')
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
     """
 
     return CrossSection(
@@ -291,13 +301,57 @@ strip_rib_tip = partial(
 )
 
 
-# Slot (with an etched region in the center)
 def slot(
     width: float = 0.5,
     layer: LayerSpec = "WG",
     slot_width: float = 0.04,
     **kwargs,
 ) -> CrossSection:
+    """Return CrossSection Slot (with an etched region in the center).
+
+    Args:
+        width: main Section width (um) or function parameterized from 0 to 1.
+            the width at t==0 is the width at the beginning of the Path.
+            the width at t==1 is the width at the end.
+        layer: main section layer.
+
+    Keyword Args:
+        offset: main Section center offset (um) or function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        radius: bend radius (um).
+        sections: list of Sections(width, offset, layer, ports).
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: can snap points to grid when extruding the path.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        info: settings info.
+        decorator: function to run when converting path to component.
+        add_pins: optional function to add pins to component.
+        add_bbox: optional function to add bounding box to component.
+        add_center_section: whether a section with `width` and `layer`
+              is added during extrude.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.slot(width=0.5, slot_width=0.05, layer='WG')
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+    """
 
     rail_width = (width - slot_width) / 2
     rail_offset = (rail_width + slot_width) / 2
@@ -375,9 +429,9 @@ def pin(
         via_stack_width: in um.
         via_stack_gap: offset from via_stack to ridge edge.
         slab_gap: extra slab gap (negative: via_stack goes beyond slab).
-        layer_via:
-        via_width:
-        via_offsets:
+        layer_via: for via.
+        via_width: in um.
+        via_offsets: in um.
         kwargs: other cross_section settings.
 
     https://doi.org/10.1364/OE.26.029983
@@ -396,6 +450,16 @@ def pin(
                                                               via_stack_width
        <---------------------------------------------------------------------->
                                    slab_width
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.pin(width=0.5, via_stack_gap=1, via_stack_width=1)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
     """
     slab_width = width + 2 * via_stack_gap + 2 * via_stack_width - 2 * slab_gap
     via_stack_offset = width / 2 + via_stack_gap + via_stack_width / 2
@@ -518,6 +582,16 @@ def pn(
                                      |<------->|
                                            gap_medium_doping
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.pn(width=0.5, gap_low_doping=0, width_doping=2.)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+
     """
     slab = Section(width=width_slab, offset=0, layer=layer_slab)
     sections = [slab]
@@ -601,6 +675,7 @@ def strip_heater_metal_undercut(
     **kwargs,
 ) -> CrossSection:
     """Returns strip cross_section with top metal and undercut trenches on both sides.
+
     dimensions from https://doi.org/10.1364/OE.18.020298
 
     Args:
@@ -631,6 +706,16 @@ def strip_heater_metal_undercut(
                    |___________________|             | trench_width |
                                                      |              |
                                                      |              |
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.strip_heater_metal_undercut(width=0.5, heater_width=2, trench_width=4, trench_gap=4)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
 
     """
     trench_offset = trench_gap + trench_width / 2 + width / 2
@@ -680,6 +765,16 @@ def strip_heater_metal(
         heater_width: of metal heater.
         layer_heater: for the metal.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.strip_heater_metal(width=0.5, heater_width=2)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+
     """
     info = dict(
         width=width,
@@ -717,6 +812,15 @@ def strip_heater_doped(
 ) -> CrossSection:
     """Returns strip cross_section with N++ doped heaters on both sides.
 
+    Args:
+        width: in um.
+        layer: wavguide spec.
+        heater_width: in um.
+        heater_gap: in um.
+        layers_heater: for doped heater.
+        bbox_offsets_heater: for each layers_heater.
+        kwargs: cross_section settings.
+
     .. code::
 
                                   |<------width------>|
@@ -726,6 +830,16 @@ def strip_heater_doped(
          |____________|           |___________________|             |______________|
                                                                      <------------>
                                                         heater_gap     heater_width
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.strip_heater_doped(width=0.5, heater_width=2, heater_gap=0.5)
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
@@ -776,6 +890,7 @@ def rib_heater_doped(
     **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
+
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     .. code::
@@ -792,6 +907,17 @@ def rib_heater_doped(
                                                                         heater_width
         <------------------------------------------------------------------------------>
                                         slab_width
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.rib_heater_doped(width=0.5, heater_width=2, heater_gap=0.5, layer_heater='NPP')
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
+
     """
     heater_offset = width / 2 + heater_gap + heater_width / 2
 
@@ -845,6 +971,7 @@ def rib_heater_doped_via_stack(
     **kwargs,
 ) -> CrossSection:
     """Returns rib cross_section with N++ doped heaters on both sides.
+
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
@@ -879,6 +1006,15 @@ def rib_heater_doped_via_stack(
        <------------------------------------------------------------------------------>
                                        slab_width
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        xs = gf.cross_section.rib_heater_doped_via_stack(width=0.5, heater_width=2, heater_gap=0.5, layer_heater='NPP')
+        p = gf.path.arc(radius=10, angle=45)
+        c = p.extrude(xs)
+        c.plot()
     """
     if with_bot_heater and with_top_heater:
         slab_width = width + 2 * heater_gap + 2 * heater_width + 2 * slab_gap
@@ -983,10 +1119,16 @@ def test_copy():
 if __name__ == "__main__":
     import gdsfactory as gf
 
+    # xs = gf.cross_section.pin(width=0.5, via_stack_gap=1, via_stack_width=1)
+    # xs = gf.cross_section.pn(width=0.5, gap_low_doping=0.25)
+    xs = gf.cross_section.pn(width=0.5, gap_low_doping=0, width_doping=2.0)
     p = gf.path.straight()
-    copied_cs = gf.cross_section.strip().copy()
-    c = gf.path.extrude(p, cross_section=copied_cs)
-    c.show(show_ports=True)
+    c = p.extrude(xs)
+    c.plot()
+
+    # copied_cs = gf.cross_section.slot().copy()
+    # c = gf.path.extrude(p, cross_section=copied_cs)
+    # c.show(show_ports=True)
 
     # p = gf.path.straight()
     # x = CrossSection(name="strip", layer=(1, 0), width=0.5)
