@@ -101,6 +101,18 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     print(f"{src} copied to {dest}")
 
 
+def make_symlink(src, dest):
+    if not dest.exists():
+        try:
+            make_link(src, dest)
+        except Exception:
+            os.remove(dest)
+            make_link(src, dest)
+    print("Symlink made:")
+    print(f"From: {src}")
+    print(f"To:   {dest}")
+
+
 def install_generic_tech() -> None:
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     cwd = pathlib.Path(__file__).resolve().parent
@@ -110,23 +122,11 @@ def install_generic_tech() -> None:
     dest = tech / "generic"
     tech.mkdir(exist_ok=True, parents=True)
 
-    if not dest.exists():
-        try:
-            make_link(src, dest)
-        except Exception:
-            os.remove(dest)
-            make_link(src, dest)
-        print(f"layermap installed to {dest}")
+    make_symlink(src, dest)
 
     src = cwd / "klayout" / "drc" / "generic.lydrc"
     dest = home / klayout_folder / "drc" / "generic.lydrc"
-
-    if not dest.exists():
-        try:
-            make_link(src, dest)
-        except Exception:
-            os.remove(dest)
-            make_link(src, dest)
+    make_symlink(src, dest)
 
 
 if __name__ == "__main__":

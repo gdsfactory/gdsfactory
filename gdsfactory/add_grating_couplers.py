@@ -23,7 +23,7 @@ from gdsfactory.types import ComponentSpec, CrossSectionSpec, Label, PortsDict
 
 @cell
 def add_grating_couplers(
-    component: Component,
+    component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Tuple[int, int] = (200, 0),
     gc_port_name: str = "o1",
@@ -35,7 +35,7 @@ def add_grating_couplers(
 
     Args:
         component: to add grating_couplers.
-        grating_coupler: grating_coupler function.
+        grating_coupler: grating_coupler spec.
         layer_label: for label.
         gc_port_name: where to add label.
         get_input_labels_function: function to get label.
@@ -45,6 +45,8 @@ def add_grating_couplers(
     """
 
     c = Component()
+    component = gf.get_component(component)
+
     c.component = component
     component_name = component_name or component.metadata_child.get("name")
     c.add_ref(component)
@@ -77,7 +79,7 @@ def add_grating_couplers(
 
 @cell
 def add_grating_couplers_with_loopback_fiber_single(
-    component: Component,
+    component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpec = grating_coupler_te,
     layer_label: Optional[Tuple[int, int]] = (200, 0),
     gc_port_name: str = "o1",
@@ -91,8 +93,7 @@ def add_grating_couplers_with_loopback_fiber_single(
     straight: ComponentSpec = straight_function,
     rotation: int = 90,
 ) -> Component:
-    """
-    Returns component with all ports terminated with grating couplers.
+    """Returns new component with all ports terminated with grating couplers.
 
     Args:
         component: to add grating_couplers.
@@ -111,6 +112,8 @@ def add_grating_couplers_with_loopback_fiber_single(
     """
 
     c = Component()
+    component = gf.get_component(component)
+
     c.component = component
     c.add_ref(component)
     grating_coupler = gf.get_component(grating_coupler)
@@ -201,7 +204,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 
 @cell
 def add_grating_couplers_with_loopback_fiber_array(
-    component: Component,
+    component: ComponentSpec = straight_function,
     grating_coupler: ComponentSpec = grating_coupler_te,
     excluded_ports: Optional[List[str]] = None,
     grating_separation: float = 127.0,
@@ -243,6 +246,7 @@ def add_grating_couplers_with_loopback_fiber_array(
         select_ports: function to select ports.
         kwargs: cross_section settings
     """
+    component = gf.get_component(component)
     x = gf.get_cross_section(cross_section, **kwargs)
     bend_radius_loopback = bend_radius_loopback or x.radius
     excluded_ports = excluded_ports or []
@@ -271,7 +275,8 @@ def add_grating_couplers_with_loopback_fiber_array(
     grating_separation_extracted = check_ports_have_equal_spacing(optical_ports)
     if grating_separation_extracted != grating_separation:
         raise ValueError(
-            f"Grating separation must be {grating_separation}. Got {grating_separation_extracted}"
+            f"Grating separation must be {grating_separation}. "
+            f"Got {grating_separation_extracted}"
         )
 
     # Add grating references
