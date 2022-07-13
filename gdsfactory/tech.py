@@ -10,10 +10,6 @@ LayerSpec = Union[int, Layer, str, None]
 nm = 1e-3
 
 
-def make_empty_dict() -> Dict[str, Callable]:
-    return {}
-
-
 class LayerMap(BaseModel):
     """Generic layermap based on book.
 
@@ -334,9 +330,10 @@ class SimulationSettingsLumericalFdtd(BaseModel):
         wavelength_start: 1.2 (um).
         wavelength_stop: 1.6 (um).
         wavelength_points: 500.
-        simulation_time: (s) related to max path length 3e8/2.4*10e-12*1e6 = 1.25mm.
+        simulation_time: (s) related to max path length
+            3e8/2.4*10e-12*1e6 = 1.25mm.
         simulation_temperature: in kelvin (default = 300).
-        frequency_dependent_profile: computes mode profiles for different wavelengths.
+        frequency_dependent_profile: compute mode profiles for each wavelength.
         field_profile_samples: number of wavelengths to compute field profile.
     """
 
