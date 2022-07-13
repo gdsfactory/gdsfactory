@@ -21,6 +21,7 @@ def straight_heater_meander(
     taper_length: float = 10,
 ) -> Component:
     """Returns a meander based heater.
+
     based on SungWon Chung, Makoto Nakai, and Hossein Hashemi,
     Low-power thermo-optic silicon modulator for large-scale photonic integrated systems
     Opt. Express 27, 13430-13459 (2019)
