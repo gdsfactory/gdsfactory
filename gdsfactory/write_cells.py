@@ -48,7 +48,7 @@ def write_cells_recursively(
     precision: float = 1e-9,
     timestamp: Optional[datetime.datetime] = _timestamp2019,
     dirpath: Optional[pathlib.Path] = None,
-) -> None:
+) -> Dict[str, Path]:
     """Write gdspy cells recursively.
 
     Args:
@@ -80,7 +80,7 @@ def write_cells_recursively(
                 timestamp=timestamp,
                 dirpath=dirpath,
             )
-            gdspaths.update(**gdspaths2)
+            gdspaths.update(gdspaths2)
 
     return gdspaths
 
@@ -138,16 +138,12 @@ def write_cells(
                 timestamp=timestamp,
                 dirpath=dirpath,
             )
-            gdspaths.update(**gdspaths2)
+            gdspaths.update(gdspaths2)
         return gdspaths
 
 
 def test_write_cells():
-    import gdsfactory as gf
-
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
-    gf.show(gdspath)
-
     gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
     assert len(gdspaths) == 10, len(gdspaths)
 
