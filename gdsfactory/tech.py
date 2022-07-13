@@ -10,10 +10,6 @@ LayerSpec = Union[int, Layer, str, None]
 nm = 1e-3
 
 
-def make_empty_dict() -> Dict[str, Callable]:
-    return {}
-
-
 class LayerMap(BaseModel):
     """Generic layermap based on book.
 
