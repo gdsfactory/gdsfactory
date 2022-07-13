@@ -43,6 +43,24 @@ class MutabilityError(ValueError):
     pass
 
 
+mutability_error_message = """
+You cannot modify a Component after creation as it will affect all of its instances.
+
+Create a new Component and add a reference to it.
+
+For example:
+
+# BAD
+c = gf.components.bend_euler()
+c.add_ref(gf.components.mzi())
+
+# GOOD
+c = gf.Component()
+c.add_ref(gf.components.bend_euler())
+c.add_ref(gf.components.mzi())
+"""
+
+
 PathType = Union[str, Path]
 Float2 = Tuple[float, float]
 Layer = Tuple[int, int]
@@ -673,19 +691,15 @@ class Component(Device):
         """Raises error if Component is locked"""
         if self._locked:
             raise MutabilityError(
-                f"You cannot modify locked Component {self.name!r}. "
-                "You need to make a copy of this Component or create a new Component "
-                "and add a reference to it. "
-                "Changing a component after creating it can be dangerous "
-                "as it will affect all of its instances. "
-                "You can unlock it (at your own risk) by calling `unlock()`"
+                f"Component {self.name!r} cannot be modified as it is already on cache. "
+                + mutability_error_message
             )
 
     def add(self, element) -> None:
         """Add a new element or list of elements to this Component
 
         Args:
-            element : `PolygonSet`, `CellReference`, `CellArray` or iterable
+            element: `PolygonSet`, `CellReference`, `CellArray` or iterable
             The element or iterable of elements to be inserted in this
             cell.
 
