@@ -1,12 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.12.19](https://github.com/gdsfactory/gdsfactory/pull/537)
+## [5.12.19](https://github.com/gdsfactory/gdsfactory/pull/539)
 
-- lazy load matplotlib
+- lazy load matplotlib. Related to [issue](https://github.com/amccaugh/phidl/pull/159)
 - make port.orientation None marker to be a cross.
 - add settings label can ignore settings
 - better message for symlinks in `gf tool install`
 - fix write_cells code. Add a test.
+- better mutability error message [fix issue](https://github.com/gdsfactory/gdsfactory/issues/538)
+- add [YouTube Video link](https://www.youtube.com/channel/UCp4ZA52J1pH4XI5gvLjgB_g) to docs
 
 ## [5.12.16](https://github.com/gdsfactory/gdsfactory/pull/536)
 
