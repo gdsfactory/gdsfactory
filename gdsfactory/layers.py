@@ -2,8 +2,8 @@
 
 You can:
 
-- Define your layers in a dataclass
-- Load it from Klayout XML file (.lyp)
+- Load LayerColors from Klayout XML file (.lyp) (recommended)
+- Define your layers in a Pydantic BaseModel
 
 LayerColors adapted from phidl.device_layout
 load_lyp, name_to_description, name_to_short_name adapted from phidl.utilities
@@ -33,8 +33,6 @@ def preview_layerset(ls, size: float = 100.0, spacing: float = 100.0) -> object:
         size: square size.
         spacing: spacing between each square.
     """
-    import numpy as np
-
     import gdsfactory as gf
 
     D = gf.Component(name="layerset")
@@ -188,7 +186,7 @@ class LayerColors(BaseModel):
         Args:
             val: Layer name to access within the LayerColors.
 
-        Returns
+        Returns:
             self.layers[val]: Accessed Layer in the LayerColors.
         """
         try:
@@ -226,10 +224,10 @@ def _name_to_short_name(name_str: str) -> str:
     """Maps the name entry of the lyp element to a name of the layer.
 
     i.e. the dictionary key used to access it.
-    Default format of the lyp name is
-        key - layer/datatype - description
-        or
-        key - description
+    Default format of the lyp name are:
+
+        - key - layer/datatype - description
+        - key - description
 
     """
     if name_str is None:
@@ -244,10 +242,10 @@ def _name_to_description(name_str) -> str:
 
     It is not strictly necessary to have a description. If none there, it returns ''.
 
-    Default format of the lyp name is
-        key - layer/datatype - description
-        or
-        key - description
+    Default format of the lyp name are:
+
+        - key - layer/datatype - description
+        - key - description
 
     """
     if name_str is None:
@@ -259,13 +257,14 @@ def _name_to_description(name_str) -> str:
 def _add_layer(
     entry, lys: LayerColors, shorten_names: bool = True
 ) -> Optional[LayerColors]:
-    """Entry is a dict of one element of 'properties'.
-    No return value. It adds it to the lys variable directly
+    """Adds a layer entry to layer colors and Returns a LayerColors updated dict.
+
+    Returns None for invalid entries.
 
     Args:
-        entry: layer entry.
-        lys: layer set.
-        shorten_names: takes the first part of the layer as its name.
+        entry: layer entry.Entry is a dict of one element of 'properties'.
+        lys: LayerColors map.
+        shorten_names: if True takes the first part of the layer as its name.
     """
     info = entry["source"].split("@")[0]
 
