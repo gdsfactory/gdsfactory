@@ -33,17 +33,18 @@ def straight_heater_doped_rib(
     **kwargs
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
+
     dimensions from https://doi.org/10.1364/OE.27.010456
 
     Args:
         length: of the waveguide in um.
-        nsections: between via_stacks.
+        nsections: number of sections between via_stacks.
         cross_section: for the input/output ports.
         cross_section_heater: for the heater.
         via_stack: function to connect the heated strip.
         via_stack_metal: function to connect the metal area.
-        via_stack_metal_size: x, y.
-        via_stack_size: x, y.
+        via_stack_metal_size: x, y size in um.
+        via_stack_size: x, y size in um.
         taper: optional taper spec.
         heater_width: in um.
         heater_gap: in um.
