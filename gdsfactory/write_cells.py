@@ -1,14 +1,15 @@
 """Generate the code from a GDS file based PDK."""
 
+import datetime
 import pathlib
-from typing import Optional
+from pathlib import Path
+from typing import Dict, Optional
 
 import gdspy
-from tqdm.auto import tqdm
 
+from gdsfactory.component import _timestamp2019
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.name import clean_name
-from gdsfactory.read.import_gds import import_gds
 from gdsfactory.types import PathType
 
 script_prefix = """
@@ -41,39 +42,114 @@ def get_import_gds_script(dirpath: PathType) -> str:
     return "\n".join(script)
 
 
+def write_cells_recursively(
+    cell: gdspy.Cell,
+    unit: float = 1e-6,
+    precision: float = 1e-9,
+    timestamp: Optional[datetime.datetime] = _timestamp2019,
+    dirpath: Optional[pathlib.Path] = None,
+) -> None:
+    """Write gdspy cells recursively.
+
+    Args:
+        cell: gdspy cell.
+        unit: unit size for objects in library. 1um by default.
+        precision: for library dimensions (m). 1nm by default.
+        timestamp: Defaults to 2019-10-25. If None uses current time.
+        dirpath: directory for the GDS file to write to.
+
+    Returns:
+        gdspaths: dict of cell name to gdspath.
+    """
+    dirpath = dirpath or pathlib.Path.cwd()
+    gdspaths = {}
+
+    for cell in cell.get_dependencies():
+        gdspath = f"{pathlib.Path(dirpath)/cell.name}.gds"
+        lib = gdspy.GdsLibrary(unit=unit, precision=precision)
+        lib.write_gds(gdspath, cells=[cell], timestamp=timestamp)
+        logger.info(f"Write GDS to {gdspath}")
+
+        gdspaths[cell.name] = gdspath
+
+        if cell.get_dependencies():
+            gdspaths2 = write_cells_recursively(
+                cell=cell,
+                unit=unit,
+                precision=precision,
+                timestamp=timestamp,
+                dirpath=dirpath,
+            )
+            gdspaths.update(**gdspaths2)
+
+    return gdspaths
+
+
 def write_cells(
-    gdspath: PathType,
+    gdspath: Optional[PathType] = None,
     dirpath: Optional[PathType] = None,
     unit: float = 1e-6,
     precision: float = 1e-9,
+    timestamp: Optional[datetime.datetime] = _timestamp2019,
     recursively: bool = True,
     flatten: bool = False,
-) -> None:
+) -> Dict[str, Path]:
     """Writes cells into separate GDS files.
 
     Args:
-        gdspath: GDS file. You need to define either gdspath.
-        dirpath: output directory for GDS files. Defaults to current working directory.
+        gdspath: GDS file to write cells.
+        dirpath: directory path to write GDS files to.
+            Defaults to current working directory.
         unit: unit size for objects in library. 1um by default.
         precision: for object dimensions in the library (m). 1nm by default.
+        timestamp: Defaults to 2019-10-25. If None uses current time.
+        recursively: writes all cells recursively. If False writes only top cells.
         flatten: flatten cell.
+
+    Returns:
+        gdspaths: dict of cell name to gdspath.
     """
+
+    gdsii_lib = gdspy.GdsLibrary()
+    gdsii_lib.read_gds(gdspath)
+    top_level_cells = gdsii_lib.top_level()
+
     dirpath = dirpath or pathlib.Path.cwd()
     dirpath = pathlib.Path(dirpath)
     dirpath.mkdir(exist_ok=True, parents=True)
 
-    gdsii_lib = gdspy.GdsLibrary()
-    gdsii_lib.read_gds(str(gdspath))
-    top_level_cells = gdsii_lib.top_level()
-    cellnames = [c.name for c in top_level_cells]
+    gdspaths = {}
 
-    for cellname in tqdm(cellnames):
-        component = import_gds(gdspath=gdspath, cellname=cellname)
-        gdspath_new = pathlib.Path(dirpath) / f"{component.name}.gds"
-        logger.info(f"Write {cellname!r} to {gdspath_new}")
+    for cell in top_level_cells:
         if flatten:
-            component.flatten()
-        component.write_gds(gdspath=gdspath_new)
+            cell = cell.flatten()
+        gdspath = f"{pathlib.Path(dirpath)/cell.name}.gds"
+        lib = gdspy.GdsLibrary(unit=unit, precision=precision)
+        gdspy.library.use_current_library = False
+        lib.write_gds(gdspath, cells=[cell], timestamp=timestamp)
+        logger.info(f"Write {cell.name} to {gdspath}")
+        gdspaths[cell.name] = gdspath
+
+        if recursively:
+            gdspaths2 = write_cells_recursively(
+                cell=cell,
+                unit=unit,
+                precision=precision,
+                timestamp=timestamp,
+                dirpath=dirpath,
+            )
+            gdspaths.update(**gdspaths2)
+        return gdspaths
+
+
+def test_write_cells():
+    import gdsfactory as gf
+
+    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    gf.show(gdspath)
+
+    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
+    assert len(gdspaths) == 10, len(gdspaths)
 
 
 if __name__ == "__main__":
@@ -82,4 +158,5 @@ if __name__ == "__main__":
     gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
     gf.show(gdspath)
 
-    write_cells(gdspath=gdspath, dirpath="extra/gds")
+    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
+    print(len(gdspaths))
