@@ -6,6 +6,7 @@
 - make port.orientation None marker to be a cross.
 - add settings label can ignore settings
 - better message for symlinks in `gf tool install`
+- fix write_cells code. Add a test.
 
 ## [5.12.16](https://github.com/gdsfactory/gdsfactory/pull/536)
 
