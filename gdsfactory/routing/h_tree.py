@@ -26,9 +26,15 @@ def h_tree(
     splitter_length = (
         splitter.ports["o2"].midpoint[0] - splitter.ports["o1"].midpoint[0]
     )
+    splitter_offset = (
+        splitter.ports["o2"].midpoint[1] - splitter.ports["o1"].midpoint[1]
+    )
     straight = tree.add_ref(
         straight_factory(
-            2 ** (level // 2) * length - splitter_length - 2 * bend.info["radius"]
+            2 ** (level // 2) * length
+            - splitter_length
+            - splitter_offset
+            - 2 * bend.info["radius"]
         )
     )
     tree.add_ports([straight.ports["o1"]])
