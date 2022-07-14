@@ -19,18 +19,18 @@ h_etch1 = 0.07
 h_etch2 = 0.06  # 60nm etch after 70nm = 130nm etch (90nm slab)
 h_etch3 = 0.09  # etches the remaining 90nm slab for strip straights
 
-hsim1 = 0.8
-hm1 = 0.5
+t_clad = 0.6
+t_m1 = 0.5
+t_m2 = 0.5
+t_m3 = 2.0
+
 hm1m2 = 0.6
 hm2m3 = 0.3
 hheater = 0.1
-hoxidesi = 0.6
-hoxidenitride = 0.1
-hoxidem1 = 0.6
-hoxidem2 = 2.0
-hoxidem3 = 0.5
-hm2 = 0.5
-hm3 = 2.0
+gap_oxide_nitride = 0.82
+t_m1_oxide = 0.6
+t_m2_oxide = 2.0
+t_m3_oxide = 0.5
 
 # Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
 delta(dbu)
@@ -127,8 +127,8 @@ Ge = mask(l_Ge).grow(t_ge, 0, bias=0.0, taper=10)
 output("315/0", Ge)
 
 ################ Nitride
-ox_nitride = deposit(2 * hoxidenitride, 2 * hoxidenitride)
-planarize(less=hoxidenitride, into=[ox_nitride])
+ox_nitride = deposit(2 * gap_oxide_nitride, 2 * gap_oxide_nitride)
+planarize(less=gap_oxide_nitride, into=[ox_nitride])
 output("302/0", ox_nitride)
 
 nitride = mask(l_nitride).grow(t_nitride, 0, bias=0.0, taper=10)
@@ -136,19 +136,19 @@ output("305/0", nitride)
 
 ################# back-end
 ################# VIAC, M1 and MH
-ox_si = deposit(hoxidesi + t_ge + t_nitride, hoxidesi + t_ge + t_nitride, mode="round")
+ox_si = deposit(t_clad + t_ge + t_nitride, t_clad + t_ge + t_nitride, mode="round")
 planarize(less=t_ge + t_nitride, into=[ox_si])
 mask(l_viac).etch(
-    hoxidesi + t_ge + t_nitride + hoxidenitride, taper=4, into=[ox_si, ox_nitride]
+    t_clad + t_ge + t_nitride + gap_oxide_nitride, taper=4, into=[ox_si, ox_nitride]
 )
 
-viac = deposit(2 * hoxidesi, 2 * hoxidesi)
-planarize(less=2 * hoxidesi, into=[viac])
+viac = deposit(2 * t_clad, 2 * t_clad)
+planarize(less=2 * t_clad, into=[viac])
 
 mh = deposit(hheater, hheater)
 mask(l_mh.inverted()).etch(hheater + hheater, into=[mh])
-m1 = deposit(hm1, hm1)
-mask(l_m1.inverted()).etch(hm1 + hm1, into=[m1])
+m1 = deposit(t_m1, t_m1)
+mask(l_m1.inverted()).etch(t_m1 + t_m1, into=[m1])
 output("306/0", mh)
 output("399/0", m1)
 
@@ -156,27 +156,27 @@ output("302/0", ox_si)
 output("303/0", viac)
 
 ################# VIA1 and M2
-ox_m1 = deposit(2 * hoxidem1, 2 * hoxidem1, mode="round")
-planarize(less=hoxidem1, into=[ox_m1])
+ox_m1 = deposit(2 * t_m1_oxide, 2 * t_m1_oxide, mode="round")
+planarize(less=t_m1_oxide, into=[ox_m1])
 
-mask(l_via1).etch(hoxidem1 + hm1m2, taper=4, into=[ox_m1])
-via1 = deposit(hm2, hm2)
+mask(l_via1).etch(t_m1_oxide + hm1m2, taper=4, into=[ox_m1])
+via1 = deposit(t_m2, t_m2)
 
-mask(l_m2.inverted()).etch(hm2, taper=4, into=[via1])
+mask(l_m2.inverted()).etch(t_m2, taper=4, into=[via1])
 output("308/0", via1)
 
-ox_m2 = deposit(2 * hoxidem2, 2 * hoxidem2, mode="round")
-planarize(less=hoxidem2, into=[ox_m2])
+ox_m2 = deposit(2 * t_m2_oxide, 2 * t_m2_oxide, mode="round")
+planarize(less=t_m2_oxide, into=[ox_m2])
 output("309/0", ox_m2)
 output("307/0", ox_m1)
 
 ################# VIA2 and M3
-mask(l_via2).etch(hoxidem2 + hm2m3, taper=4, into=[ox_m2, ox_m2])
-via2 = deposit(hm3, hm3)
-mask(l_m3.inverted()).etch(hm3, taper=4, into=[via2])
+mask(l_via2).etch(t_m2_oxide + hm2m3, taper=4, into=[ox_m2, ox_m2])
+via2 = deposit(t_m3, t_m3)
+mask(l_m3.inverted()).etch(t_m3, taper=4, into=[via2])
 output("310/0", via2)
 
 ################# passivation and ML Open
-ox_m3 = deposit(hoxidem3, hoxidem3, mode="round")
-mask(l_open).etch(hoxidem3 + hoxidem3, into=[ox_m3], taper=5)
+ox_m3 = deposit(t_m3_oxide, t_m3_oxide, mode="round")
+mask(l_open).etch(t_m3_oxide + t_m3_oxide, into=[ox_m3], taper=5)
 output("311/0", ox_m3)
