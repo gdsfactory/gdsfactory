@@ -629,27 +629,27 @@ def straight(length: float = 10.0, npoints: int = 2) -> Path:
 
 
 def spiral_archimedean(
-    inner_radius: float, separation: float, number_of_loops: float, npoints: int
+    radius: float, separation: float, number_of_loops: float, npoints: int
 ) -> Path:
     """Returns an Archimedean spiral.
 
     Args:
-        inner_radius: Inner radius of the spiral.
-        separation: Separation between the loops.
-        number_of_loops: Number of loops.
-        npoints: Number of Points.
+        radius: Inner radius of the spiral.
+        separation: Separation between the loops in um.
+        number_of_loops: number of loops.
+        npoints: number of Points.
 
     .. plot::
         :include-source:
 
         import gdsfactory as gf
 
-        p = gf.path.spiral_archimedean(inner_radius=5, separation=2, number_of_loops=3, npoints=200)
+        p = gf.path.spiral_archimedean(radius=5, separation=2, number_of_loops=3, npoints=200)
         p.plot()
     """
     return Path(
         [
-            (separation / np.pi * theta + inner_radius)
+            (separation / np.pi * theta + radius)
             * np.array((np.sin(theta), np.cos(theta)))
             for theta in np.linspace(0, number_of_loops * 2 * np.pi, npoints)
         ]
