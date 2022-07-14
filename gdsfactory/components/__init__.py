@@ -172,6 +172,7 @@ from gdsfactory.components.ring_single_heater import ring_single_heater
 from gdsfactory.components.seal_ring import seal_ring
 from gdsfactory.components.spiral import spiral
 from gdsfactory.components.spiral_circular import spiral_circular
+from gdsfactory.components.spiral_double import spiral_double
 from gdsfactory.components.spiral_external_io import spiral_external_io
 from gdsfactory.components.spiral_inner_io import (
     spiral_inner_io,
@@ -423,6 +424,7 @@ __all__ = [
     "seal_ring",
     "spiral",
     "spiral_circular",
+    "spiral_double",
     "spiral_external_io",
     "spiral_inner_io",
     "spiral_inner_io_fiber_single",
