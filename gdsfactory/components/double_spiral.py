@@ -1,40 +1,38 @@
-import gdsfactory
+import gdsfactory as gf
 from gdsfactory.components import bend_circular
 from gdsfactory.path import spiral_archimedean
 
 
-@gdsfactory.cell
+@gf.cell
 def double_spiral(
-    inner_radius: float,
+    radius: float,
     separation: float,
     number_of_loops: float,
     npoints: int,
-    cross_section: gdsfactory.types.CrossSectionSpec,
-    bend_factory: gdsfactory.types.ComponentFactory = bend_circular,
-):
-    """
-    Adds a double spiral
+    cross_section: gf.types.CrossSectionSpec,
+    bend: gf.types.ComponentSpec = bend_circular,
+) -> gf.Component:
+    """Returns a double spiral.
 
     Args:
-        inner_radius: inner radius of the spiral
-        separation: separation between the loops
-        number_of_loops: number of loops per spiral
-        npoints: points for the spiral
-        cross_section: cross-section to extrude the structure with
-        bend_factory: factory for the bends in the middle of the double spiral
-
-    Returns:
-        double spiral component
+        radius: inner radius of the spiral.
+        separation: separation between the loops.
+        number_of_loops: number of loops per spiral.
+        npoints: points for the spiral.
+        cross_section: cross-section to extrude the structure with.
+        bend: factory for the bends in the middle of the double spiral.
     """
-    component = gdsfactory.Component()
+    component = gf.Component()
 
-    bend = bend_factory(radius=inner_radius / 2, angle=180, cross_section=cross_section)
+    bend = gf.get_component(
+        bend, radius=radius / 2, angle=180, cross_section=cross_section
+    )
     bend1 = component.add_ref(bend).mirror()
     bend2 = component.add_ref(bend)
     bend2.connect("o2", bend1.ports["o1"])
 
     path = spiral_archimedean(
-        inner_radius=inner_radius,
+        radius=radius,
         separation=separation,
         number_of_loops=number_of_loops,
         npoints=npoints,
