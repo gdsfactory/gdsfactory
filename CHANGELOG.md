@@ -1,6 +1,6 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.12.20](https://github.com/gdsfactory/gdsfactory/pull/539)
+## [5.12.20](https://github.com/gdsfactory/gdsfactory/pull/542)
 
 - rename double_spiral to spiral_double
 - fix spiral_double.
