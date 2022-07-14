@@ -189,10 +189,10 @@ def get_layer_stack_generic(
     based on paper https://www.degruyter.com/document/doi/10.1515/nanoph-2013-0034/html
 
     Args:
-        thickness_wg: waveguide thickness.
-        thickness_clad: cladding.
-        thickness_nitride: for nitride.
-        gap_silicon_to_nitride: in um.
+        thickness_wg: waveguide thickness in um.
+        thickness_clad: cladding thickness in um.
+        thickness_nitride: nitride thickness in um.
+        gap_silicon_to_nitride: distance from silicon to nitride in um.
     """
     return LayerStack(
         layers=dict(
