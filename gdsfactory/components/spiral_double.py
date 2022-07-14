@@ -4,7 +4,7 @@ from gdsfactory.path import spiral_archimedean
 
 
 @gf.cell
-def double_spiral(
+def spiral_double(
     radius: float,
     separation: float,
     number_of_loops: float,
@@ -12,7 +12,7 @@ def double_spiral(
     cross_section: gf.types.CrossSectionSpec,
     bend: gf.types.ComponentSpec = bend_circular,
 ) -> gf.Component:
-    """Returns a double spiral.
+    """Returns a spiral double (spiral in, and then out).
 
     Args:
         radius: inner radius of the spiral.
@@ -46,10 +46,11 @@ def double_spiral(
     component.add_port("o1", port=spiral1.ports["o2"])
     component.add_port("o2", port=spiral2.ports["o2"])
 
+    component.info["length"] = path.length()
     return component
 
 
 if __name__ == "__main__":
-    c = double_spiral(10, 2, 3, 1000, "nitride")
+    c = spiral_double(10, 2, 3, 1000, "nitride")
     print(c.ports)
-    c.plot()
+    c.show(show_ports=True)
