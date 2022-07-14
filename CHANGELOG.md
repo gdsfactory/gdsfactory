@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.20](https://github.com/gdsfactory/gdsfactory/pull/539)
+
+- rename double_spiral to spiral_double
+- fix spiral_double.
+    - start_angle = 0
+    - end_angle = 180
+- rename inner_radius to radius in spiral_double and spiral_archimedian
+
 ## [5.12.19](https://github.com/gdsfactory/gdsfactory/pull/539)
 
 - lazy load matplotlib. Related to [issue](https://github.com/amccaugh/phidl/pull/159)
