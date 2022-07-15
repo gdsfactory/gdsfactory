@@ -7,13 +7,14 @@ from phidl.device_layout import Group
 from gdsfactory.cell import cell
 from gdsfactory.component import Component
 from gdsfactory.components.text_rectangular import text_rectangular
+from gdsfactory.components.triangles import triangle
 from gdsfactory.difftest import difftest
 from gdsfactory.types import Anchor, ComponentSpec, Float2
 
 
 @cell
 def grid(
-    components: Tuple[ComponentSpec, ...],
+    components: Optional[Tuple[ComponentSpec, ...]] = None,
     spacing: Tuple[float, float] = (5.0, 5.0),
     separation: bool = True,
     shape: Optional[Tuple[int, int]] = None,
@@ -25,7 +26,7 @@ def grid(
     h_mirror: bool = False,
     v_mirror: bool = False,
 ) -> Component:
-    """Returns a component with a 1D or 2D grid of components
+    """Returns a component with a 1D or 2D grid of components.
 
     Adapted from phidl.geometry
 
@@ -47,7 +48,24 @@ def grid(
 
     Returns:
         Component containing all the components in a grid.
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        components = [gf.components.triangle(x=i) for i in range(1, 10)]
+        c = gf.grid(
+            components,
+            shape=(1, len(components)),
+            rotation=0,
+            h_mirror=False,
+            v_mirror=True,
+            spacing=(100, 100),
+        )
+        c.plot()
     """
+    components = components or [triangle(x=i) for i in range(1, 10)]
 
     device_array = np.asarray(components)
     # Check arguments
@@ -116,7 +134,7 @@ def grid(
 
 @cell
 def grid_with_text(
-    components: Tuple[ComponentSpec, ...],
+    components: Optional[Tuple[ComponentSpec, ...]] = None,
     text_prefix: str = "",
     text_offsets: Tuple[Float2, ...] = ((0, 0),),
     text_anchors: Tuple[Anchor, ...] = ("cc",),
@@ -124,7 +142,7 @@ def grid_with_text(
     labels: Optional[Tuple[str, ...]] = None,
     **kwargs,
 ) -> Component:
-    """Returns Grid with text labels.
+    """Returns a Component with 1D or 2D grid of components with text labels.
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
@@ -150,6 +168,25 @@ def grid_with_text(
         edge_y: {'y', 'ymin', 'ymax'}
           to perform the y (row) distribution along (ignored if separation = True)
         rotation: for each reference in degrees.
+
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        components = [gf.components.triangle(x=i) for i in range(1, 10)]
+        c = gf.grid_with_text(
+            components,
+            shape=(1, len(components)),
+            rotation=0,
+            h_mirror=False,
+            v_mirror=True,
+            spacing=(100, 100),
+            text_offsets=((0, 100), (0, -100)),
+            text_anchors=("nc", "sc"),
+        )
+        c.plot()
 
     """
     c = Component()
@@ -187,14 +224,14 @@ if __name__ == "__main__":
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
 
     c = [gf.components.triangle(x=i) for i in range(1, 10)]
-    c = grid_with_text(
-        c,
+    c = grid(
+        # c,
         shape=(1, len(c)),
         rotation=0,
         h_mirror=False,
         v_mirror=True,
         spacing=(100, 100),
-        text_offsets=((0, 100), (0, -100)),
-        text_anchors=("nc", "sc"),
+        # text_offsets=((0, 100), (0, -100)),
+        # text_anchors=("nc", "sc"),
     )
     c.show(show_ports=True)

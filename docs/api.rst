@@ -88,6 +88,20 @@ Classes and functions for construction and manipulation of geometric objects.
    CrossSectionSpec
    CellSpec
 
+*********************
+Pack
+*********************
+
+.. currentmodule:: gdsfactory
+
+.. rubric:: pack
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   pack
+   grid
+   grid_with_text
 
 *********************
 Klayout DRC

@@ -30,18 +30,21 @@ def add_fiber_array(
     layer_label: LayerSpec = "TEXT",
     **kwargs,
 ) -> Component:
-    """Returns component with optical IO (tapers, south routes and grating_couplers).
-    adds a grating_coupler
+    """Returns component with south routes and grating_couplers.
+
+
+    You can also use pads or other terminations instead of grating couplers.
+
 
     Args:
         component: component spec to connect to grating couplers.
-        grating_coupler: fiber coupler instance, function or list of functions.
+        grating_coupler: spec for route terminations.
         gc_port_name: grating coupler input port name.
         gc_port_labels: grating coupler list of labels.
         component_name: for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
-        get_input_labels_function: function to get input labels for grating couplers.
+        get_input_labels_function: function to get input labels.
         layer_label: optional layer for grating coupler label.
 
     Keyword Args:
@@ -70,7 +73,6 @@ def add_fiber_array(
         :include-source:
 
         import gdsfactory as gf
-        gf.config.set_plot_options(show_subports=False)
 
         c = gf.components.crossing()
         cc = gf.routing.add_fiber_array(
