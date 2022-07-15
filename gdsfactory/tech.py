@@ -95,7 +95,7 @@ PORT_TYPE_TO_MARKER_LAYER = {v: k for k, v in PORT_MARKER_LAYER_TO_TYPE.items()}
 
 
 class LayerLevel(BaseModel):
-    """Layer For 3D LayerStack.
+    """Level for 3D LayerStack.
 
     Parameters:
         layer: (GDSII Layer number, GDSII datatype).
@@ -103,13 +103,16 @@ class LayerLevel(BaseModel):
         zmin: height position where material starts in um.
         material: material name.
         sidewall_angle: in degrees with respect to normal.
-
-    TODO:
-        figure out how to add simulation_info
-        simulation_info: contains information for simulating.
+        info: simulation_info and other types of metadata.
+            mesh_order: lower mesh order (1) will have priority over higher
+                mesh order (2) in the regions where materials overlap.
             refractive_index: refractive_index
                 can be int, complex or function that depends on wavelength (um).
             type: grow, etch, implant, or background.
+            mode: octagon, taper, round.
+                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+            into: etch into another layer.
+                https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
             doping_concentration: for implants.
             resistiviy: for metals.
             bias: in um for the etch.
@@ -120,8 +123,7 @@ class LayerLevel(BaseModel):
     zmin: float
     material: Optional[str] = None
     sidewall_angle: float = 0
-    # simulation_info: Dict[str, Any] = {}
-    # refractive_index: Optional[Callable[[float], float]] = None
+    # info: Dict[str, Any] = {}
 
 
 class LayerStack(BaseModel):
@@ -176,6 +178,15 @@ class LayerStack(BaseModel):
             print(
                 f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
             )
+
+    def get_klayout_xsection_script(self) -> str:
+        """Prints script for xsection klayout information.
+
+        You can add this script into a .pyxs file and install the klayout extension.
+        https://gdsfactory.github.io/klayout_pyxs/README.html
+        """
+        for layer_name, level in self.layers.items():
+            print(f"{layer_name} = layer('{level.layer[0]}/{level.layer[1]}')")
 
 
 def get_layer_stack_generic(
