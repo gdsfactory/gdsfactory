@@ -73,7 +73,6 @@ def add_fiber_array(
         :include-source:
 
         import gdsfactory as gf
-        gf.config.set_plot_options(show_subports=False)
 
         c = gf.components.crossing()
         cc = gf.routing.add_fiber_array(
