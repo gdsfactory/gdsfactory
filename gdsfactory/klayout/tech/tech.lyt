@@ -120,6 +120,7 @@
   </mag>
  </reader-options>
  <writer-options>
+  <format>GDS2</format>
   <gds2>
    <write-timestamps>true</write-timestamps>
    <write-cell-properties>false</write-cell-properties>
