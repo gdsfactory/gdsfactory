@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.21](https://github.com/gdsfactory/gdsfactory/pull/543)
+
+- rename radius to min_bend_radius in spiral_double and spiral_archimedian
+- add gdsfactory/klayout/get_xsection_script.py to get cross_section script for [klayout pluing](https://gdsfactory.github.io/klayout_pyxs/DocGrow.html)
+- add pack and grid to documentation API
+
 ## [5.12.20](https://github.com/gdsfactory/gdsfactory/pull/542)
 
 - rename double_spiral to spiral_double
