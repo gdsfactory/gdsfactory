@@ -1,36 +1,24 @@
-#######################
-# cross-section settings script for Klayout using generic layer map
-# https://sourceforge.net/p/xsectionklayout/wiki/MainPage/
-# Download the ruby module here: http://sourceforge.net/p/xsectionklayout/code/HEAD/tree/trunk/src/xsection.rbm?format=raw
-# Copy xsection.lym to the installation path of KLayout macros. That is the place where the KLayout binary is installed
-# ~/.klayout/macros/ (in Mac)
-# C:\Users\username\AppData\Roaming\KLayout (64bit) (in windows)
-#######################
 
-# Sample technology values, modify them to match your particular technology
 
-t_box = 1.0
-t_slab = 0.09
-t_si = 0.22
-t_ge = 0.4
-t_nitride = 0.4
-
-h_etch1 = 0.07
-h_etch2 = 0.06  # 60nm etch after 70nm = 130nm etch (90nm slab)
-h_etch3 = 0.09  # etches the remaining 90nm slab for strip straights
-
-t_clad = 0.6
-t_m1 = 0.5
-t_m2 = 0.5
-t_m3 = 2.0
-
-gap_m1_m2 = 0.6
-gap_m2_m3 = 0.3
-t_heater = 0.1
-gap_oxide_nitride = 0.82
-t_m1_oxide = 0.6
-t_m2_oxide = 2.0
-t_m3_oxide = 0.5
+t_box=2.0
+t_slab=0.11
+t_si=0.22
+t_ge=0.4
+t_nitride=0.4
+h_etch1=0.07
+h_etch2=0.06
+h_etch3=0.09
+t_clad=0.6
+t_m1=0.5
+t_m2=0.5
+t_m3=2.0
+t_heater=0.1
+gap_m1_m2=0.6
+gap_m2_m3=0.3
+gap_oxide_nitride=0.82
+t_m1_oxide=0.6
+t_m2_oxide=2.0
+t_m3_oxide=0.5
 
 l_wg = layer("1/0")
 l_fc = layer("2/0")
@@ -46,12 +34,12 @@ l_PDPP = layer("27/0")
 l_bottom_implant = l_PDPP
 
 l_nitride = layer("34/0")
-l_Ge = layer("30/0")
-l_GePPp = layer("42/0")
-l_GeNPP = layer("24/0")
-l_top_implant = l_GePPp.or_(l_GeNPP)
+l_Ge = layer("5/0")
+l_GePPp = layer("27/0")
+l_GeNPP = layer("26/0")
 
 l_viac = layer("40/0")
+l_viac_slot = layer("40/0")
 l_m1 = layer("41/0")
 l_mh = layer("47/0")
 l_via1 = layer("44/0")
@@ -59,6 +47,9 @@ l_m2 = layer("45/0")
 l_via2 = layer("43/0")
 l_m3 = layer("49/0")
 l_open = layer("46/0")
+
+l_top_implant = l_GePPp.or_(l_GeNPP)
+l_viac = l_viac.or_(l_viac_slot)
 
 # Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
 delta(dbu)
