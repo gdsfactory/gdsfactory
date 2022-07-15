@@ -125,6 +125,26 @@ def pack(
         rotation: for each component in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
+
+    .. plot::
+        :include-source:
+
+        import gdsfactory as gf
+
+        components = [gf.components.triangle(x=i) for i in range(1, 10)]
+        c = gf.pack(
+            components,
+            spacing=20.0,
+            max_size=(100, 100),
+            text=gf.partial(gf.components.text, justify="center"),
+            text_prefix="R",
+            name_prefix="demo",
+            text_anchors=["nc"],
+            text_offsets=[(-10, 0)],
+            v_mirror=True,
+        )
+        c[0].plot()
+
     """
     if density < 1.01:
         raise ValueError(
@@ -257,8 +277,8 @@ if __name__ == "__main__":
         text=gf.partial(gf.components.text, justify="center"),
         text_prefix="R",
         name_prefix="demo",
-        text_anchor="nc",
-        text_offset=(-10, 0),
+        text_anchors=["nc"],
+        text_offsets=[(-10, 0)],
         v_mirror=True,
     )
     c = p[0]

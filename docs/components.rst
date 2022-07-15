@@ -1741,7 +1741,7 @@ pad
 
   import gdsfactory as gf
 
-  c = gf.components.pad(size=[100.0, 100.0], layer='M3', port_inclusion=0, port_orientation=0)
+  c = gf.components.pad(size=[100.0, 100.0], layer='M3', port_inclusion=0)
   c.plot()
 
 
@@ -2117,6 +2117,21 @@ spiral_circular
   import gdsfactory as gf
 
   c = gf.components.spiral_circular(length=1000.0, wg_width=0.5, spacing=3.0, min_bend_radius=5.0, points=1000, layer='WG')
+  c.plot()
+
+
+
+spiral_double
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.spiral_double
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.spiral_double(min_bend_radius=10.0, separation=2.0, number_of_loops=3, npoints=1000, cross_section='strip')
   c.plot()
 
 
@@ -2746,7 +2761,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.12', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.20', text_size=10)
   c.plot()
 
 
