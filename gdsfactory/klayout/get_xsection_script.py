@@ -1,64 +1,114 @@
-#######################
-# cross-section settings script for Klayout using generic layer map
-# https://sourceforge.net/p/xsectionklayout/wiki/MainPage/
-# Download the ruby module here: http://sourceforge.net/p/xsectionklayout/code/HEAD/tree/trunk/src/xsection.rbm?format=raw
-# Copy xsection.lym to the installation path of KLayout macros. That is the place where the KLayout binary is installed
-# ~/.klayout/macros/ (in Mac)
-# C:\Users\username\AppData\Roaming\KLayout (64bit) (in windows)
-#######################
+from typing import Tuple
 
-# Sample technology values, modify them to match your particular technology
+from gdsfactory.tech import LAYER
 
-t_box = 1.0
-t_slab = 0.09
-t_si = 0.22
-t_ge = 0.4
-t_nitride = 0.4
+nm = 1e-3
 
-h_etch1 = 0.07
-h_etch2 = 0.06  # 60nm etch after 70nm = 130nm etch (90nm slab)
-h_etch3 = 0.09  # etches the remaining 90nm slab for strip straights
 
-t_clad = 0.6
-t_m1 = 0.5
-t_m2 = 0.5
-t_m3 = 2.0
+def layer_to_string(layer: Tuple[int, int]) -> str:
+    return f"{layer[0]}/{layer[1]}"
 
-gap_m1_m2 = 0.6
-gap_m2_m3 = 0.3
-t_heater = 0.1
-gap_oxide_nitride = 0.82
-t_m1_oxide = 0.6
-t_m2_oxide = 2.0
-t_m3_oxide = 0.5
 
-l_wg = layer("1/0")
-l_fc = layer("2/0")
-l_rib = layer("3/0")
+def get_xsection_script(
+    t_box=1.0,
+    t_slab=90 * nm,
+    t_si=0.22,
+    t_ge=0.4,
+    t_nitride=0.4,
+    h_etch1=0.07,
+    h_etch2=0.06,
+    h_etch3=0.09,
+    t_clad=0.6,
+    t_m1=0.5,
+    t_m2=0.5,
+    t_m3=2.0,
+    gap_m1_m2=0.6,
+    gap_m2_m3=0.3,
+    t_heater=0.1,
+    gap_oxide_nitride=0.82,
+    t_m1_oxide=0.6,
+    t_m2_oxide=2.0,
+    t_m3_oxide=0.5,
+    layer_wg=LAYER.WG,
+    layer_fc=LAYER.SLAB150,
+    layer_rib=LAYER.SLAB90,
+    layer_n=LAYER.N,
+    layer_np=LAYER.NP,
+    layer_npp=LAYER.NPP,
+    layer_p=LAYER.P,
+    layer_pp=LAYER.PP,
+    layer_ppp=LAYER.PPP,
+    layer_PDPP=LAYER.GEP,
+    layer_nitride=LAYER.WGN,
+    layer_Ge=LAYER.GE,
+    layer_GePPp=LAYER.GEP,
+    layer_GeNPP=LAYER.GEN,
+    layer_viac=LAYER.VIAC,
+    layer_viac_slot=LAYER.VIAC,
+    layer_m1=LAYER.M1,
+    layer_mh=LAYER.HEATER,
+    layer_via1=LAYER.VIA1,
+    layer_m2=LAYER.M2,
+    layer_via2=LAYER.VIA2,
+    layer_m3=LAYER.M3,
+    layer_open=LAYER.PADOPEN,
+) -> str:
+    """Returns xsection script for klayout_pyxs plugin.
 
-l_n = layer("20/0")
-l_np = layer("22/0")
-l_npp = layer("24/0")
-l_p = layer("21/0")
-l_pp = layer("23/0")
-l_ppp = layer("25/0")
-l_PDPP = layer("27/0")
+    https://gdsfactory.github.io/klayout_pyxs/DocGrow.html
+    """
+    return f"""
+
+t_box={t_box}
+t_slab={t_slab}
+t_si={t_si}
+t_ge={t_ge}
+t_nitride={t_nitride}
+h_etch1={h_etch1}
+h_etch2={h_etch2}
+h_etch3={h_etch3}
+t_clad={t_clad}
+t_m1={t_m1}
+t_m2={t_m2}
+t_m3={t_m3}
+t_heater={t_heater}
+gap_m1_m2={gap_m1_m2}
+gap_m2_m3={gap_m2_m3}
+gap_oxide_nitride={gap_oxide_nitride}
+t_m1_oxide={t_m1_oxide}
+t_m2_oxide={t_m2_oxide}
+t_m3_oxide={t_m3_oxide}
+
+l_wg = layer("{layer_to_string(layer_wg)}")
+l_fc = layer("{layer_to_string(layer_fc)}")
+l_rib = layer("{layer_to_string(layer_rib)}")
+
+l_n = layer("{layer_to_string(layer_n)}")
+l_np = layer("{layer_to_string(layer_np)}")
+l_npp = layer("{layer_to_string(layer_npp)}")
+l_p = layer("{layer_to_string(layer_p)}")
+l_pp = layer("{layer_to_string(layer_pp)}")
+l_ppp = layer("{layer_to_string(layer_ppp)}")
+l_PDPP = layer("{layer_to_string(layer_PDPP)}")
 l_bottom_implant = l_PDPP
 
-l_nitride = layer("34/0")
-l_Ge = layer("30/0")
-l_GePPp = layer("42/0")
-l_GeNPP = layer("24/0")
-l_top_implant = l_GePPp.or_(l_GeNPP)
+l_nitride = layer("{layer_to_string(layer_nitride)}")
+l_Ge = layer("{layer_to_string(layer_Ge)}")
+l_GePPp = layer("{layer_to_string(layer_GePPp)}")
+l_GeNPP = layer("{layer_to_string(layer_GeNPP)}")
 
-l_viac = layer("40/0")
-l_m1 = layer("41/0")
-l_mh = layer("47/0")
-l_via1 = layer("44/0")
-l_m2 = layer("45/0")
-l_via2 = layer("43/0")
-l_m3 = layer("49/0")
-l_open = layer("46/0")
+l_viac = layer("{layer_to_string(layer_viac)}")
+l_viac_slot = layer("{layer_to_string(layer_viac_slot)}")
+l_m1 = layer("{layer_to_string(layer_m1)}")
+l_mh = layer("{layer_to_string(layer_mh)}")
+l_via1 = layer("{layer_to_string(layer_via1)}")
+l_m2 = layer("{layer_to_string(layer_m2)}")
+l_via2 = layer("{layer_to_string(layer_via2)}")
+l_m3 = layer("{layer_to_string(layer_m3)}")
+l_open = layer("{layer_to_string(layer_open)}")
+
+l_top_implant = l_GePPp.or_(l_GeNPP)
+l_viac = l_viac.or_(l_viac_slot)
 
 # Declare the basic accuracy used to remove artifacts for example: delta(5 * dbu)
 delta(dbu)
@@ -181,3 +231,9 @@ output("310/0", via2)
 ox_m3 = deposit(t_m3_oxide, t_m3_oxide, mode="round")
 mask(l_open).etch(t_m3_oxide + t_m3_oxide, into=[ox_m3], taper=5)
 output("311/0", ox_m3)
+"""
+
+
+if __name__ == "__main__":
+    s = get_xsection_script()
+    print(s)

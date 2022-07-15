@@ -179,15 +179,6 @@ class LayerStack(BaseModel):
                 f"{level.layer[0]}/{level.layer[1]}: {level.zmin} {level.zmin+level.thickness}"
             )
 
-    def get_klayout_xsection_script(self) -> str:
-        """Prints script for xsection klayout information.
-
-        You can add this script into a .pyxs file and install the klayout extension.
-        https://gdsfactory.github.io/klayout_pyxs/README.html
-        """
-        for layer_name, level in self.layers.items():
-            print(f"{layer_name} = layer('{level.layer[0]}/{level.layer[1]}')")
-
 
 def get_layer_stack_generic(
     thickness_wg: float = 220 * nm,
