@@ -6,17 +6,17 @@ settings:
     bend:
       function: bend_circular
     cross_section: strip
+    min_bend_radius: 10.0
     npoints: 1000
     number_of_loops: 3
-    radius: 10.0
     separation: 2.0
   full:
     bend:
       function: bend_circular
     cross_section: strip
+    min_bend_radius: 10.0
     npoints: 1000
     number_of_loops: 3
-    radius: 10.0
     separation: 2.0
   function_name: spiral_double
   info:
