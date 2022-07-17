@@ -47,40 +47,45 @@ def get_simulation_grating_farfield(
     wavelength_max: float = 1.6,
     wavelength_points: int = 50,
 ) -> Dict[str, Any]:
-    """Returns grating coupler far field simulation
+    """Returns grating coupler far field simulation.
+
+    FIXME! needs some more work.
+
     na**2 = ncore**2 - nclad**2
     ncore = sqrt(na**2 + ncore**2)
 
     Args:
-        period: fiber grating period
-        fill_factor: fraction of the grating period filled with the grating material.
+        period: fiber grating period.
+        fill_factor: fraction of the grating period
+            filled with the grating material.
         n_periods: number of periods
-        widths: Optional list of widths. Overrides period, fill_factor, n_periods
-        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods
-        etch_depth: grating etch depth
-        fiber_angle_deg: fiber angle in degrees
-        fiber_xposition: xposition
-        fiber_core_diameter: fiber diameter
-        fiber_numerical_aperture: NA
+        widths: Optional list of widths.
+            Overrides period, fill_factor, n_periods.
+        gaps: Optional list of gaps. Overrides period, fill_factor, n_periods.
+        etch_depth: grating etch depth.
+        fiber_angle_deg: fiber angle in degrees.
+        fiber_xposition: xposition.
+        fiber_core_diameter: fiber diameter.
+        fiber_numerical_aperture: NA.
         fiber_nclad: fiber cladding index.
         ncore: fiber index core.
         nclad: top cladding index.
         nbox: box index bottom.
         nsubstrate: index substrate.
-        pml_thickness: pml_thickness (um)
-        substrate_thickness: substrate_thickness (um)
-        box_thickness: thickness for bottom cladding (um)
-        core_thickness: core_thickness (um)
+        pml_thickness: pml_thickness (um).
+        substrate_thickness: substrate_thickness (um).
+        box_thickness: thickness for bottom cladding (um).
+        core_thickness: core_thickness (um).
         top_clad_thickness: thickness of the top cladding.
         air_gap_thickness: air gap thickness.
-        resolution: resolution pixels/um
-        wavelength_min: min wavelength (um)
-        wavelength_max: max wavelength (um)
+        resolution: resolution pixels/um.
+        wavelength_min: min wavelength (um).
+        wavelength_max: max wavelength (um).
         wavelength_points: wavelength points.
 
 
     Some parameters are different from get_simulation_grating_fiber
-        fiber_thickness: fiber_thickness
+        fiber_thickness: fiber_thickness.
     """
     wavelengths = np.linspace(wavelength_min, wavelength_max, wavelength_points)
     wavelength = np.mean(wavelengths)
