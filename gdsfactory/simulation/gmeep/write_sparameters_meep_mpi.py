@@ -121,7 +121,7 @@ def write_sparameters_meep_mpi(
     TODO:
         write stdout to file, maybe simulation logs too.
     """
-    for setting in kwargs.keys():
+    for setting in kwargs:
         if setting not in settings_write_sparameters_meep:
             raise ValueError(f"{setting!r} not in {settings_write_sparameters_meep}")
 
@@ -158,7 +158,7 @@ def write_sparameters_meep_mpi(
     }
 
     # Loop over kwargs
-    for key in kwargs.keys():
+    for key in kwargs:
         parameters_dict[key] = kwargs[key]
 
     with open(parameters_file, "wb") as outp:
