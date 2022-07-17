@@ -75,7 +75,7 @@ def write_sparameters_meep_mpi(
         temp_dir: temporary directory to hold simulation files.
         temp_file_str: names of temporary files in temp_dir.
         live_output: stream output of mpirun command to file and print to console
-            (meep verbosity still needs to be set separately)
+            (meep verbosity still needs to be set separately).
         overwrite: overwrites stored simulation results.
         wait_to_finish: if True makes the function call blocking.
 
@@ -116,10 +116,10 @@ def write_sparameters_meep_mpi(
 
     Returns:
         filepath for sparameters CSV (wavelengths, s11a, s12m, ...)
-            where `a` is the angle in radians and `m` the module
+            where `a` is the angle in radians and `m` the module.
 
     TODO:
-        write stdout to file, maybe simulation logs too
+        write stdout to file, maybe simulation logs too.
     """
     for setting in kwargs.keys():
         if setting not in settings_write_sparameters_meep:

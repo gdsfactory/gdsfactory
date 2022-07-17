@@ -51,12 +51,12 @@ def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
     """Given a port and eigenmode coefficient result, returns the coefficients
-    relative to whether the wavevector is entering or exiting simulation
+    relative to whether the wavevector is entering or exiting simulation.
 
     Args:
-        port_index: index of port
-        ports: component_ref.ports
-        sim_dict:
+        port_index: index of port.
+        ports: component_ref.ports.
+        sim_dict: simulation dict.
     """
     if f"o{port_index}" not in ports:
         raise ValueError(
@@ -156,6 +156,7 @@ def write_sparameters_meep(
     **settings,
 ) -> pd.DataFrame:
     r"""Compute Sparameters and writes them to a CSV filepath.
+
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
