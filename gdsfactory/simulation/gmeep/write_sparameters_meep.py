@@ -553,6 +553,12 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 
 if __name__ == "__main__":
     c = gf.components.straight(length=2)
+
+    from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
+
+    c = gf.components.bend_euler(radius=3)
+    c = add_simulation_markers(c)
+
     write_sparameters_meep_1x1(c, run=False)
 
     # import matplotlib.pyplot as plt
