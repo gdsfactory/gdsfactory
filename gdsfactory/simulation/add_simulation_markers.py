@@ -1,11 +1,14 @@
-"""Returns simulation with markers."""
+"""Returns component with simulation markers."""
 import warnings
+
+import numpy as np
 
 import gdsfactory as gf
 from gdsfactory.add_pins import add_pin_rectangle
 from gdsfactory.component import Component
 from gdsfactory.components.bend_circular import bend_circular
-from gdsfactory.types import ComponentSpec, Layer, LayerSpec
+from gdsfactory.pdk import get_layer_stack
+from gdsfactory.types import ComponentSpec, Layer, LayerLevel, LayerSpec
 
 
 @gf.cell
@@ -16,8 +19,9 @@ def add_simulation_markers(
     layer_source: Layer = (110, 0),
     layer_monitor: Layer = (101, 0),
     layer_label: LayerSpec = "TEXT",
+    port_source_offset: float = 0.2,
 ) -> Component:
-    r"""Returns new Component with simulation markers from gdsfactory Component.
+    r"""Returns new Component with simulation markers.
 
     Args:
         component: component spec.
@@ -25,7 +29,8 @@ def add_simulation_markers(
         port_source_name: for input.
         layer_source: for port marker.
         layer_monitor: for port marker.
-        layer_label: LayerSpec = "TEXT",
+        layer_label: for labeling the ports.
+        port_source_offset: distance from source to monitor in um.
 
     .. code::
 
@@ -81,6 +86,8 @@ def add_simulation_markers(
     ref.y = 0
     port_names = list(ref.ports.keys())
 
+    layer_stack = get_layer_stack()
+
     if port_source_name not in port_names:
         warnings.warn(f"port_source_name={port_source_name!r} not in {port_names}")
         port_source = ref.get_ports_list()[0]
@@ -91,22 +98,33 @@ def add_simulation_markers(
         component, Component
     ), f"component needs to be a gf.Component, got Type {type(component)}"
 
-    # Add source
-    port = ref.ports[port_source_name]
-    add_pin_rectangle(c, port=port, port_margin=port_margin, layer=layer_source)
-
     # Add port monitors
     for port_name in ref.ports.keys():
         port = ref.ports[port_name]
         add_pin_rectangle(c, port=port, port_margin=port_margin, layer=layer_monitor)
-    c.copy_child_info(component)
+        layer_stack.layers["monitor"] = LayerLevel(
+            layer=layer_monitor, thickness=2 * port_margin, zmin=-port_margin
+        )
+
+    # Add source
+    port = ref.ports[port_source_name]
+    angle_rad = np.radians(port.orientation)
+
+    port = port.move_polar_copy(angle=angle_rad, d=port_source_offset)
+    add_pin_rectangle(c, port=port, port_margin=port_margin, layer=layer_source)
+
+    layer_stack.layers["source"] = LayerLevel(
+        layer=layer_source, thickness=2 * port_margin, zmin=-port_margin
+    )
+
     c.add_ports(component.ports)
+    c.copy_child_info(component)
     return c
 
 
 if __name__ == "__main__":
-    c = gf.components.taper_sc_nc()
+    c = gf.components.coupler_ring()
     c = add_simulation_markers(c)
-    # c.show()
+    c.show()
     scene = c.to_3d()
     scene.show()
