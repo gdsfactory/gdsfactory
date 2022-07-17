@@ -2266,7 +2266,7 @@ straight_heater_doped_rib
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, via_stack_metal_size=[10.0, 10.0], via_stack_size=[10.0, 10.0], with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, via_stack_gap=0.0, width=0.5, with_top_via_stack=True, with_bot_via_stack=True)
+  c = gf.components.straight_heater_doped_rib(length=320.0, nsections=3, via_stack_metal_size=[10.0, 10.0], via_stack_size=[10.0, 10.0], with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, via_stack_gap=0.0, width=0.5, xoffset_tip1=0.2, xoffset_tip2=0.4)
   c.plot()
 
 
@@ -2281,7 +2281,7 @@ straight_heater_doped_strip
 
   import gdsfactory as gf
 
-  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, via_stack_metal_size=[10.0, 10.0], via_stack_size=[10.0, 10.0], with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, via_stack_gap=0.0, width=0.5, with_top_via_stack=True, with_bot_via_stack=True)
+  c = gf.components.straight_heater_doped_strip(length=320.0, nsections=3, via_stack_metal_size=[10.0, 10.0], via_stack_size=[10.0, 10.0], with_taper1=True, with_taper2=True, heater_width=2.0, heater_gap=0.8, via_stack_gap=0.0, width=0.5, xoffset_tip1=0.2, xoffset_tip2=0.4)
   c.plot()
 
 
@@ -2556,6 +2556,21 @@ taper_parabolic
 
 
 
+taper_sc_nc
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.taper_sc_nc
+
+.. plot::
+  :include-source:
+
+  import gdsfactory as gf
+
+  c = gf.components.taper_sc_nc(length=20.0, width1=0.5, width2=0.15, w_slab1=0.15, w_slab2=1.0, layer_wg='WG', layer_slab='WGN', cross_section='strip')
+  c.plot()
+
+
+
 taper_strip_to_ridge
 ----------------------------------------------------
 
@@ -2761,7 +2776,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.20', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.21', text_size=10)
   c.plot()
 
 
