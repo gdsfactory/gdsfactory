@@ -43,6 +43,7 @@ def write_sparameters_meep_batch(
     **kwargs,
 ) -> List[Path]:
     """Write Sparameters for a batch of jobs using MPI and returns results filepaths.
+
     Given a list of write_sparameters_meep keyword arguments (the "jobs"),
     launches them in different cores using MPI
     where each simulation runs with "cores_per_run" cores
