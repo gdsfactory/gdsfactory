@@ -65,6 +65,9 @@ class LayerMap(BaseModel):
     ERROR_MARKER: Layer = (207, 0)
     ERROR_PATH: Layer = (208, 0)
 
+    SOURCE: Layer = (110, 0)
+    MONITOR: Layer = (101, 0)
+
     class Config:
         """pydantic config."""
 

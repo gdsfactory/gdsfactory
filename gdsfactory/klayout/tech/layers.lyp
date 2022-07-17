@@ -765,7 +765,7 @@
    <source>100/0@1</source>
   </group-members>
   <group-members>
-   <frame-color>#000000</frame-color>
+   <frame-color>#0000ff</frame-color>
    <fill-color>#000000</fill-color>
    <frame-brightness>0</frame-brightness>
    <fill-brightness>0</fill-brightness>
@@ -778,62 +778,11 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name>PORT1 101/0</name>
+   <name>MONITOR 101/0</name>
    <source>101/0@1</source>
   </group-members>
   <group-members>
-   <frame-color>#000000</frame-color>
-   <fill-color>#000000</fill-color>
-   <frame-brightness>0</frame-brightness>
-   <fill-brightness>0</fill-brightness>
-   <dither-pattern>I1</dither-pattern>
-   <line-style/>
-   <valid>true</valid>
-   <visible>true</visible>
-   <transparent>false</transparent>
-   <width/>
-   <marked>false</marked>
-   <xfill>false</xfill>
-   <animation>0</animation>
-   <name>PORT2 102/0</name>
-   <source>102/0@1</source>
-  </group-members>
-  <group-members>
-   <frame-color>#000000</frame-color>
-   <fill-color>#000000</fill-color>
-   <frame-brightness>0</frame-brightness>
-   <fill-brightness>0</fill-brightness>
-   <dither-pattern>I1</dither-pattern>
-   <line-style/>
-   <valid>true</valid>
-   <visible>true</visible>
-   <transparent>false</transparent>
-   <width/>
-   <marked>false</marked>
-   <xfill>false</xfill>
-   <animation>0</animation>
-   <name>PORT3 103/0</name>
-   <source>103/0@1</source>
-  </group-members>
-  <group-members>
-   <frame-color>#000000</frame-color>
-   <fill-color>#000000</fill-color>
-   <frame-brightness>0</frame-brightness>
-   <fill-brightness>0</fill-brightness>
-   <dither-pattern>I1</dither-pattern>
-   <line-style/>
-   <valid>true</valid>
-   <visible>true</visible>
-   <transparent>false</transparent>
-   <width/>
-   <marked>false</marked>
-   <xfill>false</xfill>
-   <animation>0</animation>
-   <name>PORT4 104/0</name>
-   <source>104/0@1</source>
-  </group-members>
-  <group-members>
-   <frame-color>#000000</frame-color>
+   <frame-color>#ff0000</frame-color>
    <fill-color>#000000</fill-color>
    <frame-brightness>0</frame-brightness>
    <fill-brightness>0</fill-brightness>
