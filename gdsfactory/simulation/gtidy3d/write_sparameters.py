@@ -14,7 +14,7 @@ from gdsfactory.simulation.get_sparameters_path import (
     get_sparameters_path_tidy3d as get_sparameters_path,
 )
 from gdsfactory.simulation.gtidy3d.get_results import _executor, get_results
-from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation
+from gdsfactory.simulation.gtidy3d.get_simulation import get_simulation, plot_simulation
 from gdsfactory.types import (
     Any,
     ComponentSpec,
@@ -76,6 +76,7 @@ def write_sparameters(
     component: ComponentSpec,
     port_symmetries: Optional[PortSymmetries] = None,
     dirpath: Optional[PathType] = None,
+    run: bool = True,
     overwrite: bool = False,
     **kwargs,
 ) -> pd.DataFrame:
@@ -101,6 +102,7 @@ def write_sparameters(
         port_symmetries: Dict to specify port symmetries, to save number of simulations
         dirpath: directory to store sparameters in CSV.
             Defaults to active Pdk.sparameters_path.
+        run: runs simulation, if False, only plots simulation.
         overwrite: overwrites stored Sparameter CSV results.
 
     Keyword Args:
@@ -160,7 +162,7 @@ def write_sparameters(
         **kwargs,
     )
     filepath_sim_settings = filepath.with_suffix(".yml")
-    if filepath.exists() and not overwrite:
+    if filepath.exists() and not overwrite and run:
         logger.info(f"Simulation loaded from {filepath!r}")
         return pd.read_csv(filepath)
 
@@ -235,13 +237,16 @@ def write_sparameters(
         sp["wavelengths"] = get_wavelengths(port_index=monitor_index, sim_data=sim_data)
         return sp
 
-    start = time.time()
-
     # Run all simulations
     sims = [
         get_simulation(component, port_source_name=f"o{monitor_indices[n]}", **kwargs)
         for n in range(num_sims)
     ]
+    if not run:
+        sim = sims[0]
+        return plot_simulation(sim)
+
+    start = time.time()
     batch_data = get_results(sims, overwrite=overwrite)
     for isim, (_sim_name, sim_data) in enumerate(batch_data.items()):
         sp.update(get_sparameter(isim, sim_data))
