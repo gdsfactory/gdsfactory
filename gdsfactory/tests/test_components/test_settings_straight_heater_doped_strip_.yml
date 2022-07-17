@@ -96,10 +96,10 @@ settings:
     - 10.0
     - 10.0
     width: 0.5
-    with_bot_via_stack: true
     with_taper1: true
     with_taper2: true
-    with_top_via_stack: true
+    xoffset_tip1: 0.2
+    xoffset_tip2: 0.4
   full:
     cross_section:
       function: cross_section
@@ -176,10 +176,10 @@ settings:
     - 10.0
     - 10.0
     width: 0.5
-    with_bot_via_stack: true
     with_taper1: true
     with_taper2: true
-    with_top_via_stack: true
+    xoffset_tip1: 0.2
+    xoffset_tip2: 0.4
   function_name: straight_heater_doped_rib
   info: {}
   info_version: 2
