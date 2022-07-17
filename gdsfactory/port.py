@@ -203,7 +203,7 @@ class Port(PortPhidl):
         port = self.copy()
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
-        self.move(dp)
+        port.move(dp)
         return port
 
     def flip(self) -> Port:
