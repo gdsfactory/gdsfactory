@@ -45,7 +45,7 @@ def get_simulation(
     material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
     **settings,
 ) -> Dict[str, Any]:
-    r"""Returns Simulation dict from gdsfactory Component
+    r"""Returns Simulation dict from gdsfactory Component.
 
     based on meep directional coupler example
     https://meep.readthedocs.io/en/latest/Python_Tutorials/GDSII_Import/
@@ -112,7 +112,7 @@ def get_simulation(
             or refractive index. dispersive materials have a wavelength dependent index.
 
     Keyword Args:
-        settings: other parameters for sim object (resolution, symmetries, etc.)
+        settings: extra simulation settings (resolution, symmetries, etc.)
 
     Returns:
         simulation dict: sim, monitors, sources.
@@ -129,12 +129,11 @@ def get_simulation(
 
     """
 
-    for setting in settings.keys():
+    for setting in settings:
         if setting not in settings_meep:
             raise ValueError(f"{setting!r} not in {settings_meep}")
 
     layer_stack = layer_stack or get_layer_stack()
-
     layer_to_thickness = layer_stack.get_layer_to_thickness()
 
     component_ref = component.ref()
@@ -177,11 +176,11 @@ def get_simulation(
         if layer in layer_to_thickness
     ]
 
-    assert (
-        layers_thickness
-    ), f"Component layers {component.layers} not in {layer_to_thickness.keys()}. "
-
-    "Did you passed the correct layer_stack?"
+    if layers_thickness is None:
+        raise ValueError(
+            f"Component layers {component.layers} not in {layer_to_thickness.keys()}. "
+            "Did you passed the correct layer_stack?"
+        )
 
     t_core = max(layers_thickness)
     cell_thickness = tpml + zmargin_bot + t_core + zmargin_top + tpml if is_3d else 0

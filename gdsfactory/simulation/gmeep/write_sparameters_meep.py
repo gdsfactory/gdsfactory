@@ -51,12 +51,12 @@ def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
 
 def parse_port_eigenmode_coeff(port_index: int, ports, sim_dict: Dict):
     """Given a port and eigenmode coefficient result, returns the coefficients
-    relative to whether the wavevector is entering or exiting simulation
+    relative to whether the wavevector is entering or exiting simulation.
 
     Args:
-        port_index: index of port
-        ports: component_ref.ports
-        sim_dict:
+        port_index: index of port.
+        ports: component_ref.ports.
+        sim_dict: simulation dict.
     """
     if f"o{port_index}" not in ports:
         raise ValueError(
@@ -156,6 +156,7 @@ def write_sparameters_meep(
     **settings,
 ) -> pd.DataFrame:
     r"""Compute Sparameters and writes them to a CSV filepath.
+
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
 
@@ -270,7 +271,7 @@ def write_sparameters_meep(
     assert isinstance(component, Component)
     layer_stack = layer_stack or get_layer_stack()
 
-    for setting in settings.keys():
+    for setting in settings:
         if setting not in settings_get_simulation:
             raise ValueError(f"{setting!r} not in {settings_get_simulation}")
 
@@ -340,11 +341,12 @@ def write_sparameters_meep(
         sim_dict["sim"].plot2D(plot_eps_flag=True)
         return
 
-    if filepath.exists() and not overwrite:
-        logger.info(f"Simulation loaded from {filepath!r}")
-        return pd.read_csv(filepath)
-    elif filepath.exists() and overwrite:
-        filepath.unlink()
+    if filepath.exists():
+        if not overwrite:
+            logger.info(f"Simulation loaded from {filepath!r}")
+            return pd.read_csv(filepath)
+        elif overwrite:
+            filepath.unlink()
 
     # Parse ports (default)
     monitor_indices = []
@@ -485,7 +487,7 @@ def write_sparameters_meep(
         )
         # Synchronize dicts
         if rank == 0:
-            for i in range(1, size, 1):
+            for i in range(1, size):
                 data = comm.recv(source=i, tag=11)
                 sp.update(data)
 
@@ -552,6 +554,12 @@ settings_write_sparameters_meep = set(sig.parameters.keys()).union(
 
 if __name__ == "__main__":
     c = gf.components.straight(length=2)
+
+    from gdsfactory.simulation.add_simulation_markers import add_simulation_markers
+
+    c = gf.components.bend_euler(radius=3)
+    c = add_simulation_markers(c)
+
     write_sparameters_meep_1x1(c, run=False)
 
     # import matplotlib.pyplot as plt
