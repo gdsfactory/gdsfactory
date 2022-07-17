@@ -271,7 +271,7 @@ def write_sparameters_meep(
     assert isinstance(component, Component)
     layer_stack = layer_stack or get_layer_stack()
 
-    for setting in settings.keys():
+    for setting in settings:
         if setting not in settings_get_simulation:
             raise ValueError(f"{setting!r} not in {settings_get_simulation}")
 
@@ -341,11 +341,12 @@ def write_sparameters_meep(
         sim_dict["sim"].plot2D(plot_eps_flag=True)
         return
 
-    if filepath.exists() and not overwrite:
-        logger.info(f"Simulation loaded from {filepath!r}")
-        return pd.read_csv(filepath)
-    elif filepath.exists() and overwrite:
-        filepath.unlink()
+    if filepath.exists():
+        if not overwrite:
+            logger.info(f"Simulation loaded from {filepath!r}")
+            return pd.read_csv(filepath)
+        elif overwrite:
+            filepath.unlink()
 
     # Parse ports (default)
     monitor_indices = []
@@ -486,7 +487,7 @@ def write_sparameters_meep(
         )
         # Synchronize dicts
         if rank == 0:
-            for i in range(1, size, 1):
+            for i in range(1, size):
                 data = comm.recv(source=i, tag=11)
                 sp.update(data)
 
