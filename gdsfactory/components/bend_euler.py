@@ -20,6 +20,7 @@ def bend_euler(
     **kwargs
 ) -> Component:
     """Returns an euler bend that adiabatically transitions from straight to curved.
+
     By default, `radius` corresponds to the minimum radius of curvature of the bend.
     However, if `with_arc_floorplan` is True, `radius` corresponds to the effective
     radius of curvature (making the curve a drop-in replacement for an arc). If
@@ -34,7 +35,7 @@ def bend_euler(
         p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature
           If True: The curve scales such that the endpoints match a bend_circular
-          with parameters `radius` and `angle`
+          with parameters `radius` and `angle`.
         npoints: Number of points used per 360 degrees.
         direction: cw (clock-wise) or ccw (counter clock-wise).
         with_bbox: add bbox_layers and bbox_offsets to avoid DRC sharp edges.
@@ -63,7 +64,7 @@ def bend_euler(
     ref = c << extrude(p, x)
     c.add_ports(ref.ports)
     c.info["length"] = snap_to_grid(p.length())
-    c.info["dy"] = abs(float(p.points[0][0] - p.points[-1][0]))
+    c.info["dy"] = snap_to_grid(abs(float(p.points[0][0] - p.points[-1][0])))
     c.info["radius_min"] = snap_to_grid(p.info["Rmin"])
     c.info["radius"] = radius
     c.info["width"] = x.width
@@ -125,16 +126,16 @@ def bend_straight_bend(
     """Sbend made of 2 euler bends and straight section in between.
 
     Args:
-        straight_length:
-        angle: total angle of the curve
-        p: Proportion of the curve that is an Euler curve
+        straight_length: in um.
+        angle: total angle of the curve.
+        p: Proportion of the curve that is an Euler curve.
         with_arc_floorplan: If False: `radius` is the minimum radius of curvature
           If True: The curve scales such that the endpoints match a bend_circular
-          with parameters `radius` and `angle`
-        npoints: Number of points used per 360 degrees
-        direction: cw (clock-wise) or ccw (counter clock-wise)
+          with parameters `radius` and `angle`.
+        npoints: Number of points used per 360 degrees.
+        direction: cw (clock-wise) or ccw (counter clock-wise).
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
 
     """
