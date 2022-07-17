@@ -158,10 +158,7 @@ class Port(PortPhidl):
 
     @classmethod
     def validate(cls, v):
-        """For pydantic assumes Port is valid if has a name and a valid type
-
-        - has a name
-        """
+        """For pydantic assumes Port is valid if has a name and a valid type."""
         assert v.name, f"Port has no name, got `{v.name}`"
         # assert v.assert_on_grid(), f"port.midpoint = {v.midpoint} has off-grid points"
         assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
@@ -181,7 +178,7 @@ class Port(PortPhidl):
 
     @property
     def angle(self):
-        """convenient alias"""
+        """convenient alias for orientation in degrees."""
         return self.orientation
 
     @angle.setter
@@ -199,7 +196,8 @@ class Port(PortPhidl):
     def move(self, vector) -> None:
         self.midpoint = self.midpoint + np.array(vector)
 
-    def move_polar_copy(self, d, angle: float) -> Port:
+    def move_polar_copy(self, d: float, angle: float) -> Port:
+        """Returns a copy of the port with a distance (d) in um and angle (deg)."""
         port = self.copy()
         DEG2RAD = np.pi / 180
         dp = np.array((d * np.cos(DEG2RAD * angle), d * np.sin(DEG2RAD * angle)))
