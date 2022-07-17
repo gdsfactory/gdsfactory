@@ -2,7 +2,6 @@ from typing import Optional, Tuple
 
 import gdsfactory as gf
 from gdsfactory.component import Component
-from gdsfactory.components.straight import straight
 from gdsfactory.components.taper_cross_section import taper_cross_section
 from gdsfactory.components.via_stack import via_stack_m1_m3 as via_stack_metal_function
 from gdsfactory.components.via_stack import via_stack_slab_npp_m3
@@ -28,8 +27,8 @@ def straight_heater_doped_rib(
     heater_gap: float = 0.8,
     via_stack_gap: float = 0.0,
     width: float = 0.5,
-    with_top_via_stack: bool = True,
-    with_bot_via_stack: bool = True,
+    xoffset_tip1: float = 0.2,
+    xoffset_tip2: float = 0.4,
     **kwargs
 ) -> Component:
     r"""Returns a doped thermal phase shifter.
@@ -38,10 +37,10 @@ def straight_heater_doped_rib(
 
     Args:
         length: of the waveguide in um.
-        nsections: number of sections between via_stacks.
+        nsections: between via_stacks.
         cross_section: for the input/output ports.
         cross_section_heater: for the heater.
-        via_stack: function to connect the heated strip.
+        via_stack: optional function to connect the heater strip.
         via_stack_metal: function to connect the metal area.
         via_stack_metal_size: x, y size in um.
         via_stack_size: x, y size in um.
@@ -50,8 +49,8 @@ def straight_heater_doped_rib(
         heater_gap: in um.
         via_stack_gap: from edge of via_stack to waveguide.
         width: waveguide width on the ridge.
-        with_top_via_stack: adds via_stack at the top.
-        with_bot_via_stack: adds via_stack at the bottom.
+        xoffset_tip1: distance in um from input taper to via_stack.
+        xoffset_tip2: distance in um from output taper to via_stack.
         kwargs: cross_section settings.
 
     .. code::
@@ -95,7 +94,7 @@ def straight_heater_doped_rib(
 
     """
     c = Component()
-    cross_section_heater = gf.get_cross_section(
+    cross_section_heater = gf.partial(
         cross_section_heater,
         heater_width=heater_width,
         heater_gap=heater_gap,
@@ -104,13 +103,14 @@ def straight_heater_doped_rib(
     )
 
     if taper:
-        taper = gf.get_component(
-            taper, cross_section1=cross_section, cross_section2=cross_section_heater
+        taper = (
+            taper(cross_section1=cross_section, cross_section2=cross_section_heater)
+            if callable(taper)
+            else taper
         )
         length -= taper.get_ports_xsize() * 2
 
-    wg = c << gf.get_component(
-        straight,
+    wg = c << gf.c.straight(
         cross_section=cross_section_heater,
         length=snap_to_grid(length),
     )
@@ -137,10 +137,12 @@ def straight_heater_doped_rib(
 
     if via_stack_metal:
         via_stack_section = via_stack_metal(size=via_stack_metal_size)
+
     via_stacks = []
     length_via_stack = snap_to_grid(via_stack_size[1])
     length_section = snap_to_grid((length - length_via_stack) / nsections)
-    x0 = via_stack_size[0] / 2
+    x0 = via_stack_size[0] / 2 - xoffset_tip1
+
     for i in range(nsections + 1):
         xi = x0 + length_section * i
 
@@ -155,15 +157,20 @@ def straight_heater_doped_rib(
             via_stacks.append(via_stack_ref)
 
         if via_stack:
-            if with_top_via_stack:
-                via_stack_top = c << via_stack(size=via_stack_size)
-                via_stack_top.x = xi
-                via_stack_top.ymin = +(heater_gap + width / 2 + via_stack_gap)
+            via_stack_top = c << via_stack(size=via_stack_size)
+            via_stack_top.x = xi
+            via_stack_top.ymin = +(heater_gap + width / 2 + via_stack_gap)
 
-            if with_bot_via_stack:
-                via_stack_bot = c << via_stack(size=via_stack_size)
-                via_stack_bot.x = xi
-                via_stack_bot.ymax = -(heater_gap + width / 2 + via_stack_gap)
+            via_stack_bot = c << via_stack(size=via_stack_size)
+            via_stack_bot.x = xi
+            via_stack_bot.ymax = -(heater_gap + width / 2 + via_stack_gap)
+
+    if via_stack:
+        via_stack.xmax = x0 + length_section * nsections
+        via_stack_top.movex(xoffset_tip2)
+    if via_stack:
+        via_stack.xmax = x0 + length_section * nsections
+        via_stack_bot.movex(xoffset_tip2)
 
     if via_stack_metal and via_stack:
         via_stack_length = length + via_stack_metal_size[0]
@@ -194,7 +201,7 @@ def test_straight_heater_doped_rib_ports() -> Component:
 
 
 if __name__ == "__main__":
-    # c = straight_heater_doped_rib(with_top_heater=False, with_top_via_stack=False)
+    c = straight_heater_doped_rib(xoffset_tip1=10, via_stack=None)
     # c = straight_heater_doped_rib(with_taper1=False)
-    c = straight_heater_doped_rib(length=500)
+    # c = straight_heater_doped_rib(length=500)
     c.show(show_ports=True)

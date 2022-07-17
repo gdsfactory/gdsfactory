@@ -18,8 +18,16 @@ def get_meep_geometry_from_component(
     dispersive: bool = False,
     **kwargs,
 ) -> List[mp.GeometricObject]:
-    """
-    Generate a Meep geometry from a gdsfactory component
+    """Returns Meep geometry from a gdsfactory component.
+
+    Args:
+        component: gdsfactory component.
+        layer_stack: for material layers.
+        material_name_to_meep: maps layer_stack name to meep material name.
+        wavelength: in um.
+        is_3d: renders in 3D.
+        dispersive: add dispersion.
+        kwargs: settings.
     """
     component = gf.get_component(component=component, **kwargs)
     component_ref = component.ref()
@@ -42,21 +50,22 @@ def get_meep_geometry_from_component(
             for polygon in polygons:
                 vertices = [mp.Vector3(p[0], p[1], zmin_um) for p in polygon]
                 material_name = layer_to_material[layer]
-                material = get_material(
-                    name=material_name,
-                    dispersive=dispersive,
-                    material_name_to_meep=material_name_to_meep,
-                    wavelength=wavelength,
-                )
-                geometry.append(
-                    mp.Prism(
-                        vertices=vertices,
-                        height=height,
-                        sidewall_angle=layer_to_sidewall_angle[layer],
-                        material=material,
-                        # center=center
+                if material_name:
+                    material = get_material(
+                        name=material_name,
+                        dispersive=dispersive,
+                        material_name_to_meep=material_name_to_meep,
+                        wavelength=wavelength,
                     )
-                )
+                    geometry.append(
+                        mp.Prism(
+                            vertices=vertices,
+                            height=height,
+                            sidewall_angle=layer_to_sidewall_angle[layer],
+                            material=material,
+                            # center=center
+                        )
+                    )
     return geometry
 
 
@@ -103,9 +112,8 @@ def get_meep_geometry_from_cross_section(
                 material_name_to_meep=material_name_to_meep,
                 wavelength=wavelength,
             )
-            print(
-                f"adding layer of {material_name} with index {material.epsilon(1 / wavelength)[0, 0] ** 0.5}"
-            )
+            index = material.epsilon(1 / wavelength)[0, 0] ** 0.5
+            print(f"add {material_name!r} layer with index {index}")
             # Don't need to use prism unless using sidewall angles
             if layer in layer_to_sidewall_angle:
                 # If using a prism, all dimensions need to be finite

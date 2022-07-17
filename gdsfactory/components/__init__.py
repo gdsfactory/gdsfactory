@@ -199,6 +199,7 @@ from gdsfactory.components.straight_rib import straight_rib, straight_rib_tapere
 from gdsfactory.components.switch_tree import switch_tree
 from gdsfactory.components.taper import (
     taper,
+    taper_sc_nc,
     taper_strip_to_ridge,
     taper_strip_to_ridge_trenches,
 )
@@ -454,6 +455,7 @@ __all__ = [
     "taper_parabolic",
     "taper_strip_to_ridge",
     "taper_strip_to_ridge_trenches",
+    "taper_sc_nc",
     "taper_w10_l100",
     "taper_w10_l150",
     "taper_w10_l200",
