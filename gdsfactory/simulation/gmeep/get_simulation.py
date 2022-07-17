@@ -134,7 +134,6 @@ def get_simulation(
             raise ValueError(f"{setting!r} not in {settings_meep}")
 
     layer_stack = layer_stack or get_layer_stack()
-
     layer_to_thickness = layer_stack.get_layer_to_thickness()
 
     component_ref = component.ref()
