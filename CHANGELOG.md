@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.22](https://github.com/gdsfactory/gdsfactory/pull/545)
+
+- add xoffset1 and xoffset2 to straight_heater_doped_rib
+- add taper_sc_nc to docs and tests
+- add gdsfactory.simulation.add_simulation_markers, as well as example in the meep FDTD docs
+
 ## [5.12.21](https://github.com/gdsfactory/gdsfactory/pull/544)
 
 - rename radius to min_bend_radius in spiral_double and spiral_archimedian

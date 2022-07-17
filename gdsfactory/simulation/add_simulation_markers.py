@@ -82,8 +82,6 @@ def add_simulation_markers(
     component = gf.get_component(component)
 
     ref = c << component
-    ref.x = 0
-    ref.y = 0
     port_names = list(ref.ports.keys())
 
     layer_stack = get_layer_stack()
@@ -123,7 +121,8 @@ def add_simulation_markers(
 
 
 if __name__ == "__main__":
-    c = gf.components.coupler_ring()
+    # c = gf.components.coupler_ring()
+    c = gf.components.mmi1x2()
     c = add_simulation_markers(c)
     c.show()
     scene = c.to_3d()
