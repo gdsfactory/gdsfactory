@@ -106,17 +106,16 @@ def grating_coupler_elliptical_lumerical(
         bias_gap: gap/trenches bias (um) to compensate for etching bias.
 
     keyword Args:
-        wg_width: waveguide width.
-        taper_length: taper length from input.
-        taper_angle: grating flare angle.
+        taper_length: taper length from input in um.
+        taper_angle: grating flare angle in degrees.
         wavelength: grating transmission central wavelength (um).
         fiber_angle: fibre angle in degrees determines ellipticity.
         neff: tooth effective index.
         nclad: cladding effective index.
         polarization: te or tm.
-        fiber_marker_width.
-        fiber_marker_layer.
-        spiked: grating teeth have sharp spikes to avoid non-manhattan drc errors.
+        fiber_marker_width: in um.
+        fiber_marker_layer: in um.
+        spiked: grating teeth include sharp spikes to avoid non-manhattan drc errors.
         cross_section: cross_section spec for waveguide port.
 
     """
