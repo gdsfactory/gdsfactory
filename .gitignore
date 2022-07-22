@@ -136,7 +136,6 @@ Icon?
 *.dat
 *.mat
 
-*.xml
 *.tar.gz
 *.gds
 *.json
