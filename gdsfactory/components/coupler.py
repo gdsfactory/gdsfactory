@@ -26,8 +26,8 @@ def coupler(
     Args:
         gap: between straights in um.
         length: of coupling region in um.
-        coupler_symmetric.
-        coupler_straight.
+        coupler_symmetric: spec for bend coupler.
+        coupler_straight: spec for straight coupler.
         dy: port to port vertical spacing in um.
         dx: length of bend in x direction in um.
         cross_section: spec (CrossSection, string or dict).
