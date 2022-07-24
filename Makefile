@@ -155,10 +155,7 @@ git-rm-merged:
 	git branch -D `git branch --merged | grep -v \* | xargs`
 
 link:
-	ln -sf $(PWD)/gdsfactory/klayout/tech $(HOME)/.klayout/tech/generic
-
-pyglet:
-	pip install pyglet==1.2.4
+	lygadgets_link gdsfactory/klayout
 
 spell:
 	codespell -i 3 -w -L TE,TE/TM,te,ba,FPR,fpr_spacing
