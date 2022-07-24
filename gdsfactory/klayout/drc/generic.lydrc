@@ -9,7 +9,7 @@
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
  <shortcut>Ctrl+Shift+D</shortcut>
- <show-in-menu>true</show-in-menu>
+ <show-in-menu>false</show-in-menu>
  <group-name/>
  <menu-path>gdsfactory.drc</menu-path>
  <interpreter>dsl</interpreter>
