@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>gdsfactory initialization</description>
+ <version/>
+ <category>pymacros</category>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>true</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name/>
+ <menu-path>gdsfactory.beginning</menu-path>
+ <interpreter>python</interpreter>
+ <dsl-interpreter-name/>
+ <text>
+
+import kgdsfactory
+
+kgdsfactory.menu.set_menu()
+kgdsfactory.shortcuts.set_shortcuts()
+
+pya.Application.instance().main_window().message('gdsfactory klayout plugin initialized.',5000)
+</text>
+</klayout-macro>
