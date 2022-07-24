@@ -61,6 +61,8 @@ def set_shortcuts():
     mapping["zoom_menu.zoom_in"] = "'Return'"
     mapping["zoom_menu.zoom_out"] = "'Shift+Return'"
 
+    mapping["view_menu.show_texts"] = "'Shift+T'"
+
     # turn the hash back into a config string
     config = "".join(f"{key}:{val};" for key, val in sorted(mapping.items()))[:-1]
     pya.Application.instance().set_config("key-bindings", config)
