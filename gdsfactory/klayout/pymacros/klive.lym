@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>klive server</description>
+ <description>klive</description>
  <version/>
  <category>pymacros</category>
  <prolog/>
@@ -11,7 +11,7 @@
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
- <menu-path></menu-path>
+ <menu-path>gdsfactory.begin</menu-path>
  <interpreter>python</interpreter>
  <dsl-interpreter-name/>
  <text>from __future__ import print_function
@@ -54,7 +54,7 @@ class MyServer(pya.QTcpServer):
                     if is_python3:
                         pass
                     else:
-                        line = line .decode("utf-8")
+                        line = line.decode("utf-8")
                     data = json.loads(line)
                 else:
                     connection.waitForReadyRead(100)
