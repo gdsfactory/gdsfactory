@@ -83,6 +83,6 @@ def set_shortcuts():
         pya.Application.instance().set_config("edit-mode", "true")
         pya.MessageBox.warning(
             "Restart",
-            "Please restart KLayout. SiEPIC settings have been applied.",
+            "Please restart KLayout. gdsfactory settings have been applied.",
             pya.MessageBox.Ok,
         )
