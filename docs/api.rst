@@ -122,6 +122,8 @@ Klayout DRC
    rule_space
    rule_separation
    rule_enclosing
+   rule_area
+   rule_density
 
 
 ************************

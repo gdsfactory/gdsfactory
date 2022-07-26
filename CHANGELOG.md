@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.12.27](https://github.com/gdsfactory/gdsfactory/pull/546)
+
+- add min area and min_density rules to klayout write drc deck
+- upgrade phidl to 1.6.2
+- lazy load matplotlib and pandas
+
 ## [5.12.22](https://github.com/gdsfactory/gdsfactory/pull/545)
 
 - add xoffset1 and xoffset2 to straight_heater_doped_rib
