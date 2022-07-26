@@ -28,6 +28,7 @@ from pydantic import BaseModel, Extra
 from scipy.constants import c as SPEED_OF_LIGHT
 from tidy3d.plugins.mode.solver import compute_modes
 from tqdm.auto import tqdm
+from typing_extensions import Literal
 
 from gdsfactory.config import CONFIG, logger
 from gdsfactory.serialization import get_hash
@@ -133,6 +134,8 @@ SETTINGS = [
 ]
 
 SETTINGS_COUPLER = set(SETTINGS + ["wg_width1", "wg_width2", "gap"])
+Precision = Literal["single", "double"]
+FilterPol = Literal["te", "tm"]
 
 
 class Waveguide(BaseModel):
@@ -152,6 +155,8 @@ class Waveguide(BaseModel):
         nmodes: number of modes to compute.
         bend_radius: optional bend radius (um).
         cache: filepath for caching modes. If None does not use file cache.
+        precision: single or double.
+        filter_pol: te, tm or None.
 
     ::
 
@@ -187,6 +192,8 @@ class Waveguide(BaseModel):
     nmodes: int = 4
     bend_radius: Optional[float] = None
     cache: Optional[PathType] = CONFIG["modes"]
+    precision: Precision = "single"
+    filter_pol: Optional[FilterPol] = None
 
     class Config:
         extra = Extra.allow
@@ -329,6 +336,8 @@ class Waveguide(BaseModel):
                     num_pml=(0, 0),
                     target_neff=self.get_ncore(wavelength),
                     sort_by="largest_neff",
+                    precision=self.precision,
+                    filter_pol=self.filter_pol,
                 ),
             )
         )
