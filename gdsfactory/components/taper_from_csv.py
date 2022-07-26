@@ -5,7 +5,6 @@ from functools import partial
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 
 import gdsfactory as gf
 from gdsfactory.component import Component
@@ -24,8 +23,9 @@ def taper_from_csv(
     Args:
         filepath: for CSV file.
         cross_section: specification (CrossSection, string, CrossSectionFactory dict).
-
     """
+    import pandas as pd
+
     taper_data = pd.read_csv(filepath)
     xs = taper_data["x"].values * 1e6
     ys = np.round(taper_data["width"].values * 1e6 / 2.0, 3)
