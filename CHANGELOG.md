@@ -1,10 +1,14 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.12.27](https://github.com/gdsfactory/gdsfactory/pull/546)
+## [5.12.27](https://github.com/gdsfactory/gdsfactory/pull/550)
 
 - add min area and min_density rules to klayout write drc deck
 - upgrade phidl to 1.6.2
 - lazy load matplotlib and pandas
+- update tidy3d-beta from 1.4.2 to 1.5.0.
+    - mode_solver has
+        - precision: single or double.
+        - filter_pol: te, tm or None.
 
 ## [5.12.22](https://github.com/gdsfactory/gdsfactory/pull/545)
 
