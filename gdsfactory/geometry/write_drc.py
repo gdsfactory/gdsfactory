@@ -56,6 +56,59 @@ def rule_enclosing(
     )
 
 
+def rule_area(layer: str, min_area_um2: float = 2.0) -> str:
+    """Return script for min area checking.
+
+    based on https://github.com/klayoutmatthias/si4all
+    """
+    return f"""
+
+min_{layer}_a = {min_area_um2}.um2
+r_nwell_a = nwell.with_area(0, min_{layer}_a)
+r_nwell_a.output("{layer.upper()}_A: nwell area &lt; min_{layer}_a µm²")
+"""
+
+
+def rule_density(
+    layer: str = "metal1",
+    min_density=0.2,
+    max_density=0.8,
+) -> str:
+    """Return script to ensure density of layer is within min and max.
+
+    based on https://github.com/klayoutmatthias/si4all
+    """
+    return f"""
+min_density = {min_density}
+max_density = {max_density}
+
+area = {layer}.area
+border_area = border.area
+if border_area &gt;= 1.dbu * 1.dbu
+
+  r_min_dens = polygon_layer
+  r_max_dens = polygon_layer
+
+  dens = area / border_area
+
+  if dens &lt; min_density
+    # copy border as min density marker
+    r_min_dens = border
+  end
+
+  if dens &gt; max_density
+    # copy border as max density marker
+    r_max_dens = border
+  end
+
+  r_min_dens.output("{layer}_Xa: {layer} density below threshold of {min_density}")
+  r_max_dens.output("{layer}: {layer} density above threshold of {max_density}")
+
+end
+
+"""
+
+
 def write_layer_definition(layer_map: Dict[str, Layer]) -> List[str]:
     """Returns layer_map definition script for klayout
 
