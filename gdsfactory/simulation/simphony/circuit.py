@@ -66,7 +66,7 @@ def component_to_circuit(
     a = 0
     for name, metadata in instances.items():
         component_type = metadata["component"]
-        component_settings = metadata["settings"]
+        component_settings = metadata.get("settings", {})
 
         if component_type is None:
             raise ValueError(f"instance {name!r} has no component_type")

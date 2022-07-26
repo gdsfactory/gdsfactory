@@ -1,9 +1,6 @@
 import pathlib
 from typing import Optional, Tuple
 
-import matplotlib.colors
-import shapely
-
 from gdsfactory.component import Component
 from gdsfactory.layers import LayerColors
 from gdsfactory.tech import LAYER_STACK, LayerStack
@@ -20,13 +17,15 @@ def to_stl(
     """Exports a Component into STL.
 
     Args:
-        component:
-        filepath:
-        layer_colors: layer colors from Klayout Layer Properties file
-        layer_stack: contains thickness and zmin for each layer
-        exclude_layers: layers to exclude
+        component: to export.
+        filepath: to write STL to.
+        layer_colors: layer colors from Klayout Layer Properties file.
+        layer_stack: contains thickness and zmin for each layer.
+        exclude_layers: layers to exclude.
 
     """
+    import matplotlib.colors
+    import shapely
     from trimesh.creation import extrude_polygon
 
     layer_to_thickness = layer_stack.get_layer_to_thickness()
