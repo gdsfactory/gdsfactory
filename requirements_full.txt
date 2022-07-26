@@ -10,6 +10,6 @@ sax
 scikit-image
 simphony==0.6.1
 sklearn
-tidy3d-beta==1.4.1
+tidy3d-beta==1.5.0
 triangle
 trimesh

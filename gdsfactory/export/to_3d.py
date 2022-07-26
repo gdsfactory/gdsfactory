@@ -1,6 +1,5 @@
 from typing import Optional, Tuple
 
-import matplotlib.colors
 import shapely
 
 from gdsfactory.component import Component
@@ -28,6 +27,7 @@ def to_3d(
 
     """
     try:
+        import matplotlib.colors
         from trimesh.creation import extrude_polygon
         from trimesh.scene import Scene
     except ImportError as e:
