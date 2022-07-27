@@ -25,6 +25,15 @@ def plot_circuit_montecarlo(
         num: number of sampled points.
         logscale: plot in dB scale.
         runs: number of Monte Carlo iterations to run.
+
+    .. plot::
+        :include-source:
+
+        from gdsfactory.simulation.simphony.components.mzi import mzi
+        import gdsfactory.simulation.simphony as gs
+
+        c = mzi()
+        gs.plot_circuit_montecarlo(c)
     """
     circuit = circuit() if callable(circuit) else circuit
     simulation = MonteCarloSweepSimulator(start=start, stop=stop, num=num)

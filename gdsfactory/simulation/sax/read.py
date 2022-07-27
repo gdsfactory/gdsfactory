@@ -5,6 +5,7 @@ TODO: write dat to csv converter
 """
 
 from functools import partial
+from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -20,7 +21,7 @@ wl_cband = np.linspace(1.500, 1.600, 128)
 
 
 def sdict_from_csv(
-    filepath: PathType,
+    filepath: Union[PathType, pd.DataFrame],
     wl: Float = wl_cband,
     xkey: str = "wavelengths",
     xunits: float = 1,
@@ -28,19 +29,22 @@ def sdict_from_csv(
 ) -> SDict:
     """Returns SDict from Sparameters from a CSV file.
 
-    Returns interpolated Sdict over wavelength.
+    interpolates Sdict over wavelength.
 
     Args:
-        filepath: CSV FDTD simulation results path.
+        filepath: CSV Sparameters path or pandas DataFrame.
         wl: wavelength to interpolate (um).
         xkey: key for wavelengths in file.
-        xunits: x units in um from the loaded file (um).
+        xunits: x units in um from the loaded file (um). 1 means 1um.
         prefix: for the sparameters column names in file.
     """
-    df = pd.read_csv(filepath)
+    df = pd.read_csv(filepath) if not isinstance(filepath, pd.DataFrame) else filepath
+    keys = list(df.keys())
+
     if xkey not in df:
-        raise ValueError(f"{xkey!r} not in {df.keys()}")
-    nsparameters = (len(df.keys()) - 1) // 2
+        raise ValueError(f"{xkey!r} not in {keys}")
+
+    nsparameters = (len(keys) - 1) // 2
     nports = int(nsparameters**0.5)
 
     x = df[xkey] * xunits
@@ -51,9 +55,9 @@ def sdict_from_csv(
             m = f"{prefix}{i}{j}m"
             a = f"{prefix}{i}{j}a"
             if m not in df:
-                raise ValueError(f"{m!r} not in {df.keys()}")
+                raise ValueError(f"{m!r} not in {keys}")
             if a not in df:
-                raise ValueError(f"{a!r} not in {df.keys()}")
+                raise ValueError(f"{a!r} not in {keys}")
             s[m] = interp1d(x, df[m])(wl)
             s[a] = interp1d(x, df[a])(wl)
 

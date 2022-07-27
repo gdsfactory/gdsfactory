@@ -155,7 +155,7 @@ def write_sparameters_meep(
     ymargin_bot: float = 0,
     **settings,
 ) -> pd.DataFrame:
-    r"""Compute Sparameters and writes them to a CSV filepath.
+    r"""Returns Sparameters and writes them to CSV filepath.
 
     Simulates each time using a different input port (by default, all of them)
     unless you specify port_symmetries:
@@ -268,7 +268,6 @@ def write_sparameters_meep(
 
     """
     component = gf.get_component(component)
-    assert isinstance(component, Component)
     layer_stack = layer_stack or get_layer_stack()
 
     for setting in settings:
