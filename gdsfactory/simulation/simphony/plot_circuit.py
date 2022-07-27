@@ -29,6 +29,16 @@ def plot_circuit(
         logscale: plot in dB scale.
         fig: matplotlib figure.
         phase: plots phase instead of module.
+
+    .. plot::
+        :include-source:
+
+        from gdsfactory.simulation.simphony.components.mzi import mzi
+        import gdsfactory.simulation.simphony as gs
+
+        c = mzi()
+        gs.plot_circuit(c)
+
     """
     if not isinstance(pins_out, (set, list, tuple)):
         raise ValueError("pins out is not iterable")
