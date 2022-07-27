@@ -11,6 +11,12 @@ def width_min(size: Float2 = (0.1, 0.1)) -> Component:
 
 
 @gf.cell
+def area_min() -> Component:
+    size = (0.2, 0.2)
+    return gf.components.rectangle(size=size, layer=layer)
+
+
+@gf.cell
 def gap_min(gap: float = 0.1) -> Component:
     c = gf.Component()
     r1 = c << gf.components.rectangle(size=(1, 1), layer=layer)
@@ -74,5 +80,6 @@ if __name__ == "__main__":
     # c.write_gds("snap.gds")
 
     c = errors()
+    c = gf.add_padding_container(c, layers=(gf.LAYER.FLOORPLAN,), default=5)
     c.write_gds("errors.gds")
     c.show(show_ports=True)

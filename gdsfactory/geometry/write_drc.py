@@ -2,7 +2,6 @@
 
 TODO:
 
-- add min area
 - define derived layers (composed rules)
 """
 
@@ -57,20 +56,18 @@ def rule_enclosing(
 
 
 def rule_area(layer: str, min_area_um2: float = 2.0) -> str:
-    """Return script for min area checking.
-
-    based on https://github.com/klayoutmatthias/si4all
-    """
+    """Return script for min area checking."""
     return f"""
 
 min_{layer}_a = {min_area_um2}.um2
-r_nwell_a = nwell.with_area(0, min_{layer}_a)
-r_nwell_a.output("{layer.upper()}_A: nwell area &lt; min_{layer}_a µm²")
+r_{layer}_a = {layer}.with_area(0, min_{layer}_a)
+r_{layer}_a.output("{layer.upper()}_A: {layer} area &lt; min_{layer}_a µm²")
 """
 
 
 def rule_density(
     layer: str = "metal1",
+    layer_floorplan: str = "FLOORPLAN",
     min_density=0.2,
     max_density=0.8,
 ) -> str:
@@ -83,7 +80,7 @@ min_density = {min_density}
 max_density = {max_density}
 
 area = {layer}.area
-border_area = border.area
+border_area = {layer_floorplan}.area
 if border_area &gt;= 1.dbu * 1.dbu
 
   r_min_dens = polygon_layer
@@ -93,12 +90,12 @@ if border_area &gt;= 1.dbu * 1.dbu
 
   if dens &lt; min_density
     # copy border as min density marker
-    r_min_dens = border
+    r_min_dens = {layer_floorplan}
   end
 
   if dens &gt; max_density
     # copy border as max density marker
-    r_max_dens = border
+    r_max_dens = {layer_floorplan}
   end
 
   r_min_dens.output("{layer}_Xa: {layer} density below threshold of {min_density}")
@@ -109,29 +106,29 @@ end
 """
 
 
-def write_layer_definition(layer_map: Dict[str, Layer]) -> List[str]:
-    """Returns layer_map definition script for klayout
+def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
+    """Returns layers definition script for klayout
 
     Args:
-        layer_map: can be dict or dataclass
+        layers: layer definitions can be dict, dataclass or pydantic BaseModel.
 
     """
-    layer_map = asdict(layer_map) if is_dataclass(layer_map) else layer_map
-    layer_map = dict(layer_map)
-    return [
-        f"{key} = input({value[0]}, {value[1]})" for key, value in layer_map.items()
-    ]
+    layers = asdict(layers) if is_dataclass(layers) else layers
+    layers = dict(layers)
+    return [f"{key} = input({value[0]}, {value[1]})" for key, value in layers.items()]
 
 
-def write_drc_deck(rules: List[str], layer_map: Dict[str, Layer]) -> str:
+def write_drc_deck(rules: List[str], layers: Dict[str, Layer]) -> str:
     """Returns drc_rule_deck for klayout.
 
+    based on https://github.com/klayoutmatthias/si4all
+
     Args:
-        rules: list of rules
-        layer_map: layer definitions can be dict or dataclass
+        rules: list of rules.
+        layers: layer definitions can be dict, dataclass or pydantic BaseModel.
     """
     script = []
-    script += write_layer_definition(layer_map=layer_map)
+    script += write_layer_definition(layers=layers)
     script += ["\n"]
     script += rules
     return "\n".join(script)
@@ -141,6 +138,8 @@ modes = ["tiled", "default", "deep"]
 
 
 def write_drc_deck_macro(
+    rules: List[str],
+    layers: Dict[str, Layer],
     name: str = "generic",
     filepath: Optional[PathType] = None,
     shortcut: str = "Ctrl+Shift+D",
@@ -155,6 +154,8 @@ def write_drc_deck_macro(
     You can customize the shortcut to run the DRC macro from the Klayout GUI.
 
     Args:
+        rules: list of rules.
+        layers: layer definitions can be dict or dataclass.
         name: drc rule deck name.
         filepath: Optional macro path (defaults to .klayout/drc/name.lydrc).
         shortcut: to run macro from klayout GUI.
@@ -162,10 +163,6 @@ def write_drc_deck_macro(
         threads: number of threads.
         tile_size: in um for tile mode.
         tile_borders: sides for each. Defaults None to automatic.
-
-    Keyword Args:
-        rules: list of rules.
-        layer_map: layer definitions can be dict or dataclass.
 
     modes:
 
@@ -205,7 +202,7 @@ def write_drc_deck_macro(
             rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
         ]
 
-        drc_rule_deck = write_drc_deck_macro(rules=rules, layer_map=gf.LAYER)
+        drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
         print(drc_rule_deck)
 
     """
@@ -252,7 +249,7 @@ tile_borders({tile_borders})
 deep
 """
 
-    script += write_drc_deck(**kwargs)
+    script += write_drc_deck(rules=rules, layers=layers)
 
     script += """
 </text>
@@ -280,5 +277,5 @@ if __name__ == "__main__":
         rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
     ]
 
-    drc_rule_deck = write_drc_deck_macro(rules=rules, layer_map=gf.LAYER)
+    drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
     print(drc_rule_deck)
