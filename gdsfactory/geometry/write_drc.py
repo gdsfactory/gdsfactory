@@ -191,6 +191,8 @@ def write_drc_deck_macro(
             rule_width,
             rule_space,
             rule_separation,
+            rule_area,
+            rule_density,
         )
         rules = [
             rule_width(layer="WG", value=0.2),
@@ -200,6 +202,10 @@ def write_drc_deck_macro(
             rule_space(layer="M2", value=2),
             rule_separation(layer1="HEATER", layer2="M1", value=1.0),
             rule_enclosing(layer1="VIAC", layer2="M1", value=0.2),
+            rule_area(layer="WG", min_area_um2=0.05),
+            rule_density(
+                layer="WG", layer_floorplan="FLOORPLAN", min_density=0.5, max_density=0.6
+            ),
         ]
 
         drc_rule_deck = write_drc_deck_macro(rules=rules, layers=gf.LAYER)
