@@ -1,7 +1,14 @@
+"""
+ [[-0.09051371-0.20581339j  0.00704022+0.1328474j
+    0.03733851+0.4879802j ]
+
+"""
+
 from pathlib import PosixPath
-from typing import Tuple
+from typing import Tuple, Union
 
 import numpy as np
+import pandas as pd
 from scipy.constants import speed_of_light
 from simphony import Model
 from simphony.pins import Pin, PinList
@@ -11,8 +18,10 @@ import gdsfactory as gf
 from gdsfactory.simulation.lumerical.read import read_sparameters_file
 
 
-def model_from_filepath(filepath: PosixPath, numports: int, name: str = "model"):
-    """Returns a Simphony Model.
+def model_from_filepath(
+    filepath: PosixPath, numports: int, name: str = "model"
+) -> Model:
+    """Returns simphony Model from lumerical .DAT sparameters.
 
     Args:
         filepath: path to Sparameters in Lumerical interconnect format.
@@ -29,8 +38,15 @@ def model_from_filepath(filepath: PosixPath, numports: int, name: str = "model")
 
 def model_from_sparameters(
     wavelengths, sparameters, pins: Tuple[str, ...] = ("E0", "W0"), name: str = "model"
-):
-    """Returns simphony model from wavelengths and Sparameters."""
+) -> Model:
+    """Returns simphony Model from wavelengths and Sparameters.
+
+    Args:
+        wavelengths: 1D wavelength array.
+        sparameters: numpy nxn array.
+        pins: list of port names.
+        name: optional model name.
+    """
     f = wl2freq(wavelengths)
     s = sparameters
 
@@ -51,6 +67,46 @@ def model_from_sparameters(
     return m
 
 
+def model_from_csv(
+    filepath: Union[str, PosixPath, pd.DataFrame],
+    pins: Tuple[str, ...],
+    name: str = "model",
+    xkey: str = "wavelengths",
+    xunits: float = 1,
+) -> Model:
+    """Returns simphony Model from Sparameters in CSV.
+
+    Args:
+        filepath: CSV Sparameters path or pandas DataFrame.
+        sparameters: numpy nxn array.
+        pins: list of port names.
+        name: optional model name.
+        xkey: key for wavelengths in file.
+        xunits: x units in um from the loaded file (um). 1 means 1um.
+    """
+
+    df = pd.read_csv(filepath) if not isinstance(filepath, pd.DataFrame) else filepath
+
+    keys = list(df.keys())
+
+    if xkey not in df:
+        raise ValueError(f"{xkey!r} not in {keys}")
+
+    wavelengths = df[xkey].values * 1e-6 * xunits
+
+    numrows = len(wavelengths)
+    numports = len(pins)
+    S = np.zeros((numrows, numports, numports), dtype="complex128")
+
+    for i in range(len(pins)):
+        for j in range(len(pins)):
+            S[:, i, j] = df[f"s{i+1}{j+1}m"] * np.exp(1j * df[f"s{i+1}{j+1}a"])
+
+    return model_from_sparameters(
+        wavelengths=wavelengths, sparameters=S, pins=pins, name=name
+    )
+
+
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
 
@@ -59,7 +115,12 @@ if __name__ == "__main__":
     filepath = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.dat"
     numports = 3
     c = model_from_filepath(filepath=filepath, numports=numports)
-    plot_model(c, pin_in="E0")
+
+    filepath_csv = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.csv"
+    filepath_csv = "/home/jmatres/ubc/sparameters/ebeam_y_1550_20634f71.csv"
+    df = pd.read_csv(filepath_csv)
+    c = model_from_csv(filepath_csv, pins=("o1", "o2", "o3"))
+    plot_model(c, pin_in="o1")
     plt.show()
 
     # wav = np.linspace(1520, 1570, 1024) * 1e-9
