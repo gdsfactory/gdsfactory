@@ -223,11 +223,13 @@ Circuit solver Plugins
 .. autosummary::
    :toctree: _autosummary/
 
-    component_to_circuit
+    model_from_filepath
+    model_from_csv
     plot_model
     plot_circuit
     plot_circuit_montecarlo
     components
+    component_to_circuit
 
 
 .. currentmodule:: gdsfactory.simulation.lumerical.interconnect
