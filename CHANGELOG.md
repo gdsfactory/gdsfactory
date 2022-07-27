@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.13.0](https://github.com/gdsfactory/gdsfactory/pull/552)
+
+- add gdsfactory.simulation.simphony.model_from_csv
+
 ## [5.12.28](https://github.com/gdsfactory/gdsfactory/pull/551)
 
 - fix min_density and min_area Klayout write_drc
