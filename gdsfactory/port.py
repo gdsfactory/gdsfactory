@@ -74,7 +74,7 @@ class Port(PortPhidl):
     Args:
         name: we name ports clock-wise starting from bottom left.
         midpoint: (x, y) port center coordinate.
-        width: of the port.
+        width: of the port in um.
         orientation: in degrees (0: east, 90: north, 180: west, 270: south).
         parent: parent component (component to which this port belong to).
         layer: layer tuple.
@@ -90,8 +90,8 @@ class Port(PortPhidl):
         self,
         name: str,
         midpoint: Tuple[float, float],
-        width: float,
         orientation: Optional[float],
+        width: Optional[float] = None,
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
         parent: Optional[Component] = None,
@@ -100,12 +100,10 @@ class Port(PortPhidl):
     ) -> None:
         self.name = name
         self.midpoint = np.array(midpoint, dtype="float64")
-        self.width = width
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: Dict[str, Any] = {}
         self.uid = Port._next_uid
-        self.layer = layer
         self.port_type = port_type
         self.cross_section = cross_section
         self.shear_angle = shear_angle
@@ -113,8 +111,17 @@ class Port(PortPhidl):
         if cross_section is None and layer is None:
             raise ValueError("You need Port to define cross_section or layer")
 
+        if cross_section is None and width is None:
+            raise ValueError("You need Port to define cross_section or width")
+
         if layer is None:
             layer = cross_section.layer
+
+        if width is None:
+            width = cross_section.width
+
+        self.layer = layer
+        self.width = width
 
         if self.width < 0:
             raise ValueError("[PHIDL] Port width must be >=0")
