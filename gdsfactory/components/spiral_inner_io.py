@@ -56,10 +56,8 @@ def spiral_inner_io(
 
     """
     dx = dy = waveguide_spacing
-    x = gf.get_cross_section(cross_section, **kwargs)
-    width = x.width
-    layer = x.layer
     cross_section_bend = cross_section_bend or cross_section
+    xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -86,17 +84,13 @@ def spiral_inner_io(
         name="o1",
         midpoint=(0, y_straight_inner_top),
         orientation=270,
-        width=width,
-        layer=layer,
-        cross_section=cross_section_bend,
+        cross_section=xs_bend,
     )
     p2 = gf.Port(
         name="o2",
         midpoint=(grating_spacing, y_straight_inner_top),
         orientation=270,
-        width=width,
-        layer=layer,
-        cross_section=cross_section_bend,
+        cross_section=xs_bend,
     )
 
     component.add_port(name="o1", port=p1)
