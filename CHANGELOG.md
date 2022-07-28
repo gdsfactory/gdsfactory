@@ -1,5 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.13.1](https://github.com/gdsfactory/gdsfactory/pull/552)
+
+- Port has optional width that can get it from the cross_section
+
 ## [5.13.0](https://github.com/gdsfactory/gdsfactory/pull/552)
 
 - add gdsfactory.simulation.simphony.model_from_csv
