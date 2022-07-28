@@ -234,17 +234,19 @@ def add_grating_couplers_with_loopback_fiber_array(
         bend_radius_loopback: um.
         gc_port_name: optional grating coupler name.
         gc_rotation: grating coupler rotation in degrees.
-        straight_separation:
+        straight_separation: in um.
         bend: bend spec.
         straight: straight spec.
-        layer_label: optional layer_label.
+        layer_label: for testing label.
+        layer_label_loopback: for testing label alignment loopback.
         component_name: optional component name.
         with_loopback: If True, add compact loopback alignment ports.
         nlabels_loopback: number of ports to label
             (0: no labels, 1: first port, 2: both ports).
+        get_input_labels_function: for getting test labels.
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
     """
     component = gf.get_component(component)
     x = gf.get_cross_section(cross_section, **kwargs)
