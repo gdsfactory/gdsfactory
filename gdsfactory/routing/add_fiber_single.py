@@ -150,7 +150,7 @@ def add_fiber_single(
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
 
-    gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
+    gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].center[0])
 
     c = Component()
 
@@ -254,7 +254,7 @@ def add_fiber_single(
 
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )
@@ -265,7 +265,7 @@ def add_fiber_single(
             )
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )

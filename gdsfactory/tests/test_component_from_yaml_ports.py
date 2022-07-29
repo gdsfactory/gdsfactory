@@ -8,7 +8,7 @@ name: component_yaml_ports
 ports:
   o1:
     name: o1
-    midpoint:
+    center:
         - -0.5
         - 0.225
     width: 0.45
@@ -17,7 +17,7 @@ ports:
     layer: WG
   o2:
     name: o2
-    midpoint:
+    center:
         - 13
         - 3.675
     width: 0.45
@@ -26,7 +26,7 @@ ports:
     layer: [1, 0]
   o3:
     name: o3
-    midpoint:
+    center:
         - 13
         - -3.225
     width: 0.45

@@ -43,7 +43,7 @@ def _via_iterable(
     c.add_port(name="e3", port=wire2.ports["e3"], port_type="electrical", layer=layer2)
     c.add_port(
         name="e4",
-        midpoint=((1 * wire_width) + wire_width / 2, -wire_width / 2),
+        center=((1 * wire_width) + wire_width / 2, -wire_width / 2),
         width=wire_width,
         orientation=-90,
         port_type="electrical",
@@ -51,7 +51,7 @@ def _via_iterable(
     )
     c.add_port(
         name="e2",
-        midpoint=((1 * wire_width) + wire_width / 2, wire_width / 2),
+        center=((1 * wire_width) + wire_width / 2, wire_width / 2),
         width=wire_width,
         orientation=90,
         port_type="electrical",

@@ -437,12 +437,12 @@ def extrude(
         if port_names[0] is not None:
             port_width = width if np.isscalar(width) else width[0]
             port_orientation = (p.start_angle + 180) % 360
-            midpoint = points[0]
+            center = points[0]
 
             if warn_off_grid_ports:
-                midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
-                if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
-                    warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
+                center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
+                if center[0] != center_snap[0] or center[1] != center_snap[1]:
+                    warnings.warn(f"Port center {center} has off-grid ports")
 
             c.add_port(
                 port=Port(
@@ -451,7 +451,7 @@ def extrude(
                     port_type=port_types[0],
                     width=port_width,
                     orientation=port_orientation,
-                    midpoint=midpoint,
+                    center=center,
                     cross_section=x.cross_sections[0]
                     if hasattr(x, "cross_sections")
                     else x,
@@ -461,21 +461,21 @@ def extrude(
         if port_names[1] is not None:
             port_width = width if np.isscalar(width) else width[-1]
             port_orientation = (p.end_angle) % 360
-            midpoint = points[-1]
+            center = points[-1]
 
             if warn_off_grid_ports:
 
-                midpoint_snap = snap.snap_to_grid(midpoint, snap_to_grid_nm)
+                center_snap = snap.snap_to_grid(center, snap_to_grid_nm)
 
-                if midpoint[0] != midpoint_snap[0] or midpoint[1] != midpoint_snap[1]:
-                    warnings.warn(f"Port midpoint {midpoint} has off-grid ports")
+                if center[0] != center_snap[0] or center[1] != center_snap[1]:
+                    warnings.warn(f"Port center {center} has off-grid ports")
             c.add_port(
                 port=Port(
                     name=port_names[1],
                     layer=get_layer(layers[1]),
                     port_type=port_types[1],
                     width=port_width,
-                    midpoint=midpoint,
+                    center=center,
                     orientation=port_orientation,
                     cross_section=x.cross_sections[1]
                     if hasattr(x, "cross_sections")

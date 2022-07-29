@@ -86,7 +86,7 @@ def from_picwriter(
 
         c2.add_port(
             name=port,
-            midpoint=[port_loc[0], port_loc[1]],
+            center=[port_loc[0], port_loc[1]],
             width=po.wgt.wg_width,
             orientation=direction,
             layer=port_layer,

@@ -55,7 +55,7 @@ def pad(
         name="pad",
         port_type="vertical_dc",
         layer=layer,
-        midpoint=(0, 0),
+        center=(0, 0),
         orientation=port_orientation,
         width=width,
     )
@@ -91,7 +91,7 @@ def pad_array(
         for row in range(rows):
             c.add_port(
                 name=f"e{row+1}{col+1}",
-                midpoint=(col * spacing[0], row * spacing[1]),
+                center=(col * spacing[0], row * spacing[1]),
                 width=width,
                 orientation=orientation,
                 port_type="electrical",

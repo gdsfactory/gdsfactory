@@ -48,8 +48,8 @@ def route_quad(
 
     def get_port_edges(port, width):
         _, e1 = pr._get_rotated_basis(port.orientation)
-        pt1 = port.midpoint + e1 * width / 2
-        pt2 = port.midpoint - e1 * width / 2
+        pt1 = port.center + e1 * width / 2
+        pt2 = port.center - e1 * width / 2
         return pt1, pt2
 
     if width1 is None:
@@ -67,14 +67,14 @@ def route_quad(
     component.add_polygon(points=vertices, layer=layer)
     component.add_port(
         name="e1",
-        midpoint=port1.midpoint,
+        center=port1.center,
         orientation=port1.orientation + 180,
         width=width1,
         layer=layer,
     )
     component.add_port(
         name="e2",
-        midpoint=port2.midpoint,
+        center=port2.center,
         orientation=port2.orientation + 180,
         width=width2,
         layer=layer,

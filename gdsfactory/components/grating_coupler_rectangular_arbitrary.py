@@ -130,7 +130,7 @@ def grating_coupler_rectangular_arbitrary(
     c.add_port(
         name=port_type,
         port_type=port_type,
-        midpoint=(xport, 0),
+        center=(xport, 0),
         orientation=0,
         width=width_grating,
         layer=fiber_marker_layer,

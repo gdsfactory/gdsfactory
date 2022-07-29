@@ -17,7 +17,7 @@ settings:
     input_bot: false
     length: 30.0
     period: 0.22
-    port_midpoint:
+    port_center:
     - 0
     - 0
     waveguide_template:
@@ -39,7 +39,7 @@ settings:
     input_bot: false
     length: 30.0
     period: 0.22
-    port_midpoint:
+    port_center:
     - 0
     - 0
     waveguide_template:

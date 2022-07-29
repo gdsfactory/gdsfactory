@@ -22,10 +22,10 @@ def line(
 ) -> Tuple[float, float, float, float]:
     if isinstance(p_start, gf.Port):
         width = p_start.width
-        p_start = p_start.midpoint
+        p_start = p_start.center
 
     if isinstance(p_end, gf.Port):
-        p_end = p_end.midpoint
+        p_end = p_end.center
 
     w = width
     angle = np.arctan2(p_end[1] - p_start[1], p_end[0] - p_start[0])
@@ -64,7 +64,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
     layer = layer or port.layer
 
     # Generate a port extension
-    p_start = port.midpoint
+    p_start = port.center
     angle = port.angle
     p_end = move_polar_rad_copy(p_start, angle * DEG2RAD, length)
     w = port.width
@@ -75,7 +75,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
     c.add_port(name="original", port=port)
 
     port_settings = port.settings.copy()
-    port_settings.update(midpoint=p_end)
+    port_settings.update(center=p_end)
     c.add_port(**port_settings)
 
     return c

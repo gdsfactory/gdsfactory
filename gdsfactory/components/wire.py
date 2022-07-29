@@ -30,7 +30,7 @@ def wire_corner(cross_section: CrossSectionSpec = "metal3", **kwargs) -> Compone
     c.add_polygon([xpts, ypts], layer=layer)
     c.add_port(
         name="e1",
-        midpoint=(-a, 0),
+        center=(-a, 0),
         width=width,
         orientation=180,
         layer=layer,
@@ -38,7 +38,7 @@ def wire_corner(cross_section: CrossSectionSpec = "metal3", **kwargs) -> Compone
     )
     c.add_port(
         name="e2",
-        midpoint=(0, a),
+        center=(0, a),
         width=width,
         orientation=90,
         layer=layer,

@@ -133,7 +133,7 @@ def grating_coupler_circular(
 
     c.add_port(
         name=f"vertical_{polarization.lower()}",
-        midpoint=[fiber_xoffset, 0],
+        center=[fiber_xoffset, 0],
         width=fiber_marker_width,
         orientation=0,
         layer=fiber_marker_layer,
