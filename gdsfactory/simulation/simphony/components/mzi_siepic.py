@@ -40,7 +40,7 @@ def mzi(L0=1, DL=100.0, L2=10.0, y_model_factory=mmi1x2, wg=siepic.Waveguide):
     .. plot::
         :include-source:
 
-        import gdsfactory.simulation simphony as gs
+        import gdsfactory.simulation.simphony as gs
         import gdsfactory.simulation.simphony.components as gc
 
         c = gc.mzi()

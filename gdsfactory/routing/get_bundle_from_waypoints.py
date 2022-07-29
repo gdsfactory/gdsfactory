@@ -105,7 +105,14 @@ def get_bundle_from_waypoints(
         sort_ports: sorts ports.
         cross_section: cross_section.
         separation: center to center, defaults to ports1 separation.
-        **kwargs: cross_section settings.
+        on_route_error: function to call for routing errors.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
+        kwargs: cross_section settings.
 
     """
     if len(ports2) != len(ports1):

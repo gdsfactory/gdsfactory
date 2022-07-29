@@ -64,13 +64,18 @@ def get_bundle_corner(
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
-    r"""
+    r"""Connect banks of ports with either 90Deg or 270Deg angle between them.
 
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight.
+        separation: in um.
+        path_length_match_loops: optional number of loops for path length matching.
+        path_length_match_extra_length: extra length (um) for path length matching.
+        path_length_match_modify_segment_i: segment to increase length.
+
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `get_route_from_waypoints`,
@@ -109,7 +114,6 @@ def get_bundle_corner(
          \------ AN
 
 
-    Connect banks of ports with either 90Deg or 270Deg angle between them
     """
     if "straight" in kwargs.keys():
         _ = kwargs.pop("straight")
