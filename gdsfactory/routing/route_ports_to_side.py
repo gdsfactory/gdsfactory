@@ -235,7 +235,7 @@ def route_ports_to_x(
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
-        new_port = p.flip(name=f"{p.name}_new")
+        new_port = p.copy(name=f"{p.name}_new")
         new_port.orientation = angle
         new_port.center = (x + extension_length, y)
         l_elements += [
@@ -247,7 +247,7 @@ def route_ports_to_x(
                 **routing_func_args,
             )
         ]
-        l_ports += [new_port]
+        l_ports += [new_port.flip()]
 
     y_optical_bot = y0_bottom
     for p in south_ports:
@@ -575,5 +575,5 @@ if __name__ == "__main__":
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
 
-    c.plot()
+    # c.plot()
     c.show(show_ports=True)
