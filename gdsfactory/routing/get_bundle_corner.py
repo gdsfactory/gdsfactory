@@ -146,13 +146,13 @@ def _get_bundle_corner_waypoints(
     connections = []
 
     for p in ports1:
-        p.angle = p.angle % 360
+        p.orientation = p.orientation % 360
 
     for p in ports2:
-        p.angle = p.angle % 360
+        p.orientation = p.orientation % 360
 
-    port_angles1 = {p.angle for p in ports1}
-    port_angles2 = {p.angle for p in ports2}
+    port_angles1 = {p.orientation for p in ports1}
+    port_angles2 = {p.orientation for p in ports2}
 
     assert len(ports2) == nb_ports, f"ports1 = {len(ports1)} must match {len(ports2)}"
     assert (
@@ -162,8 +162,8 @@ def _get_bundle_corner_waypoints(
         len(port_angles2) <= 1
     ), f"ports2 should have the same angle. Got {port_angles2}"
 
-    a_start = ports1[0].angle
-    a_end = ports2[0].angle
+    a_start = ports1[0].orientation
+    a_end = ports2[0].orientation
 
     da = a_end - a_start
     assert (da) % 180 == 90, (
@@ -177,7 +177,7 @@ def _get_bundle_corner_waypoints(
     ports1_transformed = _transform_ports(ports1, rotation=-a_start, origin=origin)
     ports2_transformed = _transform_ports(ports2, rotation=-a_start, origin=origin)
 
-    # a_end_tr = ports2_transformed[0].angle % 360
+    # a_end_tr = ports2_transformed[0].orientation % 360
 
     ys = [p.y for p in ports1_transformed]
     ye = [p.y for p in ports2_transformed]

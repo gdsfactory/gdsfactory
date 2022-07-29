@@ -168,10 +168,10 @@ def route_ports_to_x(
 
     """
 
-    north_ports = [p for p in list_ports if p.angle == 90]
-    south_ports = [p for p in list_ports if p.angle == 270]
-    east_ports = [p for p in list_ports if p.angle == 0]
-    west_ports = [p for p in list_ports if p.angle == 180]
+    north_ports = [p for p in list_ports if p.orientation == 90]
+    south_ports = [p for p in list_ports if p.orientation == 270]
+    east_ports = [p for p in list_ports if p.orientation == 0]
+    west_ports = [p for p in list_ports if p.orientation == 180]
 
     epsilon = 1.0
     a = epsilon + max(radius, separation)
@@ -236,7 +236,7 @@ def route_ports_to_x(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
         new_port = p.copy()
-        new_port.angle = angle
+        new_port.orientation = angle
         new_port.position = (x + extension_length, y)
         l_elements += [
             routing_func(
@@ -362,10 +362,18 @@ def route_ports_to_y(
         extension_length = -extension_length
 
     da = 45
-    north_ports = [p for p in list_ports if p.angle > 90 - da and p.angle < 90 + da]
-    south_ports = [p for p in list_ports if p.angle > 270 - da and p.angle < 270 + da]
-    east_ports = [p for p in list_ports if p.angle < da or p.angle > 360 - da]
-    west_ports = [p for p in list_ports if p.angle < 180 + da and p.angle > 180 - da]
+    north_ports = [
+        p for p in list_ports if p.orientation > 90 - da and p.orientation < 90 + da
+    ]
+    south_ports = [
+        p for p in list_ports if p.orientation > 270 - da and p.orientation < 270 + da
+    ]
+    east_ports = [
+        p for p in list_ports if p.orientation < da or p.orientation > 360 - da
+    ]
+    west_ports = [
+        p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
+    ]
 
     epsilon = 1.0
     a = radius + max(radius, separation)
@@ -385,12 +393,18 @@ def route_ports_to_y(
 
     if y == "north":
         y = (
-            max(p.y + a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports)
+            max(
+                p.y + a * np.abs(np.cos(p.orientation * np.pi / 180))
+                for p in list_ports
+            )
             + by
         )
     elif y == "south":
         y = (
-            min(p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports)
+            min(
+                p.y - a * np.abs(np.cos(p.orientation * np.pi / 180))
+                for p in list_ports
+            )
             - by
         )
     elif isinstance(y, (float, int)):
@@ -434,7 +448,7 @@ def route_ports_to_y(
         p, x, l_elements, l_ports, start_straight_length=start_straight_length
     ):
         new_port = p.copy()
-        new_port.angle = angle
+        new_port.orientation = angle
         new_port.position = (x, y + extension_length)
 
         if np.sum(np.abs((new_port.position - p.position) ** 2)) < 1e-12:
