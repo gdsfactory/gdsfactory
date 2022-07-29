@@ -8,6 +8,9 @@ from gdsfactory.grid import grid, grid_with_text
 from gdsfactory.pack import pack
 from gdsfactory.types import CellSpec, ComponentSpec, Optional
 
+_doe = "mmi1x2"
+_settings = dict(length_mmi=[2.5, 100], width_mmi=[4, 10])
+
 
 def generate_doe(
     doe: ComponentSpec,
@@ -46,8 +49,8 @@ def generate_doe(
 
 @cell
 def pack_doe(
-    doe: ComponentSpec,
-    settings: Dict[str, List[Any]],
+    doe: ComponentSpec = _doe,
+    settings: Dict[str, List[Any]] = _settings,
     do_permutations: bool = False,
     function: Optional[CellSpec] = None,
     **kwargs,
@@ -94,8 +97,8 @@ def pack_doe(
 
 
 def pack_doe_grid(
-    doe: ComponentSpec,
-    settings: Dict[str, List[Any]],
+    doe: ComponentSpec = _doe,
+    settings: Dict[str, List[Any]] = _settings,
     do_permutations: bool = False,
     function: Optional[CellSpec] = None,
     with_text: bool = False,
@@ -163,5 +166,6 @@ if __name__ == "__main__":
     #     do_permutations=True,
     # )
 
-    c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    # c = pack_doe(doe="mmi1x2", settings=dict(length_mmi=[2, 100], width_mmi=[4, 10]))
+    c = pack_doe()
     c.show(show_ports=True)

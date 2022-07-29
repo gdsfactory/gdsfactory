@@ -1711,7 +1711,7 @@ pack_doe
 
   import gdsfactory as gf
 
-  c = gf.components.pack_doe(do_permutations=False)
+  c = gf.components.pack_doe(doe='mmi1x2', do_permutations=False)
   c.plot()
 
 
@@ -1726,7 +1726,7 @@ pack_doe_grid
 
   import gdsfactory as gf
 
-  c = gf.components.pack_doe_grid(do_permutations=False, with_text=False)
+  c = gf.components.pack_doe_grid(doe='mmi1x2', do_permutations=False, with_text=False)
   c.plot()
 
 
@@ -2776,7 +2776,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.21', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.13.0', text_size=10)
   c.plot()
 
 
