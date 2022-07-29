@@ -65,7 +65,7 @@ def extend_port(port: Port, length: float, layer: Optional[Layer] = None) -> Com
 
     # Generate a port extension
     p_start = port.center
-    angle = port.angle
+    angle = port.orientation
     p_end = move_polar_rad_copy(p_start, angle * DEG2RAD, length)
     w = port.width
 
