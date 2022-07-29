@@ -16,11 +16,11 @@ def bend_circular(
 
     Args:
         radius: Radius of straight in microns.
-        width: Width of the straights in microns
-        thickness: Thickness of the straights in microns
-        angle: Number of deg of circle that bent straight transverses
+        width: Width of the straights in microns.
+        thickness: Thickness of the straights in microns.
+        angle: Number of deg of circle that bent straight transverses.
         sw_angle: Sidewall angle from horizontal in degrees. Defaults to 90.
-        kwargs: geometrical args that this model ignores
+        kwargs: geometrical args that this model ignores.
 
     """
     angle = np.deg2rad(angle)

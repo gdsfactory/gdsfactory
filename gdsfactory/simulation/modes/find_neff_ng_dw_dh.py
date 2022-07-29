@@ -98,7 +98,7 @@ def plot_neff_ng_dw_dh(
     mode_number: int = 1,
     **kwargs
 ) -> None:
-    """
+    """Plot neff and group index versus width (dw) and height (dh) variations.
 
     Args:
         width: waveguide width in um.
@@ -106,6 +106,12 @@ def plot_neff_ng_dw_dh(
         wavelength: in um.
         mode_number: 1 is the fundamental first order mode.
 
+    .. plot::
+        :include-source:
+
+        import gdsfactory.simulation.modes as gm
+
+        gm.plot_neff_ng_dw_dh()
     """
 
     filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
