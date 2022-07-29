@@ -75,8 +75,8 @@ def get_route_from_steps(
         c.show(show_ports=True)
 
     """
-    x, y = port1.midpoint
-    x2, y2 = port2.midpoint
+    x, y = port1.center
+    x2, y2 = port2.center
 
     waypoints = [(x, y)]
     steps = steps or []

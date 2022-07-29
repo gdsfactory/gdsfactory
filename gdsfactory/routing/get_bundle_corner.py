@@ -44,10 +44,10 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     ports_transformed = []
     for p in ports:
         new_port = p.copy(new_uid=False)
-        new_midpoint, new_orientation = _transform_port(
-            p.midpoint, p.orientation, origin, rotation, x_reflection
+        new_center, new_orientation = _transform_port(
+            p.center, p.orientation, origin, rotation, x_reflection
         )
-        new_port.midpoint = new_midpoint
+        new_port.center = new_center
         new_port.new_orientation = new_orientation
         ports_transformed.append(new_port)
 
@@ -173,7 +173,7 @@ def _get_bundle_corner_waypoints(
 
     # Rotate all ports to be in the configuration where start_angle = 0
 
-    origin = ports1[0].midpoint
+    origin = ports1[0].center
     ports1_transformed = _transform_ports(ports1, rotation=-a_start, origin=origin)
     ports2_transformed = _transform_ports(ports2, rotation=-a_start, origin=origin)
 

@@ -18,13 +18,13 @@ def test_get_bundle_from_waypointsB(
     layer = (1, 0)
 
     ports1 = [
-        Port(name=f"A_{i}", midpoint=(0, ys1[i]), width=0.5, orientation=0, layer=layer)
+        Port(name=f"A_{i}", center=(0, ys1[i]), width=0.5, orientation=0, layer=layer)
         for i in range(N)
     ]
     ports2 = [
         Port(
             name=f"B_{i}",
-            midpoint=(500, ys2[i]),
+            center=(500, ys2[i]),
             width=0.5,
             orientation=180,
             layer=layer,
@@ -66,13 +66,13 @@ def test_get_bundle_from_waypointsC(
     layer = (1, 0)
 
     ports1 = [
-        Port(name=f"A_{i}", midpoint=(0, ys1[i]), width=0.5, orientation=0, layer=layer)
+        Port(name=f"A_{i}", center=(0, ys1[i]), width=0.5, orientation=0, layer=layer)
         for i in range(N)
     ]
     ports2 = [
         Port(
             name=f"B_{i}",
-            midpoint=(600, ys2[i]),
+            center=(600, ys2[i]),
             width=0.5,
             orientation=180,
             layer=layer,
@@ -123,8 +123,8 @@ def test_get_bundle_from_waypoints_staggered(
     ports2 = r.get_ports_list(orientation=180)
 
     dx = 20
-    p0 = ports1[0].midpoint + (dx, 0)
-    p1 = (ports1[0].midpoint[0] + dx, ports2[0].midpoint[1])
+    p0 = ports1[0].center + (dx, 0)
+    p1 = (ports1[0].center[0] + dx, ports2[0].center[1])
     waypoints = (p0, p1)
 
     routes = gf.routing.get_bundle_from_waypoints(ports1, ports2, waypoints=waypoints)

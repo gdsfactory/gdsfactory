@@ -41,7 +41,7 @@ def bend_port(
         raise ValueError(f"port_name {port_name} not in {list(component.ports.keys())}")
 
     extension_length = extension_length or abs(
-        component.ports[port_name2].midpoint[0] - component.ports[port_name].midpoint[0]
+        component.ports[port_name2].center[0] - component.ports[port_name].center[0]
     )
 
     ref = c << component

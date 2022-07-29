@@ -117,7 +117,7 @@ def route_south(
     def gen_port_from_port(x, y, p, cross_section):
         return Port(
             name=p.name,
-            midpoint=(x, y),
+            center=(x, y),
             orientation=90.0,
             width=p.width,
             cross_section=cross_section,

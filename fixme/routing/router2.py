@@ -76,8 +76,8 @@ if __name__ == "__main__":
         for i, p in enumerate(ports1):
             p.name = f"e{i+1}"
         for port1, port2 in zip(ports1, ports2):
-            c.add_label(position=port1.midpoint, text=port1.name)
-            c.add_label(position=port2.midpoint, text=port1.name)
+            c.add_label(position=port1.center, text=port1.name)
+            c.add_label(position=port2.center, text=port1.name)
 
         metal_routes = gf.routing.get_bundle_electrical(
             ports1,

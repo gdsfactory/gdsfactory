@@ -138,7 +138,7 @@ def add_pin_rectangle_inside(
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.midpoint,
+            position=p.center,
             layer=layer_label,
         )
 
@@ -271,7 +271,7 @@ def add_pin_rectangle(
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.midpoint,
+            position=p.center,
             layer=layer_label,
         )
 
@@ -332,7 +332,7 @@ def add_pin_path(
     component.add(path)
 
     component.add_label(
-        text=str(p.name), position=p.midpoint, layer=layer_label, anchor="sw"
+        text=str(p.name), position=p.center, layer=layer_label, anchor="sw"
     )
 
 

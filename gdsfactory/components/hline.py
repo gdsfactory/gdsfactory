@@ -18,7 +18,7 @@ def hline(
 
     c.add_port(
         name="o1",
-        midpoint=(0.0, 0.0),
+        center=(0.0, 0.0),
         width=width,
         orientation=180,
         layer=layer,
@@ -26,7 +26,7 @@ def hline(
     )
     c.add_port(
         name="o2",
-        midpoint=(length, 0.0),
+        center=(length, 0.0),
         width=width,
         orientation=0,
         layer=layer,

@@ -77,7 +77,7 @@ def mmi1x2(
         gf.Port(
             "o1",
             orientation=180,
-            midpoint=(0, 0),
+            center=(0, 0),
             width=w_taper,
             layer=x.layer,
             cross_section=x,
@@ -85,7 +85,7 @@ def mmi1x2(
         gf.Port(
             "o2",
             orientation=0,
-            midpoint=(+length_mmi, +a),
+            center=(+length_mmi, +a),
             width=w_taper,
             layer=x.layer,
             cross_section=x,
@@ -93,7 +93,7 @@ def mmi1x2(
         gf.Port(
             "o3",
             orientation=0,
-            midpoint=(+length_mmi, -a),
+            center=(+length_mmi, -a),
             width=w_taper,
             layer=x.layer,
             cross_section=x,

@@ -32,6 +32,7 @@ from __future__ import annotations
 import csv
 import functools
 import typing
+import warnings
 from copy import deepcopy
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
@@ -40,7 +41,7 @@ import numpy as np
 import phidl.geometry as pg
 from numpy import ndarray
 from omegaconf import OmegaConf
-from phidl.device_layout import Port as PortPhidl
+from phidl.device_layout import _rotate_points
 
 from gdsfactory.cross_section import CrossSection
 from gdsfactory.serialization import clean_value_json
@@ -53,6 +54,11 @@ Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
 LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Tuple[LayerSpec, ...]
+Float2 = Tuple[float, float]
+
+midpoint_deprecation = "Port.midpoint is deprecated. Change to Port.center to continue using it in the future."
+position_deprecation = "Port.position is deprecated. Change to Port.center to continue using it in the future."
+angle_deprecation = "Port.angle is deprecated. Change to Port.orientation to continue using it in the future."
 
 
 class PortNotOnGridError(ValueError):
@@ -67,13 +73,13 @@ class PortOrientationError(ValueError):
     pass
 
 
-class Port(PortPhidl):
+class Port:
     """Ports are useful to connect Components with each other.
     Extends phidl port with layer and cross_section
 
     Args:
         name: we name ports clock-wise starting from bottom left.
-        midpoint: (x, y) port center coordinate.
+        center: (x, y) port center coordinate.
         width: of the port in um.
         orientation: in degrees (0: east, 90: north, 180: west, 270: south).
         parent: parent component (component to which this port belong to).
@@ -89,8 +95,9 @@ class Port(PortPhidl):
     def __init__(
         self,
         name: str,
-        midpoint: Tuple[float, float],
         orientation: Optional[float],
+        center: Optional[Tuple[float, float]] = None,
+        midpoint: Optional[Tuple[float, float]] = None,
         width: Optional[float] = None,
         layer: Optional[Tuple[int, int]] = None,
         port_type: str = "optical",
@@ -98,8 +105,15 @@ class Port(PortPhidl):
         cross_section: Optional[CrossSection] = None,
         shear_angle: Optional[float] = None,
     ) -> None:
+
+        if midpoint:
+            warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
+            center = midpoint
+        if midpoint is None and center is None:
+            raise ValueError("You need to define port center.")
+
         self.name = name
-        self.midpoint = np.array(midpoint, dtype="float64")
+        self.center = np.array(center, dtype="float64")
         self.orientation = np.mod(orientation, 360) if orientation else orientation
         self.parent = parent
         self.info: Dict[str, Any] = {}
@@ -124,14 +138,24 @@ class Port(PortPhidl):
         self.width = width
 
         if self.width < 0:
-            raise ValueError("[PHIDL] Port width must be >=0")
+            raise ValueError(f"Port width must be >=0. Got {self.width}")
         Port._next_uid += 1
+
+    @property
+    def midpoint(self) -> Float2:
+        warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
+        return self.center
+
+    @midpoint.setter
+    def midpoint(self, value: Float2):
+        warnings.warn(midpoint_deprecation, DeprecationWarning, stacklevel=2)
+        self.center = value
 
     def to_dict(self) -> Dict[str, Any]:
         d = dict(
             name=self.name,
             width=self.width,
-            midpoint=tuple(np.round(self.midpoint, 3)),
+            center=tuple(np.round(self.center, 3)),
             orientation=int(self.orientation) if self.orientation else self.orientation,
             layer=self.layer,
             port_type=self.port_type,
@@ -144,7 +168,7 @@ class Port(PortPhidl):
         d = dict(
             name=self.name,
             width=float(self.width),
-            midpoint=[float(self.midpoint[0]), float(self.midpoint[1])],
+            center=[float(self.center[0]), float(self.center[1])],
             orientation=float(self.orientation)
             if self.orientation
             else self.orientation,
@@ -155,7 +179,7 @@ class Port(PortPhidl):
         return OmegaConf.to_yaml(d)
 
     def __repr__(self) -> str:
-        s = f"Port (name {self.name}, midpoint {self.midpoint}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
+        s = f"Port (name {self.name}, center {self.center}, width {self.width}, orientation {self.orientation}, layer {self.layer}, port_type {self.port_type})"
         s += f" shear_angle {self.shear_angle}" if self.shear_angle else ""
         return s
 
@@ -167,7 +191,7 @@ class Port(PortPhidl):
     def validate(cls, v):
         """For pydantic assumes Port is valid if has a name and a valid type."""
         assert v.name, f"Port has no name, got `{v.name}`"
-        # assert v.assert_on_grid(), f"port.midpoint = {v.midpoint} has off-grid points"
+        # assert v.assert_on_grid(), f"port.center = {v.center} has off-grid points"
         assert isinstance(v, Port), f"TypeError, Got {type(v)}, expecting Port"
         return v
 
@@ -176,7 +200,7 @@ class Port(PortPhidl):
         """TODO! delete this. Use to_dict instead"""
         return dict(
             name=self.name,
-            midpoint=self.midpoint,
+            center=self.center,
             width=self.width,
             orientation=self.orientation,
             layer=self.layer,
@@ -185,23 +209,27 @@ class Port(PortPhidl):
 
     @property
     def angle(self):
-        """convenient alias for orientation in degrees."""
+        """convenient alias for orientation."""
+        warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
         return self.orientation
 
     @angle.setter
     def angle(self, a) -> None:
+        warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
         self.orientation = a
 
     @property
     def position(self) -> Tuple[float, float]:
-        return self.midpoint
+        warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
+        return self.center
 
     @position.setter
     def position(self, p) -> None:
-        self.midpoint = np.array(p, dtype="float64")
+        warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
+        self.center = np.array(p, dtype="float64")
 
     def move(self, vector) -> None:
-        self.midpoint = self.midpoint + np.array(vector)
+        self.center = self.center + np.array(vector)
 
     def move_polar_copy(self, d: float, angle: float) -> Port:
         """Returns a copy of the port with a distance (d) in um and angle (deg)."""
@@ -236,14 +264,54 @@ class Port(PortPhidl):
             if self.orientation is not None
             else np.array([self.width, self.width])
         )
-        left_point = self.midpoint - dxdy
-        right_point = self.midpoint + dxdy
+        left_point = self.center - dxdy
+        right_point = self.center + dxdy
         return np.array([left_point, right_point])
+
+    @endpoints.setter
+    def endpoints(self, points: Float2):
+        """Sets the endpoints of a Port."""
+        p1, p2 = np.array(points[0]), np.array(points[1])
+        self.center = (p1 + p2) / 2
+        dx, dy = p2 - p1
+        self.orientation = np.arctan2(dx, -dy) * 180 / np.pi
+        self.width = np.sqrt(dx**2 + dy**2)
+
+    @property
+    def normal(self):
+        """Returns a vector normal to the Port."""
+        dx = np.cos((self.orientation) * np.pi / 180)
+        dy = np.sin((self.orientation) * np.pi / 180)
+        return np.array([self.center, self.center + np.array([dx, dy])])
+
+    @property
+    def x(self):
+        """Returns the x-coordinate of the Port center."""
+        return self.center[0]
+
+    @property
+    def y(self):
+        """Returns the y-coordinate of the Port center."""
+        return self.center[1]
+
+    def rotate(self, angle: float = 45, center: Optional[Float2] = None):
+        """Rotates a Port around the specified center point,
+        if no centerpoint specified will rotate around (0,0).
+
+        Args:
+            angle: Angle to rotate the Port in degrees.
+            center: array-like[2] or None center of the Port.
+        """
+        self.orientation = np.mod(self.orientation + angle, 360)
+        if center is None:
+            center = self.center
+        self.center = _rotate_points(self.center, angle=angle, center=center)
+        return self
 
     def copy(self, new_uid: bool = True) -> Port:
         new_port = Port(
             name=self.name,
-            midpoint=self.midpoint,
+            center=self.center,
             width=self.width,
             orientation=self.orientation,
             parent=self.parent,
@@ -258,15 +326,15 @@ class Port(PortPhidl):
             Port._next_uid -= 1
         return new_port
 
-    def get_extended_midpoint(self, length: float = 1.0) -> ndarray:
-        """Returns an extended midpoint"""
+    def get_extended_center(self, length: float = 1.0) -> ndarray:
+        """Returns an extended center"""
         angle = self.orientation
         c = np.cos(angle)
         s = np.sin(angle)
-        return self.midpoint + length * np.array([c, s])
+        return self.center + length * np.array([c, s])
 
     def snap_to_grid(self, nm: int = 1) -> None:
-        self.midpoint = nm * np.round(np.array(self.midpoint) * 1e3 / nm) / 1e3
+        self.center = nm * np.round(np.array(self.center) * 1e3 / nm) / 1e3
 
     def assert_on_grid(self, nm: int = 1) -> None:
         """Ensures ports edges are on grid to avoid snap_to_grid errors."""
@@ -275,7 +343,7 @@ class Port(PortPhidl):
         component_name = self.parent.name
         if not np.isclose(half_width, half_width_correct):
             raise PortNotOnGridError(
-                f"{component_name}, port = {self.name!r}, midpoint = {self.midpoint} width = {self.width} will create off-grid points",
+                f"{component_name}, port = {self.name!r}, center = {self.center} width = {self.width} will create off-grid points",
                 f"you can fix it by changing width to {2*half_width_correct}",
             )
 
@@ -310,7 +378,7 @@ PortsMap = Dict[str, List[Port]]
 
 
 def port_array(
-    midpoint: Tuple[float, float] = (0.0, 0.0),
+    center: Tuple[float, float] = (0.0, 0.0),
     width: float = 0.5,
     orientation: float = 0,
     pitch: Tuple[float, float] = (10.0, 0.0),
@@ -320,7 +388,7 @@ def port_array(
     """Returns a list of ports placed in an array
 
     Args:
-        midpoint: center point of the port.
+        center: center point of the port.
         width: port width.
         orientation: angle in degrees.
         pitch: period of the port array.
@@ -332,7 +400,7 @@ def port_array(
         Port(
             name=str(i),
             width=width,
-            midpoint=np.array(midpoint) + i * pitch - (n - 1) / 2 * pitch,
+            center=np.array(center) + i * pitch - (n - 1) / 2 * pitch,
             orientation=orientation,
             **kwargs,
         )
@@ -532,7 +600,7 @@ def flipped(port: Port) -> Port:
 
 def move_copy(port, x=0, y=0) -> Port:
     _port = port.copy()
-    _port.midpoint += (x, y)
+    _port.center += (x, y)
     return _port
 
 
@@ -939,6 +1007,7 @@ if __name__ == "__main__":
     # pprint(m)
     # c.show(show_ports=True)
     # print(p0)
-    p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
-    print(p0)
-    print(type(p0.to_dict()["midpoint"][0]))
+    # p0 = c.get_ports_list(orientation=0, clockwise=False)[0]
+    # print(p0)
+    # print(type(p0.to_dict()["center"][0]))
+    p = Port("o1", orientation=0, midpoint=(9, 0), layer=(1, 0), width=10)

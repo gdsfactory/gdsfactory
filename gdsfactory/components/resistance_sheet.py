@@ -56,7 +56,7 @@ def resistance_sheet(
     c.add_port(
         "pad1",
         port_type="vertical_dc",
-        midpoint=pad1.center,
+        center=pad1.center,
         layer=list(layers)[-1],
         width=width,
         orientation=port_orientation1,
@@ -64,7 +64,7 @@ def resistance_sheet(
     c.add_port(
         "pad2",
         port_type="vertical_dc",
-        midpoint=pad2.center,
+        center=pad2.center,
         layer=list(layers)[-1],
         width=width,
         orientation=port_orientation2,

@@ -17,16 +17,14 @@ def test_get_bundle(data_regression: DataRegressionFixture, check: bool = True):
     layer = (1, 0)
 
     top_ports = [
-        Port(
-            f"top_{i}", midpoint=(xs_top[i], 0), width=0.5, orientation=270, layer=layer
-        )
+        Port(f"top_{i}", center=(xs_top[i], 0), width=0.5, orientation=270, layer=layer)
         for i in range(N)
     ]
 
     bot_ports = [
         Port(
             f"bot_{i}",
-            midpoint=(xs_bottom[i], -400),
+            center=(xs_bottom[i], -400),
             width=0.5,
             orientation=90,
             layer=layer,
@@ -63,7 +61,7 @@ def test_connect_corner(
         ports_A_TR = [
             Port(
                 f"A_TR_{i}",
-                midpoint=(d, a / 2 + i * sep),
+                center=(d, a / 2 + i * sep),
                 width=0.5,
                 orientation=0,
                 layer=layer,
@@ -74,7 +72,7 @@ def test_connect_corner(
         ports_A_TL = [
             Port(
                 f"A_TL_{i}",
-                midpoint=(-d, a / 2 + i * sep),
+                center=(-d, a / 2 + i * sep),
                 width=0.5,
                 orientation=180,
                 layer=layer,
@@ -85,7 +83,7 @@ def test_connect_corner(
         ports_A_BR = [
             Port(
                 f"A_BR_{i}",
-                midpoint=(d, -a / 2 - i * sep),
+                center=(d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=0,
                 layer=layer,
@@ -96,7 +94,7 @@ def test_connect_corner(
         ports_A_BL = [
             Port(
                 f"A_BL_{i}",
-                midpoint=(-d, -a / 2 - i * sep),
+                center=(-d, -a / 2 - i * sep),
                 width=0.5,
                 orientation=180,
                 layer=layer,
@@ -109,7 +107,7 @@ def test_connect_corner(
         ports_B_TR = [
             Port(
                 f"B_TR_{i}",
-                midpoint=(a / 2 + i * sep, d),
+                center=(a / 2 + i * sep, d),
                 width=0.5,
                 orientation=90,
                 layer=layer,
@@ -120,7 +118,7 @@ def test_connect_corner(
         ports_B_TL = [
             Port(
                 f"B_TL_{i}",
-                midpoint=(-a / 2 - i * sep, d),
+                center=(-a / 2 - i * sep, d),
                 width=0.5,
                 orientation=90,
                 layer=layer,
@@ -131,7 +129,7 @@ def test_connect_corner(
         ports_B_BR = [
             Port(
                 f"B_BR_{i}",
-                midpoint=(a / 2 + i * sep, -d),
+                center=(a / 2 + i * sep, -d),
                 width=0.5,
                 orientation=270,
                 layer=layer,
@@ -142,7 +140,7 @@ def test_connect_corner(
         ports_B_BL = [
             Port(
                 f"B_BL_{i}",
-                midpoint=(-a / 2 - i * sep, -d),
+                center=(-a / 2 - i * sep, -d),
                 width=0.5,
                 orientation=270,
                 layer=layer,
@@ -157,7 +155,7 @@ def test_connect_corner(
         ports_A_TR = [
             Port(
                 f"A_TR_{i}",
-                midpoint=(a, d + i * sep),
+                center=(a, d + i * sep),
                 width=0.5,
                 orientation=0,
                 layer=layer,
@@ -168,7 +166,7 @@ def test_connect_corner(
         ports_A_TL = [
             Port(
                 f"A_TL_{i}",
-                midpoint=(-a, d + i * sep),
+                center=(-a, d + i * sep),
                 width=0.5,
                 orientation=180,
                 layer=layer,
@@ -179,7 +177,7 @@ def test_connect_corner(
         ports_A_BR = [
             Port(
                 f"A_BR_{i}",
-                midpoint=(a, -d - i * sep),
+                center=(a, -d - i * sep),
                 width=0.5,
                 orientation=0,
                 layer=layer,
@@ -190,7 +188,7 @@ def test_connect_corner(
         ports_A_BL = [
             Port(
                 f"A_BL_{i}",
-                midpoint=(-a, -d - i * sep),
+                center=(-a, -d - i * sep),
                 width=0.5,
                 orientation=180,
                 layer=layer,
@@ -203,7 +201,7 @@ def test_connect_corner(
         ports_B_TR = [
             Port(
                 f"B_TR_{i}",
-                midpoint=(d + i * sep, a),
+                center=(d + i * sep, a),
                 width=0.5,
                 orientation=90,
                 layer=layer,
@@ -214,7 +212,7 @@ def test_connect_corner(
         ports_B_TL = [
             Port(
                 f"B_TL_{i}",
-                midpoint=(-d - i * sep, a),
+                center=(-d - i * sep, a),
                 width=0.5,
                 orientation=90,
                 layer=layer,
@@ -225,7 +223,7 @@ def test_connect_corner(
         ports_B_BR = [
             Port(
                 f"B_BR_{i}",
-                midpoint=(d + i * sep, -a),
+                center=(d + i * sep, -a),
                 width=0.5,
                 orientation=270,
                 layer=layer,
@@ -236,7 +234,7 @@ def test_connect_corner(
         ports_B_BL = [
             Port(
                 f"B_BL_{i}",
-                midpoint=(-d - i * sep, -a),
+                center=(-d - i * sep, -a),
                 width=0.5,
                 orientation=270,
                 layer=layer,
@@ -284,7 +282,7 @@ def test_get_bundle_udirect(
         ports1 = [
             Port(
                 f"top_{i}",
-                midpoint=(0, xs1[i]),
+                center=(0, xs1[i]),
                 width=0.5,
                 orientation=angle,
                 layer=layer,
@@ -294,7 +292,7 @@ def test_get_bundle_udirect(
         ports2 = [
             Port(
                 f"bot_{i}",
-                midpoint=(dy, xs2[i]),
+                center=(dy, xs2[i]),
                 width=0.5,
                 orientation=angle,
                 layer=layer,
@@ -306,7 +304,7 @@ def test_get_bundle_udirect(
         ports1 = [
             Port(
                 f"top_{i}",
-                midpoint=(xs1[i], 0),
+                center=(xs1[i], 0),
                 width=0.5,
                 orientation=angle,
                 layer=layer,
@@ -316,7 +314,7 @@ def test_get_bundle_udirect(
         ports2 = [
             Port(
                 f"bot_{i}",
-                midpoint=(xs2[i], dy),
+                center=(xs2[i], dy),
                 width=0.5,
                 orientation=angle,
                 layer=layer,
@@ -359,15 +357,13 @@ def test_get_bundle_u_indirect(
 
     if axis == "X":
         ports1 = [
-            Port(
-                f"top_{i}", midpoint=(0, xs1[i]), width=0.5, orientation=a1, layer=layer
-            )
+            Port(f"top_{i}", center=(0, xs1[i]), width=0.5, orientation=a1, layer=layer)
             for i in range(N)
         ]
         ports2 = [
             Port(
                 f"bot_{i}",
-                midpoint=(dy, xs2[i]),
+                center=(dy, xs2[i]),
                 width=0.5,
                 orientation=a2,
                 layer=layer,
@@ -377,15 +373,13 @@ def test_get_bundle_u_indirect(
 
     else:
         ports1 = [
-            Port(
-                f"top_{i}", midpoint=(xs1[i], 0), width=0.5, orientation=a1, layer=layer
-            )
+            Port(f"top_{i}", center=(xs1[i], 0), width=0.5, orientation=a1, layer=layer)
             for i in range(N)
         ]
         ports2 = [
             Port(
                 f"bot_{i}",
-                midpoint=(xs2[i], dy),
+                center=(xs2[i], dy),
                 width=0.5,
                 orientation=a2,
                 layer=layer,
@@ -433,11 +427,11 @@ def test_facing_ports(
     layer = (1, 0)
 
     ports1 = [
-        Port(f"top_{i}", midpoint=(xs1[i], +0), width=0.5, orientation=a1, layer=layer)
+        Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=layer)
         for i in range(N)
     ]
     ports2 = [
-        Port(f"bot_{i}", midpoint=(xs2[i], dy), width=0.5, orientation=a2, layer=layer)
+        Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=layer)
         for i in range(N)
     ]
 

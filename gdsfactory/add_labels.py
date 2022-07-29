@@ -89,7 +89,7 @@ def get_input_label(
     layer, texttype = pd._parse_layer(layer_label)
     return Label(
         text=text,
-        position=gc.ports[gc_port_name].midpoint,
+        position=gc.ports[gc_port_name].center,
         anchor="o",
         layer=layer,
         texttype=texttype,
@@ -127,7 +127,7 @@ def get_input_label_electrical(
     layer, texttype = pd._parse_layer(layer_label)
     return Label(
         text=text,
-        position=port.midpoint,
+        position=port.center,
         anchor="o",
         layer=layer,
         texttype=texttype,
@@ -258,7 +258,7 @@ def add_labels_to_ports(
     component.unlock()
     for port in ports:
         text = f"{prefix}{port.name}"
-        component.add_label(text=text, position=port.midpoint, layer=label_layer)
+        component.add_label(text=text, position=port.center, layer=label_layer)
 
     return component
 
