@@ -51,8 +51,13 @@ def get_bundle_udirect(
         separation: between straights.
         start_straight_length: in um.
         end_straight_length: in um.
-        start_straight_offset: in um.
-        end_straight_offset: in um.
+        bend: bend spec.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
 
     Returns:
         [route_filter(r) for r in routes] where routes is a list of lists of coordinates
@@ -247,9 +252,9 @@ def _get_bundle_udirect_waypoints(
 
 
 def get_bundle_uindirect(
-    ports1,
-    ports2,
-    route_filter=get_route_from_waypoints,
+    ports1: List[Port],
+    ports2: List[Port],
+    route_filter: Callable = get_route_from_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
@@ -330,9 +335,9 @@ def get_bundle_uindirect(
 
 
 def _get_bundle_uindirect_waypoints(
-    ports1,
-    ports2,
-    routing_func=generate_manhattan_waypoints,
+    ports1: List[Port],
+    ports2: List[Port],
+    routing_func: Callable = generate_manhattan_waypoints,
     separation: float = 5.0,
     extension_length: float = 0.0,
     start_straight_length: float = 0.01,
