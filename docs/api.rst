@@ -42,6 +42,8 @@ Classes and functions for construction and manipulation of geometric objects.
 .. autosummary::
    :toctree: _autosummary/
 
+   CrossSection
+   Transition
    cross_section
    strip
    strip_auto_widen

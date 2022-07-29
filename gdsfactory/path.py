@@ -28,6 +28,7 @@ from gdsfactory.types import (
     Float2,
     LayerSpec,
     PathFactory,
+    WidthTypes,
 )
 
 
@@ -151,7 +152,7 @@ def transition_exponential(y1, y2, exp=0.5):
 def transition(
     cross_section1: CrossSection,
     cross_section2: CrossSection,
-    width_type: str = "sine",
+    width_type: WidthTypes = "sine",
 ) -> Transition:
     """Returns a smoothly-transitioning between two CrossSections.
 
