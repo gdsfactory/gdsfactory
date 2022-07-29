@@ -18,11 +18,11 @@ def bend_euler(
 
     Args:
         radius: Radius of straight in microns.
-        width: Width of the straights in microns
-        thickness: Thickness of the straights in microns
-        angle: Number of deg of circle that bent straight transverses
+        width: Width of the straights in microns.
+        thickness: Thickness of the straights in microns.
+        angle: Number of deg of circle that bent straight transverses.
         sw_angle: Sidewall angle from horizontal in degrees, ie 90 makes a square. Defaults to 90.
-        kwargs: geometrical args that this model ignores
+        kwargs: geometrical args that this model ignores.
 
     """
     c = gf.c.bend_euler(radius=radius, **kwargs)

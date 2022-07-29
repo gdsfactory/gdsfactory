@@ -6,7 +6,7 @@ TODO: write dat to csv converter
 
 from functools import partial
 from pathlib import PosixPath
-from typing import Union
+from typing import Callable, Union
 
 import numpy as np
 import pandas as pd
@@ -19,6 +19,8 @@ from gdsfactory.simulation.get_sparameters_path import get_sparameters_path_lume
 
 wl_cband = np.linspace(1.500, 1.600, 128)
 
+SDictFactory = Callable[..., SDict]
+
 
 def sdict_from_csv(
     filepath: Union[str, PosixPath, pd.DataFrame],
@@ -29,7 +31,7 @@ def sdict_from_csv(
 ) -> SDict:
     """Returns SDict from Sparameters from a CSV file.
 
-    interpolates Sdict over wavelength.
+    Interpolates Sdict over wavelength.
 
     Args:
         filepath: CSV Sparameters path or pandas DataFrame.
@@ -78,7 +80,8 @@ def _demo_mmi_lumerical_csv() -> None:
     plt.show()
 
 
-def sdict_from_component_lumerical(component, **kwargs):
+def sdict_from_component_lumerical(component, **kwargs) -> SDictFactory:
+    """Returns SDict based on lumerical simulation."""
     filepath = get_sparameters_path_lumerical(component=component, **kwargs)
     return partial(sdict_from_csv, filepath=filepath)
 

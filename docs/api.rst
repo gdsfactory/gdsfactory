@@ -152,13 +152,13 @@ Mode solver Plugins
 .. autosummary::
    :toctree: _autosummary/
 
-    waveguide
-    coupler
     find_modes_waveguide
     find_modes_coupler
     find_neff_vs_width
     find_mode_dispersion
     find_coupling_vs_gap
+    find_neff_ng_dw_dh
+    plot_neff_ng_dw_dh
     plot_neff_vs_width
     plot_coupling_vs_gap
 
@@ -211,7 +211,8 @@ Circuit solver Plugins
 .. autosummary::
    :toctree: _autosummary/
 
-   read
+   read.sdict_from_csv
+   read.sdict_from_component_lumerical
    plot_model
    models
 
