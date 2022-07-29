@@ -311,8 +311,8 @@ def add_grating_couplers_with_loopback_fiber_array(
         gsi = gc.size_info
         port0 = gca1.ports[gc_port_name]
         port1 = gca2.ports[gc_port_name]
-        p0 = port0.position
-        p1 = port1.position
+        p0 = port0.center
+        p1 = port1.center
         a = bend_radius_loopback + 0.5
         b = max(2 * a, grating_separation / 2)
         y_bot_align_route = -gsi.width - straight_separation

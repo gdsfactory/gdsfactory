@@ -167,7 +167,7 @@ def get_straight_distance(p0: ndarray, p1: ndarray) -> float:
 
 def transform(
     points: ndarray,
-    translation: ndarray = (0, 0),
+    translation: ndarray,
     angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
@@ -247,16 +247,16 @@ def _generate_route_manhattan_points(
         output_port:
         bs1: bend size
         bs2: bend size
-        start_straight_length:
-        end_straight_length:
-        min_straight_length:
+        start_straight_length: in um.
+        end_straight_length: in um.
+        min_straight_length: in um.
     """
 
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
     p_input = input_port.center
-    p_output = output_port.center
+    p_output = np.array(output_port.center)
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
@@ -273,9 +273,11 @@ def _generate_route_manhattan_points(
 
     else:
         bend_orientation = -angle + 180
-        transform_params = (-p_output, bend_orientation, False)
+        transform_params = dict(
+            translation=-p_output, angle_deg=bend_orientation, x_reflection=False
+        )
 
-        _pts_io = transform(pts_io, *transform_params)
+        _pts_io = transform(pts_io, **transform_params)
         p = _pts_io[0, :]
         _p_output = _pts_io[1, :]
 
@@ -407,7 +409,7 @@ def _generate_route_manhattan_points(
             points += [p]
             s = min_straight_length + bs1
         points = np.stack([np.array(_p) for _p in points], axis=0)
-        points = reverse_transform(points, *transform_params)
+        points = reverse_transform(points, **transform_params)
     return points
 
 

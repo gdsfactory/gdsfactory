@@ -241,9 +241,9 @@ class Port:
         port.move(dp)
         return port
 
-    def flip(self) -> Port:
+    def flip(self, **kwargs) -> Port:
         """flips port"""
-        port = self.copy()
+        port = self.copy(**kwargs)
         if port.orientation is None:
             raise ValueError(f"port {self.name!r} has None orientation")
         port.orientation = (port.orientation + 180) % 360
@@ -254,7 +254,7 @@ class Port:
         return self.copy(new_uid=new_uid)
 
     @property
-    def endpoints(self):
+    def endpoints(self) -> None:
         """Returns the endpoints of the Port."""
         dxdy = (
             np.array(
@@ -271,7 +271,7 @@ class Port:
         return np.array([left_point, right_point])
 
     @endpoints.setter
-    def endpoints(self, points: Float2):
+    def endpoints(self, points: Float2) -> None:
         """Sets the endpoints of a Port."""
         p1, p2 = np.array(points[0]), np.array(points[1])
         self.center = (p1 + p2) / 2
@@ -280,23 +280,23 @@ class Port:
         self.width = np.sqrt(dx**2 + dy**2)
 
     @property
-    def normal(self):
+    def normal(self) -> ndarray:
         """Returns a vector normal to the Port."""
         dx = np.cos((self.orientation) * np.pi / 180)
         dy = np.sin((self.orientation) * np.pi / 180)
         return np.array([self.center, self.center + np.array([dx, dy])])
 
     @property
-    def x(self):
+    def x(self) -> float:
         """Returns the x-coordinate of the Port center."""
         return self.center[0]
 
     @property
-    def y(self):
+    def y(self) -> float:
         """Returns the y-coordinate of the Port center."""
         return self.center[1]
 
-    def rotate(self, angle: float = 45, center: Optional[Float2] = None):
+    def rotate(self, angle: float = 45, center: Optional[Float2] = None) -> Port:
         """Rotates a Port around the specified center point,
         if no centerpoint specified will rotate around (0,0).
 
@@ -310,9 +310,9 @@ class Port:
         self.center = _rotate_points(self.center, angle=angle, center=center)
         return self
 
-    def copy(self, new_uid: bool = True) -> Port:
+    def copy(self, name: Optional[str] = None, new_uid: bool = True) -> Port:
         new_port = Port(
-            name=self.name,
+            name=name or self.name,
             center=self.center,
             width=self.width,
             orientation=self.orientation,
