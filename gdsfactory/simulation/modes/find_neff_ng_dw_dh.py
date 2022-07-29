@@ -39,10 +39,10 @@ def find_neff_ng_dw_dh(
     """Computes group and effective index for different widths and heights.
 
     Args:
-        width: nominal waveguide width.
-        thickness: nominal waveguide thickness.
-        delta_width: delta width max.
-        delta_thickness: delta thickness max.
+        width: nominal waveguide width in um.
+        thickness: nominal waveguide thickness in um.
+        delta_width: delta width max in um.
+        delta_thickness: delta thickness max in um.
         wavelength: center wavelength (um).
         steps: number of steps to sweep in width and thickness.
         mode_number: mode index to compute (1: fundanmental mode).
@@ -54,7 +54,7 @@ def find_neff_ng_dw_dh(
         sx: supercell width (um).
         sy: supercell height (um).
         resolution: (pixels/um).
-        wavelength: wavelength.
+        wavelength: wavelength in um.
         num_bands: mode order.
         plot: if True plots mode.
         logscale: plots in logscale.
@@ -105,13 +105,6 @@ def plot_neff_ng_dw_dh(
         thickness: waveguide thickness in um.
         wavelength: in um.
         mode_number: 1 is the fundamental first order mode.
-
-    .. plot::
-        :include-source:
-
-        import gdsfactory.simulation.modes as gm
-
-        gm.plot_neff_ng_dw_dh()
     """
 
     filepath = pathlib.Path(PATH.modes / "mpb_dw_dh_dispersion.csv")
