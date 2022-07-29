@@ -409,7 +409,7 @@ class Component(Device):
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
 
-        origin = self.ports[port_id].position if port_id else (0, 0)
+        origin = self.ports[port_id].center if port_id else (0, 0)
         if h_mirror:
             _ref.reflect_h(port_id)
 
