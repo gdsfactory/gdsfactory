@@ -11,7 +11,9 @@ def C(
     size: Tuple[float, float] = (10.0, 20.0),
     layer: LayerSpec = "WG",
 ) -> Component:
-    """Generates a 'C' geometry with ports on both ends. Adapted from phidl
+    """C geometry with ports on both ends.
+
+    Adapted from phidl.
 
     Args:
         width: of the line.
@@ -19,6 +21,7 @@ def C(
         layer: layer spec.
 
     .. code::
+
          ______
         |       o1
         |   ___
