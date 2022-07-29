@@ -147,8 +147,11 @@ def _get_bundle_udirect_waypoints(
             f"Got {len(ports1)} {len(ports2)}"
         )
     if len({p.orientation for p in ports1 + ports2}) > 1:
+        orientations1 = [p.orientation for p in ports1]
+        orientations2 = [p.orientation for p in ports2]
         raise ValueError(
-            f"All ports should have the same orientation, got \n{ports1}\n{ports2}"
+            "All ports should have the same orientation. "
+            f"Got \n{orientations1}\n{orientations2}"
         )
 
     xs_end = [p.x for p in ports2]

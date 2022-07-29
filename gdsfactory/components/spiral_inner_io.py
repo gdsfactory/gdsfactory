@@ -97,7 +97,7 @@ def spiral_inner_io(
     component.add_port(name="o2", port=p2)
 
     # Create manhattan path going from west grating to westest port of bend 180
-    _pt = np.array(p1.position)
+    _pt = np.array(p1.center)
     pts_w = [_pt]
 
     for i in range(N):
@@ -127,7 +127,7 @@ def spiral_inner_io(
     component.add(bend180_ref)
 
     # Create manhattan path going from east grating to eastest port of bend 180
-    _pt = np.array(p2.position)
+    _pt = np.array(p2.center)
     pts_e = [_pt]
 
     for i in range(N):

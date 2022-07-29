@@ -347,7 +347,7 @@ def _generate_manhattan_bundle_waypoints(
 
             # If last point before the ports, adjust the separation to the end ports
             if j == len(way_segments) - 1:
-                end_point = ports2[i].position
+                end_point = ports2[i].center
                 route += [end_point]
 
                 if end_angle in [0, 180]:

@@ -235,9 +235,9 @@ def route_ports_to_x(
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
-        new_port = p.copy()
+        new_port = p.flip(name=f"{p.name}_new")
         new_port.orientation = angle
-        new_port.position = (x + extension_length, y)
+        new_port.center = (x + extension_length, y)
         l_elements += [
             routing_func(
                 p,
@@ -247,7 +247,7 @@ def route_ports_to_x(
                 **routing_func_args,
             )
         ]
-        l_ports += [flipped(new_port)]
+        l_ports += [new_port]
 
     y_optical_bot = y0_bottom
     for p in south_ports:
@@ -449,9 +449,9 @@ def route_ports_to_y(
     ):
         new_port = p.copy()
         new_port.orientation = angle
-        new_port.position = (x, y + extension_length)
+        new_port.center = (x, y + extension_length)
 
-        if np.sum(np.abs((new_port.position - p.position) ** 2)) < 1e-12:
+        if np.sum(np.abs((new_port.center - p.center) ** 2)) < 1e-12:
             l_ports += [flipped(new_port)]
             return
 

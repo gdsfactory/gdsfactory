@@ -340,7 +340,7 @@ def test_get_bundle_udirect(
 
 @pytest.mark.parametrize("angle", [0, 90, 180, 270])
 def test_get_bundle_u_indirect(
-    data_regression: DataRegressionFixture, angle, check: bool = True, dy=-200
+    data_regression: DataRegressionFixture, angle: int, check: bool = True, dy=-200
 ):
 
     xs1 = [-100, -90, -80, -55, -35] + [200, 210, 240]

@@ -405,7 +405,7 @@ class ComponentReference(DeviceReference):
         if angle == 0:
             return self
         if isinstance(center, (int, str)):
-            center = self.ports[center].position
+            center = self.ports[center].center
 
         if isinstance(center, Port):
             center = center.center

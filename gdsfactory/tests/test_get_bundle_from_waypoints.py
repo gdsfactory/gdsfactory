@@ -32,7 +32,7 @@ def test_get_bundle_from_waypointsB(
         for i in range(N)
     ]
 
-    p0 = ports1[0].position
+    p0 = ports1[0].center
 
     c = gf.Component("B")
     c.add_ports(ports1)
@@ -84,11 +84,11 @@ def test_get_bundle_from_waypointsC(
     c.add_ports(ports1)
     c.add_ports(ports2)
     waypoints = [
-        ports1[0].position + (200, 0),
-        ports1[0].position + (200, -200),
-        ports1[0].position + (400, -200),
+        ports1[0].center + (200, 0),
+        ports1[0].center + (200, -200),
+        ports1[0].center + (400, -200),
         (ports1[0].x + 400, ports2[0].y),
-        ports2[0].position,
+        ports2[0].center,
     ]
 
     routes = get_bundle_from_waypoints(ports1, ports2, waypoints)

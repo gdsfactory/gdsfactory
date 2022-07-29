@@ -422,8 +422,8 @@ def route_fiber_array(
         ports.append(port0)
         ports.append(port1)
 
-        p0 = port0.position
-        p1 = port1.position
+        p0 = port0.center
+        p1 = port1.center
 
         dy = bend90.info["dy"]
         dx = max(2 * dy, fiber_spacing / 2)
