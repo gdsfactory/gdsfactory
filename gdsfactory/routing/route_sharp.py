@@ -1,5 +1,5 @@
 """Adapted from phidl.routing."""
-from typing import Optional
+from typing import Optional, Tuple
 
 import numpy as np
 from phidl.routing import _get_rotated_basis
@@ -14,6 +14,7 @@ from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 def path_straight(port1: Port, port2: Port) -> Path:
     """Return waypoint path between port1 and port2 in a straight line.
+
     Useful when ports point directly at each other.
 
     Args:
@@ -37,8 +38,9 @@ def path_straight(port1: Port, port2: Port) -> Path:
 
 
 def path_L(port1: Port, port2: Port) -> Path:
-    """Return waypoint path between port1 and port2 in an L shape. Useful
-    when orthogonal ports can be directly connected with one turn.
+    """Return waypoint path between port1 and port2 in an L shape.
+
+    Useful when orthogonal ports can be directly connected with one turn.
 
     Args:
         port1: start port.
@@ -271,15 +273,11 @@ def route_sharp(
     manual_path=None,
     layer: Optional[LayerSpec] = None,
     cross_section: Optional[CrossSectionSpec] = None,
+    port_names: Tuple[str, str] = ("o1", "o2"),
     **kwargs
 ) -> Component:
 
-    """Convenience function that routes a path between ports and immediately
-    extrudes the path to create polygons. Has several waypoint path type
-    options.  Equivalent to e.g.
-        >>> P = pr.path_manhattan(port1, port2, radius)
-        >>> D = P.extrude(width)
-
+    """Returns Component route between ports.
 
     Args:
         port1: start port.
@@ -313,11 +311,7 @@ def route_sharp(
         manual_path : array-like[N][2] or Path
             Waypoint path for creating a manual route
         layer: Layer to put route on.
-        **kwargs :
-            Keyword arguments passed to the waypoint path function.
-
-    Returns:
-        D: Component containing the route and two ports (`1` and `2`) on either end.
+        kwargs: Keyword arguments passed to the waypoint path function.
 
     .. plot::
         :include-source:
@@ -332,7 +326,6 @@ def route_sharp(
         c2.movey(-200)
 
         route = c << gf.routing.route_sharp(c1.ports["e4"], c2.ports["e1"], path_type="L")
-        c.show(show_ports=True)
         c.plot()
 
     """
@@ -366,8 +359,12 @@ def route_sharp(
         D = P.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
-        X1 = CrossSection(width=port1.width, port_names=(1, 2), layer=layer, name="a")
-        X2 = CrossSection(width=port2.width, port_names=(1, 2), layer=layer, name="a")
+        X1 = CrossSection(
+            width=port1.width, port_names=port_names, layer=layer, name="x1"
+        )
+        X2 = CrossSection(
+            width=port2.width, port_names=port_names, layer=layer, name="x2"
+        )
         cross_section = transition(
             cross_section1=X1, cross_section2=X2, width_type="linear"
         )

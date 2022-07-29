@@ -62,7 +62,7 @@ def ring_double(
     .. plot::
         :include-source:
 
-        import gdsfactory.simulation simphony as gs
+        import gdsfactory.simulation.simphony as gs
         import gdsfactory.simulation.simphony.components as gc
 
         c = gc.ring_double()

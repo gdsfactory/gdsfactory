@@ -46,7 +46,7 @@ def mmi2x2(**kwargs):
     .. plot::
         :include-source:
 
-        import gdsfactory.simulation simphony as gs
+        import gdsfactory.simulation.simphony as gs
         import gdsfactory.simulation.simphony.components as gc
 
         c = gc.mmi2x2()
