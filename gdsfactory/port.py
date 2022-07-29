@@ -56,9 +56,7 @@ LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Tuple[LayerSpec, ...]
 Float2 = Tuple[float, float]
 
-midpoint_deprecation = (
-    "Port.midpoint is deprecated. Find and replace midpoint by center in all your code."
-)
+midpoint_deprecation = "Port.midpoint is deprecated. Find and replace 'midpoint' by 'center' in all your code."
 # position_deprecation = "Port.position is deprecated. Change to Port.center to continue using it in the future."
 # angle_deprecation = "Port.angle is deprecated. Change to Port.orientation to continue using it in the future."
 
