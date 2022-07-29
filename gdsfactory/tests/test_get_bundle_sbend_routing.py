@@ -18,11 +18,11 @@ def demo_get_bundle_sbend_routing(
     ys_right = [(i - N / 2) * pitch for i in range(N)]
 
     right_ports = [
-        gf.Port(f"R_{i}", midpoint=(0, ys_right[i]), width=0.5, orientation=180)
+        gf.Port(f"R_{i}", center=(0, ys_right[i]), width=0.5, orientation=180)
         for i in range(N)
     ]
     left_ports = [
-        gf.Port(f"L_{i}", midpoint=(-50, ys_left[i]), width=0.5, orientation=0)
+        gf.Port(f"L_{i}", center=(-50, ys_left[i]), width=0.5, orientation=0)
         for i in range(N)
     ]
     left_ports.reverse()
