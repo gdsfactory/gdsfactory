@@ -59,7 +59,7 @@ def fanout_component(
 
     port_settings.pop("name")
     port_settings.update(center=(port_extended_x, 0))
-    port_settings.update(orientation=(port.angle + 180) % 360)
+    port_settings.update(orientation=(port.orientation + 180) % 360)
 
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
 
@@ -102,7 +102,7 @@ def fanout_ports(
 
     port_settings.pop("name")
     port_settings.update(center=(port_extended_x, 0))
-    port_settings.update(orientation=(port.angle + 180) % 360)
+    port_settings.update(orientation=(port.orientation + 180) % 360)
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
 
     for p1, p2 in zip(ports1, ports2):
