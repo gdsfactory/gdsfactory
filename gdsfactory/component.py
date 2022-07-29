@@ -476,6 +476,7 @@ class Component(Device):
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
         """Add port to component.
+
         You can copy an existing port like add_port(port = existing_port) or
         create a new port add_port(myname, mycenter, mywidth, myorientation).
         You can also copy an existing port
@@ -543,12 +544,13 @@ class Component(Device):
     def add_ports(
         self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
     ) -> None:
-        """Add a list or dict of ports,
+        """Add a list or dict of ports.
+
         you can include a prefix to add to the new port names to avoid name conflicts.
 
         Args:
-            ports: list or dict of ports
-            prefix: to prepend to each port name
+            ports: list or dict of ports.
+            prefix: to prepend to each port name.
         """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
@@ -746,14 +748,15 @@ class Component(Device):
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
-        """Returns a flattened copy of the component
+        """Returns a flattened copy of the component.
+
         Flattens the hierarchy of the Component such that there are no longer
         any references to other Components. All polygons and labels from
         underlying references are copied and placed in the top-level Component.
         If single_layer is specified, all polygons are moved to that layer.
 
         Args:
-            single_layer: move all polygons are moved to the specified.
+            single_layer: move all polygons are moved to the specified (optional).
         """
 
         component_flat = self.copy()
@@ -1265,10 +1268,10 @@ class Component(Device):
 
         return add_padding(component=self, **kwargs)
 
-    def absorb(self, reference):
-        """Flattens and absorbs polygons from an underlying ComponentReference.
-        into the Component, destroying the reference in the process but keeping
-        the polygon geometry.
+    def absorb(self, reference) -> "Component":
+        """Flattens and absorbs polygons from  ComponentReference into the Component
+
+        It destroys the reference in the process but keeping the polygon geometry.
 
         remove when PR gets approved and there is a new release
         https://github.com/amccaugh/phidl/pull/135
