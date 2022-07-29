@@ -91,8 +91,8 @@ def bezier(
     p0 = path_points[0]
     p1 = path_points[-1]
     c.add_polygon(polygon_points, layer=layer)
-    c.add_port(name="o1", midpoint=p0, width=width, orientation=a0, layer=layer)
-    c.add_port(name="o2", midpoint=p1, width=width, orientation=a1, layer=layer)
+    c.add_port(name="o1", center=p0, width=width, orientation=a0, layer=layer)
+    c.add_port(name="o2", center=p1, width=width, orientation=a1, layer=layer)
 
     curv = curvature(path_points, t)
     length = gf.snap.snap_to_grid(path_length(path_points))

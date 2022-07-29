@@ -122,7 +122,7 @@ def get_bundle_from_waypoints(
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
-    waypoints = [ports1[0].midpoint] + list(waypoints) + [ports2[0].midpoint]
+    waypoints = [ports1[0].center] + list(waypoints) + [ports2[0].center]
 
     # Sort the ports such that the bundle connect the correct corresponding ports.
     angles_to_sorttypes = {
@@ -334,7 +334,7 @@ def _generate_manhattan_bundle_waypoints(
 
         for j, seg in enumerate(way_segments):
             if j == 0:
-                start_point = start_port.midpoint
+                start_point = start_port.center
                 seg_sep = offsets_start[i]
             else:
                 seg_sep = offsets_mid[i]

@@ -467,7 +467,7 @@ class Component(Device):
     def add_port(
         self,
         name: Optional[Union[str, int, object]] = None,
-        midpoint: Optional[Tuple[float, float]] = None,
+        center: Optional[Tuple[float, float]] = None,
         width: Optional[float] = None,
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
@@ -477,13 +477,13 @@ class Component(Device):
     ) -> Port:
         """Add port to component.
         You can copy an existing port like add_port(port = existing_port) or
-        create a new port add_port(myname, mymidpoint, mywidth, myorientation).
+        create a new port add_port(myname, mycenter, mywidth, myorientation).
         You can also copy an existing port
         with a new name add_port(port = existing_port, name = new_name)
 
         Args:
             name: port name.
-            midpoint: x, y.
+            center: x, y.
             width: in um.
             orientation: in deg.
             port: optional port.
@@ -511,20 +511,20 @@ class Component(Device):
         else:
             if width is None:
                 raise ValueError("Port needs width parameter (um).")
-            if midpoint is None:
-                raise ValueError("Port needs midpoint parameter (x, y) um.")
+            if center is None:
+                raise ValueError("Port needs center parameter (x, y) um.")
             half_width = width / 2
             half_width_correct = snap_to_grid(half_width, nm=1)
             if not np.isclose(half_width, half_width_correct):
                 warnings.warn(
                     f"port width = {width} will create off-grid points.\n"
                     f"You can fix it by changing width to {2*half_width_correct}\n"
-                    f"port {name}, {midpoint}  {orientation} deg",
+                    f"port {name}, {center}  {orientation} deg",
                     stacklevel=3,
                 )
             p = Port(
                 name=name,
-                midpoint=(snap_to_grid(midpoint[0]), snap_to_grid(midpoint[1])),
+                center=(snap_to_grid(center[0]), snap_to_grid(center[1])),
                 width=snap_to_grid(width),
                 orientation=orientation,
                 parent=self,

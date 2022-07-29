@@ -147,7 +147,7 @@ def import_gds(
                 if port_name not in component.ports:
                     component.add_port(
                         name=port_name,
-                        midpoint=port.midpoint,
+                        center=port.center,
                         width=port.width,
                         orientation=port.orientation,
                         layer=tuple(port.layer),

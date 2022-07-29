@@ -135,7 +135,7 @@ def gen_sref(
     if port_name is None:
         port_position = np.array([0, 0])
     else:
-        port_position = structure.ports[port_name].midpoint
+        port_position = structure.ports[port_name].center
 
     ref = gf.ComponentReference(component=structure, origin=(0, 0))
 
@@ -255,8 +255,8 @@ def _generate_route_manhattan_points(
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
-    p_input = input_port.midpoint
-    p_output = output_port.midpoint
+    p_input = input_port.center
+    p_output = output_port.center
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
@@ -465,7 +465,7 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = (p.midpoint for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
+    b1, b2 = (p.center for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -548,10 +548,10 @@ def get_route_error(
     c.add(path)
     ref = ComponentReference(c)
     port1 = gf.Port(
-        name="p1", midpoint=points[0], width=width, layer=layer_path, orientation=0
+        name="p1", center=points[0], width=width, layer=layer_path, orientation=0
     )
     port2 = gf.Port(
-        name="p2", midpoint=points[1], width=width, layer=layer_path, orientation=0
+        name="p2", center=points[1], width=width, layer=layer_path, orientation=0
     )
 
     point_marker = gf.components.rectangle(
@@ -741,9 +741,9 @@ def round_corners(
             next_port = matching_ports[0]
             other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
             other_port = bend_ref.ports[list(other_port_name)[0]]
-            bend_points.append(next_port.midpoint)
-            bend_points.append(other_port.midpoint)
-            previous_port_point = other_port.midpoint
+            bend_points.append(next_port.center)
+            bend_points.append(other_port.center)
+            previous_port_point = other_port.center
 
         try:
             straight_sections += [
@@ -761,7 +761,7 @@ def round_corners(
                 references=references,
             )
 
-        p0_straight = bend_ref.ports[pname_north].midpoint
+        p0_straight = bend_ref.ports[pname_north].center
         bend_orientation = bend_ref.ports[pname_north].orientation
 
     bend_points.append(points[-1])
@@ -843,7 +843,7 @@ def round_corners(
             wg_refs += [taper_ref]
 
             # Update start straight position
-            straight_origin = taper_ref.ports[pname_east].midpoint
+            straight_origin = taper_ref.ports[pname_east].center
 
             # Straight waveguide
             kwargs_wide = kwargs.copy()

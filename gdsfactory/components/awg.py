@@ -45,7 +45,7 @@ def free_propagation_region(
     if inputs == 1:
         c.add_port(
             "o1",
-            midpoint=(0, 0),
+            center=(0, 0),
             width=wg_width,
             orientation=180,
             layer=layer,
@@ -56,7 +56,7 @@ def free_propagation_region(
         for i, y in enumerate(y):
             c.add_port(
                 f"W{i}",
-                midpoint=(0, y),
+                center=(0, y),
                 width=wg_width,
                 orientation=0,
                 layer=layer,
@@ -67,7 +67,7 @@ def free_propagation_region(
     for i, y in enumerate(y):
         c.add_port(
             f"E{i}",
-            midpoint=(length, y),
+            center=(length, y),
             width=wg_width,
             orientation=0,
             layer=layer,

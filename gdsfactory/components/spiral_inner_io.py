@@ -82,13 +82,13 @@ def spiral_inner_io(
 
     p1 = gf.Port(
         name="o1",
-        midpoint=(0, y_straight_inner_top),
+        center=(0, y_straight_inner_top),
         orientation=270,
         cross_section=xs_bend,
     )
     p2 = gf.Port(
         name="o2",
-        midpoint=(grating_spacing, y_straight_inner_top),
+        center=(grating_spacing, y_straight_inner_top),
         orientation=270,
         cross_section=xs_bend,
     )

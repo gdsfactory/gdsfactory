@@ -182,7 +182,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )
@@ -193,7 +193,7 @@ def add_grating_couplers_with_loopback_fiber_single(
             )
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )

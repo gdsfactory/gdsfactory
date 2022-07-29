@@ -36,7 +36,7 @@ def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
     for port_name, port in device.port.items():
         c.add_port(
             name=port_name,
-            midpoint=(port.x, port.y),
+            center=(port.x, port.y),
             orientation=port.a,
             width=port.w,
             layer=foundry.layer_to_gds_label.get(port.layer, (1, 0)),

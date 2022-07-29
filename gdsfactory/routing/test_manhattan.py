@@ -19,16 +19,16 @@ def test_manhattan() -> Component:
     layer = (1, 0)
 
     inputs = [
-        Port("in1", midpoint=(10, 5), width=0.5, orientation=90, layer=layer),
-        # Port("in2",midpoint= (-10, 20), width=0.5, 0),
-        # Port("in3",midpoint= (10, 30), width=0.5, 0),
-        # Port("in4",midpoint= (-10, -5), width=0.5, 90),
-        # Port("in5",midpoint= (0, 0), width=0.5, 0),
-        # Port("in6",midpoint= (0, 0), width=0.5, 0),
+        Port("in1", center=(10, 5), width=0.5, orientation=90, layer=layer),
+        # Port("in2",center= (-10, 20), width=0.5, 0),
+        # Port("in3",center= (10, 30), width=0.5, 0),
+        # Port("in4",center= (-10, -5), width=0.5, 90),
+        # Port("in5",center= (0, 0), width=0.5, 0),
+        # Port("in6",center= (0, 0), width=0.5, 0),
     ]
 
     outputs = [
-        Port("in1", midpoint=(290, -60), width=0.5, orientation=180, layer=layer),
+        Port("in1", center=(290, -60), width=0.5, orientation=180, layer=layer),
         # Port("in2", (-100, 20), 0.5, 0),
         # Port("in3", (100, -25), 0.5, 0),
         # Port("in4", (-150, -65), 0.5, 270),

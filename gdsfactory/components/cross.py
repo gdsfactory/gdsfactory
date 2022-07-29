@@ -34,7 +34,7 @@ def cross(
             width=width,
             layer=layer,
             orientation=0,
-            midpoint=(+length / 2, 0),
+            center=(+length / 2, 0),
             port_type=port_type,
         )
         c.add_port(
@@ -42,7 +42,7 @@ def cross(
             width=width,
             layer=layer,
             orientation=180,
-            midpoint=(-length / 2, 0),
+            center=(-length / 2, 0),
             port_type=port_type,
         )
         c.add_port(
@@ -50,7 +50,7 @@ def cross(
             width=width,
             layer=layer,
             orientation=90,
-            midpoint=(0, length / 2),
+            center=(0, length / 2),
             port_type=port_type,
         )
         c.add_port(
@@ -58,7 +58,7 @@ def cross(
             width=width,
             layer=layer,
             orientation=270,
-            midpoint=(0, -length / 2),
+            center=(0, -length / 2),
             port_type=port_type,
         )
         c.auto_rename_ports()

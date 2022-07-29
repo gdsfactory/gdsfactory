@@ -51,8 +51,8 @@ def add_port_markers(gdspath, csvpath, marker_size=20, marker_layer=(203, 0)):
                 size=(marker_size, marker_size), layer=marker_layer
             )
 
-            x = port["midpoint"][0]
-            y = port["midpoint"][1]
+            x = port["center"][0]
+            y = port["center"][1]
             rotation = cell["rotation"]
             x, y = np.array(_rotate_points((x, y), angle=rotation)).flatten()
 
@@ -100,8 +100,8 @@ if __name__ == "__main__":
                 size=(marker_size, marker_size), layer=marker_layer
             )
 
-            x = port["midpoint"][0]
-            y = port["midpoint"][1]
+            x = port["center"][0]
+            y = port["center"][1]
             rotation = cell["rotation"]
             x, y = np.array(_rotate_points((x, y), angle=rotation)).flatten()
 

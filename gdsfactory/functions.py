@@ -190,7 +190,7 @@ def move_port_to_zero(component: Component, port_name: str = "o1"):
         raise ValueError(
             f"port_name = {port_name!r} not in {list(component.ports.keys())}"
         )
-    return move(component, -component.ports[port_name].midpoint)
+    return move(component, -component.ports[port_name].center)
 
 
 def update_info(component: Component, **kwargs) -> Component:
