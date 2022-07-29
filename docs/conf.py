@@ -24,7 +24,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
     "sphinx_click",
-    # "sphinx_markdown_tables",
+    "sphinx_markdown_tables",
     "sphinx_copybutton",
     "sphinxcontrib.autodoc_pydantic",
     "sphinx.ext.autosummary",
@@ -55,7 +55,6 @@ source_suffix = {
 language = "en"
 myst_html_meta = {
     "description lang=en": "metadata description",
-    "description lang=fr": "description des métadonnées",
     "keywords": "Sphinx, MyST",
     "property=og:locale": "en_US",
 }
