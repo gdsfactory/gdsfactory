@@ -56,9 +56,11 @@ LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Tuple[LayerSpec, ...]
 Float2 = Tuple[float, float]
 
-midpoint_deprecation = "Port.midpoint is deprecated. Change to Port.center to continue using it in the future."
-position_deprecation = "Port.position is deprecated. Change to Port.center to continue using it in the future."
-angle_deprecation = "Port.angle is deprecated. Change to Port.orientation to continue using it in the future."
+midpoint_deprecation = (
+    "Port.midpoint is deprecated. Find and replace midpoint by center in all your code."
+)
+# position_deprecation = "Port.position is deprecated. Change to Port.center to continue using it in the future."
+# angle_deprecation = "Port.angle is deprecated. Change to Port.orientation to continue using it in the future."
 
 
 class PortNotOnGridError(ValueError):
@@ -207,26 +209,26 @@ class Port:
             port_type=self.port_type,
         )
 
-    @property
-    def angle(self):
-        """convenient alias for orientation."""
-        warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
-        return self.orientation
+    # @property
+    # def angle(self):
+    #     """convenient alias for orientation."""
+    #     warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
+    #     return self.orientation
 
-    @angle.setter
-    def angle(self, a) -> None:
-        warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
-        self.orientation = a
+    # @angle.setter
+    # def angle(self, a) -> None:
+    #     warnings.warn(angle_deprecation, DeprecationWarning, stacklevel=2)
+    #     self.orientation = a
 
-    @property
-    def position(self) -> Tuple[float, float]:
-        warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
-        return self.center
+    # @property
+    # def position(self) -> Tuple[float, float]:
+    #     warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
+    #     return self.center
 
-    @position.setter
-    def position(self, p) -> None:
-        warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
-        self.center = np.array(p, dtype="float64")
+    # @position.setter
+    # def position(self, p) -> None:
+    #     warnings.warn(position_deprecation, DeprecationWarning, stacklevel=2)
+    #     self.center = np.array(p, dtype="float64")
 
     def move(self, vector) -> None:
         self.center = self.center + np.array(vector)
