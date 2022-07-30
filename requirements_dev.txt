@@ -16,7 +16,7 @@ pytest
 pytest-cov
 pytest-regressions
 qrcode
-sphinx>=5.1.1
+sphinx
 sphinx-autodoc-typehints
 sphinx-book-theme==0.3.2
 sphinx-click
