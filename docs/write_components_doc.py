@@ -19,12 +19,13 @@ skip = {
     "dataclasses",
     "library",
     "waveguide_template",
-    "extend_ports_list",
 }
 
 skip_plot = [
     "component_lattice",
     "component_sequence",
+    "extend_port",
+    "extend_ports_list",
 ]
 
 skip_settings = {"vias"}
@@ -34,7 +35,7 @@ with open(filepath, "w+") as f:
     f.write(
         """
 
-Here is a list of generic component factories that you can customize for your fab or use it as an inspiration to build your own.
+You can customize the Gdsfactory generic PDK Pcells for your fab and use it as an inspiration to build your own.
 
 
 Components

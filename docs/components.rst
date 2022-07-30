@@ -1031,14 +1031,6 @@ extend_port
 
 .. autofunction:: gdsfactory.components.extend_port
 
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.extend_port()
-  c.plot()
-
 
 
 extend_ports
@@ -1053,6 +1045,13 @@ extend_ports
 
   c = gf.components.extend_ports(length=5.0, port_type='optical', centered=False)
   c.plot()
+
+
+
+extend_ports_list
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.extend_ports_list
 
 
 
