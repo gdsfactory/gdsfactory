@@ -27,21 +27,20 @@ def array_with_via(
     port_offset: Optional[Float2] = None,
     **kwargs,
 ) -> Component:
-    """Returns an array of components in X axis
-    with fanout waveguides facing west
+    """Returns an array of vias in X axis with fanout waveguides facing west.
 
     Args:
         component: to replicate in the array.
         columns: number of components.
-        spacing: for the array.
-        via_spacing: for fanout.
-        straight_length: length of the straight at the end.
+        spacing: for the array in um.
+        via_spacing: for fanout in um.
+        straight_length: length of the straight at the end in um.
         waveguide: waveguide definition.
         cross_section: spec.
         via_stack: spec.
-        via_stack_dy: via_stack offset.
+        via_stack_dy: via_stack offset in um.
         port_orientation: 180: facing west.
-        port_offset: Optional port movement.
+        port_offset: Optional port movement in um.
         kwargs: cross_section settings.
     """
 

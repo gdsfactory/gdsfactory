@@ -45,7 +45,7 @@ def taper_from_csv(
 
     c.add_port(
         name="o1",
-        midpoint=(xs[0], 0),
+        center=(xs[0], 0),
         width=2 * ys[0],
         orientation=180,
         layer=layer,
@@ -53,7 +53,7 @@ def taper_from_csv(
     )
     c.add_port(
         name="o2",
-        midpoint=(xs[-1], 0),
+        center=(xs[-1], 0),
         width=2 * ys[-1],
         orientation=0,
         layer=layer,

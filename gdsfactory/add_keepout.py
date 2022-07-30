@@ -15,7 +15,8 @@ def add_keepout(
     margin: float = 2.0,
 ) -> Component:
     """Adds keepout after looking up all polygons in a cell.
-    You can also use add_padding
+
+    You can also use add_padding.
 
     Args:
         component: to add keepout.

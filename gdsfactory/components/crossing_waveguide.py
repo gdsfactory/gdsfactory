@@ -69,7 +69,7 @@ def crossing_arm(
     c.add_polygon(taper_pts, layer=layer_wg)
     c.add_port(
         name="o1",
-        midpoint=(-a, 0),
+        center=(-a, 0),
         orientation=180,
         width=width,
         layer=layer_wg,
@@ -78,7 +78,7 @@ def crossing_arm(
 
     c.add_port(
         name="o2",
-        midpoint=(a, 0),
+        center=(a, 0),
         orientation=0,
         width=width,
         layer=layer_wg,
@@ -217,7 +217,7 @@ def crossing_etched(
     for i, (p, angle) in enumerate(zip(positions, angles)):
         c.add_port(
             name=str(i),
-            midpoint=p,
+            center=p,
             orientation=angle,
             width=width,
             layer=layer_wg,
@@ -266,10 +266,10 @@ def crossing45(
     x.rotate(45)
 
     # Add bends
-    p_e = x.ports["o3"].midpoint
-    p_w = x.ports["o1"].midpoint
-    p_n = x.ports["o2"].midpoint
-    p_s = x.ports["o4"].midpoint
+    p_e = x.ports["o3"].center
+    p_w = x.ports["o1"].center
+    p_n = x.ports["o2"].center
+    p_s = x.ports["o4"].center
 
     # Flatten the crossing - not an SRef anymore
     c.absorb(x)

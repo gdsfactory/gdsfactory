@@ -200,8 +200,8 @@ def get_route_from_waypoints(
         obstacle2.xmin = 25
 
 
-        p0x, p0y = left.ports["o2"].midpoint
-        p1x, p1y = right.ports["o2"].midpoint
+        p0x, p0y = left.ports["o2"].center
+        p1x, p1y = right.ports["o2"].center
         o = 10  # vertical offset to overcome bottom obstacle
         ytop = 20
 

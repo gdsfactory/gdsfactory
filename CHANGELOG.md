@@ -1,5 +1,13 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.14.0](https://github.com/gdsfactory/gdsfactory/pull/553)
+
+- Port has optional width that can get it from the cross_section
+- Port does not inherit from phidl.Port. In python there should be only one obvious way to do things.
+    * Deprecate Port.midpoint. Use Port.center instead.
+    * Deprecate Port.position. Use Port.center instead.
+    * Deprecate Port.angle. Use Port.orientation instead.
+
 ## [5.13.0](https://github.com/gdsfactory/gdsfactory/pull/552)
 
 - add gdsfactory.simulation.simphony.model_from_csv
@@ -612,7 +620,7 @@
   - add shear_angle attribute to Port
   - Update test_shear_face_path.py
 
-- remove default port width, layer and midpoint
+- remove default port width, layer and center
 
 ## [5.0.7](https://github.com/gdsfactory/gdsfactory/pull/281)
 

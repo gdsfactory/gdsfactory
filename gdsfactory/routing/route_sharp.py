@@ -1,5 +1,5 @@
 """Adapted from phidl.routing."""
-from typing import Optional
+from typing import Optional, Tuple
 
 import numpy as np
 from phidl.routing import _get_rotated_basis
@@ -14,6 +14,7 @@ from gdsfactory.types import CrossSectionSpec, LayerSpec
 
 def path_straight(port1: Port, port2: Port) -> Path:
     """Return waypoint path between port1 and port2 in a straight line.
+
     Useful when ports point directly at each other.
 
     Args:
@@ -24,7 +25,7 @@ def path_straight(port1: Port, port2: Port) -> Path:
         np.abs(np.mod(port1.orientation - port2.orientation, 360)), 3
     )
     e1, e2 = _get_rotated_basis(port1.orientation)
-    displacement = port2.midpoint - port1.midpoint
+    displacement = port2.center - port1.center
     xrel = np.round(
         np.dot(displacement, e1), 3
     )  # relative position of port 2, forward/backward
@@ -33,12 +34,13 @@ def path_straight(port1: Port, port2: Port) -> Path:
     )  # relative position of port 2, left/right
     if (delta_orientation not in (0, 180, 360)) or (yrel != 0) or (xrel <= 0):
         raise ValueError("path_straight(): ports must point directly at each other.")
-    return Path(np.array([port1.midpoint, port2.midpoint]))
+    return Path(np.array([port1.center, port2.center]))
 
 
 def path_L(port1: Port, port2: Port) -> Path:
-    """Return waypoint path between port1 and port2 in an L shape. Useful
-    when orthogonal ports can be directly connected with one turn.
+    """Return waypoint path between port1 and port2 in an L shape.
+
+    Useful when orthogonal ports can be directly connected with one turn.
 
     Args:
         port1: start port.
@@ -51,8 +53,8 @@ def path_L(port1: Port, port2: Port) -> Path:
         raise ValueError("path_L(): ports must be orthogonal.")
     e1, e2 = _get_rotated_basis(port1.orientation)
     # assemble waypoints
-    pt1 = port1.midpoint
-    pt3 = port2.midpoint
+    pt1 = port1.center
+    pt3 = port2.center
     delta_vec = pt3 - pt1
     pt2 = pt1 + np.dot(delta_vec, e1) * e1
     return Path(np.array([pt1, pt2, pt3]))
@@ -78,8 +80,8 @@ def path_U(port1: Port, port2: Port, length1=200) -> Path:
     e1 = np.array([np.cos(theta), np.sin(theta)])
     e2 = np.array([-1 * np.sin(theta), np.cos(theta)])
     # assemble waypoints
-    pt1 = port1.midpoint
-    pt4 = port2.midpoint
+    pt1 = port1.center
+    pt4 = port2.center
     pt2 = pt1 + length1 * e1  # outward by length1 distance
     delta_vec = pt4 - pt2
     pt3 = pt2 + np.dot(delta_vec, e2) * e2
@@ -107,9 +109,9 @@ def path_J(port1: Port, port2: Port, length1=200, length2=200) -> Path:
     e1, _ = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble waypoints
-    pt1 = port1.midpoint
+    pt1 = port1.center
     pt2 = pt1 + length1 * e1  # outward from port1 by length1
-    pt5 = port2.midpoint
+    pt5 = port2.center
     pt4 = pt5 + length2 * e2  # outward from port2 by length2
     delta_vec = pt4 - pt2
     pt3 = pt2 + np.dot(delta_vec, e2) * e2  # move orthogonally in e2 direction
@@ -139,10 +141,10 @@ def path_C(port1: Port, port2: Port, length1=100, left1=100, length2=100) -> Pat
     e1, e_left = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble route points
-    pt1 = port1.midpoint
+    pt1 = port1.center
     pt2 = pt1 + length1 * e1  # outward from port1 by length1
     pt3 = pt2 + left1 * e_left  # leftward by left1
-    pt6 = port2.midpoint
+    pt6 = port2.center
     pt5 = pt6 + length2 * e2  # outward from port2 by length2
     delta_vec = pt5 - pt3
     pt4 = pt3 + np.dot(delta_vec, e1) * e1  # move orthogonally in e1 direction
@@ -162,7 +164,7 @@ def path_manhattan(port1: Port, port2: Port, radius) -> Path:
     """
     radius = radius + 0.1  # ensure space for bend radius
     e1, e2 = _get_rotated_basis(port1.orientation)
-    displacement = port2.midpoint - port1.midpoint
+    displacement = port2.center - port1.center
     xrel = np.round(
         np.dot(displacement, e1), 3
     )  # port2 position, forward(+)/backward(-) from port 1
@@ -233,9 +235,9 @@ def path_Z(port1: Port, port2: Port, length1=100, length2=100) -> Path:
     e1, _ = _get_rotated_basis(port1.orientation)
     e2, _ = _get_rotated_basis(port2.orientation)
     # assemble route  points
-    pt1 = port1.midpoint
+    pt1 = port1.center
     pt2 = pt1 + length1 * e1  # outward from port1 by length1
-    pt4 = port2.midpoint
+    pt4 = port2.center
     pt3 = pt4 + length2 * e2  # outward from port2 by length2
     return Path(np.array([pt1, pt2, pt3, pt4]))
 
@@ -253,8 +255,8 @@ def path_V(port1: Port, port2: Port) -> Path:
     e2, _ = _get_rotated_basis(port2.orientation)
 
     # assemble route  points
-    pt1 = port1.midpoint
-    pt3 = port2.midpoint
+    pt1 = port1.center
+    pt3 = port2.center
 
     # solve for intersection
     E = np.column_stack((e1, -1 * e2))
@@ -271,15 +273,11 @@ def route_sharp(
     manual_path=None,
     layer: Optional[LayerSpec] = None,
     cross_section: Optional[CrossSectionSpec] = None,
+    port_names: Tuple[str, str] = ("o1", "o2"),
     **kwargs
 ) -> Component:
 
-    """Convenience function that routes a path between ports and immediately
-    extrudes the path to create polygons. Has several waypoint path type
-    options.  Equivalent to e.g.
-        >>> P = pr.path_manhattan(port1, port2, radius)
-        >>> D = P.extrude(width)
-
+    """Returns Component route between ports.
 
     Args:
         port1: start port.
@@ -313,11 +311,7 @@ def route_sharp(
         manual_path : array-like[N][2] or Path
             Waypoint path for creating a manual route
         layer: Layer to put route on.
-        **kwargs :
-            Keyword arguments passed to the waypoint path function.
-
-    Returns:
-        D: Component containing the route and two ports (`1` and `2`) on either end.
+        kwargs: Keyword arguments passed to the waypoint path function.
 
     .. plot::
         :include-source:
@@ -332,7 +326,6 @@ def route_sharp(
         c2.movey(-200)
 
         route = c << gf.routing.route_sharp(c1.ports["e4"], c2.ports["e1"], path_type="L")
-        c.show(show_ports=True)
         c.plot()
 
     """
@@ -366,8 +359,12 @@ def route_sharp(
         D = P.extrude(cross_section=cross_section)
     elif width is None:
         layer = layer or port1.layer
-        X1 = CrossSection(width=port1.width, port_names=(1, 2), layer=layer, name="a")
-        X2 = CrossSection(width=port2.width, port_names=(1, 2), layer=layer, name="a")
+        X1 = CrossSection(
+            width=port1.width, port_names=port_names, layer=layer, name="x1"
+        )
+        X2 = CrossSection(
+            width=port2.width, port_names=port_names, layer=layer, name="x2"
+        )
         cross_section = transition(
             cross_section1=X1, cross_section2=X2, width_type="linear"
         )

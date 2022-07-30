@@ -134,7 +134,6 @@ instances:
           name: mmi1x2_length_mmi2_width_mmi4
     settings:
       do_permutations: true
-      doe: mmi1x2
       settings:
         length_mmi:
         - 2

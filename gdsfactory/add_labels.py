@@ -89,7 +89,7 @@ def get_input_label(
     layer, texttype = pd._parse_layer(layer_label)
     return Label(
         text=text,
-        position=gc.ports[gc_port_name].midpoint,
+        position=gc.ports[gc_port_name].center,
         anchor="o",
         layer=layer,
         texttype=texttype,
@@ -127,7 +127,7 @@ def get_input_label_electrical(
     layer, texttype = pd._parse_layer(layer_label)
     return Label(
         text=text,
-        position=port.midpoint,
+        position=port.center,
         anchor="o",
         layer=layer,
         texttype=texttype,
@@ -183,7 +183,7 @@ def add_siepic_labels(
     library: str = "auto",
     label_layer: LayerSpec = "DEVREC",
     spice_params: Optional[Union[Dict, List, str]] = None,
-    label_sep: float = 0.2,
+    label_spacing: float = 0.2,
 ) -> Component:
     """Adds labels and returns the same component.
 
@@ -197,7 +197,7 @@ def add_siepic_labels(
         spice_params: spice parameters (in microns).
             Either pass in a dict with parameter, value pairs, or pass
             a list of values to extract from component info.
-        label_sep: separation distance between labels in um.
+        label_spacing: separation distance between labels in um.
     """
 
     c = component
@@ -225,7 +225,7 @@ def add_siepic_labels(
     c.unlock()
     for i, text in enumerate(labels):
         c.add_label(
-            text=text, position=(0, i * label_sep), layer=label_layer, anchor="w"
+            text=text, position=(0, i * label_spacing), layer=label_layer, anchor="w"
         )
     c.lock()
     return c
@@ -247,8 +247,7 @@ def add_labels_to_ports(
         port_type: to select ports.
 
     keyword Args:
-        layer: port GDS layer.
-        prefix: with in port name.
+        layer: GDS port layer.
         orientation: port orientation in degrees.
         width: port width.
         layers_excluded: List of port layers to exclude.
@@ -259,7 +258,7 @@ def add_labels_to_ports(
     component.unlock()
     for port in ports:
         text = f"{prefix}{port.name}"
-        component.add_label(text=text, position=port.midpoint, layer=label_layer)
+        component.add_label(text=text, position=port.center, layer=label_layer)
 
     return component
 

@@ -10,7 +10,7 @@ get_bundle calls different function depending on the port orientation.
 
 """
 from functools import partial
-from typing import Callable, List, Optional, Union, cast
+from typing import Callable, List, Optional, Union
 
 import numpy as np
 from numpy import ndarray
@@ -115,8 +115,8 @@ def get_bundle(
             a1 = 90
             a2 = a1 + 180
 
-            ports1 = [gf.Port(f"top_{i}", (xs1[i], +0), 0.5, a1, layer=(1,0)) for i in range(N)]
-            ports2 = [gf.Port(f"bot_{i}", (xs2[i], dy), 0.5, a2, layer=(1,0)) for i in range(N)]
+            ports1 = [gf.Port(f"top_{i}", center=(xs1[i], +0), width=0.5, orientation=a1, layer=(1,0)) for i in range(N)]
+            ports2 = [gf.Port(f"bot_{i}", center=(xs2[i], dy), width=0.5, orientation=a2, layer=(1,0)) for i in range(N)]
 
             c = gf.Component()
             routes = gf.routing.get_bundle(ports1, ports2)
@@ -157,9 +157,6 @@ def get_bundle(
 
     if len(ports1) != len(ports2):
         raise ValueError(f"ports1={len(ports1)} and ports2={len(ports2)} must be equal")
-
-    ports1 = cast(List[Port], ports1)
-    ports2 = cast(List[Port], ports2)
 
     if sort_ports:
         ports1, ports2 = sort_ports_function(ports1, ports2)
@@ -619,11 +616,11 @@ def get_bundle_same_axis_no_grouping(
     # Compute max_j and min_j
     for i in range(len(ports1)):
         if axis in {"X", "x"}:
-            x1 = ports1[i].position[1]
-            x2 = ports2[i].position[1]
+            x1 = ports1[i].center[1]
+            x2 = ports2[i].center[1]
         else:
-            x1 = ports1[i].position[0]
-            x2 = ports2[i].position[0]
+            x1 = ports1[i].center[0]
+            x2 = ports2[i].center[0]
         if x2 >= x1:
             j += 1
         else:
@@ -647,11 +644,11 @@ def get_bundle_same_axis_no_grouping(
     for i, _ in enumerate(ports1):
 
         if axis in {"X", "x"}:
-            x1 = ports1[i].position[1]
-            x2 = ports2[i].position[1]
+            x1 = ports1[i].center[1]
+            x2 = ports2[i].center[1]
         else:
-            x1 = ports1[i].position[0]
-            x2 = ports2[i].position[0]
+            x1 = ports1[i].center[0]
+            x2 = ports2[i].center[0]
 
         s_straight = start_straight_length - j * sep
         e_straight = j * sep + end_straight_length

@@ -60,7 +60,7 @@ def nxn(
         for i, y in enumerate(y):
             c.add_port(
                 f"W{i}",
-                midpoint=(x, y),
+                center=(x, y),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -81,7 +81,7 @@ def nxn(
         for i, y in enumerate(y):
             c.add_port(
                 f"E{i}",
-                midpoint=(x, y),
+                center=(x, y),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -102,7 +102,7 @@ def nxn(
         for i, x in enumerate(x):
             c.add_port(
                 f"N{i}",
-                midpoint=(x, y),
+                center=(x, y),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,
@@ -122,7 +122,7 @@ def nxn(
         for i, x in enumerate(x):
             c.add_port(
                 f"S{i}",
-                midpoint=(x, y),
+                center=(x, y),
                 width=wg_width,
                 orientation=orientation,
                 layer=layer,

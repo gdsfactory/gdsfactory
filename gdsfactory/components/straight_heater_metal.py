@@ -92,14 +92,14 @@ def straight_heater_metal_undercut(
 
     if via_stack:
         via_stackw = via_stacke = gf.get_component(via_stack)
-        via_stack_west_midpoint = sequence.aliases["-1"].size_info.cw
-        via_stack_east_midpoint = sequence.aliases["-2"].size_info.ce
+        via_stack_west_center = sequence.aliases["-1"].size_info.cw
+        via_stack_east_center = sequence.aliases["-2"].size_info.ce
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.move(via_stack_west_midpoint - (dx, 0))
-        via_stack_east.move(via_stack_east_midpoint + (dx, 0))
+        via_stack_west.move(via_stack_west_center - (dx, 0))
+        via_stack_east.move(via_stack_east_center + (dx, 0))
         c.add_port(
             "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
         )
@@ -145,14 +145,14 @@ straight_heater_metal_undercut_90_90 = gf.partial(
 
 def test_ports():
     c = straight_heater_metal(length=50.0)
-    assert c.ports["o2"].midpoint[0] == 50.0, c.ports["o2"].midpoint[0]
+    assert c.ports["o2"].center[0] == 50.0, c.ports["o2"].center[0]
     return c
 
 
 if __name__ == "__main__":
     # c = test_ports()
     # c = straight_heater_metal_undercut()
-    # print(c.ports['o2'].midpoint[0])
+    # print(c.ports['o2'].center[0])
     # c.pprint_ports()
     # c = straight_heater_metal(heater_width=5, length=50.0)
 

@@ -85,7 +85,7 @@ def model_from_csv(
         xunits: x units in um from the loaded file (um). 1 means 1um.
     """
 
-    df = pd.read_csv(filepath) if not isinstance(filepath, pd.DataFrame) else filepath
+    df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
 
     keys = list(df.keys())
 
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     filepath_csv = gf.CONFIG["sparameters"] / "mmi1x2" / "mmi1x2_si220n.csv"
     filepath_csv = "/home/jmatres/ubc/sparameters/ebeam_y_1550_20634f71.csv"
     df = pd.read_csv(filepath_csv)
-    c = model_from_csv(filepath_csv, pins=("o1", "o2", "o3"))
+    c = model_from_csv(df, pins=("o1", "o2", "o3"))
     plot_model(c, pin_in="o1")
     plt.show()
 

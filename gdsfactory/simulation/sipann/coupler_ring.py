@@ -13,13 +13,13 @@ def coupler_ring(
     r"""Return model for for half a ring coupler.
 
     Args:
-        radius: 5
-        width: width um (Valid for 0.4-0.6)
-        thickness: Thickness in um (Valid for 0.18-0.24)
-        gap: distance between straights in um. (Must be > 0.1)
-        length_x: Length of straight portion of coupler in um
-        sw_angle: Sidewall angle from horizontal in degrees
-        kwargs: geometrical args that this model ignores
+        radius: bend radius.
+        width: width um (Valid for 0.4-0.6).
+        thickness: Thickness in um (Valid for 0.18-0.24).
+        gap: distance between straights in um. (Must be > 0.1).
+        length_x: Length of straight portion of coupler in um.
+        sw_angle: Sidewall angle from horizontal in degrees.
+        kwargs: geometrical args that this model ignores.
 
     .. code::
 
@@ -38,7 +38,6 @@ def coupler_ring(
              \         /
            ---=========---
         o1    length_x    o4
-
 
     """
     width *= 1e3

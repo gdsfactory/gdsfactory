@@ -47,7 +47,7 @@ def coupler90(
     straight_component = gf.get_component(
         straight,
         cross_section=cross_section,
-        length=bend90.ports["o2"].midpoint[0] - bend90.ports["o1"].midpoint[0],
+        length=bend90.ports["o2"].center[0] - bend90.ports["o1"].center[0],
         **kwargs
     )
 
@@ -55,7 +55,7 @@ def coupler90(
     width = x.width
 
     pbw = bend_ref.ports["o1"]
-    bend_ref.movey(pbw.midpoint[1] + gap + width)
+    bend_ref.movey(pbw.center[1] + gap + width)
 
     c.add_ports(wg_ref.ports, prefix="wg")
     c.add_ports(bend_ref.ports, prefix="bend")

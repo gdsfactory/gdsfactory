@@ -26,7 +26,7 @@ def fiber(
 
     layer_core = gf.get_layer(layer_core)
     c.add_port(
-        name="F0", width=core_diameter, orientation=0, midpoint=(0, 0), layer=layer_core
+        name="F0", width=core_diameter, orientation=0, center=(0, 0), layer=layer_core
     )
     return c
 

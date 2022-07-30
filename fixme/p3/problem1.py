@@ -24,8 +24,8 @@ def problem1():
     ports2 = phase_shifters.get_ports_list(port_type="electrical", orientation=90)
 
     for port1, port2 in zip(ports1, ports2):
-        c.add_label(position=port1.midpoint, text=port1.name)
-        c.add_label(position=port2.midpoint, text=port1.name)
+        c.add_label(position=port1.center, text=port1.name)
+        c.add_label(position=port2.center, text=port1.name)
 
     return c
 
@@ -47,8 +47,8 @@ def solution1():
     ports2 = phase_shifters.get_ports_list(port_type="electrical", orientation=90)
 
     for port1, port2 in zip(ports1, ports2):
-        c.add_label(position=port1.midpoint, text=port1.name)
-        c.add_label(position=port2.midpoint, text=port1.name)
+        c.add_label(position=port1.center, text=port1.name)
+        c.add_label(position=port2.center, text=port1.name)
 
     routes = gf.routing.get_bundle(
         ports1, ports2, cross_section=gf.cross_section.metal3

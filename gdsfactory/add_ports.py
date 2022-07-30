@@ -54,7 +54,7 @@ def add_ports_from_markers_square(
             y = p.y
             component.add_port(
                 port_name,
-                midpoint=(x, y),
+                center=(x, y),
                 width=dx - pin_extra_width,
                 orientation=orientation,
                 layer=layer,
@@ -244,7 +244,7 @@ def add_ports_from_markers_center(
             port_locations.append((x, y))
             ports[port_name] = Port(
                 name=port_name,
-                midpoint=(x, y),
+                center=(x, y),
                 width=width,
                 orientation=orientation,
                 layer=layer,
@@ -351,7 +351,7 @@ def add_ports_from_labels(
 
         component.add_port(
             name=port_name,
-            midpoint=(x, y),
+            center=(x, y),
             width=port_width,
             orientation=orientation,
             port_type=port_type,
@@ -386,14 +386,14 @@ def add_ports_from_siepic_pins(
     for path in c.paths:
         p1, p2 = path.points
 
-        # Find the midpoint of the path
-        midpoint = (p1 + p2) / 2
+        # Find the center of the path
+        center = (p1 + p2) / 2
 
         # Find the label closest to the pin
         label = None
         for i, l in enumerate(labels):
             if (
-                all(isclose(l.position, midpoint))
+                all(isclose(l.position, center))
                 or all(isclose(l.position, p1))
                 or all(isclose(l.position, p2))
             ):
@@ -422,7 +422,7 @@ def add_ports_from_siepic_pins(
 
         port = Port(
             name=port_name,
-            midpoint=midpoint,
+            center=center,
             width=path.widths[0][0],
             orientation=angle,
             layer=port_layer or pin_layers[port_type],

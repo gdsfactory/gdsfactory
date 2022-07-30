@@ -89,7 +89,7 @@ if __name__ == "__main__":
     # print(c.ports)
     # print(c.length, np.pi * 10)
     # print(c.ports.keys())
-    # print(c.ports['o2'].midpoint)
+    # print(c.ports['o2'].center)
     # print(c.settings)
     # c = bend_circular_slot()
     # c = bend_circular(width=0.45, radius=5)
