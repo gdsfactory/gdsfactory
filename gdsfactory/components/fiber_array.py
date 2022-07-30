@@ -48,7 +48,7 @@ def fiber_array(
             width=core_diameter,
             orientation=0,
             layer=layer_core,
-            midpoint=(0, 0),
+            center=(0, 0),
         )
 
     return c

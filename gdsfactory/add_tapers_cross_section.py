@@ -19,7 +19,7 @@ def add_tapers(
     cross_section2: CrossSectionSpec = strip,
     **kwargs
 ) -> Component:
-    """returns new component with taper in all optical ports.
+    """Returns new component with taper in all optical ports.
 
     Args:
         component: to add tapers.

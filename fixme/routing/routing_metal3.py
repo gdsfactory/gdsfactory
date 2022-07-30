@@ -24,4 +24,4 @@ if __name__ == "__main__":
     c.add(route.references)
     c.show(show_ports=True)
 
-    # print(c2.ports['pad'].midpoint)
+    # print(c2.ports['pad'].center)

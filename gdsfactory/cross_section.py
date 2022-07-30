@@ -10,6 +10,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 import pydantic
 from pydantic import BaseModel, Field
+from typing_extensions import Literal
 
 from gdsfactory.add_pins import add_bbox_siepic, add_pins_siepic_optical_2nm
 from gdsfactory.tech import TECH, Section
@@ -17,6 +18,7 @@ from gdsfactory.tech import TECH, Section
 LAYER = TECH.layer
 Layer = Tuple[int, int]
 Layers = Tuple[Layer, ...]
+WidthTypes = Literal["sine", "linear"]
 
 LayerSpec = Union[Layer, int, str, None]
 LayerSpecs = Union[List[LayerSpec], Tuple[LayerSpec, ...]]
@@ -61,7 +63,7 @@ class CrossSection(BaseModel):
         info: dict with extra settings or useful information.
         name: cross_section name.
         add_center_section: whether a section with `width` and `layer`
-              is added during extrude
+              is added during extrude.
     """
 
     layer: LayerSpec
@@ -167,9 +169,50 @@ class CrossSection(BaseModel):
 
 
 class Transition(CrossSection):
+    """Waveguide information to extrude a path between two CrossSection.
+
+    cladding_layers follow path shape, while bbox_layers are rectangular.
+
+    Parameters:
+        cross_section1: input cross_section.
+        cross_section2: output cross_section.
+        width_type: sine or linear.
+          Sets the type of width transition used if any widths are different
+          between the two input CrossSections.
+        sections: list of Sections(width, offset, layer, ports).
+        layer: main Section layer. Main section name = '_default'.
+        width: main Section width (um) or function parameterized from 0 to 1.
+            the width at t==0 is the width at the beginning of the Path.
+            the width at t==1 is the width at the end.
+        offset: main Section center offset (um) or function from 0 to 1.
+             the offset at t==0 is the offset at the beginning of the Path.
+             the offset at t==1 is the offset at the end.
+        radius: main Section bend radius (um).
+        width_wide: wide waveguides width (um) for low loss routing.
+        auto_widen: taper to wide waveguides for low loss routing.
+        auto_widen_minimum_length: minimum straight length for auto_widen.
+        taper_length: taper_length for auto_widen.
+        bbox_layers: list of layers for rectangular bounding box.
+        bbox_offsets: list of bounding box offsets.
+        cladding_layers: list of layers to extrude.
+        cladding_offsets: list of offset from main Section edge.
+        port_names: for input and output ('o1', 'o2').
+        port_types: for input and output: electrical, optical, vertical_te ...
+        min_length: defaults to 1nm = 10e-3um for routing.
+        start_straight_length: straight length at the beginning of the route.
+        end_straight_length: end length at the beginning of the route.
+        snap_to_grid: Optional snap points to grid when extruding paths (um).
+        aliases: dict of cross_section aliases.
+        decorator: function when extruding component. For example add_pins.
+        info: dict with extra settings or useful information.
+        name: cross_section name.
+        add_center_section: whether a section with `width` and `layer`
+              is added during extrude.
+    """
+
     cross_section1: CrossSection
     cross_section2: CrossSection
-    width_type: str = "sine"
+    width_type: WidthTypes = "sine"
     sections: List[Section]
     layer: Optional[LayerSpec] = None
     width: Optional[Union[float, Callable]] = None

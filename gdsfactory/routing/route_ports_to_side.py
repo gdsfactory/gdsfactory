@@ -168,10 +168,10 @@ def route_ports_to_x(
 
     """
 
-    north_ports = [p for p in list_ports if p.angle == 90]
-    south_ports = [p for p in list_ports if p.angle == 270]
-    east_ports = [p for p in list_ports if p.angle == 0]
-    west_ports = [p for p in list_ports if p.angle == 180]
+    north_ports = [p for p in list_ports if p.orientation == 90]
+    south_ports = [p for p in list_ports if p.orientation == 270]
+    east_ports = [p for p in list_ports if p.orientation == 0]
+    west_ports = [p for p in list_ports if p.orientation == 180]
 
     epsilon = 1.0
     a = epsilon + max(radius, separation)
@@ -235,9 +235,9 @@ def route_ports_to_x(
     def add_port(
         p, y, l_elements, l_ports, start_straight_length=start_straight_length
     ) -> None:
-        new_port = p.copy()
-        new_port.angle = angle
-        new_port.position = (x + extension_length, y)
+        new_port = p.copy(name=f"{p.name}_new")
+        new_port.orientation = angle
+        new_port.center = (x + extension_length, y)
         l_elements += [
             routing_func(
                 p,
@@ -247,7 +247,7 @@ def route_ports_to_x(
                 **routing_func_args,
             )
         ]
-        l_ports += [flipped(new_port)]
+        l_ports += [new_port.flip()]
 
     y_optical_bot = y0_bottom
     for p in south_ports:
@@ -362,10 +362,18 @@ def route_ports_to_y(
         extension_length = -extension_length
 
     da = 45
-    north_ports = [p for p in list_ports if p.angle > 90 - da and p.angle < 90 + da]
-    south_ports = [p for p in list_ports if p.angle > 270 - da and p.angle < 270 + da]
-    east_ports = [p for p in list_ports if p.angle < da or p.angle > 360 - da]
-    west_ports = [p for p in list_ports if p.angle < 180 + da and p.angle > 180 - da]
+    north_ports = [
+        p for p in list_ports if p.orientation > 90 - da and p.orientation < 90 + da
+    ]
+    south_ports = [
+        p for p in list_ports if p.orientation > 270 - da and p.orientation < 270 + da
+    ]
+    east_ports = [
+        p for p in list_ports if p.orientation < da or p.orientation > 360 - da
+    ]
+    west_ports = [
+        p for p in list_ports if p.orientation < 180 + da and p.orientation > 180 - da
+    ]
 
     epsilon = 1.0
     a = radius + max(radius, separation)
@@ -385,12 +393,18 @@ def route_ports_to_y(
 
     if y == "north":
         y = (
-            max(p.y + a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports)
+            max(
+                p.y + a * np.abs(np.cos(p.orientation * np.pi / 180))
+                for p in list_ports
+            )
             + by
         )
     elif y == "south":
         y = (
-            min(p.y - a * np.abs(np.cos(p.angle * np.pi / 180)) for p in list_ports)
+            min(
+                p.y - a * np.abs(np.cos(p.orientation * np.pi / 180))
+                for p in list_ports
+            )
             - by
         )
     elif isinstance(y, (float, int)):
@@ -434,10 +448,10 @@ def route_ports_to_y(
         p, x, l_elements, l_ports, start_straight_length=start_straight_length
     ):
         new_port = p.copy()
-        new_port.angle = angle
-        new_port.position = (x, y + extension_length)
+        new_port.orientation = angle
+        new_port.center = (x, y + extension_length)
 
-        if np.sum(np.abs((new_port.position - p.position) ** 2)) < 1e-12:
+        if np.sum(np.abs((new_port.center - p.center) ** 2)) < 1e-12:
             l_ports += [flipped(new_port)]
             return
 
@@ -516,14 +530,14 @@ def _sample_route_side() -> Component:
     for i, y in enumerate(ys):
         p0 = (xl, y)
         p1 = (xr, y)
-        c.add_port(name=f"W{i}", midpoint=p0, orientation=180, width=0.5, layer=layer)
-        c.add_port(name=f"E{i}", midpoint=p1, orientation=0, width=0.5, layer=layer)
+        c.add_port(name=f"W{i}", center=p0, orientation=180, width=0.5, layer=layer)
+        c.add_port(name=f"E{i}", center=p1, orientation=0, width=0.5, layer=layer)
 
     for i, x in enumerate(xs):
         p0 = (x, yb)
         p1 = (x, yt)
-        c.add_port(name=f"S{i}", midpoint=p0, orientation=270, width=0.5, layer=layer)
-        c.add_port(name=f"N{i}", midpoint=p1, orientation=90, width=0.5, layer=layer)
+        c.add_port(name=f"S{i}", center=p0, orientation=270, width=0.5, layer=layer)
+        c.add_port(name=f"N{i}", center=p1, orientation=90, width=0.5, layer=layer)
 
     return c
 
@@ -561,5 +575,5 @@ if __name__ == "__main__":
         for i, p in enumerate(ports):
             c.add_port(name=f"{side[0]}{i}", port=p)
 
-    c.plot()
+    # c.plot()
     c.show(show_ports=True)

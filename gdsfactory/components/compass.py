@@ -40,7 +40,7 @@ def compass(
         if 180 in port_orientations:
             c.add_port(
                 name="e1",
-                midpoint=(-dx / 2 + port_inclusion, 0),
+                center=(-dx / 2 + port_inclusion, 0),
                 width=dy,
                 orientation=180,
                 layer=layer,
@@ -49,7 +49,7 @@ def compass(
         if 90 in port_orientations:
             c.add_port(
                 name="e2",
-                midpoint=(0, dy / 2 - port_inclusion),
+                center=(0, dy / 2 - port_inclusion),
                 width=dx,
                 orientation=90,
                 layer=layer,
@@ -58,7 +58,7 @@ def compass(
         if 0 in port_orientations:
             c.add_port(
                 name="e3",
-                midpoint=(dx / 2 - port_inclusion, 0),
+                center=(dx / 2 - port_inclusion, 0),
                 width=dy,
                 orientation=0,
                 layer=layer,
@@ -67,7 +67,7 @@ def compass(
         if -90 in port_orientations:
             c.add_port(
                 name="e4",
-                midpoint=(0, -dy / 2 + port_inclusion),
+                center=(0, -dy / 2 + port_inclusion),
                 width=dx,
                 orientation=-90,
                 layer=layer,
@@ -76,7 +76,7 @@ def compass(
         if port_orientations is None:
             c.add_port(
                 name="pad",
-                midpoint=(0, 0),
+                center=(0, 0),
                 width=dy,
                 orientation=None,
                 layer=layer,

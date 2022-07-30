@@ -23,7 +23,7 @@ def cdc(
     fins: bool = False,
     fin_size: Tuple[float, float] = (0.2, 0.05),
     contradc_wgt: None = None,
-    port_midpoint: Tuple[int, int] = (0, 0),
+    port_center: Tuple[int, int] = (0, 0),
     direction: str = "EAST",
     waveguide_template: Callable = strip,
     **kwargs
@@ -48,7 +48,7 @@ def cdc(
         for fine features (helps to reduce stitching errors).
        fin_size: Specifies the x- and y-size of the `fins`. Defaults to 200 nm x 50 nm
        contradc_wgt: waveguide_template.
-       port_midpoint: Cartesian coordinate of the input port
+       port_center: Cartesian coordinate of the input port
         (AT TOP if input_bot=False, AT BOTTOM if input_bot=True).
        direction: Direction that the component will point *towards*,
         can be of type `'NORTH'`, `'WEST'`, `'SOUTH'`, `'EAST'`,
@@ -72,7 +72,7 @@ def cdc(
         fins=fins,
         fin_size=fin_size,
         contradc_wgt=contradc_wgt,
-        port=port_midpoint,
+        port=port_center,
         direction=direction,
     )
 

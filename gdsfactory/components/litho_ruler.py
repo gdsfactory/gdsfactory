@@ -9,19 +9,20 @@ def litho_ruler(
     height: float = 2,
     width: float = 0.5,
     spacing: float = 2.0,
-    scale: Tuple[float] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
+    scale: Tuple[float, ...] = (3, 1, 1, 1, 1, 2, 1, 1, 1, 1),
     num_marks: int = 21,
     layer: LayerSpec = "WG",
 ) -> gf.Component:
-    """Creates a ruler structure for lithographic measurement with marks of
-    varying scales to allow for easy reading by eye.
+    """Ruler structure for lithographic measurement.
+
+    Includes marks of varying scales to allow for easy reading by eye.
 
     adapted from phidl.geometry
 
     Args:
-        height: Height of the ruling marks.
-        width: Width of the ruling marks.
-        spacing: Center-to-center spacing of the ruling marks.
+        height: Height of the ruling marks in um.
+        width: Width of the ruling marks in um.
+        spacing: Center-to-center spacing of the ruling marks in um.
         scale: Height scale pattern of marks.
         num_marks: Total number of marks to generate.
         layer: Specific layer to put the ruler geometry on.

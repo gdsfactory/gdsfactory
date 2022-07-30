@@ -2,7 +2,7 @@ ports:
   o1:
     name: o1
     width: 0.5
-    midpoint:
+    center:
     - 0.0
     - 0.0
     orientation: 180
@@ -13,7 +13,7 @@ ports:
   o2:
     name: o2
     width: 0.5
-    midpoint:
+    center:
     - 1.234
     - 0.0
     orientation: 0

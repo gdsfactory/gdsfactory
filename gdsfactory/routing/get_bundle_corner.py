@@ -44,10 +44,10 @@ def _transform_ports(ports, rotation, origin=(0, 0), x_reflection=False):
     ports_transformed = []
     for p in ports:
         new_port = p.copy(new_uid=False)
-        new_midpoint, new_orientation = _transform_port(
-            p.midpoint, p.orientation, origin, rotation, x_reflection
+        new_center, new_orientation = _transform_port(
+            p.center, p.orientation, origin, rotation, x_reflection
         )
-        new_port.midpoint = new_midpoint
+        new_port.center = new_center
         new_port.new_orientation = new_orientation
         ports_transformed.append(new_port)
 
@@ -64,13 +64,18 @@ def get_bundle_corner(
     path_length_match_modify_segment_i: int = -2,
     **kwargs,
 ) -> List[Route]:
-    r"""
+    r"""Connect banks of ports with either 90Deg or 270Deg angle between them.
 
     Args:
         ports1: list of start ports.
         ports2: list of end ports.
         route_filter: filter to apply to the manhattan waypoints
             e.g `get_route_from_waypoints` for deep etch strip straight.
+        separation: in um.
+        path_length_match_loops: optional number of loops for path length matching.
+        path_length_match_extra_length: extra length (um) for path length matching.
+        path_length_match_modify_segment_i: segment to increase length.
+
     Returns:
         `[route_filter(r) for r in routes]` where routes is a list of lists of coordinates
         e.g with default `get_route_from_waypoints`,
@@ -109,7 +114,6 @@ def get_bundle_corner(
          \------ AN
 
 
-    Connect banks of ports with either 90Deg or 270Deg angle between them
     """
     if "straight" in kwargs.keys():
         _ = kwargs.pop("straight")
@@ -146,13 +150,13 @@ def _get_bundle_corner_waypoints(
     connections = []
 
     for p in ports1:
-        p.angle = p.angle % 360
+        p.orientation = p.orientation % 360
 
     for p in ports2:
-        p.angle = p.angle % 360
+        p.orientation = p.orientation % 360
 
-    port_angles1 = {p.angle for p in ports1}
-    port_angles2 = {p.angle for p in ports2}
+    port_angles1 = {p.orientation for p in ports1}
+    port_angles2 = {p.orientation for p in ports2}
 
     assert len(ports2) == nb_ports, f"ports1 = {len(ports1)} must match {len(ports2)}"
     assert (
@@ -162,8 +166,8 @@ def _get_bundle_corner_waypoints(
         len(port_angles2) <= 1
     ), f"ports2 should have the same angle. Got {port_angles2}"
 
-    a_start = ports1[0].angle
-    a_end = ports2[0].angle
+    a_start = ports1[0].orientation
+    a_end = ports2[0].orientation
 
     da = a_end - a_start
     assert (da) % 180 == 90, (
@@ -173,11 +177,11 @@ def _get_bundle_corner_waypoints(
 
     # Rotate all ports to be in the configuration where start_angle = 0
 
-    origin = ports1[0].midpoint
+    origin = ports1[0].center
     ports1_transformed = _transform_ports(ports1, rotation=-a_start, origin=origin)
     ports2_transformed = _transform_ports(ports2, rotation=-a_start, origin=origin)
 
-    # a_end_tr = ports2_transformed[0].angle % 360
+    # a_end_tr = ports2_transformed[0].orientation % 360
 
     ys = [p.y for p in ports1_transformed]
     ye = [p.y for p in ports2_transformed]

@@ -32,8 +32,8 @@ def get_route_sbend(port1: Port, port2: Port, **kwargs) -> Route:
         c.plot()
 
     """
-    ysize = port2.midpoint[1] - port1.midpoint[1]
-    xsize = port2.midpoint[0] - port1.midpoint[0]
+    ysize = port2.center[1] - port1.center[1]
+    xsize = port2.center[0] - port1.center[0]
     size = (xsize, ysize)
 
     bend = bend_s(size=size, **kwargs)

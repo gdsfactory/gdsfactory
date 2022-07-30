@@ -18,10 +18,10 @@ def straight_narrow(
     wg = gf.Component("straight_sample")
     wg.add_polygon([(0, 0), (length, 0), (length, width), (0, width)], layer=layer)
     wg.add_port(
-        name="o1", midpoint=(0, width / 2), width=width, orientation=180, layer=layer
+        name="o1", center=(0, width / 2), width=width, orientation=180, layer=layer
     )
     wg.add_port(
-        name="o2", midpoint=(length, width / 2), width=width, orientation=0, layer=layer
+        name="o2", center=(length, width / 2), width=width, orientation=0, layer=layer
     )
     return wg
 

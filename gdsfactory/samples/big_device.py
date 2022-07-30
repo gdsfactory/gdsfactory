@@ -38,7 +38,7 @@ def big_device(
     for i in range(N):
         port = Port(
             name=f"W{i}",
-            midpoint=p0 + (-dx, (i - N / 2) * spacing),
+            center=p0 + (-dx, (i - N / 2) * spacing),
             orientation=180,
             layer=layer,
             width=wg_width,
@@ -48,7 +48,7 @@ def big_device(
     for i in range(N):
         port = Port(
             name=f"E{i}",
-            midpoint=p0 + (dx, (i - N / 2) * spacing),
+            center=p0 + (dx, (i - N / 2) * spacing),
             orientation=0,
             layer=layer,
             width=wg_width,
@@ -58,7 +58,7 @@ def big_device(
     for i in range(N):
         port = Port(
             name=f"N{i}",
-            midpoint=p0 + ((i - N / 2) * spacing, dy),
+            center=p0 + ((i - N / 2) * spacing, dy),
             orientation=90,
             layer=layer,
             width=wg_width,
@@ -68,7 +68,7 @@ def big_device(
     for i in range(N):
         port = Port(
             name=f"S{i}",
-            midpoint=p0 + ((i - N / 2) * spacing, -dy),
+            center=p0 + ((i - N / 2) * spacing, -dy),
             orientation=-90,
             layer=layer,
             width=wg_width,

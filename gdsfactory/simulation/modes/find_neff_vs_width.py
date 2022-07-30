@@ -74,6 +74,7 @@ def find_neff_vs_width(
 
 
 def plot_neff_vs_width(df: pd.DataFrame, **kwargs) -> None:
+    """Plots effective index versus waveguide width."""
     width = df.width
     for mode_number, neff in df.items():
         if mode_number != "width":

@@ -50,10 +50,10 @@ def straight_heater_meander(
     x = gf.get_cross_section(cross_section)
 
     p1 = gf.Port(
-        name="p1", midpoint=(0, 0), orientation=0, cross_section=x, width=x.width
+        name="p1", center=(0, 0), orientation=0, cross_section=x, width=x.width
     )
     p2 = gf.Port(
-        name="p2", midpoint=(0, spacing), orientation=0, cross_section=x, width=x.width
+        name="p2", center=(0, spacing), orientation=0, cross_section=x, width=x.width
     )
     route = gf.routing.get_route(p1, p2, radius=radius)
 
@@ -122,13 +122,13 @@ def straight_heater_meander(
         via_stackw = via_stack()
         via_stacke = via_stack()
         dx = via_stackw.get_ports_xsize() / 2 + heater_taper_length or 0
-        via_stack_west_midpoint = heater.size_info.cw - (dx, 0)
-        via_stack_east_midpoint = heater.size_info.ce + (dx, 0)
+        via_stack_west_center = heater.size_info.cw - (dx, 0)
+        via_stack_east_center = heater.size_info.ce + (dx, 0)
 
         via_stack_west = c << via_stackw
         via_stack_east = c << via_stacke
-        via_stack_west.move(via_stack_west_midpoint)
-        via_stack_east.move(via_stack_east_midpoint)
+        via_stack_west.move(via_stack_west_center)
+        via_stack_east.move(via_stack_east_center)
         c.add_port(
             "e1", port=via_stack_west.get_ports_list(orientation=port_orientation1)[0]
         )
@@ -159,8 +159,8 @@ if __name__ == "__main__":
     # spacing = 3
 
     # c = gf.Component()
-    # p1 = gf.Port(midpoint=(0, 0), orientation=0)
-    # p2 = gf.Port(midpoint=(0, spacing), orientation=0)
+    # p1 = gf.Port(center=(0, 0), orientation=0)
+    # p2 = gf.Port(center=(0, spacing), orientation=0)
     # route = gf.routing.get_route(p1, p2)
     # straight_length = gf.snap.snap_to_grid((length - (rows - 1) * route.length) / rows)
     # straight_array = c << gf.components.array(spacing=(0, spacing), columns=1, rows=rows)

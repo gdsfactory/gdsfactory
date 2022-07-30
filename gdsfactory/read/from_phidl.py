@@ -28,7 +28,7 @@ def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Compo
         component.add_port(
             port=Port(
                 name=p.name,
-                midpoint=p.midpoint,
+                center=p.midpoint,
                 width=p.width,
                 orientation=p.orientation,
                 parent=p.parent,

@@ -51,7 +51,7 @@ def coupler90bend(
     bend_outer_ref = c << bend90_outer
 
     pbw = bend_inner_ref.ports["o1"]
-    bend_inner_ref.movey(pbw.midpoint[1] + spacing)
+    bend_inner_ref.movey(pbw.center[1] + spacing)
 
     # This component is a leaf cell => using absorb
     c.absorb(bend_outer_ref)

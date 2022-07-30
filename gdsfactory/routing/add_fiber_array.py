@@ -153,7 +153,7 @@ def add_fiber_array(
         for gc_port_label, port in zip(gc_port_labels, ports):
             if layer_label:
                 component_new.add_label(
-                    text=gc_port_label, layer=layer_label, position=port.midpoint
+                    text=gc_port_label, layer=layer_label, position=port.center
                 )
 
     for i, io_row in enumerate(io_gratings_lines):

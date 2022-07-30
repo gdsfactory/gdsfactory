@@ -233,8 +233,8 @@ class ComponentReference(DeviceReference):
         of the ports dict which is correctly rotated and translated"""
         for name, port in self.parent.ports.items():
             port = self.parent.ports[name]
-            new_midpoint, new_orientation = self._transform_port(
-                port.midpoint,
+            new_center, new_orientation = self._transform_port(
+                port.center,
                 port.orientation,
                 self.origin,
                 self.rotation,
@@ -242,7 +242,7 @@ class ComponentReference(DeviceReference):
             )
             if name not in self._local_ports:
                 self._local_ports[name] = port.copy(new_uid=True)
-            self._local_ports[name].midpoint = new_midpoint
+            self._local_ports[name].center = new_center
             self._local_ports[name].orientation = (
                 mod(new_orientation, 360) if new_orientation else new_orientation
             )
@@ -347,15 +347,15 @@ class ComponentReference(DeviceReference):
             destination = origin
             origin = (0, 0)
 
-        if hasattr(origin, "midpoint"):
+        if hasattr(origin, "center"):
             origin = cast(Port, origin)
-            o = origin.midpoint
+            o = origin.center
         elif np.array(origin).size == 2:
             o = origin
         elif origin in self.ports:
             origin = self.ports[origin]
             origin = cast(Port, origin)
-            o = origin.midpoint
+            o = origin.center
         else:
             raise ValueError(
                 f"move(origin={origin})\n"
@@ -363,15 +363,15 @@ class ComponentReference(DeviceReference):
                 f"a coordinate, port or port name {list(self.ports.keys())}"
             )
 
-        if hasattr(destination, "midpoint"):
+        if hasattr(destination, "center"):
             destination = cast(Port, destination)
-            d = destination.midpoint
+            d = destination.center
         elif np.array(destination).size == 2:
             d = destination
         elif destination in self.ports:
             destination = self.ports[destination]
             destination = cast(Port, destination)
-            d = destination.midpoint
+            d = destination.center
         else:
             raise ValueError(
                 f"{self.parent.name}.move(destination={destination}) \n"
@@ -405,10 +405,10 @@ class ComponentReference(DeviceReference):
         if angle == 0:
             return self
         if isinstance(center, (int, str)):
-            center = self.ports[center].position
+            center = self.ports[center].center
 
         if isinstance(center, Port):
-            center = center.midpoint
+            center = center.center
         self.rotation += angle
         self.rotation %= 360
         self.origin = _rotate_points(self.origin, angle, center)
@@ -447,9 +447,9 @@ class ComponentReference(DeviceReference):
         p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
         if isinstance(p1, Port):
-            p1 = p1.midpoint
+            p1 = p1.center
         if isinstance(p2, Port):
-            p2 = p2.midpoint
+            p2 = p2.center
         p1 = np.array(p1)
         p2 = np.array(p2)
         # Translate so reflection axis passes through origin
@@ -512,7 +512,7 @@ class ComponentReference(DeviceReference):
             p = new.ports[port]
 
         else:
-            self.rotate(angle=angle, center=p.midpoint)
+            self.rotate(angle=angle, center=p.center)
 
         self.move(origin=p, destination=destination)
         self.move(

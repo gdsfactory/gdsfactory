@@ -1,11 +1,12 @@
-"""read Sparameters from CSV file and return sax model.
+"""read Sparameters from a CSV file and returns sax model.
 
 TODO: write dat to csv converter
 (from lumerical interconnect to SAX format and the other way around)
 """
 
 from functools import partial
-from typing import Union
+from pathlib import PosixPath
+from typing import Callable, Union
 
 import numpy as np
 import pandas as pd
@@ -15,13 +16,14 @@ from scipy.interpolate import interp1d
 import gdsfactory as gf
 from gdsfactory.config import sparameters_path
 from gdsfactory.simulation.get_sparameters_path import get_sparameters_path_lumerical
-from gdsfactory.types import PathType
 
 wl_cband = np.linspace(1.500, 1.600, 128)
 
+SDictFactory = Callable[..., SDict]
+
 
 def sdict_from_csv(
-    filepath: Union[PathType, pd.DataFrame],
+    filepath: Union[str, PosixPath, pd.DataFrame],
     wl: Float = wl_cband,
     xkey: str = "wavelengths",
     xunits: float = 1,
@@ -29,7 +31,7 @@ def sdict_from_csv(
 ) -> SDict:
     """Returns SDict from Sparameters from a CSV file.
 
-    interpolates Sdict over wavelength.
+    Interpolates Sdict over wavelength.
 
     Args:
         filepath: CSV Sparameters path or pandas DataFrame.
@@ -38,7 +40,7 @@ def sdict_from_csv(
         xunits: x units in um from the loaded file (um). 1 means 1um.
         prefix: for the sparameters column names in file.
     """
-    df = pd.read_csv(filepath) if not isinstance(filepath, pd.DataFrame) else filepath
+    df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
     keys = list(df.keys())
 
     if xkey not in df:
@@ -68,7 +70,7 @@ def sdict_from_csv(
     }
 
 
-def demo_mmi_lumerical_csv() -> None:
+def _demo_mmi_lumerical_csv() -> None:
     import matplotlib.pyplot as plt
     from plot_model import plot_model
 
@@ -78,7 +80,8 @@ def demo_mmi_lumerical_csv() -> None:
     plt.show()
 
 
-def sdict_from_component_lumerical(component, **kwargs):
+def sdict_from_component_lumerical(component, **kwargs) -> SDictFactory:
+    """Returns SDict based on lumerical simulation."""
     filepath = get_sparameters_path_lumerical(component=component, **kwargs)
     return partial(sdict_from_csv, filepath=filepath)
 
@@ -90,7 +93,6 @@ grating_coupler_elliptical = gf.partial(
     sdict_from_csv,
     filepath=sparameters_path / "grating_coupler_ellipti_9d85a0c6_18c08cac.csv",
 )
-
 
 model_factory = dict(
     mmi1x2=mmi1x2, mmi2x2=mmi2x2, grating_coupler_elliptical=grating_coupler_elliptical

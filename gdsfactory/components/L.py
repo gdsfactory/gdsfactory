@@ -30,7 +30,7 @@ def L(
     D.add_polygon(points, layer=layer)
     D.add_port(
         name="e1",
-        midpoint=(0, s2),
+        center=(0, s2),
         width=width,
         orientation=90,
         port_type=port_type,
@@ -38,7 +38,7 @@ def L(
     )
     D.add_port(
         name="e2",
-        midpoint=(s1, 0),
+        center=(s1, 0),
         width=width,
         orientation=0,
         port_type=port_type,

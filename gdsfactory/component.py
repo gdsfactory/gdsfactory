@@ -409,7 +409,7 @@ class Component(Device):
         if port_id and port_id not in self.ports:
             raise ValueError(f"port {port_id} not in {self.ports.keys()}")
 
-        origin = self.ports[port_id].position if port_id else (0, 0)
+        origin = self.ports[port_id].center if port_id else (0, 0)
         if h_mirror:
             _ref.reflect_h(port_id)
 
@@ -467,7 +467,7 @@ class Component(Device):
     def add_port(
         self,
         name: Optional[Union[str, int, object]] = None,
-        midpoint: Optional[Tuple[float, float]] = None,
+        center: Optional[Tuple[float, float]] = None,
         width: Optional[float] = None,
         orientation: Optional[float] = None,
         port: Optional[Port] = None,
@@ -476,14 +476,15 @@ class Component(Device):
         cross_section: Optional[CrossSection] = None,
     ) -> Port:
         """Add port to component.
+
         You can copy an existing port like add_port(port = existing_port) or
-        create a new port add_port(myname, mymidpoint, mywidth, myorientation).
+        create a new port add_port(myname, mycenter, mywidth, myorientation).
         You can also copy an existing port
         with a new name add_port(port = existing_port, name = new_name)
 
         Args:
             name: port name.
-            midpoint: x, y.
+            center: x, y.
             width: in um.
             orientation: in deg.
             port: optional port.
@@ -511,20 +512,20 @@ class Component(Device):
         else:
             if width is None:
                 raise ValueError("Port needs width parameter (um).")
-            if midpoint is None:
-                raise ValueError("Port needs midpoint parameter (x, y) um.")
+            if center is None:
+                raise ValueError("Port needs center parameter (x, y) um.")
             half_width = width / 2
             half_width_correct = snap_to_grid(half_width, nm=1)
             if not np.isclose(half_width, half_width_correct):
                 warnings.warn(
                     f"port width = {width} will create off-grid points.\n"
                     f"You can fix it by changing width to {2*half_width_correct}\n"
-                    f"port {name}, {midpoint}  {orientation} deg",
+                    f"port {name}, {center}  {orientation} deg",
                     stacklevel=3,
                 )
             p = Port(
                 name=name,
-                midpoint=(snap_to_grid(midpoint[0]), snap_to_grid(midpoint[1])),
+                center=(snap_to_grid(center[0]), snap_to_grid(center[1])),
                 width=snap_to_grid(width),
                 orientation=orientation,
                 parent=self,
@@ -543,12 +544,13 @@ class Component(Device):
     def add_ports(
         self, ports: Union[List[Port], Dict[str, Port]], prefix: str = ""
     ) -> None:
-        """Add a list or dict of ports,
+        """Add a list or dict of ports.
+
         you can include a prefix to add to the new port names to avoid name conflicts.
 
         Args:
-            ports: list or dict of ports
-            prefix: to prepend to each port name
+            ports: list or dict of ports.
+            prefix: to prepend to each port name.
         """
         ports = ports if isinstance(ports, list) else ports.values()
         for port in list(ports):
@@ -746,14 +748,15 @@ class Component(Device):
         return ref
 
     def flatten(self, single_layer: Optional[Tuple[int, int]] = None):
-        """Returns a flattened copy of the component
+        """Returns a flattened copy of the component.
+
         Flattens the hierarchy of the Component such that there are no longer
         any references to other Components. All polygons and labels from
         underlying references are copied and placed in the top-level Component.
         If single_layer is specified, all polygons are moved to that layer.
 
         Args:
-            single_layer: move all polygons are moved to the specified.
+            single_layer: move all polygons are moved to the specified (optional).
         """
 
         component_flat = self.copy()
@@ -1265,10 +1268,10 @@ class Component(Device):
 
         return add_padding(component=self, **kwargs)
 
-    def absorb(self, reference):
-        """Flattens and absorbs polygons from an underlying ComponentReference.
-        into the Component, destroying the reference in the process but keeping
-        the polygon geometry.
+    def absorb(self, reference) -> "Component":
+        """Flattens and absorbs polygons from  ComponentReference into the Component
+
+        It destroys the reference in the process but keeping the polygon geometry.
 
         remove when PR gets approved and there is a new release
         https://github.com/amccaugh/phidl/pull/135

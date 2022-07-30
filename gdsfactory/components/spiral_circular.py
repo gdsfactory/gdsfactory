@@ -172,14 +172,14 @@ def spiral_circular(
 
     c.add_port(
         name="o1",
-        midpoint=(s[0], s[1]),
+        center=(s[0], s[1]),
         orientation=180,
         layer=layer,
         width=wg_width,
     )
     c.add_port(
         name="o2",
-        midpoint=(e[0], e[1]),
+        center=(e[0], e[1]),
         orientation=180,
         layer=layer,
         width=wg_width,

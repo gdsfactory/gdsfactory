@@ -79,8 +79,8 @@ def add_loopback(
     )
 
     gsi = gc.size_info
-    p0 = gca1.ports[grating_port_name].position
-    p1 = gca2.ports[grating_port_name].position
+    p0 = gca1.ports[grating_port_name].center
+    p1 = gca2.ports[grating_port_name].center
     bend90 = bend(**kwargs)
 
     a = abs(bend90.info["dy"]) if hasattr(bend90, "dx") else bend90.xsize + 0.5
