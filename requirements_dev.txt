@@ -8,7 +8,7 @@ ipykernel
 jupyter
 mypy
 myst-parser
-nbsphinx==0.8.7
+nbsphinx
 nbval
 pre-commit
 pur
