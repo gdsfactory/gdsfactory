@@ -7,19 +7,7 @@ from gdsfactory.serialization import clean_value_json
 
 filepath = pathlib.Path(__file__).parent.absolute() / "components.rst"
 
-skip = {
-    "LIBRARY",
-    "circuit_names",
-    "component_factory",
-    "component_names",
-    "container_names",
-    "component_names_test_ports",
-    "component_names_skip_test",
-    "component_names_skip_test_ports",
-    "dataclasses",
-    "library",
-    "waveguide_template",
-}
+skip = {}
 
 skip_plot = [
     "component_lattice",
