@@ -1,7 +1,7 @@
 autodoc_pydantic
 autotyping
 doc8
-docutils
+docutils==0.17.1
 flake8
 flake8-bugbear
 ipykernel
@@ -16,10 +16,10 @@ pytest-cov
 pytest-regressions
 qrcode
 sphinx-autodoc-typehints
-sphinx-book-theme
+sphinx-book-theme==0.3.3
 sphinx-click
 sphinx-copybutton
-sphinx-markdown-tables
+sphinx-markdown-tables==0.0.16
 tox
 types-PyYAML
 types-waitress
