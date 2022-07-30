@@ -18,9 +18,10 @@ pytest-regressions
 qrcode
 sphinx>=5.1.1
 sphinx-autodoc-typehints
-sphinx-book-theme
+sphinx-book-theme==0.3.2
 sphinx-click
 sphinx-copybutton
+sphinx-markdown-tables
 tox
 types-PyYAML
 types-waitress
