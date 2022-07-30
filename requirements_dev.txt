@@ -5,11 +5,9 @@ docutils
 flake8
 flake8-bugbear
 ipykernel
-jupyter
 mypy
 myst-parser
 nbsphinx
-nbval
 pre-commit
 pur
 pydocstyle
@@ -17,7 +15,6 @@ pytest
 pytest-cov
 pytest-regressions
 qrcode
-sphinx
 sphinx-autodoc-typehints
 sphinx-book-theme
 sphinx-click
