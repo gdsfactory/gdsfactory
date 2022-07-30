@@ -57,8 +57,8 @@ Anchor = Literal[
     "cc",
 ]
 Axis = Literal["x", "y"]
-
 NSEW = Literal["N", "S", "E", "W"]
+WidthTypes = Literal["sine", "linear"]
 
 
 class Label(LabelPhidl):

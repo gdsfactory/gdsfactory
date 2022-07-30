@@ -53,10 +53,10 @@ def fanout2x2(
 
     y = port_spacing / 2.0
 
-    p_w0 = ref.ports["o1"].midpoint
-    p_w1 = ref.ports["o2"].midpoint
-    p_e1 = ref.ports["o3"].midpoint
-    p_e0 = ref.ports["o4"].midpoint
+    p_w0 = ref.ports["o1"].center
+    p_w1 = ref.ports["o2"].center
+    p_e1 = ref.ports["o3"].center
+    p_e0 = ref.ports["o4"].center
     y0 = p_e1[1]
 
     dy = y - y0

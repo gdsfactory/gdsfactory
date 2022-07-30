@@ -51,9 +51,9 @@ def get_pin_triangle_polygon_tip(port: Port) -> Tuple[List[float], Tuple[float, 
     dtop = np.array([0, d])
     dtip = np.array([d, 0])
 
-    p0 = p.position + _rotate(dbot, rot_mat)
-    p1 = p.position + _rotate(dtop, rot_mat)
-    ptip = p.position + _rotate(dtip, rot_mat)
+    p0 = p.center + _rotate(dbot, rot_mat)
+    p1 = p.center + _rotate(dtop, rot_mat)
+    ptip = p.center + _rotate(dtip, rot_mat)
 
     polygon = [p0, p1, ptip]
     polygon = np.stack(polygon)
@@ -129,16 +129,16 @@ def add_pin_rectangle_inside(
     dbotin = np.array([-pin_length, -d])
     dtopin = np.array([-pin_length, +d])
 
-    p0 = p.position + _rotate(dbot, rot_mat)
-    p1 = p.position + _rotate(dtop, rot_mat)
-    ptopin = p.position + _rotate(dtopin, rot_mat)
-    pbotin = p.position + _rotate(dbotin, rot_mat)
+    p0 = p.center + _rotate(dbot, rot_mat)
+    p1 = p.center + _rotate(dtop, rot_mat)
+    ptopin = p.center + _rotate(dtopin, rot_mat)
+    pbotin = p.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.midpoint,
+            position=p.center,
             layer=layer_label,
         )
 
@@ -185,10 +185,10 @@ def add_pin_rectangle_double(
     dtop = np.array([0, d])
     dbotin = np.array([pin_length / 2, -d])
     dtopin = np.array([pin_length / 2, +d])
-    p0 = p.position + _rotate(dbot, rot_mat)
-    p1 = p.position + _rotate(dtop, rot_mat)
-    ptopin = p.position + _rotate(dtopin, rot_mat)
-    pbotin = p.position + _rotate(dbotin, rot_mat)
+    p0 = p.center + _rotate(dbot, rot_mat)
+    p1 = p.center + _rotate(dtop, rot_mat)
+    ptopin = p.center + _rotate(dtopin, rot_mat)
+    pbotin = p.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
@@ -198,10 +198,10 @@ def add_pin_rectangle_double(
     dtop = np.array([0, d])
     dbotin = np.array([-pin_length / 2, -d])
     dtopin = np.array([-pin_length / 2, +d])
-    p0 = p.position + _rotate(dbot, rot_mat)
-    p1 = p.position + _rotate(dtop, rot_mat)
-    ptopin = p.position + _rotate(dtopin, rot_mat)
-    pbotin = p.position + _rotate(dbotin, rot_mat)
+    p0 = p.center + _rotate(dbot, rot_mat)
+    p1 = p.center + _rotate(dtop, rot_mat)
+    ptopin = p.center + _rotate(dtopin, rot_mat)
+    pbotin = p.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
@@ -261,17 +261,17 @@ def add_pin_rectangle(
     dbotin = np.array([-pin_length / 2, -d])
     dtopin = np.array([-pin_length / 2, +d])
 
-    p0 = p.position + _rotate(dbot, rot_mat)
-    p1 = p.position + _rotate(dtop, rot_mat)
-    ptopin = p.position + _rotate(dtopin, rot_mat)
-    pbotin = p.position + _rotate(dbotin, rot_mat)
+    p0 = p.center + _rotate(dbot, rot_mat)
+    p1 = p.center + _rotate(dtop, rot_mat)
+    ptopin = p.center + _rotate(dtopin, rot_mat)
+    pbotin = p.center + _rotate(dbotin, rot_mat)
     polygon = [p0, p1, ptopin, pbotin]
     component.add_polygon(polygon, layer=layer)
 
     if layer_label:
         component.add_label(
             text=str(p.name),
-            position=p.midpoint,
+            position=p.center,
             layer=layer_label,
         )
 
@@ -321,8 +321,8 @@ def add_pin_path(
     d0 = np.array([-pin_length / 2, 0])
     d1 = np.array([+pin_length / 2, 0])
 
-    p0 = p.position + _rotate(d0, rot_mat)
-    p1 = p.position + _rotate(d1, rot_mat)
+    p0 = p.center + _rotate(d0, rot_mat)
+    p1 = p.center + _rotate(d1, rot_mat)
 
     points = [p0, p1]
     layer = get_layer(layer)
@@ -332,7 +332,7 @@ def add_pin_path(
     component.add(path)
 
     component.add_label(
-        text=str(p.name), position=p.midpoint, layer=layer_label, anchor="sw"
+        text=str(p.name), position=p.center, layer=layer_label, anchor="sw"
     )
 
 

@@ -12,10 +12,10 @@ def straight(
 
     Args:
         length: Length of the straight in um.
-        width: Width of the straight in um (Valid for 0.4-0.6)
-        thickness: Thickness of straight in um (Valid for 180nm-240nm)
+        width: Width of the straight in um (Valid for 0.4-0.6).
+        thickness: Thickness of straight in um (Valid for 180nm-240nm).
         sw_angle: Sidewall angle. Valid for 80-90 degrees.
-        kwargs: geometrical args that this model ignores
+        kwargs: geometrical args that this model ignores.
 
     """
     width *= 1e3

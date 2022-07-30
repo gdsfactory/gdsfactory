@@ -76,7 +76,7 @@ def via_stack_with_offset(
         name="e1",
         width=port_width,
         orientation=port_orientation,
-        midpoint=(0, y1),
+        center=(0, y1),
         port_type="electrical",
         layer=list(layers)[-1],
     )

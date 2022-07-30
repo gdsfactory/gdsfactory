@@ -412,7 +412,7 @@ def _port_marker(port, is_subport):
         * port.width
         * arrow_scale
     )
-    arrow_points += port.midpoint
+    arrow_points += port.center
     arrow_points = _rotate_points(arrow_points, angle=angle, center=port.center)
     text_pos = np.array([np.cos(rad), np.sin(rad)]) * port.width / 3 + port.center
 
@@ -424,7 +424,7 @@ def _port_marker(port, is_subport):
 
 def _draw_port(ax, port, is_subport, color):
     xbound, ybound = np.column_stack(port.endpoints)
-    # plt.plot(x, y, 'rp', markersize = 12) # Draw port midpoint
+    # plt.plot(x, y, 'rp', markersize = 12) # Draw port center
     arrow_points, text_pos = _port_marker(port, is_subport)
     xmin, ymin = np.min(np.vstack([arrow_points, port.endpoints]), axis=0)
     xmax, ymax = np.max(np.vstack([arrow_points, port.endpoints]), axis=0)
@@ -447,8 +447,8 @@ def _draw_port(ax, port, is_subport, color):
 def _draw_port_as_point(ax, port, **kwargs):
     from matplotlib import pyplot as plt
 
-    x = port.midpoint[0]
-    y = port.midpoint[1]
+    x = port.center[0]
+    y = port.center[1]
     plt.plot(x, y, "r+", alpha=0.5, markersize=15, markeredgewidth=2)  # Draw port edge
     bbox = [
         x - port.width / 2,
@@ -456,7 +456,7 @@ def _draw_port_as_point(ax, port, **kwargs):
         x + port.width / 2,
         y + port.width / 2,
     ]
-    ax.text(port.midpoint[0], port.midpoint[1], port.name, fontsize=14)
+    ax.text(port.center[0], port.center[1], port.name, fontsize=14)
     return bbox
 
 
@@ -606,7 +606,7 @@ class Viewer(QGraphicsView):
 
     def add_port(self, port, is_subport=False):
         if (port.width is None) or (port.width == 0):
-            x, y = port.midpoint
+            x, y = port.center
             cs = 1  # cross size
             pn = QPointF(x, y + cs)
             ps = QPointF(x, y - cs)
@@ -624,7 +624,7 @@ class Viewer(QGraphicsView):
             arrow_qpoly = QPolygonF([QPointF(p[0], p[1]) for p in arrow_points])
             port_scene_poly = self.scene.addPolygon(arrow_qpoly)
             # port_scene_poly.setRotation(port.orientation)
-            # port_scene_poly.moveBy(port.midpoint[0], port.midpoint[1])
+            # port_scene_poly.moveBy(port.center[0], port.center[1])
             port_shapes = [qline, port_scene_poly]
         qtext = self.scene.addText(str(port.name), self.portfont)
         qtext.setPos(QPointF(text_pos[0], text_pos[1]))

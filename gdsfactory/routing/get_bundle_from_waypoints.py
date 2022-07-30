@@ -105,7 +105,14 @@ def get_bundle_from_waypoints(
         sort_ports: sorts ports.
         cross_section: cross_section.
         separation: center to center, defaults to ports1 separation.
-        **kwargs: cross_section settings.
+        on_route_error: function to call for routing errors.
+        path_length_match_loops: Integer number of loops to add to bundle
+            for path length matching (won't try to match if None).
+        path_length_match_extra_length: Extra length to add
+            to path length matching loops (requires path_length_match_loops != None).
+        path_length_match_modify_segment_i: Index of straight segment to add path
+            length matching loops to (requires path_length_match_loops != None).
+        kwargs: cross_section settings.
 
     """
     if len(ports2) != len(ports1):
@@ -115,14 +122,14 @@ def get_bundle_from_waypoints(
         )
 
     for p in ports1:
-        p.angle = int(p.angle) % 360 if p.angle else p.angle
+        p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
     for p in ports2:
-        p.angle = int(p.angle) % 360 if p.angle else p.angle
+        p.orientation = int(p.orientation) % 360 if p.orientation else p.orientation
 
     start_angle = ports1[0].orientation
     end_angle = ports2[0].orientation
-    waypoints = [ports1[0].midpoint] + list(waypoints) + [ports2[0].midpoint]
+    waypoints = [ports1[0].center] + list(waypoints) + [ports2[0].center]
 
     # Sort the ports such that the bundle connect the correct corresponding ports.
     angles_to_sorttypes = {
@@ -334,7 +341,7 @@ def _generate_manhattan_bundle_waypoints(
 
         for j, seg in enumerate(way_segments):
             if j == 0:
-                start_point = start_port.midpoint
+                start_point = start_port.center
                 seg_sep = offsets_start[i]
             else:
                 seg_sep = offsets_mid[i]
@@ -347,7 +354,7 @@ def _generate_manhattan_bundle_waypoints(
 
             # If last point before the ports, adjust the separation to the end ports
             if j == len(way_segments) - 1:
-                end_point = ports2[i].position
+                end_point = ports2[i].center
                 route += [end_point]
 
                 if end_angle in [0, 180]:

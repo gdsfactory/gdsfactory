@@ -109,7 +109,7 @@ def dbr(
     c.add_array(cell, columns=n, rows=1, spacing=(l1 + l2, 100))
     c.add_port("o1", port=cell.ports["o1"])
     p1 = c.add_port("o2", port=cell.ports["o2"])
-    p1.midpoint = [(l1 + l2) * n, 0]
+    p1.center = [(l1 + l2) * n, 0]
     return c
 
 

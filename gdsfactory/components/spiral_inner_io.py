@@ -56,10 +56,8 @@ def spiral_inner_io(
 
     """
     dx = dy = waveguide_spacing
-    x = gf.get_cross_section(cross_section, **kwargs)
-    width = x.width
-    layer = x.layer
     cross_section_bend = cross_section_bend or cross_section
+    xs_bend = gf.get_cross_section(cross_section_bend, **kwargs)
 
     if length:
         x_straight_inner_left = get_straight_length(
@@ -84,26 +82,22 @@ def spiral_inner_io(
 
     p1 = gf.Port(
         name="o1",
-        midpoint=(0, y_straight_inner_top),
+        center=(0, y_straight_inner_top),
         orientation=270,
-        width=width,
-        layer=layer,
-        cross_section=cross_section_bend,
+        cross_section=xs_bend,
     )
     p2 = gf.Port(
         name="o2",
-        midpoint=(grating_spacing, y_straight_inner_top),
+        center=(grating_spacing, y_straight_inner_top),
         orientation=270,
-        width=width,
-        layer=layer,
-        cross_section=cross_section_bend,
+        cross_section=xs_bend,
     )
 
     component.add_port(name="o1", port=p1)
     component.add_port(name="o2", port=p2)
 
     # Create manhattan path going from west grating to westest port of bend 180
-    _pt = np.array(p1.position)
+    _pt = np.array(p1.center)
     pts_w = [_pt]
 
     for i in range(N):
@@ -133,7 +127,7 @@ def spiral_inner_io(
     component.add(bend180_ref)
 
     # Create manhattan path going from east grating to eastest port of bend 180
-    _pt = np.array(p2.position)
+    _pt = np.array(p2.center)
     pts_e = [_pt]
 
     for i in range(N):

@@ -34,10 +34,8 @@ def taper_parabolic(
 
     c = gf.Component()
     c.add_polygon(points, layer=layer)
-    c.add_port(name="o1", midpoint=(0, 0), width=width1, orientation=180, layer=layer)
-    c.add_port(
-        name="o2", midpoint=(length, 0), width=width2, orientation=0, layer=layer
-    )
+    c.add_port(name="o1", center=(0, 0), width=width1, orientation=180, layer=layer)
+    c.add_port(name="o2", center=(length, 0), width=width2, orientation=0, layer=layer)
     return c
 
 

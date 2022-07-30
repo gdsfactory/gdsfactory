@@ -182,7 +182,7 @@ def add_grating_couplers_with_loopback_fiber_single(
 
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )
@@ -193,7 +193,7 @@ def add_grating_couplers_with_loopback_fiber_single(
             )
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )
@@ -234,17 +234,19 @@ def add_grating_couplers_with_loopback_fiber_array(
         bend_radius_loopback: um.
         gc_port_name: optional grating coupler name.
         gc_rotation: grating coupler rotation in degrees.
-        straight_separation:
+        straight_separation: in um.
         bend: bend spec.
         straight: straight spec.
-        layer_label: optional layer_label.
+        layer_label: for testing label.
+        layer_label_loopback: for testing label alignment loopback.
         component_name: optional component name.
         with_loopback: If True, add compact loopback alignment ports.
         nlabels_loopback: number of ports to label
             (0: no labels, 1: first port, 2: both ports).
+        get_input_labels_function: for getting test labels.
         cross_section: CrossSectionSpec.
         select_ports: function to select ports.
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
     """
     component = gf.get_component(component)
     x = gf.get_cross_section(cross_section, **kwargs)
@@ -309,8 +311,8 @@ def add_grating_couplers_with_loopback_fiber_array(
         gsi = gc.size_info
         port0 = gca1.ports[gc_port_name]
         port1 = gca2.ports[gc_port_name]
-        p0 = port0.position
-        p1 = port1.position
+        p0 = port0.center
+        p1 = port1.center
         a = bend_radius_loopback + 0.5
         b = max(2 * a, grating_separation / 2)
         y_bot_align_route = -gsi.width - straight_separation

@@ -103,7 +103,7 @@ def get_bundle_from_steps(
     waypoints = []
     steps = steps or []
 
-    x, y = ports1[0].midpoint
+    x, y = ports1[0].center
     for d in steps:
         x = d["x"] if "x" in d else x
         x += d.get("dx", 0)
@@ -112,7 +112,7 @@ def get_bundle_from_steps(
         waypoints += [(x, y)]
 
     port2 = ports2[0]
-    x2, y2 = port2.midpoint
+    x2, y2 = port2.center
     orientation = port2.orientation
 
     # if orientation is None:

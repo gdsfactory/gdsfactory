@@ -9,9 +9,6 @@ source_suffix = {
     ".md": "markdown",
 }
 
-html_static_path = ["_static"]
-html_css_files = ["css/custom.css"]
-
 extensions = [
     "matplotlib.sphinxext.plot_directive",
     "myst_parser",
@@ -24,7 +21,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
     "sphinx_click",
-    # "sphinx_markdown_tables",
+    "sphinx_markdown_tables",
     "sphinx_copybutton",
     "sphinxcontrib.autodoc_pydantic",
     "sphinx.ext.autosummary",
@@ -55,7 +52,6 @@ source_suffix = {
 language = "en"
 myst_html_meta = {
     "description lang=en": "metadata description",
-    "description lang=fr": "description des métadonnées",
     "keywords": "Sphinx, MyST",
     "property=og:locale": "en_US",
 }

@@ -29,8 +29,8 @@ def get_bundle_sbend(
     bend_radius = []
 
     for p1, p2 in zip(ports1, ports2):
-        ysize = p2.midpoint[1] - p1.midpoint[1]
-        xsize = p2.midpoint[0] - p1.midpoint[0]
+        ysize = p2.center[1] - p1.center[1]
+        xsize = p2.center[0] - p1.center[0]
         bend = bend_s(size=(xsize, ysize), **kwargs)
         sbend = bend.ref()
         sbend.connect("o1", p1)

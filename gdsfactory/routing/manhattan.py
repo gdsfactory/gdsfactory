@@ -135,7 +135,7 @@ def gen_sref(
     if port_name is None:
         port_position = np.array([0, 0])
     else:
-        port_position = structure.ports[port_name].midpoint
+        port_position = structure.ports[port_name].center
 
     ref = gf.ComponentReference(component=structure, origin=(0, 0))
 
@@ -167,7 +167,7 @@ def get_straight_distance(p0: ndarray, p1: ndarray) -> float:
 
 def transform(
     points: ndarray,
-    translation: ndarray = (0, 0),
+    translation: ndarray,
     angle_deg: int = 0,
     x_reflection: bool = False,
 ) -> ndarray:
@@ -247,16 +247,16 @@ def _generate_route_manhattan_points(
         output_port:
         bs1: bend size
         bs2: bend size
-        start_straight_length:
-        end_straight_length:
-        min_straight_length:
+        start_straight_length: in um.
+        end_straight_length: in um.
+        min_straight_length: in um.
     """
 
     threshold = TOLERANCE
 
     # transform I/O to the case where output is at (0, 0) pointing east (180)
-    p_input = input_port.midpoint
-    p_output = output_port.midpoint
+    p_input = input_port.center
+    p_output = np.array(output_port.center)
     pts_io = np.stack([p_input, p_output], axis=0)
     angle = output_port.orientation
 
@@ -273,9 +273,11 @@ def _generate_route_manhattan_points(
 
     else:
         bend_orientation = -angle + 180
-        transform_params = (-p_output, bend_orientation, False)
+        transform_params = dict(
+            translation=-p_output, angle_deg=bend_orientation, x_reflection=False
+        )
 
-        _pts_io = transform(pts_io, *transform_params)
+        _pts_io = transform(pts_io, **transform_params)
         p = _pts_io[0, :]
         _p_output = _pts_io[1, :]
 
@@ -407,7 +409,7 @@ def _generate_route_manhattan_points(
             points += [p]
             s = min_straight_length + bs1
         points = np.stack([np.array(_p) for _p in points], axis=0)
-        points = reverse_transform(points, *transform_params)
+        points = reverse_transform(points, **transform_params)
     return points
 
 
@@ -465,7 +467,7 @@ def _get_bend_reference_parameters(
         (False, -1, -1): (270, True),  # H R270 + vertical mirror
     }
 
-    b1, b2 = (p.midpoint for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
+    b1, b2 = (p.center for p in _get_bend_ports(bend=bend_cell, layer=port_layer))
 
     bsx = b2[0] - b1[0]
     bsy = b2[1] - b1[1]
@@ -548,10 +550,10 @@ def get_route_error(
     c.add(path)
     ref = ComponentReference(c)
     port1 = gf.Port(
-        name="p1", midpoint=points[0], width=width, layer=layer_path, orientation=0
+        name="p1", center=points[0], width=width, layer=layer_path, orientation=0
     )
     port2 = gf.Port(
-        name="p2", midpoint=points[1], width=width, layer=layer_path, orientation=0
+        name="p2", center=points[1], width=width, layer=layer_path, orientation=0
     )
 
     point_marker = gf.components.rectangle(
@@ -741,9 +743,9 @@ def round_corners(
             next_port = matching_ports[0]
             other_port_name = set(bend_ref.ports.keys()) - {next_port.name}
             other_port = bend_ref.ports[list(other_port_name)[0]]
-            bend_points.append(next_port.midpoint)
-            bend_points.append(other_port.midpoint)
-            previous_port_point = other_port.midpoint
+            bend_points.append(next_port.center)
+            bend_points.append(other_port.center)
+            previous_port_point = other_port.center
 
         try:
             straight_sections += [
@@ -761,7 +763,7 @@ def round_corners(
                 references=references,
             )
 
-        p0_straight = bend_ref.ports[pname_north].midpoint
+        p0_straight = bend_ref.ports[pname_north].center
         bend_orientation = bend_ref.ports[pname_north].orientation
 
     bend_points.append(points[-1])
@@ -843,7 +845,7 @@ def round_corners(
             wg_refs += [taper_ref]
 
             # Update start straight position
-            straight_origin = taper_ref.ports[pname_east].midpoint
+            straight_origin = taper_ref.ports[pname_east].center
 
             # Straight waveguide
             kwargs_wide = kwargs.copy()

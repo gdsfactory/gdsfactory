@@ -64,7 +64,7 @@ def taper(
 
     c.add_port(
         name="o1",
-        midpoint=(0, 0),
+        center=(0, 0),
         width=width1,
         orientation=180,
         layer=x.layer,
@@ -73,7 +73,7 @@ def taper(
     if with_two_ports:
         c.add_port(
             name="o2",
-            midpoint=(length, 0),
+            center=(length, 0),
             width=width2,
             orientation=0,
             layer=x.layer,
@@ -237,9 +237,9 @@ def taper_strip_to_ridge_trenches(
     c.add_polygon((x, ytt), layer=trench_layer)
     c.add_polygon((x, ytb), layer=trench_layer)
 
-    c.add_port(name="o1", midpoint=(0, 0), width=width, orientation=180, layer=layer_wg)
+    c.add_port(name="o1", center=(0, 0), width=width, orientation=180, layer=layer_wg)
     c.add_port(
-        name="o2", midpoint=(length, 0), width=width, orientation=0, layer=layer_wg
+        name="o2", center=(length, 0), width=width, orientation=0, layer=layer_wg
     )
 
     return c

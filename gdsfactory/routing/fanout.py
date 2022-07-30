@@ -54,12 +54,12 @@ def fanout_component(
 
     ports1 = [p for p in ref.ports.values() if p.name in port_names]
     port = ports1[0]
-    port_extended_x = port.get_extended_midpoint(dx)[0]
+    port_extended_x = port.get_extended_center(dx)[0]
     port_settings = port.settings.copy()
 
     port_settings.pop("name")
-    port_settings.update(midpoint=(port_extended_x, 0))
-    port_settings.update(orientation=(port.angle + 180) % 360)
+    port_settings.update(center=(port_extended_x, 0))
+    port_settings.update(orientation=(port.orientation + 180) % 360)
 
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
 
@@ -97,12 +97,12 @@ def fanout_ports(
     routes = []
     ports1 = ports
     port = ports1[0]
-    port_extended_x = port.get_extended_midpoint(dx)[0]
+    port_extended_x = port.get_extended_center(dx)[0]
     port_settings = port.settings.copy()
 
     port_settings.pop("name")
-    port_settings.update(midpoint=(port_extended_x, 0))
-    port_settings.update(orientation=(port.angle + 180) % 360)
+    port_settings.update(center=(port_extended_x, 0))
+    port_settings.update(orientation=(port.orientation + 180) % 360)
     ports2 = port_array(n=len(ports1), pitch=pitch, **port_settings)
 
     for p1, p2 in zip(ports1, ports2):

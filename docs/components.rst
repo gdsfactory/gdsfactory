@@ -1,6 +1,6 @@
 
 
-Here is a list of generic component factories that you can customize for your fab or use it as an inspiration to build your own.
+You can customize the Gdsfactory generic PDK Pcells for your fab and use it as an inspiration to build your own.
 
 
 Components
@@ -362,7 +362,7 @@ cdc
 
   import gdsfactory as gf
 
-  c = gf.components.cdc(length=30.0, gap=0.5, period=0.22, dc=0.5, angle=0.5235987755982988, width_top=2.0, width_bot=0.75, input_bot=False, fins=False, fin_size=[0.2, 0.05], port_midpoint=[0, 0], direction='EAST')
+  c = gf.components.cdc(length=30.0, gap=0.5, period=0.22, dc=0.5, angle=0.5235987755982988, width_top=2.0, width_bot=0.75, input_bot=False, fins=False, fin_size=[0.2, 0.05], port_center=[0, 0], direction='EAST')
   c.plot()
 
 
@@ -1031,14 +1031,6 @@ extend_port
 
 .. autofunction:: gdsfactory.components.extend_port
 
-.. plot::
-  :include-source:
-
-  import gdsfactory as gf
-
-  c = gf.components.extend_port()
-  c.plot()
-
 
 
 extend_ports
@@ -1053,6 +1045,13 @@ extend_ports
 
   c = gf.components.extend_ports(length=5.0, port_type='optical', centered=False)
   c.plot()
+
+
+
+extend_ports_list
+----------------------------------------------------
+
+.. autofunction:: gdsfactory.components.extend_ports_list
 
 
 
@@ -1711,7 +1710,7 @@ pack_doe
 
   import gdsfactory as gf
 
-  c = gf.components.pack_doe(do_permutations=False)
+  c = gf.components.pack_doe(doe='mmi1x2', do_permutations=False)
   c.plot()
 
 
@@ -1726,7 +1725,7 @@ pack_doe_grid
 
   import gdsfactory as gf
 
-  c = gf.components.pack_doe_grid(do_permutations=False, with_text=False)
+  c = gf.components.pack_doe_grid(doe='mmi1x2', do_permutations=False, with_text=False)
   c.plot()
 
 
@@ -2776,7 +2775,7 @@ version_stamp
 
   import gdsfactory as gf
 
-  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.12.21', text_size=10)
+  c = gf.components.version_stamp(labels=['demo_label'], with_qr_code=False, layer='WG', pixel_size=1, version='5.13.0', text_size=10)
   c.plot()
 
 

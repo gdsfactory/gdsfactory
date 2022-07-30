@@ -48,7 +48,7 @@ def add_fiber_single(
     r"""Returns component with grating couplers and labels on each port.
 
     It returns grating couplers in north-south orientation.
-    First it routes the input port gc_port_name south, and the rest of the ports north.
+    First routes input port gc_port_name south, and other ports north.
     You can always rotate it for East-West orientation.
 
     Args:
@@ -83,7 +83,7 @@ def add_fiber_single(
         grating_indices: None.
         routing_method: function to ge the route.
         gc_rotation: grating_coupler rotation (deg).
-        kwargs: cross_section settings
+        kwargs: cross_section settings.
 
     .. code::
 
@@ -150,7 +150,7 @@ def add_fiber_single(
     if gc_port_name not in gc.ports:
         raise ValueError(f"{gc_port_name!r} not in {list(gc.ports.keys())}")
 
-    gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].midpoint[0])
+    gc_port_to_edge = abs(gc.xmax - gc.ports[gc_port_name].center[0])
 
     c = Component()
 
@@ -254,7 +254,7 @@ def add_fiber_single(
 
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )
@@ -265,7 +265,7 @@ def add_fiber_single(
             )
             c.add_label(
                 text=text,
-                position=port.midpoint,
+                position=port.center,
                 anchor="o",
                 layer=layer_label,
             )

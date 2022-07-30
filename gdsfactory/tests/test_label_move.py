@@ -16,7 +16,7 @@ def test_label_move() -> Component:
     ref = c << gf.components.rectangle()
     ref.movex(10)
     assert ref.origin[0] == 10
-    # assert ref.labels[0].position[0] == 10
+    # assert ref.labels[0].center[0] == 10
     return c
 
 
