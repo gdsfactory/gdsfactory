@@ -5,6 +5,7 @@ docutils
 flake8
 flake8-bugbear
 ipykernel
+jupyter
 mypy
 myst-parser
 nbsphinx
@@ -18,7 +19,7 @@ pytest-regressions
 qrcode
 sphinx
 sphinx-autodoc-typehints
-sphinx-book-theme==0.3.2
+sphinx-book-theme
 sphinx-click
 sphinx-copybutton
 sphinx-markdown-tables
