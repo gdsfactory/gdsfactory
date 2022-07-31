@@ -67,21 +67,6 @@ def get_klayout_path() -> pathlib.Path:
     return home / klayout_folder
 
 
-def install_klive() -> None:
-    dest_folder = get_klayout_path() / "pymacros"
-    dest_folder.mkdir(exist_ok=True, parents=True)
-    cwd = pathlib.Path(__file__).resolve().parent
-    src = cwd / "klayout" / "pymacros" / "klive.lym"
-    dest = dest_folder / "klive.lym"
-
-    if dest.exists():
-        print(f"removing klive already installed in {dest}")
-        os.remove(dest)
-
-    shutil.copy(src, dest)
-    print(f"klive installed to {dest}")
-
-
 def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     """overwrite file or directory"""
     dest_folder = dest.parent
@@ -113,19 +98,12 @@ def make_symlink(src, dest):
     print(f"To:   {dest}")
 
 
-def install_generic_tech() -> None:
+def install_klayout_package() -> None:
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     cwd = pathlib.Path(__file__).resolve().parent
     home = pathlib.Path.home()
-    src = cwd / "klayout" / "tech"
-    tech = home / klayout_folder / "tech"
-    dest = tech / "generic"
-    tech.mkdir(exist_ok=True, parents=True)
-
-    make_symlink(src, dest)
-
-    src = cwd / "klayout" / "drc" / "generic.lydrc"
-    dest = home / klayout_folder / "drc" / "generic.lydrc"
+    src = cwd / "klayout"
+    dest = home / klayout_folder / "salt" / "gdsfactory"
     make_symlink(src, dest)
 
 
@@ -135,5 +113,4 @@ if __name__ == "__main__":
     src = cwd / "klayout" / "tech"
 
     install_gdsdiff()
-    install_klive()
-    install_generic_tech()
+    install_klayout_package()
