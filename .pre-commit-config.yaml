@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: b0f06dc9f2260909f3423243de180edfc823ec5a
+    rev: 08b4be84be2d74173246b7c9b6c22212a6c15a2d
     hooks:
       - id: check-yaml
         exclude: ^(conda\.recipe/meta\.yaml|conda_build/templates/.*\.yaml|docs/click/meta\.yaml|conda/meta\.yaml)
@@ -8,7 +8,7 @@ repos:
       - id: trailing-whitespace
       - id: requirements-txt-fixer
   - repo: https://github.com/hakancelikdev/unimport
-    rev: df8eb1a4c91acb84da197828af8157708968b596
+    rev: 0.10.0
     hooks:
       - id: unimport
         args: [--remove, --include-star-import]
@@ -20,7 +20,7 @@ repos:
         args: [--profile, black, --filter-files]
 
   - repo: https://github.com/psf/black
-    rev: e3c9b0430eae5de35fdbeed047f9b2f07f9b78de
+    rev: ca0dbb8fa6cca8c1fc2650cde9e71402c03a3324
     hooks:
       - id: black
 
@@ -29,7 +29,7 @@ repos:
   #   hooks:
   #     - id: ufmt
   - repo: https://github.com/asottile/blacken-docs
-    rev: 0e6f86e0e6d8554b77c4bb1d434c4bad0ea40c8a
+    rev: 97fa90cc5be84868c9fa11b838b36f89a2af01e5
     hooks:
       - id: blacken-docs
         additional_dependencies: [black==22.3.0]
@@ -38,35 +38,35 @@ repos:
     hooks:
       - id: flake8
   - repo: https://github.com/kynan/nbstripout
-    rev: 8cafdcc393232045208137698dbeb42d6e0dd9e8
+    rev: 0.6.0
     hooks:
       - id: nbstripout
         files: .ipynb
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: 85f02f45f0d2889f3826f16b60f27188ea84c1ae
+    rev: v2.37.3
     hooks:
       - id: pyupgrade
         args: [--py37-plus, --keep-runtime-typing]
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 4d782511b3999c243feb3858cd7062270eb13291
+    rev: 6cddcde8aeebdf97a9cb649c1d5fc70d520dd417
     hooks:
       - id: codespell
         args: ["-L TE,TE/TM,te,ba,FPR,fpr_spacing,ro,nd"]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: f87a493c6596a5338d69395905a4e13ed65584f6
+    rev: ff37419597c6dcb0a9e705067d3ac44d7543eb53
     hooks:
       - id: shellcheck
 
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: 8e68d79b05355c9e107f81fc267f2bfc3e9e5a04 # Use the ref you want to point at
+    rev: dc89c436469616a7c48293ec60c8e21e9d95be08 # Use the ref you want to point at
     hooks:
       - id: python-use-type-annotations
 
   - repo: https://github.com/PyCQA/bandit
-    rev: 44c05fcac53de3a39589173177c931b38de5bb0f
+    rev: 97501817e621db9975dfa6a2a1d36370942d1812
     hooks:
       - id: bandit
         args: [--exit-zero]
