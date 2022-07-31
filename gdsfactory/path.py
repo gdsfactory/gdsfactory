@@ -87,7 +87,7 @@ class Path(PathPhidl):
             cross_section: to extrude.
             layer: optional layer.
             width: optional width in um.
-            widths: tuple of starting and end width for a linar taper.
+            widths: tuple of starting and end width for a linear taper.
             simplify: Tolerance value for the simplification algorithm.
               All points that can be removed without changing the resulting
               polygon by more than the value listed here will be removed.
