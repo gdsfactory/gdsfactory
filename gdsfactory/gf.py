@@ -11,7 +11,7 @@ from click.core import Context, Option
 import gdsfactory
 from gdsfactory.config import CONFIG, cwd, print_config
 from gdsfactory.gdsdiff.gdsdiff import gdsdiff
-from gdsfactory.install import install_gdsdiff, install_generic_tech, install_klive
+from gdsfactory.install import install_gdsdiff, install_klayout_package
 from gdsfactory.layers import lyp_to_dataclass
 from gdsfactory.tech import LAYER
 from gdsfactory.types import PathType
@@ -160,8 +160,7 @@ def diff(gdspath1: str, gdspath2: str, xor: bool = False) -> None:
 @click.command()
 def install() -> None:
     """Install Klive and generic tech layermap."""
-    install_generic_tech()
-    install_klive()
+    install_klayout_package()
     install_gdsdiff()
 
 
