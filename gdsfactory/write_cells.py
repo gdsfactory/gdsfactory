@@ -17,8 +17,12 @@ from pathlib import PosixPath
 from functools import partial
 import gdsfactory as gf
 
-add_ports_optical = gf.partial(gf.add_ports.add_ports_from_markers_inside, pin_layer=(1, 0), port_layer=(2, 0))
-add_ports_electrical = gf.partial(gf.add_ports.add_ports_from_markers_inside, pin_layer=(41, 0), port_layer=(1, 0))
+add_ports_optical = gf.partial(
+    gf.add_ports.add_ports_from_markers_inside, pin_layer=(1, 0), port_layer=(2, 0)
+)
+add_ports_electrical = gf.partial(
+    gf.add_ports.add_ports_from_markers_inside, pin_layer=(41, 0), port_layer=(1, 0)
+)
 add_ports = gf.compose(add_ports_optical, add_ports_electrical)
 
 """
@@ -64,17 +68,17 @@ def write_cells_recursively(
     dirpath = dirpath or pathlib.Path.cwd()
     gdspaths = {}
 
-    for cell in cell.get_dependencies():
-        gdspath = f"{pathlib.Path(dirpath)/cell.name}.gds"
+    for c in cell.get_dependencies():
+        gdspath = f"{pathlib.Path(dirpath)/c.name}.gds"
         lib = gdspy.GdsLibrary(unit=unit, precision=precision)
-        lib.write_gds(gdspath, cells=[cell], timestamp=timestamp)
+        lib.write_gds(gdspath, cells=[c], timestamp=timestamp)
         logger.info(f"Write GDS to {gdspath}")
 
-        gdspaths[cell.name] = gdspath
+        gdspaths[c.name] = gdspath
 
-        if cell.get_dependencies():
+        if c.get_dependencies():
             gdspaths2 = write_cells_recursively(
-                cell=cell,
+                cell=c,
                 unit=unit,
                 precision=precision,
                 timestamp=timestamp,
