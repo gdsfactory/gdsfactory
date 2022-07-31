@@ -87,12 +87,8 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
 
 
 def make_symlink(src, dest):
-    if not dest.exists():
-        try:
-            make_link(src, dest)
-        except Exception:
-            os.remove(dest)
-            make_link(src, dest)
+    os.remove(dest)
+    make_link(src, dest)
     print("Symlink made:")
     print(f"From: {src}")
     print(f"To:   {dest}")
