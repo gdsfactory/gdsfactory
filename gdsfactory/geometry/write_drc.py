@@ -45,9 +45,7 @@ def rule_separation(value: float, layer1: str, layer2: str) -> str:
 def rule_enclosing(
     value: float, layer1: str, layer2: str, angle_limit: float = 90
 ) -> str:
-    """Layer1 must be enclosed by layer2 by value.
-    checks if layer1 encloses (is bigger than) layer2 by value
-    """
+    """Checks if layer1 encloses (is bigger than) layer2 by value."""
     error = f"{layer1} enclosing {layer2} by {value}um"
     return (
         f"{layer1}.enclosing({layer2}, angle_limit({angle_limit}), {value})"
@@ -107,7 +105,7 @@ end
 
 
 def write_layer_definition(layers: Dict[str, Layer]) -> List[str]:
-    """Returns layers definition script for klayout
+    """Returns layers definition script for klayout.
 
     Args:
         layers: layer definitions can be dict, dataclass or pydantic BaseModel.
@@ -168,19 +166,27 @@ def write_drc_deck_macro(
 
     - default
         - flat polygon handling
-        - single thread
+        - single threaded
         - no overhead
-        - use for small layout
+        - use for small layouts
         - no side effects
     - tiled
         - need to optimize tile size (maybe 500x500um). Works of each tile individually.
         - finite lookup range
         - output is flat
         - multithreading enable
+        - scales with number of CPUs
+        - scales with layout area
+        - predictable runtime and and memory footprint
     - deep
         - hierarchical mode
-        - experimental
-        - preserves hierarchical
+        - preserves hierarchichy in many cases
+        - does not predictably scale with number of CPUs
+        - experimental (either very fast of very slow)
+        - mainly used for LVS layer preparation
+
+    Klayout supports to switch modes and tile parameters during execution.
+    However this function does support switching modes.
 
     .. code::
 
