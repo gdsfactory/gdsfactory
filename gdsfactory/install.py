@@ -4,6 +4,7 @@ import pathlib
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 
 def make_link(src, dest):
@@ -21,6 +22,7 @@ def make_link(src, dest):
 
 
 def install_gdsdiff() -> None:
+    """Install gdsdiff tool."""
     home = pathlib.Path.home()
     git_config_path = home / ".gitconfig"
     git_attributes_path = home / ".gitattributes"
@@ -44,6 +46,7 @@ def install_gdsdiff() -> None:
 
 
 def write_git_config(git_config_path):
+    """Write GIT config."""
     print("gdsdiff shows boolean differences in Klayout")
     print("git diff FILE.GDS")
     print("Appending the gdsdiff command to your ~/.gitconfig")
@@ -62,13 +65,14 @@ def write_git_config(git_config_path):
 
 
 def get_klayout_path() -> pathlib.Path:
+    """Returns klayout path."""
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     home = pathlib.Path.home()
     return home / klayout_folder
 
 
 def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
-    """overwrite file or directory"""
+    """Copy overwriting file or directory."""
     dest_folder = dest.parent
     dest_folder.mkdir(exist_ok=True, parents=True)
 
@@ -86,19 +90,18 @@ def copy(src: pathlib.Path, dest: pathlib.Path) -> None:
     print(f"{src} copied to {dest}")
 
 
-def make_symlink(src, dest):
-    if not dest.exists():
-        try:
-            make_link(src, dest)
-        except Exception:
-            os.remove(dest)
-            make_link(src, dest)
+def make_symlink(src: Path, dest: Path) -> None:
+    """Creates symbolic link from src to dest."""
+    if dest.exists():
+        os.remove(dest)
+    make_link(src, dest)
     print("Symlink made:")
     print(f"From: {src}")
     print(f"To:   {dest}")
 
 
 def install_klayout_package() -> None:
+    """Install klayout package. Equivalent to using klayout package manager."""
     klayout_folder = "KLayout" if sys.platform == "win32" else ".klayout"
     cwd = pathlib.Path(__file__).resolve().parent
     home = pathlib.Path.home()
