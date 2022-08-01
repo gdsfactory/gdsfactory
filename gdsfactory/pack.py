@@ -202,6 +202,7 @@ def pack(
             d.center = (xcenter * precision, ycenter * precision)
 
             packed.add_ports(d.ports, prefix=f"{component.name}_{index}_")
+            index += 1
 
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
@@ -209,7 +210,6 @@ def pack(
                     label.move(
                         np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
-            index += 1
 
         components_packed_list.append(packed)
 

@@ -2,7 +2,7 @@
 
 ## [5.14.5](https://github.com/gdsfactory/gdsfactory/pull/555)
 
-- pack and grid add_ports of subcomponents.
+- pack and grid expose components ports.
 - add gdsfactory/samples/24_doe_2.py samples with unique labeling.
 
 ## [5.14.0](https://github.com/gdsfactory/gdsfactory/pull/554)
