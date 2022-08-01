@@ -170,6 +170,25 @@ Mode solver Plugins
 FDTD Simulation Plugins
 ************************
 
+.. rubric:: common FDTD functions
+
+.. currentmodule:: gdsfactory.simulation.plot
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   plot_sparameters
+   plot_imbalance2x2
+   plot_loss2x2
+
+.. currentmodule:: gdsfactory.simulation
+
+.. autosummary::
+   :toctree: _autosummary/
+
+   get_effective_indices
+
+
 .. currentmodule:: gdsfactory.simulation.gmeep
 
 .. rubric:: FDTD meep
@@ -177,8 +196,12 @@ FDTD Simulation Plugins
 .. autosummary::
    :toctree: _autosummary/
 
+   write_sparameters_meep
    write_sparameters_meep_mpi
    write_sparameters_meep_batch
+   write_sparameters_grating
+   write_sparameters_grating_mpi
+   write_sparameters_grating_batch
 
 .. currentmodule:: gdsfactory.simulation.gtidy3d
 
