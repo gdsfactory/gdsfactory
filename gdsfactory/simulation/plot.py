@@ -26,7 +26,7 @@ def plot_sparameters(
         import gdsfactory.simulation as sim
 
         df = sim.get_sparameters_data_lumerical(component=gf.components.mmi1x2)
-        sim.plot_sparameters(df, logscale=True)
+        sim.plot.plot_sparameters(df, logscale=True)
     """
 
     w = df["wavelengths"] * 1e3
