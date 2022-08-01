@@ -235,7 +235,7 @@ def add_labels_to_ports(
     component: Component,
     label_layer: LayerSpec = "LABEL",
     prefix: str = "opt_",
-    port_type: str = "optical",
+    port_type: Optional[str] = "optical",
     **kwargs,
 ) -> Component:
     """Add labels to component ports.
@@ -247,11 +247,11 @@ def add_labels_to_ports(
         port_type: to select ports.
 
     keyword Args:
-        layer: GDS port layer.
-        orientation: port orientation in degrees.
-        width: port width.
+        layer: select ports with particular GDS port layer.
+        orientation: select ports with particular port orientation in degrees.
+        width: select ports with particular port width.
         layers_excluded: List of port layers to exclude.
-        clockwise: if True, sort ports clockwise, False: counter-clockwise.
+        clockwise: True sorts ports clockwise and False counter-clockwise.
 
     """
     ports = component.get_ports_list(port_type=port_type, **kwargs)

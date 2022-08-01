@@ -376,12 +376,12 @@ class Component(Device):
         """Returns list of ports.
 
         Keyword Args:
-            layer: port GDS layer.
-            prefix: with in port name.
-            orientation: in degrees.
-            width: port width.
+            layer: select ports with GDS layer.
+            prefix: select ports with port name.
+            orientation: select ports with orientation in degrees.
+            width: select ports with port width.
             layers_excluded: List of layers to exclude.
-            port_type: optical, electrical, ...
+            port_type: select ports with port_type (optical, electrical, vertical_te).
             clockwise: if True, sort ports clockwise, False: counter-clockwise.
         """
         return list(select_ports(self.ports, **kwargs).values())

@@ -21,19 +21,19 @@ def get_material(
     dispersive: bool = False,
     material_name_to_meep: Optional[Dict[str, Union[str, float]]] = None,
 ) -> mp.Medium:
-    """Returns Meep Medium from database
+    """Returns Meep Medium from database.
 
     Args:
-        name: material name
-        wavelength: wavelength (um)
+        name: material name.
+        wavelength: wavelength (um).
         dispersive: True for built-in Meep index model,
-            False for simple, non-dispersive model
+            False for simple, non-dispersive model.
         material_name_to_meep: dispersive materials have a wavelength
             dependent index. Maps layer_stack names with meep material database names.
 
     Note:
         Using the built-in models can be problematic at low resolution.
-        If fields are NaN or Inf, increase resolution or use a non-dispersive model
+        If fields are NaN or Inf, increase resolution or use a non-dispersive model.
     """
     material_name_to_meep_new = material_name_to_meep or {}
     material_name_to_meep = MATERIAL_NAME_TO_MEEP.copy()
@@ -45,8 +45,9 @@ def get_material(
     if name in material_name_to_meep.keys():
         name_or_index = material_name_to_meep[name]
     else:
+        valid_materials = list(material_name_to_meep.keys())
         raise ValueError(
-            f"name = {name!r} not in material_name_to_meep {list(material_name_to_meep.keys())}"
+            f"name = {name!r} not in material_name_to_meep {valid_materials}"
         )
 
     if isinstance(name_or_index, str):
