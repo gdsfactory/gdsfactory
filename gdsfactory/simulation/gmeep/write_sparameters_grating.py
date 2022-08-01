@@ -49,7 +49,7 @@ def write_sparameters_grating(
     ncores: int = 1,
     **settings,
 ) -> pd.DataFrame:
-    """Write sparameter simulation results from grating coupler with fiber.
+    """Write grating coupler with fiber Sparameters.
 
     Args:
         plot: plot simulation (do not run).
@@ -92,6 +92,31 @@ def write_sparameters_grating(
         fiber_port_y_offset_from_air: y_offset from fiber to air (um).
         waveguide_port_x_offset_from_grating_start: in um.
         fiber_port_x_size: in um.
+
+    .. code::
+
+                 fiber_xposition
+                  |
+             fiber_core_diameter
+          /     /  /     /       |
+         /     /  /     /        | fiber_thickness
+        /     /  /     /    _ _ _| _ _ _ _ _ _  _
+                                 |
+                                 | air_gap_thickness
+                            _ _ _| _ _ _ _ _ _  _
+                                 |
+                nclad            | top_clad_thickness
+                            _ _ _| _ _ _ _ _ _  _
+             _|-|_|-|_|-|___     |              _| etch_depth
+              ncore        |     |core_thickness
+             ______________|_ _ _|_ _ _ _ _ _ _ _
+                                 |
+              nbox               |box_thickness
+             ______________ _ _ _|_ _ _ _ _ _ _ _
+                                 |
+              nsubstrate         |substrate_thickness
+             ______________ _ _ _|
+
     """
     mp.verbosity(verbosity)
 
@@ -220,12 +245,13 @@ def write_sparameters_grating_mpi(
     temp_file_str: str = "write_sparameters_meep_mpi",
     verbosity: bool = False,
 ):
-    """
+    """Write grating coupler Sparameters using multiple cores.
+
     Given a Dict of write_sparameters_meep keyword arguments (the "instance"),
     launches a parallel simulation on `cores` cores
     Returns the subprocess Popen object
 
-    Args
+    Args:
         instances: keys are parameters names of write_sparameters_meep,
             and entries the values.
         cores (int): number of processors.
@@ -282,18 +308,20 @@ def write_sparameters_grating_batch(
     delete_temp_files: bool = False,
     verbosity: bool = False,
 ) -> None:
-    """Given a tuple of write_sparameters_meep keyword arguments (instances)
+    """Write grating coupler Sparameters using multiple cores in batches of simulations.
+
+    Given a tuple of write_sparameters_meep keyword arguments (instances)
     launches parallel simulations each simulation is assigned "cores_per_instance" cores
-    A total of "total_cores" is assumed, if cores_per_instance * len(instances) > total_cores
+    Assumes total of "total_cores" if cores_per_instance * len(instances) > total_cores
     then the overflow will be performed serially
 
-    Args
-        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values
-        cores_per_instance (int): number of processors to assign to each instance
-        total_cores (int): total number of cores to use
-        temp_dir (FilePath): temporary directory to hold simulation files
-        delete_temp_file (Boolean): whether to delete temp_dir when done
-        verbosity: progress messages
+    Args:
+        instances: list of Dicts. The keys must be parameters names of write_sparameters_meep, and entries the values.
+        cores_per_instance: number of processors to assign to each instance.
+        total_cores: total number of cores to use.
+        temp_dir: temporary directory to hold simulation files.
+        delete_temp_file: whether to delete temp_dir when done.
+        verbosity: show progress messages.
     """
     # Save the component object to simulation for later retrieval
     temp_dir = temp_dir or pathlib.Path(__file__).parent / "temp"
