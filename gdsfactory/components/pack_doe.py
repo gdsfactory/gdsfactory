@@ -61,24 +61,24 @@ def pack_doe(
         doe: function to return Components.
         settings: component settings.
         do_permutations: for each setting.
-        function: for the component (add padding, grating couplers ...)
+        function: to apply (add padding, grating couplers).
 
     keyword Args:
-        spacing: Minimum distance between adjacent shapes
-        aspect_ratio: (width, height) ratio of the rectangular bin
-        max_size: Limits the size into which the shapes will be packed
-        sort_by_area: Pre-sorts the shapes by area
-        density: Values closer to 1 pack tighter but require more computation
+        spacing: Minimum distance between adjacent shapes.
+        aspect_ratio: (width, height) ratio of the rectangular bin.
+        max_size: Limits the size into which the shapes will be packed.
+        sort_by_area: Pre-sorts the shapes by area.
+        density: Values closer to 1 pack tighter but require more computation.
         precision: Desired precision for rounding vertex coordinates.
         text: Optional function to add text labels.
         text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
         text_offsets: relative to component size info anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         name_prefix: for each packed component (avoids the Unnamed cells warning).
-            Note that the suffix contains a uuid so the name will not be deterministic
-        rotation: for each component in degrees
+            Note that the suffix contains a uuid so the name will not be deterministic.
+        rotation: for each component in degrees.
         h_mirror: horizontal mirror in y axis (x, 1) (1, 0). This is the most common.
-        v_mirror: vertical mirror using x axis (1, y) (0, y)
+        v_mirror: vertical mirror using x axis (1, y) (0, y).
     """
     component_list, settings_list = generate_doe(
         doe, settings, do_permutations, function
@@ -120,10 +120,10 @@ def pack_doe_grid(
             if False, elements are spaced evenly along a grid.
         shape: x, y shape of the grid (see np.reshape).
             If no shape and the list is 1D, if np.reshape were run with (1, -1).
-        align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along
-        align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along
-        edge_x: {'x', 'xmin', 'xmax'} for x (column) (ignored if separation = True)
-        edge_y: {'y', 'ymin', 'ymax'} for y (row) (ignored if separation = True)
+        align_x: {'x', 'xmin', 'xmax'} for x (column) alignment along.
+        align_y: {'y', 'ymin', 'ymax'} for y (row) alignment along.
+        edge_x: {'x', 'xmin', 'xmax'} for x (column) (ignored if separation = True).
+        edge_y: {'y', 'ymin', 'ymax'} for y (row) (ignored if separation = True).
         rotation: for each component in degrees.
         h_mirror: horizontal mirror y axis (x, 1) (1, 0). most common mirror.
         v_mirror: vertical mirror using x axis (1, y) (0, y).
