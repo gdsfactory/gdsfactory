@@ -499,7 +499,7 @@ yaml_strings = dict(
     sample_connections=sample_connections,
     sample_mmis=sample_mmis,
     sample_doe=sample_doe,
-    sample_doe_grid=sample_doe_grid,
+    # sample_doe_grid=sample_doe_grid,
     sample_doe_function=sample_doe_function,
 )
 
