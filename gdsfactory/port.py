@@ -1,6 +1,5 @@
 """
-For port naming we follow start from the bottom left and name the ports
-counter-clock-wise
+we follow start from the bottom left and name the ports counter-clock-wise
 
 .. code::
 
@@ -13,7 +12,7 @@ counter-clock-wise
          8   7
 
 
-You can also rename them W,E,S,N prefix (west, east, south, north)
+You can also rename them with W,E,S,N prefix (west, east, south, north).
 
     .. code::
 
@@ -309,6 +308,12 @@ class Port:
         return self
 
     def copy(self, name: Optional[str] = None, new_uid: bool = True) -> Port:
+        """Returns a copy of the port.
+
+        Args:
+            name: optional new name.
+            new_uid: True creates a new port id.
+        """
         new_port = Port(
             name=name or self.name,
             center=self.center,
@@ -327,13 +332,14 @@ class Port:
         return new_port
 
     def get_extended_center(self, length: float = 1.0) -> ndarray:
-        """Returns an extended center"""
+        """Returns an extended port center."""
         angle = self.orientation
         c = np.cos(angle)
         s = np.sin(angle)
         return self.center + length * np.array([c, s])
 
     def snap_to_grid(self, nm: int = 1) -> None:
+        """Snap port center to nm grid."""
         self.center = nm * np.round(np.array(self.center) * 1e3 / nm) / 1e3
 
     def assert_on_grid(self, nm: int = 1) -> None:
@@ -385,7 +391,7 @@ def port_array(
     n: int = 2,
     **kwargs,
 ) -> List[Port]:
-    """Returns a list of ports placed in an array
+    """Returns a list of ports placed in an array.
 
     Args:
         center: center point of the port.
@@ -528,17 +534,17 @@ def select_ports(
     port_type: Optional[str] = None,
     clockwise: bool = True,
 ) -> Dict[str, Port]:
-    """Returns a dict of ports from a dict of ports
+    """Returns a dict of ports from a dict of ports.
 
     Args:
         ports: Dict[str, Port] a port dict {port name: port}.
-        layer: port GDS layer.
-        prefix: port name prefix.
-        suffix: port name suffix.
-        orientation: in degrees.
-        width: port width.
+        layer: select ports with port GDS layer.
+        prefix: select ports with port name prefix.
+        suffix: select ports with port name suffix.
+        orientation: select ports with orientation in degrees.
+        width: select ports with port width.
         layers_excluded: List of layers to exclude.
-        port_type: optical, electrical, ...
+        port_type: select ports with port type (optical, electrical, vertical_te).
         clockwise: if True, sort ports clockwise, False: counter-clockwise.
 
     Returns:
@@ -752,7 +758,7 @@ def rename_ports_by_orientation(
     function=_rename_ports_facing_side,
     prefix: str = "o",
 ) -> Component:
-    """Returns Component with port names based on port orientation (E, N, W, S)
+    """Returns Component with port names based on port orientation (E, N, W, S).
 
     Args:
         component: to rename ports.
@@ -891,8 +897,13 @@ def map_ports_layer_to_orientation(
 def map_ports_to_orientation_cw(
     ports: Dict[str, Port], function=_rename_ports_facing_side, **kwargs
 ) -> Dict[str, str]:
-    """Returns component or reference port mapping clockwise
-    **kwargs
+    """Returns component or reference port mapping clockwise.
+
+    Args:
+        ports: dict of ports.
+        function: to rename ports.
+        kwargs: for the function to rename ports.
+
 
     .. code::
 
@@ -936,7 +947,8 @@ def auto_rename_ports_layer_orientation(
     function=_rename_ports_facing_side,
     prefix: str = "",
 ) -> None:
-    """Renames port names with layer_orientation  (1_0_W0)
+    """Renames port names with layer_orientation  (1_0_W0).
+
     port orientation (E, N, W, S) numbering is clockwise
 
     .. code::

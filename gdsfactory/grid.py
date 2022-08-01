@@ -47,7 +47,7 @@ def grid(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
 
     Returns:
-        Component containing all the components in a grid.
+        Component containing a components grid.
 
     .. plot::
         :include-source:
@@ -66,15 +66,15 @@ def grid(
         c.plot()
     """
     components = components or [triangle(x=i) for i in range(1, 10)]
-
     device_array = np.asarray(components)
+
     # Check arguments
     if device_array.ndim not in (1, 2):
-        raise ValueError("[PHIDL] grid() The components needs to be 1D or 2D.")
+        raise ValueError("grid() The components needs to be 1D or 2D.")
     if shape is not None and len(shape) != 2:
         raise ValueError(
             "grid() shape argument must be None or"
-            " have a length of 2, for example shape=(4,6)"
+            f" have a length of 2, for example shape=(4,6), got {shape}"
         )
 
     # Check that shape is valid and reshape array if needed
@@ -83,7 +83,9 @@ def grid(
     elif (shape is None) and (device_array.ndim == 1):
         shape = (device_array.size, -1)
     elif 0 < shape[0] * shape[1] < device_array.size:
-        raise ValueError("Shape is too small for all the components")
+        raise ValueError(
+            f"Shape {shape} is too small for all {device_array.size} components"
+        )
     else:
         if np.min(shape) == -1:
             remainder = np.max(shape) - device_array.size % np.max(shape)
@@ -108,6 +110,9 @@ def grid(
             ref = d.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             D.add(ref)
             ref_array[idx] = ref
+            prefix = f"{ref.parent.name}_{idx}_"
+            prefix = prefix.replace(" ", "")
+            D.add_ports(ref.ports, prefix=prefix)
 
         else:
             ref_array[idx] = D << dummy  # Create dummy devices
@@ -222,10 +227,11 @@ if __name__ == "__main__":
 
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
     # components = [gf.components.rectangle(size=(i, i)) for i in range(40, 66, 5)]
-
-    c = [gf.components.triangle(x=i) for i in range(1, 10)]
+    # c = [gf.components.triangle(x=i) for i in range(1, 10)]
+    c = [gf.components.straight(length=i) for i in [1, 1, 1]]
+    print(len(c))
     c = grid(
-        # c,
+        c,
         shape=(1, len(c)),
         rotation=0,
         h_mirror=False,

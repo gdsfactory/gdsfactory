@@ -196,9 +196,12 @@ def pack(
             component = component_list[n]
             d = component.ref(rotation=rotation, h_mirror=h_mirror, v_mirror=v_mirror)
             packed.add(d)
+
             if hasattr(component, "settings"):
                 packed.info["components"][component.name] = dict(component.settings)
             d.center = (xcenter * precision, ycenter * precision)
+
+            packed.add_ports(d.ports, prefix=f"{component.name}_{index}_")
 
             if text:
                 for text_offset, text_anchor in zip(text_offsets, text_anchors):
@@ -206,7 +209,7 @@ def pack(
                     label.move(
                         np.array(text_offset) + getattr(d.size_info, text_anchor)
                     )
-                index += 1
+            index += 1
 
         components_packed_list.append(packed)
 
@@ -271,7 +274,7 @@ if __name__ == "__main__":
     # c.write_gds_with_metadata("mask.gds")
 
     p = pack(
-        [gf.components.triangle(x=i) for i in range(1, 10)],
+        [gf.components.straight(length=i) for i in [1, 1]],
         spacing=20.0,
         max_size=(100, 100),
         text=gf.partial(gf.components.text, justify="center"),
