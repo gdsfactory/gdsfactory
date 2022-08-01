@@ -71,7 +71,7 @@ def pack_doe(
         density: Values closer to 1 pack tighter but require more computation.
         precision: Desired precision for rounding vertex coordinates.
         text: Optional function to add text labels.
-        text_prefix: for labels. For example. 'A' will produce 'A1', 'A2', ...
+        text_prefix: for labels. For example. 'A' for 'A1', 'A2'...
         text_offsets: relative to component size info anchor. Defaults to center.
         text_anchors: relative to component (ce cw nc ne nw sc se sw center cc).
         name_prefix: for each packed component (avoids the Unnamed cells warning).
@@ -110,7 +110,7 @@ def pack_doe_grid(
         component: function to return Components.
         settings: component settings.
         do_permutations: for each setting.
-        function: for the component (add padding, grating couplers ...)
+        function: to apply to component (add padding, grating couplers).
         with_text: includes text label.
 
     keyword Args:

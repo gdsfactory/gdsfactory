@@ -32,9 +32,7 @@ def add_fiber_array(
 ) -> Component:
     """Returns component with south routes and grating_couplers.
 
-
     You can also use pads or other terminations instead of grating couplers.
-
 
     Args:
         component: component spec to connect to grating couplers.
@@ -44,12 +42,12 @@ def add_fiber_array(
         component_name: for the label.
         select_ports: function to select ports.
         cross_section: cross_section function.
-        get_input_labels_function: function to get input labels.
+        get_input_labels_function: function to get input labels. None skips labels.
         layer_label: optional layer for grating coupler label.
 
     Keyword Args:
-        bend: for bends.
-        straight: straight.
+        bend: bend spec.
+        straight: straight spec.
         taper: taper spec.
         get_input_label_text_loopback_function: function to get input label test.
         get_input_label_text_function: for labels.
