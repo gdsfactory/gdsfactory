@@ -36,6 +36,7 @@ def get_effective_indices(
         -----------------      |
 
     .. code::
+
         import gdsfactory.simulation as sim
 
         neffs = sim.get_effective_indices(
