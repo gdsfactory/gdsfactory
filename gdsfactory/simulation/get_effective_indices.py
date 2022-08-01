@@ -17,6 +17,14 @@ def get_effective_indices(
 ) -> List[float]:
     """Returns the effective refractive indices for a 1D mode.
 
+    Args:
+        epsilon_core: Relative permittivity of the film.
+        epsilon_substrate: Relative permittivity of the substrate.
+        epsilon_cladding: Relative permittivity of the cladding.
+        thickness: Thickness of the film in um.
+        wavelength: Wavelength in um.
+        polarization: Either "te" or "tm".
+
     .. code::
 
         -----------------      |
@@ -27,13 +35,17 @@ def get_effective_indices(
         nsubstrate            inf
         -----------------      |
 
-    Args:
-        epsilon_core: Relative permittivity of the film.
-        epsilon_substrate: Relative permittivity of the substrate.
-        epsilon_cladding: Relative permittivity of the cladding.
-        thickness: Thickness of the film in um.
-        wavelength: Wavelength in um.
-        polarization: Either "te" or "tm".
+    .. code::
+        import gdsfactory.simulation as sim
+
+        neffs = sim.get_effective_indices(
+            ncore=3.4777,
+            ncladding=1.444,
+            nsubstrate=1.444,
+            thickness=0.22,
+            wavelength=1.55,
+            polarization="te",
+        )
 
     """
 
