@@ -34,7 +34,8 @@ ncores = multiprocessing.cpu_count()
 
 
 def remove_simulation_kwargs(d: Dict[str, Any]) -> Dict[str, Any]:
-    """Returns a copy of dict with only simulation settings
+    """Returns a copy of dict with only simulation settings.
+
     removes all flags for the simulator itself
     """
     d = d.copy()

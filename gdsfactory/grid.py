@@ -26,7 +26,7 @@ def grid(
     h_mirror: bool = False,
     v_mirror: bool = False,
 ) -> Component:
-    """Returns a component with a 1D or 2D grid of components.
+    """Returns Component with a 1D or 2D grid of components.
 
     Adapted from phidl.geometry
 
@@ -47,7 +47,7 @@ def grid(
         v_mirror: vertical mirror using x axis (1, y) (0, y).
 
     Returns:
-        Component containing a components grid.
+        Component containing components grid.
 
     .. plot::
         :include-source:
@@ -147,7 +147,7 @@ def grid_with_text(
     labels: Optional[Tuple[str, ...]] = None,
     **kwargs,
 ) -> Component:
-    """Returns a Component with 1D or 2D grid of components with text labels.
+    """Returns Component with 1D or 2D grid of components with text labels.
 
     Args:
         components: Iterable to be placed onto a grid. (can be 1D or 2D).
