@@ -1,7 +1,4 @@
-"""read Sparameters from a CSV file and returns sax model.
-
-TODO: write dat to csv converter
-(from lumerical interconnect to SAX format and the other way around)
+"""read Sparameters from CSV file and returns sax model.
 """
 import pathlib
 from typing import Union
@@ -10,8 +7,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 import pandas as pd
-from sax.typing_ import Float, Model, SDict
-from scipy.interpolate import interp1d
+from sax.typing_ import Float, Model
 from typing_extensions import Literal
 
 import gdsfactory as gf
@@ -29,58 +25,13 @@ PathType = Union[str, pathlib.Path]
 Simulator = Literal["lumerical", "meep", "tidy3d"]
 
 
-def sdict_from_csv(
-    filepath: PathType,
-    wl: Float = wl_cband,
-    xkey: str = "wavelengths",
-    xunits: float = 1,
-    prefix: str = "s",
-) -> SDict:
-    """Returns SDict from Sparameters from a CSV file.
-
-    Returns interpolated Sdict over wavelength.
-
-    Args:
-        filepath: CSV FDTD simulation results path.
-        wl: wavelength to interpolate (um).
-        xkey: key for wavelengths in file.
-        xunits: x units in um from the loaded file (um).
-        prefix: for the sparameters column names in file.
-    """
-    df = pd.read_csv(filepath)
-    if xkey not in df:
-        raise ValueError(f"{xkey!r} not in {df.keys()}")
-    nsparameters = (len(df.keys()) - 1) // 2
-    nports = int(nsparameters**0.5)
-
-    x = df[xkey] * xunits
-
-    s = {}
-    for i in range(1, nports + 1):
-        for j in range(1, nports + 1):
-            m = f"{prefix}{i}{j}m"
-            a = f"{prefix}{i}{j}a"
-            if m not in df:
-                raise ValueError(f"{m!r} not in {df.keys()}")
-            if a not in df:
-                raise ValueError(f"{a!r} not in {df.keys()}")
-            s[m] = interp1d(x, df[m])(wl)
-            s[a] = interp1d(x, df[a])(wl)
-
-    return {
-        (f"o{i}", f"o{j}"): s[f"{prefix}{i}{j}m"] * np.exp(1j * s[f"{prefix}{i}{j}a"])
-        for i in range(1, nports + 1)
-        for j in range(1, nports + 1)
-    }
-
-
 def model_from_csv(
     filepath: Union[PathType, pd.DataFrame],
     xkey: str = "wavelengths",
     xunits: float = 1,
     prefix: str = "s",
 ) -> Model:
-    """Returns a SAX Model from Sparameters from a CSV file.
+    """Returns a SAX Sparameters Model from a CSV file.
 
     The SAX Model is a function that returns a SAX SDict interpolated over wavelength.
 
@@ -103,8 +54,13 @@ def model_from_csv(
     nsparameters = (len(keys) - 1) // 2
     nports = int(nsparameters**0.5)
 
-    x = dic[xkey] * xunits
+    x = jnp.asarray(dic[xkey] * xunits)
     wl = jnp.asarray(wl_cband)
+
+    # make sure x is sorted from low to high
+    idxs = jnp.argsort(x)
+    x = x[idxs]
+    dic = {k: v[idxs] for k, v in dic.items()}
 
     @jax.jit
     def model(wl: Float = wl):
@@ -132,7 +88,7 @@ def _demo_mmi_lumerical_csv() -> None:
 
 
 def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
-    """Returns SAX model based on lumerical FDTD simulations.
+    """Returns SAX model from lumerical FDTD simulations.
 
     Args:
         component: to simulate.
@@ -148,7 +104,7 @@ def model_from_component(component, simulator: Simulator, **kwargs) -> Model:
     elif simulator == "tidy3d":
         filepath = get_sparameters_path_tidy3d(component=component, **kwargs)
     else:
-        raise ValueError(f"{simulator} no in {simulators}")
+        raise ValueError(f"{simulator!r} no in {simulators}")
     return model_from_csv(filepath=filepath)
 
 
