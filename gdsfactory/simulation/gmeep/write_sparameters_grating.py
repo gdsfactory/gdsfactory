@@ -22,6 +22,7 @@ import pandas as pd
 
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.serialization import clean_value_json, clean_value_name
+from gdsfactory.simulation.gmeep import _mpirun, _python
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
@@ -286,7 +287,7 @@ def write_sparameters_grating_mpi(
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
     # Exec string
-    command = f"mpirun -np {cores} python {script_file}"
+    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
 
     # Launch simulation
     if verbosity:
