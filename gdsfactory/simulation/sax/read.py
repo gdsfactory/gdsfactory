@@ -26,6 +26,7 @@ def model_from_csv(
     xkey: str = "wavelengths",
     xunits: float = 1,
     prefix: str = "s",
+    wavelengths: np.ndarray = wl_cband,
 ) -> Model:
     """Returns a SAX Model from Sparameters from a CSV file.
 
@@ -52,8 +53,10 @@ def model_from_csv(
 
     x = dic[xkey] * xunits
 
+    wl = jnp.asarray(wavelengths)
+
     @jax.jit
-    def model(wl: Float = jnp.asarray(wl_cband)):
+    def model(wl: Float = wl):
         S = {}
         zero = jnp.zeros_like(x)
         for i in range(1, nports + 1):
