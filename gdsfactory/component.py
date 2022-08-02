@@ -1096,7 +1096,7 @@ class Component(Device):
         gdspath: Optional[PathType] = None,
         gdsdir: Optional[PathType] = None,
         unit: float = 1e-6,
-        precision: float = 1e-9,
+        precision: Optional[float] = None,
         timestamp: Optional[datetime.datetime] = _timestamp2019,
         logging: bool = True,
         on_duplicate_cell: Optional[str] = "warn",
@@ -1117,6 +1117,10 @@ class Component(Device):
                 "overwrite": overwrite all duplicate cells with one of the duplicates, without warning.
                 None: do not try to resolve (at your own risk!)
         """
+        from gdsfactory.pdk import get_grid_size
+
+        precision = precision or get_grid_size() * 1e-6
+
         gdsdir = (
             gdsdir or pathlib.Path(tempfile.TemporaryDirectory().name) / "gdsfactory"
         )
