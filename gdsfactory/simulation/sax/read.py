@@ -38,7 +38,7 @@ def model_from_csv(
         xunits: x units in um from the loaded file (um). 1 means 1um.
         prefix: for the sparameters column names in file.
     """
-    df = pd.read_csv(filepath) if not isinstance(filepath, pd.DataFrame) else filepath
+    df = filepath if isinstance(filepath, pd.DataFrame) else pd.read_csv(filepath)
     assert isinstance(df, pd.DataFrame)
     df = df.reset_index()  # maybe there is useful info in the index...
     dic = dict(zip(df.columns, jnp.asarray(df.values.T)))
