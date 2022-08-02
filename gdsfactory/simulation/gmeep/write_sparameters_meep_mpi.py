@@ -1,8 +1,10 @@
 """Compute and write Sparameters using Meep in MPI."""
 
 import multiprocessing
+import os
 import pathlib
 import pickle
+import re
 import shlex
 import subprocess
 import sys
@@ -30,6 +32,19 @@ from gdsfactory.types import ComponentSpec, PathType
 ncores = multiprocessing.cpu_count()
 
 temp_dir_default = Path(sparameters_path) / "temp"
+
+
+def _python() -> str:
+    """select correct python executable from current activated environment"""
+    return sys.executable
+
+
+def _mpirun() -> str:
+    """select correct mpirun executable from current activated environment"""
+    python = _python()
+    path, ext = os.path.splitext(python)
+    mpirun = re.sub("python$", "mpirun", path) + ext
+    return mpirun if os.path.exists(mpirun) else "mpirun"
 
 
 @pydantic.validate_arguments
@@ -180,7 +195,7 @@ def write_sparameters_meep_mpi(
     script_file = tempfile.with_suffix(".py")
     with open(script_file, "w") as script_file_obj:
         script_file_obj.writelines(script_lines)
-    command = f"mpirun -np {cores} python {script_file}"
+    command = f"{_mpirun()} -np {cores} {_python()} {script_file}"
     logger.info(command)
     logger.info(str(filepath))
 
