@@ -10,7 +10,7 @@ from sax.typing_ import Model
 
 @validate_arguments
 def plot_model(
-    sdict: Model,
+    model: Model,
     port1: str = "o1",
     ports2: Tuple[str, ...] = None,
     logscale: bool = True,
@@ -23,13 +23,13 @@ def plot_model(
     """Plot Model Sparameters Magnitude.
 
     Args:
-        model: function that returns SDict.
+        model: function that returns SDict as function of wavelength.
         port1: input port name.
         ports2: list of ports.
+        logscale: plots in dB logarithmic scale.
         wavelength_start: wavelength min (um).
         wavelength_stop: wavelength max (um).
         wavelength_points: number of wavelength steps.
-        logscale: plots in dB logarithmic scale.
         phase: plot phase instead of magnitude.
 
     .. plot::
@@ -40,7 +40,7 @@ def plot_model(
         gs.plot_model(gs.models.straight, phase=True, port1="o1")
     """
     wavelengths = np.linspace(wavelength_start, wavelength_stop, wavelength_points)
-    sdict = sdict(wl=wavelengths)
+    sdict = model(wl=wavelengths)
 
     ports = {ports[0] for ports in sdict.keys()}
     ports2 = ports2 or ports
