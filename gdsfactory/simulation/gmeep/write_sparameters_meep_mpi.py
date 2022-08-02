@@ -44,9 +44,7 @@ def _mpirun() -> str:
     python = _python()
     path, ext = os.path.splitext(python)
     mpirun = re.sub("python$", "mpirun", path) + ext
-    if not os.path.exists(mpirun):
-        return "mpirun"
-    return mpirun
+    return mpirun if os.path.exists(mpirun) else "mpirun"
 
 
 @pydantic.validate_arguments
