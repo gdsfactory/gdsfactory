@@ -103,11 +103,15 @@ def model_from_csv(
     nsparameters = (len(keys) - 1) // 2
     nports = int(nsparameters**0.5)
 
-    x = dic[xkey] * xunits
-    wl = jnp.asarray(wl_cband)
+    x = jnp.asarray(dic[xkey] * xunits)
+
+    # make sure x is sorted from low to high
+    idxs = jnp.argsort(x)
+    x = x[idxs]
+    dic = {k: v[idxs] for k, v in dic.items()}
 
     @jax.jit
-    def model(wl: Float = wl):
+    def model(wl: Float = jnp.asarray(wl_cband)):
         S = {}
         zero = jnp.zeros_like(x)
         for i in range(1, nports + 1):
