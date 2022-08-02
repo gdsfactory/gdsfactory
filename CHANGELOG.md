@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.14.5](https://github.com/gdsfactory/gdsfactory/pull/565)
+
+- fix mpirun path [PR](https://github.com/gdsfactory/gdsfactory/pull/561)
+- fix model_from_csv [PR](https://github.com/gdsfactory/gdsfactory/pull/563/files)
+
 ## [5.14.5](https://github.com/gdsfactory/gdsfactory/pull/560)
 
 - pack and grid expose components ports.
