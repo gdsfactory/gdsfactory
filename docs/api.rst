@@ -236,8 +236,8 @@ Circuit solver Plugins
 .. autosummary::
    :toctree: _autosummary/
 
-   read.sdict_from_csv
-   read.sdict_from_component_lumerical
+   read.model_from_csv
+   read.model_from_component
    plot_model
    models
 
