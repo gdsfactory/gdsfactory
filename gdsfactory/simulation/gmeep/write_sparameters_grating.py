@@ -22,10 +22,10 @@ import pandas as pd
 
 from gdsfactory.config import logger, sparameters_path
 from gdsfactory.serialization import clean_value_json, clean_value_name
-from gdsfactory.simulation.gmeep import _mpirun, _python
 from gdsfactory.simulation.gmeep.get_simulation_grating_fiber import (
     get_simulation_grating_fiber,
 )
+from gdsfactory.simulation.gmeep.write_sparameters_meep_mpi import _mpirun, _python
 from gdsfactory.types import PathType
 
 nm = 1e-3
