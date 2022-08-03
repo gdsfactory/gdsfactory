@@ -17,7 +17,7 @@ def via_stack(
     vias: Optional[Tuple[Optional[ComponentSpec], ...]] = (via1, via2),
     layer_port: LayerSpec = None,
 ) -> Component:
-    """Rectangular via array stack
+    """Rectangular via array stack.
 
     You can use it to connect different metal layers or metals to silicon.
     You can use the naming convention via_stack_layerSource_layerDestination
@@ -26,6 +26,8 @@ def via_stack(
     via_stack is used for via_stacking silicon
 
     http://www.vlsi-expert.com/2017/12/vias.html
+
+    spacing and enclosure are taken from via.info['enclosure'] and via.info['spacing']
 
     Args:
         size: of the layers.
@@ -37,7 +39,11 @@ def via_stack(
     width, height = size
     a = width / 2
     b = height / 2
-    layer_port = layer_port or layers[-1]
+
+    layers = layers or []
+
+    if layers:
+        layer_port = layer_port or layers[-1]
 
     c = Component()
     c.height = height
