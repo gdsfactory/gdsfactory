@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import itertools
+import os
 import pathlib
 import tempfile
 import uuid
@@ -1082,12 +1083,42 @@ class Component(Device):
         return gdspath
 
     def write_gds_with_metadata(self, *args, **kwargs) -> Path:
-        """Write component in GDS and metadata (component settings) in YAML"""
+        """Write component in GDS and metadata (component settings) in YAML."""
         gdspath = self.write_gds(*args, **kwargs)
         metadata = gdspath.with_suffix(".yml")
         metadata.write_text(self.to_yaml(with_cells=True, with_ports=True))
         logger.info(f"Write YAML metadata to {str(metadata)!r}")
         return gdspath
+
+    def write_oas(self, filename, **write_kwargs) -> Path:
+        """Write component in OASIS format."""
+        if str(filename).lower().endswith(".gds"):
+            # you are looking for write_gds
+            self.write_gds(filename, **write_kwargs)
+            return
+        try:
+            import klayout.db as pya
+        except ImportError as err:
+            err.args = (
+                "you need klayout package to write OASIS\n"
+                "pip install klayout\n" + err.args[0],
+            ) + err.args[1:]
+            raise
+        if not filename.lower().endswith(".oas"):
+            filename += ".oas"
+        fileroot = os.path.splitext(filename)[0]
+        tempfilename = fileroot + "-tmp.gds"
+
+        self.write_gds(tempfilename, **write_kwargs)
+        layout = pya.Layout()
+        layout.read(tempfilename)
+
+        # there can only be one top_cell because we only wrote one device
+        topcell = layout.top_cell()
+        topcell.write(filename)
+        os.remove(tempfilename)
+        logger.info(f"Write OASIS to {filename!r}")
+        return Path(filename)
 
     def to_dict(
         self,
