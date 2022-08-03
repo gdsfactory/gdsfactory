@@ -20,6 +20,7 @@ docs/notebooks/ring.yml
 
 # Packages
 *.egg
+*.oas
 *.egg-info
 docs/notebooks/demo.yml
 Pipfile.lock
