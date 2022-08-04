@@ -28,8 +28,54 @@ add_ports = gf.compose(add_ports_optical, add_ports_electrical)
 """
 
 
-def get_import_gds_script(dirpath: PathType) -> str:
-    """Returns import_gds script from a directory with all the GDS files."""
+def get_script(gdspath: PathType, module: Optional[str] = None) -> str:
+    """Returns script for importing a fixed cell.
+
+    Args:
+        gdspath: fixed cell gdspath.
+        module: if any includes plot directive.
+    """
+    cell = clean_name(gdspath.stem)
+
+    if module:
+        return f"""
+
+@gf.cell
+def {cell}()->gf.Component:
+    '''Returns {cell} fixed cell.
+
+    .. plot::
+      :include-source:
+
+      import {module}
+
+      c = {module}.{cell}()
+      c.plot()
+    '''
+    return import_gds({str(gdspath)!r})
+
+"""
+
+    else:
+        return f"""
+
+@gf.cell
+def {cell}()->gf.Component:
+    '''Returns {cell} fixed cell.
+    '''
+    return import_gds({str(gdspath)!r})
+
+"""
+
+
+def get_import_gds_script(dirpath: PathType, module: Optional[str] = None) -> str:
+    """Returns import_gds script from a directory with all the GDS files.
+
+    Args:
+        dirpath: fixed cell directory path.
+        module: if any includes plot directive.
+
+    """
     dirpath = pathlib.Path(dirpath)
     script = [script_prefix]
     script += [f"gdsdir = {dirpath.absolute()!r}\n"]
@@ -37,11 +83,7 @@ def get_import_gds_script(dirpath: PathType) -> str:
         "import_gds = partial(gf.import_gds, gdsdir=gdsdir, decorator=add_ports)\n"
     ]
 
-    cells = [
-        f"{clean_name(cell.stem)} = partial(import_gds, "
-        f"{cell.stem + cell.suffix!r})"
-        for cell in dirpath.glob("*.gds")
-    ]
+    cells = [get_script(gdspath, module=module) for gdspath in dirpath.glob("*.gds")]
     script += sorted(cells)
     return "\n".join(script)
 
@@ -155,8 +197,19 @@ def test_write_cells():
 if __name__ == "__main__":
     import gdsfactory as gf
 
-    gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
-    gf.show(gdspath)
+    # gdspath = CONFIG["gdsdir"] / "mzi2x2.gds"
+    # gf.show(gdspath)
+    # gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
+    # print(len(gdspaths))
 
-    gdspaths = write_cells(gdspath=gdspath, dirpath="extra/gds")
-    print(len(gdspaths))
+    sample_pdk_cells = gf.grid(
+        [
+            gf.components.straight,
+            gf.components.bend_euler,
+            gf.components.grating_coupler_elliptical,
+        ]
+    )
+    sample_pdk_cells.write_gds("extra/pdk.gds")
+    gf.write_cells.write_cells(gdspath="extra/pdk.gds", dirpath="extra/gds")
+
+    print(gf.write_cells.get_import_gds_script("extra/gds", module="sky130"))
