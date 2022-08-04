@@ -2,7 +2,7 @@ from gdsfactory.component import Component, ComponentReference
 
 
 def from_dphox(device: "dp.Device", foundry: "dp.foundry.Foundry") -> Component:
-    """Converts a Dphox Device into a gdsfactory Component.
+    """Returns Gdsfactory Component from a dphox Device.
 
     Note that you need to install dphox `pip install dphox`
 

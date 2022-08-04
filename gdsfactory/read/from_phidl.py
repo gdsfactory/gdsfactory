@@ -6,7 +6,12 @@ from gdsfactory.types import Layer
 
 
 def from_phidl(component: Device, port_layer: Layer = (1, 0), **kwargs) -> Component:
-    """Returns gf.Component from a phidl Device or function"""
+    """Returns gf.Component from a phidl Device or function.
+
+    Args:
+        component: phidl component.
+        port_layer: to add to component ports.
+    """
     device = call_if_func(component, **kwargs)
     component = Component(name=device.name)
 

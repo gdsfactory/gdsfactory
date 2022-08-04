@@ -107,6 +107,8 @@ def install_klayout_package() -> None:
     home = pathlib.Path.home()
     src = cwd / "klayout"
     dest = home / klayout_folder / "salt" / "gdsfactory"
+    salt = home / klayout_folder / "salt"
+    salt.mkdir(exist_ok=True, parents=True)
     make_symlink(src, dest)
 
 
