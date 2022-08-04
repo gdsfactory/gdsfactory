@@ -22,6 +22,8 @@ import sys
 import tempfile
 import os
 
+
+klayout_version = pya.Application.instance().version()
 is_python3 = sys.version_info.major==3
 temp = tempfile.TemporaryDirectory().name
 
@@ -123,8 +125,7 @@ class MyServer(pya.QTcpServer):
 
 # Start the server
 server = MyServer()
-print("klive v0.0.8 is running")
-
+print("klive 5.15.0 is running inside klayout {} with python {}".format(klayout_version, sys.version))
 
 </text>
 </klayout-macro>
