@@ -1,5 +1,11 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.15.1](https://github.com/gdsfactory/gdsfactory/pull/571)
+
+- expose import_oas to gf.read and Improve docs API
+- klive shows gdsfactory version
+- write_cells does not use partials
+
 ## [5.15.0](https://github.com/gdsfactory/gdsfactory/pull/567)
 
 - read and write OASIS files using klayout API.
