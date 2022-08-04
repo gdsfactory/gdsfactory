@@ -17,9 +17,13 @@ Classes and functions for construction and manipulation of geometric objects.
 
    Component
    ComponentReference
+   read.import_gds
+   read.import_oas
    read.from_yaml
    read.from_np
-   read.import_gds
+   read.from_phidl
+   read.from_picwriter
+   read.from_dphox
 
 .. currentmodule:: gdsfactory.path
 

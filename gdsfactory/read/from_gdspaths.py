@@ -11,7 +11,7 @@ def from_gdspaths(cells: Tuple[ComponentOrPath, ...]) -> Component:
     """Combine all GDS files or gf.components into a gf.component.
 
     Args:
-        cells: List of gdspaths or Components
+        cells: List of gdspaths or Components.
     """
     component = Component("merged")
 
