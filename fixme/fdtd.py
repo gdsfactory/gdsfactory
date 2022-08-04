@@ -1,6 +1,24 @@
 """FIXME!
 
 How can we make sure that any port convention works for 3D FDTD.
+
+see https://github.com/gdsfactory/gdsfactory/issues/233
+
+This format could solve the issues
+
+```
+
+wavelength |port_in | port_out | mode_in | mode_out |   magnitude  |   phase
+           |        |          |   0     |    0     |              |
+           |        |          |         |          |              |
+           |        |          |         |          |              |
+
+```
+
+to query s12m and s12a we can write some convenience functions for each port naming convention
+
+df.query("port_in=='o1' & port_out=='o2' ")
+
 """
 
 import gdsfactory as gf
