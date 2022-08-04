@@ -20,7 +20,16 @@ gdsfactory is an EDA (electronics design automation) tool to Layout Integrated C
 It is built on top of phidl, gdspy and klayout to work with GDSII components, PDKs and masks for different foundries.
 It combines the power of a code driven flow (python or YAML) together with visualization (Klayout for GDS, trimesh for 3D rendering, networkx for graphs ...) and simulation (for component and circuit) interfaces.
 
-You just need to adapt the functions to your foundry and build your own library of elements (see [UBC PDK](https://github.com/gdsfactory/ubc) example).
+
+Multiple foundries have gdsfactory PDKs available. Talk to your foundry to access their gdsfactory PDK.
+We also have some open source PDKs available on GitHub, instructions on [how to build your own PDK](https://gdsfactory.github.io/gdsfactory/notebooks/08_pdk.html) and [import it from a library of fixed cells](https://gdsfactory.github.io/gdsfactory/notebooks/09_pdk_import.html)
+
+See:
+
+- [UBCPDK](https://github.com/gdsfactory/ubc)
+- [skywater130](https://gdsfactory.github.io/skywater130/README.html)
+
+
 
 gdsfactory provides you with functions that you can use to:
 

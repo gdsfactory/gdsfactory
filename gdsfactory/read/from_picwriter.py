@@ -44,6 +44,7 @@ def cross_section_to_waveguide_template(
 
 def direction_to_degree(direction: str) -> float:
     """Convert a 'direction' (as used in picwriter) to an angle in degrees.
+
     picwriter 'direction's can be either a float (corresponding to an angle in radians)
     or a string, corresponding to a cardinal direction
     """
@@ -56,7 +57,12 @@ def direction_to_degree(direction: str) -> float:
 def from_picwriter(
     picwriter_object: pt.Component, port_layer: Layer = (1, 0)
 ) -> Component:
-    """Convert a Picwriter into a Gdsfactory Component."""
+    """Returns Gdsfactory Component from a picwriter component.
+
+    Args:
+        component: phidl component.
+        port_layer: to add to component ports.
+    """
     po = picwriter_object
     c = gf.Component(name=po.name_prefix)
 
