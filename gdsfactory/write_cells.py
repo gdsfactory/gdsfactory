@@ -36,6 +36,12 @@ def get_script(gdspath: PathType, module: Optional[str] = None) -> str:
         module: if any includes plot directive.
     """
     cell = clean_name(gdspath.stem)
+    gdspath = gdspath.stem + gdspath.suffix
+
+    if "." in module:
+        module, submodule = module.split(".")
+    else:
+        submodule = module
 
     if module:
         return f"""
@@ -49,7 +55,7 @@ def {cell}()->gf.Component:
 
       import {module}
 
-      c = {module}.{cell}()
+      c = {submodule}.{cell}()
       c.plot()
     '''
     return import_gds({str(gdspath)!r})
