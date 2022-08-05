@@ -38,11 +38,7 @@ def get_script(gdspath: PathType, module: Optional[str] = None) -> str:
     cell = clean_name(gdspath.stem)
     gdspath = gdspath.stem + gdspath.suffix
 
-    if "." in module:
-        module, submodule = module.split(".")
-    else:
-        submodule = module
-
+    package = module.split(".")[0] if "." in module else module
     if module:
         return f"""
 
@@ -53,9 +49,9 @@ def {cell}()->gf.Component:
     .. plot::
       :include-source:
 
-      import {module}
+      import {package}
 
-      c = {submodule}.{cell}()
+      c = {module}.{cell}()
       c.plot()
     '''
     return import_gds({str(gdspath)!r})
@@ -218,4 +214,4 @@ if __name__ == "__main__":
     sample_pdk_cells.write_gds("extra/pdk.gds")
     gf.write_cells.write_cells(gdspath="extra/pdk.gds", dirpath="extra/gds")
 
-    print(gf.write_cells.get_import_gds_script("extra/gds", module="sky130"))
+    print(gf.write_cells.get_import_gds_script("extra/gds", module="sky130.components"))
