@@ -38,11 +38,7 @@ def get_script(gdspath: PathType, module: Optional[str] = None) -> str:
     cell = clean_name(gdspath.stem)
     gdspath = gdspath.stem + gdspath.suffix
 
-    if "." in module:
-        package = module.split(".")[0]
-    else:
-        package = module
-
+    package = module.split(".")[0] if "." in module else module
     if module:
         return f"""
 
