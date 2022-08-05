@@ -325,17 +325,18 @@ class ComponentReference(DeviceReference):
 
     def move(
         self,
-        origin: Union[Port, Coordinate] = (0, 0),
-        destination: Optional[Any] = None,
+        origin: Union[Port, Coordinate, str] = (0, 0),
+        destination: Optional[Union[Port, Coordinate, str]] = None,
         axis: Optional[str] = None,
     ) -> "ComponentReference":
         """Move the ComponentReference from the origin point to the destination.
+
         Both origin and destination can be 1x2 array-like, Port, or a key
-        corresponding to one of the Ports in this device_ref
+        corresponding to one of the Ports in this device_ref.
 
         Args:
-            origin: x,y.
-            destination: x,y.
+            origin: Port, port_name or Coordinate.
+            destination: Port, port_name or Coordinate.
             axis: for the movemenent.
 
         Returns:
@@ -347,15 +348,18 @@ class ComponentReference(DeviceReference):
             destination = origin
             origin = (0, 0)
 
-        if hasattr(origin, "center"):
+        if isinstance(origin, str):
+            if origin not in self.ports:
+                raise ValueError(f"{origin} not in {self.ports.keys()}")
+
+            origin = self.ports[origin]
+            origin = cast(Port, origin)
+            o = origin.center
+        elif hasattr(origin, "center"):
             origin = cast(Port, origin)
             o = origin.center
         elif np.array(origin).size == 2:
             o = origin
-        elif origin in self.ports:
-            origin = self.ports[origin]
-            origin = cast(Port, origin)
-            o = origin.center
         else:
             raise ValueError(
                 f"move(origin={origin})\n"
@@ -363,15 +367,19 @@ class ComponentReference(DeviceReference):
                 f"a coordinate, port or port name {list(self.ports.keys())}"
             )
 
+        if isinstance(destination, str):
+            if destination not in self.ports:
+                raise ValueError(f"{destination} not in {self.ports.keys()}")
+
+            destination = self.ports[destination]
+            destination = cast(Port, destination)
+            d = destination.center
         if hasattr(destination, "center"):
             destination = cast(Port, destination)
             d = destination.center
         elif np.array(destination).size == 2:
             d = destination
-        elif destination in self.ports:
-            destination = self.ports[destination]
-            destination = cast(Port, destination)
-            d = destination.center
+
         else:
             raise ValueError(
                 f"{self.parent.name}.move(destination={destination}) \n"
@@ -446,6 +454,7 @@ class ComponentReference(DeviceReference):
         p1: Coordinate = (0.0, 1.0),
         p2: Coordinate = (0.0, 0.0),
     ) -> "ComponentReference":
+        """TODO. Delete this code and rely on phidl's mirror code."""
         if isinstance(p1, Port):
             p1 = p1.center
         if isinstance(p2, Port):
@@ -603,3 +612,23 @@ class ComponentReference(DeviceReference):
         ports_cw = self.get_ports_list(clockwise=True, **kwargs)
         ports_ccw = self.get_ports_list(clockwise=False, **kwargs)
         return snap_to_grid(ports_ccw[0].y - ports_cw[0].y)
+
+
+def test_move():
+    import gdsfactory as gf
+
+    c = gf.Component()
+    mzi = c.add_ref(gf.components.mzi())
+    bend = c.add_ref(gf.components.bend_euler())
+    bend.move("o1", mzi.ports["o2"])
+
+
+if __name__ == "__main__":
+    import gdsfactory as gf
+
+    c = gf.Component()
+    mzi = c.add_ref(gf.components.mzi())
+    bend = c.add_ref(gf.components.bend_euler())
+    bend.move("o1", mzi.ports["o2"])
+    bend.move("o1", "o2")
+    # c.show()
