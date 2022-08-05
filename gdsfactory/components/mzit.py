@@ -207,8 +207,8 @@ def mzit(
 if __name__ == "__main__":
     # c = mzit(coupler1=None)
     # c = mzit(delta_length=20, layer=(2, 0))
-    # c = mzit(delta_length=20)
+    c = mzit(delta_length=20)
     # c = mzit(delta_length=20, coupler_gap1=0.1, coupler_gap2=0.5)
     # c = mzit(delta_length=20, coupler_gap1=0.5, coupler_gap2=0.1)
-    c = mzit(coupler_length1=200)
+    # c = mzit(coupler_length1=200)
     c.show(show_ports=True)
