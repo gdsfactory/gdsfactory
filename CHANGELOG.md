@@ -1,5 +1,10 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
+## [5.15.2](https://github.com/gdsfactory/gdsfactory/pull/574)
+
+- fix move with string [issue](https://github.com/gdsfactory/gdsfactory/issues/572)  [PR](https://github.com/gdsfactory/gdsfactory/pull/573)
+
+
 ## [5.15.1](https://github.com/gdsfactory/gdsfactory/pull/571)
 
 - expose import_oas to gf.read and Improve docs API

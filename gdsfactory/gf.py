@@ -164,8 +164,8 @@ def install() -> None:
     install_gdsdiff()
 
 
-@click.command()
-def test() -> None:
+@click.command(name="test")
+def run_tests() -> None:
     """Run tests using pytest.
     You can also just run `pytest` directly."""
 
@@ -194,7 +194,7 @@ gds.add_command(show)
 gds.add_command(diff)
 
 tool.add_command(config_get)
-tool.add_command(test)
+tool.add_command(run_tests)
 tool.add_command(install)
 
 # yaml.add_command(webapp)
