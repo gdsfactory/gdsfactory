@@ -1,8 +1,9 @@
 # [CHANGELOG](https://keepachangelog.com/en/1.0.0/)
 
-## [5.15.2](https://github.com/gdsfactory/gdsfactory/pull/574)
+## [5.15.2](https://github.com/gdsfactory/gdsfactory/pull/575)
 
 - fix move with string [issue](https://github.com/gdsfactory/gdsfactory/issues/572)  [PR](https://github.com/gdsfactory/gdsfactory/pull/573)
+- fix docs
 
 
 ## [5.15.1](https://github.com/gdsfactory/gdsfactory/pull/571)
